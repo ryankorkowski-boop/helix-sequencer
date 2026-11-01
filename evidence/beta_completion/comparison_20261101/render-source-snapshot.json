@@ -1,0 +1,51 @@
+{
+  "recorded_at": "2026-11-01T04:59:13.608925+00:00",
+  "render_implementation_commit": null,
+  "commit_note": "Rendered with final worktree source; exact byte hashes below. Subsequent receipt binds these identical modules to the implementation commit. No claim that prior60fb74e contained final presentation repairs.",
+  "module_sha256": {
+    "models/source_drummer_3d.py": "3b9f7b59a2850d883a4f61ab74154716006ab30acbeae8a74abe7334b2452ebb",
+    "models/final_band_scene.py": "cd7120596f8058b324c3363f115154120ada7dbb8568ea1e3d68af15a99ae96c",
+    "models/canonical_native_band.py": "a8e6347e478b00fae7fa2b3fbea69a3c871d043796abc8583d649ba7c00076f7",
+    "tools/source_band_view.py": "02a54462a24b6c61be23308276c53ca808c3d717b43299e0bd734890b372e09d",
+    "tools/build_current_comparison.py": "a4b2fdb8880eb570bca56d1c6db13c6e40c91d3940be6bad03a20af205b27bc7",
+    "tools/render_current_native_views.py": "0af9e644fdf199dd70e6a141d9ec61092023f7a305a8623bf0e8a60105f86655",
+    "tools/render_owner_band_review.py": "7c158d5157a46a8339b0d4d13defa01bc29f0a4c6846c60ca3a28056502832aa",
+    "tools/native_preview.py": "89628126db7266528df8ee4786729783ff6f0324c4fc0af19e131db8a1de7b3c",
+    "tools/finish_current_comparison.py": "49096ea43c82c145b0ee3ecfe24fd4b9aff41b3c256c4985d5e1c6de5b6a31a2",
+    "tools/verify_current_comparison.py": "5d0ad90cf513d10c4dad98a38815f47561ee3525ac057325c67d380bd9367210",
+    "tools/render_approval_collection.py": "acedb19c9a5d45967a5eb467932bae2d65166a5620394f0a76e885dfc0484c12",
+    "core/band_planning.py": "0e0d6fc1453856c395f240a38fd936aa70acf9314065fc0c1ec1fd837ac18391",
+    "core/effect_engine.py": "dc903813b353a713cf2f8fd30e0766a74a80d833cbeb89a08378c2e128b06ce8",
+    "core/snowman_band.py": "155de34ec28e178752278ec5810c33bb10ec00a81dc9aa72eac716b8e06ad25c",
+    "tools/phoneme_vocal_export.py": "cdc7c35d5c6b20c999655dd5dfcf80390a895cd04d417bc8f24db6a26d71be82"
+  },
+  "production_checkpoints": [
+    {
+      "stored": "evidence/beta_completion/comparison_20261101/production-hook/Phoneme_Test_Hook,v27.3.xsq.gz",
+      "uncompressed_sha256": "8085193840d9d8ed662b00eb96ac460e3d9ab2f7e2db419d0efceb0859b6bfdb",
+      "uncompressed_bytes": 927323
+    },
+    {
+      "stored": "evidence/beta_completion/comparison_20261101/production-hook/Phoneme_Test_Hook,v27.3.snowman_band.json.gz",
+      "uncompressed_sha256": "12124ab7bc1f66bdbc037a412418c73a281621de0ca452c6406296b92b5541de",
+      "uncompressed_bytes": 2216521
+    },
+    {
+      "stored": "evidence/beta_completion/comparison_20261101/production-hook/Phoneme_Test_Hook,v27.3.report.json.gz",
+      "uncompressed_sha256": "e3bd308455ab85d4577f28206725226bbac638f1a35cd6a41f810b40de812642",
+      "uncompressed_bytes": 14006129
+    },
+    {
+      "stored": "evidence/beta_completion/comparison_20261101/production-hook/HELIX_PROVENANCE.json.gz",
+      "uncompressed_sha256": "368782967aad8f3c81071b2a41458317237bbc62e1fa85b00a9a17356ccb40a7",
+      "uncompressed_bytes": 497
+    },
+    {
+      "stored": "evidence/beta_completion/comparison_20261101/production-hook/production-hook.log.gz",
+      "uncompressed_sha256": "b4c4486c2ffef54c905347233a5982566615e9502f201c18caef3b3314fa2b1b",
+      "uncompressed_bytes": 11844
+    }
+  ],
+  "tests": "76passed,1existingoptionalnative-manifestskip,10subtests; final-render-source-tests.xml",
+  "source_frame_cadence": "Solid band20fps; native pixel frames25fps; synchronized presentation30fps does not add source motion samples."
+}

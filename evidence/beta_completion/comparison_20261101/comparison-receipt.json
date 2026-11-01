@@ -1,0 +1,487 @@
+{
+  "source_commit": "60fb74e",
+  "source_audio_sha256": "19e90c273d0d747938f24b36586b50818c104cddffbefe4a4128927374301938",
+  "audio": "fixtures/audio/Phoneme_Test_Hook.mp3",
+  "source_seconds": 34.879979166666665,
+  "file": "/workspace/checkpoints/comparison-hook/HELIX_REAL_AUDIO_12_LAYOUT_COMPARISON_REVIEW_CANDIDATE.mp4",
+  "sha256": "57e8adfa6957c5abf21b06fd5f31b738d56e21d77e1589c3294d4c20bbde083a",
+  "panels": [
+    {
+      "number": 1,
+      "name": "Original 256-channel AC Christmas",
+      "source": "/workspace/checkpoints/comparison-hook/layouts/01/native-preview-1q7evz51/preview.mp4",
+      "source_sha256": "041a7ee18a7fdd40246ffbd562864f809f2325bc4a76e6c9ed9333109dcd9336",
+      "target": "/workspace/checkpoints/comparison-hook/graded-panels/01.mp4",
+      "target_sha256": "9533d40aeec632147dbb5107244a5e5cc098c93f9e880cf1f66c16eed061a3ee",
+      "display_gamma": 2.2,
+      "source_events_or_geometry_changed": false,
+      "readability": {
+        "schema": "helix.showcase_readability.v1",
+        "frames": 70,
+        "sample_fps": 2,
+        "thresholds": {
+          "median_luma": 12.0,
+          "median_bright_fraction": 0.012,
+          "median_motion": 0.65,
+          "min_visible_width": 0.4,
+          "min_visible_height": 0.35
+        },
+        "measurements": {
+          "median_luma": 20.951,
+          "median_bright_fraction": 0.12177,
+          "median_motion": 11.306,
+          "visible_width": 0.628,
+          "visible_height": 0.822
+        },
+        "checks": {
+          "visible_stage_width": true,
+          "visible_stage_height": true,
+          "median_stage_luminance": true,
+          "bright_stage_area": true,
+          "visible_stage_motion": true
+        },
+        "passed": true,
+        "note": "Quantitative visibility gate only; no artistic, musical or source classification approval"
+      }
+    },
+    {
+      "number": 2,
+      "name": "Canonical 3D snowman band",
+      "source": "/workspace/checkpoints/comparison-hook/panels/02_Canonical_3D_Snowman_Band.mp4",
+      "source_sha256": "522bbb0c5daff589ad8a9cf2d200b06cd98a1ad0048b97d3eed7a93f6dc90d4f",
+      "target": "/workspace/checkpoints/comparison-hook/graded-panels/02.mp4",
+      "target_sha256": "522bbb0c5daff589ad8a9cf2d200b06cd98a1ad0048b97d3eed7a93f6dc90d4f",
+      "display_gamma": 1.0,
+      "source_events_or_geometry_changed": false,
+      "readability": {
+        "schema": "helix.showcase_readability.v1",
+        "frames": 70,
+        "sample_fps": 2,
+        "thresholds": {
+          "median_luma": 12.0,
+          "median_bright_fraction": 0.012,
+          "median_motion": 0.65,
+          "min_visible_width": 0.4,
+          "min_visible_height": 0.35
+        },
+        "measurements": {
+          "median_luma": 33.102,
+          "median_bright_fraction": 0.1707,
+          "median_motion": 1.083,
+          "visible_width": 0.812,
+          "visible_height": 0.522
+        },
+        "checks": {
+          "visible_stage_width": true,
+          "visible_stage_height": true,
+          "median_stage_luminance": true,
+          "bright_stage_area": true,
+          "visible_stage_motion": true
+        },
+        "passed": true,
+        "note": "Quantitative visibility gate only; no artistic, musical or source classification approval"
+      }
+    },
+    {
+      "number": 3,
+      "name": "Simple RGB house",
+      "source": "/workspace/checkpoints/comparison-hook/layouts/03/native-preview-3gjcp8eh/preview.mp4",
+      "source_sha256": "849eaaa6ccf024bf084e7005a4db6c09dbfd9b77ded218458fd994d10deac47e",
+      "target": "/workspace/checkpoints/comparison-hook/graded-panels/03.mp4",
+      "target_sha256": "9a65d3a5f1b755e118dcbc9b3cbd9517e5a6f1561a628e3d50847d45bf8bf0c4",
+      "display_gamma": 1.6,
+      "source_events_or_geometry_changed": false,
+      "readability": {
+        "schema": "helix.showcase_readability.v1",
+        "frames": 70,
+        "sample_fps": 2,
+        "thresholds": {
+          "median_luma": 12.0,
+          "median_bright_fraction": 0.012,
+          "median_motion": 0.65,
+          "min_visible_width": 0.4,
+          "min_visible_height": 0.35
+        },
+        "measurements": {
+          "median_luma": 28.351,
+          "median_bright_fraction": 0.25869,
+          "median_motion": 3.843,
+          "visible_width": 0.819,
+          "visible_height": 0.678
+        },
+        "checks": {
+          "visible_stage_width": true,
+          "visible_stage_height": true,
+          "median_stage_luminance": true,
+          "bright_stage_area": true,
+          "visible_stage_motion": true
+        },
+        "passed": true,
+        "note": "Quantitative visibility gate only; no artistic, musical or source classification approval"
+      }
+    },
+    {
+      "number": 4,
+      "name": "RGB arches and roofline",
+      "source": "/workspace/checkpoints/comparison-hook/layouts/04/native-preview-ozwukwrl/preview.mp4",
+      "source_sha256": "04d2cc105200dabd42754a8bfe31c9c93949f8aab7a64412b3d62238335e52cb",
+      "target": "/workspace/checkpoints/comparison-hook/graded-panels/04.mp4",
+      "target_sha256": "8fed290eac669c7a28f70c3640f50791610d6b5e5170496d402343e60976c878",
+      "display_gamma": 1.6,
+      "source_events_or_geometry_changed": false,
+      "readability": {
+        "schema": "helix.showcase_readability.v1",
+        "frames": 70,
+        "sample_fps": 2,
+        "thresholds": {
+          "median_luma": 12.0,
+          "median_bright_fraction": 0.012,
+          "median_motion": 0.65,
+          "min_visible_width": 0.4,
+          "min_visible_height": 0.35
+        },
+        "measurements": {
+          "median_luma": 27.627,
+          "median_bright_fraction": 0.26482,
+          "median_motion": 1.531,
+          "visible_width": 0.519,
+          "visible_height": 0.633
+        },
+        "checks": {
+          "visible_stage_width": true,
+          "visible_stage_height": true,
+          "median_stage_luminance": true,
+          "bright_stage_area": true,
+          "visible_stage_motion": true
+        },
+        "passed": true,
+        "note": "Quantitative visibility gate only; no artistic, musical or source classification approval"
+      }
+    },
+    {
+      "number": 5,
+      "name": "RGB mega trees and spirals",
+      "source": "/workspace/checkpoints/comparison-hook/layouts/05/native-preview-bq8nwq1_/preview.mp4",
+      "source_sha256": "1a4741f6380cd7518c1cd945c01053a69c711da7cfac32502be838271acf667d",
+      "target": "/workspace/checkpoints/comparison-hook/graded-panels/05.mp4",
+      "target_sha256": "431224e95ee9ed08eddc59560e011d6f572a465e8e2753581579c64c455c6812",
+      "display_gamma": 1.6,
+      "source_events_or_geometry_changed": false,
+      "readability": {
+        "schema": "helix.showcase_readability.v1",
+        "frames": 70,
+        "sample_fps": 2,
+        "thresholds": {
+          "median_luma": 12.0,
+          "median_bright_fraction": 0.012,
+          "median_motion": 0.65,
+          "min_visible_width": 0.4,
+          "min_visible_height": 0.35
+        },
+        "measurements": {
+          "median_luma": 26.503,
+          "median_bright_fraction": 0.17042,
+          "median_motion": 18.77,
+          "visible_width": 0.669,
+          "visible_height": 0.678
+        },
+        "checks": {
+          "visible_stage_width": true,
+          "visible_stage_height": true,
+          "median_stage_luminance": true,
+          "bright_stage_area": true,
+          "visible_stage_motion": true
+        },
+        "passed": true,
+        "note": "Quantitative visibility gate only; no artistic, musical or source classification approval"
+      }
+    },
+    {
+      "number": 6,
+      "name": "RGB house with singing faces",
+      "source": "/workspace/checkpoints/comparison-hook/layouts/06/native-preview-dgh7wlp6/preview.mp4",
+      "source_sha256": "ebd8caeafffc82b4767c7ccc4a68fde6eb37c0bb3fac4d8aef7411a6e715edca",
+      "target": "/workspace/checkpoints/comparison-hook/graded-panels/06.mp4",
+      "target_sha256": "33f45643c579808a2b63a81807fa4a7b75d7a3f2061134b472705250f35fd96d",
+      "display_gamma": 1.6,
+      "source_events_or_geometry_changed": false,
+      "readability": {
+        "schema": "helix.showcase_readability.v1",
+        "frames": 70,
+        "sample_fps": 2,
+        "thresholds": {
+          "median_luma": 12.0,
+          "median_bright_fraction": 0.012,
+          "median_motion": 0.65,
+          "min_visible_width": 0.4,
+          "min_visible_height": 0.35
+        },
+        "measurements": {
+          "median_luma": 25.284,
+          "median_bright_fraction": 0.22355,
+          "median_motion": 3.772,
+          "visible_width": 0.875,
+          "visible_height": 0.644
+        },
+        "checks": {
+          "visible_stage_width": true,
+          "visible_stage_height": true,
+          "median_stage_luminance": true,
+          "bright_stage_area": true,
+          "visible_stage_motion": true
+        },
+        "passed": true,
+        "note": "Quantitative visibility gate only; no artistic, musical or source classification approval"
+      }
+    },
+    {
+      "number": 7,
+      "name": "Pixel rock-band stage",
+      "source": "/workspace/checkpoints/comparison-hook/layouts/07/native-preview-2v7v7mh5/preview.mp4",
+      "source_sha256": "e6be26f9c1aa7548ebb6b2d207f2874a27ec97e2887b8a01aaa573e5431dc07d",
+      "target": "/workspace/checkpoints/comparison-hook/graded-panels/07.mp4",
+      "target_sha256": "74fb845b3734dfdeadd79cc040c710c4fd7b147d3ad9fdb77cbe7647c9ddc32f",
+      "display_gamma": 2.2,
+      "source_events_or_geometry_changed": false,
+      "readability": {
+        "schema": "helix.showcase_readability.v1",
+        "frames": 70,
+        "sample_fps": 2,
+        "thresholds": {
+          "median_luma": 12.0,
+          "median_bright_fraction": 0.012,
+          "median_motion": 0.65,
+          "min_visible_width": 0.4,
+          "min_visible_height": 0.35
+        },
+        "measurements": {
+          "median_luma": 19.501,
+          "median_bright_fraction": 0.139,
+          "median_motion": 1.095,
+          "visible_width": 0.662,
+          "visible_height": 0.4
+        },
+        "checks": {
+          "visible_stage_width": true,
+          "visible_stage_height": true,
+          "median_stage_luminance": true,
+          "bright_stage_area": true,
+          "visible_stage_motion": true
+        },
+        "passed": true,
+        "note": "Quantitative visibility gate only; no artistic, musical or source classification approval"
+      }
+    },
+    {
+      "number": 8,
+      "name": "Double helix with keyboard rungs",
+      "source": "/workspace/checkpoints/comparison-hook/layouts/08/native-preview-t1fcx8zf/preview.mp4",
+      "source_sha256": "63b3fa260b4344a2cea5ac2cb604f7585fba57e5c3001cf113ef4e0e4eeadcf8",
+      "target": "/workspace/checkpoints/comparison-hook/graded-panels/08.mp4",
+      "target_sha256": "fd3f0128d10601685c5af95faab3b40d064b5f6a7f59eafff1e40cbc67479e3b",
+      "display_gamma": 2.2,
+      "source_events_or_geometry_changed": false,
+      "readability": {
+        "schema": "helix.showcase_readability.v1",
+        "frames": 70,
+        "sample_fps": 2,
+        "thresholds": {
+          "median_luma": 12.0,
+          "median_bright_fraction": 0.012,
+          "median_motion": 0.65,
+          "min_visible_width": 0.4,
+          "min_visible_height": 0.35
+        },
+        "measurements": {
+          "median_luma": 17.786,
+          "median_bright_fraction": 0.1166,
+          "median_motion": 15.061,
+          "visible_width": 0.553,
+          "visible_height": 0.622
+        },
+        "checks": {
+          "visible_stage_width": true,
+          "visible_stage_height": true,
+          "median_stage_luminance": true,
+          "bright_stage_area": true,
+          "visible_stage_motion": true
+        },
+        "passed": true,
+        "note": "Quantitative visibility gate only; no artistic, musical or source classification approval"
+      }
+    },
+    {
+      "number": 9,
+      "name": "Advanced RGB house and matrices",
+      "source": "/workspace/checkpoints/comparison-hook/layouts/09/native-preview-ji05rz63/preview.mp4",
+      "source_sha256": "a27df9f2482f277af35ea0e7284e94f6ef0bfd258704f2e008b455458d9ab80f",
+      "target": "/workspace/checkpoints/comparison-hook/graded-panels/09.mp4",
+      "target_sha256": "2b293fe2e9fb3beb4720a1efa986261c52f089c132ea09dd53ba6f2476364795",
+      "display_gamma": 1.6,
+      "source_events_or_geometry_changed": false,
+      "readability": {
+        "schema": "helix.showcase_readability.v1",
+        "frames": 70,
+        "sample_fps": 2,
+        "thresholds": {
+          "median_luma": 12.0,
+          "median_bright_fraction": 0.012,
+          "median_motion": 0.65,
+          "min_visible_width": 0.4,
+          "min_visible_height": 0.35
+        },
+        "measurements": {
+          "median_luma": 16.368,
+          "median_bright_fraction": 0.1237,
+          "median_motion": 6.451,
+          "visible_width": 0.656,
+          "visible_height": 0.411
+        },
+        "checks": {
+          "visible_stage_width": true,
+          "visible_stage_height": true,
+          "median_stage_luminance": true,
+          "bright_stage_area": true,
+          "visible_stage_motion": true
+        },
+        "passed": true,
+        "note": "Quantitative visibility gate only; no artistic, musical or source classification approval"
+      }
+    },
+    {
+      "number": 10,
+      "name": "Multi-house neighborhood",
+      "source": "/workspace/checkpoints/comparison-hook/layouts/10/native-preview-w7baot3b/preview.mp4",
+      "source_sha256": "fb9d552a577df0261ea3a4d84c41c0ab48907ec48fcbf76989d1e9070d57d804",
+      "target": "/workspace/checkpoints/comparison-hook/graded-panels/10.mp4",
+      "target_sha256": "89e9a131ed4b427b406fa0c882bed88bd8fc7ca810c729b59ef4808d5fd5b763",
+      "display_gamma": 1.6,
+      "source_events_or_geometry_changed": false,
+      "readability": {
+        "schema": "helix.showcase_readability.v1",
+        "frames": 70,
+        "sample_fps": 2,
+        "thresholds": {
+          "median_luma": 12.0,
+          "median_bright_fraction": 0.012,
+          "median_motion": 0.65,
+          "min_visible_width": 0.4,
+          "min_visible_height": 0.35
+        },
+        "measurements": {
+          "median_luma": 17.41,
+          "median_bright_fraction": 0.13417,
+          "median_motion": 5.96,
+          "visible_width": 0.694,
+          "visible_height": 0.367
+        },
+        "checks": {
+          "visible_stage_width": true,
+          "visible_stage_height": true,
+          "median_stage_luminance": true,
+          "bright_stage_area": true,
+          "visible_stage_motion": true
+        },
+        "passed": true,
+        "note": "Quantitative visibility gate only; no artistic, musical or source classification approval"
+      }
+    },
+    {
+      "number": 11,
+      "name": "Advanced 3D spatial showcase",
+      "source": "/workspace/checkpoints/comparison-hook/layouts/11/native-preview-yg6ydz4y/preview.mp4",
+      "source_sha256": "6faf8f69190b1016e0da7ce7ed674231022a1d68cb53380941033a671fff3dbb",
+      "target": "/workspace/checkpoints/comparison-hook/graded-panels/11.mp4",
+      "target_sha256": "7ae538dbd81067a1d589a4ecdda7afdc6963d994cda265a8416ba34f71a46b6f",
+      "display_gamma": 2.2,
+      "source_events_or_geometry_changed": false,
+      "readability": {
+        "schema": "helix.showcase_readability.v1",
+        "frames": 70,
+        "sample_fps": 2,
+        "thresholds": {
+          "median_luma": 12.0,
+          "median_bright_fraction": 0.012,
+          "median_motion": 0.65,
+          "min_visible_width": 0.4,
+          "min_visible_height": 0.35
+        },
+        "measurements": {
+          "median_luma": 27.267,
+          "median_bright_fraction": 0.17572,
+          "median_motion": 14.626,
+          "visible_width": 0.706,
+          "visible_height": 0.578
+        },
+        "checks": {
+          "visible_stage_width": true,
+          "visible_stage_height": true,
+          "median_stage_luminance": true,
+          "bright_stage_area": true,
+          "visible_stage_motion": true
+        },
+        "passed": true,
+        "note": "Quantitative visibility gate only; no artistic, musical or source classification approval"
+      }
+    },
+    {
+      "number": 12,
+      "name": "Ultimate Helix showcase",
+      "source": "/workspace/checkpoints/comparison-hook/layouts/12/native-preview-55d_tfm9/preview.mp4",
+      "source_sha256": "4278b754d7b41557e47cfe64c970f4abe3e943a1f9cc83d130523232fc48795b",
+      "target": "/workspace/checkpoints/comparison-hook/graded-panels/12.mp4",
+      "target_sha256": "ce23502d7ed5c14e7d8a80402345f34e7473487602e897cf1028d8ae57aa2514",
+      "display_gamma": 1.6,
+      "source_events_or_geometry_changed": false,
+      "readability": {
+        "schema": "helix.showcase_readability.v1",
+        "frames": 70,
+        "sample_fps": 2,
+        "thresholds": {
+          "median_luma": 12.0,
+          "median_bright_fraction": 0.012,
+          "median_motion": 0.65,
+          "min_visible_width": 0.4,
+          "min_visible_height": 0.35
+        },
+        "measurements": {
+          "median_luma": 32.842,
+          "median_bright_fraction": 0.22751,
+          "median_motion": 13.795,
+          "visible_width": 0.863,
+          "visible_height": 0.511
+        },
+        "checks": {
+          "visible_stage_width": true,
+          "visible_stage_height": true,
+          "median_stage_luminance": true,
+          "bright_stage_area": true,
+          "visible_stage_motion": true
+        },
+        "passed": true,
+        "note": "Quantitative visibility gate only; no artistic, musical or source classification approval"
+      }
+    }
+  ],
+  "layout_order": [
+    "Original 256-channel AC Christmas",
+    "Canonical 3D snowman band",
+    "Simple RGB house",
+    "RGB arches and roofline",
+    "RGB mega trees and spirals",
+    "RGB house with singing faces",
+    "Pixel rock-band stage",
+    "Double helix with keyboard rungs",
+    "Advanced RGB house and matrices",
+    "Multi-house neighborhood",
+    "Advanced 3D spatial showcase",
+    "Ultimate Helix showcase"
+  ],
+  "owner_approved": false,
+  "full_comparison_verification": "pending",
+  "limitations": [
+    "Lead/backing are source-bound separated estimates; acoustic identity/lexical phones unverified",
+    "Canonical band uses continuous Helix solid3D; other11views use native xLights pixels",
+    "V3depth follows originalfront artwork; owner artistic approval pending"
+  ]
+}

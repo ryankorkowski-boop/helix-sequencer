@@ -1,6 +1,6 @@
 {
   "schema": "helix.beta-artifacts.v1",
-  "updated_at": "2026-11-01T04:39:45.674241+00:00",
+  "updated_at": "2026-11-01T04:59:13.608925+00:00",
   "requested_count": 9,
   "verified_count": 9,
   "artifacts": [
@@ -1241,7 +1241,8 @@
     ],
     "published_implementation_commit": "9a800a1abad26d2daf203ad34caf9779249ae581",
     "remote_branch_head_verified": "9a800a1abad26d2daf203ad34caf9779249ae581",
-    "checkpoint_roundtrip_sha256": "all5pass"
+    "checkpoint_roundtrip_sha256": "all5pass",
+    "superseded_status_note": "Earlier blocker/checkpoint records are historical. Latest operative state is current_real_audio_comparison, after owner authorized matching-front3D and fresh hook renders."
   },
   "drum1_owner_reference_20261101": {
     "schema": "helix.owner-drummer-reference.v1",
@@ -1285,8 +1286,8 @@
     "owner_rendering_direction": "Build3Dconsistentwithband;frontviewmustmatchcanonical2DDrum1/drummerbg"
   },
   "current_real_audio_comparison": {
-    "phase": "FRESH_NATIVE_RENDERS_RUNNING",
-    "updated_at": "2026-11-01T04:39:45.674241+00:00",
+    "phase": "DELIVERY_READY_FOR_OWNER_REVIEW",
+    "updated_at": "2026-11-01T04:59:13.608925+00:00",
     "owner_direction": "Actual3Ddepth with unchangedDrum1/drummerbgfrontdesign",
     "implementation": [
       "models/source_drummer_3d.py",
@@ -1315,8 +1316,9 @@
     "prior36s_sampler": "Retained diagnostics only; failed brightness/framing checks and sparse early percussion/vocals. No prior footage promoted.",
     "tests": "76passed,1existingoptionalnative-manifestskip,10subtests; sourcefront/depth,drummeroraclecomparator,ACaddressmapping,native/readiness,keyboard,comparison decode/order checks. No thresholds weakened.",
     "band_readability": {
-      "median_luma": 33.165,
-      "median_motion": 1.002,
+      "median_luma": 33.102,
+      "median_bright_fraction": 0.1707,
+      "median_motion": 1.083,
       "visible_width": 0.812,
       "visible_height": 0.522,
       "passed": true
@@ -1336,8 +1338,71 @@
     "work": "/workspace/checkpoints/comparison-hook",
     "layouts": "/workspace/checkpoints/comparison-hook/layouts",
     "native_batch_log": "/workspace/checkpoints/comparison-hook/native-batch.log",
-    "delivery_complete": false,
+    "delivery_complete": true,
     "owner_approved": false,
-    "next_action": "Finishhooknativebatch;inspecteverypanel;explicitdisplaytonecurveandneededframing/bulbfixespreserveactualFSEQ;compose4x3/1080p30fps;decode/verifyaudio/panels/source/clocks;downloadactualMP4toowner."
-  }
+    "next_action": "Owner watches delivered MP4 and accepts or requests changes. Independent singer identity/lexical proof, physical qualification and full source CI remain open. Do not mergePR188 or release without explicit approval.",
+    "final_artifact": {
+      "file": "HELIX_REAL_AUDIO_12_LAYOUT_COMPARISON_APPROVAL.mp4",
+      "path": "/workspace/deliverables/HELIX_REAL_AUDIO_12_LAYOUT_COMPARISON_APPROVAL.mp4",
+      "sha256": "0a2a0763b4952984b1d5a0d8481b08348ab212e702c3d64a4af29b6c5b1bb198",
+      "bytes": 18530685,
+      "seconds": 34.866667,
+      "dimensions": [
+        1920,
+        1080
+      ],
+      "fps": 30,
+      "video_codec": "h264",
+      "audio_codec": "aac",
+      "drive_id": "1uNEshOt-FvjRhp3nRK5O73nc8kefoDup",
+      "drive_url": "https://drive.google.com/file/d/1uNEshOt-FvjRhp3nRK5O73nc8kefoDup/view?usp=drivesdk",
+      "downloaded_copy_sha256": "0a2a0763b4952984b1d5a0d8481b08348ab212e702c3d64a4af29b6c5b1bb198",
+      "full_decode": true,
+      "soundtrack_correlation": 0.999018237103682,
+      "max_audio_lag_seconds": 0.0,
+      "distinct_panels": 12,
+      "max_blank_seconds": 0.7,
+      "max_frozen_seconds": 0.6,
+      "source_snapshot": "evidence/beta_completion/comparison_20261101/render-source-snapshot.json"
+    },
+    "render_distinction": "Canonical band uses continuous Helix solid3D; other11visible views are native xLights. Native XSQ/FSEQ/render companions successfully built for all12.",
+    "owner_review_limitations": [
+      "Lead/backing clocks are distinct source-separated estimates; acoustic singer identity and lexical phonemes unverified.",
+      "3Ddrummer is closed dimensional geometry from original front reference, pending artistic owner acceptance.",
+      "Presentation30fps uses20fpssolid/25fpsnative motion cadence.",
+      "Full current-source CI and independent instrument ownership/physical device qualification are not closed by playback checks."
+    ]
+  },
+  "active_delivery": {
+    "status": "DELIVERED_FOR_OWNER_REVIEW",
+    "requested_file_count": 1,
+    "verified_file_count": 1,
+    "artifact": {
+      "file": "HELIX_REAL_AUDIO_12_LAYOUT_COMPARISON_APPROVAL.mp4",
+      "path": "/workspace/deliverables/HELIX_REAL_AUDIO_12_LAYOUT_COMPARISON_APPROVAL.mp4",
+      "sha256": "0a2a0763b4952984b1d5a0d8481b08348ab212e702c3d64a4af29b6c5b1bb198",
+      "bytes": 18530685,
+      "seconds": 34.866667,
+      "dimensions": [
+        1920,
+        1080
+      ],
+      "fps": 30,
+      "video_codec": "h264",
+      "audio_codec": "aac",
+      "drive_id": "1uNEshOt-FvjRhp3nRK5O73nc8kefoDup",
+      "drive_url": "https://drive.google.com/file/d/1uNEshOt-FvjRhp3nRK5O73nc8kefoDup/view?usp=drivesdk",
+      "downloaded_copy_sha256": "0a2a0763b4952984b1d5a0d8481b08348ab212e702c3d64a4af29b6c5b1bb198",
+      "full_decode": true,
+      "soundtrack_correlation": 0.999018237103682,
+      "max_audio_lag_seconds": 0.0,
+      "distinct_panels": 12,
+      "max_blank_seconds": 0.7,
+      "max_frozen_seconds": 0.6,
+      "source_snapshot": "evidence/beta_completion/comparison_20261101/render-source-snapshot.json"
+    },
+    "owner_approved": false,
+    "release_qualified": false
+  },
+  "historical_artifacts_note": "Top-level nine-file artifacts/counts describe the retained30October collection rejected by owner; current task has one fresh twelve-layout comparison under active_delivery. No old footage promoted."
 }

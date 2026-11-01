@@ -29,6 +29,25 @@ NAMES=('Original 256-channel AC Christmas','Canonical 3D snowman band',
        'Multi-house neighborhood','Advanced 3D spatial showcase','Ultimate Helix showcase')
 
 
+def residential_preview(folder,number):
+    """Use the existing zero-channel facade and readable, restrained bulbs."""
+    if number not in (3,4,6,9,10):return
+    from tools.native_residential_context import add_context
+    import copy
+    folder=Path(folder);add_context(folder)
+    path=folder/'xlights_rgbeffects.xml';tree=ET.parse(path)
+    for model in tree.findall('./models/model'):
+        name=model.get('name','')
+        size=5 if 'FACE' in name else 12 if any(k in name for k in ('ROOF','EAVE','RIDGE')) else 8
+        model.set('PixelSize',str(size))
+    if number==10:
+        objects=tree.find('view_objects');base=objects.find('view_object')
+        base.set('ScaleX','.85');base.set('ScaleY','.85');base.set('ScaleZ','.85');base.set('WorldPosZ','24.9')
+        for index,x in enumerate((-55,55)):
+            item=copy.deepcopy(base);item.set('name',f'Residential ambient context {index}');item.set('WorldPosX',str(x));item.set('WorldPosZ','-25.1');objects.append(item)
+    tree.write(path,encoding='utf-8',xml_declaration=True)
+
+
 def native_band(g,plan,*,rock=True,duration=36):
     from models.final_band_native import add_final_native_band,SurfaceParts
     from models.final_band_scene import FinalBandScene
@@ -100,11 +119,14 @@ def layout(number,plan,*,duration=36):
         for x in (-58,58):structures(g).tree(x,-12,32,8,color=int(x>0))
     elif number==10:
         g=Garden(title=NAMES[9],slug='10_Neighborhood')
-        for index,x in enumerate((-90,0,90)):
-            house(g,x,z=-12,scale=.85,prefix=f'HOME_{index+1}')
-            for dx in (-20,0,20):arch(g,x+dx,18,10,7)
-            tree(g,x-35,-10,24,6);structures(g).tree(x+35,0,22,6,color=index%3)
-            structures(g).mesh(f'NEIGHBORHOOD_MATRIX_{index}',(x,7,-11),18,12,'MATRICES',index%3)
+        for index,x in enumerate((-55,0,55)):
+            row_z=15 if index==1 else -35
+            first=len(g.models)
+            house(g,x,z=row_z,scale=.85,prefix=f'HOME_{index+1}')
+            for dx in (-20,0,20):arch(g,x+dx,row_z+30,10,7)
+            tree(g,x-35,row_z,24,6);structures(g).tree(x+35,row_z+10,22,6,color=index%3)
+            structures(g).mesh(f'NEIGHBORHOOD_MATRIX_{index}',(x,7,row_z+1),18,12,'MATRICES',index%3)
+            for model in g.models[first:]:model.details['propagation_delay_ms']=index*40
     elif number==11:g=build_layout(11)
     else:
         g=build_layout(12);g.models=[m for m in g.models if not m.details.get('review_role')]
@@ -201,11 +223,14 @@ def build(source,vocals,output,*,numbers=None):
         points=np.concatenate([m.points for m in g.models]);lo,hi=points.min(0),points.max(0);center=(lo+hi)/2;span=hi-lo
         distance=max(span[0]*.82,span[1]*1.75,45)+(span[2]/2 if number==11 else 0)
         if number==1:distance*=.85
+        if number in (3,4,6,9):distance*=1.18
+        if number==7:distance*=.80
         camera=ET.parse(folder/'xlights_rgbeffects.xml')
         for view in camera.findall('Viewpoints/*'):
-            for key,value in dict(angleX=5 if number not in (2,7) else 8,angleY=0,distance=-distance,
+            for key,value in dict(angleX=8 if number in (2,7,10) else 5,angleY=0,distance=-distance,
                                   panx=-center[0],pany=-center[1],panz=-center[2]).items():view.set(key,str(value))
         camera.write(folder/'xlights_rgbeffects.xml',encoding='utf-8',xml_declaration=True)
+        residential_preview(folder,number)
         item=dict(number=number,name=name,folder=str(folder.resolve()),xsq='Performance.xsq',source_audio_sha256=sha,
                   source_analysis_sha256=digest(plan_path),source_duration_seconds=duration,audio_name=audio.name,models=len(g.models),
                   channels=max(m.start+m.channels-1 for m in g.models),warnings=[],native_render_status='pending',

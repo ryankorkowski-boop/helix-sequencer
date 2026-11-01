@@ -156,8 +156,9 @@ def render(source, vocals, reference, output, expected_sha256, *, seconds=None, 
                 lane = ('estimated_lead', 'estimated_backing')[k]; j = i*5
                 energy = float(clocks[lane+'_energy'][j]); index = int(clocks[lane+'_shapes'][j]) if energy > 0 else 0
                 shape = SHAPE_NAMES[index]; scene.update_singer_mouth(role, shape, energy)
-                for part in ('cavity', 'lips', 'tongue', 'teeth'):
-                    scene.instances[scene.expressive_mouths[role][part]]['matrix'][:3, :2] *= .42
+                if not dimensional_drummer:
+                    for part in ('cavity', 'lips', 'tongue', 'teeth'):
+                        scene.instances[scene.expressive_mouths[role][part]]['matrix'][:3, :2] *= .42
                 levels[3+k] = energy*.6; voice.append(dict(shape=shape, energy=energy))
             for role, first in (('bass', 13), ('guitar', 17)):
                 cues = active_cues(plan[{'bass':'bassist', 'guitar':'guitarist'}[role]], t*1000)

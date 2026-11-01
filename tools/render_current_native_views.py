@@ -9,7 +9,7 @@ from tools.native_preview import preview_run
 from tools.phoneme_source import digest
 
 
-def render(layouts,xlights,numbers):
+def render(layouts,xlights,numbers,*,port=49914):
     layouts=Path(layouts);items=json.loads((layouts/'Layout_Manifest.json').read_text())
     results=[]
     for number in numbers:
@@ -24,7 +24,7 @@ def render(layouts,xlights,numbers):
         print('NATIVE_VIEW_START',number,item['name'],time.time(),flush=True)
         if not valid:
             receipt=preview_run(folder,xsq=folder/'Performance.xsq',
-                audio=folder/'media'/item.get('audio_name','Helix_Starred_New_Review.wav'),xlights=xlights)
+                audio=folder/'media'/item.get('audio_name','Helix_Starred_New_Review.wav'),xlights=xlights,port=port)
         row=dict(number=number,name=item['name'],status=receipt['status'],
                  movie=receipt.get('mp4'),warnings=receipt.get('warnings',[]))
         results.append(row)
@@ -42,4 +42,5 @@ def render(layouts,xlights,numbers):
 if __name__=='__main__':
     p=argparse.ArgumentParser(description=__doc__);p.add_argument('layout_root',type=Path)
     p.add_argument('--xlights',required=True);p.add_argument('--layouts',dest='numbers',type=int,nargs='+',default=list(range(1,13)))
-    a=p.parse_args();result=render(a.layout_root,a.xlights,a.numbers)
+    p.add_argument('--port',type=int,choices=(49913,49914),default=49914)
+    a=p.parse_args();result=render(a.layout_root,a.xlights,a.numbers,port=a.port)
