@@ -1,3 +1,17 @@
+## 1 November — experimental volumetric city-block grid (in progress)
+
+Goal: begin opt-in, physically addressable 3D city-block grid support without disturbing approved beta rendering or existing Birdsong defaults.
+
+- [x] Add lazy coordinate geometry, exact endpoint-inclusive 12/16-inch counts, bounded 8×8-pole zones and vertical pole serpentine wiring in `core/volumetric_grid.py`.
+- [x] Add deterministic motif-compatible spatial intensity sampling for wave_sweep, pulse_cascade, spiral, orbit, sparkle_field; no huge full-frame pixel arrays.
+- [x] Add focused geometry, wiring uniqueness, and sampling tests in `tests/test_volumetric_grid.py` (written; CI execution not yet verified).
+- [ ] Integrate with the guarded Birdsong Issue #2 runtime using explicit opt-in; preserve default-off semantics.
+- [ ] Map to native xLights 3D models and channel addressing; validate actual XSQ/FSEQ imports and controller/power constraints.
+- [ ] Run pytest and end-to-end native render; profile memory and export on 200k+ pixels.
+- [ ] Add installation safety engineering, output segmentation, power injection and real hardware validation.
+
+Preserved: default sequencing pipeline, drummer oracle, 256-channel AC wiring, six-member band, Birdsong default-off behavior, PR #188 and owner approval gate. New behavior: isolated opt-in geometry and sampling primitives only, not a user-visible completed layout or verified video. Evidence: new focused tests exist; execution unverified. Risks: huge channel counts, output performance, 3D model import limits, pixel spacing, physical wiring/power and artistic visibility. Resume: run `PYTHONPATH=. pytest -q tests/test_volumetric_grid.py`, then implement a guarded adapter and verify xLights native export before claiming support.
+
 Final render implementation: `d1567b74b341efff5a30a28bec272c7d5c377406`; all recorded rendering module hashes match the committed bytes. This receipt change adds provenance only; final MP4 bytes remain unchanged.
 
 ## 1 November — fresh twelve-layout MP4 delivered for owner review
