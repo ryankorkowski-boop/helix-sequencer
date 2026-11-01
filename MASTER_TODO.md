@@ -1,3 +1,11 @@
+## 1 November — focused volumetric CI validation
+
+- [x] Added `.github/workflows/volumetric-grid-tests.yml` to run geometry, adapter and existing Birdsong Issue #2 regression tests on feature-branch pushes, relevant PRs, and manual dispatch.
+- [ ] Inspect actual workflow outcome; CI success is not yet confirmed.
+- [ ] Export a real xLights 3D model and validate native XSQ/FSEQ.
+- [ ] Run real-audio test and profile large layouts.
+Preserved: no change to default runtime, existing PR #188, approved drummer and beta release gate. New behavior: focused automated regression workflow. Evidence: committed workflow only; no claimed passing result. Risk: runner dependencies may require refinement. Resume by reviewing the feature branch Actions run.
+
 ## 1 November — volumetric Birdsong adapter follow-up
 
 Goal: bridge existing Birdsong Issue #2 phrase decisions into spatially sampled, physically addressable 3D grid zones without changing the beta pipeline.
