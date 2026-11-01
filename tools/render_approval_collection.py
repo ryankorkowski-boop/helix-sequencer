@@ -6,6 +6,7 @@ import math
 from pathlib import Path
 import shutil
 import subprocess
+import tempfile
 import uuid
 import zipfile
 import xml.etree.ElementTree as ET
@@ -85,21 +86,41 @@ def label(source,target,title, *, gamma=None):
 
 def comparison(paths,labels,target,audio,cols,rows, *, duration=34.88):
     if not math.isfinite(duration) or duration<=0:raise ValueError('Positive source comparison duration required')
-    width,height=(1280,540) if len(paths)==12 else (1280,720)
+    if not paths or cols<=0 or rows<=0 or len(paths)!=cols*rows:
+        raise ValueError('Comparison grid must contain exactly one source per cell')
+    twelve=len(paths)==12
+    if twelve and (cols,rows)!=(4,3):
+        raise ValueError('Twelve-layout comparison requires four columns and three rows')
+    if labels and len(labels)!=len(paths):
+        raise ValueError('Each source must have its own label')
+    if twelve and not labels:
+        raise ValueError('Twelve-layout comparison requires explicit panel labels')
+    width,height=(480,360) if twelve else (1280,720)
     args=['ffmpeg','-v','error','-y','-filter_complex_threads','2']
     for path in paths:args+=['-threads','1','-i',str(path)]
     args+=['-i',str(audio)]
-    filters=[]
-    for i,path in enumerate(paths):
-        filters.append(f'[{i}:v]setpts=PTS-STARTPTS,scale={width}:{height}:force_original_aspect_ratio=decrease,pad={width}:{height}:(ow-iw)/2:(oh-ih)/2:black[p{i}]')
-    positions='|'.join(f'{(i%cols)*width}_{(i//cols)*height}' for i in range(len(paths)))
-    filters.append(''.join(f'[p{i}]' for i in range(len(paths)))+f'xstack=inputs={len(paths)}:layout={positions}:fill=black[v]')
     temporary=target.with_name('.comparison-'+uuid.uuid4().hex+'.mp4')
-    args+=['-filter_complex',';'.join(filters),'-map','[v]','-map',f'{len(paths)}:a:0',
-           '-t',str(duration),'-c:v','libx264','-preset','fast','-crf','20','-threads','4',
-           '-pix_fmt','yuv420p','-c:a','aac','-b:a','192k','-movflags','+faststart',str(temporary)]
     try:
-        command(args)
+        # Text files preserve literal punctuation without interpreting labels as
+        # filter syntax. One bounded encoder assembles the shared source clock.
+        with tempfile.TemporaryDirectory(prefix='helix-comparison-') as text_dir:
+            filters=[]
+            for i,path in enumerate(paths):
+                chain=f'[{i}:v]setpts=PTS-STARTPTS,'
+                if twelve:chain+='fps=30,'
+                chain+=f'scale={width}:{height}:force_original_aspect_ratio=decrease,pad={width}:{height}:(ow-iw)/2:(oh-ih)/2:black,setsar=1'
+                if labels:
+                    caption=Path(text_dir)/f'{i}.txt'
+                    caption.write_text(str(labels[i]),encoding='utf-8')
+                    chain+=(f",drawtext=fontfile=/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf:textfile={caption}"
+                            f":expansion=none:x=10:y=10:fontsize={16 if twelve else 23}:fontcolor=white:box=1:boxcolor=black@0.75:boxborderw=4")
+                filters.append(chain+f'[p{i}]')
+            positions='|'.join(f'{(i%cols)*width}_{(i//cols)*height}' for i in range(len(paths)))
+            filters.append(''.join(f'[p{i}]' for i in range(len(paths)))+f'xstack=inputs={len(paths)}:layout={positions}:fill=black[v]')
+            args+=['-filter_complex',';'.join(filters),'-map','[v]','-map',f'{len(paths)}:a:0',
+                   '-t',str(duration),'-c:v','libx264','-preset','fast','-crf','20','-threads','4',
+                   '-pix_fmt','yuv420p','-c:a','aac','-b:a','192k','-movflags','+faststart',str(temporary)]
+            command(args)
         probe_media(temporary,'ffprobe')
         temporary.replace(target)
     finally:
@@ -156,7 +177,7 @@ def render(layouts,output,xlights, *, source_commit=None, audio_name='Phoneme_Te
         shutil.copyfile(folder/item['xsq'],bundle/'04_XLights_Sequences/Matching_XSQ_Files'/f"{item['number']:02}_{item['xsq']}")
     if len(movies)==12:
         groups=[('Helix_6_Layout_Comparison.mp4',[1,3,4,6,9,12],3,2),
-                ('Helix_12_Layout_Comparison.mp4',list(range(1,13)),3,4),
+                ('Helix_12_Layout_Comparison.mp4',list(range(1,13)),4,3),
                 ('Helix_Band_Integration_Comparison.mp4',[7,8,12],3,1)]
         for name,indexes,cols,rows in groups:
             print('COMPARISON',name,flush=True)

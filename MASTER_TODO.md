@@ -1,3 +1,25 @@
+## 1 November — executed36s library sampler and1080p compositor repair; source blocker
+
+- [x] Actual engine run completed:5155effects,5section/shared-sync frames; source wave b889df23d4960b393bfa5b6f84f2f72de245bdd176032bf16346d8680e960a3d. No synthetic audio. Editable XSQ, full report, band plan and log retained losslessly compressed in evidence/beta_completion/comparison_20261101/production.
+- [x] Fixed twelve-panel composition from3x4/3840x2160to4x3/1920x1080/30fps; added literal panel labels and grid validation.34focusedtests pass, including actual FFmpeg encode/decode/order/audio. Initial6missing-imageio import failures resolved by runtime dependency installation; no assertion weakened.
+- [ ] BLOCKED: approved original fully modeled3D drummer not located. Current canonical and historical original restore9e9dcc3 are explicitly planar; procedural interpretation is explicitly new. Three source branches/history and connected Drive drummer/snowman searches did not locate the required asset. Owner is not certain. No substitution or fabricated acceptance.
+- [ ] Singer acoustic/lexical qualification, requested12-layout mapping, fresh native renders and actual verified comparison MP4 delivery remain incomplete. Historical12-layoutNAMES are not this request's12layouts. No final-named MP4 exists.
+
+Files/modules: tools/render_approval_collection.py, tests/test_sampler_comparison_duration.py, continuity files and source-bound compressed evidence. Preserved: engine/drummer/AC source bytes, gates and rejected-artifact status. New: exact4x3presentation and deterministic recovery checkpoint. Tests:focused-tests.xml(34pass/27.93s); engine exits0. Limitations/deferred: required source asset, independent vocals, native layout mapping/render/QC/delivery. Risks: presentation now labels historical comparisons and twelve-panel output is30fps from native source cadence; no claim of new native motion samples. Exact recovery commands and last valid diagnostic render checkpoint: evidence/beta_completion/comparison_20261101/RESUME.md. Next: obtain approved3D source, qualify singers, finish supported layout mapping, render all12 and verify actual video. No PR merge or release.
+
+## 1 November — requested real-audio twelve-layout comparison recovery
+
+Goal: deliver one fresh1920x1080/30fps/30–45s4x3 real-owner-music MP4. StartingHEAD09677d4822e35d724e9f229c0ab7465c9f34fd7a; this request supersedes the earlier optional-comparison scope for this task. PR188 remains unmerged; no release authorized.
+
+- [x] Full recovery checkout, agent/ledger/handoff/manifests inspected. Native producer41219733495 fails genuine missing independent lead/backing analysis. Collection41219733511 rendered a pilot but fails absent vocal/reference acceptance and actual motion. No gate waived.
+- [x] Downloaded native checkpoint13050724353 and exact-source renderer13050955075; actual2s native frame inspected. Original AC XML and original source-art drummer located. Tinsel Tornado/Christmas in the Ether fetched via connected Drive and both SHA256 match catalog provenance.
+- [ ] Required original fully modeled3D drummer unavailable in inspected sources. Current canonical exporter explicitly uses planar V3 art; modeled performance scene explicitly describes a new interpretation. Owner does not know asset location. Search source branches/history before declaring unavailable.
+- [ ] Run current engine on a36s verified owner-library sampler; preserve analysis checkpoint.
+- [ ] Repair collection4x3/1080p/30fps composition and test without weakening acceptance.
+- [ ] Twelve qualifying native renders, complete playback/motion/singer/AC verification and actual direct MP4 delivery remain incomplete.
+
+Changed files: continuity/checkpoint now; composition changes follow separately. Preserved: source music, original drummer/AC addresses/colors, all approval gates and previous rejected media verdicts. Evidence: evidence/beta_completion/comparison_20261101/checkpoint.json. Risks/limitations: approved3D identity and independent vocal truth remain unresolved; old diagnostic frames are never approval footage. Exact next action is in checkpoint and live handoff.
+
 ## 31 October — active quality-first integration and executed regression recovery
 
 Goal: connect useful existing production logic and verify behavior before optimizing elapsed time. Starting source: `5aac37af254c4bc08df992551a5f06d918506f6f`; recovery branch and PR #188 remain unmerged.
