@@ -1,3 +1,11 @@
+## 1 November — executable demo integration regression
+
+- [x] Added `tests/test_volumetric_demo.py` to execute the small-grid runner and verify manifest counts, complete unique XYZ addresses, RGB channel count, cue count, and sparse preview receipt.
+- [x] Added the demo integration test to the focused workflow.
+- [ ] GitHub Actions result unverified. Commit-associated workflow lookup returned no PR-triggered runs, which does not prove no push-triggered runs exist. Local checkout could not be obtained in this environment due unavailable GitHub DNS.
+- [ ] Native xLights model/XSQ/FSEQ export and real-audio render remain outstanding.
+Preserved: experimental branch only, PR #188 unchanged, no beta release. Evidence: code/test/workflow commits; no claimed passing run. Resume: inspect Actions UI and execute `PYTHONPATH=. pytest -q tests/test_volumetric_demo.py tests/test_volumetric_grid.py tests/test_volumetric_address_map.py tests/test_volumetric_preview.py tests/test_birdsong_volumetric_adapter.py tests/test_birdsong_issue2_runtime.py`.
+
 ## 1 November — runnable small-grid proof and CI artifacts
 
 - [x] Added `tools/volumetric_demo.py` runnable proof using 8×8×4-foot physical dimensions, synthetic Birdsong-compatible feature frames, generated zone cues, JSON manifest, contiguous RGB address CSV, sparse 1000ms preview, and receipt.
