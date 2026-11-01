@@ -1,6 +1,6 @@
 {
   "schema": "helix.beta-artifacts.v1",
-  "updated_at": "2026-11-01T00:38:43.777633+00:00",
+  "updated_at": "2026-11-01T04:03:22.316939+00:00",
   "requested_count": 9,
   "verified_count": 9,
   "artifacts": [
@@ -1056,7 +1056,7 @@
   },
   "real_audio_12_comparison_20261101": {
     "schema": "helix.real-audio-comparison-recovery.v1",
-    "phase": "BLOCKED_REQUIRED_3D_SOURCE",
+    "phase": "IMPLEMENTING_REFERENCE_BOUND_3D",
     "started_head": "09677d4822e35d724e9f229c0ab7465c9f34fd7a",
     "requested_video": "HELIX_REAL_AUDIO_12_LAYOUT_COMPARISON_APPROVAL.mp4",
     "delivery_complete": false,
@@ -1271,7 +1271,7 @@
     "identity_located": true,
     "fully_volumetric_geometry_in_this_clip": false,
     "owner_approval_of_final_comparison": false,
-    "interpretation_pending": "Asked whether exact image-basedDrum1drummer is intended within3Dscene or fully volumetricgeometry remainsmandatory; no exception assumed",
+    "interpretation_pending": false,
     "comparison_soundtrack_unchanged": "b889df23d4960b393bfa5b6f84f2f72de245bdd176032bf16346d8680e960a3d owner-library36ssampler; dry-test sound is referenceonly",
     "next_action": "Resolve owner rendering interpretation, bind exact reference without replacing library soundtrack or reusing old footage, continue independent renderer preparation",
     "pinned_native_runtime_preparation": {
@@ -1281,6 +1281,7 @@
       "resources_present": true,
       "runtime_ready": false,
       "remaining": "Recovered patched binary needs compatible monolithicwxWidgets; officialAppImage has modularwx libraries. No runtime substitution or native render success claimed."
-    }
+    },
+    "owner_rendering_direction": "Build3Dconsistentwithband;frontviewmustmatchcanonical2DDrum1/drummerbg"
   }
 }
