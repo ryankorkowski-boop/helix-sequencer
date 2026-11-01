@@ -1,3 +1,7 @@
+## 1 November — activate retained-library recovery on integration PR
+
+The first filename dispatch returned404because the new workflow is absent from the default branch. Add narrowly scoped pull_request paths for the recovery workflow/helper so PR188 can execute it without merging or changing the default branch. Existing fullrendererbuild continues; no job canceled. Actual extraction/runtime validation pending. All source/approval behavior preserved; workflow execution is the only changed behavior.
+
 ## 1 November — bounded retained-library recovery
 
 Goal: restore compatible monolithicwx without rebuilding or downloading an825MiBbuild through a512MiBconnector. Add tools/extract_native_wx_runtime.py and a dispatch-only restore-native-runtime-libraries.yml: Actions retrieves the recorded retained artifact, verifies its pinned upstream/archive SHA, extracts only the two expected regularwx libraries, strips and hashes them, and uploads a small runtime artifact. No output acceptance, renderer patch or music changes. Main build41271707501 continues independently; this recovery uses a separate non-canceling group. Actual successful runtime/native export remains pending. Risk: library compatibility must be established by actual pinned binary startup/render, not assumed from extraction.

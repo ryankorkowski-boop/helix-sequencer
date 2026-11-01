@@ -1,6 +1,10 @@
 name: Recover retained pinned native wx libraries
 on:
   workflow_dispatch: {}
+  pull_request:
+    paths:
+      - .github/workflows/restore-native-runtime-libraries.yml
+      - tools/extract_native_wx_runtime.py
 permissions:
   contents: read
   actions: read
