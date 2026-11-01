@@ -1,3 +1,12 @@
+## 1 November — physical RGB address mapping
+
+- [x] Implemented streamed `core/volumetric_address_map.py` CSV output: deterministic zone order, serpentine pole order, one-based contiguous RGB channel assignments, and 3D physical coordinates.
+- [x] Added `tests/test_volumetric_address_map.py` for uniqueness, channel continuity, wiring direction and safety cap.
+- [x] Extended focused GitHub Actions test workflow.
+- [ ] Execute and confirm focused CI pass; no passing result observed.
+- [ ] Convert mapping to validated native xLights model/sequence; controller output partition, power injection, and physical wiring engineering remain outstanding.
+Preserved: default-off Birdsong, existing beta/PR #188, original drummer and AC addresses. Evidence: commits and test source, not execution. Limitations: CSV is controller-neutral, not a native xLights export or safe installation design. Risk: 1.3m+ channels requires careful output planning. Resume by reviewing Actions and validating a small native xLights model before scaling.
+
 ## 1 November — bounded preview artifacts
 
 - [x] Added `core/volumetric_preview.py`: grid dimensions/pixel/channel/zone JSON manifest and capped streaming JSONL preview of Birdsong spatial cues. No full framebuffer allocation.
