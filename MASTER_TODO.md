@@ -3470,3 +3470,13 @@ Final source-focused verification after all native/profile/fixture/audio changes
 - [x] Corrected the literal escaped-newline defect in the workflow pull-request path filter. Commit: `ecb04408e1e339619ae58dc5016e5df2af7d29b5`.
 
 Preserved: experimental branch only; beta pipeline, canonical band, original 256-channel AC layout, PR #188, and release gates unchanged. Next: run/inspect the Actions workflow, then integrate this exact real-audio source through existing feature extraction and validate native xLights output before rendering an approval MP4.
+
+
+## 1 November — volumetric sparse-zone distribution repair
+
+- [x] Replaced adjacent-first zone selection in `plan_volumetric_birdsong` with deterministic evenly spaced sampling across the full grid footprint; successive phrase snapshots receive a deterministic phase shift.
+- [x] Added a large-grid regression asserting that four sparse cues span the 300 ft × 300 ft footprint rather than clustering in neighboring zones.
+- [x] Commits: adapter `d76679590ea23ae142d225a2562dd3dccbe82cf8`; regression `2cb39a7130a9ef9ba9fe365a13a1075cb53d6601`.
+- [ ] GitHub Actions execution and test outcome not yet confirmed. Do not report this change as passing until the focused workflow completes successfully.
+- [ ] Remaining architectural gap: one Birdsong phrase snapshot is currently generated per qualifying feature frame by the existing runtime; this adapter has not yet added true phrase aggregation, broad per-pixel coverage, real-audio feature extraction, xLights model/export validation, or an audio-synchronized MP4.
+- [ ] Next: obtain the workflow run result; then design phrase aggregation and spatial-field coverage against real feature frames while keeping the adapter opt-in and preserving the stable beta path.
