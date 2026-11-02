@@ -1,3 +1,14 @@
+## 1 November — bounded chroma partial-block parity repair (validation pending)
+
+- [x] Changed `core/audio_intelligence.py` to right-pad only the final bounded chroma transform window to a 64-column boundary. The real frame count remains unchanged when copying entropy back; padding is strictly after the source tail and does not create or shift events.
+- [x] Added a regression assertion in `tests/test_bounded_audio.py` that every chroma transform width is 64-column aligned while retaining the existing 16 MiB workspace ceiling and exact reference tolerance.
+- [ ] Run the three Python 3.12 long-partial-block parity cases and full Helix CI on the new commit. This is an implementation hypothesis, not a claimed fix until the unchanged (atol=1e-7, rtol=0) reference comparison passes.
+- [ ] Native full-band qualification remains correctly blocked: the retained E14 source report has no independently resolved lead/backing lanes. Do not fabricate stem ownership or mark the source qualified. Next action is to run source-bound vocal separation on the exact selected audio and verify distinct source hashes, identity evidence, non-rest events and lexical alignment before native rendering.
+- [ ] The native showcase job also independently fails the unchanged visible-motion gate (median motion 0.425 vs 0.65 minimum). Improve actual performer/instrument animation, not brightness-only grading, then rerun the native pilot.
+- [ ] PR #188 frozen acceptance remains exactly nine owner-approved real-audio MP4s. The optional twelve-layout comparison is not a substitute. No merge, release or owner approval.
+
+Implementation commits: `567b33a3518ec548bae759346d3d94b141888f2a` (bounded chroma implementation), followed by `9f751d6042bf1ab33e6a3df79dd38b88953e0356` (regression guard). Tests have not yet run against these commits; preserve the prior failures as historical evidence until a new completed run proves otherwise.
+
 Final render implementation: `d1567b74b341efff5a30a28bec272c7d5c377406`; all recorded rendering module hashes match the committed bytes. This receipt change adds provenance only; final MP4 bytes remain unchanged.
 
 ## 1 November — fresh twelve-layout MP4 delivered for owner review
