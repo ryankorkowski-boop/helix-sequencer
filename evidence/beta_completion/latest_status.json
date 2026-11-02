@@ -1,11 +1,11 @@
 {
   "schema": "helix.beta-completion.v1",
-  "updated_at": "2026-11-02T05:34:56.607Z",
+  "updated_at": "2026-11-02",
   "repository": "https://github.com/ryankorkowski-boop/helix-sequencer",
   "branch": "codex/eight-hour-recovery-20261019",
   "recovered_head": "45f17d69fac91d7683984cc22c54bb701eb2226e",
   "last_verified_implementation_sha": "dd73e36777d0a02c6d403245d03421d093bda0fd",
-  "current_task": "Bounded chroma partial-block numerical parity repair committed; validation pending. Native vocal source qualification and actual stage-motion gate remain open.",
+  "current_task": "Latest Actions: Beta smoke, Windows and Android smoke pass; Python 3.12 chroma parity still fails three tail cases; native producer/visual-motion and vocal qualification remain blocked.",
   "tasks": [
     {
       "id": "REC-01",
@@ -417,9 +417,9 @@
     }
   ],
   "next_three_actions": [
-    "Fix the three inherited long-block chroma precision failures with unchanged 1e-7 tolerance; use a fresh isolated numerical cache",
-    "Collect exact-source Python 3.11/3.12, native xLights and platform CI; preserve pending/failing states",
-    "Continue independent vocal/source qualification and canonical owner-review work; PR188 remains unmerged"
+    "Reproduce the three Python 3.12 chroma partial-block parity failures in the pinned environment; inspect overlap, matrix layout and BLAS accumulation; preserve atol=1e-7 and the 16 MiB ceiling.",
+    "Repair the native producer failure, then improve genuine source-driven performer/instrument motion; obtain recording-bound independent vocal and lexical evidence before approval rerun.",
+    "Collect exact-source CI/platform/native results; retain nine-video technical delivery separately from owner acceptance. PR188 remains unmerged and beta release held."
   ],
   "resume_commands": [
     "git fetch origin codex/eight-hour-recovery-20261019",
@@ -1641,14 +1641,83 @@
     "owner_approved": false,
     "release_qualified": false
   },
-  "last_action": {
-    "commits": [
-      "567b33a3518ec548bae759346d3d94b141888f2a",
-      "9f751d6042bf1ab33e6a3df79dd38b88953e0356"
-    ],
-    "implementation": "64-column right-padding of final chroma window without changing retained frame count",
-    "regression": "assert chroma block widths are 64-column aligned and stay under 16 MiB",
-    "validation": "pending; original 1e-7 tolerance unchanged",
-    "release_authorized": false
-  }
+  "last_action": "Inspected completed Actions jobs and full failure logs. Recorded passing Windows/Android/Beta smoke and the exact Python 3.12, native producer and visual-motion failures.",
+  "latest_action_results": [
+    {
+      "gate": "Beta smoke",
+      "run": 41163710749,
+      "conclusion": "success",
+      "jobs": {
+        "python 3.11": "success",
+        "python 3.12": "success"
+      },
+      "url": "https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/41163710749"
+    },
+    {
+      "gate": "Windows Portable GUI",
+      "run": 41163710660,
+      "conclusion": "success",
+      "url": "https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/41163710660"
+    },
+    {
+      "gate": "Android offline smoke",
+      "run": 41163710668,
+      "conclusion": "success",
+      "jobs": {
+        "API 30": "success",
+        "API 36": "success"
+      },
+      "url": "https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/41163710668"
+    },
+    {
+      "gate": "Full regression audit",
+      "run": 41163710718,
+      "conclusion": "failure",
+      "source_commit": "7d34b5e merge of c009595 into 59f3240",
+      "python_311": "success",
+      "python_312": "failure",
+      "failures": [
+        {
+          "test": "test_bounded_chroma_preserves_reference_across_long_partial_blocks[1]",
+          "mismatched": 10,
+          "total": 4097,
+          "max_abs_diff": 2.66020723e-7
+        },
+        {
+          "test": "test_bounded_chroma_preserves_reference_across_long_partial_blocks[61]",
+          "mismatched": 22,
+          "total": 4157,
+          "max_abs_diff": 1.99515542e-7
+        },
+        {
+          "test": "test_bounded_chroma_preserves_reference_across_long_partial_blocks[509]",
+          "mismatched": 18,
+          "total": 4605,
+          "max_abs_diff": 1.33010362e-7
+        }
+      ],
+      "tolerance": "atol=1e-7, rtol=0",
+      "other_passed": 2214,
+      "subtests_passed": 24,
+      "skipped": 6,
+      "url": "https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/41163710718"
+    },
+    {
+      "gate": "Final band/native verification",
+      "run": 41163710727,
+      "conclusion": "failure",
+      "native_proof": "success",
+      "accepted_native_band": "failure",
+      "cause": "No successful native producer at c009595; producer run 41163710797 failed",
+      "url": "https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/41163710727"
+    },
+    {
+      "gate": "Twelve-layout approval render",
+      "run": 41163710805,
+      "conclusion": "failure",
+      "source_commit": "c009595976a2b660bc4094b7302b9b284588c3c4",
+      "cause": "Missing pilot evidence for vocal timing and approved-reference identity; visible_stage_motion median 0.425 < 0.65",
+      "url": "https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/41163710805"
+    }
+  ]
 }
