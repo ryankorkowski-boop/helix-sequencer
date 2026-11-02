@@ -829,6 +829,14 @@ def _bounded_background_features(harm, sr, hop=512):
         if previous_magnitude is not None and count < chroma_frames:
             offset = chroma_frames + size % 64 - count
             window = np.concatenate((previous_magnitude[:, -offset:], magnitude), axis=1)
+        # Keep the BLAS column tile aligned for the final partial block. A
+        # narrow tail can select a different float32 SGEMM kernel and drift
+        # beyond the whole-recording reference despite identical frame data.
+        # Right-padding is strictly outside the retained source frames, so it
+        # cannot create or shift an event; only the original count is copied.
+        pad = (-window.shape[1]) % 64
+        if pad:
+            window = np.pad(window, ((0, 0), (0, pad)))
         chroma = librosa.feature.chroma_stft(S=window, sr=sr, hop_length=hop, tuning=tuning)
         probability = chroma / (np.sum(chroma, axis=0) + 1e-9)
         entropy = -np.sum(probability * np.log2(probability + 1e-9), axis=0) / np.log2(12.0)
