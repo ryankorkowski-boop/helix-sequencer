@@ -1,6 +1,6 @@
 {
   "schema": "helix.beta-artifacts.v1",
-  "updated_at": "2026-11-01T05:00:47.436181+00:00",
+  "updated_at": "2026-11-02",
   "requested_count": 9,
   "verified_count": 9,
   "artifacts": [
@@ -1141,8 +1141,8 @@
       "source_commit": "09677d4822e35d724e9f229c0ab7465c9f34fd7a",
       "engine_worktree_module_changes": false,
       "source_library_tracks": [
-        "Tinsel Tornado164\u2013182s",
-        "Christmas in the Ether76.5\u201394.5s"
+        "Tinsel Tornado164–182s",
+        "Christmas in the Ether76.5–94.5s"
       ],
       "effects": 5155,
       "detected_parts": [
@@ -1359,7 +1359,7 @@
       "downloaded_copy_sha256": "0a2a0763b4952984b1d5a0d8481b08348ab212e702c3d64a4af29b6c5b1bb198",
       "full_decode": true,
       "soundtrack_correlation": 0.999018237103682,
-      "max_audio_lag_seconds": 0.0,
+      "max_audio_lag_seconds": 0,
       "distinct_panels": 12,
       "max_blank_seconds": 0.7,
       "max_frozen_seconds": 0.6,
@@ -1397,7 +1397,7 @@
       "downloaded_copy_sha256": "0a2a0763b4952984b1d5a0d8481b08348ab212e702c3d64a4af29b6c5b1bb198",
       "full_decode": true,
       "soundtrack_correlation": 0.999018237103682,
-      "max_audio_lag_seconds": 0.0,
+      "max_audio_lag_seconds": 0,
       "distinct_panels": 12,
       "max_blank_seconds": 0.7,
       "max_frozen_seconds": 0.6,
@@ -1407,5 +1407,91 @@
     "owner_approved": false,
     "release_qualified": false
   },
-  "historical_artifacts_note": "Top-level nine-file artifacts/counts describe the retained30October collection rejected by owner; current task has one fresh twelve-layout comparison under active_delivery. No old footage promoted."
+  "historical_artifacts_note": "Top-level nine-file artifacts/counts describe the retained30October collection rejected by owner; current task has one fresh twelve-layout comparison under active_delivery. No old footage promoted.",
+  "latest_actions_validation": [
+    {
+      "gate": "Beta smoke",
+      "run": 41163710749,
+      "conclusion": "success",
+      "jobs": {
+        "python 3.11": "success",
+        "python 3.12": "success"
+      },
+      "url": "https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/41163710749"
+    },
+    {
+      "gate": "Windows Portable GUI",
+      "run": 41163710660,
+      "conclusion": "success",
+      "url": "https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/41163710660"
+    },
+    {
+      "gate": "Android offline smoke",
+      "run": 41163710668,
+      "conclusion": "success",
+      "jobs": {
+        "API 30": "success",
+        "API 36": "success"
+      },
+      "url": "https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/41163710668"
+    },
+    {
+      "gate": "Full regression audit",
+      "run": 41163710718,
+      "conclusion": "failure",
+      "source_commit": "7d34b5e merge of c009595 into 59f3240",
+      "python_311": "success",
+      "python_312": "failure",
+      "failures": [
+        {
+          "test": "test_bounded_chroma_preserves_reference_across_long_partial_blocks[1]",
+          "mismatched": 10,
+          "total": 4097,
+          "max_abs_diff": 2.66020723e-7
+        },
+        {
+          "test": "test_bounded_chroma_preserves_reference_across_long_partial_blocks[61]",
+          "mismatched": 22,
+          "total": 4157,
+          "max_abs_diff": 1.99515542e-7
+        },
+        {
+          "test": "test_bounded_chroma_preserves_reference_across_long_partial_blocks[509]",
+          "mismatched": 18,
+          "total": 4605,
+          "max_abs_diff": 1.33010362e-7
+        }
+      ],
+      "tolerance": "atol=1e-7, rtol=0",
+      "other_passed": 2214,
+      "subtests_passed": 24,
+      "skipped": 6,
+      "url": "https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/41163710718"
+    },
+    {
+      "gate": "Final band/native verification",
+      "run": 41163710727,
+      "conclusion": "failure",
+      "native_proof": "success",
+      "accepted_native_band": "failure",
+      "cause": "No successful native producer at c009595; producer run 41163710797 failed",
+      "url": "https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/41163710727"
+    },
+    {
+      "gate": "Twelve-layout approval render",
+      "run": 41163710805,
+      "conclusion": "failure",
+      "source_commit": "c009595976a2b660bc4094b7302b9b284588c3c4",
+      "cause": "Missing pilot evidence for vocal timing and approved-reference identity; visible_stage_motion median 0.425 < 0.65",
+      "url": "https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/41163710805"
+    }
+  ],
+  "release_acceptance": {
+    "status": "HELD",
+    "owner_approval": false,
+    "pr188_merged": false,
+    "requested_mp4_count": 9,
+    "technical_delivery_count": 9,
+    "technical_delivery_is_not_approval": true
+  }
 }
