@@ -1,3 +1,15 @@
+## 2 November — latest Actions evidence and next implementation checkpoint
+
+- Latest Beta smoke: Python 3.11 and 3.12 pass (run [41163710749](https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/41163710749)).
+- Latest Windows Portable GUI build passes (run [41163710660](https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/41163710660)).
+- Latest Android offline smoke passes on API 30 and API 36 (run [41163710668](https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/41163710668)).
+- Full regression Python 3.11 passes, Python 3.12 fails only the three long partial-block chroma parity cases in run [41163710718](https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/41163710718). The failing job checked out PR merge commit 7d34b5e (merge of c009595 into 59f3240). With unchanged atol=1e-7, rtol=0: tail=1 has 10/4097 mismatches, max 2.66020723e-7; tail=61 has 22/4157, max 1.99515542e-7; tail=509 has 18/4605, max 1.33010362e-7. 2214 other tests and 24 subtests passed; 6 skips.
+- Final native band acceptance fails because its producer run [41163710797](https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/41163710797) failed; acceptance job [41163710727](https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/41163710727) reports no successful native producer at c009595. Native proof itself passed.
+- Twelve-layout render [41163710805](https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/41163710805) is diagnostic only: pilot evidence is missing because independent vocal timing and approved-reference identity are not qualified; image quality separately fails visible_stage_motion (median motion 0.425 vs 0.65 minimum). Luma 13.466 and bright fraction 0.08007 exceed their floors; visible width 0.681 and height 0.644 pass. Do not brighten or weaken thresholds to mask insufficient motion.
+- Do not mark the chroma repair passed. Next code action: reproduce each tail case in the pinned Python 3.12 environment, inspect the exact final-block overlap/column-layout behavior against the whole-file librosa reference, then change the transform strategy only if all three exact comparisons can pass within the 16 MiB workspace ceiling. Run Python 3.11/3.12 focused tests before full CI.
+- Next native action: repair the actual producer failure, then improve source-driven performer/instrument motion and obtain genuine vocal-source/lexical evidence before rerunning native acceptance. Preserve all current thresholds and prior failed receipts.
+- Android and Windows latest smoke passes are recorded; physical-device acceptance remains separate. Nine MP4 technical delivery is not owner approval. PR #188 stays unmerged; release stays held.
+
 ## 1 November — bounded chroma partial-block parity repair (validation pending)
 
 - [x] Changed `core/audio_intelligence.py` to right-pad only the final bounded chroma transform window to a 64-column boundary. The real frame count remains unchanged when copying entropy back; padding is strictly after the source tail and does not create or shift events.
