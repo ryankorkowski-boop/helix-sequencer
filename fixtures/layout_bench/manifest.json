@@ -1,0 +1,463 @@
+[
+  {
+    "id": "ac16_lor",
+    "title": "AC 16 LOR",
+    "tier": "ac",
+    "summary": "A 16-channel LOR-style yard: one dimmable channel per prop.",
+    "layout": "fixtures/layout_bench/ac16_lor/xlights_rgbeffects.xml",
+    "template": "fixtures/layout_bench/ac16_lor/template.xsq",
+    "props": 16,
+    "submodels": 0,
+    "groups": 7,
+    "group_names": [
+      "Whole House",
+      "All Red",
+      "All Green",
+      "All White",
+      "All Arches",
+      "All Mini Trees",
+      "All Stars"
+    ],
+    "pixels": 16,
+    "channels": 16,
+    "types": {
+      "arch": 4,
+      "line": 6,
+      "star": 1,
+      "tree": 4,
+      "window": 1
+    }
+  },
+  {
+    "id": "ac32_house",
+    "title": "AC 32 House",
+    "tier": "ac",
+    "summary": "A 32-channel AC house with segmented arches, canes, and a second window.",
+    "layout": "fixtures/layout_bench/ac32_house/xlights_rgbeffects.xml",
+    "template": "fixtures/layout_bench/ac32_house/template.xsq",
+    "props": 32,
+    "submodels": 0,
+    "groups": 8,
+    "group_names": [
+      "Whole House",
+      "All Red",
+      "All Green",
+      "All White",
+      "All Arches",
+      "All Mini Trees",
+      "All Canes",
+      "All Stars"
+    ],
+    "pixels": 32,
+    "channels": 32,
+    "types": {
+      "arch": 8,
+      "cane": 4,
+      "icicle": 1,
+      "line": 10,
+      "star": 1,
+      "tree": 6,
+      "window": 2
+    }
+  },
+  {
+    "id": "ac64_yard",
+    "title": "AC 64 Yard",
+    "tier": "ac",
+    "summary": "A 64-channel AC yard with color stacks, more arch sections, and path lights.",
+    "layout": "fixtures/layout_bench/ac64_yard/xlights_rgbeffects.xml",
+    "template": "fixtures/layout_bench/ac64_yard/template.xsq",
+    "props": 64,
+    "submodels": 0,
+    "groups": 8,
+    "group_names": [
+      "Whole House",
+      "All Red",
+      "All Green",
+      "All White",
+      "All Arches",
+      "All Mini Trees",
+      "All Canes",
+      "All Stars"
+    ],
+    "pixels": 64,
+    "channels": 64,
+    "types": {
+      "arch": 16,
+      "cane": 8,
+      "circle": 1,
+      "custom": 1,
+      "icicle": 1,
+      "line": 22,
+      "star": 3,
+      "tree": 9,
+      "window": 3
+    }
+  },
+  {
+    "id": "pixel_starter",
+    "title": "Pixel Starter",
+    "tier": "pixel",
+    "summary": "Small pixel yard: arches, canes, mini trees, roofline, one window, a matrix, and a star.",
+    "layout": "fixtures/layout_bench/pixel_starter/xlights_rgbeffects.xml",
+    "template": "fixtures/layout_bench/pixel_starter/template.xsq",
+    "props": 15,
+    "submodels": 0,
+    "groups": 7,
+    "group_names": [
+      "Whole House",
+      "All Arches",
+      "All Canes",
+      "All Mini Trees",
+      "Roofline",
+      "All Stars",
+      "All Windows"
+    ],
+    "pixels": 1222,
+    "channels": 3666,
+    "types": {
+      "arch": 4,
+      "cane": 4,
+      "line": 1,
+      "matrix": 1,
+      "star": 1,
+      "tree": 3,
+      "window": 1
+    }
+  },
+  {
+    "id": "pixel_classic",
+    "title": "Pixel Classic House",
+    "tier": "pixel",
+    "summary": "Full hobbyist pixel house: mega tree, matrix, arches, north and south canes, mini trees, windows, stars, and snowflakes.",
+    "layout": "fixtures/layout_bench/pixel_classic/xlights_rgbeffects.xml",
+    "template": "fixtures/layout_bench/pixel_classic/template.xsq",
+    "props": 56,
+    "submodels": 0,
+    "groups": 13,
+    "group_names": [
+      "Whole House",
+      "All Arches",
+      "All Canes",
+      "08_NORTH_CANES",
+      "09_NOTNORTH_CANES",
+      "All Mini Trees",
+      "All Stars",
+      "All Snowflakes",
+      "All Windows",
+      "Mega Tree Group",
+      "All Matrices",
+      "Roofline",
+      "All Floods"
+    ],
+    "pixels": 4608,
+    "channels": 13824,
+    "types": {
+      "cane": 16,
+      "custom": 6,
+      "icicle": 1,
+      "line": 15,
+      "matrix": 1,
+      "star": 8,
+      "tree": 7,
+      "window": 2
+    }
+  },
+  {
+    "id": "pixel_driveway",
+    "title": "Pixel Driveway",
+    "tier": "pixel",
+    "summary": "Driveway-focused pixel yard: four arches, a garage matrix, walk-line mini trees, and a mega tree.",
+    "layout": "fixtures/layout_bench/pixel_driveway/xlights_rgbeffects.xml",
+    "template": "fixtures/layout_bench/pixel_driveway/template.xsq",
+    "props": 39,
+    "submodels": 0,
+    "groups": 9,
+    "group_names": [
+      "Whole House",
+      "All Arches",
+      "All Mini Trees",
+      "All Canes",
+      "All Stars",
+      "All Matrices",
+      "Mega Tree Group",
+      "Roofline",
+      "All Windows"
+    ],
+    "pixels": 3292,
+    "channels": 9876,
+    "types": {
+      "arch": 20,
+      "cane": 6,
+      "line": 1,
+      "matrix": 1,
+      "star": 1,
+      "tree": 9,
+      "window": 1
+    }
+  },
+  {
+    "id": "pixel_windows",
+    "title": "Pixel Windows",
+    "tier": "pixel",
+    "summary": "Window-heavy house: four window frames, a matrix in the picture window, outline, stars, and snowflakes.",
+    "layout": "fixtures/layout_bench/pixel_windows/xlights_rgbeffects.xml",
+    "template": "fixtures/layout_bench/pixel_windows/template.xsq",
+    "props": 19,
+    "submodels": 0,
+    "groups": 6,
+    "group_names": [
+      "Whole House",
+      "All Windows",
+      "All Stars",
+      "All Snowflakes",
+      "All Matrices",
+      "Roofline"
+    ],
+    "pixels": 1786,
+    "channels": 5358,
+    "types": {
+      "circle": 1,
+      "custom": 5,
+      "line": 3,
+      "matrix": 1,
+      "star": 5,
+      "window": 4
+    }
+  },
+  {
+    "id": "pixel_corner",
+    "title": "Pixel Corner Lot",
+    "tier": "pixel",
+    "summary": "Corner lot: L-shaped roofline, a corner mega tree, walk arches, and a side-yard matrix.",
+    "layout": "fixtures/layout_bench/pixel_corner/xlights_rgbeffects.xml",
+    "template": "fixtures/layout_bench/pixel_corner/template.xsq",
+    "props": 25,
+    "submodels": 0,
+    "groups": 10,
+    "group_names": [
+      "Whole House",
+      "Roofline",
+      "All Arches",
+      "All Mini Trees",
+      "All Canes",
+      "All Stars",
+      "All Snowflakes",
+      "All Windows",
+      "Mega Tree Group",
+      "All Matrices"
+    ],
+    "pixels": 2188,
+    "channels": 6564,
+    "types": {
+      "arch": 2,
+      "cane": 4,
+      "custom": 1,
+      "line": 6,
+      "matrix": 1,
+      "star": 4,
+      "tree": 6,
+      "window": 1
+    }
+  },
+  {
+    "id": "band_stage",
+    "title": "Snowman Band Stage",
+    "tier": "band",
+    "summary": "Stage with a snowman band, three singing-face props (phoneme NodeRange mouths and eyes), a backdrop matrix, and the nine drum-hit props.",
+    "layout": "fixtures/layout_bench/band_stage/xlights_rgbeffects.xml",
+    "template": "fixtures/layout_bench/band_stage/template.xsq",
+    "props": 23,
+    "submodels": 6,
+    "groups": 8,
+    "group_names": [
+      "Whole House",
+      "Snowman Band",
+      "All Singing Faces",
+      "Drummer Kit",
+      "All Matrices",
+      "All Stars",
+      "All Floods",
+      "Roofline"
+    ],
+    "pixels": 1328,
+    "channels": 3984,
+    "types": {
+      "custom": 7,
+      "line": 12,
+      "matrix": 2,
+      "star": 2
+    }
+  },
+  {
+    "id": "wow_spirals",
+    "title": "Spiral Trees",
+    "tier": "wow",
+    "summary": "Five spiral trees plus a ground spiral. Tree 360 models carry a spiral point path.",
+    "layout": "fixtures/layout_bench/wow_spirals/xlights_rgbeffects.xml",
+    "template": "fixtures/layout_bench/wow_spirals/template.xsq",
+    "props": 7,
+    "submodels": 0,
+    "groups": 3,
+    "group_names": [
+      "Whole House",
+      "All Spirals",
+      "All Stars"
+    ],
+    "pixels": 4220,
+    "channels": 12660,
+    "types": {
+      "arch": 1,
+      "star": 1,
+      "tree": 5
+    }
+  },
+  {
+    "id": "wow_helix",
+    "title": "Double Helix Towers",
+    "tier": "wow",
+    "summary": "Three double-helix towers. Each tower is a pair of opposing spirals.",
+    "layout": "fixtures/layout_bench/wow_helix/xlights_rgbeffects.xml",
+    "template": "fixtures/layout_bench/wow_helix/template.xsq",
+    "props": 7,
+    "submodels": 0,
+    "groups": 3,
+    "group_names": [
+      "Whole House",
+      "All Helixes",
+      "All Stars"
+    ],
+    "pixels": 996,
+    "channels": 2988,
+    "types": {
+      "line": 6,
+      "star": 1
+    }
+  },
+  {
+    "id": "wow_tunnel",
+    "title": "Concentric Tunnel",
+    "tier": "wow",
+    "summary": "Eight concentric rings with increasing depth, a center spinner, and a far matrix.",
+    "layout": "fixtures/layout_bench/wow_tunnel/xlights_rgbeffects.xml",
+    "template": "fixtures/layout_bench/wow_tunnel/template.xsq",
+    "props": 10,
+    "submodels": 0,
+    "groups": 4,
+    "group_names": [
+      "Whole House",
+      "Tunnel",
+      "All Spinners",
+      "All Matrices"
+    ],
+    "pixels": 992,
+    "channels": 2976,
+    "types": {
+      "circle": 8,
+      "matrix": 1,
+      "spinner": 1
+    }
+  },
+  {
+    "id": "wow_spinners",
+    "title": "Spinner Radial",
+    "tier": "wow",
+    "summary": "A radial field of spinners and pinwheels with a ring of stars.",
+    "layout": "fixtures/layout_bench/wow_spinners/xlights_rgbeffects.xml",
+    "template": "fixtures/layout_bench/wow_spinners/template.xsq",
+    "props": 15,
+    "submodels": 0,
+    "groups": 3,
+    "group_names": [
+      "Whole House",
+      "All Spinners",
+      "All Stars"
+    ],
+    "pixels": 1080,
+    "channels": 3240,
+    "types": {
+      "spinner": 7,
+      "star": 8
+    }
+  },
+  {
+    "id": "wow_moire",
+    "title": "Moire Matrices",
+    "tier": "wow",
+    "summary": "Three overlapping matrices with different grid pitches so simultaneous hits can read as moire.",
+    "layout": "fixtures/layout_bench/wow_moire/xlights_rgbeffects.xml",
+    "template": "fixtures/layout_bench/wow_moire/template.xsq",
+    "props": 4,
+    "submodels": 0,
+    "groups": 3,
+    "group_names": [
+      "Whole House",
+      "All Matrices",
+      "Roofline"
+    ],
+    "pixels": 4336,
+    "channels": 13008,
+    "types": {
+      "line": 1,
+      "matrix": 3
+    }
+  },
+  {
+    "id": "wow_mirror",
+    "title": "Mirror Chase",
+    "tier": "wow",
+    "summary": "Left and right mirrored chase arrays around a center matrix and a pair of arches.",
+    "layout": "fixtures/layout_bench/wow_mirror/xlights_rgbeffects.xml",
+    "template": "fixtures/layout_bench/wow_mirror/template.xsq",
+    "props": 25,
+    "submodels": 0,
+    "groups": 5,
+    "group_names": [
+      "Whole House",
+      "Mirror Left",
+      "Mirror Right",
+      "All Arches",
+      "All Matrices"
+    ],
+    "pixels": 864,
+    "channels": 2592,
+    "types": {
+      "arch": 8,
+      "line": 16,
+      "matrix": 1
+    }
+  },
+  {
+    "id": "wow_showcase",
+    "title": "Wow Showcase",
+    "tier": "wow",
+    "summary": "Over-the-top mix: spiral tree, double helix, concentric rings, spinners, overlapping matrices, arches, and a mega tree.",
+    "layout": "fixtures/layout_bench/wow_showcase/xlights_rgbeffects.xml",
+    "template": "fixtures/layout_bench/wow_showcase/template.xsq",
+    "props": 16,
+    "submodels": 0,
+    "groups": 9,
+    "group_names": [
+      "Whole House",
+      "All Spirals",
+      "All Helixes",
+      "Tunnel",
+      "All Spinners",
+      "All Matrices",
+      "All Arches",
+      "Mega Tree Group",
+      "All Stars"
+    ],
+    "pixels": 2404,
+    "channels": 7212,
+    "types": {
+      "arch": 3,
+      "circle": 4,
+      "line": 2,
+      "matrix": 2,
+      "spinner": 2,
+      "star": 1,
+      "tree": 2
+    }
+  }
+]

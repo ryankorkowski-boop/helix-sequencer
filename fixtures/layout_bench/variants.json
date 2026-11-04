@@ -1,0 +1,212 @@
+[
+  {
+    "id": "V01-NPO-ALL16",
+    "description": "North Pole Overdrive: 16-panel grid of every layout, synced to the same audio.",
+    "layouts": [
+      "ac16_lor",
+      "ac32_house",
+      "ac64_yard",
+      "pixel_starter",
+      "pixel_classic",
+      "pixel_driveway",
+      "pixel_windows",
+      "pixel_corner",
+      "band_stage",
+      "wow_spirals",
+      "wow_helix",
+      "wow_tunnel",
+      "wow_spinners",
+      "wow_moire",
+      "wow_mirror",
+      "wow_showcase"
+    ],
+    "song": "North Pole Overdrive"
+  },
+  {
+    "id": "V02-WWW-ALL16",
+    "description": "Wub Wub Wonderland: 16-panel grid of every layout, synced to the same audio.",
+    "layouts": [
+      "ac16_lor",
+      "ac32_house",
+      "ac64_yard",
+      "pixel_starter",
+      "pixel_classic",
+      "pixel_driveway",
+      "pixel_windows",
+      "pixel_corner",
+      "band_stage",
+      "wow_spirals",
+      "wow_helix",
+      "wow_tunnel",
+      "wow_spinners",
+      "wow_moire",
+      "wow_mirror",
+      "wow_showcase"
+    ],
+    "song": "Wub Wub Wonderland"
+  },
+  {
+    "id": "V03-CCC-ALL16",
+    "description": "Candy Cane Chaos: 16-panel grid of every layout, synced to the same audio.",
+    "layouts": [
+      "ac16_lor",
+      "ac32_house",
+      "ac64_yard",
+      "pixel_starter",
+      "pixel_classic",
+      "pixel_driveway",
+      "pixel_windows",
+      "pixel_corner",
+      "band_stage",
+      "wow_spirals",
+      "wow_helix",
+      "wow_tunnel",
+      "wow_spinners",
+      "wow_moire",
+      "wow_mirror",
+      "wow_showcase"
+    ],
+    "song": "Candy Cane Chaos"
+  },
+  {
+    "id": "V04-CLB-ALL16",
+    "description": "Untitled clip B: 16-panel grid of every layout, synced to the same audio.",
+    "layouts": [
+      "ac16_lor",
+      "ac32_house",
+      "ac64_yard",
+      "pixel_starter",
+      "pixel_classic",
+      "pixel_driveway",
+      "pixel_windows",
+      "pixel_corner",
+      "band_stage",
+      "wow_spirals",
+      "wow_helix",
+      "wow_tunnel",
+      "wow_spinners",
+      "wow_moire",
+      "wow_mirror",
+      "wow_showcase"
+    ],
+    "song": "Untitled clip B"
+  },
+  {
+    "id": "V05-CLC-SIMPLE12",
+    "description": "Untitled clip C: 12-panel simple-to-mid grid plus the first wow props, synced to the same audio.",
+    "layouts": [
+      "ac16_lor",
+      "ac32_house",
+      "ac64_yard",
+      "pixel_starter",
+      "pixel_classic",
+      "pixel_driveway",
+      "pixel_windows",
+      "pixel_corner",
+      "band_stage",
+      "wow_spirals",
+      "wow_helix",
+      "wow_tunnel"
+    ],
+    "song": "Untitled clip C"
+  },
+  {
+    "id": "V06-CLF-WOW12",
+    "description": "Untitled clip F: 12-panel wow grid with the AC yards and the band stage, synced to the same audio.",
+    "layouts": [
+      "ac16_lor",
+      "ac32_house",
+      "ac64_yard",
+      "band_stage",
+      "pixel_classic",
+      "wow_spirals",
+      "wow_helix",
+      "wow_tunnel",
+      "wow_spinners",
+      "wow_moire",
+      "wow_mirror",
+      "wow_showcase"
+    ],
+    "song": "Untitled clip F"
+  },
+  {
+    "id": "V07-CLG-ALL16",
+    "description": "Untitled clip G: 16-panel grid of every layout, synced to the same audio.",
+    "layouts": [
+      "ac16_lor",
+      "ac32_house",
+      "ac64_yard",
+      "pixel_starter",
+      "pixel_classic",
+      "pixel_driveway",
+      "pixel_windows",
+      "pixel_corner",
+      "band_stage",
+      "wow_spirals",
+      "wow_helix",
+      "wow_tunnel",
+      "wow_spinners",
+      "wow_moire",
+      "wow_mirror",
+      "wow_showcase"
+    ],
+    "song": "Untitled clip G"
+  },
+  {
+    "id": "V08-NPO-SIMPLE12",
+    "description": "North Pole Overdrive: 12-panel simple-to-mid grid plus the first wow props, synced to the same audio.",
+    "layouts": [
+      "ac16_lor",
+      "ac32_house",
+      "ac64_yard",
+      "pixel_starter",
+      "pixel_classic",
+      "pixel_driveway",
+      "pixel_windows",
+      "pixel_corner",
+      "band_stage",
+      "wow_spirals",
+      "wow_helix",
+      "wow_tunnel"
+    ],
+    "song": "North Pole Overdrive"
+  },
+  {
+    "id": "V09-WWW-WOW12",
+    "description": "Wub Wub Wonderland: 12-panel wow grid with the AC yards and the band stage, synced to the same audio.",
+    "layouts": [
+      "ac16_lor",
+      "ac32_house",
+      "ac64_yard",
+      "band_stage",
+      "pixel_classic",
+      "wow_spirals",
+      "wow_helix",
+      "wow_tunnel",
+      "wow_spinners",
+      "wow_moire",
+      "wow_mirror",
+      "wow_showcase"
+    ],
+    "song": "Wub Wub Wonderland"
+  },
+  {
+    "id": "V10-CCC-SIMPLE12",
+    "description": "Candy Cane Chaos: 12-panel simple-to-mid grid plus the first wow props, synced to the same audio.",
+    "layouts": [
+      "ac16_lor",
+      "ac32_house",
+      "ac64_yard",
+      "pixel_starter",
+      "pixel_classic",
+      "pixel_driveway",
+      "pixel_windows",
+      "pixel_corner",
+      "band_stage",
+      "wow_spirals",
+      "wow_helix",
+      "wow_tunnel"
+    ],
+    "song": "Candy Cane Chaos"
+  }
+]
