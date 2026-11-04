@@ -77,6 +77,29 @@ Do not mark complete from unit tests alone.
 
 ## Change Ledger
 
+### 2026-11-04 — Layout bench videos use xLights FSEQ channel data
+**Agent:** Cursor cloud agent
+**Branch:** `cursor/layout-test-bench-f36b`
+
+**Goal:** Comparison panels must show xLights-rendered channel values, not a whole-model timing approximation.
+
+**Changed files/modules:**
+- `tools/layout_bench/xlights_fseq.py` runs `xLights --headless` and decodes FSEQ v2 (including zstd blocks).
+- `tools/layout_bench/render_comparisons.py` paints each node from that FSEQ and stitches the same 10 variant grids.
+- Layout fixtures: `DisplayAs` for canes is the xLights type `Candy Canes`. Faces, snowmen, and snowflakes are poly lines with real node counts, because xLights Custom models with no pixel image have zero nodes and drop effects. Default `ScaleX`/`ScaleY` is 1 so render buffers stay the size of the prop. Groups that shared a model name were renamed to `All Roofline`.
+
+**Intentionally preserved behavior:** The sequencer was not rerun and its effect placement was not changed. The same canonical XSQ files are the render input.
+
+**New behavior:** Videos are built from xLights 2026.19 FSEQ output at the sequence step time (50 ms / 20 fps).
+
+**Tests/evidence:** Fixture tests still check channel counts. Headless renders of the heavy layouts completed and produced non-empty FSEQ files. Per-model lit/blank stats are written beside the render run.
+
+**Limitations:** Node positions are the layout parser's virtual pixels, placed in channel order from each model's start channel. xLights still drops zero-length timing marks. One-channel props are drawn along their strand at the single rendered level.
+
+**Deferred work:** Human review of the new videos. The snowman-band `composite_submodels` crash is unchanged.
+
+**Regression risks:** Layout XML scale and the cane display type changed so xLights can load the fixtures. Helix sequencing code did not change. Existing XSQ files still address the same model names.
+
 ### 2026-11-04 — Layout test bench fixtures and comparison runner
 **Agent:** Cursor cloud agent
 **Branch:** `cursor/layout-test-bench-f36b`

@@ -38,7 +38,7 @@ From the repository root:
 ```bash
 python3 tools/layout_bench/generate_layouts.py
 python3 tools/layout_bench/run_bench.py --audio-dir /path/to/songs --workers 3
-python3 tools/layout_bench/render_comparisons.py --audio-dir /path/to/songs --output-dir /opt/cursor/artifacts/layout_bench
+python3 tools/layout_bench/render_comparisons.py --audio-dir /path/to/songs --output-dir /opt/cursor/artifacts/layout_bench_rendered
 ```
 
 `run_bench.py` calls the main CLI unchanged:
@@ -47,7 +47,7 @@ python3 tools/layout_bench/render_comparisons.py --audio-dir /path/to/songs --ou
 
 `--variants 1` keeps a single canonical sequence. Workspace history and learning memory stay off so the bench does not write scoring memory. Polish, pixel-reactive placement, and matrix intelligence stay at the master-profile defaults. The canonical sequence is `test_runs/layout_bench/<layout>/<song>,v27.3.xsq`. The `.orchestrated.xsq` sidecar is not the preview source.
 
-`render_comparisons.py` draws each layout with `tools.preview_renderer` geometry and effect timing, then stitches 12 or 16 panels and muxes the song once. Comparison videos are the files under the output directory. `variants.json` in this folder lists ids and descriptions without artifact paths.
+`render_comparisons.py` asks xLights (`--headless`, under Xvfb) to render each canonical XSQ to an FSEQ, then draws every node from that channel data at the layout coordinates. The sequence frame time is kept (these fixtures are 50 ms, 20 fps). Set `XLIGHTS_BIN` to the xLights AppImage or extracted `AppRun` if it is not at `/tmp/xlights/squashfs-root/AppRun`. `variants.json` lists ids and descriptions without artifact paths.
 
 Expected song filenames, used only as local test inputs:
 
@@ -56,9 +56,9 @@ Expected song filenames, used only as local test inputs:
 - `candy_cane_chaos.mp3`
 - `clip_b.mp3`, `clip_c.mp3`, `clip_f.mp3`, `clip_g.mp3` (untitled clips from the same test set)
 
-## What the preview shows
+## What the video shows
 
-A lit strand means that model, or one of its submodels, has an effect at that frame. The preview does not simulate xLights per-pixel shaders, so a matrix, spiral, or moire grid lights as a whole shape. That is the sequencing decision, not a rendered pixel buffer.
+Panels are xLights FSEQ renders. A pixel node's color is the rendered RGB for that frame. A one-channel AC prop is drawn in its strand color at the rendered level. xLights 2026.19 model types are used (`Candy Canes`, not `Candy Cane`). Default model scale is 1 so poly-line render buffers stay the size of the prop.
 
 ## Tests
 

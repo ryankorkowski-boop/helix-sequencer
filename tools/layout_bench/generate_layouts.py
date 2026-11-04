@@ -350,10 +350,10 @@ def build_ac(channel_count: int) -> Layout:
                 arch_seg(3, 2, 2, 480),
                 arch_seg(4, 1, 2, 1040),
                 arch_seg(4, 2, 2, 1040),
-                add_ac_strand(layout, "Candy Cane 1", cane(300, 180), "Red", red, display="Candy Cane", extra={"NumCanes": "1", "NodesPerCane": "1", "parm1": "1", "parm2": "1"}),
-                add_ac_strand(layout, "Candy Cane 2", cane(360, 180), "White", white, display="Candy Cane", extra={"NumCanes": "1", "NodesPerCane": "1", "parm1": "1", "parm2": "1"}),
-                add_ac_strand(layout, "Candy Cane 3", cane(760, 180), "Red", red, display="Candy Cane", extra={"NumCanes": "1", "NodesPerCane": "1", "parm1": "1", "parm2": "1"}),
-                add_ac_strand(layout, "Candy Cane 4", cane(820, 180), "White", white, display="Candy Cane", extra={"NumCanes": "1", "NodesPerCane": "1", "parm1": "1", "parm2": "1"}),
+                add_ac_strand(layout, "Candy Cane 1", cane(300, 180), "Red", red, display="Candy Canes", extra={"NumCanes": "1", "NodesPerCane": "1", "parm1": "1", "parm2": "1"}),
+                add_ac_strand(layout, "Candy Cane 2", cane(360, 180), "White", white, display="Candy Canes", extra={"NumCanes": "1", "NodesPerCane": "1", "parm1": "1", "parm2": "1"}),
+                add_ac_strand(layout, "Candy Cane 3", cane(760, 180), "Red", red, display="Candy Canes", extra={"NumCanes": "1", "NodesPerCane": "1", "parm1": "1", "parm2": "1"}),
+                add_ac_strand(layout, "Candy Cane 4", cane(820, 180), "White", white, display="Candy Canes", extra={"NumCanes": "1", "NodesPerCane": "1", "parm1": "1", "parm2": "1"}),
                 add_ac_strand(layout, "Window Frame 2", rect(800, 430, 90, 70), "White", white, display="Window Frame", extra={"TopNodes": "1", "SideNodes": "0", "BottomNodes": "0", "parm1": "1", "parm2": "1"}),
                 add_ac_strand(layout, "Garage Outline", rect(860, 280, 180, 150), "White", white),
                 add_ac_strand(layout, "Bush 2", ellipse(430, 140, 30, 16, steps=8), "Green", green),
@@ -381,10 +381,10 @@ def build_ac(channel_count: int) -> Layout:
                 arch_seg(3, 4, 4, 480),
                 arch_seg(4, 3, 4, 1040),
                 arch_seg(4, 4, 4, 1040),
-                add_ac_strand(layout, "Candy Cane 5", cane(430, 170, 70, 22), "Red", red, display="Candy Cane", extra={"NumCanes": "1", "NodesPerCane": "1", "parm1": "1", "parm2": "1"}),
-                add_ac_strand(layout, "Candy Cane 6", cane(500, 170, 70, 22), "Green", green, display="Candy Cane", extra={"NumCanes": "1", "NodesPerCane": "1", "parm1": "1", "parm2": "1"}),
-                add_ac_strand(layout, "Candy Cane 7", cane(900, 170, 70, 22), "Red", red, display="Candy Cane", extra={"NumCanes": "1", "NodesPerCane": "1", "parm1": "1", "parm2": "1"}),
-                add_ac_strand(layout, "Candy Cane 8", cane(970, 170, 70, 22), "White", white, display="Candy Cane", extra={"NumCanes": "1", "NodesPerCane": "1", "parm1": "1", "parm2": "1"}),
+                add_ac_strand(layout, "Candy Cane 5", cane(430, 170, 70, 22), "Red", red, display="Candy Canes", extra={"NumCanes": "1", "NodesPerCane": "1", "parm1": "1", "parm2": "1"}),
+                add_ac_strand(layout, "Candy Cane 6", cane(500, 170, 70, 22), "Green", green, display="Candy Canes", extra={"NumCanes": "1", "NodesPerCane": "1", "parm1": "1", "parm2": "1"}),
+                add_ac_strand(layout, "Candy Cane 7", cane(900, 170, 70, 22), "Red", red, display="Candy Canes", extra={"NumCanes": "1", "NodesPerCane": "1", "parm1": "1", "parm2": "1"}),
+                add_ac_strand(layout, "Candy Cane 8", cane(970, 170, 70, 22), "White", white, display="Candy Canes", extra={"NumCanes": "1", "NodesPerCane": "1", "parm1": "1", "parm2": "1"}),
                 mini(7, 80),
                 mini(8, 1140),
                 add_ac_strand(layout, "Window Frame 3", rect(250, 430, 80, 60), "White", white, display="Window Frame", extra={"TopNodes": "1", "SideNodes": "0", "BottomNodes": "0", "parm1": "1", "parm2": "1"}),
@@ -398,7 +398,7 @@ def build_ac(channel_count: int) -> Layout:
                 add_ac_strand(layout, "Up Light 1", line(540, 70, 580, 70), "Red", red),
                 add_ac_strand(layout, "Garage Tree 1", tree_outline(960, 300, 40, 80), "Green", green, display="Tree Flat", extra={"parm1": "1", "parm2": "1"}),
                 add_ac_strand(layout, "Path Lights", line(200, 40, 1000, 40, steps=10), "White", white),
-                add_ac_strand(layout, "Snowflake 1", snowflake(760, 600, 26), "White", white, display="Custom", extra={"CustomWidth": "1", "CustomHeight": "1", "parm1": "1", "parm2": "1"}),
+                add_ac_strand(layout, "Snowflake 1", snowflake(760, 600, 26), "White", white),
             ]
         )
     if len(layout.models) != channel_count:
@@ -439,7 +439,7 @@ def build_pixel_starter() -> Layout:
             )
         )
     canes = [
-        _rgb(layout, f"Candy Cane {i}", "Candy Cane", cane(640 + i * 48, 170, 100, 26), 36, RGB_TINT["cane"], {"NumCanes": "1", "NodesPerCane": "36", "parm1": "1", "parm2": "36"})
+        _rgb(layout, f"Candy Cane {i}", "Candy Canes", cane(640 + i * 48, 170, 100, 26), 36, RGB_TINT["cane"], {"NumCanes": "1", "NodesPerCane": "36", "parm1": "1", "parm2": "36"})
         for i in range(1, 5)
     ]
     trees = [
@@ -461,7 +461,7 @@ def build_pixel_starter() -> Layout:
     layout.group("All Arches", arches)
     layout.group("All Canes", canes)
     layout.group("All Mini Trees", trees)
-    layout.group("Roofline", [roof])
+    layout.group("All Roofline", [roof])
     layout.group("All Stars", [star])
     layout.group("All Windows", [window])
     return layout
@@ -489,11 +489,11 @@ def build_pixel_classic() -> Layout:
                 _rgb(layout, f"Arch {arch} Sec {sec}", "Poly Line", arc_section(cx, 140, 280, 130, sec, 6), 36, RGB_TINT["arch"], {"parm1": "1", "parm2": "36"})
             )
     north = [
-        _rgb(layout, f"North Candy Cane {i}", "Candy Cane", cane(360 + i * 28, 250, 90, 20), 32, RGB_TINT["cane"], {"NumCanes": "1", "NodesPerCane": "32", "parm1": "1", "parm2": "32"})
+        _rgb(layout, f"North Candy Cane {i}", "Candy Canes", cane(360 + i * 28, 250, 90, 20), 32, RGB_TINT["cane"], {"NumCanes": "1", "NodesPerCane": "32", "parm1": "1", "parm2": "32"})
         for i in range(1, 9)
     ]
     south = [
-        _rgb(layout, f"South Candy Cane {i}", "Candy Cane", cane(820 + (i - 1) * 28, 250, 90, 20), 32, RGB_TINT["cane"], {"NumCanes": "1", "NodesPerCane": "32", "parm1": "1", "parm2": "32"})
+        _rgb(layout, f"South Candy Cane {i}", "Candy Canes", cane(820 + (i - 1) * 28, 250, 90, 20), 32, RGB_TINT["cane"], {"NumCanes": "1", "NodesPerCane": "32", "parm1": "1", "parm2": "32"})
         for i in range(1, 9)
     ]
     trees = [
@@ -505,7 +505,7 @@ def build_pixel_classic() -> Layout:
         for i in range(1, 9)
     ]
     flakes = [
-        _rgb(layout, f"Snowflake {i}", "Custom", snowflake(140 + i * 110, 590, 22), 48, RGB_TINT["flake"], {"CustomWidth": "8", "CustomHeight": "6", "parm1": "8", "parm2": "6"})
+        _rgb(layout, f"Snowflake {i}", "Poly Line", snowflake(140 + i * 110, 590, 22), 48, RGB_TINT["flake"], {"parm1": "1", "parm2": "48"})
         for i in range(1, 7)
     ]
     floods = [
@@ -523,7 +523,7 @@ def build_pixel_classic() -> Layout:
     layout.group("All Windows", windows)
     layout.group("Mega Tree Group", [mega])
     layout.group("All Matrices", [matrix])
-    layout.group("Roofline", [roof, icicles])
+    layout.group("All Roofline", [roof, icicles])
     layout.group("All Floods", floods)
     return layout
 
@@ -542,7 +542,7 @@ def build_pixel_driveway() -> Layout:
         for i in range(1, 9)
     ]
     canes = [
-        _rgb(layout, f"Candy Cane {i}", "Candy Cane", cane(300 + i * 36, 200, 80, 18), 24, RGB_TINT["cane"], {"NumCanes": "1", "NodesPerCane": "24", "parm1": "1", "parm2": "24"})
+        _rgb(layout, f"Candy Cane {i}", "Candy Canes", cane(300 + i * 36, 200, 80, 18), 24, RGB_TINT["cane"], {"NumCanes": "1", "NodesPerCane": "24", "parm1": "1", "parm2": "24"})
         for i in range(1, 7)
     ]
     window = _rgb(layout, "Window Frame 1", "Window Frame", rect(980, 500, 100, 70), 16 + 24 * 2 + 16, RGB_TINT["window"], {"TopNodes": "16", "SideNodes": "24", "BottomNodes": "16"})
@@ -554,7 +554,7 @@ def build_pixel_driveway() -> Layout:
     layout.group("All Stars", [star])
     layout.group("All Matrices", [matrix])
     layout.group("Mega Tree Group", [mega])
-    layout.group("Roofline", [roof])
+    layout.group("All Roofline", [roof])
     layout.group("All Windows", [window])
     return layout
 
@@ -575,7 +575,7 @@ def build_pixel_windows() -> Layout:
         for i in range(1, 6)
     ]
     flakes = [
-        _rgb(layout, f"Snowflake {i}", "Custom", snowflake(160 + i * 160, 600, 20), 36, RGB_TINT["flake"], {"CustomWidth": "6", "CustomHeight": "6", "parm1": "6", "parm2": "6"})
+        _rgb(layout, f"Snowflake {i}", "Poly Line", snowflake(160 + i * 160, 600, 20), 36, RGB_TINT["flake"], {"parm1": "1", "parm2": "36"})
         for i in range(1, 6)
     ]
     door = _rgb(layout, "Door Outline", "Single Line", rect(560, 180, 90, 150), 80, RGB_TINT["line"], {"parm1": "1", "parm2": "80"})
@@ -585,7 +585,7 @@ def build_pixel_windows() -> Layout:
     layout.group("All Stars", stars)
     layout.group("All Snowflakes", flakes)
     layout.group("All Matrices", [matrix])
-    layout.group("Roofline", [roof, outline])
+    layout.group("All Roofline", [roof, outline])
     return layout
 
 
@@ -603,7 +603,7 @@ def build_pixel_corner() -> Layout:
         for i in range(1, 6)
     ]
     canes = [
-        _rgb(layout, f"Candy Cane {i}", "Candy Cane", cane(80 + i * 50, 160, 86, 20), 28, RGB_TINT["cane"], {"NumCanes": "1", "NodesPerCane": "28", "parm1": "1", "parm2": "28"})
+        _rgb(layout, f"Candy Cane {i}", "Candy Canes", cane(80 + i * 50, 160, 86, 20), 28, RGB_TINT["cane"], {"NumCanes": "1", "NodesPerCane": "28", "parm1": "1", "parm2": "28"})
         for i in range(1, 5)
     ]
     window = _rgb(layout, "Window Frame 1", "Window Frame", rect(180, 450, 130, 90), 20 + 28 * 2 + 20, RGB_TINT["window"], {"TopNodes": "20", "SideNodes": "28", "BottomNodes": "20"})
@@ -611,9 +611,9 @@ def build_pixel_corner() -> Layout:
         _rgb(layout, f"Star {i}", "Star", star_poly(120 + i * 140, 690, 22), 28, RGB_TINT["star"], {"parm1": "1", "parm2": "28", "parm3": "5", "ScaleX": "2.2", "ScaleY": "2.2"})
         for i in range(1, 5)
     ]
-    flake = _rgb(layout, "Snowflake 1", "Custom", snowflake(700, 690, 24), 36, RGB_TINT["flake"], {"CustomWidth": "6", "CustomHeight": "6", "parm1": "6", "parm2": "6"})
+    flake = _rgb(layout, "Snowflake 1", "Poly Line", snowflake(700, 690, 24), 36, RGB_TINT["flake"], {"parm1": "1", "parm2": "36"})
     layout.group("Whole House", layout.names())
-    layout.group("Roofline", [front, side])
+    layout.group("All Roofline", [front, side])
     layout.group("All Arches", arches)
     layout.group("All Mini Trees", trees)
     layout.group("All Canes", canes)
@@ -647,11 +647,11 @@ def _face(layout: Layout, name: str, cx: float, cy: float, scale: float = 1.0) -
     return _rgb(
         layout,
         name,
-        "Custom",
+        "Poly Line",
         face_path(cx, cy, scale),
         pixels,
         RGB_TINT["face"],
-        {"CustomWidth": "10", "CustomHeight": "8", "parm1": "10", "parm2": "8"},
+        {"parm1": "1", "parm2": str(pixels)},
         face=face,
         submodels=[("Mouth", "1-24"), ("Eyes", "25-48")],
     )
@@ -675,10 +675,10 @@ def build_band_stage() -> Layout:
         _face(layout, "Singing Face 1", 600, 520, 1.45),
         _face(layout, "Singing Face 3", 920, 500, 1.1),
     ]
-    singer = _rgb(layout, "Snowman Singer", "Custom", snowman(600, 180, 1.15), 64, RGB_TINT["stage"], {"CustomWidth": "8", "CustomHeight": "8", "parm1": "8", "parm2": "8"})
-    bass = _rgb(layout, "Snowman Bass", "Custom", snowman(250, 160, 1.0) + line(220, 250, 180, 420, steps=6), 64, RGB_TINT["stage"], {"CustomWidth": "8", "CustomHeight": "8", "parm1": "8", "parm2": "8"})
-    guitar = _rgb(layout, "Snowman Guitar", "Custom", snowman(900, 160, 1.0) + line(930, 240, 1040, 420, steps=6), 64, RGB_TINT["stage"], {"CustomWidth": "8", "CustomHeight": "8", "parm1": "8", "parm2": "8"})
-    drummer = _rgb(layout, "Snowman Drummer", "Custom", snowman(1120, 200, 0.9), 48, RGB_TINT["stage"], {"CustomWidth": "8", "CustomHeight": "6", "parm1": "8", "parm2": "6"})
+    singer = _rgb(layout, "Snowman Singer", "Poly Line", snowman(600, 180, 1.15), 64, RGB_TINT["stage"], {"parm1": "1", "parm2": "64"})
+    bass = _rgb(layout, "Snowman Bass", "Poly Line", snowman(250, 160, 1.0) + line(220, 250, 180, 420, steps=6), 64, RGB_TINT["stage"], {"parm1": "1", "parm2": "64"})
+    guitar = _rgb(layout, "Snowman Guitar", "Poly Line", snowman(900, 160, 1.0) + line(930, 240, 1040, 420, steps=6), 64, RGB_TINT["stage"], {"parm1": "1", "parm2": "64"})
+    drummer = _rgb(layout, "Snowman Drummer", "Poly Line", snowman(1120, 200, 0.9), 48, RGB_TINT["stage"], {"parm1": "1", "parm2": "48"})
     kit = [
         _drum(layout, "HX_SNOWMAN_DRUMMER_KICK", ellipse(1080, 150, 28, 16, steps=10)),
         _drum(layout, "HX_SNOWMAN_DRUMMER_SNARE", ellipse(1148, 210, 18, 10, steps=8)),
@@ -706,7 +706,7 @@ def build_band_stage() -> Layout:
     layout.group("All Matrices", [backdrop, floor])
     layout.group("All Stars", stars)
     layout.group("All Floods", floods)
-    layout.group("Roofline", [truss])
+    layout.group("All Roofline", [truss])
     return layout
 
 
@@ -823,7 +823,7 @@ def build_wow_moire() -> Layout:
     frame = _rgb(layout, "House Outline", "Poly Line", rect(180, 80, 840, 540), 160, RGB_TINT["line"], {"parm1": "1", "parm2": "160"})
     layout.group("Whole House", layout.names())
     layout.group("All Matrices", [m1, m2, m3])
-    layout.group("Roofline", [frame])
+    layout.group("All Roofline", [frame])
     return layout
 
 
@@ -935,8 +935,8 @@ def write_layout_xml(layout: Layout, path: Path) -> None:
             "X2": f"{spec['width']:.4f}",
             "Y2": f"{spec['height']:.4f}",
             "Z2": "0.0000",
-            "ScaleX": f"{max(spec['width'], 8.0) / 10.0:.4f}",
-            "ScaleY": f"{max(spec['height'], 8.0) / 10.0:.4f}",
+            "ScaleX": "1.0000",
+            "ScaleY": "1.0000",
             "ScaleZ": "1.0000",
             "versionNumber": "7",
             "StartChannel": str(spec["start"]),

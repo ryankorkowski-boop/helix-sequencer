@@ -86,9 +86,8 @@
       "arch": 16,
       "cane": 8,
       "circle": 1,
-      "custom": 1,
       "icicle": 1,
-      "line": 22,
+      "line": 23,
       "star": 3,
       "tree": 9,
       "window": 3
@@ -109,7 +108,7 @@
       "All Arches",
       "All Canes",
       "All Mini Trees",
-      "Roofline",
+      "All Roofline",
       "All Stars",
       "All Windows"
     ],
@@ -147,16 +146,15 @@
       "All Windows",
       "Mega Tree Group",
       "All Matrices",
-      "Roofline",
+      "All Roofline",
       "All Floods"
     ],
     "pixels": 4608,
     "channels": 13824,
     "types": {
       "cane": 16,
-      "custom": 6,
       "icicle": 1,
-      "line": 15,
+      "line": 21,
       "matrix": 1,
       "star": 8,
       "tree": 7,
@@ -181,7 +179,7 @@
       "All Stars",
       "All Matrices",
       "Mega Tree Group",
-      "Roofline",
+      "All Roofline",
       "All Windows"
     ],
     "pixels": 3292,
@@ -212,14 +210,13 @@
       "All Stars",
       "All Snowflakes",
       "All Matrices",
-      "Roofline"
+      "All Roofline"
     ],
     "pixels": 1786,
     "channels": 5358,
     "types": {
       "circle": 1,
-      "custom": 5,
-      "line": 3,
+      "line": 8,
       "matrix": 1,
       "star": 5,
       "window": 4
@@ -237,7 +234,7 @@
     "groups": 10,
     "group_names": [
       "Whole House",
-      "Roofline",
+      "All Roofline",
       "All Arches",
       "All Mini Trees",
       "All Canes",
@@ -252,8 +249,7 @@
     "types": {
       "arch": 2,
       "cane": 4,
-      "custom": 1,
-      "line": 6,
+      "line": 7,
       "matrix": 1,
       "star": 4,
       "tree": 6,
@@ -278,12 +274,12 @@
       "All Matrices",
       "All Stars",
       "All Floods",
-      "Roofline"
+      "All Roofline"
     ],
     "pixels": 1328,
     "channels": 3984,
     "types": {
-      "custom": 7,
+      "arch": 7,
       "line": 12,
       "matrix": 2,
       "star": 2
@@ -393,7 +389,7 @@
     "group_names": [
       "Whole House",
       "All Matrices",
-      "Roofline"
+      "All Roofline"
     ],
     "pixels": 4336,
     "channels": 13008,
