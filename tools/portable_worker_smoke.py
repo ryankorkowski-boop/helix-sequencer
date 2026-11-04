@@ -3,6 +3,7 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
+import os
 from pathlib import Path
 import struct
 import subprocess
@@ -16,8 +17,8 @@ def main():
     a=p.parse_args(); worker=a.worker.resolve(); out=a.output.resolve();out.mkdir(parents=True,exist_ok=True)
     root=Path(__file__).resolve().parents[1]
     results=[]
-    def run(args,label):
-        process=subprocess.run([str(worker),*map(str,args)],capture_output=True,text=True,timeout=600)
+    def run(args,label,env=None):
+        process=subprocess.run([str(worker),*map(str,args)],capture_output=True,text=True,timeout=600,env=env)
         (out/(label+'.log')).write_text(process.stdout+process.stderr,encoding='utf-8')
         if process.returncode:
             print((process.stdout+process.stderr)[-14000:],flush=True)
@@ -32,7 +33,7 @@ def main():
     assert json.loads((out/'native.pixel_preview.json').read_text())['frames']==4
     # Real repository audio runs the packaged sequencing engine in both modes.
     import imageio_ffmpeg
-    candidates=sorted(root.glob('*.mp3'))
+    candidates=sorted(root.glob('*.mp3')) or sorted((root/'fixtures/audio').glob('*.mp3'))
     assert candidates,'No real repository audio for portable smoke'
     source=next((f for f in candidates if 'Tinsel' in f.name),candidates[0])
     audio=out/'real_excerpt.wav'
@@ -56,8 +57,38 @@ def main():
     run([*common,'--template',worker.parent/'template.xsq','--layout-file',worker.parent/'xlights_rgbeffects.xml',
          '--output-dir',out/'xlights','--palette-mode','neon'],'xlights_engine')
     assert list((out/'xlights').glob('*.xsq')) and list((out/'xlights').glob('*.mp4'))
+    # Exercise the real frozen loaders, not a source-only loader simulation.
+    cache_dir=out/'frozen-feature-cache'
+    assert not cache_dir.exists(), 'Frozen cache probe requires a fresh output directory'
+    cache_proofs=[]
+    cache_snapshot=None
+    for label in ('off','miss','hit'):
+        env=dict(os.environ)
+        env.pop('HELIX_AUDIO_CACHE_DIR',None)
+        if label!='off':env['HELIX_AUDIO_CACHE_DIR']=str(cache_dir)
+        target=out/('frozen-cache-'+label)
+        run(['--helix-cli','--profile','master','--','--audio',audio,
+             '--template',worker.parent/'template.xsq','--layout-file',worker.parent/'xlights_rgbeffects.xml',
+             '--output-dir',target,'--variants','1','--no-prompt','--no-save-settings',
+             '--settings',out/'absent-cache-settings.json','--no-workspace-history','--no-learning-memory'],
+            'frozen_cache_'+label,env=env)
+        sequences=list(target.glob('*.xsq'))
+        assert len(sequences)==1, 'Expected one frozen worker sequence'
+        xsq=sequences[0]
+        band=xsq.with_suffix('.snowman_band.json')
+        cache_proofs.append({'mode':label,'xsq_sha256':hashlib.sha256(xsq.read_bytes()).hexdigest(),
+                             'band_sha256':hashlib.sha256(band.read_bytes()).hexdigest()})
+        if label!='off':
+            snapshot={p.name:(p.stat().st_mtime_ns,hashlib.sha256(p.read_bytes()).hexdigest())
+                      for p in cache_dir.glob('*.npz')}
+            assert len(snapshot)>=2, 'Audio and harmonic feature caches were not populated'
+            if label=='hit':assert snapshot==cache_snapshot, 'Cache hit recomputed or rewrote frozen features'
+            cache_snapshot=snapshot
+    assert len({r['xsq_sha256'] for r in cache_proofs})==1, 'Frozen cache changed XSQ'
+    assert len({r['band_sha256'] for r in cache_proofs})==1, 'Frozen cache changed band export'
     (out/'verification.json').write_text(json.dumps({'steps':results,'real_audio_source':source.name,
-        'source_lms_preserved':True,'legacy_lor_import_in_vendor_app_verified':False},indent=2)+'\n')
+        'source_lms_preserved':True,'frozen_feature_cache':{'runs':cache_proofs,'hit_reused_exact_npz':True},
+        'legacy_lor_import_in_vendor_app_verified':False},indent=2)+'\n')
 
 
 if __name__=='__main__':main()

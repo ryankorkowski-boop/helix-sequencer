@@ -1507,5 +1507,11 @@
       "path": "docs/core_optimization_20261031/extraction_ast_parity.json",
       "sha256": "281df21f4fa0b531447f0a64bcce3cc239dc8c028c8b8813c188adf13b0305ee"
     }
-  ]
+  ],
+  "pr205_verification": {
+    "folder": "evidence/beta_completion/pr205_verification_20261104",
+    "regression_receipt": "evidence/beta_completion/pr205_verification_20261104/local_regression.json",
+    "owner_approved": false,
+    "native_new_render_verified": false
+  }
 }
