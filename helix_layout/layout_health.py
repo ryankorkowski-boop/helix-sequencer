@@ -27,6 +27,7 @@ class LayoutHealthReport:
     low_density_props_targeted_by_high_detail_effects: list[str] = field(default_factory=list)
     symmetry_errors: list[str] = field(default_factory=list)
     render_cost_risks: list[str] = field(default_factory=list)
+    custom_models_missing_grid: list[str] = field(default_factory=list)
     recommendations: list[str] = field(default_factory=list)
     severity_score: float = 0.0
 
@@ -52,10 +53,20 @@ def build_layout_health_report(layout_path: Path) -> LayoutHealthReport:
     ][:32]
     report.no_center_anchor = "center" not in detect_anchor_points(scene)
     report.render_cost_risks = [name for name, model in parsed.models.items() if model.total_pixels >= 1500][:24]
+    report.custom_models_missing_grid = [
+        name
+        for name, model in parsed.models.items()
+        if not model.is_submodel and getattr(model, "custom_grid_missing", False)
+    ][:64]
     report.recommendations = [
         "Add center-aware groups or anchors for layout-wide motion.",
         "Add submodels for complex props so vocal, rhythm, and hero intents stay readable.",
     ]
+    if report.custom_models_missing_grid:
+        report.recommendations.append(
+            "Custom models without CustomModel or CustomModelCompressed data have no real nodes. "
+            "Add the xLights node grid from the prop wiring. Do not invent a grid."
+        )
     issue_count = sum(
         len(value) if isinstance(value, list) else int(bool(value))
         for key, value in report.to_dict().items()

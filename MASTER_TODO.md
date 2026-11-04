@@ -213,6 +213,48 @@ Do not mark complete from unit tests alone.
 
 **Regression risks:** Tools that expected a top-level element named `Parent/Sub` will now find that node nested. `xsq.elements["Parent/Sub"]` still points at the nested layer.
 
+### 2026-11-04 — Absolute start channels for every xLights address form
+**Branch:** `cursor/main-path-xsq-fixes-41d8`
+
+**Goal:** `>Model:N`, `@Model:N`, `#universe:N`, `#ip:universe:N`, and `!Controller:N` resolve to an absolute start and end channel, with the controller when the networks file can name one. Chains, submodels, and circular references have explicit results.
+
+**Changed:** `core/start_channels.py`, `core/model_parser.py`, `core/controller_parser.py`, `tests/test_start_channels.py`
+
+**Preserved:** A plain integer start channel is still absolute and 1-based. `parse_layout` does not raise; it stores `start_channel_error` on the model. Models with a blank `StartChannel` chain after the previous root model, which is xLights' default when nothing else is set. Helixville4's 105 models all have integer starts, and parsing them reports no resolution errors.
+
+**New behavior:** `layout_channel_count` is the highest resolved end channel. It no longer sums every model's span on top of that end, which was the overestimate. Unresolvable or circular references raise `StartChannelError` from `layout_channel_count` and from `resolve_model_channels(..., strict=True)`. Universe tables come from controller order in `xlights_networks.xml`. A legacy E1.31 row still treats `BaudRate` as the universe number. Submodel channel bounds follow `line` / `subBuffer` node numbers and the parent's channels per node.
+
+**Deviation from xLights:** xLights refuses `>` when the referenced model has no controller. Helix still computes the channel so layouts that never assigned controllers keep working, and fills `controller_name` when a networks span contains the channel.
+
+**Tests:** `tests/test_start_channels.py` covers each format, a three-model chain, submodels, a legacy BaudRate universe, circular and missing references, and the highest-end channel count.
+
+**Limitations:** Individual per-string start channels (`Individual Start Channels`) are not resolved. Controller ports and smart receivers are not modeled; controller spans are the networks file's channel sizes in document order.
+
+**Deferred:** Per-string `StringN` start channels.
+
+**Regression risks:** `layout_channel_count` can now raise on a broken reference, and it can return a smaller number than the old sum. Callers that used the inflated sum to size a preview controller will size to the real last channel instead.
+
+### 2026-11-04 — Custom-model grids use real node numbers
+**Branch:** `cursor/main-path-xsq-fixes-41d8`
+
+**Goal:** `CustomModel` and `CustomModelCompressed` define the node count and the pixel map. Submodel `line` ranges select those node numbers. A custom model with no grid is a layout-health error instead of a width-times-height straight line.
+
+**Changed:** `core/custom_model_grid.py`, `core/model_parser.py`, `helix_layout/layout_health.py`, `tests/test_custom_model_grid.py`
+
+**Preserved:** xLights reads `CustomModelCompressed` when it is non-empty, otherwise `CustomModel`. Layers are `|`, rows `;`, cells `,`. Compressed entries are `node,row,col` or `node,row,col,layer` with 0-based indexes. Values `<= 0` and blank cells are empty. Duplicate node numbers keep the first cell. Image models that use the `CustomModel` class but are not `DisplayAs="Custom"` still use the previous pixel map.
+
+**New behavior:** Node count is the number of distinct node numbers. The pixel map is sorted by node number and placed at cell centers inside the model's world bounds (`WorldPos` through `X2`/`Y2`/`Z2`), with row 0 at the top. Submodel ranges look up `PixelPoint.index` (node number minus 1) instead of a compact list position. A custom model with no positive nodes sets `custom_grid_missing`, `total_pixels=0`, and an empty pixel map. Layout health lists those models. Submodels of a gridless parent do not inherit a fake channel span.
+
+**Helixville4:** All 24 `DisplayAs="Custom"` models in `helixville4/xlights_rgbeffects.xml` have `CustomWidth`/`CustomHeight` 12 and submodel `line0` ranges, and neither `CustomModel` nor `CustomModelCompressed`. They were not regenerated. `tools/build_helpers/helixia.py` writes a similar 12 by 12 placeholder with no grid, but for different names, and `build_helixia_layout` copies the committed file. `models/helixia_props.py` is structure-only and sets `layout_generation` false. `helixville4_full_band.py`, `helixville4_finished_band.py`, and `helixville4_floor_piano.py` do emit `CustomModel` strings, for other model names and sizes (their tests require `CustomWidth` not equal to 12). None of those generators owns the wiring for these 24 models. A real node map from the prop, or from a generator that already knows the node coordinates, is required. Inventing a grid was not done.
+
+**Tests:** `tests/test_custom_model_grid.py` covers both encodings, compressed-over-plain, layers, duplicate nodes, world bounds, submodel node numbers, a missing-grid health error, and the 24 helixville4 models.
+
+**Limitations:** Not loaded in xLights. Per-string `StringN` channel starts inside a custom model are not applied. Multiple buffer coordinates for one node number collapse to the first cell.
+
+**Deferred:** Authoring grids for the 24 helixville4 custom models once a real wiring source exists.
+
+**Regression risks:** Custom models that previously reported `width * height` pixels now report the real node count, or zero when the grid is missing. Sequencing that targeted those fake pixels will see an empty map.
+
 ## Next actions
 1. Preserve the prior known-good drummer behavior as the regression baseline.
 2. Reconcile xLights drummer geometry with the nine canonical composites.

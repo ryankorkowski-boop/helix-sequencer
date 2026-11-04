@@ -729,7 +729,25 @@ class MultiPointModel(Model):
 
 @dataclass
 class CustomModel(Model):
-    pass
+    custom_nodes: list[object] = field(default_factory=list)
+    custom_grid_missing: bool = False
+    grid_width: int = 1
+    grid_height: int = 1
+    grid_depth: int = 1
+
+    def virtual_pixel_map(self) -> list[PixelPoint]:
+        if self.custom_nodes:
+            from core.custom_model_grid import pixels_in_world_bounds
+
+            return pixels_in_world_bounds(self)
+        if self.is_submodel and self.geometry_points:
+            return [
+                PixelPoint(index=idx, x=point[0], y=point[1], z=point[2], string_index=0, node_index=idx)
+                for idx, point in enumerate(self.geometry_points)
+            ]
+        if self.custom_grid_missing or _canonical_display(self.display_as) == "custom":
+            return []
+        return super().virtual_pixel_map()
 
 
 @dataclass
@@ -853,7 +871,7 @@ def _model_from_xml(model_el: ET.Element) -> Model:
         model_cls = StarModel
     else:
         model_cls = CustomModel
-    return model_cls(
+    model = model_cls(
         name=name,
         display_as=display_as,
         type=semantic_type,
@@ -875,6 +893,26 @@ def _model_from_xml(model_el: ET.Element) -> Model:
         is_submodel=False,
         region_role=None,
     )
+    if _canonical_display(display_as) == "custom" and isinstance(model, CustomModel):
+        from core.custom_model_grid import parse_custom_model_attributes
+
+        grid = parse_custom_model_attributes(attrs)
+        if grid is None or not grid.nodes:
+            model.custom_grid_missing = True
+            model.strings = 0
+            model.nodes_per_string = 0
+            model.total_pixels = 0
+        else:
+            string_count = max(1, _first_positive_int(attrs, "CustomStrings", default=1))
+            model.custom_nodes = list(grid.nodes)
+            model.grid_width = grid.width
+            model.grid_height = grid.height
+            model.grid_depth = grid.depth
+            model.custom_grid_missing = False
+            model.strings = string_count
+            model.total_pixels = len(grid.nodes)
+            model.nodes_per_string = max(1, (len(grid.nodes) + string_count - 1) // string_count)
+    return model
 
 
 def _submodel_limit(category: str, semantic_type: str) -> int:
@@ -951,11 +989,13 @@ def _submodel_geometry(parent: Model, sub_el: ET.Element) -> tuple[list[tuple[fl
     if not indexes and attrs.get("subBuffer"):
         indexes.extend(_parse_submodel_indexes(attrs.get("subBuffer", "")))
     parent_pixels = parent.virtual_pixel_map()
-    if indexes and parent_pixels:
+    if indexes:
         seen: set[int] = set()
-        subset = [parent_pixels[idx] for idx in indexes if 0 <= idx < len(parent_pixels) and idx not in seen and not seen.add(idx)]
+        by_index = {point.index: point for point in parent_pixels}
+        subset = [by_index[idx] for idx in indexes if idx in by_index and idx not in seen and not seen.add(idx)]
         if subset:
             return ([(point.x, point.y, point.z) for point in subset], None)
+        return ([], _infer_submodel_role(attrs.get("name", "")))
     role = _infer_submodel_role(attrs.get("name", ""))
     for region in parent.virtual_regions():
         if normalize_name(region.role) == normalize_name(role):
@@ -1003,8 +1043,13 @@ def _build_submodel(parent: Model, sub_el: ET.Element) -> Model | None:
         model_cls = StarModel
     else:
         model_cls = CustomModel
-    total_pixels = max(1, len(geometry_points) if geometry_points else max(1, parent.total_pixels // 3))
-    return model_cls(
+    if geometry_points:
+        total_pixels = len(geometry_points)
+    elif getattr(parent, "custom_grid_missing", False):
+        total_pixels = 0
+    else:
+        total_pixels = max(1, parent.total_pixels // 3)
+    built = model_cls(
         name=full_name,
         display_as="SubModel",
         type=semantic_type,
@@ -1026,6 +1071,12 @@ def _build_submodel(parent: Model, sub_el: ET.Element) -> Model | None:
         is_submodel=True,
         region_role=role or _infer_submodel_role(short_name),
     )
+    if isinstance(built, CustomModel) and getattr(parent, "custom_grid_missing", False):
+        built.custom_grid_missing = True
+        built.strings = 0
+        built.nodes_per_string = 0
+        built.total_pixels = 0
+    return built
 
 
 def _parse_layout_uncached(layout_path: Path) -> ParsedLayout:
