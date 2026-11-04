@@ -8951,6 +8951,7 @@ class TimelineEntry:
     priority: int
     xml_layer: ET.Element
     xml_effect: ET.Element
+    minimum_duration_ms: int | None = None
 
 
 class EffectTimeline:
@@ -9571,15 +9572,17 @@ def validate_sequence_timelines(
             entries.sort(key=lambda item: (item.start, item.end))
             prev_end = -10**9
             for entry in list(entries):
+                entry_minimum = getattr(entry, "minimum_duration_ms", None)
+                minimum = min_len if entry_minimum is None else max(1, int(entry_minimum))
                 length = entry.end - entry.start
-                if length < min_len:
+                if length < minimum:
                     timeline.remove_entry(layer_name, entry)
                     fixes += 1
                     issues.append(f"{model_name}:{layer_name} removed sub-minimum duration effect")
                     continue
                 if entry.start < prev_end:
                     new_start = prev_end
-                    if entry.end - new_start < min_len:
+                    if entry.end - new_start < minimum:
                         timeline.remove_entry(layer_name, entry)
                         fixes += 1
                         issues.append(f"{model_name}:{layer_name} removed overlap that could not be trimmed")
@@ -10878,6 +10881,7 @@ def run_variant(
                 priority=stem_priority,
                 xml_layer=layer_el,
                 xml_effect=xml_effect,
+                minimum_duration_ms=minimum_duration_ms,
             ),
         )
         used_targets.add(nm)

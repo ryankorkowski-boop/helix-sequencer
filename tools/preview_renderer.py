@@ -232,35 +232,48 @@ def parse_sequence(path: Path) -> SequenceData:
     if effects_root is None:
         raise RuntimeError(f"No ElementEffects block found in {path}")
 
+    # Resolve the settings table once. Native pitched props have many key
+    # effects; rebuilding the table for every note makes this quadratic.
+    settings_table = [e.text or "" for e in root.findall("./EffectDB/Effect")]
+
+    def records(effects):
+        nonlocal duration_ms
+        result = []
+        for effect in effects:
+            start_ms = int(float(effect.get("startTime", "0") or 0))
+            end_ms = max(start_ms + 1, int(float(effect.get("endTime", "0") or 0)))
+            duration_ms = max(duration_ms, end_ms)
+            settings = effect.get("settings") or effect.get("Settings") or effect.get("data") or effect.get("Data")
+            ref = effect.get("ref")
+            if ref is not None:
+                if not ref.isdigit() or int(ref) >= len(settings_table):
+                    raise ValueError(f"Invalid native EffectDB reference: {ref}")
+                settings = settings_table[int(ref)]
+            result.append(EffectRecord(
+                name=(effect.get("name") or effect.get("label") or "").strip(),
+                start_ms=start_ms, end_ms=end_ms, settings=settings,
+                palette=effect.get("palette") or effect.get("Palette")))
+        return result
+
     for element in effects_root.findall("Element"):
         name = (element.attrib.get("name") or "").strip()
         kind = (element.attrib.get("type") or "").strip().lower()
         if not name:
             continue
-        layer_records: list[EffectRecord] = []
-        for layer in element.findall("EffectLayer"):
-            for effect in layer.findall("Effect"):
-                eff_name = (effect.attrib.get("name") or effect.attrib.get("label") or "").strip()
-                start_ms = int(float(effect.attrib.get("startTime", "0") or 0))
-                end_ms = int(float(effect.attrib.get("endTime", "0") or 0))
-                if end_ms <= start_ms:
-                    end_ms = start_ms + 1
-                duration_ms = max(duration_ms, end_ms)
-                layer_records.append(
-                    EffectRecord(
-                        name=eff_name,
-                        start_ms=start_ms,
-                        end_ms=end_ms,
-                        settings=effect.attrib.get("settings"),
-                        palette=effect.attrib.get("palette"),
-                    )
-                )
+        layer_records = records(element.findall("./EffectLayer/Effect"))
         if kind == "timing":
             if layer_records:
                 timing_tracks[name] = TimingTrack(name=name, events=layer_records)
         else:
             if layer_records:
-                model_effects[name] = layer_records
+                model_effects.setdefault(name, []).extend(layer_records)
+            for submodel in element.findall("SubModelEffectLayer"):
+                subname = (submodel.get("name") or "").strip()
+                if not subname:
+                    continue
+                subrecords = records(submodel.findall("Effect") + submodel.findall("./EffectLayer/Effect"))
+                if subrecords:
+                    model_effects.setdefault(f"{name}/{subname}", []).extend(subrecords)
 
     # The XML's effect.palette values are zero-based indices into ColorPalettes.
     # Parse only enabled slots, retaining the original palette order.

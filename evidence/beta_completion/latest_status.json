@@ -1,6 +1,6 @@
 {
   "schema": "helix.beta-completion.v1",
-  "updated_at": "2026-11-04T21:38:39.378113+00:00",
+  "updated_at": "2026-11-04T21:52:11.765534+00:00",
   "repository": "https://github.com/ryankorkowski-boop/helix-sequencer",
   "branch": "codex/eight-hour-recovery-20261019",
   "recovered_head": "45f17d69fac91d7683984cc22c54bb701eb2226e",
@@ -1580,7 +1580,7 @@
     }
   ],
   "reconciliation_20261104": {
-    "updated_at": "2026-11-04T21:38:39.378113+00:00",
+    "updated_at": "2026-11-04T21:52:11.765534+00:00",
     "branch": "codex/eight-hour-recovery-20261019",
     "starting_commit": "05c1de55d2e4d747652452ade0d9752d370b55d9",
     "tasks": [
@@ -1614,7 +1614,8 @@
         "acceptance_criteria": "Retain 1e-7 entropy tolerance, exact pitch/event clocks, global tuning and bounded memory across supported numerical backends.",
         "tests_performed": [
           "Reproduced 4 failures under Haswell on pinned Python3.12: max entropy error 2.66020723e-7; unchanged 1e-7 tolerance",
-          "Padding, overlap and float64/einsum probes failed to establish parity; no experimental DSP change applied"
+          "Padding, overlap and float64/einsum probes failed to establish parity; no experimental DSP change applied",
+          "Pinned Python3.11 Haswell also reproduces exactly the same 4 failures; both JUnit receipts retained."
         ],
         "evidence": [
           "https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/41398351091"
@@ -1670,13 +1671,84 @@
         "acceptance_criteria": "Preserve explicit AC Off rests, two short same-pitch notes and native submodel ownership through export; regression suites pass.",
         "tests_performed": [
           "Python3.12: 53 focused tests pass including end-to-end repeated-note native XSQ export and drummer/source3D guards",
-          "Initial new test expected nested EffectLayer but this supported exporter writes direct SubModelEffectLayer/Effect; assertion corrected to inspect actual effects and source timings unchanged"
+          "Initial new test expected nested EffectLayer but this supported exporter writes direct SubModelEffectLayer/Effect; assertion corrected to inspect actual effects and source timings unchanged",
+          "Python3.11 focused set also passes 53 tests; actual 68-event/eight-target cue+mapping+debug payload SHA256 47c9cee53b80c5950ce0e4c0252142d1ec0001af036b3303103a994d7816b904 exactly matches established PR205 control."
         ],
         "evidence": [
           "evidence/beta_completion/reconciliation_20261104/review_fixes_py312.xml"
         ],
         "remaining_work": "Python3.11/full suites and actual native render verification.",
         "next_executable_action": "Complete running tests, render source-matched native XSQ and compare exact target/time/channel output."
+      },
+      {
+        "id": "BETA-ANDROID30-RECON",
+        "priority": "P0",
+        "status": "VERIFIED",
+        "source_files": [
+          "android/app",
+          "evidence/beta_completion/reconciliation_20261104/android30_embedded_source.json"
+        ],
+        "acceptance_criteria": "Independently inspect retained source05c1de5 Android30 instrumentation, full real-audio preview and installed review APK identity.",
+        "tests_performed": [
+          "Downloaded artifact13120509114 and checked archive; extracted source05c1de5 embedded build manifest",
+          "4 instrumentation cases pass,0errors/failures",
+          "237.439979s real source ->237.466708s H264/AAC movie,3562frames,0msaudiooffset,.995714454correlation in CI decode report",
+          "Review APK SHA matches b430b1b6136cb86318c1362d4ef101c0c755d15478e9f61b45eca97ee834ee10; CI signature/launch/co-install receipts inspected"
+        ],
+        "evidence": [
+          "evidence/beta_completion/reconciliation_20261104/android30_review-install.json",
+          "evidence/beta_completion/reconciliation_20261104/android30_decoded-verification.json"
+        ],
+        "remaining_work": "Current fixes need current source build; physical phone and historical in-place upgrade unverified. This does not claim universal Android beta readiness.",
+        "next_executable_action": "After final implementation, run supported Android API30/36 CI and verify current APK source/signing/full-song output."
+      },
+      {
+        "id": "BETA-NATIVE-CURRENT",
+        "priority": "P0",
+        "status": "IN_PROGRESS",
+        "source_files": [
+          "tools/native_preview.py",
+          "tools/build_current_comparison.py",
+          "models/source_drummer_3d.py"
+        ],
+        "acceptance_criteria": "Actual pinned native xLights FSEQ/XSQ/current audio renders with verified channels, hashes and independent video checks.",
+        "tests_performed": [
+          "Pinned renderer and wx hashes verified; approved Drum1 reference restored byte-identically",
+          "Actual failed pilot frames inspected: distant/dim drummer; failed motion gate remains accurate",
+          "Fresh engine sequencing approved34.88s hook in progress; Ubuntu24 native runtime installing"
+        ],
+        "evidence": [
+          "evidence/beta_completion/reconciliation_20261104/drummer_oracle.json"
+        ],
+        "remaining_work": "Finish runtime, generate current native AC/band/face views, execute rendering and checks.",
+        "next_executable_action": "Complete source-current staging, build native views1/2/6 and render in isolated owned Xvfb session."
+      },
+      {
+        "id": "BETA-SOURCE-TIMING-PREVIEW",
+        "priority": "P0",
+        "status": "IN_PROGRESS",
+        "source_files": [
+          "core/effect_engine.py",
+          "core/audit.py",
+          "core/sequence_builder.py",
+          "tools/preview_renderer.py",
+          "tests/test_native_face_instructions.py",
+          "tests/test_preview_source_binding.py",
+          "tests/test_preview_renderer.py"
+        ],
+        "acceptance_criteria": "Short valid native phonemes survive both final validation/audit passes; per-song preview soundtracks match XSQ media; native key submodels remain visible independently in previews.",
+        "tests_performed": [
+          "35 focused Python3.12 cases targeted; Python3.11 previous34 pass before added audit overlap case",
+          "Real note-writer -> preview-parser -> intensity regression retains exact short-note rest and unlit other rung",
+          "Batch mux/provenance binding regression for two distinct inputs; mismatched/ambiguous media fails instead of silently using first audio",
+          "Native short113\u2013137ms mouth cue survives both passes while ordinary24ms On still obeys50ms minimum"
+        ],
+        "evidence": [
+          "evidence/beta_completion/reconciliation_20261104/source_timing_preview_py312.xml",
+          "evidence/beta_completion/reconciliation_20261104/source_timing_preview_py311.xml"
+        ],
+        "remaining_work": "Final focused Python3.11 and full final-source suites; actual native current media checks.",
+        "next_executable_action": "Run final focused matrix and complete full gate after source changes are committed."
       }
     ],
     "owner_approval": "OWNER_APPROVAL_REQUIRED",
@@ -1688,6 +1760,89 @@
       "pilot_zip": "/workspace/helix-inputs/pilot-diagnostic.zip",
       "pilot_sha256": "f5553debdcc030be13641fa98e374040fd7d578f78a19369a7b61ecec377efa9",
       "artifact_download": "GitHub CLI blob redirect denied; connected GitHub artifact download materialized successfully. Returned authenticated file references downloaded locally; CRC/extraction completed."
-    }
+    },
+    "current_commit": "7aa91ebc619d25e718b4fd22a784339c9796a15c",
+    "full_suite_threefixes": {
+      "python311": "2326 passed,6existing skips,24subtests,645.61s",
+      "python312": "2325 passed,1failed new-test lookup loaded before its correction,6existing skips,24subtests,572.95s",
+      "note": "These suites started before the new timing/preview changes. The Python3.12 failure was the old nested-layer test lookup; corrected real-export test passes focused sets. Neither is a final-source portability pass; Haswell fails4cases independently."
+    },
+    "source3d_media": {
+      "file": "canonical-source3D-candidate.mp4",
+      "sha256": "ca7e6c4093ccce2f3f6468bfa883fc51c6b26127d70bdb4d38a02671328bbead",
+      "bytes": 5783880,
+      "source_audio": "Phoneme_Test_Hook.mp3",
+      "source_audio_sha256": "19e90c273d0d747938f24b36586b50818c104cddffbefe4a4128927374301938",
+      "source_duration_seconds": 34.88,
+      "codecs": [
+        "h264",
+        "aac"
+      ],
+      "dimensions": [
+        1920,
+        1080
+      ],
+      "actual_frame_rate": "20/1",
+      "actual_frame_count": "698",
+      "video_duration_seconds": 34.9,
+      "audio_duration_seconds": 34.88,
+      "stream_start_seconds": [
+        0.0,
+        0.0
+      ],
+      "full_decode": true,
+      "soundtrack_correlation": 0.999018237103682,
+      "window_alignment": [
+        {
+          "source_start_seconds": 3.488,
+          "decoded_lag_seconds": 0.0
+        },
+        {
+          "source_start_seconds": 17.44,
+          "decoded_lag_seconds": 0.0
+        },
+        {
+          "source_start_seconds": 29.648,
+          "decoded_lag_seconds": 0.0
+        },
+        {
+          "source_start_seconds": 32.83,
+          "decoded_lag_seconds": 0.0
+        }
+      ],
+      "musical_or_visual_acceptance": false,
+      "readability": {
+        "schema": "helix.showcase_readability.v1",
+        "frames": 70,
+        "sample_fps": 2,
+        "thresholds": {
+          "median_luma": 12.0,
+          "median_bright_fraction": 0.012,
+          "median_motion": 0.65,
+          "min_visible_width": 0.4,
+          "min_visible_height": 0.35
+        },
+        "measurements": {
+          "median_luma": 32.69,
+          "median_bright_fraction": 0.17157,
+          "median_motion": 1.062,
+          "visible_width": 0.794,
+          "visible_height": 0.522
+        },
+        "checks": {
+          "visible_stage_width": true,
+          "visible_stage_height": true,
+          "median_stage_luminance": true,
+          "bright_stage_area": true,
+          "visible_stage_motion": true,
+          "opening_static_cast_framing": true
+        },
+        "passed": true,
+        "note": "Quantitative visibility gate only; no artistic, musical or source classification approval"
+      },
+      "path": "/workspace/helix-work/native-current/canonical-source3D-candidate.mp4",
+      "acceptance": "Technical candidate only; independent singer identity/lexical and owner acceptance remain open. Not a native xLights video."
+    },
+    "native_runtime_recovery": "Ubuntu24 dependency install initially hit filesystem limit; removed failed duplicate venv and reuses installed pinned3.12 workspace wheels. Fixed GTK library mixing and adjacent official resources after first GUI abort; native headless FSEQ succeeds on AC and173712-channel band. Current native MP4 rendering in progress; no fallback counted as success."
   }
 }

@@ -8,6 +8,47 @@ from pathlib import Path
 from tools.preview_renderer import parse_models
 
 
+def test_native_note_export_remains_visible_only_on_its_selected_rung(tmp_path):
+    import numpy as np
+    from core.native_pitched_props import apply_native_pitched_props
+    from tests.test_magic_keyboard_export import fixture
+    from tools.preview_renderer import parse_sequence, LayoutData, ModelGeom, build_leaf_intensity_matrix
+    import json
+
+    source, layout = fixture(tmp_path)
+    tree = ET.parse(source)
+    ET.SubElement(tree.find('head'), 'sequenceDuration').text = '1.0'
+    tree.write(source)
+    plan = tmp_path/'band.json'
+    plan.write_text(json.dumps({'cues': {'keyboardist': [
+        dict(start_ms=100, end_ms=140, pitch_midi=60, pitch_source='helix_harmonic_polyphony'),
+        dict(start_ms=180, end_ms=220, pitch_midi=60, pitch_source='helix_harmonic_polyphony')]}}))
+    apply_native_pitched_props(source, layout, plan)
+    name = 'HX_CENTER_KEYBOARD_HELIX/KEY_MIDI_060'
+    parsed = parse_sequence(source)
+    assert [(e.start_ms, e.end_ms) for e in parsed.model_effects[name]] == [(100, 140), (180, 220)]
+    assert parsed.model_effects[name][0].settings.startswith('E_TEXTCTRL_Eff_On_Start=100')
+    geometry = {n: ModelGeom(n, i, 0, i, 1, ((i, 0), (i, 1)), 'Custom', (255, 255, 255))
+                for i, n in enumerate([name, 'HX_CENTER_KEYBOARD_HELIX/KEY_MIDI_064'])}
+    names, values = build_leaf_intensity_matrix(LayoutData(geometry, {}, (0, 0, 1, 1)), parsed, fps=100)
+    assert np.all(values[names.index(name), 10:14] > 0)
+    assert not np.any(values[names.index(name), 14:18])
+    assert np.all(values[names.index(name), 18:22] > 0)
+    assert not np.any(values[names.index('HX_CENTER_KEYBOARD_HELIX/KEY_MIDI_064')])
+
+
+def test_nested_native_submodel_layers_share_named_preview_target(tmp_path):
+    from tools.preview_renderer import parse_sequence
+
+    path = tmp_path/'nested.xsq'
+    path.write_text('<xsequence><head><sequenceDuration>1</sequenceDuration></head>'
+                    '<ElementEffects><Element type="model" name="Keys">'
+                    '<SubModelEffectLayer name="KEY_60"><EffectLayer>'
+                    '<Effect name="On" startTime="100" endTime="140"/>'
+                    '</EffectLayer></SubModelEffectLayer></Element></ElementEffects></xsequence>')
+    assert set(parse_sequence(path).model_effects) == {'Keys/KEY_60'}
+
+
 class PreviewRendererTests(unittest.TestCase):
     def _write_layout(self, root: ET.Element) -> Path:
         tempdir = tempfile.TemporaryDirectory()

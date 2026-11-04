@@ -657,6 +657,27 @@ def _publish_native_lor_lms(
         )
 
 
+def _preview_audio_for_sequence(source: Path, audio_inputs: list[Path]) -> Path | None:
+    """Resolve each soundtrack from its XSQ media identity before muxing."""
+    import xml.etree.ElementTree as ET
+
+    root = ET.parse(source).getroot()
+    media = (root.findtext("./head/mediaFile") or root.findtext("./head/MediaFile") or "").strip()
+    if media:
+        declared = Path(media)
+        candidate = declared if declared.is_absolute() else source.parent / declared
+        if candidate.is_file():
+            return candidate
+        basename = media.replace("\\", "/").rsplit("/", 1)[-1].casefold()
+        matches = [p for p in audio_inputs if p.name.casefold() == basename]
+        if len(matches) == 1 and matches[0].is_file():
+            return matches[0]
+        raise RuntimeError(f"Preview soundtrack could not be resolved for {source.name}: {media}")
+    if len(audio_inputs) > 1:
+        raise RuntimeError(f"Batch preview requires per-sequence media identity: {source.name}")
+    return audio_inputs[0] if audio_inputs else None
+
+
 def _render_new_previews(
     roots: Iterable[Path],
     before: dict[Path, tuple[int, int]],
@@ -680,12 +701,18 @@ def _render_new_previews(
     if not paths:
         raise RuntimeError("Preview requested, but no new XSQ output was found")
     args = list(engine_args or [])
-    audio = next(
-        (Path(args[i + 1]) for i, a in enumerate(args[:-1]) if a == "--audio"),
-        None,
-    )
+    audio_inputs = []
+    collecting_audio = False
+    for arg in args:
+        if arg == "--audio":
+            collecting_audio = True
+        elif arg.startswith("--"):
+            collecting_audio = False
+        elif collecting_audio:
+            audio_inputs.append(Path(arg))
     parsed = parse_models(layout)
     for source in paths:
+        audio = _preview_audio_for_sequence(source, audio_inputs)
         preview = render_sequence_to_mp4(
             sequence_path=source,
             layout=parsed,

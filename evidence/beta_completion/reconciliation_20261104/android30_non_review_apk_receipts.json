@@ -1,0 +1,14 @@
+[
+  {
+    "path": "/workspace/helix-inputs/13120509114/outputs/apk/debug/app-debug.apk",
+    "bytes": 144523301,
+    "sha256": "360d5946401ea9db863ae532354f9ff5a78543e4967e5c4464160b54f0321c84",
+    "retained_in_actions_artifact": 13120509114
+  },
+  {
+    "path": "/workspace/helix-inputs/13120509114/outputs/apk/release/app-release-unsigned.apk",
+    "bytes": 112015237,
+    "sha256": "3b69eac000eee0d30792a6f3fedadd63c556e714d8acdb5e4a46daab42a8c2e2",
+    "retained_in_actions_artifact": 13120509114
+  }
+]

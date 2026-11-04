@@ -24,6 +24,44 @@ def test_missing_mapping_cannot_become_a_body_strobe_or_invented_phoneme():
     assert face_template({"target_model": "Lead", "mouth_shape": "mouth_A"}, [face], None) is None
 
 
+def test_short_native_phonemes_survive_both_final_validation_and_audit_passes():
+    from core.effect_engine import EffectTimeline, TimelineEntry, validate_sequence_timelines
+    from core.audit import run_super_audit
+
+    timeline = EffectTimeline()
+    layer = ET.Element('EffectLayer')
+    face = ET.SubElement(layer, 'Effect', name='Faces', startTime='113', endTime='137')
+    timeline.add('accent', TimelineEntry(113, 137, 'Faces', 3, layer, face, minimum_duration_ms=1))
+    ordinary = ET.SubElement(layer, 'Effect', name='On', startTime='200', endTime='224')
+    timeline.add('base', TimelineEntry(200, 224, 'On', 1, layer, ordinary))
+    timelines = {'Lead': timeline}
+    fixes, _ = validate_sequence_timelines(timelines, min_effect_ms=50)
+    assert fixes == 1 and ordinary not in list(layer)
+    run_super_audit(timelines=timelines, parts=[], min_effect_ms=50, auto_fix=True)
+    fixes, _ = validate_sequence_timelines(timelines, min_effect_ms=50)
+    run_super_audit(timelines=timelines, parts=[], min_effect_ms=50, auto_fix=False)
+    assert fixes == 0
+    assert [(e.get('name'), e.get('startTime'), e.get('endTime')) for e in layer] == [
+        ('Faces', '113', '137')]
+
+
+def test_audit_resolves_short_native_overlap_with_its_placement_minimum():
+    from core.effect_engine import EffectTimeline, TimelineEntry, validate_sequence_timelines
+    from core.audit import run_super_audit
+
+    timeline = EffectTimeline()
+    layers = [ET.Element('EffectLayer'), ET.Element('EffectLayer')]
+    keep = ET.SubElement(layers[0], 'Effect', name='Faces', startTime='50', endTime='120')
+    short = ET.SubElement(layers[1], 'Effect', name='Faces', startTime='113', endTime='137')
+    timeline.add('base', TimelineEntry(50, 120, 'Faces', 3, layers[0], keep, minimum_duration_ms=1))
+    timeline.add('accent', TimelineEntry(113, 137, 'Faces', 2, layers[1], short, minimum_duration_ms=1))
+    result = run_super_audit(timelines={'Lead': timeline}, parts=[], min_effect_ms=50, auto_fix=True)
+    assert result.fixes_applied == 1
+    assert short in list(layers[1])
+    assert (short.get('startTime'), short.get('endTime')) == ('120', '137')
+    assert validate_sequence_timelines({'Lead': timeline}, min_effect_ms=50)[0] == 0
+
+
 def test_unsupported_phoneme_is_reported_unresolved():
     face = SingingFace("Backup", "Owner face", "NodeRange", {"Mouth-O": "4"}, "layout")
     assert face_template({"target_model": "Backup", "mouth_shape": "mouth_FV"}, [face], None) is None
