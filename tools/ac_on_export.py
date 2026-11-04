@@ -160,6 +160,11 @@ def export_ac_on(source: Path, layout: Path, destination: Path, *,
         leaves = _leaves(target, models, groups)
         for effect in element.findall("./EffectLayer/Effect"):
             input_count += 1
+            # An explicit blackout is not an activation interval. Including
+            # it here would merge the rest into its preceding On pulse.
+            if (effect.get("name") or "").strip().lower() == "off":
+                excluded_effects += 1
+                continue
             if not leaves:
                 excluded_effects += 1
                 unmapped_targets.add(target)

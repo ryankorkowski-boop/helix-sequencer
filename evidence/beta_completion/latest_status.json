@@ -1,6 +1,6 @@
 {
   "schema": "helix.beta-completion.v1",
-  "updated_at": "2026-11-04T21:32:00.258993+00:00",
+  "updated_at": "2026-11-04T21:38:39.378113+00:00",
   "repository": "https://github.com/ryankorkowski-boop/helix-sequencer",
   "branch": "codex/eight-hour-recovery-20261019",
   "recovered_head": "45f17d69fac91d7683984cc22c54bb701eb2226e",
@@ -1580,7 +1580,7 @@
     }
   ],
   "reconciliation_20261104": {
-    "updated_at": "2026-11-04T21:32:00.258993+00:00",
+    "updated_at": "2026-11-04T21:38:39.378113+00:00",
     "branch": "codex/eight-hour-recovery-20261019",
     "starting_commit": "05c1de55d2e4d747652452ade0d9752d370b55d9",
     "tasks": [
@@ -1606,20 +1606,21 @@
       {
         "id": "BETA-CHROMA-PORTABILITY",
         "priority": "P0",
-        "status": "IN_PROGRESS",
+        "status": "FAILED",
         "source_files": [
           "core/audio_intelligence.py",
           "tests/test_bounded_audio.py"
         ],
         "acceptance_criteria": "Retain 1e-7 entropy tolerance, exact pitch/event clocks, global tuning and bounded memory across supported numerical backends.",
         "tests_performed": [
-          "Live Python3.12 failure logs confirmed four cases, not just three tails"
+          "Reproduced 4 failures under Haswell on pinned Python3.12: max entropy error 2.66020723e-7; unchanged 1e-7 tolerance",
+          "Padding, overlap and float64/einsum probes failed to establish parity; no experimental DSP change applied"
         ],
         "evidence": [
           "https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/41398351091"
         ],
-        "remaining_work": "Reproduce, diagnose and repair.",
-        "next_executable_action": "OPENBLAS_CORETYPE=Haswell OPENBLAS_NUM_THREADS=2 /workspace/helix-venv/bin/python -m pytest -q tests/test_bounded_audio.py -k \"bounded_classifier or partial_blocks\""
+        "remaining_work": "Numerically portable bounded transform still required; cannot infer success from default-kernel passes.",
+        "next_executable_action": "Verify Python3.11 reproduction and retain backend diagnosis."
       },
       {
         "id": "BETA-NINE-DELIVERY",
@@ -1653,9 +1654,40 @@
         ],
         "remaining_work": "Complete technical work and provide reviewable artifacts.",
         "next_executable_action": "Keep PR188 unmerged and beta unpublished while completing technical gates."
+      },
+      {
+        "id": "BETA-REVIEW-REGRESSIONS",
+        "priority": "P0",
+        "status": "IN_PROGRESS",
+        "source_files": [
+          "core/snowman_band.py",
+          "tools/ac_on_export.py",
+          "tools/spatial_choreography.py",
+          "tests/test_ac_on_export.py",
+          "tests/test_native_pitched_props.py",
+          "tests/test_spatial_choreography.py"
+        ],
+        "acceptance_criteria": "Preserve explicit AC Off rests, two short same-pitch notes and native submodel ownership through export; regression suites pass.",
+        "tests_performed": [
+          "Python3.12: 53 focused tests pass including end-to-end repeated-note native XSQ export and drummer/source3D guards",
+          "Initial new test expected nested EffectLayer but this supported exporter writes direct SubModelEffectLayer/Effect; assertion corrected to inspect actual effects and source timings unchanged"
+        ],
+        "evidence": [
+          "evidence/beta_completion/reconciliation_20261104/review_fixes_py312.xml"
+        ],
+        "remaining_work": "Python3.11/full suites and actual native render verification.",
+        "next_executable_action": "Complete running tests, render source-matched native XSQ and compare exact target/time/channel output."
       }
     ],
     "owner_approval": "OWNER_APPROVAL_REQUIRED",
-    "final_acceptance": "BLOCKED"
+    "final_acceptance": "BLOCKED",
+    "user_vocal_sources": "Owner reports no isolated lead/harmony or verified transcripts; existing MDX/VAD clocks remain estimates.",
+    "native_inputs": {
+      "renderer_zip": "/workspace/helix-native/renderer.zip",
+      "renderer_sha256": "39e52c8f2034db05888a2c6b6513a8e80307f68890ab62b89ab393947075bf73",
+      "pilot_zip": "/workspace/helix-inputs/pilot-diagnostic.zip",
+      "pilot_sha256": "f5553debdcc030be13641fa98e374040fd7d578f78a19369a7b61ecec377efa9",
+      "artifact_download": "GitHub CLI blob redirect denied; connected GitHub artifact download materialized successfully. Returned authenticated file references downloaded locally; CRC/extraction completed."
+    }
   }
 }

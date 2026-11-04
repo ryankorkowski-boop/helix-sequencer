@@ -24,3 +24,23 @@ def test_ordinary_layouts_do_not_require_band_inputs_or_change_output(tmp_path):
     layout=tmp_path/'layout.xml';layout.write_text('<xrgb><models><model name="House"/></models></xrgb>')
     assert apply_native_pitched_props(sequence,layout,tmp_path/'missing.json') is None
     assert sequence.read_text()=='protected source'
+
+
+def test_repeated_short_source_notes_retain_rest_through_native_export(tmp_path):
+    from types import SimpleNamespace
+    from core.snowman_band import _build_keyboard_note_cues
+
+    notes = [SimpleNamespace(start_ms=start, end_ms=end, notes=[(60, .8)])
+             for start, end in ((100, 140), (180, 220))]
+    cues = _build_keyboard_note_cues(notes, [])
+    assert [(cue['start_ms'], cue['end_ms']) for cue in cues] == [(100, 140), (180, 220)]
+    sequence, layout = fixture(tmp_path)
+    root = ET.parse(sequence)
+    ET.SubElement(root.getroot().find('head'), 'sequenceDuration').text = '1.0'
+    root.write(sequence)
+    plan = tmp_path/'band.json'
+    plan.write_text(json.dumps({'cues': {'keyboardist': cues}}))
+    apply_native_pitched_props(sequence, layout, plan)
+    effects = ET.parse(sequence).findall(".//SubModelEffectLayer[@name='KEY_MIDI_060']//Effect")
+    assert [(effect.get('startTime'), effect.get('endTime')) for effect in effects] == [
+        ('100', '140'), ('180', '220')]

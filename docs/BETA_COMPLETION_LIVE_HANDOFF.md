@@ -1,3 +1,11 @@
+## 4 November — focused export corrections implemented, verification in progress
+
+Goal: close genuine PR188 review defects without unrelated optimization. Changed core/snowman_band.py, tools/ac_on_export.py and tools/spatial_choreography.py plus targeted tests. Explicit valid note ends now retain the real inter-note rest; Off effects cannot become AC On pulses; whole-model spatial accents respect nested and direct submodel effects. Preserve AC channel/color mapping, event detector/oracle/assets and existing effect gates. Source-specific output changes are intentional fixes, not parity claims.
+
+Python3.12 focused set:53 passed, including exact100–140/180–220ms key export and original AC/source3D/drummer guards. Initial new test used a nested layer shape absent from this exporter; corrected lookup to actual Effect nodes, retaining exact time assertions. Python3.11 and complete suite running. Full suite first stopped at3 missing Torch imports; installed CPU Torch and Whisper instead of skipping tests, then restarted. Haswell chroma reproduction remains4 failures; padding/higher-precision probes did not prove conformance and production DSP stays unchanged.
+
+Recovered actual pinned renderer and failed native pilot archives with checksums in reconciliation checkpoint. Ubuntu24 runtime installation in progress; the failed pilot remains diagnostic. Owner has no isolated vocal sources/transcripts, so MDX/VAD vocal clocks remain confidence-labeled estimates. Next three actions: finish focused/full matrices; validate actual native export with recovered runtime; repair remaining source-clock/preview defects and resume the frozen nine when objective qualifications permit. No merge/publication/acceptance.
+
 ## 4 November — autonomous reconciliation and release hold
 
 Goal: finish frozen PR188 scope from current recovery head `05c1de55d2e4d747652452ade0d9752d370b55d9`; PR205 remains isolated at `9f247bf54c5322dc888a43b8f30d205b55075de0`. Live metadata, CI jobs/logs and frozen nine filenames are saved in `evidence/beta_completion/reconciliation_20261104/`. Read that checkpoint for task IDs, criteria, source files, tests and next actions. Historical entries below remain source-specific; old workspace paths are not current delivery proof.

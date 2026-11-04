@@ -46,7 +46,7 @@ def _event_end_ms(event: Any, fallback_ms: int = 140) -> int:
     start_ms = _event_start_ms(event)
     explicit_end = getattr(event, "end_ms", None)
     if explicit_end is not None:
-        return max(start_ms + fallback_ms, int(explicit_end))
+        return max(start_ms + 1, int(explicit_end))
     duration = getattr(event, "duration_ms", None)
     if duration is not None:
         return max(start_ms + 1, start_ms + int(duration))

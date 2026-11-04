@@ -104,7 +104,9 @@ def add_spatial_accents(xsq: Path, layout: Path, output: Path, *,
                 row = ET.SubElement(element_root, "Element", {"type": "model", "name": name})
                 by_name[name] = row
             # Do not overlay a showpiece on the model's own existing effects.
-            existing = list(row.findall("./EffectLayer/Effect"))
+            # Native pitched props own their individual key/rung layers.
+            # Whole-model light would erase that pitch-specific performance.
+            existing = list(row.findall(".//Effect"))
             if any(int(e.get("startTime", "0")) < end and
                    int(e.get("endTime", "0")) > t for e in existing):
                 continue

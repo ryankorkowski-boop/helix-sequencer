@@ -89,6 +89,24 @@ def test_rgb_only_layout_must_fail_closed(tmp_path):
     assert not out.exists()
 
 
+def test_explicit_off_intervals_preserve_blackout_between_ac_pulses(tmp_path):
+    l, source, output = (tmp_path / name for name in ("layout.xml", "raw.xsq", "ac.xsq"))
+    layout(l)
+    xsq(source)
+    tree = ET.parse(source)
+    layer = tree.find("./ElementEffects/Element[@name='Mixed nested']/EffectLayer")
+    layer.clear()
+    for kind, start, end in (("On", 0, 100), ("Off", 100, 1000), ("On", 1000, 1100)):
+        ET.SubElement(layer, "Effect", name=kind, startTime=str(start), endTime=str(end))
+    tree.write(source)
+    export_ac_on(source, l, output)
+    root = ET.parse(output)
+    for name in ("R", "G", "W"):
+        effects = root.findall(f"./ElementEffects/Element[@name='{name}']/EffectLayer/Effect")
+        assert [(e.get("startTime"), e.get("endTime")) for e in effects] == [
+            ("0", "100"), ("1000", "1100")]
+
+
 def test_no_mapped_source_effects_is_an_error(tmp_path):
     l, source, out = (tmp_path / p for p in ("mixed.xml", "raw.xsq", "out.xsq"))
     layout(l)

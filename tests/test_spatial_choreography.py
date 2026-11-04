@@ -51,3 +51,19 @@ def test_spatial_never_fabricates_ac_rgb_models(tmp_path):
     result = add_spatial_accents(xsq, layout, out)
     assert result["added"] == 0
     assert not out.exists()
+
+
+def test_spatial_accents_respect_native_key_submodel_activity(tmp_path):
+    layout, xsq = _assets(tmp_path)
+    tree = ET.parse(xsq)
+    row = ET.SubElement(tree.find("ElementEffects"), "Element", type="model", name="m0")
+    submodel = ET.SubElement(row, "SubModelEffectLayer", name="KEY_60")
+    layer = ET.SubElement(submodel, "EffectLayer")
+    ET.SubElement(layer, "Effect", name="On", startTime="1000", endTime="1100")
+    tree.write(xsq)
+    out = tmp_path / "spatial.xsq"
+    report = add_spatial_accents(xsq, layout, out)
+    assert report["added"] == 3
+    keyboard = ET.parse(out).find("./ElementEffects/Element[@name='m0']")
+    assert not keyboard.findall("./EffectLayer/Effect")
+    assert keyboard.find("./SubModelEffectLayer/EffectLayer/Effect").get("endTime") == "1100"
