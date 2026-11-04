@@ -1,8 +1,24 @@
 # Repository audit
 
-Date: 2026-11-04. Scope: static reachability, caller search, and a pytest baseline. This change does not alter sequencing behavior.
+Date: 2026-11-04. Scope: static reachability, caller search, and a pytest baseline.
 
-The beta roadmap still applies. Do not rewrite `core/effect_engine.py` before the beta safety work. Prefer a wrapper, a staged extraction, or a documented deferral over a deletion that the GUI or CLI might still reach.
+## Implemented after the audit
+
+These follow-ups landed without rewriting `effect_engine`:
+
+- Removed the dead first copies of the seven `sequence_builder` artifact helpers, and removed uncalled `available_versions` / `run_version`.
+- `RunConfig.promote_orchestrated_template` now defaults off, and `to_engine_args()` emits the matching flag. The unused `RunManager` copy inside `core/run_spine.py` and `core/run_config_v2.py` are gone. The live manager remains `core/run_manager.py`.
+- The run manifest records `effective_engine_args` and writes `effective_engine_args.txt`. Beat-grid flags are still stripped unless the operator passed them.
+- `--birdsong` no longer writes the synthetic Issue 2 manifest. That manifest is opt-in via `--birdsong-issue2-demo`.
+- The GUI sends `--no-matrix-intelligence` when Matrix is off, sends workspace-history flags instead of `--learn-from-my-xsqs`, and locks polish, shortlist, and history while Vendor bar is on.
+- The drummer checkbox defaults off and, when enabled, injects into the newest canonical XSQ after a successful build.
+- `docs/core_dependency_graph.md` is marked historical. `docs/SUPPORT_MATRIX.md` states which file to import.
+
+Still deferred, on purpose: splitting `effect_engine.py` or `xsq_writer.py`, merging style engines, deleting `helix_*` / Wadena / learning packages, and turning BeatGrid effect-row snapping on.
+
+## Original findings
+
+The notes below describe the tree at audit time. Items listed under "Implemented after the audit" are already changed. The beta roadmap still applies. Do not rewrite `core/effect_engine.py` before the beta safety work. Prefer a wrapper, a staged extraction, or a documented deferral over a deletion that the GUI or CLI might still reach.
 
 ## How this was measured
 

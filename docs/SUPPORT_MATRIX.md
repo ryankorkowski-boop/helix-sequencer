@@ -82,6 +82,17 @@ Repo-safe fixtures live under `tests/fixtures/beta_demo/`. They are intentionall
 | **Display** | Not required for headless tests | GUI launch and xLights visual import still require separate manual evidence. |
 | **FFmpeg** | Via `imageio-ffmpeg` where possible | Native system FFmpeg may still be needed for workflows outside the beta smoke gate. |
 
+## Beta operator path
+
+- The supported profile for beta is `master` (`v27.3`). `python main.py --list-profiles` shows that profile. Other style ids still resolve only if passed explicitly, and they use the same effect engine.
+- The file to import in xLights is the effect-engine XSQ (`{audio},{version}.xsq`). `{audio}.orchestrated.xsq` is a sidecar from a fixed planning graph. It is not the audio sequence unless `--promote-orchestrated-template` is passed.
+- Prime BeatGrid flags are not applied to effect rows on a default run. Pass `--snap-grid` yourself when you want that post-pass. The run manifest field `effective_engine_args` is the argv `effect_engine` actually receives.
+- "Helix workspace history" scans prior Helix-generated XSQs. It does not learn from arbitrary user sequences. `--learn-from-my-xsqs` does not change the sequence.
+- Vendor bar forces polish, auto-shortlist, and workspace history. The GUI disables those checkboxes while Vendor bar is on and sends the forced flags.
+- Turning Matrix Intelligence off sends `--no-matrix-intelligence`.
+- `--birdsong` is the effect-engine birdsong path. `--birdsong-issue2-demo` writes a separate synthetic manifest and does not replace the XSQ.
+- `launch_sequencer_app.cmd` opens `gui_launcher_drummer.py` when that file is present. Drummer V3 injection is off until its checkbox is enabled. The ground-truth button is a separate preview tool, not `main.py`.
+
 ## Known Limitations
 
 - **xLights import evidence:** Generated artifacts must be manually imported/opened in xLights before making production-quality claims.

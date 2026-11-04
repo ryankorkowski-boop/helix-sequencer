@@ -77,6 +77,26 @@ Do not mark complete from unit tests alone.
 
 ## Change Ledger
 
+### 2026-11-04 — Apply the safe audit fixes
+**Agent:** Cursor cloud agent
+**Branch:** `cursor/audit-quick-wins-e706`
+
+**Goal:** Make the GUI controls and the run manifest match what the engine does, and delete duplicate dead code the audit identified.
+
+**Changed:** `core/sequence_builder.py`, `core/run_manager.py`, `core/run_spine.py`, `core/operator_command.py`, `core/engine_profiles.py`, `gui_launcher.py`, `gui_launcher_drummer.py`, `docs/SUPPORT_MATRIX.md`, `docs/core_dependency_graph.md`, `docs/REPO_AUDIT.md`, tests for the command builder and effective args. Removed `core/run_config_v2.py` and the unused `RunManager` inside `run_spine.py`.
+
+**Preserved:** `effect_engine` sequencing, orchestrator sidecar-by-default, and BeatGrid stripping unless `--snap-grid` is explicit. Vendor bar still forces polish, shortlist, and workspace history.
+
+**New behavior:** Matrix off sends `--no-matrix-intelligence`. The learn checkbox is now workspace history and is locked while Vendor bar is on. `--birdsong` does not write the synthetic Issue 2 manifest. The drummer checkbox is off by default and injects only when checked. Manifests record `effective_engine_args`.
+
+**Tests:** `tests/test_operator_command.py`, `tests/test_sequence_builder_effective_args.py`, plus the existing sequence-builder and run-config tests.
+
+**Limitations:** Drummer injection still depends on `tools/integrate_drummer_v3_into_xsq.py` and librosa. Effect-row beat snapping is still not on the default path.
+
+**Deferred:** Engine extraction, style-engine merge, and deletion of the experimental `helix_*` packages.
+
+**Regression risk:** A GUI run with Matrix unchecked now disables matrix planning. A run that only passed `--birdsong` no longer writes `birdsong_runtime_manifest.json`.
+
 ### 2026-11-04 — Repository reachability audit (report only)
 **Agent:** Cursor cloud agent
 **Branch:** `cursor/repo-audit-e706`

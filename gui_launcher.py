@@ -8,6 +8,8 @@ import webbrowser
 import tkinter as tk
 from tkinter import filedialog, messagebox, ttk
 
+from core.operator_command import build_operator_command, operator_run_notes
+
 
 ROOT = Path(__file__).resolve().parent
 
@@ -44,7 +46,7 @@ class HelixGui(tk.Tk):
         self.matrix_var = tk.BooleanVar(value=True)
         self.polish_var = tk.BooleanVar(value=True)
         self.shortlist_var = tk.BooleanVar(value=True)
-        self.learn_xsq_var = tk.BooleanVar(value=True)
+        self.workspace_history_var = tk.BooleanVar(value=True)
 
         self.birdsong_var = tk.BooleanVar(value=True)
         self.birdsong_auto_var = tk.BooleanVar(value=True)
@@ -115,9 +117,18 @@ class HelixGui(tk.Tk):
 
         ttk.Checkbutton(controls, text="Vendor Bar", variable=self.vendor_bar_var).grid(row=1, column=0, sticky="w", **pad)
         ttk.Checkbutton(controls, text="Matrix Intelligence", variable=self.matrix_var).grid(row=1, column=1, sticky="w", **pad)
-        ttk.Checkbutton(controls, text="Polish", variable=self.polish_var).grid(row=1, column=2, sticky="w", **pad)
-        ttk.Checkbutton(controls, text="Auto Shortlist", variable=self.shortlist_var).grid(row=1, column=3, sticky="w", **pad)
-        ttk.Checkbutton(controls, text="Learn From My XSQs", variable=self.learn_xsq_var).grid(row=1, column=4, sticky="w", **pad)
+        self.polish_check = ttk.Checkbutton(controls, text="Polish", variable=self.polish_var)
+        self.polish_check.grid(row=1, column=2, sticky="w", **pad)
+        self.shortlist_check = ttk.Checkbutton(controls, text="Auto Shortlist", variable=self.shortlist_var)
+        self.shortlist_check.grid(row=1, column=3, sticky="w", **pad)
+        self.history_check = ttk.Checkbutton(
+            controls,
+            text="Helix workspace history",
+            variable=self.workspace_history_var,
+        )
+        self.history_check.grid(row=1, column=4, sticky="w", **pad)
+        self.vendor_bar_var.trace_add("write", lambda *_args: self._sync_vendor_bar_locks())
+        self._sync_vendor_bar_locks()
 
         birdsong = ttk.LabelFrame(frame, text="Birdsong Engine")
         birdsong.pack(fill=tk.X, **pad)
@@ -175,6 +186,38 @@ class HelixGui(tk.Tk):
         self.log_text.see(tk.END)
         self.update_idletasks()
 
+    def _sync_vendor_bar_locks(self) -> None:
+        locked = bool(self.vendor_bar_var.get())
+        if locked:
+            self.polish_var.set(True)
+            self.shortlist_var.set(True)
+            self.workspace_history_var.set(True)
+        state = tk.DISABLED if locked else tk.NORMAL
+        for widget in (self.polish_check, self.shortlist_check, self.history_check):
+            widget.configure(state=state)
+
+    def _sequence_command(self) -> list[str]:
+        return build_operator_command(
+            python=sys.executable,
+            main_py=str(ROOT / "main.py"),
+            profile=self.profile_var.get(),
+            template=self.template_var.get().strip(),
+            audio=self.audio_var.get().strip(),
+            layout=self.layout_var.get().strip(),
+            output_dir=self.output_var.get().strip(),
+            variants=int(self.variants_var.get()),
+            vendor_bar=bool(self.vendor_bar_var.get()),
+            matrix=bool(self.matrix_var.get()),
+            polish=bool(self.polish_var.get()),
+            shortlist=bool(self.shortlist_var.get()),
+            workspace_history=bool(self.workspace_history_var.get()),
+            birdsong=bool(self.birdsong_var.get()),
+            birdsong_profile=self.birdsong_profile_var.get(),
+            birdsong_intensity=float(self.birdsong_intensity_var.get()),
+            birdsong_min_confidence=float(self.birdsong_min_conf_var.get()),
+            birdsong_auto=bool(self.birdsong_auto_var.get()),
+        )
+
     def _apply_layout_preset(self) -> None:
         preset = self.layout_preset_var.get()
         if preset == "Custom":
@@ -215,56 +258,13 @@ class HelixGui(tk.Tk):
             messagebox.showwarning("Missing Template", "Template XSQ file does not exist.")
             return
 
-        cmd = [
-            sys.executable,
-            str(ROOT / "main.py"),
-            "--profile",
-            self.profile_var.get().strip() or "master",
-            "--",
-            "--template",
-            self.template_var.get().strip(),
-            "--audio",
-            self.audio_var.get().strip(),
-            "--layout-file",
-            self.layout_var.get().strip(),
-            "--output-dir",
-            self.output_var.get().strip(),
-            "--variants",
-            str(max(1, int(self.variants_var.get()))),
-            "--no-prompt",
-        ]
-
-        if self.vendor_bar_var.get():
-            cmd.append("--vendor-bar")
-        if self.matrix_var.get():
-            cmd.append("--matrix-intelligence")
-        if self.polish_var.get():
-            cmd.append("--polish")
-        else:
-            cmd.append("--no-polish")
-        if self.shortlist_var.get():
-            cmd.append("--auto-shortlist")
-        if self.learn_xsq_var.get():
-            cmd.append("--learn-from-my-xsqs")
-
-        if self.birdsong_var.get():
-            cmd.extend(
-                [
-                    "--birdsong",
-                    "--birdsong-profile",
-                    self.birdsong_profile_var.get().strip() or "wild",
-                    "--birdsong-intensity",
-                    f"{float(self.birdsong_intensity_var.get()):.2f}",
-                    "--birdsong-min-confidence",
-                    f"{float(self.birdsong_min_conf_var.get()):.2f}",
-                ]
-            )
-            if self.birdsong_auto_var.get():
-                cmd.append("--birdsong-auto")
+        cmd = self._sequence_command()
 
         self.run_button.configure(state=tk.DISABLED)
         self.status_label.configure(text="Running...")
         self._log("")
+        for note in operator_run_notes(audio=self.audio_var.get().strip(), vendor_bar=bool(self.vendor_bar_var.get())):
+            self._log(note)
         self._log("Running command:")
         self._log(" ".join(cmd))
 
