@@ -15,6 +15,7 @@ from core.run_manager import RunContext, RunManager
 NO_EFFECTS_ORCHESTRATOR_FLAG = "--no-effects-orchestrator"
 PROMOTE_ORCHESTRATOR_TEMPLATE_FLAG = "--promote-orchestrated-template"
 NO_ORCHESTRATOR_TEMPLATE_PROMOTION_FLAG = "--no-orchestrator-template-promotion"
+BIRDSONG_ISSUE2_DEMO_FLAG = "--birdsong-issue2-demo"
 BEAT_GRID_FLAGS = {
     "--snap-grid",
     "--snap-bpm",
@@ -52,10 +53,6 @@ def available_profiles() -> list[engine_profiles.EngineProfile]:
     return engine_profiles.available_profiles()
 
 
-def available_versions() -> list[str]:
-    return [profile.version for profile in available_profiles()]
-
-
 def _orchestration_enabled(engine_args: list[str] | None) -> bool:
     args = engine_args or []
     return NO_EFFECTS_ORCHESTRATOR_FLAG not in args
@@ -72,6 +69,12 @@ def _clean_engine_args(engine_args: list[str] | None) -> list[str] | None:
     if engine_args is None:
         return None
     return [arg for arg in engine_args if arg not in ORCHESTRATOR_ONLY_FLAGS]
+
+
+def _strip_builder_only_flags(engine_args: list[str] | None) -> list[str] | None:
+    if engine_args is None:
+        return None
+    return [arg for arg in engine_args if arg != BIRDSONG_ISSUE2_DEMO_FLAG]
 
 
 def _strip_beat_grid_args(engine_args: list[str] | None) -> list[str] | None:
@@ -159,89 +162,20 @@ def _record_orchestration_artifacts(ctx: RunContext, report: EffectsOrchestratio
         ctx.record_warning(f"effects_orchestrator: {report.error}")
 
 
-def _artifact_search_roots(config: RunConfig, version: str) -> list[Path]:
-    roots = [config.output_root]
-    if config.output_root == Path("outputs"):
-        family = version.split(".", 1)[0]
-        if family:
-            roots.append(Path(family))
-    return _unique_paths(roots)
-
-
-def _unique_paths(paths: Iterable[Path]) -> list[Path]:
-    seen: set[Path] = set()
-    unique: list[Path] = []
-    for path in paths:
-        resolved = path.resolve(strict=False)
-        if resolved in seen:
-            continue
-        seen.add(resolved)
-        unique.append(path)
-    return unique
-
-
-def _snapshot_known_artifacts(roots: Iterable[Path]) -> dict[Path, tuple[int, int]]:
-    snapshot: dict[Path, tuple[int, int]] = {}
-    for artifact in _known_artifact_paths(roots):
-        try:
-            stat = artifact.stat()
-        except OSError:
-            continue
-        snapshot[artifact.resolve(strict=False)] = (stat.st_mtime_ns, stat.st_size)
-    return snapshot
-
-
-def _record_changed_artifacts(
-    ctx: RunContext,
-    roots: Iterable[Path],
-    before: dict[Path, tuple[int, int]],
-) -> None:
-    for artifact in _known_artifact_paths(roots):
-        resolved = artifact.resolve(strict=False)
-        try:
-            stat = artifact.stat()
-        except OSError:
-            continue
-        if before.get(resolved) == (stat.st_mtime_ns, stat.st_size):
-            continue
-        ctx.record_artifact(_artifact_kind(artifact), artifact)
-
-
-def _known_artifact_paths(roots: Iterable[Path]) -> list[Path]:
-    paths: list[Path] = []
-    for root in _unique_paths(roots):
-        if not root.exists():
-            continue
-        paths.extend(path for path in root.rglob("*") if path.is_file() and _is_known_artifact(path))
-    return sorted(paths, key=lambda path: str(path))
-
-
-def _is_known_artifact(path: Path) -> bool:
-    name = path.name
-    return any(name.endswith(suffix) for suffix in _ARTIFACT_KIND_BY_SUFFIX)
-
-
-def _artifact_kind(path: Path) -> str:
-    name = path.name
-    for suffix, kind in sorted(_ARTIFACT_KIND_BY_SUFFIX.items(), key=lambda item: len(item[0]), reverse=True):
-        if name.endswith(suffix):
-            return kind
-    return "artifact"
-
-
 def _run_birdsong_hook(config: RunConfig, engine_args: list[str] | None, ctx: RunContext) -> None:
-    """Guarded, minimal birdsong post-run adapter.
+    """Write a synthetic Issue 2 birdsong manifest.
 
-    This implementation is intentionally conservative: it runs only when the
-    engine args include an explicit birdsong-enabling flag ("--enable-birdsong").
+    This does not modify the XSQ. It runs only for --birdsong-issue2-demo.
+    --birdsong stays on the effect_engine path.
     It synthesizes a short demo feature-frame sequence if real per-frame audio
     features aren't available, builds a birdsong plan using the Issue #2
     runtime, writes a manifest into the run output, and records the manifest
     as an artifact in the run context.
     """
     args = list(engine_args or [])
-    enabled = any(a in ("--enable-birdsong", "--birdsong", "--birdsong-enabled") for a in args)
-    if not enabled:
+    # --birdsong is handled inside effect_engine. This hook writes a synthetic
+    # Issue 2 manifest and must not run on that same flag.
+    if BIRDSONG_ISSUE2_DEMO_FLAG not in args:
         return
 
     try:
@@ -439,6 +373,14 @@ def run_profile(profile_id: str | None, engine_args: list[str] | None = None) ->
             effective_engine_args = _strip_beat_grid_args(effective_engine_args)
         if report is not None and report.invoked and report.xsq_written and effective_engine_args != _clean_engine_args(engine_args):
             print(f"effects_orchestrator: promoted template={report.orchestrated_xsq_path}")
+        elif report is not None and report.invoked and report.xsq_written:
+            print(
+                "effects_orchestrator: sidecar "
+                f"{report.orchestrated_xsq_path} is not the audio sequence; "
+                "effect_engine writes the canonical XSQ."
+            )
+        effective_engine_args = _strip_builder_only_flags(effective_engine_args)
+        ctx.record_effective_engine_args(list(effective_engine_args or []))
 
         artifact_roots = _artifact_search_roots(config, profile.version)
         artifact_snapshot = _snapshot_known_artifacts(artifact_roots)
@@ -470,11 +412,6 @@ def run_profile(profile_id: str | None, engine_args: list[str] | None = None) ->
         raise SystemExit(1)
 
 
-def run_version(version: str, engine_args: list[str] | None = None) -> None:
-    """Run a specific version profile."""
-    run_profile(version, engine_args)
-
-
 def build_sequence_set(profiles: Iterable[str | None], engine_args: list[str] | None = None) -> None:
     """Build sequences for multiple profiles."""
     for profile_id in profiles:
@@ -489,8 +426,10 @@ def build_parser() -> argparse.ArgumentParser:
             "  --no-effects-orchestrator: Skip orchestration pass.\n"
             "  --promote-orchestrated-template: Use orchestrator output as input template.\n"
             "  --no-orchestrator-template-promotion: Force sidecar-only behavior.\n"
-            "  --snap-grid 16: Snap timing to sixteenth-note grid.\n"
-            "  --no-snap: Disable Prime BeatGrid timing alignment."
+            "  --snap-grid 16: Snap timing-report metadata. Effect rows move only when this flag is explicit.\n"
+            "  --no-snap: Disable Prime BeatGrid timing alignment.\n"
+            "  --birdsong-issue2-demo: Write a synthetic Issue 2 birdsong manifest. This does not replace the XSQ.\n"
+            "  *.orchestrated.xsq is a sidecar. The canonical sequence is the effect_engine XSQ."
         ),
         formatter_class=argparse.RawDescriptionHelpFormatter,
     )

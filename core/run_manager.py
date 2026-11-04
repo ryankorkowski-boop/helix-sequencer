@@ -34,6 +34,7 @@ class RunContext:
     warnings: list[str] = field(default_factory=list)
     errors: list[str] = field(default_factory=list)
     command: list[str] = field(default_factory=list)
+    effective_engine_args: list[str] | None = None
     started_at: str = ""
     finished_at: str | None = None
     status: str = "started"
@@ -59,6 +60,12 @@ class RunContext:
         self.artifacts.append(artifact)
         self._write_manifest()
         return artifact
+
+    def record_effective_engine_args(self, args: list[str]) -> None:
+        self.effective_engine_args = [str(arg) for arg in args]
+        target = self.run_dir / "effective_engine_args.txt"
+        target.write_text(" ".join(self.effective_engine_args) + "\n", encoding="utf-8")
+        self._write_manifest()
 
     def record_warning(self, warning: str) -> None:
         self.warnings.append(warning)
@@ -191,6 +198,9 @@ def _manifest_data(ctx: RunContext) -> dict[str, object]:
         "output_root": str(config.output_root),
         "run_dir": str(ctx.run_dir),
         "command": list(ctx.command),
+        "effective_engine_args": (
+            list(ctx.effective_engine_args) if ctx.effective_engine_args is not None else None
+        ),
         "artifacts": [
             {"kind": artifact.kind, "path": artifact.path, "exists": artifact.exists}
             for artifact in ctx.artifacts

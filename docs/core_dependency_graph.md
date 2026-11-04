@@ -1,5 +1,7 @@
 # Core Dependency Graph
 
+**Historical snapshot.** This note describes an older 16-file slice of `core/`. It is not the current import graph. `self_improving_scoring` and `spatial_mapping_engine` both exist, and `core/effect_engine.py` imports more modules than the list below. Rebuild a current view with `python scripts/repo_reachability_audit.py`. The operator path and the override findings are in `docs/REPO_AUDIT.md`.
+
 ## Scope
 - Analyzed `16` files under `core/` using static AST import parsing.
 - Edges represent `core.*` import dependencies only.

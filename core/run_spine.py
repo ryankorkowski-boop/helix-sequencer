@@ -1,29 +1,7 @@
 from __future__ import annotations
 
-import json
-import os
-import subprocess
-import sys
 from dataclasses import dataclass, field
-from datetime import datetime, timezone
 from pathlib import Path
-from typing import Any
-
-
-def _utc_now() -> str:
-    return datetime.now(timezone.utc).replace(microsecond=0).isoformat().replace("+00:00", "Z")
-
-
-def _safe_slug(value: str) -> str:
-    cleaned = "".join(ch if ch.isalnum() or ch in "._-" else "-" for ch in value.strip())
-    return cleaned.strip("-._") or "master"
-
-
-def _git_commit() -> str | None:
-    try:
-        return subprocess.check_output(["git", "rev-parse", "HEAD"], text=True, stderr=subprocess.DEVNULL).strip()
-    except Exception:
-        return None
 
 
 def _split_flag_value(arg: str) -> tuple[str, str | None]:
@@ -42,7 +20,7 @@ class RunConfig:
     output_root: Path = field(default_factory=lambda: Path("outputs"))
     variants: int = 1
     enable_orchestrator: bool = True
-    promote_orchestrated_template: bool = True
+    promote_orchestrated_template: bool = False
     enable_learning_memory: bool = False
     power_metadata_path: Path | None = None
     autosize_controllers: bool = False
@@ -115,7 +93,10 @@ class RunConfig:
         if self.autosize_controllers: args.append("--autosize-controllers")
         if self.controller_padding != 50: args.extend(["--controller-padding", str(self.controller_padding)])
         if not self.enable_orchestrator: args.append("--no-effects-orchestrator")
-        if not self.promote_orchestrated_template: args.append("--no-orchestrator-template-promotion")
+        if self.promote_orchestrated_template:
+            args.append("--promote-orchestrated-template")
+        else:
+            args.append("--no-orchestrator-template-promotion")
         args.extend(self.extra_engine_args)
         return args
 
@@ -146,93 +127,3 @@ class RunConfig:
             elif output == resolved.parent:
                 issues.append(f"output_root would overlap {field_name}: {path}")
         return issues
-
-
-@dataclass(frozen=True)
-class RunArtifact:
-    kind: str
-    path: str
-    exists: bool
-
-
-@dataclass
-class RunContext:
-    config: RunConfig
-    run_id: str
-    run_dir: Path
-    manifest_path: Path
-    command_path: Path
-    log_path: Path
-    artifacts: list[RunArtifact]
-
-
-class RunManager:
-    def __init__(self, config: RunConfig, command: list[str] | None = None):
-        self.config = config
-        self.started_at = _utc_now()
-        stamp = datetime.now().strftime("%Y%m%d-%H%M%S")
-        self.run_id = f"{stamp}-{_safe_slug(config.profile)}"
-        self.run_dir = config.output_root / "beta" / self.run_id
-        self.run_dir.mkdir(parents=True, exist_ok=False)
-        self.manifest_path = self.run_dir / "run_manifest.json"
-        self.command_path = self.run_dir / "command.txt"
-        self.log_path = self.run_dir / "helix.log"
-        self.artifacts: list[RunArtifact] = []
-        self.warnings: list[str] = []
-        self.errors: list[str] = []
-        self.command = list(command) if command is not None else [sys.argv[0], *config.to_engine_args()]
-        self.context = RunContext(config, self.run_id, self.run_dir, self.manifest_path, self.command_path, self.log_path, self.artifacts)
-        self.command_path.write_text(" ".join(self.command), encoding="utf-8")
-        self.log_path.write_text("", encoding="utf-8")
-        self._write_manifest(status="started", success=False, finished_at=None, error_summary=None)
-
-    def _manifest(self, *, status: str, success: bool, finished_at: str | None, error_summary: str | None) -> dict[str, Any]:
-        return {
-            "schema": "helix.run_manifest.v1",
-            "app": "Helix Sequencer",
-            "run_id": self.run_id,
-            "profile": self.config.profile,
-            "started_at": self.started_at,
-            "finished_at": finished_at,
-            "status": status,
-            "audio_path": str(self.config.audio_path) if self.config.audio_path else None,
-            "template_path": str(self.config.template_path) if self.config.template_path else None,
-            "layout_path": str(self.config.layout_path) if self.config.layout_path else None,
-            "output_root": str(self.config.output_root),
-            "run_dir": str(self.run_dir),
-            "command": self.command,
-            "artifacts": [artifact.__dict__ for artifact in self.artifacts],
-            "warnings": list(self.warnings),
-            "errors": list(self.errors),
-            "success": success,
-            "error_summary": error_summary,
-            "git_commit": _git_commit(),
-        }
-
-    def _write_manifest(self, *, status: str, success: bool, finished_at: str | None, error_summary: str | None) -> None:
-        payload = self._manifest(status=status, success=success, finished_at=finished_at, error_summary=error_summary)
-        self.manifest_path.write_text(json.dumps(payload, indent=2), encoding="utf-8")
-
-    def record_artifact(self, kind: str, path: str | Path) -> RunArtifact:
-        artifact = RunArtifact(kind=kind, path=str(path), exists=Path(path).exists())
-        self.artifacts.append(artifact)
-        self._write_manifest(status="started", success=False, finished_at=None, error_summary=None)
-        return artifact
-
-    def record_warning(self, message: str) -> None:
-        self.warnings.append(str(message))
-        self._write_manifest(status="started", success=False, finished_at=None, error_summary=None)
-
-    def record_error(self, message: str) -> None:
-        self.errors.append(str(message))
-        self._write_manifest(status="started", success=False, finished_at=None, error_summary=None)
-
-    def finalize(self, success: bool, error_summary: str | None = None) -> None:
-        if error_summary:
-            self.errors.append(error_summary)
-        self._write_manifest(
-            status="completed" if success else "failed",
-            success=bool(success),
-            finished_at=_utc_now(),
-            error_summary=error_summary,
-        )

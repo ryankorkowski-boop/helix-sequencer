@@ -31,12 +31,12 @@ _PROFILE_ALIASES = {
 }
 
 
-def available_profiles() -> list[EngineProfile]:
-    return [_ACTIVE_PROFILE]
-
-
 def active_profile() -> EngineProfile:
     return _ACTIVE_PROFILE
+
+
+def available_profiles() -> list[EngineProfile]:
+    return [active_profile()]
 
 
 def resolve_profile(profile_id: str | None) -> EngineProfile:
