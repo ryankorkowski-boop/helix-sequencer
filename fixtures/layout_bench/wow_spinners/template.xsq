@@ -1,0 +1,53 @@
+<?xml version='1.0' encoding='utf-8'?>
+<xsequence BaseChannel="0" ChanCtrlBasic="0" ChanCtrlColor="0" FixedPointTiming="1" ModelBlending="true">
+  <head>
+    <version>2026.01</version>
+    <author>Helix layout bench</author>
+    <song />
+    <artist />
+    <album />
+    <MusicURL />
+    <comment>Clean-room empty template. The engine syncs model rows from the paired xlights_rgbeffects.xml. Bench Palette exists only to seed On/Ramp effect templates and is removed by layout sync.</comment>
+    <sequenceTiming>50 ms</sequenceTiming>
+    <sequenceType>Media</sequenceType>
+    <mediaFile />
+    <sequenceDuration>35.000</sequenceDuration>
+    <imageDir />
+  </head>
+  <nextid>1</nextid>
+  <Jukebox />
+  <ColorPalettes>
+    <ColorPalette>C_BUTTON_Palette1=#FFFFFF,C_BUTTON_Palette2=#FF0000,C_BUTTON_Palette3=#00FF00,C_BUTTON_Palette4=#0000FF,C_BUTTON_Palette5=#FFFF00,C_CHECKBOX_Palette1=1</ColorPalette>
+    <ColorPalette>C_BUTTON_Palette1=#FF0000,C_BUTTON_Palette2=#FFFFFF,C_BUTTON_Palette3=#00FF00,C_CHECKBOX_Palette1=1,C_CHECKBOX_Palette2=1,C_CHECKBOX_Palette3=1</ColorPalette>
+  </ColorPalettes>
+  <EffectDB>
+    <Effect>E_TEXTCTRL_Eff_On_Start=100,E_TEXTCTRL_Eff_On_End=100</Effect>
+  </EffectDB>
+  <DataLayers>
+    <DataLayer lor_params="0" channel_offset="0" num_channels="0" num_frames="0" data="&lt;rendered: erase-mode&gt;" source="&lt;auto-generated&gt;" name="Nutcracker" />
+  </DataLayers>
+  <DisplayElements>
+    <Element collapsed="0" type="timing" name="Beats" visible="1" views="Master View" active="1" />
+    <Element collapsed="0" type="model" name="Bench Palette" visible="1" />
+  </DisplayElements>
+  <ElementEffects>
+    <Element type="timing" name="Beats" active="1">
+      <EffectLayer />
+    </Element>
+    <Element type="model" name="Bench Palette">
+      <EffectLayer>
+        <Effect ref="0" name="On" startTime="0" endTime="50" palette="0" settings="E_TEXTCTRL_Eff_On_Start=100,E_TEXTCTRL_Eff_On_End=100" />
+        <Effect ref="0" name="Ramp" startTime="50" endTime="100" palette="0" settings="E_TEXTCTRL_Eff_On_Start=0,E_TEXTCTRL_Eff_On_End=100" />
+        <Effect ref="0" name="Twinkle" startTime="100" endTime="150" palette="1" />
+        <Effect ref="0" name="Shimmer" startTime="150" endTime="200" palette="1" />
+        <Effect ref="0" name="Wave" startTime="200" endTime="250" palette="0" />
+        <Effect ref="0" name="Butterfly" startTime="250" endTime="300" palette="0" />
+        <Effect ref="0" name="Bars" startTime="300" endTime="350" palette="1" />
+        <Effect ref="0" name="VU Meter" startTime="350" endTime="400" palette="1" />
+        <Effect ref="0" name="Strobe" startTime="400" endTime="450" palette="0" />
+        <Effect ref="0" name="Faces" startTime="450" endTime="500" palette="0" settings="E_CHOICE_Faces_FaceDefinition=NodeRange,E_CHOICE_Faces_TimingTrack=Beats" />
+      </EffectLayer>
+    </Element>
+  </ElementEffects>
+  <lastView>0</lastView>
+</xsequence>
