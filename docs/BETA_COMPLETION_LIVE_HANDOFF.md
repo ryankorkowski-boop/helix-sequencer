@@ -1,3 +1,7 @@
+## 4 November — PR 205 integration verification in progress
+
+Goal: qualify the facade/cache optimization against the current recovery branch without merging PR188 or releasing. Integrated recovery05c1de5 into the feature worktree, preserving its bounded-chroma tile repair, band-planning/source-ownership fixes and all newer render/checkpoint evidence. Resolved focused import/hash conflicts while retaining the lazy facade, extracted feature/percussion boundaries, bounded source hashing, original drummer assets/oracle, AC mapping, profile defaults and acceptance thresholds. Source files: core/effect_engine.py, core/snowman_band.py, core/audio_run_cache.py; continuity: this ledger, live handoff, latest_status.json and artifact_manifest.json. New behavior: none intended beyond already-authored recovery changes. Tests/evidence: pending local pinned-runtime focused and full checks; no pass or new timing/native-media claim yet. Limitations/deferred: final frozen Windows cache path, source-bound long-song parity, native/singer/owner qualification. Risks: cross-module imports, retained band-planning behavior, numerical backend. Next: execute bounded DSP and facade/cache/drum tests, then publish a source-bound verification receipt. No merge of PR188, release or owner approval.
+
 # 31 October — active core optimization branch
 
 Owner's current build request is being implemented on `codex/core-facade-optimization-20261031`, starting at recovery321cf85. Keep MASTER_TODO.md authoritative; historical release/media gates below remain open. Commits:14c9a2c(instrumentation),fc51c9e(typed facade),c7452c2(audio/percussion extraction). Full237.44s real-audio/master/256-channel layout baseline:218.3794s cold /168.5173s warmed; peakRSS1,386,229,760 /1,244,893,184bytes; both42,305effects with identical musical signature57c402d5b7857077f57fcd0d435a92a8a3f28e32c88e3c2e756bade5decff50c. Exact stage receipts are under docs/core_optimization_20261031.
@@ -10,6 +14,171 @@ python -m tools.measure_engine_stages --audio "Helix Audiolights.mp3" --output t
 HELIX_AUDIO_CACHE_DIR=RenderCache/audio_features python -m tools.measure_engine_stages --audio "Helix Audiolights.mp3" --output tests/outputs/core_optimization/resumed-cache --runs 2
 PYTHONPATH=. python -m pytest tests -q --junitxml=tests/outputs/core_optimization/full-tests.xml
 ```
+
+## 2 November — latest Actions evidence and next implementation checkpoint
+
+- Latest Beta smoke: Python 3.11 and 3.12 pass (run [41163710749](https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/41163710749)).
+- Latest Windows Portable GUI build passes (run [41163710660](https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/41163710660)).
+- Latest Android offline smoke passes on API 30 and API 36 (run [41163710668](https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/41163710668)).
+- Full regression Python 3.11 passes, Python 3.12 fails only the three long partial-block chroma parity cases in run [41163710718](https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/41163710718). The failing job checked out PR merge commit 7d34b5e (merge of c009595 into 59f3240). With unchanged atol=1e-7, rtol=0: tail=1 has 10/4097 mismatches, max 2.66020723e-7; tail=61 has 22/4157, max 1.99515542e-7; tail=509 has 18/4605, max 1.33010362e-7. 2214 other tests and 24 subtests passed; 6 skips.
+- Final native band acceptance fails because its producer run [41163710797](https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/41163710797) failed; acceptance job [41163710727](https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/41163710727) reports no successful native producer at c009595. Native proof itself passed.
+- Twelve-layout render [41163710805](https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/41163710805) is diagnostic only: pilot evidence is missing because independent vocal timing and approved-reference identity are not qualified; image quality separately fails visible_stage_motion (median motion 0.425 vs 0.65 minimum). Luma 13.466 and bright fraction 0.08007 exceed their floors; visible width 0.681 and height 0.644 pass. Do not brighten or weaken thresholds to mask insufficient motion.
+- Do not mark the chroma repair passed. Next code action: reproduce each tail case in the pinned Python 3.12 environment, inspect the exact final-block overlap/column-layout behavior against the whole-file librosa reference, then change the transform strategy only if all three exact comparisons can pass within the 16 MiB workspace ceiling. Run Python 3.11/3.12 focused tests before full CI.
+- Next native action: repair the actual producer failure, then improve source-driven performer/instrument motion and obtain genuine vocal-source/lexical evidence before rerunning native acceptance. Preserve all current thresholds and prior failed receipts.
+- Android and Windows latest smoke passes are recorded; physical-device acceptance remains separate. Nine MP4 technical delivery is not owner approval. PR #188 stays unmerged; release stays held.
+
+## 1 November — bounded chroma partial-block parity repair (validation pending)
+
+- [x] Changed `core/audio_intelligence.py` to right-pad only the final bounded chroma transform window to a 64-column boundary. The real frame count remains unchanged when copying entropy back; padding is strictly after the source tail and does not create or shift events.
+- [x] Added a regression assertion in `tests/test_bounded_audio.py` that every chroma transform width is 64-column aligned while retaining the existing 16 MiB workspace ceiling and exact reference tolerance.
+- [ ] Run the three Python 3.12 long-partial-block parity cases and full Helix CI on the new commit. This is an implementation hypothesis, not a claimed fix until the unchanged (atol=1e-7, rtol=0) reference comparison passes.
+- [ ] Native full-band qualification remains correctly blocked: the retained E14 source report has no independently resolved lead/backing lanes. Do not fabricate stem ownership or mark the source qualified. Next action is to run source-bound vocal separation on the exact selected audio and verify distinct source hashes, identity evidence, non-rest events and lexical alignment before native rendering.
+- [ ] The native showcase job also independently fails the unchanged visible-motion gate (median motion 0.425 vs 0.65 minimum). Improve actual performer/instrument animation, not brightness-only grading, then rerun the native pilot.
+- [ ] PR #188 frozen acceptance remains exactly nine owner-approved real-audio MP4s. The optional twelve-layout comparison is not a substitute. No merge, release or owner approval.
+
+Implementation commits: `567b33a3518ec548bae759346d3d94b141888f2a` (bounded chroma implementation), followed by `9f751d6042bf1ab33e6a3df79dd38b88953e0356` (regression guard). Tests have not yet run against these commits; preserve the prior failures as historical evidence until a new completed run proves otherwise.
+
+Final render implementation: `d1567b74b341efff5a30a28bec272c7d5c377406`; all recorded rendering module hashes match the committed bytes. This receipt change adds provenance only; final MP4 bytes remain unchanged.
+
+## 1 November — delivered fresh comparison; owner review pending
+
+Actual MP4: `/workspace/deliverables/HELIX_REAL_AUDIO_12_LAYOUT_COMPARISON_APPROVAL.mp4`.
+Drive copy: https://drive.google.com/file/d/1uNEshOt-FvjRhp3nRK5O73nc8kefoDup/view?usp=drivesdk . It was downloaded back byte-identically and that downloaded file fully decoded.
+
+34.866667 seconds, 1920×1080, 30 fps, H.264/AAC, one genuine original owner music track (`Phoneme_Test_Hook.mp3`, SHA256 `19e90c273d0d747938f24b36586b50818c104cddffbefe4a4128927374301938`). MP4: 18,530,685 bytes, SHA256 `0a2a0763b4952984b1d5a0d8481b08348ab212e702c3d64a4af29b6c5b1bb198`. Fresh engine: 5,447 effects; 166 drum/288 guitar/47 bass/659 keyboard cues. No prior failed footage or synthetic audio used.
+
+All twelve requested layouts appear in order, 4×3. All twelve native intermediates rendered successfully with the pinned 2026.18 runtime. The visible canonical band uses continuous Helix solid3D; the other eleven panels use native xLights. Original V3 front design has closed 3D depth with original clock-driven joints and independent feet. Six performers, no xylophonist. Native bulb/framing/context fixes and explicit display gamma pass unchanged visibility gates. Full playback and actual panel pixel checks pass; all panels differ, longest blank .7 seconds/frozen .6 seconds; source audio correlation .999018 and four 0 ms lag checks. Representative beginning/middle/end and contact frames reviewed. Final source checks: 76 pass, one existing optional native-manifest skip, ten subtests. Snapshot receipt binds exact final source module hashes to the committed implementation; earlier `60fb74e` alone does not contain final presentation changes.
+
+Goal/files/preservation/risks: see the top delivery entry in MASTER_TODO.md, which remains authoritative. Changed focused builder/render/presentation/verification modules and evidence/continuity files. Original AC circuit mapping/colors, source art/detector/oracle behavior and acceptance thresholds preserved. New full dimensional-scene mouth scale does not alter source vocal clocks. Source-separated voices have 373 distinct frames and rest on their respective silent clocks; acoustic identity and exact lexical phonemes remain unverified. Source motion cadence is 20 fps solid-band/25 fps native, presented at 30 fps. Artistic acceptance, independent instrument ownership, physical qualification and full current-source CI remain open. Do not mark approved, merge PR188 or release.
+
+Last valid render checkpoint: `/workspace/checkpoints/comparison-hook`; portable compressed fresh engine inputs and exact recovery commands: `evidence/beta_completion/comparison_20261101/RESUME.md`. Actual native file/hash receipts, source snapshot, MP4 playback and delivery download receipts are alongside it. All older blocked/running statuses below are historical and superseded by this completed delivery. Exact next action: owner watches the actual MP4 and accepts it or identifies changes; preserve the matching shows/audio/render receipts.
+
+## 1 November — source-front3D implementation tested; fresh native batch running (superseded by delivery above)
+
+Goal: deliver the active12-layout real-audio comparison under the clarified3D/2Dfront-parity requirement. Implemented10closedpositive-volume V3components from exactsourceXY/colors, original shared source-clock skeleton, torsoattachments and independentkick/hatfeet. Existing defaultsource-art APIs/detector/oracle/sourceimage/AC256addresses remain unchanged; dimensional view is explicit. Sixmembers, noxylophonist. Add native companions/ordered12-layoutbuilder using existing generators; actual Pixelrockstage uses the same dimensional rig and real selectedposebank. Source2solidHelix rendering is labeled separately from native xLights pixel rendering.
+
+76tests pass,1existingoptionalmanifestskip,10subtests; unchangedreadabilitygate passes newsolidband(luma33.165,motion1.002,width.812,height.522). Initial3Dtest had incorrectPath argument(fixed); first test command referenced nonexistentkeyboardtest(corrected). Native runtime recovered as8.9MiBartifact13069713422/run41272538723, hashes verified; exactpinned2026.18FSEQandactualMP4 executed in ownedUbuntu24/Xvfbcontainer. Add boundedread-only readiness poll afterGUIresize; no exportmutation replay or weakenedgate.
+
+Prior36s2-songlibrary renders remain diagnostics: several fail actual brightness/framing and early percussion/vocals are sparse. Switch to retained original owner-uploadedPhonemeTestHook music(SHA19e90c273d0d747938f24b36586b50818c104cddffbefe4a4128927374301938,34.88s), with16.09slead/3.87sbacking source-separated estimates. Actual freshengine exits0 with5447effects and166drum/288guitar/47bass/659keyboardcues. No inventedrecording or synthetictones. Sourcevoiceidentity/lexicalphones remain estimates, not releaseapproval.
+
+Files: source_drummer_3d.py,source_band_view.py,build_current_comparison.py,render_current_native_views.py,focusedrender/readinesschanges/tests and continuity/evidence. New: realdepth/frontparity, orderedexistingnativegenerators,boundedpose/samplecounts,sourceawarestageillumination and source-awareaudio/duration. Preserve: originalsource/wiring/colors/thresholds/previousfailedmediaandapprovalgate. Risk: newdimensionalconstruction and stageddisplaymapping require actualframe/ownerreview. Superseded9CIjobs from this session canceled to free urgent recovery capacity; cancellations are recorded and not counted as passes. Native/fullchecks on currentmedia remain pending. Exactnextaction/checkpoints:current_render_checkpoint.json; finishnativehookbatch, inspect/repairfailedpanels, compose/fullyverifyactualMP4, upload/downloadback and deliver. No finalMP4claimed, no merge or release.
+
+## 1 November — owner confirms dimensional drummer with identical front design
+
+Owner clarification: "It should use3d if the rest of the band does, but should be the same view in2d." This supersedes the pending interpretation question and permits a focused3D realization bound to drummerbg.png/Drum1. The source design, audience-view kit positions, colors, component triggers and existing drummer event oracle must remain unchanged. The missing approved mesh is no longer a reason to stop: construct actual depth from the canonical front reference, verify orthographic front parity and angled depth, and integrate it consistently with the six-member band. No replacement design or planar billboard counts as the requested result.
+
+Goal: finish active12-layout comparison MP4. Files/modules: source-bound3D drummer model/render adapter, required-layout builder and native runtime preparation will be changed; four continuity files are updated now. Preserved: source music, AC wiring/colors, drummer detector/oracle, sourceart and six default performers. New: shared3D/2Dreference design contract authorized by owner. Tests/evidence: earlier34focusedpass remain source-specific; new geometry/native/media checks are pending. Limitations/deferred: final singer/native/12-panel verification and actual delivery remain incomplete; no claim of owner approval, merge or release. Next: restore matchingnativewxruntime, build closed-depth reference geometry, verify front projection, separate exact36smusic source, render all12supportedlayouts and deliver verifiedMP4.
+
+## 1 November — owner supplies exact Drum1 V3 reference
+
+Goal: resolve canonical drummer identity for the active12-layout real-music comparison. Owner suppliedDrum1.mp4:SHA256f014db45dc49688da40a4337a1185589ef09ffe81c13e234eb20d0f0f57e45b3,exactly matching archived11520003337DrummerDryTest. Actual38.316667s960x540/60fpsH264/AAC fully decodes;6representative frames inspected. Audio correlation to original38.32sdry WAV.99708271; RMS.17934. The clip shows the originaldrummerbg.pngV3source-art kit and animated arms. This resolves reference identity, not a fully volumetric mesh or final comparison approval. Asked owner whether exact image-basedDrum1drummer in3Dscene is intended or fully volumetricgeometry remainsmandatory; no relaxation inferred while answer is pending.
+
+Files: four continuity files and evidence/beta_completion/comparison_20261101/Drum1_Reference.json. Preserved: original canonical art/kit/motion contracts, current36sowner-library soundtrack and all gates. New: uploaded reference byte identity and executed playback/source-audio evidence. Validation: fullFFmpegdecode, actualframeinspection and archivalSHA match. Limitations/deferred: rendering interpretation, independent singers, native12layoutmapping/render/finalMP4. Risk: treating a historical reference upload as final-media approval; explicitly avoided. Next: resolve rendering interpretation while preparing pinnednative runtime. No new finalMP4,merge or release.
+
+## 1 November — publication receipt
+
+Published compositor/evidence implementation: `9a800a1abad26d2daf203ad34caf9779249ae581`; remote recovery branch head matched. All five compressed production files round-trip to their recorded SHA256. No qualifying final MP4 exists; delivery remains blocked. PR188 unmerged and no release published.
+
+## 1 November — executed36s library sampler and1080p compositor repair; source blocker
+
+- [x] Actual engine run completed:5155effects,5section/shared-sync frames; source wave b889df23d4960b393bfa5b6f84f2f72de245bdd176032bf16346d8680e960a3d. No synthetic audio. Editable XSQ, full report, band plan and log retained losslessly compressed in evidence/beta_completion/comparison_20261101/production.
+- [x] Fixed twelve-panel composition from3x4/3840x2160to4x3/1920x1080/30fps; added literal panel labels and grid validation.34focusedtests pass, including actual FFmpeg encode/decode/order/audio. Initial6missing-imageio import failures resolved by runtime dependency installation; no assertion weakened.
+- [ ] BLOCKED: approved original fully modeled3D drummer not located. Current canonical and historical original restore9e9dcc3 are explicitly planar; procedural interpretation is explicitly new. Three source branches/history and connected Drive drummer/snowman searches did not locate the required asset. Owner is not certain. No substitution or fabricated acceptance.
+- [ ] Singer acoustic/lexical qualification, requested12-layout mapping, fresh native renders and actual verified comparison MP4 delivery remain incomplete. Historical12-layoutNAMES are not this request's12layouts. No final-named MP4 exists.
+
+Files/modules: tools/render_approval_collection.py, tests/test_sampler_comparison_duration.py, continuity files and source-bound compressed evidence. Preserved: engine/drummer/AC source bytes, gates and rejected-artifact status. New: exact4x3presentation and deterministic recovery checkpoint. Tests:focused-tests.xml(34pass/27.93s); engine exits0. Limitations/deferred: required source asset, independent vocals, native layout mapping/render/QC/delivery. Risks: presentation now labels historical comparisons and twelve-panel output is30fps from native source cadence; no claim of new native motion samples. Exact recovery commands and last valid diagnostic render checkpoint: evidence/beta_completion/comparison_20261101/RESUME.md. Next: obtain approved3D source, qualify singers, finish supported layout mapping, render all12 and verify actual video. No PR merge or release.
+
+## 1 November — requested real-audio twelve-layout comparison recovery
+
+Goal: deliver one fresh1920x1080/30fps/30–45s4x3 real-owner-music MP4. StartingHEAD09677d4822e35d724e9f229c0ab7465c9f34fd7a; this request supersedes the earlier optional-comparison scope for this task. PR188 remains unmerged; no release authorized.
+
+- [x] Full recovery checkout, agent/ledger/handoff/manifests inspected. Native producer41219733495 fails genuine missing independent lead/backing analysis. Collection41219733511 rendered a pilot but fails absent vocal/reference acceptance and actual motion. No gate waived.
+- [x] Downloaded native checkpoint13050724353 and exact-source renderer13050955075; actual2s native frame inspected. Original AC XML and original source-art drummer located. Tinsel Tornado/Christmas in the Ether fetched via connected Drive and both SHA256 match catalog provenance.
+- [ ] Required original fully modeled3D drummer unavailable in inspected sources. Current canonical exporter explicitly uses planar V3 art; modeled performance scene explicitly describes a new interpretation. Owner does not know asset location. Search source branches/history before declaring unavailable.
+- [ ] Run current engine on a36s verified owner-library sampler; preserve analysis checkpoint.
+- [ ] Repair collection4x3/1080p/30fps composition and test without weakening acceptance.
+- [ ] Twelve qualifying native renders, complete playback/motion/singer/AC verification and actual direct MP4 delivery remain incomplete.
+
+Changed files: continuity/checkpoint now; composition changes follow separately. Preserved: source music, original drummer/AC addresses/colors, all approval gates and previous rejected media verdicts. Evidence: evidence/beta_completion/comparison_20261101/checkpoint.json. Risks/limitations: approved3D identity and independent vocal truth remain unresolved; old diagnostic frames are never approval footage. Exact next action is in checkpoint and live handoff.
+
+## 31 October — active quality-first integration (resume here)
+
+Published implementation: [`cd0c852`](https://github.com/ryankorkowski-boop/helix-sequencer/commit/cd0c852b0fc522ca04850eefece70e5b9bfb94bb). All 18 changed remote files match the tested local bytes. Current implementation CI is queued/in progress, including Helix CI 41219727454, Android 41219727582 and native verification 41219733507; none is counted as passed. Subsequent handoff-only commits preserve these production module hashes.
+
+Owner request: optimize for quality, integrate useful unused logic, keep a running checklist. Baseline remote source: `5aac37af254c4bc08df992551a5f06d918506f6f`. Working source subset: `/workspace/scratch/13c20d75c6c0/helix-sequencer`; pinned Python 3.12 environment: `.venv/bin/python`. Sources are restored at the exact baseline through the GitHub connector; this is not a full Git checkout, and remote publication must preserve the full parent tree with a branch-head lease.
+
+Concrete defect found: ownership keywords are sent to `band_sync.build_band_sync_plan`, which does not accept them, so `run_variant` silently falls back to an empty synchronization plan on every call. Move the keywords to `snowman_band.build_snowman_band_plan` and add a regression that exercises the production calls, not merely the dataclass switches. Also execute recently authored tests: `tests/test_audio_pitch_normalization.py` appears to require one frame loop despite the current extractor having two; validate behavior before correcting that stale assertion.
+
+Implemented: focused `core/band_planning.py` stage connected to `run_variant`; correct consumer routing and visible failure diagnostics; preserved source metadata in keyboard cues; bounded exact source hashing in `core/audio_run_cache.py`; numeric pitch regressions replace an obsolete loop-count test. Original imported `band_sync_engine` alias remains for compatibility. No detector/geometry, AC wiring/colors, dependency, DSP algorithm or gate change.
+
+Executed: **137 focused tests pass** (`focused-final.xml`). Actual 15-second soundtrack decoded from `libfile_626471dc82648191b8e706cd1c7366ac` (diagnostic, not acceptance) runs baseline/current/current-repeat through the master effect engine with a minimal two-model RGB fixture. 0 -> 3 shared sync frames/motifs; 71 drummer cues exact, keyboard/lead cues exact, guitar/bass expression intentionally changes with restored focus. Lighting XML effect signature exact; repeat XSQ bytes exact. Fingerprint-only 64 MiB benchmark: 67,113,402 -> 2,102,614 traced Python bytes (96.87% lower); no whole-engine speed or device memory claim.
+
+**Open numerical blocker:** wider unchanged DSP tests: 15 pass, 3 long partial-block chroma entropy failures, max 1.99515542e-7 against unchanged 1e-7. Default numerical-cache processes also segfaulted inside unchanged librosa/Numba code. Fresh isolated `NUMBA_CACHE_DIR` completes both dtype reference tests, the whole DSP suite and the production comparison; root cause is not claimed proven. Runtime: Python 3.12.14, NumPy 2.2.6, SciPy 1.18.1, librosa 0.10.2.post1, Numba 0.61.2, llvmlite 0.44.0. These three failures predate this change: the function and tests match source 5aac37a. Do not weaken tolerance or count historical Python 3.11/3.12/platform/native runs as new-source success.
+
+Durable receipts/hashes: `evidence/beta_completion/quality_first_20261031/checkpoint.json`, `production_comparison.json`, `fingerprint_memory.json`, `focused-final.xml`, `dsp-clean.xml`, `dsp-runtime-isolation.xml`. Local comparison script/output: `/workspace/scratch/13c20d75c6c0/quality-work/compare_production.py` and baseline/candidate-paired/candidate-repeat folders; source waveform hash is in the comparison receipt. The script's local baseline commit is a source-subset checkpoint; after a fresh full clone, load the original `core/effect_engine.py` from remote 5aac37af254c4bc08df992551a5f06d918506f6f instead. Preserve equal settings and shared source-verified analysis reuse.
+
+Resume after restoring a complete checkout and dependencies:
+```bash
+python -m pytest -q tests/test_band_planning_integration.py tests/test_band_sync.py tests/test_audio_run_cache.py tests/test_audio_stem_ownership.py tests/test_audio_pitch_normalization.py tests/test_snowman_band.py
+NUMBA_CACHE_DIR=/tmp/helix-quality-clean python -m pytest -q tests/test_bounded_audio.py tests/test_bounded_fallback_stems.py tests/test_audio_analysis_reuse.py
+```
+Next: repair the three inherited precision failures without loosening assertions, collect exact-source CI, then continue source/vocal/native owner blockers. Per-stem note extraction, strict default routing and storytelling ranking remain deferred until measured source/output evidence exists. MASTER_TODO.md remains authoritative. No new MP4/native verification, owner approval, merge or release.
+
+## 31 October — quality-first provenance checkpoint
+
+Owner priorities: preserve drummer oracle b27e8d77, do not change physical component mapping without event-count/timing/FP/FN comparison; nine-component geometry/export alignment; source/confidence debug; one shared analysis result; section-aware density; full-song real-audio native MP4 acceptance. Commits 0b0b076, 161a177 and fdab0ee add bounded event provenance reporting and four regression tests. The sequencing JSON payload now includes event_provenance (source stem, confidence, performer, timing, section, pitch count). This does NOT yet write provenance into native XSQ debug metadata, nor does it verify drummer oracle. The canonical drummer was not modified. Tests have not been executed; no new native MP4, merge or release. Next priority: run oracle and tests, verify exporter, then add XSQ provenance and unified analysis with parity gates.
+
+## 31 October — bounded pitch peak sanitization and GitHub checks
+
+At commit b7752f2, GitHub showed Desktop GUI evidence capture completed success, Windows Portable GUI in progress, and Helix CI, keyboard regression, original drummer, native band/MP4 and Android jobs queued. No conclusions from pending jobs. Commit 4cad88e replaces a full-size finite pitch magnitude copy with frame-bounded peak and index arrays in _extract_note_candidates; commit 202b478 updates AST regression accordingly. Output and memory improvement remain unbenchmarked; no executed pytest in this session. New commits require fresh CI verification. Do not merge PR #188 or release.
+
+## 31 October — finite pitch peak selection
+
+1d54746 updates core/audio_intelligence.py::_extract_note_candidates to replace nonfinite pitch magnitudes with zeros for argmax and global normalization; reject invalid/zero peak magnitude before MIDI conversion. 6b8684f adds AST regression. Changes are committed but tests, profiling and real-audio parity remain unexecuted. The stem-specific producer is still not connected to run_variant. No new approval MP4, merge or release.
+
+## 31 October — audio candidate hardening
+
+a0dd2b2 hoists constant note continuity window from per-frame pitch loop. a0def2f rejects nonfinite best_hz and best_mag before hz_to_midi conversion. e4a6030 adds AST regression for finite pitch check. No pytest or end-to-end render run in this session; do not claim performance or acoustic parity verified. Outstanding: real instrument stem producer wiring, independent harmony and canonical band verification, nine owner-approval MP4s. No merge/release.
+
+## 31 October — pitch candidate extractor performance correction
+
+Commit 510c5bb moves the global np.max(pitch_mag) computation outside the per-frame loop in core/audio_intelligence.py::_extract_note_candidates. Previously each frame scanned the entire pitch magnitude matrix, multiplying work by frame count; new code calculates same global normalization value once. Commit 651b87b adds AST regression asserting max_mag is assigned outside frame loop. This is a code-level optimization; no benchmark, pytest, native render or audio parity verification executed in this session. Next: run focused pytest, benchmark 30–45s real sampler and compare note event hashes. Do not merge PR #188 or publish.
+
+## 31 October — audio-note conversion hardening
+
+Commits 63047f9 and 3049ef1 guard nonfinite or invalid stem MIDI and velocity, and add required math import in core/snowman_band.py. Commit 64cebba adds two regression tests. No full checkout was possible here because container GitHub DNS resolution failed; tests are not executed, and no real-audio MP4 was rendered. The main run_variant still uses mixed harmonic note events; stem-specific pitch extraction and integration are unfinished. Do not enable strict ownership globally or claim final approval. PR #188 remains unmerged.
+
+## 31 October — audio note schema adapter implemented
+
+Commits 8b32271 (core/snowman_band.py) and 4915b7c (tests/test_audio_stem_ownership.py). The band cue builder now accepts both effect-engine polyphonic notes (start_ms/end_ms/notes) and audio_intelligence.NoteEvent (timestamp_ms/duration_ms/midi_note/velocity), while strict provenance gating rejects unidentified and guitar-owned audio notes. Three direct adapter regression tests added. Existing default harmonic behavior retained. Important remaining limitation: run_variant still passes its harmonic note_events list; this adapter does NOT mean labeled stem notes are now produced or merged into the live band plan. Do not claim independent instruments or verified output until producer wiring, tests and real audio A/B. Tests not executed and no MP4 rendered here. PR #188 unmerged; no release.
+
+## 31 October — strict estimated-source routing bug fixed
+
+Commits: 6c7b36f fixes core/snowman_band.py: estimated ownership was incorrectly passed as detected to resolve_owner and therefore rejected; now detected/estimated candidates are routed into the corresponding resolver slots. dd0a29f validates finite confidence, known provenance and performer values; nonfinite source-stem confidence fails closed. 0273f16 adds regressions for estimated piano routing, nonfinite confidence and invalid performer/provenance. Actual full repo tests and native video rendering have not run in this session (no network checkout available in container). Production harmonic events remain unclassified by default; do not enable strict routing globally without stem-source conversion and A/B validation. Preserve canonical band and PR #188 approval gate.
+
+## 31 October — main effect engine ownership path connected
+
+Commits d265e22 (core/effect_engine.py) and a948c7d (tests/test_effect_engine_source_gate.py). Effect-engine NoteEvent now accepts optional source_owner metadata (default None). RuntimeTuning now exposes require_keyboard_source_ownership=False and keyboard_ownership_threshold=0.7; run_variant forwards both to build_snowman_band_plan, which already filters keyboard cues when explicitly enabled. No default change to the harmonic note extractor; those events remain unclassified, so strict mode will intentionally suppress them until trustworthy per-stem ownership is propagated. Four new tests authored; not executed. No new MP4, native test, or acoustic proof. Next run pytest for all ownership and scoring tests, run CI and baseline/native A/B; do not enable strict mode by default until actual source provenance exists. No merge or release.
+
+## 31 October — audio-note provenance propagation
+
+Commits: 57d3f3e conservative explicit stem labels -> estimated instrument ownership; 0339484 exposes ownership() on frozen core.audio_intelligence.NoteEvent without changing to_dict schema; 81b6998 consumes ownership() when no explicit source_owner exists in core.snowman_band strict routing; 3b7d66b adds five tests for piano/guitar/mixed/low-confidence/serialization. This is genuine producer-to-consumer source metadata plumbing, but core.effect_engine.NoteEvent is a separate type and is NOT yet provenance-wired. Default band routing remains legacy. No tests executed or new media rendered in this session; no verified acoustic identification, release approval, merge or publication. Next: inspect effect_engine harmonic event creation and real-stem conversion, test compatibility, run regressions, and establish real-audio strict-mode A/B before changing defaults.
+
+## 31 October — public production integration gates committed
+
+Commits: 6c69521 wires require_keyboard_source_ownership and keyboard_ownership_threshold through build_snowman_band_plan into keyboard cue construction; f5fc10f adds score_sequence_with_storytelling_gate to existing scorer, returning unchanged legacy score plus explicit acceptance and evidence; 02c73ba adds three public integration tests. These switches are opt-in and do not alter default production events. The new quality gate still requires real event-derived metrics; unknown evidence fails closed. Tests authored, not run in this session; no MP4s, native source verification or acoustic identity proof created. Next: run targeted and full regressions, locate actual note-event producer, propagate reliable stem identity, implement measured section/phrase evidence, verify real-audio A/B before enabling switches. Preserve approved drummer, no default xylophonist, no merge/release.
+
+## 31 October — musical quality gate and complete optimization roadmap
+
+Commits: 7b46f1b (core/musical_quality_gate.py), ce7f170 (five tests), 39798dc (docs/INTEGRATION_OPTIMIZATION_ROADMAP_20261031.md). New quality gate requires explicit bounded observations for section differentiation, phrase fidelity, instrument ownership, meaningful silence and motif recurrence; rejects missing/low evidence in strict mode. Opt-in only; no production ranking change and no verified media claim. Tests authored, not executed. Roadmap covers DATA/OWN/ARR/VOC/CAN/QUAL/REG/ENG/PERF/CI/APP/UTIL work packages, exit evidence and resume commands. No merge or release.
+
+## 31 October — source-ownership integration checkpoint
+
+Implementation commits: 2be732a (source-ownership foundation), 01e2581 (foundation tests), 60a2397 (opt-in keyboard integration), 8915b1f (integration tests). Files: core/source_ownership.py, core/snowman_band.py, tests/test_source_ownership.py, tests/test_keyboard_source_routing.py.
+
+New: confidence-gated detected/estimated/fallback source identity, strict opt-in keyboard cue filtering; guitar-owned, weak-confidence and unknown events are excluded when strict mode is explicitly requested. Legacy keyboard routing remains default to avoid altering approved media before production parity tests. Ten tests authored; not executed in this session. No MP4s rendered, CI outcomes collected, source identity acoustically proven, or release gates closed. Existing canonical drummer, exports and audio assets not intentionally modified.
+
+Next: run focused and full Python regressions; validate keyboard routing with representative real stems; add provenance at production event construction; compare strict/legacy native outputs; verify song-section arrangement effects; keep PR #188 unmerged and beta unreleased.
 
 # Helix live completion handoff — 30 October 2026
 

@@ -3,6 +3,7 @@ from __future__ import annotations
 from core.stage_metrics import timed_stage
 from core.drum_pipeline import build_drum_cues
 
+import math
 import json
 import re
 from pathlib import Path
@@ -10,6 +11,8 @@ from typing import Any, Iterable, Mapping
 
 from core import vocal_timeline as vt
 from core import vocal_emotion
+from core.source_ownership import SourceOwnership, resolve_owner
+from animation import drummer_motion
 from animation import string_motion
 from audio import instrument_detection
 
@@ -33,12 +36,40 @@ def _unique(values: Iterable[str]) -> list[str]:
 
 
 def _event_start_ms(event: Any) -> int:
-    return max(0, int(getattr(event, "start_ms", 0) or 0))
+    """Support harmonic and stem-analysis note-event time schemas."""
+    value = getattr(event, "start_ms", None)
+    if value is None:
+        value = getattr(event, "timestamp_ms", 0)
+    return max(0, int(value or 0))
 
 
 def _event_end_ms(event: Any, fallback_ms: int = 140) -> int:
     start_ms = _event_start_ms(event)
-    return max(start_ms + fallback_ms, int(getattr(event, "end_ms", start_ms + fallback_ms) or (start_ms + fallback_ms)))
+    explicit_end = getattr(event, "end_ms", None)
+    if explicit_end is not None:
+        return max(start_ms + fallback_ms, int(explicit_end))
+    duration = getattr(event, "duration_ms", None)
+    if duration is not None:
+        return max(start_ms + 1, start_ms + int(duration))
+    return start_ms + fallback_ms
+
+
+def _event_notes(event: Any) -> list[tuple[float, float]]:
+    """Read either harmonic polyphony or an analyzed single-stem note."""
+    notes = getattr(event, "notes", None)
+    if notes is not None:
+        return list(notes or [])
+    midi = getattr(event, "midi_note", None)
+    if midi is None:
+        return []
+    try:
+        pitch = float(midi)
+        velocity = float(getattr(event, "velocity", 1.0))
+    except (TypeError, ValueError):
+        return []
+    if not math.isfinite(pitch) or not math.isfinite(velocity):
+        return []
+    return [(pitch, max(0.0, min(1.0, velocity)))]
 
 
 def _event_text(event: Any) -> str:
@@ -79,7 +110,40 @@ def _extract_note_midis(note_events: list[Any], target_ms: int) -> list[float]:
     return out
 
 
-def _build_keyboard_note_cues(note_events: list[Any], parts: list[Any]) -> list[dict[str, Any]]:
+def _event_owner(event: Any) -> SourceOwnership | None:
+    """Read explicit provenance only; never infer instrument from pitch."""
+    owner = getattr(event, "source_owner", None)
+    if owner is None:
+        ownership_method = getattr(event, "ownership", None)
+        if callable(ownership_method):
+            try:
+                owner = ownership_method()
+            except (TypeError, ValueError):
+                return None
+    if owner is None:
+        return None
+    if isinstance(owner, SourceOwnership):
+        return owner
+    if isinstance(owner, dict):
+        try:
+            return SourceOwnership(
+                performer=owner.get("performer"),
+                confidence=float(owner.get("confidence", 0.0)),
+                origin=owner.get("origin", "fallback"),
+                source_id=str(owner.get("source_id", "")),
+            )
+        except (TypeError, ValueError):
+            return None
+    return None
+
+
+def _build_keyboard_note_cues(
+    note_events: list[Any],
+    parts: list[Any],
+    *,
+    require_source_ownership: bool = False,
+    ownership_threshold: float = 0.7,
+) -> list[dict[str, Any]]:
     """Expose all pitched notes to the keyboard without guessing instrument identity.
 
     The input note events can represent piano, bells, mallets, synths or other
@@ -87,9 +151,19 @@ def _build_keyboard_note_cues(note_events: list[Any], parts: list[Any]) -> list[
     """
     cues: list[dict[str, Any]] = []
     for event in note_events:
+        candidate = _event_owner(event)
+        ownership = None
+        if require_source_ownership:
+            ownership = resolve_owner(
+                candidate if candidate is not None and candidate.origin == "detected" else None,
+                candidate if candidate is not None and candidate.origin == "estimated" else None,
+                threshold=ownership_threshold,
+            )
+        if require_source_ownership and ownership.performer != "keyboardist":
+            continue
         start_ms = _event_start_ms(event)
         end_ms = _event_end_ms(event, fallback_ms=120)
-        for note in list(getattr(event, "notes", []) or []):
+        for note in _event_notes(event):
             if not isinstance(note, (tuple, list)) or not note:
                 continue
             try:
@@ -98,7 +172,7 @@ def _build_keyboard_note_cues(note_events: list[Any], parts: list[Any]) -> list[
                 continue
             if not 0 <= pitch <= 127:
                 continue
-            cues.append({
+            cue = {
                 "performer": "keyboardist",
                 "kind": "pitched_note",
                 "start_ms": start_ms,
@@ -109,7 +183,19 @@ def _build_keyboard_note_cues(note_events: list[Any], parts: list[Any]) -> list[
                 "source": "note_events",
                 "pitch_source": "helix_harmonic_polyphony",
                 "velocity": float(note[1]) if len(note)>1 else 1.0,
-            })
+            }
+            source_stem = str(getattr(event, "source_stem", "") or "")
+            if source_stem:
+                cue["source_stem"] = source_stem
+                cue["pitch_source"] = "helix_audio_intelligence"
+            if candidate is not None:
+                cue["source_owner"] = {
+                    "performer": candidate.performer,
+                    "confidence": candidate.confidence,
+                    "origin": candidate.origin,
+                    "source_id": candidate.source_id,
+                }
+            cues.append(cue)
     return sorted(cues, key=lambda cue: (cue["start_ms"], cue["pitch_midi"]))
 
 
@@ -895,6 +981,8 @@ def build_snowman_band_plan(
     enable_lyrics: bool = True,
     background_vocal_events: list[Any] | None = None,
     drum_event_streams: dict[str, list[Any]] | None = None,
+    require_keyboard_source_ownership: bool = False,
+    keyboard_ownership_threshold: float = 0.7,
 ) -> dict[str, Any]:
     layout_names = sorted(getattr(parsed_layout, "models", {}).keys()) if parsed_layout is not None else []
     face_routing = preferred_face_routing(layout_names)
@@ -941,7 +1029,12 @@ def build_snowman_band_plan(
     else:
         drum_cues, kit_components = _build_drum_cues(parts, kicks, snares, hats, releases)
         drum_intelligence_debug = {"fallback_mode": "legacy_marks", "counts": {}, "motion_events": [], "effect_cues": [], "mapping": []}
-    keyboard_cues = _build_keyboard_note_cues(note_events, parts)
+    keyboard_cues = _build_keyboard_note_cues(
+        note_events,
+        parts,
+        require_source_ownership=require_keyboard_source_ownership,
+        ownership_threshold=keyboard_ownership_threshold,
+    )
     background_vocals = _build_background_vocals(vocal_peaks, parts)
     vocal_emotion_payload = vocal_emotion.build_vocal_emotion_timeline(
         lyric_timeline=lyric_timeline,

@@ -1,6 +1,6 @@
 {
   "schema": "helix.beta-artifacts.v1",
-  "updated_at": "2026-10-31T03:13:53.829503+00:00",
+  "updated_at": "2026-11-02",
   "requested_count": 9,
   "verified_count": 9,
   "artifacts": [
@@ -19,7 +19,7 @@
         "bytes": 29415657,
         "source_audio": "Helix_Starred_New_Review.wav",
         "source_audio_sha256": "50857fef6ac17197821bb6a9ce27f7ebd1c23b7eb8c82521345296bd22087677",
-        "source_duration_seconds": 120.0,
+        "source_duration_seconds": 120,
         "codecs": [
           "h264",
           "aac"
@@ -30,30 +30,30 @@
         ],
         "actual_frame_rate": "20/1",
         "actual_frame_count": "2400",
-        "video_duration_seconds": 120.0,
-        "audio_duration_seconds": 120.0,
+        "video_duration_seconds": 120,
+        "audio_duration_seconds": 120,
         "stream_start_seconds": [
-          0.0,
-          0.0
+          0,
+          0
         ],
         "full_decode": true,
         "soundtrack_correlation": 0.9992698920533605,
         "window_alignment": [
           {
-            "source_start_seconds": 12.0,
-            "decoded_lag_seconds": 0.0
+            "source_start_seconds": 12,
+            "decoded_lag_seconds": 0
           },
           {
-            "source_start_seconds": 60.0,
-            "decoded_lag_seconds": 0.0
+            "source_start_seconds": 60,
+            "decoded_lag_seconds": 0
           },
           {
-            "source_start_seconds": 102.0,
-            "decoded_lag_seconds": 0.0
+            "source_start_seconds": 102,
+            "decoded_lag_seconds": 0
           },
           {
             "source_start_seconds": 117.95,
-            "decoded_lag_seconds": 0.0
+            "decoded_lag_seconds": 0
           }
         ],
         "musical_or_visual_acceptance": false,
@@ -62,7 +62,7 @@
           "frames": 240,
           "sample_fps": 2,
           "thresholds": {
-            "median_luma": 12.0,
+            "median_luma": 12,
             "median_bright_fraction": 0.012,
             "median_motion": 0.65,
             "min_visible_width": 0.4,
@@ -104,7 +104,7 @@
         "bytes": 2815588,
         "source_audio": "vocal-review-30s.wav",
         "source_audio_sha256": "47a0b5897bbcc11e892a8da81af4af5ea0adba6806d8119dc101d596a57ac3ba",
-        "source_duration_seconds": 30.0,
+        "source_duration_seconds": 30,
         "codecs": [
           "h264",
           "aac"
@@ -115,30 +115,30 @@
         ],
         "actual_frame_rate": "20/1",
         "actual_frame_count": "600",
-        "video_duration_seconds": 30.0,
-        "audio_duration_seconds": 30.0,
+        "video_duration_seconds": 30,
+        "audio_duration_seconds": 30,
         "stream_start_seconds": [
-          0.0,
-          0.0
+          0,
+          0
         ],
         "full_decode": true,
         "soundtrack_correlation": 0.9993690830072413,
         "window_alignment": [
           {
-            "source_start_seconds": 3.0,
-            "decoded_lag_seconds": 0.0
+            "source_start_seconds": 3,
+            "decoded_lag_seconds": 0
           },
           {
-            "source_start_seconds": 15.0,
-            "decoded_lag_seconds": 0.0
+            "source_start_seconds": 15,
+            "decoded_lag_seconds": 0
           },
           {
             "source_start_seconds": 25.5,
-            "decoded_lag_seconds": 0.0
+            "decoded_lag_seconds": 0
           },
           {
             "source_start_seconds": 27.95,
-            "decoded_lag_seconds": 0.0
+            "decoded_lag_seconds": 0
           }
         ],
         "musical_or_visual_acceptance": false,
@@ -147,7 +147,7 @@
           "frames": 60,
           "sample_fps": 2,
           "thresholds": {
-            "median_luma": 12.0,
+            "median_luma": 12,
             "median_bright_fraction": 0.012,
             "median_motion": 0.65,
             "min_visible_width": 0.4,
@@ -188,7 +188,7 @@
         "bytes": 23828026,
         "source_audio": "Helix_Starred_New_Review.wav",
         "source_audio_sha256": "50857fef6ac17197821bb6a9ce27f7ebd1c23b7eb8c82521345296bd22087677",
-        "source_duration_seconds": 120.0,
+        "source_duration_seconds": 120,
         "codecs": [
           "h264",
           "aac"
@@ -199,30 +199,30 @@
         ],
         "actual_frame_rate": "20/1",
         "actual_frame_count": "2400",
-        "video_duration_seconds": 120.0,
-        "audio_duration_seconds": 120.0,
+        "video_duration_seconds": 120,
+        "audio_duration_seconds": 120,
         "stream_start_seconds": [
-          0.0,
-          0.0
+          0,
+          0
         ],
         "full_decode": true,
         "soundtrack_correlation": 0.9992698920533605,
         "window_alignment": [
           {
-            "source_start_seconds": 12.0,
-            "decoded_lag_seconds": 0.0
+            "source_start_seconds": 12,
+            "decoded_lag_seconds": 0
           },
           {
-            "source_start_seconds": 60.0,
-            "decoded_lag_seconds": 0.0
+            "source_start_seconds": 60,
+            "decoded_lag_seconds": 0
           },
           {
-            "source_start_seconds": 102.0,
-            "decoded_lag_seconds": 0.0
+            "source_start_seconds": 102,
+            "decoded_lag_seconds": 0
           },
           {
             "source_start_seconds": 117.95,
-            "decoded_lag_seconds": 0.0
+            "decoded_lag_seconds": 0
           }
         ],
         "musical_or_visual_acceptance": false,
@@ -231,7 +231,7 @@
           "frames": 240,
           "sample_fps": 2,
           "thresholds": {
-            "median_luma": 12.0,
+            "median_luma": 12,
             "median_bright_fraction": 0.012,
             "median_motion": 0.65,
             "min_visible_width": 0.4,
@@ -272,7 +272,7 @@
         "bytes": 60909096,
         "source_audio": "Helix_Starred_New_Review.wav",
         "source_audio_sha256": "50857fef6ac17197821bb6a9ce27f7ebd1c23b7eb8c82521345296bd22087677",
-        "source_duration_seconds": 120.0,
+        "source_duration_seconds": 120,
         "codecs": [
           "h264",
           "aac"
@@ -283,30 +283,30 @@
         ],
         "actual_frame_rate": "20/1",
         "actual_frame_count": "2400",
-        "video_duration_seconds": 120.0,
-        "audio_duration_seconds": 120.0,
+        "video_duration_seconds": 120,
+        "audio_duration_seconds": 120,
         "stream_start_seconds": [
-          0.0,
-          0.0
+          0,
+          0
         ],
         "full_decode": true,
         "soundtrack_correlation": 0.9992698920533605,
         "window_alignment": [
           {
-            "source_start_seconds": 12.0,
-            "decoded_lag_seconds": 0.0
+            "source_start_seconds": 12,
+            "decoded_lag_seconds": 0
           },
           {
-            "source_start_seconds": 60.0,
-            "decoded_lag_seconds": 0.0
+            "source_start_seconds": 60,
+            "decoded_lag_seconds": 0
           },
           {
-            "source_start_seconds": 102.0,
-            "decoded_lag_seconds": 0.0
+            "source_start_seconds": 102,
+            "decoded_lag_seconds": 0
           },
           {
             "source_start_seconds": 117.95,
-            "decoded_lag_seconds": 0.0
+            "decoded_lag_seconds": 0
           }
         ],
         "musical_or_visual_acceptance": false,
@@ -315,7 +315,7 @@
           "frames": 240,
           "sample_fps": 2,
           "thresholds": {
-            "median_luma": 12.0,
+            "median_luma": 12,
             "median_bright_fraction": 0.012,
             "median_motion": 0.65,
             "min_visible_width": 0.4,
@@ -359,7 +359,7 @@
         "bytes": 89487503,
         "source_audio": "Helix_Starred_New_Review.wav",
         "source_audio_sha256": "50857fef6ac17197821bb6a9ce27f7ebd1c23b7eb8c82521345296bd22087677",
-        "source_duration_seconds": 120.0,
+        "source_duration_seconds": 120,
         "codecs": [
           "h264",
           "aac"
@@ -370,30 +370,30 @@
         ],
         "actual_frame_rate": "20/1",
         "actual_frame_count": "2400",
-        "video_duration_seconds": 120.0,
-        "audio_duration_seconds": 120.0,
+        "video_duration_seconds": 120,
+        "audio_duration_seconds": 120,
         "stream_start_seconds": [
-          0.0,
-          0.0
+          0,
+          0
         ],
         "full_decode": true,
         "soundtrack_correlation": 0.9992698920533605,
         "window_alignment": [
           {
-            "source_start_seconds": 12.0,
-            "decoded_lag_seconds": 0.0
+            "source_start_seconds": 12,
+            "decoded_lag_seconds": 0
           },
           {
-            "source_start_seconds": 60.0,
-            "decoded_lag_seconds": 0.0
+            "source_start_seconds": 60,
+            "decoded_lag_seconds": 0
           },
           {
-            "source_start_seconds": 102.0,
-            "decoded_lag_seconds": 0.0
+            "source_start_seconds": 102,
+            "decoded_lag_seconds": 0
           },
           {
             "source_start_seconds": 117.95,
-            "decoded_lag_seconds": 0.0
+            "decoded_lag_seconds": 0
           }
         ],
         "musical_or_visual_acceptance": false,
@@ -402,7 +402,7 @@
           "frames": 240,
           "sample_fps": 2,
           "thresholds": {
-            "median_luma": 12.0,
+            "median_luma": 12,
             "median_bright_fraction": 0.012,
             "median_motion": 0.65,
             "min_visible_width": 0.4,
@@ -428,8 +428,8 @@
         "blank_freeze_scan": {
           "file": "05_Nine_Layout_Synchronized_Comparison.mp4",
           "sample_fps": 4,
-          "maximum_blank_seconds": 0.0,
-          "maximum_frozen_seconds": 0.0,
+          "maximum_blank_seconds": 0,
+          "maximum_frozen_seconds": 0,
           "all_nine_caption_bands_excluded": true
         }
       },
@@ -450,7 +450,7 @@
         "bytes": 27370895,
         "source_audio": "review-technical-60s.wav",
         "source_audio_sha256": "852696ab332502296389ec326a1e782c4ab30706ced811921eec26c8efa6e522",
-        "source_duration_seconds": 60.0,
+        "source_duration_seconds": 60,
         "codecs": [
           "h264",
           "aac"
@@ -461,30 +461,30 @@
         ],
         "actual_frame_rate": "20/1",
         "actual_frame_count": "1200",
-        "video_duration_seconds": 60.0,
-        "audio_duration_seconds": 60.0,
+        "video_duration_seconds": 60,
+        "audio_duration_seconds": 60,
         "stream_start_seconds": [
-          0.0,
-          0.0
+          0,
+          0
         ],
         "full_decode": true,
         "soundtrack_correlation": 0.999259351744763,
         "window_alignment": [
           {
-            "source_start_seconds": 6.0,
-            "decoded_lag_seconds": 0.0
+            "source_start_seconds": 6,
+            "decoded_lag_seconds": 0
           },
           {
-            "source_start_seconds": 30.0,
-            "decoded_lag_seconds": 0.0
+            "source_start_seconds": 30,
+            "decoded_lag_seconds": 0
           },
           {
-            "source_start_seconds": 51.0,
-            "decoded_lag_seconds": 0.0
+            "source_start_seconds": 51,
+            "decoded_lag_seconds": 0
           },
           {
             "source_start_seconds": 57.95,
-            "decoded_lag_seconds": 0.0
+            "decoded_lag_seconds": 0
           }
         ],
         "musical_or_visual_acceptance": false,
@@ -493,7 +493,7 @@
           "frames": 120,
           "sample_fps": 2,
           "thresholds": {
-            "median_luma": 12.0,
+            "median_luma": 12,
             "median_bright_fraction": 0.012,
             "median_motion": 0.65,
             "min_visible_width": 0.4,
@@ -537,7 +537,7 @@
         "bytes": 56281292,
         "source_audio": "Helix_Starred_New_Review.wav",
         "source_audio_sha256": "50857fef6ac17197821bb6a9ce27f7ebd1c23b7eb8c82521345296bd22087677",
-        "source_duration_seconds": 120.0,
+        "source_duration_seconds": 120,
         "codecs": [
           "h264",
           "aac"
@@ -548,30 +548,30 @@
         ],
         "actual_frame_rate": "20/1",
         "actual_frame_count": "2400",
-        "video_duration_seconds": 120.0,
-        "audio_duration_seconds": 120.0,
+        "video_duration_seconds": 120,
+        "audio_duration_seconds": 120,
         "stream_start_seconds": [
-          0.0,
-          0.0
+          0,
+          0
         ],
         "full_decode": true,
         "soundtrack_correlation": 0.9992698920533605,
         "window_alignment": [
           {
-            "source_start_seconds": 12.0,
-            "decoded_lag_seconds": 0.0
+            "source_start_seconds": 12,
+            "decoded_lag_seconds": 0
           },
           {
-            "source_start_seconds": 60.0,
-            "decoded_lag_seconds": 0.0
+            "source_start_seconds": 60,
+            "decoded_lag_seconds": 0
           },
           {
-            "source_start_seconds": 102.0,
-            "decoded_lag_seconds": 0.0
+            "source_start_seconds": 102,
+            "decoded_lag_seconds": 0
           },
           {
             "source_start_seconds": 117.95,
-            "decoded_lag_seconds": 0.0
+            "decoded_lag_seconds": 0
           }
         ],
         "musical_or_visual_acceptance": false,
@@ -580,7 +580,7 @@
           "frames": 240,
           "sample_fps": 2,
           "thresholds": {
-            "median_luma": 12.0,
+            "median_luma": 12,
             "median_bright_fraction": 0.012,
             "median_motion": 0.65,
             "min_visible_width": 0.4,
@@ -624,7 +624,7 @@
         "bytes": 77760528,
         "source_audio": "Helix_Starred_New_Review.wav",
         "source_audio_sha256": "50857fef6ac17197821bb6a9ce27f7ebd1c23b7eb8c82521345296bd22087677",
-        "source_duration_seconds": 120.0,
+        "source_duration_seconds": 120,
         "codecs": [
           "h264",
           "aac"
@@ -635,30 +635,30 @@
         ],
         "actual_frame_rate": "20/1",
         "actual_frame_count": "2400",
-        "video_duration_seconds": 120.0,
-        "audio_duration_seconds": 120.0,
+        "video_duration_seconds": 120,
+        "audio_duration_seconds": 120,
         "stream_start_seconds": [
-          0.0,
-          0.0
+          0,
+          0
         ],
         "full_decode": true,
         "soundtrack_correlation": 0.9992698920533605,
         "window_alignment": [
           {
-            "source_start_seconds": 12.0,
-            "decoded_lag_seconds": 0.0
+            "source_start_seconds": 12,
+            "decoded_lag_seconds": 0
           },
           {
-            "source_start_seconds": 60.0,
-            "decoded_lag_seconds": 0.0
+            "source_start_seconds": 60,
+            "decoded_lag_seconds": 0
           },
           {
-            "source_start_seconds": 102.0,
-            "decoded_lag_seconds": 0.0
+            "source_start_seconds": 102,
+            "decoded_lag_seconds": 0
           },
           {
             "source_start_seconds": 117.95,
-            "decoded_lag_seconds": 0.0
+            "decoded_lag_seconds": 0
           }
         ],
         "musical_or_visual_acceptance": false,
@@ -667,7 +667,7 @@
           "frames": 240,
           "sample_fps": 2,
           "thresholds": {
-            "median_luma": 12.0,
+            "median_luma": 12,
             "median_bright_fraction": 0.012,
             "median_motion": 0.65,
             "min_visible_width": 0.4,
@@ -708,7 +708,7 @@
         "bytes": 59735054,
         "source_audio": "Helix_Starred_New_Review.wav",
         "source_audio_sha256": "50857fef6ac17197821bb6a9ce27f7ebd1c23b7eb8c82521345296bd22087677",
-        "source_duration_seconds": 120.0,
+        "source_duration_seconds": 120,
         "codecs": [
           "h264",
           "aac"
@@ -719,30 +719,30 @@
         ],
         "actual_frame_rate": "20/1",
         "actual_frame_count": "2400",
-        "video_duration_seconds": 120.0,
-        "audio_duration_seconds": 120.0,
+        "video_duration_seconds": 120,
+        "audio_duration_seconds": 120,
         "stream_start_seconds": [
-          0.0,
-          0.0
+          0,
+          0
         ],
         "full_decode": true,
         "soundtrack_correlation": 0.9992698920533605,
         "window_alignment": [
           {
-            "source_start_seconds": 12.0,
-            "decoded_lag_seconds": 0.0
+            "source_start_seconds": 12,
+            "decoded_lag_seconds": 0
           },
           {
-            "source_start_seconds": 60.0,
-            "decoded_lag_seconds": 0.0
+            "source_start_seconds": 60,
+            "decoded_lag_seconds": 0
           },
           {
-            "source_start_seconds": 102.0,
-            "decoded_lag_seconds": 0.0
+            "source_start_seconds": 102,
+            "decoded_lag_seconds": 0
           },
           {
             "source_start_seconds": 117.95,
-            "decoded_lag_seconds": 0.0
+            "decoded_lag_seconds": 0
           }
         ],
         "musical_or_visual_acceptance": false,
@@ -751,7 +751,7 @@
           "frames": 240,
           "sample_fps": 2,
           "thresholds": {
-            "median_luma": 12.0,
+            "median_luma": 12,
             "median_bright_fraction": 0.012,
             "median_motion": 0.65,
             "min_visible_width": 0.4,
@@ -1022,7 +1022,7 @@
       "owner_approved": false
     }
   ],
-  "review_complete": true,
+  "review_complete": false,
   "release_qualified": false,
   "final_implementation_commit": "c009595976a2b660bc4094b7302b9b284588c3c4",
   "final_source_module_sha256": {
@@ -1034,6 +1034,465 @@
     "core/bounded_audio.py": "18037a8c1ee065fe91d029dd9dd973ee7acdc8c6e23a9ddaa31ae3dc7e27c7e1",
     "tests/test_owner_band_review.py": "b182eb427416d689afc51f3bad936cca89627433348437db4684157776c15d46",
     "tests/test_bounded_audio.py": "9c39459c8cdb739eb47c2778a2e05f0a8b979acfb2597847e77170ad1432550f"
+  },
+  "owner_review_status": "All visuals rejected; test audio acceptable; no new owner acceptance",
+  "quality_first_engineering_evidence": {
+    "checkpoint": "evidence/beta_completion/quality_first_20261031/checkpoint.json",
+    "fingerprint_memory": "evidence/beta_completion/quality_first_20261031/fingerprint_memory.json",
+    "new_mp4_count": 0,
+    "native_or_release_qualified": false,
+    "real_audio_comparison": "evidence/beta_completion/quality_first_20261031/production_comparison.json",
+    "focused_receipt": "evidence/beta_completion/quality_first_20261031/focused-final.xml",
+    "broader_dsp_receipt": "evidence/beta_completion/quality_first_20261031/dsp-clean.xml",
+    "scope": "Engineering regression and short actual XSQ export, not native render or approval media",
+    "production_source_sha256": {
+      "core/effect_engine.py": "dc903813b353a713cf2f8fd30e0766a74a80d833cbeb89a08378c2e128b06ce8",
+      "core/band_planning.py": "0e0d6fc1453856c395f240a38fd936aa70acf9314065fc0c1ec1fd837ac18391",
+      "core/snowman_band.py": "155de34ec28e178752278ec5810c33bb10ec00a81dc9aa72eac716b8e06ad25c",
+      "core/audio_run_cache.py": "c9106ad4492e36bb91fce912096b9ff5e1631c6d563def51154c01d4429d2c50"
+    },
+    "implementation_commit": "cd0c852b0fc522ca04850eefece70e5b9bfb94bb",
+    "remote_files_verified": 18
+  },
+  "real_audio_12_comparison_20261101": {
+    "schema": "helix.real-audio-comparison-recovery.v1",
+    "phase": "IMPLEMENTING_REFERENCE_BOUND_3D",
+    "started_head": "09677d4822e35d724e9f229c0ab7465c9f34fd7a",
+    "requested_video": "HELIX_REAL_AUDIO_12_LAYOUT_COMPARISON_APPROVAL.mp4",
+    "delivery_complete": false,
+    "owner_approved": false,
+    "native_collection_run": 41219733511,
+    "native_collection_failures": [
+      "pilot_acceptance.json absent; independent vocal timing/reference gates unresolved",
+      "native pilot median_motion .425 below unchanged .65 gate"
+    ],
+    "native_producer_run": 41219733495,
+    "native_producer_failure": "Full-band source lacks independently resolved lead and backing vocal tracks",
+    "approved_3d_asset_search": {
+      "canonical_exporter": "models/canonical_native_band.py explicitly exports original planar artwork",
+      "current_source_art": "fixtures/band_geometry/source/drummer_idle.png",
+      "modeled_interpretation": "models/band_performance_scene.py explicitly says new 3D interpretation, not recovered approved source",
+      "drive_searches": [
+        "drummer: 0 results",
+        "snowman: 0 results"
+      ],
+      "history_source_restore_commit": "9e9dcc3",
+      "owner_reply": "im not certain"
+    },
+    "verified_sources": [
+      {
+        "title": "Tinsel Tornado",
+        "drive_id": "1Gv6hAzValSe2zRqTCfyrJVYGlfl8LLsp",
+        "path": "/workspace/attachments/155aec63-c2bf-4e3e-97d0-be670e019174/Copy of Tinsel Tornado.mp3",
+        "sha256": "8b8caddd6c292a13995bde0e80ac66f948246bd634278ab4ade1a82163aa7086"
+      },
+      {
+        "title": "Christmas in the Ether",
+        "drive_id": "1EcTfLPRNAoQJdzXSidiIsfv0p15AQ0ot",
+        "path": "/workspace/attachments/af728d2f-e90e-4d6b-9d01-e277080f60a5/Christmas in the Ether.mp3",
+        "sha256": "440b8ceca771c27686fe6c4f09bea36c07962894c8f818478702b9b2c78aefa1"
+      }
+    ],
+    "original_ac_layout": {
+      "path": "xlights_rgbeffects.xml",
+      "sha256": "1f3b0abaae93429f96e52710e33067cb6b49214132428d30f428269e8d2e7c0b"
+    },
+    "checkpoints": {
+      "native_artifact_id": 13050724353,
+      "native_zip_sha256": "1d5c4241238d4258e5c3b4a7f9111e33bc8ec0831e1213251c4bf133113b9b22",
+      "native_show": "/workspace/checkpoints/native/phoneme-work/show",
+      "renderer_artifact_id": 13050955075,
+      "renderer_zip_sha256": "528f0ed302c38c5a1dbaf1215f54e7e2fd5e0936f8e66f1912767df855a6ef95",
+      "renderer": "/workspace/checkpoints/renderer/phoneme-work/runtime/xLights"
+    },
+    "next_action": "Obtain approved original fully modeled3D drummer asset or known-good source commit. Bind it without substitution; qualify singer-specific clocks on b889df23 sampler, map the requested12 layouts using supported generators, render all12 natively, then compose and verify before assigning final filename. Never create a false pilot_acceptance.json.",
+    "last_updated_utc": "2026-11-01T00:31:00.563976+00:00",
+    "requested_mp4_exists": false,
+    "composition_fix": {
+      "module": "tools/render_approval_collection.py",
+      "output": [
+        1920,
+        1080
+      ],
+      "grid": [
+        4,
+        3
+      ],
+      "fps": 30,
+      "codecs": [
+        "h264",
+        "aac"
+      ],
+      "explicit_labels": true,
+      "actual_ffmpeg_encode_test": true,
+      "test_only_subsecond_color_fixtures_are_not_native_or_approval_media": true
+    },
+    "tests": {
+      "command": "python -m pytest -q tests/test_sampler_comparison_duration.py tests/test_approval_label_atomic.py tests/test_approval_collection.py tests/test_source_ac_review.py tests/test_band_planning_integration.py tests/test_drummer_oracle_comparison.py",
+      "result": "34 passed, 1 plugin deprecation warning",
+      "seconds": 27.93,
+      "receipt": "focused-tests.xml",
+      "initial_attempt": "9 passed / 6 missing-imageio import failures; installed imageio and imageio-ffmpeg then reran unchanged assertions"
+    },
+    "production": {
+      "exit_code": 0,
+      "audio_sha256": "b889df23d4960b393bfa5b6f84f2f72de245bdd176032bf16346d8680e960a3d",
+      "duration_seconds": 36,
+      "source_commit": "09677d4822e35d724e9f229c0ab7465c9f34fd7a",
+      "engine_worktree_module_changes": false,
+      "source_library_tracks": [
+        "Tinsel Tornado164\u2013182s",
+        "Christmas in the Ether76.5\u201394.5s"
+      ],
+      "effects": 5155,
+      "detected_parts": [
+        {
+          "label": "VERSE",
+          "start_ms": 0,
+          "end_ms": 8000
+        },
+        {
+          "label": "CHORUS",
+          "start_ms": 8000,
+          "end_ms": 16000
+        },
+        {
+          "label": "PRECHORUS",
+          "start_ms": 16000,
+          "end_ms": 28000
+        },
+        {
+          "label": "CHORUS",
+          "start_ms": 28000,
+          "end_ms": 32000
+        },
+        {
+          "label": "PRECHORUS",
+          "start_ms": 32000,
+          "end_ms": 36000
+        }
+      ],
+      "shared_sync_frames": 5,
+      "cue_counts": {
+        "lead_singer": 0,
+        "background_vocals": 28,
+        "lead_face_activations": 28,
+        "background_face_activations": 3,
+        "part_hit_reactions": 8,
+        "bassist": 17,
+        "guitarist": 250,
+        "keyboardist": 631,
+        "drummer": 69
+      },
+      "note": "Actual mixed-bus/local HPSS engine run. Estimated sections/voices are not independently verified musical truth; Whisper unavailable and no lexical timing proven. No rendering of planar/replacement drummer used as approval."
+    },
+    "saved_production_files": [
+      {
+        "original": "/workspace/checkpoints/production36/Helix_Starred_New_Review,v27.3.xsq",
+        "stored": "evidence/beta_completion/comparison_20261101/production/Helix_Starred_New_Review,v27.3.xsq.gz",
+        "uncompressed_sha256": "9410476a596f813838f5a300f30207e8c577e25ae6558260119381dc52a847de",
+        "compressed_sha256": "f3652398decc8129d9407425824b7a8b022464393ddad064f520a159aef85cfc"
+      },
+      {
+        "original": "/workspace/checkpoints/production36/Helix_Starred_New_Review,v27.3.snowman_band.json",
+        "stored": "evidence/beta_completion/comparison_20261101/production/Helix_Starred_New_Review,v27.3.snowman_band.json.gz",
+        "uncompressed_sha256": "bfe6b66a0de7e12532fc344ff187e2c4e3ccbfe0bd8323364b3bd86d9a32c697",
+        "compressed_sha256": "4139badacd75cc53fed7885a759c06ad79926addeeb5ae6bef1bf8d1c7eb936b"
+      },
+      {
+        "original": "/workspace/checkpoints/production36/Helix_Starred_New_Review,v27.3.report.json",
+        "stored": "evidence/beta_completion/comparison_20261101/production/Helix_Starred_New_Review,v27.3.report.json.gz",
+        "uncompressed_sha256": "e641ef2a3cf64b8f66a9aeb3d6e62f93c2e59b93ecd046b439dcac5d6a22afb8",
+        "compressed_sha256": "6a21c32a97de101f39118c46ee1b7aab2327902b624b3750d4775ada8e0a8337"
+      },
+      {
+        "original": "/workspace/checkpoints/production36/HELIX_PROVENANCE.json",
+        "stored": "evidence/beta_completion/comparison_20261101/production/HELIX_PROVENANCE.json.gz",
+        "uncompressed_sha256": "0547447489768ccc25c6c64447490a5f4ccb97d185f7b4739d309c2255c97863",
+        "compressed_sha256": "dfac6e25c8e960b308ef95258c46f12cc8e0dd00f0a638d489fe43b47b6806ef"
+      },
+      {
+        "original": "/workspace/checkpoints/production36.log",
+        "stored": "evidence/beta_completion/comparison_20261101/production/production36.log.gz",
+        "uncompressed_sha256": "b6347dd6518129ae7218cfb76f0418479b97b7b87a8b855e68a45185c9d7c2e2",
+        "compressed_sha256": "8db9eab8e9ed9bfb574a34800dd9052504cb50ebccbcf05954443272c05c7137"
+      }
+    ],
+    "asset_search_result": {
+      "current_canonical": "explicit planar artwork, not admissible under this request",
+      "historical_original_restore": "9e9dcc3 explicitly restores planar art",
+      "procedural_model": "32d6bd9/5c78ffa explicitly a new interpretation, not original recovered model",
+      "additional_source_branches": [
+        "agent/drummer-submodel-renderer",
+        "codex/band-performance-refinement-20261012",
+        "codex/3d-vocal-controller-review-20261016"
+      ],
+      "connected_drive_queries": [
+        "drummer: zero results",
+        "snowman: zero results"
+      ],
+      "approved_original_fully_modeled_source_located": false
+    },
+    "remaining": [
+      "Approved original fully modeled3D drummer source unavailable in inspected project history and connected Drive search",
+      "Independent lead/harmony source clocks and phoneme qualification unresolved",
+      "Requested12layout selection/export and fresh native renders remain incomplete; historicalNAMES do not match this new requested list",
+      "Full36s comparison playback/sync/blank/frozen/AC/singer acceptance and actual MP4 download not performed"
+    ],
+    "published_implementation_commit": "9a800a1abad26d2daf203ad34caf9779249ae581",
+    "remote_branch_head_verified": "9a800a1abad26d2daf203ad34caf9779249ae581",
+    "checkpoint_roundtrip_sha256": "all5pass",
+    "superseded_status_note": "Earlier blocker/checkpoint records are historical. Latest operative state is current_real_audio_comparison, after owner authorized matching-front3D and fresh hook renders."
+  },
+  "drum1_owner_reference_20261101": {
+    "schema": "helix.owner-drummer-reference.v1",
+    "supplied_at_utc": "2026-11-01T00:38:43.777633+00:00",
+    "source_attachment": "Drum1.mp4",
+    "local_retained_path": "/workspace/checkpoints/drum1-reference/Drum1.mp4",
+    "sha256": "f014db45dc49688da40a4337a1185589ef09ffe81c13e234eb20d0f0f57e45b3",
+    "bytes": 4547427,
+    "duration_seconds": 38.316667,
+    "dimensions": [
+      960,
+      540
+    ],
+    "fps": 60,
+    "codecs": [
+      "h264",
+      "aac"
+    ],
+    "full_decode": true,
+    "visual_review": "Actual contact sheet at roughly3/9/15/21/27/33s inspected; original colored V3 kit and source-art arm strokes visible",
+    "historical_identity": "Exact match to archived artifact11520003337/drummer-dry-audio-test/test_runs/drummer_dry_test/Helix_Drummer_DRY_TEST.mp4",
+    "source_image": "fixtures/band_geometry/source/drummerbg.png",
+    "source_image_sha256": "643e1bfb7fb0b245cb7400010a80f9f75037f8a5554adde7bde8cba7a53374fa",
+    "source_dry_audio_sha256": "4cd9ee35b65d359aa44ac4c9e01a256bbcaf3297458340fc512084bae1463913",
+    "decoded_audio_rms": 0.17934249341487885,
+    "original_dry_audio_zero_lag_correlation": 0.99708271067799,
+    "identity_located": true,
+    "fully_volumetric_geometry_in_this_clip": false,
+    "owner_approval_of_final_comparison": false,
+    "interpretation_pending": false,
+    "comparison_soundtrack_unchanged": "b889df23d4960b393bfa5b6f84f2f72de245bdd176032bf16346d8680e960a3d owner-library36ssampler; dry-test sound is referenceonly",
+    "next_action": "Resolve owner rendering interpretation, bind exact reference without replacing library soundtrack or reusing old footage, continue independent renderer preparation",
+    "pinned_native_runtime_preparation": {
+      "appimage": "/workspace/checkpoints/xlights-runtime/xLights.AppImage",
+      "sha256": "62affb88b9a9b03cf5164974ac69bcefe35c559719d157b3364e4d4a5ab4214b",
+      "extracted": "/workspace/checkpoints/xlights-runtime/squashfs-root",
+      "resources_present": true,
+      "runtime_ready": false,
+      "remaining": "Recovered patched binary needs compatible monolithicwxWidgets; officialAppImage has modularwx libraries. No runtime substitution or native render success claimed."
+    },
+    "owner_rendering_direction": "Build3Dconsistentwithband;frontviewmustmatchcanonical2DDrum1/drummerbg"
+  },
+  "current_real_audio_comparison": {
+    "phase": "DELIVERY_READY_FOR_OWNER_REVIEW",
+    "updated_at": "2026-11-01T04:59:13.608925+00:00",
+    "owner_direction": "Actual3Ddepth with unchangedDrum1/drummerbgfrontdesign",
+    "implementation": [
+      "models/source_drummer_3d.py",
+      "tools/source_band_view.py",
+      "tools/build_current_comparison.py",
+      "tools/render_current_native_views.py",
+      "tools/render_owner_band_review.py",
+      "tools/native_preview.py"
+    ],
+    "geometry": "10watertightpositive-volume source-front components; same canonical2DXY/materials, original2Dsource-clock skeleton, source shoulder attachments, independentfeet; no billboard or seventhperformer",
+    "current_audio": {
+      "name": "Phoneme_Test_Hook.mp3",
+      "sha256": "19e90c273d0d747938f24b36586b50818c104cddffbefe4a4128927374301938",
+      "seconds": 34.88,
+      "kind": "retained original owner-uploaded music; existing owner test-audio approval is not visual approval",
+      "fresh_production": "/workspace/checkpoints/production-hook",
+      "effects": 5447,
+      "cues": {
+        "drummer": 166,
+        "guitarist": 288,
+        "bassist": 47,
+        "keyboardist": 659
+      },
+      "vocal_clock": "source-bound cached two-stageMDX/Silero,16.09slead/3.87sbacking estimates; singeridentity/lexicaltruthunverified"
+    },
+    "prior36s_sampler": "Retained diagnostics only; failed brightness/framing checks and sparse early percussion/vocals. No prior footage promoted.",
+    "tests": "76passed,1existingoptionalnative-manifestskip,10subtests; sourcefront/depth,drummeroraclecomparator,ACaddressmapping,native/readiness,keyboard,comparison decode/order checks. No thresholds weakened.",
+    "band_readability": {
+      "median_luma": 33.102,
+      "median_bright_fraction": 0.1707,
+      "median_motion": 1.083,
+      "visible_width": 0.812,
+      "visible_height": 0.522,
+      "passed": true
+    },
+    "native_runtime": {
+      "wx_recovery_run": 41272538723,
+      "wx_artifact": 13069713422,
+      "wx_artifact_sha256": "46ac60296a4cb797295e5a09ea31df275eca6704471a117d8da10ccbfaf3ec93",
+      "runtime_hashes_verified": true,
+      "pinned_xlights": "2026.18",
+      "upstream": "839c0f590dc454bb7adb8a16c4dd92a70b46156e",
+      "patch_sha256": "93bedae81caefda745034651994a16b2d127079a5af784013109becfb428566b",
+      "binary_sha256": "09dfeae588e9659dfd41cbd6115bf77b9cf4871fcea2bd02190dcbdc3a7ac844",
+      "actual_native_fseq_mp4": true,
+      "container": "helix-native-20261101"
+    },
+    "work": "/workspace/checkpoints/comparison-hook",
+    "layouts": "/workspace/checkpoints/comparison-hook/layouts",
+    "native_batch_log": "/workspace/checkpoints/comparison-hook/native-batch.log",
+    "delivery_complete": true,
+    "owner_approved": false,
+    "next_action": "Owner watches delivered MP4 and accepts or requests changes. Independent singer identity/lexical proof, physical qualification and full source CI remain open. Do not mergePR188 or release without explicit approval.",
+    "final_artifact": {
+      "file": "HELIX_REAL_AUDIO_12_LAYOUT_COMPARISON_APPROVAL.mp4",
+      "path": "/workspace/deliverables/HELIX_REAL_AUDIO_12_LAYOUT_COMPARISON_APPROVAL.mp4",
+      "sha256": "0a2a0763b4952984b1d5a0d8481b08348ab212e702c3d64a4af29b6c5b1bb198",
+      "bytes": 18530685,
+      "seconds": 34.866667,
+      "dimensions": [
+        1920,
+        1080
+      ],
+      "fps": 30,
+      "video_codec": "h264",
+      "audio_codec": "aac",
+      "drive_id": "1uNEshOt-FvjRhp3nRK5O73nc8kefoDup",
+      "drive_url": "https://drive.google.com/file/d/1uNEshOt-FvjRhp3nRK5O73nc8kefoDup/view?usp=drivesdk",
+      "downloaded_copy_sha256": "0a2a0763b4952984b1d5a0d8481b08348ab212e702c3d64a4af29b6c5b1bb198",
+      "full_decode": true,
+      "soundtrack_correlation": 0.999018237103682,
+      "max_audio_lag_seconds": 0,
+      "distinct_panels": 12,
+      "max_blank_seconds": 0.7,
+      "max_frozen_seconds": 0.6,
+      "source_snapshot": "evidence/beta_completion/comparison_20261101/render-source-snapshot.json",
+      "render_implementation_commit": "d1567b74b341efff5a30a28bec272c7d5c377406"
+    },
+    "render_distinction": "Canonical band uses continuous Helix solid3D; other11visible views are native xLights. Native XSQ/FSEQ/render companions successfully built for all12.",
+    "owner_review_limitations": [
+      "Lead/backing clocks are distinct source-separated estimates; acoustic singer identity and lexical phonemes unverified.",
+      "3Ddrummer is closed dimensional geometry from original front reference, pending artistic owner acceptance.",
+      "Presentation30fps uses20fpssolid/25fpsnative motion cadence.",
+      "Full current-source CI and independent instrument ownership/physical device qualification are not closed by playback checks."
+    ],
+    "render_implementation_commit": "d1567b74b341efff5a30a28bec272c7d5c377406"
+  },
+  "active_delivery": {
+    "status": "DELIVERED_FOR_OWNER_REVIEW",
+    "requested_file_count": 1,
+    "verified_file_count": 1,
+    "artifact": {
+      "file": "HELIX_REAL_AUDIO_12_LAYOUT_COMPARISON_APPROVAL.mp4",
+      "path": "/workspace/deliverables/HELIX_REAL_AUDIO_12_LAYOUT_COMPARISON_APPROVAL.mp4",
+      "sha256": "0a2a0763b4952984b1d5a0d8481b08348ab212e702c3d64a4af29b6c5b1bb198",
+      "bytes": 18530685,
+      "seconds": 34.866667,
+      "dimensions": [
+        1920,
+        1080
+      ],
+      "fps": 30,
+      "video_codec": "h264",
+      "audio_codec": "aac",
+      "drive_id": "1uNEshOt-FvjRhp3nRK5O73nc8kefoDup",
+      "drive_url": "https://drive.google.com/file/d/1uNEshOt-FvjRhp3nRK5O73nc8kefoDup/view?usp=drivesdk",
+      "downloaded_copy_sha256": "0a2a0763b4952984b1d5a0d8481b08348ab212e702c3d64a4af29b6c5b1bb198",
+      "full_decode": true,
+      "soundtrack_correlation": 0.999018237103682,
+      "max_audio_lag_seconds": 0,
+      "distinct_panels": 12,
+      "max_blank_seconds": 0.7,
+      "max_frozen_seconds": 0.6,
+      "source_snapshot": "evidence/beta_completion/comparison_20261101/render-source-snapshot.json",
+      "render_implementation_commit": "d1567b74b341efff5a30a28bec272c7d5c377406"
+    },
+    "owner_approved": false,
+    "release_qualified": false
+  },
+  "historical_artifacts_note": "Top-level nine-file artifacts/counts describe the retained30October collection rejected by owner; current task has one fresh twelve-layout comparison under active_delivery. No old footage promoted.",
+  "latest_actions_validation": [
+    {
+      "gate": "Beta smoke",
+      "run": 41163710749,
+      "conclusion": "success",
+      "jobs": {
+        "python 3.11": "success",
+        "python 3.12": "success"
+      },
+      "url": "https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/41163710749"
+    },
+    {
+      "gate": "Windows Portable GUI",
+      "run": 41163710660,
+      "conclusion": "success",
+      "url": "https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/41163710660"
+    },
+    {
+      "gate": "Android offline smoke",
+      "run": 41163710668,
+      "conclusion": "success",
+      "jobs": {
+        "API 30": "success",
+        "API 36": "success"
+      },
+      "url": "https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/41163710668"
+    },
+    {
+      "gate": "Full regression audit",
+      "run": 41163710718,
+      "conclusion": "failure",
+      "source_commit": "7d34b5e merge of c009595 into 59f3240",
+      "python_311": "success",
+      "python_312": "failure",
+      "failures": [
+        {
+          "test": "test_bounded_chroma_preserves_reference_across_long_partial_blocks[1]",
+          "mismatched": 10,
+          "total": 4097,
+          "max_abs_diff": 2.66020723e-07
+        },
+        {
+          "test": "test_bounded_chroma_preserves_reference_across_long_partial_blocks[61]",
+          "mismatched": 22,
+          "total": 4157,
+          "max_abs_diff": 1.99515542e-07
+        },
+        {
+          "test": "test_bounded_chroma_preserves_reference_across_long_partial_blocks[509]",
+          "mismatched": 18,
+          "total": 4605,
+          "max_abs_diff": 1.33010362e-07
+        }
+      ],
+      "tolerance": "atol=1e-7, rtol=0",
+      "other_passed": 2214,
+      "subtests_passed": 24,
+      "skipped": 6,
+      "url": "https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/41163710718"
+    },
+    {
+      "gate": "Final band/native verification",
+      "run": 41163710727,
+      "conclusion": "failure",
+      "native_proof": "success",
+      "accepted_native_band": "failure",
+      "cause": "No successful native producer at c009595; producer run 41163710797 failed",
+      "url": "https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/41163710727"
+    },
+    {
+      "gate": "Twelve-layout approval render",
+      "run": 41163710805,
+      "conclusion": "failure",
+      "source_commit": "c009595976a2b660bc4094b7302b9b284588c3c4",
+      "cause": "Missing pilot evidence for vocal timing and approved-reference identity; visible_stage_motion median 0.425 < 0.65",
+      "url": "https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/41163710805"
+    }
+  ],
+  "release_acceptance": {
+    "status": "HELD",
+    "owner_approval": false,
+    "pr188_merged": false,
+    "requested_mp4_count": 9,
+    "technical_delivery_count": 9,
+    "technical_delivery_is_not_approval": true
   },
   "core_optimization_evidence": [
     {

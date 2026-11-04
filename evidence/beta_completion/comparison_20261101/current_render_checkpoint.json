@@ -1,0 +1,90 @@
+{
+  "phase": "DELIVERY_READY_FOR_OWNER_REVIEW",
+  "updated_at": "2026-11-01T05:00:47.436181+00:00",
+  "owner_direction": "Actual3Ddepth with unchangedDrum1/drummerbgfrontdesign",
+  "implementation": [
+    "models/source_drummer_3d.py",
+    "tools/source_band_view.py",
+    "tools/build_current_comparison.py",
+    "tools/render_current_native_views.py",
+    "tools/render_owner_band_review.py",
+    "tools/native_preview.py"
+  ],
+  "geometry": "10watertightpositive-volume source-front components; same canonical2DXY/materials, original2Dsource-clock skeleton, source shoulder attachments, independentfeet; no billboard or seventhperformer",
+  "current_audio": {
+    "name": "Phoneme_Test_Hook.mp3",
+    "sha256": "19e90c273d0d747938f24b36586b50818c104cddffbefe4a4128927374301938",
+    "seconds": 34.88,
+    "kind": "retained original owner-uploaded music; existing owner test-audio approval is not visual approval",
+    "fresh_production": "/workspace/checkpoints/production-hook",
+    "effects": 5447,
+    "cues": {
+      "drummer": 166,
+      "guitarist": 288,
+      "bassist": 47,
+      "keyboardist": 659
+    },
+    "vocal_clock": "source-bound cached two-stageMDX/Silero,16.09slead/3.87sbacking estimates; singeridentity/lexicaltruthunverified"
+  },
+  "prior36s_sampler": "Retained diagnostics only; failed brightness/framing checks and sparse early percussion/vocals. No prior footage promoted.",
+  "tests": "76passed,1existingoptionalnative-manifestskip,10subtests; sourcefront/depth,drummeroraclecomparator,ACaddressmapping,native/readiness,keyboard,comparison decode/order checks. No thresholds weakened.",
+  "band_readability": {
+    "median_luma": 33.102,
+    "median_bright_fraction": 0.1707,
+    "median_motion": 1.083,
+    "visible_width": 0.812,
+    "visible_height": 0.522,
+    "passed": true
+  },
+  "native_runtime": {
+    "wx_recovery_run": 41272538723,
+    "wx_artifact": 13069713422,
+    "wx_artifact_sha256": "46ac60296a4cb797295e5a09ea31df275eca6704471a117d8da10ccbfaf3ec93",
+    "runtime_hashes_verified": true,
+    "pinned_xlights": "2026.18",
+    "upstream": "839c0f590dc454bb7adb8a16c4dd92a70b46156e",
+    "patch_sha256": "93bedae81caefda745034651994a16b2d127079a5af784013109becfb428566b",
+    "binary_sha256": "09dfeae588e9659dfd41cbd6115bf77b9cf4871fcea2bd02190dcbdc3a7ac844",
+    "actual_native_fseq_mp4": true,
+    "container": "helix-native-20261101"
+  },
+  "work": "/workspace/checkpoints/comparison-hook",
+  "layouts": "/workspace/checkpoints/comparison-hook/layouts",
+  "native_batch_log": "/workspace/checkpoints/comparison-hook/native-batch.log",
+  "delivery_complete": true,
+  "owner_approved": false,
+  "next_action": "Owner watches delivered MP4 and accepts or requests changes. Independent singer identity/lexical proof, physical qualification and full source CI remain open. Do not mergePR188 or release without explicit approval.",
+  "final_artifact": {
+    "file": "HELIX_REAL_AUDIO_12_LAYOUT_COMPARISON_APPROVAL.mp4",
+    "path": "/workspace/deliverables/HELIX_REAL_AUDIO_12_LAYOUT_COMPARISON_APPROVAL.mp4",
+    "sha256": "0a2a0763b4952984b1d5a0d8481b08348ab212e702c3d64a4af29b6c5b1bb198",
+    "bytes": 18530685,
+    "seconds": 34.866667,
+    "dimensions": [
+      1920,
+      1080
+    ],
+    "fps": 30,
+    "video_codec": "h264",
+    "audio_codec": "aac",
+    "drive_id": "1uNEshOt-FvjRhp3nRK5O73nc8kefoDup",
+    "drive_url": "https://drive.google.com/file/d/1uNEshOt-FvjRhp3nRK5O73nc8kefoDup/view?usp=drivesdk",
+    "downloaded_copy_sha256": "0a2a0763b4952984b1d5a0d8481b08348ab212e702c3d64a4af29b6c5b1bb198",
+    "full_decode": true,
+    "soundtrack_correlation": 0.999018237103682,
+    "max_audio_lag_seconds": 0.0,
+    "distinct_panels": 12,
+    "max_blank_seconds": 0.7,
+    "max_frozen_seconds": 0.6,
+    "source_snapshot": "evidence/beta_completion/comparison_20261101/render-source-snapshot.json",
+    "render_implementation_commit": "d1567b74b341efff5a30a28bec272c7d5c377406"
+  },
+  "render_distinction": "Canonical band uses continuous Helix solid3D; other11visible views are native xLights. Native XSQ/FSEQ/render companions successfully built for all12.",
+  "owner_review_limitations": [
+    "Lead/backing clocks are distinct source-separated estimates; acoustic singer identity and lexical phonemes unverified.",
+    "3Ddrummer is closed dimensional geometry from original front reference, pending artistic owner acceptance.",
+    "Presentation30fps uses20fpssolid/25fpsnative motion cadence.",
+    "Full current-source CI and independent instrument ownership/physical device qualification are not closed by playback checks."
+  ],
+  "render_implementation_commit": "d1567b74b341efff5a30a28bec272c7d5c377406"
+}

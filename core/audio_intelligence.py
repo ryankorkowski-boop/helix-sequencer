@@ -124,6 +124,11 @@ class NoteEvent:
     confidence: float
     source_stem: str
 
+    def ownership(self):
+        """Conservative identity derived from labeled source stem and confidence."""
+        from core.source_ownership import ownership_from_stem
+        return ownership_from_stem(self.source_stem, self.confidence)
+
     def to_dict(self) -> dict[str, object]:
         return asdict(self)
 
@@ -826,6 +831,14 @@ def _bounded_background_features(harm, sr, hop=512):
         if previous_magnitude is not None and count < chroma_frames:
             offset = chroma_frames + size % 64 - count
             window = np.concatenate((previous_magnitude[:, -offset:], magnitude), axis=1)
+        # Keep the BLAS column tile aligned for the final partial block. A
+        # narrow tail can select a different float32 SGEMM kernel and drift
+        # beyond the whole-recording reference despite identical frame data.
+        # Right-padding is strictly outside the retained source frames, so it
+        # cannot create or shift an event; only the original count is copied.
+        pad = (-window.shape[1]) % 64
+        if pad:
+            window = np.pad(window, ((0, 0), (0, pad)))
         chroma = librosa.feature.chroma_stft(S=window, sr=sr, hop_length=hop, tuning=tuning)
         probability = chroma / (np.sum(chroma, axis=0) + 1e-9)
         entropy = -np.sum(probability * np.log2(probability + 1e-9), axis=0) / np.log2(12.0)
@@ -1410,17 +1423,32 @@ def _extract_note_candidates(
     raw_candidates: list[dict[str, object]] = []
     note_events: list[NoteEvent] = []
     active: dict[int, dict[str, float]] = {}
+    # Compute the gap threshold once rather than for every active note frame.
+    continuity_ms = max(90, config.smoothing_window_ms)
+    # The global pitch normalization factor is invariant across frames.
+    # Computing it inside the loop repeatedly scans the full pitch matrix.
+    # Use a bounded per-frame peak array instead of a second full-size
+    # pitch matrix, which is costly for long recordings and Android devices.
+    finite_peaks = np.zeros(stft_mag.shape[1], dtype=np.float32)
+    peak_indices = np.zeros(stft_mag.shape[1], dtype=np.intp)
+    for frame_idx in range(stft_mag.shape[1]):
+        mags = pitch_mag[:, frame_idx]
+        if not mags.size:
+            continue
+        finite_column = np.where(np.isfinite(mags), mags, 0.0)
+        peak_indices[frame_idx] = int(np.argmax(finite_column))
+        finite_peaks[frame_idx] = max(0.0, float(finite_column[peak_indices[frame_idx]]))
+    max_mag = float(np.max(finite_peaks)) if finite_peaks.size else 0.0
     for frame_idx in range(stft_mag.shape[1]):
         mags = pitch_mag[:, frame_idx]
         if mags.size == 0:
             continue
-        best_idx = int(np.argmax(mags))
+        best_idx = int(peak_indices[frame_idx])
         best_hz = float(pitch_hz[best_idx, frame_idx])
         best_mag = float(mags[best_idx])
-        max_mag = float(np.max(pitch_mag)) if pitch_mag.size else 0.0
-        confidence = _clamp01(best_mag / max(1e-9, max_mag))
-        if best_hz <= 0.0:
+        if not np.isfinite(best_hz) or best_hz <= 0.0 or not np.isfinite(best_mag) or best_mag <= 0.0:
             continue
+        confidence = _clamp01(best_mag / max(1e-9, max_mag))
         midi = int(round(float(librosa.hz_to_midi(best_hz))))
         time_ms = int(round(float(frame_times_s[frame_idx]) * 1000.0))
         raw_candidates.append(
@@ -1438,7 +1466,7 @@ def _extract_note_candidates(
         if current is None:
             active[midi] = {"start_ms": time_ms, "last_ms": time_ms, "velocity": confidence, "pitch_hz": best_hz, "confidence": confidence}
             continue
-        if time_ms - int(current["last_ms"]) <= max(90, config.smoothing_window_ms):
+        if time_ms - int(current["last_ms"]) <= continuity_ms:
             current["last_ms"] = time_ms
             current["velocity"] = max(float(current["velocity"]), confidence)
             current["confidence"] = max(float(current["confidence"]), confidence)

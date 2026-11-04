@@ -101,6 +101,7 @@ def test_bounded_chroma_preserves_reference_across_long_partial_blocks(tail, mon
     monkeypatch.setattr(librosa.feature, 'chroma_stft', measured)
     actual_pitch, actual_entropy = ai._bounded_background_features(harmonic, sr)
     assert len(widths) >= 3
+    assert all(width % 64 == 0 for width in widths)
     assert max(widths)*1025*4 < 16*1024**2
     np.testing.assert_array_equal(actual_pitch, expected_pitch)
     np.testing.assert_allclose(actual_entropy, expected_entropy, atol=1e-7, rtol=0)
