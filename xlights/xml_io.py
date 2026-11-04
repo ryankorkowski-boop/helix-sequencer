@@ -51,12 +51,12 @@ def load_xsq(path: Path) -> "XsqIndex":
             break
 
     if first_on is not None:
-        on.settings = legacy._effect_settings(first_on)
-        on.palette = legacy._effect_palette(first_on)
+        on.settings = legacy._effect_settings(first_on, root)
+        on.palette = legacy._effect_palette(first_on, root)
 
     if first_ramp is not None:
-        ramp.settings = legacy._effect_settings(first_ramp)
-        ramp.palette = legacy._effect_palette(first_ramp)
+        ramp.settings = legacy._effect_settings(first_ramp, root)
+        ramp.palette = legacy._effect_palette(first_ramp, root)
 
     return legacy.XsqIndex(tree=tree, root=root, elements=elements, on_tpl=on, ramp_tpl=ramp)
 
@@ -110,7 +110,150 @@ def clear_effects(el: ET.Element, mode: str, layer_name: str) -> None:
             return
 
 
-def add_effect(layer: ET.Element, start_ms: int, end_ms: int, name: str, tpl: "EffectTemplate") -> ET.Element:
+def _index_text(value: str | None) -> int | None:
+    raw = (value or "").strip()
+    if not raw or not raw.isdigit():
+        return None
+    return int(raw)
+
+
+def _direct_children(parent: ET.Element, suffix: str) -> list[ET.Element]:
+    return [child for child in list(parent) if isinstance(child.tag, str) and child.tag.endswith(suffix)]
+
+
+def _ensure_library(root: ET.Element, tag: str) -> ET.Element:
+    found = find_root_child(root, tag)
+    if found is not None:
+        return found
+    library = ET.Element(tag)
+    insert_at = len(list(root))
+    for index, child in enumerate(list(root)):
+        if isinstance(child.tag, str) and child.tag.endswith("ElementEffects"):
+            insert_at = index
+            break
+    root.insert(insert_at, library)
+    return library
+
+
+def effect_db_entries(root: ET.Element) -> list[ET.Element]:
+    library = find_root_child(root, "EffectDB")
+    if library is None:
+        return []
+    return _direct_children(library, "Effect")
+
+
+def color_palette_entries(root: ET.Element) -> list[ET.Element]:
+    library = find_root_child(root, "ColorPalettes")
+    if library is None:
+        return []
+    return _direct_children(library, "ColorPalette")
+
+
+def effect_settings_text(eff: ET.Element, root: ET.Element | None = None) -> str | None:
+    """Return the effect setting string, resolving ``ref`` through EffectDB when present."""
+
+    ref = _index_text(eff.attrib.get("ref", eff.attrib.get("Ref")))
+    if ref is not None and root is not None:
+        entries = effect_db_entries(root)
+        if 0 <= ref < len(entries):
+            return (entries[ref].text or "").strip()
+        return None
+    direct = None
+    for key in ("settings", "Settings", "data", "Data"):
+        if key in eff.attrib:
+            direct = eff.attrib[key]
+            break
+    if direct is None:
+        return None
+    return direct.strip()
+
+
+def effect_palette_text(eff: ET.Element, root: ET.Element | None = None) -> str | None:
+    """Return the palette string, resolving a numeric ``palette`` index through ColorPalettes."""
+
+    raw = None
+    for key in ("palette", "Palette"):
+        if key in eff.attrib:
+            raw = eff.attrib[key]
+            break
+    if raw is None:
+        return None
+    index = _index_text(raw)
+    if index is None:
+        return raw.strip()
+    if root is None:
+        return None
+    entries = color_palette_entries(root)
+    if 0 <= index < len(entries):
+        return (entries[index].text or "").strip()
+    return None
+
+
+def intern_effect_settings(root: ET.Element, settings: str) -> str:
+    """Return the EffectDB index for ``settings``, appending an entry when needed."""
+
+    text = settings.strip()
+    library = _ensure_library(root, "EffectDB")
+    entries = _direct_children(library, "Effect")
+    for index, entry in enumerate(entries):
+        if (entry.text or "").strip() == text:
+            return str(index)
+    entry = ET.SubElement(library, "Effect")
+    entry.text = text
+    return str(len(entries))
+
+
+def intern_color_palette(root: ET.Element, palette: str) -> str:
+    """Return the ColorPalettes index for ``palette``, appending an entry when needed."""
+
+    text = palette.strip()
+    existing = _index_text(text)
+    entries = color_palette_entries(root)
+    if existing is not None and 0 <= existing < len(entries):
+        return str(existing)
+    library = _ensure_library(root, "ColorPalettes")
+    entries = _direct_children(library, "ColorPalette")
+    for index, entry in enumerate(entries):
+        if (entry.text or "").strip() == text:
+            return str(index)
+    entry = ET.SubElement(library, "ColorPalette")
+    entry.text = text
+    return str(len(entries))
+
+
+def unresolved_effect_references(root: ET.Element) -> list[str]:
+    """List Effect rows whose ``ref`` or ``palette`` index does not resolve."""
+
+    errors: list[str] = []
+    settings = effect_db_entries(root)
+    palettes = color_palette_entries(root)
+    for effect in root.iter():
+        if not (isinstance(effect.tag, str) and effect.tag.endswith("Effect")):
+            continue
+        if effect.get("label") and "name" not in effect.attrib and "ref" not in effect.attrib:
+            continue
+        ref = _index_text(effect.attrib.get("ref"))
+        if "ref" in effect.attrib and (ref is None or ref >= len(settings)):
+            errors.append(f"unresolved ref={effect.attrib.get('ref')!r} on {effect.attrib.get('name', '')}")
+        elif ref is not None and effect_settings_text(effect, root) is None:
+            errors.append(f"empty ref={ref} on {effect.attrib.get('name', '')}")
+        palette = effect.attrib.get("palette")
+        palette_index = _index_text(palette)
+        if palette is not None and palette_index is not None and palette_index >= len(palettes):
+            errors.append(f"unresolved palette={palette!r} on {effect.attrib.get('name', '')}")
+        elif palette is not None and effect_palette_text(effect, root) is None:
+            errors.append(f"unresolved palette={palette!r} on {effect.attrib.get('name', '')}")
+    return errors
+
+
+def add_effect(
+    layer: ET.Element,
+    start_ms: int,
+    end_ms: int,
+    name: str,
+    tpl: "EffectTemplate",
+    root: ET.Element | None = None,
+) -> ET.Element:
     effect_tag = None
     for child in list(layer):
         if child.tag.endswith("Effect"):
@@ -127,10 +270,16 @@ def add_effect(layer: ET.Element, start_ms: int, end_ms: int, name: str, tpl: "E
     effect.attrib["startTime"] = str(start_ms)
     effect.attrib["endTime"] = str(end_ms)
 
-    if tpl.settings is not None:
-        effect.attrib["settings"] = tpl.settings
-    if tpl.palette is not None:
-        effect.attrib["palette"] = tpl.palette
+    if root is not None:
+        if tpl.settings is not None:
+            effect.attrib["ref"] = intern_effect_settings(root, tpl.settings)
+        if tpl.palette is not None:
+            effect.attrib["palette"] = intern_color_palette(root, tpl.palette)
+    else:
+        if tpl.settings is not None:
+            effect.attrib["settings"] = tpl.settings
+        if tpl.palette is not None:
+            effect.attrib["palette"] = tpl.palette
 
     layer.append(effect)
     return effect

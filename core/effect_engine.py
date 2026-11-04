@@ -861,7 +861,7 @@ def scan_workspace_preferences(
                 effect_name = base._effect_name(effect).strip()  # type: ignore[attr-defined]
                 if effect_name:
                     family_bucket[effect_name] = family_bucket.get(effect_name, 0) + report_weight
-                palette = base._effect_palette(effect)  # type: ignore[attr-defined]
+                palette = base._effect_palette(effect, xsq.root)  # type: ignore[attr-defined]
                 if palette:
                     palette_counts[palette] = palette_counts.get(palette, 0) + report_weight
 
@@ -10169,7 +10169,7 @@ def build_all_models_all_effects_sequence(
         if palette_pool:
             palette = palette_pool[(idx + rng.randrange(len(palette_pool))) % len(palette_pool)]
             tpl = base.EffectTemplate(settings=tpl.settings, palette=palette)
-        base.add_effect(layers[model], st, en, effect_name, tpl)
+        base.add_effect(layers[model], st, en, effect_name, tpl, root=xsq.root)
         cursor_by_model[model] = en + 15
         touched_models.add(model)
         effect_track.append((effect_name, st, en))
@@ -10181,7 +10181,7 @@ def build_all_models_all_effects_sequence(
         st = cursor_by_model[model]
         en = st + max(slot_ms, 120)
         tpl = base.EffectTemplate(settings=xsq.on_tpl.settings, palette=palette_pool[idx % len(palette_pool)] if palette_pool else xsq.on_tpl.palette)
-        base.add_effect(layers[model], st, en, "On", tpl)
+        base.add_effect(layers[model], st, en, "On", tpl, root=xsq.root)
         effect_track.append((f"{model}:On", st, en))
         max_end = max(max_end, en)
 
@@ -10860,7 +10860,7 @@ def run_variant(
             return False
 
         layer_el = layers[nm][layer_key]
-        xml_effect = base.add_effect(layer_el, st_i, en_i, effect_name, template_to_use)
+        xml_effect = base.add_effect(layer_el, st_i, en_i, effect_name, template_to_use, root=xsq.root)
         timeline.add(
             layer_key,
             TimelineEntry(

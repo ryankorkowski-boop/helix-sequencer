@@ -175,6 +175,25 @@ Do not mark complete from unit tests alone.
 
 **Regression risks:** Template effects that used to survive past a shorter song are now clipped or removed on write.
 
+### 2026-11-04 — Effects store ref and palette indexes
+**Branch:** `cursor/main-path-xsq-fixes-41d8`
+
+**Goal:** Placed effects carry `ref` and `palette` indexes into `EffectDB` and `ColorPalettes`, the way `template.xsq` and xLights store them, instead of inline `settings` / palette strings.
+
+**Changed:** `xlights/xml_io.py`, `xlights/xsq_writer.py`, `core/effect_engine.py`, `helix_intent/xsq_template_writer.py`, `tests/test_effect_db_roundtrip.py`, `tests/test_xsq_template_writer.py`
+
+**Preserved:** Reading still accepts an inline `settings`/`data` string or an inline palette string when no index is present. An existing EffectDB or ColorPalettes row is reused when the text matches. Callers that do not pass the document root still write the legacy attributes.
+
+**New behavior:** `add_effect(..., root=)` and the orchestrator template writer intern settings and palette text, then write `ref` and `palette` indexes. Readers resolve those indexes back to the stored strings. A round-trip check reports any Effect whose index does not resolve.
+
+**Tests:** `tests/test_effect_db_roundtrip.py` proves every Effect `ref` and `palette` resolves after write and reparse, including a newly appended EffectDB row. The template-writer test now checks the resolved strings.
+
+**Limitations:** Not opened in xLights. EffectDB child order is the index, matching xLights. Timing-mark rows that only carry a `label` are not required to have a `ref`.
+
+**Deferred:** None for this storage format.
+
+**Regression risks:** Code that read the `settings` attribute off a newly written Effect now has to resolve `ref`. The main path and the template writer were updated.
+
 ## Next actions
 1. Preserve the prior known-good drummer behavior as the regression baseline.
 2. Reconcile xLights drummer geometry with the nine canonical composites.
