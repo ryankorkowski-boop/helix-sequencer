@@ -7,6 +7,7 @@ from dataclasses import dataclass, field
 from pathlib import Path
 
 from core.model_parser import Model, parse_layout
+from core.start_channels import StartChannelError, model_channel_count
 
 NETWORKS_FILENAME = "xlights_networks.xml"
 PREVIEW_NETWORK_DESC = "Helix preview null controller"
@@ -120,18 +121,21 @@ def parse_networks(networks_path: Path) -> tuple[ControllerInfo, ...]:
 
 
 def layout_channel_count(layout_path: Path) -> int:
-    """Return the highest channel required by the xLights layout models."""
+    """Return the highest absolute channel required by resolved layout models."""
 
     layout = parse_layout(Path(layout_path))
-    sequential_total = 0
+    errors: list[str] = []
     max_end_channel = 0
     for name in layout.root_models():
         model = layout.models[name]
-        channels = _model_channel_span(model)
-        sequential_total += channels
-        if model.start_channel is not None and model.start_channel > 0:
-            max_end_channel = max(max_end_channel, model.start_channel + channels - 1)
-    return max(max_end_channel, sequential_total)
+        if model.start_channel_error:
+            errors.append(f"{name}: {model.start_channel_error}")
+            continue
+        if model.end_channel is not None and model.end_channel > max_end_channel:
+            max_end_channel = model.end_channel
+    if errors:
+        raise StartChannelError("unresolvable start channels: " + "; ".join(errors))
+    return max_end_channel
 
 
 def build_controller_plan(
@@ -249,12 +253,7 @@ def _looks_like_controller(element: ET.Element) -> bool:
 
 
 def _model_channel_span(model: Model) -> int:
-    raw_num_channels = _first_int(model.raw_attrs, _CHANNEL_KEYS)
-    if raw_num_channels > 0:
-        return raw_num_channels
-    if model.is_rgb_capable():
-        return max(1, model.total_pixels * 3)
-    return max(1, model.total_pixels)
+    return model_channel_count(model)
 
 
 def _channels_from_universes(attrs: dict[str, str]) -> int:

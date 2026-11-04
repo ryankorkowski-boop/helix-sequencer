@@ -394,6 +394,9 @@ class Model:
     parent_name: str | None = None
     is_submodel: bool = False
     region_role: str | None = None
+    end_channel: int | None = None
+    controller_name: str | None = None
+    start_channel_error: str | None = None
 
     def is_pixel_model(self) -> bool:
         return self.total_pixels > 1
@@ -857,7 +860,7 @@ def _model_from_xml(model_el: ET.Element) -> Model:
         strings=max(1, strings),
         nodes_per_string=max(1, nodes_per_string),
         total_pixels=max(1, total_pixels),
-        start_channel=_int_attr(attrs, "StartChannel", 0) or None,
+        start_channel=None,
         coordinates=origin,
         end_coordinates=delta,
         orientation=orientation,
@@ -1071,6 +1074,10 @@ def _parse_layout_uncached(layout_path: Path) -> ParsedLayout:
         groups[name] = group
         aliases[normalize_name(name)] = name
 
+    from core.start_channels import resolve_model_channels
+
+    networks = layout_path.parent / "xlights_networks.xml"
+    resolve_model_channels(models, networks_path=networks if networks.exists() else None, strict=False)
     return ParsedLayout(path=layout_path, models=models, groups=groups, aliases=aliases)
 
 
