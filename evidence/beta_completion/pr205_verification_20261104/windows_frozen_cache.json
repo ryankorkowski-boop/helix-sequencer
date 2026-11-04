@@ -1,0 +1,57 @@
+{
+  "run_id": 41874095171,
+  "artifact_id": 13345378551,
+  "source_commit": "37fb716cc9581cb1024760a23b53d65589496f02",
+  "artifact_sha256": "97a4a30f9f1137813cd98ac0e60dd89a43f1f215a114107ce145bc80e661f041",
+  "verification": {
+    "steps": [
+      {
+        "step": "native_fseq",
+        "returncode": 0
+      },
+      {
+        "step": "lor_engine",
+        "returncode": 0
+      },
+      {
+        "step": "xlights_engine",
+        "returncode": 0
+      },
+      {
+        "step": "frozen_cache_off",
+        "returncode": 0
+      },
+      {
+        "step": "frozen_cache_miss",
+        "returncode": 0
+      },
+      {
+        "step": "frozen_cache_hit",
+        "returncode": 0
+      }
+    ],
+    "real_audio_source": "Tinsel Sawtooth (1).mp3",
+    "source_lms_preserved": true,
+    "frozen_feature_cache": {
+      "runs": [
+        {
+          "mode": "off",
+          "xsq_sha256": "4be25e0373fd47680f57b3d9b923fd19d45c28a86943bb59de009c43e14f60cc",
+          "band_sha256": "8eca863edb2486b0aeecff6b1ccbcafbe6176a32c90ce893a2410c5caa06533c"
+        },
+        {
+          "mode": "miss",
+          "xsq_sha256": "4be25e0373fd47680f57b3d9b923fd19d45c28a86943bb59de009c43e14f60cc",
+          "band_sha256": "8eca863edb2486b0aeecff6b1ccbcafbe6176a32c90ce893a2410c5caa06533c"
+        },
+        {
+          "mode": "hit",
+          "xsq_sha256": "4be25e0373fd47680f57b3d9b923fd19d45c28a86943bb59de009c43e14f60cc",
+          "band_sha256": "8eca863edb2486b0aeecff6b1ccbcafbe6176a32c90ce893a2410c5caa06533c"
+        }
+      ],
+      "hit_reused_exact_npz": true
+    },
+    "legacy_lor_import_in_vendor_app_verified": false
+  }
+}

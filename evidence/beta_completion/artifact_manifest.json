@@ -1512,6 +1512,18 @@
     "folder": "evidence/beta_completion/pr205_verification_20261104",
     "regression_receipt": "evidence/beta_completion/pr205_verification_20261104/local_regression.json",
     "owner_approved": false,
-    "native_new_render_verified": false
+    "native_new_render_verified": true,
+    "long_song_comparison": "evidence/beta_completion/pr205_verification_20261104/long_song_comparison.json",
+    "drummer_oracle": "evidence/beta_completion/pr205_verification_20261104/drummer_oracle.json",
+    "source_commit": "37fb716cc9581cb1024760a23b53d65589496f02",
+    "decision": "HOLD_HOST_NUMERIC_AND_NATIVE_VISIBILITY",
+    "verification_report": "docs/PR205_VERIFICATION_20261104.md",
+    "original_mp3_comparison": "evidence/beta_completion/pr205_verification_20261104/original_mp3_comparison.json",
+    "numeric_backend_reproduction": "evidence/beta_completion/pr205_verification_20261104/numeric_backend_reproduction.json",
+    "hosted_failure_summary": "evidence/beta_completion/pr205_verification_20261104/hosted_failure_summary.json",
+    "windows_frozen_cache": "evidence/beta_completion/pr205_verification_20261104/windows_frozen_cache.json",
+    "native_ci_verification": "evidence/beta_completion/pr205_verification_20261104/native_ci_verification.json",
+    "native_derived_xsq_parity": "evidence/beta_completion/pr205_verification_20261104/native_derived_xsq_parity.json",
+    "native_new_render_acceptance": false
   }
 }

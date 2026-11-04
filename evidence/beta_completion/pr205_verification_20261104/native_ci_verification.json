@@ -1,0 +1,252 @@
+{
+  "run_id": 41874095353,
+  "artifact_id": 13345767395,
+  "artifact_sha256": "15058e104039d9b7700f6474dba6e9044173273e44559710a8d3fa4fb05b00dd",
+  "verification": {
+    "source_commit": "37fb716cc9581cb1024760a23b53d65589496f02",
+    "owner_approved": false,
+    "independent_vocal_identity_verified": false,
+    "beta_acceptance": false,
+    "panels": [
+      {
+        "number": 1,
+        "native_status": "success",
+        "passed": false,
+        "media": {
+          "file": "preview.mp4",
+          "sha256": "943af57ed4f3509d74374f74eac5a10d6555fd0779cd1b05411f559f2e3697e4",
+          "bytes": 28576316,
+          "source_audio": "Phoneme_Test_Hook.mp3",
+          "source_audio_sha256": "19e90c273d0d747938f24b36586b50818c104cddffbefe4a4128927374301938",
+          "source_duration_seconds": 34.88,
+          "codecs": [
+            "h264",
+            "aac"
+          ],
+          "dimensions": [
+            1920,
+            1080
+          ],
+          "actual_frame_rate": "20/1",
+          "actual_frame_count": "698",
+          "video_duration_seconds": 34.9,
+          "audio_duration_seconds": 34.88,
+          "stream_start_seconds": [
+            0.0,
+            0.0
+          ],
+          "full_decode": true,
+          "soundtrack_correlation": 0.9968248041636503,
+          "window_alignment": [
+            {
+              "source_start_seconds": 3.488,
+              "decoded_lag_seconds": 0.0
+            },
+            {
+              "source_start_seconds": 17.44,
+              "decoded_lag_seconds": 0.0
+            },
+            {
+              "source_start_seconds": 29.648,
+              "decoded_lag_seconds": 0.0
+            },
+            {
+              "source_start_seconds": 32.83,
+              "decoded_lag_seconds": 0.0
+            }
+          ],
+          "musical_or_visual_acceptance": false
+        },
+        "visibility": {
+          "schema": "helix.showcase_readability.v1",
+          "frames": 70,
+          "sample_fps": 2,
+          "thresholds": {
+            "median_luma": 12.0,
+            "median_bright_fraction": 0.012,
+            "median_motion": 0.65,
+            "min_visible_width": 0.4,
+            "min_visible_height": 0.35
+          },
+          "measurements": {
+            "median_luma": 9.466,
+            "median_bright_fraction": 0.04373,
+            "median_motion": 5.737,
+            "visible_width": 0.519,
+            "visible_height": 0.544
+          },
+          "checks": {
+            "visible_stage_width": true,
+            "visible_stage_height": true,
+            "median_stage_luminance": false,
+            "bright_stage_area": true,
+            "visible_stage_motion": true
+          },
+          "passed": false,
+          "note": "Quantitative visibility gate only; no artistic, musical or source classification approval"
+        },
+        "error": "Existing native visibility gate rejected panel"
+      },
+      {
+        "number": 2,
+        "native_status": "success",
+        "passed": false,
+        "media": {
+          "file": "preview.mp4",
+          "sha256": "0b041b7211e1205df0043f0c03f1cd83557ecaa45ed6247e4bd8ea635c04794e",
+          "bytes": 10108741,
+          "source_audio": "Phoneme_Test_Hook.mp3",
+          "source_audio_sha256": "19e90c273d0d747938f24b36586b50818c104cddffbefe4a4128927374301938",
+          "source_duration_seconds": 34.88,
+          "codecs": [
+            "h264",
+            "aac"
+          ],
+          "dimensions": [
+            1920,
+            1080
+          ],
+          "actual_frame_rate": "20/1",
+          "actual_frame_count": "698",
+          "video_duration_seconds": 34.9,
+          "audio_duration_seconds": 34.88,
+          "stream_start_seconds": [
+            0.0,
+            0.0
+          ],
+          "full_decode": true,
+          "soundtrack_correlation": 0.9968248041636503,
+          "window_alignment": [
+            {
+              "source_start_seconds": 3.488,
+              "decoded_lag_seconds": 0.0
+            },
+            {
+              "source_start_seconds": 17.44,
+              "decoded_lag_seconds": 0.0
+            },
+            {
+              "source_start_seconds": 29.648,
+              "decoded_lag_seconds": 0.0
+            },
+            {
+              "source_start_seconds": 32.83,
+              "decoded_lag_seconds": 0.0
+            }
+          ],
+          "musical_or_visual_acceptance": false
+        },
+        "visibility": {
+          "schema": "helix.showcase_readability.v1",
+          "frames": 70,
+          "sample_fps": 2,
+          "thresholds": {
+            "median_luma": 12.0,
+            "median_bright_fraction": 0.012,
+            "median_motion": 0.65,
+            "min_visible_width": 0.4,
+            "min_visible_height": 0.35
+          },
+          "measurements": {
+            "median_luma": 8.963,
+            "median_bright_fraction": 0.03514,
+            "median_motion": 0.625,
+            "visible_width": 0.569,
+            "visible_height": 0.356
+          },
+          "checks": {
+            "visible_stage_width": true,
+            "visible_stage_height": true,
+            "median_stage_luminance": false,
+            "bright_stage_area": true,
+            "visible_stage_motion": false,
+            "opening_static_cast_framing": true
+          },
+          "passed": false,
+          "note": "Quantitative visibility gate only; no artistic, musical or source classification approval"
+        },
+        "error": "Existing native visibility gate rejected panel"
+      },
+      {
+        "number": 6,
+        "native_status": "success",
+        "passed": false,
+        "media": {
+          "file": "preview.mp4",
+          "sha256": "2088a21422dc4ebee1221d548ee8d9a4d99715f54cb9af044c1cb6b856f1aa38",
+          "bytes": 14148045,
+          "source_audio": "Phoneme_Test_Hook.mp3",
+          "source_audio_sha256": "19e90c273d0d747938f24b36586b50818c104cddffbefe4a4128927374301938",
+          "source_duration_seconds": 34.88,
+          "codecs": [
+            "h264",
+            "aac"
+          ],
+          "dimensions": [
+            1920,
+            1080
+          ],
+          "actual_frame_rate": "20/1",
+          "actual_frame_count": "698",
+          "video_duration_seconds": 34.9,
+          "audio_duration_seconds": 34.88,
+          "stream_start_seconds": [
+            0.0,
+            0.0
+          ],
+          "full_decode": true,
+          "soundtrack_correlation": 0.9968248041636503,
+          "window_alignment": [
+            {
+              "source_start_seconds": 3.488,
+              "decoded_lag_seconds": 0.0
+            },
+            {
+              "source_start_seconds": 17.44,
+              "decoded_lag_seconds": 0.0
+            },
+            {
+              "source_start_seconds": 29.648,
+              "decoded_lag_seconds": 0.0
+            },
+            {
+              "source_start_seconds": 32.83,
+              "decoded_lag_seconds": 0.0
+            }
+          ],
+          "musical_or_visual_acceptance": false
+        },
+        "visibility": {
+          "schema": "helix.showcase_readability.v1",
+          "frames": 70,
+          "sample_fps": 2,
+          "thresholds": {
+            "median_luma": 12.0,
+            "median_bright_fraction": 0.012,
+            "median_motion": 0.65,
+            "min_visible_width": 0.4,
+            "min_visible_height": 0.35
+          },
+          "measurements": {
+            "median_luma": 15.741,
+            "median_bright_fraction": 0.0111,
+            "median_motion": 1.427,
+            "visible_width": 0.519,
+            "visible_height": 0.578
+          },
+          "checks": {
+            "visible_stage_width": true,
+            "visible_stage_height": true,
+            "median_stage_luminance": true,
+            "bright_stage_area": false,
+            "visible_stage_motion": true
+          },
+          "passed": false,
+          "note": "Quantitative visibility gate only; no artistic, musical or source classification approval"
+        },
+        "error": "Existing native visibility gate rejected panel"
+      }
+    ],
+    "regression_passed": false
+  }
+}

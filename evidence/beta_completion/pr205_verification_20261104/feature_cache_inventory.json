@@ -1,0 +1,15 @@
+{
+  "recording_sha256": "dd988078a13ae2c7be5ebe645ba62adab45f9cb47ae7140134007e408539a632",
+  "entries": [
+    {
+      "name": "7efe4b9e0c2ab65e8bd7ba2ce00b84d98c2efb877bb3ec281a9b732498d4555e.npz",
+      "bytes": 29808633,
+      "sha256": "4ae02eb85ab9088c94a318aeb7298ca3aea54439a33006448647d01ce5dfa669"
+    },
+    {
+      "name": "b878cdcbb52b31fed7ad901a027a2312427598169df5118ec81fc41ef35bc0e1.npz",
+      "bytes": 7513334,
+      "sha256": "054816bd2d324ee106f63a1bc2ff3cf32eb6496d63dd5923163292b0abc6a3c8"
+    }
+  ]
+}

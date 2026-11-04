@@ -1,0 +1,366 @@
+{
+  "schema": "helix.pr205.original_mp3_parity.v1",
+  "audio_sha256": "8ced92ba179c931a2c7f29f834df1c8fd6a399d78074de0de030bc952bb5f0ec",
+  "template_sha256": "4e31bffe870cef8feafa11aed19645e55c4883a8c878bf24d66cedcd42818429",
+  "layout_sha256": "1f3b0abaae93429f96e52710e33067cb6b49214132428d30f428269e8d2e7c0b",
+  "baseline_commit": "05c1de55d2e4d747652452ade0d9752d370b55d9",
+  "candidate_implementation_commit": "37fb716cc9581cb1024760a23b53d65589496f02",
+  "runs": [
+    {
+      "mode": "control",
+      "returncode": 0,
+      "cli_wall_seconds": 218.7544546109998,
+      "command": [
+        "/workspace/scratch/78f26c400f5c/helix-venv/bin/python",
+        "/workspace/scratch/78f26c400f5c/recovery-control/main.py",
+        "--profile",
+        "master",
+        "--",
+        "--audio",
+        "/workspace/scratch/78f26c400f5c/helix-sequencer/Helix Audiolights.mp3",
+        "--template",
+        "/workspace/scratch/78f26c400f5c/helix-sequencer/template.xsq",
+        "--layout-file",
+        "/workspace/scratch/78f26c400f5c/helix-sequencer/xlights_rgbeffects.xml",
+        "--output-dir",
+        "/workspace/scratch/78f26c400f5c/original-mp3-verification/control/sequences",
+        "--settings",
+        "/workspace/scratch/78f26c400f5c/original-mp3-verification/control/absent-settings.json",
+        "--no-prompt",
+        "--no-save-settings",
+        "--no-workspace-history",
+        "--no-learning-memory"
+      ],
+      "xsq_sha256": "258f03ef24ad98fbedc11c684e4a800e6563ebed8754471a0c05742a45f85266",
+      "band_sha256": "0d1c9c216acbf52fce538058182ee261ac209727f66b06067ee3a64928b32ce4",
+      "contract": {
+        "model_effects": 42305,
+        "duration_seconds": 237.44,
+        "declared_model_targets": true,
+        "finite_bounded_intervals": true
+      }
+    },
+    {
+      "mode": "candidate_off",
+      "returncode": 0,
+      "cli_wall_seconds": 191.85562124999979,
+      "command": [
+        "/workspace/scratch/78f26c400f5c/helix-venv/bin/python",
+        "/workspace/scratch/78f26c400f5c/helix-sequencer/main.py",
+        "--profile",
+        "master",
+        "--",
+        "--audio",
+        "/workspace/scratch/78f26c400f5c/helix-sequencer/Helix Audiolights.mp3",
+        "--template",
+        "/workspace/scratch/78f26c400f5c/helix-sequencer/template.xsq",
+        "--layout-file",
+        "/workspace/scratch/78f26c400f5c/helix-sequencer/xlights_rgbeffects.xml",
+        "--output-dir",
+        "/workspace/scratch/78f26c400f5c/original-mp3-verification/candidate_off/sequences",
+        "--settings",
+        "/workspace/scratch/78f26c400f5c/original-mp3-verification/candidate_off/absent-settings.json",
+        "--no-prompt",
+        "--no-save-settings",
+        "--no-workspace-history",
+        "--no-learning-memory"
+      ],
+      "xsq_sha256": "258f03ef24ad98fbedc11c684e4a800e6563ebed8754471a0c05742a45f85266",
+      "band_sha256": "0d1c9c216acbf52fce538058182ee261ac209727f66b06067ee3a64928b32ce4",
+      "metrics": {
+        "schema": "helix.stage_metrics.v1",
+        "success": true,
+        "python": "3.12.14",
+        "platform": "Linux",
+        "wall_seconds": 191.1971135910003,
+        "peak_rss_bytes": 1213292544,
+        "rss_scope": "process lifetime high-water mark",
+        "timing_scope": "inclusive; nested stage durations overlap",
+        "stages": {
+          "layout.load": {
+            "calls": 1,
+            "wall_seconds": 0.09004164399993897
+          },
+          "audio.load_features": {
+            "calls": 1,
+            "wall_seconds": 8.267756428999746
+          },
+          "audio.harmonic": {
+            "calls": 1,
+            "wall_seconds": 30.061754197000027
+          },
+          "audio.analysis": {
+            "calls": 1,
+            "wall_seconds": 38.33307201400021
+          },
+          "drums.onset_classification": {
+            "calls": 1,
+            "wall_seconds": 0.002080462000321859
+          },
+          "audio.stems": {
+            "calls": 1,
+            "wall_seconds": 102.53973728799974
+          },
+          "audio.multiband": {
+            "calls": 1,
+            "wall_seconds": 3.2285760080003456
+          },
+          "drums.mapping": {
+            "calls": 1,
+            "wall_seconds": 0.4098154369999065
+          },
+          "band.plan": {
+            "calls": 1,
+            "wall_seconds": 1.522385833000044
+          },
+          "timing_and_planning": {
+            "calls": 1,
+            "wall_seconds": 126.26725583100006
+          },
+          "effects.placement": {
+            "calls": 1,
+            "wall_seconds": 22.51991176499996
+          },
+          "reports.write": {
+            "calls": 1,
+            "wall_seconds": 1.0953308789999028
+          },
+          "xsq.write": {
+            "calls": 1,
+            "wall_seconds": 0.5984926440000891
+          },
+          "engine.variant": {
+            "calls": 1,
+            "wall_seconds": 188.98108164299992
+          }
+        }
+      },
+      "contract": {
+        "model_effects": 42305,
+        "duration_seconds": 237.44,
+        "declared_model_targets": true,
+        "finite_bounded_intervals": true
+      }
+    },
+    {
+      "mode": "candidate_miss",
+      "returncode": 0,
+      "cli_wall_seconds": 184.26979932899985,
+      "command": [
+        "/workspace/scratch/78f26c400f5c/helix-venv/bin/python",
+        "/workspace/scratch/78f26c400f5c/helix-sequencer/main.py",
+        "--profile",
+        "master",
+        "--",
+        "--audio",
+        "/workspace/scratch/78f26c400f5c/helix-sequencer/Helix Audiolights.mp3",
+        "--template",
+        "/workspace/scratch/78f26c400f5c/helix-sequencer/template.xsq",
+        "--layout-file",
+        "/workspace/scratch/78f26c400f5c/helix-sequencer/xlights_rgbeffects.xml",
+        "--output-dir",
+        "/workspace/scratch/78f26c400f5c/original-mp3-verification/candidate_miss/sequences",
+        "--settings",
+        "/workspace/scratch/78f26c400f5c/original-mp3-verification/candidate_miss/absent-settings.json",
+        "--no-prompt",
+        "--no-save-settings",
+        "--no-workspace-history",
+        "--no-learning-memory"
+      ],
+      "xsq_sha256": "258f03ef24ad98fbedc11c684e4a800e6563ebed8754471a0c05742a45f85266",
+      "band_sha256": "0d1c9c216acbf52fce538058182ee261ac209727f66b06067ee3a64928b32ce4",
+      "metrics": {
+        "schema": "helix.stage_metrics.v1",
+        "success": true,
+        "python": "3.12.14",
+        "platform": "Linux",
+        "wall_seconds": 183.5411243909998,
+        "peak_rss_bytes": 1214636032,
+        "rss_scope": "process lifetime high-water mark",
+        "timing_scope": "inclusive; nested stage durations overlap",
+        "stages": {
+          "layout.load": {
+            "calls": 1,
+            "wall_seconds": 0.06516913600034968
+          },
+          "audio.load_features": {
+            "calls": 1,
+            "wall_seconds": 9.35514735300012
+          },
+          "audio.harmonic": {
+            "calls": 1,
+            "wall_seconds": 29.30677409200007
+          },
+          "audio.analysis": {
+            "calls": 1,
+            "wall_seconds": 38.665832271
+          },
+          "drums.onset_classification": {
+            "calls": 1,
+            "wall_seconds": 0.002718224999625818
+          },
+          "audio.stems": {
+            "calls": 1,
+            "wall_seconds": 89.93957288399997
+          },
+          "audio.multiband": {
+            "calls": 1,
+            "wall_seconds": 3.5553300659998968
+          },
+          "drums.mapping": {
+            "calls": 1,
+            "wall_seconds": 0.6318766980002692
+          },
+          "band.plan": {
+            "calls": 1,
+            "wall_seconds": 1.713024353000037
+          },
+          "timing_and_planning": {
+            "calls": 1,
+            "wall_seconds": 115.50946300999976
+          },
+          "effects.placement": {
+            "calls": 1,
+            "wall_seconds": 24.433583172999988
+          },
+          "reports.write": {
+            "calls": 1,
+            "wall_seconds": 1.691518983000151
+          },
+          "xsq.write": {
+            "calls": 1,
+            "wall_seconds": 0.7026733210000202
+          },
+          "engine.variant": {
+            "calls": 1,
+            "wall_seconds": 181.16027221299964
+          }
+        }
+      },
+      "contract": {
+        "model_effects": 42305,
+        "duration_seconds": 237.44,
+        "declared_model_targets": true,
+        "finite_bounded_intervals": true
+      }
+    },
+    {
+      "mode": "candidate_hit",
+      "returncode": 0,
+      "cli_wall_seconds": 151.20048259799978,
+      "command": [
+        "/workspace/scratch/78f26c400f5c/helix-venv/bin/python",
+        "/workspace/scratch/78f26c400f5c/helix-sequencer/main.py",
+        "--profile",
+        "master",
+        "--",
+        "--audio",
+        "/workspace/scratch/78f26c400f5c/helix-sequencer/Helix Audiolights.mp3",
+        "--template",
+        "/workspace/scratch/78f26c400f5c/helix-sequencer/template.xsq",
+        "--layout-file",
+        "/workspace/scratch/78f26c400f5c/helix-sequencer/xlights_rgbeffects.xml",
+        "--output-dir",
+        "/workspace/scratch/78f26c400f5c/original-mp3-verification/candidate_hit/sequences",
+        "--settings",
+        "/workspace/scratch/78f26c400f5c/original-mp3-verification/candidate_hit/absent-settings.json",
+        "--no-prompt",
+        "--no-save-settings",
+        "--no-workspace-history",
+        "--no-learning-memory"
+      ],
+      "xsq_sha256": "258f03ef24ad98fbedc11c684e4a800e6563ebed8754471a0c05742a45f85266",
+      "band_sha256": "0d1c9c216acbf52fce538058182ee261ac209727f66b06067ee3a64928b32ce4",
+      "metrics": {
+        "schema": "helix.stage_metrics.v1",
+        "success": true,
+        "python": "3.12.14",
+        "platform": "Linux",
+        "wall_seconds": 150.50737445899995,
+        "peak_rss_bytes": 1199239168,
+        "rss_scope": "process lifetime high-water mark",
+        "timing_scope": "inclusive; nested stage durations overlap",
+        "stages": {
+          "layout.load": {
+            "calls": 1,
+            "wall_seconds": 0.06538407800007917
+          },
+          "audio.load_features": {
+            "calls": 1,
+            "wall_seconds": 0.21918674899961843
+          },
+          "audio.harmonic": {
+            "calls": 1,
+            "wall_seconds": 0.48126794299969333
+          },
+          "audio.analysis": {
+            "calls": 1,
+            "wall_seconds": 0.7041430310000578
+          },
+          "drums.onset_classification": {
+            "calls": 1,
+            "wall_seconds": 0.0020664910002778925
+          },
+          "audio.stems": {
+            "calls": 1,
+            "wall_seconds": 93.31722197699992
+          },
+          "audio.multiband": {
+            "calls": 1,
+            "wall_seconds": 3.2279098740000336
+          },
+          "drums.mapping": {
+            "calls": 1,
+            "wall_seconds": 0.29043017899994084
+          },
+          "band.plan": {
+            "calls": 1,
+            "wall_seconds": 1.3554495129997122
+          },
+          "timing_and_planning": {
+            "calls": 1,
+            "wall_seconds": 118.7161883660001
+          },
+          "effects.placement": {
+            "calls": 1,
+            "wall_seconds": 26.02627808599982
+          },
+          "reports.write": {
+            "calls": 1,
+            "wall_seconds": 1.4422543519999635
+          },
+          "xsq.write": {
+            "calls": 1,
+            "wall_seconds": 0.7892937990000064
+          },
+          "engine.variant": {
+            "calls": 1,
+            "wall_seconds": 147.85874016000025
+          }
+        }
+      },
+      "contract": {
+        "model_effects": 42305,
+        "duration_seconds": 237.44,
+        "declared_model_targets": true,
+        "finite_bounded_intervals": true
+      }
+    }
+  ],
+  "limits": [
+    "Original byte-identical MP3, same fresh-process CLI/configuration. Latest recovery control contains intentional fixes added after the historical Oct31 baseline.",
+    "First control includes initial local stem computation; subsequent runs reuse those exact source-verified stems. Do not compare cold control speed with cache-hit speed.",
+    "Correctness proof; no controlled overall speedup or native acceptance claim."
+  ],
+  "exact_xsq_and_band_parity": true,
+  "historical_xsq_sha256_reproduced": true,
+  "candidate_engine_module_sha256": {
+    "core/audio_features.py": "7bdd9ee6f6928745dded25e793127b3d0a4ad9e413df58dd42c5aa5faa04df79",
+    "core/audio_intelligence.py": "8a9a7bc3d6eb18566ebc751f25ae98b68efdc6f35067f4e5cb94df1d564a170b",
+    "core/drum_pipeline.py": "36316b8701a3dbaa26030a47a6a26cf3a4a5bc7305e6b6812ed5612b1b539582",
+    "core/effect_engine.py": "634b9f48f11fa921d9ff66499d4b43de0dcd1ae0f7f02f10aae34ab9cdca244e",
+    "core/snowman_band.py": "708ae0eaf8bab103463181468423dd89c95849965572438e7e6bab948e9c94c5",
+    "core/sequence_builder.py": "709a045303bd9835f6d0d3f2da7ef20f704f5d0342ad494f096464d2c8900c8c",
+    "xlights/xsq_writer.py": "400dce914551655f483d79e55b3086c80a09011e1682a606b86f5a2843737b46"
+  }
+}

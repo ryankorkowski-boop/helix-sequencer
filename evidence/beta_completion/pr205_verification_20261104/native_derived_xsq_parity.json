@@ -1,0 +1,26 @@
+{
+  "control_source": "05c1de55d2e4d747652452ade0d9752d370b55d9",
+  "candidate_source": "37fb716cc9581cb1024760a23b53d65589496f02",
+  "native_run": 41874095353,
+  "shows": [
+    {
+      "number": 1,
+      "control_candidate_xsq_identical": true,
+      "control_ci_xsq_identical": true,
+      "sha256": "e680bb590b225b0ca86345211257d93f7f0cf4f3d2f17cd50881d9b47b94c9e9"
+    },
+    {
+      "number": 2,
+      "control_candidate_xsq_identical": true,
+      "control_ci_xsq_identical": true,
+      "sha256": "8e8cdddc5b5e94d04b0e07aec618ae5932e8651437a38f0b3d8a0cff4e303576"
+    },
+    {
+      "number": 6,
+      "control_candidate_xsq_identical": true,
+      "control_ci_xsq_identical": true,
+      "sha256": "8c3d4d0005763c0d913607ae80cd93fad424822731f8575c013e48d2a2540c6b"
+    }
+  ],
+  "interpretation": "The same recovery/candidate derived XSQ bytes were natively rendered; current native visibility failures are shared presentation gates, not newly changed sequencing output."
+}

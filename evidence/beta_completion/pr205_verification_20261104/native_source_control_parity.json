@@ -1,0 +1,18 @@
+{
+  "control_source": "05c1de55d2e4d747652452ade0d9752d370b55d9",
+  "candidate_source": "37fb716cc9581cb1024760a23b53d65589496f02",
+  "audio_sha256": "19e90c273d0d747938f24b36586b50818c104cddffbefe4a4128927374301938",
+  "files": [
+    {
+      "name": "Phoneme_Test_Hook,v27.3.xsq",
+      "sha256": "cd6d1d91bf3cc4d8b714201ff2983ee4becb8103acfa9eaddccd3606b654ae56",
+      "byte_identical": true
+    },
+    {
+      "name": "Phoneme_Test_Hook,v27.3.snowman_band.json",
+      "sha256": "12124ab7bc1f66bdbc037a412418c73a281621de0ca452c6406296b92b5541de",
+      "byte_identical": true
+    }
+  ],
+  "exact_source_plan_and_xsq_parity": true
+}

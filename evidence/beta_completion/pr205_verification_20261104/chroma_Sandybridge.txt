@@ -1,0 +1,16 @@
+....                                                                     [100%]
+=============================== warnings summary ===============================
+tests/test_bounded_audio.py::test_bounded_classifier_preserves_global_tuning_confidences_and_event_clocks
+  /workspace/scratch/78f26c400f5c/helix-venv/lib/python3.12/site-packages/audioread/rawread.py:16: DeprecationWarning: 'aifc' is deprecated and slated for removal in Python 3.13
+    import aifc
+
+tests/test_bounded_audio.py::test_bounded_classifier_preserves_global_tuning_confidences_and_event_clocks
+  /workspace/scratch/78f26c400f5c/helix-venv/lib/python3.12/site-packages/audioread/rawread.py:17: DeprecationWarning: 'audioop' is deprecated and slated for removal in Python 3.13
+    import audioop
+
+tests/test_bounded_audio.py::test_bounded_classifier_preserves_global_tuning_confidences_and_event_clocks
+  /workspace/scratch/78f26c400f5c/helix-venv/lib/python3.12/site-packages/audioread/rawread.py:19: DeprecationWarning: 'sunau' is deprecated and slated for removal in Python 3.13
+    import sunau
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+4 passed, 8 deselected, 3 warnings in 11.16s

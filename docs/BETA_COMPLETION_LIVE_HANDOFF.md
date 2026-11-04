@@ -1,3 +1,35 @@
+## 4 November — PR205 verification decision: HOLD release-path signoff
+
+Verification is complete for implementation37fb716cc9581cb1024760a23b53d65589496f02. Preserve the distinction between successful output-preservation/platform proof and failed acceptance gates.
+
+- [x] Recovery integration conflicts resolved on the feature branch. PR188 remains unmerged.
+- [x] Exact original237.44s MP3 SHA8ced92ba... through recovery control and candidate off/miss/hit:42305effects, historical XSQ SHA258f03ef... reproduced byte-for-byte in all4runs, identical band SHA0d1c9c21.... All target/time contracts pass. CLI218.75scold control/191.86soff/184.27smiss/151.20shit; not a balanced repeated speed benchmark. Additional237.44s PCM and34.88s MP3 comparisons also retain exact outputs.
+- [x] Canonical68-event/eight-target ordered cue/motion/debug JSON is identical before/after extraction,0 FP/FN/drift; protected detector/mapper/motion/geometry unchanged.
+- [x] Windows41874095171 completes success; authenticated diagnostics13345378551 prove actual frozen off/miss/hit XSQ/band equality and unchanged NPZ bytes/mtime on hit. Existing FSEQ/GUI/LOR checks pass.
+- [x] Preview tied-score dictionary-comparison bug repaired; remote41874083876 succeeds;7local cases pass.
+- [x] Local tests-directory suites:2349+24subtests/6existing skips perPython3.11/3.12, plus3additional root-collected preview cases pass on each. Source-module hashes unchanged throughout verification.
+- [ ] HOSTED REGRESSION BLOCKER: push41874083597 and PR41874095074 both fail4bounded-chroma cases on bothPython versions. Push receipts each2348pass+24subtests/6skips,4fail; max2.66020723e-7 vs unchanged1e-7. Local green does NOT supersede this. Reproduced4failures onHaswell/Zen BLAS kernels; Sandybridge/defaultSkylakeX pass. Recovery05c1de5 also fails4underHaswell and the function AST is identical. No CPU pin, tolerance relaxation or speculative precision/overlap rewrite applied. The retained padding hypothesis is not a portable fix.
+- [ ] NATIVE VISUAL BLOCKER: native41874095353 exports all3shows successfully with actual698-frame1080pH264/AAC/20fps movies; full decode, correlation.9968248 and4zero-lag windows pass. AC luma9.466<12; band luma8.963<12 and motion.625<.65; face bright fraction.01110<.012. All3derived XSQs are byte-identical across recovery control, candidate and actualCI inputs; current failures are shared presentation gates. Representative actual frames inspected. Failed media remains diagnostic, not approval footage.
+- [ ] Separate acoustic/lexical singer truth, physical acceptance, nine-video owner approval and release gates remain held.
+
+Decision: PR205 has strong lossless parity and frozen-platform evidence, but is NOT release-qualified while hosted numeric and native visual gates fail. Smallest next code work: repair bounded-chroma kernel-independent conformance at unchanged tolerance/memory ceiling, then focused default/Haswell/Zen checks and hosted3.11/3.12; repair native preview visibility/source-driven motion and rerun only the3-show native gate. Revalidate changed-source original-MP3 and Windows outputs when production behavior changes. Do not broaden into universal-engine integration or waive current gates.
+
+Changed in this receipt only: MASTER_TODO.md, live handoff, machine status/inventory, docs/PR205_VERIFICATION_20261104.md and source-bound proof/reproduction files. Goal: durable, reviewable decision and exact recovery. Intentionally preserved all implementation bytes from37fb716, existing music/assets/events/ACcolors/wiring and thresholds. New behavior: none. Risks/limitations: unresolved cross-kernel float32 conformance, native presentation and independent owner qualifications. Metadata receipt skips redundant CI; it does not claim a passing new implementation. Resume from this ledger and the verification report. No PR merge or release.
+
+## 4 November — long-song/cache proof complete; hosted platform receipts running
+
+- [x] Both local full suites:2349tests+24subtests/6existing skips each; exact current implementation module hashes still match tested source.
+- [x] Recovered237.44s PCM recording dd988078 matches archive manifest. Recovery05c1de5 control, candidate cache-off, miss and hit all produce42330effects and exact XSQ7da1338b... / band8084c534... hashes. All intervals/targets validate. This is different source bytes from the historical MP3 and must not be represented as reproducing its42305count.
+- [x] Measured CLI seconds:205.39control,180.92off,202.43miss,156.73hit. Candidate peakRSS:1215279104off/1213304832miss/1198190592hit. Shared audio/harmonic stage35.639s off ->0.923s hit. Concurrent correctness workloads/no repeated balanced timing trials: no controlled whole-engine speedup claim.
+- [x] Canonical68-event/eight-target ordered cue/motion/debug parity exact; zero event/time/target drift.
+- [x] GitHub remote-preview41874083876 now succeeds after tied-score fix. Its staged/demo preview is engineering evidence, not owner acceptance footage.
+- [ ] Collect Windows41874095171 frozen-cache verification JSON (packaged engine/cache steps pass; archive completion pending at this checkpoint).
+- [ ] Native representative41874095353 on implementation37fb716 is running, after source generation/resource identity verification. All original decode/sync/visibility gates remain enforced.
+- [ ] Current full hosted CI41874083597/41874095074 is running. Do not substitute local results for hosted completion.
+- [ ] Independent acoustic/lexical singers, native visual/artistic/physical/owner approval and PR188 release gates remain separate and held.
+
+Evidence: evidence/beta_completion/pr205_verification_20261104/{local_regression.json,long_song_comparison.json,feature_cache_inventory.json,drummer_oracle.json}; source-bound scripts alongside. Source37fb716 has the same tested engine/drummer module bytes. New code in this phase is verification/workflow only; original assets/AC wiring/colors/profiles and thresholds preserved. Deferred broad integration and controlled speed benchmarking. Risks: actual hosted DSP/frozen/native outcomes. Resume by collecting exact run IDs above; no merge/release.
+
 ## 4 November — exact drummer parity and native workflow expression correction
 
 Executed68-event/eight-target fixture through recovery and candidate intelligent-cue assembly. Ordered cue/motion/debug JSON matches byte-for-byte; time/target event multiset exactly matches the unchanged oracle (zero FP/FN/drift). Existing mapper priority order for simultaneous hits is preserved, not forced into the fixture's display order. Receipt/probe: pr205_verification_20261104/drummer_oracle.json and oracle_probe.py. Protected drummer detector/mapper/motion/geometry unchanged; this is mapping proof, not acoustic or visual acceptance.

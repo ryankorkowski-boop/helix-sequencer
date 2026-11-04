@@ -1,0 +1,29 @@
+{
+  "audio_sha256": "19e90c273d0d747938f24b36586b50818c104cddffbefe4a4128927374301938",
+  "duration_seconds": 34.88,
+  "exact_xsq_and_band_parity": true,
+  "rows": [
+    {
+      "mode": "off",
+      "xsq_sha256": "cd6d1d91bf3cc4d8b714201ff2983ee4becb8103acfa9eaddccd3606b654ae56",
+      "band_sha256": "12124ab7bc1f66bdbc037a412418c73a281621de0ca452c6406296b92b5541de"
+    },
+    {
+      "mode": "miss",
+      "seconds": 29.415288859000157,
+      "xsq_sha256": "cd6d1d91bf3cc4d8b714201ff2983ee4becb8103acfa9eaddccd3606b654ae56",
+      "band_sha256": "12124ab7bc1f66bdbc037a412418c73a281621de0ca452c6406296b92b5541de"
+    },
+    {
+      "mode": "hit",
+      "seconds": 23.59478901500006,
+      "xsq_sha256": "cd6d1d91bf3cc4d8b714201ff2983ee4becb8103acfa9eaddccd3606b654ae56",
+      "band_sha256": "12124ab7bc1f66bdbc037a412418c73a281621de0ca452c6406296b92b5541de"
+    }
+  ],
+  "implementation_source_commit": "37fb716cc9581cb1024760a23b53d65589496f02",
+  "effects": 6307,
+  "profile": "master",
+  "palette": "warm",
+  "sync_lyrics_heads": true
+}
