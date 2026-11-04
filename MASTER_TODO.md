@@ -77,6 +77,26 @@ Do not mark complete from unit tests alone.
 
 ## Change Ledger
 
+### 2026-11-04 — Repository reachability audit (report only)
+**Agent:** Cursor cloud agent
+**Branch:** `cursor/repo-audit-e706`
+
+**Goal:** Map unused, duplicated, and overriding logic without changing sequencing behavior.
+
+**Changed:** `docs/REPO_AUDIT.md`, `scripts/repo_reachability_audit.py`
+
+**Preserved:** Runtime code, tests, profiles, and the beta order in `ROADMAP_BETA_TODO.md`. No engine extraction.
+
+**New behavior:** None. The report records what the GUI/CLI reach, what they do not, and what later steps override.
+
+**Evidence:** `python scripts/repo_reachability_audit.py`; `python -m pytest -q --tb=line --continue-on-collection-errors` on Python 3.12 (905 passed, 24 failed, 5 skipped, 1 xfailed, 1 collection error). Vulture at 80% confidence reported three unused locals, not the structural findings.
+
+**Limitations:** Static AST reachability misses non-literal dynamic imports. Test failures are a baseline, not a claim about xLights import or visual quality.
+
+**Deferred:** Every deletion, merge, and GUI flag fix recommended in the audit. Those wait for the beta phases already listed in `ROADMAP_BETA_TODO.md`.
+
+**Regression risk:** None from this change set. Acting on the recommendations later can change sequences; the report says which ones.
+
 ### 2026-10-02 — Beta tester feedback checklist documented
 **Agent:** GitHub Copilot
 **Branch:** `feature/restructure-core`
