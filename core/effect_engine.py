@@ -9,6 +9,7 @@ import os
 import random
 import re
 import shutil
+import traceback
 from bisect import bisect_left
 from collections.abc import Iterator, Mapping
 from collections import Counter
@@ -8526,7 +8527,49 @@ def compute_quality_score(payload: dict) -> dict:
 
 
 def write_report(path: Path, payload: dict) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text(json.dumps(payload, indent=2), encoding="utf-8")
+
+
+class SequenceGenerationError(RuntimeError):
+    """One or more audio files failed to produce a new sequence."""
+
+    def __init__(self, failures: list[str]) -> None:
+        self.failures = list(failures)
+        super().__init__("\n".join(self.failures))
+
+
+def xsq_output_is_new(path: Path, before: os.stat_result | None) -> bool:
+    """Return True when path is a non-empty .xsq written or replaced during this attempt."""
+
+    if path.suffix.lower() != ".xsq" or not path.is_file():
+        return False
+    try:
+        after = path.stat()
+    except OSError:
+        return False
+    if after.st_size <= 0:
+        return False
+    if before is None:
+        return True
+    return (after.st_mtime_ns, after.st_size) != (before.st_mtime_ns, before.st_size)
+
+
+def write_audio_failure_report(out_path: Path, audio_path: Path, message: str, detail: str = "") -> Path:
+    """Record a per-audio generation failure next to the sequence that should have been written."""
+
+    payload = {
+        "status": "failed",
+        "audio": audio_path.name,
+        "audio_path": str(audio_path),
+        "output_path": str(out_path),
+        "xsq_written": bool(out_path.is_file() and out_path.stat().st_size > 0),
+        "error": message,
+        "traceback": detail,
+    }
+    destination = report_path(out_path)
+    write_report(destination, payload)
+    return destination
 
 
 def read_report_payload(path: Path) -> dict:
@@ -13021,10 +13064,12 @@ def main_for(version: str, argv: list[str] | None = None) -> None:
     log(f"Output folder: {output_dir.name}")
     log(f"Processing {len(audios)} audio file(s) with {style.version}...")
     runtime_candidates = build_runtime_candidates(style, tuning, tuning.variant_count)
+    failures: list[str] = []
 
     for i, audio in enumerate(audios, 1):
         out = variant_output_name(audio, output_dir, style.version)
         log(f"\n[{i}/{len(audios)}] {audio.name} -> {out.name}")
+        before_stat = out.stat() if out.exists() else None
         try:
             candidate_results: list[dict[str, object]] = []
             for idx, candidate in enumerate(runtime_candidates, 1):
@@ -13119,11 +13164,30 @@ def main_for(version: str, argv: list[str] | None = None) -> None:
                 if selected_payload:
                     selected_payload["learning_memory"] = learning_result
                     write_report(selected_report_path, selected_payload)
+            if not xsq_output_is_new(out, before_stat):
+                message = f"FAILED: {audio.name}: no new XSQ written at {out}"
+                log(message)
+                write_audio_failure_report(out, audio, message)
+                failures.append(message)
         except Exception as exc:
-            log(f"FAILED: {audio.name}: {repr(exc)}")
+            detail = traceback.format_exc()
+            message = f"FAILED: {audio.name}: {exc!r}"
+            log(message)
+            try:
+                write_audio_failure_report(out, audio, message, detail)
+            except OSError as report_exc:
+                detail = f"{detail}\nfailure report was not written: {report_exc!r}"
+            failures.append(f"{message}\n{detail}")
+
+    if failures:
+        raise SequenceGenerationError(failures)
 
     log("\nDone.")
 
 
 def main(argv: list[str] | None = None) -> None:
-    main_for(ACTIVE_STYLE_VERSION, argv)
+    try:
+        main_for(ACTIVE_STYLE_VERSION, argv)
+    except SequenceGenerationError as exc:
+        log(f"ERROR: {exc}")
+        raise SystemExit(1) from exc

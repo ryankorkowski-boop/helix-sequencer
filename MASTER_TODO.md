@@ -135,6 +135,27 @@ Do not mark complete from unit tests alone.
 
 **Known limitation:** xmodel exporter still needs to make the nine composites the canonical sequencing submodels.
 
+## Change Ledger — main-path xLights contract
+
+### 2026-11-04 — Failed audio or a missing sequence exits non-zero
+**Branch:** `cursor/main-path-xsq-fixes-41d8`
+
+**Goal:** A per-audio generation error, or a run that does not write a new `.xsq`, must fail the process and be visible in the run manifest and the per-audio report (issue #114).
+
+**Changed:** `core/effect_engine.py`, `core/effect_engine_beat_grid.py`, `core/sequence_builder.py`, `tests/test_sequence_generation_failures.py`, `tests/test_sequence_builder_orchestrator_promotion.py`
+
+**Preserved:** Successful runs still finalize `success: true`. Orchestrator promotion and BeatGrid flag stripping are unchanged. The birdsong post-hook can still fail without failing the sequence.
+
+**New behavior:** `effect_engine.main_for` records each audio failure (exception text plus traceback) in `*.report.json` and raises `SequenceGenerationError`. `run_profile` finalizes the manifest as failed and exits 1 when that exception escapes, when the engine raises `SystemExit`, or when no new `.xsq` appears under the output root.
+
+**Tests:** `tests/test_sequence_generation_failures.py` and the orchestrator promotion tests.
+
+**Limitations:** The underlying Lights Out render exception from the original workflow run was not reproduced here. This commit fixes the success contract, not a specific effect-engine crash.
+
+**Deferred:** Overlap with open PRs #206/#207, which also edit `sequence_builder.py` (duplicate helper removal and effective engine args). Those edits are left in place on their branches. #188 is untouched.
+
+**Regression risks:** Callers that treated a logged `FAILED:` line as a successful process exit now get a non-zero exit. Tests that mock the engine must write an `.xsq` if they expect success.
+
 ## Next actions
 1. Preserve the prior known-good drummer behavior as the regression baseline.
 2. Reconcile xLights drummer geometry with the nine canonical composites.
