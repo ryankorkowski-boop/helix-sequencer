@@ -1,6 +1,6 @@
 {
   "schema": "helix.beta-artifacts.v1",
-  "updated_at": "2026-11-02",
+  "updated_at": "2026-11-04T21:32:00.258993+00:00",
   "requested_count": 9,
   "verified_count": 9,
   "artifacts": [
@@ -1141,8 +1141,8 @@
       "source_commit": "09677d4822e35d724e9f229c0ab7465c9f34fd7a",
       "engine_worktree_module_changes": false,
       "source_library_tracks": [
-        "Tinsel Tornado164–182s",
-        "Christmas in the Ether76.5–94.5s"
+        "Tinsel Tornado164\u2013182s",
+        "Christmas in the Ether76.5\u201394.5s"
       ],
       "effects": 5155,
       "detected_parts": [
@@ -1447,19 +1447,19 @@
           "test": "test_bounded_chroma_preserves_reference_across_long_partial_blocks[1]",
           "mismatched": 10,
           "total": 4097,
-          "max_abs_diff": 2.66020723e-7
+          "max_abs_diff": 2.66020723e-07
         },
         {
           "test": "test_bounded_chroma_preserves_reference_across_long_partial_blocks[61]",
           "mismatched": 22,
           "total": 4157,
-          "max_abs_diff": 1.99515542e-7
+          "max_abs_diff": 1.99515542e-07
         },
         {
           "test": "test_bounded_chroma_preserves_reference_across_long_partial_blocks[509]",
           "mismatched": 18,
           "total": 4605,
-          "max_abs_diff": 1.33010362e-7
+          "max_abs_diff": 1.33010362e-07
         }
       ],
       "tolerance": "atol=1e-7, rtol=0",
@@ -1493,5 +1493,84 @@
     "requested_mp4_count": 9,
     "technical_delivery_count": 9,
     "technical_delivery_is_not_approval": true
+  },
+  "reconciliation_20261104": {
+    "updated_at": "2026-11-04T21:32:00.258993+00:00",
+    "branch": "codex/eight-hour-recovery-20261019",
+    "starting_commit": "05c1de55d2e4d747652452ade0d9752d370b55d9",
+    "tasks": [
+      {
+        "id": "BETA-RECON-20261104",
+        "priority": "P0",
+        "status": "IN_PROGRESS",
+        "source_files": [
+          "AGENTS.md",
+          "MASTER_TODO.md",
+          "docs/BETA_COMPLETION_LIVE_HANDOFF.md"
+        ],
+        "acceptance_criteria": "Reconcile live PR188/205 heads, CI failures, frozen nine inventory and canonical provenance without duplicating prior work.",
+        "tests_performed": [
+          "Live GitHub metadata/jobs/logs read; repository clone and clean status"
+        ],
+        "evidence": [
+          "evidence/beta_completion/reconciliation_20261104/github_state.json"
+        ],
+        "remaining_work": "Verify review fixes, current native inputs and reachable historical artifacts.",
+        "next_executable_action": "Run bounded classifier reproduction under Haswell and default kernels."
+      },
+      {
+        "id": "BETA-CHROMA-PORTABILITY",
+        "priority": "P0",
+        "status": "IN_PROGRESS",
+        "source_files": [
+          "core/audio_intelligence.py",
+          "tests/test_bounded_audio.py"
+        ],
+        "acceptance_criteria": "Retain 1e-7 entropy tolerance, exact pitch/event clocks, global tuning and bounded memory across supported numerical backends.",
+        "tests_performed": [
+          "Live Python3.12 failure logs confirmed four cases, not just three tails"
+        ],
+        "evidence": [
+          "https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/41398351091"
+        ],
+        "remaining_work": "Reproduce, diagnose and repair.",
+        "next_executable_action": "OPENBLAS_CORETYPE=Haswell OPENBLAS_NUM_THREADS=2 /workspace/helix-venv/bin/python -m pytest -q tests/test_bounded_audio.py -k \"bounded_classifier or partial_blocks\""
+      },
+      {
+        "id": "BETA-NINE-DELIVERY",
+        "priority": "P0",
+        "status": "BLOCKED",
+        "source_files": [
+          "evidence/beta_completion/current_owner_review_20261030.json",
+          "tools/assemble_beta_review.py"
+        ],
+        "acceptance_criteria": "Exactly the frozen nine real-audio files; canonical geometry, independent vocals, native compatibility, full decode and accessible download.",
+        "tests_performed": [
+          "Historical 427604937-byte ZIP receipt inspected; not locally retrieved or verified"
+        ],
+        "evidence": [
+          "evidence/beta_completion/owner_review_zip_20261030.json"
+        ],
+        "remaining_work": "Restore Library-only inputs or locate accessible equivalents; qualify vocal sources and source-front3D assets; rerender affected outputs.",
+        "next_executable_action": "Locate source recordings/stems through connected Drive and retained Actions artifacts."
+      },
+      {
+        "id": "BETA-OWNER-APPROVAL",
+        "priority": "P0",
+        "status": "OWNER_APPROVAL_REQUIRED",
+        "source_files": [
+          "MASTER_TODO.md"
+        ],
+        "acceptance_criteria": "Owner explicitly approves final nine movies and beta before merge/publication.",
+        "tests_performed": [],
+        "evidence": [
+          "https://github.com/ryankorkowski-boop/helix-sequencer/pull/188"
+        ],
+        "remaining_work": "Complete technical work and provide reviewable artifacts.",
+        "next_executable_action": "Keep PR188 unmerged and beta unpublished while completing technical gates."
+      }
+    ],
+    "owner_approval": "OWNER_APPROVAL_REQUIRED",
+    "final_acceptance": "BLOCKED"
   }
 }
