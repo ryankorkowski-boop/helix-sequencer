@@ -12650,6 +12650,13 @@ def run_variant(
             f"effects_added={master_report['effects_added']}, "
             f"rows_touched={master_report['rows_touched']}"
         )
+    duration_report = base.apply_sequence_duration(xsq.root, float(audio.dur_s))
+    log(
+        "Sequence duration: "
+        f"{duration_report['sequence_duration']:.3f}s "
+        f"clipped={duration_report['clipped']} removed={duration_report['removed']} "
+        f"timing_clipped={duration_report['timing_clipped']} timing_removed={duration_report['timing_removed']}"
+    )
     try:
         base.indent_xml(xsq.root)
     except Exception:

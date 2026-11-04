@@ -638,6 +638,10 @@ def indent_xml(elem: ET.Element, level: int = 0) -> None:
 #                     AUDIO REFERENCE UPDATE (BEST-EFFORT)
 # =============================================================================
 
+def apply_sequence_duration(root: ET.Element, duration_s: float) -> dict[str, float | int]:
+    return _xml_io.apply_sequence_duration(root, duration_s)
+
+
 def replace_audio_references(root: ET.Element, new_audio: Path) -> int:
     return _xml_io.replace_audio_references(root, new_audio)
 

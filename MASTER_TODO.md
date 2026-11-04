@@ -156,6 +156,25 @@ Do not mark complete from unit tests alone.
 
 **Regression risks:** Callers that treated a logged `FAILED:` line as a successful process exit now get a non-zero exit. Tests that mock the engine must write an `.xsq` if they expect success.
 
+### 2026-11-04 — Sequence duration follows the audio
+**Branch:** `cursor/main-path-xsq-fixes-41d8`
+
+**Goal:** `<head><sequenceDuration>` matches the audio length, and effect rows and timing marks do not extend past that end.
+
+**Changed:** `xlights/xml_io.py`, `xlights/xsq_writer.py`, `core/effect_engine.py` (`run_variant`, immediately before the `.xsq` write), `tests/test_sequence_duration.py`
+
+**Preserved:** `replace_audio_references` still only swaps the media filename. Effect placement still uses the analyzed `song_length_ms`. A non-positive duration raises instead of writing a zero-length sequence.
+
+**New behavior:** `apply_sequence_duration` writes the duration in seconds (3 decimal places, matching the template) and clips or drops `Effect` rows, including timing-track marks, at the audio end. `run_variant` calls it with `audio.dur_s` from `xsq_writer.analyze`.
+
+**Tests:** `tests/test_sequence_duration.py` loads `template.xsq` (132.039 s) and applies a generated 30.000 s WAV. A second case clips a crossing effect and drops a timing mark that starts at the boundary.
+
+**Limitations:** Not opened in xLights. Duration comes from the analyzer's sample count (`len(y) / sr`), which matches the WAV header used in the test. MP3 frame padding was not compared against an xLights media import.
+
+**Deferred:** Showcase generation (`GENERATE_SHOWCASE`) rewrites a second file and does not call this helper itself.
+
+**Regression risks:** Template effects that used to survive past a shorter song are now clipped or removed on write.
+
 ## Next actions
 1. Preserve the prior known-good drummer behavior as the regression baseline.
 2. Reconcile xLights drummer geometry with the nine canonical composites.

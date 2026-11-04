@@ -136,6 +136,92 @@ def add_effect(layer: ET.Element, start_ms: int, end_ms: int, name: str, tpl: "E
     return effect
 
 
+def apply_sequence_duration(root: ET.Element, duration_s: float) -> dict[str, float | int]:
+    """Set ``<head><sequenceDuration>`` and keep effects and timing marks inside it.
+
+    xLights stores ``sequenceDuration`` in seconds. Effect and timing-mark
+    ``startTime`` / ``endTime`` values are milliseconds. Marks that begin at or
+    after the new end are removed. Marks that cross the end are clipped.
+    """
+
+    duration = float(duration_s)
+    if duration <= 0:
+        raise ValueError(f"sequence duration must be positive, got {duration_s}")
+    duration_ms = max(1, int(round(duration * 1000.0)))
+    head = find_root_child(root, "head")
+    if head is None:
+        head = ET.Element("head")
+        root.insert(0, head)
+    duration_node = None
+    for child in list(head):
+        if child.tag.endswith("sequenceDuration"):
+            duration_node = child
+            break
+    if duration_node is None:
+        duration_node = ET.SubElement(head, "sequenceDuration")
+    duration_node.text = f"{duration:.3f}"
+
+    parents: dict[int, ET.Element] = {}
+    for parent in root.iter():
+        for child in list(parent):
+            parents[id(child)] = parent
+
+    def owning_element(node: ET.Element) -> ET.Element | None:
+        current: ET.Element | None = node
+        while current is not None:
+            if isinstance(current.tag, str) and current.tag.endswith("Element"):
+                return current
+            current = parents.get(id(current))
+        return None
+
+    clipped = 0
+    removed = 0
+    timing_clipped = 0
+    timing_removed = 0
+    for effect in list(root.iter()):
+        if not (isinstance(effect.tag, str) and effect.tag.endswith("Effect")):
+            continue
+        start_raw = effect.attrib.get("startTime", effect.attrib.get("StartTime"))
+        end_raw = effect.attrib.get("endTime", effect.attrib.get("EndTime"))
+        if start_raw is None or end_raw is None:
+            continue
+        try:
+            start_ms = int(round(float(start_raw)))
+            end_ms = int(round(float(end_raw)))
+        except ValueError:
+            continue
+        owner = owning_element(effect)
+        owner_type = ((owner.attrib.get("type") or owner.attrib.get("Type") or "") if owner is not None else "").lower()
+        is_timing = owner_type == "timing"
+        if start_ms >= duration_ms or end_ms <= start_ms:
+            parent = parents.get(id(effect))
+            if parent is not None:
+                parent.remove(effect)
+                if is_timing:
+                    timing_removed += 1
+                else:
+                    removed += 1
+            continue
+        if end_ms > duration_ms:
+            end_key = "endTime" if "endTime" in effect.attrib or "EndTime" not in effect.attrib else "EndTime"
+            effect.attrib[end_key] = str(duration_ms)
+            if is_timing:
+                timing_clipped += 1
+            else:
+                clipped += 1
+        if start_ms < 0:
+            start_key = "startTime" if "startTime" in effect.attrib or "StartTime" not in effect.attrib else "StartTime"
+            effect.attrib[start_key] = "0"
+    return {
+        "sequence_duration": round(duration, 3),
+        "duration_ms": duration_ms,
+        "clipped": clipped,
+        "removed": removed,
+        "timing_clipped": timing_clipped,
+        "timing_removed": timing_removed,
+    }
+
+
 def replace_audio_references(root: ET.Element, new_audio: Path) -> int:
     new_name = new_audio.name
     changed = 0
