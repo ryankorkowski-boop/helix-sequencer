@@ -1,0 +1,38 @@
+{
+  "source_commit": "95f9bda02afd49d144392c572b2931ddc013afd1",
+  "source_tree": "97630fbc0cdb6ecd7a8ca51dce888342f80a9c08",
+  "module_sha256": {
+    "core/audio_features.py": "7bdd9ee6f6928745dded25e793127b3d0a4ad9e413df58dd42c5aa5faa04df79",
+    "core/audio_intelligence.py": "8a9a7bc3d6eb18566ebc751f25ae98b68efdc6f35067f4e5cb94df1d564a170b",
+    "core/drum_pipeline.py": "36316b8701a3dbaa26030a47a6a26cf3a4a5bc7305e6b6812ed5612b1b539582",
+    "core/effect_engine.py": "634b9f48f11fa921d9ff66499d4b43de0dcd1ae0f7f02f10aae34ab9cdca244e",
+    "core/snowman_band.py": "708ae0eaf8bab103463181468423dd89c95849965572438e7e6bab948e9c94c5",
+    "core/sequence_builder.py": "709a045303bd9835f6d0d3f2da7ef20f704f5d0342ad494f096464d2c8900c8c",
+    "xlights/xsq_writer.py": "400dce914551655f483d79e55b3086c80a09011e1682a606b86f5a2843737b46",
+    "audio/drummer_v3.py": "3a614bcfe56f839a02c0136941d17bfb2257929807253cf6ee72a310a254e839",
+    "mapping/drum_mapper.py": "595c96bcb211ede0f7cd1d431741ddb10e9a7343911ead9bcd1728d5362b3808",
+    "animation/drummer_motion.py": "1224607368bfc57402eda726a6fae4bd96c64f09285297a67e7adcf649e95fdb"
+  },
+  "python312": {
+    "passed": 2349,
+    "skipped": 6,
+    "subtests_passed": 24,
+    "seconds": 377.29,
+    "junit": "evidence/beta_completion/pr205_verification_20261104/full312.xml"
+  },
+  "python311": {
+    "passed": 2349,
+    "skipped": 6,
+    "subtests_passed": 24,
+    "seconds": 382.1,
+    "junit": "evidence/beta_completion/pr205_verification_20261104/full311.xml"
+  },
+  "skips": [
+    "5 pre-existing core sandbox cases require missing 2.wav",
+    "native preview manifest integration requires actual native export"
+  ],
+  "runtime_limits": [
+    "Local venv excludes optional Whisper/Torch; no extra skips beyond the known six",
+    "Native, packaged Windows cache probe and independent vocal/owner acceptance remain separate"
+  ]
+}

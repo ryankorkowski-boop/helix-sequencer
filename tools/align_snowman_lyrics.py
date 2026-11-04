@@ -10,7 +10,9 @@ import json
 from pathlib import Path
 import re
 import time
-import torch
+from core.lazy_imports import LazyModule
+
+torch = LazyModule("torch")
 
 from tools.analyze_snowman_ensemble import sha
 from core.lyric_phoneme_mapper import map_lyric_to_phonemes

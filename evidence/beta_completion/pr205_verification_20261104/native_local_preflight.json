@@ -1,0 +1,24 @@
+{
+  "source_commit": "4c1f226033ca4092adeaf4dca2ff17bc3d29a1d2",
+  "audio_sha256": "19e90c273d0d747938f24b36586b50818c104cddffbefe4a4128927374301938",
+  "fresh_effects": 6307,
+  "shows_built": [
+    {
+      "number": 1,
+      "channels": 256
+    },
+    {
+      "number": 2,
+      "channels": 173712
+    },
+    {
+      "number": 6,
+      "channels": 12198
+    }
+  ],
+  "renderer_binary_sha256": "09dfeae588e9659dfd41cbd6115bf77b9cf4871fcea2bd02190dcbdc3a7ac844",
+  "native_local_status": "BLOCKED_DISPLAY_SOCKET",
+  "native_mp4_created": false,
+  "supported_next_action": "Run Optimization native regression on PR205 exact source",
+  "owner_approved": false
+}

@@ -1,0 +1,83 @@
+{
+  "schema": "helix.core_baseline.v1",
+  "source_commit": "321cf85fc8a6d9c086a59c61cb3d4fcb076db079",
+  "instrumentation_commit": "14c9a2cf3527942489e2a4d5e89e94fd81d9be77",
+  "cache_condition": "First local process; JIT and existing stem caches initially cold.",
+  "metrics": {
+    "schema": "helix.stage_metrics.v1",
+    "success": true,
+    "python": "3.12.14",
+    "platform": "Linux",
+    "wall_seconds": 218.37942195399998,
+    "peak_rss_bytes": 1386229760,
+    "rss_scope": "process lifetime high-water mark",
+    "timing_scope": "inclusive; nested stage durations overlap",
+    "stages": {
+      "layout.load": {
+        "calls": 1,
+        "wall_seconds": 0.07050241100000676
+      },
+      "audio.load_features": {
+        "calls": 1,
+        "wall_seconds": 28.717309821000015
+      },
+      "audio.harmonic": {
+        "calls": 1,
+        "wall_seconds": 29.849216542000022
+      },
+      "audio.analysis": {
+        "calls": 1,
+        "wall_seconds": 58.57029639999999
+      },
+      "audio.stems": {
+        "calls": 1,
+        "wall_seconds": 112.03905133899997
+      },
+      "audio.multiband": {
+        "calls": 1,
+        "wall_seconds": 2.9924582809999833
+      },
+      "drums.mapping": {
+        "calls": 1,
+        "wall_seconds": 0.27870260599996755
+      },
+      "band.plan": {
+        "calls": 1,
+        "wall_seconds": 1.2707285049999655
+      },
+      "timing_and_planning": {
+        "calls": 1,
+        "wall_seconds": 134.077398996
+      },
+      "effects.placement": {
+        "calls": 1,
+        "wall_seconds": 21.149861853000004
+      },
+      "reports.write": {
+        "calls": 1,
+        "wall_seconds": 1.2337265749999915
+      },
+      "xsq.write": {
+        "calls": 1,
+        "wall_seconds": 0.6071901789999856
+      },
+      "engine.variant": {
+        "calls": 1,
+        "wall_seconds": 215.812662583
+      }
+    }
+  },
+  "contract": {
+    "model_effects": 42305,
+    "duration_seconds": 237.44,
+    "declared_model_targets": true,
+    "finite_bounded_intervals": true
+  },
+  "musical_signature": "57c402d5b7857077f57fcd0d435a92a8a3f28e32c88e3c2e756bade5decff50c",
+  "xsq_sha256": "258f03ef24ad98fbedc11c684e4a800e6563ebed8754471a0c05742a45f85266",
+  "inputs": {
+    "Helix Audiolights.mp3": "8ced92ba179c931a2c7f29f834df1c8fd6a399d78074de0de030bc952bb5f0ec",
+    "template.xsq": "4e31bffe870cef8feafa11aed19645e55c4883a8c878bf24d66cedcd42818429",
+    "xlights_rgbeffects.xml": "1f3b0abaae93429f96e52710e33067cb6b49214132428d30f428269e8d2e7c0b"
+  }
+}

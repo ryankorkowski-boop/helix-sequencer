@@ -1,5 +1,6 @@
 """Sequence the exact recovered sampler through current Helix on six new shows."""
 from __future__ import annotations
+from core.engine_runner import run_variant
 import argparse
 from contextlib import redirect_stdout
 import json
@@ -32,7 +33,7 @@ def main():
             audio_reactive_profile='showcase',audio_reactive_intensity=1.6,spatial_awareness=.85,
             chase_style='radial_out',model_overrides=model_routes(g),max_layers_per_prop=3)
         with (folder/'engine.log').open('w') as log,redirect_stdout(log):
-            engine.run_variant(engine.VARIANTS['v27.3'],template,media,raw,engine.base.UserProfile(),tuning=tuning,analysis_cache=cache)
+            run_variant(engine.VARIANTS['v27.3'],template,media,raw,engine.base.UserProfile(),tuning=tuning,analysis_cache=cache)
         native=folder/(g.slug+'_Sampler.xsq');export=native_music_xsq(raw,native,g,media,duration)
         row=dict(flavor=f.key,folder=g.slug,xsq=native.name,layout=g.title,audio_sha256=SAMPLER_SHA,
                  duration_seconds=duration,export=export)

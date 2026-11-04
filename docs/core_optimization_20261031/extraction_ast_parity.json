@@ -1,0 +1,20 @@
+{
+  "schema": "helix.extraction_ast_parity.v1",
+  "reference_commit": "14c9a2cf3527942489e2a4d5e89e94fd81d9be77",
+  "unchanged_audio_ast": {
+    "HarmonicData": true,
+    "MultiBandAnalysis": true,
+    "analyze_harmonic": true,
+    "derive_dynamic_marks": true,
+    "_series_peak_marks": true,
+    "_quiet_windows_from_rms": true,
+    "_align_curve": true,
+    "_marks_density_per_minute": true,
+    "estimate_tempo_bpm": true,
+    "classify_mir_genre": true,
+    "classify_mir_mood": true,
+    "derive_multiband_analysis": true
+  },
+  "load_audio_changes": "Function renamed; writer-owned globals resolved through base. DSP expressions retained.",
+  "drum_changes": "Existing assembler renamed; section label helper injected. Classifier and stem override statements moved verbatim."
+}

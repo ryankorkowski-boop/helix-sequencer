@@ -13,7 +13,9 @@ from scipy.signal import find_peaks
 from sklearn.cluster import KMeans
 from sklearn.metrics import silhouette_score
 import soundfile as sf
-import torch
+from core.lazy_imports import LazyModule
+
+torch = LazyModule("torch")
 
 ROOT = Path(__file__).resolve().parents[1]
 OLD = ROOT / 'outputs/Snowman_Ensemble'

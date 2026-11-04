@@ -723,8 +723,8 @@
         "test_bounded_chroma_preserves_reference_across_long_partial_blocks[61]",
         "test_bounded_chroma_preserves_reference_across_long_partial_blocks[509]"
       ],
-      "maximum_error": 1.9951554230956958e-7,
-      "unchanged_tolerance": 1e-7,
+      "maximum_error": 1.9951554230956958e-07,
+      "unchanged_tolerance": 1e-07,
       "introduced_by_this_change": false,
       "reason": "Production _bounded_background_features and its reference tests are byte-identical to starting 5aac37a; failures reproduced in current runtime before and after isolated-cache recovery"
     },
@@ -1375,8 +1375,8 @@
       "source_commit": "09677d4822e35d724e9f229c0ab7465c9f34fd7a",
       "engine_worktree_module_changes": false,
       "source_library_tracks": [
-        "Tinsel Tornado164–182s",
-        "Christmas in the Ether76.5–94.5s"
+        "Tinsel Tornado164\u2013182s",
+        "Christmas in the Ether76.5\u201394.5s"
       ],
       "effects": 5155,
       "detected_parts": [
@@ -1681,19 +1681,19 @@
           "test": "test_bounded_chroma_preserves_reference_across_long_partial_blocks[1]",
           "mismatched": 10,
           "total": 4097,
-          "max_abs_diff": 2.66020723e-7
+          "max_abs_diff": 2.66020723e-07
         },
         {
           "test": "test_bounded_chroma_preserves_reference_across_long_partial_blocks[61]",
           "mismatched": 22,
           "total": 4157,
-          "max_abs_diff": 1.99515542e-7
+          "max_abs_diff": 1.99515542e-07
         },
         {
           "test": "test_bounded_chroma_preserves_reference_across_long_partial_blocks[509]",
           "mismatched": 18,
           "total": 4605,
-          "max_abs_diff": 1.33010362e-7
+          "max_abs_diff": 1.33010362e-07
         }
       ],
       "tolerance": "atol=1e-7, rtol=0",
@@ -1719,5 +1719,50 @@
       "cause": "Missing pilot evidence for vocal timing and approved-reference identity; visible_stage_motion median 0.425 < 0.65",
       "url": "https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/41163710805"
     }
-  ]
+  ],
+  "core_optimization": {
+    "branch": "codex/core-facade-optimization-20261031",
+    "base_commit": "321cf85fc8a6d9c086a59c61cb3d4fcb076db079",
+    "status": "BLOCKED_HOST_NUMERIC_AND_NATIVE_VISIBILITY",
+    "baseline_warm_seconds": 168.51734721499997,
+    "baseline_warm_peak_rss_bytes": 1244893184,
+    "musical_signature": "57c402d5b7857077f57fcd0d435a92a8a3f28e32c88e3c2e756bade5decff50c",
+    "new_media_created": false,
+    "release_approval_unchanged": true,
+    "next_action": "Repair kernel-independent bounded chroma without tolerance/memory relaxation; repair native visibility/source motion separately; preserve PR188/release owner gates.",
+    "verification_receipt": "evidence/beta_completion/pr205_verification_20261104/local_regression.json",
+    "source_commit": "95f9bda02afd49d144392c572b2931ddc013afd1",
+    "verification_source_commit": "37fb716cc9581cb1024760a23b53d65589496f02",
+    "long_song_receipt": "evidence/beta_completion/pr205_verification_20261104/long_song_comparison.json",
+    "drummer_oracle_receipt": "evidence/beta_completion/pr205_verification_20261104/drummer_oracle.json",
+    "local_full_python311_passed": 2349,
+    "local_full_python312_passed": 2349,
+    "local_full_subtests_passed": 24,
+    "local_full_skipped": 6,
+    "cache_hit_verified": true,
+    "exact_xsq_and_band_parity": true,
+    "native_regression_run": 41874095353,
+    "windows_run": 41874095171,
+    "current_full_ci_run": 41874083597,
+    "windows_frozen_cache_verified": true,
+    "windows_receipt": "evidence/beta_completion/pr205_verification_20261104/windows_frozen_cache.json",
+    "native_exports_verified": 3,
+    "native_visibility_passed": 0,
+    "native_regression_receipt": "evidence/beta_completion/pr205_verification_20261104/native_ci_verification.json",
+    "native_quality_gate": "BLOCKED: AC luma9.466<12; band luma8.963<12 and motion.625<.65; RGB face bright fraction.01110<.012",
+    "native_source_control_parity": true,
+    "exact_mp3_cache_off_miss_hit_parity": true,
+    "verification_complete": true,
+    "release_path_signoff": false,
+    "historical_original_mp3_reproduced": true,
+    "original_mp3_receipt": "evidence/beta_completion/pr205_verification_20261104/original_mp3_comparison.json",
+    "original_mp3_effects": 42305,
+    "original_mp3_exact_xsq_sha256": "258f03ef24ad98fbedc11c684e4a800e6563ebed8754471a0c05742a45f85266",
+    "original_mp3_exact_band_sha256": "0d1c9c216acbf52fce538058182ee261ac209727f66b06067ee3a64928b32ce4",
+    "hosted_full_ci_status": "failure: 4 bounded chroma cases each Python3.11/3.12",
+    "hosted_full_ci_receipt": "evidence/beta_completion/pr205_verification_20261104/hosted_failure_summary.json",
+    "backend_reproduction": "evidence/beta_completion/pr205_verification_20261104/numeric_backend_reproduction.json",
+    "windows_status": "success",
+    "native_regression_status": "failure: visual gates"
+  }
 }

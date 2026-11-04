@@ -1,0 +1,43 @@
+{
+  "source_commit": "37fb716cc9581cb1024760a23b53d65589496f02",
+  "run_id": 41874095353,
+  "rows": [
+    {
+      "number": 1,
+      "native_status": "success",
+      "fseq_sha256": "f24e9325944714130caaa91af0904899d79f613c66bc074cb47a5d352c53156b",
+      "xsq_sha256": "e680bb590b225b0ca86345211257d93f7f0cf4f3d2f17cd50881d9b47b94c9e9",
+      "layout_sha256": "f70bad37bdbace6a6497e5a3595f7aaadf177cdafac0dd9b50bf59a47d00b37e",
+      "fseq_channels": 256,
+      "frames": 698,
+      "nonzero_frames": 649,
+      "nonzero_samples": 80247,
+      "mp4_sha256": "943af57ed4f3509d74374f74eac5a10d6555fd0779cd1b05411f559f2e3697e4"
+    },
+    {
+      "number": 2,
+      "native_status": "success",
+      "fseq_sha256": "67261215719386f4105dac5c233f7026bb10d576fc0e7c07fd25179733f5ca7f",
+      "xsq_sha256": "8e8cdddc5b5e94d04b0e07aec618ae5932e8651437a38f0b3d8a0cff4e303576",
+      "layout_sha256": "1cefb474ef4da3d7326cf6ac97b78be6e54d3f7364becc6cedea4471d1116e75",
+      "fseq_channels": 173712,
+      "frames": 698,
+      "nonzero_frames": 698,
+      "nonzero_samples": 76072302,
+      "mp4_sha256": "0b041b7211e1205df0043f0c03f1cd83557ecaa45ed6247e4bd8ea635c04794e"
+    },
+    {
+      "number": 6,
+      "native_status": "success",
+      "fseq_sha256": "29a0232a8e994aa8cd15fa3ccf6fd9228c7bc0eebe2a11fbc2953ff666f40f32",
+      "xsq_sha256": "8c3d4d0005763c0d913607ae80cd93fad424822731f8575c013e48d2a2540c6b",
+      "layout_sha256": "20dde99c20e17b762bbe4658765247d3efeff6a8e9148afa4798a40496ef864d",
+      "fseq_channels": 12198,
+      "frames": 698,
+      "nonzero_frames": 698,
+      "nonzero_samples": 2161326,
+      "mp4_sha256": "2088a21422dc4ebee1221d548ee8d9a4d99715f54cb9af044c1cb6b856f1aa38"
+    }
+  ],
+  "native_visual_acceptance": false
+}

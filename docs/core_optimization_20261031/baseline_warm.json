@@ -1,0 +1,116 @@
+{
+  "schema": "helix.master_stage_comparison.v1",
+  "source_commit": "14c9a2cf3527942489e2a4d5e89e94fd81d9be77",
+  "inputs": {
+    "audio_sha256": "8ced92ba179c931a2c7f29f834df1c8fd6a399d78074de0de030bc952bb5f0ec",
+    "template_sha256": "4e31bffe870cef8feafa11aed19645e55c4883a8c878bf24d66cedcd42818429",
+    "layout_sha256": "1f3b0abaae93429f96e52710e33067cb6b49214132428d30f428269e8d2e7c0b"
+  },
+  "controls": "Fresh processes, identical inputs, two numerical threads, no saved settings/history/learning.",
+  "persistent_feature_cache": false,
+  "limits": [
+    "First run may compile JIT kernels and populate existing stem caches.",
+    "Same-host timings; no Windows or physical-device performance claim.",
+    "Musical/XML contracts do not establish native xLights render acceptance."
+  ],
+  "runs": [
+    {
+      "returncode": 0,
+      "cli_wall_seconds": 169.11586835900005,
+      "command": [
+        "/workspace/scratch/e01fd9caf903/helix-venv/bin/python",
+        "/workspace/scratch/e01fd9caf903/helix-sequencer/main.py",
+        "--profile",
+        "master",
+        "--",
+        "--audio",
+        "/workspace/scratch/e01fd9caf903/helix-sequencer/Helix Audiolights.mp3",
+        "--template",
+        "/workspace/scratch/e01fd9caf903/helix-sequencer/template.xsq",
+        "--layout-file",
+        "/workspace/scratch/e01fd9caf903/helix-sequencer/xlights_rgbeffects.xml",
+        "--output-dir",
+        "/workspace/scratch/e01fd9caf903/helix-sequencer/tests/outputs/core_optimization/baseline-warm/run-1/sequences",
+        "--settings",
+        "/workspace/scratch/e01fd9caf903/helix-sequencer/tests/outputs/core_optimization/baseline-warm/run-1/absent-settings.json",
+        "--no-prompt",
+        "--no-save-settings",
+        "--no-workspace-history",
+        "--no-learning-memory"
+      ],
+      "metrics": {
+        "schema": "helix.stage_metrics.v1",
+        "success": true,
+        "python": "3.12.14",
+        "platform": "Linux",
+        "wall_seconds": 168.51734721499997,
+        "peak_rss_bytes": 1244893184,
+        "rss_scope": "process lifetime high-water mark",
+        "timing_scope": "inclusive; nested stage durations overlap",
+        "stages": {
+          "layout.load": {
+            "calls": 1,
+            "wall_seconds": 0.08365215999998554
+          },
+          "audio.load_features": {
+            "calls": 1,
+            "wall_seconds": 9.698046740999985
+          },
+          "audio.harmonic": {
+            "calls": 1,
+            "wall_seconds": 27.27391160899998
+          },
+          "audio.analysis": {
+            "calls": 1,
+            "wall_seconds": 36.97586481100001
+          },
+          "audio.stems": {
+            "calls": 1,
+            "wall_seconds": 84.05289536499993
+          },
+          "audio.multiband": {
+            "calls": 1,
+            "wall_seconds": 2.981076010000038
+          },
+          "drums.mapping": {
+            "calls": 1,
+            "wall_seconds": 0.27583698900002673
+          },
+          "band.plan": {
+            "calls": 1,
+            "wall_seconds": 1.5071337969999377
+          },
+          "timing_and_planning": {
+            "calls": 1,
+            "wall_seconds": 106.45529607699996
+          },
+          "effects.placement": {
+            "calls": 1,
+            "wall_seconds": 20.782539454000016
+          },
+          "reports.write": {
+            "calls": 1,
+            "wall_seconds": 1.1165216809999947
+          },
+          "xsq.write": {
+            "calls": 1,
+            "wall_seconds": 0.6292264510000223
+          },
+          "engine.variant": {
+            "calls": 1,
+            "wall_seconds": 166.11670819999995
+          }
+        }
+      },
+      "xsq_sha256": "258f03ef24ad98fbedc11c684e4a800e6563ebed8754471a0c05742a45f85266",
+      "musical_signature": "57c402d5b7857077f57fcd0d435a92a8a3f28e32c88e3c2e756bade5decff50c",
+      "contract": {
+        "model_effects": 42305,
+        "duration_seconds": 237.44,
+        "declared_model_targets": true,
+        "finite_bounded_intervals": true
+      }
+    }
+  ],
+  "source_note": "Existing engine loaded before facade/extraction; parent14c9a2c plus interval-contract adjustment in the benchmark tool."
+}

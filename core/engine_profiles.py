@@ -40,8 +40,6 @@ def active_profile() -> EngineProfile:
 
 
 def resolve_profile(profile_id: str | None) -> EngineProfile:
-    from core import effect_engine
-
     if profile_id is None:
         return _ACTIVE_PROFILE
 
@@ -53,6 +51,8 @@ def resolve_profile(profile_id: str | None) -> EngineProfile:
     alias = _PROFILE_ALIASES.get(key)
     if alias == ACTIVE_PROFILE_ID:
         return _ACTIVE_PROFILE
+    from core import effect_engine
+
     if key in effect_engine.VARIANTS:
         style = effect_engine.VARIANTS[key]
         return EngineProfile(

@@ -1141,8 +1141,8 @@
       "source_commit": "09677d4822e35d724e9f229c0ab7465c9f34fd7a",
       "engine_worktree_module_changes": false,
       "source_library_tracks": [
-        "Tinsel Tornado164–182s",
-        "Christmas in the Ether76.5–94.5s"
+        "Tinsel Tornado164\u2013182s",
+        "Christmas in the Ether76.5\u201394.5s"
       ],
       "effects": 5155,
       "detected_parts": [
@@ -1447,19 +1447,19 @@
           "test": "test_bounded_chroma_preserves_reference_across_long_partial_blocks[1]",
           "mismatched": 10,
           "total": 4097,
-          "max_abs_diff": 2.66020723e-7
+          "max_abs_diff": 2.66020723e-07
         },
         {
           "test": "test_bounded_chroma_preserves_reference_across_long_partial_blocks[61]",
           "mismatched": 22,
           "total": 4157,
-          "max_abs_diff": 1.99515542e-7
+          "max_abs_diff": 1.99515542e-07
         },
         {
           "test": "test_bounded_chroma_preserves_reference_across_long_partial_blocks[509]",
           "mismatched": 18,
           "total": 4605,
-          "max_abs_diff": 1.33010362e-7
+          "max_abs_diff": 1.33010362e-07
         }
       ],
       "tolerance": "atol=1e-7, rtol=0",
@@ -1493,5 +1493,37 @@
     "requested_mp4_count": 9,
     "technical_delivery_count": 9,
     "technical_delivery_is_not_approval": true
+  },
+  "core_optimization_evidence": [
+    {
+      "path": "docs/core_optimization_20261031/baseline_cold.json",
+      "sha256": "0635e55eab1690c9c42cb90fe92db3d0ac87178525c690947a31c88d8c103bac"
+    },
+    {
+      "path": "docs/core_optimization_20261031/baseline_warm.json",
+      "sha256": "ee8c883ea489d217f2f4aee31698593acd88e9aed67c5c48ff5113714977d2d1"
+    },
+    {
+      "path": "docs/core_optimization_20261031/extraction_ast_parity.json",
+      "sha256": "281df21f4fa0b531447f0a64bcce3cc239dc8c028c8b8813c188adf13b0305ee"
+    }
+  ],
+  "pr205_verification": {
+    "folder": "evidence/beta_completion/pr205_verification_20261104",
+    "regression_receipt": "evidence/beta_completion/pr205_verification_20261104/local_regression.json",
+    "owner_approved": false,
+    "native_new_render_verified": true,
+    "long_song_comparison": "evidence/beta_completion/pr205_verification_20261104/long_song_comparison.json",
+    "drummer_oracle": "evidence/beta_completion/pr205_verification_20261104/drummer_oracle.json",
+    "source_commit": "37fb716cc9581cb1024760a23b53d65589496f02",
+    "decision": "HOLD_HOST_NUMERIC_AND_NATIVE_VISIBILITY",
+    "verification_report": "docs/PR205_VERIFICATION_20261104.md",
+    "original_mp3_comparison": "evidence/beta_completion/pr205_verification_20261104/original_mp3_comparison.json",
+    "numeric_backend_reproduction": "evidence/beta_completion/pr205_verification_20261104/numeric_backend_reproduction.json",
+    "hosted_failure_summary": "evidence/beta_completion/pr205_verification_20261104/hosted_failure_summary.json",
+    "windows_frozen_cache": "evidence/beta_completion/pr205_verification_20261104/windows_frozen_cache.json",
+    "native_ci_verification": "evidence/beta_completion/pr205_verification_20261104/native_ci_verification.json",
+    "native_derived_xsq_parity": "evidence/beta_completion/pr205_verification_20261104/native_derived_xsq_parity.json",
+    "native_new_render_acceptance": false
   }
 }

@@ -1,0 +1,33 @@
+{
+  "source_commit": "37fb716cc9581cb1024760a23b53d65589496f02",
+  "run_id": 41874083597,
+  "python311": {
+    "job": 126729385586,
+    "failed": 4,
+    "passed": 2348,
+    "subtests_passed": 24,
+    "skipped": 6,
+    "seconds": 458.66
+  },
+  "python312": {
+    "job": 126729384998,
+    "failed": 4,
+    "passed": 2348,
+    "subtests_passed": 24,
+    "skipped": 6,
+    "seconds": 512.65
+  },
+  "failures": [
+    "test_bounded_classifier_preserves_global_tuning_confidences_and_event_clocks",
+    "test_bounded_chroma_preserves_reference_across_long_partial_blocks[1]",
+    "test_bounded_chroma_preserves_reference_across_long_partial_blocks[61]",
+    "test_bounded_chroma_preserves_reference_across_long_partial_blocks[509]"
+  ],
+  "max_entropy_difference": 2.66020723e-07,
+  "tolerance": {
+    "atol": 1e-07,
+    "rtol": 0
+  },
+  "status": "BLOCKED_HOST_NUMERIC_PARITY",
+  "local_full_passes_do_not_supersede_hosted_failure": true
+}

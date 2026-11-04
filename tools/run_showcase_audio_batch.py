@@ -1,5 +1,6 @@
 """Run source-verified uploaded music through Helix Prime on six native layouts."""
 from __future__ import annotations
+from core.engine_runner import run_variant
 
 import argparse
 from concurrent.futures import ProcessPoolExecutor,as_completed
@@ -80,7 +81,7 @@ def generate(root:Path,audio_dir:Path,*,track:str|None=None,flavor:str|None=None
                 audio_reactive_profile='showcase',audio_reactive_intensity=1.6,spatial_awareness=.85,
                 chase_style='radial_out',model_overrides=model_routes(g),max_layers_per_prop=3)
             with (folder/'engine.log').open('w') as log,redirect_stdout(log):
-                engine.run_variant(engine.VARIANTS['v27.3'],templates[f.key],media,raw,engine.base.UserProfile(),tuning=tuning,analysis_cache=cache)
+                run_variant(engine.VARIANTS['v27.3'],templates[f.key],media,raw,engine.base.UserProfile(),tuning=tuning,analysis_cache=cache)
             duration=float(cache.values['audio'].dur_s)
             native=folder/(slug+'__'+g.slug+'.xsq')
             export=native_music_xsq(raw,native,g,media,duration)

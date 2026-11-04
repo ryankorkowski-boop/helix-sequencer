@@ -1,0 +1,39 @@
+{
+  "schema": "helix.pr205.numeric_backend_reproduction.v1",
+  "control_source": "05c1de55d2e4d747652452ade0d9752d370b55d9",
+  "candidate_source": "37fb716cc9581cb1024760a23b53d65589496f02",
+  "bounded_background_function_ast_identical": true,
+  "numpy": "2.2.6",
+  "librosa": "0.10.2.post1",
+  "numba": "0.61.2",
+  "llvmlite": "0.44.0",
+  "openblas": "0.3.29",
+  "local_default_core": "SkylakeX",
+  "core_selection_experiments": [
+    {
+      "OPENBLAS_CORETYPE": "Haswell",
+      "candidate_failed": 4,
+      "control_failed": 4
+    },
+    {
+      "OPENBLAS_CORETYPE": "Zen",
+      "candidate_failed": 4
+    },
+    {
+      "OPENBLAS_CORETYPE": "Sandybridge",
+      "candidate_passed": 4
+    }
+  ],
+  "tolerance_unchanged": {
+    "atol": 1e-07,
+    "rtol": 0
+  },
+  "max_observed_difference": 2.6602072300541124e-07,
+  "conclusion": "The same bounded float32 chroma routine in recovery and candidate fails under Haswell/Zen numerical kernels and passes with the local default/Sandybridge kernels. The current tiling/padding hypothesis is not a portable repair.",
+  "fix_applied": false,
+  "limits": [
+    "OpenBLAS kernel selection experiment on one compatible local CPU, not physical hardware acceptance",
+    "Block-size/overlap/thread-count and float64 arithmetic probes did not establish an unchanged-tolerance repair; no speculative DSP change or backend pin was applied."
+  ],
+  "reproduce": "OPENBLAS_CORETYPE=Haswell OPENBLAS_NUM_THREADS=2 NUMBA_CACHE_DIR=/tmp/helix-pr205-repro python -m pytest -q tests/test_bounded_audio.py -k \"bounded_classifier or partial_blocks\""
+}

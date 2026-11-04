@@ -1,0 +1,320 @@
+{
+  "schema": "helix.pr205.long_song_verification.v1",
+  "audio_sha256": "dd988078a13ae2c7be5ebe645ba62adab45f9cb47ae7140134007e408539a632",
+  "audio_checkpoint": "libfile_fcf68c0edd7481918e7892adbd8def38",
+  "controls": {
+    "template_sha256": "4e31bffe870cef8feafa11aed19645e55c4883a8c878bf24d66cedcd42818429",
+    "layout_sha256": "1f3b0abaae93429f96e52710e33067cb6b49214132428d30f428269e8d2e7c0b",
+    "source_verified_stems_equal": true,
+    "fresh_processes": true,
+    "numerical_threads": 2
+  },
+  "limits": [
+    "Recovered 237.44s PCM checkpoint is a different byte input from the old MP3 benchmark; do not compare its count/timing to 42305-effect receipt.",
+    "Concurrent full-suite execution makes these correctness runs unsuitable for an isolated speedup claim.",
+    "Native render and physical acceptance are separate."
+  ],
+  "runs": [
+    {
+      "label": "control",
+      "source_commit": "05c1de55d2e4d747652452ade0d9752d370b55d9",
+      "source_tree": "1e9166499c17e2e50537e852a2d848d617bcb42f",
+      "returncode": 0,
+      "cli_wall_seconds": 205.390410857,
+      "xsq_sha256": "7da1338b6609591a66480bb63d8dbefbf98bd891ebdfefda7ccaacc6918c2345",
+      "band_sha256": "8084c5342c278ed294351ba1c576b066ae1a0779b337026892e7c7ac8ee5d9c5",
+      "effects": 42330,
+      "contract": {
+        "model_effects": 42330,
+        "duration_seconds": 237.44,
+        "declared_model_targets": true,
+        "finite_bounded_intervals": true
+      },
+      "candidate_module_sha256": {}
+    },
+    {
+      "label": "candidate_off",
+      "source_commit": "4c1f226033ca4092adeaf4dca2ff17bc3d29a1d2",
+      "source_tree": "126c3f61da63b0fbe34b142ccefa227b76e032f3",
+      "returncode": 0,
+      "cli_wall_seconds": 180.920262031,
+      "xsq_sha256": "7da1338b6609591a66480bb63d8dbefbf98bd891ebdfefda7ccaacc6918c2345",
+      "band_sha256": "8084c5342c278ed294351ba1c576b066ae1a0779b337026892e7c7ac8ee5d9c5",
+      "effects": 42330,
+      "metrics": {
+        "schema": "helix.stage_metrics.v1",
+        "success": true,
+        "python": "3.12.14",
+        "platform": "Linux",
+        "wall_seconds": 180.24271207699985,
+        "peak_rss_bytes": 1215279104,
+        "rss_scope": "process lifetime high-water mark",
+        "timing_scope": "inclusive; nested stage durations overlap",
+        "stages": {
+          "layout.load": {
+            "calls": 1,
+            "wall_seconds": 0.06612752699993507
+          },
+          "audio.load_features": {
+            "calls": 1,
+            "wall_seconds": 7.442564186999789
+          },
+          "audio.harmonic": {
+            "calls": 1,
+            "wall_seconds": 28.19340942199983
+          },
+          "audio.analysis": {
+            "calls": 1,
+            "wall_seconds": 35.63945223199994
+          },
+          "drums.onset_classification": {
+            "calls": 1,
+            "wall_seconds": 0.002266632000100799
+          },
+          "audio.stems": {
+            "calls": 1,
+            "wall_seconds": 88.07005862300002
+          },
+          "audio.multiband": {
+            "calls": 1,
+            "wall_seconds": 3.401193431000138
+          },
+          "drums.mapping": {
+            "calls": 1,
+            "wall_seconds": 0.4392579370000931
+          },
+          "band.plan": {
+            "calls": 1,
+            "wall_seconds": 1.6024313309999343
+          },
+          "timing_and_planning": {
+            "calls": 1,
+            "wall_seconds": 111.9474677820001
+          },
+          "effects.placement": {
+            "calls": 1,
+            "wall_seconds": 27.540847659999827
+          },
+          "reports.write": {
+            "calls": 1,
+            "wall_seconds": 1.5866132380001545
+          },
+          "xsq.write": {
+            "calls": 1,
+            "wall_seconds": 0.7932967330000338
+          },
+          "engine.variant": {
+            "calls": 1,
+            "wall_seconds": 177.6740161580001
+          }
+        }
+      },
+      "contract": {
+        "model_effects": 42330,
+        "duration_seconds": 237.44,
+        "declared_model_targets": true,
+        "finite_bounded_intervals": true
+      },
+      "candidate_module_sha256": {
+        "core/audio_features.py": "7bdd9ee6f6928745dded25e793127b3d0a4ad9e413df58dd42c5aa5faa04df79",
+        "core/audio_intelligence.py": "8a9a7bc3d6eb18566ebc751f25ae98b68efdc6f35067f4e5cb94df1d564a170b",
+        "core/drum_pipeline.py": "36316b8701a3dbaa26030a47a6a26cf3a4a5bc7305e6b6812ed5612b1b539582",
+        "core/effect_engine.py": "634b9f48f11fa921d9ff66499d4b43de0dcd1ae0f7f02f10aae34ab9cdca244e",
+        "core/snowman_band.py": "708ae0eaf8bab103463181468423dd89c95849965572438e7e6bab948e9c94c5",
+        "core/sequence_builder.py": "709a045303bd9835f6d0d3f2da7ef20f704f5d0342ad494f096464d2c8900c8c",
+        "xlights/xsq_writer.py": "400dce914551655f483d79e55b3086c80a09011e1682a606b86f5a2843737b46"
+      }
+    },
+    {
+      "label": "candidate_miss",
+      "source_commit": "55fa1aeb975158f058aa86f1863ed3f2bf8debe8",
+      "source_tree": "dade335a36ea3f42a790fbac535de9a6d05d433f",
+      "returncode": 0,
+      "cli_wall_seconds": 202.43040018600004,
+      "xsq_sha256": "7da1338b6609591a66480bb63d8dbefbf98bd891ebdfefda7ccaacc6918c2345",
+      "band_sha256": "8084c5342c278ed294351ba1c576b066ae1a0779b337026892e7c7ac8ee5d9c5",
+      "effects": 42330,
+      "metrics": {
+        "schema": "helix.stage_metrics.v1",
+        "success": true,
+        "python": "3.12.14",
+        "platform": "Linux",
+        "wall_seconds": 201.6782542819999,
+        "peak_rss_bytes": 1213304832,
+        "rss_scope": "process lifetime high-water mark",
+        "timing_scope": "inclusive; nested stage durations overlap",
+        "stages": {
+          "layout.load": {
+            "calls": 1,
+            "wall_seconds": 0.08856675200013342
+          },
+          "audio.load_features": {
+            "calls": 1,
+            "wall_seconds": 16.81734795500006
+          },
+          "audio.harmonic": {
+            "calls": 1,
+            "wall_seconds": 31.79080682699987
+          },
+          "audio.analysis": {
+            "calls": 1,
+            "wall_seconds": 48.61213808699995
+          },
+          "drums.onset_classification": {
+            "calls": 1,
+            "wall_seconds": 0.00246538800001872
+          },
+          "audio.stems": {
+            "calls": 1,
+            "wall_seconds": 95.64320676700004
+          },
+          "audio.multiband": {
+            "calls": 1,
+            "wall_seconds": 3.655734037000002
+          },
+          "drums.mapping": {
+            "calls": 1,
+            "wall_seconds": 0.439678879999974
+          },
+          "band.plan": {
+            "calls": 1,
+            "wall_seconds": 1.562009615000079
+          },
+          "timing_and_planning": {
+            "calls": 1,
+            "wall_seconds": 120.77946390599982
+          },
+          "effects.placement": {
+            "calls": 1,
+            "wall_seconds": 27.237277582000388
+          },
+          "reports.write": {
+            "calls": 1,
+            "wall_seconds": 1.4441812199997912
+          },
+          "xsq.write": {
+            "calls": 1,
+            "wall_seconds": 0.7936210960001517
+          },
+          "engine.variant": {
+            "calls": 1,
+            "wall_seconds": 199.06807491799987
+          }
+        }
+      },
+      "contract": {
+        "model_effects": 42330,
+        "duration_seconds": 237.44,
+        "declared_model_targets": true,
+        "finite_bounded_intervals": true
+      },
+      "local_source_commit": "891bf668ab6bdc6b3c1ecc02bee31c50b04d3d08",
+      "source_note": "Published commit has the exact tested local Git tree; local commit identifier retained separately.",
+      "candidate_module_sha256": {
+        "core/audio_features.py": "7bdd9ee6f6928745dded25e793127b3d0a4ad9e413df58dd42c5aa5faa04df79",
+        "core/audio_intelligence.py": "8a9a7bc3d6eb18566ebc751f25ae98b68efdc6f35067f4e5cb94df1d564a170b",
+        "core/drum_pipeline.py": "36316b8701a3dbaa26030a47a6a26cf3a4a5bc7305e6b6812ed5612b1b539582",
+        "core/effect_engine.py": "634b9f48f11fa921d9ff66499d4b43de0dcd1ae0f7f02f10aae34ab9cdca244e",
+        "core/snowman_band.py": "708ae0eaf8bab103463181468423dd89c95849965572438e7e6bab948e9c94c5",
+        "core/sequence_builder.py": "709a045303bd9835f6d0d3f2da7ef20f704f5d0342ad494f096464d2c8900c8c",
+        "xlights/xsq_writer.py": "400dce914551655f483d79e55b3086c80a09011e1682a606b86f5a2843737b46"
+      }
+    },
+    {
+      "label": "candidate_hit",
+      "source_commit": "55fa1aeb975158f058aa86f1863ed3f2bf8debe8",
+      "source_tree": "dade335a36ea3f42a790fbac535de9a6d05d433f",
+      "returncode": 0,
+      "cli_wall_seconds": 156.73311116000013,
+      "xsq_sha256": "7da1338b6609591a66480bb63d8dbefbf98bd891ebdfefda7ccaacc6918c2345",
+      "band_sha256": "8084c5342c278ed294351ba1c576b066ae1a0779b337026892e7c7ac8ee5d9c5",
+      "effects": 42330,
+      "metrics": {
+        "schema": "helix.stage_metrics.v1",
+        "success": true,
+        "python": "3.12.14",
+        "platform": "Linux",
+        "wall_seconds": 156.189018089,
+        "peak_rss_bytes": 1198190592,
+        "rss_scope": "process lifetime high-water mark",
+        "timing_scope": "inclusive; nested stage durations overlap",
+        "stages": {
+          "layout.load": {
+            "calls": 1,
+            "wall_seconds": 0.09850800899994283
+          },
+          "audio.load_features": {
+            "calls": 1,
+            "wall_seconds": 0.3610927250001623
+          },
+          "audio.harmonic": {
+            "calls": 1,
+            "wall_seconds": 0.5572294859998692
+          },
+          "audio.analysis": {
+            "calls": 1,
+            "wall_seconds": 0.9225648880001245
+          },
+          "drums.onset_classification": {
+            "calls": 1,
+            "wall_seconds": 0.002318821999779175
+          },
+          "audio.stems": {
+            "calls": 1,
+            "wall_seconds": 97.53113829100039
+          },
+          "audio.multiband": {
+            "calls": 1,
+            "wall_seconds": 3.9366929539996818
+          },
+          "drums.mapping": {
+            "calls": 1,
+            "wall_seconds": 0.28884263800000554
+          },
+          "band.plan": {
+            "calls": 1,
+            "wall_seconds": 1.3742316539996864
+          },
+          "timing_and_planning": {
+            "calls": 1,
+            "wall_seconds": 123.30729010799996
+          },
+          "effects.placement": {
+            "calls": 1,
+            "wall_seconds": 27.138939995999863
+          },
+          "reports.write": {
+            "calls": 1,
+            "wall_seconds": 1.2802007520003826
+          },
+          "xsq.write": {
+            "calls": 1,
+            "wall_seconds": 0.711072344999593
+          },
+          "engine.variant": {
+            "calls": 1,
+            "wall_seconds": 153.56637859500006
+          }
+        }
+      },
+      "contract": {
+        "model_effects": 42330,
+        "duration_seconds": 237.44,
+        "declared_model_targets": true,
+        "finite_bounded_intervals": true
+      },
+      "candidate_module_sha256": {
+        "core/audio_features.py": "7bdd9ee6f6928745dded25e793127b3d0a4ad9e413df58dd42c5aa5faa04df79",
+        "core/audio_intelligence.py": "8a9a7bc3d6eb18566ebc751f25ae98b68efdc6f35067f4e5cb94df1d564a170b",
+        "core/drum_pipeline.py": "36316b8701a3dbaa26030a47a6a26cf3a4a5bc7305e6b6812ed5612b1b539582",
+        "core/effect_engine.py": "634b9f48f11fa921d9ff66499d4b43de0dcd1ae0f7f02f10aae34ab9cdca244e",
+        "core/snowman_band.py": "708ae0eaf8bab103463181468423dd89c95849965572438e7e6bab948e9c94c5",
+        "core/sequence_builder.py": "709a045303bd9835f6d0d3f2da7ef20f704f5d0342ad494f096464d2c8900c8c",
+        "xlights/xsq_writer.py": "400dce914551655f483d79e55b3086c80a09011e1682a606b86f5a2843737b46"
+      }
+    }
+  ],
+  "exact_xsq_and_band_parity": true,
+  "implementation_commit": "37fb716cc9581cb1024760a23b53d65589496f02",
+  "source_binding_note": "All candidate implementation modules are identical across the recorded candidate trees; later commits alter verification/workflows/continuity only."
+}

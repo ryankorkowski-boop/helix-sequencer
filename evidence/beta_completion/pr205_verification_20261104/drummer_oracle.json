@@ -1,0 +1,25 @@
+{
+  "schema": "helix.pr205.oracle_parity.v1",
+  "control_commit": "05c1de55d2e4d747652452ade0d9752d370b55d9",
+  "candidate_commit": "55fa1aeb975158f058aa86f1863ed3f2bf8debe8",
+  "events": 68,
+  "targets": [
+    "KICK",
+    "SNARE",
+    "HI_HAT",
+    "TOM_HIGH",
+    "TOM_MID",
+    "TOM_FLOOR",
+    "CYMBAL_LEFT",
+    "CYMBAL_RIGHT"
+  ],
+  "exact_ordered_cues_and_motion_payload": true,
+  "payload_sha256": "47c9cee53b80c5950ce0e4c0252142d1ec0001af036b3303103a994d7816b904",
+  "false_positive": 0,
+  "false_negative": 0,
+  "max_drift_ms": 0,
+  "fixture_comparison": "Exact time/target multiset; the mapper retains its established priority ordering for simultaneous hits",
+  "limitations": [
+    "Deterministic mapping fixture, not acoustic detection accuracy or native/visual acceptance"
+  ]
+}
