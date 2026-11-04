@@ -1,0 +1,150 @@
+name: Optimization native regression
+
+on:
+  pull_request:
+    paths:
+      - 'core/**'
+      - 'xlights/**'
+      - tools/portable_worker_smoke.py
+      - .github/workflows/optimization-native-verification.yml
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+concurrency:
+  group: optimization-native-${{ github.head_ref || github.ref_name }}
+  cancel-in-progress: true
+
+jobs:
+  representative-native:
+    if: github.event_name == 'workflow_dispatch' || github.event.pull_request.number == 205
+    runs-on: ubuntu-24.04
+    timeout-minutes: 60
+    env:
+      HELIX_SOURCE_COMMIT: ${{ github.event.pull_request.head.sha || github.sha }}
+      HELIX_NATIVE_PREVIEW_WIDTH: '1920'
+      HELIX_NATIVE_PREVIEW_HEIGHT: '1080'
+      XL_NO_GPU_COMPUTE: '1'
+      OMP_NUM_THREADS: '2'
+      OPENBLAS_NUM_THREADS: '2'
+      LP_NUM_THREADS: '2'
+      NUMBA_CACHE_DIR: ${{ runner.temp }}/optimization-numba
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install pinned DSP and native display runtime
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y ffmpeg xvfb xauth openbox x11-utils x11-xserver-utils wmctrl xdotool libgtk-3-0t64 libgl1 libegl1 libopengl0 libglu1-mesa libgstreamer-plugins-base1.0-0
+          python -m pip install numpy==2.2.6 scipy librosa==0.10.2.post1 numba==0.61.2 llvmlite==0.44.0 soundfile Pillow trimesh moderngl==5.13.0 zstandard imageio imageio-ffmpeg cmudict PyYAML requests scikit-learn
+      - name: Restore authenticated pinned renderer and wx artifacts
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            for (const [name, id] of [['renderer', 13050955075], ['wx', 13069713422]]) {
+              const result = await github.rest.actions.downloadArtifact({
+                owner: context.repo.owner, repo: context.repo.repo,
+                artifact_id: id, archive_format: 'zip'
+              });
+              fs.writeFileSync(`${name}.zip`, Buffer.from(result.data));
+            }
+      - name: Verify executable, patch, wx and official resource identities
+        run: |
+          mkdir -p optimization-native/runtime
+          cd optimization-native/runtime
+          curl -fLsS --retry 3 -o xLights.AppImage https://github.com/xLightsSequencer/xLights/releases/download/2026.18/xLights-2026.18-x86_64.AppImage
+          echo '62affb88b9a9b03cf5164974ac69bcefe35c559719d157b3364e4d4a5ab4214b  xLights.AppImage' | sha256sum -c -
+          chmod +x xLights.AppImage
+          ./xLights.AppImage --appimage-extract >/dev/null
+          cd ../..
+          python - <<'PY'
+          from pathlib import Path
+          import hashlib,json,shutil,zipfile
+          root=Path('optimization-native/runtime').resolve()
+          for name in ('renderer','wx'):
+              with zipfile.ZipFile(name+'.zip') as archive:archive.extractall(root/name)
+          def digest(path):
+              with Path(path).open('rb') as stream:return hashlib.file_digest(stream,'sha256').hexdigest()
+          binary=root/'renderer/phoneme-work/runtime/xLights'
+          receipt=json.loads((binary.parent/'renderer.json').read_text())
+          assert receipt['upstream_commit']=='839c0f590dc454bb7adb8a16c4dd92a70b46156e'
+          assert digest('tools/patch_xlights_native_export.py')==receipt['patch_sha256']=='93bedae81caefda745034651994a16b2d127079a5af784013109becfb428566b'
+          assert digest(binary)==receipt['stripped_binary_sha256']=='09dfeae588e9659dfd41cbd6115bf77b9cf4871fcea2bd02190dcbdc3a7ac844'
+          libraries={'libwx_gtk3u-3.3.so.4':'969c20d19f084af066bde54e9d96801ab2202274efb009afef1e6b8c4eab48ae',
+                     'libwx_gtk3u_gl-3.3.so.4':'25ead12801ded6e0a4f4d430a48b0f43353a7734fba17b2772ab2bd471f2d7bf'}
+          for name,expected in libraries.items():assert digest(root/'wx'/name)==expected
+          target=root/'squashfs-root/usr/bin/xLights'
+          shutil.copyfile(binary,target);target.chmod(0o755)
+          wrapper=root/'run-patched.sh'
+          wrapper.write_text(f'#!/bin/sh\nexport APPDIR="{root}/squashfs-root"\nexport LD_LIBRARY_PATH="{root}/wx:{root}/squashfs-root/usr/lib"\nexec "{root}/squashfs-root/AppRun" "$@"\n')
+          wrapper.chmod(0o755)
+          (root/'verified_renderer.json').write_text(json.dumps(dict(renderer=receipt,wx_sha256=libraries),indent=2)+'\n')
+          PY
+      - name: Generate fresh source-bound engine plan and three representative shows
+        run: |
+          test "$(git rev-parse HEAD)" = "$HELIX_SOURCE_COMMIT"
+          mkdir -p optimization-native/source/media optimization-native/source/sequence
+          cp fixtures/audio/Phoneme_Test_Hook.mp3 optimization-native/source/media/
+          python main.py --profile master -- --audio optimization-native/source/media/Phoneme_Test_Hook.mp3 --template template.xsq --layout-file xlights_rgbeffects.xml --output-dir optimization-native/source/sequence --single --variants 1 --no-prompt --no-save-settings --no-workspace-history --no-learning-memory --palette-mode warm --sync-lyrics-heads > optimization-native/production.log 2>&1
+          python - <<'PY'
+          from pathlib import Path
+          import hashlib,json,os
+          source=Path('optimization-native/source');audio=source/'media/Phoneme_Test_Hook.mp3'
+          digest=hashlib.sha256(audio.read_bytes()).hexdigest()
+          assert digest=='19e90c273d0d747938f24b36586b50818c104cddffbefe4a4128927374301938'
+          (source/'run_manifest.json').write_text(json.dumps(dict(audio_name=audio.name,audio_sha256=digest,
+              source_commit=os.environ['HELIX_SOURCE_COMMIT'],warnings=[],owner_approved=False),indent=2)+'\n')
+          PY
+          python -m tools.build_current_comparison optimization-native/source fixtures/audio/phoneme_vocal_separation optimization-native/layouts --layouts 1 2 6
+      - name: Render genuine native AC, canonical band and singing-face shows
+        run: |
+          xvfb-run -a -s '-screen 0 2560x1440x24' sh -c 'openbox >optimization-native/openbox.log 2>&1 & exec python -m tools.render_current_native_views optimization-native/layouts --xlights "$PWD/optimization-native/runtime/run-patched.sh" --layouts 1 2 6'
+      - name: Independently decode and verify original soundtrack and unchanged visibility gates
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import json,os
+          from tools.verify_recovery_media import verify
+          from tools.verify_showcase_luma import verify_mp4
+          result=dict(source_commit=os.environ['HELIX_SOURCE_COMMIT'],owner_approved=False,
+              independent_vocal_identity_verified=False,beta_acceptance=False,panels=[])
+          for number in (1,2,6):
+              folder=Path('optimization-native/layouts')/f'{number:02}'
+              manifest=json.loads((folder/'run_manifest.json').read_text());native=manifest.get('native_preview',{})
+              row=dict(number=number,native_status=native.get('status'),passed=False)
+              result['panels'].append(row)
+              try:
+                  assert native.get('status')=='success',native.get('warnings')
+                  movie=Path(native['mp4'])
+                  row['media']=verify(movie,folder/'media'/manifest['audio_name'],manifest['source_audio_sha256'])
+                  assert row['media']['dimensions']==[1920,1080]
+                  row['visibility']=verify_mp4(movie,static_cast=number==2)
+                  assert row['visibility']['passed'],'Existing native visibility gate rejected panel'
+                  row['passed']=True
+              except Exception as exc:row['error']=str(exc)
+          result['regression_passed']=all(row['passed'] for row in result['panels'])
+          Path('optimization-native/verification.json').write_text(json.dumps(result,indent=2)+'\n')
+          assert result['regression_passed'],json.dumps(result,indent=2)
+          PY
+      - name: Preserve actual media, editable shows and all failure receipts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: optimization-native-regression-${{ github.event.pull_request.head.sha || github.sha }}
+          path: |
+            optimization-native/verification.json
+            optimization-native/production.log
+            optimization-native/openbox.log
+            optimization-native/native-view-progress.json
+            optimization-native/source/
+            optimization-native/layouts/
+            optimization-native/runtime/verified_renderer.json
+          if-no-files-found: warn
+          retention-days: 30
