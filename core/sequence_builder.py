@@ -453,6 +453,14 @@ def run_profile(profile_id: str | None, engine_args: list[str] | None = None) ->
             _record_changed_artifacts(ctx, artifact_roots, artifact_snapshot)
             ctx.record_artifact("configured_output_root", config.output_root)
 
+        new_sequences = [
+            artifact
+            for artifact in ctx.artifacts
+            if artifact.kind == "xsq" and artifact.exists
+        ]
+        if not new_sequences:
+            raise RuntimeError("no new .xsq was written")
+
         ctx.finalize(success=True)
         print(f"SUCCESS: Run completed. Manifest: {ctx.manifest_path}", file=sys.stderr)
 
@@ -461,6 +469,15 @@ def run_profile(profile_id: str | None, engine_args: list[str] | None = None) ->
         print(f"\nINTERRUPTED: {error_summary}", file=sys.stderr)
         ctx.finalize(success=False, error_summary=error_summary)
         raise SystemExit(130)
+
+    except SystemExit as exc:
+        code = exc.code if isinstance(exc.code, int) else 1
+        if code in (0, None):
+            raise
+        error_summary = f"SystemExit({code})"
+        print(f"ERROR: {error_summary}", file=sys.stderr)
+        ctx.finalize(success=False, error_summary=error_summary)
+        raise
 
     except Exception as e:
         error_summary = f"{type(e).__name__}: {str(e)}\n{traceback.format_exc()}"

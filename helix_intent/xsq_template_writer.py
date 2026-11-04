@@ -8,6 +8,7 @@ from pathlib import Path
 from typing import Any, Mapping
 
 from helix_intent.xlights_contract_validator import validate_xlights_effect_contract_file
+from xlights.xml_io import intern_color_palette, intern_effect_settings
 
 AUTO_LAYER_NAME = "AUTO_Helix_Orchestrated"
 DEFAULT_PALETTE = ("#FFFFFF", "#00FFFF", "#FF00FF")
@@ -147,8 +148,8 @@ def _append_native_effect_rows(root: ET.Element, contract: Mapping[str, Any]) ->
                 "name": effect_name,
                 "startTime": str(start_ms),
                 "endTime": str(end_ms),
-                "settings": _native_settings(placement),
-                "palette": _palette_settings(placement),
+                "ref": intern_effect_settings(root, _native_settings(placement)),
+                "palette": intern_color_palette(root, _palette_settings(placement)),
                 "source": "HelixOrchestrator",
                 "sourceVisualIntentId": str(placement.get("source_visual_intent_id", "")),
                 "sourceEffectFamily": str(placement.get("source_effect_family", "")),

@@ -135,6 +135,126 @@ Do not mark complete from unit tests alone.
 
 **Known limitation:** xmodel exporter still needs to make the nine composites the canonical sequencing submodels.
 
+## Change Ledger — main-path xLights contract
+
+### 2026-11-04 — Failed audio or a missing sequence exits non-zero
+**Branch:** `cursor/main-path-xsq-fixes-41d8`
+
+**Goal:** A per-audio generation error, or a run that does not write a new `.xsq`, must fail the process and be visible in the run manifest and the per-audio report (issue #114).
+
+**Changed:** `core/effect_engine.py`, `core/effect_engine_beat_grid.py`, `core/sequence_builder.py`, `tests/test_sequence_generation_failures.py`, `tests/test_sequence_builder_orchestrator_promotion.py`
+
+**Preserved:** Successful runs still finalize `success: true`. Orchestrator promotion and BeatGrid flag stripping are unchanged. The birdsong post-hook can still fail without failing the sequence.
+
+**New behavior:** `effect_engine.main_for` records each audio failure (exception text plus traceback) in `*.report.json` and raises `SequenceGenerationError`. `run_profile` finalizes the manifest as failed and exits 1 when that exception escapes, when the engine raises `SystemExit`, or when no new `.xsq` appears under the output root.
+
+**Tests:** `tests/test_sequence_generation_failures.py` and the orchestrator promotion tests.
+
+**Limitations:** The underlying Lights Out render exception from the original workflow run was not reproduced here. This commit fixes the success contract, not a specific effect-engine crash.
+
+**Deferred:** Overlap with open PRs #206/#207, which also edit `sequence_builder.py` (duplicate helper removal and effective engine args). Those edits are left in place on their branches. #188 is untouched.
+
+**Regression risks:** Callers that treated a logged `FAILED:` line as a successful process exit now get a non-zero exit. Tests that mock the engine must write an `.xsq` if they expect success.
+
+### 2026-11-04 — Sequence duration follows the audio
+**Branch:** `cursor/main-path-xsq-fixes-41d8`
+
+**Goal:** `<head><sequenceDuration>` matches the audio length, and effect rows and timing marks do not extend past that end.
+
+**Changed:** `xlights/xml_io.py`, `xlights/xsq_writer.py`, `core/effect_engine.py` (`run_variant`, immediately before the `.xsq` write), `tests/test_sequence_duration.py`
+
+**Preserved:** `replace_audio_references` still only swaps the media filename. Effect placement still uses the analyzed `song_length_ms`. A non-positive duration raises instead of writing a zero-length sequence.
+
+**New behavior:** `apply_sequence_duration` writes the duration in seconds (3 decimal places, matching the template) and clips or drops `Effect` rows, including timing-track marks, at the audio end. `run_variant` calls it with `audio.dur_s` from `xsq_writer.analyze`.
+
+**Tests:** `tests/test_sequence_duration.py` loads `template.xsq` (132.039 s) and applies a generated 30.000 s WAV. A second case clips a crossing effect and drops a timing mark that starts at the boundary.
+
+**Limitations:** Not opened in xLights. Duration comes from the analyzer's sample count (`len(y) / sr`), which matches the WAV header used in the test. MP3 frame padding was not compared against an xLights media import.
+
+**Deferred:** Showcase generation (`GENERATE_SHOWCASE`) rewrites a second file and does not call this helper itself.
+
+**Regression risks:** Template effects that used to survive past a shorter song are now clipped or removed on write.
+
+### 2026-11-04 — Effects store ref and palette indexes
+**Branch:** `cursor/main-path-xsq-fixes-41d8`
+
+**Goal:** Placed effects carry `ref` and `palette` indexes into `EffectDB` and `ColorPalettes`, the way `template.xsq` and xLights store them, instead of inline `settings` / palette strings.
+
+**Changed:** `xlights/xml_io.py`, `xlights/xsq_writer.py`, `core/effect_engine.py`, `helix_intent/xsq_template_writer.py`, `tests/test_effect_db_roundtrip.py`, `tests/test_xsq_template_writer.py`
+
+**Preserved:** Reading still accepts an inline `settings`/`data` string or an inline palette string when no index is present. An existing EffectDB or ColorPalettes row is reused when the text matches. Callers that do not pass the document root still write the legacy attributes.
+
+**New behavior:** `add_effect(..., root=)` and the orchestrator template writer intern settings and palette text, then write `ref` and `palette` indexes. Readers resolve those indexes back to the stored strings. A round-trip check reports any Effect whose index does not resolve.
+
+**Tests:** `tests/test_effect_db_roundtrip.py` proves every Effect `ref` and `palette` resolves after write and reparse, including a newly appended EffectDB row. The template-writer test now checks the resolved strings.
+
+**Limitations:** Not opened in xLights. EffectDB child order is the index, matching xLights. Timing-mark rows that only carry a `label` are not required to have a `ref`.
+
+**Deferred:** None for this storage format.
+
+**Regression risks:** Code that read the `settings` attribute off a newly written Effect now has to resolve `ref`. The main path and the template writer were updated.
+
+### 2026-11-04 — Submodel rows nest under the parent model
+**Branch:** `cursor/main-path-xsq-fixes-41d8`
+
+**Goal:** Submodel effects are `<SubModelEffectLayer name="...">` inside the parent model `Element`. Only models and model groups are top-level sequencer rows.
+
+**Changed:** `xlights/layout_sync.py`, `xlights/xml_io.py`, `xlights/xsq_writer.py`, `tests/test_layout_submodels.py`
+
+**Preserved:** Model groups stay top-level `type="model"` rows, which is how `template.xsq` and the xLights sequencer store groups. Submodel names remain addressable as `Parent/Sub` in `xsq.elements` so effect placement can still target them. Aliases still resolve.
+
+**New behavior:** Layout sync no longer emits `Parent/Sub` as its own `Element`. An existing top-level submodel row is folded into the parent's `SubModelEffectLayer`, and its effect layers move with it. `SubModelEffectLayer` is not treated as an ordinary effect layer. Confirmed against xLights' saved shape (`Element` → `EffectLayer` and `SubModelEffectLayer` → `EffectLayer` → `Effect`), including the `fixtotime` sequence script's grouping. Not re-saved from the xLights GUI in this environment.
+
+**Tests:** `tests/test_layout_submodels.py` builds a layout with a group, a model, and two submodels, folds a legacy `Arch/Left` row, and reloads the file.
+
+**Limitations:** Nested submodels of submodels are indexed if present, but the layout parser only emits one `Parent/Sub` level. Display rows for submodels are omitted; xLights expands those from the layout model.
+
+**Deferred:** None.
+
+**Regression risks:** Tools that expected a top-level element named `Parent/Sub` will now find that node nested. `xsq.elements["Parent/Sub"]` still points at the nested layer.
+
+### 2026-11-04 — Absolute start channels for every xLights address form
+**Branch:** `cursor/main-path-xsq-fixes-41d8`
+
+**Goal:** `>Model:N`, `@Model:N`, `#universe:N`, `#ip:universe:N`, and `!Controller:N` resolve to an absolute start and end channel, with the controller when the networks file can name one. Chains, submodels, and circular references have explicit results.
+
+**Changed:** `core/start_channels.py`, `core/model_parser.py`, `core/controller_parser.py`, `tests/test_start_channels.py`
+
+**Preserved:** A plain integer start channel is still absolute and 1-based. `parse_layout` does not raise; it stores `start_channel_error` on the model. Models with a blank `StartChannel` chain after the previous root model, which is xLights' default when nothing else is set. Helixville4's 105 models all have integer starts, and parsing them reports no resolution errors.
+
+**New behavior:** `layout_channel_count` is the highest resolved end channel. It no longer sums every model's span on top of that end, which was the overestimate. Unresolvable or circular references raise `StartChannelError` from `layout_channel_count` and from `resolve_model_channels(..., strict=True)`. Universe tables come from controller order in `xlights_networks.xml`. A legacy E1.31 row still treats `BaudRate` as the universe number. Submodel channel bounds follow `line` / `subBuffer` node numbers and the parent's channels per node.
+
+**Deviation from xLights:** xLights refuses `>` when the referenced model has no controller. Helix still computes the channel so layouts that never assigned controllers keep working, and fills `controller_name` when a networks span contains the channel.
+
+**Tests:** `tests/test_start_channels.py` covers each format, a three-model chain, submodels, a legacy BaudRate universe, circular and missing references, and the highest-end channel count.
+
+**Limitations:** Individual per-string start channels (`Individual Start Channels`) are not resolved. Controller ports and smart receivers are not modeled; controller spans are the networks file's channel sizes in document order.
+
+**Deferred:** Per-string `StringN` start channels.
+
+**Regression risks:** `layout_channel_count` can now raise on a broken reference, and it can return a smaller number than the old sum. Callers that used the inflated sum to size a preview controller will size to the real last channel instead.
+
+### 2026-11-04 — Custom-model grids use real node numbers
+**Branch:** `cursor/main-path-xsq-fixes-41d8`
+
+**Goal:** `CustomModel` and `CustomModelCompressed` define the node count and the pixel map. Submodel `line` ranges select those node numbers. A custom model with no grid is a layout-health error instead of a width-times-height straight line.
+
+**Changed:** `core/custom_model_grid.py`, `core/model_parser.py`, `helix_layout/layout_health.py`, `tests/test_custom_model_grid.py`
+
+**Preserved:** xLights reads `CustomModelCompressed` when it is non-empty, otherwise `CustomModel`. Layers are `|`, rows `;`, cells `,`. Compressed entries are `node,row,col` or `node,row,col,layer` with 0-based indexes. Values `<= 0` and blank cells are empty. Duplicate node numbers keep the first cell. Image models that use the `CustomModel` class but are not `DisplayAs="Custom"` still use the previous pixel map.
+
+**New behavior:** Node count is the number of distinct node numbers. The pixel map is sorted by node number and placed at cell centers inside the model's world bounds (`WorldPos` through `X2`/`Y2`/`Z2`), with row 0 at the top. Submodel ranges look up `PixelPoint.index` (node number minus 1) instead of a compact list position. A custom model with no positive nodes sets `custom_grid_missing`, `total_pixels=0`, and an empty pixel map. Layout health lists those models. Submodels of a gridless parent do not inherit a fake channel span.
+
+**Helixville4:** All 24 `DisplayAs="Custom"` models in `helixville4/xlights_rgbeffects.xml` have `CustomWidth`/`CustomHeight` 12 and submodel `line0` ranges, and neither `CustomModel` nor `CustomModelCompressed`. They were not regenerated. `tools/build_helpers/helixia.py` writes a similar 12 by 12 placeholder with no grid, but for different names, and `build_helixia_layout` copies the committed file. `models/helixia_props.py` is structure-only and sets `layout_generation` false. `helixville4_full_band.py`, `helixville4_finished_band.py`, and `helixville4_floor_piano.py` do emit `CustomModel` strings, for other model names and sizes (their tests require `CustomWidth` not equal to 12). None of those generators owns the wiring for these 24 models. A real node map from the prop, or from a generator that already knows the node coordinates, is required. Inventing a grid was not done.
+
+**Tests:** `tests/test_custom_model_grid.py` covers both encodings, compressed-over-plain, layers, duplicate nodes, world bounds, submodel node numbers, a missing-grid health error, and the 24 helixville4 models.
+
+**Limitations:** Not loaded in xLights. Per-string `StringN` channel starts inside a custom model are not applied. Multiple buffer coordinates for one node number collapse to the first cell.
+
+**Deferred:** Authoring grids for the 24 helixville4 custom models once a real wiring source exists.
+
+**Regression risks:** Custom models that previously reported `width * height` pixels now report the real node count, or zero when the grid is missing. Sequencing that targeted those fake pixels will see an empty map.
+
 ## Next actions
 1. Preserve the prior known-good drummer behavior as the regression baseline.
 2. Reconcile xLights drummer geometry with the nine canonical composites.

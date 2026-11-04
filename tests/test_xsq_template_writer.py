@@ -7,6 +7,7 @@ import xml.etree.ElementTree as ET
 from pathlib import Path
 
 from helix_intent.xsq_template_writer import write_xsq_from_template
+from xlights.xml_io import effect_palette_text, effect_settings_text, unresolved_effect_references
 
 
 def _contract() -> dict[str, object]:
@@ -75,8 +76,13 @@ class XsqTemplateWriterTests(unittest.TestCase):
         self.assertEqual(placement.attrib["colorStrategy"], "spatial_helix")  # type: ignore[union-attr]
         self.assertEqual(placement.attrib["curveStrategy"], "attack_decay")  # type: ignore[union-attr]
         self.assertEqual(placement.attrib["palette1"], "#2bd9ff")  # type: ignore[union-attr]
-        self.assertEqual(native_effects[0].attrib["palette"], "C_BUTTON_Palette1=#2bd9ff,C_BUTTON_Palette2=#7f52ff,C_BUTTON_Palette3=#ffffff")
-        self.assertIn("HELIX_Curve=attack_decay", native_effects[0].attrib["settings"])
+        self.assertEqual(unresolved_effect_references(root), [])
+        self.assertEqual(
+            effect_palette_text(native_effects[0], root),
+            "C_BUTTON_Palette1=#2bd9ff,C_BUTTON_Palette2=#7f52ff,C_BUTTON_Palette3=#ffffff",
+        )
+        self.assertIn("HELIX_Curve=attack_decay", effect_settings_text(native_effects[0], root) or "")
+        self.assertNotIn("settings", native_effects[0].attrib)
         self.assertEqual(native_effects[1].attrib["name"], "Wave")
         self.assertEqual(native_effects[1].attrib["sourceColorStrategy"], "classic_christmas")
         self.assertEqual(sidecar["schema"], "helix.xsq_template_writer.v1")

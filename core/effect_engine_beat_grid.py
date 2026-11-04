@@ -192,7 +192,11 @@ def main_for(version: str, argv: list[str] | None = None) -> None:
 
 
 def main(argv: list[str] | None = None) -> None:
-    main_for(effect_engine.ACTIVE_STYLE_VERSION, argv)
+    try:
+        main_for(effect_engine.ACTIVE_STYLE_VERSION, argv)
+    except effect_engine.SequenceGenerationError as exc:
+        effect_engine.log(f"ERROR: {exc}")
+        raise SystemExit(1) from exc
 
 
 if __name__ == "__main__":

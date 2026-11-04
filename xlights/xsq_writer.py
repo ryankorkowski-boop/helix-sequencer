@@ -506,11 +506,11 @@ def _get_attr(el: ET.Element, keys: list[str]) -> str | None:
 def _effect_name(eff: ET.Element) -> str:
     return _get_attr(eff, ["name", "Name", "effectName", "EffectName", "effect", "Effect"]) or ""
 
-def _effect_settings(eff: ET.Element) -> str | None:
-    return _get_attr(eff, ["settings", "Settings", "data", "Data"])
+def _effect_settings(eff: ET.Element, root: ET.Element | None = None) -> str | None:
+    return _xml_io.effect_settings_text(eff, root)
 
-def _effect_palette(eff: ET.Element) -> str | None:
-    return _get_attr(eff, ["palette", "Palette"])
+def _effect_palette(eff: ET.Element, root: ET.Element | None = None) -> str | None:
+    return _xml_io.effect_palette_text(eff, root)
 
 
 def effect_name_key(name: str) -> str:
@@ -530,8 +530,8 @@ def build_effect_template_library(root: ET.Element) -> dict[str, EffectTemplate]
         if key in templates:
             continue
         templates[key] = EffectTemplate(
-            settings=_effect_settings(eff),
-            palette=_effect_palette(eff),
+            settings=_effect_settings(eff, root),
+            palette=_effect_palette(eff, root),
         )
     return templates
 
@@ -594,7 +594,15 @@ def ensure_layer(el: ET.Element, layer_name: str) -> ET.Element:
     return _xml_io.ensure_layer(el, layer_name)
 
 def _iter_layers(el: ET.Element) -> list[ET.Element]:
-    return [c for c in list(el) if c.tag.endswith("EffectLayer") or c.tag.endswith("Layer")]
+    return [
+        child
+        for child in list(el)
+        if isinstance(child.tag, str)
+        and (
+            child.tag.endswith("EffectLayer")
+            or (child.tag.endswith("Layer") and not child.tag.endswith("SubModelEffectLayer"))
+        )
+    ]
 
 def clear_effects(el: ET.Element, mode: str, layer_name: str) -> None:
     _xml_io.clear_effects(el, mode, layer_name)
@@ -618,8 +626,8 @@ def remove_startup_blip(el: ET.Element, window_ms: int) -> int:
     return removed
 
 def add_effect(layer: ET.Element, start_ms: int, end_ms: int, name: str,
-               tpl: EffectTemplate) -> ET.Element:
-    return _xml_io.add_effect(layer, start_ms, end_ms, name, tpl)
+               tpl: EffectTemplate, root: ET.Element | None = None) -> ET.Element:
+    return _xml_io.add_effect(layer, start_ms, end_ms, name, tpl, root=root)
 
 def indent_xml(elem: ET.Element, level: int = 0) -> None:
     i = "\n" + level * "  "
@@ -637,6 +645,10 @@ def indent_xml(elem: ET.Element, level: int = 0) -> None:
 # =============================================================================
 #                     AUDIO REFERENCE UPDATE (BEST-EFFORT)
 # =============================================================================
+
+def apply_sequence_duration(root: ET.Element, duration_s: float) -> dict[str, float | int]:
+    return _xml_io.apply_sequence_duration(root, duration_s)
+
 
 def replace_audio_references(root: ET.Element, new_audio: Path) -> int:
     return _xml_io.replace_audio_references(root, new_audio)
@@ -1139,7 +1151,7 @@ def _legacy_sequence_one_song(template_xsq: Path, audio_path: Path, out_path: Pa
             return
         if cd_key and not cooldowns.allow(cd_key, st):
             return
-        add_effect(layers[nm], st, en, eff, tpl)
+        add_effect(layers[nm], st, en, eff, tpl, root=xsq.root)
         total += 1
         if cd_key and cd_ms > 0:
             cooldowns.block(cd_key, st, cd_ms)
@@ -1489,7 +1501,7 @@ def _v8_2_sequence_one_song(template_xsq: Path, audio_path: Path, out_path: Path
             return
         if cd_key and not cooldowns.allow(cd_key, st):
             return
-        add_effect(layers[nm], st, en, eff, tpl)
+        add_effect(layers[nm], st, en, eff, tpl, root=xsq.root)
         total += 1
         stats.bump(label)
         if cd_key and cd_ms > 0:
@@ -1835,7 +1847,7 @@ def sequence_one_song(template_xsq: Path, audio_path: Path, out_path: Path, prof
             return
         if cd_key and not cooldowns.allow(cd_key, st):
             return
-        add_effect(layers[nm], st, en, eff, tpl)
+        add_effect(layers[nm], st, en, eff, tpl, root=xsq.root)
         total += 1
         stats.bump(label)
         if cd_key and cd_ms > 0:
