@@ -594,7 +594,15 @@ def ensure_layer(el: ET.Element, layer_name: str) -> ET.Element:
     return _xml_io.ensure_layer(el, layer_name)
 
 def _iter_layers(el: ET.Element) -> list[ET.Element]:
-    return [c for c in list(el) if c.tag.endswith("EffectLayer") or c.tag.endswith("Layer")]
+    return [
+        child
+        for child in list(el)
+        if isinstance(child.tag, str)
+        and (
+            child.tag.endswith("EffectLayer")
+            or (child.tag.endswith("Layer") and not child.tag.endswith("SubModelEffectLayer"))
+        )
+    ]
 
 def clear_effects(el: ET.Element, mode: str, layer_name: str) -> None:
     _xml_io.clear_effects(el, mode, layer_name)

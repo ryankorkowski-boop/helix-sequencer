@@ -17,6 +17,10 @@ def _legacy():
     return legacy
 
 
+def _is_plain_effect_layer(tag: str) -> bool:
+    return tag.endswith("EffectLayer") or (tag.endswith("Layer") and not tag.endswith("SubModelEffectLayer"))
+
+
 def name_lookup_keys(name: str) -> list[str]:
     legacy = _legacy()
     raw = (name or "").strip()
@@ -37,12 +41,20 @@ def register_lookup_name(lookup: dict[str, str], name: str, *, prefer_exact: boo
             lookup.setdefault(key, name)
 
 
-def layout_entries_and_lookup(layout_path: Path) -> tuple[list[str], dict[str, str]]:
+def layout_catalog(layout_path: Path) -> tuple[list[str], dict[str, str], dict[str, list[str]]]:
+    """Return top-level model/group names, a name lookup, and parent -> submodel names.
+
+    xLights keeps models and model groups as top-level sequencer rows. Submodels
+    are not separate ``Element`` rows; their effects live in
+    ``<SubModelEffectLayer name="...">`` inside the parent model element.
+    """
+
     tree = ET.parse(layout_path)
     root = tree.getroot()
 
     ordered_names: list[str] = []
     lookup: dict[str, str] = {}
+    submodels_by_parent: dict[str, list[str]] = {}
 
     groups_el = root.find("modelGroups")
     if groups_el is not None:
@@ -55,7 +67,7 @@ def layout_entries_and_lookup(layout_path: Path) -> tuple[list[str], dict[str, s
 
     models_el = root.find("models")
     if models_el is None:
-        return (ordered_names, lookup)
+        return (ordered_names, lookup, submodels_by_parent)
     for child in list(models_el):
         name = (child.attrib.get("name") or "").strip()
         if not name:
@@ -82,7 +94,7 @@ def layout_entries_and_lookup(layout_path: Path) -> tuple[list[str], dict[str, s
             if not short_name:
                 continue
             full_name = f"{name}/{short_name}"
-            ordered_names.append(full_name)
+            submodels_by_parent.setdefault(name, []).append(short_name)
             register_lookup_name(lookup, full_name, prefer_exact=True)
             for alias in list(sub.findall("./aliases/alias")):
                 alias_name = (alias.attrib.get("name") or "").strip()
@@ -92,7 +104,20 @@ def layout_entries_and_lookup(layout_path: Path) -> tuple[list[str], dict[str, s
                     alias_name = alias_name.split(":", 1)[1].strip()
                 for candidate in (alias_name, f"{name}/{alias_name}"):
                     register_lookup_name(lookup, candidate, prefer_exact=False)
+    return (ordered_names, lookup, submodels_by_parent)
+
+
+def layout_entries_and_lookup(layout_path: Path) -> tuple[list[str], dict[str, str]]:
+    ordered_names, lookup, _submodels = layout_catalog(layout_path)
     return (ordered_names, lookup)
+
+
+def _submodel_layer(parent: ET.Element, short_name: str) -> ET.Element | None:
+    for child in list(parent):
+        if isinstance(child.tag, str) and child.tag.endswith("SubModelEffectLayer"):
+            if (child.attrib.get("name") or "").strip() == short_name:
+                return child
+    return None
 
 
 def map_layout_name(name: str, lookup: dict[str, str]) -> str | None:
@@ -127,7 +152,7 @@ def merge_effect_model_entry(target: ET.Element, source: ET.Element) -> None:
     existing_names = set()
     unnamed_count = 0
     for layer in list(target):
-        if not (layer.tag.endswith("EffectLayer") or layer.tag.endswith("Layer")):
+        if not _is_plain_effect_layer(layer.tag):
             continue
         layer_name = (layer.attrib.get("name") or "").strip()
         if layer_name:
@@ -135,7 +160,7 @@ def merge_effect_model_entry(target: ET.Element, source: ET.Element) -> None:
         else:
             unnamed_count += 1
     for layer in list(source):
-        if not (layer.tag.endswith("EffectLayer") or layer.tag.endswith("Layer")):
+        if not _is_plain_effect_layer(layer.tag):
             continue
         layer_name = (layer.attrib.get("name") or "").strip()
         if layer_name and layer_name in existing_names:
@@ -149,6 +174,18 @@ def merge_effect_model_entry(target: ET.Element, source: ET.Element) -> None:
             unnamed_count += 1
 
 
+def _index_nested_submodels(elements: dict[str, ET.Element], parent_name: str, element: ET.Element) -> None:
+    for child in list(element):
+        if not (isinstance(child.tag, str) and child.tag.endswith("SubModelEffectLayer")):
+            continue
+        short_name = (child.attrib.get("name") or "").strip()
+        if not short_name:
+            continue
+        full_name = f"{parent_name}/{short_name}"
+        elements[full_name] = child
+        _index_nested_submodels(elements, full_name, child)
+
+
 def collect_effect_elements(root: ET.Element) -> dict[str, ET.Element]:
     legacy = _legacy()
     elements: dict[str, ET.Element] = {}
@@ -159,10 +196,14 @@ def collect_effect_elements(root: ET.Element) -> dict[str, ET.Element]:
         element_type = (legacy._get_attr(el, ["type", "Type"]) or "").lower()
         if element_type == "timing":
             continue
-        has_layer = any(child.tag.endswith("EffectLayer") or child.tag.endswith("Layer") for child in list(el))
-        has_effect = any(child.tag.endswith("Effect") for child in el.iter())
+        has_layer = any(
+            isinstance(child.tag, str) and (child.tag.endswith("EffectLayer") or child.tag.endswith("Layer"))
+            for child in list(el)
+        )
+        has_effect = any(isinstance(child.tag, str) and child.tag.endswith("Effect") for child in el.iter())
         if has_layer or has_effect:
             elements[name.strip()] = el
+            _index_nested_submodels(elements, name.strip(), el)
     return elements
 
 
@@ -171,7 +212,7 @@ def sync_xsq_to_layout(xsq: "XsqIndex", layout_path: Path | None) -> dict[str, i
     if layout_path is None or not layout_path.exists():
         return {"layout_names": 0, "display_updated": 0, "effect_rows_updated": 0, "stale_removed": 0}
 
-    ordered_names, lookup = layout_entries_and_lookup(layout_path)
+    ordered_names, lookup, submodels_by_parent = layout_catalog(layout_path)
     if not ordered_names:
         return {"layout_names": 0, "display_updated": 0, "effect_rows_updated": 0, "stale_removed": 0}
 
@@ -224,6 +265,7 @@ def sync_xsq_to_layout(xsq: "XsqIndex", layout_path: Path | None) -> dict[str, i
     active_timing_effects: list[ET.Element] = []
     inactive_timing_effects: list[ET.Element] = []
     model_effects_by_name: dict[str, ET.Element] = {}
+    stashed_submodels: dict[str, ET.Element] = {}
     stale_effects = 0
     for el in list(element_effects):
         element_type = (legacy._get_attr(el, ["type", "Type"]) or "").lower()
@@ -239,6 +281,13 @@ def sync_xsq_to_layout(xsq: "XsqIndex", layout_path: Path | None) -> dict[str, i
             continue
         clone = copy.deepcopy(el)
         clone.attrib["name"] = mapped
+        if "/" in mapped:
+            existing_sub = stashed_submodels.get(mapped)
+            if existing_sub is None:
+                stashed_submodels[mapped] = clone
+            else:
+                merge_effect_model_entry(existing_sub, clone)
+            continue
         clone.attrib["type"] = "model"
         existing = model_effects_by_name.get(mapped)
         if existing is None:
@@ -252,6 +301,34 @@ def sync_xsq_to_layout(xsq: "XsqIndex", layout_path: Path | None) -> dict[str, i
         element_effects.append(el)
     for name in ordered_names:
         element_effects.append(model_effects_by_name.get(name, new_effect_model_entry(name)))
+    for parent_name, short_names in submodels_by_parent.items():
+        parent_el = model_effects_by_name.get(parent_name)
+        if parent_el is None:
+            parent_el = next(
+                (
+                    child
+                    for child in list(element_effects)
+                    if (legacy._get_attr(child, ["name", "Name"]) or "").strip() == parent_name
+                ),
+                None,
+            )
+        if parent_el is None:
+            continue
+        for short_name in short_names:
+            holder = _submodel_layer(parent_el, short_name)
+            if holder is None:
+                holder = ET.Element("SubModelEffectLayer", {"name": short_name})
+                parent_el.append(holder)
+            stashed = stashed_submodels.pop(f"{parent_name}/{short_name}", None)
+            if stashed is not None:
+                merge_effect_model_entry(holder, stashed)
+            if not any(
+                isinstance(child.tag, str)
+                and (child.tag.endswith("EffectLayer") or child.tag.endswith("Layer"))
+                and not child.tag.endswith("SubModelEffectLayer")
+                for child in list(holder)
+            ):
+                holder.append(ET.Element("EffectLayer"))
     for el in inactive_timing_effects:
         element_effects.append(el)
 

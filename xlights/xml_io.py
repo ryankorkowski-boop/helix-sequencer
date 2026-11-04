@@ -23,18 +23,9 @@ def load_xsq(path: Path) -> "XsqIndex":
         legacy.die(f"Failed to parse XSQ XML: {path.name}\n{exc}")
     root = tree.getroot()
 
-    elements: dict[str, ET.Element] = {}
-    for el in legacy._find_any(root, "Element"):
-        name = legacy._get_attr(el, ["name", "Name"])
-        if not name:
-            continue
-        element_type = (legacy._get_attr(el, ["type", "Type"]) or "").lower()
-        if element_type == "timing":
-            continue
-        has_layer = any(child.tag.endswith("EffectLayer") or child.tag.endswith("Layer") for child in list(el))
-        has_effect = any(child.tag.endswith("Effect") for child in el.iter())
-        if has_layer or has_effect:
-            elements[name.strip()] = el
+    from xlights.layout_sync import collect_effect_elements
+
+    elements = collect_effect_elements(root)
 
     on = legacy.EffectTemplate(settings=None, palette=None)
     ramp = legacy.EffectTemplate(settings=None, palette=None)
@@ -61,15 +52,19 @@ def load_xsq(path: Path) -> "XsqIndex":
     return legacy.XsqIndex(tree=tree, root=root, elements=elements, on_tpl=on, ramp_tpl=ramp)
 
 
+def _is_effect_layer(tag: str) -> bool:
+    return tag.endswith("EffectLayer") or (tag.endswith("Layer") and not tag.endswith("SubModelEffectLayer"))
+
+
 def ensure_layer(el: ET.Element, layer_name: str) -> ET.Element:
     legacy = _legacy()
     for child in list(el):
-        if child.tag.endswith("EffectLayer") or child.tag.endswith("Layer"):
+        if isinstance(child.tag, str) and _is_effect_layer(child.tag):
             name = legacy._get_attr(child, ["name", "Name"])
             if name and name.strip() == layer_name:
                 return child
     for child in list(el):
-        if child.tag.endswith("EffectLayer") or child.tag.endswith("Layer"):
+        if isinstance(child.tag, str) and _is_effect_layer(child.tag):
             name = (legacy._get_attr(child, ["name", "Name"]) or "").strip()
             if not name:
                 child.attrib["name"] = layer_name
@@ -77,10 +72,10 @@ def ensure_layer(el: ET.Element, layer_name: str) -> ET.Element:
                 return child
     layer_tag = None
     for child in list(el):
-        if child.tag.endswith("EffectLayer"):
+        if isinstance(child.tag, str) and child.tag.endswith("EffectLayer") and not child.tag.endswith("SubModelEffectLayer"):
             layer_tag = child.tag
             break
-        if child.tag.endswith("Layer"):
+        if isinstance(child.tag, str) and _is_effect_layer(child.tag):
             layer_tag = child.tag
             break
     if layer_tag is None:
@@ -94,7 +89,7 @@ def ensure_layer(el: ET.Element, layer_name: str) -> ET.Element:
 
 def clear_effects(el: ET.Element, mode: str, layer_name: str) -> None:
     legacy = _legacy()
-    layers = legacy._iter_layers(el)
+    layers = [layer for layer in legacy._iter_layers(el) if _is_effect_layer(layer.tag)]
     if mode == "all":
         for layer in layers:
             for eff in list(layer):

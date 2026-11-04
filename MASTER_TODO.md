@@ -194,6 +194,25 @@ Do not mark complete from unit tests alone.
 
 **Regression risks:** Code that read the `settings` attribute off a newly written Effect now has to resolve `ref`. The main path and the template writer were updated.
 
+### 2026-11-04 — Submodel rows nest under the parent model
+**Branch:** `cursor/main-path-xsq-fixes-41d8`
+
+**Goal:** Submodel effects are `<SubModelEffectLayer name="...">` inside the parent model `Element`. Only models and model groups are top-level sequencer rows.
+
+**Changed:** `xlights/layout_sync.py`, `xlights/xml_io.py`, `xlights/xsq_writer.py`, `tests/test_layout_submodels.py`
+
+**Preserved:** Model groups stay top-level `type="model"` rows, which is how `template.xsq` and the xLights sequencer store groups. Submodel names remain addressable as `Parent/Sub` in `xsq.elements` so effect placement can still target them. Aliases still resolve.
+
+**New behavior:** Layout sync no longer emits `Parent/Sub` as its own `Element`. An existing top-level submodel row is folded into the parent's `SubModelEffectLayer`, and its effect layers move with it. `SubModelEffectLayer` is not treated as an ordinary effect layer. Confirmed against xLights' saved shape (`Element` → `EffectLayer` and `SubModelEffectLayer` → `EffectLayer` → `Effect`), including the `fixtotime` sequence script's grouping. Not re-saved from the xLights GUI in this environment.
+
+**Tests:** `tests/test_layout_submodels.py` builds a layout with a group, a model, and two submodels, folds a legacy `Arch/Left` row, and reloads the file.
+
+**Limitations:** Nested submodels of submodels are indexed if present, but the layout parser only emits one `Parent/Sub` level. Display rows for submodels are omitted; xLights expands those from the layout model.
+
+**Deferred:** None.
+
+**Regression risks:** Tools that expected a top-level element named `Parent/Sub` will now find that node nested. `xsq.elements["Parent/Sub"]` still points at the nested layer.
+
 ## Next actions
 1. Preserve the prior known-good drummer behavior as the regression baseline.
 2. Reconcile xLights drummer geometry with the nine canonical composites.
