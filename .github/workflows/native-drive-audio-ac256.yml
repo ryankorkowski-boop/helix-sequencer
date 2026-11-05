@@ -60,6 +60,7 @@ jobs:
           effects=list(tree.getroot().iter('Effect'))
           if len(effects)<10: raise SystemExit('Actual Helix audio sequencing produced too few effects')
           (root/'effect_count.txt').write_text(str(len(effects))+'\n')
+          (root/'run_manifest.json').write_text(__import__('json').dumps({'schema':'helix.run_manifest.v1','warnings':[],'source':'owner_google_drive_verified','source_sha256':'fc91e3f48f709e615ba598a5d49ae63ab9652c0d16e324095f6e1b20377e082b','sequence_file':dest.name,'audio_sha256':__import__('hashlib').sha256((root/'media/Helix_Motion_40s.mp3').read_bytes()).hexdigest(),'helix_effect_count':len(effects)},indent=2)+'\\n')
           print('Real production Helix effects:',len(effects))
           PY
       - name: Restore pinned native xLights renderer
