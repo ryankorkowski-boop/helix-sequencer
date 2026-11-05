@@ -814,34 +814,18 @@ def _bounded_background_features(harm, sr, hop=512):
     tuning = librosa.pitch_tuning(pitches[magnitudes >= threshold], bins_per_octave=12)
     del tuning_pitches, tuning_magnitudes, pitches, magnitudes
     chroma_entropy = np.empty(size)
-    # Narrow SGEMM inputs can select a different float32 accumulation kernel
-    # from the original whole-recording chroma transform (observed entropy
-    # drift 1.995e-7). Keep a bounded wide input and align the final window to
-    # the original 64-column grid. Overlap supplies real preceding frames;
-    # no zeros, new events, local tuning or relaxed comparisons are introduced.
-    # At most 2111 frequency frames are retained by the final transform.
-    chroma_frames = 2048
-    previous_magnitude = None
+    # Independently centered STFT frames need no preceding-block overlap.
+    # 1536-frame GEMM tiles reduce float32 kernel-dependent entropy drift;
+    # keep the 64-column final padding outside all source event frames.
+    chroma_frames = 1536
     for start, magnitude in bounded_audio.magnitude_blocks(harm, hop=hop, block_frames=chroma_frames):
         count = magnitude.shape[1]
-        offset = 0
-        window = magnitude
-        if previous_magnitude is not None and count < chroma_frames:
-            offset = chroma_frames + size % 64 - count
-            window = np.concatenate((previous_magnitude[:, -offset:], magnitude), axis=1)
-        # Keep the BLAS column tile aligned for the final partial block. A
-        # narrow tail can select a different float32 SGEMM kernel and drift
-        # beyond the whole-recording reference despite identical frame data.
-        # Right-padding is strictly outside the retained source frames, so it
-        # cannot create or shift an event; only the original count is copied.
-        pad = (-window.shape[1]) % 64
-        if pad:
-            window = np.pad(window, ((0, 0), (0, pad)))
+        pad = (-count) % 64
+        window = np.pad(magnitude, ((0, 0), (0, pad))) if pad else magnitude
         chroma = librosa.feature.chroma_stft(S=window, sr=sr, hop_length=hop, tuning=tuning)
         probability = chroma / (np.sum(chroma, axis=0) + 1e-9)
         entropy = -np.sum(probability * np.log2(probability + 1e-9), axis=0) / np.log2(12.0)
-        chroma_entropy[start:start+count] = entropy[offset:offset+count]
-        previous_magnitude = magnitude
+        chroma_entropy[start:start+count] = entropy[:count]
         del window, chroma, probability, entropy
     return multi_pitch01, chroma_entropy
 
