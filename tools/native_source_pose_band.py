@@ -156,7 +156,12 @@ def prepare(source_root:Path,output:Path,eid='E14',limit=32,frame_ms=50,legacy_x
     row,audio,scene,p=setup(source_root,eid,scene_factory=Review3DScene)
     keyboard_motion_proof=configure_native_keyboard_motion(
         scene,p,legacy_xylophone=legacy_xylophone)
-    if stemless_duet:\n        from tools.stemless_duet import estimate_duet\n        p.voice_energy,p.voice_lanes,vocal_estimate=estimate_duet(audio,p.voice_energy,p.voice_lanes,frames=p.n)\n    else:\n        vocal_estimate=None\n    g=Garden(title='Helix source-timed native RGB pose band',slug='Native_Source_Poses');add_band(g)
+    if stemless_duet:
+        from tools.stemless_duet import estimate_duet
+        p.voice_energy,p.voice_lanes,vocal_estimate=estimate_duet(audio,p.voice_energy,p.voice_lanes,frames=p.n)
+    else:
+        vocal_estimate=None
+    g=Garden(title='Helix source-timed native RGB pose band',slug='Native_Source_Poses');add_band(g)
     g.models=select_cast(g.models,legacy_xylophone=legacy_xylophone)
     p.row={'drummer_xsq':str(source_root/'sources'/eid/'drummer.xsq')}
     cues={m.name:band_curves(m,p,body_level=.85) for m in g.models}

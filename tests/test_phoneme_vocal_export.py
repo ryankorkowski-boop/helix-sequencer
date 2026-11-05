@@ -56,3 +56,16 @@ def test_changed_vocal_cache_receipt_is_rejected_before_export(tmp_path):
     (fixture/'acoustic_vocal_clocks.npz').write_bytes((FIXTURE/'acoustic_vocal_clocks.npz').read_bytes())
     with pytest.raises(ValueError, match='receipt'):
         export(sequence(), source_layout(tmp_path), SimpleNamespace(models=[]), fixture=fixture)
+
+
+def test_non_uvr_clock_does_not_claim_source_separation(tmp_path):
+    fixture=tmp_path/'production_clock';fixture.mkdir()
+    data=json.loads((FIXTURE/'diagnostic.json').read_text())
+    data.update(method='Production face events; mixed source',effect_source_method='helix_production_face_events')
+    (fixture/'diagnostic.json').write_text(json.dumps(data))
+    (fixture/'acoustic_vocal_clocks.npz').write_bytes((FIXTURE/'acoustic_vocal_clocks.npz').read_bytes())
+    root=sequence()
+    report=export(root,source_layout(tmp_path),SimpleNamespace(models=[]),fixture=fixture)
+    assert report['vocal_method']=='Production face events; mixed source'
+    assert report['independent_backing_verified'] is False
+    assert {e.get('sourceMethod') for e in root.iter('Effect') if e.get('name')=='Faces'}=={'helix_production_face_events'}

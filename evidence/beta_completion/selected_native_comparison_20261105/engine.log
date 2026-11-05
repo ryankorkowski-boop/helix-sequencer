@@ -1,0 +1,107 @@
+Template: template.xsq
+Profile: feel=balanced, density=1.04, speed=1.08, randomness=0.00, bass=1.28, melody=1.16, dark=1.14
+Runtime: polyphony=6, cane_focus=1.00, flash_guard=0.80, keyboard_mix=1.00, layering=replace, spatial=0.00/none, effects(base/motion/accent)=On/Ramp/On, palette=template, timing_tracks=1, strict_xlights=1, ac_only=0, max_layers=3, min_ms=50, lyrics_sync=0, birdsong=0/0/1.00/0.45/wild, hardkor=0/1.00/ac256, workspace_history=0:24, matrix=1, audio_reactive=balanced/1.00, polish=1, variants=1, shortlist=0, vendor_bar=0:96.0/90.0/12000, power=0/0, learn_xsqs=0, overrides=0
+Output folder: engine
+Processing 1 audio file(s) with v27.3...
+
+[1/1] Helix_Motion_39_75.wav -> Helix_Motion_39_75,v27.3.xsq
+  Variant 1/1: signature -> Helix_Motion_39_75,v27.3.xsq
+[1/8] Loading template for v27.3
+Display view normalization: updated 4 rows
+Layout sync: layout_names=315, matched_display=276, matched_effect_rows=276, stale_removed=46
+Audio ref replacements: 1
+Parsed layout model map: models=256, groups=59, pixel_models=248, types=arch:9, circle:3, line:212, star:32
+Spatial scene: capability=2d, depth_span=0.0, layers=0, layered_ratio=0.00
+Sequential pools found: 47
+  - mega_white [mega] count=7 :: mega tree 1, mega tree 2, mega tree 3, mega tree 5, mega tree 6, mega tree 7, mega tree 8
+  - line_white [line] count=180 :: Arch 1 Sec 1, Arch 1 Sec 2, Arch 1 Sec 3 ... 10, 11, 12
+  - notes_1_16 [notes] count=16 :: 1, 2, 3 ... 14, 15, 16
+  - notes_17_32 [notes] count=16 :: 17, 18, 19 ... 30, 31, 32
+  - line_tree_rgb [line] count=27 :: Line Tree Red 1, Line Tree White 1, Line Tree Green 1 ... Line Tree Red 9, Line Tree White 9, Line Tree Green 9
+  - line_tree_red [line] count=9 :: Line Tree Red 1, Line Tree Red 2, Line Tree Red 3, Line Tree Red 4, Line Tree Red 5, Line Tree Red 6, Line Tree Red 7, Line Tree Red 8, Line Tree Red 9
+  - line_tree_white [line] count=9 :: Line Tree White 1, Line Tree White 2, Line Tree White 3, Line Tree White 4, Line Tree White 5, Line Tree White 6, Line Tree White 7, Line Tree White 8, Line Tree White 9
+  - line_tree_green [line] count=9 :: Line Tree Green 1, Line Tree Green 2, Line Tree Green 3, Line Tree Green 4, Line Tree Green 5, Line Tree Green 6, Line Tree Green 7, Line Tree Green 8, Line Tree Green 9
+  - mega_tree_rgb [mega] count=24 :: Mega Tree Red 1, Mega Tree White 1, Mega Tree Green 1 ... Mega Tree Red 8, Mega Tree White 8, Mega Tree Green 8
+  - mega_tree_red [mega] count=8 :: Mega Tree Red 1, Mega Tree Red 2, Mega Tree Red 3, Mega Tree Red 4, Mega Tree Red 5, Mega Tree Red 6, Mega Tree Red 7, Mega Tree Red 8
+  - mega_tree_white [mega] count=8 :: Mega Tree White 1, Mega Tree White 2, Mega Tree White 3, Mega Tree White 4, Mega Tree White 5, Mega Tree White 6, Mega Tree White 7, Mega Tree White 8
+  - mega_tree_green [mega] count=8 :: Mega Tree Green 1, Mega Tree Green 2, Mega Tree Green 3, Mega Tree Green 4, Mega Tree Green 5, Mega Tree Green 6, Mega Tree Green 7, Mega Tree Green 8
+  - garage_tree_rgb [gt] count=12 :: Garage Trees Red 1, Garage Trees White 1, Garage Trees Green 1 ... Garage Trees Red 4, Garage Trees White 4, Garage Trees Green 4
+  - garage_tree_red [gt] count=4 :: Garage Trees Red 1, Garage Trees Red 2, Garage Trees Red 3, Garage Trees Red 4
+  - garage_tree_white [gt] count=4 :: Garage Trees White 1, Garage Trees White 2, Garage Trees White 3, Garage Trees White 4
+  - garage_tree_green [gt] count=4 :: Garage Trees Green 1, Garage Trees Green 2, Garage Trees Green 3, Garage Trees Green 4
+  - perimeter_red [line] count=5 :: Right Linden Red, Right Blvd Red, Center Blvd Red, Left Blvd Red, Left Tree Red
+  - perimeter_white [line] count=5 :: Right Linden White, Right Blvd White, Center Blvd White, Left Blvd White, Left Tree White
+  - perimeter_green [line] count=5 :: Right Linden Green, Right Blvd Green, Center Blvd Green, Left Blvd Green, Left Tree Green
+  - garage_trees [gt] count=4 :: garage tree 1, garage tree 2, garage tree 3, garage tree 4
+  - snowflakes [snowflakes] count=14 :: sf1, sf2, sf3 ... sf12, sf13, sf14
+  - stars [stars] count=16 :: Bethlehem Star 1 C9s, star 1, Star 2 ... Star 13, Star 14, Star 15
+  - spheres [sphere] count=3 :: wreath1 2 green, wreath1 2 red, wreath 1 2 white
+  - floods [flood] count=5 :: Flood Light 1 Green A, Flood Light 1 Green B, Flood Light 1 Green Front B, Flood Light 1 Red A, Flood Light 1 Red B
+  - north_canes [north_canes] count=16 :: North Candy Cane 1, North Candy Cane 2, North Candy Cane 3 ... North Candy Cane 14, North Candy Cane 15, North Candy Cane 16
+  - south_canes [south_canes] count=16 :: South Candy Cane 1, South Candy Cane 2, South Candy Cane 3 ... South Candy Cane 14, South Candy Cane 15, South Candy Cane 16
+  - canes_combo [canes_combo] count=32 :: North Candy Cane 1, South Candy Cane 1, North Candy Cane 2 ... South Candy Cane 15, North Candy Cane 16, South Candy Cane 16
+  - arch_spatial [arch] count=9 :: Arch 1 Sec 5, Arch 2 Sec 5, Arch 3 Sec 5, Arch 4 Sec 5, Roof Lower white, Roof Lower red  c9s-3, Roof Lower green  c9s-2, Roof Top White, icicle gar of
+  - 12_STARS_ALL [stars] count=15 :: star 1, Star 2, Star 3 ... Star 13, Star 14, Star 15
+  - 06_LINE_ALL [line] count=12 :: line tree 2, line tree 3, line tree 4 ... line tree green, line tree red, line tree white
+  - 07_MEGATREE [mega] count=11 :: mega tree 1, mega tree 2, mega tree 3 ... mega tree green, mega tree red, mega tree white
+  - 15_Garage trees all [gt] count=7 :: garage tree 1, garage tree 2, garage tree 3, garage tree 4, garage trees green, garage trees red, garage trees white
+  - z_EAVES_ICYCLES [arch] count=2 :: icicle gar of, Icicle Top Roof
+  - 01a_ALL_NOTES [notes] count=4 :: 08_NORTH_CANES, 09_NOTNORTH_CANES, 10_NOTES_MAIN, 11_NOTES_MIRROR
+  - 17_FLOODS_ALL [flood] count=8 :: Flood Light 1 Green A, Flood Light 1 Green B, Flood Light 1 Red A, Flood Light 1 Red B, Flood Light 1 Green Front B, Flood Lights White, Flood Lights Red, Ground Strobes
+  - 16_BLVD_ALL [line] count=3 :: BLVD_CENTER, BLVD_LEFT, BLVD_RIGHT
+  - 13_PERIMETER_ALL [line] count=5 :: BLVD_CENTER, BLVD_LEFT, BLVD_RIGHT, LEFT_TREE, RIGHT_LINDEN
+  - MERRY CHRISTMAS [line] count=14 :: Merry christmas 1, mErry christmas 2, meRry christmas 3 ... merry christMas 12, merry christmAs 13, merry christmaS 14
+  - ALL BLVD RED [line] count=3 :: Center Blvd Red, Left Blvd Red, Right Blvd Red
+  - ALL BLVD GREEN [line] count=3 :: Center Blvd Green, Left Blvd Green, Right Blvd Green
+  - ALL BLVD WHITE [line] count=3 :: Center Blvd White, Left Blvd White, Right Blvd White
+  - arch_1 [arch] count=9 :: Arch 1 Sec 1, Arch 1 Sec 2, Arch 1 Sec 3, Arch 1 Sec 4, Arch 1 Sec 5, Arch 1 Sec 6, Arch 1 Sec 7, Arch 1 Sec 8, Arch 1 Sec 9
+  - arch_2 [arch] count=9 :: Arch 2 Sec 1, Arch 2 Sec 2, Arch 2 Sec 3, Arch 2 Sec 4, Arch 2 Sec 5, Arch 2 Sec 6, Arch 2 Sec 7, Arch 2 Sec 8, Arch 2 Sec 9
+  - arch_3 [arch] count=9 :: Arch 3 Sec 1, Arch 3 Sec 2, Arch 3 Sec 3, Arch 3 Sec 4, Arch 3 Sec 5, Arch 3 Sec 6, Arch 3 Sec 7, Arch 3 Sec 8, Arch 3 Sec 9
+  - arch_4 [arch] count=9 :: Arch 4 Sec 1, Arch 4 Sec 2, Arch 4 Sec 3, Arch 4 Sec 4, Arch 4 Sec 5, Arch 4 Sec 6, Arch 4 Sec 7, Arch 4 Sec 8, Arch 4 Sec 9
+  - auto_line_fallback [line] count=35 :: North Candy Cane 4, North Candy Cane 5, North Candy Cane 3 ... South Candy Cane 13, South Candy Cane 11, South Candy Cane 12
+  - auto_stars_fallback [stars] count=17 :: big snowflake garage, big snowflake roof, sf2 ... sf8, sf10, sf9
+xLights catalog loaded: effects=57
+Workspace history: disabled.
+Layering mode: replace
+Spatial neighbor graph: routes=4, adjacency=256
+[2/8] Analyzing audio and polyphony
+Loading audio: Helix_Motion_39_75.wav
+SR=48000 duration=36.00s
+Song parts: PRECHORUS:0.0-12.0s, VERSE:12.0-24.0s, PRECHORUS:24.0-36.0s
+[3/8] Reading timing tracks
+Stem split: using local fallback separation.
+Stem split: bounded HPSS windows; original sample rate and timing retained.
+Drum intelligence (canonical V3): {'kick_events': 2, 'snare_events': 4, 'tom_events': 0, 'hihat_events': 137, 'cymbal_events': 154, 'drum_bus_events': 0}
+Background vocal classifier: 2 harmony/group windows.
+Stem analysis source=local; bass_peaks=29, vocal_peaks=20, kicks=0, snares=18, hats=227
+Multi-band marks: sub=67, bass=53, mid=71, high=143, flux=112, quiet_windows=2, genre=pop, mood=balanced
+Rhythm intelligence: polyrhythms=0, phrases=5, microtiming_samples=180
+Helixualizer: melbanks=3, keys=61, stereo=True
+Chronoflow: events=613, trajectory=720, embedding=sklearn_pca
+[4/8] Placing effects
+Player piano sequence placed: 290 effects on notes_1_16
+Spatial keyboard routes placed: 4479 effects across 23 lanes
+Lua-style macros placed: 1 scenes
+Lua-style accent placements added: 7
+Pixel reactive score cues scheduled: 517
+Multi-band reactive overlays placed: 457
+Audio-reactive catalog placements attempted: 300
+Audit auto-fixes applied: 508
+Polish pass complete: score=92.3
+[5/8] Writing timing tracks and report
+Timing cleanup: removed 2 empty legacy timing rows.
+[6/8] Writing sequence
+Audio export boundaries: {'trimmed': 18, 'removed': 692}
+Final layout sync: layout_names=315, matched_display=315, matched_effect_rows=315, stale_removed=0
+Editable model rows validated: 315/315
+[8/8] Saved: Helix_Motion_39_75,v27.3.xsq | effects added: 8047
+Placement report: audio_reactive_bass_pulse=30, audio_reactive_build_ramp=58, audio_reactive_downbeat_flash=16, audio_reactive_drop_burst=16, audio_reactive_mid_sweep=51, audio_reactive_quiet_shimmer=4, audio_reactive_treble_sparkle=96, bass_focus=29, bass_green=5, bass_red=15, bass_white=3, digital_piano_motion=97, green_vu=1183, intensity_wave=37, lua_transition=7, multiband_bass=133, multiband_high=73, multiband_mid=69, multiband_quiet_hold=2, multiband_sub_bass=163, piano_lights_arch=122, piano_lights_canes_combo=13, piano_lights_gt=23, piano_lights_line=309, piano_lights_mega=152, pixel_bass=52, pixel_build=246, pixel_hat=64, pixel_part_transition=3, pixel_phrase_focus=21, pixel_phrase_motion=52, pixel_scene_matrix=9, pixel_snare=9, pixel_vocal=17, player_piano_notes=287, polish_breathing_fade=16, polyphonic_arch_layer=332, polyphonic_keyboard=320, polyphonic_wave=29, showcase_accent=9, showcase_foundation=38, showcase_phrase_pickup=180, showcase_scene_arrival=14, showcase_scene_color=2, showcase_signature_impact=18, showcase_signature_sweep=18, showcase_signature_vocal=10, showcase_transition=14, showcase_vocal=9, spatial_keyboard_garage_tree_green=30, spatial_keyboard_garage_tree_red=31, spatial_keyboard_garage_tree_rgb=280, spatial_keyboard_garage_tree_white=56, spatial_keyboard_line_tree_green=53, spatial_keyboard_line_tree_red=32, spatial_keyboard_line_tree_rgb=286, spatial_keyboard_line_tree_white=54, spatial_keyboard_line_white=33, spatial_keyboard_line_white_support=67, spatial_keyboard_mega_tree_green=11, spatial_keyboard_mega_tree_red=10, spatial_keyboard_mega_tree_rgb=276, spatial_keyboard_mega_tree_white=13, spatial_keyboard_north_canes=663, spatial_keyboard_north_canes_support=421, spatial_keyboard_notes_main=95, spatial_keyboard_notes_mirror=96, spatial_keyboard_perimeter_green=97, spatial_keyboard_perimeter_red=97, spatial_keyboard_perimeter_white=98, spatial_keyboard_south_canes=666, spatial_keyboard_south_canes_support=423, spatial_keyboard_stars_spatial=49, spatial_keyboard_white_spine=89, spatial_keyboard_white_spine_support=175, white_vocal_focus=19
+Quality score: 87.5 (B+)
+Report saved: Helix_Motion_39_75,v27.3.report.json
+Chronoflow exports: Helix_Motion_39_75,v27.3.chronoflow.json, Helix_Motion_39_75,v27.3.chronoflow.html
+Snowman band export: Helix_Motion_39_75,v27.3.snowman_band.json
+
+Done.
+showcase_quality: effects=8047 palette_dominance=98.8% pass=True
+show_context: layout+configuration in /workspace/scratch/15b40a8008ec/render_work/engine
+SUCCESS: Run completed. Manifest: ../render_work/engine/beta/20261105-175613-master/run_manifest.json

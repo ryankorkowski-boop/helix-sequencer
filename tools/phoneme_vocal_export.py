@@ -58,7 +58,7 @@ def export(root, layout: Path, garden, *, fixture: Path = FIXTURE, expected_sha2
     faces = detect_singing_faces(layout)
     result = dict(source=report, independent_backing_verified=False,
                   exact_phoneme_boundaries_verified=False, removed_decorative_mouth_effects=0,
-                  vocal_method='source-separated vocal estimates; broad acoustic vowel colors; no verified lexical phones', models={})
+                  vocal_method=report.get('method','source-separated vocal estimates; broad acoustic vowel colors; no verified lexical phones'), models={})
     with np.load(clocks, allow_pickle=False) as cache:
         for role, source in [('LEAD', 'estimated_lead'), ('HARMONY', 'estimated_backing')]:
             target = 'HX_SNOW_' + role
@@ -89,7 +89,7 @@ def export(root, layout: Path, garden, *, fixture: Path = FIXTURE, expected_sha2
                 if template is None:
                     raise ValueError('Source singer has no exact native mapping for ' + shape)
                 effect = add_effect(layer, start, end, 'Faces', template)
-                effect.set('sourceMethod', 'two_stage_UVR_acoustic_estimate')
+                effect.set('sourceMethod', report.get('effect_source_method','two_stage_UVR_acoustic_estimate'))
                 effect.set('sourceTrackSHA256', report['tracks'][source]['sha256'])
                 count += 1
                 sounding += shape != 'REST'

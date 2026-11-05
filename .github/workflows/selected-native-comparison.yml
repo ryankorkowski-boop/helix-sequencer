@@ -1,0 +1,72 @@
+name: Selected real-audio native 16-panel MP4
+on:
+  push:
+    branches: [preview/selected-native-comparison-20261105]
+    paths: [.github/workflows/selected-native-comparison.yml, tools/selected_native_comparison.py]
+  workflow_dispatch:
+permissions:
+  contents: read
+  actions: read
+concurrency:
+  group: selected-native-comparison-${{ github.ref }}
+  cancel-in-progress: false
+jobs:
+  render:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 70
+    env:
+      OMP_NUM_THREADS: '2'
+      OPENBLAS_NUM_THREADS: '2'
+      XL_NO_GPU_COMPUTE: '1'
+      HELIX_NATIVE_PREVIEW_WIDTH: '1920'
+      HELIX_NATIVE_PREVIEW_HEIGHT: '1080'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install media and pinned-renderer runtime dependencies
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y ffmpeg xvfb xauth openbox wmctrl xdotool x11-utils x11-xserver-utils libgtk-3-dev libgstreamer1.0-dev libgstreamer-plugins-base1.0-dev freeglut3-dev libavcodec-dev libavformat-dev libavfilter-dev libswscale-dev libsdl2-dev libzstd-dev libcurl4-openssl-dev liblua5.3-dev libwebp-dev libsecret-1-dev libegl-dev libfreetype-dev libharfbuzz-dev libfontconfig-dev libavahi-compat-libdnssd-dev libminizip-dev libxlsxwriter-dev libglfw3
+          python -m pip install numpy scipy librosa==0.10.2.post1 soundfile numba llvmlite scikit-learn Pillow trimesh moderngl zstandard imageio imageio-ffmpeg cmudict PyYAML requests pytest gdown==6.4.2
+      - name: Restore and verify retained pinned native renderer
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          gh api repos/ryankorkowski-boop/helix-sequencer/actions/artifacts/13429155795/zip > "$RUNNER_TEMP/native-runtime.zip"
+          echo "c86bc224d7f1dcddece830f5df84f24bd38dd21e7deef8799d6f569d6d588d4b  $RUNNER_TEMP/native-runtime.zip" | sha256sum -c -
+          unzip -q "$RUNNER_TEMP/native-runtime.zip" -d "$RUNNER_TEMP/retained-native"
+          runtime="$RUNNER_TEMP/retained-native/phoneme-work/runtime"
+          echo "5d9a5e84defa945877fee0c7fae0b8f5344c0df3f3e72b2cf5238d3014ef2819  $runtime/xLights" | sha256sum -c -
+          git clone --depth 1 --branch 2026.18 https://github.com/xLightsSequencer/xLights.git "$RUNNER_TEMP/pinned-xlights-resources"
+          test "$(git -C "$RUNNER_TEMP/pinned-xlights-resources" rev-parse HEAD)" = 839c0f590dc454bb7adb8a16c4dd92a70b46156e
+          mkdir -p "$RUNNER_TEMP/pinned-xlights-resources/bin"
+          cp "$runtime/xLights" "$RUNNER_TEMP/pinned-xlights-resources/bin/xLights"
+          chmod +x "$RUNNER_TEMP/pinned-xlights-resources/bin/xLights"
+          export LD_LIBRARY_PATH="$runtime/lib"
+          ldd "$RUNNER_TEMP/pinned-xlights-resources/bin/xLights" | tee native-runtime-ldd.txt
+          ! grep -q 'not found' native-runtime-ldd.txt
+          echo "LD_LIBRARY_PATH=$runtime/lib" >> "$GITHUB_ENV"
+          echo "HELIX_PATCHED_XLIGHTS=$RUNNER_TEMP/pinned-xlights-resources/bin/xLights" >> "$GITHUB_ENV"
+      - name: Restore actual executed master outputs and exact source PCM
+        run: |
+          mkdir -p selected-native
+          python -m gdown 12gRu8SUf-8GVCQdJnrIROnTY6XumOUzZ -O selected-native/Helix_Motion_original.mp3
+          python -m pytest -q tests/test_comparison_pixel_grid.py tests/test_phoneme_vocal_export.py tests/test_source_drummer_3d.py tests/test_canonical_native_band.py
+          python -m tools.selected_native_comparison stage selected-native
+      - name: Render sixteen genuine native XSQ FSEQ and MP4 views
+        run: |
+          xvfb-run -a -s '-screen 0 2560x1440x24' sh -c 'openbox >selected-native/openbox.log 2>&1 & exec python -m tools.selected_native_comparison render selected-native --xlights "$HELIX_PATCHED_XLIGHTS"'
+      - name: Compose and fully decode source-aligned MP4
+        run: python -m tools.selected_native_comparison compose selected-native
+      - name: Preserve actual movie and complete native evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: Helix-Selected-Native-16-Panel
+          path: |
+            selected-native/
+            native-runtime-ldd.txt
+          retention-days: 14

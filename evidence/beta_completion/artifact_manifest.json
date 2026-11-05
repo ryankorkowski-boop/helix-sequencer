@@ -1120,8 +1120,8 @@
       "source_commit": "09677d4822e35d724e9f229c0ab7465c9f34fd7a",
       "engine_worktree_module_changes": false,
       "source_library_tracks": [
-        "Tinsel Tornado164–182s",
-        "Christmas in the Ether76.5–94.5s"
+        "Tinsel Tornado164\u2013182s",
+        "Christmas in the Ether76.5\u201394.5s"
       ],
       "effects": 5155,
       "detected_parts": [
@@ -1370,7 +1370,7 @@
       "haswell_bounded": {
         "passed": 8,
         "failed": 4,
-        "unchanged_entropy_tolerance": 1e-7
+        "unchanged_entropy_tolerance": 1e-07
       }
     },
     "delivered_apps": [
@@ -1449,19 +1449,19 @@
           "test": "test_bounded_chroma_preserves_reference_across_long_partial_blocks[1]",
           "mismatched": 10,
           "total": 4097,
-          "max_abs_diff": 2.66020723e-7
+          "max_abs_diff": 2.66020723e-07
         },
         {
           "test": "test_bounded_chroma_preserves_reference_across_long_partial_blocks[61]",
           "mismatched": 22,
           "total": 4157,
-          "max_abs_diff": 1.99515542e-7
+          "max_abs_diff": 1.99515542e-07
         },
         {
           "test": "test_bounded_chroma_preserves_reference_across_long_partial_blocks[509]",
           "mismatched": 18,
           "total": 4605,
-          "max_abs_diff": 1.33010362e-7
+          "max_abs_diff": 1.33010362e-07
         }
       ],
       "tolerance": "atol=1e-7, rtol=0",
@@ -1658,7 +1658,7 @@
           "35 focused Python3.12 cases targeted; Python3.11 previous34 pass before added audit overlap case",
           "Real note-writer -> preview-parser -> intensity regression retains exact short-note rest and unlit other rung",
           "Batch mux/provenance binding regression for two distinct inputs; mismatched/ambiguous media fails instead of silently using first audio",
-          "Native short113–137ms mouth cue survives both passes while ordinary24ms On still obeys50ms minimum"
+          "Native short113\u2013137ms mouth cue survives both passes while ordinary24ms On still obeys50ms minimum"
         ],
         "evidence": [
           "evidence/beta_completion/reconciliation_20261104/source_timing_preview_py312.xml",
@@ -1792,5 +1792,23 @@
     "durable_url": "https://chatgpt.com/library?file_id=libfile_513a651bf1bc819192ffe6cae9105de0&account_id=personal",
     "save_status": "succeeded",
     "local_metadata_applied": true
+  },
+  "selected_native_comparison_20261105": {
+    "status": "native_render_pending",
+    "source": "Helix Motion.mp3",
+    "source_start_seconds": 39,
+    "source_end_seconds": 75,
+    "engine_source_commit": "aa58cc0dc1843fc32129e5489cb5cc71123b51a6",
+    "engine_exit_code": 0,
+    "engine_effects_added": 8047,
+    "panels": 16,
+    "native_panels_required": 16,
+    "local_layouts_built": 16,
+    "independent_vocals_verified": false,
+    "supported_face_events": 0,
+    "owner_approved": false,
+    "merge_or_release": false,
+    "render_branch": "preview/selected-native-comparison-20261105",
+    "local_workspace": "/workspace/scratch/15b40a8008ec"
   }
 }

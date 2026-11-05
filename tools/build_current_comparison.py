@@ -22,11 +22,29 @@ from tools.source_spatial_direction import export_model
 from tools.phoneme_source import digest
 from models.band_sampler_logic import SHAPE_NAMES
 
-NAMES=('Original 256-channel AC Christmas','Canonical 3D snowman band',
+NAMES=("Greg's legacy 256-channel AC",'Canonical 3D snowman band',
        'Simple RGB house','RGB arches and roofline','RGB mega trees and spirals',
        'RGB house with singing faces','Pixel rock-band stage',
        'Double helix with keyboard rungs','Advanced RGB house and matrices',
-       'Multi-house neighborhood','Advanced 3D spatial showcase','Ultimate Helix showcase')
+       'Multi-house neighborhood','Advanced 3D spatial showcase','Ultimate Helix showcase',
+       '3D pixel grid - 12 inch spacing','3D spiral grove','Moire optical depth','Triple helix cathedral')
+
+
+def pixel_grid_3d():
+    """48 by 48 feet, 48 inches high; actual 12-inch XYZ pixel spacing."""
+    g=Garden(title=NAMES[12],slug='13_Pixel_Grid_3D')
+    axis=np.arange(-24,25,dtype=float)
+    x,z=np.meshgrid(axis,axis,indexing='ij')
+    for y,role in enumerate(('keyboardist','guitarist','bassist','drummer','keyboardist')):
+        points=np.c_[x.ravel(),np.full(x.size,y),z.ravel()]
+        subs={f'ROW_{i:02}':(np.flatnonzero(points[:,2]==value)+1).tolist() for i,value in enumerate(axis)}
+        m=g.custom(f'GRID_Y_{y:02}',points,'GRID_3D','One horizontal wiring plane',
+                   [g.palette[y%3]]*len(points),subs,
+                   details=dict(musical_role=role,physical_units='feet',pixel_spacing_inches=12,
+                                height_inches=48,wiring='horizontal plane, X runs with alternating return',
+                                spatial_direction=1 if y%2==0 else -1))
+        m.attrs['PixelSize']='9'
+    return g
 
 
 def residential_preview(folder,number):
@@ -128,8 +146,25 @@ def layout(number,plan,*,duration=36):
             structures(g).mesh(f'NEIGHBORHOOD_MATRIX_{index}',(x,7,row_z+1),18,12,'MATRICES',index%3)
             for model in g.models[first:]:model.details['propagation_delay_ms']=index*40
     elif number==11:g=build_layout(11)
-    else:
+    elif number==12:
         g=build_layout(12);g.models=[m for m in g.models if not m.details.get('review_role')]
+    elif number==13:g=pixel_grid_3d()
+    elif number==14:
+        g=Garden(title=NAMES[13],slug='14_Spiral_Grove')
+        for row,z in enumerate((-24,0,24)):
+            for col,x in enumerate((-30,0,30)):
+                m=structures(g).tree(x,z,26+8*(row%2),7,color=(row+col)%3)
+                m.details.update(musical_role=('guitarist','keyboardist','bassist')[(row+col)%3],
+                                 spatial_direction=1 if col%2==0 else -1)
+    elif number==15:g=build_layout(10)
+    elif number==16:
+        g=Garden(title=NAMES[15],slug='16_Triple_Helix')
+        for i,x in enumerate((-32,0,32)):
+            g.dna(f'KEYBOARD_HELIX_{i}',x,-10,58 if i==1 else 44,8,8.8,880,'DNA')
+            from models.approval_layouts import pitch_rungs
+            pitch_rungs(g.models[-1])
+        for z in (-28,-8,12):structures(g).arch((0,0,z),100,68,pointed=True,zone='CATHEDRAL')
+    else:raise ValueError('Unknown comparison layout')
     for model in g.models:
         model.attrs.pop('StartChannel',None)
         model.details.setdefault('source_display_floor',.50)
@@ -151,9 +186,9 @@ def build(source,vocals,output,*,numbers=None):
         raise ValueError('Foreign vocal analysis')
     plan_path,=(source/'sequence').glob('*.snowman_band.json');plan=json.loads(plan_path.read_text())
     with np.load(vocals/'acoustic_vocal_clocks.npz') as z:cache={k:z[k].copy() for k in z.files}
-    numbers=tuple(range(1,13)) if numbers is None else tuple(numbers)
-    if not numbers or len(set(numbers))!=len(numbers) or any(type(n) is not int or not 1<=n<=12 for n in numbers):
-        raise ValueError('Choose unique layout numbers in1..12')
+    numbers=tuple(range(1,17)) if numbers is None else tuple(numbers)
+    if not numbers or len(set(numbers))!=len(numbers) or any(type(n) is not int or not 1<=n<=16 for n in numbers):
+        raise ValueError('Choose unique layout numbers in1..16')
     manifest=json.loads((output/'Layout_Manifest.json').read_text()) if (output/'Layout_Manifest.json').exists() else []
     if any(item['source_audio_sha256']!=sha for item in manifest):raise ValueError('Foreign retained layout source')
     manifest=[item for item in manifest if item['number'] not in numbers]
@@ -227,14 +262,14 @@ def build(source,vocals,output,*,numbers=None):
         if number==7:distance*=.80
         camera=ET.parse(folder/'xlights_rgbeffects.xml')
         for view in camera.findall('Viewpoints/*'):
-            for key,value in dict(angleX=8 if number in (2,7,10) else 5,angleY=0,distance=-distance,
+            for key,value in dict(angleX=30 if number==13 else 8 if number in (2,7,10,14,15,16) else 5,angleY=0,distance=-distance,
                                   panx=-center[0],pany=-center[1],panz=-center[2]).items():view.set(key,str(value))
         camera.write(folder/'xlights_rgbeffects.xml',encoding='utf-8',xml_declaration=True)
         residential_preview(folder,number)
         item=dict(number=number,name=name,folder=str(folder.resolve()),xsq='Performance.xsq',source_audio_sha256=sha,
                   source_analysis_sha256=digest(plan_path),source_duration_seconds=duration,audio_name=audio.name,models=len(g.models),
                   channels=max(m.start+m.channels-1 for m in g.models),warnings=[],native_render_status='pending',
-                  renderer_for_comparison='Helix solid 3D' if number==2 else 'native xLights',owner_approved=False)
+                  renderer_for_comparison='native xLights',owner_approved=False)
         (folder/'run_manifest.json').write_text(json.dumps(item,indent=2)+'\n')
         (folder/'Spatial_Event_Provenance.json').write_text(json.dumps(reports,indent=2)+'\n')
         manifest.append(item);print('BUILT',number,name,item['models'],item['channels'],flush=True)

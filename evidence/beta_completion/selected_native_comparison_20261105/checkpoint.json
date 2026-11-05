@@ -1,0 +1,18 @@
+{
+  "status": "native_render_pending",
+  "source": "Helix Motion.mp3",
+  "source_start_seconds": 39,
+  "source_end_seconds": 75,
+  "engine_source_commit": "aa58cc0dc1843fc32129e5489cb5cc71123b51a6",
+  "engine_exit_code": 0,
+  "engine_effects_added": 8047,
+  "panels": 16,
+  "native_panels_required": 16,
+  "local_layouts_built": 16,
+  "independent_vocals_verified": false,
+  "supported_face_events": 0,
+  "owner_approved": false,
+  "merge_or_release": false,
+  "render_branch": "preview/selected-native-comparison-20261105",
+  "local_workspace": "/workspace/scratch/15b40a8008ec"
+}

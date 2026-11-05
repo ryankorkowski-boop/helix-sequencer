@@ -1,0 +1,14 @@
+{
+  "audio_name": "Helix_Motion_39_75.wav",
+  "audio_sha256": "899bbd211b31f30316b614a25ea47d6cb98b96d8a6d20f6d8445b9a01f4b3dc8",
+  "original_filename": "Helix Motion.mp3",
+  "original_sha256": "fc91e3f48f709e615ba598a5d49ae63ab9652c0d16e324095f6e1b20377e082b",
+  "source_url": "https://drive.google.com/file/d/12gRu8SUf-8GVCQdJnrIROnTY6XumOUzZ/view",
+  "start_seconds": 39,
+  "end_seconds": 75,
+  "warnings": [],
+  "pcm_s16le_sha256": "dc30e24c7f3b553629c795175278ae0db82d44e597f8bb800ce7454f1e12daaa",
+  "engine_commit": "aa58cc0dc1843fc32129e5489cb5cc71123b51a6",
+  "engine_effects_added": 8047,
+  "engine_exit": 0
+}
