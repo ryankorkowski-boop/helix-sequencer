@@ -1,0 +1,171 @@
+...FFFF.....                                                             [100%]
+=================================== FAILURES ===================================
+_ test_bounded_classifier_preserves_global_tuning_confidences_and_event_clocks _
+
+tmp_path = PosixPath('/tmp/pytest-of-agent/pytest-4/test_bounded_classifier_preser0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7f366d2f6b70>
+
+    def test_bounded_classifier_preserves_global_tuning_confidences_and_event_clocks(tmp_path, monkeypatch):
+        sr = 22050
+        y = source(sr)
+        path = tmp_path/'vocal.wav'
+        sf.write(path, y, sr, subtype='FLOAT')
+        harmonic, _ = librosa.effects.hpss(y)
+        expected_pitch, expected_entropy = unbounded_background_features(harmonic, sr, 512)
+        actual_pitch, actual_entropy = ai._bounded_background_features(harmonic, sr)
+        np.testing.assert_array_equal(actual_pitch, expected_pitch)
+>       np.testing.assert_allclose(actual_entropy, expected_entropy, atol=1e-7, rtol=0)
+E       AssertionError: 
+E       Not equal to tolerance rtol=0, atol=1e-07
+E       
+E       Mismatched elements: 5 / 1341 (0.373%)
+E       Mismatch at indices:
+E        [661]: 0.8701862394945289 (ACTUAL), 0.870186505515252 (DESIRED)
+E        [667]: 0.8702767530455332 (ACTUAL), 0.8702766200351717 (DESIRED)
+E        [998]: 0.8699490155147847 (ACTUAL), 0.8699488825044231 (DESIRED)
+E        [1330]: 0.8700691238712237 (ACTUAL), 0.8700692568815852 (DESIRED)
+E        [1332]: 0.870023102286143 (ACTUAL), 0.8700232352965045 (DESIRED)
+E       Max absolute difference among violations: 2.66020723e-07
+E       Max relative difference among violations: 3.05705411e-07
+E        ACTUAL: array([0.976039, 0.925148, 0.873599, ..., 0.871469, 0.871445, 0.950002],
+E             shape=(1341,))
+E        DESIRED: array([0.976039, 0.925148, 0.873599, ..., 0.871469, 0.871445, 0.950002],
+E             shape=(1341,))
+
+tests/test_bounded_audio.py:78: AssertionError
+____ test_bounded_chroma_preserves_reference_across_long_partial_blocks[1] _____
+
+tail = 1
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7f366d32d0a0>
+
+    @pytest.mark.parametrize('tail', [1, 61, 509])
+    def test_bounded_chroma_preserves_reference_across_long_partial_blocks(tail, monkeypatch):
+        sr = 22050
+        # More than two complete chroma blocks, including narrow/unaligned tails.
+        frames = 4096 + tail
+        harmonic = source(sr, seconds=((frames-1)*512+137)/sr)
+        expected_pitch, expected_entropy = unbounded_background_features(harmonic, sr, 512)
+        original = librosa.feature.chroma_stft
+        widths = []
+    
+        def measured(*args, **kwargs):
+            widths.append(kwargs['S'].shape[1])
+            return original(*args, **kwargs)
+    
+        monkeypatch.setattr(librosa.feature, 'chroma_stft', measured)
+        actual_pitch, actual_entropy = ai._bounded_background_features(harmonic, sr)
+        assert len(widths) >= 3
+        assert all(width % 64 == 0 for width in widths)
+        assert max(widths)*1025*4 < 16*1024**2
+        np.testing.assert_array_equal(actual_pitch, expected_pitch)
+>       np.testing.assert_allclose(actual_entropy, expected_entropy, atol=1e-7, rtol=0)
+E       AssertionError: 
+E       Not equal to tolerance rtol=0, atol=1e-07
+E       
+E       Mismatched elements: 4 / 4097 (0.0976%)
+E       Mismatch at indices:
+E        [1021]: 0.8700823584021935 (ACTUAL), 0.870082225391832 (DESIRED)
+E        [3340]: 0.8700576184749536 (ACTUAL), 0.8700577514853151 (DESIRED)
+E        [3612]: 0.8702072551316468 (ACTUAL), 0.8702071221212853 (DESIRED)
+E        [3613]: 0.8701964147871841 (ACTUAL), 0.8701966143027263 (DESIRED)
+E       Max absolute difference among violations: 1.99515542e-07
+E       Max relative difference among violations: 2.29276394e-07
+E        ACTUAL: array([0.990668, 0.989322, 0.975216, ..., 0.977489, 0.993633, 0.995153],
+E             shape=(4097,))
+E        DESIRED: array([0.990668, 0.989322, 0.975216, ..., 0.977489, 0.993633, 0.995153],
+E             shape=(4097,))
+
+tests/test_bounded_audio.py:107: AssertionError
+____ test_bounded_chroma_preserves_reference_across_long_partial_blocks[61] ____
+
+tail = 61
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7f366d365970>
+
+    @pytest.mark.parametrize('tail', [1, 61, 509])
+    def test_bounded_chroma_preserves_reference_across_long_partial_blocks(tail, monkeypatch):
+        sr = 22050
+        # More than two complete chroma blocks, including narrow/unaligned tails.
+        frames = 4096 + tail
+        harmonic = source(sr, seconds=((frames-1)*512+137)/sr)
+        expected_pitch, expected_entropy = unbounded_background_features(harmonic, sr, 512)
+        original = librosa.feature.chroma_stft
+        widths = []
+    
+        def measured(*args, **kwargs):
+            widths.append(kwargs['S'].shape[1])
+            return original(*args, **kwargs)
+    
+        monkeypatch.setattr(librosa.feature, 'chroma_stft', measured)
+        actual_pitch, actual_entropy = ai._bounded_background_features(harmonic, sr)
+        assert len(widths) >= 3
+        assert all(width % 64 == 0 for width in widths)
+        assert max(widths)*1025*4 < 16*1024**2
+        np.testing.assert_array_equal(actual_pitch, expected_pitch)
+>       np.testing.assert_allclose(actual_entropy, expected_entropy, atol=1e-7, rtol=0)
+E       AssertionError: 
+E       Not equal to tolerance rtol=0, atol=1e-07
+E       
+E       Mismatched elements: 6 / 4157 (0.144%)
+E       First 5 mismatches are at indices:
+E        [1034]: 0.9941521624379991 (ACTUAL), 0.9941522954483606 (DESIRED)
+E        [2074]: 0.8702481558178096 (ACTUAL), 0.8702480228074481 (DESIRED)
+E        [3340]: 0.8700576184749536 (ACTUAL), 0.8700577514853151 (DESIRED)
+E        [3612]: 0.8702072551316468 (ACTUAL), 0.8702071221212853 (DESIRED)
+E        [3613]: 0.8701964147871841 (ACTUAL), 0.8701966143027263 (DESIRED)
+E       Max absolute difference among violations: 1.99515542e-07
+E       Max relative difference among violations: 2.29276394e-07
+E        ACTUAL: array([0.990668, 0.989322, 0.975216, ..., 0.977346, 0.992607, 0.996254],
+E             shape=(4157,))
+E        DESIRED: array([0.990668, 0.989322, 0.975216, ..., 0.977346, 0.992607, 0.996254],
+E             shape=(4157,))
+
+tests/test_bounded_audio.py:107: AssertionError
+___ test_bounded_chroma_preserves_reference_across_long_partial_blocks[509] ____
+
+tail = 509
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7f366d381100>
+
+    @pytest.mark.parametrize('tail', [1, 61, 509])
+    def test_bounded_chroma_preserves_reference_across_long_partial_blocks(tail, monkeypatch):
+        sr = 22050
+        # More than two complete chroma blocks, including narrow/unaligned tails.
+        frames = 4096 + tail
+        harmonic = source(sr, seconds=((frames-1)*512+137)/sr)
+        expected_pitch, expected_entropy = unbounded_background_features(harmonic, sr, 512)
+        original = librosa.feature.chroma_stft
+        widths = []
+    
+        def measured(*args, **kwargs):
+            widths.append(kwargs['S'].shape[1])
+            return original(*args, **kwargs)
+    
+        monkeypatch.setattr(librosa.feature, 'chroma_stft', measured)
+        actual_pitch, actual_entropy = ai._bounded_background_features(harmonic, sr)
+        assert len(widths) >= 3
+        assert all(width % 64 == 0 for width in widths)
+        assert max(widths)*1025*4 < 16*1024**2
+        np.testing.assert_array_equal(actual_pitch, expected_pitch)
+>       np.testing.assert_allclose(actual_entropy, expected_entropy, atol=1e-7, rtol=0)
+E       AssertionError: 
+E       Not equal to tolerance rtol=0, atol=1e-07
+E       
+E       Mismatched elements: 4 / 4605 (0.0869%)
+E       Mismatch at indices:
+E        [2294]: 0.8701479990155963 (ACTUAL), 0.8701478660052347 (DESIRED)
+E        [3446]: 0.8701696797045215 (ACTUAL), 0.87016954669416 (DESIRED)
+E        [3448]: 0.8699974977915532 (ACTUAL), 0.8699973647811917 (DESIRED)
+E        [4600]: 0.8701371586711336 (ACTUAL), 0.8701369591555913 (DESIRED)
+E       Max absolute difference among violations: 1.99515542e-07
+E       Max relative difference among violations: 2.29292113e-07
+E        ACTUAL: array([0.990668, 0.989322, 0.975216, ..., 0.977256, 0.992763, 0.9954  ],
+E             shape=(4605,))
+E        DESIRED: array([0.990668, 0.989322, 0.975216, ..., 0.977256, 0.992763, 0.9954  ],
+E             shape=(4605,))
+
+tests/test_bounded_audio.py:107: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_bounded_audio.py::test_bounded_classifier_preserves_global_tuning_confidences_and_event_clocks
+FAILED tests/test_bounded_audio.py::test_bounded_chroma_preserves_reference_across_long_partial_blocks[1]
+FAILED tests/test_bounded_audio.py::test_bounded_chroma_preserves_reference_across_long_partial_blocks[61]
+FAILED tests/test_bounded_audio.py::test_bounded_chroma_preserves_reference_across_long_partial_blocks[509]
+4 failed, 8 passed in 15.94s

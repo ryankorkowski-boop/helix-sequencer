@@ -1,8 +1,8 @@
 {
   "schema": "helix.beta-artifacts.v1",
-  "updated_at": "2026-11-04T21:52:11.765534+00:00",
+  "updated_at": "2026-11-05T16:08:21Z",
   "requested_count": 9,
-  "verified_count": 9,
+  "verified_count": 0,
   "artifacts": [
     {
       "filename": "01_Canonical_Snowman_Band.mp4",
@@ -819,28 +819,7 @@
       "source_commit": "d52d23439fd60940809c49674af8dc01e223e9aa"
     }
   ],
-  "final_zip": {
-    "filename": "HELIX_FINAL_BETA_APPROVAL_MP4S.zip",
-    "sha256": "8c6c8453f2d0736d87b7b583da5153ca17f8237657d7042db90118fca6687159",
-    "bytes": 427604937,
-    "entries": [
-      "01_Canonical_Snowman_Band.mp4",
-      "02_Lead_and_Harmony_Vocals.mp4",
-      "03_Drummer_and_Instruments.mp4",
-      "04_Residential_AC_RGB_Comparison.mp4",
-      "05_Nine_Layout_Synchronized_Comparison.mp4",
-      "06_Advanced_Technical_Showcase.mp4",
-      "07_Double_Helix_and_Musical_Direction.mp4",
-      "08_Full_Helix_Showcase.mp4",
-      "09_Starred_Music_Sampler.mp4"
-    ],
-    "crc_and_hashes_verified": true,
-    "library_file_id": "libfile_513a651bf1bc819192ffe6cae9105de0",
-    "file_id": "file_0000000075d081fdb62fc074cd11dcf9",
-    "durable_url": "https://chatgpt.com/library?file_id=libfile_513a651bf1bc819192ffe6cae9105de0&account_id=personal",
-    "save_status": "succeeded",
-    "local_metadata_applied": true
-  },
+  "final_zip": null,
   "owner_approval": false,
   "verified_media_unchanged": false,
   "new_band_videos": 4,
@@ -1376,36 +1355,59 @@
     "render_implementation_commit": "d1567b74b341efff5a30a28bec272c7d5c377406"
   },
   "active_delivery": {
-    "status": "DELIVERED_FOR_OWNER_REVIEW",
-    "requested_file_count": 1,
-    "verified_file_count": 1,
-    "artifact": {
-      "file": "HELIX_REAL_AUDIO_12_LAYOUT_COMPARISON_APPROVAL.mp4",
-      "path": "/workspace/deliverables/HELIX_REAL_AUDIO_12_LAYOUT_COMPARISON_APPROVAL.mp4",
-      "sha256": "0a2a0763b4952984b1d5a0d8481b08348ab212e702c3d64a4af29b6c5b1bb198",
-      "bytes": 18530685,
-      "seconds": 34.866667,
-      "dimensions": [
-        1920,
-        1080
-      ],
-      "fps": 30,
-      "video_codec": "h264",
-      "audio_codec": "aac",
-      "drive_id": "1uNEshOt-FvjRhp3nRK5O73nc8kefoDup",
-      "drive_url": "https://drive.google.com/file/d/1uNEshOt-FvjRhp3nRK5O73nc8kefoDup/view?usp=drivesdk",
-      "downloaded_copy_sha256": "0a2a0763b4952984b1d5a0d8481b08348ab212e702c3d64a4af29b6c5b1bb198",
-      "full_decode": true,
-      "soundtrack_correlation": 0.999018237103682,
-      "max_audio_lag_seconds": 0,
-      "distinct_panels": 12,
-      "max_blank_seconds": 0.7,
-      "max_frozen_seconds": 0.6,
-      "source_snapshot": "evidence/beta_completion/comparison_20261101/render-source-snapshot.json",
-      "render_implementation_commit": "d1567b74b341efff5a30a28bec272c7d5c377406"
+    "implementation_commit": "ed581cd440a673bd69f40b97f071a03b109a3085",
+    "source_commit_of_apps": "35bf41ae27dc3fc7278c3af100401cf63fecf3e0",
+    "native_run": {
+      "id": 42060667368,
+      "status": "in_progress",
+      "last_observed_step": "Validate and restore native renderer runtime",
+      "checked_at": "2026-11-05T16:08:21Z"
     },
-    "owner_approved": false,
-    "release_qualified": false
+    "tests": {
+      "default_bounded_and_ac": 21,
+      "preview_and_ac": 11,
+      "source_geometry_vocals_pilot_mapping": 22,
+      "haswell_bounded": {
+        "passed": 8,
+        "failed": 4,
+        "unchanged_entropy_tolerance": 1e-7
+      }
+    },
+    "delivered_apps": [
+      {
+        "filename": "HELIX_WINDOWS_BETA_CANDIDATE_35bf41a.zip",
+        "library_file_id": "libfile_625ff3ceb7488191bb15e8ed9bcf8c51",
+        "sha256": "c902eecddf47b414bc5dfc8a538c3101cc7492cbc06d40be11d52405b78dc118"
+      },
+      {
+        "filename": "HELIX_ANDROID_BETA_REVIEW_35bf41a.apk",
+        "library_file_id": "libfile_14d6aec58c008191865dac5af26a61cc",
+        "sha256": "e29f3d9acb401ad5cfb2c4c71db253460d6fe44f3b104a0ef53117499e4f64f3"
+      }
+    ],
+    "recovery_archive": {
+      "library_file_id": "libfile_94e636d47790819182793f0a0ac911c8",
+      "sha256": "e95c8ef0829d5d0d8335d75f938e99751afe8b2a23cb00816f3319351a97e618"
+    },
+    "evidence_report": {
+      "library_file_id": "libfile_8b4e24e7b4bc8191b05c36bd79813528"
+    },
+    "approval_zip": null,
+    "comparison16": null,
+    "qualified_current_mp4_count": 0,
+    "external_source_blocker": "Owner has no isolated lead/harmony sources or verified transcripts (retained reconciliation checkpoint); connected Drive vocal/harmony/stem searches return no separate sources. Existing mixed-bus separation is explicitly unqualified. Do not fabricate singer identity or pilot acceptance.",
+    "remaining_code_gates": [
+      "Haswell bounded chroma 4 precision failures",
+      "Source-front continuous canonical native/reference qualification",
+      "Failed prior native readability/motion; new AC result not yet known"
+    ],
+    "resume_command": "cd /workspace/scratch/2767c34bf8f0/helix-sequencer && OPENBLAS_CORETYPE=Haswell OPENBLAS_NUM_THREADS=2 /workspace/scratch/2767c34bf8f0/venv/bin/python -m pytest -q tests/test_bounded_audio.py",
+    "next_connector_action": {
+      "tool": "github.fetch_workflow_run_jobs",
+      "repo_full_name": "ryankorkowski-boop/helix-sequencer",
+      "run_id": 42060667368
+    },
+    "no_merge_or_release": true
   },
   "historical_artifacts_note": "Top-level nine-file artifacts/counts describe the retained30October collection rejected by owner; current task has one fresh twelve-layout comparison under active_delivery. No old footage promoted.",
   "latest_actions_validation": [
@@ -1768,5 +1770,27 @@
     "prior_ac256_failed_visual_artifact_id": 13417243372,
     "approval_zip": null,
     "comparison16": null
+  },
+  "historical_final_zip_before_20261105": {
+    "filename": "HELIX_FINAL_BETA_APPROVAL_MP4S.zip",
+    "sha256": "8c6c8453f2d0736d87b7b583da5153ca17f8237657d7042db90118fca6687159",
+    "bytes": 427604937,
+    "entries": [
+      "01_Canonical_Snowman_Band.mp4",
+      "02_Lead_and_Harmony_Vocals.mp4",
+      "03_Drummer_and_Instruments.mp4",
+      "04_Residential_AC_RGB_Comparison.mp4",
+      "05_Nine_Layout_Synchronized_Comparison.mp4",
+      "06_Advanced_Technical_Showcase.mp4",
+      "07_Double_Helix_and_Musical_Direction.mp4",
+      "08_Full_Helix_Showcase.mp4",
+      "09_Starred_Music_Sampler.mp4"
+    ],
+    "crc_and_hashes_verified": true,
+    "library_file_id": "libfile_513a651bf1bc819192ffe6cae9105de0",
+    "file_id": "file_0000000075d081fdb62fc074cd11dcf9",
+    "durable_url": "https://chatgpt.com/library?file_id=libfile_513a651bf1bc819192ffe6cae9105de0&account_id=personal",
+    "save_status": "succeeded",
+    "local_metadata_applied": true
   }
 }

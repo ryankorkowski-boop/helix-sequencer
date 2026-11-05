@@ -1,11 +1,11 @@
 {
   "schema": "helix.beta-completion.v1",
-  "updated_at": "2026-11-04T21:52:11.765534+00:00",
+  "updated_at": "2026-11-05T16:08:21Z",
   "repository": "https://github.com/ryankorkowski-boop/helix-sequencer",
   "branch": "codex/eight-hour-recovery-20261019",
   "recovered_head": "45f17d69fac91d7683984cc22c54bb701eb2226e",
   "last_verified_implementation_sha": "dd73e36777d0a02c6d403245d03421d093bda0fd",
-  "current_task": "BETA-CHROMA-PORTABILITY",
+  "current_task": "BETA-NINE-DELIVERY",
   "tasks": [
     {
       "id": "REC-01",
@@ -269,16 +269,16 @@
       "source_commit": "dd73e36777d0a02c6d403245d03421d093bda0fd"
     }
   ],
-  "delivered_mp4_count": 9,
+  "delivered_mp4_count": 0,
   "required_mp4_count": 9,
   "missing_videos": [],
   "owner_approval": false,
   "beta_release": "HELD",
   "active_runs": [],
   "next_three_actions": [
-    "Reproduce the three Python 3.12 chroma partial-block parity failures in the pinned environment; inspect overlap, matrix layout and BLAS accumulation; preserve atol=1e-7 and the 16 MiB ceiling.",
-    "Repair the native producer failure, then improve genuine source-driven performer/instrument motion; obtain recording-bound independent vocal and lexical evidence before approval rerun.",
-    "Collect exact-source CI/platform/native results; retain nine-video technical delivery separately from owner acceptance. PR188 remains unmerged and beta release held."
+    "Collect and fully inspect native run42060667368 artifacts before claiming readable AC media",
+    "Repair inherited Haswell chroma parity without weakening numerical thresholds",
+    "Obtain source-bound independent singer/reference qualification before scaling the frozen nine; only then implement16benchmark"
   ],
   "resume_commands": [
     "git fetch origin codex/eight-hour-recovery-20261019",
@@ -1896,6 +1896,65 @@
     "blocking_source_qualification": "Retained E14 analysis lacks independently resolved lead and harmony tracks; do not fabricate qualified source or pilot acceptance.",
     "next_command": "gh workflow run native-drive-audio-ac256.yml --ref codex/eight-hour-recovery-20261019",
     "approval_zip_created": false,
-    "comparison16_created": false
+    "comparison16_created": false,
+    "final_checkpoint": {
+      "implementation_commit": "ed581cd440a673bd69f40b97f071a03b109a3085",
+      "source_commit_of_apps": "35bf41ae27dc3fc7278c3af100401cf63fecf3e0",
+      "native_run": {
+        "id": 42060667368,
+        "status": "in_progress",
+        "last_observed_step": "Validate and restore native renderer runtime",
+        "checked_at": "2026-11-05T16:08:21Z"
+      },
+      "tests": {
+        "default_bounded_and_ac": 21,
+        "preview_and_ac": 11,
+        "source_geometry_vocals_pilot_mapping": 22,
+        "haswell_bounded": {
+          "passed": 8,
+          "failed": 4,
+          "unchanged_entropy_tolerance": 1e-7
+        }
+      },
+      "delivered_apps": [
+        {
+          "filename": "HELIX_WINDOWS_BETA_CANDIDATE_35bf41a.zip",
+          "library_file_id": "libfile_625ff3ceb7488191bb15e8ed9bcf8c51",
+          "sha256": "c902eecddf47b414bc5dfc8a538c3101cc7492cbc06d40be11d52405b78dc118"
+        },
+        {
+          "filename": "HELIX_ANDROID_BETA_REVIEW_35bf41a.apk",
+          "library_file_id": "libfile_14d6aec58c008191865dac5af26a61cc",
+          "sha256": "e29f3d9acb401ad5cfb2c4c71db253460d6fe44f3b104a0ef53117499e4f64f3"
+        }
+      ],
+      "recovery_archive": {
+        "library_file_id": "libfile_94e636d47790819182793f0a0ac911c8",
+        "sha256": "e95c8ef0829d5d0d8335d75f938e99751afe8b2a23cb00816f3319351a97e618"
+      },
+      "evidence_report": {
+        "library_file_id": "libfile_8b4e24e7b4bc8191b05c36bd79813528"
+      },
+      "approval_zip": null,
+      "comparison16": null,
+      "qualified_current_mp4_count": 0,
+      "external_source_blocker": "Owner has no isolated lead/harmony sources or verified transcripts (retained reconciliation checkpoint); connected Drive vocal/harmony/stem searches return no separate sources. Existing mixed-bus separation is explicitly unqualified. Do not fabricate singer identity or pilot acceptance.",
+      "remaining_code_gates": [
+        "Haswell bounded chroma 4 precision failures",
+        "Source-front continuous canonical native/reference qualification",
+        "Failed prior native readability/motion; new AC result not yet known"
+      ],
+      "resume_command": "cd /workspace/scratch/2767c34bf8f0/helix-sequencer && OPENBLAS_CORETYPE=Haswell OPENBLAS_NUM_THREADS=2 /workspace/scratch/2767c34bf8f0/venv/bin/python -m pytest -q tests/test_bounded_audio.py",
+      "next_connector_action": {
+        "tool": "github.fetch_workflow_run_jobs",
+        "repo_full_name": "ryankorkowski-boop/helix-sequencer",
+        "run_id": 42060667368
+      },
+      "no_merge_or_release": true
+    }
+  },
+  "historical_reported_delivery_before_20261105": {
+    "delivered_mp4_count": 9,
+    "note": "Historical review delivery claim retained for provenance; not a current qualified nine-video collection."
   }
 }

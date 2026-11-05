@@ -1,3 +1,24 @@
+## 5 November — execution checkpoint; partial deliverables, approval gates held
+
+Implementation ed581cd is committed on the requested recovery branch. Actual owner Drive master run exits0 with12016XSQEffect nodes; source/event receipts and expensive outputs are retained. Windows portable and signed review APK candidates from tested source35bf41a were downloaded, exact inner checksums/ZIP CRC verified, and saved as actual downloadable files. APK matches successful API30install/launch receipt; API30/API36 and Windows hosted jobs pass. No owner phone or old-beta in-place-upgrade claim.
+
+22current-source drummer-volume/band/vocal/pilot/mapping tests pass;11preview/AC and21default-backend bounded/AC tests pass. Explicit Haswell reproduction still fails4boundedchroma cases (8pass). Actual STFT magnitude is bit-identical; shape-dependent float32GEMM causes entropy drift up to2.66e-7. Removing padding/wider-tile probes do not establish portable parity. No DSP patch, CPU pin or threshold relaxation applied.
+
+Native AC run42060667368/job127361102009 is in progress in pinned-runtime validation/build as of16:08UTC. Prior nativeAC output fully decodes and matches real source at.997120correlation/four0mswindows, but fails all five visibility gates. It remains diagnostic. New fitted-layout output is not yet verified. Do not rerender unchanged audio; collect the running job's actual artifacts first.
+
+EXTERNAL SOURCE LIMIT: retained owner reconciliation states no isolated lead/harmony or verified transcripts; current connected Drive searches for vocal/harmony/stem return none. E14producer source qualification fails and hook MDX/VAD results explicitly remain unqualified. No singer identity, lexical truth, approved-reference or pilot receipt fabricated. This prevents honestly completing the frozen nine.16benchmark remains subsequent, per owner order. PR205 remains isolated; PR188 unmerged and no release.
+
+Historical top-level delivered_count9/finalZIP pointers are preserved under historical fields; CURRENT qualified MP4count is0, current finalZIP=null. This is a correction of stale machine status, not a change to the nine-video acceptance criteria.
+
+Recovery evidence: evidence/beta_completion/autonomous_20261105/{checkpoint,verification,final_checkpoint}.json; real production outputs/fitted layout saved in HELIX_EXECUTION_RECOVERY_20261105.zip, SHAe95c8ef0829d5d0d8335d75f938e99751afe8b2a23cb00816f3319351a97e618, Libraryfile libfile_94e636d47790819182793f0a0ac911c8. App identities/checksums and direct saved report are in final_checkpoint.json. Failed commands: apt-get update/install (unprivileged filesystem), standalone pinnedUbuntu renderer (missinglibraries), Haswellpytest4failures. Earlier new-test fixture errors were corrected; final11mapping tests pass. No nativelocal success claimed.
+
+Next executable local command:
+```bash
+cd /workspace/scratch/2767c34bf8f0/helix-sequencer
+OPENBLAS_CORETYPE=Haswell OPENBLAS_NUM_THREADS=2 /workspace/scratch/2767c34bf8f0/venv/bin/python -m pytest -q tests/test_bounded_audio.py
+```
+Next connector action: github.fetch_workflow_run_jobs(repo_full_name=ryankorkowski-boop/helix-sequencer,run_id=42060667368), then fetch_workflow_run_artifacts after completion. Keep every failed receipt. Resume source qualification before scaling any collection.
+
 ## 5 November — current-source execution, app candidates and AC native preview repair
 
 Goal: finish frozen PR188 nine first, then the separately requested16-layout benchmark. Starting source35bf41a; PR205 remains isolated. Current hosted Python3.11/3.12 CI42054533014, Windows42054532961 and Android30/36 42054533183 all pass. Downloaded artifacts and checked archive digests; review APK e29f3d9acb401ad5cfb2c4c71db253460d6fe44f3b104a0ef53117499e4f64f3 installs/launches alongside beta on disposable emulator. Historical phone upgrade/signing and physical acceptance remain unproven.
