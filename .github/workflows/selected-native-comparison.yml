@@ -43,6 +43,9 @@ jobs:
           git clone --depth 1 --branch 2026.18 https://github.com/xLightsSequencer/xLights.git "$RUNNER_TEMP/pinned-xlights-resources"
           test "$(git -C "$RUNNER_TEMP/pinned-xlights-resources" rev-parse HEAD)" = 839c0f590dc454bb7adb8a16c4dd92a70b46156e
           bash "$RUNNER_TEMP/pinned-xlights-resources/ci_scripts/fetch_klightmapper.sh" linux-x64
+          mkdir -p "$RUNNER_TEMP/pinned-xlights-resources/share"
+          ln -s ../resources "$RUNNER_TEMP/pinned-xlights-resources/share/xLights"
+          test -d "$RUNNER_TEMP/pinned-xlights-resources/share/xLights/effectmetadata"
           mkdir -p "$RUNNER_TEMP/pinned-xlights-resources/bin"
           cp "$runtime/xLights" "$RUNNER_TEMP/pinned-xlights-resources/bin/xLights"
           chmod +x "$RUNNER_TEMP/pinned-xlights-resources/bin/xLights"
