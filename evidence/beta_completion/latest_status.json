@@ -582,8 +582,8 @@
         "test_bounded_chroma_preserves_reference_across_long_partial_blocks[61]",
         "test_bounded_chroma_preserves_reference_across_long_partial_blocks[509]"
       ],
-      "maximum_error": 1.9951554230956958e-07,
-      "unchanged_tolerance": 1e-07,
+      "maximum_error": 1.9951554230956958e-7,
+      "unchanged_tolerance": 1e-7,
       "introduced_by_this_change": false,
       "reason": "Production _bounded_background_features and its reference tests are byte-identical to starting 5aac37a; failures reproduced in current runtime before and after isolated-cache recovery"
     },
@@ -1234,8 +1234,8 @@
       "source_commit": "09677d4822e35d724e9f229c0ab7465c9f34fd7a",
       "engine_worktree_module_changes": false,
       "source_library_tracks": [
-        "Tinsel Tornado164\u2013182s",
-        "Christmas in the Ether76.5\u201394.5s"
+        "Tinsel Tornado164–182s",
+        "Christmas in the Ether76.5–94.5s"
       ],
       "effects": 5155,
       "detected_parts": [
@@ -1540,19 +1540,19 @@
           "test": "test_bounded_chroma_preserves_reference_across_long_partial_blocks[1]",
           "mismatched": 10,
           "total": 4097,
-          "max_abs_diff": 2.66020723e-07
+          "max_abs_diff": 2.66020723e-7
         },
         {
           "test": "test_bounded_chroma_preserves_reference_across_long_partial_blocks[61]",
           "mismatched": 22,
           "total": 4157,
-          "max_abs_diff": 1.99515542e-07
+          "max_abs_diff": 1.99515542e-7
         },
         {
           "test": "test_bounded_chroma_preserves_reference_across_long_partial_blocks[509]",
           "mismatched": 18,
           "total": 4605,
-          "max_abs_diff": 1.33010362e-07
+          "max_abs_diff": 1.33010362e-7
         }
       ],
       "tolerance": "atol=1e-7, rtol=0",
@@ -1741,7 +1741,7 @@
           "35 focused Python3.12 cases targeted; Python3.11 previous34 pass before added audit overlap case",
           "Real note-writer -> preview-parser -> intensity regression retains exact short-note rest and unlit other rung",
           "Batch mux/provenance binding regression for two distinct inputs; mismatched/ambiguous media fails instead of silently using first audio",
-          "Native short113\u2013137ms mouth cue survives both passes while ordinary24ms On still obeys50ms minimum"
+          "Native short113–137ms mouth cue survives both passes while ordinary24ms On still obeys50ms minimum"
         ],
         "evidence": [
           "evidence/beta_completion/reconciliation_20261104/source_timing_preview_py312.xml",
@@ -1787,27 +1787,27 @@
       "video_duration_seconds": 34.9,
       "audio_duration_seconds": 34.88,
       "stream_start_seconds": [
-        0.0,
-        0.0
+        0,
+        0
       ],
       "full_decode": true,
       "soundtrack_correlation": 0.999018237103682,
       "window_alignment": [
         {
           "source_start_seconds": 3.488,
-          "decoded_lag_seconds": 0.0
+          "decoded_lag_seconds": 0
         },
         {
           "source_start_seconds": 17.44,
-          "decoded_lag_seconds": 0.0
+          "decoded_lag_seconds": 0
         },
         {
           "source_start_seconds": 29.648,
-          "decoded_lag_seconds": 0.0
+          "decoded_lag_seconds": 0
         },
         {
           "source_start_seconds": 32.83,
-          "decoded_lag_seconds": 0.0
+          "decoded_lag_seconds": 0
         }
       ],
       "musical_or_visual_acceptance": false,
@@ -1816,7 +1816,7 @@
         "frames": 70,
         "sample_fps": 2,
         "thresholds": {
-          "median_luma": 12.0,
+          "median_luma": 12,
           "median_bright_fraction": 0.012,
           "median_motion": 0.65,
           "min_visible_width": 0.4,
@@ -1844,5 +1844,58 @@
       "acceptance": "Technical candidate only; independent singer identity/lexical and owner acceptance remain open. Not a native xLights video."
     },
     "native_runtime_recovery": "Ubuntu24 dependency install initially hit filesystem limit; removed failed duplicate venv and reuses installed pinned3.12 workspace wheels. Fixed GTK library mixing and adjacent official resources after first GUI abort; native headless FSEQ succeeds on AC and173712-channel band. Current native MP4 rendering in progress; no fallback counted as success."
+  },
+  "autonomous_20261105": {
+    "starting_commit": "35bf41ae27dc3fc7278c3af100401cf63fecf3e0",
+    "source_drive_id": "12gRu8SUf-8GVCQdJnrIROnTY6XumOUzZ",
+    "original_audio_sha256": "fc91e3f48f709e615ba598a5d49ae63ab9652c0d16e324095f6e1b20377e082b",
+    "local_excerpt_sha256": "489b161bb48b986d355fbf28d4b8f58578ce0bb4deb01f6d8aa6274c0c49fb63",
+    "engine_exit_code": 0,
+    "engine_effect_nodes": 12016,
+    "engine_xsq_sha256": "f54da9175671083238203faaaee005509d422ec90c2c684a5618ead97a260f1f",
+    "prior_native_run": 42027740755,
+    "prior_native_artifact": 13417243372,
+    "prior_native_readability": {
+      "schema": "helix.showcase_readability.v1",
+      "frames": 80,
+      "sample_fps": 2,
+      "thresholds": {
+        "median_luma": 12,
+        "median_bright_fraction": 0.012,
+        "median_motion": 0.65,
+        "min_visible_width": 0.4,
+        "min_visible_height": 0.35
+      },
+      "measurements": {
+        "median_luma": 3.043,
+        "median_bright_fraction": 0,
+        "median_motion": 0.156,
+        "visible_width": 0,
+        "visible_height": 0
+      },
+      "checks": {
+        "visible_stage_width": false,
+        "visible_stage_height": false,
+        "median_stage_luminance": false,
+        "bright_stage_area": false,
+        "visible_stage_motion": false
+      },
+      "passed": false,
+      "note": "Quantitative visibility gate only; no artistic, musical or source classification approval"
+    },
+    "current_source_ci": {
+      "python_3_11_and_3_12": 42054533014,
+      "windows": 42054532961,
+      "android_api30_api36": 42054533183
+    },
+    "checks": [
+      "21 bounded-audio/AC tests passed",
+      "11 preview mapping/AC tests passed; 256 addresses, fixed colors, original groups, exact musical XSQ retained"
+    ],
+    "local_native_limitation": "Pinned Ubuntu24 binary cannot run on this Debian executor: required system libraries absent; apt install unavailable without root. Reuse GitHub cached renderer.",
+    "blocking_source_qualification": "Retained E14 analysis lacks independently resolved lead and harmony tracks; do not fabricate qualified source or pilot acceptance.",
+    "next_command": "gh workflow run native-drive-audio-ac256.yml --ref codex/eight-hour-recovery-20261019",
+    "approval_zip_created": false,
+    "comparison16_created": false
   }
 }

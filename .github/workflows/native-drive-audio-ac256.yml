@@ -63,6 +63,9 @@ jobs:
           (root/'run_manifest.json').write_text(__import__('json').dumps({'schema':'helix.run_manifest.v1','warnings':[],'source':'owner_google_drive_verified','source_sha256':'fc91e3f48f709e615ba598a5d49ae63ab9652c0d16e324095f6e1b20377e082b','sequence_file':dest.name,'audio_sha256':__import__('hashlib').sha256((root/'media/Helix_Motion_40s.mp3').read_bytes()).hexdigest(),'helix_effect_count':len(effects)},indent=2))
           print('Real production Helix effects:',len(effects))
           PY
+      - name: Fit readable virtual bulbs to the unchanged original AC circuits
+        run: |
+          python -m tools.prepare_drive_ac_preview xlights_rgbeffects.xml native-drive-256/Helix_Drive_AC256.xsq native-drive-256
       - name: Restore pinned native xLights renderer
         id: native-cache
         uses: actions/cache/restore@v4
@@ -107,6 +110,7 @@ jobs:
           python - <<'PY'
           from pathlib import Path
           from tools.verify_recovery_media import verify
+          from tools.verify_showcase_luma import verify_mp4
           import json,hashlib,subprocess
           root=Path('native-drive-256')
           report=json.loads((root/'run_manifest.json').read_text())['native_preview']
@@ -117,6 +121,9 @@ jobs:
           subprocess.run(['ffmpeg','-v','error','-xerror','-i',str(mp4),'-map','0:v:0','-map','0:a:0','-f','null','-'],check=True)
           (root/'source_audio_verification.json').write_text(json.dumps(result,indent=2)+'\n')
           print(json.dumps(result,indent=2))
+          readability=verify_mp4(mp4)
+          (root/'SHOWCASE_READABILITY.json').write_text(json.dumps(readability,indent=2)+'\n')
+          if not readability['passed']:raise SystemExit('Native AC preview failed unchanged visibility/motion gates; preserve as diagnostic')
           PY
       - name: Preserve genuine Helix result and diagnostics (never promote a failed render)
         if: always()
@@ -130,6 +137,9 @@ jobs:
             native-drive-256/*.json
             native-drive-256/*.txt
             native-drive-256/*.sha256
+            native-drive-256/media/*.mp3
+            native-drive-256/xlights_rgbeffects.xml
+            native-drive-256/xlights_networks.xml
             native-drive-256/openbox.log
           retention-days: 30
           if-no-files-found: warn

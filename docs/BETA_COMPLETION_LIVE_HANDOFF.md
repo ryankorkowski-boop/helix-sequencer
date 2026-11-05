@@ -1,3 +1,13 @@
+## 5 November — current-source execution, app candidates and AC native preview repair
+
+Goal: finish frozen PR188 nine first, then the separately requested16-layout benchmark. Starting source35bf41a; PR205 remains isolated. Current hosted Python3.11/3.12 CI42054533014, Windows42054532961 and Android30/36 42054533183 all pass. Downloaded artifacts and checked archive digests; review APK e29f3d9acb401ad5cfb2c4c71db253460d6fe44f3b104a0ef53117499e4f64f3 installs/launches alongside beta on disposable emulator. Historical phone upgrade/signing and physical acceptance remain unproven.
+
+Executed actual master on Drive Helix Motion.mp3 (original SHAfc91e3f48f709e615ba598a5d49ae63ab9652c0d16e324095f6e1b20377e082b),40s at216s. Engine exits0; retained local source/XSQ/report/band plan. Prior genuine native run42027740755 produced12016Effect nodes,256channels/800frames/794active; audio/decode passes but independently measured visibility FAILS (luma3.043,motion.156). Do not promote it to approval.
+
+Changed tools/prepare_drive_ac_preview.py, its focused tests and native-drive-audio-ac256.yml. Reuse existing one-circuit virtual bulbs and fitted camera; preserve source XML/XSQ bytes,256 addresses, original groups and fixed red/green/white colors. Existing preview fallback for source Intensity/RGB metadata is explicitly itemized, not claimed surveyed. Workflow now retains the exact clip/layout/networks and applies the unchanged visibility/motion gates. Eleven mapping/AC tests pass;21bounded-audio/AC checks pass. New native visibility remains pending hosted render, not a claimed fix. No DSP/detector/band geometry/thresholds changed.
+
+Failures retained: native E14 producer source qualification; hook/collection readability/reference/vocal gates. No qualified voices or pilot acceptance fabricated. NineZIP not created;16benchmark waits for nine as requested. Native local runtime requires unavailable Ubuntu24shared libraries; apt cannot install as this user, so use cached Actions renderer. Receipts in evidence/beta_completion/autonomous_20261105/checkpoint.json. Next: validate new native AC run, repair actual failed pixels if needed; source-qualify singers before full collection. No merge/release/owner approval.
+
 ## 5 November — bounded chroma numerical parity implementation (verification pending)
 
 - Source commit: `89d9b9fa24f1ae9ff1388effb0eec5d0c5a8492d`. Replaced carry-over 2048-frame chroma GEMM windows in `core/audio_intelligence.py` with independent 1536-frame tiles. The centered STFT frames remain unshifted; final zero-padding is after real frame columns and discarded. The existing `1e-7` entropy tolerance, 16 MiB memory limit, and full singer/drummer/native gates are unchanged.

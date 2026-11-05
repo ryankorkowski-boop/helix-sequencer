@@ -1141,8 +1141,8 @@
       "source_commit": "09677d4822e35d724e9f229c0ab7465c9f34fd7a",
       "engine_worktree_module_changes": false,
       "source_library_tracks": [
-        "Tinsel Tornado164\u2013182s",
-        "Christmas in the Ether76.5\u201394.5s"
+        "Tinsel Tornado164–182s",
+        "Christmas in the Ether76.5–94.5s"
       ],
       "effects": 5155,
       "detected_parts": [
@@ -1447,19 +1447,19 @@
           "test": "test_bounded_chroma_preserves_reference_across_long_partial_blocks[1]",
           "mismatched": 10,
           "total": 4097,
-          "max_abs_diff": 2.66020723e-07
+          "max_abs_diff": 2.66020723e-7
         },
         {
           "test": "test_bounded_chroma_preserves_reference_across_long_partial_blocks[61]",
           "mismatched": 22,
           "total": 4157,
-          "max_abs_diff": 1.99515542e-07
+          "max_abs_diff": 1.99515542e-7
         },
         {
           "test": "test_bounded_chroma_preserves_reference_across_long_partial_blocks[509]",
           "mismatched": 18,
           "total": 4605,
-          "max_abs_diff": 1.33010362e-07
+          "max_abs_diff": 1.33010362e-7
         }
       ],
       "tolerance": "atol=1e-7, rtol=0",
@@ -1656,7 +1656,7 @@
           "35 focused Python3.12 cases targeted; Python3.11 previous34 pass before added audit overlap case",
           "Real note-writer -> preview-parser -> intensity regression retains exact short-note rest and unlit other rung",
           "Batch mux/provenance binding regression for two distinct inputs; mismatched/ambiguous media fails instead of silently using first audio",
-          "Native short113\u2013137ms mouth cue survives both passes while ordinary24ms On still obeys50ms minimum"
+          "Native short113–137ms mouth cue survives both passes while ordinary24ms On still obeys50ms minimum"
         ],
         "evidence": [
           "evidence/beta_completion/reconciliation_20261104/source_timing_preview_py312.xml",
@@ -1702,27 +1702,27 @@
       "video_duration_seconds": 34.9,
       "audio_duration_seconds": 34.88,
       "stream_start_seconds": [
-        0.0,
-        0.0
+        0,
+        0
       ],
       "full_decode": true,
       "soundtrack_correlation": 0.999018237103682,
       "window_alignment": [
         {
           "source_start_seconds": 3.488,
-          "decoded_lag_seconds": 0.0
+          "decoded_lag_seconds": 0
         },
         {
           "source_start_seconds": 17.44,
-          "decoded_lag_seconds": 0.0
+          "decoded_lag_seconds": 0
         },
         {
           "source_start_seconds": 29.648,
-          "decoded_lag_seconds": 0.0
+          "decoded_lag_seconds": 0
         },
         {
           "source_start_seconds": 32.83,
-          "decoded_lag_seconds": 0.0
+          "decoded_lag_seconds": 0
         }
       ],
       "musical_or_visual_acceptance": false,
@@ -1731,7 +1731,7 @@
         "frames": 70,
         "sample_fps": 2,
         "thresholds": {
-          "median_luma": 12.0,
+          "median_luma": 12,
           "median_bright_fraction": 0.012,
           "median_motion": 0.65,
           "min_visible_width": 0.4,
@@ -1759,5 +1759,14 @@
       "acceptance": "Technical candidate only; independent singer identity/lexical and owner acceptance remain open. Not a native xLights video."
     },
     "native_runtime_recovery": "Ubuntu24 dependency install initially hit filesystem limit; removed failed duplicate venv and reuses installed pinned3.12 workspace wheels. Fixed GTK library mixing and adjacent official resources after first GUI abort; native headless FSEQ succeeds on AC and173712-channel band. Current native MP4 rendering in progress; no fallback counted as success."
+  },
+  "autonomous_20261105": {
+    "checkpoint": "evidence/beta_completion/autonomous_20261105/checkpoint.json",
+    "windows_artifact_id": 13428142547,
+    "android30_artifact_id": 13429164996,
+    "native_renderer_artifact_id": 13429155795,
+    "prior_ac256_failed_visual_artifact_id": 13417243372,
+    "approval_zip": null,
+    "comparison16": null
   }
 }
