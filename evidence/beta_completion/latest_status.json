@@ -1958,7 +1958,7 @@
     "note": "Historical review delivery claim retained for provenance; not a current qualified nine-video collection."
   },
   "selected_native_comparison_20261105": {
-    "status": "native_render_pending",
+    "status": "runtime_repair_rerender_pending",
     "source": "Helix Motion.mp3",
     "source_start_seconds": 39,
     "source_end_seconds": 75,
@@ -1973,6 +1973,9 @@
     "owner_approved": false,
     "merge_or_release": false,
     "render_branch": "preview/selected-native-comparison-20261105",
-    "local_workspace": "/workspace/scratch/15b40a8008ec"
+    "local_workspace": "/workspace/scratch/15b40a8008ec",
+    "failed_run_id": 42081362852,
+    "prepared_artifact_id": 13442036143,
+    "hosted_focused_tests_passed": 13
   }
 }

@@ -42,20 +42,29 @@ jobs:
           echo "5d9a5e84defa945877fee0c7fae0b8f5344c0df3f3e72b2cf5238d3014ef2819  $runtime/xLights" | sha256sum -c -
           git clone --depth 1 --branch 2026.18 https://github.com/xLightsSequencer/xLights.git "$RUNNER_TEMP/pinned-xlights-resources"
           test "$(git -C "$RUNNER_TEMP/pinned-xlights-resources" rev-parse HEAD)" = 839c0f590dc454bb7adb8a16c4dd92a70b46156e
+          bash "$RUNNER_TEMP/pinned-xlights-resources/ci_scripts/fetch_klightmapper.sh" linux-x64
           mkdir -p "$RUNNER_TEMP/pinned-xlights-resources/bin"
           cp "$runtime/xLights" "$RUNNER_TEMP/pinned-xlights-resources/bin/xLights"
           chmod +x "$RUNNER_TEMP/pinned-xlights-resources/bin/xLights"
           export LD_LIBRARY_PATH="$runtime/lib"
           ldd "$RUNNER_TEMP/pinned-xlights-resources/bin/xLights" | tee native-runtime-ldd.txt
-          ! grep -q 'not found' native-runtime-ldd.txt
+          if grep -q 'not found' native-runtime-ldd.txt; then
+            echo '::error::Retained native renderer has unresolved runtime libraries'
+            exit 1
+          fi
           echo "LD_LIBRARY_PATH=$runtime/lib" >> "$GITHUB_ENV"
           echo "HELIX_PATCHED_XLIGHTS=$RUNNER_TEMP/pinned-xlights-resources/bin/xLights" >> "$GITHUB_ENV"
       - name: Restore actual executed master outputs and exact source PCM
+        env:
+          GH_TOKEN: ${{ github.token }}
         run: |
-          mkdir -p selected-native
-          python -m gdown 12gRu8SUf-8GVCQdJnrIROnTY6XumOUzZ -O selected-native/Helix_Motion_original.mp3
+          set -euo pipefail
+          gh api repos/ryankorkowski-boop/helix-sequencer/actions/artifacts/13442036143/zip > "$RUNNER_TEMP/prepared-selected-shows.zip"
+          echo "8097aef8b200be3909b339ec1afb0cf5b99e13a39dc75de9b3fa507e489d4de9  $RUNNER_TEMP/prepared-selected-shows.zip" | sha256sum -c -
+          unzip -q "$RUNNER_TEMP/prepared-selected-shows.zip" 'selected-native/*' -d "$GITHUB_WORKSPACE"
+          echo 'fc91e3f48f709e615ba598a5d49ae63ab9652c0d16e324095f6e1b20377e082b  selected-native/Helix_Motion_original.mp3' | sha256sum -c -
           python -m pytest -q tests/test_comparison_pixel_grid.py tests/test_phoneme_vocal_export.py tests/test_source_drummer_3d.py tests/test_canonical_native_band.py
-          python -m tools.selected_native_comparison stage selected-native
+          test -f selected-native/BUILD.json
       - name: Render sixteen genuine native XSQ FSEQ and MP4 views
         run: |
           xvfb-run -a -s '-screen 0 2560x1440x24' sh -c 'openbox >selected-native/openbox.log 2>&1 & exec python -m tools.selected_native_comparison render selected-native --xlights "$HELIX_PATCHED_XLIGHTS"'
