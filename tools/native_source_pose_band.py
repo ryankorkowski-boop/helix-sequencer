@@ -150,13 +150,13 @@ def retain_native_materials(model, cues):
     return report
 
 
-def prepare(source_root:Path,output:Path,eid='E14',limit=32,frame_ms=50,legacy_xylophone=False):
+def prepare(source_root:Path,output:Path,eid='E14',limit=32,frame_ms=50,legacy_xylophone=False,stemless_duet=False):
     if frame_ms not in (25,50):raise ValueError('Native interval must be 25 or 50 ms')
     if output.exists():raise FileExistsError('Use a fresh directory')
     row,audio,scene,p=setup(source_root,eid,scene_factory=Review3DScene)
     keyboard_motion_proof=configure_native_keyboard_motion(
         scene,p,legacy_xylophone=legacy_xylophone)
-    g=Garden(title='Helix source-timed native RGB pose band',slug='Native_Source_Poses');add_band(g)
+    if stemless_duet:\n        from tools.stemless_duet import estimate_duet\n        p.voice_energy,p.voice_lanes,vocal_estimate=estimate_duet(audio,p.voice_energy,p.voice_lanes,frames=p.n)\n    else:\n        vocal_estimate=None\n    g=Garden(title='Helix source-timed native RGB pose band',slug='Native_Source_Poses');add_band(g)
     g.models=select_cast(g.models,legacy_xylophone=legacy_xylophone)
     p.row={'drummer_xsq':str(source_root/'sources'/eid/'drummer.xsq')}
     cues={m.name:band_curves(m,p,body_level=.85) for m in g.models}
@@ -300,7 +300,7 @@ def prepare(source_root:Path,output:Path,eid='E14',limit=32,frame_ms=50,legacy_x
               +', '.join(sorted(silent_roles)),flush=True)
     np.savez_compressed(output/'expected_cues.npz',**{name+'::'+part:np.rint(v*20)*5 for name,parts in cues.items() for part,v in parts.items() if new.models[[m.name for m in new.models].index(name)].submodels.get(part)})
     result=dict(excerpt=eid,source_record=row,audio_sha256=digest(audio),source_score='ReviewBandPerformance.pose',geometry_source='Review3DScene',source_frames=720,frame_ms=frame_ms,native_frames=36000//frame_ms,source_pose_frame_ms=50,
-                source_musical_cues_retimed=False,ac16_models_modified=False,channels=sum(m.channels for m in new.models),effects=sequence.identifier-1,rigs=proof,instrument_visibility_audit=instrument_audit,vocal_visibility_audit=vocal_audit,
+                source_musical_cues_retimed=False,ac16_models_modified=False,channels=sum(m.channels for m in new.models),effects=sequence.identifier-1,rigs=proof,instrument_visibility_audit=instrument_audit,vocal_visibility_audit=vocal_audit,stemless_vocal_estimate=vocal_estimate,
                 visible_performer_roles=[m.details['review_role'] for m in new.models],legacy_xylophone_enabled=legacy_xylophone,
                 keyboard_motion_proof=keyboard_motion_proof,static_material_audit=material_audit,
                 limitations=['RGB pose-bank geometry requires its own pixel mapping; not a 16-channel AC model','Source musical estimators retain their uncertainty','Finite source-pose medoids approximate geometric motion; source event clock is preserved'])
@@ -308,4 +308,4 @@ def prepare(source_root:Path,output:Path,eid='E14',limit=32,frame_ms=50,legacy_x
     return result
 
 if __name__=='__main__':
-    a=argparse.ArgumentParser(description=__doc__);a.add_argument('source_root',type=Path);a.add_argument('output',type=Path);a.add_argument('--id',default='E14');a.add_argument('--poses',type=int,default=32);a.add_argument('--frame-ms',type=int,choices=[25,50],default=50);a.add_argument('--legacy-xylophone',action='store_true',help='Keep the historical seventh mallet performer');v=a.parse_args();prepare(v.source_root.resolve(),v.output.resolve(),v.id,v.poses,v.frame_ms,legacy_xylophone=v.legacy_xylophone)
+    a=argparse.ArgumentParser(description=__doc__);a.add_argument('source_root',type=Path);a.add_argument('output',type=Path);a.add_argument('--id',default='E14');a.add_argument('--poses',type=int,default=32);a.add_argument('--frame-ms',type=int,choices=[25,50],default=50);a.add_argument('--legacy-xylophone',action='store_true',help='Keep the historical seventh mallet performer');a.add_argument('--stemless-duet',action='store_true');v=a.parse_args();prepare(v.source_root.resolve(),v.output.resolve(),v.id,v.poses,v.frame_ms,legacy_xylophone=v.legacy_xylophone,stemless_duet=v.stemless_duet)
