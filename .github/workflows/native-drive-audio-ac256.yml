@@ -1,0 +1,134 @@
+name: Native Helix Drive Audio AC256 Render
+on:
+  push:
+    branches: [codex/eight-hour-recovery-20261019]
+    paths: [.github/workflows/native-drive-audio-ac256.yml]
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: native-drive-ac256-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  render:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 100
+    env:
+      OMP_NUM_THREADS: '2'
+      OPENBLAS_NUM_THREADS: '2'
+      XL_NO_GPU_COMPUTE: '1'
+      HELIX_NATIVE_PREVIEW_WIDTH: '1920'
+      HELIX_NATIVE_PREVIEW_HEIGHT: '1080'
+      HELIX_DRIVE_SOURCE_ID: 12gRu8SUf-8GVCQdJnrIROnTY6XumOUzZ
+      HELIX_DRIVE_SOURCE_SHA256: fc91e3f48f709e615ba598a5d49ae63ab9652c0d16e324095f6e1b20377e082b
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install authentic Helix DSP and native runtime
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y ffmpeg xvfb xauth openbox wmctrl xdotool x11-utils x11-xserver-utils libgtk-3-0t64 libgl1 libegl1 libopengl0 libglu1-mesa libgstreamer-plugins-base1.0-0
+          python -m pip install numpy scipy librosa==0.10.2.post1 soundfile numba llvmlite scikit-learn Pillow trimesh moderngl zstandard imageio imageio-ffmpeg cmudict PyYAML requests pytest gdown==6.4.2
+      - name: Download and verify original owner Drive recording
+        run: |
+          mkdir -p native-drive-256/media
+          python -m gdown "$HELIX_DRIVE_SOURCE_ID" -O native-drive-256/Helix_Motion_original.mp3
+          echo "$HELIX_DRIVE_SOURCE_SHA256  native-drive-256/Helix_Motion_original.mp3" | sha256sum -c -
+          ffmpeg -nostdin -v error -y -ss 216 -t 40 -i native-drive-256/Helix_Motion_original.mp3 -c:a libmp3lame -q:a 2 native-drive-256/media/Helix_Motion_40s.mp3
+          test -s native-drive-256/media/Helix_Motion_40s.mp3
+          sha256sum native-drive-256/media/Helix_Motion_40s.mp3 > native-drive-256/audio.sha256
+      - name: Run current Helix production master against genuine Drive audio and original AC256 layout
+        run: |
+          set -euo pipefail
+          cp template.xsq native-drive-256/seed.xsq
+          cp xlights_rgbeffects.xml native-drive-256/xlights_rgbeffects.xml
+          python main.py --profile master -- --template native-drive-256/seed.xsq --audio native-drive-256/media/Helix_Motion_40s.mp3 --layout-file native-drive-256/xlights_rgbeffects.xml --output-dir native-drive-256/sequence --single --variants 1 --no-prompt --no-save-settings --no-workspace-history --no-learning-memory --palette-mode warm --sync-lyrics-heads
+          python - <<'PY'
+          from pathlib import Path
+          import xml.etree.ElementTree as ET
+          root=Path('native-drive-256')
+          xsqs=[x for x in (root/'sequence').glob('*.xsq') if '.uncolored.' not in x.name]
+          if len(xsqs)!=1: raise SystemExit(f'Expected one real Helix sequence: {xsqs}')
+          dest=root/'Helix_Drive_AC256.xsq'
+          tree=ET.parse(xsqs[0])
+          media=tree.find('head/mediaFile')
+          if media is None: raise SystemExit('XSQ missing mediaFile')
+          media.text='media/Helix_Motion_40s.mp3'
+          tree.write(dest,encoding='utf-8',xml_declaration=True)
+          effects=list(tree.getroot().iter('Effect'))
+          if len(effects)<10: raise SystemExit('Actual Helix audio sequencing produced too few effects')
+          (root/'effect_count.txt').write_text(str(len(effects))+'\n')
+          print('Real production Helix effects:',len(effects))
+          PY
+      - name: Restore pinned native xLights renderer
+        id: native-cache
+        uses: actions/cache/restore@v4
+        with:
+          path: ${{ runner.temp }}/xlights-src
+          key: xlights-native-ubuntu24-2026.18-${{ hashFiles('tools/patch_xlights_native_export.py') }}
+          restore-keys: xlights-native-ubuntu24-2026.18-
+      - name: Validate and restore native renderer runtime
+        run: |
+          set -euo pipefail
+          sudo apt-get install -y build-essential cmake ninja-build pkg-config libgtk-3-dev libgstreamer1.0-dev libgstreamer-plugins-base1.0-dev freeglut3-dev libavcodec-dev libavformat-dev libavfilter-dev libswscale-dev libsdl2-dev libzstd-dev libcurl4-openssl-dev liblua5.3-dev libwebp-dev libsecret-1-dev libegl-dev libfreetype-dev libharfbuzz-dev libfontconfig-dev libavahi-compat-libdnssd-dev libminizip-dev libxlsxwriter-dev cbp2make glslc glslang-dev
+          root="$RUNNER_TEMP/xlights-src"
+          if [ ! -d "$root/.git" ]; then
+            git clone --depth 1 --branch 2026.18 --recurse-submodules https://github.com/xLightsSequencer/xLights.git "$root"
+          fi
+          cd "$root"
+          test "$(git rev-parse HEAD)" = 839c0f590dc454bb7adb8a16c4dd92a70b46156e
+          if [ -f wxWidgets-xlights_2026.17c/lib/libwx_gtk3u-3.3.so.4.0.0 ]; then
+            sudo make -C wxWidgets-xlights_2026.17c install
+            sudo ldconfig
+          fi
+          if ! python -c "import sys;sys.path.insert(0,'$GITHUB_WORKSPACE');from tools.native_renderer_bundle import validate_tree;validate_tree(__import__('pathlib').Path.cwd())"; then
+            git checkout -- src-ui-wx/xLightsMain.cpp src-ui-wx/app-shell/TabSequence.cpp src-ui-wx/graphics/opengl/xlGLCanvas.cpp src-ui-wx/graphics/opengl/xlGLCanvas.h src-ui-wx/graphics/vulkan/xlVulkanCanvas.cpp
+            python "$GITHUB_WORKSPACE/tools/patch_xlights_native_export.py" "$root"
+            timeout --signal=TERM --kill-after=30s 55m make -j 4
+          fi
+          test -x "$root/bin/xLights"
+          ldd "$root/bin/xLights" | tee "$GITHUB_WORKSPACE/native-drive-256/native-ldd.txt"
+          ! grep -q 'not found' "$GITHUB_WORKSPACE/native-drive-256/native-ldd.txt"
+          echo "HELIX_PATCHED_XLIGHTS=$root/bin/xLights" >> "$GITHUB_ENV"
+      - name: Save native renderer cache
+        if: steps.native-cache.outputs.cache-hit != 'true'
+        uses: actions/cache/save@v4
+        with:
+          path: ${{ runner.temp }}/xlights-src
+          key: xlights-native-ubuntu24-2026.18-${{ hashFiles('tools/patch_xlights_native_export.py') }}
+      - name: Render real Helix XSQ through native xLights to FSEQ and MP4
+        run: |
+          xvfb-run -a -s '-screen 0 2560x1440x24' sh -c 'openbox >native-drive-256/openbox.log 2>&1 & exec python -m tools.native_preview native-drive-256 --xsq native-drive-256/Helix_Drive_AC256.xsq --audio native-drive-256/media/Helix_Motion_40s.mp3 --xlights "$HELIX_PATCHED_XLIGHTS"'
+      - name: Verify exact source audio, channel activity, and decoded native movie
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          from tools.verify_recovery_media import verify
+          import json,hashlib,subprocess
+          root=Path('native-drive-256')
+          report=json.loads((root/'run_manifest.json').read_text())['native_preview']
+          if report.get('status')!='success':raise SystemExit('Native render did not succeed')
+          mp4=Path(report['mp4'])
+          audio=root/'media/Helix_Motion_40s.mp3'
+          result=verify(mp4,audio,hashlib.sha256(audio.read_bytes()).hexdigest())
+          subprocess.run(['ffmpeg','-v','error','-xerror','-i',str(mp4),'-map','0:v:0','-map','0:a:0','-f','null','-'],check=True)
+          (root/'source_audio_verification.json').write_text(json.dumps(result,indent=2)+'\n')
+          print(json.dumps(result,indent=2))
+          PY
+      - name: Preserve genuine Helix result and diagnostics (never promote a failed render)
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: Helix-Drive-Real-Audio-AC256-Native
+          path: |
+            native-drive-256/**/*.mp4
+            native-drive-256/**/*.xsq
+            native-drive-256/**/*.fseq
+            native-drive-256/*.json
+            native-drive-256/*.txt
+            native-drive-256/*.sha256
+            native-drive-256/openbox.log
+          retention-days: 30
+          if-no-files-found: warn
