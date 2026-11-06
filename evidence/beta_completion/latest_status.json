@@ -1,11 +1,11 @@
 {
   "schema": "helix.beta-completion.v1",
-  "updated_at": "2026-11-05T16:08:21Z",
+  "updated_at": "2026-11-06T02:34:35.912910+00:00",
   "repository": "https://github.com/ryankorkowski-boop/helix-sequencer",
   "branch": "codex/eight-hour-recovery-20261019",
   "recovered_head": "45f17d69fac91d7683984cc22c54bb701eb2226e",
   "last_verified_implementation_sha": "dd73e36777d0a02c6d403245d03421d093bda0fd",
-  "current_task": "BETA-NINE-DELIVERY",
+  "current_task": "PR188-COMPILE-STEMLESS-INTEGRATION",
   "tasks": [
     {
       "id": "REC-01",
@@ -105,23 +105,24 @@
       "id": "VID-01",
       "priority": "P0",
       "description": "Deliver exact nine MP4-only collection",
-      "status": "VERIFIED_REVIEW_DELIVERY",
+      "status": "BLOCKED",
       "files": [
         "tools/assemble_beta_review.py",
         "evidence/beta_completion/artifact_manifest.json"
       ],
       "last_attempted_action": "Recovered two native ZIPs and five-media ZIP; verified SHA256",
-      "actual_result": "Exactly9real-audioMP4s saved in one CRC/hash-verified ZIP; all media and panel technical checks pass. This is not release qualification.",
+      "actual_result": "Current aa58cc0 collection artifact contains source MP3 and ingestion receipt only; zero XSQ/FSEQ/MP4. Prior technical review files remain historical, not current qualified delivery.",
       "evidence": [
         "evidence/beta_completion/owner_review_zip_20261030.json",
         "evidence/beta_completion/owner_review_media_verification_20261030.json"
       ],
-      "next_action": "Await owner review and retain separate release gates",
+      "next_action": "Verify fresh native pilot and resolve visual/vocal qualifications before frozen nine",
       "dependencies_or_blockers": [
         "CAN-01",
         "VOC-01"
       ],
-      "source_commit": "c009595976a2b660bc4094b7302b9b284588c3c4"
+      "source_commit": "aa58cc0dc1843fc32129e5489cb5cc71123b51a6",
+      "historical_status_before_implementation": "VERIFIED_REVIEW_DELIVERY"
     },
     {
       "id": "WIN-01",
@@ -276,9 +277,9 @@
   "beta_release": "HELD",
   "active_runs": [],
   "next_three_actions": [
-    "Collect and fully inspect native run42060667368 artifacts before claiming readable AC media",
-    "Repair inherited Haswell chroma parity without weakening numerical thresholds",
-    "Obtain source-bound independent singer/reference qualification before scaling the frozen nine; only then implement16benchmark"
+    "Finish genuine native pilot from freshly generated real-audio XSQ",
+    "Inspect media, source hashes, singer timing, FSEQ and visibility without changing acceptance thresholds",
+    "Commit tested focused fixes and reconcile hosted CI; preserve canonical visual and independent-source blockers"
   ],
   "resume_commands": [
     "git fetch origin codex/eight-hour-recovery-20261019",
@@ -582,8 +583,8 @@
         "test_bounded_chroma_preserves_reference_across_long_partial_blocks[61]",
         "test_bounded_chroma_preserves_reference_across_long_partial_blocks[509]"
       ],
-      "maximum_error": 1.9951554230956958e-7,
-      "unchanged_tolerance": 1e-7,
+      "maximum_error": 1.9951554230956958e-07,
+      "unchanged_tolerance": 1e-07,
       "introduced_by_this_change": false,
       "reason": "Production _bounded_background_features and its reference tests are byte-identical to starting 5aac37a; failures reproduced in current runtime before and after isolated-cache recovery"
     },
@@ -1234,8 +1235,8 @@
       "source_commit": "09677d4822e35d724e9f229c0ab7465c9f34fd7a",
       "engine_worktree_module_changes": false,
       "source_library_tracks": [
-        "Tinsel Tornado164–182s",
-        "Christmas in the Ether76.5–94.5s"
+        "Tinsel Tornado164\u2013182s",
+        "Christmas in the Ether76.5\u201394.5s"
       ],
       "effects": 5155,
       "detected_parts": [
@@ -1540,19 +1541,19 @@
           "test": "test_bounded_chroma_preserves_reference_across_long_partial_blocks[1]",
           "mismatched": 10,
           "total": 4097,
-          "max_abs_diff": 2.66020723e-7
+          "max_abs_diff": 2.66020723e-07
         },
         {
           "test": "test_bounded_chroma_preserves_reference_across_long_partial_blocks[61]",
           "mismatched": 22,
           "total": 4157,
-          "max_abs_diff": 1.99515542e-7
+          "max_abs_diff": 1.99515542e-07
         },
         {
           "test": "test_bounded_chroma_preserves_reference_across_long_partial_blocks[509]",
           "mismatched": 18,
           "total": 4605,
-          "max_abs_diff": 1.33010362e-7
+          "max_abs_diff": 1.33010362e-07
         }
       ],
       "tolerance": "atol=1e-7, rtol=0",
@@ -1741,7 +1742,7 @@
           "35 focused Python3.12 cases targeted; Python3.11 previous34 pass before added audit overlap case",
           "Real note-writer -> preview-parser -> intensity regression retains exact short-note rest and unlit other rung",
           "Batch mux/provenance binding regression for two distinct inputs; mismatched/ambiguous media fails instead of silently using first audio",
-          "Native short113–137ms mouth cue survives both passes while ordinary24ms On still obeys50ms minimum"
+          "Native short113\u2013137ms mouth cue survives both passes while ordinary24ms On still obeys50ms minimum"
         ],
         "evidence": [
           "evidence/beta_completion/reconciliation_20261104/source_timing_preview_py312.xml",
@@ -1913,7 +1914,7 @@
         "haswell_bounded": {
           "passed": 8,
           "failed": 4,
-          "unchanged_entropy_tolerance": 1e-7
+          "unchanged_entropy_tolerance": 1e-07
         }
       },
       "delivered_apps": [
@@ -1956,5 +1957,36 @@
   "historical_reported_delivery_before_20261105": {
     "delivered_mp4_count": 9,
     "note": "Historical review delivery claim retained for provenance; not a current qualified nine-video collection."
+  },
+  "historical_snapshot_before_implementation_20261105": {
+    "updated_at": "2026-11-05T16:08:21Z",
+    "current_implementation_sha": "cd0c852b0fc522ca04850eefece70e5b9bfb94bb",
+    "current_task": "BETA-NINE-DELIVERY",
+    "next_three_actions": [
+      "Collect and fully inspect native run42060667368 artifacts before claiming readable AC media",
+      "Repair inherited Haswell chroma parity without weakening numerical thresholds",
+      "Obtain source-bound independent singer/reference qualification before scaling the frozen nine; only then implement16benchmark"
+    ]
+  },
+  "last_checked_pr_head": "aa58cc0dc1843fc32129e5489cb5cc71123b51a6",
+  "implementation_log": "evidence/beta_completion/implementation_20261105/task_log.json",
+  "qualified_approval_mp4_count": 0,
+  "current_execution": {
+    "source_worktree_dirty": true,
+    "compile": "passed",
+    "focused_tests": 48,
+    "native_guard_tests": 83,
+    "native_guard_subtests": 10,
+    "bounded_audio_default_tests": 12,
+    "engine_exit_code": 0,
+    "engine_effects": 13612,
+    "native_render": "local_runtime_blocked_hosted_pending",
+    "owner_approval": false,
+    "bounded_audio_haswell": {
+      "passed": 8,
+      "failed": 4,
+      "tolerance_unchanged": true
+    },
+    "full_python312": "running"
   }
 }

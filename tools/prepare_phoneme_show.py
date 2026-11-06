@@ -22,7 +22,7 @@ ROOT = Path(__file__).resolve().parents[1]
 
 def prepare(audio: Path, output: Path, *, expected_sha256=EXPECTED_SHA256,
             vocal_fixture=None, title='Phoneme Test Hook', include_xylophonist=False, full_keyboard=False,
-            drum_events=None) -> Path:
+            drum_events=None, stemless_duet=False) -> Path:
     import soundfile as sf
     from models.canonical_native_band import add_band, visual_identity
     from models.ultimate_showcase import Garden
@@ -85,6 +85,9 @@ def prepare(audio: Path, output: Path, *, expected_sha256=EXPECTED_SHA256,
         'tools/native_source_pose_band.py', 'xlights/xml_io.py')}
     manifest['vocal_cache_sha256'] = digest(vocal_fixture/'acoustic_vocal_clocks.npz')
     manifest['vocal_receipt_sha256'] = digest(vocal_fixture/'diagnostic.json')
+    manifest['vocal_mode'] = 'stemless_mixed_audio_estimate' if stemless_duet else 'source_separated_estimate'
+    if stemless_duet:
+        manifest['source_module_sha256']['tools/stemless_duet.py'] = digest(ROOT/'tools/stemless_duet.py')
     (output / 'run_manifest.json').write_text(json.dumps(manifest, indent=2) + '\n')
     command = [sys.executable, str(ROOT / 'main.py'), '--profile', 'master', '--',
                '--template', str(seed), '--audio', str(retained), '--layout-file', str(layout),
@@ -127,7 +130,8 @@ def prepare(audio: Path, output: Path, *, expected_sha256=EXPECTED_SHA256,
     (output / 'instrument_export.json').write_text(json.dumps(instrument_report, indent=2) + '\n')
     from tools.phoneme_vocal_export import export as export_vocal_estimates
     separated = export_vocal_estimates(tree.getroot(), layout, garden,
-        fixture=vocal_fixture, expected_sha256=expected_sha256)
+        fixture=vocal_fixture, expected_sha256=expected_sha256,
+        stemless_audio=retained if stemless_duet else None)
     (output / 'source_separated_vocal_export.json').write_text(json.dumps(separated, indent=2) + '\n')
     from xlights.xml_io import materialize_native_effect_tables
     native_tables = materialize_native_effect_tables(tree.getroot())
@@ -147,9 +151,12 @@ def prepare(audio: Path, output: Path, *, expected_sha256=EXPECTED_SHA256,
                                      **{k:v for k,v in separated['models'][name].items() if k != 'faces_effect_count'})
     report['source_separation'] = separated['source']
     report['limitation'] = 'Two-stage source separation produces distinct lead/residual-backing estimates with measured clocks; leakage and voice identity require review. Acoustic vowel colors are not verified lexical phonemes. No independent backing ground truth or artistic approval is claimed.'
+    if stemless_duet:
+        report['stemless_estimate'] = separated['stemless_estimate']
+        report['limitation'] = 'Stemless mixed-audio estimates use retained lead activity and persistent dual-pitch evidence. Harmony shapes borrow lead syllables. Independent singer identity and lexical phonemes are unverified.'
     (output / 'vocal_lane_diagnostic.json').write_text(json.dumps(report, indent=2) + '\n')
     from tools.vocal_diagnostic import export as export_timeline
-    export_timeline(audio, vocal_fixture, output/'vocal_diagnostic')
+    export_timeline(audio, vocal_fixture, output/'vocal_diagnostic', stemless_duet=stemless_duet)
     return final
 
 
@@ -163,7 +170,10 @@ if __name__ == '__main__':
     parser.add_argument('--include-xylophonist',action='store_true')
     parser.add_argument('--full-keyboard',action='store_true')
     parser.add_argument('--drum-events',type=Path,help='Original-source-hash-bound polyphonic percussion transcription')
+    parser.add_argument('--stemless-duet', action='store_true',
+                        help='Opt in to mixed-audio mouth estimates; never independent-source proof')
     args = parser.parse_args()
     print(prepare(args.audio, args.output, expected_sha256=args.expected_sha256,
                   vocal_fixture=args.vocal_fixture, title=args.title,
-                  include_xylophonist=args.include_xylophonist,full_keyboard=args.full_keyboard,drum_events=args.drum_events))
+                  include_xylophonist=args.include_xylophonist,full_keyboard=args.full_keyboard,
+                  drum_events=args.drum_events,stemless_duet=args.stemless_duet))

@@ -22,7 +22,7 @@ from tools.phoneme_source import digest
 LANES = (('lead', 'estimated_lead'), ('backing', 'estimated_backing'))
 
 
-def export(audio: Path, fixture: Path, output: Path) -> dict:
+def export(audio: Path, fixture: Path, output: Path, *, stemless_duet=False) -> dict:
     audio, fixture, output = map(Path, (audio, fixture, output))
     receipt = json.loads((fixture/'diagnostic.json').read_text())
     clocks = fixture/'acoustic_vocal_clocks.npz'
@@ -53,6 +53,22 @@ def export(audio: Path, fixture: Path, output: Path) -> dict:
                                probability=None if probability is None else probability.copy())
     if len(lanes['lead']['energy']) != len(lanes['backing']['energy']):
         raise ValueError('Singer clocks have different lengths')
+    estimate = None
+    if stemless_duet:
+        from tools.stemless_duet import estimate_duet
+        energy = np.column_stack([lane['energy'] for lane in lanes.values()])
+        shapes = np.column_stack([[SHAPE_NAMES.index(name) for name in lane['names']]
+                                  for lane in lanes.values()])
+        energy, shapes, estimate = estimate_duet(audio, energy, shapes,
+            frames=len(energy), frame_ms=10)
+        for index, lane in enumerate(lanes.values()):
+            lane['energy'] = energy[:, index]
+            lane['active'] = (energy[:, index] > 0) & (shapes[:, index] != 0)
+            lane['names'] = [SHAPE_NAMES[int(s)] if a else 'REST'
+                             for s, a in zip(shapes[:, index], lane['active'])]
+            # Input VAD probabilities are not confidence scores for newly
+            # estimated mixed-audio singer lanes.
+            lane['probability'] = None
     output.mkdir(parents=True, exist_ok=True)
     csv_path = output/'Vocal_Timeline.csv'
     fields = ['time_seconds'] + [role+'_'+key for role, _ in LANES
@@ -72,10 +88,13 @@ def export(audio: Path, fixture: Path, output: Path) -> dict:
         independent_backing_verified=False, exact_phoneme_boundaries_verified=False,
         confidence_meaning='Speech VAD probability where retained; not calibrated singing or singer identity confidence. Blank CSV fields mean unavailable.',
         lanes={})
+    if stemless_duet:
+        summary['stemless_estimate'] = estimate
+        summary['confidence_meaning'] = 'Mixed-audio estimates; no calibrated singer or phoneme confidence. Input VAD values are not exported as estimate confidence.'
     for role, lane in lanes.items():
         cuts = np.r_[0, np.flatnonzero(np.diff(lane['active']))+1, len(lane['active'])]
         summary['lanes'][role] = dict(active_seconds=float(np.count_nonzero(lane['active'])*hop),
-            source_track_sha256=receipt['tracks'][dict(LANES)[role]]['sha256'],
+            source_track_sha256=digest(audio) if stemless_duet else receipt['tracks'][dict(LANES)[role]]['sha256'],
             speech_vad_available=lane['probability'] is not None,
             regions=[dict(start_seconds=float(a*hop), end_seconds=float(min(b*hop, duration)),
                           active=bool(lane['active'][a])) for a, b in zip(cuts[:-1], cuts[1:])])
@@ -86,7 +105,8 @@ def export(audio: Path, fixture: Path, output: Path) -> dict:
     font_path = '/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf'
     font = ImageFont.truetype(font_path, 16)
     small = ImageFont.truetype(font_path, 13)
-    draw.text((18, 10), 'SOURCE-SEPARATED VOCAL ESTIMATES | identity and lexical phonemes unverified', font=font, fill='white')
+    title = 'STEMLESS MIXED-AUDIO ESTIMATES' if stemless_duet else 'SOURCE-SEPARATED VOCAL ESTIMATES'
+    draw.text((18, 10), title+' | identity and lexical phonemes unverified', font=font, fill='white')
     for j, (role, lane) in enumerate(lanes.items()):
         y = 60+j*50
         draw.text((18, y+6), role.title()+' estimate', font=font, fill='#eedfd0' if j == 0 else '#c9a1ff')

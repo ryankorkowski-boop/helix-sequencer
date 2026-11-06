@@ -48,11 +48,14 @@ def _clear(element):
     return count
 
 
-def export(root, layout: Path, garden, *, fixture: Path = FIXTURE, expected_sha256=EXPECTED_SHA256):
+def export(root, layout: Path, garden, *, fixture: Path = FIXTURE,
+           expected_sha256=EXPECTED_SHA256, stemless_audio: Path | None = None):
     report = json.loads((fixture / 'diagnostic.json').read_text())
     clocks = fixture / 'acoustic_vocal_clocks.npz'
     if report.get('audio_sha256') != expected_sha256 or digest(clocks) != report.get('clock_sha256'):
         raise ValueError('Separated vocal cache does not match original source/receipt')
+    if stemless_audio is not None and digest(stemless_audio) != expected_sha256:
+        raise ValueError('Stemless estimate audio does not match original source')
     duration_ms = round(float(root.findtext('head/sequenceDuration')) * 1000)
     duration = duration_ms / 1000
     faces = detect_singing_faces(layout)
@@ -60,14 +63,30 @@ def export(root, layout: Path, garden, *, fixture: Path = FIXTURE, expected_sha2
                   exact_phoneme_boundaries_verified=False, removed_decorative_mouth_effects=0,
                   vocal_method='source-separated vocal estimates; broad acoustic vowel colors; no verified lexical phones', models={})
     with np.load(clocks, allow_pickle=False) as cache:
-        for role, source in [('LEAD', 'estimated_lead'), ('HARMONY', 'estimated_backing')]:
-            target = 'HX_SNOW_' + role
+        lanes = {}
+        for source in ('estimated_lead', 'estimated_backing'):
             energy, shapes = cache[source + '_energy'], cache[source + '_shapes']
             if (energy.ndim != 1 or energy.shape != shapes.shape or abs(len(energy)*.01-duration) > .02
                     or not np.isfinite(energy).all() or not np.isfinite(shapes).all()
                     or np.any(energy < 0) or np.any(energy > 1) or np.any(shapes != np.floor(shapes))
                     or np.any(shapes < 0) or np.any(shapes >= len(SHAPE_NAMES))):
                 raise ValueError('Invalid source-separated vocal clock')
+            lanes[source] = (energy, shapes)
+        if stemless_audio is not None:
+            from tools.stemless_duet import estimate_duet
+            energies = np.column_stack([lanes[s][0] for s in lanes])
+            shapes = np.column_stack([lanes[s][1] for s in lanes])
+            energies, shapes, estimate = estimate_duet(
+                stemless_audio, energies, shapes, frames=len(energies), frame_ms=10)
+            result['stemless_estimate'] = dict(estimate, audio_sha256=expected_sha256,
+                source_clock_sha256=report['clock_sha256'])
+            result['vocal_method'] = 'stemless mixed-audio estimate gated by retained vocal activity'
+            for index, source in enumerate(lanes):
+                lanes[source] = (energies[:, index], shapes[:, index])
+        for role, source in [('LEAD', 'estimated_lead'), ('HARMONY', 'estimated_backing')]:
+            target = 'HX_SNOW_' + role
+            energy, shapes = lanes[source]
+            track_hash = expected_sha256 if stemless_audio is not None else report['tracks'][source]['sha256']
             for element in root.find('ElementEffects'):
                 name = element.get('name', '')
                 if name == target or name.startswith(target + '/'):
@@ -89,13 +108,14 @@ def export(root, layout: Path, garden, *, fixture: Path = FIXTURE, expected_sha2
                 if template is None:
                     raise ValueError('Source singer has no exact native mapping for ' + shape)
                 effect = add_effect(layer, start, end, 'Faces', template)
-                effect.set('sourceMethod', 'two_stage_UVR_acoustic_estimate')
-                effect.set('sourceTrackSHA256', report['tracks'][source]['sha256'])
+                effect.set('sourceMethod', 'stemless_mixed_audio_estimate' if stemless_audio is not None
+                           else 'two_stage_UVR_acoustic_estimate')
+                effect.set('sourceTrackSHA256', track_hash)
                 count += 1
                 sounding += shape != 'REST'
                 rest += shape == 'REST'
             result['models'][target] = dict(faces_effect_count=count, non_rest_effect_count=sounding,
-                                            rest_effect_count=rest, source_track_sha256=report['tracks'][source]['sha256'])
+                                            rest_effect_count=rest, source_track_sha256=track_hash)
     for model in garden.models:
         for part, nodes in model.submodels.items():
             if not part.startswith('STATIC_RGB_') or not nodes:

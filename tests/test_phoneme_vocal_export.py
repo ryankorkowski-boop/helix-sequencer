@@ -3,6 +3,7 @@ from types import SimpleNamespace
 import xml.etree.ElementTree as ET
 import pytest
 from tools.phoneme_vocal_export import export, FIXTURE
+from tools.phoneme_source import FIXTURE as AUDIO, EXPECTED_SHA256
 
 
 def source_layout(tmp_path):
@@ -56,3 +57,46 @@ def test_changed_vocal_cache_receipt_is_rejected_before_export(tmp_path):
     (fixture/'acoustic_vocal_clocks.npz').write_bytes((FIXTURE/'acoustic_vocal_clocks.npz').read_bytes())
     with pytest.raises(ValueError, match='receipt'):
         export(sequence(), source_layout(tmp_path), SimpleNamespace(models=[]), fixture=fixture)
+
+
+def test_real_audio_stemless_mode_exports_native_faces_with_honest_mixed_source_identity(tmp_path):
+    root = sequence()
+    report = export(root, source_layout(tmp_path), SimpleNamespace(models=[]), stemless_audio=AUDIO)
+    assert report['stemless_estimate']['frame_ms'] == 10
+    assert report['stemless_estimate']['audio_sha256'] == EXPECTED_SHA256
+    assert report['stemless_estimate']['independent_voice_identity_proven'] is False
+    assert report['independent_backing_verified'] is False
+    active = []
+    for role in ('LEAD', 'HARMONY'):
+        row = root.find(f'./ElementEffects/Element[@name="HX_SNOW_{role}"]')
+        effects = list(row.iter('Effect'))
+        assert all(e.get('name') == 'Faces' for e in effects)
+        assert all(e.get('sourceMethod') == 'stemless_mixed_audio_estimate' for e in effects)
+        assert all(e.get('sourceTrackSHA256') == EXPECTED_SHA256 for e in effects)
+        assert int(effects[0].get('startTime')) == 0
+        assert int(effects[-1].get('endTime')) == 34880
+        assert all(a.get('endTime') == b.get('startTime') for a, b in zip(effects, effects[1:]))
+        active.append([(int(e.get('startTime')), int(e.get('endTime'))) for e in effects
+                       if 'Phoneme=rest,' not in e.get('settings', '')])
+    assert active[0]
+    assert all(any(a <= lo and hi <= b for a, b in active[0]) for lo, hi in active[1])
+    from tools.vocal_diagnostic import export as timeline
+    import csv
+    diagnostic = tmp_path/'timeline'
+    timeline_report = timeline(AUDIO, FIXTURE, diagnostic, stemless_duet=True)
+    assert timeline_report['stemless_estimate']['mode'] == 'stemless_mixed_audio_estimate'
+    with (diagnostic/'Vocal_Timeline.csv').open() as stream:
+        rows = list(csv.DictReader(stream))
+    for index, role in enumerate(('lead', 'backing')):
+        for frame, row in enumerate(rows):
+            expected = any(lo <= frame*10 < hi for lo, hi in active[index])
+            assert bool(int(row[role+'_active'])) == expected
+            assert row[role+'_speech_vad_probability'] == ''
+
+
+def test_stemless_audio_mismatch_does_not_modify_sequence(tmp_path):
+    wrong = tmp_path/'wrong.wav'; wrong.write_bytes(b'wrong source')
+    root = sequence(); before = ET.tostring(root)
+    with pytest.raises(ValueError, match='Stemless estimate audio'):
+        export(root, source_layout(tmp_path), SimpleNamespace(models=[]), stemless_audio=wrong)
+    assert ET.tostring(root) == before

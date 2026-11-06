@@ -1,13 +1,18 @@
 name: Phoneme Test Hook native MP4 verification
 on:
   pull_request:
-    paths: [.github/workflows/phoneme-test-hook-native.yml, 'fixtures/audio/**', tools/phoneme_source.py, tools/prepare_phoneme_show.py, tools/finalize_phoneme_review.py, tools/native_preview.py, 'core/**', 'xlights/**', 'models/**']
+    paths: [.github/workflows/phoneme-test-hook-native.yml, 'fixtures/audio/**', tools/phoneme_source.py, tools/prepare_phoneme_show.py, tools/phoneme_vocal_export.py, tools/stemless_duet.py, tools/finalize_phoneme_review.py, tools/native_preview.py, 'core/**', 'xlights/**', 'models/**']
   workflow_dispatch:
     inputs:
       audio_url:
         description: Optional HTTPS override; default is the retained hash-verified owner recording
         required: false
         type: string
+      stemless_duet:
+        description: Render mixed-audio mouth estimates; does not establish independent singers
+        required: false
+        type: boolean
+        default: true
 permissions:
   contents: read
   actions: read
@@ -22,8 +27,11 @@ jobs:
       HELIX_SOURCE_COMMIT: ${{ github.event.pull_request.head.sha || github.sha }}
       HELIX_PHONEME_AUDIO_URL: ${{ inputs.audio_url }}
       HELIX_PHONEME_AUDIO_TOKEN: ${{ secrets.HELIX_PHONEME_AUDIO_TOKEN }}
-      HELIX_NATIVE_PREVIEW_WIDTH: '1280'
-      HELIX_NATIVE_PREVIEW_HEIGHT: '720'
+      # PR previews exercise the owner-requested estimator. Manual runs may
+      # explicitly select the retained source-separated estimate instead.
+      HELIX_STEMLESS_DUET: ${{ github.event_name == 'pull_request' || inputs.stemless_duet }}
+      HELIX_NATIVE_PREVIEW_WIDTH: '1920'
+      HELIX_NATIVE_PREVIEW_HEIGHT: '1080'
       XL_NO_GPU_COMPUTE: '1'
       OMP_NUM_THREADS: '2'
       OPENBLAS_NUM_THREADS: '2'
@@ -44,9 +52,14 @@ jobs:
           sudo apt-get install -y ffmpeg xvfb xauth openbox x11-utils x11-xserver-utils wmctrl xdotool libgtk-3-0t64 libgl1 libegl1 libopengl0 libglu1-mesa libgstreamer-plugins-base1.0-0
           python -m pip install numpy scipy librosa==0.10.2.post1 soundfile numba llvmlite Pillow trimesh moderngl zstandard imageio imageio-ffmpeg cmudict PyYAML requests pytest
       - name: Validate source ingestion, DSP equivalence and strict native faces
-        run: python -m pytest tests/test_phoneme_source.py tests/test_audio_analysis_reuse.py tests/test_native_face_instructions.py -q
+        run: |
+          python -m compileall -q tools/native_source_pose_band.py tools/stemless_duet.py tools/phoneme_vocal_export.py tools/prepare_phoneme_show.py
+          python -m pytest tests/test_phoneme_source.py tests/test_audio_analysis_reuse.py tests/test_native_face_instructions.py tests/test_stemless_duet.py tests/test_phoneme_vocal_export.py -q
       - name: Prepare complete show from current Helix source
-        run: python -m tools.prepare_phoneme_show --audio phoneme-work/input/Phoneme_Test_Hook.mp3 --output phoneme-work/show
+        run: |
+          args=()
+          if [ "$HELIX_STEMLESS_DUET" = 'true' ]; then args+=(--stemless-duet); fi
+          python -m tools.prepare_phoneme_show --audio phoneme-work/input/Phoneme_Test_Hook.mp3 --output phoneme-work/show "${args[@]}"
       - name: Restore compiled pinned native renderer
         id: native-cache
         uses: actions/cache/restore@v4
