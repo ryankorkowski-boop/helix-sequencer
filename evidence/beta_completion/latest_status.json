@@ -1,10 +1,10 @@
 {
   "schema": "helix.beta-completion.v1",
-  "updated_at": "2026-11-06T02:34:35.912910+00:00",
+  "updated_at": "2026-11-06T02:49:26.255416+00:00",
   "repository": "https://github.com/ryankorkowski-boop/helix-sequencer",
   "branch": "codex/eight-hour-recovery-20261019",
   "recovered_head": "45f17d69fac91d7683984cc22c54bb701eb2226e",
-  "last_verified_implementation_sha": "dd73e36777d0a02c6d403245d03421d093bda0fd",
+  "last_verified_implementation_sha": "a9beaa7c9be89fffc21a856e033bf75a3136c29b",
   "current_task": "PR188-COMPILE-STEMLESS-INTEGRATION",
   "tasks": [
     {
@@ -275,20 +275,28 @@
   "missing_videos": [],
   "owner_approval": false,
   "beta_release": "HELD",
-  "active_runs": [],
+  "active_runs": [
+    {
+      "run_id": 42151760842,
+      "purpose": "Python3.11/3.12 full hosted regression; inspect completed results"
+    },
+    {
+      "run_id": 42151760872,
+      "purpose": "native fixture proof and strict source consumer; not owner approval"
+    }
+  ],
   "next_three_actions": [
-    "Finish genuine native pilot from freshly generated real-audio XSQ",
-    "Inspect media, source hashes, singer timing, FSEQ and visibility without changing acceptance thresholds",
-    "Commit tested focused fixes and reconcile hosted CI; preserve canonical visual and independent-source blockers"
+    "Repair source-driven canonical/native performer motion and verify approved-reference identity without substitutions or invented events",
+    "Qualify full-recording independent singer routes against real source evidence before creating pilot_acceptance.json and frozen nine",
+    "Resolve reproduced Haswell chroma portability failures without relaxing tolerance or memory bounds"
   ],
   "resume_commands": [
     "git fetch origin codex/eight-hour-recovery-20261019",
     "git checkout codex/eight-hour-recovery-20261019",
     "cat MASTER_TODO.md",
-    "cat docs/BETA_COMPLETION_LIVE_HANDOFF.md",
-    "python -m pip install -r requirements-dev.txt",
-    "python -m pytest -q tests/test_owner_band_review.py tests/test_review_assembly_reuse.py tests/test_source_ac_review.py tests/test_approval_collection.py tests/test_bounded_audio.py",
-    "Restore source checkpoints and locators using the current Library helpers only if required; see live handoff."
+    "cat evidence/beta_completion/implementation_20261105/task_log.json",
+    "OPENBLAS_CORETYPE=Haswell OPENBLAS_NUM_THREADS=2 python -m pytest tests/test_bounded_audio.py -q",
+    "python -m pytest tests/test_stemless_duet.py tests/test_phoneme_vocal_export.py tests/test_vocal_diagnostic.py -q"
   ],
   "profile_evidence": "evidence/beta_completion/harmony_memory_profile.json",
   "focused_tests": {
@@ -304,7 +312,7 @@
       "audio/drummer_v3.py": "cf2eae24ffa8bb5d21bd2657fb5b7cbcfb863ee6eb52b2b0837249c22116f165"
     }
   },
-  "current_implementation_sha": "cd0c852b0fc522ca04850eefece70e5b9bfb94bb",
+  "current_implementation_sha": "a9beaa7c9be89fffc21a856e033bf75a3136c29b",
   "focused_final_tests": {
     "passed": 158,
     "seconds": 137.31,
@@ -1972,7 +1980,7 @@
   "implementation_log": "evidence/beta_completion/implementation_20261105/task_log.json",
   "qualified_approval_mp4_count": 0,
   "current_execution": {
-    "source_worktree_dirty": true,
+    "source_worktree_dirty": false,
     "compile": "passed",
     "focused_tests": 48,
     "native_guard_tests": 83,
@@ -1980,13 +1988,23 @@
     "bounded_audio_default_tests": 12,
     "engine_exit_code": 0,
     "engine_effects": 13612,
-    "native_render": "local_runtime_blocked_hosted_pending",
+    "native_render": "native_export_verified_motion_failed",
     "owner_approval": false,
     "bounded_audio_haswell": {
       "passed": 8,
       "failed": 4,
       "tolerance_unchanged": true
     },
-    "full_python312": "running"
+    "full_python312": {
+      "passed": 2349,
+      "skipped": 6,
+      "subtests_passed": 24,
+      "seconds": 334.27
+    },
+    "native_run_id": 42151760898,
+    "native_artifact_id": 13473241277,
+    "readability_passed": false,
+    "native_motion": 0.372,
+    "required_native_motion": 0.65
   }
 }

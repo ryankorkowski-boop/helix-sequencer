@@ -1,7 +1,7 @@
 {
   "schema": "helix.implementation-log.v1",
   "base_commit": "aa58cc0dc1843fc32129e5489cb5cc71123b51a6",
-  "status": "in_progress",
+  "status": "implementation_verified_delivery_blocked",
   "entries": [
     {
       "task": "compile repair",
@@ -71,9 +71,56 @@
       "task": "full Python3.12 regression",
       "status": "running",
       "detail": "Installed required CPU Torch/Whisper instead of skipping collection errors; full suite receipt pending."
+    },
+    {
+      "task": "hosted native export",
+      "status": "passed_export_failed_motion",
+      "detail": {
+        "run_id": 42151760898,
+        "artifact_id": 13473241277,
+        "mp4_sha256": "48451c892cfd57df97643149338df8d81c73b3eedb4743a3f937d068d524516b",
+        "full_decode": true,
+        "soundtrack_correlation": 0.9968248041636503,
+        "resolution": [
+          1920,
+          1080
+        ],
+        "fps": 20,
+        "source_duration_seconds": 34.88,
+        "motion": 0.372,
+        "required_motion": 0.65,
+        "owner_approved": false
+      }
+    },
+    {
+      "task": "full Python3.12 regression",
+      "status": "passed",
+      "detail": "2349passed,6existing skips,24subtests in334.27s; full_python312.xml"
+    },
+    {
+      "task": "hosted CI",
+      "status": "partially_complete",
+      "detail": "a9beaa7 Python3.11/3.12 Beta smoke,lint and keyboard focused gate pass. Hosted full matrices still running when recorded."
+    },
+    {
+      "task": "full approval collection",
+      "status": "blocked",
+      "detail": "42151760953 stops at genuine missing pilot reference/timing receipt; fresh producer42151760979 passes preflight then rejects unqualified E14 vocal source. No rerun of unchanged failures."
     }
   ],
   "owner_approved": false,
   "beta_release": "HELD",
-  "updated_at": "2026-11-06T02:36:42.423279+00:00"
+  "updated_at": "2026-11-06T02:49:26.255416+00:00",
+  "implementation_commit": "a9beaa7c9be89fffc21a856e033bf75a3136c29b",
+  "tasks": {
+    "compile_repair": "verified_local_and_hosted",
+    "stemless_native_faces_and_timeline": "verified",
+    "full_python312_local": "2349_passed_6_existing_skips_24_subtests",
+    "native_xsq_fseq_mp4_export": "verified_at_a9beaa7",
+    "native_motion": "failed_0.372_below_0.65",
+    "independent_singer_identity": "unverified",
+    "canonical_native_visual_identity": "unverified",
+    "haswell_chroma": "4_existing_failures_8_passed",
+    "frozen_nine_bundle": "blocked"
+  }
 }
