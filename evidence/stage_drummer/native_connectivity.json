@@ -1,0 +1,57 @@
+{
+  "schema": "helix.native_drummer_connectivity.v1",
+  "source_xmodel_sha256": "d6fc7472cfb11efba812d5147cc8f9cc247aafffbebce3c5a2e825c1bfaa6be1",
+  "source_geometry_and_node_ranges_unchanged": true,
+  "native_frames": 80,
+  "frame_ms": 50,
+  "pixels": 6912,
+  "channels": 20736,
+  "visual_and_logical_submodels": 40,
+  "targets": [
+    {
+      "target": "HX_SNOWMAN_DRUMMER_V3_KICK",
+      "canonical_nodes": 180,
+      "native_nodes_match_exactly": true
+    },
+    {
+      "target": "HX_SNOWMAN_DRUMMER_V3_SNARE",
+      "canonical_nodes": 125,
+      "native_nodes_match_exactly": true
+    },
+    {
+      "target": "HX_SNOWMAN_DRUMMER_V3_HI_HAT",
+      "canonical_nodes": 38,
+      "native_nodes_match_exactly": true
+    },
+    {
+      "target": "HX_SNOWMAN_DRUMMER_V3_TOM_HIGH",
+      "canonical_nodes": 124,
+      "native_nodes_match_exactly": true
+    },
+    {
+      "target": "HX_SNOWMAN_DRUMMER_V3_TOM_MID",
+      "canonical_nodes": 87,
+      "native_nodes_match_exactly": true
+    },
+    {
+      "target": "HX_SNOWMAN_DRUMMER_V3_TOM_FLOOR",
+      "canonical_nodes": 153,
+      "native_nodes_match_exactly": true
+    },
+    {
+      "target": "HX_SNOWMAN_DRUMMER_V3_CYMBAL_LEFT",
+      "canonical_nodes": 92,
+      "native_nodes_match_exactly": true
+    },
+    {
+      "target": "HX_SNOWMAN_DRUMMER_V3_CYMBAL_RIGHT",
+      "canonical_nodes": 94,
+      "native_nodes_match_exactly": true
+    }
+  ],
+  "native_render": "success",
+  "musical_performance": false,
+  "output_absolute_path": "/workspace/helix-laptop-prep/outputs/Canonical_Drummer_Native_Probe_Retry",
+  "physical_output_networks": 0,
+  "limits": "Connectivity only. Stage placement, song-bound analysis, body keepalive and musical acceptance are separate."
+}

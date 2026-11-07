@@ -1,0 +1,37 @@
+{
+  "run_id": 38073179681,
+  "source_commit": "0553fbf6c1f525ec6c378709abbc874a660e381b",
+  "all_six_jobs_succeeded": true,
+  "artifacts": [
+    {
+      "id": 11677442674,
+      "bytes": 296930931,
+      "zip_crc_passed": true
+    },
+    {
+      "id": 11678221175,
+      "bytes": 236267901,
+      "zip_crc_passed": true
+    },
+    {
+      "id": 11677981522,
+      "bytes": 215176237,
+      "zip_crc_passed": true
+    },
+    {
+      "id": 11678026563,
+      "bytes": 223807508,
+      "zip_crc_passed": true
+    },
+    {
+      "id": 11677502705,
+      "bytes": 280329608,
+      "zip_crc_passed": true
+    },
+    {
+      "id": 11678270982,
+      "bytes": 223128964,
+      "zip_crc_passed": true
+    }
+  ]
+}

@@ -54,3 +54,8 @@
 Run this command from `C:\Users\User\Desktop\414`:
 
 `python -m tools.core_sandbox --audio 2.wav --output-dir outputs/core_sandbox_after_merge --disable-effect-engine --enable-self-improving-scoring --disable-spatial-mapping-engine --disable-audio-intelligence; python -m pytest tests/test_core_sandbox.py -q; python -m pytest`
+
+
+Licensing
+---------
+Helix is free for noncommercial personal and hobby use. Commercial use requires a separate paid written license. PolyForm Noncommercial 1.0.0 applies to Helix-owned material. See LICENSE and COMMERCIAL_LICENSING.md. Contact: facebook.com/helixsequencer.

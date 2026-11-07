@@ -1,0 +1,20 @@
+[
+  {
+    "file": "/workspace/helix-native/xLights.AppImage",
+    "bytes": 130521592,
+    "sha256": "62affb88b9a9b03cf5164974ac69bcefe35c559719d157b3364e4d4a5ab4214b",
+    "reason": "Downloaded immutable archive removed after successful extraction; runtime/source reference retained."
+  },
+  {
+    "file": "/workspace/helix-native/renderer.zip",
+    "bytes": 32540255,
+    "sha256": "39e52c8f2034db05888a2c6b6513a8e80307f68890ab62b89ab393947075bf73",
+    "reason": "Downloaded immutable archive removed after successful extraction; runtime/source reference retained."
+  },
+  {
+    "file": "/workspace/helix-inputs/drummer-reference.zip",
+    "bytes": 17879963,
+    "sha256": "f6287463d655b2eda68c4fe13fe5d303b8bf256ac53cf075b55934ab58db3677",
+    "reason": "Downloaded immutable archive removed after successful extraction; runtime/source reference retained."
+  }
+]

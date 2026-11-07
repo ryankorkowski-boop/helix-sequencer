@@ -1,0 +1,115 @@
+{
+  "concept_count": 20,
+  "paired_png_count": 10,
+  "ids": [
+    23,
+    24,
+    25,
+    26,
+    27,
+    28,
+    29,
+    30,
+    31,
+    32,
+    33,
+    34,
+    35,
+    36,
+    37,
+    38,
+    39,
+    40,
+    41,
+    42
+  ],
+  "all_images_decoded": true,
+  "all_gallery_links_resolve": true,
+  "native_artifacts_created": 0,
+  "awaiting_explicit_user_approval": true,
+  "prior_source_hashes_unchanged": 110,
+  "prior_native_input_and_movie_sets_unchanged": 22,
+  "image_boards": [
+    {
+      "board": 1,
+      "image": "images/23_24.png",
+      "width": 1774,
+      "height": 887,
+      "bytes": 2492128,
+      "sha256": "add07e69816350e693bed470f26e68b19523881b2cade19cf0f8e2cd16ae5ab8"
+    },
+    {
+      "board": 2,
+      "image": "images/25_26.png",
+      "width": 1774,
+      "height": 887,
+      "bytes": 2881704,
+      "sha256": "2e40acb673576f6c795eef2b766b00ced64e6c896b34dc3c218da6b214a41c3d"
+    },
+    {
+      "board": 3,
+      "image": "images/27_28.png",
+      "width": 1774,
+      "height": 887,
+      "bytes": 2583940,
+      "sha256": "ff998a989fa40e78a151eccbab5399d48b5f955eb68d4987ed8058662e51a172"
+    },
+    {
+      "board": 4,
+      "image": "images/29_30.png",
+      "width": 1774,
+      "height": 887,
+      "bytes": 2650280,
+      "sha256": "5571481be64b86ddacd2937cc0ed15e17478a55fb3351083d0acca20ce639340"
+    },
+    {
+      "board": 5,
+      "image": "images/31_32.png",
+      "width": 1774,
+      "height": 887,
+      "bytes": 2515593,
+      "sha256": "082cbeb70c46414a7f198d3fb0135911e6b1a3944f1fe0f1aa1eea55256004d0"
+    },
+    {
+      "board": 6,
+      "image": "images/33_34.png",
+      "width": 1774,
+      "height": 887,
+      "bytes": 2747705,
+      "sha256": "d539d7f0ed088651cfe733e100f4b12cb93f0ffdcda43dcd5332bb4a7a72d0d4"
+    },
+    {
+      "board": 7,
+      "image": "images/35_36.png",
+      "width": 1774,
+      "height": 887,
+      "bytes": 2665980,
+      "sha256": "695ce153988780e2a2aaa3b8b1ad50d3124d29665fcb7856bd5ac5934c297ef7"
+    },
+    {
+      "board": 8,
+      "image": "images/37_38.png",
+      "width": 1774,
+      "height": 887,
+      "bytes": 2668450,
+      "sha256": "f678e9f06d5b7a29d2b4bce57042b92277b033a463c5abf706035f203d031498"
+    },
+    {
+      "board": 9,
+      "image": "images/39_40.png",
+      "width": 1774,
+      "height": 887,
+      "bytes": 2688792,
+      "sha256": "f8579586bd03b24d1073f921b7c75d7c618563cac48b8c5e5d719facf94c8fb4"
+    },
+    {
+      "board": 10,
+      "image": "images/41_42.png",
+      "width": 1774,
+      "height": 887,
+      "bytes": 2790174,
+      "sha256": "ec08288a5fceed4bec1ee83736b9f01a7f44bc736731dc591f00989e930ff9e5"
+    }
+  ],
+  "limits": "Generated artwork expresses intended illusions; native geometry, optical alignment and actual viewing zones are not verified."
+}

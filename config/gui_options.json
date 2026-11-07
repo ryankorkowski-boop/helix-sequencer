@@ -1,0 +1,87 @@
+{
+  "default_layout": "helixville4",
+  "palettes": [
+    {
+      "key": "default",
+      "title": "Layout / template colors"
+    },
+    {
+      "key": "neon",
+      "title": "Musical neon"
+    },
+    {
+      "key": "christmas",
+      "title": "Christmas red, green and white"
+    },
+    {
+      "key": "warm",
+      "title": "Warm amber and gold"
+    },
+    {
+      "key": "cool",
+      "title": "Cool blue and ice"
+    },
+    {
+      "key": "random",
+      "title": "Varied colors"
+    },
+    {
+      "key": "workspace_match",
+      "title": "Match recent workspace colors"
+    }
+  ],
+  "layouts": [
+    {
+      "key": "greg256",
+      "title": "1 · Original Greg 256 AC",
+      "path": "xlights_rgbeffects.xml"
+    },
+    {
+      "key": "helixville2",
+      "title": "2 · Helixville 2 · expanded yard",
+      "path": "helixville2/xlights_rgbeffects.xml"
+    },
+    {
+      "key": "allmodels",
+      "title": "3 · All Models · prop collection",
+      "path": "allmodels/xlights_rgbeffects.xml"
+    },
+    {
+      "key": "helixville3",
+      "title": "4 · Helixville 3 · layered display",
+      "path": "helixville3/xlights_rgbeffects.xml"
+    },
+    {
+      "key": "aurora",
+      "title": "5 · Aurora · 3D showcase",
+      "path": "showcase/Helix_Aurora/xlights_rgbeffects.xml"
+    },
+    {
+      "key": "helixville4",
+      "title": "6 · Helixville 4 · extravagant neighborhood",
+      "path": "helixville4/xlights_rgbeffects.xml"
+    },
+    {
+      "key": "greg256_spirals",
+      "title": "7 · Greg 256 · three-color AC spiral trees",
+      "path": "showcase/Experimental_256_AC_Spirals/xlights_rgbeffects.xml"
+    }
+  ],
+  "stages": [
+    {
+      "key": "arena",
+      "title": "Stage scenery · Helix Arena",
+      "path": "showcase/approved_concepts/15_Helix_Arena/xlights_rgbeffects.xml"
+    },
+    {
+      "key": "thunder",
+      "title": "Stage scenery · Thunder Vault",
+      "path": "showcase/approved_concepts/16_Thunder_Vault_Stage/xlights_rgbeffects.xml"
+    },
+    {
+      "key": "gravity",
+      "title": "Stage scenery · Gravity Inversion",
+      "path": "showcase/approved_concepts/31_Gravity_Inversion_Stage/xlights_rgbeffects.xml"
+    }
+  ]
+}

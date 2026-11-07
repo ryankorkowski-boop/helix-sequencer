@@ -13,7 +13,7 @@ def test_performer_runtime_catalog_contains_all_five_members() -> None:
     catalog = build_performer_runtime_catalog()
     assert catalog["performer_count"] == 5
     assert catalog["model_names"] == [
-        "HX_SNOWMAN_DRUMMER",
+        "HX_SNOWMAN_DRUMMER_V3",
         "HX_SNOWMAN_GUITARIST",
         "HX_SNOWMAN_BASSIST",
         "HX_SNOWMAN_SINGER",

@@ -1,0 +1,57 @@
+{
+  "source_commit": "51d69819b44e5f32625873bbddfb7327bd66498d",
+  "full_python_311": {
+    "passed": 2189,
+    "skipped": 6,
+    "subtests_passed": 24,
+    "run": 40432522727,
+    "job": 121953382697
+  },
+  "full_python_312": {
+    "passed": 2189,
+    "skipped": 6,
+    "subtests_passed": 24,
+    "run": 40432522727,
+    "job": 121953382892
+  },
+  "focused_local_passed": 15,
+  "regression_run": 40432513709,
+  "recovery_guards": 40432522585,
+  "native_producer": {
+    "run": 40432522775,
+    "job": 121954243669,
+    "status": "failure",
+    "cause": "E14 source analysis has no independently resolved lead/backing vocal lanes"
+  },
+  "final_band": {
+    "run": 40432522680,
+    "job": 121955329014,
+    "status": "failure",
+    "cause": "native producer failed at this exact commit"
+  },
+  "collection_run": 40432522735,
+  "phoneme_run": 40432522744,
+  "approval_mp4s_created": 0,
+  "approval_zip_created": false,
+  "internal_checkpoint": {
+    "library_file_id": "libfile_a4f25fecbed881919a61725b9f227f74",
+    "name": "HELIX_INTERNAL_SOURCE_RECOVERY_20261026.zip",
+    "bytes": 262548196,
+    "sha256": "1a9453dab4715b5ca9759e87fd07e85f2696fdad6877e2dc8f07ad5890e87b71"
+  },
+  "remaining_resource": "Exact owner-approved fully modeled 3D band/drummer asset or identifying reference video/commit; current preserved V3 is planar and Review3DScene is unapproved",
+  "no_merge_or_new_public_release": true,
+  "complete_failed_job_logs_archive": {
+    "file": "complete_failed_job_logs.zip",
+    "bytes": 314952,
+    "sha256": "69ab9376ab6a8236e429aa52efd285ffaffd7093bea4adc29f37c187dd36f4ce",
+    "jobs": [
+      "job_121740756158",
+      "job_121740975557",
+      "job_121742623752",
+      "job_121743559084",
+      "job_121954243669",
+      "job_121955329014"
+    ]
+  }
+}

@@ -1,0 +1,1043 @@
+{
+  "schema": "helix.approved_concept.v1",
+  "name": "Quantum Chessboard",
+  "coordinate_system": "x-right, y-up, z-depth; design feet",
+  "xlights_source_ref": "6ceddc6b25a24d82754d4f9af28e18ee70b51f81",
+  "coverage": {
+    "Custom": 24
+  },
+  "native_families": [
+    "Custom"
+  ],
+  "native_coverage_complete": false,
+  "model_count": 24,
+  "rgb_pixels": 5380,
+  "channel_count": 16140,
+  "spiral_trees": 0,
+  "double_helices": 4,
+  "preview_contract": "Custom sparse-grid coordinates exactly match exported XML; native-family preview coordinates illustrate the authored geometry. Native xLights render/load evidence is recorded separately.",
+  "models": [
+    {
+      "name": "HX_001_CHECKER_TILE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "BOARD",
+      "design": "CHECKER TILE",
+      "kind": "pixel",
+      "nodes": 200,
+      "start_channel": 1,
+      "end_channel": 600,
+      "bounds_ft": [
+        [
+          -70.0,
+          8.0,
+          -70.0
+        ],
+        [
+          -38.0,
+          8.0,
+          -38.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.2400000000000091
+    },
+    {
+      "name": "HX_002_CHECKER_TILE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "BOARD",
+      "design": "CHECKER TILE",
+      "kind": "pixel",
+      "nodes": 200,
+      "start_channel": 601,
+      "end_channel": 1200,
+      "bounds_ft": [
+        [
+          -34.0,
+          16.0,
+          -70.0
+        ],
+        [
+          -2.0,
+          16.0,
+          -38.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.2400000000000091
+    },
+    {
+      "name": "HX_003_CHECKER_TILE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "BOARD",
+      "design": "CHECKER TILE",
+      "kind": "pixel",
+      "nodes": 200,
+      "start_channel": 1201,
+      "end_channel": 1800,
+      "bounds_ft": [
+        [
+          2.0,
+          24.0,
+          -70.0
+        ],
+        [
+          34.0,
+          24.0,
+          -38.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.2400000000000091
+    },
+    {
+      "name": "HX_004_CHECKER_TILE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "BOARD",
+      "design": "CHECKER TILE",
+      "kind": "pixel",
+      "nodes": 200,
+      "start_channel": 1801,
+      "end_channel": 2400,
+      "bounds_ft": [
+        [
+          38.0,
+          8.0,
+          -70.0
+        ],
+        [
+          70.0,
+          8.0,
+          -38.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.2400000000000091
+    },
+    {
+      "name": "HX_005_CHECKER_TILE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "BOARD",
+      "design": "CHECKER TILE",
+      "kind": "pixel",
+      "nodes": 200,
+      "start_channel": 2401,
+      "end_channel": 3000,
+      "bounds_ft": [
+        [
+          -70.0,
+          16.0,
+          -34.0
+        ],
+        [
+          -38.0,
+          16.0,
+          -2.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.2400000000000091
+    },
+    {
+      "name": "HX_006_CHECKER_TILE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "BOARD",
+      "design": "CHECKER TILE",
+      "kind": "pixel",
+      "nodes": 200,
+      "start_channel": 3001,
+      "end_channel": 3600,
+      "bounds_ft": [
+        [
+          -34.0,
+          24.0,
+          -34.0
+        ],
+        [
+          -2.0,
+          24.0,
+          -2.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.2400000000000091
+    },
+    {
+      "name": "HX_007_CHECKER_TILE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "BOARD",
+      "design": "CHECKER TILE",
+      "kind": "pixel",
+      "nodes": 200,
+      "start_channel": 3601,
+      "end_channel": 4200,
+      "bounds_ft": [
+        [
+          2.0,
+          8.0,
+          -34.0
+        ],
+        [
+          34.0,
+          8.0,
+          -2.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.2400000000000091
+    },
+    {
+      "name": "HX_008_CHECKER_TILE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "BOARD",
+      "design": "CHECKER TILE",
+      "kind": "pixel",
+      "nodes": 200,
+      "start_channel": 4201,
+      "end_channel": 4800,
+      "bounds_ft": [
+        [
+          38.0,
+          16.0,
+          -34.0
+        ],
+        [
+          70.0,
+          16.0,
+          -2.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.2400000000000091
+    },
+    {
+      "name": "HX_009_CHECKER_TILE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "BOARD",
+      "design": "CHECKER TILE",
+      "kind": "pixel",
+      "nodes": 200,
+      "start_channel": 4801,
+      "end_channel": 5400,
+      "bounds_ft": [
+        [
+          -70.0,
+          24.0,
+          2.0
+        ],
+        [
+          -38.0,
+          24.0,
+          34.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.2400000000000091
+    },
+    {
+      "name": "HX_010_CHECKER_TILE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "BOARD",
+      "design": "CHECKER TILE",
+      "kind": "pixel",
+      "nodes": 200,
+      "start_channel": 5401,
+      "end_channel": 6000,
+      "bounds_ft": [
+        [
+          -34.0,
+          8.0,
+          2.0
+        ],
+        [
+          -2.0,
+          8.0,
+          34.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.2400000000000091
+    },
+    {
+      "name": "HX_011_CHECKER_TILE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "BOARD",
+      "design": "CHECKER TILE",
+      "kind": "pixel",
+      "nodes": 200,
+      "start_channel": 6001,
+      "end_channel": 6600,
+      "bounds_ft": [
+        [
+          2.0,
+          16.0,
+          2.0
+        ],
+        [
+          34.0,
+          16.0,
+          34.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.2400000000000091
+    },
+    {
+      "name": "HX_012_CHECKER_TILE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "BOARD",
+      "design": "CHECKER TILE",
+      "kind": "pixel",
+      "nodes": 200,
+      "start_channel": 6601,
+      "end_channel": 7200,
+      "bounds_ft": [
+        [
+          38.0,
+          24.0,
+          2.0
+        ],
+        [
+          70.0,
+          24.0,
+          34.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.2400000000000091
+    },
+    {
+      "name": "HX_013_CHECKER_TILE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "BOARD",
+      "design": "CHECKER TILE",
+      "kind": "pixel",
+      "nodes": 200,
+      "start_channel": 7201,
+      "end_channel": 7800,
+      "bounds_ft": [
+        [
+          -70.0,
+          8.0,
+          38.0
+        ],
+        [
+          -38.0,
+          8.0,
+          70.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.2400000000000091
+    },
+    {
+      "name": "HX_014_CHECKER_TILE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "BOARD",
+      "design": "CHECKER TILE",
+      "kind": "pixel",
+      "nodes": 200,
+      "start_channel": 7801,
+      "end_channel": 8400,
+      "bounds_ft": [
+        [
+          -34.0,
+          16.0,
+          38.0
+        ],
+        [
+          -2.0,
+          16.0,
+          70.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.2400000000000091
+    },
+    {
+      "name": "HX_015_CHECKER_TILE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "BOARD",
+      "design": "CHECKER TILE",
+      "kind": "pixel",
+      "nodes": 200,
+      "start_channel": 8401,
+      "end_channel": 9000,
+      "bounds_ft": [
+        [
+          2.0,
+          24.0,
+          38.0
+        ],
+        [
+          34.0,
+          24.0,
+          70.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.2400000000000091
+    },
+    {
+      "name": "HX_016_CHECKER_TILE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "BOARD",
+      "design": "CHECKER TILE",
+      "kind": "pixel",
+      "nodes": 200,
+      "start_channel": 9001,
+      "end_channel": 9600,
+      "bounds_ft": [
+        [
+          38.0,
+          8.0,
+          38.0
+        ],
+        [
+          70.0,
+          8.0,
+          70.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.2400000000000091
+    },
+    {
+      "name": "HX_017_CHESS_HELIX",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "PIECES",
+      "design": "CHESS HELIX",
+      "kind": "pixel",
+      "nodes": 395,
+      "start_channel": 9601,
+      "end_channel": 10785,
+      "bounds_ft": [
+        [
+          -61.0,
+          20.0,
+          -61.0
+        ],
+        [
+          -47.0,
+          60.0,
+          -47.0
+        ]
+      ],
+      "submodels": [
+        "STRAND_A",
+        "STRAND_B",
+        "RUNGS",
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.37254775449500305,
+      "double_helix": true
+    },
+    {
+      "name": "HX_018_PIECE_CROWN",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "PIECES",
+      "design": "PIECE CROWN",
+      "kind": "pixel",
+      "nodes": 150,
+      "start_channel": 10786,
+      "end_channel": 11235,
+      "bounds_ft": [
+        [
+          -64.0,
+          60.0,
+          -64.0
+        ],
+        [
+          -44.0,
+          60.0,
+          -44.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.25,
+      "max_snap_error_ft": 0.16201943757019763
+    },
+    {
+      "name": "HX_019_CHESS_HELIX",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "PIECES",
+      "design": "CHESS HELIX",
+      "kind": "pixel",
+      "nodes": 395,
+      "start_channel": 11236,
+      "end_channel": 12420,
+      "bounds_ft": [
+        [
+          11.0,
+          20.0,
+          -25.0
+        ],
+        [
+          25.0,
+          92.0,
+          -11.0
+        ]
+      ],
+      "submodels": [
+        "STRAND_A",
+        "STRAND_B",
+        "RUNGS",
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3762806835345451,
+      "double_helix": true
+    },
+    {
+      "name": "HX_020_PIECE_CROWN",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "PIECES",
+      "design": "PIECE CROWN",
+      "kind": "pixel",
+      "nodes": 150,
+      "start_channel": 12421,
+      "end_channel": 12870,
+      "bounds_ft": [
+        [
+          8.0,
+          92.0,
+          -28.0
+        ],
+        [
+          28.0,
+          92.0,
+          -8.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.25,
+      "max_snap_error_ft": 0.16201943757020018
+    },
+    {
+      "name": "HX_021_CHESS_HELIX",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "PIECES",
+      "design": "CHESS HELIX",
+      "kind": "pixel",
+      "nodes": 395,
+      "start_channel": 12871,
+      "end_channel": 14055,
+      "bounds_ft": [
+        [
+          -25.0,
+          20.0,
+          11.0
+        ],
+        [
+          -11.0,
+          48.0,
+          25.0
+        ]
+      ],
+      "submodels": [
+        "STRAND_A",
+        "STRAND_B",
+        "RUNGS",
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3742831131441313,
+      "double_helix": true
+    },
+    {
+      "name": "HX_022_PIECE_CROWN",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "PIECES",
+      "design": "PIECE CROWN",
+      "kind": "pixel",
+      "nodes": 150,
+      "start_channel": 14056,
+      "end_channel": 14505,
+      "bounds_ft": [
+        [
+          -28.0,
+          48.0,
+          8.0
+        ],
+        [
+          -8.0,
+          48.0,
+          28.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.25,
+      "max_snap_error_ft": 0.1620194375702014
+    },
+    {
+      "name": "HX_023_CHESS_HELIX",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "PIECES",
+      "design": "CHESS HELIX",
+      "kind": "pixel",
+      "nodes": 395,
+      "start_channel": 14506,
+      "end_channel": 15690,
+      "bounds_ft": [
+        [
+          47.0,
+          20.0,
+          47.0
+        ],
+        [
+          61.0,
+          72.0,
+          61.0
+        ]
+      ],
+      "submodels": [
+        "STRAND_A",
+        "STRAND_B",
+        "RUNGS",
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.4170436211260774,
+      "double_helix": true
+    },
+    {
+      "name": "HX_024_PIECE_CROWN",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "PIECES",
+      "design": "PIECE CROWN",
+      "kind": "pixel",
+      "nodes": 150,
+      "start_channel": 15691,
+      "end_channel": 16140,
+      "bounds_ft": [
+        [
+          44.0,
+          72.0,
+          44.0
+        ],
+        [
+          64.0,
+          72.0,
+          64.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.25,
+      "max_snap_error_ft": 0.16201943757019763
+    }
+  ],
+  "file_prefix": "Quantum_Chessboard",
+  "description": "Raised, disconnected grid tiles align into one checkerboard, with helix pieces emphasizing the changing depth.",
+  "palette": [
+    "#69EFFF",
+    "#B599FF",
+    "#FFD98A"
+  ],
+  "groups": {
+    "HX_ALL_PIXELS": [
+      "HX_001_CHECKER_TILE",
+      "HX_002_CHECKER_TILE",
+      "HX_003_CHECKER_TILE",
+      "HX_004_CHECKER_TILE",
+      "HX_005_CHECKER_TILE",
+      "HX_006_CHECKER_TILE",
+      "HX_007_CHECKER_TILE",
+      "HX_008_CHECKER_TILE",
+      "HX_009_CHECKER_TILE",
+      "HX_010_CHECKER_TILE",
+      "HX_011_CHECKER_TILE",
+      "HX_012_CHECKER_TILE",
+      "HX_013_CHECKER_TILE",
+      "HX_014_CHECKER_TILE",
+      "HX_015_CHECKER_TILE",
+      "HX_016_CHECKER_TILE",
+      "HX_017_CHESS_HELIX",
+      "HX_018_PIECE_CROWN",
+      "HX_019_CHESS_HELIX",
+      "HX_020_PIECE_CROWN",
+      "HX_021_CHESS_HELIX",
+      "HX_022_PIECE_CROWN",
+      "HX_023_CHESS_HELIX",
+      "HX_024_PIECE_CROWN"
+    ],
+    "HX_DNA_ALL": [
+      "HX_017_CHESS_HELIX",
+      "HX_019_CHESS_HELIX",
+      "HX_021_CHESS_HELIX",
+      "HX_023_CHESS_HELIX"
+    ],
+    "HX_DNA_RUNGS": [
+      "HX_017_CHESS_HELIX/RUNGS",
+      "HX_019_CHESS_HELIX/RUNGS",
+      "HX_021_CHESS_HELIX/RUNGS",
+      "HX_023_CHESS_HELIX/RUNGS"
+    ],
+    "HX_DNA_STRAND_A": [
+      "HX_017_CHESS_HELIX/STRAND_A",
+      "HX_019_CHESS_HELIX/STRAND_A",
+      "HX_021_CHESS_HELIX/STRAND_A",
+      "HX_023_CHESS_HELIX/STRAND_A"
+    ],
+    "HX_DNA_STRAND_B": [
+      "HX_017_CHESS_HELIX/STRAND_B",
+      "HX_019_CHESS_HELIX/STRAND_B",
+      "HX_021_CHESS_HELIX/STRAND_B",
+      "HX_023_CHESS_HELIX/STRAND_B"
+    ],
+    "HX_NATIVE_CUSTOM": [
+      "HX_001_CHECKER_TILE",
+      "HX_002_CHECKER_TILE",
+      "HX_003_CHECKER_TILE",
+      "HX_004_CHECKER_TILE",
+      "HX_005_CHECKER_TILE",
+      "HX_006_CHECKER_TILE",
+      "HX_007_CHECKER_TILE",
+      "HX_008_CHECKER_TILE",
+      "HX_009_CHECKER_TILE",
+      "HX_010_CHECKER_TILE",
+      "HX_011_CHECKER_TILE",
+      "HX_012_CHECKER_TILE",
+      "HX_013_CHECKER_TILE",
+      "HX_014_CHECKER_TILE",
+      "HX_015_CHECKER_TILE",
+      "HX_016_CHECKER_TILE",
+      "HX_017_CHESS_HELIX",
+      "HX_018_PIECE_CROWN",
+      "HX_019_CHESS_HELIX",
+      "HX_020_PIECE_CROWN",
+      "HX_021_CHESS_HELIX",
+      "HX_022_PIECE_CROWN",
+      "HX_023_CHESS_HELIX",
+      "HX_024_PIECE_CROWN"
+    ],
+    "HX_WHOLE_SHOW": [
+      "HX_001_CHECKER_TILE",
+      "HX_002_CHECKER_TILE",
+      "HX_003_CHECKER_TILE",
+      "HX_004_CHECKER_TILE",
+      "HX_005_CHECKER_TILE",
+      "HX_006_CHECKER_TILE",
+      "HX_007_CHECKER_TILE",
+      "HX_008_CHECKER_TILE",
+      "HX_009_CHECKER_TILE",
+      "HX_010_CHECKER_TILE",
+      "HX_011_CHECKER_TILE",
+      "HX_012_CHECKER_TILE",
+      "HX_013_CHECKER_TILE",
+      "HX_014_CHECKER_TILE",
+      "HX_015_CHECKER_TILE",
+      "HX_016_CHECKER_TILE",
+      "HX_017_CHESS_HELIX",
+      "HX_018_PIECE_CROWN",
+      "HX_019_CHESS_HELIX",
+      "HX_020_PIECE_CROWN",
+      "HX_021_CHESS_HELIX",
+      "HX_022_PIECE_CROWN",
+      "HX_023_CHESS_HELIX",
+      "HX_024_PIECE_CROWN"
+    ],
+    "HX_ZONE_BOARD": [
+      "HX_001_CHECKER_TILE",
+      "HX_002_CHECKER_TILE",
+      "HX_003_CHECKER_TILE",
+      "HX_004_CHECKER_TILE",
+      "HX_005_CHECKER_TILE",
+      "HX_006_CHECKER_TILE",
+      "HX_007_CHECKER_TILE",
+      "HX_008_CHECKER_TILE",
+      "HX_009_CHECKER_TILE",
+      "HX_010_CHECKER_TILE",
+      "HX_011_CHECKER_TILE",
+      "HX_012_CHECKER_TILE",
+      "HX_013_CHECKER_TILE",
+      "HX_014_CHECKER_TILE",
+      "HX_015_CHECKER_TILE",
+      "HX_016_CHECKER_TILE"
+    ],
+    "HX_ZONE_PIECES": [
+      "HX_017_CHESS_HELIX",
+      "HX_018_PIECE_CROWN",
+      "HX_019_CHESS_HELIX",
+      "HX_020_PIECE_CROWN",
+      "HX_021_CHESS_HELIX",
+      "HX_022_PIECE_CROWN",
+      "HX_023_CHESS_HELIX",
+      "HX_024_PIECE_CROWN"
+    ]
+  },
+  "group_count": 9,
+  "concept_id": "41",
+  "source_art": "images/41_42.png",
+  "source_art_side": "left",
+  "build_status": "native planning layout",
+  "source_brief": {
+    "id": "41",
+    "name": "Quantum Chessboard",
+    "standout": "Raised, disconnected grid tiles align into one checkerboard, with helix pieces emphasizing the changing depth.",
+    "scene": "A surreal but physically grounded cyan/violet/gold pixel chess garden. SIXTEEN disconnected outlined checkerboard tiles at different heights and depths align into one coherent tilted board from a chosen hero viewpoint. Four sculptural helix chess-piece-like towers of distinct heights sit on supported tiles. Some physical gaps visible at edges, dark actual pedestal supports. No magical levitation or changing physics, strong large-scale board silhouette.",
+    "board": 10,
+    "side": "left",
+    "image": "images/41_42.png",
+    "status": "awaiting approval",
+    "scope": "Concept art; no xmodel/XML/XSQ/MP4 build.",
+    "source_catalog": "showcase/concepts/2026_10_09_advanced/concepts.json",
+    "description": "Raised, disconnected grid tiles align into one checkerboard, with helix pieces emphasizing the changing depth.",
+    "constraint": "Finite artwork-guided planning geometry; no physical actuation or surveyed construction dimensions.",
+    "round": "advanced"
+  },
+  "sequence_type": "24-second silent Animation study",
+  "physical_output_networks": 0,
+  "limits": [
+    "Finite artwork-guided planning geometry; no physical actuation or surveyed construction dimensions.",
+    "Artwork-guided finite geometry, not a scanned/surveyed reconstruction.",
+    "No complete music sequence or musical drummer acceptance claimed."
+  ]
+}

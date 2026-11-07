@@ -1,0 +1,101 @@
+{
+  "artifact_id": 11527580859,
+  "dry_test_source_commit": "3cbd736bedf0feadaba69c8a526b2d246ec07b7d",
+  "checks": [
+    {
+      "file": "fixtures/band_geometry/layers/drummer_hit_both_crash.png",
+      "sha256": "48bb646212c3266ccdaddc9c1a2fc701d20d3b60eef7dea3fdf4c8089083faf9",
+      "identical_to_dry_test_revision": true
+    },
+    {
+      "file": "fixtures/band_geometry/layers/drummer_hit_floor_tom.png",
+      "sha256": "822a9bb9099d5a0911be54a7fd04c6a5ab1cbfa8049f0ec49a3b62a2c09efb77",
+      "identical_to_dry_test_revision": true
+    },
+    {
+      "file": "fixtures/band_geometry/layers/drummer_hit_high_tom.png",
+      "sha256": "40a02e782f807cc5155c7ac666146ee8115eabb8477c163d2f112ba83c7bf29e",
+      "identical_to_dry_test_revision": true
+    },
+    {
+      "file": "fixtures/band_geometry/layers/drummer_hit_mid_tom.png",
+      "sha256": "059a8d7563775bfced8ad4d644e4abac5d9e6962300511d04dd9acb7250fb962",
+      "identical_to_dry_test_revision": true
+    },
+    {
+      "file": "fixtures/band_geometry/layers/drummer_downbeat_impact.png",
+      "sha256": "a23af34c2feb6daf79641765060c087e99044d9eb293154f0c0584ab6818d1f7",
+      "identical_to_dry_test_revision": true
+    },
+    {
+      "file": "fixtures/band_geometry/layers/drummer_hit_hi_hat.png",
+      "sha256": "4b66bcbcf34b905d152310414ad86f7e0d20441e799be9436c7e47df709120df",
+      "identical_to_dry_test_revision": true
+    },
+    {
+      "file": "fixtures/band_geometry/layers/drummer_hit_kick.png",
+      "sha256": "bca071002f886162c45720b7be08f5d9e790aae928af77a5a746ae00683e2d74",
+      "identical_to_dry_test_revision": true
+    },
+    {
+      "file": "fixtures/band_geometry/layers/drummer_hit_right_crash.png",
+      "sha256": "6fb45e96ca03b6e10336ef74f1a11bf8532d967346c0acdfb2d99913cd2a9cd2",
+      "identical_to_dry_test_revision": true
+    },
+    {
+      "file": "fixtures/band_geometry/layers/drummer_hit_snare.png",
+      "sha256": "db8281949a250cbd07e4835d8a35514ff07cc1404770b8cd0aaeeb9122a01996",
+      "identical_to_dry_test_revision": true
+    },
+    {
+      "file": "fixtures/band_geometry/layers/drummer_hit_left_crash.png",
+      "sha256": "0f345577502715668dbb19911104f3820a836882037e83585932ef8aac85de6f",
+      "identical_to_dry_test_revision": true
+    },
+    {
+      "file": "fixtures/band_geometry/layers/drummer_hit_right_tom.png",
+      "sha256": "65b16e32ce352113be3d201f423a6481050b25be8d7ca75b022943a08da9373b",
+      "identical_to_dry_test_revision": true
+    },
+    {
+      "file": "fixtures/band_geometry/layers/drummer_hit_left_tom.png",
+      "sha256": "63b1f5b74b95d5f808640aaea46ee15eb9aac3f031c92cb98f2bdd5a0aae7495",
+      "identical_to_dry_test_revision": true
+    },
+    {
+      "file": "fixtures/band_geometry/layers/drummer_hit_snare_right.png",
+      "sha256": "3a022b24b9075d319ca89b1ff8aaf8e2783ec71cf521c4821ebb10690c0ad7c7",
+      "identical_to_dry_test_revision": true
+    },
+    {
+      "file": "fixtures/band_geometry/source/drummerbg.png",
+      "sha256": "643e1bfb7fb0b245cb7400010a80f9f75037f8a5554adde7bde8cba7a53374fa",
+      "identical_to_dry_test_revision": true
+    },
+    {
+      "file": "fixtures/band_geometry/source/drummer_idle.png",
+      "sha256": "3c1bc92206214d749816910e5133239000f2960ba136ce00bc1c7602905f5dbc",
+      "identical_to_dry_test_revision": true
+    },
+    {
+      "file": "fixtures/band_geometry/drummer_v3_pose_spec.json",
+      "sha256": "a7a1ff064a9ac1391abfeaf43475cc7cdf4489d6b0b4128c442b2ed3cb33f9c9",
+      "identical_to_dry_test_revision": true
+    },
+    {
+      "file": "fixtures/band_geometry/models/HX_SNOWMAN_DRUMMER_V3.xmodel",
+      "sha256": "d6fc7472cfb11efba812d5147cc8f9cc247aafffbebce3c5a2e825c1bfaa6be1",
+      "identical_to_dry_test_revision": true
+    },
+    {
+      "file": "tools/drummer_v3_visual_masks.py",
+      "sha256": "02b732a04970aef5108f1cd4372769be171d82bf8241421bbe65d2e607a26048",
+      "identical_to_dry_test_revision": true
+    },
+    {
+      "file": "tools/render_drummer_v3_preview.py",
+      "sha256": "1cb072e734d2095a0932a59120bab5c9be062aeb31b59674eee5c8f0dc314384",
+      "identical_to_dry_test_revision": true
+    }
+  ]
+}

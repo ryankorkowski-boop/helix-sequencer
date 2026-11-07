@@ -1,0 +1,40 @@
+[
+  {
+    "file": "Helix_Spiral_Symphony.mp4",
+    "bytes": 33938813,
+    "sha256": "d6d79bfcb20b73e5682b2f1aa5e060800be1a4eb5c6ffa5ff78f0a97b75459b9",
+    "seconds": 92.2,
+    "frames": 1844,
+    "full_decode_passed": true,
+    "codec": "H264/AAC",
+    "waveform_correlation": 0.9987240457084511,
+    "decoded_samples": [
+      {
+        "time": 5.532,
+        "path": "Helix_Spiral_Symphony_decoded_0.jpg",
+        "lit_fraction": 0.2765403163580247
+      },
+      {
+        "time": 20.284000000000002,
+        "path": "Helix_Spiral_Symphony_decoded_1.jpg",
+        "lit_fraction": 0.1939038387345679
+      },
+      {
+        "time": 39.646,
+        "path": "Helix_Spiral_Symphony_decoded_2.jpg",
+        "lit_fraction": 0.27122395833333335
+      },
+      {
+        "time": 58.086000000000006,
+        "path": "Helix_Spiral_Symphony_decoded_3.jpg",
+        "lit_fraction": 0.2816840277777778
+      },
+      {
+        "time": 78.37,
+        "path": "Helix_Spiral_Symphony_decoded_4.jpg",
+        "lit_fraction": 0.26379292052469133
+      }
+    ],
+    "max_contact_error": 0
+  }
+]

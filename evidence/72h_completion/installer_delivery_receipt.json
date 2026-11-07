@@ -1,0 +1,317 @@
+{
+  "schema": "helix.installer-completion.v1",
+  "software_source": "d3a3d377e64b0d95b54e553e89dce34dc0f93194",
+  "pull_request": "https://github.com/ryankorkowski-boop/helix-sequencer/pull/150",
+  "bundle_workflow": {
+    "id": 38697129438,
+    "job_id": 116296441700,
+    "conclusion": "success"
+  },
+  "bundle_artifact": {
+    "id": 11954249825,
+    "url": "https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/38697129438/artifacts/11954249825",
+    "bytes": 287440630,
+    "sha256": "77c6256f056e8755a1eea2819b19c9163510be2a2f41be6a3db79f0bdad127d0"
+  },
+  "runs": {
+    "windows": {
+      "id": 38697129450,
+      "path": ".github/workflows/windows-portable.yml",
+      "head_sha": "d3a3d377e64b0d95b54e553e89dce34dc0f93194",
+      "event": "push",
+      "status": "completed",
+      "conclusion": "success",
+      "html_url": "https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/38697129450"
+    },
+    "android": {
+      "id": 38697129307,
+      "path": ".github/workflows/android-offline.yml",
+      "head_sha": "d3a3d377e64b0d95b54e553e89dce34dc0f93194",
+      "event": "push",
+      "status": "completed",
+      "conclusion": "success",
+      "html_url": "https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/38697129307"
+    },
+    "native": {
+      "id": 38697129459,
+      "path": ".github/workflows/beta-completion-native.yml",
+      "head_sha": "d3a3d377e64b0d95b54e553e89dce34dc0f93194",
+      "event": "push",
+      "status": "completed",
+      "conclusion": "success",
+      "html_url": "https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/38697129459"
+    },
+    "ci": {
+      "id": 38697129434,
+      "path": ".github/workflows/unit-tests.yml",
+      "head_sha": "d3a3d377e64b0d95b54e553e89dce34dc0f93194",
+      "event": "push",
+      "status": "completed",
+      "conclusion": "success",
+      "html_url": "https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/38697129434"
+    }
+  },
+  "input_artifacts": {
+    "windows": {
+      "id": 11954326896,
+      "name": "Helix-Windows-Portable",
+      "size_in_bytes": 189173965,
+      "digest": "sha256:bc5a162b0e63b308786584d538498bbb3a04d8b5410b516f3bccd6d01588b7f4",
+      "workflow_run": {
+        "id": 38697129450,
+        "repository_id": 1210701306,
+        "head_repository_id": 1210701306,
+        "head_branch": "codex/72h-completion-20261015",
+        "head_sha": "d3a3d377e64b0d95b54e553e89dce34dc0f93194"
+      }
+    },
+    "android30": {
+      "id": 11954584316,
+      "name": "Helix-Android-stability-api-30",
+      "size_in_bytes": 297713826,
+      "digest": "sha256:9d7418fb769d046ce19d22114e471e2519125c0431fff9ae687248eb80feb21a",
+      "workflow_run": {
+        "id": 38697129307,
+        "repository_id": 1210701306,
+        "head_repository_id": 1210701306,
+        "head_branch": "codex/72h-completion-20261015",
+        "head_sha": "d3a3d377e64b0d95b54e553e89dce34dc0f93194"
+      }
+    },
+    "android36": {
+      "id": 11954314201,
+      "name": "Helix-Android-stability-api-36",
+      "size_in_bytes": 298060025,
+      "digest": "sha256:1686d80d693bd952130b46e099bee5f478c7225fc78bdd1daf36000b193b657a",
+      "workflow_run": {
+        "id": 38697129307,
+        "repository_id": 1210701306,
+        "head_repository_id": 1210701306,
+        "head_branch": "codex/72h-completion-20261015",
+        "head_sha": "d3a3d377e64b0d95b54e553e89dce34dc0f93194"
+      }
+    }
+  },
+  "local_focused": {
+    "export_and_packaging_passed": 50,
+    "related_controller_contracts_passed": 8,
+    "python": "3.12"
+  },
+  "full_regression": {
+    "python3.11": {
+      "job_id": 116296248759,
+      "passed": 1560,
+      "skipped": 5,
+      "warnings": 5,
+      "seconds": 310.85
+    },
+    "python3.12": {
+      "job_id": 116296248579,
+      "passed": 1560,
+      "skipped": 5,
+      "warnings": 36,
+      "seconds": 231.67
+    },
+    "skip_reason": "missing fixed 2.wav fixture; no tests weakened or excluded"
+  },
+  "native": {
+    "job_id": 116296248079,
+    "artifact_id": 11954881953,
+    "archive_bytes": 27809370,
+    "archive_sha256": "19a7a8b9627b6567889e354cb3d113892aae0dea78bc2f90829f98c45a2e7aaf",
+    "source_commit": "d3a3d377e64b0d95b54e553e89dce34dc0f93194",
+    "kit": {
+      "native_value_checks": 4800,
+      "max_intensity_error": 0.45000000000001705,
+      "cymbal_retrigger_gap_verified": true,
+      "positive_velocity_native_output_verified": true
+    },
+    "six_layouts": 6
+  },
+  "windows": {
+    "job_id": 116296248020,
+    "build_provenance": {
+      "schema": "helix.windows.build.v1",
+      "commit": "d3a3d377e64b0d95b54e553e89dce34dc0f93194",
+      "files": {
+        "Helix.exe": "c885952b96799e34d7ffc8c736db5d2126e62936308177e204323fea575ea0e6",
+        "HelixCLI.exe": "51cde707cd1b2ac114c223c7f772ad693d8c6e519f22bb748af615f66daf8ca7",
+        "WELCOME_TO_HELIX.md": "fee76825c339356217314656a86ffc8262f12fd95c9c1e6c57e8f4c43a5326fb",
+        "INSTALL_AND_TROUBLESHOOT.md": "eac226a3239928d621faa217f7ee477cf0d718de3a4e20db9c05bfbe600bb338",
+        "LICENSE": "75f5f2ae732cdc31adf8ad90a42ed4ed47476b3f27fcdf90de13e79d6788309d",
+        "NOTICE": "11032acc617abd7735d359d70499c8ec2514dbe99ce7f1edb8a728447936301f",
+        "THIRD_PARTY_LICENSES.md": "23421e0ed22bce268a0a2f3462d91fe127d32e242363b4f07e4848422faccab4",
+        "COMMERCIAL_LICENSING.md": "825ca3707390e4f71c988b7f7949d5e5be645dc96f625c661ea0d4e9653c71b7"
+      },
+      "github_run_id": "38697129450",
+      "github_repository": "ryankorkowski-boop/helix-sequencer"
+    },
+    "smoke": {
+      "steps": [
+        {
+          "step": "native_fseq",
+          "returncode": 0
+        },
+        {
+          "step": "lor_engine",
+          "returncode": 0
+        },
+        {
+          "step": "xlights_engine",
+          "returncode": 0
+        }
+      ],
+      "real_audio_source": "Tinsel Sawtooth (1).mp3",
+      "source_lms_preserved": true,
+      "legacy_lor_import_in_vendor_app_verified": false
+    }
+  },
+  "android": {
+    "android30": {
+      "job_id": 116296446213,
+      "apk_sha256": "03751dac350b6db64394d64bbf71e3b5479b3a8516d2216a7026ba47bbffecca",
+      "engine_files_verified": 968,
+      "full_song": {
+        "mode": "full-song",
+        "frames": 3562,
+        "video_codec": "h264",
+        "audio_codec": "aac",
+        "duration": "237.466708",
+        "source_duration_seconds": 237.43997916666666,
+        "full_song_preview_verified": true,
+        "max_mean_pixel_error": 1.716166087962963,
+        "minimum_expected_lit_pixels_visible": 0.9650953580424613,
+        "audio_correlation": 0.9957144538319779,
+        "audio_offset_ms": 0.0
+      },
+      "signing_status": "debug beta; production upgrade not verified"
+    },
+    "android36": {
+      "job_id": 116296446707,
+      "apk_sha256": "bdb11f9b08b818a0cd59e79869573c45a0ac5bcc5f01bbd0ff5549354adc2a0f",
+      "engine_files_verified": 968,
+      "full_song": {
+        "mode": "full-song",
+        "frames": 3562,
+        "video_codec": "h264",
+        "audio_codec": "aac",
+        "duration": "237.466708",
+        "source_duration_seconds": 237.43997916666666,
+        "full_song_preview_verified": true,
+        "max_mean_pixel_error": 2.2348784722222224,
+        "minimum_expected_lit_pixels_visible": 0.9650953580424613,
+        "audio_correlation": 0.9957144538319959,
+        "audio_offset_ms": 0.0
+      },
+      "signing_status": "debug beta; production upgrade not verified"
+    }
+  },
+  "local_download_verification": {
+    "source_sha": "d3a3d377e64b0d95b54e553e89dce34dc0f93194",
+    "outer_artifact_bytes": 287440630,
+    "outer_artifact_sha256": "77c6256f056e8755a1eea2819b19c9163510be2a2f41be6a3db79f0bdad127d0",
+    "installer_zip_bytes": 334173665,
+    "installer_zip_sha256": "1d93a9cc02d32dcf60f80ba69a279ccb5b8fc10c01a8a4be1991be66578e1eef",
+    "all_archive_crcs_verified": true,
+    "all_delivery_checksums_verified": true,
+    "windows_embedded_hashes_verified": true,
+    "android30_engine_files_verified": 968,
+    "native_proof_archive_downloaded_and_verified": true,
+    "upstream_api36_archive_downloaded_locally": false,
+    "members": [
+      "COMMERCIAL_LICENSING.md",
+      "Helix-Android-Beta-debug.apk",
+      "Helix-Windows-Portable.zip",
+      "INSTALL_AND_TROUBLESHOOT.md",
+      "LICENSE",
+      "NOTICE",
+      "RELEASE_STATUS.md",
+      "SHA256SUMS.txt",
+      "THIRD_PARTY_LICENSES.md",
+      "VALIDATION_REPORT.json",
+      "WELCOME_TO_HELIX.md"
+    ],
+    "files": {
+      "COMMERCIAL_LICENSING.md": {
+        "sha256": "825ca3707390e4f71c988b7f7949d5e5be645dc96f625c661ea0d4e9653c71b7",
+        "bytes": 1472
+      },
+      "Helix-Android-Beta-debug.apk": {
+        "sha256": "03751dac350b6db64394d64bbf71e3b5479b3a8516d2216a7026ba47bbffecca",
+        "bytes": 144086749
+      },
+      "Helix-Windows-Portable.zip": {
+        "sha256": "9bb35e19047ac4eb950a33b790446bec8fc5da7f5c91a10650a18fbe830b1cfa",
+        "bytes": 189988485
+      },
+      "INSTALL_AND_TROUBLESHOOT.md": {
+        "sha256": "eac226a3239928d621faa217f7ee477cf0d718de3a4e20db9c05bfbe600bb338",
+        "bytes": 2534
+      },
+      "LICENSE": {
+        "sha256": "75f5f2ae732cdc31adf8ad90a42ed4ed47476b3f27fcdf90de13e79d6788309d",
+        "bytes": 4694
+      },
+      "NOTICE": {
+        "sha256": "11032acc617abd7735d359d70499c8ec2514dbe99ce7f1edb8a728447936301f",
+        "bytes": 1012
+      },
+      "THIRD_PARTY_LICENSES.md": {
+        "sha256": "23421e0ed22bce268a0a2f3462d91fe127d32e242363b4f07e4848422faccab4",
+        "bytes": 2241
+      },
+      "WELCOME_TO_HELIX.md": {
+        "sha256": "fee76825c339356217314656a86ffc8262f12fd95c9c1e6c57e8f4c43a5326fb",
+        "bytes": 1387
+      }
+    },
+    "android_full_song": {
+      "android30": {
+        "mode": "full-song",
+        "frames": 3562,
+        "video_codec": "h264",
+        "audio_codec": "aac",
+        "duration": "237.466708",
+        "source_duration_seconds": 237.43997916666666,
+        "full_song_preview_verified": true,
+        "max_mean_pixel_error": 1.716166087962963,
+        "minimum_expected_lit_pixels_visible": 0.9650953580424613,
+        "audio_correlation": 0.9957144538319779,
+        "audio_offset_ms": 0.0
+      },
+      "android36": {
+        "mode": "full-song",
+        "frames": 3562,
+        "video_codec": "h264",
+        "audio_codec": "aac",
+        "duration": "237.466708",
+        "source_duration_seconds": 237.43997916666666,
+        "full_song_preview_verified": true,
+        "max_mean_pixel_error": 2.2348784722222224,
+        "minimum_expected_lit_pixels_visible": 0.9650953580424613,
+        "audio_correlation": 0.9957144538319959,
+        "audio_offset_ms": 0.0
+      }
+    },
+    "release_ready": false,
+    "open_gates": [
+      "Independent listening, uncertain tom labels and source-separated duet acceptance",
+      "Complete original LightsOutTheme and track-specific redistribution permissions",
+      "Physical Samsung/ARM64, controller and vendor LOR checks",
+      "Production Android signing, cross-build upgrade continuity and 16KB/store readiness",
+      "Contributor/asset relicensing authority and reviewed branch integration",
+      "Authorized full-song showcase package and final release acceptance"
+    ]
+  },
+  "platform_scope": "Windows Server2022 hosted runner; Android x86_64 emulators API30/API36. Clean physical Windows11/Samsung/ARM64/controller/vendor LOR checks remain unverified.",
+  "preserved": "original audio/layouts, musical detectors, historical twelve-string mode, other branches, existing release assets and notices",
+  "release_ready": false,
+  "remaining_gates": [
+    "Independent listening, uncertain tom labels and source-separated duet acceptance",
+    "Complete original LightsOutTheme and track-specific redistribution permissions",
+    "Physical Samsung/ARM64, controller and vendor LOR checks",
+    "Production Android signing, cross-build upgrade continuity and 16KB/store readiness",
+    "Contributor/asset relicensing authority and reviewed branch integration",
+    "Authorized full-song showcase package and final release acceptance"
+  ]
+}

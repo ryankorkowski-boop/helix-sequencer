@@ -1,0 +1,117 @@
+{
+  "concept_count": 20,
+  "paired_png_count": 10,
+  "illustrated_storyboard_cells_per_concept": 4,
+  "ids": [
+    43,
+    44,
+    45,
+    46,
+    47,
+    48,
+    49,
+    50,
+    51,
+    52,
+    53,
+    54,
+    55,
+    56,
+    57,
+    58,
+    59,
+    60,
+    61,
+    62
+  ],
+  "all_images_decoded": true,
+  "all_gallery_links_resolve": true,
+  "native_artifacts_created": 0,
+  "awaiting_explicit_user_approval": true,
+  "prior_source_hashes_unchanged": 110,
+  "prior_native_input_and_movie_sets_unchanged": 22,
+  "prior_advanced_concept_boards_unchanged": 10,
+  "image_boards": [
+    {
+      "board": 1,
+      "image": "images/43_44.png",
+      "width": 1774,
+      "height": 887,
+      "bytes": 2209964,
+      "sha256": "d8c36b2380aeb2b286146b21bb0419b27d8bc5dc026007abeb63482b7dc1e1ec"
+    },
+    {
+      "board": 2,
+      "image": "images/45_46.png",
+      "width": 1774,
+      "height": 887,
+      "bytes": 2640433,
+      "sha256": "6742050b236090be03c14471cc9d1c803b9cde2cca93dfd17b04f05ef328a40b"
+    },
+    {
+      "board": 3,
+      "image": "images/47_48.png",
+      "width": 1774,
+      "height": 887,
+      "bytes": 2396663,
+      "sha256": "9fe003932df6bfe04ba77909033fcefbf317d0cf773ccd99e3205059574da262"
+    },
+    {
+      "board": 4,
+      "image": "images/49_50.png",
+      "width": 1774,
+      "height": 887,
+      "bytes": 2541939,
+      "sha256": "decabbe76a4095debfeb202bfb011539da15b17461e08310ecbabda8885707c2"
+    },
+    {
+      "board": 5,
+      "image": "images/51_52.png",
+      "width": 1774,
+      "height": 887,
+      "bytes": 2149861,
+      "sha256": "86d82fbe62d1c710b7a830ced36153f89c53430790669e19bd05728792869afc"
+    },
+    {
+      "board": 6,
+      "image": "images/53_54.png",
+      "width": 1774,
+      "height": 887,
+      "bytes": 2298232,
+      "sha256": "96ef54cb4fb5126a278790af12020ee4fc78dc1a7600cbff6a61c38684ce4337"
+    },
+    {
+      "board": 7,
+      "image": "images/55_56.png",
+      "width": 1774,
+      "height": 887,
+      "bytes": 2286109,
+      "sha256": "fd56184620d4c252244591cf475e0933944c69390a383e309544535598b6f2d8"
+    },
+    {
+      "board": 8,
+      "image": "images/57_58.png",
+      "width": 1774,
+      "height": 887,
+      "bytes": 2249030,
+      "sha256": "f0a2832d4ff6ef47df81552865097aa1ea39a9942a01ee0b01cb64f73f885a91"
+    },
+    {
+      "board": 9,
+      "image": "images/59_60.png",
+      "width": 1774,
+      "height": 887,
+      "bytes": 2229725,
+      "sha256": "c3ad070658f4bc404bb12b60ec0775a947db2d80f55e9b6482c848e4e061ba07"
+    },
+    {
+      "board": 10,
+      "image": "images/61_62.png",
+      "width": 1774,
+      "height": 887,
+      "bytes": 2631845,
+      "sha256": "3b8b1e451b6240f33b3da4d4a29428ca7d8c4f2806a43787004de48d894edf6b"
+    }
+  ],
+  "limits": "Illustrative keyframes only. Native geometry, actual motion/timing, inactive-pose visibility and mechanical implementation are not verified."
+}

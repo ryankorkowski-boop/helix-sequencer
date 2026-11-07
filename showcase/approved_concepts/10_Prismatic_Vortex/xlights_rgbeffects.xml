@@ -1,0 +1,814 @@
+<?xml version='1.0' encoding='utf-8'?>
+<xrgb>
+  <models>
+    <model name="HX_001_VORTEX_HOOP" DisplayAs="Custom" StringType="RGB Nodes" StartChannel="1" Controller="" LayoutGroup="Default" StartSide="B" Dir="L" PixelSize="2" Antialias="1" Transparency="0" versionNumber="7" parm1="281" parm2="275" parm3="1" Depth="59" CustomWidth="281" CustomHeight="275" CustomStrings="1" String1="1" CustomModelCompressed="1,137,280,29;2,131,280,28;3,126,280,27;4,120,279,25;5,114,278,24;6,109,277,23;7,103,276,22;8,97,274,21;9,92,272,19;10,87,270,18;11,81,268,17;12,76,265,16;13,71,263,15;14,66,260,14;15,61,257,13;16,57,253,12;17,52,250,11;18,48,246,10;19,43,242,9;20,39,238,8;21,35,234,7;22,31,229,7;23,28,225,6;24,25,220,5;25,21,215,4;26,18,210,4;27,16,205,3;28,13,200,3;29,11,194,2;30,9,189,2;31,7,183,1;32,5,178,1;33,4,172,1;34,2,166,0;35,2,160,0;36,1,155,0;37,0,149,0;38,0,143,0;39,0,137,0;40,0,131,0;41,1,125,0;42,2,120,0;43,2,114,0;44,4,108,1;45,5,102,1;46,7,97,1;47,9,91,2;48,11,86,2;49,13,80,3;50,16,75,3;51,18,70,4;52,21,65,4;53,25,60,5;54,28,55,6;55,31,51,7;56,35,46,7;57,39,42,8;58,43,38,9;59,48,34,10;60,52,30,11;61,57,27,12;62,61,23,13;63,66,20,14;64,71,17,15;65,76,15,16;66,81,12,17;67,87,10,18;68,92,8,19;69,97,6,21;70,103,4,22;71,109,3,23;72,114,2,24;73,120,1,25;74,126,0,27;75,131,0,28;76,137,0,29;77,143,0,30;78,148,0,31;79,154,1,33;80,160,2,34;81,165,3,35;82,171,4,36;83,177,6,37;84,182,8,39;85,187,10,40;86,193,12,41;87,198,15,42;88,203,17,43;89,208,20,44;90,213,23,45;91,217,27,46;92,222,30,47;93,226,34,48;94,231,38,49;95,235,42,50;96,239,46,51;97,243,51,51;98,246,55,52;99,249,60,53;100,253,65,54;101,256,70,54;102,258,75,55;103,261,80,55;104,263,86,56;105,265,91,56;106,267,97,57;107,269,102,57;108,270,108,57;109,272,114,58;110,272,120,58;111,273,125,58;112,274,131,58;113,274,137,58;114,274,143,58;115,274,149,58;116,273,155,58;117,272,160,58;118,272,166,58;119,270,172,57;120,269,178,57;121,267,183,57;122,265,189,56;123,263,194,56;124,261,200,55;125,258,205,55;126,256,210,54;127,253,215,54;128,249,220,53;129,246,225,52;130,243,229,51;131,239,234,51;132,235,238,50;133,231,242,49;134,226,246,48;135,222,250,47;136,217,253,46;137,213,257,45;138,208,260,44;139,203,263,43;140,198,265,42;141,193,268,41;142,187,270,40;143,182,272,39;144,177,274,37;145,171,276,36;146,165,277,35;147,160,278,34;148,154,279,33;149,148,280,31;150,143,280,30" WorldPosX="0.000000" WorldPosY="65.000000" WorldPosZ="55.000000" ScaleX="0.5" ScaleY="0.5" ScaleZ="0.5">
+      <subModel name="SECTOR_00" layout="horizontal" type="ranges" line0="1-19" />
+      <subModel name="SECTOR_01" layout="horizontal" type="ranges" line0="20-38" />
+      <subModel name="SECTOR_02" layout="horizontal" type="ranges" line0="39-57" />
+      <subModel name="SECTOR_03" layout="horizontal" type="ranges" line0="58-76" />
+      <subModel name="SECTOR_04" layout="horizontal" type="ranges" line0="77-95" />
+      <subModel name="SECTOR_05" layout="horizontal" type="ranges" line0="96-114" />
+      <subModel name="SECTOR_06" layout="horizontal" type="ranges" line0="115-132" />
+      <subModel name="SECTOR_07" layout="horizontal" type="ranges" line0="133-150" />
+    </model>
+    <model name="HX_002_CROSSED_SPOKE" DisplayAs="Custom" StringType="RGB Nodes" StartChannel="451" Controller="" LayoutGroup="Default" StartSide="B" Dir="L" PixelSize="2" Antialias="1" Transparency="0" versionNumber="7" parm1="106" parm2="1" parm3="1" Depth="1" CustomWidth="106" CustomHeight="1" CustomStrings="1" String1="1" CustomModelCompressed="1,0,0,0;2,0,2,0;3,0,5,0;4,0,7,0;5,0,10,0;6,0,12,0;7,0,14,0;8,0,17,0;9,0,19,0;10,0,21,0;11,0,24,0;12,0,26,0;13,0,29,0;14,0,31,0;15,0,33,0;16,0,36,0;17,0,38,0;18,0,41,0;19,0,43,0;20,0,45,0;21,0,48,0;22,0,50,0;23,0,53,0;24,0,55,0;25,0,57,0;26,0,60,0;27,0,62,0;28,0,64,0;29,0,67,0;30,0,69,0;31,0,72,0;32,0,74,0;33,0,76,0;34,0,79,0;35,0,81,0;36,0,84,0;37,0,86,0;38,0,88,0;39,0,91,0;40,0,93,0;41,0,95,0;42,0,98,0;43,0,100,0;44,0,103,0;45,0,105,0" WorldPosX="43.750000" WorldPosY="65.000000" WorldPosZ="55.000000" ScaleX="0.5" ScaleY="0.5" ScaleZ="0.5">
+      <subModel name="SECTOR_00" layout="horizontal" type="ranges" line0="1-6" />
+      <subModel name="SECTOR_01" layout="horizontal" type="ranges" line0="7-12" />
+      <subModel name="SECTOR_02" layout="horizontal" type="ranges" line0="13-18" />
+      <subModel name="SECTOR_03" layout="horizontal" type="ranges" line0="19-24" />
+      <subModel name="SECTOR_04" layout="horizontal" type="ranges" line0="25-30" />
+      <subModel name="SECTOR_05" layout="horizontal" type="ranges" line0="31-35" />
+      <subModel name="SECTOR_06" layout="horizontal" type="ranges" line0="36-40" />
+      <subModel name="SECTOR_07" layout="horizontal" type="ranges" line0="41-45" />
+    </model>
+    <model name="HX_003_CROSSED_SPOKE" DisplayAs="Custom" StringType="RGB Nodes" StartChannel="586" Controller="" LayoutGroup="Default" StartSide="B" Dir="L" PixelSize="2" Antialias="1" Transparency="0" versionNumber="7" parm1="75" parm2="75" parm3="1" Depth="1" CustomWidth="75" CustomHeight="75" CustomStrings="1" String1="1" CustomModelCompressed="1,74,0,0;2,73,1,0;3,71,3,0;4,69,5,0;5,68,6,0;6,66,8,0;7,64,10,0;8,62,12,0;9,61,13,0;10,59,15,0;11,57,17,0;12,56,18,0;13,54,20,0;14,52,22,0;15,51,23,0;16,49,25,0;17,47,27,0;18,46,28,0;19,44,30,0;20,42,32,0;21,41,33,0;22,39,35,0;23,37,37,0;24,35,39,0;25,34,40,0;26,32,42,0;27,30,44,0;28,29,45,0;29,27,47,0;30,25,49,0;31,24,50,0;32,22,52,0;33,20,54,0;34,19,55,0;35,17,57,0;36,15,59,0;37,14,60,0;38,12,62,0;39,10,64,0;40,8,66,0;41,7,67,0;42,5,69,0;43,3,71,0;44,2,72,0;45,0,74,0" WorldPosX="31.000000" WorldPosY="96.000000" WorldPosZ="55.000000" ScaleX="0.5" ScaleY="0.5" ScaleZ="0.5">
+      <subModel name="SECTOR_00" layout="horizontal" type="ranges" line0="1-6" />
+      <subModel name="SECTOR_01" layout="horizontal" type="ranges" line0="7-12" />
+      <subModel name="SECTOR_02" layout="horizontal" type="ranges" line0="13-18" />
+      <subModel name="SECTOR_03" layout="horizontal" type="ranges" line0="19-24" />
+      <subModel name="SECTOR_04" layout="horizontal" type="ranges" line0="25-30" />
+      <subModel name="SECTOR_05" layout="horizontal" type="ranges" line0="31-35" />
+      <subModel name="SECTOR_06" layout="horizontal" type="ranges" line0="36-40" />
+      <subModel name="SECTOR_07" layout="horizontal" type="ranges" line0="41-45" />
+    </model>
+    <model name="HX_004_CROSSED_SPOKE" DisplayAs="Custom" StringType="RGB Nodes" StartChannel="721" Controller="" LayoutGroup="Default" StartSide="B" Dir="L" PixelSize="2" Antialias="1" Transparency="0" versionNumber="7" parm1="1" parm2="106" parm3="1" Depth="1" CustomWidth="1" CustomHeight="106" CustomStrings="1" String1="1" CustomModelCompressed="1,105,0,0;2,103,0,0;3,100,0,0;4,98,0,0;5,95,0,0;6,93,0,0;7,91,0,0;8,88,0,0;9,86,0,0;10,84,0,0;11,81,0,0;12,79,0,0;13,76,0,0;14,74,0,0;15,72,0,0;16,69,0,0;17,67,0,0;18,64,0,0;19,62,0,0;20,60,0,0;21,57,0,0;22,55,0,0;23,52,0,0;24,50,0,0;25,48,0,0;26,45,0,0;27,43,0,0;28,41,0,0;29,38,0,0;30,36,0,0;31,33,0,0;32,31,0,0;33,29,0,0;34,26,0,0;35,24,0,0;36,21,0,0;37,19,0,0;38,17,0,0;39,14,0,0;40,12,0,0;41,10,0,0;42,7,0,0;43,5,0,0;44,2,0,0;45,0,0,0" WorldPosX="0.000000" WorldPosY="108.750000" WorldPosZ="55.000000" ScaleX="0.5" ScaleY="0.5" ScaleZ="0.5">
+      <subModel name="SECTOR_00" layout="horizontal" type="ranges" line0="1-6" />
+      <subModel name="SECTOR_01" layout="horizontal" type="ranges" line0="7-12" />
+      <subModel name="SECTOR_02" layout="horizontal" type="ranges" line0="13-18" />
+      <subModel name="SECTOR_03" layout="horizontal" type="ranges" line0="19-24" />
+      <subModel name="SECTOR_04" layout="horizontal" type="ranges" line0="25-30" />
+      <subModel name="SECTOR_05" layout="horizontal" type="ranges" line0="31-35" />
+      <subModel name="SECTOR_06" layout="horizontal" type="ranges" line0="36-40" />
+      <subModel name="SECTOR_07" layout="horizontal" type="ranges" line0="41-45" />
+    </model>
+    <model name="HX_005_CROSSED_SPOKE" DisplayAs="Custom" StringType="RGB Nodes" StartChannel="856" Controller="" LayoutGroup="Default" StartSide="B" Dir="L" PixelSize="2" Antialias="1" Transparency="0" versionNumber="7" parm1="75" parm2="75" parm3="1" Depth="1" CustomWidth="75" CustomHeight="75" CustomStrings="1" String1="1" CustomModelCompressed="1,74,74,0;2,73,73,0;3,71,71,0;4,69,69,0;5,68,68,0;6,66,66,0;7,64,64,0;8,62,62,0;9,61,61,0;10,59,59,0;11,57,57,0;12,56,56,0;13,54,54,0;14,52,52,0;15,51,51,0;16,49,49,0;17,47,47,0;18,46,46,0;19,44,44,0;20,42,42,0;21,41,41,0;22,39,39,0;23,37,37,0;24,35,35,0;25,34,34,0;26,32,32,0;27,30,30,0;28,29,29,0;29,27,27,0;30,25,25,0;31,24,24,0;32,22,22,0;33,20,20,0;34,19,19,0;35,17,17,0;36,15,15,0;37,14,14,0;38,12,12,0;39,10,10,0;40,8,8,0;41,7,7,0;42,5,5,0;43,3,3,0;44,2,2,0;45,0,0,0" WorldPosX="-31.000000" WorldPosY="96.000000" WorldPosZ="55.000000" ScaleX="0.5" ScaleY="0.5" ScaleZ="0.5">
+      <subModel name="SECTOR_00" layout="horizontal" type="ranges" line0="1-6" />
+      <subModel name="SECTOR_01" layout="horizontal" type="ranges" line0="7-12" />
+      <subModel name="SECTOR_02" layout="horizontal" type="ranges" line0="13-18" />
+      <subModel name="SECTOR_03" layout="horizontal" type="ranges" line0="19-24" />
+      <subModel name="SECTOR_04" layout="horizontal" type="ranges" line0="25-30" />
+      <subModel name="SECTOR_05" layout="horizontal" type="ranges" line0="31-35" />
+      <subModel name="SECTOR_06" layout="horizontal" type="ranges" line0="36-40" />
+      <subModel name="SECTOR_07" layout="horizontal" type="ranges" line0="41-45" />
+    </model>
+    <model name="HX_006_CROSSED_SPOKE" DisplayAs="Custom" StringType="RGB Nodes" StartChannel="991" Controller="" LayoutGroup="Default" StartSide="B" Dir="L" PixelSize="2" Antialias="1" Transparency="0" versionNumber="7" parm1="106" parm2="1" parm3="1" Depth="1" CustomWidth="106" CustomHeight="1" CustomStrings="1" String1="1" CustomModelCompressed="1,0,105,0;2,0,103,0;3,0,100,0;4,0,98,0;5,0,95,0;6,0,93,0;7,0,91,0;8,0,88,0;9,0,86,0;10,0,84,0;11,0,81,0;12,0,79,0;13,0,76,0;14,0,74,0;15,0,72,0;16,0,69,0;17,0,67,0;18,0,64,0;19,0,62,0;20,0,60,0;21,0,57,0;22,0,55,0;23,0,52,0;24,0,50,0;25,0,48,0;26,0,45,0;27,0,43,0;28,0,41,0;29,0,38,0;30,0,36,0;31,0,33,0;32,0,31,0;33,0,29,0;34,0,26,0;35,0,24,0;36,0,21,0;37,0,19,0;38,0,17,0;39,0,14,0;40,0,12,0;41,0,10,0;42,0,7,0;43,0,5,0;44,0,2,0;45,0,0,0" WorldPosX="-43.750000" WorldPosY="65.000000" WorldPosZ="55.000000" ScaleX="0.5" ScaleY="0.5" ScaleZ="0.5">
+      <subModel name="SECTOR_00" layout="horizontal" type="ranges" line0="1-6" />
+      <subModel name="SECTOR_01" layout="horizontal" type="ranges" line0="7-12" />
+      <subModel name="SECTOR_02" layout="horizontal" type="ranges" line0="13-18" />
+      <subModel name="SECTOR_03" layout="horizontal" type="ranges" line0="19-24" />
+      <subModel name="SECTOR_04" layout="horizontal" type="ranges" line0="25-30" />
+      <subModel name="SECTOR_05" layout="horizontal" type="ranges" line0="31-35" />
+      <subModel name="SECTOR_06" layout="horizontal" type="ranges" line0="36-40" />
+      <subModel name="SECTOR_07" layout="horizontal" type="ranges" line0="41-45" />
+    </model>
+    <model name="HX_007_CROSSED_SPOKE" DisplayAs="Custom" StringType="RGB Nodes" StartChannel="1126" Controller="" LayoutGroup="Default" StartSide="B" Dir="L" PixelSize="2" Antialias="1" Transparency="0" versionNumber="7" parm1="75" parm2="75" parm3="1" Depth="1" CustomWidth="75" CustomHeight="75" CustomStrings="1" String1="1" CustomModelCompressed="1,0,74,0;2,1,73,0;3,3,71,0;4,5,69,0;5,6,68,0;6,8,66,0;7,10,64,0;8,12,62,0;9,13,61,0;10,15,59,0;11,17,57,0;12,18,56,0;13,20,54,0;14,22,52,0;15,23,51,0;16,25,49,0;17,27,47,0;18,28,46,0;19,30,44,0;20,32,42,0;21,33,41,0;22,35,39,0;23,37,37,0;24,39,35,0;25,40,34,0;26,42,32,0;27,44,30,0;28,45,29,0;29,47,27,0;30,49,25,0;31,50,24,0;32,52,22,0;33,54,20,0;34,55,19,0;35,57,17,0;36,59,15,0;37,60,14,0;38,62,12,0;39,64,10,0;40,66,8,0;41,67,7,0;42,69,5,0;43,71,3,0;44,72,2,0;45,74,0,0" WorldPosX="-31.000000" WorldPosY="34.000000" WorldPosZ="55.000000" ScaleX="0.5" ScaleY="0.5" ScaleZ="0.5">
+      <subModel name="SECTOR_00" layout="horizontal" type="ranges" line0="1-6" />
+      <subModel name="SECTOR_01" layout="horizontal" type="ranges" line0="7-12" />
+      <subModel name="SECTOR_02" layout="horizontal" type="ranges" line0="13-18" />
+      <subModel name="SECTOR_03" layout="horizontal" type="ranges" line0="19-24" />
+      <subModel name="SECTOR_04" layout="horizontal" type="ranges" line0="25-30" />
+      <subModel name="SECTOR_05" layout="horizontal" type="ranges" line0="31-35" />
+      <subModel name="SECTOR_06" layout="horizontal" type="ranges" line0="36-40" />
+      <subModel name="SECTOR_07" layout="horizontal" type="ranges" line0="41-45" />
+    </model>
+    <model name="HX_008_CROSSED_SPOKE" DisplayAs="Custom" StringType="RGB Nodes" StartChannel="1261" Controller="" LayoutGroup="Default" StartSide="B" Dir="L" PixelSize="2" Antialias="1" Transparency="0" versionNumber="7" parm1="1" parm2="106" parm3="1" Depth="1" CustomWidth="1" CustomHeight="106" CustomStrings="1" String1="1" CustomModelCompressed="1,0,0,0;2,2,0,0;3,5,0,0;4,7,0,0;5,10,0,0;6,12,0,0;7,14,0,0;8,17,0,0;9,19,0,0;10,21,0,0;11,24,0,0;12,26,0,0;13,29,0,0;14,31,0,0;15,33,0,0;16,36,0,0;17,38,0,0;18,41,0,0;19,43,0,0;20,45,0,0;21,48,0,0;22,50,0,0;23,53,0,0;24,55,0,0;25,57,0,0;26,60,0,0;27,62,0,0;28,64,0,0;29,67,0,0;30,69,0,0;31,72,0,0;32,74,0,0;33,76,0,0;34,79,0,0;35,81,0,0;36,84,0,0;37,86,0,0;38,88,0,0;39,91,0,0;40,93,0,0;41,95,0,0;42,98,0,0;43,100,0,0;44,103,0,0;45,105,0,0" WorldPosX="0.000000" WorldPosY="21.250000" WorldPosZ="55.000000" ScaleX="0.5" ScaleY="0.5" ScaleZ="0.5">
+      <subModel name="SECTOR_00" layout="horizontal" type="ranges" line0="1-6" />
+      <subModel name="SECTOR_01" layout="horizontal" type="ranges" line0="7-12" />
+      <subModel name="SECTOR_02" layout="horizontal" type="ranges" line0="13-18" />
+      <subModel name="SECTOR_03" layout="horizontal" type="ranges" line0="19-24" />
+      <subModel name="SECTOR_04" layout="horizontal" type="ranges" line0="25-30" />
+      <subModel name="SECTOR_05" layout="horizontal" type="ranges" line0="31-35" />
+      <subModel name="SECTOR_06" layout="horizontal" type="ranges" line0="36-40" />
+      <subModel name="SECTOR_07" layout="horizontal" type="ranges" line0="41-45" />
+    </model>
+    <model name="HX_009_CROSSED_SPOKE" DisplayAs="Custom" StringType="RGB Nodes" StartChannel="1396" Controller="" LayoutGroup="Default" StartSide="B" Dir="L" PixelSize="2" Antialias="1" Transparency="0" versionNumber="7" parm1="75" parm2="75" parm3="1" Depth="1" CustomWidth="75" CustomHeight="75" CustomStrings="1" String1="1" CustomModelCompressed="1,0,0,0;2,1,1,0;3,3,3,0;4,5,5,0;5,6,6,0;6,8,8,0;7,10,10,0;8,12,12,0;9,13,13,0;10,15,15,0;11,17,17,0;12,18,18,0;13,20,20,0;14,22,22,0;15,23,23,0;16,25,25,0;17,27,27,0;18,28,28,0;19,30,30,0;20,32,32,0;21,33,33,0;22,35,35,0;23,37,37,0;24,39,39,0;25,40,40,0;26,42,42,0;27,44,44,0;28,45,45,0;29,47,47,0;30,49,49,0;31,50,50,0;32,52,52,0;33,54,54,0;34,55,55,0;35,57,57,0;36,59,59,0;37,60,60,0;38,62,62,0;39,64,64,0;40,66,66,0;41,67,67,0;42,69,69,0;43,71,71,0;44,72,72,0;45,74,74,0" WorldPosX="31.000000" WorldPosY="34.000000" WorldPosZ="55.000000" ScaleX="0.5" ScaleY="0.5" ScaleZ="0.5">
+      <subModel name="SECTOR_00" layout="horizontal" type="ranges" line0="1-6" />
+      <subModel name="SECTOR_01" layout="horizontal" type="ranges" line0="7-12" />
+      <subModel name="SECTOR_02" layout="horizontal" type="ranges" line0="13-18" />
+      <subModel name="SECTOR_03" layout="horizontal" type="ranges" line0="19-24" />
+      <subModel name="SECTOR_04" layout="horizontal" type="ranges" line0="25-30" />
+      <subModel name="SECTOR_05" layout="horizontal" type="ranges" line0="31-35" />
+      <subModel name="SECTOR_06" layout="horizontal" type="ranges" line0="36-40" />
+      <subModel name="SECTOR_07" layout="horizontal" type="ranges" line0="41-45" />
+    </model>
+    <model name="HX_010_VORTEX_HOOP" DisplayAs="Custom" StringType="RGB Nodes" StartChannel="1531" Controller="" LayoutGroup="Default" StartSide="B" Dir="L" PixelSize="2" Antialias="1" Transparency="0" versionNumber="7" parm1="261" parm2="255" parm3="1" Depth="55" CustomWidth="261" CustomHeight="255" CustomStrings="1" String1="1" CustomModelCompressed="1,127,260,27;2,122,260,28;3,116,260,29;4,111,259,30;5,106,258,32;6,101,257,33;7,95,256,34;8,90,254,35;9,85,253,36;10,80,251,37;11,75,249,38;12,70,246,39;13,66,244,40;14,61,241,41;15,57,238,42;16,52,235,43;17,48,232,44;18,44,228,45;19,40,225,46;20,36,221,46;21,33,217,47;22,29,213,48;23,26,209,49;24,23,204,49;25,20,200,50;26,17,195,50;27,14,190,51;28,12,185,51;29,10,180,52;30,8,175,52;31,6,170,53;32,5,165,53;33,3,160,53;34,2,154,54;35,1,149,54;36,1,144,54;37,0,138,54;38,0,133,54;39,0,127,54;40,0,122,54;41,1,116,54;42,1,111,54;43,2,106,54;44,3,100,53;45,5,95,53;46,6,90,53;47,8,85,52;48,10,80,52;49,12,75,51;50,14,70,51;51,17,65,50;52,20,60,50;53,23,56,49;54,26,51,49;55,29,47,48;56,33,43,47;57,36,39,46;58,40,35,46;59,44,32,45;60,48,28,44;61,52,25,43;62,57,22,42;63,61,19,41;64,66,16,40;65,70,14,39;66,75,11,38;67,80,9,37;68,85,7,36;69,90,6,35;70,95,4,34;71,101,3,33;72,106,2,32;73,111,1,30;74,116,0,29;75,122,0,28;76,127,0,27;77,132,0,26;78,138,0,25;79,143,1,24;80,148,2,22;81,153,3,21;82,159,4,20;83,164,6,19;84,169,7,18;85,174,9,17;86,179,11,16;87,184,14,15;88,188,16,14;89,193,19,13;90,197,22,12;91,202,25,11;92,206,28,10;93,210,32,9;94,214,35,8;95,218,39,8;96,221,43,7;97,225,47,6;98,228,51,5;99,231,56,5;100,234,60,4;101,237,65,4;102,240,70,3;103,242,75,3;104,244,80,2;105,246,85,2;106,248,90,1;107,249,95,1;108,251,100,1;109,252,106,0;110,253,111,0;111,253,116,0;112,254,122,0;113,254,127,0;114,254,133,0;115,254,138,0;116,253,144,0;117,253,149,0;118,252,154,0;119,251,160,1;120,249,165,1;121,248,170,1;122,246,175,2;123,244,180,2;124,242,185,3;125,240,190,3;126,237,195,4;127,234,200,4;128,231,204,5;129,228,209,5;130,225,213,6;131,221,217,7;132,218,221,8;133,214,225,8;134,210,228,9;135,206,232,10;136,202,235,11;137,197,238,12;138,193,241,13;139,188,244,14;140,184,246,15;141,179,249,16;142,174,251,17;143,169,253,18;144,164,254,19;145,159,256,20;146,153,257,21;147,148,258,22;148,143,259,24;149,138,260,25;150,132,260,26" WorldPosX="0.000000" WorldPosY="65.000000" WorldPosZ="35.000000" ScaleX="0.5" ScaleY="0.5" ScaleZ="0.5">
+      <subModel name="SECTOR_00" layout="horizontal" type="ranges" line0="1-19" />
+      <subModel name="SECTOR_01" layout="horizontal" type="ranges" line0="20-38" />
+      <subModel name="SECTOR_02" layout="horizontal" type="ranges" line0="39-57" />
+      <subModel name="SECTOR_03" layout="horizontal" type="ranges" line0="58-76" />
+      <subModel name="SECTOR_04" layout="horizontal" type="ranges" line0="77-95" />
+      <subModel name="SECTOR_05" layout="horizontal" type="ranges" line0="96-114" />
+      <subModel name="SECTOR_06" layout="horizontal" type="ranges" line0="115-132" />
+      <subModel name="SECTOR_07" layout="horizontal" type="ranges" line0="133-150" />
+    </model>
+    <model name="HX_011_CROSSED_SPOKE" DisplayAs="Custom" StringType="RGB Nodes" StartChannel="1981" Controller="" LayoutGroup="Default" StartSide="B" Dir="L" PixelSize="2" Antialias="1" Transparency="0" versionNumber="7" parm1="92" parm2="35" parm3="1" Depth="1" CustomWidth="92" CustomHeight="35" CustomStrings="1" String1="1" CustomModelCompressed="1,34,0,0;2,33,2,0;3,32,4,0;4,32,6,0;5,31,8,0;6,30,10,0;7,29,12,0;8,29,14,0;9,28,16,0;10,27,18,0;11,26,20,0;12,25,22,0;13,25,25,0;14,24,27,0;15,23,29,0;16,22,31,0;17,22,33,0;18,21,35,0;19,20,37,0;20,19,39,0;21,19,41,0;22,18,43,0;23,17,45,0;24,16,47,0;25,16,49,0;26,15,52,0;27,14,54,0;28,13,56,0;29,13,58,0;30,12,60,0;31,11,62,0;32,10,64,0;33,10,66,0;34,9,68,0;35,8,70,0;36,7,72,0;37,7,74,0;38,6,77,0;39,5,79,0;40,4,81,0;41,3,83,0;42,3,85,0;43,2,87,0;44,1,89,0;45,0,91,0" WorldPosX="38.250000" WorldPosY="79.000000" WorldPosZ="35.000000" ScaleX="0.5" ScaleY="0.5" ScaleZ="0.5">
+      <subModel name="SECTOR_00" layout="horizontal" type="ranges" line0="1-6" />
+      <subModel name="SECTOR_01" layout="horizontal" type="ranges" line0="7-12" />
+      <subModel name="SECTOR_02" layout="horizontal" type="ranges" line0="13-18" />
+      <subModel name="SECTOR_03" layout="horizontal" type="ranges" line0="19-24" />
+      <subModel name="SECTOR_04" layout="horizontal" type="ranges" line0="25-30" />
+      <subModel name="SECTOR_05" layout="horizontal" type="ranges" line0="31-35" />
+      <subModel name="SECTOR_06" layout="horizontal" type="ranges" line0="36-40" />
+      <subModel name="SECTOR_07" layout="horizontal" type="ranges" line0="41-45" />
+    </model>
+    <model name="HX_012_CROSSED_SPOKE" DisplayAs="Custom" StringType="RGB Nodes" StartChannel="2116" Controller="" LayoutGroup="Default" StartSide="B" Dir="L" PixelSize="2" Antialias="1" Transparency="0" versionNumber="7" parm1="42" parm2="90" parm3="1" Depth="1" CustomWidth="42" CustomHeight="90" CustomStrings="1" String1="1" CustomModelCompressed="1,89,0,0;2,87,1,0;3,85,2,0;4,83,3,0;5,80,3,0;6,78,4,0;7,76,5,0;8,74,6,0;9,72,7,0;10,70,8,0;11,68,9,0;12,66,10,0;13,64,11,0;14,62,12,0;15,60,13,0;16,58,14,0;17,56,15,0;18,54,16,0;19,52,17,0;20,50,17,0;21,48,18,0;22,46,19,0;23,44,20,0;24,42,21,0;25,40,22,0;26,38,23,0;27,36,24,0;28,34,25,0;29,32,26,0;30,30,27,0;31,28,28,0;32,26,29,0;33,24,30,0;34,22,31,0;35,20,31,0;36,18,32,0;37,16,33,0;38,14,34,0;39,12,35,0;40,10,36,0;41,8,37,0;42,6,38,0;43,4,39,0;44,2,40,0;45,0,41,0" WorldPosX="17.250000" WorldPosY="101.750000" WorldPosZ="35.000000" ScaleX="0.5" ScaleY="0.5" ScaleZ="0.5">
+      <subModel name="SECTOR_00" layout="horizontal" type="ranges" line0="1-6" />
+      <subModel name="SECTOR_01" layout="horizontal" type="ranges" line0="7-12" />
+      <subModel name="SECTOR_02" layout="horizontal" type="ranges" line0="13-18" />
+      <subModel name="SECTOR_03" layout="horizontal" type="ranges" line0="19-24" />
+      <subModel name="SECTOR_04" layout="horizontal" type="ranges" line0="25-30" />
+      <subModel name="SECTOR_05" layout="horizontal" type="ranges" line0="31-35" />
+      <subModel name="SECTOR_06" layout="horizontal" type="ranges" line0="36-40" />
+      <subModel name="SECTOR_07" layout="horizontal" type="ranges" line0="41-45" />
+    </model>
+    <model name="HX_013_CROSSED_SPOKE" DisplayAs="Custom" StringType="RGB Nodes" StartChannel="2251" Controller="" LayoutGroup="Default" StartSide="B" Dir="L" PixelSize="2" Antialias="1" Transparency="0" versionNumber="7" parm1="35" parm2="92" parm3="1" Depth="1" CustomWidth="35" CustomHeight="92" CustomStrings="1" String1="1" CustomModelCompressed="1,91,34,0;2,89,33,0;3,87,32,0;4,85,32,0;5,83,31,0;6,81,30,0;7,79,29,0;8,77,29,0;9,75,28,0;10,73,27,0;11,71,26,0;12,69,25,0;13,66,25,0;14,64,24,0;15,62,23,0;16,60,22,0;17,58,22,0;18,56,21,0;19,54,20,0;20,52,19,0;21,50,19,0;22,48,18,0;23,46,17,0;24,44,16,0;25,42,16,0;26,39,15,0;27,37,14,0;28,35,13,0;29,33,13,0;30,31,12,0;31,29,11,0;32,27,10,0;33,25,10,0;34,23,9,0;35,21,8,0;36,19,7,0;37,17,7,0;38,14,6,0;39,12,5,0;40,10,4,0;41,8,3,0;42,6,3,0;43,4,2,0;44,2,1,0;45,0,0,0" WorldPosX="-14.000000" WorldPosY="103.250000" WorldPosZ="35.000000" ScaleX="0.5" ScaleY="0.5" ScaleZ="0.5">
+      <subModel name="SECTOR_00" layout="horizontal" type="ranges" line0="1-6" />
+      <subModel name="SECTOR_01" layout="horizontal" type="ranges" line0="7-12" />
+      <subModel name="SECTOR_02" layout="horizontal" type="ranges" line0="13-18" />
+      <subModel name="SECTOR_03" layout="horizontal" type="ranges" line0="19-24" />
+      <subModel name="SECTOR_04" layout="horizontal" type="ranges" line0="25-30" />
+      <subModel name="SECTOR_05" layout="horizontal" type="ranges" line0="31-35" />
+      <subModel name="SECTOR_06" layout="horizontal" type="ranges" line0="36-40" />
+      <subModel name="SECTOR_07" layout="horizontal" type="ranges" line0="41-45" />
+    </model>
+    <model name="HX_014_CROSSED_SPOKE" DisplayAs="Custom" StringType="RGB Nodes" StartChannel="2386" Controller="" LayoutGroup="Default" StartSide="B" Dir="L" PixelSize="2" Antialias="1" Transparency="0" versionNumber="7" parm1="90" parm2="42" parm3="1" Depth="1" CustomWidth="90" CustomHeight="42" CustomStrings="1" String1="1" CustomModelCompressed="1,41,89,0;2,40,87,0;3,39,85,0;4,38,83,0;5,38,80,0;6,37,78,0;7,36,76,0;8,35,74,0;9,34,72,0;10,33,70,0;11,32,68,0;12,31,66,0;13,30,64,0;14,29,62,0;15,28,60,0;16,27,58,0;17,26,56,0;18,25,54,0;19,24,52,0;20,24,50,0;21,23,48,0;22,22,46,0;23,21,44,0;24,20,42,0;25,19,40,0;26,18,38,0;27,17,36,0;28,16,34,0;29,15,32,0;30,14,30,0;31,13,28,0;32,12,26,0;33,11,24,0;34,10,22,0;35,10,20,0;36,9,18,0;37,8,16,0;38,7,14,0;39,6,12,0;40,5,10,0;41,4,8,0;42,3,6,0;43,2,4,0;44,1,2,0;45,0,0,0" WorldPosX="-36.750000" WorldPosY="82.250000" WorldPosZ="35.000000" ScaleX="0.5" ScaleY="0.5" ScaleZ="0.5">
+      <subModel name="SECTOR_00" layout="horizontal" type="ranges" line0="1-6" />
+      <subModel name="SECTOR_01" layout="horizontal" type="ranges" line0="7-12" />
+      <subModel name="SECTOR_02" layout="horizontal" type="ranges" line0="13-18" />
+      <subModel name="SECTOR_03" layout="horizontal" type="ranges" line0="19-24" />
+      <subModel name="SECTOR_04" layout="horizontal" type="ranges" line0="25-30" />
+      <subModel name="SECTOR_05" layout="horizontal" type="ranges" line0="31-35" />
+      <subModel name="SECTOR_06" layout="horizontal" type="ranges" line0="36-40" />
+      <subModel name="SECTOR_07" layout="horizontal" type="ranges" line0="41-45" />
+    </model>
+    <model name="HX_015_CROSSED_SPOKE" DisplayAs="Custom" StringType="RGB Nodes" StartChannel="2521" Controller="" LayoutGroup="Default" StartSide="B" Dir="L" PixelSize="2" Antialias="1" Transparency="0" versionNumber="7" parm1="92" parm2="35" parm3="1" Depth="1" CustomWidth="92" CustomHeight="35" CustomStrings="1" String1="1" CustomModelCompressed="1,0,91,0;2,1,89,0;3,2,87,0;4,2,85,0;5,3,83,0;6,4,81,0;7,5,79,0;8,5,77,0;9,6,75,0;10,7,73,0;11,8,71,0;12,9,69,0;13,9,66,0;14,10,64,0;15,11,62,0;16,12,60,0;17,12,58,0;18,13,56,0;19,14,54,0;20,15,52,0;21,15,50,0;22,16,48,0;23,17,46,0;24,18,44,0;25,18,42,0;26,19,39,0;27,20,37,0;28,21,35,0;29,21,33,0;30,22,31,0;31,23,29,0;32,24,27,0;33,24,25,0;34,25,23,0;35,26,21,0;36,27,19,0;37,27,17,0;38,28,14,0;39,29,12,0;40,30,10,0;41,31,8,0;42,31,6,0;43,32,4,0;44,33,2,0;45,34,0,0" WorldPosX="-38.250000" WorldPosY="51.000000" WorldPosZ="35.000000" ScaleX="0.5" ScaleY="0.5" ScaleZ="0.5">
+      <subModel name="SECTOR_00" layout="horizontal" type="ranges" line0="1-6" />
+      <subModel name="SECTOR_01" layout="horizontal" type="ranges" line0="7-12" />
+      <subModel name="SECTOR_02" layout="horizontal" type="ranges" line0="13-18" />
+      <subModel name="SECTOR_03" layout="horizontal" type="ranges" line0="19-24" />
+      <subModel name="SECTOR_04" layout="horizontal" type="ranges" line0="25-30" />
+      <subModel name="SECTOR_05" layout="horizontal" type="ranges" line0="31-35" />
+      <subModel name="SECTOR_06" layout="horizontal" type="ranges" line0="36-40" />
+      <subModel name="SECTOR_07" layout="horizontal" type="ranges" line0="41-45" />
+    </model>
+    <model name="HX_016_CROSSED_SPOKE" DisplayAs="Custom" StringType="RGB Nodes" StartChannel="2656" Controller="" LayoutGroup="Default" StartSide="B" Dir="L" PixelSize="2" Antialias="1" Transparency="0" versionNumber="7" parm1="42" parm2="90" parm3="1" Depth="1" CustomWidth="42" CustomHeight="90" CustomStrings="1" String1="1" CustomModelCompressed="1,0,41,0;2,2,40,0;3,4,39,0;4,6,38,0;5,9,38,0;6,11,37,0;7,13,36,0;8,15,35,0;9,17,34,0;10,19,33,0;11,21,32,0;12,23,31,0;13,25,30,0;14,27,29,0;15,29,28,0;16,31,27,0;17,33,26,0;18,35,25,0;19,37,24,0;20,39,24,0;21,41,23,0;22,43,22,0;23,45,21,0;24,47,20,0;25,49,19,0;26,51,18,0;27,53,17,0;28,55,16,0;29,57,15,0;30,59,14,0;31,61,13,0;32,63,12,0;33,65,11,0;34,67,10,0;35,69,10,0;36,71,9,0;37,73,8,0;38,75,7,0;39,77,6,0;40,79,5,0;41,81,4,0;42,83,3,0;43,85,2,0;44,87,1,0;45,89,0,0" WorldPosX="-17.250000" WorldPosY="28.250000" WorldPosZ="35.000000" ScaleX="0.5" ScaleY="0.5" ScaleZ="0.5">
+      <subModel name="SECTOR_00" layout="horizontal" type="ranges" line0="1-6" />
+      <subModel name="SECTOR_01" layout="horizontal" type="ranges" line0="7-12" />
+      <subModel name="SECTOR_02" layout="horizontal" type="ranges" line0="13-18" />
+      <subModel name="SECTOR_03" layout="horizontal" type="ranges" line0="19-24" />
+      <subModel name="SECTOR_04" layout="horizontal" type="ranges" line0="25-30" />
+      <subModel name="SECTOR_05" layout="horizontal" type="ranges" line0="31-35" />
+      <subModel name="SECTOR_06" layout="horizontal" type="ranges" line0="36-40" />
+      <subModel name="SECTOR_07" layout="horizontal" type="ranges" line0="41-45" />
+    </model>
+    <model name="HX_017_CROSSED_SPOKE" DisplayAs="Custom" StringType="RGB Nodes" StartChannel="2791" Controller="" LayoutGroup="Default" StartSide="B" Dir="L" PixelSize="2" Antialias="1" Transparency="0" versionNumber="7" parm1="35" parm2="92" parm3="1" Depth="1" CustomWidth="35" CustomHeight="92" CustomStrings="1" String1="1" CustomModelCompressed="1,0,0,0;2,2,1,0;3,4,2,0;4,6,2,0;5,8,3,0;6,10,4,0;7,12,5,0;8,14,5,0;9,16,6,0;10,18,7,0;11,20,8,0;12,22,9,0;13,25,9,0;14,27,10,0;15,29,11,0;16,31,12,0;17,33,12,0;18,35,13,0;19,37,14,0;20,39,15,0;21,41,15,0;22,43,16,0;23,45,17,0;24,47,18,0;25,49,18,0;26,52,19,0;27,54,20,0;28,56,21,0;29,58,21,0;30,60,22,0;31,62,23,0;32,64,24,0;33,66,24,0;34,68,25,0;35,70,26,0;36,72,27,0;37,74,27,0;38,77,28,0;39,79,29,0;40,81,30,0;41,83,31,0;42,85,31,0;43,87,32,0;44,89,33,0;45,91,34,0" WorldPosX="14.000000" WorldPosY="26.750000" WorldPosZ="35.000000" ScaleX="0.5" ScaleY="0.5" ScaleZ="0.5">
+      <subModel name="SECTOR_00" layout="horizontal" type="ranges" line0="1-6" />
+      <subModel name="SECTOR_01" layout="horizontal" type="ranges" line0="7-12" />
+      <subModel name="SECTOR_02" layout="horizontal" type="ranges" line0="13-18" />
+      <subModel name="SECTOR_03" layout="horizontal" type="ranges" line0="19-24" />
+      <subModel name="SECTOR_04" layout="horizontal" type="ranges" line0="25-30" />
+      <subModel name="SECTOR_05" layout="horizontal" type="ranges" line0="31-35" />
+      <subModel name="SECTOR_06" layout="horizontal" type="ranges" line0="36-40" />
+      <subModel name="SECTOR_07" layout="horizontal" type="ranges" line0="41-45" />
+    </model>
+    <model name="HX_018_CROSSED_SPOKE" DisplayAs="Custom" StringType="RGB Nodes" StartChannel="2926" Controller="" LayoutGroup="Default" StartSide="B" Dir="L" PixelSize="2" Antialias="1" Transparency="0" versionNumber="7" parm1="90" parm2="42" parm3="1" Depth="1" CustomWidth="90" CustomHeight="42" CustomStrings="1" String1="1" CustomModelCompressed="1,0,0,0;2,1,2,0;3,2,4,0;4,3,6,0;5,3,9,0;6,4,11,0;7,5,13,0;8,6,15,0;9,7,17,0;10,8,19,0;11,9,21,0;12,10,23,0;13,11,25,0;14,12,27,0;15,13,29,0;16,14,31,0;17,15,33,0;18,16,35,0;19,17,37,0;20,17,39,0;21,18,41,0;22,19,43,0;23,20,45,0;24,21,47,0;25,22,49,0;26,23,51,0;27,24,53,0;28,25,55,0;29,26,57,0;30,27,59,0;31,28,61,0;32,29,63,0;33,30,65,0;34,31,67,0;35,31,69,0;36,32,71,0;37,33,73,0;38,34,75,0;39,35,77,0;40,36,79,0;41,37,81,0;42,38,83,0;43,39,85,0;44,40,87,0;45,41,89,0" WorldPosX="36.750000" WorldPosY="47.750000" WorldPosZ="35.000000" ScaleX="0.5" ScaleY="0.5" ScaleZ="0.5">
+      <subModel name="SECTOR_00" layout="horizontal" type="ranges" line0="1-6" />
+      <subModel name="SECTOR_01" layout="horizontal" type="ranges" line0="7-12" />
+      <subModel name="SECTOR_02" layout="horizontal" type="ranges" line0="13-18" />
+      <subModel name="SECTOR_03" layout="horizontal" type="ranges" line0="19-24" />
+      <subModel name="SECTOR_04" layout="horizontal" type="ranges" line0="25-30" />
+      <subModel name="SECTOR_05" layout="horizontal" type="ranges" line0="31-35" />
+      <subModel name="SECTOR_06" layout="horizontal" type="ranges" line0="36-40" />
+      <subModel name="SECTOR_07" layout="horizontal" type="ranges" line0="41-45" />
+    </model>
+    <model name="HX_019_VORTEX_HOOP" DisplayAs="Custom" StringType="RGB Nodes" StartChannel="3061" Controller="" LayoutGroup="Default" StartSide="B" Dir="L" PixelSize="2" Antialias="1" Transparency="0" versionNumber="7" parm1="241" parm2="235" parm3="1" Depth="51" CustomWidth="241" CustomHeight="235" CustomStrings="1" String1="1" CustomModelCompressed="1,117,240,25;2,112,240,24;3,107,240,23;4,102,239,22;5,97,238,21;6,93,237,20;7,88,236,19;8,83,235,18;9,78,233,17;10,74,232,16;11,69,230,15;12,65,227,14;13,60,225,13;14,56,223,12;15,52,220,11;16,48,217,10;17,44,214,10;18,40,211,9;19,37,207,8;20,33,204,7;21,30,200,6;22,27,196,6;23,24,193,5;24,21,188,5;25,18,184,4;26,15,180,3;27,13,176,3;28,11,171,2;29,9,167,2;30,7,162,2;31,5,157,1;32,4,152,1;33,3,147,1;34,2,142,0;35,1,138,0;36,0,133,0;37,0,128,0;38,0,123,0;39,0,117,0;40,0,112,0;41,0,107,0;42,1,102,0;43,2,98,0;44,3,93,1;45,4,88,1;46,5,83,1;47,7,78,2;48,9,73,2;49,11,69,2;50,13,64,3;51,15,60,3;52,18,56,4;53,21,52,5;54,24,47,5;55,27,44,6;56,30,40,6;57,33,36,7;58,37,33,8;59,40,29,9;60,44,26,10;61,48,23,10;62,52,20,11;63,56,17,12;64,60,15,13;65,65,13,14;66,69,10,15;67,74,8,16;68,78,7,17;69,83,5,18;70,88,4,19;71,93,3,20;72,97,2,21;73,102,1,22;74,107,0,23;75,112,0,24;76,117,0,25;77,122,0,26;78,127,0,27;79,132,1,28;80,137,2,29;81,141,3,30;82,146,4,31;83,151,5,32;84,156,7,33;85,160,8,34;86,165,10,35;87,169,13,36;88,174,15,37;89,178,17,38;90,182,20,39;91,186,23,40;92,190,26,40;93,194,29,41;94,197,33,42;95,201,36,43;96,204,40,44;97,207,44,44;98,210,47,45;99,213,52,45;100,216,56,46;101,219,60,47;102,221,64,47;103,223,69,48;104,225,73,48;105,227,78,48;106,229,83,49;107,230,88,49;108,231,93,49;109,232,98,50;110,233,102,50;111,234,107,50;112,234,112,50;113,234,117,50;114,234,123,50;115,234,128,50;116,234,133,50;117,233,138,50;118,232,142,50;119,231,147,49;120,230,152,49;121,229,157,49;122,227,162,48;123,225,167,48;124,223,171,48;125,221,176,47;126,219,180,47;127,216,184,46;128,213,188,45;129,210,193,45;130,207,196,44;131,204,200,44;132,201,204,43;133,197,207,42;134,194,211,41;135,190,214,40;136,186,217,40;137,182,220,39;138,178,223,38;139,174,225,37;140,169,227,36;141,165,230,35;142,160,232,34;143,156,233,33;144,151,235,32;145,146,236,31;146,141,237,30;147,137,238,29;148,132,239,28;149,127,240,27;150,122,240,26" WorldPosX="0.000000" WorldPosY="65.000000" WorldPosZ="15.000000" ScaleX="0.5" ScaleY="0.5" ScaleZ="0.5">
+      <subModel name="SECTOR_00" layout="horizontal" type="ranges" line0="1-19" />
+      <subModel name="SECTOR_01" layout="horizontal" type="ranges" line0="20-38" />
+      <subModel name="SECTOR_02" layout="horizontal" type="ranges" line0="39-57" />
+      <subModel name="SECTOR_03" layout="horizontal" type="ranges" line0="58-76" />
+      <subModel name="SECTOR_04" layout="horizontal" type="ranges" line0="77-95" />
+      <subModel name="SECTOR_05" layout="horizontal" type="ranges" line0="96-114" />
+      <subModel name="SECTOR_06" layout="horizontal" type="ranges" line0="115-132" />
+      <subModel name="SECTOR_07" layout="horizontal" type="ranges" line0="133-150" />
+    </model>
+    <model name="HX_020_CROSSED_SPOKE" DisplayAs="Custom" StringType="RGB Nodes" StartChannel="3511" Controller="" LayoutGroup="Default" StartSide="B" Dir="L" PixelSize="2" Antialias="1" Transparency="0" versionNumber="7" parm1="70" parm2="59" parm3="1" Depth="1" CustomWidth="70" CustomHeight="59" CustomStrings="1" String1="1" CustomModelCompressed="1,58,0,0;2,56,2,0;3,55,3,0;4,54,5,0;5,52,6,0;6,51,8,0;7,50,9,0;8,48,11,0;9,47,12,0;10,46,14,0;11,44,16,0;12,43,17,0;13,42,19,0;14,41,20,0;15,39,22,0;16,38,23,0;17,37,25,0;18,35,27,0;19,34,28,0;20,33,30,0;21,31,31,0;22,30,33,0;23,29,34,0;24,27,36,0;25,26,37,0;26,25,39,0;27,23,41,0;28,22,42,0;29,21,44,0;30,19,45,0;31,18,47,0;32,17,48,0;33,16,50,0;34,14,52,0;35,13,53,0;36,12,55,0;37,10,56,0;38,9,58,0;39,8,59,0;40,6,61,0;41,5,63,0;42,4,64,0;43,2,66,0;44,1,67,0;45,0,69,0" WorldPosX="28.750000" WorldPosY="89.000000" WorldPosZ="15.000000" ScaleX="0.5" ScaleY="0.5" ScaleZ="0.5">
+      <subModel name="SECTOR_00" layout="horizontal" type="ranges" line0="1-6" />
+      <subModel name="SECTOR_01" layout="horizontal" type="ranges" line0="7-12" />
+      <subModel name="SECTOR_02" layout="horizontal" type="ranges" line0="13-18" />
+      <subModel name="SECTOR_03" layout="horizontal" type="ranges" line0="19-24" />
+      <subModel name="SECTOR_04" layout="horizontal" type="ranges" line0="25-30" />
+      <subModel name="SECTOR_05" layout="horizontal" type="ranges" line0="31-35" />
+      <subModel name="SECTOR_06" layout="horizontal" type="ranges" line0="36-40" />
+      <subModel name="SECTOR_07" layout="horizontal" type="ranges" line0="41-45" />
+    </model>
+    <model name="HX_021_CROSSED_SPOKE" DisplayAs="Custom" StringType="RGB Nodes" StartChannel="3646" Controller="" LayoutGroup="Default" StartSide="B" Dir="L" PixelSize="2" Antialias="1" Transparency="0" versionNumber="7" parm1="8" parm2="91" parm3="1" Depth="1" CustomWidth="8" CustomHeight="91" CustomStrings="1" String1="1" CustomModelCompressed="1,90,0,0;2,88,0,0;3,86,0,0;4,84,0,0;5,82,0,0;6,80,0,0;7,78,1,0;8,76,1,0;9,74,1,0;10,72,1,0;11,70,1,0;12,68,1,0;13,66,2,0;14,64,2,0;15,62,2,0;16,60,2,0;17,58,2,0;18,55,3,0;19,53,3,0;20,51,3,0;21,49,3,0;22,47,3,0;23,45,3,0;24,43,4,0;25,41,4,0;26,39,4,0;27,37,4,0;28,35,4,0;29,33,4,0;30,31,5,0;31,29,5,0;32,27,5,0;33,25,5,0;34,23,5,0;35,21,5,0;36,19,6,0;37,17,6,0;38,15,6,0;39,13,6,0;40,11,6,0;41,9,7,0;42,7,7,0;43,5,7,0;44,2,7,0;45,0,7,0" WorldPosX="3.250000" WorldPosY="102.500000" WorldPosZ="15.000000" ScaleX="0.5" ScaleY="0.5" ScaleZ="0.5">
+      <subModel name="SECTOR_00" layout="horizontal" type="ranges" line0="1-6" />
+      <subModel name="SECTOR_01" layout="horizontal" type="ranges" line0="7-12" />
+      <subModel name="SECTOR_02" layout="horizontal" type="ranges" line0="13-18" />
+      <subModel name="SECTOR_03" layout="horizontal" type="ranges" line0="19-24" />
+      <subModel name="SECTOR_04" layout="horizontal" type="ranges" line0="25-30" />
+      <subModel name="SECTOR_05" layout="horizontal" type="ranges" line0="31-35" />
+      <subModel name="SECTOR_06" layout="horizontal" type="ranges" line0="36-40" />
+      <subModel name="SECTOR_07" layout="horizontal" type="ranges" line0="41-45" />
+    </model>
+    <model name="HX_022_CROSSED_SPOKE" DisplayAs="Custom" StringType="RGB Nodes" StartChannel="3781" Controller="" LayoutGroup="Default" StartSide="B" Dir="L" PixelSize="2" Antialias="1" Transparency="0" versionNumber="7" parm1="59" parm2="70" parm3="1" Depth="1" CustomWidth="59" CustomHeight="70" CustomStrings="1" String1="1" CustomModelCompressed="1,69,58,0;2,67,56,0;3,66,55,0;4,64,54,0;5,63,52,0;6,61,51,0;7,60,50,0;8,58,48,0;9,57,47,0;10,55,46,0;11,53,44,0;12,52,43,0;13,50,42,0;14,49,41,0;15,47,39,0;16,46,38,0;17,44,37,0;18,42,35,0;19,41,34,0;20,39,33,0;21,38,31,0;22,36,30,0;23,35,29,0;24,33,27,0;25,32,26,0;26,30,25,0;27,28,23,0;28,27,22,0;29,25,21,0;30,24,19,0;31,22,18,0;32,21,17,0;33,19,16,0;34,17,14,0;35,16,13,0;36,14,12,0;37,13,10,0;38,11,9,0;39,10,8,0;40,8,6,0;41,6,5,0;42,5,4,0;43,3,2,0;44,2,1,0;45,0,0,0" WorldPosX="-24.000000" WorldPosY="93.750000" WorldPosZ="15.000000" ScaleX="0.5" ScaleY="0.5" ScaleZ="0.5">
+      <subModel name="SECTOR_00" layout="horizontal" type="ranges" line0="1-6" />
+      <subModel name="SECTOR_01" layout="horizontal" type="ranges" line0="7-12" />
+      <subModel name="SECTOR_02" layout="horizontal" type="ranges" line0="13-18" />
+      <subModel name="SECTOR_03" layout="horizontal" type="ranges" line0="19-24" />
+      <subModel name="SECTOR_04" layout="horizontal" type="ranges" line0="25-30" />
+      <subModel name="SECTOR_05" layout="horizontal" type="ranges" line0="31-35" />
+      <subModel name="SECTOR_06" layout="horizontal" type="ranges" line0="36-40" />
+      <subModel name="SECTOR_07" layout="horizontal" type="ranges" line0="41-45" />
+    </model>
+    <model name="HX_023_CROSSED_SPOKE" DisplayAs="Custom" StringType="RGB Nodes" StartChannel="3916" Controller="" LayoutGroup="Default" StartSide="B" Dir="L" PixelSize="2" Antialias="1" Transparency="0" versionNumber="7" parm1="91" parm2="8" parm3="1" Depth="1" CustomWidth="91" CustomHeight="8" CustomStrings="1" String1="1" CustomModelCompressed="1,7,90,0;2,7,88,0;3,7,86,0;4,7,84,0;5,7,82,0;6,7,80,0;7,6,78,0;8,6,76,0;9,6,74,0;10,6,72,0;11,6,70,0;12,6,68,0;13,5,66,0;14,5,64,0;15,5,62,0;16,5,60,0;17,5,58,0;18,4,55,0;19,4,53,0;20,4,51,0;21,4,49,0;22,4,47,0;23,4,45,0;24,3,43,0;25,3,41,0;26,3,39,0;27,3,37,0;28,3,35,0;29,3,33,0;30,2,31,0;31,2,29,0;32,2,27,0;33,2,25,0;34,2,23,0;35,2,21,0;36,1,19,0;37,1,17,0;38,1,15,0;39,1,13,0;40,1,11,0;41,0,9,0;42,0,7,0;43,0,5,0;44,0,2,0;45,0,0,0" WorldPosX="-37.500000" WorldPosY="68.250000" WorldPosZ="15.000000" ScaleX="0.5" ScaleY="0.5" ScaleZ="0.5">
+      <subModel name="SECTOR_00" layout="horizontal" type="ranges" line0="1-6" />
+      <subModel name="SECTOR_01" layout="horizontal" type="ranges" line0="7-12" />
+      <subModel name="SECTOR_02" layout="horizontal" type="ranges" line0="13-18" />
+      <subModel name="SECTOR_03" layout="horizontal" type="ranges" line0="19-24" />
+      <subModel name="SECTOR_04" layout="horizontal" type="ranges" line0="25-30" />
+      <subModel name="SECTOR_05" layout="horizontal" type="ranges" line0="31-35" />
+      <subModel name="SECTOR_06" layout="horizontal" type="ranges" line0="36-40" />
+      <subModel name="SECTOR_07" layout="horizontal" type="ranges" line0="41-45" />
+    </model>
+    <model name="HX_024_CROSSED_SPOKE" DisplayAs="Custom" StringType="RGB Nodes" StartChannel="4051" Controller="" LayoutGroup="Default" StartSide="B" Dir="L" PixelSize="2" Antialias="1" Transparency="0" versionNumber="7" parm1="70" parm2="59" parm3="1" Depth="1" CustomWidth="70" CustomHeight="59" CustomStrings="1" String1="1" CustomModelCompressed="1,0,69,0;2,2,67,0;3,3,66,0;4,4,64,0;5,6,63,0;6,7,61,0;7,8,60,0;8,10,58,0;9,11,57,0;10,12,55,0;11,14,53,0;12,15,52,0;13,16,50,0;14,17,49,0;15,19,47,0;16,20,46,0;17,21,44,0;18,23,42,0;19,24,41,0;20,25,39,0;21,27,38,0;22,28,36,0;23,29,35,0;24,31,33,0;25,32,32,0;26,33,30,0;27,35,28,0;28,36,27,0;29,37,25,0;30,39,24,0;31,40,22,0;32,41,21,0;33,42,19,0;34,44,17,0;35,45,16,0;36,46,14,0;37,48,13,0;38,49,11,0;39,50,10,0;40,52,8,0;41,53,6,0;42,54,5,0;43,56,3,0;44,57,2,0;45,58,0,0" WorldPosX="-28.750000" WorldPosY="41.000000" WorldPosZ="15.000000" ScaleX="0.5" ScaleY="0.5" ScaleZ="0.5">
+      <subModel name="SECTOR_00" layout="horizontal" type="ranges" line0="1-6" />
+      <subModel name="SECTOR_01" layout="horizontal" type="ranges" line0="7-12" />
+      <subModel name="SECTOR_02" layout="horizontal" type="ranges" line0="13-18" />
+      <subModel name="SECTOR_03" layout="horizontal" type="ranges" line0="19-24" />
+      <subModel name="SECTOR_04" layout="horizontal" type="ranges" line0="25-30" />
+      <subModel name="SECTOR_05" layout="horizontal" type="ranges" line0="31-35" />
+      <subModel name="SECTOR_06" layout="horizontal" type="ranges" line0="36-40" />
+      <subModel name="SECTOR_07" layout="horizontal" type="ranges" line0="41-45" />
+    </model>
+    <model name="HX_025_CROSSED_SPOKE" DisplayAs="Custom" StringType="RGB Nodes" StartChannel="4186" Controller="" LayoutGroup="Default" StartSide="B" Dir="L" PixelSize="2" Antialias="1" Transparency="0" versionNumber="7" parm1="8" parm2="91" parm3="1" Depth="1" CustomWidth="8" CustomHeight="91" CustomStrings="1" String1="1" CustomModelCompressed="1,0,7,0;2,2,7,0;3,4,7,0;4,6,7,0;5,8,7,0;6,10,7,0;7,12,6,0;8,14,6,0;9,16,6,0;10,18,6,0;11,20,6,0;12,22,6,0;13,24,5,0;14,26,5,0;15,28,5,0;16,30,5,0;17,32,5,0;18,35,4,0;19,37,4,0;20,39,4,0;21,41,4,0;22,43,4,0;23,45,4,0;24,47,3,0;25,49,3,0;26,51,3,0;27,53,3,0;28,55,3,0;29,57,3,0;30,59,2,0;31,61,2,0;32,63,2,0;33,65,2,0;34,67,2,0;35,69,2,0;36,71,1,0;37,73,1,0;38,75,1,0;39,77,1,0;40,79,1,0;41,81,0,0;42,83,0,0;43,85,0,0;44,88,0,0;45,90,0,0" WorldPosX="-3.250000" WorldPosY="27.500000" WorldPosZ="15.000000" ScaleX="0.5" ScaleY="0.5" ScaleZ="0.5">
+      <subModel name="SECTOR_00" layout="horizontal" type="ranges" line0="1-6" />
+      <subModel name="SECTOR_01" layout="horizontal" type="ranges" line0="7-12" />
+      <subModel name="SECTOR_02" layout="horizontal" type="ranges" line0="13-18" />
+      <subModel name="SECTOR_03" layout="horizontal" type="ranges" line0="19-24" />
+      <subModel name="SECTOR_04" layout="horizontal" type="ranges" line0="25-30" />
+      <subModel name="SECTOR_05" layout="horizontal" type="ranges" line0="31-35" />
+      <subModel name="SECTOR_06" layout="horizontal" type="ranges" line0="36-40" />
+      <subModel name="SECTOR_07" layout="horizontal" type="ranges" line0="41-45" />
+    </model>
+    <model name="HX_026_CROSSED_SPOKE" DisplayAs="Custom" StringType="RGB Nodes" StartChannel="4321" Controller="" LayoutGroup="Default" StartSide="B" Dir="L" PixelSize="2" Antialias="1" Transparency="0" versionNumber="7" parm1="59" parm2="70" parm3="1" Depth="1" CustomWidth="59" CustomHeight="70" CustomStrings="1" String1="1" CustomModelCompressed="1,0,0,0;2,2,2,0;3,3,3,0;4,5,4,0;5,6,6,0;6,8,7,0;7,9,8,0;8,11,10,0;9,12,11,0;10,14,12,0;11,16,14,0;12,17,15,0;13,19,16,0;14,20,17,0;15,22,19,0;16,23,20,0;17,25,21,0;18,27,23,0;19,28,24,0;20,30,25,0;21,31,27,0;22,33,28,0;23,34,29,0;24,36,31,0;25,37,32,0;26,39,33,0;27,41,35,0;28,42,36,0;29,44,37,0;30,45,39,0;31,47,40,0;32,48,41,0;33,50,42,0;34,52,44,0;35,53,45,0;36,55,46,0;37,56,48,0;38,58,49,0;39,59,50,0;40,61,52,0;41,63,53,0;42,64,54,0;43,66,56,0;44,67,57,0;45,69,58,0" WorldPosX="24.000000" WorldPosY="36.250000" WorldPosZ="15.000000" ScaleX="0.5" ScaleY="0.5" ScaleZ="0.5">
+      <subModel name="SECTOR_00" layout="horizontal" type="ranges" line0="1-6" />
+      <subModel name="SECTOR_01" layout="horizontal" type="ranges" line0="7-12" />
+      <subModel name="SECTOR_02" layout="horizontal" type="ranges" line0="13-18" />
+      <subModel name="SECTOR_03" layout="horizontal" type="ranges" line0="19-24" />
+      <subModel name="SECTOR_04" layout="horizontal" type="ranges" line0="25-30" />
+      <subModel name="SECTOR_05" layout="horizontal" type="ranges" line0="31-35" />
+      <subModel name="SECTOR_06" layout="horizontal" type="ranges" line0="36-40" />
+      <subModel name="SECTOR_07" layout="horizontal" type="ranges" line0="41-45" />
+    </model>
+    <model name="HX_027_CROSSED_SPOKE" DisplayAs="Custom" StringType="RGB Nodes" StartChannel="4456" Controller="" LayoutGroup="Default" StartSide="B" Dir="L" PixelSize="2" Antialias="1" Transparency="0" versionNumber="7" parm1="91" parm2="8" parm3="1" Depth="1" CustomWidth="91" CustomHeight="8" CustomStrings="1" String1="1" CustomModelCompressed="1,0,0,0;2,0,2,0;3,0,4,0;4,0,6,0;5,0,8,0;6,0,10,0;7,1,12,0;8,1,14,0;9,1,16,0;10,1,18,0;11,1,20,0;12,1,22,0;13,2,24,0;14,2,26,0;15,2,28,0;16,2,30,0;17,2,32,0;18,3,35,0;19,3,37,0;20,3,39,0;21,3,41,0;22,3,43,0;23,3,45,0;24,4,47,0;25,4,49,0;26,4,51,0;27,4,53,0;28,4,55,0;29,4,57,0;30,5,59,0;31,5,61,0;32,5,63,0;33,5,65,0;34,5,67,0;35,5,69,0;36,6,71,0;37,6,73,0;38,6,75,0;39,6,77,0;40,6,79,0;41,7,81,0;42,7,83,0;43,7,85,0;44,7,88,0;45,7,90,0" WorldPosX="37.500000" WorldPosY="61.750000" WorldPosZ="15.000000" ScaleX="0.5" ScaleY="0.5" ScaleZ="0.5">
+      <subModel name="SECTOR_00" layout="horizontal" type="ranges" line0="1-6" />
+      <subModel name="SECTOR_01" layout="horizontal" type="ranges" line0="7-12" />
+      <subModel name="SECTOR_02" layout="horizontal" type="ranges" line0="13-18" />
+      <subModel name="SECTOR_03" layout="horizontal" type="ranges" line0="19-24" />
+      <subModel name="SECTOR_04" layout="horizontal" type="ranges" line0="25-30" />
+      <subModel name="SECTOR_05" layout="horizontal" type="ranges" line0="31-35" />
+      <subModel name="SECTOR_06" layout="horizontal" type="ranges" line0="36-40" />
+      <subModel name="SECTOR_07" layout="horizontal" type="ranges" line0="41-45" />
+    </model>
+    <model name="HX_028_VORTEX_HOOP" DisplayAs="Custom" StringType="RGB Nodes" StartChannel="4591" Controller="" LayoutGroup="Default" StartSide="B" Dir="L" PixelSize="2" Antialias="1" Transparency="0" versionNumber="7" parm1="221" parm2="217" parm3="1" Depth="47" CustomWidth="221" CustomHeight="217" CustomStrings="1" String1="1" CustomModelCompressed="1,108,220,23;2,103,220,24;3,99,220,25;4,95,219,26;5,90,218,27;6,86,218,28;7,81,217,29;8,77,215,30;9,73,214,31;10,68,212,31;11,64,210,32;12,60,209,33;13,56,206,34;14,52,204,35;15,48,202,36;16,45,199,36;17,41,196,37;18,38,193,38;19,34,190,39;20,31,187,39;21,28,184,40;22,25,180,41;23,22,177,41;24,20,173,42;25,17,169,42;26,15,165,43;27,13,161,43;28,11,157,44;29,9,153,44;30,7,148,44;31,6,144,45;32,4,140,45;33,3,135,45;34,2,131,45;35,2,126,46;36,1,121,46;37,1,117,46;38,0,112,46;39,0,108,46;40,1,103,46;41,1,99,46;42,2,94,46;43,2,89,45;44,3,85,45;45,4,80,45;46,6,76,45;47,7,72,44;48,9,67,44;49,11,63,44;50,13,59,43;51,15,55,43;52,17,51,42;53,20,47,42;54,22,43,41;55,25,40,41;56,28,36,40;57,31,33,39;58,34,30,39;59,38,27,38;60,41,24,37;61,45,21,36;62,48,18,36;63,52,16,35;64,56,14,34;65,60,11,33;66,64,10,32;67,68,8,31;68,73,6,31;69,77,5,30;70,81,3,29;71,86,2,28;72,90,2,27;73,95,1,26;74,99,0,25;75,103,0,24;76,108,0,23;77,113,0,22;78,117,0,21;79,121,1,20;80,126,2,19;81,130,2,18;82,135,3,17;83,139,5,16;84,143,6,15;85,148,8,15;86,152,10,14;87,156,11,13;88,160,14,12;89,164,16,11;90,168,18,10;91,171,21,10;92,175,24,9;93,178,27,8;94,182,30,7;95,185,33,7;96,188,36,6;97,191,40,5;98,194,43,5;99,196,47,4;100,199,51,4;101,201,55,3;102,203,59,3;103,205,63,2;104,207,67,2;105,209,72,2;106,210,76,1;107,212,80,1;108,213,85,1;109,214,89,1;110,214,94,0;111,215,99,0;112,215,103,0;113,216,108,0;114,216,112,0;115,215,117,0;116,215,121,0;117,214,126,0;118,214,131,1;119,213,135,1;120,212,140,1;121,210,144,1;122,209,148,2;123,207,153,2;124,205,157,2;125,203,161,3;126,201,165,3;127,199,169,4;128,196,173,4;129,194,177,5;130,191,180,5;131,188,184,6;132,185,187,7;133,182,190,7;134,178,193,8;135,175,196,9;136,171,199,10;137,168,202,10;138,164,204,11;139,160,206,12;140,156,209,13;141,152,210,14;142,148,212,15;143,143,214,15;144,139,215,16;145,135,217,17;146,130,218,18;147,126,218,19;148,121,219,20;149,117,220,21;150,113,220,22" WorldPosX="0.000000" WorldPosY="65.000000" WorldPosZ="-5.000000" ScaleX="0.5" ScaleY="0.5" ScaleZ="0.5">
+      <subModel name="SECTOR_00" layout="horizontal" type="ranges" line0="1-19" />
+      <subModel name="SECTOR_01" layout="horizontal" type="ranges" line0="20-38" />
+      <subModel name="SECTOR_02" layout="horizontal" type="ranges" line0="39-57" />
+      <subModel name="SECTOR_03" layout="horizontal" type="ranges" line0="58-76" />
+      <subModel name="SECTOR_04" layout="horizontal" type="ranges" line0="77-95" />
+      <subModel name="SECTOR_05" layout="horizontal" type="ranges" line0="96-114" />
+      <subModel name="SECTOR_06" layout="horizontal" type="ranges" line0="115-132" />
+      <subModel name="SECTOR_07" layout="horizontal" type="ranges" line0="133-150" />
+    </model>
+    <model name="HX_029_CROSSED_SPOKE" DisplayAs="Custom" StringType="RGB Nodes" StartChannel="5041" Controller="" LayoutGroup="Default" StartSide="B" Dir="L" PixelSize="2" Antialias="1" Transparency="0" versionNumber="7" parm1="42" parm2="72" parm3="1" Depth="1" CustomWidth="42" CustomHeight="72" CustomStrings="1" String1="1" CustomModelCompressed="1,71,0,0;2,70,1,0;3,68,2,0;4,66,2,0;5,65,3,0;6,63,4,0;7,61,5,0;8,60,6,0;9,58,7,0;10,57,8,0;11,55,9,0;12,53,10,0;13,52,11,0;14,50,12,0;15,48,13,0;16,47,14,0;17,45,15,0;18,43,16,0;19,42,16,0;20,40,17,0;21,39,18,0;22,37,19,0;23,35,20,0;24,34,21,0;25,32,22,0;26,30,23,0;27,29,24,0;28,27,25,0;29,26,26,0;30,24,27,0;31,22,28,0;32,21,29,0;33,19,30,0;34,17,30,0;35,16,31,0;36,14,32,0;37,13,33,0;38,11,34,0;39,9,35,0;40,8,36,0;41,6,37,0;42,4,38,0;43,3,39,0;44,1,40,0;45,0,41,0" WorldPosX="17.250000" WorldPosY="94.750000" WorldPosZ="-5.000000" ScaleX="0.5" ScaleY="0.5" ScaleZ="0.5">
+      <subModel name="SECTOR_00" layout="horizontal" type="ranges" line0="1-6" />
+      <subModel name="SECTOR_01" layout="horizontal" type="ranges" line0="7-12" />
+      <subModel name="SECTOR_02" layout="horizontal" type="ranges" line0="13-18" />
+      <subModel name="SECTOR_03" layout="horizontal" type="ranges" line0="19-24" />
+      <subModel name="SECTOR_04" layout="horizontal" type="ranges" line0="25-30" />
+      <subModel name="SECTOR_05" layout="horizontal" type="ranges" line0="31-35" />
+      <subModel name="SECTOR_06" layout="horizontal" type="ranges" line0="36-40" />
+      <subModel name="SECTOR_07" layout="horizontal" type="ranges" line0="41-45" />
+    </model>
+    <model name="HX_030_CROSSED_SPOKE" DisplayAs="Custom" StringType="RGB Nodes" StartChannel="5176" Controller="" LayoutGroup="Default" StartSide="B" Dir="L" PixelSize="2" Antialias="1" Transparency="0" versionNumber="7" parm1="23" parm2="80" parm3="1" Depth="1" CustomWidth="23" CustomHeight="80" CustomStrings="1" String1="1" CustomModelCompressed="1,79,22,0;2,78,21,0;3,76,21,0;4,74,20,0;5,72,20,0;6,70,19,0;7,69,19,0;8,67,18,0;9,65,18,0;10,63,17,0;11,61,17,0;12,60,16,0;13,58,16,0;14,56,15,0;15,54,15,0;16,52,14,0;17,51,14,0;18,49,13,0;19,47,13,0;20,45,12,0;21,43,12,0;22,41,12,0;23,40,11,0;24,38,11,0;25,36,10,0;26,34,10,0;27,32,9,0;28,31,9,0;29,29,8,0;30,27,8,0;31,25,7,0;32,23,7,0;33,22,6,0;34,20,6,0;35,18,5,0;36,16,5,0;37,14,4,0;38,12,4,0;39,11,3,0;40,9,3,0;41,7,2,0;42,5,2,0;43,3,1,0;44,2,1,0;45,0,0,0" WorldPosX="-9.000000" WorldPosY="98.250000" WorldPosZ="-5.000000" ScaleX="0.5" ScaleY="0.5" ScaleZ="0.5">
+      <subModel name="SECTOR_00" layout="horizontal" type="ranges" line0="1-6" />
+      <subModel name="SECTOR_01" layout="horizontal" type="ranges" line0="7-12" />
+      <subModel name="SECTOR_02" layout="horizontal" type="ranges" line0="13-18" />
+      <subModel name="SECTOR_03" layout="horizontal" type="ranges" line0="19-24" />
+      <subModel name="SECTOR_04" layout="horizontal" type="ranges" line0="25-30" />
+      <subModel name="SECTOR_05" layout="horizontal" type="ranges" line0="31-35" />
+      <subModel name="SECTOR_06" layout="horizontal" type="ranges" line0="36-40" />
+      <subModel name="SECTOR_07" layout="horizontal" type="ranges" line0="41-45" />
+    </model>
+    <model name="HX_031_CROSSED_SPOKE" DisplayAs="Custom" StringType="RGB Nodes" StartChannel="5311" Controller="" LayoutGroup="Default" StartSide="B" Dir="L" PixelSize="2" Antialias="1" Transparency="0" versionNumber="7" parm1="72" parm2="42" parm3="1" Depth="1" CustomWidth="72" CustomHeight="42" CustomStrings="1" String1="1" CustomModelCompressed="1,41,71,0;2,40,70,0;3,39,68,0;4,39,66,0;5,38,65,0;6,37,63,0;7,36,61,0;8,35,60,0;9,34,58,0;10,33,57,0;11,32,55,0;12,31,53,0;13,30,52,0;14,29,50,0;15,28,48,0;16,27,47,0;17,26,45,0;18,25,43,0;19,25,42,0;20,24,40,0;21,23,39,0;22,22,37,0;23,21,35,0;24,20,34,0;25,19,32,0;26,18,30,0;27,17,29,0;28,16,27,0;29,15,26,0;30,14,24,0;31,13,22,0;32,12,21,0;33,11,19,0;34,11,17,0;35,10,16,0;36,9,14,0;37,8,13,0;38,7,11,0;39,6,9,0;40,5,8,0;41,4,6,0;42,3,4,0;43,2,3,0;44,1,1,0;45,0,0,0" WorldPosX="-29.750000" WorldPosY="82.250000" WorldPosZ="-5.000000" ScaleX="0.5" ScaleY="0.5" ScaleZ="0.5">
+      <subModel name="SECTOR_00" layout="horizontal" type="ranges" line0="1-6" />
+      <subModel name="SECTOR_01" layout="horizontal" type="ranges" line0="7-12" />
+      <subModel name="SECTOR_02" layout="horizontal" type="ranges" line0="13-18" />
+      <subModel name="SECTOR_03" layout="horizontal" type="ranges" line0="19-24" />
+      <subModel name="SECTOR_04" layout="horizontal" type="ranges" line0="25-30" />
+      <subModel name="SECTOR_05" layout="horizontal" type="ranges" line0="31-35" />
+      <subModel name="SECTOR_06" layout="horizontal" type="ranges" line0="36-40" />
+      <subModel name="SECTOR_07" layout="horizontal" type="ranges" line0="41-45" />
+    </model>
+    <model name="HX_032_CROSSED_SPOKE" DisplayAs="Custom" StringType="RGB Nodes" StartChannel="5446" Controller="" LayoutGroup="Default" StartSide="B" Dir="L" PixelSize="2" Antialias="1" Transparency="0" versionNumber="7" parm1="80" parm2="23" parm3="1" Depth="1" CustomWidth="80" CustomHeight="23" CustomStrings="1" String1="1" CustomModelCompressed="1,0,79,0;2,1,78,0;3,1,76,0;4,2,74,0;5,2,72,0;6,3,70,0;7,3,69,0;8,4,67,0;9,4,65,0;10,5,63,0;11,5,61,0;12,6,60,0;13,6,58,0;14,7,56,0;15,7,54,0;16,8,52,0;17,8,51,0;18,9,49,0;19,9,47,0;20,10,45,0;21,10,43,0;22,10,41,0;23,11,40,0;24,11,38,0;25,12,36,0;26,12,34,0;27,13,32,0;28,13,31,0;29,14,29,0;30,14,27,0;31,15,25,0;32,15,23,0;33,16,22,0;34,16,20,0;35,17,18,0;36,17,16,0;37,18,14,0;38,18,12,0;39,19,11,0;40,19,9,0;41,20,7,0;42,20,5,0;43,21,3,0;44,21,2,0;45,22,0,0" WorldPosX="-33.250000" WorldPosY="56.000000" WorldPosZ="-5.000000" ScaleX="0.5" ScaleY="0.5" ScaleZ="0.5">
+      <subModel name="SECTOR_00" layout="horizontal" type="ranges" line0="1-6" />
+      <subModel name="SECTOR_01" layout="horizontal" type="ranges" line0="7-12" />
+      <subModel name="SECTOR_02" layout="horizontal" type="ranges" line0="13-18" />
+      <subModel name="SECTOR_03" layout="horizontal" type="ranges" line0="19-24" />
+      <subModel name="SECTOR_04" layout="horizontal" type="ranges" line0="25-30" />
+      <subModel name="SECTOR_05" layout="horizontal" type="ranges" line0="31-35" />
+      <subModel name="SECTOR_06" layout="horizontal" type="ranges" line0="36-40" />
+      <subModel name="SECTOR_07" layout="horizontal" type="ranges" line0="41-45" />
+    </model>
+    <model name="HX_033_CROSSED_SPOKE" DisplayAs="Custom" StringType="RGB Nodes" StartChannel="5581" Controller="" LayoutGroup="Default" StartSide="B" Dir="L" PixelSize="2" Antialias="1" Transparency="0" versionNumber="7" parm1="42" parm2="72" parm3="1" Depth="1" CustomWidth="42" CustomHeight="72" CustomStrings="1" String1="1" CustomModelCompressed="1,0,41,0;2,1,40,0;3,3,39,0;4,5,39,0;5,6,38,0;6,8,37,0;7,10,36,0;8,11,35,0;9,13,34,0;10,14,33,0;11,16,32,0;12,18,31,0;13,19,30,0;14,21,29,0;15,23,28,0;16,24,27,0;17,26,26,0;18,28,25,0;19,29,25,0;20,31,24,0;21,32,23,0;22,34,22,0;23,36,21,0;24,37,20,0;25,39,19,0;26,41,18,0;27,42,17,0;28,44,16,0;29,45,15,0;30,47,14,0;31,49,13,0;32,50,12,0;33,52,11,0;34,54,11,0;35,55,10,0;36,57,9,0;37,58,8,0;38,60,7,0;39,62,6,0;40,63,5,0;41,65,4,0;42,67,3,0;43,68,2,0;44,70,1,0;45,71,0,0" WorldPosX="-17.250000" WorldPosY="35.250000" WorldPosZ="-5.000000" ScaleX="0.5" ScaleY="0.5" ScaleZ="0.5">
+      <subModel name="SECTOR_00" layout="horizontal" type="ranges" line0="1-6" />
+      <subModel name="SECTOR_01" layout="horizontal" type="ranges" line0="7-12" />
+      <subModel name="SECTOR_02" layout="horizontal" type="ranges" line0="13-18" />
+      <subModel name="SECTOR_03" layout="horizontal" type="ranges" line0="19-24" />
+      <subModel name="SECTOR_04" layout="horizontal" type="ranges" line0="25-30" />
+      <subModel name="SECTOR_05" layout="horizontal" type="ranges" line0="31-35" />
+      <subModel name="SECTOR_06" layout="horizontal" type="ranges" line0="36-40" />
+      <subModel name="SECTOR_07" layout="horizontal" type="ranges" line0="41-45" />
+    </model>
+    <model name="HX_034_CROSSED_SPOKE" DisplayAs="Custom" StringType="RGB Nodes" StartChannel="5716" Controller="" LayoutGroup="Default" StartSide="B" Dir="L" PixelSize="2" Antialias="1" Transparency="0" versionNumber="7" parm1="23" parm2="80" parm3="1" Depth="1" CustomWidth="23" CustomHeight="80" CustomStrings="1" String1="1" CustomModelCompressed="1,0,0,0;2,1,1,0;3,3,1,0;4,5,2,0;5,7,2,0;6,9,3,0;7,10,3,0;8,12,4,0;9,14,4,0;10,16,5,0;11,18,5,0;12,19,6,0;13,21,6,0;14,23,7,0;15,25,7,0;16,27,8,0;17,28,8,0;18,30,9,0;19,32,9,0;20,34,10,0;21,36,10,0;22,38,10,0;23,39,11,0;24,41,11,0;25,43,12,0;26,45,12,0;27,47,13,0;28,48,13,0;29,50,14,0;30,52,14,0;31,54,15,0;32,56,15,0;33,57,16,0;34,59,16,0;35,61,17,0;36,63,17,0;37,65,18,0;38,67,18,0;39,68,19,0;40,70,19,0;41,72,20,0;42,74,20,0;43,76,21,0;44,77,21,0;45,79,22,0" WorldPosX="9.000000" WorldPosY="31.750000" WorldPosZ="-5.000000" ScaleX="0.5" ScaleY="0.5" ScaleZ="0.5">
+      <subModel name="SECTOR_00" layout="horizontal" type="ranges" line0="1-6" />
+      <subModel name="SECTOR_01" layout="horizontal" type="ranges" line0="7-12" />
+      <subModel name="SECTOR_02" layout="horizontal" type="ranges" line0="13-18" />
+      <subModel name="SECTOR_03" layout="horizontal" type="ranges" line0="19-24" />
+      <subModel name="SECTOR_04" layout="horizontal" type="ranges" line0="25-30" />
+      <subModel name="SECTOR_05" layout="horizontal" type="ranges" line0="31-35" />
+      <subModel name="SECTOR_06" layout="horizontal" type="ranges" line0="36-40" />
+      <subModel name="SECTOR_07" layout="horizontal" type="ranges" line0="41-45" />
+    </model>
+    <model name="HX_035_CROSSED_SPOKE" DisplayAs="Custom" StringType="RGB Nodes" StartChannel="5851" Controller="" LayoutGroup="Default" StartSide="B" Dir="L" PixelSize="2" Antialias="1" Transparency="0" versionNumber="7" parm1="72" parm2="42" parm3="1" Depth="1" CustomWidth="72" CustomHeight="42" CustomStrings="1" String1="1" CustomModelCompressed="1,0,0,0;2,1,1,0;3,2,3,0;4,2,5,0;5,3,6,0;6,4,8,0;7,5,10,0;8,6,11,0;9,7,13,0;10,8,14,0;11,9,16,0;12,10,18,0;13,11,19,0;14,12,21,0;15,13,23,0;16,14,24,0;17,15,26,0;18,16,28,0;19,16,29,0;20,17,31,0;21,18,32,0;22,19,34,0;23,20,36,0;24,21,37,0;25,22,39,0;26,23,41,0;27,24,42,0;28,25,44,0;29,26,45,0;30,27,47,0;31,28,49,0;32,29,50,0;33,30,52,0;34,30,54,0;35,31,55,0;36,32,57,0;37,33,58,0;38,34,60,0;39,35,62,0;40,36,63,0;41,37,65,0;42,38,67,0;43,39,68,0;44,40,70,0;45,41,71,0" WorldPosX="29.750000" WorldPosY="47.750000" WorldPosZ="-5.000000" ScaleX="0.5" ScaleY="0.5" ScaleZ="0.5">
+      <subModel name="SECTOR_00" layout="horizontal" type="ranges" line0="1-6" />
+      <subModel name="SECTOR_01" layout="horizontal" type="ranges" line0="7-12" />
+      <subModel name="SECTOR_02" layout="horizontal" type="ranges" line0="13-18" />
+      <subModel name="SECTOR_03" layout="horizontal" type="ranges" line0="19-24" />
+      <subModel name="SECTOR_04" layout="horizontal" type="ranges" line0="25-30" />
+      <subModel name="SECTOR_05" layout="horizontal" type="ranges" line0="31-35" />
+      <subModel name="SECTOR_06" layout="horizontal" type="ranges" line0="36-40" />
+      <subModel name="SECTOR_07" layout="horizontal" type="ranges" line0="41-45" />
+    </model>
+    <model name="HX_036_CROSSED_SPOKE" DisplayAs="Custom" StringType="RGB Nodes" StartChannel="5986" Controller="" LayoutGroup="Default" StartSide="B" Dir="L" PixelSize="2" Antialias="1" Transparency="0" versionNumber="7" parm1="80" parm2="23" parm3="1" Depth="1" CustomWidth="80" CustomHeight="23" CustomStrings="1" String1="1" CustomModelCompressed="1,22,0,0;2,21,1,0;3,21,3,0;4,20,5,0;5,20,7,0;6,19,9,0;7,19,10,0;8,18,12,0;9,18,14,0;10,17,16,0;11,17,18,0;12,16,19,0;13,16,21,0;14,15,23,0;15,15,25,0;16,14,27,0;17,14,28,0;18,13,30,0;19,13,32,0;20,12,34,0;21,12,36,0;22,12,38,0;23,11,39,0;24,11,41,0;25,10,43,0;26,10,45,0;27,9,47,0;28,9,48,0;29,8,50,0;30,8,52,0;31,7,54,0;32,7,56,0;33,6,57,0;34,6,59,0;35,5,61,0;36,5,63,0;37,4,65,0;38,4,67,0;39,3,68,0;40,3,70,0;41,2,72,0;42,2,74,0;43,1,76,0;44,1,77,0;45,0,79,0" WorldPosX="33.250000" WorldPosY="74.000000" WorldPosZ="-5.000000" ScaleX="0.5" ScaleY="0.5" ScaleZ="0.5">
+      <subModel name="SECTOR_00" layout="horizontal" type="ranges" line0="1-6" />
+      <subModel name="SECTOR_01" layout="horizontal" type="ranges" line0="7-12" />
+      <subModel name="SECTOR_02" layout="horizontal" type="ranges" line0="13-18" />
+      <subModel name="SECTOR_03" layout="horizontal" type="ranges" line0="19-24" />
+      <subModel name="SECTOR_04" layout="horizontal" type="ranges" line0="25-30" />
+      <subModel name="SECTOR_05" layout="horizontal" type="ranges" line0="31-35" />
+      <subModel name="SECTOR_06" layout="horizontal" type="ranges" line0="36-40" />
+      <subModel name="SECTOR_07" layout="horizontal" type="ranges" line0="41-45" />
+    </model>
+    <model name="HX_037_VORTEX_HOOP" DisplayAs="Custom" StringType="RGB Nodes" StartChannel="6121" Controller="" LayoutGroup="Default" StartSide="B" Dir="L" PixelSize="2" Antialias="1" Transparency="0" versionNumber="7" parm1="201" parm2="197" parm3="1" Depth="43" CustomWidth="201" CustomHeight="197" CustomStrings="1" String1="1" CustomModelCompressed="1,98,200,21;2,94,200,20;3,90,200,19;4,86,199,18;5,82,199,18;6,78,198,17;7,74,197,16;8,70,196,15;9,66,194,14;10,62,193,13;11,58,191,13;12,55,190,12;13,51,188,11;14,47,186,10;15,44,183,9;16,41,181,9;17,37,178,8;18,34,176,7;19,31,173,7;20,28,170,6;21,25,167,6;22,23,164,5;23,20,160,4;24,18,157,4;25,15,154,3;26,13,150,3;27,11,146,3;28,9,143,2;29,8,139,2;30,6,135,2;31,5,131,1;32,4,127,1;33,3,123,1;34,2,119,1;35,1,115,0;36,1,110,0;37,0,106,0;38,0,102,0;39,0,98,0;40,0,94,0;41,1,90,0;42,1,85,0;43,2,81,1;44,3,77,1;45,4,73,1;46,5,69,1;47,6,65,2;48,8,61,2;49,9,57,2;50,11,54,3;51,13,50,3;52,15,46,3;53,18,43,4;54,20,40,4;55,23,36,5;56,25,33,6;57,28,30,6;58,31,27,7;59,34,24,7;60,37,22,8;61,41,19,9;62,44,17,9;63,47,14,10;64,51,12,11;65,55,10,12;66,58,9,13;67,62,7,13;68,66,6,14;69,70,4,15;70,74,3,16;71,78,2,17;72,82,1,18;73,86,1,18;74,90,0,19;75,94,0,20;76,98,0,21;77,102,0,22;78,106,0,23;79,110,1,24;80,114,1,24;81,118,2,25;82,122,3,26;83,126,4,27;84,130,6,28;85,134,7,29;86,138,9,29;87,141,10,30;88,145,12,31;89,149,14,32;90,152,17,33;91,155,19,33;92,159,22,34;93,162,24,35;94,165,27,35;95,168,30,36;96,171,33,36;97,173,36,37;98,176,40,38;99,178,43,38;100,181,46,39;101,183,50,39;102,185,54,39;103,187,57,40;104,188,61,40;105,190,65,40;106,191,69,41;107,192,73,41;108,193,77,41;109,194,81,41;110,195,85,42;111,195,90,42;112,196,94,42;113,196,98,42;114,196,102,42;115,196,106,42;116,195,110,42;117,195,115,42;118,194,119,41;119,193,123,41;120,192,127,41;121,191,131,41;122,190,135,40;123,188,139,40;124,187,143,40;125,185,146,39;126,183,150,39;127,181,154,39;128,178,157,38;129,176,160,38;130,173,164,37;131,171,167,36;132,168,170,36;133,165,173,35;134,162,176,35;135,159,178,34;136,155,181,33;137,152,183,33;138,149,186,32;139,145,188,31;140,141,190,30;141,138,191,29;142,134,193,29;143,130,194,28;144,126,196,27;145,122,197,26;146,118,198,25;147,114,199,24;148,110,199,24;149,106,200,23;150,102,200,22" WorldPosX="0.000000" WorldPosY="65.000000" WorldPosZ="-25.000000" ScaleX="0.5" ScaleY="0.5" ScaleZ="0.5">
+      <subModel name="SECTOR_00" layout="horizontal" type="ranges" line0="1-19" />
+      <subModel name="SECTOR_01" layout="horizontal" type="ranges" line0="20-38" />
+      <subModel name="SECTOR_02" layout="horizontal" type="ranges" line0="39-57" />
+      <subModel name="SECTOR_03" layout="horizontal" type="ranges" line0="58-76" />
+      <subModel name="SECTOR_04" layout="horizontal" type="ranges" line0="77-95" />
+      <subModel name="SECTOR_05" layout="horizontal" type="ranges" line0="96-114" />
+      <subModel name="SECTOR_06" layout="horizontal" type="ranges" line0="115-132" />
+      <subModel name="SECTOR_07" layout="horizontal" type="ranges" line0="133-150" />
+    </model>
+    <model name="HX_038_CROSSED_SPOKE" DisplayAs="Custom" StringType="RGB Nodes" StartChannel="6571" Controller="" LayoutGroup="Default" StartSide="B" Dir="L" PixelSize="2" Antialias="1" Transparency="0" versionNumber="7" parm1="14" parm2="75" parm3="1" Depth="1" CustomWidth="14" CustomHeight="75" CustomStrings="1" String1="1" CustomModelCompressed="1,74,0,0;2,73,1,0;3,71,1,0;4,69,1,0;5,68,1,0;6,66,2,0;7,64,2,0;8,63,2,0;9,61,3,0;10,59,3,0;11,58,3,0;12,56,3,0;13,54,4,0;14,53,4,0;15,51,4,0;16,49,5,0;17,47,5,0;18,46,5,0;19,44,5,0;20,42,6,0;21,41,6,0;22,39,6,0;23,37,7,0;24,36,7,0;25,34,7,0;26,32,7,0;27,31,8,0;28,29,8,0;29,27,8,0;30,26,9,0;31,24,9,0;32,22,9,0;33,21,10,0;34,19,10,0;35,17,10,0;36,16,10,0;37,14,11,0;38,12,11,0;39,11,11,0;40,9,12,0;41,7,12,0;42,5,12,0;43,4,12,0;44,2,13,0;45,0,13,0" WorldPosX="5.250000" WorldPosY="96.000000" WorldPosZ="-25.000000" ScaleX="0.5" ScaleY="0.5" ScaleZ="0.5">
+      <subModel name="SECTOR_00" layout="horizontal" type="ranges" line0="1-6" />
+      <subModel name="SECTOR_01" layout="horizontal" type="ranges" line0="7-12" />
+      <subModel name="SECTOR_02" layout="horizontal" type="ranges" line0="13-18" />
+      <subModel name="SECTOR_03" layout="horizontal" type="ranges" line0="19-24" />
+      <subModel name="SECTOR_04" layout="horizontal" type="ranges" line0="25-30" />
+      <subModel name="SECTOR_05" layout="horizontal" type="ranges" line0="31-35" />
+      <subModel name="SECTOR_06" layout="horizontal" type="ranges" line0="36-40" />
+      <subModel name="SECTOR_07" layout="horizontal" type="ranges" line0="41-45" />
+    </model>
+    <model name="HX_039_CROSSED_SPOKE" DisplayAs="Custom" StringType="RGB Nodes" StartChannel="6706" Controller="" LayoutGroup="Default" StartSide="B" Dir="L" PixelSize="2" Antialias="1" Transparency="0" versionNumber="7" parm1="45" parm2="63" parm3="1" Depth="1" CustomWidth="45" CustomHeight="63" CustomStrings="1" String1="1" CustomModelCompressed="1,62,44,0;2,60,43,0;3,59,42,0;4,57,41,0;5,56,40,0;6,55,39,0;7,53,38,0;8,52,37,0;9,50,36,0;10,49,35,0;11,48,34,0;12,46,33,0;13,45,32,0;14,43,31,0;15,42,30,0;16,41,29,0;17,39,28,0;18,38,27,0;19,37,26,0;20,35,25,0;21,34,24,0;22,32,23,0;23,31,22,0;24,30,21,0;25,28,20,0;26,27,19,0;27,25,18,0;28,24,17,0;29,23,16,0;30,21,15,0;31,20,14,0;32,18,13,0;33,17,12,0;34,16,11,0;35,14,10,0;36,13,9,0;37,11,8,0;38,10,7,0;39,9,6,0;40,7,5,0;41,6,4,0;42,4,3,0;43,3,2,0;44,2,1,0;45,0,0,0" WorldPosX="-18.000000" WorldPosY="90.500000" WorldPosZ="-25.000000" ScaleX="0.5" ScaleY="0.5" ScaleZ="0.5">
+      <subModel name="SECTOR_00" layout="horizontal" type="ranges" line0="1-6" />
+      <subModel name="SECTOR_01" layout="horizontal" type="ranges" line0="7-12" />
+      <subModel name="SECTOR_02" layout="horizontal" type="ranges" line0="13-18" />
+      <subModel name="SECTOR_03" layout="horizontal" type="ranges" line0="19-24" />
+      <subModel name="SECTOR_04" layout="horizontal" type="ranges" line0="25-30" />
+      <subModel name="SECTOR_05" layout="horizontal" type="ranges" line0="31-35" />
+      <subModel name="SECTOR_06" layout="horizontal" type="ranges" line0="36-40" />
+      <subModel name="SECTOR_07" layout="horizontal" type="ranges" line0="41-45" />
+    </model>
+    <model name="HX_040_CROSSED_SPOKE" DisplayAs="Custom" StringType="RGB Nodes" StartChannel="6841" Controller="" LayoutGroup="Default" StartSide="B" Dir="L" PixelSize="2" Antialias="1" Transparency="0" versionNumber="7" parm1="75" parm2="14" parm3="1" Depth="1" CustomWidth="75" CustomHeight="14" CustomStrings="1" String1="1" CustomModelCompressed="1,13,74,0;2,12,73,0;3,12,71,0;4,12,69,0;5,12,68,0;6,11,66,0;7,11,64,0;8,11,63,0;9,10,61,0;10,10,59,0;11,10,58,0;12,10,56,0;13,9,54,0;14,9,53,0;15,9,51,0;16,8,49,0;17,8,47,0;18,8,46,0;19,8,44,0;20,7,42,0;21,7,41,0;22,7,39,0;23,6,37,0;24,6,36,0;25,6,34,0;26,6,32,0;27,5,31,0;28,5,29,0;29,5,27,0;30,4,26,0;31,4,24,0;32,4,22,0;33,3,21,0;34,3,19,0;35,3,17,0;36,3,16,0;37,2,14,0;38,2,12,0;39,2,11,0;40,1,9,0;41,1,7,0;42,1,5,0;43,1,4,0;44,0,2,0;45,0,0,0" WorldPosX="-31.000000" WorldPosY="70.250000" WorldPosZ="-25.000000" ScaleX="0.5" ScaleY="0.5" ScaleZ="0.5">
+      <subModel name="SECTOR_00" layout="horizontal" type="ranges" line0="1-6" />
+      <subModel name="SECTOR_01" layout="horizontal" type="ranges" line0="7-12" />
+      <subModel name="SECTOR_02" layout="horizontal" type="ranges" line0="13-18" />
+      <subModel name="SECTOR_03" layout="horizontal" type="ranges" line0="19-24" />
+      <subModel name="SECTOR_04" layout="horizontal" type="ranges" line0="25-30" />
+      <subModel name="SECTOR_05" layout="horizontal" type="ranges" line0="31-35" />
+      <subModel name="SECTOR_06" layout="horizontal" type="ranges" line0="36-40" />
+      <subModel name="SECTOR_07" layout="horizontal" type="ranges" line0="41-45" />
+    </model>
+    <model name="HX_041_CROSSED_SPOKE" DisplayAs="Custom" StringType="RGB Nodes" StartChannel="6976" Controller="" LayoutGroup="Default" StartSide="B" Dir="L" PixelSize="2" Antialias="1" Transparency="0" versionNumber="7" parm1="63" parm2="45" parm3="1" Depth="1" CustomWidth="63" CustomHeight="45" CustomStrings="1" String1="1" CustomModelCompressed="1,0,62,0;2,1,60,0;3,2,59,0;4,3,57,0;5,4,56,0;6,5,55,0;7,6,53,0;8,7,52,0;9,8,50,0;10,9,49,0;11,10,48,0;12,11,46,0;13,12,45,0;14,13,43,0;15,14,42,0;16,15,41,0;17,16,39,0;18,17,38,0;19,18,37,0;20,19,35,0;21,20,34,0;22,21,32,0;23,22,31,0;24,23,30,0;25,24,28,0;26,25,27,0;27,26,25,0;28,27,24,0;29,28,23,0;30,29,21,0;31,30,20,0;32,31,18,0;33,32,17,0;34,33,16,0;35,34,14,0;36,35,13,0;37,36,11,0;38,37,10,0;39,38,9,0;40,39,7,0;41,40,6,0;42,41,4,0;43,42,3,0;44,43,2,0;45,44,0,0" WorldPosX="-25.500000" WorldPosY="47.000000" WorldPosZ="-25.000000" ScaleX="0.5" ScaleY="0.5" ScaleZ="0.5">
+      <subModel name="SECTOR_00" layout="horizontal" type="ranges" line0="1-6" />
+      <subModel name="SECTOR_01" layout="horizontal" type="ranges" line0="7-12" />
+      <subModel name="SECTOR_02" layout="horizontal" type="ranges" line0="13-18" />
+      <subModel name="SECTOR_03" layout="horizontal" type="ranges" line0="19-24" />
+      <subModel name="SECTOR_04" layout="horizontal" type="ranges" line0="25-30" />
+      <subModel name="SECTOR_05" layout="horizontal" type="ranges" line0="31-35" />
+      <subModel name="SECTOR_06" layout="horizontal" type="ranges" line0="36-40" />
+      <subModel name="SECTOR_07" layout="horizontal" type="ranges" line0="41-45" />
+    </model>
+    <model name="HX_042_CROSSED_SPOKE" DisplayAs="Custom" StringType="RGB Nodes" StartChannel="7111" Controller="" LayoutGroup="Default" StartSide="B" Dir="L" PixelSize="2" Antialias="1" Transparency="0" versionNumber="7" parm1="14" parm2="75" parm3="1" Depth="1" CustomWidth="14" CustomHeight="75" CustomStrings="1" String1="1" CustomModelCompressed="1,0,13,0;2,1,12,0;3,3,12,0;4,5,12,0;5,6,12,0;6,8,11,0;7,10,11,0;8,11,11,0;9,13,10,0;10,15,10,0;11,16,10,0;12,18,10,0;13,20,9,0;14,21,9,0;15,23,9,0;16,25,8,0;17,27,8,0;18,28,8,0;19,30,8,0;20,32,7,0;21,33,7,0;22,35,7,0;23,37,6,0;24,38,6,0;25,40,6,0;26,42,6,0;27,43,5,0;28,45,5,0;29,47,5,0;30,48,4,0;31,50,4,0;32,52,4,0;33,53,3,0;34,55,3,0;35,57,3,0;36,58,3,0;37,60,2,0;38,62,2,0;39,63,2,0;40,65,1,0;41,67,1,0;42,69,1,0;43,70,1,0;44,72,0,0;45,74,0,0" WorldPosX="-5.250000" WorldPosY="34.000000" WorldPosZ="-25.000000" ScaleX="0.5" ScaleY="0.5" ScaleZ="0.5">
+      <subModel name="SECTOR_00" layout="horizontal" type="ranges" line0="1-6" />
+      <subModel name="SECTOR_01" layout="horizontal" type="ranges" line0="7-12" />
+      <subModel name="SECTOR_02" layout="horizontal" type="ranges" line0="13-18" />
+      <subModel name="SECTOR_03" layout="horizontal" type="ranges" line0="19-24" />
+      <subModel name="SECTOR_04" layout="horizontal" type="ranges" line0="25-30" />
+      <subModel name="SECTOR_05" layout="horizontal" type="ranges" line0="31-35" />
+      <subModel name="SECTOR_06" layout="horizontal" type="ranges" line0="36-40" />
+      <subModel name="SECTOR_07" layout="horizontal" type="ranges" line0="41-45" />
+    </model>
+    <model name="HX_043_CROSSED_SPOKE" DisplayAs="Custom" StringType="RGB Nodes" StartChannel="7246" Controller="" LayoutGroup="Default" StartSide="B" Dir="L" PixelSize="2" Antialias="1" Transparency="0" versionNumber="7" parm1="45" parm2="63" parm3="1" Depth="1" CustomWidth="45" CustomHeight="63" CustomStrings="1" String1="1" CustomModelCompressed="1,0,0,0;2,2,1,0;3,3,2,0;4,5,3,0;5,6,4,0;6,7,5,0;7,9,6,0;8,10,7,0;9,12,8,0;10,13,9,0;11,14,10,0;12,16,11,0;13,17,12,0;14,19,13,0;15,20,14,0;16,21,15,0;17,23,16,0;18,24,17,0;19,25,18,0;20,27,19,0;21,28,20,0;22,30,21,0;23,31,22,0;24,32,23,0;25,34,24,0;26,35,25,0;27,37,26,0;28,38,27,0;29,39,28,0;30,41,29,0;31,42,30,0;32,44,31,0;33,45,32,0;34,46,33,0;35,48,34,0;36,49,35,0;37,51,36,0;38,52,37,0;39,53,38,0;40,55,39,0;41,56,40,0;42,58,41,0;43,59,42,0;44,60,43,0;45,62,44,0" WorldPosX="18.000000" WorldPosY="39.500000" WorldPosZ="-25.000000" ScaleX="0.5" ScaleY="0.5" ScaleZ="0.5">
+      <subModel name="SECTOR_00" layout="horizontal" type="ranges" line0="1-6" />
+      <subModel name="SECTOR_01" layout="horizontal" type="ranges" line0="7-12" />
+      <subModel name="SECTOR_02" layout="horizontal" type="ranges" line0="13-18" />
+      <subModel name="SECTOR_03" layout="horizontal" type="ranges" line0="19-24" />
+      <subModel name="SECTOR_04" layout="horizontal" type="ranges" line0="25-30" />
+      <subModel name="SECTOR_05" layout="horizontal" type="ranges" line0="31-35" />
+      <subModel name="SECTOR_06" layout="horizontal" type="ranges" line0="36-40" />
+      <subModel name="SECTOR_07" layout="horizontal" type="ranges" line0="41-45" />
+    </model>
+    <model name="HX_044_CROSSED_SPOKE" DisplayAs="Custom" StringType="RGB Nodes" StartChannel="7381" Controller="" LayoutGroup="Default" StartSide="B" Dir="L" PixelSize="2" Antialias="1" Transparency="0" versionNumber="7" parm1="75" parm2="14" parm3="1" Depth="1" CustomWidth="75" CustomHeight="14" CustomStrings="1" String1="1" CustomModelCompressed="1,0,0,0;2,1,1,0;3,1,3,0;4,1,5,0;5,1,6,0;6,2,8,0;7,2,10,0;8,2,11,0;9,3,13,0;10,3,15,0;11,3,16,0;12,3,18,0;13,4,20,0;14,4,21,0;15,4,23,0;16,5,25,0;17,5,27,0;18,5,28,0;19,5,30,0;20,6,32,0;21,6,33,0;22,6,35,0;23,7,37,0;24,7,38,0;25,7,40,0;26,7,42,0;27,8,43,0;28,8,45,0;29,8,47,0;30,9,48,0;31,9,50,0;32,9,52,0;33,10,53,0;34,10,55,0;35,10,57,0;36,10,58,0;37,11,60,0;38,11,62,0;39,11,63,0;40,12,65,0;41,12,67,0;42,12,69,0;43,12,70,0;44,13,72,0;45,13,74,0" WorldPosX="31.000000" WorldPosY="59.750000" WorldPosZ="-25.000000" ScaleX="0.5" ScaleY="0.5" ScaleZ="0.5">
+      <subModel name="SECTOR_00" layout="horizontal" type="ranges" line0="1-6" />
+      <subModel name="SECTOR_01" layout="horizontal" type="ranges" line0="7-12" />
+      <subModel name="SECTOR_02" layout="horizontal" type="ranges" line0="13-18" />
+      <subModel name="SECTOR_03" layout="horizontal" type="ranges" line0="19-24" />
+      <subModel name="SECTOR_04" layout="horizontal" type="ranges" line0="25-30" />
+      <subModel name="SECTOR_05" layout="horizontal" type="ranges" line0="31-35" />
+      <subModel name="SECTOR_06" layout="horizontal" type="ranges" line0="36-40" />
+      <subModel name="SECTOR_07" layout="horizontal" type="ranges" line0="41-45" />
+    </model>
+    <model name="HX_045_CROSSED_SPOKE" DisplayAs="Custom" StringType="RGB Nodes" StartChannel="7516" Controller="" LayoutGroup="Default" StartSide="B" Dir="L" PixelSize="2" Antialias="1" Transparency="0" versionNumber="7" parm1="63" parm2="45" parm3="1" Depth="1" CustomWidth="63" CustomHeight="45" CustomStrings="1" String1="1" CustomModelCompressed="1,44,0,0;2,43,2,0;3,42,3,0;4,41,5,0;5,40,6,0;6,39,7,0;7,38,9,0;8,37,10,0;9,36,12,0;10,35,13,0;11,34,14,0;12,33,16,0;13,32,17,0;14,31,19,0;15,30,20,0;16,29,21,0;17,28,23,0;18,27,24,0;19,26,25,0;20,25,27,0;21,24,28,0;22,23,30,0;23,22,31,0;24,21,32,0;25,20,34,0;26,19,35,0;27,18,37,0;28,17,38,0;29,16,39,0;30,15,41,0;31,14,42,0;32,13,44,0;33,12,45,0;34,11,46,0;35,10,48,0;36,9,49,0;37,8,51,0;38,7,52,0;39,6,53,0;40,5,55,0;41,4,56,0;42,3,58,0;43,2,59,0;44,1,60,0;45,0,62,0" WorldPosX="25.500000" WorldPosY="83.000000" WorldPosZ="-25.000000" ScaleX="0.5" ScaleY="0.5" ScaleZ="0.5">
+      <subModel name="SECTOR_00" layout="horizontal" type="ranges" line0="1-6" />
+      <subModel name="SECTOR_01" layout="horizontal" type="ranges" line0="7-12" />
+      <subModel name="SECTOR_02" layout="horizontal" type="ranges" line0="13-18" />
+      <subModel name="SECTOR_03" layout="horizontal" type="ranges" line0="19-24" />
+      <subModel name="SECTOR_04" layout="horizontal" type="ranges" line0="25-30" />
+      <subModel name="SECTOR_05" layout="horizontal" type="ranges" line0="31-35" />
+      <subModel name="SECTOR_06" layout="horizontal" type="ranges" line0="36-40" />
+      <subModel name="SECTOR_07" layout="horizontal" type="ranges" line0="41-45" />
+    </model>
+    <model name="HX_046_VORTEX_HOOP" DisplayAs="Custom" StringType="RGB Nodes" StartChannel="7651" Controller="" LayoutGroup="Default" StartSide="B" Dir="L" PixelSize="2" Antialias="1" Transparency="0" versionNumber="7" parm1="181" parm2="177" parm3="1" Depth="39" CustomWidth="181" CustomHeight="177" CustomStrings="1" String1="1" CustomModelCompressed="1,88,180,19;2,84,180,20;3,81,180,21;4,77,179,21;5,73,179,22;6,70,178,23;7,66,177,24;8,63,176,24;9,59,175,25;10,56,174,26;11,52,172,27;12,49,171,27;13,46,169,28;14,42,167,29;15,39,165,29;16,36,163,30;17,33,161,31;18,30,158,31;19,28,156,32;20,25,153,32;21,23,150,33;22,20,147,33;23,18,144,34;24,16,141,34;25,14,138,35;26,12,135,35;27,10,132,36;28,8,128,36;29,7,125,36;30,5,121,37;31,4,118,37;32,3,114,37;33,2,111,37;34,2,107,37;35,1,103,38;36,0,99,38;37,0,96,38;38,0,92,38;39,0,88,38;40,0,84,38;41,0,81,38;42,1,77,38;43,2,73,37;44,2,69,37;45,3,66,37;46,4,62,37;47,5,59,37;48,7,55,36;49,8,52,36;50,10,48,36;51,12,45,35;52,14,42,35;53,16,39,34;54,18,36,34;55,20,33,33;56,23,30,33;57,25,27,32;58,28,24,32;59,30,22,31;60,33,19,31;61,36,17,30;62,39,15,29;63,42,13,29;64,46,11,28;65,49,9,27;66,52,8,27;67,56,6,26;68,59,5,25;69,63,4,24;70,66,3,24;71,70,2,23;72,73,1,22;73,77,1,21;74,81,0,21;75,84,0,20;76,88,0,19;77,92,0,18;78,95,0,17;79,99,1,17;80,103,1,16;81,106,2,15;82,110,3,14;83,113,4,14;84,117,5,13;85,120,6,12;86,124,8,11;87,127,9,11;88,130,11,10;89,134,13,9;90,137,15,9;91,140,17,8;92,143,19,7;93,146,22,7;94,148,24,6;95,151,27,6;96,153,30,5;97,156,33,5;98,158,36,4;99,160,39,4;100,162,42,3;101,164,45,3;102,166,48,2;103,168,52,2;104,169,55,2;105,171,59,1;106,172,62,1;107,173,66,1;108,174,69,1;109,174,73,1;110,175,77,0;111,176,81,0;112,176,84,0;113,176,88,0;114,176,92,0;115,176,96,0;116,176,99,0;117,175,103,0;118,174,107,1;119,174,111,1;120,173,114,1;121,172,118,1;122,171,121,1;123,169,125,2;124,168,128,2;125,166,132,2;126,164,135,3;127,162,138,3;128,160,141,4;129,158,144,4;130,156,147,5;131,153,150,5;132,151,153,6;133,148,156,6;134,146,158,7;135,143,161,7;136,140,163,8;137,137,165,9;138,134,167,9;139,130,169,10;140,127,171,11;141,124,172,11;142,120,174,12;143,117,175,13;144,113,176,14;145,110,177,14;146,106,178,15;147,103,179,16;148,99,179,17;149,95,180,17;150,92,180,18" WorldPosX="0.000000" WorldPosY="65.000000" WorldPosZ="-45.000000" ScaleX="0.5" ScaleY="0.5" ScaleZ="0.5">
+      <subModel name="SECTOR_00" layout="horizontal" type="ranges" line0="1-19" />
+      <subModel name="SECTOR_01" layout="horizontal" type="ranges" line0="20-38" />
+      <subModel name="SECTOR_02" layout="horizontal" type="ranges" line0="39-57" />
+      <subModel name="SECTOR_03" layout="horizontal" type="ranges" line0="58-76" />
+      <subModel name="SECTOR_04" layout="horizontal" type="ranges" line0="77-95" />
+      <subModel name="SECTOR_05" layout="horizontal" type="ranges" line0="96-114" />
+      <subModel name="SECTOR_06" layout="horizontal" type="ranges" line0="115-132" />
+      <subModel name="SECTOR_07" layout="horizontal" type="ranges" line0="133-150" />
+    </model>
+    <model name="HX_047_CROSSED_SPOKE" DisplayAs="Custom" StringType="RGB Nodes" StartChannel="8101" Controller="" LayoutGroup="Default" StartSide="B" Dir="L" PixelSize="2" Antialias="1" Transparency="0" versionNumber="7" parm1="13" parm2="68" parm3="1" Depth="1" CustomWidth="13" CustomHeight="68" CustomStrings="1" String1="1" CustomModelCompressed="1,67,12,0;2,65,12,0;3,64,11,0;4,62,11,0;5,61,11,0;6,59,11,0;7,58,10,0;8,56,10,0;9,55,10,0;10,53,10,0;11,52,9,0;12,50,9,0;13,49,9,0;14,47,8,0;15,46,8,0;16,44,8,0;17,43,8,0;18,41,7,0;19,40,7,0;20,38,7,0;21,37,7,0;22,35,6,0;23,34,6,0;24,32,6,0;25,31,5,0;26,29,5,0;27,28,5,0;28,26,5,0;29,25,4,0;30,23,4,0;31,22,4,0;32,20,4,0;33,19,3,0;34,17,3,0;35,16,3,0;36,14,2,0;37,13,2,0;38,11,2,0;39,9,2,0;40,8,1,0;41,6,1,0;42,5,1,0;43,3,1,0;44,2,0,0;45,0,0,0" WorldPosX="-5.000000" WorldPosY="92.750000" WorldPosZ="-45.000000" ScaleX="0.5" ScaleY="0.5" ScaleZ="0.5">
+      <subModel name="SECTOR_00" layout="horizontal" type="ranges" line0="1-6" />
+      <subModel name="SECTOR_01" layout="horizontal" type="ranges" line0="7-12" />
+      <subModel name="SECTOR_02" layout="horizontal" type="ranges" line0="13-18" />
+      <subModel name="SECTOR_03" layout="horizontal" type="ranges" line0="19-24" />
+      <subModel name="SECTOR_04" layout="horizontal" type="ranges" line0="25-30" />
+      <subModel name="SECTOR_05" layout="horizontal" type="ranges" line0="31-35" />
+      <subModel name="SECTOR_06" layout="horizontal" type="ranges" line0="36-40" />
+      <subModel name="SECTOR_07" layout="horizontal" type="ranges" line0="41-45" />
+    </model>
+    <model name="HX_048_CROSSED_SPOKE" DisplayAs="Custom" StringType="RGB Nodes" StartChannel="8236" Controller="" LayoutGroup="Default" StartSide="B" Dir="L" PixelSize="2" Antialias="1" Transparency="0" versionNumber="7" parm1="57" parm2="39" parm3="1" Depth="1" CustomWidth="57" CustomHeight="39" CustomStrings="1" String1="1" CustomModelCompressed="1,38,56,0;2,37,54,0;3,36,53,0;4,36,52,0;5,35,50,0;6,34,49,0;7,33,48,0;8,32,47,0;9,31,45,0;10,30,44,0;11,29,43,0;12,29,42,0;13,28,40,0;14,27,39,0;15,26,38,0;16,25,37,0;17,24,35,0;18,23,34,0;19,22,33,0;20,22,32,0;21,21,30,0;22,20,29,0;23,19,28,0;24,18,27,0;25,17,25,0;26,16,24,0;27,15,23,0;28,15,21,0;29,14,20,0;30,13,19,0;31,12,18,0;32,11,16,0;33,10,15,0;34,9,14,0;35,8,13,0;36,8,11,0;37,7,10,0;38,6,9,0;39,5,8,0;40,4,6,0;41,3,5,0;42,2,4,0;43,1,3,0;44,1,1,0;45,0,0,0" WorldPosX="-23.000000" WorldPosY="81.000000" WorldPosZ="-45.000000" ScaleX="0.5" ScaleY="0.5" ScaleZ="0.5">
+      <subModel name="SECTOR_00" layout="horizontal" type="ranges" line0="1-6" />
+      <subModel name="SECTOR_01" layout="horizontal" type="ranges" line0="7-12" />
+      <subModel name="SECTOR_02" layout="horizontal" type="ranges" line0="13-18" />
+      <subModel name="SECTOR_03" layout="horizontal" type="ranges" line0="19-24" />
+      <subModel name="SECTOR_04" layout="horizontal" type="ranges" line0="25-30" />
+      <subModel name="SECTOR_05" layout="horizontal" type="ranges" line0="31-35" />
+      <subModel name="SECTOR_06" layout="horizontal" type="ranges" line0="36-40" />
+      <subModel name="SECTOR_07" layout="horizontal" type="ranges" line0="41-45" />
+    </model>
+    <model name="HX_049_CROSSED_SPOKE" DisplayAs="Custom" StringType="RGB Nodes" StartChannel="8371" Controller="" LayoutGroup="Default" StartSide="B" Dir="L" PixelSize="2" Antialias="1" Transparency="0" versionNumber="7" parm1="68" parm2="13" parm3="1" Depth="1" CustomWidth="68" CustomHeight="13" CustomStrings="1" String1="1" CustomModelCompressed="1,0,67,0;2,0,65,0;3,1,64,0;4,1,62,0;5,1,61,0;6,1,59,0;7,2,58,0;8,2,56,0;9,2,55,0;10,2,53,0;11,3,52,0;12,3,50,0;13,3,49,0;14,4,47,0;15,4,46,0;16,4,44,0;17,4,43,0;18,5,41,0;19,5,40,0;20,5,38,0;21,5,37,0;22,6,35,0;23,6,34,0;24,6,32,0;25,7,31,0;26,7,29,0;27,7,28,0;28,7,26,0;29,8,25,0;30,8,23,0;31,8,22,0;32,8,20,0;33,9,19,0;34,9,17,0;35,9,16,0;36,10,14,0;37,10,13,0;38,10,11,0;39,10,9,0;40,11,8,0;41,11,6,0;42,11,5,0;43,11,3,0;44,12,2,0;45,12,0,0" WorldPosX="-27.750000" WorldPosY="60.000000" WorldPosZ="-45.000000" ScaleX="0.5" ScaleY="0.5" ScaleZ="0.5">
+      <subModel name="SECTOR_00" layout="horizontal" type="ranges" line0="1-6" />
+      <subModel name="SECTOR_01" layout="horizontal" type="ranges" line0="7-12" />
+      <subModel name="SECTOR_02" layout="horizontal" type="ranges" line0="13-18" />
+      <subModel name="SECTOR_03" layout="horizontal" type="ranges" line0="19-24" />
+      <subModel name="SECTOR_04" layout="horizontal" type="ranges" line0="25-30" />
+      <subModel name="SECTOR_05" layout="horizontal" type="ranges" line0="31-35" />
+      <subModel name="SECTOR_06" layout="horizontal" type="ranges" line0="36-40" />
+      <subModel name="SECTOR_07" layout="horizontal" type="ranges" line0="41-45" />
+    </model>
+    <model name="HX_050_CROSSED_SPOKE" DisplayAs="Custom" StringType="RGB Nodes" StartChannel="8506" Controller="" LayoutGroup="Default" StartSide="B" Dir="L" PixelSize="2" Antialias="1" Transparency="0" versionNumber="7" parm1="39" parm2="57" parm3="1" Depth="1" CustomWidth="39" CustomHeight="57" CustomStrings="1" String1="1" CustomModelCompressed="1,0,38,0;2,2,37,0;3,3,36,0;4,4,36,0;5,6,35,0;6,7,34,0;7,8,33,0;8,9,32,0;9,11,31,0;10,12,30,0;11,13,29,0;12,14,29,0;13,16,28,0;14,17,27,0;15,18,26,0;16,19,25,0;17,21,24,0;18,22,23,0;19,23,22,0;20,24,22,0;21,26,21,0;22,27,20,0;23,28,19,0;24,29,18,0;25,31,17,0;26,32,16,0;27,33,15,0;28,35,15,0;29,36,14,0;30,37,13,0;31,38,12,0;32,40,11,0;33,41,10,0;34,42,9,0;35,43,8,0;36,45,8,0;37,46,7,0;38,47,6,0;39,48,5,0;40,50,4,0;41,51,3,0;42,52,2,0;43,53,1,0;44,55,1,0;45,56,0,0" WorldPosX="-16.000000" WorldPosY="42.000000" WorldPosZ="-45.000000" ScaleX="0.5" ScaleY="0.5" ScaleZ="0.5">
+      <subModel name="SECTOR_00" layout="horizontal" type="ranges" line0="1-6" />
+      <subModel name="SECTOR_01" layout="horizontal" type="ranges" line0="7-12" />
+      <subModel name="SECTOR_02" layout="horizontal" type="ranges" line0="13-18" />
+      <subModel name="SECTOR_03" layout="horizontal" type="ranges" line0="19-24" />
+      <subModel name="SECTOR_04" layout="horizontal" type="ranges" line0="25-30" />
+      <subModel name="SECTOR_05" layout="horizontal" type="ranges" line0="31-35" />
+      <subModel name="SECTOR_06" layout="horizontal" type="ranges" line0="36-40" />
+      <subModel name="SECTOR_07" layout="horizontal" type="ranges" line0="41-45" />
+    </model>
+    <model name="HX_051_CROSSED_SPOKE" DisplayAs="Custom" StringType="RGB Nodes" StartChannel="8641" Controller="" LayoutGroup="Default" StartSide="B" Dir="L" PixelSize="2" Antialias="1" Transparency="0" versionNumber="7" parm1="13" parm2="68" parm3="1" Depth="1" CustomWidth="13" CustomHeight="68" CustomStrings="1" String1="1" CustomModelCompressed="1,0,0,0;2,2,0,0;3,3,1,0;4,5,1,0;5,6,1,0;6,8,1,0;7,9,2,0;8,11,2,0;9,12,2,0;10,14,2,0;11,15,3,0;12,17,3,0;13,18,3,0;14,20,4,0;15,21,4,0;16,23,4,0;17,24,4,0;18,26,5,0;19,27,5,0;20,29,5,0;21,30,5,0;22,32,6,0;23,33,6,0;24,35,6,0;25,36,7,0;26,38,7,0;27,39,7,0;28,41,7,0;29,42,8,0;30,44,8,0;31,45,8,0;32,47,8,0;33,48,9,0;34,50,9,0;35,51,9,0;36,53,10,0;37,54,10,0;38,56,10,0;39,58,10,0;40,59,11,0;41,61,11,0;42,62,11,0;43,64,11,0;44,65,12,0;45,67,12,0" WorldPosX="5.000000" WorldPosY="37.250000" WorldPosZ="-45.000000" ScaleX="0.5" ScaleY="0.5" ScaleZ="0.5">
+      <subModel name="SECTOR_00" layout="horizontal" type="ranges" line0="1-6" />
+      <subModel name="SECTOR_01" layout="horizontal" type="ranges" line0="7-12" />
+      <subModel name="SECTOR_02" layout="horizontal" type="ranges" line0="13-18" />
+      <subModel name="SECTOR_03" layout="horizontal" type="ranges" line0="19-24" />
+      <subModel name="SECTOR_04" layout="horizontal" type="ranges" line0="25-30" />
+      <subModel name="SECTOR_05" layout="horizontal" type="ranges" line0="31-35" />
+      <subModel name="SECTOR_06" layout="horizontal" type="ranges" line0="36-40" />
+      <subModel name="SECTOR_07" layout="horizontal" type="ranges" line0="41-45" />
+    </model>
+    <model name="HX_052_CROSSED_SPOKE" DisplayAs="Custom" StringType="RGB Nodes" StartChannel="8776" Controller="" LayoutGroup="Default" StartSide="B" Dir="L" PixelSize="2" Antialias="1" Transparency="0" versionNumber="7" parm1="57" parm2="39" parm3="1" Depth="1" CustomWidth="57" CustomHeight="39" CustomStrings="1" String1="1" CustomModelCompressed="1,0,0,0;2,1,2,0;3,2,3,0;4,2,4,0;5,3,6,0;6,4,7,0;7,5,8,0;8,6,9,0;9,7,11,0;10,8,12,0;11,9,13,0;12,9,14,0;13,10,16,0;14,11,17,0;15,12,18,0;16,13,19,0;17,14,21,0;18,15,22,0;19,16,23,0;20,16,24,0;21,17,26,0;22,18,27,0;23,19,28,0;24,20,29,0;25,21,31,0;26,22,32,0;27,23,33,0;28,23,35,0;29,24,36,0;30,25,37,0;31,26,38,0;32,27,40,0;33,28,41,0;34,29,42,0;35,30,43,0;36,30,45,0;37,31,46,0;38,32,47,0;39,33,48,0;40,34,50,0;41,35,51,0;42,36,52,0;43,37,53,0;44,37,55,0;45,38,56,0" WorldPosX="23.000000" WorldPosY="49.000000" WorldPosZ="-45.000000" ScaleX="0.5" ScaleY="0.5" ScaleZ="0.5">
+      <subModel name="SECTOR_00" layout="horizontal" type="ranges" line0="1-6" />
+      <subModel name="SECTOR_01" layout="horizontal" type="ranges" line0="7-12" />
+      <subModel name="SECTOR_02" layout="horizontal" type="ranges" line0="13-18" />
+      <subModel name="SECTOR_03" layout="horizontal" type="ranges" line0="19-24" />
+      <subModel name="SECTOR_04" layout="horizontal" type="ranges" line0="25-30" />
+      <subModel name="SECTOR_05" layout="horizontal" type="ranges" line0="31-35" />
+      <subModel name="SECTOR_06" layout="horizontal" type="ranges" line0="36-40" />
+      <subModel name="SECTOR_07" layout="horizontal" type="ranges" line0="41-45" />
+    </model>
+    <model name="HX_053_CROSSED_SPOKE" DisplayAs="Custom" StringType="RGB Nodes" StartChannel="8911" Controller="" LayoutGroup="Default" StartSide="B" Dir="L" PixelSize="2" Antialias="1" Transparency="0" versionNumber="7" parm1="68" parm2="13" parm3="1" Depth="1" CustomWidth="68" CustomHeight="13" CustomStrings="1" String1="1" CustomModelCompressed="1,12,0,0;2,12,2,0;3,11,3,0;4,11,5,0;5,11,6,0;6,11,8,0;7,10,9,0;8,10,11,0;9,10,12,0;10,10,14,0;11,9,15,0;12,9,17,0;13,9,18,0;14,8,20,0;15,8,21,0;16,8,23,0;17,8,24,0;18,7,26,0;19,7,27,0;20,7,29,0;21,7,30,0;22,6,32,0;23,6,33,0;24,6,35,0;25,5,36,0;26,5,38,0;27,5,39,0;28,5,41,0;29,4,42,0;30,4,44,0;31,4,45,0;32,4,47,0;33,3,48,0;34,3,50,0;35,3,51,0;36,2,53,0;37,2,54,0;38,2,56,0;39,2,58,0;40,1,59,0;41,1,61,0;42,1,62,0;43,1,64,0;44,0,65,0;45,0,67,0" WorldPosX="27.750000" WorldPosY="70.000000" WorldPosZ="-45.000000" ScaleX="0.5" ScaleY="0.5" ScaleZ="0.5">
+      <subModel name="SECTOR_00" layout="horizontal" type="ranges" line0="1-6" />
+      <subModel name="SECTOR_01" layout="horizontal" type="ranges" line0="7-12" />
+      <subModel name="SECTOR_02" layout="horizontal" type="ranges" line0="13-18" />
+      <subModel name="SECTOR_03" layout="horizontal" type="ranges" line0="19-24" />
+      <subModel name="SECTOR_04" layout="horizontal" type="ranges" line0="25-30" />
+      <subModel name="SECTOR_05" layout="horizontal" type="ranges" line0="31-35" />
+      <subModel name="SECTOR_06" layout="horizontal" type="ranges" line0="36-40" />
+      <subModel name="SECTOR_07" layout="horizontal" type="ranges" line0="41-45" />
+    </model>
+    <model name="HX_054_CROSSED_SPOKE" DisplayAs="Custom" StringType="RGB Nodes" StartChannel="9046" Controller="" LayoutGroup="Default" StartSide="B" Dir="L" PixelSize="2" Antialias="1" Transparency="0" versionNumber="7" parm1="39" parm2="57" parm3="1" Depth="1" CustomWidth="39" CustomHeight="57" CustomStrings="1" String1="1" CustomModelCompressed="1,56,0,0;2,54,1,0;3,53,2,0;4,52,2,0;5,50,3,0;6,49,4,0;7,48,5,0;8,47,6,0;9,45,7,0;10,44,8,0;11,43,9,0;12,42,9,0;13,40,10,0;14,39,11,0;15,38,12,0;16,37,13,0;17,35,14,0;18,34,15,0;19,33,16,0;20,32,16,0;21,30,17,0;22,29,18,0;23,28,19,0;24,27,20,0;25,25,21,0;26,24,22,0;27,23,23,0;28,21,23,0;29,20,24,0;30,19,25,0;31,18,26,0;32,16,27,0;33,15,28,0;34,14,29,0;35,13,30,0;36,11,30,0;37,10,31,0;38,9,32,0;39,8,33,0;40,6,34,0;41,5,35,0;42,4,36,0;43,3,37,0;44,1,37,0;45,0,38,0" WorldPosX="16.000000" WorldPosY="88.000000" WorldPosZ="-45.000000" ScaleX="0.5" ScaleY="0.5" ScaleZ="0.5">
+      <subModel name="SECTOR_00" layout="horizontal" type="ranges" line0="1-6" />
+      <subModel name="SECTOR_01" layout="horizontal" type="ranges" line0="7-12" />
+      <subModel name="SECTOR_02" layout="horizontal" type="ranges" line0="13-18" />
+      <subModel name="SECTOR_03" layout="horizontal" type="ranges" line0="19-24" />
+      <subModel name="SECTOR_04" layout="horizontal" type="ranges" line0="25-30" />
+      <subModel name="SECTOR_05" layout="horizontal" type="ranges" line0="31-35" />
+      <subModel name="SECTOR_06" layout="horizontal" type="ranges" line0="36-40" />
+      <subModel name="SECTOR_07" layout="horizontal" type="ranges" line0="41-45" />
+    </model>
+    <model name="HX_055_VORTEX_HOOP" DisplayAs="Custom" StringType="RGB Nodes" StartChannel="9181" Controller="" LayoutGroup="Default" StartSide="B" Dir="L" PixelSize="2" Antialias="1" Transparency="0" versionNumber="7" parm1="161" parm2="157" parm3="1" Depth="35" CustomWidth="161" CustomHeight="157" CustomStrings="1" String1="1" CustomModelCompressed="1,78,160,17;2,75,160,16;3,71,160,16;4,68,159,15;5,65,159,14;6,62,158,14;7,59,157,13;8,55,157,12;9,52,156,12;10,49,154,11;11,46,153,10;12,43,152,10;13,40,150,9;14,37,148,8;15,35,147,8;16,32,145,7;17,29,143,7;18,27,141,6;19,24,138,6;20,22,136,5;21,20,134,5;22,18,131,4;23,16,128,4;24,14,126,3;25,12,123,3;26,10,120,3;27,9,117,2;28,7,114,2;29,6,111,2;30,5,108,1;31,4,105,1;32,3,102,1;33,2,98,1;34,1,95,1;35,1,92,1;36,0,88,0;37,0,85,0;38,0,82,0;39,0,78,0;40,0,75,0;41,0,72,0;42,1,68,1;43,1,65,1;44,2,62,1;45,3,58,1;46,4,55,1;47,5,52,1;48,6,49,2;49,7,46,2;50,9,43,2;51,10,40,3;52,12,37,3;53,14,34,3;54,16,32,4;55,18,29,4;56,20,26,5;57,22,24,5;58,24,22,6;59,27,19,6;60,29,17,7;61,32,15,7;62,35,13,8;63,37,12,8;64,40,10,9;65,43,8,10;66,46,7,10;67,49,6,11;68,52,4,12;69,55,3,12;70,59,3,13;71,62,2,14;72,65,1,14;73,68,1,15;74,71,0,16;75,75,0,16;76,78,0,17;77,81,0,18;78,85,0,18;79,88,1,19;80,91,1,20;81,94,2,20;82,97,3,21;83,101,3,22;84,104,4,22;85,107,6,23;86,110,7,24;87,113,8,24;88,116,10,25;89,119,12,26;90,121,13,26;91,124,15,27;92,127,17,27;93,129,19,28;94,132,22,28;95,134,24,29;96,136,26,29;97,138,29,30;98,140,32,30;99,142,34,31;100,144,37,31;101,146,40,31;102,147,43,32;103,149,46,32;104,150,49,32;105,151,52,33;106,152,55,33;107,153,58,33;108,154,62,33;109,155,65,33;110,155,68,33;111,156,72,34;112,156,75,34;113,156,78,34;114,156,82,34;115,156,85,34;116,156,88,34;117,155,92,33;118,155,95,33;119,154,98,33;120,153,102,33;121,152,105,33;122,151,108,33;123,150,111,32;124,149,114,32;125,147,117,32;126,146,120,31;127,144,123,31;128,142,126,31;129,140,128,30;130,138,131,30;131,136,134,29;132,134,136,29;133,132,138,28;134,129,141,28;135,127,143,27;136,124,145,27;137,121,147,26;138,119,148,26;139,116,150,25;140,113,152,24;141,110,153,24;142,107,154,23;143,104,156,22;144,101,157,22;145,97,157,21;146,94,158,20;147,91,159,20;148,88,159,19;149,85,160,18;150,81,160,18" WorldPosX="0.000000" WorldPosY="65.000000" WorldPosZ="-65.000000" ScaleX="0.5" ScaleY="0.5" ScaleZ="0.5">
+      <subModel name="SECTOR_00" layout="horizontal" type="ranges" line0="1-19" />
+      <subModel name="SECTOR_01" layout="horizontal" type="ranges" line0="20-38" />
+      <subModel name="SECTOR_02" layout="horizontal" type="ranges" line0="39-57" />
+      <subModel name="SECTOR_03" layout="horizontal" type="ranges" line0="58-76" />
+      <subModel name="SECTOR_04" layout="horizontal" type="ranges" line0="77-95" />
+      <subModel name="SECTOR_05" layout="horizontal" type="ranges" line0="96-114" />
+      <subModel name="SECTOR_06" layout="horizontal" type="ranges" line0="115-132" />
+      <subModel name="SECTOR_07" layout="horizontal" type="ranges" line0="133-150" />
+    </model>
+    <model name="HX_056_CROSSED_SPOKE" DisplayAs="Custom" StringType="RGB Nodes" StartChannel="9631" Controller="" LayoutGroup="Default" StartSide="B" Dir="L" PixelSize="2" Antialias="1" Transparency="0" versionNumber="7" parm1="31" parm2="53" parm3="1" Depth="1" CustomWidth="31" CustomHeight="53" CustomStrings="1" String1="1" CustomModelCompressed="1,52,30,0;2,51,29,0;3,49,29,0;4,48,28,0;5,47,27,0;6,46,26,0;7,45,26,0;8,43,25,0;9,42,24,0;10,41,24,0;11,40,23,0;12,39,22,0;13,38,22,0;14,36,21,0;15,35,20,0;16,34,20,0;17,33,19,0;18,32,18,0;19,31,18,0;20,29,17,0;21,28,16,0;22,27,15,0;23,26,15,0;24,25,14,0;25,23,13,0;26,22,13,0;27,21,12,0;28,20,11,0;29,19,11,0;30,18,10,0;31,16,9,0;32,15,9,0;33,14,8,0;34,13,7,0;35,12,6,0;36,11,6,0;37,9,5,0;38,8,4,0;39,7,4,0;40,6,3,0;41,5,2,0;42,3,2,0;43,2,1,0;44,1,0,0;45,0,0,0" WorldPosX="-12.500000" WorldPosY="86.500000" WorldPosZ="-65.000000" ScaleX="0.5" ScaleY="0.5" ScaleZ="0.5">
+      <subModel name="SECTOR_00" layout="horizontal" type="ranges" line0="1-6" />
+      <subModel name="SECTOR_01" layout="horizontal" type="ranges" line0="7-12" />
+      <subModel name="SECTOR_02" layout="horizontal" type="ranges" line0="13-18" />
+      <subModel name="SECTOR_03" layout="horizontal" type="ranges" line0="19-24" />
+      <subModel name="SECTOR_04" layout="horizontal" type="ranges" line0="25-30" />
+      <subModel name="SECTOR_05" layout="horizontal" type="ranges" line0="31-35" />
+      <subModel name="SECTOR_06" layout="horizontal" type="ranges" line0="36-40" />
+      <subModel name="SECTOR_07" layout="horizontal" type="ranges" line0="41-45" />
+    </model>
+    <model name="HX_057_CROSSED_SPOKE" DisplayAs="Custom" StringType="RGB Nodes" StartChannel="9766" Controller="" LayoutGroup="Default" StartSide="B" Dir="L" PixelSize="2" Antialias="1" Transparency="0" versionNumber="7" parm1="59" parm2="16" parm3="1" Depth="1" CustomWidth="59" CustomHeight="16" CustomStrings="1" String1="1" CustomModelCompressed="1,15,58,0;2,15,56,0;3,14,55,0;4,14,54,0;5,14,52,0;6,13,51,0;7,13,50,0;8,13,48,0;9,12,47,0;10,12,46,0;11,11,44,0;12,11,43,0;13,11,42,0;14,10,41,0;15,10,39,0;16,10,38,0;17,9,37,0;18,9,35,0;19,9,34,0;20,8,33,0;21,8,31,0;22,8,30,0;23,7,29,0;24,7,27,0;25,7,26,0;26,6,25,0;27,6,23,0;28,6,22,0;29,5,21,0;30,5,19,0;31,5,18,0;32,4,17,0;33,4,15,0;34,4,14,0;35,3,13,0;36,3,11,0;37,2,10,0;38,2,9,0;39,2,8,0;40,1,6,0;41,1,5,0;42,1,4,0;43,0,2,0;44,0,1,0;45,0,0,0" WorldPosX="-24.000000" WorldPosY="71.250000" WorldPosZ="-65.000000" ScaleX="0.5" ScaleY="0.5" ScaleZ="0.5">
+      <subModel name="SECTOR_00" layout="horizontal" type="ranges" line0="1-6" />
+      <subModel name="SECTOR_01" layout="horizontal" type="ranges" line0="7-12" />
+      <subModel name="SECTOR_02" layout="horizontal" type="ranges" line0="13-18" />
+      <subModel name="SECTOR_03" layout="horizontal" type="ranges" line0="19-24" />
+      <subModel name="SECTOR_04" layout="horizontal" type="ranges" line0="25-30" />
+      <subModel name="SECTOR_05" layout="horizontal" type="ranges" line0="31-35" />
+      <subModel name="SECTOR_06" layout="horizontal" type="ranges" line0="36-40" />
+      <subModel name="SECTOR_07" layout="horizontal" type="ranges" line0="41-45" />
+    </model>
+    <model name="HX_058_CROSSED_SPOKE" DisplayAs="Custom" StringType="RGB Nodes" StartChannel="9901" Controller="" LayoutGroup="Default" StartSide="B" Dir="L" PixelSize="2" Antialias="1" Transparency="0" versionNumber="7" parm1="53" parm2="31" parm3="1" Depth="1" CustomWidth="53" CustomHeight="31" CustomStrings="1" String1="1" CustomModelCompressed="1,0,52,0;2,1,51,0;3,1,49,0;4,2,48,0;5,3,47,0;6,4,46,0;7,4,45,0;8,5,43,0;9,6,42,0;10,6,41,0;11,7,40,0;12,8,39,0;13,8,38,0;14,9,36,0;15,10,35,0;16,10,34,0;17,11,33,0;18,12,32,0;19,12,31,0;20,13,29,0;21,14,28,0;22,15,27,0;23,15,26,0;24,16,25,0;25,17,23,0;26,17,22,0;27,18,21,0;28,19,20,0;29,19,19,0;30,20,18,0;31,21,16,0;32,21,15,0;33,22,14,0;34,23,13,0;35,24,12,0;36,24,11,0;37,25,9,0;38,26,8,0;39,26,7,0;40,27,6,0;41,28,5,0;42,28,3,0;43,29,2,0;44,30,1,0;45,30,0,0" WorldPosX="-21.500000" WorldPosY="52.500000" WorldPosZ="-65.000000" ScaleX="0.5" ScaleY="0.5" ScaleZ="0.5">
+      <subModel name="SECTOR_00" layout="horizontal" type="ranges" line0="1-6" />
+      <subModel name="SECTOR_01" layout="horizontal" type="ranges" line0="7-12" />
+      <subModel name="SECTOR_02" layout="horizontal" type="ranges" line0="13-18" />
+      <subModel name="SECTOR_03" layout="horizontal" type="ranges" line0="19-24" />
+      <subModel name="SECTOR_04" layout="horizontal" type="ranges" line0="25-30" />
+      <subModel name="SECTOR_05" layout="horizontal" type="ranges" line0="31-35" />
+      <subModel name="SECTOR_06" layout="horizontal" type="ranges" line0="36-40" />
+      <subModel name="SECTOR_07" layout="horizontal" type="ranges" line0="41-45" />
+    </model>
+    <model name="HX_059_CROSSED_SPOKE" DisplayAs="Custom" StringType="RGB Nodes" StartChannel="10036" Controller="" LayoutGroup="Default" StartSide="B" Dir="L" PixelSize="2" Antialias="1" Transparency="0" versionNumber="7" parm1="16" parm2="59" parm3="1" Depth="1" CustomWidth="16" CustomHeight="59" CustomStrings="1" String1="1" CustomModelCompressed="1,0,15,0;2,2,15,0;3,3,14,0;4,4,14,0;5,6,14,0;6,7,13,0;7,8,13,0;8,10,13,0;9,11,12,0;10,12,12,0;11,14,11,0;12,15,11,0;13,16,11,0;14,17,10,0;15,19,10,0;16,20,10,0;17,21,9,0;18,23,9,0;19,24,9,0;20,25,8,0;21,27,8,0;22,28,8,0;23,29,7,0;24,31,7,0;25,32,7,0;26,33,6,0;27,35,6,0;28,36,6,0;29,37,5,0;30,39,5,0;31,40,5,0;32,41,4,0;33,43,4,0;34,44,4,0;35,45,3,0;36,47,3,0;37,48,2,0;38,49,2,0;39,50,2,0;40,52,1,0;41,53,1,0;42,54,1,0;43,56,0,0;44,57,0,0;45,58,0,0" WorldPosX="-6.250000" WorldPosY="41.000000" WorldPosZ="-65.000000" ScaleX="0.5" ScaleY="0.5" ScaleZ="0.5">
+      <subModel name="SECTOR_00" layout="horizontal" type="ranges" line0="1-6" />
+      <subModel name="SECTOR_01" layout="horizontal" type="ranges" line0="7-12" />
+      <subModel name="SECTOR_02" layout="horizontal" type="ranges" line0="13-18" />
+      <subModel name="SECTOR_03" layout="horizontal" type="ranges" line0="19-24" />
+      <subModel name="SECTOR_04" layout="horizontal" type="ranges" line0="25-30" />
+      <subModel name="SECTOR_05" layout="horizontal" type="ranges" line0="31-35" />
+      <subModel name="SECTOR_06" layout="horizontal" type="ranges" line0="36-40" />
+      <subModel name="SECTOR_07" layout="horizontal" type="ranges" line0="41-45" />
+    </model>
+    <model name="HX_060_CROSSED_SPOKE" DisplayAs="Custom" StringType="RGB Nodes" StartChannel="10171" Controller="" LayoutGroup="Default" StartSide="B" Dir="L" PixelSize="2" Antialias="1" Transparency="0" versionNumber="7" parm1="31" parm2="53" parm3="1" Depth="1" CustomWidth="31" CustomHeight="53" CustomStrings="1" String1="1" CustomModelCompressed="1,0,0,0;2,1,1,0;3,3,1,0;4,4,2,0;5,5,3,0;6,6,4,0;7,7,4,0;8,9,5,0;9,10,6,0;10,11,6,0;11,12,7,0;12,13,8,0;13,14,8,0;14,16,9,0;15,17,10,0;16,18,10,0;17,19,11,0;18,20,12,0;19,21,12,0;20,23,13,0;21,24,14,0;22,25,15,0;23,26,15,0;24,27,16,0;25,29,17,0;26,30,17,0;27,31,18,0;28,32,19,0;29,33,19,0;30,34,20,0;31,36,21,0;32,37,21,0;33,38,22,0;34,39,23,0;35,40,24,0;36,41,24,0;37,43,25,0;38,44,26,0;39,45,26,0;40,46,27,0;41,47,28,0;42,49,28,0;43,50,29,0;44,51,30,0;45,52,30,0" WorldPosX="12.500000" WorldPosY="43.500000" WorldPosZ="-65.000000" ScaleX="0.5" ScaleY="0.5" ScaleZ="0.5">
+      <subModel name="SECTOR_00" layout="horizontal" type="ranges" line0="1-6" />
+      <subModel name="SECTOR_01" layout="horizontal" type="ranges" line0="7-12" />
+      <subModel name="SECTOR_02" layout="horizontal" type="ranges" line0="13-18" />
+      <subModel name="SECTOR_03" layout="horizontal" type="ranges" line0="19-24" />
+      <subModel name="SECTOR_04" layout="horizontal" type="ranges" line0="25-30" />
+      <subModel name="SECTOR_05" layout="horizontal" type="ranges" line0="31-35" />
+      <subModel name="SECTOR_06" layout="horizontal" type="ranges" line0="36-40" />
+      <subModel name="SECTOR_07" layout="horizontal" type="ranges" line0="41-45" />
+    </model>
+    <model name="HX_061_CROSSED_SPOKE" DisplayAs="Custom" StringType="RGB Nodes" StartChannel="10306" Controller="" LayoutGroup="Default" StartSide="B" Dir="L" PixelSize="2" Antialias="1" Transparency="0" versionNumber="7" parm1="59" parm2="16" parm3="1" Depth="1" CustomWidth="59" CustomHeight="16" CustomStrings="1" String1="1" CustomModelCompressed="1,0,0,0;2,0,2,0;3,1,3,0;4,1,4,0;5,1,6,0;6,2,7,0;7,2,8,0;8,2,10,0;9,3,11,0;10,3,12,0;11,4,14,0;12,4,15,0;13,4,16,0;14,5,17,0;15,5,19,0;16,5,20,0;17,6,21,0;18,6,23,0;19,6,24,0;20,7,25,0;21,7,27,0;22,7,28,0;23,8,29,0;24,8,31,0;25,8,32,0;26,9,33,0;27,9,35,0;28,9,36,0;29,10,37,0;30,10,39,0;31,10,40,0;32,11,41,0;33,11,43,0;34,11,44,0;35,12,45,0;36,12,47,0;37,13,48,0;38,13,49,0;39,13,50,0;40,14,52,0;41,14,53,0;42,14,54,0;43,15,56,0;44,15,57,0;45,15,58,0" WorldPosX="24.000000" WorldPosY="58.750000" WorldPosZ="-65.000000" ScaleX="0.5" ScaleY="0.5" ScaleZ="0.5">
+      <subModel name="SECTOR_00" layout="horizontal" type="ranges" line0="1-6" />
+      <subModel name="SECTOR_01" layout="horizontal" type="ranges" line0="7-12" />
+      <subModel name="SECTOR_02" layout="horizontal" type="ranges" line0="13-18" />
+      <subModel name="SECTOR_03" layout="horizontal" type="ranges" line0="19-24" />
+      <subModel name="SECTOR_04" layout="horizontal" type="ranges" line0="25-30" />
+      <subModel name="SECTOR_05" layout="horizontal" type="ranges" line0="31-35" />
+      <subModel name="SECTOR_06" layout="horizontal" type="ranges" line0="36-40" />
+      <subModel name="SECTOR_07" layout="horizontal" type="ranges" line0="41-45" />
+    </model>
+    <model name="HX_062_CROSSED_SPOKE" DisplayAs="Custom" StringType="RGB Nodes" StartChannel="10441" Controller="" LayoutGroup="Default" StartSide="B" Dir="L" PixelSize="2" Antialias="1" Transparency="0" versionNumber="7" parm1="53" parm2="31" parm3="1" Depth="1" CustomWidth="53" CustomHeight="31" CustomStrings="1" String1="1" CustomModelCompressed="1,30,0,0;2,29,1,0;3,29,3,0;4,28,4,0;5,27,5,0;6,26,6,0;7,26,7,0;8,25,9,0;9,24,10,0;10,24,11,0;11,23,12,0;12,22,13,0;13,22,14,0;14,21,16,0;15,20,17,0;16,20,18,0;17,19,19,0;18,18,20,0;19,18,21,0;20,17,23,0;21,16,24,0;22,15,25,0;23,15,26,0;24,14,27,0;25,13,29,0;26,13,30,0;27,12,31,0;28,11,32,0;29,11,33,0;30,10,34,0;31,9,36,0;32,9,37,0;33,8,38,0;34,7,39,0;35,6,40,0;36,6,41,0;37,5,43,0;38,4,44,0;39,4,45,0;40,3,46,0;41,2,47,0;42,2,49,0;43,1,50,0;44,0,51,0;45,0,52,0" WorldPosX="21.500000" WorldPosY="77.500000" WorldPosZ="-65.000000" ScaleX="0.5" ScaleY="0.5" ScaleZ="0.5">
+      <subModel name="SECTOR_00" layout="horizontal" type="ranges" line0="1-6" />
+      <subModel name="SECTOR_01" layout="horizontal" type="ranges" line0="7-12" />
+      <subModel name="SECTOR_02" layout="horizontal" type="ranges" line0="13-18" />
+      <subModel name="SECTOR_03" layout="horizontal" type="ranges" line0="19-24" />
+      <subModel name="SECTOR_04" layout="horizontal" type="ranges" line0="25-30" />
+      <subModel name="SECTOR_05" layout="horizontal" type="ranges" line0="31-35" />
+      <subModel name="SECTOR_06" layout="horizontal" type="ranges" line0="36-40" />
+      <subModel name="SECTOR_07" layout="horizontal" type="ranges" line0="41-45" />
+    </model>
+    <model name="HX_063_CROSSED_SPOKE" DisplayAs="Custom" StringType="RGB Nodes" StartChannel="10576" Controller="" LayoutGroup="Default" StartSide="B" Dir="L" PixelSize="2" Antialias="1" Transparency="0" versionNumber="7" parm1="16" parm2="59" parm3="1" Depth="1" CustomWidth="16" CustomHeight="59" CustomStrings="1" String1="1" CustomModelCompressed="1,58,0,0;2,56,0,0;3,55,1,0;4,54,1,0;5,52,1,0;6,51,2,0;7,50,2,0;8,48,2,0;9,47,3,0;10,46,3,0;11,44,4,0;12,43,4,0;13,42,4,0;14,41,5,0;15,39,5,0;16,38,5,0;17,37,6,0;18,35,6,0;19,34,6,0;20,33,7,0;21,31,7,0;22,30,7,0;23,29,8,0;24,27,8,0;25,26,8,0;26,25,9,0;27,23,9,0;28,22,9,0;29,21,10,0;30,19,10,0;31,18,10,0;32,17,11,0;33,15,11,0;34,14,11,0;35,13,12,0;36,11,12,0;37,10,13,0;38,9,13,0;39,8,13,0;40,6,14,0;41,5,14,0;42,4,14,0;43,2,15,0;44,1,15,0;45,0,15,0" WorldPosX="6.250000" WorldPosY="89.000000" WorldPosZ="-65.000000" ScaleX="0.5" ScaleY="0.5" ScaleZ="0.5">
+      <subModel name="SECTOR_00" layout="horizontal" type="ranges" line0="1-6" />
+      <subModel name="SECTOR_01" layout="horizontal" type="ranges" line0="7-12" />
+      <subModel name="SECTOR_02" layout="horizontal" type="ranges" line0="13-18" />
+      <subModel name="SECTOR_03" layout="horizontal" type="ranges" line0="19-24" />
+      <subModel name="SECTOR_04" layout="horizontal" type="ranges" line0="25-30" />
+      <subModel name="SECTOR_05" layout="horizontal" type="ranges" line0="31-35" />
+      <subModel name="SECTOR_06" layout="horizontal" type="ranges" line0="36-40" />
+      <subModel name="SECTOR_07" layout="horizontal" type="ranges" line0="41-45" />
+    </model>
+    <model name="HX_064_VORTEX_HOOP" DisplayAs="Custom" StringType="RGB Nodes" StartChannel="10711" Controller="" LayoutGroup="Default" StartSide="B" Dir="L" PixelSize="2" Antialias="1" Transparency="0" versionNumber="7" parm1="141" parm2="137" parm3="1" Depth="31" CustomWidth="141" CustomHeight="137" CustomStrings="1" String1="1" CustomModelCompressed="1,68,140,15;2,65,140,16;3,62,140,16;4,59,139,17;5,57,139,17;6,54,138,18;7,51,138,19;8,48,137,19;9,45,136,20;10,43,135,20;11,40,134,21;12,38,133,21;13,35,131,22;14,33,130,23;15,30,128,23;16,28,127,24;17,25,125,24;18,23,123,25;19,21,121,25;20,19,119,25;21,17,117,26;22,15,115,26;23,13,112,27;24,12,110,27;25,10,108,27;26,9,105,28;27,7,102,28;28,6,100,28;29,5,97,28;30,4,94,29;31,3,92,29;32,2,89,29;33,1,86,29;34,1,83,29;35,0,80,29;36,0,77,29;37,0,74,30;38,0,71,30;39,0,69,30;40,0,66,30;41,0,63,29;42,0,60,29;43,1,57,29;44,1,54,29;45,2,51,29;46,3,48,29;47,4,46,29;48,5,43,28;49,6,40,28;50,7,38,28;51,9,35,28;52,10,32,27;53,12,30,27;54,13,28,27;55,15,25,26;56,17,23,26;57,19,21,25;58,21,19,25;59,23,17,25;60,25,15,24;61,28,13,24;62,30,12,23;63,33,10,23;64,35,9,22;65,38,7,21;66,40,6,21;67,43,5,20;68,45,4,20;69,48,3,19;70,51,2,19;71,54,2,18;72,57,1,17;73,59,1,17;74,62,0,16;75,65,0,16;76,68,0,15;77,71,0,14;78,74,0,14;79,77,1,13;80,79,1,13;81,82,2,12;82,85,2,11;83,88,3,11;84,91,4,10;85,93,5,10;86,96,6,9;87,98,7,9;88,101,9,8;89,103,10,7;90,106,12,7;91,108,13,6;92,111,15,6;93,113,17,5;94,115,19,5;95,117,21,5;96,119,23,4;97,121,25,4;98,123,28,3;99,124,30,3;100,126,32,3;101,127,35,2;102,129,38,2;103,130,40,2;104,131,43,2;105,132,46,1;106,133,48,1;107,134,51,1;108,135,54,1;109,135,57,1;110,136,60,1;111,136,63,1;112,136,66,0;113,136,69,0;114,136,71,0;115,136,74,0;116,136,77,1;117,136,80,1;118,135,83,1;119,135,86,1;120,134,89,1;121,133,92,1;122,132,94,1;123,131,97,2;124,130,100,2;125,129,102,2;126,127,105,2;127,126,108,3;128,124,110,3;129,123,112,3;130,121,115,4;131,119,117,4;132,117,119,5;133,115,121,5;134,113,123,5;135,111,125,6;136,108,127,6;137,106,128,7;138,103,130,7;139,101,131,8;140,98,133,9;141,96,134,9;142,93,135,10;143,91,136,10;144,88,137,11;145,85,138,11;146,82,138,12;147,79,139,13;148,77,139,13;149,74,140,14;150,71,140,14" WorldPosX="0.000000" WorldPosY="65.000000" WorldPosZ="-85.000000" ScaleX="0.5" ScaleY="0.5" ScaleZ="0.5">
+      <subModel name="SECTOR_00" layout="horizontal" type="ranges" line0="1-19" />
+      <subModel name="SECTOR_01" layout="horizontal" type="ranges" line0="20-38" />
+      <subModel name="SECTOR_02" layout="horizontal" type="ranges" line0="39-57" />
+      <subModel name="SECTOR_03" layout="horizontal" type="ranges" line0="58-76" />
+      <subModel name="SECTOR_04" layout="horizontal" type="ranges" line0="77-95" />
+      <subModel name="SECTOR_05" layout="horizontal" type="ranges" line0="96-114" />
+      <subModel name="SECTOR_06" layout="horizontal" type="ranges" line0="115-132" />
+      <subModel name="SECTOR_07" layout="horizontal" type="ranges" line0="133-150" />
+    </model>
+    <model name="HX_065_CROSSED_SPOKE" DisplayAs="Custom" StringType="RGB Nodes" StartChannel="11161" Controller="" LayoutGroup="Default" StartSide="B" Dir="L" PixelSize="2" Antialias="1" Transparency="0" versionNumber="7" parm1="82" parm2="68" parm3="1" Depth="1" CustomWidth="82" CustomHeight="68" CustomStrings="1" String1="1" CustomModelCompressed="1,67,81,0;2,65,79,0;3,64,77,0;4,62,76,0;5,61,74,0;6,59,72,0;7,58,70,0;8,56,68,0;9,55,66,0;10,53,64,0;11,51,63,0;12,50,61,0;13,48,59,0;14,47,57,0;15,45,55,0;16,44,53,0;17,42,52,0;18,41,50,0;19,39,48,0;20,38,46,0;21,36,44,0;22,35,42,0;23,33,41,0;24,32,39,0;25,30,37,0;26,29,35,0;27,27,33,0;28,26,31,0;29,24,30,0;30,23,28,0;31,21,26,0;32,19,24,0;33,18,22,0;34,16,20,0;35,15,19,0;36,13,17,0;37,12,15,0;38,10,13,0;39,9,11,0;40,7,9,0;41,6,8,0;42,4,6,0;43,3,4,0;44,1,2,0;45,0,0,0" WorldPosX="-16.875000" WorldPosY="78.875000" WorldPosZ="-85.000000" ScaleX="0.25" ScaleY="0.25" ScaleZ="0.25">
+      <subModel name="SECTOR_00" layout="horizontal" type="ranges" line0="1-6" />
+      <subModel name="SECTOR_01" layout="horizontal" type="ranges" line0="7-12" />
+      <subModel name="SECTOR_02" layout="horizontal" type="ranges" line0="13-18" />
+      <subModel name="SECTOR_03" layout="horizontal" type="ranges" line0="19-24" />
+      <subModel name="SECTOR_04" layout="horizontal" type="ranges" line0="25-30" />
+      <subModel name="SECTOR_05" layout="horizontal" type="ranges" line0="31-35" />
+      <subModel name="SECTOR_06" layout="horizontal" type="ranges" line0="36-40" />
+      <subModel name="SECTOR_07" layout="horizontal" type="ranges" line0="41-45" />
+    </model>
+    <model name="HX_066_CROSSED_SPOKE" DisplayAs="Custom" StringType="RGB Nodes" StartChannel="11296" Controller="" LayoutGroup="Default" StartSide="B" Dir="L" PixelSize="2" Antialias="1" Transparency="0" versionNumber="7" parm1="54" parm2="6" parm3="1" Depth="1" CustomWidth="54" CustomHeight="6" CustomStrings="1" String1="1" CustomModelCompressed="1,0,53,0;2,0,51,0;3,0,50,0;4,0,49,0;5,0,48,0;6,0,47,0;7,0,45,0;8,0,44,0;9,1,43,0;10,1,42,0;11,1,41,0;12,1,40,0;13,1,38,0;14,1,37,0;15,1,36,0;16,1,35,0;17,1,34,0;18,2,32,0;19,2,31,0;20,2,30,0;21,2,29,0;22,2,28,0;23,2,26,0;24,2,25,0;25,2,24,0;26,2,23,0;27,3,22,0;28,3,21,0;29,3,19,0;30,3,18,0;31,3,17,0;32,3,16,0;33,3,15,0;34,3,13,0;35,3,12,0;36,4,11,0;37,4,10,0;38,4,9,0;39,4,7,0;40,4,6,0;41,4,5,0;42,4,4,0;43,4,3,0;44,4,1,0;45,5,0,0" WorldPosX="-21.750000" WorldPosY="62.750000" WorldPosZ="-85.000000" ScaleX="0.5" ScaleY="0.5" ScaleZ="0.5">
+      <subModel name="SECTOR_00" layout="horizontal" type="ranges" line0="1-6" />
+      <subModel name="SECTOR_01" layout="horizontal" type="ranges" line0="7-12" />
+      <subModel name="SECTOR_02" layout="horizontal" type="ranges" line0="13-18" />
+      <subModel name="SECTOR_03" layout="horizontal" type="ranges" line0="19-24" />
+      <subModel name="SECTOR_04" layout="horizontal" type="ranges" line0="25-30" />
+      <subModel name="SECTOR_05" layout="horizontal" type="ranges" line0="31-35" />
+      <subModel name="SECTOR_06" layout="horizontal" type="ranges" line0="36-40" />
+      <subModel name="SECTOR_07" layout="horizontal" type="ranges" line0="41-45" />
+    </model>
+    <model name="HX_067_CROSSED_SPOKE" DisplayAs="Custom" StringType="RGB Nodes" StartChannel="11431" Controller="" LayoutGroup="Default" StartSide="B" Dir="L" PixelSize="2" Antialias="1" Transparency="0" versionNumber="7" parm1="68" parm2="82" parm3="1" Depth="1" CustomWidth="68" CustomHeight="82" CustomStrings="1" String1="1" CustomModelCompressed="1,0,67,0;2,2,65,0;3,4,64,0;4,5,62,0;5,7,61,0;6,9,59,0;7,11,58,0;8,13,56,0;9,15,55,0;10,17,53,0;11,18,51,0;12,20,50,0;13,22,48,0;14,24,47,0;15,26,45,0;16,28,44,0;17,29,42,0;18,31,41,0;19,33,39,0;20,35,38,0;21,37,36,0;22,39,35,0;23,40,33,0;24,42,32,0;25,44,30,0;26,46,29,0;27,48,27,0;28,50,26,0;29,51,24,0;30,53,23,0;31,55,21,0;32,57,19,0;33,59,18,0;34,61,16,0;35,62,15,0;36,64,13,0;37,66,12,0;38,68,10,0;39,70,9,0;40,72,7,0;41,73,6,0;42,75,4,0;43,77,3,0;44,79,1,0;45,81,0,0" WorldPosX="-13.875000" WorldPosY="48.125000" WorldPosZ="-85.000000" ScaleX="0.25" ScaleY="0.25" ScaleZ="0.25">
+      <subModel name="SECTOR_00" layout="horizontal" type="ranges" line0="1-6" />
+      <subModel name="SECTOR_01" layout="horizontal" type="ranges" line0="7-12" />
+      <subModel name="SECTOR_02" layout="horizontal" type="ranges" line0="13-18" />
+      <subModel name="SECTOR_03" layout="horizontal" type="ranges" line0="19-24" />
+      <subModel name="SECTOR_04" layout="horizontal" type="ranges" line0="25-30" />
+      <subModel name="SECTOR_05" layout="horizontal" type="ranges" line0="31-35" />
+      <subModel name="SECTOR_06" layout="horizontal" type="ranges" line0="36-40" />
+      <subModel name="SECTOR_07" layout="horizontal" type="ranges" line0="41-45" />
+    </model>
+    <model name="HX_068_CROSSED_SPOKE" DisplayAs="Custom" StringType="RGB Nodes" StartChannel="11566" Controller="" LayoutGroup="Default" StartSide="B" Dir="L" PixelSize="2" Antialias="1" Transparency="0" versionNumber="7" parm1="6" parm2="54" parm3="1" Depth="1" CustomWidth="6" CustomHeight="54" CustomStrings="1" String1="1" CustomModelCompressed="1,0,0,0;2,2,0,0;3,3,0,0;4,4,0,0;5,5,0,0;6,6,0,0;7,8,0,0;8,9,0,0;9,10,1,0;10,11,1,0;11,12,1,0;12,13,1,0;13,15,1,0;14,16,1,0;15,17,1,0;16,18,1,0;17,19,1,0;18,21,2,0;19,22,2,0;20,23,2,0;21,24,2,0;22,25,2,0;23,27,2,0;24,28,2,0;25,29,2,0;26,30,2,0;27,31,3,0;28,32,3,0;29,34,3,0;30,35,3,0;31,36,3,0;32,37,3,0;33,38,3,0;34,40,3,0;35,41,3,0;36,42,4,0;37,43,4,0;38,44,4,0;39,46,4,0;40,47,4,0;41,48,4,0;42,49,4,0;43,50,4,0;44,52,4,0;45,53,5,0" WorldPosX="2.250000" WorldPosY="43.250000" WorldPosZ="-85.000000" ScaleX="0.5" ScaleY="0.5" ScaleZ="0.5">
+      <subModel name="SECTOR_00" layout="horizontal" type="ranges" line0="1-6" />
+      <subModel name="SECTOR_01" layout="horizontal" type="ranges" line0="7-12" />
+      <subModel name="SECTOR_02" layout="horizontal" type="ranges" line0="13-18" />
+      <subModel name="SECTOR_03" layout="horizontal" type="ranges" line0="19-24" />
+      <subModel name="SECTOR_04" layout="horizontal" type="ranges" line0="25-30" />
+      <subModel name="SECTOR_05" layout="horizontal" type="ranges" line0="31-35" />
+      <subModel name="SECTOR_06" layout="horizontal" type="ranges" line0="36-40" />
+      <subModel name="SECTOR_07" layout="horizontal" type="ranges" line0="41-45" />
+    </model>
+    <model name="HX_069_CROSSED_SPOKE" DisplayAs="Custom" StringType="RGB Nodes" StartChannel="11701" Controller="" LayoutGroup="Default" StartSide="B" Dir="L" PixelSize="2" Antialias="1" Transparency="0" versionNumber="7" parm1="82" parm2="68" parm3="1" Depth="1" CustomWidth="82" CustomHeight="68" CustomStrings="1" String1="1" CustomModelCompressed="1,0,0,0;2,2,2,0;3,3,4,0;4,5,5,0;5,6,7,0;6,8,9,0;7,9,11,0;8,11,13,0;9,12,15,0;10,14,17,0;11,16,18,0;12,17,20,0;13,19,22,0;14,20,24,0;15,22,26,0;16,23,28,0;17,25,29,0;18,26,31,0;19,28,33,0;20,29,35,0;21,31,37,0;22,32,39,0;23,34,40,0;24,35,42,0;25,37,44,0;26,38,46,0;27,40,48,0;28,41,50,0;29,43,51,0;30,44,53,0;31,46,55,0;32,48,57,0;33,49,59,0;34,51,61,0;35,52,62,0;36,54,64,0;37,55,66,0;38,57,68,0;39,58,70,0;40,60,72,0;41,61,73,0;42,63,75,0;43,64,77,0;44,66,79,0;45,67,81,0" WorldPosX="16.875000" WorldPosY="51.125000" WorldPosZ="-85.000000" ScaleX="0.25" ScaleY="0.25" ScaleZ="0.25">
+      <subModel name="SECTOR_00" layout="horizontal" type="ranges" line0="1-6" />
+      <subModel name="SECTOR_01" layout="horizontal" type="ranges" line0="7-12" />
+      <subModel name="SECTOR_02" layout="horizontal" type="ranges" line0="13-18" />
+      <subModel name="SECTOR_03" layout="horizontal" type="ranges" line0="19-24" />
+      <subModel name="SECTOR_04" layout="horizontal" type="ranges" line0="25-30" />
+      <subModel name="SECTOR_05" layout="horizontal" type="ranges" line0="31-35" />
+      <subModel name="SECTOR_06" layout="horizontal" type="ranges" line0="36-40" />
+      <subModel name="SECTOR_07" layout="horizontal" type="ranges" line0="41-45" />
+    </model>
+    <model name="HX_070_CROSSED_SPOKE" DisplayAs="Custom" StringType="RGB Nodes" StartChannel="11836" Controller="" LayoutGroup="Default" StartSide="B" Dir="L" PixelSize="2" Antialias="1" Transparency="0" versionNumber="7" parm1="54" parm2="6" parm3="1" Depth="1" CustomWidth="54" CustomHeight="6" CustomStrings="1" String1="1" CustomModelCompressed="1,5,0,0;2,5,2,0;3,5,3,0;4,5,4,0;5,5,5,0;6,5,6,0;7,5,8,0;8,5,9,0;9,4,10,0;10,4,11,0;11,4,12,0;12,4,13,0;13,4,15,0;14,4,16,0;15,4,17,0;16,4,18,0;17,4,19,0;18,3,21,0;19,3,22,0;20,3,23,0;21,3,24,0;22,3,25,0;23,3,27,0;24,3,28,0;25,3,29,0;26,3,30,0;27,2,31,0;28,2,32,0;29,2,34,0;30,2,35,0;31,2,36,0;32,2,37,0;33,2,38,0;34,2,40,0;35,2,41,0;36,1,42,0;37,1,43,0;38,1,44,0;39,1,46,0;40,1,47,0;41,1,48,0;42,1,49,0;43,1,50,0;44,1,52,0;45,0,53,0" WorldPosX="21.750000" WorldPosY="67.250000" WorldPosZ="-85.000000" ScaleX="0.5" ScaleY="0.5" ScaleZ="0.5">
+      <subModel name="SECTOR_00" layout="horizontal" type="ranges" line0="1-6" />
+      <subModel name="SECTOR_01" layout="horizontal" type="ranges" line0="7-12" />
+      <subModel name="SECTOR_02" layout="horizontal" type="ranges" line0="13-18" />
+      <subModel name="SECTOR_03" layout="horizontal" type="ranges" line0="19-24" />
+      <subModel name="SECTOR_04" layout="horizontal" type="ranges" line0="25-30" />
+      <subModel name="SECTOR_05" layout="horizontal" type="ranges" line0="31-35" />
+      <subModel name="SECTOR_06" layout="horizontal" type="ranges" line0="36-40" />
+      <subModel name="SECTOR_07" layout="horizontal" type="ranges" line0="41-45" />
+    </model>
+    <model name="HX_071_CROSSED_SPOKE" DisplayAs="Custom" StringType="RGB Nodes" StartChannel="11971" Controller="" LayoutGroup="Default" StartSide="B" Dir="L" PixelSize="2" Antialias="1" Transparency="0" versionNumber="7" parm1="68" parm2="82" parm3="1" Depth="1" CustomWidth="68" CustomHeight="82" CustomStrings="1" String1="1" CustomModelCompressed="1,81,0,0;2,79,2,0;3,77,3,0;4,76,5,0;5,74,6,0;6,72,8,0;7,70,9,0;8,68,11,0;9,66,12,0;10,64,14,0;11,63,16,0;12,61,17,0;13,59,19,0;14,57,20,0;15,55,22,0;16,53,23,0;17,52,25,0;18,50,26,0;19,48,28,0;20,46,29,0;21,44,31,0;22,42,32,0;23,41,34,0;24,39,35,0;25,37,37,0;26,35,38,0;27,33,40,0;28,31,41,0;29,30,43,0;30,28,44,0;31,26,46,0;32,24,48,0;33,22,49,0;34,20,51,0;35,19,52,0;36,17,54,0;37,15,55,0;38,13,57,0;39,11,58,0;40,9,60,0;41,8,61,0;42,6,63,0;43,4,64,0;44,2,66,0;45,0,67,0" WorldPosX="13.875000" WorldPosY="81.875000" WorldPosZ="-85.000000" ScaleX="0.25" ScaleY="0.25" ScaleZ="0.25">
+      <subModel name="SECTOR_00" layout="horizontal" type="ranges" line0="1-6" />
+      <subModel name="SECTOR_01" layout="horizontal" type="ranges" line0="7-12" />
+      <subModel name="SECTOR_02" layout="horizontal" type="ranges" line0="13-18" />
+      <subModel name="SECTOR_03" layout="horizontal" type="ranges" line0="19-24" />
+      <subModel name="SECTOR_04" layout="horizontal" type="ranges" line0="25-30" />
+      <subModel name="SECTOR_05" layout="horizontal" type="ranges" line0="31-35" />
+      <subModel name="SECTOR_06" layout="horizontal" type="ranges" line0="36-40" />
+      <subModel name="SECTOR_07" layout="horizontal" type="ranges" line0="41-45" />
+    </model>
+    <model name="HX_072_CROSSED_SPOKE" DisplayAs="Custom" StringType="RGB Nodes" StartChannel="12106" Controller="" LayoutGroup="Default" StartSide="B" Dir="L" PixelSize="2" Antialias="1" Transparency="0" versionNumber="7" parm1="6" parm2="54" parm3="1" Depth="1" CustomWidth="6" CustomHeight="54" CustomStrings="1" String1="1" CustomModelCompressed="1,53,5,0;2,51,5,0;3,50,5,0;4,49,5,0;5,48,5,0;6,47,5,0;7,45,5,0;8,44,5,0;9,43,4,0;10,42,4,0;11,41,4,0;12,40,4,0;13,38,4,0;14,37,4,0;15,36,4,0;16,35,4,0;17,34,4,0;18,32,3,0;19,31,3,0;20,30,3,0;21,29,3,0;22,28,3,0;23,26,3,0;24,25,3,0;25,24,3,0;26,23,3,0;27,22,2,0;28,21,2,0;29,19,2,0;30,18,2,0;31,17,2,0;32,16,2,0;33,15,2,0;34,13,2,0;35,12,2,0;36,11,1,0;37,10,1,0;38,9,1,0;39,7,1,0;40,6,1,0;41,5,1,0;42,4,1,0;43,3,1,0;44,1,1,0;45,0,0,0" WorldPosX="-2.250000" WorldPosY="86.750000" WorldPosZ="-85.000000" ScaleX="0.5" ScaleY="0.5" ScaleZ="0.5">
+      <subModel name="SECTOR_00" layout="horizontal" type="ranges" line0="1-6" />
+      <subModel name="SECTOR_01" layout="horizontal" type="ranges" line0="7-12" />
+      <subModel name="SECTOR_02" layout="horizontal" type="ranges" line0="13-18" />
+      <subModel name="SECTOR_03" layout="horizontal" type="ranges" line0="19-24" />
+      <subModel name="SECTOR_04" layout="horizontal" type="ranges" line0="25-30" />
+      <subModel name="SECTOR_05" layout="horizontal" type="ranges" line0="31-35" />
+      <subModel name="SECTOR_06" layout="horizontal" type="ranges" line0="36-40" />
+      <subModel name="SECTOR_07" layout="horizontal" type="ranges" line0="41-45" />
+    </model>
+    <model name="HX_073_SPIRAL_TREE" DisplayAs="Custom" StringType="RGB Nodes" StartChannel="12241" Controller="" LayoutGroup="Default" StartSide="B" Dir="L" PixelSize="2" Antialias="1" Transparency="0" versionNumber="7" parm1="75" parm2="161" parm3="1" Depth="75" CustomWidth="75" CustomHeight="161" CustomStrings="1" String1="1" CustomModelCompressed="1,160,74,37;2,158,73,30;3,156,71,24;4,154,68,18;5,152,63,13;6,150,58,9;7,148,53,6;8,146,47,4;9,144,41,3;10,142,34,4;11,140,29,5;12,138,23,8;13,136,18,11;14,134,14,15;15,132,11,20;16,130,9,25;17,128,8,31;18,126,7,36;19,124,8,41;20,122,10,46;21,119,12,51;22,117,16,55;23,115,20,58;24,113,24,61;25,111,29,62;26,109,33,63;27,107,38,63;28,105,43,61;29,103,47,60;30,101,51,57;31,99,54,54;32,97,56,50;33,95,58,47;34,93,59,42;35,91,59,38;36,89,58,34;37,87,57,31;38,85,55,27;39,83,53,25;40,81,50,22;41,79,47,21;42,77,43,19;43,75,40,19;44,73,37,19;45,71,34,20;46,69,31,21;47,67,28,23;48,65,26,25;49,63,25,28;50,61,24,30;51,59,23,33;52,57,23,36;53,55,23,38;54,53,24,41;55,51,25,43;56,49,27,44;57,47,29,46;58,45,31,47;59,43,33,47;60,41,35,47;61,38,37,47;62,36,39,46;63,34,40,46;64,32,41,45;65,30,42,43;66,28,43,42;67,26,43,40;68,24,44,39;69,22,43,38;70,20,43,37;71,18,42,36;72,16,42,35;73,14,41,34;74,12,40,34;75,10,39,34;76,8,38,34;77,6,38,34;78,4,37,35;79,2,37,35;80,0,37,36;81,160,37,0;82,158,30,1;83,156,24,3;84,154,18,6;85,152,13,11;86,150,9,16;87,148,6,21;88,146,4,27;89,144,3,33;90,142,4,40;91,140,5,45;92,138,8,51;93,136,11,56;94,134,15,60;95,132,20,63;96,130,25,65;97,128,31,66;98,126,36,67;99,124,41,66;100,122,46,64;101,119,51,62;102,117,55,58;103,115,58,54;104,113,61,50;105,111,62,45;106,109,63,41;107,107,63,36;108,105,61,31;109,103,60,27;110,101,57,23;111,99,54,20;112,97,50,18;113,95,47,16;114,93,42,15;115,91,38,15;116,89,34,16;117,87,31,17;118,85,27,19;119,83,25,21;120,81,22,24;121,79,21,27;122,77,19,31;123,75,19,34;124,73,19,37;125,71,20,40;126,69,21,43;127,67,23,46;128,65,25,48;129,63,28,49;130,61,30,50;131,59,33,51;132,57,36,51;133,55,38,51;134,53,41,50;135,51,43,49;136,49,44,47;137,47,46,45;138,45,47,43;139,43,47,41;140,41,47,39;141,38,47,37;142,36,46,35;143,34,46,34;144,32,45,33;145,30,43,32;146,28,42,31;147,26,40,31;148,24,39,30;149,22,38,31;150,20,37,31;151,18,36,32;152,16,35,32;153,14,34,33;154,12,34,34;155,10,34,35;156,8,34,36;157,6,34,36;158,4,35,37;159,2,35,37;160,0,36,37;161,160,0,37;162,158,1,44;163,156,3,50;164,154,6,56;165,152,11,61;166,150,16,65;167,148,21,68;168,146,27,70;169,144,33,71;170,142,40,70;171,140,45,69;172,138,51,66;173,136,56,63;174,134,60,59;175,132,63,54;176,130,65,49;177,128,66,43;178,126,67,38;179,124,66,33;180,122,64,28;181,119,62,23;182,117,58,19;183,115,54,16;184,113,50,13;185,111,45,12;186,109,41,11;187,107,36,11;188,105,31,13;189,103,27,14;190,101,23,17;191,99,20,20;192,97,18,24;193,95,16,27;194,93,15,32;195,91,15,36;196,89,16,40;197,87,17,43;198,85,19,47;199,83,21,49;200,81,24,52;201,79,27,53;202,77,31,55;203,75,34,55;204,73,37,55;205,71,40,54;206,69,43,53;207,67,46,51;208,65,48,49;209,63,49,46;210,61,50,44;211,59,51,41;212,57,51,38;213,55,51,36;214,53,50,33;215,51,49,31;216,49,47,30;217,47,45,28;218,45,43,27;219,43,41,27;220,41,39,27;221,38,37,27;222,36,35,28;223,34,34,28;224,32,33,29;225,30,32,31;226,28,31,32;227,26,31,34;228,24,30,35;229,22,31,36;230,20,31,37;231,18,32,38;232,16,32,39;233,14,33,40;234,12,34,40;235,10,35,40;236,8,36,40;237,6,36,40;238,4,37,39;239,2,37,39;240,0,37,38;241,160,37,74;242,158,44,73;243,156,50,71;244,154,56,68;245,152,61,63;246,150,65,58;247,148,68,53;248,146,70,47;249,144,71,41;250,142,70,34;251,140,69,29;252,138,66,23;253,136,63,18;254,134,59,14;255,132,54,11;256,130,49,9;257,128,43,8;258,126,38,7;259,124,33,8;260,122,28,10;261,119,23,12;262,117,19,16;263,115,16,20;264,113,13,24;265,111,12,29;266,109,11,33;267,107,11,38;268,105,13,43;269,103,14,47;270,101,17,51;271,99,20,54;272,97,24,56;273,95,27,58;274,93,32,59;275,91,36,59;276,89,40,58;277,87,43,57;278,85,47,55;279,83,49,53;280,81,52,50;281,79,53,47;282,77,55,43;283,75,55,40;284,73,55,37;285,71,54,34;286,69,53,31;287,67,51,28;288,65,49,26;289,63,46,25;290,61,44,24;291,59,41,23;292,57,38,23;293,55,36,23;294,53,33,24;295,51,31,25;296,49,30,27;297,47,28,29;298,45,27,31;299,43,27,33;300,41,27,35;301,38,27,37;302,36,28,39;303,34,28,40;304,32,29,41;305,30,31,42;306,28,32,43;307,26,34,43;308,24,35,44;309,22,36,43;310,20,37,43;311,18,38,42;312,16,39,42;313,14,40,41;314,12,40,40;315,10,40,39;316,8,40,38;317,6,40,38;318,4,39,37;319,2,39,37;320,0,38,37" WorldPosX="-130.000000" WorldPosY="40.000000" WorldPosZ="0.000000" ScaleX="0.5" ScaleY="0.5" ScaleZ="0.5">
+      <subModel name="STRAND_1" layout="horizontal" type="ranges" line0="1-80" />
+      <subModel name="STRAND_2" layout="horizontal" type="ranges" line0="81-160" />
+      <subModel name="STRAND_3" layout="horizontal" type="ranges" line0="161-240" />
+      <subModel name="STRAND_4" layout="horizontal" type="ranges" line0="241-320" />
+      <subModel name="SECTOR_00" layout="horizontal" type="ranges" line0="1-40" />
+      <subModel name="SECTOR_01" layout="horizontal" type="ranges" line0="41-80" />
+      <subModel name="SECTOR_02" layout="horizontal" type="ranges" line0="81-120" />
+      <subModel name="SECTOR_03" layout="horizontal" type="ranges" line0="121-160" />
+      <subModel name="SECTOR_04" layout="horizontal" type="ranges" line0="161-200" />
+      <subModel name="SECTOR_05" layout="horizontal" type="ranges" line0="201-240" />
+      <subModel name="SECTOR_06" layout="horizontal" type="ranges" line0="241-280" />
+      <subModel name="SECTOR_07" layout="horizontal" type="ranges" line0="281-320" />
+    </model>
+    <model name="HX_074_SPIRAL_TREE" DisplayAs="Custom" StringType="RGB Nodes" StartChannel="13201" Controller="" LayoutGroup="Default" StartSide="B" Dir="L" PixelSize="2" Antialias="1" Transparency="0" versionNumber="7" parm1="75" parm2="161" parm3="1" Depth="75" CustomWidth="75" CustomHeight="161" CustomStrings="1" String1="1" CustomModelCompressed="1,160,74,37;2,158,73,30;3,156,71,24;4,154,68,18;5,152,63,13;6,150,58,9;7,148,53,6;8,146,47,4;9,144,41,3;10,142,34,4;11,140,29,5;12,138,23,8;13,136,18,11;14,134,14,15;15,132,11,20;16,130,9,25;17,128,8,31;18,126,7,36;19,124,8,41;20,122,10,46;21,119,12,51;22,117,16,55;23,115,20,58;24,113,24,61;25,111,29,62;26,109,33,63;27,107,38,63;28,105,43,61;29,103,47,60;30,101,51,57;31,99,54,54;32,97,56,50;33,95,58,47;34,93,59,42;35,91,59,38;36,89,58,34;37,87,57,31;38,85,55,27;39,83,53,25;40,81,50,22;41,79,47,21;42,77,43,19;43,75,40,19;44,73,37,19;45,71,34,20;46,69,31,21;47,67,28,23;48,65,26,25;49,63,25,28;50,61,24,30;51,59,23,33;52,57,23,36;53,55,23,38;54,53,24,41;55,51,25,43;56,49,27,44;57,47,29,46;58,45,31,47;59,43,33,47;60,41,35,47;61,38,37,47;62,36,39,46;63,34,40,46;64,32,41,45;65,30,42,43;66,28,43,42;67,26,43,40;68,24,44,39;69,22,43,38;70,20,43,37;71,18,42,36;72,16,42,35;73,14,41,34;74,12,40,34;75,10,39,34;76,8,38,34;77,6,38,34;78,4,37,35;79,2,37,35;80,0,37,36;81,160,37,0;82,158,30,1;83,156,24,3;84,154,18,6;85,152,13,11;86,150,9,16;87,148,6,21;88,146,4,27;89,144,3,33;90,142,4,40;91,140,5,45;92,138,8,51;93,136,11,56;94,134,15,60;95,132,20,63;96,130,25,65;97,128,31,66;98,126,36,67;99,124,41,66;100,122,46,64;101,119,51,62;102,117,55,58;103,115,58,54;104,113,61,50;105,111,62,45;106,109,63,41;107,107,63,36;108,105,61,31;109,103,60,27;110,101,57,23;111,99,54,20;112,97,50,18;113,95,47,16;114,93,42,15;115,91,38,15;116,89,34,16;117,87,31,17;118,85,27,19;119,83,25,21;120,81,22,24;121,79,21,27;122,77,19,31;123,75,19,34;124,73,19,37;125,71,20,40;126,69,21,43;127,67,23,46;128,65,25,48;129,63,28,49;130,61,30,50;131,59,33,51;132,57,36,51;133,55,38,51;134,53,41,50;135,51,43,49;136,49,44,47;137,47,46,45;138,45,47,43;139,43,47,41;140,41,47,39;141,38,47,37;142,36,46,35;143,34,46,34;144,32,45,33;145,30,43,32;146,28,42,31;147,26,40,31;148,24,39,30;149,22,38,31;150,20,37,31;151,18,36,32;152,16,35,32;153,14,34,33;154,12,34,34;155,10,34,35;156,8,34,36;157,6,34,36;158,4,35,37;159,2,35,37;160,0,36,37;161,160,0,37;162,158,1,44;163,156,3,50;164,154,6,56;165,152,11,61;166,150,16,65;167,148,21,68;168,146,27,70;169,144,33,71;170,142,40,70;171,140,45,69;172,138,51,66;173,136,56,63;174,134,60,59;175,132,63,54;176,130,65,49;177,128,66,43;178,126,67,38;179,124,66,33;180,122,64,28;181,119,62,23;182,117,58,19;183,115,54,16;184,113,50,13;185,111,45,12;186,109,41,11;187,107,36,11;188,105,31,13;189,103,27,14;190,101,23,17;191,99,20,20;192,97,18,24;193,95,16,27;194,93,15,32;195,91,15,36;196,89,16,40;197,87,17,43;198,85,19,47;199,83,21,49;200,81,24,52;201,79,27,53;202,77,31,55;203,75,34,55;204,73,37,55;205,71,40,54;206,69,43,53;207,67,46,51;208,65,48,49;209,63,49,46;210,61,50,44;211,59,51,41;212,57,51,38;213,55,51,36;214,53,50,33;215,51,49,31;216,49,47,30;217,47,45,28;218,45,43,27;219,43,41,27;220,41,39,27;221,38,37,27;222,36,35,28;223,34,34,28;224,32,33,29;225,30,32,31;226,28,31,32;227,26,31,34;228,24,30,35;229,22,31,36;230,20,31,37;231,18,32,38;232,16,32,39;233,14,33,40;234,12,34,40;235,10,35,40;236,8,36,40;237,6,36,40;238,4,37,39;239,2,37,39;240,0,37,38;241,160,37,74;242,158,44,73;243,156,50,71;244,154,56,68;245,152,61,63;246,150,65,58;247,148,68,53;248,146,70,47;249,144,71,41;250,142,70,34;251,140,69,29;252,138,66,23;253,136,63,18;254,134,59,14;255,132,54,11;256,130,49,9;257,128,43,8;258,126,38,7;259,124,33,8;260,122,28,10;261,119,23,12;262,117,19,16;263,115,16,20;264,113,13,24;265,111,12,29;266,109,11,33;267,107,11,38;268,105,13,43;269,103,14,47;270,101,17,51;271,99,20,54;272,97,24,56;273,95,27,58;274,93,32,59;275,91,36,59;276,89,40,58;277,87,43,57;278,85,47,55;279,83,49,53;280,81,52,50;281,79,53,47;282,77,55,43;283,75,55,40;284,73,55,37;285,71,54,34;286,69,53,31;287,67,51,28;288,65,49,26;289,63,46,25;290,61,44,24;291,59,41,23;292,57,38,23;293,55,36,23;294,53,33,24;295,51,31,25;296,49,30,27;297,47,28,29;298,45,27,31;299,43,27,33;300,41,27,35;301,38,27,37;302,36,28,39;303,34,28,40;304,32,29,41;305,30,31,42;306,28,32,43;307,26,34,43;308,24,35,44;309,22,36,43;310,20,37,43;311,18,38,42;312,16,39,42;313,14,40,41;314,12,40,40;315,10,40,39;316,8,40,38;317,6,40,38;318,4,39,37;319,2,39,37;320,0,38,37" WorldPosX="130.000000" WorldPosY="40.000000" WorldPosZ="0.000000" ScaleX="0.5" ScaleY="0.5" ScaleZ="0.5">
+      <subModel name="STRAND_1" layout="horizontal" type="ranges" line0="1-80" />
+      <subModel name="STRAND_2" layout="horizontal" type="ranges" line0="81-160" />
+      <subModel name="STRAND_3" layout="horizontal" type="ranges" line0="161-240" />
+      <subModel name="STRAND_4" layout="horizontal" type="ranges" line0="241-320" />
+      <subModel name="SECTOR_00" layout="horizontal" type="ranges" line0="1-40" />
+      <subModel name="SECTOR_01" layout="horizontal" type="ranges" line0="41-80" />
+      <subModel name="SECTOR_02" layout="horizontal" type="ranges" line0="81-120" />
+      <subModel name="SECTOR_03" layout="horizontal" type="ranges" line0="121-160" />
+      <subModel name="SECTOR_04" layout="horizontal" type="ranges" line0="161-200" />
+      <subModel name="SECTOR_05" layout="horizontal" type="ranges" line0="201-240" />
+      <subModel name="SECTOR_06" layout="horizontal" type="ranges" line0="241-280" />
+      <subModel name="SECTOR_07" layout="horizontal" type="ranges" line0="281-320" />
+    </model>
+    <model name="HX_075_COUNTERWOUND_RAIL" DisplayAs="Custom" StringType="RGB Nodes" StartChannel="14161" Controller="" LayoutGroup="Default" StartSide="B" Dir="L" PixelSize="2" Antialias="1" Transparency="0" versionNumber="7" parm1="139" parm2="101" parm3="1" Depth="337" CustomWidth="139" CustomHeight="101" CustomStrings="1" String1="1" CustomModelCompressed="1,95,18,0;2,96,19,2;3,97,20,5;4,98,20,8;5,99,20,11;6,99,20,14;7,100,20,16;8,100,19,19;9,100,18,22;10,99,18,25;11,99,17,28;12,98,16,31;13,96,15,33;14,95,15,36;15,93,14,38;16,92,14,40;17,89,14,43;18,87,14,45;19,85,14,47;20,83,15,48;21,81,16,50;22,79,17,52;23,76,18,53;24,75,20,55;25,73,22,56;26,71,24,58;27,70,26,59;28,69,28,61;29,68,31,63;30,68,33,64;31,68,36,66;32,68,38,68;33,68,40,70;34,69,42,72;35,69,44,74;36,70,46,76;37,71,47,79;38,72,48,81;39,73,49,84;40,74,50,87;41,75,50,90;42,76,50,92;43,77,50,95;44,77,50,98;45,77,49,101;46,77,49,104;47,77,48,107;48,76,47,110;49,75,46,112;50,74,45,115;51,73,45,118;52,71,44,120;53,69,44,122;54,68,44,124;55,65,44,127;56,63,44,129;57,61,45,130;58,59,46,132;59,57,47,134;60,54,48,135;61,53,50,137;62,51,51,139;63,49,53,140;64,48,56,142;65,47,58,143;66,46,60,145;67,46,63,146;68,45,65,148;69,45,67,150;70,46,70,152;71,46,72,154;72,47,74,156;73,48,75,158;74,48,77,161;75,49,78,163;76,51,79,166;77,52,80,169;78,52,80,171;79,53,80,174;80,54,80,177;81,54,80,180;82,55,79,183;83,55,79,186;84,54,78,189;85,54,77,191;86,53,76,194;87,52,76,197;88,51,75,199;89,49,74,202;90,47,74,204;91,46,74,206;92,43,74,209;93,41,74,211;94,39,75,212;95,37,75,214;96,35,76,216;97,32,78,218;98,31,79,219;99,29,81,221;100,27,83,222;101,26,85,224;102,25,87,225;103,24,90,227;104,23,92,228;105,23,94,230;106,23,97,232;107,23,99,234;108,23,101,236;109,24,103,238;110,25,105,240;111,26,106,243;112,27,108,245;113,28,109,248;114,29,109,250;115,30,110,253;116,31,110,256;117,31,110,259;118,32,110,262;119,32,109,265;120,32,109,268;121,32,108,270;122,32,107,273;123,31,107,276;124,30,106,279;125,29,105,281;126,27,105,284;127,25,104,286;128,24,104,288;129,21,104,291;130,19,104,293;131,17,104,294;132,15,105,296;133,13,106,298;134,11,107,300;135,8,109,301;136,7,110,303;137,5,112,304;138,4,114,306;139,2,117,307;140,1,119,309;141,1,121,311;142,0,124,312;143,0,126,314;144,0,128,316;145,1,131,318;146,1,133,320;147,2,134,322;148,3,136,325;149,4,137,327;150,5,138,330;151,95,0,6;152,93,0,8;153,91,1,10;154,88,3,12;155,87,4,13;156,85,6,15;157,83,8,16;158,82,10,18;159,81,13,19;160,80,15,21;161,79,17,22;162,79,20,24;163,79,22,26;164,79,24,28;165,80,26,30;166,80,28,32;167,81,30,34;168,82,32,37;169,83,33,39;170,84,34,42;171,85,34,45;172,86,35,47;173,87,35,50;174,88,35,53;175,88,35,56;176,88,34,59;177,88,34,62;178,88,33,65;179,88,32,67;180,87,32,70;181,86,31,73;182,85,30,75;183,83,29,78;184,81,29,80;185,80,29,82;186,77,29,85;187,75,29,87;188,73,29,88;189,71,30,90;190,69,31,92;191,67,32,94;192,65,34,95;193,63,36,97;194,61,38,98;195,60,40,100;196,58,42,101;197,58,44,103;198,57,47,105;199,57,49,106;200,57,51,108;201,57,54,110;202,57,56,112;203,58,58,114;204,58,60,116;205,59,61,119;206,60,62,121;207,61,64,124;208,62,64,126;209,63,65,129;210,64,65,132;211,65,65,135;212,66,65,138;213,66,64,141;214,66,64,143;215,66,63,146;216,65,62,149;217,65,62,152;218,64,61,155;219,63,60,157;220,61,60,160;221,59,59,162;222,58,59,164;223,55,59,167;224,53,59,169;225,51,59,170;226,49,60,172;227,47,61,174;228,45,62,176;229,42,64,177;230,41,65,179;231,39,67,180;232,37,69,182;233,36,71,183;234,35,74,185;235,35,76,187;236,34,78,188;237,34,81,190;238,34,83,192;239,34,85,194;240,35,87,196;241,36,89,198;242,37,91,201;243,38,92,203;244,39,93,206;245,40,94,208;246,41,95,211;247,42,95,214;248,42,95,217;249,43,95,219;250,43,95,222;251,43,94,225;252,43,93,228;253,43,93,231;254,42,92,234;255,42,91,236;256,40,90,239;257,39,90,242;258,37,89,244;259,35,89,246;260,33,89,249;261,31,89,251;262,29,89,253;263,27,90,254;264,25,91,256;265,23,92,258;266,20,93,259;267,19,95,261;268,17,97,262;269,15,99,264;270,14,101,266;271,13,103,267;272,12,106,269;273,12,108,270;274,12,110,272;275,12,113,274;276,12,115,276;277,12,117,278;278,13,119,280;279,14,120,282;280,15,122,285;281,16,123,287;282,17,124,290;283,18,125,293;284,19,125,295;285,20,125,298;286,20,125,301;287,21,125,304;288,21,124,307;289,21,124,310;290,21,123,313;291,20,122,316;292,19,121,318;293,18,121,321;294,17,120,324;295,15,119,326;296,13,119,328;297,12,119,330;298,9,119,333;299,7,119,335;300,5,120,336;301,95,15,1;302,95,12,2;303,95,9,3;304,95,6,4;305,95,3,5;306,96,17,22;307,93,16,21;308,90,15,21;309,87,14,20;310,84,14,20;311,88,16,41;312,87,19,40;313,85,22,38;314,84,25,37;315,83,27,36;316,75,24,56;317,78,26,56;318,81,28,56;319,83,30,56;320,86,33,56;321,71,38,71;322,73,37,73;323,76,35,74;324,78,33,75;325,81,31,77;326,74,47,90;327,72,44,91;328,71,41,92;329,69,38,92;330,68,35,93;331,72,47,111;332,69,47,110;333,66,48,109;334,63,48,108;335,60,49,107;336,61,48,129;337,61,51,128;338,61,54,127;339,61,57,126;340,61,60,125;341,50,59,144;342,53,60,144;343,56,61,145;344,60,61,145;345,63,62,146;346,49,72,160;347,50,70,161;348,52,67,162;349,53,64,164;350,54,62,165;351,52,78,180;352,49,76,180;353,47,73,180;354,44,71,180;355,42,69,180;356,47,76,201;357,44,78,199;358,42,80,198;359,39,82,197;360,37,84,195;361,34,81,217;362,36,83,216;363,37,86,216;364,39,89,215;365,40,92,214;366,26,94,231;367,29,93,232;368,32,93,233;369,35,92,234;370,38,92,235;371,28,105,249;372,27,102,250;373,27,99,251;374,27,96,252;375,27,93,253;376,29,107,270;377,26,106,269;378,23,106,269;379,19,105,268;380,16,104,268;381,20,107,289;382,19,109,288;383,18,112,286;384,16,115,285;385,15,118,284;386,8,114,304;387,10,116,304;388,13,119,304;389,15,121,304;390,18,123,304;391,3,129,319;392,6,127,321;393,8,125,322;394,10,123,323;395,13,121,325" WorldPosX="-60.000000" WorldPosY="27.500000" WorldPosZ="-17.500000" ScaleX="0.5" ScaleY="0.5" ScaleZ="0.5">
+      <subModel name="STRAND_A" layout="horizontal" type="ranges" line0="1-150" />
+      <subModel name="STRAND_B" layout="horizontal" type="ranges" line0="151-300" />
+      <subModel name="RUNGS" layout="horizontal" type="ranges" line0="301-395" />
+      <subModel name="SECTOR_00" layout="horizontal" type="ranges" line0="1-50" />
+      <subModel name="SECTOR_01" layout="horizontal" type="ranges" line0="51-100" />
+      <subModel name="SECTOR_02" layout="horizontal" type="ranges" line0="101-150" />
+      <subModel name="SECTOR_03" layout="horizontal" type="ranges" line0="151-199" />
+      <subModel name="SECTOR_04" layout="horizontal" type="ranges" line0="200-248" />
+      <subModel name="SECTOR_05" layout="horizontal" type="ranges" line0="249-297" />
+      <subModel name="SECTOR_06" layout="horizontal" type="ranges" line0="298-346" />
+      <subModel name="SECTOR_07" layout="horizontal" type="ranges" line0="347-395" />
+    </model>
+    <model name="HX_076_COUNTERWOUND_RAIL" DisplayAs="Custom" StringType="RGB Nodes" StartChannel="15346" Controller="" LayoutGroup="Default" StartSide="B" Dir="L" PixelSize="2" Antialias="1" Transparency="0" versionNumber="7" parm1="139" parm2="101" parm3="1" Depth="337" CustomWidth="139" CustomHeight="101" CustomStrings="1" String1="1" CustomModelCompressed="1,95,138,6;2,93,138,8;3,91,137,10;4,88,135,12;5,87,134,13;6,85,132,15;7,83,130,16;8,82,128,18;9,81,125,19;10,80,123,21;11,79,121,22;12,79,118,24;13,79,116,26;14,79,114,28;15,80,112,30;16,80,110,32;17,81,108,34;18,82,106,37;19,83,105,39;20,84,104,42;21,85,104,45;22,86,103,47;23,87,103,50;24,88,103,53;25,88,103,56;26,88,104,59;27,88,104,62;28,88,105,65;29,88,106,67;30,87,106,70;31,86,107,73;32,85,108,75;33,83,109,78;34,81,109,80;35,80,109,82;36,77,109,85;37,75,109,87;38,73,109,88;39,71,108,90;40,69,107,92;41,67,106,94;42,65,104,95;43,63,102,97;44,61,100,98;45,60,98,100;46,58,96,101;47,58,94,103;48,57,91,105;49,57,89,106;50,57,87,108;51,57,84,110;52,57,82,112;53,58,80,114;54,58,78,116;55,59,77,119;56,60,76,121;57,61,74,124;58,62,74,126;59,63,73,129;60,64,73,132;61,65,73,135;62,66,73,138;63,66,74,141;64,66,74,143;65,66,75,146;66,65,76,149;67,65,76,152;68,64,77,155;69,63,78,157;70,61,78,160;71,59,79,162;72,58,79,164;73,55,79,167;74,53,79,169;75,51,79,170;76,49,78,172;77,47,77,174;78,45,76,176;79,42,74,177;80,41,73,179;81,39,71,180;82,37,69,182;83,36,67,183;84,35,64,185;85,35,62,187;86,34,60,188;87,34,57,190;88,34,55,192;89,34,53,194;90,35,51,196;91,36,49,198;92,37,47,201;93,38,46,203;94,39,45,206;95,40,44,208;96,41,43,211;97,42,43,214;98,42,43,217;99,43,43,219;100,43,43,222;101,43,44,225;102,43,45,228;103,43,45,231;104,42,46,234;105,42,47,236;106,40,48,239;107,39,48,242;108,37,49,244;109,35,49,246;110,33,49,249;111,31,49,251;112,29,49,253;113,27,48,254;114,25,47,256;115,23,46,258;116,20,45,259;117,19,43,261;118,17,41,262;119,15,39,264;120,14,37,266;121,13,35,267;122,12,32,269;123,12,30,270;124,12,28,272;125,12,25,274;126,12,23,276;127,12,21,278;128,13,19,280;129,14,18,282;130,15,16,285;131,16,15,287;132,17,14,290;133,18,13,293;134,19,13,295;135,20,13,298;136,20,13,301;137,21,13,304;138,21,14,307;139,21,14,310;140,21,15,313;141,20,16,316;142,19,17,318;143,18,17,321;144,17,18,324;145,15,19,326;146,13,19,328;147,12,19,330;148,9,19,333;149,7,19,335;150,5,18,336;151,95,120,0;152,96,119,2;153,97,118,5;154,98,118,8;155,99,118,11;156,99,118,14;157,100,118,16;158,100,119,19;159,100,120,22;160,99,120,25;161,99,121,28;162,98,122,31;163,96,123,33;164,95,123,36;165,93,124,38;166,92,124,40;167,89,124,43;168,87,124,45;169,85,124,47;170,83,123,48;171,81,122,50;172,79,121,52;173,76,120,53;174,75,118,55;175,73,116,56;176,71,114,58;177,70,112,59;178,69,110,61;179,68,107,63;180,68,105,64;181,68,102,66;182,68,100,68;183,68,98,70;184,69,96,72;185,69,94,74;186,70,92,76;187,71,91,79;188,72,90,81;189,73,89,84;190,74,88,87;191,75,88,90;192,76,88,92;193,77,88,95;194,77,88,98;195,77,89,101;196,77,89,104;197,77,90,107;198,76,91,110;199,75,92,112;200,74,93,115;201,73,93,118;202,71,94,120;203,69,94,122;204,68,94,124;205,65,94,127;206,63,94,129;207,61,93,130;208,59,92,132;209,57,91,134;210,54,90,135;211,53,88,137;212,51,87,139;213,49,85,140;214,48,82,142;215,47,80,143;216,46,78,145;217,46,75,146;218,45,73,148;219,45,71,150;220,46,68,152;221,46,66,154;222,47,64,156;223,48,63,158;224,48,61,161;225,49,60,163;226,51,59,166;227,52,58,169;228,52,58,171;229,53,58,174;230,54,58,177;231,54,58,180;232,55,59,183;233,55,59,186;234,54,60,189;235,54,61,191;236,53,62,194;237,52,62,197;238,51,63,199;239,49,64,202;240,47,64,204;241,46,64,206;242,43,64,209;243,41,64,211;244,39,63,212;245,37,63,214;246,35,62,216;247,32,60,218;248,31,59,219;249,29,57,221;250,27,55,222;251,26,53,224;252,25,51,225;253,24,48,227;254,23,46,228;255,23,44,230;256,23,41,232;257,23,39,234;258,23,37,236;259,24,35,238;260,25,33,240;261,26,32,243;262,27,30,245;263,28,29,248;264,29,29,250;265,30,28,253;266,31,28,256;267,31,28,259;268,32,28,262;269,32,29,265;270,32,29,268;271,32,30,270;272,32,31,273;273,31,31,276;274,30,32,279;275,29,33,281;276,27,33,284;277,25,34,286;278,24,34,288;279,21,34,291;280,19,34,293;281,17,34,294;282,15,33,296;283,13,32,298;284,11,31,300;285,8,29,301;286,7,28,303;287,5,26,304;288,4,24,306;289,2,21,307;290,1,19,309;291,1,17,311;292,0,14,312;293,0,12,314;294,0,10,316;295,1,7,318;296,1,5,320;297,2,4,322;298,3,2,325;299,4,1,327;300,5,0,330;301,95,135,5;302,95,132,4;303,95,129,3;304,95,126,2;305,95,123,1;306,84,124,20;307,87,124,20;308,90,123,21;309,93,122,21;310,96,121,22;311,83,111,36;312,84,113,37;313,85,116,38;314,87,119,40;315,88,122,41;316,86,105,56;317,83,108,56;318,81,110,56;319,78,112,56;320,75,114,56;321,81,107,77;322,78,105,75;323,76,103,74;324,73,101,73;325,71,100,71;326,68,103,93;327,69,100,92;328,71,97,92;329,72,94,91;330,74,91,90;331,60,89,107;332,63,90,108;333,66,90,109;334,69,91,110;335,72,91,111;336,61,78,125;337,61,81,126;338,61,84,127;339,61,87,128;340,61,90,129;341,63,76,146;342,60,77,145;343,56,77,145;344,53,78,144;345,50,79,144;346,54,76,165;347,53,74,164;348,52,71,162;349,50,68,161;350,49,66,160;351,42,69,180;352,44,67,180;353,47,65,180;354,49,62,180;355,52,60,180;356,37,54,195;357,39,56,197;358,42,58,198;359,44,60,199;360,47,62,201;361,40,46,214;362,39,49,215;363,37,52,216;364,36,55,216;365,34,57,217;366,38,46,235;367,35,46,234;368,32,45,233;369,29,45,232;370,26,44,231;371,27,45,253;372,27,42,252;373,27,39,251;374,27,36,250;375,28,33,249;376,16,34,268;377,19,33,268;378,23,32,269;379,26,32,269;380,29,31,270;381,15,20,284;382,16,23,285;383,18,26,286;384,19,29,288;385,20,31,289;386,18,15,304;387,15,17,304;388,13,19,304;389,10,22,304;390,8,24,304;391,13,17,325;392,10,15,323;393,8,13,322;394,6,11,321;395,3,9,319" WorldPosX="60.000000" WorldPosY="27.500000" WorldPosZ="-17.500000" ScaleX="0.5" ScaleY="0.5" ScaleZ="0.5">
+      <subModel name="STRAND_A" layout="horizontal" type="ranges" line0="1-150" />
+      <subModel name="STRAND_B" layout="horizontal" type="ranges" line0="151-300" />
+      <subModel name="RUNGS" layout="horizontal" type="ranges" line0="301-395" />
+      <subModel name="SECTOR_00" layout="horizontal" type="ranges" line0="1-50" />
+      <subModel name="SECTOR_01" layout="horizontal" type="ranges" line0="51-100" />
+      <subModel name="SECTOR_02" layout="horizontal" type="ranges" line0="101-150" />
+      <subModel name="SECTOR_03" layout="horizontal" type="ranges" line0="151-199" />
+      <subModel name="SECTOR_04" layout="horizontal" type="ranges" line0="200-248" />
+      <subModel name="SECTOR_05" layout="horizontal" type="ranges" line0="249-297" />
+      <subModel name="SECTOR_06" layout="horizontal" type="ranges" line0="298-346" />
+      <subModel name="SECTOR_07" layout="horizontal" type="ranges" line0="347-395" />
+    </model>
+  </models>
+  <modelGroups>
+    <modelGroup name="HX_ALL_PIXELS" models="HX_001_VORTEX_HOOP,HX_002_CROSSED_SPOKE,HX_003_CROSSED_SPOKE,HX_004_CROSSED_SPOKE,HX_005_CROSSED_SPOKE,HX_006_CROSSED_SPOKE,HX_007_CROSSED_SPOKE,HX_008_CROSSED_SPOKE,HX_009_CROSSED_SPOKE,HX_010_VORTEX_HOOP,HX_011_CROSSED_SPOKE,HX_012_CROSSED_SPOKE,HX_013_CROSSED_SPOKE,HX_014_CROSSED_SPOKE,HX_015_CROSSED_SPOKE,HX_016_CROSSED_SPOKE,HX_017_CROSSED_SPOKE,HX_018_CROSSED_SPOKE,HX_019_VORTEX_HOOP,HX_020_CROSSED_SPOKE,HX_021_CROSSED_SPOKE,HX_022_CROSSED_SPOKE,HX_023_CROSSED_SPOKE,HX_024_CROSSED_SPOKE,HX_025_CROSSED_SPOKE,HX_026_CROSSED_SPOKE,HX_027_CROSSED_SPOKE,HX_028_VORTEX_HOOP,HX_029_CROSSED_SPOKE,HX_030_CROSSED_SPOKE,HX_031_CROSSED_SPOKE,HX_032_CROSSED_SPOKE,HX_033_CROSSED_SPOKE,HX_034_CROSSED_SPOKE,HX_035_CROSSED_SPOKE,HX_036_CROSSED_SPOKE,HX_037_VORTEX_HOOP,HX_038_CROSSED_SPOKE,HX_039_CROSSED_SPOKE,HX_040_CROSSED_SPOKE,HX_041_CROSSED_SPOKE,HX_042_CROSSED_SPOKE,HX_043_CROSSED_SPOKE,HX_044_CROSSED_SPOKE,HX_045_CROSSED_SPOKE,HX_046_VORTEX_HOOP,HX_047_CROSSED_SPOKE,HX_048_CROSSED_SPOKE,HX_049_CROSSED_SPOKE,HX_050_CROSSED_SPOKE,HX_051_CROSSED_SPOKE,HX_052_CROSSED_SPOKE,HX_053_CROSSED_SPOKE,HX_054_CROSSED_SPOKE,HX_055_VORTEX_HOOP,HX_056_CROSSED_SPOKE,HX_057_CROSSED_SPOKE,HX_058_CROSSED_SPOKE,HX_059_CROSSED_SPOKE,HX_060_CROSSED_SPOKE,HX_061_CROSSED_SPOKE,HX_062_CROSSED_SPOKE,HX_063_CROSSED_SPOKE,HX_064_VORTEX_HOOP,HX_065_CROSSED_SPOKE,HX_066_CROSSED_SPOKE,HX_067_CROSSED_SPOKE,HX_068_CROSSED_SPOKE,HX_069_CROSSED_SPOKE,HX_070_CROSSED_SPOKE,HX_071_CROSSED_SPOKE,HX_072_CROSSED_SPOKE,HX_073_SPIRAL_TREE,HX_074_SPIRAL_TREE,HX_075_COUNTERWOUND_RAIL,HX_076_COUNTERWOUND_RAIL" layout="minimalGrid" LayoutGroup="Default" GridSize="600" />
+    <modelGroup name="HX_DNA_ALL" models="HX_075_COUNTERWOUND_RAIL,HX_076_COUNTERWOUND_RAIL" layout="minimalGrid" LayoutGroup="Default" GridSize="600" />
+    <modelGroup name="HX_DNA_RUNGS" models="HX_075_COUNTERWOUND_RAIL/RUNGS,HX_076_COUNTERWOUND_RAIL/RUNGS" layout="minimalGrid" LayoutGroup="Default" GridSize="600" />
+    <modelGroup name="HX_DNA_STRAND_A" models="HX_075_COUNTERWOUND_RAIL/STRAND_A,HX_076_COUNTERWOUND_RAIL/STRAND_A" layout="minimalGrid" LayoutGroup="Default" GridSize="600" />
+    <modelGroup name="HX_DNA_STRAND_B" models="HX_075_COUNTERWOUND_RAIL/STRAND_B,HX_076_COUNTERWOUND_RAIL/STRAND_B" layout="minimalGrid" LayoutGroup="Default" GridSize="600" />
+    <modelGroup name="HX_NATIVE_CUSTOM" models="HX_001_VORTEX_HOOP,HX_002_CROSSED_SPOKE,HX_003_CROSSED_SPOKE,HX_004_CROSSED_SPOKE,HX_005_CROSSED_SPOKE,HX_006_CROSSED_SPOKE,HX_007_CROSSED_SPOKE,HX_008_CROSSED_SPOKE,HX_009_CROSSED_SPOKE,HX_010_VORTEX_HOOP,HX_011_CROSSED_SPOKE,HX_012_CROSSED_SPOKE,HX_013_CROSSED_SPOKE,HX_014_CROSSED_SPOKE,HX_015_CROSSED_SPOKE,HX_016_CROSSED_SPOKE,HX_017_CROSSED_SPOKE,HX_018_CROSSED_SPOKE,HX_019_VORTEX_HOOP,HX_020_CROSSED_SPOKE,HX_021_CROSSED_SPOKE,HX_022_CROSSED_SPOKE,HX_023_CROSSED_SPOKE,HX_024_CROSSED_SPOKE,HX_025_CROSSED_SPOKE,HX_026_CROSSED_SPOKE,HX_027_CROSSED_SPOKE,HX_028_VORTEX_HOOP,HX_029_CROSSED_SPOKE,HX_030_CROSSED_SPOKE,HX_031_CROSSED_SPOKE,HX_032_CROSSED_SPOKE,HX_033_CROSSED_SPOKE,HX_034_CROSSED_SPOKE,HX_035_CROSSED_SPOKE,HX_036_CROSSED_SPOKE,HX_037_VORTEX_HOOP,HX_038_CROSSED_SPOKE,HX_039_CROSSED_SPOKE,HX_040_CROSSED_SPOKE,HX_041_CROSSED_SPOKE,HX_042_CROSSED_SPOKE,HX_043_CROSSED_SPOKE,HX_044_CROSSED_SPOKE,HX_045_CROSSED_SPOKE,HX_046_VORTEX_HOOP,HX_047_CROSSED_SPOKE,HX_048_CROSSED_SPOKE,HX_049_CROSSED_SPOKE,HX_050_CROSSED_SPOKE,HX_051_CROSSED_SPOKE,HX_052_CROSSED_SPOKE,HX_053_CROSSED_SPOKE,HX_054_CROSSED_SPOKE,HX_055_VORTEX_HOOP,HX_056_CROSSED_SPOKE,HX_057_CROSSED_SPOKE,HX_058_CROSSED_SPOKE,HX_059_CROSSED_SPOKE,HX_060_CROSSED_SPOKE,HX_061_CROSSED_SPOKE,HX_062_CROSSED_SPOKE,HX_063_CROSSED_SPOKE,HX_064_VORTEX_HOOP,HX_065_CROSSED_SPOKE,HX_066_CROSSED_SPOKE,HX_067_CROSSED_SPOKE,HX_068_CROSSED_SPOKE,HX_069_CROSSED_SPOKE,HX_070_CROSSED_SPOKE,HX_071_CROSSED_SPOKE,HX_072_CROSSED_SPOKE,HX_073_SPIRAL_TREE,HX_074_SPIRAL_TREE,HX_075_COUNTERWOUND_RAIL,HX_076_COUNTERWOUND_RAIL" layout="minimalGrid" LayoutGroup="Default" GridSize="600" />
+    <modelGroup name="HX_SPIRALS_EAST" models="HX_074_SPIRAL_TREE" layout="minimalGrid" LayoutGroup="Default" GridSize="600" />
+    <modelGroup name="HX_SPIRALS_WEST" models="HX_073_SPIRAL_TREE" layout="minimalGrid" LayoutGroup="Default" GridSize="600" />
+    <modelGroup name="HX_SPIRAL_TREES" models="HX_073_SPIRAL_TREE,HX_074_SPIRAL_TREE" layout="minimalGrid" LayoutGroup="Default" GridSize="600" />
+    <modelGroup name="HX_WHOLE_SHOW" models="HX_001_VORTEX_HOOP,HX_002_CROSSED_SPOKE,HX_003_CROSSED_SPOKE,HX_004_CROSSED_SPOKE,HX_005_CROSSED_SPOKE,HX_006_CROSSED_SPOKE,HX_007_CROSSED_SPOKE,HX_008_CROSSED_SPOKE,HX_009_CROSSED_SPOKE,HX_010_VORTEX_HOOP,HX_011_CROSSED_SPOKE,HX_012_CROSSED_SPOKE,HX_013_CROSSED_SPOKE,HX_014_CROSSED_SPOKE,HX_015_CROSSED_SPOKE,HX_016_CROSSED_SPOKE,HX_017_CROSSED_SPOKE,HX_018_CROSSED_SPOKE,HX_019_VORTEX_HOOP,HX_020_CROSSED_SPOKE,HX_021_CROSSED_SPOKE,HX_022_CROSSED_SPOKE,HX_023_CROSSED_SPOKE,HX_024_CROSSED_SPOKE,HX_025_CROSSED_SPOKE,HX_026_CROSSED_SPOKE,HX_027_CROSSED_SPOKE,HX_028_VORTEX_HOOP,HX_029_CROSSED_SPOKE,HX_030_CROSSED_SPOKE,HX_031_CROSSED_SPOKE,HX_032_CROSSED_SPOKE,HX_033_CROSSED_SPOKE,HX_034_CROSSED_SPOKE,HX_035_CROSSED_SPOKE,HX_036_CROSSED_SPOKE,HX_037_VORTEX_HOOP,HX_038_CROSSED_SPOKE,HX_039_CROSSED_SPOKE,HX_040_CROSSED_SPOKE,HX_041_CROSSED_SPOKE,HX_042_CROSSED_SPOKE,HX_043_CROSSED_SPOKE,HX_044_CROSSED_SPOKE,HX_045_CROSSED_SPOKE,HX_046_VORTEX_HOOP,HX_047_CROSSED_SPOKE,HX_048_CROSSED_SPOKE,HX_049_CROSSED_SPOKE,HX_050_CROSSED_SPOKE,HX_051_CROSSED_SPOKE,HX_052_CROSSED_SPOKE,HX_053_CROSSED_SPOKE,HX_054_CROSSED_SPOKE,HX_055_VORTEX_HOOP,HX_056_CROSSED_SPOKE,HX_057_CROSSED_SPOKE,HX_058_CROSSED_SPOKE,HX_059_CROSSED_SPOKE,HX_060_CROSSED_SPOKE,HX_061_CROSSED_SPOKE,HX_062_CROSSED_SPOKE,HX_063_CROSSED_SPOKE,HX_064_VORTEX_HOOP,HX_065_CROSSED_SPOKE,HX_066_CROSSED_SPOKE,HX_067_CROSSED_SPOKE,HX_068_CROSSED_SPOKE,HX_069_CROSSED_SPOKE,HX_070_CROSSED_SPOKE,HX_071_CROSSED_SPOKE,HX_072_CROSSED_SPOKE,HX_073_SPIRAL_TREE,HX_074_SPIRAL_TREE,HX_075_COUNTERWOUND_RAIL,HX_076_COUNTERWOUND_RAIL" layout="minimalGrid" LayoutGroup="Default" GridSize="600" />
+    <modelGroup name="HX_ZONE_GROVE" models="HX_073_SPIRAL_TREE,HX_074_SPIRAL_TREE" layout="minimalGrid" LayoutGroup="Default" GridSize="600" />
+    <modelGroup name="HX_ZONE_RAILS" models="HX_075_COUNTERWOUND_RAIL,HX_076_COUNTERWOUND_RAIL" layout="minimalGrid" LayoutGroup="Default" GridSize="600" />
+    <modelGroup name="HX_ZONE_SPOKES" models="HX_002_CROSSED_SPOKE,HX_003_CROSSED_SPOKE,HX_004_CROSSED_SPOKE,HX_005_CROSSED_SPOKE,HX_006_CROSSED_SPOKE,HX_007_CROSSED_SPOKE,HX_008_CROSSED_SPOKE,HX_009_CROSSED_SPOKE,HX_011_CROSSED_SPOKE,HX_012_CROSSED_SPOKE,HX_013_CROSSED_SPOKE,HX_014_CROSSED_SPOKE,HX_015_CROSSED_SPOKE,HX_016_CROSSED_SPOKE,HX_017_CROSSED_SPOKE,HX_018_CROSSED_SPOKE,HX_020_CROSSED_SPOKE,HX_021_CROSSED_SPOKE,HX_022_CROSSED_SPOKE,HX_023_CROSSED_SPOKE,HX_024_CROSSED_SPOKE,HX_025_CROSSED_SPOKE,HX_026_CROSSED_SPOKE,HX_027_CROSSED_SPOKE,HX_029_CROSSED_SPOKE,HX_030_CROSSED_SPOKE,HX_031_CROSSED_SPOKE,HX_032_CROSSED_SPOKE,HX_033_CROSSED_SPOKE,HX_034_CROSSED_SPOKE,HX_035_CROSSED_SPOKE,HX_036_CROSSED_SPOKE,HX_038_CROSSED_SPOKE,HX_039_CROSSED_SPOKE,HX_040_CROSSED_SPOKE,HX_041_CROSSED_SPOKE,HX_042_CROSSED_SPOKE,HX_043_CROSSED_SPOKE,HX_044_CROSSED_SPOKE,HX_045_CROSSED_SPOKE,HX_047_CROSSED_SPOKE,HX_048_CROSSED_SPOKE,HX_049_CROSSED_SPOKE,HX_050_CROSSED_SPOKE,HX_051_CROSSED_SPOKE,HX_052_CROSSED_SPOKE,HX_053_CROSSED_SPOKE,HX_054_CROSSED_SPOKE,HX_056_CROSSED_SPOKE,HX_057_CROSSED_SPOKE,HX_058_CROSSED_SPOKE,HX_059_CROSSED_SPOKE,HX_060_CROSSED_SPOKE,HX_061_CROSSED_SPOKE,HX_062_CROSSED_SPOKE,HX_063_CROSSED_SPOKE,HX_065_CROSSED_SPOKE,HX_066_CROSSED_SPOKE,HX_067_CROSSED_SPOKE,HX_068_CROSSED_SPOKE,HX_069_CROSSED_SPOKE,HX_070_CROSSED_SPOKE,HX_071_CROSSED_SPOKE,HX_072_CROSSED_SPOKE" layout="minimalGrid" LayoutGroup="Default" GridSize="600" />
+    <modelGroup name="HX_ZONE_TUNNEL" models="HX_001_VORTEX_HOOP,HX_010_VORTEX_HOOP,HX_019_VORTEX_HOOP,HX_028_VORTEX_HOOP,HX_037_VORTEX_HOOP,HX_046_VORTEX_HOOP,HX_055_VORTEX_HOOP,HX_064_VORTEX_HOOP" layout="minimalGrid" LayoutGroup="Default" GridSize="600" />
+  </modelGroups>
+  <view_objects />
+  <effects version="0007" />
+  <views />
+  <palettes />
+  <layoutGroups />
+  <perspectives />
+  <colors />
+  <Viewpoints>
+    <DefaultCamera3D name="DEFAULT3D" is_3d="1" posX="0" posY="0" posZ="0" angleX="20" angleY="7" angleZ="0" distance="-564.30" zoom="1" panx="0" pany="-65.0" panz="25" zoom_corrx="0" zoom_corry="0" />
+    <Camera name="Prismatic Vortex overview" is_3d="1" posX="0" posY="0" posZ="0" angleX="20" angleY="7" angleZ="0" distance="-564.30" zoom="1" panx="0" pany="-65.0" panz="25" zoom_corrx="0" zoom_corry="0" />
+  </Viewpoints>
+  <settings>
+    <backgroundBrightness value="0" />
+    <storedLayoutGroup value="All Models" />
+    <LayoutMode3D value="1" />
+    <Display2DCenter0 value="1" />
+    <previewWidth value="480" />
+    <previewHeight value="260" />
+  </settings>
+</xrgb>

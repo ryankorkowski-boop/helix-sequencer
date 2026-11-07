@@ -1,0 +1,343 @@
+{
+  "schema": "helix.approved_concept.v1",
+  "name": "Rubber Moon Playground",
+  "coordinate_system": "x-right, y-up, z-depth; design feet",
+  "xlights_source_ref": "6ceddc6b25a24d82754d4f9af28e18ee70b51f81",
+  "coverage": {
+    "Custom": 6
+  },
+  "native_families": [
+    "Custom"
+  ],
+  "native_coverage_complete": false,
+  "model_count": 6,
+  "rgb_pixels": 900,
+  "channel_count": 2700,
+  "spiral_trees": 0,
+  "double_helices": 0,
+  "preview_contract": "Custom sparse-grid coordinates exactly match exported XML; native-family preview coordinates illustrate the authored geometry. Native xLights render/load evidence is recorded separately.",
+  "models": [
+    {
+      "name": "HX_001_MOON_SHAPE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_00",
+      "design": "MOON SHAPE",
+      "kind": "pixel",
+      "nodes": 150,
+      "start_channel": 1,
+      "end_channel": 450,
+      "bounds_ft": [
+        [
+          -28.0,
+          52.0,
+          0.0
+        ],
+        [
+          28.0,
+          108.0,
+          0.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3421648719396374,
+      "pose_index": 0,
+      "pose_count": 4,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "name": "HX_002_MOON_SHAPE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_01",
+      "design": "MOON SHAPE",
+      "kind": "pixel",
+      "nodes": 150,
+      "start_channel": 451,
+      "end_channel": 900,
+      "bounds_ft": [
+        [
+          -18.0,
+          17.0,
+          4.0
+        ],
+        [
+          18.0,
+          103.0,
+          4.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.31255988534301765,
+      "pose_index": 1,
+      "pose_count": 4,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "name": "HX_003_MOON_SHAPE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_02",
+      "design": "MOON SHAPE",
+      "kind": "pixel",
+      "nodes": 150,
+      "start_channel": 901,
+      "end_channel": 1350,
+      "bounds_ft": [
+        [
+          -43.0,
+          2.0,
+          8.0
+        ],
+        [
+          43.0,
+          26.0,
+          8.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.30806616045794555,
+      "pose_index": 2,
+      "pose_count": 4,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "name": "HX_004_MOON_SHAPE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_03",
+      "design": "MOON SHAPE",
+      "kind": "pixel",
+      "nodes": 150,
+      "start_channel": 1351,
+      "end_channel": 1800,
+      "bounds_ft": [
+        [
+          -28.0,
+          52.0,
+          12.0
+        ],
+        [
+          28.0,
+          108.0,
+          12.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3421648719396374,
+      "pose_index": 3,
+      "pose_count": 4,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "name": "HX_005_ARCH",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "ARCHES",
+      "design": "ARCH",
+      "kind": "pixel",
+      "nodes": 150,
+      "start_channel": 1801,
+      "end_channel": 2250,
+      "bounds_ft": [
+        [
+          -120.0,
+          0.0,
+          0.0
+        ],
+        [
+          -60.0,
+          35.0,
+          0.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.31552547084655286
+    },
+    {
+      "name": "HX_006_ARCH",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "ARCHES",
+      "design": "ARCH",
+      "kind": "pixel",
+      "nodes": 150,
+      "start_channel": 2251,
+      "end_channel": 2700,
+      "bounds_ft": [
+        [
+          60.0,
+          0.0,
+          0.0
+        ],
+        [
+          120.0,
+          35.0,
+          0.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.31552547084655286
+    }
+  ],
+  "file_prefix": "Rubber_Moon_Playground",
+  "description": "A moon changes from round to elongated to flattened, making a light-only bounce feel elastic.",
+  "palette": [
+    "#69EFFF",
+    "#B599FF",
+    "#FFD98A"
+  ],
+  "groups": {
+    "HX_ALL_PIXELS": [
+      "HX_001_MOON_SHAPE",
+      "HX_002_MOON_SHAPE",
+      "HX_003_MOON_SHAPE",
+      "HX_004_MOON_SHAPE",
+      "HX_005_ARCH",
+      "HX_006_ARCH"
+    ],
+    "HX_NATIVE_CUSTOM": [
+      "HX_001_MOON_SHAPE",
+      "HX_002_MOON_SHAPE",
+      "HX_003_MOON_SHAPE",
+      "HX_004_MOON_SHAPE",
+      "HX_005_ARCH",
+      "HX_006_ARCH"
+    ],
+    "HX_WHOLE_SHOW": [
+      "HX_001_MOON_SHAPE",
+      "HX_002_MOON_SHAPE",
+      "HX_003_MOON_SHAPE",
+      "HX_004_MOON_SHAPE",
+      "HX_005_ARCH",
+      "HX_006_ARCH"
+    ],
+    "HX_ZONE_ARCHES": [
+      "HX_005_ARCH",
+      "HX_006_ARCH"
+    ],
+    "HX_ZONE_POSE_BODY_00": [
+      "HX_001_MOON_SHAPE"
+    ],
+    "HX_ZONE_POSE_BODY_01": [
+      "HX_002_MOON_SHAPE"
+    ],
+    "HX_ZONE_POSE_BODY_02": [
+      "HX_003_MOON_SHAPE"
+    ],
+    "HX_ZONE_POSE_BODY_03": [
+      "HX_004_MOON_SHAPE"
+    ]
+  },
+  "group_count": 8,
+  "concept_id": "49",
+  "source_art": "images/49_50.png",
+  "source_art_side": "left",
+  "build_status": "native planning layout",
+  "source_brief": {
+    "id": "49",
+    "name": "Rubber Moon Playground",
+    "principle": "Squash and stretch",
+    "standout": "A moon changes from round to elongated to flattened, making a light-only bounce feel elastic.",
+    "scene": "A fun midnight garden of low cyan playground hoops framing a huge soft-looking glowing gold MOON made of open LED contour ribs. Replacement shapes include a circle, tall narrow oval and low broad ellipse, on separate subtle supported frames; hero bright broad moon near landing, others dark. Four bottom storyboard cells show round moon high, vertical stretched moon falling, flat squashed moon on ground, round moon rebounding. No physically deforming object.",
+    "board": 4,
+    "side": "left",
+    "image": "images/49_50.png",
+    "status": "awaiting approval",
+    "source_catalog": "showcase/concepts/2026_10_09_stop_motion/concepts.json",
+    "description": "A moon changes from round to elongated to flattened, making a light-only bounce feel elastic.",
+    "constraint": "Finite artwork-guided planning geometry; no physical actuation or surveyed construction dimensions.",
+    "round": "stop_motion"
+  },
+  "sequence_type": "24-second silent Animation study",
+  "physical_output_networks": 0,
+  "limits": [
+    "Finite artwork-guided planning geometry; no physical actuation or surveyed construction dimensions.",
+    "Artwork-guided finite geometry, not a scanned/surveyed reconstruction.",
+    "No complete music sequence or musical drummer acceptance claimed."
+  ]
+}

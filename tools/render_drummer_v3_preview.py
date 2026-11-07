@@ -1,21 +1,24 @@
 from __future__ import annotations
 
 import argparse
-import json
 import subprocess
 import xml.etree.ElementTree as ET
 from pathlib import Path
 
-import imageio.v2 as imageio
-import imageio_ffmpeg
 import numpy as np
-import soundfile as sf
-from PIL import Image, ImageDraw, ImageEnhance, ImageFilter, ImageFont
+from PIL import Image, ImageChops, ImageDraw, ImageFont
+from animation.cymbal_lighting import cymbal_level, is_cymbal, DEFAULT_FRAME_MS
+
+from tools.drummer_v3_visual_masks import (
+    exact_geometry,
+    compose_emissive,
+    load_spec,
+    target_surface_key,
+)
 
 ROOT = Path(__file__).resolve().parents[1]
 SOURCE = ROOT / "fixtures/band_geometry/source/drummerbg.png"
 XMODEL = ROOT / "fixtures/band_geometry/models/HX_SNOWMAN_DRUMMER_V3.xmodel"
-POSE_SPEC = ROOT / "fixtures/band_geometry/drummer_v3_pose_spec.json"
 
 TARGETS = (
     "HX_SNOWMAN_DRUMMER_V3_KICK",
@@ -28,24 +31,14 @@ TARGETS = (
     "HX_SNOWMAN_DRUMMER_V3_CYMBAL_RIGHT",
 )
 LABELS = {
-    "HX_SNOWMAN_DRUMMER_V3_KICK": "KICK",
-    "HX_SNOWMAN_DRUMMER_V3_SNARE": "SNARE",
-    "HX_SNOWMAN_DRUMMER_V3_HI_HAT": "HI-HAT",
-    "HX_SNOWMAN_DRUMMER_V3_TOM_HIGH": "TOM HIGH",
-    "HX_SNOWMAN_DRUMMER_V3_TOM_MID": "TOM MID",
-    "HX_SNOWMAN_DRUMMER_V3_TOM_FLOOR": "TOM FLOOR",
-    "HX_SNOWMAN_DRUMMER_V3_CYMBAL_LEFT": "CRASH L",
-    "HX_SNOWMAN_DRUMMER_V3_CYMBAL_RIGHT": "CRASH R",
-}
-TARGET_TO_ZONE = {
-    "HX_SNOWMAN_DRUMMER_V3_KICK": "KICK",
-    "HX_SNOWMAN_DRUMMER_V3_SNARE": "SNARE",
-    "HX_SNOWMAN_DRUMMER_V3_HI_HAT": "HI_HAT",
-    "HX_SNOWMAN_DRUMMER_V3_TOM_HIGH": "TOM_HIGH",
-    "HX_SNOWMAN_DRUMMER_V3_TOM_MID": "TOM_MID",
-    "HX_SNOWMAN_DRUMMER_V3_TOM_FLOOR": "TOM_FLOOR",
-    "HX_SNOWMAN_DRUMMER_V3_CYMBAL_LEFT": "CYMBAL_LEFT",
-    "HX_SNOWMAN_DRUMMER_V3_CYMBAL_RIGHT": "CYMBAL_RIGHT",
+    TARGETS[0]: "KICK",
+    TARGETS[1]: "SNARE",
+    TARGETS[2]: "HI-HAT",
+    TARGETS[3]: "TOM HIGH",
+    TARGETS[4]: "TOM MID",
+    TARGETS[5]: "TOM FLOOR",
+    TARGETS[6]: "CRASH L",
+    TARGETS[7]: "CRASH R",
 }
 
 
@@ -57,199 +50,326 @@ def _expand_ranges(text: str) -> set[int]:
             continue
         if "-" in token:
             a, b = token.split("-", 1)
-            nodes.update(range(int(a), int(b) + 1))
+            start, end = int(a), int(b)
+            if start > end:
+                raise ValueError(f"Invalid xmodel node range: {token}")
+            nodes.update(range(start, end + 1))
         else:
             nodes.add(int(token))
     return nodes
 
 
-def _scaled_width(command, size):
-    return max(1, round(float(command.get("width", 0.01)) * min(size)))
-
-
-def _zone_mask(size: tuple[int, int], zone: dict) -> Image.Image:
-    """Build a filled lighting mask from the canonical authored component zone.
-
-    The pose spec is the same source used to author the V3 xmodel zones. We use
-    it only as a mask over the real drummer background -- never as replacement
-    artwork or a skeleton overlay.
-    """
-    width, height = size
-    mask = Image.new("L", size, 0)
-    draw = ImageDraw.Draw(mask)
-    for command in zone.get("commands", []):
-        shape = command.get("shape")
-        alpha = int(command.get("rgba", [255, 255, 255, 220])[3])
-        if shape == "ellipse":
-            box = tuple(round(float(v) * (width if i % 2 == 0 else height)) for i, v in enumerate(command["box"]))
-            draw.ellipse(box, fill=alpha)
-        elif shape == "ellipse_outline":
-            box = tuple(round(float(v) * (width if i % 2 == 0 else height)) for i, v in enumerate(command["box"]))
-            # Cymbals/hats are authored as outlines; fill the actual component
-            # interior at low strength so the hardware itself lights, not a ring.
-            draw.ellipse(box, fill=max(70, alpha // 3))
-            draw.ellipse(box, outline=alpha, width=max(3, _scaled_width(command, size) * 4))
-        elif shape == "rectangle_outline":
-            box = tuple(round(float(v) * (width if i % 2 == 0 else height)) for i, v in enumerate(command["box"]))
-            draw.rectangle(box, fill=max(50, alpha // 4), outline=alpha, width=max(3, _scaled_width(command, size) * 3))
-        elif shape == "line":
-            pts = command["points"]
-            xy = [round(float(pts[i]) * (width if i % 2 == 0 else height)) for i in range(4)]
-            draw.line(tuple(xy), fill=alpha, width=max(3, _scaled_width(command, size) * 4))
-    return mask
-
-
-def load_component_masks() -> tuple[Image.Image, dict[str, Image.Image]]:
-    if not SOURCE.exists():
-        raise SystemExit(f"FAIL: canonical drummer source image missing: {SOURCE}")
-    if not XMODEL.exists():
-        raise SystemExit(f"FAIL: canonical drummer xmodel missing: {XMODEL}")
-    if not POSE_SPEC.exists():
-        raise SystemExit(f"FAIL: canonical V3 pose spec missing: {POSE_SPEC}")
-
-    source = Image.open(SOURCE).convert("RGBA")
-    root = ET.parse(XMODEL).getroot()
-    xmodel_names = {sm.get("name", "") for sm in root.findall("./subModels/subModel")}
-    missing = set(TARGETS) - xmodel_names
+def validate_xmodel_targets(xmodel_path: Path = XMODEL) -> None:
+    root = ET.parse(xmodel_path).getroot()
+    width = int(root.get("parm1", "0"))
+    height = int(root.get("parm2", "0"))
+    if width <= 0 or height <= 0:
+        raise ValueError("xmodel has invalid grid dimensions")
+    maximum = width * height
+    submodels = {sm.get("name", ""): sm.get("line0", "") for sm in root.findall("./subModels/subModel")}
+    missing = set(TARGETS) - set(submodels)
     if missing:
-        raise SystemExit(f"FAIL: xmodel missing canonical drummer submodels: {sorted(missing)}")
+        raise ValueError(f"xmodel missing canonical drummer submodels: {sorted(missing)}")
+    for name in TARGETS:
+        nodes = _expand_ranges(submodels[name])
+        if not nodes:
+            raise ValueError(f"xmodel submodel has no nodes: {name}")
+        if min(nodes) < 1 or max(nodes) > maximum:
+            raise ValueError(f"xmodel submodel has out-of-range nodes: {name}")
 
-    spec = json.loads(POSE_SPEC.read_text(encoding="utf-8"))
-    zones = {str(z["id"]): z for z in spec.get("zones", [])}
-    masks = {}
-    for target, zone_id in TARGET_TO_ZONE.items():
-        if zone_id not in zones:
-            raise SystemExit(f"FAIL: canonical V3 pose zone missing: {zone_id}")
-        masks[target] = _zone_mask(source.size, zones[zone_id])
+
+def load_component_masks(
+    source_path: Path = SOURCE,
+    xmodel_path: Path = XMODEL,
+) -> tuple[Image.Image, dict[str, Image.Image]]:
+    """Load full-resolution masks from the same authored spec that builds the xmodel."""
+    if not source_path.exists():
+        raise ValueError(f"canonical drummer source image missing: {source_path}")
+    if not xmodel_path.exists():
+        raise ValueError(f"canonical drummer xmodel missing: {xmodel_path}")
+    validate_xmodel_targets(xmodel_path)
+    source = Image.open(source_path).convert("RGBA")
+    spec = load_spec()
+    masks = exact_geometry(source, spec, preview_front_overlap=True)["masks"]
+    masks["__preview_body__"] = _preview_body_keepalive_mask(source, masks)
     return source, masks
 
 
-def parse_effects(xsq: Path):
+def _preview_body_keepalive_mask(
+    source: Image.Image,
+    masks: dict[str, Image.Image],
+) -> Image.Image:
+    """Keep the central snowman readable without lighting the kit."""
+    width, height = source.size
+    zone = Image.new("L", source.size, 0)
+    draw = ImageDraw.Draw(zone)
+    points = [
+        (round(width * 0.34), round(height * 0.18)),
+        (round(width * 0.66), round(height * 0.18)),
+        (round(width * 0.70), round(height * 0.43)),
+        (round(width * 0.64), round(height * 0.58)),
+        (round(width * 0.38), round(height * 0.58)),
+        (round(width * 0.31), round(height * 0.44)),
+    ]
+    draw.polygon(points, fill=255)
+
+    hsv = np.asarray(source.convert("RGB").convert("HSV"), dtype=np.uint8)
+    visible = (
+        (hsv[..., 2] >= 42)
+        | ((hsv[..., 1] >= 50) & (hsv[..., 2] >= 28))
+    )
+    body = ImageChops.multiply(
+        zone,
+        Image.fromarray(np.where(visible, 255, 0).astype(np.uint8), mode="L"),
+    )
+    for target in TARGETS:
+        surface = masks.get(target_surface_key(target))
+        if surface is not None:
+            body = ImageChops.subtract(body, surface)
+    if "__idle_removed__" in masks:
+        body = ImageChops.subtract(body, masks["__idle_removed__"])
+    if "__torso_shoulders__" in masks:
+        body = ImageChops.lighter(body, masks["__torso_shoulders__"])
+    return body
+
+
+def compose_lighting(
+    source: Image.Image,
+    masks: dict[str, Image.Image],
+    active_targets: tuple[str, ...] | list[str] | set[str],
+    *,
+    snare_hand: str = "left",
+    cymbal_levels: dict[str, float] | None = None,
+) -> Image.Image:
+    return compose_emissive(
+        source,
+        masks,
+        active_targets,
+        idle_overlay_mask=masks["__preview_body__"] if "__preview_body__" in masks else _preview_body_keepalive_mask(source, masks),
+        idle_overlay_brightness=0.42,
+        snare_hand=snare_hand,
+        cymbal_levels=cymbal_levels,
+    )
+
+
+def _content_crop(source: Image.Image) -> tuple[int, int, int, int]:
+    gray = np.asarray(source.convert("L"))
+    dark = gray < 90
+    rows = np.flatnonzero(dark.sum(axis=1) > source.width * 0.35)
+    cols = np.flatnonzero(dark.sum(axis=0) > source.height * 0.35)
+    if len(rows) and len(cols):
+        return int(cols[0]), int(rows[0]), int(cols[-1] + 1), int(rows[-1] + 1)
+    bbox = source.convert("L").point(lambda v: 255 if v < 110 else 0).getbbox()
+    return bbox or (0, 0, source.width, source.height)
+
+
+def parse_effects(xsq: Path) -> list[tuple[int, int, str]]:
     root = ET.parse(xsq).getroot()
-    out = []
+    out: list[tuple[int, int, str]] = []
     for element in root.findall("./ElementEffects/Element"):
         name = element.get("name", "")
         if name not in TARGETS:
             continue
         for layer in element.findall("EffectLayer"):
-            for fx in layer.findall("Effect"):
+            for effect in layer.findall("Effect"):
                 out.append((
-                    int(float(fx.get("startTime", "0"))),
-                    int(float(fx.get("endTime", "0"))),
+                    int(float(effect.get("startTime", "0"))),
+                    int(float(effect.get("endTime", "0"))),
                     name,
                 ))
     return sorted(out)
 
 
-def light_component(base: Image.Image, mask: Image.Image, intensity: float) -> Image.Image:
-    if intensity <= 0.02:
-        return base
-    intensity = max(0.0, min(1.0, intensity))
-    core = mask.point(lambda a: int(a * intensity))
-    glow = core.filter(ImageFilter.GaussianBlur(max(4, base.width // 160)))
-
-    # Illuminate the actual pixels of the canonical drummer. This is deliberately
-    # not an outline/skeleton overlay. The component gets a bloom plus a bright
-    # core while the underlying artwork remains visible.
-    bloom = Image.new("RGBA", base.size, (255, 220, 75, 0))
-    bloom.putalpha(glow.point(lambda a: int(a * 0.55)))
-    out = Image.alpha_composite(base, bloom)
-
-    bright = ImageEnhance.Brightness(out.convert("RGB")).enhance(1.0 + 0.75 * intensity)
-    out = bright.convert("RGBA")
-    core_layer = Image.new("RGBA", base.size, (255, 250, 150, 0))
-    core_layer.putalpha(core.point(lambda a: int(a * 0.70)))
-    return Image.alpha_composite(out, core_layer)
+def parse_snare_hands(xsq: Path) -> list[tuple[int, int, str]]:
+    """Read native hand metadata; old eight-lane files alternate from song start."""
+    root = ET.parse(xsq).getroot()
+    hits = sorted({(int(float(effect.get("startTime", "0"))),
+                    int(float(effect.get("endTime", "0"))), effect.get("sourceHand", ""))
+                   for effect in root.findall(
+                       f'./ElementEffects/Element[@name="{TARGETS[1]}"]/EffectLayer/Effect')})
+    return [(start, end, hand or ("left" if i % 2 == 0 else "right"))
+            for i, (start, end, hand) in enumerate(hits)]
 
 
-def draw_frame(source, masks, active, width, height, t_ms, duration_ms, font):
-    # Keep the source aspect ratio. Previous versions resized a 96x72 xmodel mask
-    # independently of the source artwork, causing component highlights to drift.
-    scale = min(width / source.width, height / source.height)
-    size = (max(1, round(source.width * scale)), max(1, round(source.height * scale)))
-    base = source.resize(size, Image.Resampling.LANCZOS)
-
-    for target, intensity in active.items():
-        if intensity <= 0.02:
+def parse_cymbal_hits(xsq: Path) -> tuple[dict[str, list[tuple[int, float]]], int]:
+    root = ET.parse(xsq).getroot()
+    timing = root.findtext("./head/sequenceTiming", f"{DEFAULT_FRAME_MS} ms")
+    frame_ms = int(float(timing.split()[0]))
+    if frame_ms <= 0:
+        raise ValueError("Sequence frame duration must be positive")
+    hits = {target: [] for target in TARGETS if is_cymbal(target)}
+    for element in root.findall("./ElementEffects/Element"):
+        target = element.get("name", "")
+        if target not in hits:
             continue
-        mask = masks[target].resize(size, Image.Resampling.BILINEAR)
-        base = light_component(base, mask, intensity)
+        for effect in element.findall("./EffectLayer/Effect"):
+            settings = dict(token.split("=", 1) for token in effect.get("settings", "").split(",") if "=" in token)
+            hits[target].append((int(float(effect.get("startTime", "0"))),
+                                 float(settings.get("HELIX_DrummerIntensity", "1"))))
+    return {target: sorted(set(rows)) for target, rows in hits.items()}, frame_ms
+
+
+def snare_hand_for_frame(hits: list[tuple[int, int, str]], time_ms: float, fps: int) -> str:
+    half_frame = 500.0 / fps
+    active = [(start, hand) for start, end, hand in hits
+              if start < time_ms + half_frame and end > time_ms - half_frame]
+    return max(active)[1] if active else "left"
+
+
+def _frame_time_ms(start_ms: int, frame_index: int, fps: int) -> float:
+    return float(start_ms) + (float(frame_index) * 1000.0 / float(fps))
+
+
+def _active_targets_for_frame(
+    effects: list[tuple[int, int, str]],
+    frame_time_ms: float,
+    fps: int,
+) -> set[str]:
+    """Sample effect intervals at the nearest video frame, not only after them."""
+    half_frame_ms = 500.0 / float(fps)
+    return {
+        name
+        for start, end, name in effects
+        if start < frame_time_ms + half_frame_ms
+        and end > frame_time_ms - half_frame_ms
+    }
+
+
+def draw_frame(
+    source: Image.Image,
+    masks: dict[str, Image.Image],
+    active: set[str],
+    width: int,
+    height: int,
+    t_ms: int,
+    duration_ms: int,
+    font: ImageFont.ImageFont,
+    art_cache: dict[tuple[str, ...], Image.Image] | None = None,
+    snare_hand: str = "left",
+    cymbal_levels: dict[str, float] | None = None,
+) -> Image.Image:
+    max_w, max_h = width - 250, height - 108
+    key = tuple(target for target in TARGETS if target in active)
+    if TARGETS[1] in active:
+        key += (snare_hand,)
+    levels = None if cymbal_levels is None else {t: round(v * 100) / 100 for t, v in cymbal_levels.items()}
+    if levels is not None:
+        key += tuple(f"{target}:ring:{level:.2f}" for target, level in sorted(levels.items()))
+    art = art_cache.get(key) if art_cache is not None else None
+    if art is None:
+        lit = compose_lighting(source, masks, active, snare_hand=snare_hand, cymbal_levels=levels)
+        art = lit.crop(_content_crop(source))
+        scale = min(max_w / art.width, max_h / art.height)
+        size = (max(1, round(art.width * scale)), max(1, round(art.height * scale)))
+        art = art.resize(size, Image.Resampling.LANCZOS)
+        if art_cache is not None:
+            if len(art_cache) >= 128:
+                art_cache.pop(next(iter(art_cache)))
+            art_cache[key] = art
 
     canvas = Image.new("RGBA", (width, height), (4, 7, 12, 255))
-    x = (width - base.width) // 2
-    y = (height - base.height) // 2
-    canvas.alpha_composite(base, (x, y))
+    x = (width - art.width) // 2
+    y = 100 + max(0, (max_h - art.height) // 2)
+    canvas.alpha_composite(art, (x, y))
 
-    d = ImageDraw.Draw(canvas)
-    d.rounded_rectangle((18, 16, width - 18, 88), radius=12, fill=(5, 9, 16, 205), outline=(120, 140, 170, 210), width=2)
-    active_names = [LABELS.get(t, t) for t, v in active.items() if v > 0.02]
-    d.text((34, 30), "HELIX — CANONICAL DRUMMER V3", font=font, fill=(245, 248, 255, 255))
-    d.text((34, 53), "LIGHTING: " + (", ".join(active_names) if active_names else "idle"), font=font, fill=(255, 215, 150, 255))
-    d.text((width - 190, 30), f"{t_ms/1000:.2f}s / {duration_ms/1000:.2f}s", font=font, fill=(190, 210, 235, 255))
+    draw = ImageDraw.Draw(canvas)
+    draw.text((24, 24), "HELIX — DRUMMER V3 COMPONENT LIGHTING", font=font, fill=(245, 248, 255, 255))
+    hit_labels = [LABELS[target] for target in TARGETS if target in active]
+    draw.text((24, 56), "HITS: " + (", ".join(hit_labels) if hit_labels else "IDLE"), font=font, fill=(255, 216, 150, 255))
+    draw.text((width - 180, 24), f"{t_ms / 1000:.2f}s / {duration_ms / 1000:.2f}s", font=font, fill=(230, 235, 245, 255))
     return canvas.convert("RGB")
 
 
 def _audio_duration_ms(audio: Path) -> int:
+    import soundfile as sf
+    import imageio_ffmpeg
     try:
         info = sf.info(str(audio))
-        duration = float(info.frames) / float(info.samplerate)
-        if duration > 0:
-            return int(round(duration * 1000.0))
-    except Exception as exc:
-        raise RuntimeError(f"Unable to determine audio duration for {audio}: {exc}") from exc
-    raise RuntimeError(f"Unable to determine audio duration for {audio}")
+        if info.frames > 0 and info.samplerate > 0:
+            return int(round((float(info.frames) / float(info.samplerate)) * 1000.0))
+    except Exception:
+        pass
+    ffmpeg = imageio_ffmpeg.get_ffmpeg_exe()
+    probe = subprocess.run([ffmpeg, "-i", str(audio)], capture_output=True, text=True)
+    line = next((line for line in probe.stderr.splitlines() if "Duration:" in line), None)
+    if not line:
+        raise RuntimeError(f"Unable to determine audio duration for {audio}")
+    value = line.split("Duration:", 1)[1].split(",", 1)[0].strip()
+    h, m, s = value.split(":")
+    return int(round((int(h) * 3600 + int(m) * 60 + float(s)) * 1000))
 
 
 def main() -> int:
-    ap = argparse.ArgumentParser()
-    ap.add_argument("xsq", type=Path)
-    ap.add_argument("--audio", type=Path, required=True)
-    ap.add_argument("--output", type=Path, required=True)
-    ap.add_argument("--fps", type=int, default=30)
-    ap.add_argument("--duration", type=float, default=0.0)
-    args = ap.parse_args()
+    import imageio.v2 as imageio
+    import imageio_ffmpeg
+    parser = argparse.ArgumentParser()
+    parser.add_argument("xsq", type=Path)
+    parser.add_argument("--audio", type=Path, required=True)
+    parser.add_argument("--output", type=Path, required=True)
+    parser.add_argument("--fps", type=int, default=60)
+    parser.add_argument("--duration", type=float, default=0.0)
+    parser.add_argument("--start", type=float, default=0.0, help="First source-audio second to render")
+    parser.add_argument("--require-all-targets", action="store_true")
+    args = parser.parse_args()
 
     source, masks = load_component_masks()
     effects = parse_effects(args.xsq)
+    snare_hits = parse_snare_hands(args.xsq)
+    cymbal_hits, sequence_frame_ms = parse_cymbal_hits(args.xsq)
     if not effects:
-        raise SystemExit("FAIL: no canonical HX_SNOWMAN_DRUMMER_V3 submodel effects found")
-    found = {e[2] for e in effects}
-    missing_targets = set(TARGETS) - found
-    if missing_targets:
-        raise SystemExit(f"FAIL: XSQ missing canonical drummer targets: {sorted(missing_targets)}")
+        raise SystemExit("FAIL: no canonical HX_SNOWMAN_DRUMMER_V3 effects found")
+    found = {event[2] for event in effects}
+    missing = set(TARGETS) - found
+    if args.require_all_targets and missing:
+        raise SystemExit(f"FAIL: XSQ missing canonical drummer targets: {sorted(missing)}")
 
     audio_duration_ms = _audio_duration_ms(args.audio)
-    effect_end_ms = max(e[1] for e in effects)
-    if effect_end_ms < int(audio_duration_ms * 0.95):
-        raise SystemExit(f"FAIL: drummer XSQ ends at {effect_end_ms} ms, but audio is {audio_duration_ms} ms")
-    duration_ms = audio_duration_ms if args.duration <= 0 else min(int(args.duration * 1000), audio_duration_ms)
-    print(f"CANONICAL-COMPONENT-LIGHT MODE: source={SOURCE} effects={len(effects)} targets={sorted(found)} audio_duration_ms={audio_duration_ms}")
+    start_ms = int(round(args.start * 1000))
+    if args.fps <= 0 or start_ms < 0 or start_ms >= audio_duration_ms or args.duration < 0:
+        raise SystemExit("Invalid fps/start/duration for audio")
+    remaining_ms = audio_duration_ms - start_ms
+    duration_ms = remaining_ms if args.duration == 0 else min(int(args.duration * 1000), remaining_ms)
 
-    out = args.output
-    silent = out.with_suffix(".silent.mp4")
+    output = args.output
+    output.parent.mkdir(parents=True, exist_ok=True)
+    silent = output.with_suffix(".silent.mp4")
     font = ImageFont.load_default()
     writer = imageio.get_writer(silent, fps=args.fps, codec="libx264", quality=8, macro_block_size=None)
+    art_cache: dict[tuple[str, ...], Image.Image] = {}
     try:
-        for i in range(int(duration_ms / 1000 * args.fps)):
-            t = int(i * 1000 / args.fps)
-            active = {name: 0.0 for name in TARGETS}
-            for start, end, name in effects:
-                if start <= t < end:
-                    active[name] = max(active[name], 1.0)
-            writer.append_data(np.asarray(draw_frame(source, masks, active, 960, 540, t, duration_ms, font)))
+        frame_count = int(round(duration_ms / 1000 * args.fps))
+        for index in range(frame_count):
+            frame_time_ms = _frame_time_ms(start_ms, index, args.fps)
+            active = _active_targets_for_frame(effects, frame_time_ms, args.fps)
+            t_ms = int(round(frame_time_ms))
+            writer.append_data(np.asarray(draw_frame(
+                source, masks, active, 960, 540, t_ms, start_ms + duration_ms, font, art_cache,
+                snare_hand_for_frame(snare_hits, frame_time_ms, args.fps),
+                {target: cymbal_level(hits, frame_time_ms, frame_ms=sequence_frame_ms,
+                                       nearest_ms=500 / args.fps) for target, hits in cymbal_hits.items()}
+            )))
     finally:
         writer.close()
 
-    ff = imageio_ffmpeg.get_ffmpeg_exe()
-    proc = subprocess.run([ff, "-y", "-i", str(silent), "-i", str(args.audio), "-map", "0:v:0", "-map", "1:a:0", "-c:v", "copy", "-c:a", "aac", "-shortest", "-movflags", "+faststart", str(out)], capture_output=True, text=True)
-    if proc.returncode != 0:
-        raise SystemExit(proc.stderr[-4000:])
+    ffmpeg = imageio_ffmpeg.get_ffmpeg_exe()
+    result = subprocess.run(
+        [ffmpeg, "-y", "-i", str(silent), "-ss", str(args.start), "-i", str(args.audio), "-map", "0:v:0", "-map", "1:a:0",
+         "-c:v", "copy", "-c:a", "aac", "-shortest", "-movflags", "+faststart", str(output)],
+        capture_output=True,
+        text=True,
+    )
+    if result.returncode != 0:
+        raise SystemExit(result.stderr[-4000:])
     silent.unlink(missing_ok=True)
-    if not out.exists() or out.stat().st_size < 10000:
+    if not output.exists() or output.stat().st_size < 10000:
         raise SystemExit("FAIL: canonical drummer MP4 missing/empty")
-    print(f"PASS: canonical component-light MP4 effects={len(effects)} duration_ms={duration_ms}")
+    print(
+        f"PASS: full-resolution component lighting effects={len(effects)} "
+        f"targets_seen={len(found)} duration_ms={duration_ms} fps={args.fps}"
+    )
     return 0
 
 
 if __name__ == "__main__":
     raise SystemExit(main())
+

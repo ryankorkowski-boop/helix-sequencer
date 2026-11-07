@@ -1,0 +1,43 @@
+{
+  "source_commit": "dd73e36777d0a02c6d403245d03421d093bda0fd",
+  "native_proof": {
+    "run": 40989591017,
+    "job": 123848499636,
+    "conclusion": "success"
+  },
+  "producer": {
+    "run": 40989590899,
+    "job": 123849956098,
+    "conclusion": "failure"
+  },
+  "final_band": {
+    "run": 40989591017,
+    "job": 123850574106,
+    "conclusion": "failure"
+  },
+  "errors": [
+    {
+      "job": 123849956098,
+      "lines": [
+        "2026-10-30T02:10:41.0123773Z   \"error\": \"Full-band source lacks independently resolved lead and backing vocal tracks; supply source-bound vocal analysis instead of repeating the silent-harmony render\""
+      ]
+    },
+    {
+      "job": 123850574106,
+      "lines": [
+        "2026-10-30T02:13:45.3708173Z Error: No successful native producer at dd73e36777d0a02c6d403245d03421d093bda0fd: 40989590899:failure",
+        "2026-10-30T02:13:45.3727691Z ##[error]Unhandled error: Error: No successful native producer at dd73e36777d0a02c6d403245d03421d093bda0fd: 40989590899:failure"
+      ]
+    }
+  ],
+  "phoneme": {
+    "run": 40989590973,
+    "status": "in_progress"
+  },
+  "collection": {
+    "run": 40989590883,
+    "status": "in_progress"
+  },
+  "gate_thresholds_unchanged": true,
+  "beta_acceptance": false
+}

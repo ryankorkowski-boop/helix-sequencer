@@ -1,0 +1,57 @@
+{
+  "status": "candidate_excerpts_not_native_render_proof",
+  "source": "HelixHelps Google Drive",
+  "method": "35s rolling combined normalized RMS, spectral flux, low-frequency and high-frequency activity, using 11025 Hz mono decoding; not an instrument classifier",
+  "release_hold": true,
+  "excerpts": [
+    {
+      "file": "Snowbound Polyrhythm.mp3",
+      "source_sha256": "374dda14a7ecc99c411ff53f503edc4a06ac214fe084d7dee489613e4175f148",
+      "start_seconds": 88.26,
+      "duration_seconds": 35,
+      "activity_score": 0.6786
+    },
+    {
+      "file": "Holly Steel Run.mp3",
+      "source_sha256": "730d7db5128fb81675a61f159dea6fa05a7f677c469536c0f789c03992fdb7af",
+      "start_seconds": 71.967,
+      "duration_seconds": 35,
+      "activity_score": 0.6063
+    },
+    {
+      "file": "North Pole Overdrive.mp3",
+      "source_sha256": "d4a22b3b8982ea0e71aebc2ee0c7235cae2e77965b73764274cfbd89f64e54e5",
+      "start_seconds": 175.82,
+      "duration_seconds": 35,
+      "activity_score": 0.6052
+    },
+    {
+      "file": "Tinsel Sawtooth.mp3",
+      "source_sha256": "b23c792a3c42dc27a756d6e302cb4d4b19b9cfe1742a4ec48f813dbbc0604715",
+      "start_seconds": 30.886,
+      "duration_seconds": 35,
+      "activity_score": 0.6036
+    },
+    {
+      "file": "Candy Cane Chaos.mp3",
+      "source_sha256": "ea3d227d5d263483ad71233d70df67951940775da9acd31c8291bfe57e314239",
+      "start_seconds": 154.73,
+      "duration_seconds": 35,
+      "activity_score": 0.5943
+    },
+    {
+      "file": "Three Solo Test.mp3",
+      "source_sha256": "f3db3612e84179684118c8e2ef8e476e1aa87cb7d252e965a8228098d3969933",
+      "start_seconds": 58.374,
+      "duration_seconds": 35,
+      "activity_score": 0.5852
+    },
+    {
+      "file": "Wub Wub Wonderland.mp3",
+      "source_sha256": "76641340a2a59c5797b333cd36b1e108f503017d190510fbe8da9931ea3f9abc",
+      "start_seconds": 171.022,
+      "duration_seconds": 35,
+      "activity_score": 0.517
+    }
+  ]
+}

@@ -1,0 +1,72 @@
+[
+  {
+    "id": "00",
+    "title": "Wire Tree",
+    "start_seconds": 212.5,
+    "coverage": {
+      "bass": 0.4154761904761905,
+      "guitar": 0.10119047619047619,
+      "piano": 0.10119047619047619,
+      "vocal": 0.7095238095238096,
+      "lexical_vocals": 0.5238095238095238
+    },
+    "vowel_gap_count": 49,
+    "mallet_attacks": 66
+  },
+  {
+    "id": "01",
+    "title": "Who Knew (Grinch's Redemption) (Remastered)",
+    "start_seconds": 27.0,
+    "coverage": {
+      "bass": 0.5892857142857143,
+      "guitar": 0.0,
+      "piano": 0.22023809523809523,
+      "vocal": 0.9452380952380952,
+      "lexical_vocals": 0.9380952380952381
+    },
+    "vowel_gap_count": 12,
+    "mallet_attacks": 58
+  },
+  {
+    "id": "02",
+    "title": "49 (Remastered)",
+    "start_seconds": 56.0,
+    "coverage": {
+      "bass": 0.39285714285714285,
+      "guitar": 0.03214285714285714,
+      "piano": 0.15476190476190477,
+      "vocal": 0.830952380952381,
+      "lexical_vocals": 0.6678571428571428
+    },
+    "vowel_gap_count": 36,
+    "mallet_attacks": 52
+  },
+  {
+    "id": "03",
+    "title": "Candy Cane Chaos",
+    "start_seconds": 130.5,
+    "coverage": {
+      "bass": 0.2630952380952381,
+      "guitar": 0.11190476190476191,
+      "piano": 0.08333333333333333,
+      "vocal": 0.7416666666666667,
+      "lexical_vocals": 0.6035714285714285
+    },
+    "vowel_gap_count": 64,
+    "mallet_attacks": 31
+  },
+  {
+    "id": "05",
+    "title": "Festivus (Remastered)",
+    "start_seconds": 68.0,
+    "coverage": {
+      "bass": 0.35714285714285715,
+      "guitar": 0.24047619047619048,
+      "piano": 0.37976190476190474,
+      "vocal": 0.6892857142857143,
+      "lexical_vocals": 0.35
+    },
+    "vowel_gap_count": 28,
+    "mallet_attacks": 83
+  }
+]

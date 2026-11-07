@@ -1,0 +1,133 @@
+{
+  "schema": "helix.keyboard_source_contact_audit.v1",
+  "passed": true,
+  "musical_cues_unchanged": true,
+  "musical_cue_lanes": 76,
+  "baseline_cue_sha256": "6c94a6a186ea3aca78719a0ec7ba11eb4ea220a4a90911f239a3cc2fe557c8e2",
+  "candidate_cue_sha256": "6c94a6a186ea3aca78719a0ec7ba11eb4ea220a4a90911f239a3cc2fe557c8e2",
+  "source_identity_preserved": true,
+  "vocal_source_evidence": {
+    "routing_report": {
+      "schema": "helix.voice_roles.v1",
+      "input_tracks": {
+        "demucs_mixed_vocals": {
+          "evidence": "mixed",
+          "requested_role": null,
+          "sha256": "5b7b3ef862ad27011181111ca731e8829820db61c9a81b00407709b5de3095f1",
+          "duplicate_of": null,
+          "voiced_fraction": 0.875,
+          "prominence": 0.08265463262796402,
+          "resolved_role": "lead"
+        }
+      },
+      "voice_identity_resolved": false,
+      "mixed_bus_only": true,
+      "independent_tracks": 0,
+      "classifications": {
+        "silence": 90,
+        "solo": 630
+      },
+      "timing_hop_seconds": 0.01,
+      "release_padding_seconds": 0,
+      "phoneme_method": "verified cues where supplied; broad AH/EE/OH acoustic estimates elsewhere",
+      "limitation": "Mixed bus singing is supported; singer count, duet identity and backing parts remain unresolved without independent sources.",
+      "source_sha256": "8905fcaf105faf5016608517cf2d8a798d1809d8e615f1d4f5bca58e0c0b1171",
+      "stem_file_sha256": {
+        "demucs_mixed_vocals": "c6d85da8689ef90a55762c75aaa71f13d785f7151c5208d55b2b144ae752e9ff"
+      },
+      "model_lanes": [
+        {
+          "name": "demucs_mixed_vocals",
+          "role": "lead"
+        }
+      ],
+      "preview_classifications": {
+        "silence": 90,
+        "solo": 630
+      }
+    },
+    "measured_lanes": {
+      "energy": {
+        "shape": [
+          720,
+          2
+        ],
+        "active_frames_per_lane": [
+          630,
+          0
+        ]
+      },
+      "shapes": {
+        "shape": [
+          720,
+          2
+        ],
+        "active_frames_per_lane": [
+          630,
+          0
+        ]
+      }
+    },
+    "report_matches_original_audio": true
+  },
+  "source_active_frames_preserved": true,
+  "total_contacts_before": 190,
+  "total_contacts_after": 260,
+  "source_contact_improved": true,
+  "runs": {
+    "baseline": {
+      "seconds": 10.99281170499998,
+      "audio_sha256": "8905fcaf105faf5016608517cf2d8a798d1809d8e615f1d4f5bca58e0c0b1171",
+      "contact": {
+        "left": {
+          "source_active_frames": 474,
+          "frames_without_contact": 306,
+          "contact_frames": 168,
+          "anticipated_idle_frames": 0
+        },
+        "right": {
+          "source_active_frames": 144,
+          "frames_without_contact": 122,
+          "contact_frames": 22,
+          "anticipated_idle_frames": 0
+        },
+        "anticipation_frames": 0,
+        "max_contacts_per_frame": 2,
+        "contact_tolerance": 0.025,
+        "musical_ground_truth_verified": false,
+        "detected_events": 367,
+        "accepted_events": 367,
+        "rejected_events": []
+      }
+    },
+    "candidate": {
+      "seconds": 10.893020291999989,
+      "audio_sha256": "8905fcaf105faf5016608517cf2d8a798d1809d8e615f1d4f5bca58e0c0b1171",
+      "contact": {
+        "left": {
+          "source_active_frames": 474,
+          "frames_without_contact": 267,
+          "contact_frames": 207,
+          "anticipated_idle_frames": 178
+        },
+        "right": {
+          "source_active_frames": 144,
+          "frames_without_contact": 91,
+          "contact_frames": 53,
+          "anticipated_idle_frames": 235
+        },
+        "anticipation_frames": 12,
+        "max_contacts_per_frame": 2,
+        "contact_tolerance": 0.025,
+        "musical_ground_truth_verified": false,
+        "detected_events": 367,
+        "accepted_events": 367,
+        "rejected_events": []
+      }
+    }
+  },
+  "native_xlights_video_verified": false,
+  "physical_hardware_tested": false,
+  "musical_ground_truth_verified": false,
+  "limitation": "Source pose contacts only; medoid native rendering and owner review remain pending."
+}

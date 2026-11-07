@@ -1,0 +1,110 @@
+{
+  "source_commit": "cc736b12c04184b7da0eb45a674ffb44fb71e3c9",
+  "run_id": 39605876463,
+  "artifact_id": 12347664834,
+  "zip_sha256": "8e2c9c8a4b3c8fe0c1a98b3c7dad6d1e72677a758a7ee23f0b8c1abf041338d6",
+  "mp4_sha256": "154f045f3e8ba7bb9a1475dcfb7982a5cb68b59e1a3fb5ac10f3d9296e5048bb",
+  "audio_sha256": "8905fcaf105faf5016608517cf2d8a798d1809d8e615f1d4f5bca58e0c0b1171",
+  "full_decode": true,
+  "soundtrack_windows": [
+    {
+      "second": 0,
+      "correlations": [
+        0.9985185701218078,
+        0.9986134025186445
+      ],
+      "offset_ms": 0.0
+    },
+    {
+      "second": 9,
+      "correlations": [
+        0.9940566476906728,
+        0.9942663973279252
+      ],
+      "offset_ms": 0.0
+    },
+    {
+      "second": 18,
+      "correlations": [
+        0.9907386961223766,
+        0.9913676152352046
+      ],
+      "offset_ms": 0.0
+    },
+    {
+      "second": 27,
+      "correlations": [
+        0.990377033374177,
+        0.9910085407074145
+      ],
+      "offset_ms": 0.0
+    },
+    {
+      "second": 33,
+      "correlations": [
+        0.9908431597703329,
+        0.9916439196354937
+      ],
+      "offset_ms": 0.0
+    }
+  ],
+  "fseq": {
+    "schema": "helix.fseq_channel_evidence.v1",
+    "basis": "decoded_rendered_channel_bytes",
+    "sha256": "c73a8c6eba19eb4aca3ee8b1e6ab6652fd78f601ad19057dcf5576d631ffde02",
+    "channels": 128484,
+    "frames": 720,
+    "frame_ms": 50,
+    "duration_ms": 36000,
+    "nonzero_samples": 37424256,
+    "nonzero_frames": 720,
+    "peak_lit_channels": 54987,
+    "mean_lit_fraction": 0.404549,
+    "dark_windows": [],
+    "visual_review": "pending",
+    "controller_validation": "not_tested"
+  },
+  "readability": {
+    "schema": "helix.showcase_readability.v1",
+    "frames": 72,
+    "sample_fps": 2,
+    "thresholds": {
+      "median_luma": 12.0,
+      "median_bright_fraction": 0.012,
+      "median_motion": 0.65,
+      "min_visible_width": 0.4,
+      "min_visible_height": 0.35
+    },
+    "measurements": {
+      "median_luma": 20.851,
+      "median_bright_fraction": 0.12558,
+      "median_motion": 0.975,
+      "visible_width": 0.681,
+      "visible_height": 0.656
+    },
+    "checks": {
+      "visible_stage_width": true,
+      "visible_stage_height": true,
+      "median_stage_luminance": true,
+      "bright_stage_area": true,
+      "visible_stage_motion": true
+    },
+    "passed": true,
+    "note": "Quantitative visibility gate only; no artistic, musical or source classification approval"
+  },
+  "inspected_frame_seconds": [
+    1,
+    10,
+    21,
+    34
+  ],
+  "visual_findings": [
+    "Authored keyboard case and stands present; keyboard top remains foreshortened in fixed camera",
+    "Purple secondary singer accent restored",
+    "Colored bass/guitar material distinction restored",
+    "Pixel surface sampling remains visible; owner appearance approval pending"
+  ],
+  "independent_backing_verified": false,
+  "owner_visual_approval": false,
+  "musical_pose_arrays_preserved": 1320
+}

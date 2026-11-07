@@ -1,0 +1,19 @@
+{
+  "schema": "helix.showcase_audio_batch_evidence.v1",
+  "songs": 5,
+  "layouts": 6,
+  "full_song_previews": 30,
+  "native_xsqs": 30,
+  "native_fseqs": 30,
+  "total_native_frames": 72384,
+  "all_rgb_models_receive_lighting": true,
+  "control_channels_dark": true,
+  "all_effect_names_native": true,
+  "native_alias_repaired_cues": 111433,
+  "original_placements": 367246,
+  "detector_or_drummers_modified": false,
+  "user_review": "pending",
+  "implementation_commit": "a3b39ba1e28cda203e45991f328c8a6b84d5bb25",
+  "native_ci_run": 37818565266,
+  "focused_tests": 108
+}

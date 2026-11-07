@@ -1,0 +1,281 @@
+{
+  "source_commit": "76c0176d3c2c3776d5f9e9abd5e98c004f379021",
+  "engine_commit": "c39028db34a6e76b58908bf1c6f0e20a59634f27",
+  "expected_movie_count": 5,
+  "limitations": [
+    "Partial layout review; not the requested nine-video beta acceptance collection.",
+    "Original AC virtual footprint is not a surveyed installation.",
+    "Source instrument and section labels remain estimates.",
+    "Declared RGB display curves preserve black. Raw native luma is assessed separately.",
+    "Canonical approved fully modeled drummer and independent acoustic singer/lexical phoneme proof remain unresolved."
+  ],
+  "movies": [
+    {
+      "audio": "/workspace/scratch/c4612c1e89d7/optimized-production/media/Helix_Starred_New_Review.wav",
+      "audio_sha256": "50857fef6ac17197821bb6a9ce27f7ebd1c23b7eb8c82521345296bd22087677",
+      "duration": 120,
+      "dimensions": [
+        1920,
+        1080
+      ],
+      "filename": "04_Residential_AC_RGB_Comparison.mp4",
+      "title": "Helix - Residential AC and RGB Review",
+      "kind": "montage",
+      "sources": [
+        {
+          "video": "/workspace/scratch/c4612c1e89d7/optimized-final-layouts/01_Traditional_256_AC/native-preview-xsddzrrl/preview.mp4",
+          "video_sha256": "082c33c8ac69dad0ec267e1e21dab220661feb174a5068ded930be253ed4842c",
+          "title": "Traditional 256 AC - Original Addresses",
+          "gamma": 3,
+          "gain": 2,
+          "crop": [
+            1472,
+            828,
+            224,
+            126
+          ]
+        },
+        {
+          "video": "/workspace/scratch/c4612c1e89d7/optimized-final-layouts/02_Experimental_256_AC_RGB/native-preview-5_1y_11a/preview.mp4",
+          "video_sha256": "16f5b1d08849ab560f1cfa601817d1a849e07988cea86a958a362355b7a86cd0",
+          "title": "Experimental 256 AC and RGB",
+          "gamma": 3,
+          "gain": 2,
+          "crop": [
+            1472,
+            828,
+            224,
+            126
+          ]
+        }
+      ],
+      "segments": [
+        {
+          "start": 0,
+          "end": 30,
+          "source": 0
+        },
+        {
+          "start": 30,
+          "end": 60,
+          "source": 1
+        },
+        {
+          "start": 60,
+          "end": 90,
+          "source": 0
+        },
+        {
+          "start": 90,
+          "end": 120,
+          "source": 1
+        }
+      ]
+    },
+    {
+      "audio": "/workspace/scratch/c4612c1e89d7/optimized-production/media/Helix_Starred_New_Review.wav",
+      "audio_sha256": "50857fef6ac17197821bb6a9ce27f7ebd1c23b7eb8c82521345296bd22087677",
+      "duration": 120,
+      "dimensions": [
+        1920,
+        1080
+      ],
+      "filename": "05_Six_Layout_Synchronized_Comparison.mp4",
+      "title": "Helix - Six Native Layouts - Synchronized Source Review",
+      "kind": "comparison",
+      "sources": [
+        {
+          "video": "/workspace/scratch/c4612c1e89d7/optimized-final-layouts/01_Traditional_256_AC/native-preview-xsddzrrl/preview.mp4",
+          "video_sha256": "082c33c8ac69dad0ec267e1e21dab220661feb174a5068ded930be253ed4842c",
+          "title": "Traditional 256 AC",
+          "gamma": 3,
+          "gain": 2,
+          "crop": [
+            1472,
+            828,
+            224,
+            126
+          ]
+        },
+        {
+          "video": "/workspace/scratch/c4612c1e89d7/optimized-final-layouts/02_Experimental_256_AC_RGB/native-preview-5_1y_11a/preview.mp4",
+          "video_sha256": "16f5b1d08849ab560f1cfa601817d1a849e07988cea86a958a362355b7a86cd0",
+          "title": "256 AC and RGB",
+          "gamma": 3,
+          "gain": 2,
+          "crop": [
+            1472,
+            828,
+            224,
+            126
+          ]
+        },
+        {
+          "video": "/workspace/scratch/c4612c1e89d7/optimized-final-layouts/06_Modern_Pixel_House/native-preview-cavufaqe/preview.mp4",
+          "video_sha256": "dc6cd8ac2c32e5af303dc5ac3164743e5b8cd81c68aa8e79bdf935ec4a8c62dc",
+          "title": "Residential RGB",
+          "gamma": 2.2,
+          "gain": 1.65
+        },
+        {
+          "video": "/workspace/scratch/c4612c1e89d7/optimized-final-layouts/09_Double_Helix_Cathedral/native-preview-upqz2k91/preview.mp4",
+          "video_sha256": "aa7b8d98f466044bb589c6310c234a09638ebed174934e6bbede3ab9a4c33bf0",
+          "title": "Literal Pitch Double Helix",
+          "gamma": 2.4,
+          "gain": 1.65
+        },
+        {
+          "video": "/workspace/scratch/c4612c1e89d7/optimized-final-layouts/10_Moire_Optical_Illusion/native-preview-8etahl_7/preview.mp4",
+          "video_sha256": "f91188278117d0fa03199ffdaabab22514f133d90e03a12a9a1eae191ee54d35",
+          "title": "Moire and Optical Geometry",
+          "gamma": 2.2,
+          "gain": 1.65
+        },
+        {
+          "video": "/workspace/scratch/c4612c1e89d7/optimized-final-layouts/11_Forced_Perspective/native-preview-b8onnruo/preview.mp4",
+          "video_sha256": "1ab8182a4d8b5ad83b5a91060e6e517d13aa6d88d45e950103994ffce0eb1a0e",
+          "title": "Forced Perspective",
+          "gamma": 2.2,
+          "gain": 1.65
+        }
+      ]
+    },
+    {
+      "audio": "/workspace/scratch/c4612c1e89d7/work/review-technical-60s.wav",
+      "audio_sha256": "852696ab332502296389ec326a1e782c4ab30706ced811921eec26c8efa6e522",
+      "duration": 60,
+      "dimensions": [
+        1920,
+        1080
+      ],
+      "filename": "06_Advanced_Technical_Showcase.mp4",
+      "title": "Helix - Technical Layout Review",
+      "kind": "montage",
+      "sources": [
+        {
+          "video": "/workspace/scratch/c4612c1e89d7/optimized-final-layouts/09_Double_Helix_Cathedral/native-preview-upqz2k91/preview.mp4",
+          "video_sha256": "aa7b8d98f466044bb589c6310c234a09638ebed174934e6bbede3ab9a4c33bf0",
+          "title": "Literal Pitch Double Helix",
+          "gamma": 2.4,
+          "gain": 1.65
+        },
+        {
+          "video": "/workspace/scratch/c4612c1e89d7/optimized-final-layouts/10_Moire_Optical_Illusion/native-preview-8etahl_7/preview.mp4",
+          "video_sha256": "f91188278117d0fa03199ffdaabab22514f133d90e03a12a9a1eae191ee54d35",
+          "title": "Moire and Optical Geometry",
+          "gamma": 2.2,
+          "gain": 1.65
+        },
+        {
+          "video": "/workspace/scratch/c4612c1e89d7/optimized-final-layouts/11_Forced_Perspective/native-preview-b8onnruo/preview.mp4",
+          "video_sha256": "1ab8182a4d8b5ad83b5a91060e6e517d13aa6d88d45e950103994ffce0eb1a0e",
+          "title": "Forced Perspective",
+          "gamma": 2.2,
+          "gain": 1.65
+        }
+      ],
+      "segments": [
+        {
+          "start": 0,
+          "end": 20,
+          "source": 0
+        },
+        {
+          "start": 20,
+          "end": 40,
+          "source": 1
+        },
+        {
+          "start": 40,
+          "end": 60,
+          "source": 2
+        }
+      ]
+    },
+    {
+      "audio": "/workspace/scratch/c4612c1e89d7/optimized-production/media/Helix_Starred_New_Review.wav",
+      "audio_sha256": "50857fef6ac17197821bb6a9ce27f7ebd1c23b7eb8c82521345296bd22087677",
+      "duration": 120,
+      "dimensions": [
+        1920,
+        1080
+      ],
+      "filename": "07_Double_Helix_and_Musical_Direction.mp4",
+      "title": "Helix - Literal Pitch Rungs and Musical Direction - Review",
+      "kind": "single",
+      "sources": [
+        {
+          "video": "/workspace/scratch/c4612c1e89d7/optimized-final-layouts/09_Double_Helix_Cathedral/native-preview-upqz2k91/preview.mp4",
+          "video_sha256": "aa7b8d98f466044bb589c6310c234a09638ebed174934e6bbede3ab9a4c33bf0",
+          "title": "Helix - Literal Pitch Rungs and Musical Direction - Review",
+          "gamma": 2.4,
+          "gain": 1.65
+        }
+      ]
+    },
+    {
+      "audio": "/workspace/scratch/c4612c1e89d7/optimized-production/media/Helix_Starred_New_Review.wav",
+      "audio_sha256": "50857fef6ac17197821bb6a9ce27f7ebd1c23b7eb8c82521345296bd22087677",
+      "duration": 120,
+      "dimensions": [
+        1920,
+        1080
+      ],
+      "filename": "09_Starred_Music_Sampler.mp4",
+      "title": "Helix - Starred Music Sampler - Native Review",
+      "kind": "montage",
+      "sources": [
+        {
+          "video": "/workspace/scratch/c4612c1e89d7/optimized-final-layouts/10_Moire_Optical_Illusion/native-preview-8etahl_7/preview.mp4",
+          "video_sha256": "f91188278117d0fa03199ffdaabab22514f133d90e03a12a9a1eae191ee54d35",
+          "title": "Tinsel Tornado - Native Moire",
+          "gamma": 2.2,
+          "gain": 1.65
+        },
+        {
+          "video": "/workspace/scratch/c4612c1e89d7/optimized-final-layouts/09_Double_Helix_Cathedral/native-preview-upqz2k91/preview.mp4",
+          "video_sha256": "aa7b8d98f466044bb589c6310c234a09638ebed174934e6bbede3ab9a4c33bf0",
+          "title": "Christmas in the Ether - Literal Pitch Helix",
+          "gamma": 2.4,
+          "gain": 1.65
+        },
+        {
+          "video": "/workspace/scratch/c4612c1e89d7/optimized-final-layouts/11_Forced_Perspective/native-preview-b8onnruo/preview.mp4",
+          "video_sha256": "1ab8182a4d8b5ad83b5a91060e6e517d13aa6d88d45e950103994ffce0eb1a0e",
+          "title": "North Pole Overdrive - Forced Perspective",
+          "gamma": 2.2,
+          "gain": 1.65
+        },
+        {
+          "video": "/workspace/scratch/c4612c1e89d7/optimized-final-layouts/06_Modern_Pixel_House/native-preview-cavufaqe/preview.mp4",
+          "video_sha256": "dc6cd8ac2c32e5af303dc5ac3164743e5b8cd81c68aa8e79bdf935ec4a8c62dc",
+          "title": "Ghost In The Grid - Residential RGB",
+          "gamma": 2.2,
+          "gain": 1.65
+        }
+      ],
+      "segments": [
+        {
+          "start": 0,
+          "end": 30,
+          "source": 0
+        },
+        {
+          "start": 30,
+          "end": 60,
+          "source": 1
+        },
+        {
+          "start": 60,
+          "end": 90,
+          "source": 2
+        },
+        {
+          "start": 90,
+          "end": 120,
+          "source": 3
+        }
+      ]
+    }
+  ]
+}

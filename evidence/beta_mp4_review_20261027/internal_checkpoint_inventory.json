@@ -1,0 +1,20 @@
+[
+  {
+    "file": "/workspace/scratch/ec314907d82d/HELIX_INTERNAL_NATIVE_RENDERS_20261027_PART1.zip",
+    "bytes": 481765773,
+    "sha256": "f7eccbab001343d84fda5581819ccf4ddd56d99c23d58bdd2887777f204f26d3",
+    "files": 32
+  },
+  {
+    "file": "/workspace/scratch/ec314907d82d/HELIX_INTERNAL_NATIVE_RENDERS_20261027_PART2.zip",
+    "bytes": 494782130,
+    "sha256": "ad1f05464993253cbb4d1ad14f88f25e850c134588c07cf3b67e2cb68301a20e",
+    "files": 48
+  },
+  {
+    "file": "/workspace/scratch/ec314907d82d/HELIX_INTERNAL_SOURCE_DELTA_20261027.zip",
+    "bytes": 191108641,
+    "sha256": "2cc4d8a3f5cb9c98b7384de73aa5d5055cc6bf2a06abb31b5c52717ba9e78429",
+    "files": 1289
+  }
+]

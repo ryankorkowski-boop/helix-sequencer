@@ -1,0 +1,23 @@
+{
+  "source_commit": "18a97623524ac8c5b37689c95553716163bd04b0",
+  "run_id": 40986962386,
+  "python312": {
+    "job": 123840121844,
+    "passed": 2203,
+    "skipped": 6,
+    "subtests_passed": 24,
+    "seconds": 293.19
+  },
+  "python311": {
+    "job": 123840121956,
+    "passed": 2203,
+    "skipped": 6,
+    "subtests_passed": 24,
+    "seconds": 403.43
+  },
+  "windows": {
+    "run": 40986968903,
+    "status": "success"
+  },
+  "not_final_MEM02_validation": true
+}

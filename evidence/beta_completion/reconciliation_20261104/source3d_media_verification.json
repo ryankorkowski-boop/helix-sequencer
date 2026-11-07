@@ -1,0 +1,74 @@
+{
+  "file": "canonical-source3D-candidate.mp4",
+  "sha256": "ca7e6c4093ccce2f3f6468bfa883fc51c6b26127d70bdb4d38a02671328bbead",
+  "bytes": 5783880,
+  "source_audio": "Phoneme_Test_Hook.mp3",
+  "source_audio_sha256": "19e90c273d0d747938f24b36586b50818c104cddffbefe4a4128927374301938",
+  "source_duration_seconds": 34.88,
+  "codecs": [
+    "h264",
+    "aac"
+  ],
+  "dimensions": [
+    1920,
+    1080
+  ],
+  "actual_frame_rate": "20/1",
+  "actual_frame_count": "698",
+  "video_duration_seconds": 34.9,
+  "audio_duration_seconds": 34.88,
+  "stream_start_seconds": [
+    0.0,
+    0.0
+  ],
+  "full_decode": true,
+  "soundtrack_correlation": 0.999018237103682,
+  "window_alignment": [
+    {
+      "source_start_seconds": 3.488,
+      "decoded_lag_seconds": 0.0
+    },
+    {
+      "source_start_seconds": 17.44,
+      "decoded_lag_seconds": 0.0
+    },
+    {
+      "source_start_seconds": 29.648,
+      "decoded_lag_seconds": 0.0
+    },
+    {
+      "source_start_seconds": 32.83,
+      "decoded_lag_seconds": 0.0
+    }
+  ],
+  "musical_or_visual_acceptance": false,
+  "readability": {
+    "schema": "helix.showcase_readability.v1",
+    "frames": 70,
+    "sample_fps": 2,
+    "thresholds": {
+      "median_luma": 12.0,
+      "median_bright_fraction": 0.012,
+      "median_motion": 0.65,
+      "min_visible_width": 0.4,
+      "min_visible_height": 0.35
+    },
+    "measurements": {
+      "median_luma": 32.69,
+      "median_bright_fraction": 0.17157,
+      "median_motion": 1.062,
+      "visible_width": 0.794,
+      "visible_height": 0.522
+    },
+    "checks": {
+      "visible_stage_width": true,
+      "visible_stage_height": true,
+      "median_stage_luminance": true,
+      "bright_stage_area": true,
+      "visible_stage_motion": true,
+      "opening_static_cast_framing": true
+    },
+    "passed": true,
+    "note": "Quantitative visibility gate only; no artistic, musical or source classification approval"
+  }
+}

@@ -23,6 +23,9 @@ jobs:
 
       - name: Verify required compliance files
         run: |
+          test -f LICENSE
+          test -f COMMERCIAL_LICENSING.md
+          grep -q 'PolyForm Noncommercial License 1.0.0' LICENSE
           test -f NOTICE
           test -f LICENSES/THIRD_PARTY_LICENSE_CHECKLIST.md
           test -f docs/TRAINING_POLICY.md
@@ -32,7 +35,7 @@ jobs:
       - name: Build compliance bundle
         run: |
           mkdir -p compliance_bundle
-          cp NOTICE compliance_bundle/
+          cp LICENSE COMMERCIAL_LICENSING.md NOTICE compliance_bundle/
           cp -r LICENSES compliance_bundle/
           cp -r docs compliance_bundle/
 

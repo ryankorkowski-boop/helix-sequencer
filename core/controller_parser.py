@@ -67,6 +67,7 @@ class ControllerPlan:
     networks_path: Path | None = None
     controllers: tuple[ControllerInfo, ...] = ()
     synthesized_null_controller: bool = False
+    model_output_modes: dict[str, dict] = field(default_factory=dict)
 
     def to_dict(self) -> dict[str, object]:
         return {
@@ -76,6 +77,7 @@ class ControllerPlan:
             "networks_path": str(self.networks_path) if self.networks_path is not None else None,
             "synthesized_null_controller": self.synthesized_null_controller,
             "controllers": [controller.to_dict() for controller in self.controllers],
+            "model_output_modes": self.model_output_modes,
         }
 
 
@@ -150,6 +152,9 @@ def build_controller_plan(
     layout_count = layout_channel_count(layout_path)
     candidate_networks = Path(networks_path) if networks_path is not None else discover_networks_path(layout_path)
     controllers = parse_networks(candidate_networks)
+    from core.output_capabilities import resolve_layout_outputs
+    model_modes = resolve_layout_outputs(ET.parse(layout_path).getroot(),
+        ET.parse(candidate_networks).getroot() if candidate_networks.exists() else ET.Element('Networks'))
     if controllers:
         controller_count = max(controller.end_channel for controller in controllers)
         return ControllerPlan(
@@ -159,6 +164,7 @@ def build_controller_plan(
             networks_path=candidate_networks,
             controllers=controllers,
             synthesized_null_controller=False,
+            model_output_modes=model_modes,
         )
 
     null_channels = max(MIN_PREVIEW_CHANNELS, layout_count + max(0, int(padding)))
@@ -176,6 +182,7 @@ def build_controller_plan(
             ),
         ),
         synthesized_null_controller=True,
+        model_output_modes=model_modes,
     )
 
 

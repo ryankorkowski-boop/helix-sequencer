@@ -1,0 +1,98 @@
+[
+  {
+    "show": "09_Double_Helix_Cathedral",
+    "render_elapsed_seconds": 112.10291870999981,
+    "original_operation_status": "success",
+    "current_status": "success",
+    "source_audio_sha256": "50857fef6ac17197821bb6a9ce27f7ebd1c23b7eb8c82521345296bd22087677",
+    "native_sha256": "aa7b8d98f466044bb589c6310c234a09638ebed174934e6bbede3ab9a4c33bf0",
+    "renderer": {
+      "upstream_commit": "839c0f590dc454bb7adb8a16c4dd92a70b46156e",
+      "source_commit": "93085e1d8ae7d475f465905db055cb3d34b1852e",
+      "patch_sha256": "93bedae81caefda745034651994a16b2d127079a5af784013109becfb428566b",
+      "original_binary_sha256": "421f03ff9f0a4a54206b33cd6f1ba0383bd340f088f08873787e1c43321f6d4c",
+      "stripped_binary_sha256": "6d2dffb937b46c2dedd8a4a637c902b67d38584a90f62a9c1b2b371d13ee9db0",
+      "libraries": "native-runtime-libraries.log; retain pinned2026.18 resources and compatible wxWidgets"
+    }
+  },
+  {
+    "show": "06_Modern_Pixel_House",
+    "render_elapsed_seconds": 102.55739227599997,
+    "original_operation_status": "success",
+    "current_status": "success",
+    "source_audio_sha256": "50857fef6ac17197821bb6a9ce27f7ebd1c23b7eb8c82521345296bd22087677",
+    "native_sha256": "dc6cd8ac2c32e5af303dc5ac3164743e5b8cd81c68aa8e79bdf935ec4a8c62dc",
+    "renderer": {
+      "upstream_commit": "839c0f590dc454bb7adb8a16c4dd92a70b46156e",
+      "source_commit": "93085e1d8ae7d475f465905db055cb3d34b1852e",
+      "patch_sha256": "93bedae81caefda745034651994a16b2d127079a5af784013109becfb428566b",
+      "original_binary_sha256": "421f03ff9f0a4a54206b33cd6f1ba0383bd340f088f08873787e1c43321f6d4c",
+      "stripped_binary_sha256": "6d2dffb937b46c2dedd8a4a637c902b67d38584a90f62a9c1b2b371d13ee9db0",
+      "libraries": "native-runtime-libraries.log; retain pinned2026.18 resources and compatible wxWidgets"
+    }
+  },
+  {
+    "show": "01_Traditional_256_AC",
+    "render_elapsed_seconds": 124.87811576000001,
+    "original_operation_status": "success",
+    "current_status": "success",
+    "source_audio_sha256": "50857fef6ac17197821bb6a9ce27f7ebd1c23b7eb8c82521345296bd22087677",
+    "native_sha256": "082c33c8ac69dad0ec267e1e21dab220661feb174a5068ded930be253ed4842c",
+    "renderer": {
+      "upstream_commit": "839c0f590dc454bb7adb8a16c4dd92a70b46156e",
+      "source_commit": "93085e1d8ae7d475f465905db055cb3d34b1852e",
+      "patch_sha256": "93bedae81caefda745034651994a16b2d127079a5af784013109becfb428566b",
+      "original_binary_sha256": "421f03ff9f0a4a54206b33cd6f1ba0383bd340f088f08873787e1c43321f6d4c",
+      "stripped_binary_sha256": "6d2dffb937b46c2dedd8a4a637c902b67d38584a90f62a9c1b2b371d13ee9db0",
+      "libraries": "native-runtime-libraries.log; retain pinned2026.18 resources and compatible wxWidgets"
+    }
+  },
+  {
+    "show": "11_Forced_Perspective",
+    "render_elapsed_seconds": 136.7265790419999,
+    "original_operation_status": "success",
+    "current_status": "success",
+    "source_audio_sha256": "50857fef6ac17197821bb6a9ce27f7ebd1c23b7eb8c82521345296bd22087677",
+    "native_sha256": "1ab8182a4d8b5ad83b5a91060e6e517d13aa6d88d45e950103994ffce0eb1a0e",
+    "renderer": {
+      "upstream_commit": "839c0f590dc454bb7adb8a16c4dd92a70b46156e",
+      "source_commit": "93085e1d8ae7d475f465905db055cb3d34b1852e",
+      "patch_sha256": "93bedae81caefda745034651994a16b2d127079a5af784013109becfb428566b",
+      "original_binary_sha256": "421f03ff9f0a4a54206b33cd6f1ba0383bd340f088f08873787e1c43321f6d4c",
+      "stripped_binary_sha256": "6d2dffb937b46c2dedd8a4a637c902b67d38584a90f62a9c1b2b371d13ee9db0",
+      "libraries": "native-runtime-libraries.log; retain pinned2026.18 resources and compatible wxWidgets"
+    }
+  },
+  {
+    "show": "10_Moire_Optical_Illusion",
+    "render_elapsed_seconds": 137.74083874899998,
+    "original_operation_status": "fallback",
+    "current_status": "success",
+    "source_audio_sha256": "50857fef6ac17197821bb6a9ce27f7ebd1c23b7eb8c82521345296bd22087677",
+    "native_sha256": "f91188278117d0fa03199ffdaabab22514f133d90e03a12a9a1eae191ee54d35",
+    "renderer": {
+      "upstream_commit": "839c0f590dc454bb7adb8a16c4dd92a70b46156e",
+      "source_commit": "93085e1d8ae7d475f465905db055cb3d34b1852e",
+      "patch_sha256": "93bedae81caefda745034651994a16b2d127079a5af784013109becfb428566b",
+      "original_binary_sha256": "421f03ff9f0a4a54206b33cd6f1ba0383bd340f088f08873787e1c43321f6d4c",
+      "stripped_binary_sha256": "6d2dffb937b46c2dedd8a4a637c902b67d38584a90f62a9c1b2b371d13ee9db0",
+      "libraries": "native-runtime-libraries.log; retain pinned2026.18 resources and compatible wxWidgets"
+    }
+  },
+  {
+    "show": "02_Experimental_256_AC_RGB",
+    "render_elapsed_seconds": 117.45857142,
+    "original_operation_status": "success",
+    "current_status": "success",
+    "source_audio_sha256": "50857fef6ac17197821bb6a9ce27f7ebd1c23b7eb8c82521345296bd22087677",
+    "native_sha256": "16f5b1d08849ab560f1cfa601817d1a849e07988cea86a958a362355b7a86cd0",
+    "renderer": {
+      "upstream_commit": "839c0f590dc454bb7adb8a16c4dd92a70b46156e",
+      "source_commit": "93085e1d8ae7d475f465905db055cb3d34b1852e",
+      "patch_sha256": "93bedae81caefda745034651994a16b2d127079a5af784013109becfb428566b",
+      "original_binary_sha256": "421f03ff9f0a4a54206b33cd6f1ba0383bd340f088f08873787e1c43321f6d4c",
+      "stripped_binary_sha256": "6d2dffb937b46c2dedd8a4a637c902b67d38584a90f62a9c1b2b371d13ee9db0",
+      "libraries": "native-runtime-libraries.log; retain pinned2026.18 resources and compatible wxWidgets"
+    }
+  }
+]

@@ -1,0 +1,14 @@
+{
+  "schema": "helix.output-provenance.v1",
+  "generator": "Helix",
+  "credit": "Made with Helix | Audio in. Lights out.",
+  "software_license": "PolyForm Noncommercial 1.0.0; historical and third-party rights retained",
+  "music_ownership_asserted": false,
+  "music_rights": "Source-specific permission and evidence recorded separately",
+  "tracking": false,
+  "drm": false,
+  "files": {
+    "native.mp4": "3f5a5787b630006a49ce9dd963266bc6af5616d09a9f67a396dcf694000c2ab3",
+    "probe.fseq": "b1660ca2db11388bf43dca41f5054c0c75ba5e991cbfb34a3bc60d49b894c7e3"
+  }
+}

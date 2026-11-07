@@ -1,0 +1,2357 @@
+{
+  "schema": "helix.approved_concept.v1",
+  "name": "Bioluminescent Mangrove",
+  "coordinate_system": "x-right, y-up, z-depth; design feet",
+  "xlights_source_ref": "6ceddc6b25a24d82754d4f9af28e18ee70b51f81",
+  "coverage": {
+    "Custom": 57
+  },
+  "native_families": [
+    "Custom"
+  ],
+  "native_coverage_complete": false,
+  "model_count": 57,
+  "rgb_pixels": 6945,
+  "channel_count": 20835,
+  "spiral_trees": 0,
+  "double_helices": 7,
+  "preview_contract": "Custom sparse-grid coordinates exactly match exported XML; native-family preview coordinates illustrate the authored geometry. Native xLights render/load evidence is recorded separately.",
+  "models": [
+    {
+      "name": "HX_001_MANGROVE_TRUNK",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "TRUNKS",
+      "design": "MANGROVE TRUNK",
+      "kind": "pixel",
+      "nodes": 395,
+      "start_channel": 1,
+      "end_channel": 1185,
+      "bounds_ft": [
+        [
+          -139.0,
+          5.0,
+          16.0
+        ],
+        [
+          -131.0,
+          45.0,
+          24.0
+        ]
+      ],
+      "submodels": [
+        "STRAND_A",
+        "STRAND_B",
+        "RUNGS",
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.25,
+      "max_snap_error_ft": 0.20055546716674877,
+      "double_helix": true
+    },
+    {
+      "name": "HX_002_CROWN",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "CANOPY",
+      "design": "CROWN",
+      "kind": "pixel",
+      "nodes": 150,
+      "start_channel": 1186,
+      "end_channel": 1635,
+      "bounds_ft": [
+        [
+          -157.0,
+          45.0,
+          3.0
+        ],
+        [
+          -113.0,
+          45.0,
+          37.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.2973318384758296
+    },
+    {
+      "name": "HX_003_ROOT",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "ROOTS",
+      "design": "ROOT",
+      "kind": "pixel",
+      "nodes": 65,
+      "start_channel": 1636,
+      "end_channel": 1830,
+      "bounds_ft": [
+        [
+          -135.0,
+          0.0,
+          20.0
+        ],
+        [
+          -111.0,
+          22.0,
+          20.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.25,
+      "max_snap_error_ft": 0.16735650640977395
+    },
+    {
+      "name": "HX_004_ROOT",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "ROOTS",
+      "design": "ROOT",
+      "kind": "pixel",
+      "nodes": 65,
+      "start_channel": 1831,
+      "end_channel": 2025,
+      "bounds_ft": [
+        [
+          -135.0,
+          0.0,
+          20.0
+        ],
+        [
+          -123.0,
+          22.0,
+          40.75
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.25,
+      "max_snap_error_ft": 0.1948726194325404
+    },
+    {
+      "name": "HX_005_ROOT",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "ROOTS",
+      "design": "ROOT",
+      "kind": "pixel",
+      "nodes": 65,
+      "start_channel": 2026,
+      "end_channel": 2220,
+      "bounds_ft": [
+        [
+          -147.0,
+          0.0,
+          20.0
+        ],
+        [
+          -135.0,
+          22.0,
+          40.75
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.25,
+      "max_snap_error_ft": 0.1948726194325404
+    },
+    {
+      "name": "HX_006_ROOT",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "ROOTS",
+      "design": "ROOT",
+      "kind": "pixel",
+      "nodes": 65,
+      "start_channel": 2221,
+      "end_channel": 2415,
+      "bounds_ft": [
+        [
+          -159.0,
+          0.0,
+          20.0
+        ],
+        [
+          -135.0,
+          22.0,
+          20.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.25,
+      "max_snap_error_ft": 0.16735650640978453
+    },
+    {
+      "name": "HX_007_ROOT",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "ROOTS",
+      "design": "ROOT",
+      "kind": "pixel",
+      "nodes": 65,
+      "start_channel": 2416,
+      "end_channel": 2610,
+      "bounds_ft": [
+        [
+          -147.0,
+          0.0,
+          -0.75
+        ],
+        [
+          -135.0,
+          22.0,
+          20.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.25,
+      "max_snap_error_ft": 0.1948726194325404
+    },
+    {
+      "name": "HX_008_ROOT",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "ROOTS",
+      "design": "ROOT",
+      "kind": "pixel",
+      "nodes": 65,
+      "start_channel": 2611,
+      "end_channel": 2805,
+      "bounds_ft": [
+        [
+          -135.0,
+          0.0,
+          -0.75
+        ],
+        [
+          -123.0,
+          22.0,
+          20.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.25,
+      "max_snap_error_ft": 0.1948726194325404
+    },
+    {
+      "name": "HX_009_MANGROVE_TRUNK",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "TRUNKS",
+      "design": "MANGROVE TRUNK",
+      "kind": "pixel",
+      "nodes": 395,
+      "start_channel": 2806,
+      "end_channel": 3990,
+      "bounds_ft": [
+        [
+          -94.0,
+          5.0,
+          -54.0
+        ],
+        [
+          -86.0,
+          65.0,
+          -46.0
+        ]
+      ],
+      "submodels": [
+        "STRAND_A",
+        "STRAND_B",
+        "RUNGS",
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.35597824625082203,
+      "double_helix": true
+    },
+    {
+      "name": "HX_010_CROWN",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "CANOPY",
+      "design": "CROWN",
+      "kind": "pixel",
+      "nodes": 150,
+      "start_channel": 3991,
+      "end_channel": 4440,
+      "bounds_ft": [
+        [
+          -112.0,
+          65.0,
+          -67.0
+        ],
+        [
+          -68.0,
+          65.0,
+          -33.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.2973318384758283
+    },
+    {
+      "name": "HX_011_ROOT",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "ROOTS",
+      "design": "ROOT",
+      "kind": "pixel",
+      "nodes": 65,
+      "start_channel": 4441,
+      "end_channel": 4635,
+      "bounds_ft": [
+        [
+          -90.0,
+          0.0,
+          -50.0
+        ],
+        [
+          -66.0,
+          22.0,
+          -50.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.25,
+      "max_snap_error_ft": 0.16735650640977395
+    },
+    {
+      "name": "HX_012_ROOT",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "ROOTS",
+      "design": "ROOT",
+      "kind": "pixel",
+      "nodes": 65,
+      "start_channel": 4636,
+      "end_channel": 4830,
+      "bounds_ft": [
+        [
+          -90.0,
+          0.0,
+          -50.0
+        ],
+        [
+          -78.0,
+          22.0,
+          -29.25
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.25,
+      "max_snap_error_ft": 0.19487261943254747
+    },
+    {
+      "name": "HX_013_ROOT",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "ROOTS",
+      "design": "ROOT",
+      "kind": "pixel",
+      "nodes": 65,
+      "start_channel": 4831,
+      "end_channel": 5025,
+      "bounds_ft": [
+        [
+          -102.0,
+          0.0,
+          -50.0
+        ],
+        [
+          -90.0,
+          22.0,
+          -29.25
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.25,
+      "max_snap_error_ft": 0.19487261943254913
+    },
+    {
+      "name": "HX_014_ROOT",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "ROOTS",
+      "design": "ROOT",
+      "kind": "pixel",
+      "nodes": 65,
+      "start_channel": 5026,
+      "end_channel": 5220,
+      "bounds_ft": [
+        [
+          -114.0,
+          0.0,
+          -50.0
+        ],
+        [
+          -90.0,
+          22.0,
+          -50.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.25,
+      "max_snap_error_ft": 0.16735650640977395
+    },
+    {
+      "name": "HX_015_ROOT",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "ROOTS",
+      "design": "ROOT",
+      "kind": "pixel",
+      "nodes": 65,
+      "start_channel": 5221,
+      "end_channel": 5415,
+      "bounds_ft": [
+        [
+          -102.0,
+          0.0,
+          -70.75
+        ],
+        [
+          -90.0,
+          22.0,
+          -50.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.25,
+      "max_snap_error_ft": 0.19487261943254747
+    },
+    {
+      "name": "HX_016_ROOT",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "ROOTS",
+      "design": "ROOT",
+      "kind": "pixel",
+      "nodes": 65,
+      "start_channel": 5416,
+      "end_channel": 5610,
+      "bounds_ft": [
+        [
+          -90.0,
+          0.0,
+          -70.75
+        ],
+        [
+          -78.0,
+          22.0,
+          -50.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.25,
+      "max_snap_error_ft": 0.19487261943254913
+    },
+    {
+      "name": "HX_017_MANGROVE_TRUNK",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "TRUNKS",
+      "design": "MANGROVE TRUNK",
+      "kind": "pixel",
+      "nodes": 395,
+      "start_channel": 5611,
+      "end_channel": 6795,
+      "bounds_ft": [
+        [
+          -49.0,
+          5.0,
+          16.0
+        ],
+        [
+          -41.0,
+          85.0,
+          24.0
+        ]
+      ],
+      "submodels": [
+        "STRAND_A",
+        "STRAND_B",
+        "RUNGS",
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3857412065853505,
+      "double_helix": true
+    },
+    {
+      "name": "HX_018_CROWN",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "CANOPY",
+      "design": "CROWN",
+      "kind": "pixel",
+      "nodes": 150,
+      "start_channel": 6796,
+      "end_channel": 7245,
+      "bounds_ft": [
+        [
+          -67.0,
+          85.0,
+          3.0
+        ],
+        [
+          -23.0,
+          85.0,
+          37.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.2973318384758283
+    },
+    {
+      "name": "HX_019_ROOT",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "ROOTS",
+      "design": "ROOT",
+      "kind": "pixel",
+      "nodes": 65,
+      "start_channel": 7246,
+      "end_channel": 7440,
+      "bounds_ft": [
+        [
+          -45.0,
+          0.0,
+          20.0
+        ],
+        [
+          -21.0,
+          22.0,
+          20.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.25,
+      "max_snap_error_ft": 0.16735650640977395
+    },
+    {
+      "name": "HX_020_ROOT",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "ROOTS",
+      "design": "ROOT",
+      "kind": "pixel",
+      "nodes": 65,
+      "start_channel": 7441,
+      "end_channel": 7635,
+      "bounds_ft": [
+        [
+          -45.0,
+          0.0,
+          20.0
+        ],
+        [
+          -33.0,
+          22.0,
+          40.75
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.25,
+      "max_snap_error_ft": 0.19487261943254913
+    },
+    {
+      "name": "HX_021_ROOT",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "ROOTS",
+      "design": "ROOT",
+      "kind": "pixel",
+      "nodes": 65,
+      "start_channel": 7636,
+      "end_channel": 7830,
+      "bounds_ft": [
+        [
+          -57.0,
+          0.0,
+          20.0
+        ],
+        [
+          -45.0,
+          22.0,
+          40.75
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.25,
+      "max_snap_error_ft": 0.19487261943254913
+    },
+    {
+      "name": "HX_022_ROOT",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "ROOTS",
+      "design": "ROOT",
+      "kind": "pixel",
+      "nodes": 65,
+      "start_channel": 7831,
+      "end_channel": 8025,
+      "bounds_ft": [
+        [
+          -69.0,
+          0.0,
+          20.0
+        ],
+        [
+          -45.0,
+          22.0,
+          20.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.25,
+      "max_snap_error_ft": 0.16735650640977395
+    },
+    {
+      "name": "HX_023_ROOT",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "ROOTS",
+      "design": "ROOT",
+      "kind": "pixel",
+      "nodes": 65,
+      "start_channel": 8026,
+      "end_channel": 8220,
+      "bounds_ft": [
+        [
+          -57.0,
+          0.0,
+          -0.75
+        ],
+        [
+          -45.0,
+          22.0,
+          20.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.25,
+      "max_snap_error_ft": 0.19487261943254913
+    },
+    {
+      "name": "HX_024_ROOT",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "ROOTS",
+      "design": "ROOT",
+      "kind": "pixel",
+      "nodes": 65,
+      "start_channel": 8221,
+      "end_channel": 8415,
+      "bounds_ft": [
+        [
+          -45.0,
+          0.0,
+          -0.75
+        ],
+        [
+          -33.0,
+          22.0,
+          20.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.25,
+      "max_snap_error_ft": 0.19487261943255138
+    },
+    {
+      "name": "HX_025_MANGROVE_TRUNK",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "TRUNKS",
+      "design": "MANGROVE TRUNK",
+      "kind": "pixel",
+      "nodes": 395,
+      "start_channel": 8416,
+      "end_channel": 9600,
+      "bounds_ft": [
+        [
+          -4.0,
+          5.0,
+          -54.0
+        ],
+        [
+          4.0,
+          45.0,
+          -46.0
+        ]
+      ],
+      "submodels": [
+        "STRAND_A",
+        "STRAND_B",
+        "RUNGS",
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.25,
+      "max_snap_error_ft": 0.20055546716674913,
+      "double_helix": true
+    },
+    {
+      "name": "HX_026_CROWN",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "CANOPY",
+      "design": "CROWN",
+      "kind": "pixel",
+      "nodes": 150,
+      "start_channel": 9601,
+      "end_channel": 10050,
+      "bounds_ft": [
+        [
+          -22.0,
+          45.0,
+          -67.0
+        ],
+        [
+          22.0,
+          45.0,
+          -33.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.29733183847582595
+    },
+    {
+      "name": "HX_027_ROOT",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "ROOTS",
+      "design": "ROOT",
+      "kind": "pixel",
+      "nodes": 65,
+      "start_channel": 10051,
+      "end_channel": 10245,
+      "bounds_ft": [
+        [
+          0.0,
+          0.0,
+          -50.0
+        ],
+        [
+          24.0,
+          22.0,
+          -50.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.25,
+      "max_snap_error_ft": 0.16735650640977529
+    },
+    {
+      "name": "HX_028_ROOT",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "ROOTS",
+      "design": "ROOT",
+      "kind": "pixel",
+      "nodes": 65,
+      "start_channel": 10246,
+      "end_channel": 10440,
+      "bounds_ft": [
+        [
+          0.0,
+          0.0,
+          -50.0
+        ],
+        [
+          12.0,
+          22.0,
+          -29.25
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.25,
+      "max_snap_error_ft": 0.1948726194325476
+    },
+    {
+      "name": "HX_029_ROOT",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "ROOTS",
+      "design": "ROOT",
+      "kind": "pixel",
+      "nodes": 65,
+      "start_channel": 10441,
+      "end_channel": 10635,
+      "bounds_ft": [
+        [
+          -12.0,
+          0.0,
+          -50.0
+        ],
+        [
+          0.0,
+          22.0,
+          -29.25
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.25,
+      "max_snap_error_ft": 0.1948726194325486
+    },
+    {
+      "name": "HX_030_ROOT",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "ROOTS",
+      "design": "ROOT",
+      "kind": "pixel",
+      "nodes": 65,
+      "start_channel": 10636,
+      "end_channel": 10830,
+      "bounds_ft": [
+        [
+          -24.0,
+          0.0,
+          -50.0
+        ],
+        [
+          0.0,
+          22.0,
+          -50.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.25,
+      "max_snap_error_ft": 0.16735650640977529
+    },
+    {
+      "name": "HX_031_ROOT",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "ROOTS",
+      "design": "ROOT",
+      "kind": "pixel",
+      "nodes": 65,
+      "start_channel": 10831,
+      "end_channel": 11025,
+      "bounds_ft": [
+        [
+          -12.0,
+          0.0,
+          -70.75
+        ],
+        [
+          0.0,
+          22.0,
+          -50.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.25,
+      "max_snap_error_ft": 0.19487261943254813
+    },
+    {
+      "name": "HX_032_ROOT",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "ROOTS",
+      "design": "ROOT",
+      "kind": "pixel",
+      "nodes": 65,
+      "start_channel": 11026,
+      "end_channel": 11220,
+      "bounds_ft": [
+        [
+          0.0,
+          0.0,
+          -70.75
+        ],
+        [
+          12.0,
+          22.0,
+          -50.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.25,
+      "max_snap_error_ft": 0.19487261943254777
+    },
+    {
+      "name": "HX_033_MANGROVE_TRUNK",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "TRUNKS",
+      "design": "MANGROVE TRUNK",
+      "kind": "pixel",
+      "nodes": 395,
+      "start_channel": 11221,
+      "end_channel": 12405,
+      "bounds_ft": [
+        [
+          41.0,
+          5.0,
+          16.0
+        ],
+        [
+          49.0,
+          65.0,
+          24.0
+        ]
+      ],
+      "submodels": [
+        "STRAND_A",
+        "STRAND_B",
+        "RUNGS",
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.35597824625082203,
+      "double_helix": true
+    },
+    {
+      "name": "HX_034_CROWN",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "CANOPY",
+      "design": "CROWN",
+      "kind": "pixel",
+      "nodes": 150,
+      "start_channel": 12406,
+      "end_channel": 12855,
+      "bounds_ft": [
+        [
+          23.0,
+          65.0,
+          3.0
+        ],
+        [
+          67.0,
+          65.0,
+          37.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.2973318384758296
+    },
+    {
+      "name": "HX_035_ROOT",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "ROOTS",
+      "design": "ROOT",
+      "kind": "pixel",
+      "nodes": 65,
+      "start_channel": 12856,
+      "end_channel": 13050,
+      "bounds_ft": [
+        [
+          45.0,
+          0.0,
+          20.0
+        ],
+        [
+          69.0,
+          22.0,
+          20.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.25,
+      "max_snap_error_ft": 0.16735650640977395
+    },
+    {
+      "name": "HX_036_ROOT",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "ROOTS",
+      "design": "ROOT",
+      "kind": "pixel",
+      "nodes": 65,
+      "start_channel": 13051,
+      "end_channel": 13245,
+      "bounds_ft": [
+        [
+          45.0,
+          0.0,
+          20.0
+        ],
+        [
+          57.0,
+          22.0,
+          40.75
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.25,
+      "max_snap_error_ft": 0.19487261943254913
+    },
+    {
+      "name": "HX_037_ROOT",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "ROOTS",
+      "design": "ROOT",
+      "kind": "pixel",
+      "nodes": 65,
+      "start_channel": 13246,
+      "end_channel": 13440,
+      "bounds_ft": [
+        [
+          33.0,
+          0.0,
+          20.0
+        ],
+        [
+          45.0,
+          22.0,
+          40.75
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.25,
+      "max_snap_error_ft": 0.19487261943254913
+    },
+    {
+      "name": "HX_038_ROOT",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "ROOTS",
+      "design": "ROOT",
+      "kind": "pixel",
+      "nodes": 65,
+      "start_channel": 13441,
+      "end_channel": 13635,
+      "bounds_ft": [
+        [
+          21.0,
+          0.0,
+          20.0
+        ],
+        [
+          45.0,
+          22.0,
+          20.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.25,
+      "max_snap_error_ft": 0.16735650640977395
+    },
+    {
+      "name": "HX_039_ROOT",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "ROOTS",
+      "design": "ROOT",
+      "kind": "pixel",
+      "nodes": 65,
+      "start_channel": 13636,
+      "end_channel": 13830,
+      "bounds_ft": [
+        [
+          33.0,
+          0.0,
+          -0.75
+        ],
+        [
+          45.0,
+          22.0,
+          20.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.25,
+      "max_snap_error_ft": 0.19487261943254913
+    },
+    {
+      "name": "HX_040_ROOT",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "ROOTS",
+      "design": "ROOT",
+      "kind": "pixel",
+      "nodes": 65,
+      "start_channel": 13831,
+      "end_channel": 14025,
+      "bounds_ft": [
+        [
+          45.0,
+          0.0,
+          -0.75
+        ],
+        [
+          57.0,
+          22.0,
+          20.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.25,
+      "max_snap_error_ft": 0.19487261943255138
+    },
+    {
+      "name": "HX_041_MANGROVE_TRUNK",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "TRUNKS",
+      "design": "MANGROVE TRUNK",
+      "kind": "pixel",
+      "nodes": 395,
+      "start_channel": 14026,
+      "end_channel": 15210,
+      "bounds_ft": [
+        [
+          86.0,
+          5.0,
+          -54.0
+        ],
+        [
+          94.0,
+          85.0,
+          -46.0
+        ]
+      ],
+      "submodels": [
+        "STRAND_A",
+        "STRAND_B",
+        "RUNGS",
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.38574120658534844,
+      "double_helix": true
+    },
+    {
+      "name": "HX_042_CROWN",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "CANOPY",
+      "design": "CROWN",
+      "kind": "pixel",
+      "nodes": 150,
+      "start_channel": 15211,
+      "end_channel": 15660,
+      "bounds_ft": [
+        [
+          68.0,
+          85.0,
+          -67.0
+        ],
+        [
+          112.0,
+          85.0,
+          -33.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.2973318384758283
+    },
+    {
+      "name": "HX_043_ROOT",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "ROOTS",
+      "design": "ROOT",
+      "kind": "pixel",
+      "nodes": 65,
+      "start_channel": 15661,
+      "end_channel": 15855,
+      "bounds_ft": [
+        [
+          90.0,
+          0.0,
+          -50.0
+        ],
+        [
+          114.0,
+          22.0,
+          -50.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.25,
+      "max_snap_error_ft": 0.16735650640977395
+    },
+    {
+      "name": "HX_044_ROOT",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "ROOTS",
+      "design": "ROOT",
+      "kind": "pixel",
+      "nodes": 65,
+      "start_channel": 15856,
+      "end_channel": 16050,
+      "bounds_ft": [
+        [
+          90.0,
+          0.0,
+          -50.0
+        ],
+        [
+          102.0,
+          22.0,
+          -29.25
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.25,
+      "max_snap_error_ft": 0.19487261943254747
+    },
+    {
+      "name": "HX_045_ROOT",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "ROOTS",
+      "design": "ROOT",
+      "kind": "pixel",
+      "nodes": 65,
+      "start_channel": 16051,
+      "end_channel": 16245,
+      "bounds_ft": [
+        [
+          78.0,
+          0.0,
+          -50.0
+        ],
+        [
+          90.0,
+          22.0,
+          -29.25
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.25,
+      "max_snap_error_ft": 0.19487261943254913
+    },
+    {
+      "name": "HX_046_ROOT",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "ROOTS",
+      "design": "ROOT",
+      "kind": "pixel",
+      "nodes": 65,
+      "start_channel": 16246,
+      "end_channel": 16440,
+      "bounds_ft": [
+        [
+          66.0,
+          0.0,
+          -50.0
+        ],
+        [
+          90.0,
+          22.0,
+          -50.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.25,
+      "max_snap_error_ft": 0.16735650640977395
+    },
+    {
+      "name": "HX_047_ROOT",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "ROOTS",
+      "design": "ROOT",
+      "kind": "pixel",
+      "nodes": 65,
+      "start_channel": 16441,
+      "end_channel": 16635,
+      "bounds_ft": [
+        [
+          78.0,
+          0.0,
+          -70.75
+        ],
+        [
+          90.0,
+          22.0,
+          -50.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.25,
+      "max_snap_error_ft": 0.19487261943254747
+    },
+    {
+      "name": "HX_048_ROOT",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "ROOTS",
+      "design": "ROOT",
+      "kind": "pixel",
+      "nodes": 65,
+      "start_channel": 16636,
+      "end_channel": 16830,
+      "bounds_ft": [
+        [
+          90.0,
+          0.0,
+          -70.75
+        ],
+        [
+          102.0,
+          22.0,
+          -50.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.25,
+      "max_snap_error_ft": 0.19487261943254913
+    },
+    {
+      "name": "HX_049_MANGROVE_TRUNK",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "TRUNKS",
+      "design": "MANGROVE TRUNK",
+      "kind": "pixel",
+      "nodes": 395,
+      "start_channel": 16831,
+      "end_channel": 18015,
+      "bounds_ft": [
+        [
+          131.0,
+          5.0,
+          16.0
+        ],
+        [
+          139.0,
+          45.0,
+          24.0
+        ]
+      ],
+      "submodels": [
+        "STRAND_A",
+        "STRAND_B",
+        "RUNGS",
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.25,
+      "max_snap_error_ft": 0.20055546716674877,
+      "double_helix": true
+    },
+    {
+      "name": "HX_050_CROWN",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "CANOPY",
+      "design": "CROWN",
+      "kind": "pixel",
+      "nodes": 150,
+      "start_channel": 18016,
+      "end_channel": 18465,
+      "bounds_ft": [
+        [
+          113.0,
+          45.0,
+          3.0
+        ],
+        [
+          157.0,
+          45.0,
+          37.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.2973318384758296
+    },
+    {
+      "name": "HX_051_ROOT",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "ROOTS",
+      "design": "ROOT",
+      "kind": "pixel",
+      "nodes": 65,
+      "start_channel": 18466,
+      "end_channel": 18660,
+      "bounds_ft": [
+        [
+          135.0,
+          0.0,
+          20.0
+        ],
+        [
+          159.0,
+          22.0,
+          20.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.25,
+      "max_snap_error_ft": 0.16735650640978453
+    },
+    {
+      "name": "HX_052_ROOT",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "ROOTS",
+      "design": "ROOT",
+      "kind": "pixel",
+      "nodes": 65,
+      "start_channel": 18661,
+      "end_channel": 18855,
+      "bounds_ft": [
+        [
+          135.0,
+          0.0,
+          20.0
+        ],
+        [
+          147.0,
+          22.0,
+          40.75
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.25,
+      "max_snap_error_ft": 0.1948726194325404
+    },
+    {
+      "name": "HX_053_ROOT",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "ROOTS",
+      "design": "ROOT",
+      "kind": "pixel",
+      "nodes": 65,
+      "start_channel": 18856,
+      "end_channel": 19050,
+      "bounds_ft": [
+        [
+          123.0,
+          0.0,
+          20.0
+        ],
+        [
+          135.0,
+          22.0,
+          40.75
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.25,
+      "max_snap_error_ft": 0.1948726194325404
+    },
+    {
+      "name": "HX_054_ROOT",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "ROOTS",
+      "design": "ROOT",
+      "kind": "pixel",
+      "nodes": 65,
+      "start_channel": 19051,
+      "end_channel": 19245,
+      "bounds_ft": [
+        [
+          111.0,
+          0.0,
+          20.0
+        ],
+        [
+          135.0,
+          22.0,
+          20.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.25,
+      "max_snap_error_ft": 0.16735650640977395
+    },
+    {
+      "name": "HX_055_ROOT",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "ROOTS",
+      "design": "ROOT",
+      "kind": "pixel",
+      "nodes": 65,
+      "start_channel": 19246,
+      "end_channel": 19440,
+      "bounds_ft": [
+        [
+          123.0,
+          0.0,
+          -0.75
+        ],
+        [
+          135.0,
+          22.0,
+          20.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.25,
+      "max_snap_error_ft": 0.19487261943255624
+    },
+    {
+      "name": "HX_056_ROOT",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "ROOTS",
+      "design": "ROOT",
+      "kind": "pixel",
+      "nodes": 65,
+      "start_channel": 19441,
+      "end_channel": 19635,
+      "bounds_ft": [
+        [
+          135.0,
+          0.0,
+          -0.75
+        ],
+        [
+          147.0,
+          22.0,
+          20.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.25,
+      "max_snap_error_ft": 0.1948726194325404
+    },
+    {
+      "name": "HX_057_RAISED_PATH",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "PATH",
+      "design": "RAISED PATH",
+      "kind": "pixel",
+      "nodes": 400,
+      "start_channel": 19636,
+      "end_channel": 20835,
+      "bounds_ft": [
+        [
+          -160.0,
+          8.0,
+          0.0
+        ],
+        [
+          160.0,
+          12.0,
+          55.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.37830662020225453
+    }
+  ],
+  "file_prefix": "Bioluminescent_Mangrove",
+  "description": "Teal helix trunks, luminous roots and coral-pink crown rings form a deep wetland grove around a raised winding path.",
+  "palette": [
+    "#59FFD9",
+    "#FF839B",
+    "#95EFFF"
+  ],
+  "groups": {
+    "HX_ALL_PIXELS": [
+      "HX_001_MANGROVE_TRUNK",
+      "HX_002_CROWN",
+      "HX_003_ROOT",
+      "HX_004_ROOT",
+      "HX_005_ROOT",
+      "HX_006_ROOT",
+      "HX_007_ROOT",
+      "HX_008_ROOT",
+      "HX_009_MANGROVE_TRUNK",
+      "HX_010_CROWN",
+      "HX_011_ROOT",
+      "HX_012_ROOT",
+      "HX_013_ROOT",
+      "HX_014_ROOT",
+      "HX_015_ROOT",
+      "HX_016_ROOT",
+      "HX_017_MANGROVE_TRUNK",
+      "HX_018_CROWN",
+      "HX_019_ROOT",
+      "HX_020_ROOT",
+      "HX_021_ROOT",
+      "HX_022_ROOT",
+      "HX_023_ROOT",
+      "HX_024_ROOT",
+      "HX_025_MANGROVE_TRUNK",
+      "HX_026_CROWN",
+      "HX_027_ROOT",
+      "HX_028_ROOT",
+      "HX_029_ROOT",
+      "HX_030_ROOT",
+      "HX_031_ROOT",
+      "HX_032_ROOT",
+      "HX_033_MANGROVE_TRUNK",
+      "HX_034_CROWN",
+      "HX_035_ROOT",
+      "HX_036_ROOT",
+      "HX_037_ROOT",
+      "HX_038_ROOT",
+      "HX_039_ROOT",
+      "HX_040_ROOT",
+      "HX_041_MANGROVE_TRUNK",
+      "HX_042_CROWN",
+      "HX_043_ROOT",
+      "HX_044_ROOT",
+      "HX_045_ROOT",
+      "HX_046_ROOT",
+      "HX_047_ROOT",
+      "HX_048_ROOT",
+      "HX_049_MANGROVE_TRUNK",
+      "HX_050_CROWN",
+      "HX_051_ROOT",
+      "HX_052_ROOT",
+      "HX_053_ROOT",
+      "HX_054_ROOT",
+      "HX_055_ROOT",
+      "HX_056_ROOT",
+      "HX_057_RAISED_PATH"
+    ],
+    "HX_DNA_ALL": [
+      "HX_001_MANGROVE_TRUNK",
+      "HX_009_MANGROVE_TRUNK",
+      "HX_017_MANGROVE_TRUNK",
+      "HX_025_MANGROVE_TRUNK",
+      "HX_033_MANGROVE_TRUNK",
+      "HX_041_MANGROVE_TRUNK",
+      "HX_049_MANGROVE_TRUNK"
+    ],
+    "HX_DNA_RUNGS": [
+      "HX_001_MANGROVE_TRUNK/RUNGS",
+      "HX_009_MANGROVE_TRUNK/RUNGS",
+      "HX_017_MANGROVE_TRUNK/RUNGS",
+      "HX_025_MANGROVE_TRUNK/RUNGS",
+      "HX_033_MANGROVE_TRUNK/RUNGS",
+      "HX_041_MANGROVE_TRUNK/RUNGS",
+      "HX_049_MANGROVE_TRUNK/RUNGS"
+    ],
+    "HX_DNA_STRAND_A": [
+      "HX_001_MANGROVE_TRUNK/STRAND_A",
+      "HX_009_MANGROVE_TRUNK/STRAND_A",
+      "HX_017_MANGROVE_TRUNK/STRAND_A",
+      "HX_025_MANGROVE_TRUNK/STRAND_A",
+      "HX_033_MANGROVE_TRUNK/STRAND_A",
+      "HX_041_MANGROVE_TRUNK/STRAND_A",
+      "HX_049_MANGROVE_TRUNK/STRAND_A"
+    ],
+    "HX_DNA_STRAND_B": [
+      "HX_001_MANGROVE_TRUNK/STRAND_B",
+      "HX_009_MANGROVE_TRUNK/STRAND_B",
+      "HX_017_MANGROVE_TRUNK/STRAND_B",
+      "HX_025_MANGROVE_TRUNK/STRAND_B",
+      "HX_033_MANGROVE_TRUNK/STRAND_B",
+      "HX_041_MANGROVE_TRUNK/STRAND_B",
+      "HX_049_MANGROVE_TRUNK/STRAND_B"
+    ],
+    "HX_NATIVE_CUSTOM": [
+      "HX_001_MANGROVE_TRUNK",
+      "HX_002_CROWN",
+      "HX_003_ROOT",
+      "HX_004_ROOT",
+      "HX_005_ROOT",
+      "HX_006_ROOT",
+      "HX_007_ROOT",
+      "HX_008_ROOT",
+      "HX_009_MANGROVE_TRUNK",
+      "HX_010_CROWN",
+      "HX_011_ROOT",
+      "HX_012_ROOT",
+      "HX_013_ROOT",
+      "HX_014_ROOT",
+      "HX_015_ROOT",
+      "HX_016_ROOT",
+      "HX_017_MANGROVE_TRUNK",
+      "HX_018_CROWN",
+      "HX_019_ROOT",
+      "HX_020_ROOT",
+      "HX_021_ROOT",
+      "HX_022_ROOT",
+      "HX_023_ROOT",
+      "HX_024_ROOT",
+      "HX_025_MANGROVE_TRUNK",
+      "HX_026_CROWN",
+      "HX_027_ROOT",
+      "HX_028_ROOT",
+      "HX_029_ROOT",
+      "HX_030_ROOT",
+      "HX_031_ROOT",
+      "HX_032_ROOT",
+      "HX_033_MANGROVE_TRUNK",
+      "HX_034_CROWN",
+      "HX_035_ROOT",
+      "HX_036_ROOT",
+      "HX_037_ROOT",
+      "HX_038_ROOT",
+      "HX_039_ROOT",
+      "HX_040_ROOT",
+      "HX_041_MANGROVE_TRUNK",
+      "HX_042_CROWN",
+      "HX_043_ROOT",
+      "HX_044_ROOT",
+      "HX_045_ROOT",
+      "HX_046_ROOT",
+      "HX_047_ROOT",
+      "HX_048_ROOT",
+      "HX_049_MANGROVE_TRUNK",
+      "HX_050_CROWN",
+      "HX_051_ROOT",
+      "HX_052_ROOT",
+      "HX_053_ROOT",
+      "HX_054_ROOT",
+      "HX_055_ROOT",
+      "HX_056_ROOT",
+      "HX_057_RAISED_PATH"
+    ],
+    "HX_WHOLE_SHOW": [
+      "HX_001_MANGROVE_TRUNK",
+      "HX_002_CROWN",
+      "HX_003_ROOT",
+      "HX_004_ROOT",
+      "HX_005_ROOT",
+      "HX_006_ROOT",
+      "HX_007_ROOT",
+      "HX_008_ROOT",
+      "HX_009_MANGROVE_TRUNK",
+      "HX_010_CROWN",
+      "HX_011_ROOT",
+      "HX_012_ROOT",
+      "HX_013_ROOT",
+      "HX_014_ROOT",
+      "HX_015_ROOT",
+      "HX_016_ROOT",
+      "HX_017_MANGROVE_TRUNK",
+      "HX_018_CROWN",
+      "HX_019_ROOT",
+      "HX_020_ROOT",
+      "HX_021_ROOT",
+      "HX_022_ROOT",
+      "HX_023_ROOT",
+      "HX_024_ROOT",
+      "HX_025_MANGROVE_TRUNK",
+      "HX_026_CROWN",
+      "HX_027_ROOT",
+      "HX_028_ROOT",
+      "HX_029_ROOT",
+      "HX_030_ROOT",
+      "HX_031_ROOT",
+      "HX_032_ROOT",
+      "HX_033_MANGROVE_TRUNK",
+      "HX_034_CROWN",
+      "HX_035_ROOT",
+      "HX_036_ROOT",
+      "HX_037_ROOT",
+      "HX_038_ROOT",
+      "HX_039_ROOT",
+      "HX_040_ROOT",
+      "HX_041_MANGROVE_TRUNK",
+      "HX_042_CROWN",
+      "HX_043_ROOT",
+      "HX_044_ROOT",
+      "HX_045_ROOT",
+      "HX_046_ROOT",
+      "HX_047_ROOT",
+      "HX_048_ROOT",
+      "HX_049_MANGROVE_TRUNK",
+      "HX_050_CROWN",
+      "HX_051_ROOT",
+      "HX_052_ROOT",
+      "HX_053_ROOT",
+      "HX_054_ROOT",
+      "HX_055_ROOT",
+      "HX_056_ROOT",
+      "HX_057_RAISED_PATH"
+    ],
+    "HX_ZONE_CANOPY": [
+      "HX_002_CROWN",
+      "HX_010_CROWN",
+      "HX_018_CROWN",
+      "HX_026_CROWN",
+      "HX_034_CROWN",
+      "HX_042_CROWN",
+      "HX_050_CROWN"
+    ],
+    "HX_ZONE_PATH": [
+      "HX_057_RAISED_PATH"
+    ],
+    "HX_ZONE_ROOTS": [
+      "HX_003_ROOT",
+      "HX_004_ROOT",
+      "HX_005_ROOT",
+      "HX_006_ROOT",
+      "HX_007_ROOT",
+      "HX_008_ROOT",
+      "HX_011_ROOT",
+      "HX_012_ROOT",
+      "HX_013_ROOT",
+      "HX_014_ROOT",
+      "HX_015_ROOT",
+      "HX_016_ROOT",
+      "HX_019_ROOT",
+      "HX_020_ROOT",
+      "HX_021_ROOT",
+      "HX_022_ROOT",
+      "HX_023_ROOT",
+      "HX_024_ROOT",
+      "HX_027_ROOT",
+      "HX_028_ROOT",
+      "HX_029_ROOT",
+      "HX_030_ROOT",
+      "HX_031_ROOT",
+      "HX_032_ROOT",
+      "HX_035_ROOT",
+      "HX_036_ROOT",
+      "HX_037_ROOT",
+      "HX_038_ROOT",
+      "HX_039_ROOT",
+      "HX_040_ROOT",
+      "HX_043_ROOT",
+      "HX_044_ROOT",
+      "HX_045_ROOT",
+      "HX_046_ROOT",
+      "HX_047_ROOT",
+      "HX_048_ROOT",
+      "HX_051_ROOT",
+      "HX_052_ROOT",
+      "HX_053_ROOT",
+      "HX_054_ROOT",
+      "HX_055_ROOT",
+      "HX_056_ROOT"
+    ],
+    "HX_ZONE_TRUNKS": [
+      "HX_001_MANGROVE_TRUNK",
+      "HX_009_MANGROVE_TRUNK",
+      "HX_017_MANGROVE_TRUNK",
+      "HX_025_MANGROVE_TRUNK",
+      "HX_033_MANGROVE_TRUNK",
+      "HX_041_MANGROVE_TRUNK",
+      "HX_049_MANGROVE_TRUNK"
+    ]
+  },
+  "group_count": 11,
+  "concept_id": "05",
+  "source_art": "images/05_06_Mangrove_Solstice.png",
+  "source_art_side": "left",
+  "build_status": "native planning layout",
+  "source_brief": {
+    "id": "05",
+    "name": "Bioluminescent Mangrove",
+    "round": "spatial",
+    "board": 3,
+    "side": "left",
+    "description": "Teal helix trunks, luminous roots and coral-pink crown rings form a deep wetland grove around a raised winding path.",
+    "spatial": "Root layer, trunk layer, overhead canopy and a route that bends through the grove.",
+    "choreography": "Root pulses migrate between trunks and burst into separate canopy blooms.",
+    "constraint": "Canopies and path structures need load and access review; glowing wetlands are lighting scenery.",
+    "image": "images/05_06_Mangrove_Solstice.png",
+    "panel_ratio": 1.1668696711327649,
+    "status": "awaiting user selection"
+  },
+  "sequence_type": "24-second silent Animation study",
+  "physical_output_networks": 0,
+  "limits": [
+    "Canopies and path structures need load and access review; glowing wetlands are lighting scenery.",
+    "Artwork-guided finite geometry, not a scanned/surveyed reconstruction.",
+    "No complete music sequence or musical drummer acceptance claimed."
+  ]
+}

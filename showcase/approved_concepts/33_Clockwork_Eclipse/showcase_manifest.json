@@ -1,0 +1,1627 @@
+{
+  "schema": "helix.approved_concept.v1",
+  "name": "Clockwork Eclipse",
+  "coordinate_system": "x-right, y-up, z-depth; design feet",
+  "xlights_source_ref": "6ceddc6b25a24d82754d4f9af28e18ee70b51f81",
+  "coverage": {
+    "Custom": 40
+  },
+  "native_families": [
+    "Custom"
+  ],
+  "native_coverage_complete": false,
+  "model_count": 40,
+  "rgb_pixels": 1860,
+  "channel_count": 5580,
+  "spiral_trees": 0,
+  "double_helices": 0,
+  "preview_contract": "Custom sparse-grid coordinates exactly match exported XML; native-family preview coordinates illustrate the authored geometry. Native xLights render/load evidence is recorded separately.",
+  "models": [
+    {
+      "name": "HX_001_ECLIPSE_ORBIT",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "ORBITS",
+      "design": "ECLIPSE ORBIT",
+      "kind": "pixel",
+      "nodes": 150,
+      "start_channel": 1,
+      "end_channel": 450,
+      "bounds_ft": [
+        [
+          -83.5,
+          13.0,
+          0.0
+        ],
+        [
+          56.5,
+          153.0,
+          0.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3361898126900396
+    },
+    {
+      "name": "HX_002_ECLIPSE_ORBIT",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "ORBITS",
+      "design": "ECLIPSE ORBIT",
+      "kind": "pixel",
+      "nodes": 150,
+      "start_channel": 451,
+      "end_channel": 900,
+      "bounds_ft": [
+        [
+          -82.5,
+          18.0,
+          -20.0
+        ],
+        [
+          73.5,
+          148.0,
+          -20.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.2878061305921791
+    },
+    {
+      "name": "HX_003_ECLIPSE_ORBIT",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "ORBITS",
+      "design": "ECLIPSE ORBIT",
+      "kind": "pixel",
+      "nodes": 150,
+      "start_channel": 901,
+      "end_channel": 1350,
+      "bounds_ft": [
+        [
+          -81.5,
+          23.0,
+          -40.0
+        ],
+        [
+          90.5,
+          143.0,
+          -40.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.31723569719227246
+    },
+    {
+      "name": "HX_004_ECLIPSE_ORBIT",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "ORBITS",
+      "design": "ECLIPSE ORBIT",
+      "kind": "pixel",
+      "nodes": 150,
+      "start_channel": 1351,
+      "end_channel": 1800,
+      "bounds_ft": [
+        [
+          -80.5,
+          28.0,
+          -60.0
+        ],
+        [
+          107.5,
+          138.0,
+          -60.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.30866962036725687
+    },
+    {
+      "name": "HX_005_CORONA_SPOKE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "CORONA",
+      "design": "CORONA SPOKE",
+      "kind": "pixel",
+      "nodes": 35,
+      "start_channel": 1801,
+      "end_channel": 1905,
+      "bounds_ft": [
+        [
+          27.0,
+          83.0,
+          5.0
+        ],
+        [
+          66.0,
+          83.0,
+          5.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.235294117647058
+    },
+    {
+      "name": "HX_006_CORONA_SPOKE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "CORONA",
+      "design": "CORONA SPOKE",
+      "kind": "pixel",
+      "nodes": 35,
+      "start_channel": 1906,
+      "end_channel": 2010,
+      "bounds_ft": [
+        [
+          26.5,
+          87.5,
+          5.0
+        ],
+        [
+          65.0,
+          94.5,
+          5.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.32108806688823216
+    },
+    {
+      "name": "HX_007_CORONA_SPOKE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "CORONA",
+      "design": "CORONA SPOKE",
+      "kind": "pixel",
+      "nodes": 35,
+      "start_channel": 2011,
+      "end_channel": 2115,
+      "bounds_ft": [
+        [
+          25.5,
+          92.0,
+          5.0
+        ],
+        [
+          62.0,
+          105.5,
+          5.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.30908467888161084
+    },
+    {
+      "name": "HX_008_CORONA_SPOKE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "CORONA",
+      "design": "CORONA SPOKE",
+      "kind": "pixel",
+      "nodes": 35,
+      "start_channel": 2116,
+      "end_channel": 2220,
+      "bounds_ft": [
+        [
+          23.5,
+          96.5,
+          5.0
+        ],
+        [
+          57.0,
+          116.0,
+          5.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3395830471502317
+    },
+    {
+      "name": "HX_009_CORONA_SPOKE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "CORONA",
+      "design": "CORONA SPOKE",
+      "kind": "pixel",
+      "nodes": 35,
+      "start_channel": 2221,
+      "end_channel": 2325,
+      "bounds_ft": [
+        [
+          20.5,
+          100.5,
+          5.0
+        ],
+        [
+          50.5,
+          125.5,
+          5.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3254196635165293
+    },
+    {
+      "name": "HX_010_CORONA_SPOKE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "CORONA",
+      "design": "CORONA SPOKE",
+      "kind": "pixel",
+      "nodes": 35,
+      "start_channel": 2326,
+      "end_channel": 2430,
+      "bounds_ft": [
+        [
+          17.5,
+          103.5,
+          5.0
+        ],
+        [
+          42.5,
+          133.5,
+          5.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3254196635165366
+    },
+    {
+      "name": "HX_011_CORONA_SPOKE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "CORONA",
+      "design": "CORONA SPOKE",
+      "kind": "pixel",
+      "nodes": 35,
+      "start_channel": 2431,
+      "end_channel": 2535,
+      "bounds_ft": [
+        [
+          13.5,
+          106.5,
+          5.0
+        ],
+        [
+          33.0,
+          140.0,
+          5.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3395830471502264
+    },
+    {
+      "name": "HX_012_CORONA_SPOKE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "CORONA",
+      "design": "CORONA SPOKE",
+      "kind": "pixel",
+      "nodes": 35,
+      "start_channel": 2536,
+      "end_channel": 2640,
+      "bounds_ft": [
+        [
+          9.0,
+          108.5,
+          5.0
+        ],
+        [
+          22.5,
+          145.0,
+          5.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.30908467888161306
+    },
+    {
+      "name": "HX_013_CORONA_SPOKE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "CORONA",
+      "design": "CORONA SPOKE",
+      "kind": "pixel",
+      "nodes": 35,
+      "start_channel": 2641,
+      "end_channel": 2745,
+      "bounds_ft": [
+        [
+          4.5,
+          109.5,
+          5.0
+        ],
+        [
+          11.5,
+          148.0,
+          5.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3210880668882457
+    },
+    {
+      "name": "HX_014_CORONA_SPOKE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "CORONA",
+      "design": "CORONA SPOKE",
+      "kind": "pixel",
+      "nodes": 35,
+      "start_channel": 2746,
+      "end_channel": 2850,
+      "bounds_ft": [
+        [
+          0.0,
+          110.0,
+          5.0
+        ],
+        [
+          0.0,
+          149.0,
+          5.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.2352941176470722
+    },
+    {
+      "name": "HX_015_CORONA_SPOKE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "CORONA",
+      "design": "CORONA SPOKE",
+      "kind": "pixel",
+      "nodes": 35,
+      "start_channel": 2851,
+      "end_channel": 2955,
+      "bounds_ft": [
+        [
+          -11.5,
+          109.5,
+          5.0
+        ],
+        [
+          -4.5,
+          148.0,
+          5.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3210880668882496
+    },
+    {
+      "name": "HX_016_CORONA_SPOKE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "CORONA",
+      "design": "CORONA SPOKE",
+      "kind": "pixel",
+      "nodes": 35,
+      "start_channel": 2956,
+      "end_channel": 3060,
+      "bounds_ft": [
+        [
+          -22.5,
+          108.5,
+          5.0
+        ],
+        [
+          -9.0,
+          145.0,
+          5.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.30908467888161195
+    },
+    {
+      "name": "HX_017_CORONA_SPOKE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "CORONA",
+      "design": "CORONA SPOKE",
+      "kind": "pixel",
+      "nodes": 35,
+      "start_channel": 3061,
+      "end_channel": 3165,
+      "bounds_ft": [
+        [
+          -33.0,
+          106.5,
+          5.0
+        ],
+        [
+          -13.5,
+          140.0,
+          5.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3395830471502264
+    },
+    {
+      "name": "HX_018_CORONA_SPOKE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "CORONA",
+      "design": "CORONA SPOKE",
+      "kind": "pixel",
+      "nodes": 35,
+      "start_channel": 3166,
+      "end_channel": 3270,
+      "bounds_ft": [
+        [
+          -42.5,
+          103.5,
+          5.0
+        ],
+        [
+          -17.5,
+          133.5,
+          5.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3254196635165366
+    },
+    {
+      "name": "HX_019_CORONA_SPOKE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "CORONA",
+      "design": "CORONA SPOKE",
+      "kind": "pixel",
+      "nodes": 35,
+      "start_channel": 3271,
+      "end_channel": 3375,
+      "bounds_ft": [
+        [
+          -50.5,
+          100.5,
+          5.0
+        ],
+        [
+          -20.5,
+          125.5,
+          5.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3254196635165247
+    },
+    {
+      "name": "HX_020_CORONA_SPOKE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "CORONA",
+      "design": "CORONA SPOKE",
+      "kind": "pixel",
+      "nodes": 35,
+      "start_channel": 3376,
+      "end_channel": 3480,
+      "bounds_ft": [
+        [
+          -57.0,
+          96.5,
+          5.0
+        ],
+        [
+          -23.5,
+          116.0,
+          5.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3395830471502317
+    },
+    {
+      "name": "HX_021_CORONA_SPOKE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "CORONA",
+      "design": "CORONA SPOKE",
+      "kind": "pixel",
+      "nodes": 35,
+      "start_channel": 3481,
+      "end_channel": 3585,
+      "bounds_ft": [
+        [
+          -62.0,
+          92.0,
+          5.0
+        ],
+        [
+          -25.5,
+          105.5,
+          5.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.30908467888161634
+    },
+    {
+      "name": "HX_022_CORONA_SPOKE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "CORONA",
+      "design": "CORONA SPOKE",
+      "kind": "pixel",
+      "nodes": 35,
+      "start_channel": 3586,
+      "end_channel": 3690,
+      "bounds_ft": [
+        [
+          -65.0,
+          87.5,
+          5.0
+        ],
+        [
+          -26.5,
+          94.5,
+          5.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3210880668882218
+    },
+    {
+      "name": "HX_023_CORONA_SPOKE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "CORONA",
+      "design": "CORONA SPOKE",
+      "kind": "pixel",
+      "nodes": 35,
+      "start_channel": 3691,
+      "end_channel": 3795,
+      "bounds_ft": [
+        [
+          -66.0,
+          83.0,
+          5.0
+        ],
+        [
+          -27.0,
+          83.0,
+          5.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.235294117647058
+    },
+    {
+      "name": "HX_024_CORONA_SPOKE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "CORONA",
+      "design": "CORONA SPOKE",
+      "kind": "pixel",
+      "nodes": 35,
+      "start_channel": 3796,
+      "end_channel": 3900,
+      "bounds_ft": [
+        [
+          -65.0,
+          71.5,
+          5.0
+        ],
+        [
+          -26.5,
+          78.5,
+          5.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3210880668882577
+    },
+    {
+      "name": "HX_025_CORONA_SPOKE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "CORONA",
+      "design": "CORONA SPOKE",
+      "kind": "pixel",
+      "nodes": 35,
+      "start_channel": 3901,
+      "end_channel": 4005,
+      "bounds_ft": [
+        [
+          -62.0,
+          60.5,
+          5.0
+        ],
+        [
+          -25.5,
+          74.0,
+          5.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.30908467888161084
+    },
+    {
+      "name": "HX_026_CORONA_SPOKE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "CORONA",
+      "design": "CORONA SPOKE",
+      "kind": "pixel",
+      "nodes": 35,
+      "start_channel": 4006,
+      "end_channel": 4110,
+      "bounds_ft": [
+        [
+          -57.0,
+          50.0,
+          5.0
+        ],
+        [
+          -23.5,
+          69.5,
+          5.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3395830471502212
+    },
+    {
+      "name": "HX_027_CORONA_SPOKE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "CORONA",
+      "design": "CORONA SPOKE",
+      "kind": "pixel",
+      "nodes": 35,
+      "start_channel": 4111,
+      "end_channel": 4215,
+      "bounds_ft": [
+        [
+          -50.5,
+          40.5,
+          5.0
+        ],
+        [
+          -20.5,
+          65.5,
+          5.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3254196635165347
+    },
+    {
+      "name": "HX_028_CORONA_SPOKE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "CORONA",
+      "design": "CORONA SPOKE",
+      "kind": "pixel",
+      "nodes": 35,
+      "start_channel": 4216,
+      "end_channel": 4320,
+      "bounds_ft": [
+        [
+          -42.5,
+          32.5,
+          5.0
+        ],
+        [
+          -17.5,
+          62.5,
+          5.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3254196635165293
+    },
+    {
+      "name": "HX_029_CORONA_SPOKE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "CORONA",
+      "design": "CORONA SPOKE",
+      "kind": "pixel",
+      "nodes": 35,
+      "start_channel": 4321,
+      "end_channel": 4425,
+      "bounds_ft": [
+        [
+          -33.0,
+          26.0,
+          5.0
+        ],
+        [
+          -13.5,
+          59.5,
+          5.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3395830471502256
+    },
+    {
+      "name": "HX_030_CORONA_SPOKE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "CORONA",
+      "design": "CORONA SPOKE",
+      "kind": "pixel",
+      "nodes": 35,
+      "start_channel": 4426,
+      "end_channel": 4530,
+      "bounds_ft": [
+        [
+          -22.5,
+          21.0,
+          5.0
+        ],
+        [
+          -9.0,
+          57.5,
+          5.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.30908467888163094
+    },
+    {
+      "name": "HX_031_CORONA_SPOKE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "CORONA",
+      "design": "CORONA SPOKE",
+      "kind": "pixel",
+      "nodes": 35,
+      "start_channel": 4531,
+      "end_channel": 4635,
+      "bounds_ft": [
+        [
+          -11.5,
+          18.0,
+          5.0
+        ],
+        [
+          -4.5,
+          56.5,
+          5.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.32108806688824476
+    },
+    {
+      "name": "HX_032_CORONA_SPOKE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "CORONA",
+      "design": "CORONA SPOKE",
+      "kind": "pixel",
+      "nodes": 35,
+      "start_channel": 4636,
+      "end_channel": 4740,
+      "bounds_ft": [
+        [
+          0.0,
+          17.0,
+          5.0
+        ],
+        [
+          0.0,
+          56.0,
+          5.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.235294117647058
+    },
+    {
+      "name": "HX_033_CORONA_SPOKE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "CORONA",
+      "design": "CORONA SPOKE",
+      "kind": "pixel",
+      "nodes": 35,
+      "start_channel": 4741,
+      "end_channel": 4845,
+      "bounds_ft": [
+        [
+          4.5,
+          18.0,
+          5.0
+        ],
+        [
+          11.5,
+          56.5,
+          5.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.321088066888259
+    },
+    {
+      "name": "HX_034_CORONA_SPOKE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "CORONA",
+      "design": "CORONA SPOKE",
+      "kind": "pixel",
+      "nodes": 35,
+      "start_channel": 4846,
+      "end_channel": 4950,
+      "bounds_ft": [
+        [
+          9.0,
+          21.0,
+          5.0
+        ],
+        [
+          22.5,
+          57.5,
+          5.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3090846788815996
+    },
+    {
+      "name": "HX_035_CORONA_SPOKE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "CORONA",
+      "design": "CORONA SPOKE",
+      "kind": "pixel",
+      "nodes": 35,
+      "start_channel": 4951,
+      "end_channel": 5055,
+      "bounds_ft": [
+        [
+          13.5,
+          26.0,
+          5.0
+        ],
+        [
+          33.0,
+          59.5,
+          5.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3395830471502264
+    },
+    {
+      "name": "HX_036_CORONA_SPOKE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "CORONA",
+      "design": "CORONA SPOKE",
+      "kind": "pixel",
+      "nodes": 35,
+      "start_channel": 5056,
+      "end_channel": 5160,
+      "bounds_ft": [
+        [
+          17.5,
+          32.5,
+          5.0
+        ],
+        [
+          42.5,
+          62.5,
+          5.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.325419663516532
+    },
+    {
+      "name": "HX_037_CORONA_SPOKE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "CORONA",
+      "design": "CORONA SPOKE",
+      "kind": "pixel",
+      "nodes": 35,
+      "start_channel": 5161,
+      "end_channel": 5265,
+      "bounds_ft": [
+        [
+          20.5,
+          40.5,
+          5.0
+        ],
+        [
+          50.5,
+          65.5,
+          5.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3254196635165247
+    },
+    {
+      "name": "HX_038_CORONA_SPOKE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "CORONA",
+      "design": "CORONA SPOKE",
+      "kind": "pixel",
+      "nodes": 35,
+      "start_channel": 5266,
+      "end_channel": 5370,
+      "bounds_ft": [
+        [
+          23.5,
+          50.0,
+          5.0
+        ],
+        [
+          57.0,
+          69.5,
+          5.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3395830471502256
+    },
+    {
+      "name": "HX_039_CORONA_SPOKE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "CORONA",
+      "design": "CORONA SPOKE",
+      "kind": "pixel",
+      "nodes": 35,
+      "start_channel": 5371,
+      "end_channel": 5475,
+      "bounds_ft": [
+        [
+          25.5,
+          60.5,
+          5.0
+        ],
+        [
+          62.0,
+          74.0,
+          5.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3090846788816399
+    },
+    {
+      "name": "HX_040_CORONA_SPOKE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "CORONA",
+      "design": "CORONA SPOKE",
+      "kind": "pixel",
+      "nodes": 35,
+      "start_channel": 5476,
+      "end_channel": 5580,
+      "bounds_ft": [
+        [
+          26.5,
+          71.5,
+          5.0
+        ],
+        [
+          65.0,
+          78.5,
+          5.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.32108806688823216
+    }
+  ],
+  "file_prefix": "Clockwork_Eclipse",
+  "description": "Off-center orbital frames align into an eclipse at the hero viewpoint, then reveal their separate planes from the side.",
+  "palette": [
+    "#FFD277",
+    "#C9A1FF",
+    "#FFF0CF"
+  ],
+  "groups": {
+    "HX_ALL_PIXELS": [
+      "HX_001_ECLIPSE_ORBIT",
+      "HX_002_ECLIPSE_ORBIT",
+      "HX_003_ECLIPSE_ORBIT",
+      "HX_004_ECLIPSE_ORBIT",
+      "HX_005_CORONA_SPOKE",
+      "HX_006_CORONA_SPOKE",
+      "HX_007_CORONA_SPOKE",
+      "HX_008_CORONA_SPOKE",
+      "HX_009_CORONA_SPOKE",
+      "HX_010_CORONA_SPOKE",
+      "HX_011_CORONA_SPOKE",
+      "HX_012_CORONA_SPOKE",
+      "HX_013_CORONA_SPOKE",
+      "HX_014_CORONA_SPOKE",
+      "HX_015_CORONA_SPOKE",
+      "HX_016_CORONA_SPOKE",
+      "HX_017_CORONA_SPOKE",
+      "HX_018_CORONA_SPOKE",
+      "HX_019_CORONA_SPOKE",
+      "HX_020_CORONA_SPOKE",
+      "HX_021_CORONA_SPOKE",
+      "HX_022_CORONA_SPOKE",
+      "HX_023_CORONA_SPOKE",
+      "HX_024_CORONA_SPOKE",
+      "HX_025_CORONA_SPOKE",
+      "HX_026_CORONA_SPOKE",
+      "HX_027_CORONA_SPOKE",
+      "HX_028_CORONA_SPOKE",
+      "HX_029_CORONA_SPOKE",
+      "HX_030_CORONA_SPOKE",
+      "HX_031_CORONA_SPOKE",
+      "HX_032_CORONA_SPOKE",
+      "HX_033_CORONA_SPOKE",
+      "HX_034_CORONA_SPOKE",
+      "HX_035_CORONA_SPOKE",
+      "HX_036_CORONA_SPOKE",
+      "HX_037_CORONA_SPOKE",
+      "HX_038_CORONA_SPOKE",
+      "HX_039_CORONA_SPOKE",
+      "HX_040_CORONA_SPOKE"
+    ],
+    "HX_NATIVE_CUSTOM": [
+      "HX_001_ECLIPSE_ORBIT",
+      "HX_002_ECLIPSE_ORBIT",
+      "HX_003_ECLIPSE_ORBIT",
+      "HX_004_ECLIPSE_ORBIT",
+      "HX_005_CORONA_SPOKE",
+      "HX_006_CORONA_SPOKE",
+      "HX_007_CORONA_SPOKE",
+      "HX_008_CORONA_SPOKE",
+      "HX_009_CORONA_SPOKE",
+      "HX_010_CORONA_SPOKE",
+      "HX_011_CORONA_SPOKE",
+      "HX_012_CORONA_SPOKE",
+      "HX_013_CORONA_SPOKE",
+      "HX_014_CORONA_SPOKE",
+      "HX_015_CORONA_SPOKE",
+      "HX_016_CORONA_SPOKE",
+      "HX_017_CORONA_SPOKE",
+      "HX_018_CORONA_SPOKE",
+      "HX_019_CORONA_SPOKE",
+      "HX_020_CORONA_SPOKE",
+      "HX_021_CORONA_SPOKE",
+      "HX_022_CORONA_SPOKE",
+      "HX_023_CORONA_SPOKE",
+      "HX_024_CORONA_SPOKE",
+      "HX_025_CORONA_SPOKE",
+      "HX_026_CORONA_SPOKE",
+      "HX_027_CORONA_SPOKE",
+      "HX_028_CORONA_SPOKE",
+      "HX_029_CORONA_SPOKE",
+      "HX_030_CORONA_SPOKE",
+      "HX_031_CORONA_SPOKE",
+      "HX_032_CORONA_SPOKE",
+      "HX_033_CORONA_SPOKE",
+      "HX_034_CORONA_SPOKE",
+      "HX_035_CORONA_SPOKE",
+      "HX_036_CORONA_SPOKE",
+      "HX_037_CORONA_SPOKE",
+      "HX_038_CORONA_SPOKE",
+      "HX_039_CORONA_SPOKE",
+      "HX_040_CORONA_SPOKE"
+    ],
+    "HX_WHOLE_SHOW": [
+      "HX_001_ECLIPSE_ORBIT",
+      "HX_002_ECLIPSE_ORBIT",
+      "HX_003_ECLIPSE_ORBIT",
+      "HX_004_ECLIPSE_ORBIT",
+      "HX_005_CORONA_SPOKE",
+      "HX_006_CORONA_SPOKE",
+      "HX_007_CORONA_SPOKE",
+      "HX_008_CORONA_SPOKE",
+      "HX_009_CORONA_SPOKE",
+      "HX_010_CORONA_SPOKE",
+      "HX_011_CORONA_SPOKE",
+      "HX_012_CORONA_SPOKE",
+      "HX_013_CORONA_SPOKE",
+      "HX_014_CORONA_SPOKE",
+      "HX_015_CORONA_SPOKE",
+      "HX_016_CORONA_SPOKE",
+      "HX_017_CORONA_SPOKE",
+      "HX_018_CORONA_SPOKE",
+      "HX_019_CORONA_SPOKE",
+      "HX_020_CORONA_SPOKE",
+      "HX_021_CORONA_SPOKE",
+      "HX_022_CORONA_SPOKE",
+      "HX_023_CORONA_SPOKE",
+      "HX_024_CORONA_SPOKE",
+      "HX_025_CORONA_SPOKE",
+      "HX_026_CORONA_SPOKE",
+      "HX_027_CORONA_SPOKE",
+      "HX_028_CORONA_SPOKE",
+      "HX_029_CORONA_SPOKE",
+      "HX_030_CORONA_SPOKE",
+      "HX_031_CORONA_SPOKE",
+      "HX_032_CORONA_SPOKE",
+      "HX_033_CORONA_SPOKE",
+      "HX_034_CORONA_SPOKE",
+      "HX_035_CORONA_SPOKE",
+      "HX_036_CORONA_SPOKE",
+      "HX_037_CORONA_SPOKE",
+      "HX_038_CORONA_SPOKE",
+      "HX_039_CORONA_SPOKE",
+      "HX_040_CORONA_SPOKE"
+    ],
+    "HX_ZONE_CORONA": [
+      "HX_005_CORONA_SPOKE",
+      "HX_006_CORONA_SPOKE",
+      "HX_007_CORONA_SPOKE",
+      "HX_008_CORONA_SPOKE",
+      "HX_009_CORONA_SPOKE",
+      "HX_010_CORONA_SPOKE",
+      "HX_011_CORONA_SPOKE",
+      "HX_012_CORONA_SPOKE",
+      "HX_013_CORONA_SPOKE",
+      "HX_014_CORONA_SPOKE",
+      "HX_015_CORONA_SPOKE",
+      "HX_016_CORONA_SPOKE",
+      "HX_017_CORONA_SPOKE",
+      "HX_018_CORONA_SPOKE",
+      "HX_019_CORONA_SPOKE",
+      "HX_020_CORONA_SPOKE",
+      "HX_021_CORONA_SPOKE",
+      "HX_022_CORONA_SPOKE",
+      "HX_023_CORONA_SPOKE",
+      "HX_024_CORONA_SPOKE",
+      "HX_025_CORONA_SPOKE",
+      "HX_026_CORONA_SPOKE",
+      "HX_027_CORONA_SPOKE",
+      "HX_028_CORONA_SPOKE",
+      "HX_029_CORONA_SPOKE",
+      "HX_030_CORONA_SPOKE",
+      "HX_031_CORONA_SPOKE",
+      "HX_032_CORONA_SPOKE",
+      "HX_033_CORONA_SPOKE",
+      "HX_034_CORONA_SPOKE",
+      "HX_035_CORONA_SPOKE",
+      "HX_036_CORONA_SPOKE",
+      "HX_037_CORONA_SPOKE",
+      "HX_038_CORONA_SPOKE",
+      "HX_039_CORONA_SPOKE",
+      "HX_040_CORONA_SPOKE"
+    ],
+    "HX_ZONE_ORBITS": [
+      "HX_001_ECLIPSE_ORBIT",
+      "HX_002_ECLIPSE_ORBIT",
+      "HX_003_ECLIPSE_ORBIT",
+      "HX_004_ECLIPSE_ORBIT"
+    ]
+  },
+  "group_count": 5,
+  "concept_id": "33",
+  "source_art": "images/33_34.png",
+  "source_art_side": "left",
+  "build_status": "native planning layout",
+  "source_brief": {
+    "id": "33",
+    "name": "Clockwork Eclipse",
+    "standout": "Off-center orbital frames align into an eclipse at the hero viewpoint, then reveal their separate planes from the side.",
+    "scene": "An astronomical light installation of pearl white, amber and indigo OFF-CENTER orbital hoops with thin radial clockwork spokes, mounted on a few elegant dark columns. At a chosen hero viewpoint the hoops align around one large black central circular void to form a luminous eclipse corona. Small layered orbit rings and grounded observation circle; tiny oblique inset shows staggered hoop depths, no actual moving machinery.",
+    "board": 6,
+    "side": "left",
+    "image": "images/33_34.png",
+    "status": "awaiting approval",
+    "scope": "Concept art; no xmodel/XML/XSQ/MP4 build.",
+    "source_catalog": "showcase/concepts/2026_10_09_advanced/concepts.json",
+    "description": "Off-center orbital frames align into an eclipse at the hero viewpoint, then reveal their separate planes from the side.",
+    "constraint": "Finite artwork-guided planning geometry; no physical actuation or surveyed construction dimensions.",
+    "round": "advanced"
+  },
+  "sequence_type": "24-second silent Animation study",
+  "physical_output_networks": 0,
+  "limits": [
+    "Finite artwork-guided planning geometry; no physical actuation or surveyed construction dimensions.",
+    "Artwork-guided finite geometry, not a scanned/surveyed reconstruction.",
+    "No complete music sequence or musical drummer acceptance claimed."
+  ]
+}

@@ -1,0 +1,79 @@
+{
+  "release": "https://github.com/ryankorkowski-boop/helix-sequencer/releases/tag/codex-band-refinement-20261012-v2",
+  "run_id": 38299471379,
+  "implementation_commit": "d9d0cc1e1b579ce53d57ea322b9b99e01b9fbeb3",
+  "assets": [
+    {
+      "name": "archive_verification.json",
+      "size": 229,
+      "digest": "sha256:04df92780b7e8c395c5fd49bf72eda424f6ff52ece8b7c29b7b4bc364f368737",
+      "url": "https://github.com/ryankorkowski-boop/helix-sequencer/releases/download/codex-band-refinement-20261012-v2/archive_verification.json",
+      "verified_http_200": true,
+      "download_sha256": "04df92780b7e8c395c5fd49bf72eda424f6ff52ece8b7c29b7b4bc364f368737"
+    },
+    {
+      "name": "D_Pitched_Percussion_Candidates_Festivus.mp4",
+      "size": 4094340,
+      "digest": "sha256:0635fc92e3079e7c84f2d9fd82ec94b6e22b3af6a08e490391a8bad6c2dc8d01",
+      "url": "https://github.com/ryankorkowski-boop/helix-sequencer/releases/download/codex-band-refinement-20261012-v2/D_Pitched_Percussion_Candidates_Festivus.mp4",
+      "verified_http_200": true,
+      "download_sha256": "0635fc92e3079e7c84f2d9fd82ec94b6e22b3af6a08e490391a8bad6c2dc8d01"
+    },
+    {
+      "name": "Helix_Band_Actual_Render_Review.jpg",
+      "size": 598038,
+      "digest": "sha256:5abdfb70c6d532e96e2a19bb9b93d51ff3d85d705f44ef9731635a2bc5bb9ea7",
+      "url": "https://github.com/ryankorkowski-boop/helix-sequencer/releases/download/codex-band-refinement-20261012-v2/Helix_Band_Actual_Render_Review.jpg",
+      "verified_http_200": true,
+      "download_sha256": "5abdfb70c6d532e96e2a19bb9b93d51ff3d85d705f44ef9731635a2bc5bb9ea7"
+    },
+    {
+      "name": "Helix_Band_Refinement_Report.md",
+      "size": 6235,
+      "digest": "sha256:71718af794e1a85fe8ecd50e87827c32b1009013da80ee056d1d514f047fdbc6",
+      "url": "https://github.com/ryankorkowski-boop/helix-sequencer/releases/download/codex-band-refinement-20261012-v2/Helix_Band_Refinement_Report.md",
+      "verified_http_200": true,
+      "download_sha256": "71718af794e1a85fe8ecd50e87827c32b1009013da80ee056d1d514f047fdbc6"
+    },
+    {
+      "name": "Helix_Band_Review_Matrix_XSQ_Bundle.zip",
+      "size": 202253186,
+      "digest": "sha256:f5e40aae1298e5903a0400f0c1dfed81ffa6c6fb3e9e4d75299f0cae553c4925",
+      "url": "https://github.com/ryankorkowski-boop/helix-sequencer/releases/download/codex-band-refinement-20261012-v2/Helix_Band_Review_Matrix_XSQ_Bundle.zip",
+      "verified_http_200": true,
+      "download_sha256": "f5e40aae1298e5903a0400f0c1dfed81ffa6c6fb3e9e4d75299f0cae553c4925"
+    },
+    {
+      "name": "Video_A_Drummer_Geometry_Comparison.mp4",
+      "size": 4335385,
+      "digest": "sha256:501a69acb3c9bdf0b820dec331bf1f0f8382f14b0e0bd3cf6e72fd6fc1926001",
+      "url": "https://github.com/ryankorkowski-boop/helix-sequencer/releases/download/codex-band-refinement-20261012-v2/Video_A_Drummer_Geometry_Comparison.mp4",
+      "verified_http_200": true,
+      "download_sha256": "501a69acb3c9bdf0b820dec331bf1f0f8382f14b0e0bd3cf6e72fd6fc1926001"
+    },
+    {
+      "name": "Video_B_Original_Dry_Drum_Test.mp4",
+      "size": 4251385,
+      "digest": "sha256:07c9466f7f2163169f79704ac57f25ddb4fabba63ee5582a27ba3cd45411e5ca",
+      "url": "https://github.com/ryankorkowski-boop/helix-sequencer/releases/download/codex-band-refinement-20261012-v2/Video_B_Original_Dry_Drum_Test.mp4",
+      "verified_http_200": true,
+      "download_sha256": "07c9466f7f2163169f79704ac57f25ddb4fabba63ee5582a27ba3cd45411e5ca"
+    },
+    {
+      "name": "Video_C_Bass_and_Guitar.mp4",
+      "size": 16328290,
+      "digest": "sha256:0acd7c4091b0e7167195ef1111887afe59c4678105f3fefede47a9db22c5e985",
+      "url": "https://github.com/ryankorkowski-boop/helix-sequencer/releases/download/codex-band-refinement-20261012-v2/Video_C_Bass_and_Guitar.mp4",
+      "verified_http_200": true,
+      "download_sha256": "0acd7c4091b0e7167195ef1111887afe59c4678105f3fefede47a9db22c5e985"
+    },
+    {
+      "name": "Video_E_Full_Band_Showcase.mp4",
+      "size": 43381915,
+      "digest": "sha256:976ce859aebb477078d587b8fe3e3bb821838f43bacbe42a5a0b58c7db1849e1",
+      "url": "https://github.com/ryankorkowski-boop/helix-sequencer/releases/download/codex-band-refinement-20261012-v2/Video_E_Full_Band_Showcase.mp4",
+      "verified_http_200": true,
+      "download_sha256": "976ce859aebb477078d587b8fe3e3bb821838f43bacbe42a5a0b58c7db1849e1"
+    }
+  ]
+}

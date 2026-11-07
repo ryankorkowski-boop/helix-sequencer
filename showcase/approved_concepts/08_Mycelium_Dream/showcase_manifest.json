@@ -1,0 +1,1652 @@
+{
+  "schema": "helix.approved_concept.v1",
+  "name": "Mycelium Dream",
+  "coordinate_system": "x-right, y-up, z-depth; design feet",
+  "xlights_source_ref": "6ceddc6b25a24d82754d4f9af28e18ee70b51f81",
+  "coverage": {
+    "Custom": 38
+  },
+  "native_families": [
+    "Custom"
+  ],
+  "native_coverage_complete": false,
+  "model_count": 38,
+  "rgb_pixels": 7720,
+  "channel_count": 23160,
+  "spiral_trees": 9,
+  "double_helices": 2,
+  "preview_contract": "Custom sparse-grid coordinates exactly match exported XML; native-family preview coordinates illustrate the authored geometry. Native xLights render/load evidence is recorded separately.",
+  "models": [
+    {
+      "name": "HX_001_SPIRAL_TREE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "GROVE",
+      "design": "SPIRAL TREE",
+      "kind": "pixel",
+      "nodes": 320,
+      "start_channel": 1,
+      "end_channel": 960,
+      "bounds_ft": [
+        [
+          -152.5,
+          0.0,
+          -77.5
+        ],
+        [
+          -127.5,
+          30.0,
+          -52.5
+        ]
+      ],
+      "submodels": [
+        "STRAND_1",
+        "STRAND_2",
+        "STRAND_3",
+        "STRAND_4",
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.38197833871382175,
+      "spiral_tree": true,
+      "custom_exact": true
+    },
+    {
+      "name": "HX_002_MUSHROOM_CROWN",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "CROWNS",
+      "design": "MUSHROOM CROWN",
+      "kind": "pixel",
+      "nodes": 150,
+      "start_channel": 961,
+      "end_channel": 1410,
+      "bounds_ft": [
+        [
+          -163.0,
+          35.0,
+          -81.0
+        ],
+        [
+          -117.0,
+          35.0,
+          -49.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.32464893980686005
+    },
+    {
+      "name": "HX_003_CROWN_RIB",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "CROWNS",
+      "design": "CROWN RIB",
+      "kind": "pixel",
+      "nodes": 150,
+      "start_channel": 1411,
+      "end_channel": 1860,
+      "bounds_ft": [
+        [
+          -148.0,
+          37.0,
+          -70.625
+        ],
+        [
+          -132.0,
+          37.0,
+          -59.375
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.125,
+      "max_snap_error_ft": 0.08717633159569535
+    },
+    {
+      "name": "HX_004_CROWN_RIB",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "CROWNS",
+      "design": "CROWN RIB",
+      "kind": "pixel",
+      "nodes": 150,
+      "start_channel": 1861,
+      "end_channel": 2310,
+      "bounds_ft": [
+        [
+          -156.0,
+          35.0,
+          -76.25
+        ],
+        [
+          -124.0,
+          35.0,
+          -53.75
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.25,
+      "max_snap_error_ft": 0.1743526631913907
+    },
+    {
+      "name": "HX_005_SPIRAL_TREE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "GROVE",
+      "design": "SPIRAL TREE",
+      "kind": "pixel",
+      "nodes": 320,
+      "start_channel": 2311,
+      "end_channel": 3270,
+      "bounds_ft": [
+        [
+          -87.5,
+          0.0,
+          -77.5
+        ],
+        [
+          -62.5,
+          46.0,
+          -52.5
+        ]
+      ],
+      "submodels": [
+        "STRAND_1",
+        "STRAND_2",
+        "STRAND_3",
+        "STRAND_4",
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.36487807264592775,
+      "spiral_tree": true,
+      "custom_exact": true
+    },
+    {
+      "name": "HX_006_MUSHROOM_CROWN",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "CROWNS",
+      "design": "MUSHROOM CROWN",
+      "kind": "pixel",
+      "nodes": 150,
+      "start_channel": 3271,
+      "end_channel": 3720,
+      "bounds_ft": [
+        [
+          -98.0,
+          50.0,
+          -81.0
+        ],
+        [
+          -52.0,
+          52.0,
+          -49.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.39916836259341154
+    },
+    {
+      "name": "HX_007_CROWN_RIB",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "CROWNS",
+      "design": "CROWN RIB",
+      "kind": "pixel",
+      "nodes": 150,
+      "start_channel": 3721,
+      "end_channel": 4170,
+      "bounds_ft": [
+        [
+          -83.0,
+          53.0,
+          -70.625
+        ],
+        [
+          -67.0,
+          53.0,
+          -59.375
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.125,
+      "max_snap_error_ft": 0.08717633159569535
+    },
+    {
+      "name": "HX_008_CROWN_RIB",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "CROWNS",
+      "design": "CROWN RIB",
+      "kind": "pixel",
+      "nodes": 150,
+      "start_channel": 4171,
+      "end_channel": 4620,
+      "bounds_ft": [
+        [
+          -91.0,
+          51.0,
+          -76.25
+        ],
+        [
+          -59.0,
+          51.0,
+          -53.75
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.25,
+      "max_snap_error_ft": 0.1743526631913907
+    },
+    {
+      "name": "HX_009_SPIRAL_TREE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "GROVE",
+      "design": "SPIRAL TREE",
+      "kind": "pixel",
+      "nodes": 320,
+      "start_channel": 4621,
+      "end_channel": 5580,
+      "bounds_ft": [
+        [
+          -22.5,
+          0.0,
+          -77.5
+        ],
+        [
+          2.5,
+          62.0,
+          -52.5
+        ]
+      ],
+      "submodels": [
+        "STRAND_1",
+        "STRAND_2",
+        "STRAND_3",
+        "STRAND_4",
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3964474968214233,
+      "spiral_tree": true,
+      "custom_exact": true
+    },
+    {
+      "name": "HX_010_MUSHROOM_CROWN",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "CROWNS",
+      "design": "MUSHROOM CROWN",
+      "kind": "pixel",
+      "nodes": 150,
+      "start_channel": 5581,
+      "end_channel": 6030,
+      "bounds_ft": [
+        [
+          -33.0,
+          65.5,
+          -81.0
+        ],
+        [
+          13.0,
+          68.5,
+          -49.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3574717088561808
+    },
+    {
+      "name": "HX_011_CROWN_RIB",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "CROWNS",
+      "design": "CROWN RIB",
+      "kind": "pixel",
+      "nodes": 150,
+      "start_channel": 6031,
+      "end_channel": 6480,
+      "bounds_ft": [
+        [
+          -18.0,
+          69.0,
+          -70.625
+        ],
+        [
+          -2.0,
+          69.0,
+          -59.375
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.125,
+      "max_snap_error_ft": 0.08717633159569409
+    },
+    {
+      "name": "HX_012_CROWN_RIB",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "CROWNS",
+      "design": "CROWN RIB",
+      "kind": "pixel",
+      "nodes": 150,
+      "start_channel": 6481,
+      "end_channel": 6930,
+      "bounds_ft": [
+        [
+          -26.0,
+          67.0,
+          -76.25
+        ],
+        [
+          6.0,
+          67.0,
+          -53.75
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.25,
+      "max_snap_error_ft": 0.17435266319138817
+    },
+    {
+      "name": "HX_013_SPIRAL_TREE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "GROVE",
+      "design": "SPIRAL TREE",
+      "kind": "pixel",
+      "nodes": 320,
+      "start_channel": 6931,
+      "end_channel": 7890,
+      "bounds_ft": [
+        [
+          42.5,
+          0.0,
+          -77.5
+        ],
+        [
+          67.5,
+          30.0,
+          -52.5
+        ]
+      ],
+      "submodels": [
+        "STRAND_1",
+        "STRAND_2",
+        "STRAND_3",
+        "STRAND_4",
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3819783387138177,
+      "spiral_tree": true,
+      "custom_exact": true
+    },
+    {
+      "name": "HX_014_MUSHROOM_CROWN",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "CROWNS",
+      "design": "MUSHROOM CROWN",
+      "kind": "pixel",
+      "nodes": 150,
+      "start_channel": 7891,
+      "end_channel": 8340,
+      "bounds_ft": [
+        [
+          32.0,
+          32.5,
+          -81.0
+        ],
+        [
+          78.0,
+          37.5,
+          -49.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.37233331586798496
+    },
+    {
+      "name": "HX_015_CROWN_RIB",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "CROWNS",
+      "design": "CROWN RIB",
+      "kind": "pixel",
+      "nodes": 150,
+      "start_channel": 8341,
+      "end_channel": 8790,
+      "bounds_ft": [
+        [
+          47.0,
+          37.0,
+          -70.625
+        ],
+        [
+          63.0,
+          37.0,
+          -59.375
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.125,
+      "max_snap_error_ft": 0.08717633159569535
+    },
+    {
+      "name": "HX_016_CROWN_RIB",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "CROWNS",
+      "design": "CROWN RIB",
+      "kind": "pixel",
+      "nodes": 150,
+      "start_channel": 8791,
+      "end_channel": 9240,
+      "bounds_ft": [
+        [
+          39.0,
+          35.0,
+          -76.25
+        ],
+        [
+          71.0,
+          35.0,
+          -53.75
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.25,
+      "max_snap_error_ft": 0.1743526631913907
+    },
+    {
+      "name": "HX_017_SPIRAL_TREE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "GROVE",
+      "design": "SPIRAL TREE",
+      "kind": "pixel",
+      "nodes": 320,
+      "start_channel": 9241,
+      "end_channel": 10200,
+      "bounds_ft": [
+        [
+          107.5,
+          0.0,
+          -77.5
+        ],
+        [
+          132.5,
+          46.0,
+          -52.5
+        ]
+      ],
+      "submodels": [
+        "STRAND_1",
+        "STRAND_2",
+        "STRAND_3",
+        "STRAND_4",
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.36487807264592775,
+      "spiral_tree": true,
+      "custom_exact": true
+    },
+    {
+      "name": "HX_018_MUSHROOM_CROWN",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "CROWNS",
+      "design": "MUSHROOM CROWN",
+      "kind": "pixel",
+      "nodes": 150,
+      "start_channel": 10201,
+      "end_channel": 10650,
+      "bounds_ft": [
+        [
+          97.0,
+          47.5,
+          -80.5
+        ],
+        [
+          143.0,
+          54.5,
+          -49.5
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.41778956759867647
+    },
+    {
+      "name": "HX_019_CROWN_RIB",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "CROWNS",
+      "design": "CROWN RIB",
+      "kind": "pixel",
+      "nodes": 150,
+      "start_channel": 10651,
+      "end_channel": 11100,
+      "bounds_ft": [
+        [
+          112.0,
+          53.0,
+          -70.625
+        ],
+        [
+          128.0,
+          53.0,
+          -59.375
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.125,
+      "max_snap_error_ft": 0.08717633159569535
+    },
+    {
+      "name": "HX_020_CROWN_RIB",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "CROWNS",
+      "design": "CROWN RIB",
+      "kind": "pixel",
+      "nodes": 150,
+      "start_channel": 11101,
+      "end_channel": 11550,
+      "bounds_ft": [
+        [
+          104.0,
+          51.0,
+          -76.25
+        ],
+        [
+          136.0,
+          51.0,
+          -53.75
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.25,
+      "max_snap_error_ft": 0.1743526631913907
+    },
+    {
+      "name": "HX_021_SPIRAL_TREE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "GROVE",
+      "design": "SPIRAL TREE",
+      "kind": "pixel",
+      "nodes": 320,
+      "start_channel": 11551,
+      "end_channel": 12510,
+      "bounds_ft": [
+        [
+          -152.5,
+          0.0,
+          17.5
+        ],
+        [
+          -127.5,
+          62.0,
+          42.5
+        ]
+      ],
+      "submodels": [
+        "STRAND_1",
+        "STRAND_2",
+        "STRAND_3",
+        "STRAND_4",
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3964474968214233,
+      "spiral_tree": true,
+      "custom_exact": true
+    },
+    {
+      "name": "HX_022_MUSHROOM_CROWN",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "CROWNS",
+      "design": "MUSHROOM CROWN",
+      "kind": "pixel",
+      "nodes": 150,
+      "start_channel": 12511,
+      "end_channel": 12960,
+      "bounds_ft": [
+        [
+          -163.0,
+          63.0,
+          14.5
+        ],
+        [
+          -117.0,
+          71.0,
+          45.5
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.32270671740116214
+    },
+    {
+      "name": "HX_023_CROWN_RIB",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "CROWNS",
+      "design": "CROWN RIB",
+      "kind": "pixel",
+      "nodes": 150,
+      "start_channel": 12961,
+      "end_channel": 13410,
+      "bounds_ft": [
+        [
+          -148.0,
+          69.0,
+          24.375
+        ],
+        [
+          -132.0,
+          69.0,
+          35.625
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.125,
+      "max_snap_error_ft": 0.08717633159569284
+    },
+    {
+      "name": "HX_024_CROWN_RIB",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "CROWNS",
+      "design": "CROWN RIB",
+      "kind": "pixel",
+      "nodes": 150,
+      "start_channel": 13411,
+      "end_channel": 13860,
+      "bounds_ft": [
+        [
+          -156.0,
+          67.0,
+          18.75
+        ],
+        [
+          -124.0,
+          67.0,
+          41.25
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.25,
+      "max_snap_error_ft": 0.17435266319138568
+    },
+    {
+      "name": "HX_025_SPIRAL_TREE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "GROVE",
+      "design": "SPIRAL TREE",
+      "kind": "pixel",
+      "nodes": 320,
+      "start_channel": 13861,
+      "end_channel": 14820,
+      "bounds_ft": [
+        [
+          -87.5,
+          0.0,
+          17.5
+        ],
+        [
+          -62.5,
+          30.0,
+          42.5
+        ]
+      ],
+      "submodels": [
+        "STRAND_1",
+        "STRAND_2",
+        "STRAND_3",
+        "STRAND_4",
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3819783387138177,
+      "spiral_tree": true,
+      "custom_exact": true
+    },
+    {
+      "name": "HX_026_MUSHROOM_CROWN",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "CROWNS",
+      "design": "MUSHROOM CROWN",
+      "kind": "pixel",
+      "nodes": 150,
+      "start_channel": 14821,
+      "end_channel": 15270,
+      "bounds_ft": [
+        [
+          -98.0,
+          30.0,
+          15.0
+        ],
+        [
+          -52.0,
+          40.0,
+          45.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.38572993435089253
+    },
+    {
+      "name": "HX_027_CROWN_RIB",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "CROWNS",
+      "design": "CROWN RIB",
+      "kind": "pixel",
+      "nodes": 150,
+      "start_channel": 15271,
+      "end_channel": 15720,
+      "bounds_ft": [
+        [
+          -83.0,
+          37.0,
+          24.375
+        ],
+        [
+          -67.0,
+          37.0,
+          35.625
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.125,
+      "max_snap_error_ft": 0.08717633159569284
+    },
+    {
+      "name": "HX_028_CROWN_RIB",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "CROWNS",
+      "design": "CROWN RIB",
+      "kind": "pixel",
+      "nodes": 150,
+      "start_channel": 15721,
+      "end_channel": 16170,
+      "bounds_ft": [
+        [
+          -91.0,
+          35.0,
+          18.75
+        ],
+        [
+          -59.0,
+          35.0,
+          41.25
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.25,
+      "max_snap_error_ft": 0.17435266319138568
+    },
+    {
+      "name": "HX_029_SPIRAL_TREE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "GROVE",
+      "design": "SPIRAL TREE",
+      "kind": "pixel",
+      "nodes": 320,
+      "start_channel": 16171,
+      "end_channel": 17130,
+      "bounds_ft": [
+        [
+          -22.5,
+          0.0,
+          17.5
+        ],
+        [
+          2.5,
+          46.0,
+          42.5
+        ]
+      ],
+      "submodels": [
+        "STRAND_1",
+        "STRAND_2",
+        "STRAND_3",
+        "STRAND_4",
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3648780726459187,
+      "spiral_tree": true,
+      "custom_exact": true
+    },
+    {
+      "name": "HX_030_MUSHROOM_CROWN",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "CROWNS",
+      "design": "MUSHROOM CROWN",
+      "kind": "pixel",
+      "nodes": 150,
+      "start_channel": 17131,
+      "end_channel": 17580,
+      "bounds_ft": [
+        [
+          -33.0,
+          45.5,
+          15.0
+        ],
+        [
+          13.0,
+          56.5,
+          45.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3552658169459677
+    },
+    {
+      "name": "HX_031_CROWN_RIB",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "CROWNS",
+      "design": "CROWN RIB",
+      "kind": "pixel",
+      "nodes": 150,
+      "start_channel": 17581,
+      "end_channel": 18030,
+      "bounds_ft": [
+        [
+          -18.0,
+          53.0,
+          24.375
+        ],
+        [
+          -2.0,
+          53.0,
+          35.625
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.125,
+      "max_snap_error_ft": 0.08717633159569159
+    },
+    {
+      "name": "HX_032_CROWN_RIB",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "CROWNS",
+      "design": "CROWN RIB",
+      "kind": "pixel",
+      "nodes": 150,
+      "start_channel": 18031,
+      "end_channel": 18480,
+      "bounds_ft": [
+        [
+          -26.0,
+          51.0,
+          18.75
+        ],
+        [
+          6.0,
+          51.0,
+          41.25
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.25,
+      "max_snap_error_ft": 0.17435266319138318
+    },
+    {
+      "name": "HX_033_SPIRAL_TREE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "GROVE",
+      "design": "SPIRAL TREE",
+      "kind": "pixel",
+      "nodes": 320,
+      "start_channel": 18481,
+      "end_channel": 19440,
+      "bounds_ft": [
+        [
+          42.5,
+          0.0,
+          17.5
+        ],
+        [
+          67.5,
+          62.0,
+          42.5
+        ]
+      ],
+      "submodels": [
+        "STRAND_1",
+        "STRAND_2",
+        "STRAND_3",
+        "STRAND_4",
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3964474968214194,
+      "spiral_tree": true,
+      "custom_exact": true
+    },
+    {
+      "name": "HX_034_MUSHROOM_CROWN",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "CROWNS",
+      "design": "MUSHROOM CROWN",
+      "kind": "pixel",
+      "nodes": 150,
+      "start_channel": 19441,
+      "end_channel": 19890,
+      "bounds_ft": [
+        [
+          32.0,
+          60.5,
+          15.5
+        ],
+        [
+          78.0,
+          73.5,
+          44.5
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3762500844859265
+    },
+    {
+      "name": "HX_035_CROWN_RIB",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "CROWNS",
+      "design": "CROWN RIB",
+      "kind": "pixel",
+      "nodes": 150,
+      "start_channel": 19891,
+      "end_channel": 20340,
+      "bounds_ft": [
+        [
+          47.0,
+          69.0,
+          24.375
+        ],
+        [
+          63.0,
+          69.0,
+          35.625
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.125,
+      "max_snap_error_ft": 0.08717633159569284
+    },
+    {
+      "name": "HX_036_CROWN_RIB",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "CROWNS",
+      "design": "CROWN RIB",
+      "kind": "pixel",
+      "nodes": 150,
+      "start_channel": 20341,
+      "end_channel": 20790,
+      "bounds_ft": [
+        [
+          39.0,
+          67.0,
+          18.75
+        ],
+        [
+          71.0,
+          67.0,
+          41.25
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.25,
+      "max_snap_error_ft": 0.17435266319138568
+    },
+    {
+      "name": "HX_037_BRAIDED_TUNNEL",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "TUNNELS",
+      "design": "BRAIDED TUNNEL",
+      "kind": "pixel",
+      "nodes": 395,
+      "start_channel": 20791,
+      "end_channel": 21975,
+      "bounds_ft": [
+        [
+          -160.0,
+          15.5,
+          -35.0
+        ],
+        [
+          150.0,
+          39.5,
+          -25.0
+        ]
+      ],
+      "submodels": [
+        "STRAND_A",
+        "STRAND_B",
+        "RUNGS",
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.4016770842247952,
+      "double_helix": true
+    },
+    {
+      "name": "HX_038_BRAIDED_TUNNEL",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "TUNNELS",
+      "design": "BRAIDED TUNNEL",
+      "kind": "pixel",
+      "nodes": 395,
+      "start_channel": 21976,
+      "end_channel": 23160,
+      "bounds_ft": [
+        [
+          -160.0,
+          15.5,
+          35.0
+        ],
+        [
+          150.0,
+          39.5,
+          45.0
+        ]
+      ],
+      "submodels": [
+        "STRAND_A",
+        "STRAND_B",
+        "RUNGS",
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.4016770842247952,
+      "double_helix": true
+    }
+  ],
+  "file_prefix": "Mycelium_Dream",
+  "description": "Braided helix tunnels thread layered spiral groves and overlapping warm mushroomlike ring crowns.",
+  "palette": [
+    "#80FFC0",
+    "#FFB080",
+    "#FFEAB5"
+  ],
+  "groups": {
+    "HX_ALL_PIXELS": [
+      "HX_001_SPIRAL_TREE",
+      "HX_002_MUSHROOM_CROWN",
+      "HX_003_CROWN_RIB",
+      "HX_004_CROWN_RIB",
+      "HX_005_SPIRAL_TREE",
+      "HX_006_MUSHROOM_CROWN",
+      "HX_007_CROWN_RIB",
+      "HX_008_CROWN_RIB",
+      "HX_009_SPIRAL_TREE",
+      "HX_010_MUSHROOM_CROWN",
+      "HX_011_CROWN_RIB",
+      "HX_012_CROWN_RIB",
+      "HX_013_SPIRAL_TREE",
+      "HX_014_MUSHROOM_CROWN",
+      "HX_015_CROWN_RIB",
+      "HX_016_CROWN_RIB",
+      "HX_017_SPIRAL_TREE",
+      "HX_018_MUSHROOM_CROWN",
+      "HX_019_CROWN_RIB",
+      "HX_020_CROWN_RIB",
+      "HX_021_SPIRAL_TREE",
+      "HX_022_MUSHROOM_CROWN",
+      "HX_023_CROWN_RIB",
+      "HX_024_CROWN_RIB",
+      "HX_025_SPIRAL_TREE",
+      "HX_026_MUSHROOM_CROWN",
+      "HX_027_CROWN_RIB",
+      "HX_028_CROWN_RIB",
+      "HX_029_SPIRAL_TREE",
+      "HX_030_MUSHROOM_CROWN",
+      "HX_031_CROWN_RIB",
+      "HX_032_CROWN_RIB",
+      "HX_033_SPIRAL_TREE",
+      "HX_034_MUSHROOM_CROWN",
+      "HX_035_CROWN_RIB",
+      "HX_036_CROWN_RIB",
+      "HX_037_BRAIDED_TUNNEL",
+      "HX_038_BRAIDED_TUNNEL"
+    ],
+    "HX_DNA_ALL": [
+      "HX_037_BRAIDED_TUNNEL",
+      "HX_038_BRAIDED_TUNNEL"
+    ],
+    "HX_DNA_RUNGS": [
+      "HX_037_BRAIDED_TUNNEL/RUNGS",
+      "HX_038_BRAIDED_TUNNEL/RUNGS"
+    ],
+    "HX_DNA_STRAND_A": [
+      "HX_037_BRAIDED_TUNNEL/STRAND_A",
+      "HX_038_BRAIDED_TUNNEL/STRAND_A"
+    ],
+    "HX_DNA_STRAND_B": [
+      "HX_037_BRAIDED_TUNNEL/STRAND_B",
+      "HX_038_BRAIDED_TUNNEL/STRAND_B"
+    ],
+    "HX_NATIVE_CUSTOM": [
+      "HX_001_SPIRAL_TREE",
+      "HX_002_MUSHROOM_CROWN",
+      "HX_003_CROWN_RIB",
+      "HX_004_CROWN_RIB",
+      "HX_005_SPIRAL_TREE",
+      "HX_006_MUSHROOM_CROWN",
+      "HX_007_CROWN_RIB",
+      "HX_008_CROWN_RIB",
+      "HX_009_SPIRAL_TREE",
+      "HX_010_MUSHROOM_CROWN",
+      "HX_011_CROWN_RIB",
+      "HX_012_CROWN_RIB",
+      "HX_013_SPIRAL_TREE",
+      "HX_014_MUSHROOM_CROWN",
+      "HX_015_CROWN_RIB",
+      "HX_016_CROWN_RIB",
+      "HX_017_SPIRAL_TREE",
+      "HX_018_MUSHROOM_CROWN",
+      "HX_019_CROWN_RIB",
+      "HX_020_CROWN_RIB",
+      "HX_021_SPIRAL_TREE",
+      "HX_022_MUSHROOM_CROWN",
+      "HX_023_CROWN_RIB",
+      "HX_024_CROWN_RIB",
+      "HX_025_SPIRAL_TREE",
+      "HX_026_MUSHROOM_CROWN",
+      "HX_027_CROWN_RIB",
+      "HX_028_CROWN_RIB",
+      "HX_029_SPIRAL_TREE",
+      "HX_030_MUSHROOM_CROWN",
+      "HX_031_CROWN_RIB",
+      "HX_032_CROWN_RIB",
+      "HX_033_SPIRAL_TREE",
+      "HX_034_MUSHROOM_CROWN",
+      "HX_035_CROWN_RIB",
+      "HX_036_CROWN_RIB",
+      "HX_037_BRAIDED_TUNNEL",
+      "HX_038_BRAIDED_TUNNEL"
+    ],
+    "HX_SPIRALS_EAST": [
+      "HX_013_SPIRAL_TREE",
+      "HX_017_SPIRAL_TREE",
+      "HX_033_SPIRAL_TREE"
+    ],
+    "HX_SPIRALS_WEST": [
+      "HX_001_SPIRAL_TREE",
+      "HX_005_SPIRAL_TREE",
+      "HX_009_SPIRAL_TREE",
+      "HX_021_SPIRAL_TREE",
+      "HX_025_SPIRAL_TREE",
+      "HX_029_SPIRAL_TREE"
+    ],
+    "HX_SPIRAL_TREES": [
+      "HX_001_SPIRAL_TREE",
+      "HX_005_SPIRAL_TREE",
+      "HX_009_SPIRAL_TREE",
+      "HX_013_SPIRAL_TREE",
+      "HX_017_SPIRAL_TREE",
+      "HX_021_SPIRAL_TREE",
+      "HX_025_SPIRAL_TREE",
+      "HX_029_SPIRAL_TREE",
+      "HX_033_SPIRAL_TREE"
+    ],
+    "HX_WHOLE_SHOW": [
+      "HX_001_SPIRAL_TREE",
+      "HX_002_MUSHROOM_CROWN",
+      "HX_003_CROWN_RIB",
+      "HX_004_CROWN_RIB",
+      "HX_005_SPIRAL_TREE",
+      "HX_006_MUSHROOM_CROWN",
+      "HX_007_CROWN_RIB",
+      "HX_008_CROWN_RIB",
+      "HX_009_SPIRAL_TREE",
+      "HX_010_MUSHROOM_CROWN",
+      "HX_011_CROWN_RIB",
+      "HX_012_CROWN_RIB",
+      "HX_013_SPIRAL_TREE",
+      "HX_014_MUSHROOM_CROWN",
+      "HX_015_CROWN_RIB",
+      "HX_016_CROWN_RIB",
+      "HX_017_SPIRAL_TREE",
+      "HX_018_MUSHROOM_CROWN",
+      "HX_019_CROWN_RIB",
+      "HX_020_CROWN_RIB",
+      "HX_021_SPIRAL_TREE",
+      "HX_022_MUSHROOM_CROWN",
+      "HX_023_CROWN_RIB",
+      "HX_024_CROWN_RIB",
+      "HX_025_SPIRAL_TREE",
+      "HX_026_MUSHROOM_CROWN",
+      "HX_027_CROWN_RIB",
+      "HX_028_CROWN_RIB",
+      "HX_029_SPIRAL_TREE",
+      "HX_030_MUSHROOM_CROWN",
+      "HX_031_CROWN_RIB",
+      "HX_032_CROWN_RIB",
+      "HX_033_SPIRAL_TREE",
+      "HX_034_MUSHROOM_CROWN",
+      "HX_035_CROWN_RIB",
+      "HX_036_CROWN_RIB",
+      "HX_037_BRAIDED_TUNNEL",
+      "HX_038_BRAIDED_TUNNEL"
+    ],
+    "HX_ZONE_CROWNS": [
+      "HX_002_MUSHROOM_CROWN",
+      "HX_003_CROWN_RIB",
+      "HX_004_CROWN_RIB",
+      "HX_006_MUSHROOM_CROWN",
+      "HX_007_CROWN_RIB",
+      "HX_008_CROWN_RIB",
+      "HX_010_MUSHROOM_CROWN",
+      "HX_011_CROWN_RIB",
+      "HX_012_CROWN_RIB",
+      "HX_014_MUSHROOM_CROWN",
+      "HX_015_CROWN_RIB",
+      "HX_016_CROWN_RIB",
+      "HX_018_MUSHROOM_CROWN",
+      "HX_019_CROWN_RIB",
+      "HX_020_CROWN_RIB",
+      "HX_022_MUSHROOM_CROWN",
+      "HX_023_CROWN_RIB",
+      "HX_024_CROWN_RIB",
+      "HX_026_MUSHROOM_CROWN",
+      "HX_027_CROWN_RIB",
+      "HX_028_CROWN_RIB",
+      "HX_030_MUSHROOM_CROWN",
+      "HX_031_CROWN_RIB",
+      "HX_032_CROWN_RIB",
+      "HX_034_MUSHROOM_CROWN",
+      "HX_035_CROWN_RIB",
+      "HX_036_CROWN_RIB"
+    ],
+    "HX_ZONE_GROVE": [
+      "HX_001_SPIRAL_TREE",
+      "HX_005_SPIRAL_TREE",
+      "HX_009_SPIRAL_TREE",
+      "HX_013_SPIRAL_TREE",
+      "HX_017_SPIRAL_TREE",
+      "HX_021_SPIRAL_TREE",
+      "HX_025_SPIRAL_TREE",
+      "HX_029_SPIRAL_TREE",
+      "HX_033_SPIRAL_TREE"
+    ],
+    "HX_ZONE_TUNNELS": [
+      "HX_037_BRAIDED_TUNNEL",
+      "HX_038_BRAIDED_TUNNEL"
+    ]
+  },
+  "group_count": 13,
+  "concept_id": "08",
+  "source_art": "images/07_08_Moire_Mycelium.png",
+  "source_art_side": "right",
+  "build_status": "native planning layout",
+  "source_brief": {
+    "id": "08",
+    "name": "Mycelium Dream",
+    "round": "abstract",
+    "board": 4,
+    "side": "right",
+    "description": "Braided helix tunnels thread layered spiral groves and overlapping warm mushroomlike ring crowns.",
+    "spatial": "Interwoven root, tunnel, mid-tree and crown bands on discrete supports.",
+    "choreography": "Branching pulses form organic growth illusions as successive layers light.",
+    "constraint": "The growth is a lighting illusion on static frames; dense overlap must preserve readable silhouettes.",
+    "image": "images/07_08_Moire_Mycelium.png",
+    "panel_ratio": 1.2503152585119799,
+    "status": "awaiting user selection"
+  },
+  "sequence_type": "24-second silent Animation study",
+  "physical_output_networks": 0,
+  "limits": [
+    "The growth is a lighting illusion on static frames; dense overlap must preserve readable silhouettes.",
+    "Artwork-guided finite geometry, not a scanned/surveyed reconstruction.",
+    "No complete music sequence or musical drummer acceptance claimed."
+  ]
+}

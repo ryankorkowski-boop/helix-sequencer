@@ -1,0 +1,225 @@
+{
+  "schema": "helix.72h_completion_validation.v1",
+  "software_source_commit": "c56a0975bf11f66927091694e7851631dec6c7fa",
+  "pr": 150,
+  "audit_window_utc": [
+    "2026-10-12T05:33:56Z",
+    "2026-10-15T05:33:56Z"
+  ],
+  "local_regression": {
+    "python": "3.12",
+    "passed": 1525,
+    "skipped_missing_2_wav": 5,
+    "warnings": 36,
+    "seconds": 186.6
+  },
+  "github_regression": {
+    "run": 38689830938,
+    "python_311": {
+      "passed": 1525,
+      "skipped": 5,
+      "warnings": 5,
+      "seconds": 247.26
+    },
+    "python_312": {
+      "passed": 1525,
+      "skipped": 5,
+      "warnings": 36,
+      "seconds": 318.01
+    }
+  },
+  "native": {
+    "run": 38689830974,
+    "artifact_id": 11951153518,
+    "artifact_sha256": "945a79561841c004dda95fb398043aa1c69f9c4f19ac6cca7419a16ad832c805",
+    "download_hash_crc_and_source_verified": true,
+    "ctb16pc_intensity_checks": 4800,
+    "max_error_out_of_255": 0.4,
+    "native_layouts": 6,
+    "native_bands": 2,
+    "performers_per_band": 6,
+    "source_bound_opening_kicks": 16,
+    "rapid_kicks": 8,
+    "independent_listening_verified": false
+  },
+  "windows": {
+    "run": 38689830954,
+    "artifact_id": 11951193335,
+    "artifact_sha256": "e19a17a6bf7559e54d7523606b000bc7ff762106861b42f1789e36849a934d29",
+    "portable_zip_bytes": 189958671,
+    "portable_zip_sha256": "ad30b71d3857f5f12fe034b7fadfb7791bcdb0508908bd0cac3c8e6edeb615ec",
+    "outer_and_inner_crc_verified": true,
+    "packaged_gui_engine_native_preview_passed": true
+  },
+  "android": {
+    "run": 38689830986,
+    "api30": {
+      "job": 116272943567,
+      "artifact": {
+        "id": 11951528175,
+        "name": "Helix-Android-stability-api-30",
+        "size_in_bytes": 297693421,
+        "url": "https://api.github.com/repos/ryankorkowski-boop/helix-sequencer/actions/artifacts/11951528175",
+        "archive_download_url": "https://api.github.com/repos/ryankorkowski-boop/helix-sequencer/actions/artifacts/11951528175/zip",
+        "expired": false,
+        "created_at": "2026-10-15T06:13:34Z",
+        "expires_at": "2027-01-13T05:59:52Z",
+        "updated_at": "2026-10-15T06:13:34Z",
+        "digest": "sha256:3393060d8f079a54a86710696836eee4766e1b5c24c2aa0c92e4940c40a7429a",
+        "workflow_run": {
+          "id": 38689830986,
+          "repository_id": 1210701306,
+          "head_repository_id": 1210701306,
+          "head_branch": "codex/72h-completion-20261015",
+          "head_sha": "c56a0975bf11f66927091694e7851631dec6c7fa"
+        }
+      },
+      "decoded_movies": [
+        {
+          "mode": "xlights",
+          "frames": 45,
+          "video_codec": "h264",
+          "audio_codec": "aac",
+          "duration": "3.000000",
+          "source_duration_seconds": 8,
+          "full_song_preview_verified": false,
+          "max_mean_pixel_error": 1.7717057291666667,
+          "minimum_expected_lit_pixels_visible": 0.9822536181943488,
+          "audio_correlation": 0.9999563842574754,
+          "audio_offset_ms": 0
+        },
+        {
+          "mode": "lor",
+          "frames": 45,
+          "video_codec": "h264",
+          "audio_codec": "aac",
+          "duration": "3.000000",
+          "source_duration_seconds": 8,
+          "full_song_preview_verified": false,
+          "max_mean_pixel_error": 1.6728457754629629,
+          "minimum_expected_lit_pixels_visible": 0.9634881247784474,
+          "audio_correlation": 0.9999563842574754,
+          "audio_offset_ms": 0
+        },
+        {
+          "mode": "real-rgb",
+          "frames": 120,
+          "video_codec": "h264",
+          "audio_codec": "aac",
+          "duration": "8.000000",
+          "source_duration_seconds": 8,
+          "full_song_preview_verified": false,
+          "max_mean_pixel_error": 1.758777488425926,
+          "minimum_expected_lit_pixels_visible": 0.9744324970131422,
+          "audio_correlation": 0.9977437981465205,
+          "audio_offset_ms": 0
+        },
+        {
+          "mode": "full-song",
+          "frames": 3562,
+          "video_codec": "h264",
+          "audio_codec": "aac",
+          "duration": "237.466708",
+          "source_duration_seconds": 237.43997916666666,
+          "full_song_preview_verified": true,
+          "max_mean_pixel_error": 1.716166087962963,
+          "minimum_expected_lit_pixels_visible": 0.9650953580424613,
+          "audio_correlation": 0.9957144538319959,
+          "audio_offset_ms": 0
+        }
+      ],
+      "apk_bytes": 144078121,
+      "apk_sha256": "da80349e76b940e3c1f633c1083a4e56ff7ce6d1d436201ff5b398b906225c7f",
+      "embedded_engine_source": "c56a0975bf11f66927091694e7851631dec6c7fa",
+      "embedded_engine_files_hash_verified": 966,
+      "download_hash_and_crc_verified": true
+    },
+    "api36": {
+      "job": 116272943243,
+      "artifact": {
+        "id": 11951543671,
+        "name": "Helix-Android-stability-api-36",
+        "size_in_bytes": 298007344,
+        "url": "https://api.github.com/repos/ryankorkowski-boop/helix-sequencer/actions/artifacts/11951543671",
+        "archive_download_url": "https://api.github.com/repos/ryankorkowski-boop/helix-sequencer/actions/artifacts/11951543671/zip",
+        "expired": false,
+        "created_at": "2026-10-15T06:17:09Z",
+        "expires_at": "2027-01-13T05:59:52Z",
+        "updated_at": "2026-10-15T06:17:09Z",
+        "digest": "sha256:bfeff0263f24c3acfa524b7a3a754d0fad7c435ea4c3057f37ed11c07b4495ea",
+        "workflow_run": {
+          "id": 38689830986,
+          "repository_id": 1210701306,
+          "head_repository_id": 1210701306,
+          "head_branch": "codex/72h-completion-20261015",
+          "head_sha": "c56a0975bf11f66927091694e7851631dec6c7fa"
+        }
+      },
+      "decoded_movies": [
+        {
+          "mode": "xlights",
+          "frames": 45,
+          "video_codec": "h264",
+          "audio_codec": "aac",
+          "duration": "3.000000",
+          "source_duration_seconds": 8,
+          "full_song_preview_verified": false,
+          "max_mean_pixel_error": 2.209871238425926,
+          "minimum_expected_lit_pixels_visible": 0.9822536181943488,
+          "audio_correlation": 0.9999563842574755,
+          "audio_offset_ms": 0
+        },
+        {
+          "mode": "lor",
+          "frames": 45,
+          "video_codec": "h264",
+          "audio_codec": "aac",
+          "duration": "3.000000",
+          "source_duration_seconds": 8,
+          "full_song_preview_verified": false,
+          "max_mean_pixel_error": 2.1894835069444443,
+          "minimum_expected_lit_pixels_visible": 0.9634881247784474,
+          "audio_correlation": 0.9999563842574755,
+          "audio_offset_ms": 0
+        },
+        {
+          "mode": "real-rgb",
+          "frames": 120,
+          "video_codec": "h264",
+          "audio_codec": "aac",
+          "duration": "8.000000",
+          "source_duration_seconds": 8,
+          "full_song_preview_verified": false,
+          "max_mean_pixel_error": 2.153220486111111,
+          "minimum_expected_lit_pixels_visible": 0.9744324970131422,
+          "audio_correlation": 0.9977437981465194,
+          "audio_offset_ms": 0
+        },
+        {
+          "mode": "full-song",
+          "frames": 3562,
+          "video_codec": "h264",
+          "audio_codec": "aac",
+          "duration": "237.466708",
+          "source_duration_seconds": 237.43997916666666,
+          "full_song_preview_verified": true,
+          "max_mean_pixel_error": 2.2348784722222224,
+          "minimum_expected_lit_pixels_visible": 0.9650953580424613,
+          "audio_correlation": 0.9957144538319779,
+          "audio_offset_ms": 0
+        }
+      ],
+      "validation_basis": "completed device instrumentation and independent host decode; archive not independently downloaded"
+    }
+  },
+  "remaining_gates": [
+    "Independent instrument/tom/duet listening labels",
+    "Complete original LightsOutTheme input",
+    "Track-specific redistribution permissions and full-song showcase package",
+    "Physical Samsung/ARM64/controller/native LOR verification",
+    "Production signing, signing continuity, 16KB/store readiness",
+    "Approved final release/installer packaging and stacked PR integration"
+  ],
+  "stable_release_complete": false,
+  "physical_hardware_verified": false
+}

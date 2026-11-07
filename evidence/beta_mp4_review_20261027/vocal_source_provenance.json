@@ -1,0 +1,39 @@
+{
+  "schema": "helix.owner-review-sampler.v1",
+  "audio": "Helix_Starred_New_Review.wav",
+  "audio_sha256": "9ff4606afbefe536120335088f5865da1581e75f113f9f2fa62acd8fd9a44ef4",
+  "duration_seconds": 30.0,
+  "source_selection": "Owner Starred catalog; distinct Drive IDs; SHA256 verified before decoding",
+  "excerpt_selection": "Maximum 30-second mean of normalized RMS (70%) and positive spectral flux (30%); half-second candidate grid",
+  "original_source_files_modified": false,
+  "gain_normalization": false,
+  "peak_before_encoding": 0.7746798992156982,
+  "output_gain": 1.0,
+  "attenuation_only": true,
+  "duplicates_omitted": [],
+  "clips": [
+    {
+      "i": 0,
+      "title": "Audio in. Lights out. Welcome to Helix",
+      "id": "1Rv1TcJWrHbWBckMTW_AtIFI20Q-exD8-",
+      "size": 6206675,
+      "sha256": "539b7ab219cf5a1bddeae098a8df58f193ceb02d46bacf7b0f3189ea3f4ebe92",
+      "local_path": "/workspace/scratch/ec314907d82d/review-singing-sources/0.mp3",
+      "start_seconds": 182.17600000000002,
+      "selection_evidence": {
+        "method": "Maximum 30-second mean source Silero speech-presence window",
+        "mean_probability": 0.5166040441628966,
+        "hop_seconds": 0.032,
+        "not_calibrated_for_singing": true
+      },
+      "source_sample_rate": 48000,
+      "source_start_sample": 8744448,
+      "source_end_sample": 10184448,
+      "source_start_seconds": 182.17600000000002,
+      "duration_seconds": 30,
+      "selection_method": "Explicit source-clock interval; selection evidence retained in source configuration",
+      "sampler_start_seconds": 0.0,
+      "edge_fade_seconds": 0.02
+    }
+  ]
+}

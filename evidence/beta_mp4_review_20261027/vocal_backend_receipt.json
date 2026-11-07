@@ -1,0 +1,43 @@
+{
+  "source_audio_sha256": "9ff4606afbefe536120335088f5865da1581e75f113f9f2fa62acd8fd9a44ef4",
+  "source_duration_seconds": 30.0,
+  "networking": "denied by Linux seccomp during inference",
+  "telemetry": "disabled before session creation",
+  "models": {
+    "UVR-MDX-NET-Inst_HQ_3.onnx": [
+      "317554b07fe1ea5279a77f2b1520a41ea4b93432560c4ffd08792c30fddf9adc",
+      6144,
+      3072,
+      1.022
+    ],
+    "UVR_MDXNET_KARA_2.onnx": [
+      "bf32e15105a09c0f7dddd2b67346146334d6f3ecb399ed7638eba2ab07cbf5f4",
+      5120,
+      2048,
+      1.065
+    ]
+  },
+  "vad_sha256": "1a153a22f4509e292a94e67d6f9b85e8deb25b4988682b7e174c65279d8788e3",
+  "tracks": {
+    "estimated_accompaniment": {
+      "sha256": "d816248d3ec6fa7c3b6ba1c19a55ca1b0fd4a134ea07136e0ca098fb203230d2",
+      "file": "estimated_accompaniment.wav"
+    },
+    "estimated_vocals": {
+      "sha256": "27149bb56925c087cbd0f2e32db55cdb12d555869405598cb330229011209945",
+      "file": "estimated_vocals.wav"
+    },
+    "estimated_lead": {
+      "sha256": "889c68c40b1170479e04cbf3ca8d55716630540667e68b518ac418e4019d5cde",
+      "file": "estimated_lead.wav"
+    },
+    "estimated_backing": {
+      "sha256": "00d52aaa679c8042e78b883635e2b7fedd25b183981580b4ba4a6d66033c4f06",
+      "file": "estimated_backing.wav"
+    }
+  },
+  "vad_hop_seconds": 0.032,
+  "presence_probabilities_sha256": "198b1e08ada5166555040368c805ec83c2d04636303b2b7359ccfa5b050247c7",
+  "independent_backing_verified": false,
+  "limitation": "Model-derived candidates and speech VAD probabilities are not verified singer identity or singing ground truth."
+}

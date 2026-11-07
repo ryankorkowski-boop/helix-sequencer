@@ -1,0 +1,2010 @@
+{
+  "schema": "helix.beta-completion.v1",
+  "updated_at": "2026-11-06T02:49:26.255416+00:00",
+  "repository": "https://github.com/ryankorkowski-boop/helix-sequencer",
+  "branch": "codex/eight-hour-recovery-20261019",
+  "recovered_head": "45f17d69fac91d7683984cc22c54bb701eb2226e",
+  "last_verified_implementation_sha": "a9beaa7c9be89fffc21a856e033bf75a3136c29b",
+  "current_task": "PR188-COMPILE-STEMLESS-INTEGRATION",
+  "tasks": [
+    {
+      "id": "REC-01",
+      "priority": "P0",
+      "description": "Recover remote source, workflow state and nine-file inventory",
+      "status": "VERIFIED",
+      "files": [
+        "MASTER_TODO.md",
+        "docs/BETA_OPTIMIZED_LAYOUT_REVIEW_20261029_DELIVERY.md"
+      ],
+      "last_attempted_action": "Cloned recovery branch; read current delivery/handoff and queried Actions",
+      "actual_result": "Remote HEAD matches; PR188 draft/unmerged; five videos retained",
+      "evidence": [
+        "evidence/optimized_beta_20261029/delivery_status.json"
+      ],
+      "next_action": "Preserve existing outputs",
+      "dependencies_or_blockers": [],
+      "source_commit": "45f17d69fac91d7683984cc22c54bb701eb2226e"
+    },
+    {
+      "id": "MEM-01",
+      "priority": "P0",
+      "description": "Repair Android API30 full-song low-memory termination",
+      "status": "VERIFIED",
+      "files": [
+        "core/audio_intelligence.py",
+        "android/app/src/main/python/helix_mobile.py",
+        "tools/preview_renderer.py"
+      ],
+      "last_attempted_action": "Recovered Android failure receipt and production code",
+      "actual_result": "dd73 API30 AND API36 pass4instrumented tests each; actual237.466708sH264/AAC,3562frames,originalaudio0.995714correlation/0mslag; prior foreground low-memory kill no longer reproduced",
+      "evidence": [
+        "evidence/beta_completion/android_final_status.json"
+      ],
+      "next_action": "Retain physical device acceptance separately; no unchanged test rerun needed",
+      "dependencies_or_blockers": [],
+      "source_commit": "dd73e36777d0a02c6d403245d03421d093bda0fd",
+      "supporting_tests": "40focused pass; exact-source deviceCI pending"
+    },
+    {
+      "id": "MUS-01",
+      "priority": "P0",
+      "description": "Preserve and verify section choreography and source rests",
+      "status": "VERIFIED",
+      "files": [
+        "tools/source_spatial_direction.py"
+      ],
+      "last_attempted_action": "Recovered source-bound native plans and verified presentation ZIP hash",
+      "actual_result": "Prior section/source-rest implementation and five media outputs preserved",
+      "evidence": [
+        "evidence/optimized_beta_20261029/source_rest_metrics.json"
+      ],
+      "next_action": "Do not reanalyze unchanged audio",
+      "dependencies_or_blockers": [],
+      "source_commit": "45f17d69fac91d7683984cc22c54bb701eb2226e"
+    },
+    {
+      "id": "VOC-01",
+      "priority": "P0",
+      "description": "Establish independently qualified lead/harmony and lexical timing",
+      "status": "BLOCKED",
+      "files": [
+        "tools/phoneme_vocal_export.py"
+      ],
+      "last_attempted_action": "Recovered prior separation/evidence status",
+      "actual_result": "Separate retained source clocks animate independently:99lead/108harmony frames,177distinct in120s. Acoustic singer ownership and lexical phonemes remain unverified.",
+      "evidence": [
+        "evidence/optimized_beta_20261029/vocal_dependency_status.json"
+      ],
+      "next_action": "Obtain genuine recording-bound acoustic/lexical qualification; preserve failed gates",
+      "dependencies_or_blockers": [
+        "Independent acoustic ownership and lexical alignment"
+      ],
+      "source_commit": "c009595976a2b660bc4094b7302b9b284588c3c4"
+    },
+    {
+      "id": "CAN-01",
+      "priority": "P0",
+      "description": "Identify approved fully modeled 3D drummer/band",
+      "status": "PARTIAL",
+      "files": [
+        "models/final_band_scene.py",
+        "models/canonical_native_band.py"
+      ],
+      "last_attempted_action": "Recovered previous asset search results and source inventory",
+      "actual_result": "Owner-passed original V3 reference identified; six-member source-family review rendered. Retained V3 is planar art; no substitute approved or native solid equivalence claimed.",
+      "evidence": [
+        "evidence/beta_completion/current_owner_review_20261030.json"
+      ],
+      "next_action": "Owner reviews delivered cast; qualify remaining native/solid requirement separately",
+      "dependencies_or_blockers": [
+        "Approved asset or identifying reference"
+      ],
+      "source_commit": "c009595976a2b660bc4094b7302b9b284588c3c4"
+    },
+    {
+      "id": "VID-01",
+      "priority": "P0",
+      "description": "Deliver exact nine MP4-only collection",
+      "status": "BLOCKED",
+      "files": [
+        "tools/assemble_beta_review.py",
+        "evidence/beta_completion/artifact_manifest.json"
+      ],
+      "last_attempted_action": "Recovered two native ZIPs and five-media ZIP; verified SHA256",
+      "actual_result": "Current aa58cc0 collection artifact contains source MP3 and ingestion receipt only; zero XSQ/FSEQ/MP4. Prior technical review files remain historical, not current qualified delivery.",
+      "evidence": [
+        "evidence/beta_completion/owner_review_zip_20261030.json",
+        "evidence/beta_completion/owner_review_media_verification_20261030.json"
+      ],
+      "next_action": "Verify fresh native pilot and resolve visual/vocal qualifications before frozen nine",
+      "dependencies_or_blockers": [
+        "CAN-01",
+        "VOC-01"
+      ],
+      "source_commit": "aa58cc0dc1843fc32129e5489cb5cc71123b51a6",
+      "historical_status_before_implementation": "VERIFIED_REVIEW_DELIVERY"
+    },
+    {
+      "id": "WIN-01",
+      "priority": "P1",
+      "description": "Verify exact final-source Windows portable smoke",
+      "status": "VERIFIED",
+      "files": [
+        ".github/workflows/windows-portable.yml"
+      ],
+      "last_attempted_action": "Queried latest workflows",
+      "actual_result": "dd73 fullPython3.11/3.12 each2208+24subtests/6skips pass; Windows40989591050 passes",
+      "evidence": [
+        "evidence/beta_completion/current_ci_results.json"
+      ],
+      "next_action": "Await Android and remaining native/owner gates",
+      "dependencies_or_blockers": [],
+      "source_commit": "dd73e36777d0a02c6d403245d03421d093bda0fd"
+    },
+    {
+      "id": "AND-01",
+      "priority": "P0",
+      "description": "Verify final-source Android API30/API36",
+      "status": "VERIFIED",
+      "files": [
+        ".github/workflows/android-offline.yml"
+      ],
+      "last_attempted_action": "Queried latest jobs",
+      "actual_result": "dd73 API30 AND API36 pass4instrumented tests each; actual237.466708sH264/AAC,3562frames,originalaudio0.995714correlation/0mslag; prior foreground low-memory kill no longer reproduced",
+      "evidence": [
+        "evidence/beta_completion/android_final_status.json"
+      ],
+      "next_action": "Retain physical device acceptance separately; no unchanged test rerun needed",
+      "dependencies_or_blockers": [
+        "MEM-01"
+      ],
+      "source_commit": "dd73e36777d0a02c6d403245d03421d093bda0fd"
+    },
+    {
+      "id": "REG-01",
+      "priority": "P0",
+      "description": "Run exact-source focused and full relevant regression",
+      "status": "LOCAL_VERIFIED_CI_PENDING",
+      "files": [
+        "tests/"
+      ],
+      "last_attempted_action": "Recovered exact historical suite results",
+      "actual_result": "158coherent targeted cases pass on pinned runtime; final source Actions not yet accepted",
+      "evidence": [
+        "evidence/beta_completion/owner_review_pinned_regression_20261030.xml"
+      ],
+      "next_action": "Collect actual final-source CI results; preserve failed historical evidence",
+      "dependencies_or_blockers": [],
+      "source_commit": "c009595976a2b660bc4094b7302b9b284588c3c4"
+    },
+    {
+      "id": "REL-01",
+      "priority": "P0",
+      "description": "Owner acceptance before merge/publication",
+      "status": "BLOCKED",
+      "files": [
+        "MASTER_TODO.md"
+      ],
+      "last_attempted_action": "Read current owner directive",
+      "actual_result": "PR188 remains open/unmerged; beta unpublished. Owner has not approved the new collection.",
+      "evidence": [
+        "https://github.com/ryankorkowski-boop/helix-sequencer/pull/188"
+      ],
+      "next_action": "Complete independent vocal/native/platform acceptance and obtain explicit approval",
+      "dependencies_or_blockers": [
+        "VID-01",
+        "AND-01",
+        "WIN-01",
+        "REG-01",
+        "Owner explicit approval"
+      ],
+      "source_commit": "c009595976a2b660bc4094b7302b9b284588c3c4"
+    },
+    {
+      "id": "MEM-02",
+      "priority": "P0",
+      "description": "Bound the remaining measured pitch, descriptor, flux and float64 mel workspace",
+      "status": "VERIFIED",
+      "files": [
+        "core/bounded_audio.py",
+        "core/effect_engine.py",
+        "core/helixualizer.py",
+        "xlights/xsq_writer.py",
+        "audio/drummer_v3.py",
+        "tests/test_bounded_audio.py"
+      ],
+      "last_attempted_action": "Frozen-source final full237.44s production profile and54test focused suite running",
+      "actual_result": "Global contrast floor error rejected and repaired; per-frame reducers exact; mel1.35GB->306MB with exact bank curves",
+      "evidence": [
+        "evidence/beta_completion/mel_memory_profile.json",
+        "evidence/beta_completion/focused_memory_final.xml"
+      ],
+      "next_action": "Collect final-source platform/fullCI; implementation verification does not imply device acceptance",
+      "dependencies_or_blockers": [
+        "Final source device results pending"
+      ],
+      "source_commit": "dd73e36777d0a02c6d403245d03421d093bda0fd"
+    },
+    {
+      "id": "MEM-03",
+      "priority": "P0",
+      "description": "Bound automatic CQT tuning while retaining original whole-song histogram",
+      "status": "VERIFIED",
+      "files": [
+        "core/bounded_audio.py",
+        "core/chronoflow.py",
+        "core/effect_engine.py",
+        "tests/test_bounded_audio.py"
+      ],
+      "last_attempted_action": "58focused tests and original237.44s complete sequencing/export comparison",
+      "actual_result": "Peak1850908672->1024978944bytes (44.62% less), same43913effects/exact musical signature; time142.832->143.096s",
+      "evidence": [
+        "evidence/beta_completion/production_tuned_comparison.json",
+        "evidence/beta_completion/focused_memory_final.xml"
+      ],
+      "next_action": "Collect final-source platform/fullCI; implementation verification does not imply device acceptance",
+      "dependencies_or_blockers": [
+        "Device/CI acceptance pending"
+      ],
+      "source_commit": "dd73e36777d0a02c6d403245d03421d093bda0fd"
+    },
+    {
+      "id": "DEP-01",
+      "priority": "P0",
+      "description": "Lock desktop numerical runtime after reproduced long-float64 native crash",
+      "status": "VERIFIED",
+      "files": [
+        "requirements.txt",
+        "requirements-windows-portable.txt"
+      ],
+      "last_attempted_action": "Strict float32/float64 whole-chroma comparison on supported versions and58focused suite",
+      "actual_result": "Pass withNumPy2.2.6/Numba0.61.2/llvmlite0.44; originalNumba0.68.1 crashes retained in failure receipt",
+      "evidence": [
+        "evidence/beta_completion/numerical_runtime_failure.json",
+        "evidence/beta_completion/tuning_isolated.xml"
+      ],
+      "next_action": "Collect final-source platform/fullCI; implementation verification does not imply device acceptance",
+      "dependencies_or_blockers": [
+        "Final package validation pending"
+      ],
+      "source_commit": "dd73e36777d0a02c6d403245d03421d093bda0fd"
+    }
+  ],
+  "delivered_mp4_count": 0,
+  "required_mp4_count": 9,
+  "missing_videos": [],
+  "owner_approval": false,
+  "beta_release": "HELD",
+  "active_runs": [
+    {
+      "run_id": 42151760842,
+      "purpose": "Python3.11/3.12 full hosted regression; inspect completed results"
+    },
+    {
+      "run_id": 42151760872,
+      "purpose": "native fixture proof and strict source consumer; not owner approval"
+    }
+  ],
+  "next_three_actions": [
+    "Repair source-driven canonical/native performer motion and verify approved-reference identity without substitutions or invented events",
+    "Qualify full-recording independent singer routes against real source evidence before creating pilot_acceptance.json and frozen nine",
+    "Resolve reproduced Haswell chroma portability failures without relaxing tolerance or memory bounds"
+  ],
+  "resume_commands": [
+    "git fetch origin codex/eight-hour-recovery-20261019",
+    "git checkout codex/eight-hour-recovery-20261019",
+    "cat MASTER_TODO.md",
+    "cat evidence/beta_completion/implementation_20261105/task_log.json",
+    "OPENBLAS_CORETYPE=Haswell OPENBLAS_NUM_THREADS=2 python -m pytest tests/test_bounded_audio.py -q",
+    "python -m pytest tests/test_stemless_duet.py tests/test_phoneme_vocal_export.py tests/test_vocal_diagnostic.py -q"
+  ],
+  "profile_evidence": "evidence/beta_completion/harmony_memory_profile.json",
+  "focused_tests": {
+    "passed": 40,
+    "failed": 0,
+    "warnings": 3,
+    "seconds": 62.34,
+    "receipt": "evidence/beta_completion/focused_memory.xml",
+    "tested_module_hashes": {
+      "core/bounded_audio.py": "c006e3475ba5d309b9e63ca6762e41e1fb30d7a96ff31948df571418fdccb46f",
+      "core/audio_intelligence.py": "5deb6de0c5bce8b8c6d2aab96a96cf451fb42c6b1c625914d897df8731140c80",
+      "core/effect_engine.py": "3d38ffc3a44c447fd83e982ab3a45224ef048034b5f2347300f2eeca7b7a7dd9",
+      "audio/drummer_v3.py": "cf2eae24ffa8bb5d21bd2657fb5b7cbcfb863ee6eb52b2b0837249c22116f165"
+    }
+  },
+  "current_implementation_sha": "a9beaa7c9be89fffc21a856e033bf75a3136c29b",
+  "focused_final_tests": {
+    "passed": 158,
+    "seconds": 137.31,
+    "junit": "evidence/beta_completion/owner_review_pinned_regression_20261030.xml",
+    "source_module_sha256": {
+      "tools/render_owner_band_review.py": "31cbab9302604982f966b3e5fc7e495c1380f1d46dfd79d16b1d7f6068ca0a5d",
+      "tools/assemble_beta_review.py": "10dc1aa5a0d5bf8a1ebb6b011298e1c1d4b5a96106c1fe9225b804e8ac932d73",
+      "tools/build_source_ac_review.py": "f02567d09c337cfa907d71cc098182990aa9e5fda81a8b1bb5765d5671b7aab7",
+      "models/approval_layouts.py": "612d4c262b5018a008ac577bf054f82172397cb82ba127b5813c6abdd308025f",
+      "core/audio_intelligence.py": "a9e7a9ad0aca3072209db4553c28350279bdc6a36976327542290b8865a78254",
+      "core/bounded_audio.py": "18037a8c1ee065fe91d029dd9dd973ee7acdc8c6e23a9ddaa31ae3dc7e27c7e1",
+      "tests/test_owner_band_review.py": "b182eb427416d689afc51f3bad936cca89627433348437db4684157776c15d46",
+      "tests/test_bounded_audio.py": "9c39459c8cdb739eb47c2778a2e05f0a8b979acfb2597847e77170ad1432550f"
+    }
+  },
+  "previous_implementation_ci": {
+    "source_sha": "18a97623524ac8c5b37689c95553716163bd04b0",
+    "run": 40986962386,
+    "python311": "success",
+    "python312": "success",
+    "windows_run": 40986968903,
+    "windows": "success",
+    "android_run": 40986962515,
+    "android": "in_progress"
+  },
+  "final_production_profile": "evidence/beta_completion/production_tuned.json",
+  "final_android_validation": "VERIFIED in API30 and API36 CI emulators",
+  "overall_peak_memory_reduction_percent": 44.62293253548493,
+  "memory_stability_accepted": true,
+  "final_production_comparison": "evidence/beta_completion/production_tuned_comparison.json",
+  "final_source_ci": {
+    "status": "queued_or_pending; collect actual completion before acceptance",
+    "previous_source": "92d3c0586043baae4f1154aa8918264102f733ed",
+    "previous_full_ci_run": 41161111521,
+    "previous_python311": "success",
+    "previous_python312": "failure: retained entropy parity difference1.995e-7; bounded alignment repair passes original tolerance locally",
+    "previous_android_run": 41161111415,
+    "previous_android": "success",
+    "previous_windows_run": 41161111463,
+    "previous_windows": "success",
+    "source_commit": "c009595976a2b660bc4094b7302b9b284588c3c4",
+    "full_ci_run": 41163710718,
+    "android_run": 41163710668,
+    "windows_run": 41163710660,
+    "native_verification_run": 41163710727
+  },
+  "last_successful_ci_runs": {
+    "full_ci": 40989578137,
+    "windows": 40989591050,
+    "android": 40989578333
+  },
+  "native_results": {
+    "source_commit": "dd73e36777d0a02c6d403245d03421d093bda0fd",
+    "native_proof": {
+      "run": 40989591017,
+      "job": 123848499636,
+      "conclusion": "success"
+    },
+    "producer": {
+      "run": 40989590899,
+      "job": 123849956098,
+      "conclusion": "failure"
+    },
+    "final_band": {
+      "run": 40989591017,
+      "job": 123850574106,
+      "conclusion": "failure"
+    },
+    "errors": [
+      {
+        "job": 123849956098,
+        "lines": [
+          "2026-10-30T02:10:41.0123773Z   \"error\": \"Full-band source lacks independently resolved lead and backing vocal tracks; supply source-bound vocal analysis instead of repeating the silent-harmony render\""
+        ]
+      },
+      {
+        "job": 123850574106,
+        "lines": [
+          "2026-10-30T02:13:45.3708173Z Error: No successful native producer at dd73e36777d0a02c6d403245d03421d093bda0fd: 40989590899:failure",
+          "2026-10-30T02:13:45.3727691Z ##[error]Unhandled error: Error: No successful native producer at dd73e36777d0a02c6d403245d03421d093bda0fd: 40989590899:failure"
+        ]
+      }
+    ],
+    "phoneme": {
+      "run": 40989590973,
+      "status": "in_progress"
+    },
+    "collection": {
+      "run": 40989590883,
+      "status": "in_progress"
+    },
+    "gate_thresholds_unchanged": true,
+    "beta_acceptance": false
+  },
+  "android_final": {
+    "source_commit": "dd73e36777d0a02c6d403245d03421d093bda0fd",
+    "run": 40989578333,
+    "api30": {
+      "api": 30,
+      "job": 123848585104,
+      "conclusion": "success",
+      "instrumented_tests": 4,
+      "failures": 0,
+      "errors": 0,
+      "test_timestamps": [
+        "2026-10-30T02:13:35.0339400Z Starting 4 tests on emulator-5554 - 11",
+        "2026-10-30T02:22:32.3343385Z Finished 4 tests on emulator-5554 - 11"
+      ],
+      "full_song": {
+        "mode": "full-song",
+        "frames": 3562,
+        "video_codec": "h264",
+        "audio_codec": "aac",
+        "duration": "237.466708",
+        "source_duration_seconds": 237.43997916666666,
+        "full_song_preview_verified": true,
+        "max_mean_pixel_error": 1.728548900462963,
+        "minimum_expected_lit_pixels_visible": 0.9649313087490962,
+        "audio_correlation": 0.9957144538319959,
+        "audio_offset_ms": 0
+      },
+      "artifact": {
+        "id": 12949431885,
+        "name": "Helix-Android-stability-api-30",
+        "bytes": 400724439,
+        "archive_digest": "sha256:0fcdbbd98fb96b8f5a9b449682e663d981219edec748838b5df36751bcba99ff",
+        "source_commit": "dd73e36777d0a02c6d403245d03421d093bda0fd",
+        "expires_at": "2027-01-28T02:04:53Z"
+      }
+    },
+    "api36": {
+      "api": 36,
+      "job": 123848585374,
+      "conclusion": "success",
+      "instrumented_tests": 4,
+      "failures": 0,
+      "errors": 0,
+      "test_timestamps": [
+        "2026-10-30T02:14:04.9868466Z Starting 4 tests on emulator-5554 - 16",
+        "2026-10-30T02:19:39.9919394Z Finished 4 tests on emulator-5554 - 16"
+      ],
+      "full_song": {
+        "mode": "full-song",
+        "frames": 3562,
+        "video_codec": "h264",
+        "audio_codec": "aac",
+        "duration": "237.466708",
+        "source_duration_seconds": 237.43997916666666,
+        "full_song_preview_verified": true,
+        "max_mean_pixel_error": 2.2302025462962964,
+        "minimum_expected_lit_pixels_visible": 0.9649313087490962,
+        "audio_correlation": 0.9957144538319959,
+        "audio_offset_ms": 0
+      },
+      "artifact": {
+        "id": 12949321938,
+        "name": "Helix-Android-stability-api-36",
+        "bytes": 401024618,
+        "archive_digest": "sha256:5e4cc81f95ea25652510c016db21a25427d52da86b5d3e7d109364140cade63b",
+        "source_commit": "dd73e36777d0a02c6d403245d03421d093bda0fd",
+        "expires_at": "2027-01-28T02:04:53Z"
+      }
+    },
+    "reproduced_api30_memory_blocker_resolved_in_ci_emulator": true,
+    "physical_samsung_verified": false,
+    "simulated_preview_not_native_xlights": true,
+    "original_signing_migration_out_of_scope": true,
+    "beta_acceptance": false,
+    "owner_approval": false,
+    "independent_pr_repeat": {
+      "run": 40989590969,
+      "source_commit": "dd73e36777d0a02c6d403245d03421d093bda0fd",
+      "api30": {
+        "job": 123848630286,
+        "conclusion": "success"
+      },
+      "api36": {
+        "job": 123848630566,
+        "conclusion": "success"
+      }
+    }
+  },
+  "memory_acceptance_scope": "Current full-song smoke in API30/API36 CI emulators; physical Samsung/controller acceptance remains open",
+  "updated_client_date": "2026-10-31",
+  "updated_client_timezone": "America/Chicago",
+  "latest_completed_platform_artifact_utc": "2026-10-30T02:23:00Z",
+  "completed_android_runs": [
+    40989578333,
+    40989590969
+  ],
+  "review_complete": false,
+  "final_zip": {
+    "filename": "HELIX_FINAL_BETA_APPROVAL_MP4S.zip",
+    "sha256": "8c6c8453f2d0736d87b7b583da5153ca17f8237657d7042db90118fca6687159",
+    "bytes": 427604937,
+    "entries": [
+      "01_Canonical_Snowman_Band.mp4",
+      "02_Lead_and_Harmony_Vocals.mp4",
+      "03_Drummer_and_Instruments.mp4",
+      "04_Residential_AC_RGB_Comparison.mp4",
+      "05_Nine_Layout_Synchronized_Comparison.mp4",
+      "06_Advanced_Technical_Showcase.mp4",
+      "07_Double_Helix_and_Musical_Direction.mp4",
+      "08_Full_Helix_Showcase.mp4",
+      "09_Starred_Music_Sampler.mp4"
+    ],
+    "crc_and_hashes_verified": true,
+    "library_file_id": "libfile_513a651bf1bc819192ffe6cae9105de0",
+    "file_id": "file_0000000075d081fdb62fc074cd11dcf9",
+    "durable_url": "https://chatgpt.com/library?file_id=libfile_513a651bf1bc819192ffe6cae9105de0&account_id=personal",
+    "save_status": "succeeded",
+    "local_metadata_applied": true
+  },
+  "current_source_module_sha256": {
+    "tools/render_owner_band_review.py": "31cbab9302604982f966b3e5fc7e495c1380f1d46dfd79d16b1d7f6068ca0a5d",
+    "tools/assemble_beta_review.py": "10dc1aa5a0d5bf8a1ebb6b011298e1c1d4b5a96106c1fe9225b804e8ac932d73",
+    "tools/build_source_ac_review.py": "f02567d09c337cfa907d71cc098182990aa9e5fda81a8b1bb5765d5671b7aab7",
+    "models/approval_layouts.py": "612d4c262b5018a008ac577bf054f82172397cb82ba127b5813c6abdd308025f",
+    "core/audio_intelligence.py": "a9e7a9ad0aca3072209db4553c28350279bdc6a36976327542290b8865a78254",
+    "core/bounded_audio.py": "18037a8c1ee065fe91d029dd9dd973ee7acdc8c6e23a9ddaa31ae3dc7e27c7e1",
+    "tests/test_owner_band_review.py": "b182eb427416d689afc51f3bad936cca89627433348437db4684157776c15d46",
+    "tests/test_bounded_audio.py": "9c39459c8cdb739eb47c2778a2e05f0a8b979acfb2597847e77170ad1432550f"
+  },
+  "last_locally_verified_implementation_sha": "c009595976a2b660bc4094b7302b9b284588c3c4",
+  "quality_first_checkpoint": {
+    "baseline_source_sha": "5aac37af254c4bc08df992551a5f06d918506f6f",
+    "status": "IMPLEMENTED_FOCUSED_VALIDATED_BROADER_DSP_BLOCKED",
+    "source_sha256": {
+      "core/effect_engine.py": "dc903813b353a713cf2f8fd30e0766a74a80d833cbeb89a08378c2e128b06ce8",
+      "core/band_planning.py": "0e0d6fc1453856c395f240a38fd936aa70acf9314065fc0c1ec1fd837ac18391",
+      "core/snowman_band.py": "155de34ec28e178752278ec5810c33bb10ec00a81dc9aa72eac716b8e06ad25c",
+      "core/audio_run_cache.py": "c9106ad4492e36bb91fce912096b9ff5e1631c6d563def51154c01d4429d2c50",
+      "tests/test_band_planning_integration.py": "e1f8a28d2915e63bb4c14df8992cff534f0f864fb733354525dd689d5907c7e5",
+      "tests/test_audio_run_cache.py": "ab71e835aa60652591d0e2cfc1d4123c72f7afc0692627f43cbcd36698be7828",
+      "tests/test_audio_pitch_normalization.py": "c22582b76a150500defe7111f914ef71da47ce1e3d506394963bd1ca946c20e8",
+      "tests/test_audio_stem_ownership.py": "3f36233dd6905732e2d6b90c47dbc132bfc423ebd0997b11de985358f87c9a3c"
+    },
+    "implemented": [
+      "Restore shared section/focus/motif planning by routing ownership controls to the correct consumer",
+      "Preserve stem label and estimated/unknown ownership in keyboard cues",
+      "Stream exact content fingerprint checks with bounded reads",
+      "Replace stale loop-count pitch test with numeric coverage"
+    ],
+    "focused_tests": {
+      "passed": 137,
+      "failed": 0,
+      "receipt": "evidence/beta_completion/quality_first_20261031/focused-final.xml"
+    },
+    "real_audio_export": {
+      "duration_seconds": 15,
+      "effects_reported": 299,
+      "sync_frames": 3,
+      "drummer_cues": 71,
+      "sequence_sha256": "73b74575e9c9c656eb1ec0c2a20a9662d767260e9e8766ee36185271d256e871",
+      "scope": "Minimal two-model RGB fixture; existing diagnostic soundtrack; not native xLights or owner acceptance"
+    },
+    "runtime_recovery": {
+      "initial_dsp_run": "Three failures and a segfault in the unchanged librosa/Numba reference; production comparison also crashed with default cache",
+      "isolated_cache_result": "Fresh NUMBA_CACHE_DIR: both dtype isolation cases pass, entire DSP suite completes (15 pass/3 precision failures), and real-audio comparison completes",
+      "production_dependency_change": false,
+      "root_cause_proven": false
+    },
+    "deferred": [
+      "Per-stem instrument note producer wiring: no independently qualified keyboard stems available",
+      "Storytelling gate ranking: requires measured output evidence",
+      "Native XSQ debug metadata and full b27 drummer oracle/native render",
+      "Vocal lip synchronization, original 256-channel and required RGB approval media, device/platform CI and owner acceptance"
+    ],
+    "merge_or_release": false,
+    "broader_dsp_tests": {
+      "passed": 15,
+      "failed": 3,
+      "receipt": "evidence/beta_completion/quality_first_20261031/dsp-clean.xml",
+      "failures": [
+        "test_bounded_chroma_preserves_reference_across_long_partial_blocks[1]",
+        "test_bounded_chroma_preserves_reference_across_long_partial_blocks[61]",
+        "test_bounded_chroma_preserves_reference_across_long_partial_blocks[509]"
+      ],
+      "maximum_error": 1.9951554230956958e-07,
+      "unchanged_tolerance": 1e-07,
+      "introduced_by_this_change": false,
+      "reason": "Production _bounded_background_features and its reference tests are byte-identical to starting 5aac37a; failures reproduced in current runtime before and after isolated-cache recovery"
+    },
+    "real_audio_comparison": {
+      "baseline_source_sha": "5aac37af254c4bc08df992551a5f06d918506f6f",
+      "input_origin": "Soundtrack decoded from existing 15-second diagnostic libfile_626471dc82648191b8e706cd1c7366ac; not an approval render",
+      "input_pcm_sha256": "0a1fb73d9755682396bf458d306cff06d48e5d76aea3045cc58201607cab4338",
+      "duration_seconds": 15,
+      "sample_rate": 44100,
+      "layout": "tests/fixtures/beta_demo/minimal_layout.xml",
+      "profile": "master/v27.3; history, polish, matrix intelligence and template guidance disabled equally",
+      "baseline_sync_frames": 0,
+      "candidate_sync_frames": 3,
+      "candidate_phrase_motifs": 3,
+      "baseline_effects_reported": 299,
+      "candidate_effects_reported": 299,
+      "xsq_effect_signature_before": [
+        "b5caa01361db6ff961e616a26c0a3c9f500821b43eebf3dcef13aa82afac37ea",
+        1591
+      ],
+      "xsq_effect_signature_after": [
+        "b5caa01361db6ff961e616a26c0a3c9f500821b43eebf3dcef13aa82afac37ea",
+        1591
+      ],
+      "drummer_cues": 71,
+      "drummer_cues_exactly_preserved": true,
+      "drummer_cue_sha256": "0ef0feff3378af21383fae64d3fd9d3ea058067d4512520bd008ad897c2f7213",
+      "source_ownership_unknown_count": 59,
+      "source_note_events": 59,
+      "repeated_candidate_xsq_byte_identical": true,
+      "roles_unchanged": {
+        "drummer": true,
+        "bassist": false,
+        "guitarist": false,
+        "keyboardist": true,
+        "lead_singer": true
+      },
+      "cache_reuse": {
+        "audio": 2,
+        "harmonic": 2,
+        "stems": 2,
+        "multiband": 2
+      },
+      "limitations": [
+        "Short existing soundtrack excerpt and minimal two-model RGB fixture only",
+        "No full-song acoustic or lexical proof, native xLights renderer or FSEQ, MP4, device acceptance, or owner approval",
+        "Drummer parity is against starting source 5aac37a, not independently recovered b27 oracle"
+      ]
+    },
+    "fingerprint_memory": {
+      "baseline": {
+        "peak_traced_python_bytes": 67113402,
+        "elapsed_seconds": 0.2603450439999051
+      },
+      "bounded": {
+        "peak_traced_python_bytes": 2102614,
+        "elapsed_seconds": 0.052214377999916906
+      },
+      "source_bytes": 67108864,
+      "digest": "73ee9fd124c10cc95a3ee5401250595de417d9bcc0e36cd3d3ed3771ab782e4d",
+      "peak_reduction_percent": 96.86707283889439
+    },
+    "runtime": {
+      "python": "3.12.14",
+      "numpy": "2.2.6",
+      "scipy": "1.18.1",
+      "librosa": "0.10.2.post1",
+      "numba": "0.61.2",
+      "llvmlite": "0.44.0"
+    },
+    "remaining_work": [
+      "Resolve existing block-vs-whole float32 chroma parity across BLAS/runtime without relaxing assertions",
+      "Run full exact-source Python 3.11/3.12 and platform/native CI",
+      "Independently qualify source-specific stems and vocal timing before stricter defaults",
+      "Recover and compare approved b27 drummer oracle and native/owner media"
+    ],
+    "new_mp4_count": 0,
+    "native_xlights_verified": false,
+    "implementation_commit": "cd0c852b0fc522ca04850eefece70e5b9bfb94bb",
+    "remote_file_count_verified": 18,
+    "ci_snapshot": {
+      "observed_at_utc": "2026-10-31T16:27:32.725Z",
+      "status": "QUEUED_OR_IN_PROGRESS_NOT_ACCEPTED",
+      "runs": [
+        {
+          "id": 41219733449,
+          "name": "Helix Android offline beta",
+          "status": "queued",
+          "conclusion": null,
+          "head_sha": "cd0c852b0fc522ca04850eefece70e5b9bfb94bb",
+          "url": "https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/41219733449"
+        },
+        {
+          "id": 41219733552,
+          "name": "Windows Portable GUI",
+          "status": "queued",
+          "conclusion": null,
+          "head_sha": "cd0c852b0fc522ca04850eefece70e5b9bfb94bb",
+          "url": "https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/41219733552"
+        },
+        {
+          "id": 41219733530,
+          "name": "Helix Beta CI",
+          "status": "queued",
+          "conclusion": null,
+          "head_sha": "cd0c852b0fc522ca04850eefece70e5b9bfb94bb",
+          "url": "https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/41219733530"
+        },
+        {
+          "id": 41219733513,
+          "name": "Desktop GUI evidence capture",
+          "status": "queued",
+          "conclusion": null,
+          "head_sha": "cd0c852b0fc522ca04850eefece70e5b9bfb94bb",
+          "url": "https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/41219733513"
+        },
+        {
+          "id": 41219733492,
+          "name": "Verify owner Starred audio sources",
+          "status": "queued",
+          "conclusion": null,
+          "head_sha": "cd0c852b0fc522ca04850eefece70e5b9bfb94bb",
+          "url": "https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/41219733492"
+        },
+        {
+          "id": 41219733507,
+          "name": "Helix final band and native output verification",
+          "status": "queued",
+          "conclusion": null,
+          "head_sha": "cd0c852b0fc522ca04850eefece70e5b9bfb94bb",
+          "url": "https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/41219733507"
+        },
+        {
+          "id": 41219733524,
+          "name": "Keyboard integration focused regression gate",
+          "status": "queued",
+          "conclusion": null,
+          "head_sha": "cd0c852b0fc522ca04850eefece70e5b9bfb94bb",
+          "url": "https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/41219733524"
+        },
+        {
+          "id": 41219733516,
+          "name": "Compliance and License Bundle",
+          "status": "queued",
+          "conclusion": null,
+          "head_sha": "cd0c852b0fc522ca04850eefece70e5b9bfb94bb",
+          "url": "https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/41219733516"
+        },
+        {
+          "id": 41219733463,
+          "name": "Helix REAL animated 3D seven-snowman band",
+          "status": "queued",
+          "conclusion": null,
+          "head_sha": "cd0c852b0fc522ca04850eefece70e5b9bfb94bb",
+          "url": "https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/41219733463"
+        },
+        {
+          "id": 41219733536,
+          "name": "Helix CI",
+          "status": "queued",
+          "conclusion": null,
+          "head_sha": "cd0c852b0fc522ca04850eefece70e5b9bfb94bb",
+          "url": "https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/41219733536"
+        },
+        {
+          "id": 41219733438,
+          "name": "Helix Birdsong CI",
+          "status": "queued",
+          "conclusion": null,
+          "head_sha": "cd0c852b0fc522ca04850eefece70e5b9bfb94bb",
+          "url": "https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/41219733438"
+        },
+        {
+          "id": 41219733511,
+          "name": "Final native twelve-layout approval collection",
+          "status": "queued",
+          "conclusion": null,
+          "head_sha": "cd0c852b0fc522ca04850eefece70e5b9bfb94bb",
+          "url": "https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/41219733511"
+        },
+        {
+          "id": 41219733475,
+          "name": "Helix ORIGINAL V3 drummer real-audio snowman-band review",
+          "status": "queued",
+          "conclusion": null,
+          "head_sha": "cd0c852b0fc522ca04850eefece70e5b9bfb94bb",
+          "url": "https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/41219733475"
+        },
+        {
+          "id": 41219733484,
+          "name": "Native producer polling contract",
+          "status": "queued",
+          "conclusion": null,
+          "head_sha": "cd0c852b0fc522ca04850eefece70e5b9bfb94bb",
+          "url": "https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/41219733484"
+        },
+        {
+          "id": 41219733495,
+          "name": "Fresh native universal-keyboard snowman band MP4 from real audio",
+          "status": "queued",
+          "conclusion": null,
+          "head_sha": "cd0c852b0fc522ca04850eefece70e5b9bfb94bb",
+          "url": "https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/41219733495"
+        },
+        {
+          "id": 41219733471,
+          "name": "Real source CLI performance and musical parity",
+          "status": "queued",
+          "conclusion": null,
+          "head_sha": "cd0c852b0fc522ca04850eefece70e5b9bfb94bb",
+          "url": "https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/41219733471"
+        },
+        {
+          "id": 41219733558,
+          "name": "Showcase recovery guards",
+          "status": "queued",
+          "conclusion": null,
+          "head_sha": "cd0c852b0fc522ca04850eefece70e5b9bfb94bb",
+          "url": "https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/41219733558"
+        },
+        {
+          "id": 41219733468,
+          "name": "Drum ground-truth benchmark",
+          "status": "queued",
+          "conclusion": null,
+          "head_sha": "cd0c852b0fc522ca04850eefece70e5b9bfb94bb",
+          "url": "https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/41219733468"
+        },
+        {
+          "id": 41219733494,
+          "name": "Phoneme Test Hook native MP4 verification",
+          "status": "queued",
+          "conclusion": null,
+          "head_sha": "cd0c852b0fc522ca04850eefece70e5b9bfb94bb",
+          "url": "https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/41219733494"
+        },
+        {
+          "id": 41219733523,
+          "name": "Pinned native renderer build and integrity",
+          "status": "queued",
+          "conclusion": null,
+          "head_sha": "cd0c852b0fc522ca04850eefece70e5b9bfb94bb",
+          "url": "https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/41219733523"
+        },
+        {
+          "id": 41219727559,
+          "name": "Helix Release Regression Gates",
+          "status": "queued",
+          "conclusion": null,
+          "head_sha": "cd0c852b0fc522ca04850eefece70e5b9bfb94bb",
+          "url": "https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/41219727559"
+        },
+        {
+          "id": 41219727581,
+          "name": "Helix Birdsong CI",
+          "status": "in_progress",
+          "conclusion": null,
+          "head_sha": "cd0c852b0fc522ca04850eefece70e5b9bfb94bb",
+          "url": "https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/41219727581"
+        },
+        {
+          "id": 41219727602,
+          "name": "Helix Flow Quality Artifact",
+          "status": "in_progress",
+          "conclusion": null,
+          "head_sha": "cd0c852b0fc522ca04850eefece70e5b9bfb94bb",
+          "url": "https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/41219727602"
+        },
+        {
+          "id": 41219727454,
+          "name": "Helix CI",
+          "status": "in_progress",
+          "conclusion": null,
+          "head_sha": "cd0c852b0fc522ca04850eefece70e5b9bfb94bb",
+          "url": "https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/41219727454"
+        },
+        {
+          "id": 41219727579,
+          "name": "Helix Flow Review Artifacts",
+          "status": "in_progress",
+          "conclusion": null,
+          "head_sha": "cd0c852b0fc522ca04850eefece70e5b9bfb94bb",
+          "url": "https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/41219727579"
+        },
+        {
+          "id": 41219727594,
+          "name": "Helix Beta CI",
+          "status": "in_progress",
+          "conclusion": null,
+          "head_sha": "cd0c852b0fc522ca04850eefece70e5b9bfb94bb",
+          "url": "https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/41219727594"
+        },
+        {
+          "id": 41219727501,
+          "name": "Drummer Ground Truth Test",
+          "status": "in_progress",
+          "conclusion": null,
+          "head_sha": "cd0c852b0fc522ca04850eefece70e5b9bfb94bb",
+          "url": "https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/41219727501"
+        },
+        {
+          "id": 41219727582,
+          "name": "Helix Android offline beta",
+          "status": "in_progress",
+          "conclusion": null,
+          "head_sha": "cd0c852b0fc522ca04850eefece70e5b9bfb94bb",
+          "url": "https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/41219727582"
+        },
+        {
+          "id": 41219727487,
+          "name": "Helix Remote Review Preview MP4",
+          "status": "in_progress",
+          "conclusion": null,
+          "head_sha": "cd0c852b0fc522ca04850eefece70e5b9bfb94bb",
+          "url": "https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/41219727487"
+        }
+      ],
+      "implementation_commit": "cd0c852b0fc522ca04850eefece70e5b9bfb94bb"
+    }
+  },
+  "quality_first_resume_commands": [
+    "python -m pytest -q tests/test_band_planning_integration.py tests/test_band_sync.py tests/test_audio_run_cache.py tests/test_audio_stem_ownership.py tests/test_audio_pitch_normalization.py tests/test_snowman_band.py",
+    "NUMBA_CACHE_DIR=/tmp/helix-quality-clean python -m pytest -q tests/test_bounded_audio.py tests/test_bounded_fallback_stems.py tests/test_audio_analysis_reuse.py"
+  ],
+  "quality_first_source_ci": {
+    "observed_at_utc": "2026-10-31T16:27:32.725Z",
+    "status": "QUEUED_OR_IN_PROGRESS_NOT_ACCEPTED",
+    "runs": [
+      {
+        "id": 41219733449,
+        "name": "Helix Android offline beta",
+        "status": "queued",
+        "conclusion": null,
+        "head_sha": "cd0c852b0fc522ca04850eefece70e5b9bfb94bb",
+        "url": "https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/41219733449"
+      },
+      {
+        "id": 41219733552,
+        "name": "Windows Portable GUI",
+        "status": "queued",
+        "conclusion": null,
+        "head_sha": "cd0c852b0fc522ca04850eefece70e5b9bfb94bb",
+        "url": "https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/41219733552"
+      },
+      {
+        "id": 41219733530,
+        "name": "Helix Beta CI",
+        "status": "queued",
+        "conclusion": null,
+        "head_sha": "cd0c852b0fc522ca04850eefece70e5b9bfb94bb",
+        "url": "https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/41219733530"
+      },
+      {
+        "id": 41219733513,
+        "name": "Desktop GUI evidence capture",
+        "status": "queued",
+        "conclusion": null,
+        "head_sha": "cd0c852b0fc522ca04850eefece70e5b9bfb94bb",
+        "url": "https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/41219733513"
+      },
+      {
+        "id": 41219733492,
+        "name": "Verify owner Starred audio sources",
+        "status": "queued",
+        "conclusion": null,
+        "head_sha": "cd0c852b0fc522ca04850eefece70e5b9bfb94bb",
+        "url": "https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/41219733492"
+      },
+      {
+        "id": 41219733507,
+        "name": "Helix final band and native output verification",
+        "status": "queued",
+        "conclusion": null,
+        "head_sha": "cd0c852b0fc522ca04850eefece70e5b9bfb94bb",
+        "url": "https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/41219733507"
+      },
+      {
+        "id": 41219733524,
+        "name": "Keyboard integration focused regression gate",
+        "status": "queued",
+        "conclusion": null,
+        "head_sha": "cd0c852b0fc522ca04850eefece70e5b9bfb94bb",
+        "url": "https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/41219733524"
+      },
+      {
+        "id": 41219733516,
+        "name": "Compliance and License Bundle",
+        "status": "queued",
+        "conclusion": null,
+        "head_sha": "cd0c852b0fc522ca04850eefece70e5b9bfb94bb",
+        "url": "https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/41219733516"
+      },
+      {
+        "id": 41219733463,
+        "name": "Helix REAL animated 3D seven-snowman band",
+        "status": "queued",
+        "conclusion": null,
+        "head_sha": "cd0c852b0fc522ca04850eefece70e5b9bfb94bb",
+        "url": "https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/41219733463"
+      },
+      {
+        "id": 41219733536,
+        "name": "Helix CI",
+        "status": "queued",
+        "conclusion": null,
+        "head_sha": "cd0c852b0fc522ca04850eefece70e5b9bfb94bb",
+        "url": "https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/41219733536"
+      },
+      {
+        "id": 41219733438,
+        "name": "Helix Birdsong CI",
+        "status": "queued",
+        "conclusion": null,
+        "head_sha": "cd0c852b0fc522ca04850eefece70e5b9bfb94bb",
+        "url": "https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/41219733438"
+      },
+      {
+        "id": 41219733511,
+        "name": "Final native twelve-layout approval collection",
+        "status": "queued",
+        "conclusion": null,
+        "head_sha": "cd0c852b0fc522ca04850eefece70e5b9bfb94bb",
+        "url": "https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/41219733511"
+      },
+      {
+        "id": 41219733475,
+        "name": "Helix ORIGINAL V3 drummer real-audio snowman-band review",
+        "status": "queued",
+        "conclusion": null,
+        "head_sha": "cd0c852b0fc522ca04850eefece70e5b9bfb94bb",
+        "url": "https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/41219733475"
+      },
+      {
+        "id": 41219733484,
+        "name": "Native producer polling contract",
+        "status": "queued",
+        "conclusion": null,
+        "head_sha": "cd0c852b0fc522ca04850eefece70e5b9bfb94bb",
+        "url": "https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/41219733484"
+      },
+      {
+        "id": 41219733495,
+        "name": "Fresh native universal-keyboard snowman band MP4 from real audio",
+        "status": "queued",
+        "conclusion": null,
+        "head_sha": "cd0c852b0fc522ca04850eefece70e5b9bfb94bb",
+        "url": "https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/41219733495"
+      },
+      {
+        "id": 41219733471,
+        "name": "Real source CLI performance and musical parity",
+        "status": "queued",
+        "conclusion": null,
+        "head_sha": "cd0c852b0fc522ca04850eefece70e5b9bfb94bb",
+        "url": "https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/41219733471"
+      },
+      {
+        "id": 41219733558,
+        "name": "Showcase recovery guards",
+        "status": "queued",
+        "conclusion": null,
+        "head_sha": "cd0c852b0fc522ca04850eefece70e5b9bfb94bb",
+        "url": "https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/41219733558"
+      },
+      {
+        "id": 41219733468,
+        "name": "Drum ground-truth benchmark",
+        "status": "queued",
+        "conclusion": null,
+        "head_sha": "cd0c852b0fc522ca04850eefece70e5b9bfb94bb",
+        "url": "https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/41219733468"
+      },
+      {
+        "id": 41219733494,
+        "name": "Phoneme Test Hook native MP4 verification",
+        "status": "queued",
+        "conclusion": null,
+        "head_sha": "cd0c852b0fc522ca04850eefece70e5b9bfb94bb",
+        "url": "https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/41219733494"
+      },
+      {
+        "id": 41219733523,
+        "name": "Pinned native renderer build and integrity",
+        "status": "queued",
+        "conclusion": null,
+        "head_sha": "cd0c852b0fc522ca04850eefece70e5b9bfb94bb",
+        "url": "https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/41219733523"
+      },
+      {
+        "id": 41219727559,
+        "name": "Helix Release Regression Gates",
+        "status": "queued",
+        "conclusion": null,
+        "head_sha": "cd0c852b0fc522ca04850eefece70e5b9bfb94bb",
+        "url": "https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/41219727559"
+      },
+      {
+        "id": 41219727581,
+        "name": "Helix Birdsong CI",
+        "status": "in_progress",
+        "conclusion": null,
+        "head_sha": "cd0c852b0fc522ca04850eefece70e5b9bfb94bb",
+        "url": "https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/41219727581"
+      },
+      {
+        "id": 41219727602,
+        "name": "Helix Flow Quality Artifact",
+        "status": "in_progress",
+        "conclusion": null,
+        "head_sha": "cd0c852b0fc522ca04850eefece70e5b9bfb94bb",
+        "url": "https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/41219727602"
+      },
+      {
+        "id": 41219727454,
+        "name": "Helix CI",
+        "status": "in_progress",
+        "conclusion": null,
+        "head_sha": "cd0c852b0fc522ca04850eefece70e5b9bfb94bb",
+        "url": "https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/41219727454"
+      },
+      {
+        "id": 41219727579,
+        "name": "Helix Flow Review Artifacts",
+        "status": "in_progress",
+        "conclusion": null,
+        "head_sha": "cd0c852b0fc522ca04850eefece70e5b9bfb94bb",
+        "url": "https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/41219727579"
+      },
+      {
+        "id": 41219727594,
+        "name": "Helix Beta CI",
+        "status": "in_progress",
+        "conclusion": null,
+        "head_sha": "cd0c852b0fc522ca04850eefece70e5b9bfb94bb",
+        "url": "https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/41219727594"
+      },
+      {
+        "id": 41219727501,
+        "name": "Drummer Ground Truth Test",
+        "status": "in_progress",
+        "conclusion": null,
+        "head_sha": "cd0c852b0fc522ca04850eefece70e5b9bfb94bb",
+        "url": "https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/41219727501"
+      },
+      {
+        "id": 41219727582,
+        "name": "Helix Android offline beta",
+        "status": "in_progress",
+        "conclusion": null,
+        "head_sha": "cd0c852b0fc522ca04850eefece70e5b9bfb94bb",
+        "url": "https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/41219727582"
+      },
+      {
+        "id": 41219727487,
+        "name": "Helix Remote Review Preview MP4",
+        "status": "in_progress",
+        "conclusion": null,
+        "head_sha": "cd0c852b0fc522ca04850eefece70e5b9bfb94bb",
+        "url": "https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/41219727487"
+      }
+    ],
+    "implementation_commit": "cd0c852b0fc522ca04850eefece70e5b9bfb94bb"
+  },
+  "real_audio_12_comparison_20261101": {
+    "schema": "helix.real-audio-comparison-recovery.v1",
+    "phase": "IMPLEMENTING_REFERENCE_BOUND_3D",
+    "started_head": "09677d4822e35d724e9f229c0ab7465c9f34fd7a",
+    "requested_video": "HELIX_REAL_AUDIO_12_LAYOUT_COMPARISON_APPROVAL.mp4",
+    "delivery_complete": false,
+    "owner_approved": false,
+    "native_collection_run": 41219733511,
+    "native_collection_failures": [
+      "pilot_acceptance.json absent; independent vocal timing/reference gates unresolved",
+      "native pilot median_motion .425 below unchanged .65 gate"
+    ],
+    "native_producer_run": 41219733495,
+    "native_producer_failure": "Full-band source lacks independently resolved lead and backing vocal tracks",
+    "approved_3d_asset_search": {
+      "canonical_exporter": "models/canonical_native_band.py explicitly exports original planar artwork",
+      "current_source_art": "fixtures/band_geometry/source/drummer_idle.png",
+      "modeled_interpretation": "models/band_performance_scene.py explicitly says new 3D interpretation, not recovered approved source",
+      "drive_searches": [
+        "drummer: 0 results",
+        "snowman: 0 results"
+      ],
+      "history_source_restore_commit": "9e9dcc3",
+      "owner_reply": "im not certain"
+    },
+    "verified_sources": [
+      {
+        "title": "Tinsel Tornado",
+        "drive_id": "1Gv6hAzValSe2zRqTCfyrJVYGlfl8LLsp",
+        "path": "/workspace/attachments/155aec63-c2bf-4e3e-97d0-be670e019174/Copy of Tinsel Tornado.mp3",
+        "sha256": "8b8caddd6c292a13995bde0e80ac66f948246bd634278ab4ade1a82163aa7086"
+      },
+      {
+        "title": "Christmas in the Ether",
+        "drive_id": "1EcTfLPRNAoQJdzXSidiIsfv0p15AQ0ot",
+        "path": "/workspace/attachments/af728d2f-e90e-4d6b-9d01-e277080f60a5/Christmas in the Ether.mp3",
+        "sha256": "440b8ceca771c27686fe6c4f09bea36c07962894c8f818478702b9b2c78aefa1"
+      }
+    ],
+    "original_ac_layout": {
+      "path": "xlights_rgbeffects.xml",
+      "sha256": "1f3b0abaae93429f96e52710e33067cb6b49214132428d30f428269e8d2e7c0b"
+    },
+    "checkpoints": {
+      "native_artifact_id": 13050724353,
+      "native_zip_sha256": "1d5c4241238d4258e5c3b4a7f9111e33bc8ec0831e1213251c4bf133113b9b22",
+      "native_show": "/workspace/checkpoints/native/phoneme-work/show",
+      "renderer_artifact_id": 13050955075,
+      "renderer_zip_sha256": "528f0ed302c38c5a1dbaf1215f54e7e2fd5e0936f8e66f1912767df855a6ef95",
+      "renderer": "/workspace/checkpoints/renderer/phoneme-work/runtime/xLights"
+    },
+    "next_action": "Obtain approved original fully modeled3D drummer asset or known-good source commit. Bind it without substitution; qualify singer-specific clocks on b889df23 sampler, map the requested12 layouts using supported generators, render all12 natively, then compose and verify before assigning final filename. Never create a false pilot_acceptance.json.",
+    "last_updated_utc": "2026-11-01T00:31:00.563976+00:00",
+    "requested_mp4_exists": false,
+    "composition_fix": {
+      "module": "tools/render_approval_collection.py",
+      "output": [
+        1920,
+        1080
+      ],
+      "grid": [
+        4,
+        3
+      ],
+      "fps": 30,
+      "codecs": [
+        "h264",
+        "aac"
+      ],
+      "explicit_labels": true,
+      "actual_ffmpeg_encode_test": true,
+      "test_only_subsecond_color_fixtures_are_not_native_or_approval_media": true
+    },
+    "tests": {
+      "command": "python -m pytest -q tests/test_sampler_comparison_duration.py tests/test_approval_label_atomic.py tests/test_approval_collection.py tests/test_source_ac_review.py tests/test_band_planning_integration.py tests/test_drummer_oracle_comparison.py",
+      "result": "34 passed, 1 plugin deprecation warning",
+      "seconds": 27.93,
+      "receipt": "focused-tests.xml",
+      "initial_attempt": "9 passed / 6 missing-imageio import failures; installed imageio and imageio-ffmpeg then reran unchanged assertions"
+    },
+    "production": {
+      "exit_code": 0,
+      "audio_sha256": "b889df23d4960b393bfa5b6f84f2f72de245bdd176032bf16346d8680e960a3d",
+      "duration_seconds": 36,
+      "source_commit": "09677d4822e35d724e9f229c0ab7465c9f34fd7a",
+      "engine_worktree_module_changes": false,
+      "source_library_tracks": [
+        "Tinsel Tornado164\u2013182s",
+        "Christmas in the Ether76.5\u201394.5s"
+      ],
+      "effects": 5155,
+      "detected_parts": [
+        {
+          "label": "VERSE",
+          "start_ms": 0,
+          "end_ms": 8000
+        },
+        {
+          "label": "CHORUS",
+          "start_ms": 8000,
+          "end_ms": 16000
+        },
+        {
+          "label": "PRECHORUS",
+          "start_ms": 16000,
+          "end_ms": 28000
+        },
+        {
+          "label": "CHORUS",
+          "start_ms": 28000,
+          "end_ms": 32000
+        },
+        {
+          "label": "PRECHORUS",
+          "start_ms": 32000,
+          "end_ms": 36000
+        }
+      ],
+      "shared_sync_frames": 5,
+      "cue_counts": {
+        "lead_singer": 0,
+        "background_vocals": 28,
+        "lead_face_activations": 28,
+        "background_face_activations": 3,
+        "part_hit_reactions": 8,
+        "bassist": 17,
+        "guitarist": 250,
+        "keyboardist": 631,
+        "drummer": 69
+      },
+      "note": "Actual mixed-bus/local HPSS engine run. Estimated sections/voices are not independently verified musical truth; Whisper unavailable and no lexical timing proven. No rendering of planar/replacement drummer used as approval."
+    },
+    "saved_production_files": [
+      {
+        "original": "/workspace/checkpoints/production36/Helix_Starred_New_Review,v27.3.xsq",
+        "stored": "evidence/beta_completion/comparison_20261101/production/Helix_Starred_New_Review,v27.3.xsq.gz",
+        "uncompressed_sha256": "9410476a596f813838f5a300f30207e8c577e25ae6558260119381dc52a847de",
+        "compressed_sha256": "f3652398decc8129d9407425824b7a8b022464393ddad064f520a159aef85cfc"
+      },
+      {
+        "original": "/workspace/checkpoints/production36/Helix_Starred_New_Review,v27.3.snowman_band.json",
+        "stored": "evidence/beta_completion/comparison_20261101/production/Helix_Starred_New_Review,v27.3.snowman_band.json.gz",
+        "uncompressed_sha256": "bfe6b66a0de7e12532fc344ff187e2c4e3ccbfe0bd8323364b3bd86d9a32c697",
+        "compressed_sha256": "4139badacd75cc53fed7885a759c06ad79926addeeb5ae6bef1bf8d1c7eb936b"
+      },
+      {
+        "original": "/workspace/checkpoints/production36/Helix_Starred_New_Review,v27.3.report.json",
+        "stored": "evidence/beta_completion/comparison_20261101/production/Helix_Starred_New_Review,v27.3.report.json.gz",
+        "uncompressed_sha256": "e641ef2a3cf64b8f66a9aeb3d6e62f93c2e59b93ecd046b439dcac5d6a22afb8",
+        "compressed_sha256": "6a21c32a97de101f39118c46ee1b7aab2327902b624b3750d4775ada8e0a8337"
+      },
+      {
+        "original": "/workspace/checkpoints/production36/HELIX_PROVENANCE.json",
+        "stored": "evidence/beta_completion/comparison_20261101/production/HELIX_PROVENANCE.json.gz",
+        "uncompressed_sha256": "0547447489768ccc25c6c64447490a5f4ccb97d185f7b4739d309c2255c97863",
+        "compressed_sha256": "dfac6e25c8e960b308ef95258c46f12cc8e0dd00f0a638d489fe43b47b6806ef"
+      },
+      {
+        "original": "/workspace/checkpoints/production36.log",
+        "stored": "evidence/beta_completion/comparison_20261101/production/production36.log.gz",
+        "uncompressed_sha256": "b6347dd6518129ae7218cfb76f0418479b97b7b87a8b855e68a45185c9d7c2e2",
+        "compressed_sha256": "8db9eab8e9ed9bfb574a34800dd9052504cb50ebccbcf05954443272c05c7137"
+      }
+    ],
+    "asset_search_result": {
+      "current_canonical": "explicit planar artwork, not admissible under this request",
+      "historical_original_restore": "9e9dcc3 explicitly restores planar art",
+      "procedural_model": "32d6bd9/5c78ffa explicitly a new interpretation, not original recovered model",
+      "additional_source_branches": [
+        "agent/drummer-submodel-renderer",
+        "codex/band-performance-refinement-20261012",
+        "codex/3d-vocal-controller-review-20261016"
+      ],
+      "connected_drive_queries": [
+        "drummer: zero results",
+        "snowman: zero results"
+      ],
+      "approved_original_fully_modeled_source_located": false
+    },
+    "remaining": [
+      "Approved original fully modeled3D drummer source unavailable in inspected project history and connected Drive search",
+      "Independent lead/harmony source clocks and phoneme qualification unresolved",
+      "Requested12layout selection/export and fresh native renders remain incomplete; historicalNAMES do not match this new requested list",
+      "Full36s comparison playback/sync/blank/frozen/AC/singer acceptance and actual MP4 download not performed"
+    ],
+    "published_implementation_commit": "9a800a1abad26d2daf203ad34caf9779249ae581",
+    "remote_branch_head_verified": "9a800a1abad26d2daf203ad34caf9779249ae581",
+    "checkpoint_roundtrip_sha256": "all5pass",
+    "superseded_status_note": "Earlier blocker/checkpoint records are historical. Latest operative state is current_real_audio_comparison, after owner authorized matching-front3D and fresh hook renders."
+  },
+  "drum1_owner_reference_20261101": {
+    "schema": "helix.owner-drummer-reference.v1",
+    "supplied_at_utc": "2026-11-01T00:38:43.777633+00:00",
+    "source_attachment": "Drum1.mp4",
+    "local_retained_path": "/workspace/checkpoints/drum1-reference/Drum1.mp4",
+    "sha256": "f014db45dc49688da40a4337a1185589ef09ffe81c13e234eb20d0f0f57e45b3",
+    "bytes": 4547427,
+    "duration_seconds": 38.316667,
+    "dimensions": [
+      960,
+      540
+    ],
+    "fps": 60,
+    "codecs": [
+      "h264",
+      "aac"
+    ],
+    "full_decode": true,
+    "visual_review": "Actual contact sheet at roughly3/9/15/21/27/33s inspected; original colored V3 kit and source-art arm strokes visible",
+    "historical_identity": "Exact match to archived artifact11520003337/drummer-dry-audio-test/test_runs/drummer_dry_test/Helix_Drummer_DRY_TEST.mp4",
+    "source_image": "fixtures/band_geometry/source/drummerbg.png",
+    "source_image_sha256": "643e1bfb7fb0b245cb7400010a80f9f75037f8a5554adde7bde8cba7a53374fa",
+    "source_dry_audio_sha256": "4cd9ee35b65d359aa44ac4c9e01a256bbcaf3297458340fc512084bae1463913",
+    "decoded_audio_rms": 0.17934249341487885,
+    "original_dry_audio_zero_lag_correlation": 0.99708271067799,
+    "identity_located": true,
+    "fully_volumetric_geometry_in_this_clip": false,
+    "owner_approval_of_final_comparison": false,
+    "interpretation_pending": false,
+    "comparison_soundtrack_unchanged": "b889df23d4960b393bfa5b6f84f2f72de245bdd176032bf16346d8680e960a3d owner-library36ssampler; dry-test sound is referenceonly",
+    "next_action": "Resolve owner rendering interpretation, bind exact reference without replacing library soundtrack or reusing old footage, continue independent renderer preparation",
+    "pinned_native_runtime_preparation": {
+      "appimage": "/workspace/checkpoints/xlights-runtime/xLights.AppImage",
+      "sha256": "62affb88b9a9b03cf5164974ac69bcefe35c559719d157b3364e4d4a5ab4214b",
+      "extracted": "/workspace/checkpoints/xlights-runtime/squashfs-root",
+      "resources_present": true,
+      "runtime_ready": false,
+      "remaining": "Recovered patched binary needs compatible monolithicwxWidgets; officialAppImage has modularwx libraries. No runtime substitution or native render success claimed."
+    },
+    "owner_rendering_direction": "Build3Dconsistentwithband;frontviewmustmatchcanonical2DDrum1/drummerbg"
+  },
+  "current_real_audio_comparison": {
+    "phase": "DELIVERY_READY_FOR_OWNER_REVIEW",
+    "updated_at": "2026-11-01T04:59:13.608925+00:00",
+    "owner_direction": "Actual3Ddepth with unchangedDrum1/drummerbgfrontdesign",
+    "implementation": [
+      "models/source_drummer_3d.py",
+      "tools/source_band_view.py",
+      "tools/build_current_comparison.py",
+      "tools/render_current_native_views.py",
+      "tools/render_owner_band_review.py",
+      "tools/native_preview.py"
+    ],
+    "geometry": "10watertightpositive-volume source-front components; same canonical2DXY/materials, original2Dsource-clock skeleton, source shoulder attachments, independentfeet; no billboard or seventhperformer",
+    "current_audio": {
+      "name": "Phoneme_Test_Hook.mp3",
+      "sha256": "19e90c273d0d747938f24b36586b50818c104cddffbefe4a4128927374301938",
+      "seconds": 34.88,
+      "kind": "retained original owner-uploaded music; existing owner test-audio approval is not visual approval",
+      "fresh_production": "/workspace/checkpoints/production-hook",
+      "effects": 5447,
+      "cues": {
+        "drummer": 166,
+        "guitarist": 288,
+        "bassist": 47,
+        "keyboardist": 659
+      },
+      "vocal_clock": "source-bound cached two-stageMDX/Silero,16.09slead/3.87sbacking estimates; singeridentity/lexicaltruthunverified"
+    },
+    "prior36s_sampler": "Retained diagnostics only; failed brightness/framing checks and sparse early percussion/vocals. No prior footage promoted.",
+    "tests": "76passed,1existingoptionalnative-manifestskip,10subtests; sourcefront/depth,drummeroraclecomparator,ACaddressmapping,native/readiness,keyboard,comparison decode/order checks. No thresholds weakened.",
+    "band_readability": {
+      "median_luma": 33.102,
+      "median_bright_fraction": 0.1707,
+      "median_motion": 1.083,
+      "visible_width": 0.812,
+      "visible_height": 0.522,
+      "passed": true
+    },
+    "native_runtime": {
+      "wx_recovery_run": 41272538723,
+      "wx_artifact": 13069713422,
+      "wx_artifact_sha256": "46ac60296a4cb797295e5a09ea31df275eca6704471a117d8da10ccbfaf3ec93",
+      "runtime_hashes_verified": true,
+      "pinned_xlights": "2026.18",
+      "upstream": "839c0f590dc454bb7adb8a16c4dd92a70b46156e",
+      "patch_sha256": "93bedae81caefda745034651994a16b2d127079a5af784013109becfb428566b",
+      "binary_sha256": "09dfeae588e9659dfd41cbd6115bf77b9cf4871fcea2bd02190dcbdc3a7ac844",
+      "actual_native_fseq_mp4": true,
+      "container": "helix-native-20261101"
+    },
+    "work": "/workspace/checkpoints/comparison-hook",
+    "layouts": "/workspace/checkpoints/comparison-hook/layouts",
+    "native_batch_log": "/workspace/checkpoints/comparison-hook/native-batch.log",
+    "delivery_complete": true,
+    "owner_approved": false,
+    "next_action": "Owner watches delivered MP4 and accepts or requests changes. Independent singer identity/lexical proof, physical qualification and full source CI remain open. Do not mergePR188 or release without explicit approval.",
+    "final_artifact": {
+      "file": "HELIX_REAL_AUDIO_12_LAYOUT_COMPARISON_APPROVAL.mp4",
+      "path": "/workspace/deliverables/HELIX_REAL_AUDIO_12_LAYOUT_COMPARISON_APPROVAL.mp4",
+      "sha256": "0a2a0763b4952984b1d5a0d8481b08348ab212e702c3d64a4af29b6c5b1bb198",
+      "bytes": 18530685,
+      "seconds": 34.866667,
+      "dimensions": [
+        1920,
+        1080
+      ],
+      "fps": 30,
+      "video_codec": "h264",
+      "audio_codec": "aac",
+      "drive_id": "1uNEshOt-FvjRhp3nRK5O73nc8kefoDup",
+      "drive_url": "https://drive.google.com/file/d/1uNEshOt-FvjRhp3nRK5O73nc8kefoDup/view?usp=drivesdk",
+      "downloaded_copy_sha256": "0a2a0763b4952984b1d5a0d8481b08348ab212e702c3d64a4af29b6c5b1bb198",
+      "full_decode": true,
+      "soundtrack_correlation": 0.999018237103682,
+      "max_audio_lag_seconds": 0,
+      "distinct_panels": 12,
+      "max_blank_seconds": 0.7,
+      "max_frozen_seconds": 0.6,
+      "source_snapshot": "evidence/beta_completion/comparison_20261101/render-source-snapshot.json",
+      "render_implementation_commit": "d1567b74b341efff5a30a28bec272c7d5c377406"
+    },
+    "render_distinction": "Canonical band uses continuous Helix solid3D; other11visible views are native xLights. Native XSQ/FSEQ/render companions successfully built for all12.",
+    "owner_review_limitations": [
+      "Lead/backing clocks are distinct source-separated estimates; acoustic singer identity and lexical phonemes unverified.",
+      "3Ddrummer is closed dimensional geometry from original front reference, pending artistic owner acceptance.",
+      "Presentation30fps uses20fpssolid/25fpsnative motion cadence.",
+      "Full current-source CI and independent instrument ownership/physical device qualification are not closed by playback checks."
+    ],
+    "render_implementation_commit": "d1567b74b341efff5a30a28bec272c7d5c377406"
+  },
+  "active_delivery": {
+    "status": "DELIVERED_FOR_OWNER_REVIEW",
+    "requested_file_count": 1,
+    "verified_file_count": 1,
+    "artifact": {
+      "file": "HELIX_REAL_AUDIO_12_LAYOUT_COMPARISON_APPROVAL.mp4",
+      "path": "/workspace/deliverables/HELIX_REAL_AUDIO_12_LAYOUT_COMPARISON_APPROVAL.mp4",
+      "sha256": "0a2a0763b4952984b1d5a0d8481b08348ab212e702c3d64a4af29b6c5b1bb198",
+      "bytes": 18530685,
+      "seconds": 34.866667,
+      "dimensions": [
+        1920,
+        1080
+      ],
+      "fps": 30,
+      "video_codec": "h264",
+      "audio_codec": "aac",
+      "drive_id": "1uNEshOt-FvjRhp3nRK5O73nc8kefoDup",
+      "drive_url": "https://drive.google.com/file/d/1uNEshOt-FvjRhp3nRK5O73nc8kefoDup/view?usp=drivesdk",
+      "downloaded_copy_sha256": "0a2a0763b4952984b1d5a0d8481b08348ab212e702c3d64a4af29b6c5b1bb198",
+      "full_decode": true,
+      "soundtrack_correlation": 0.999018237103682,
+      "max_audio_lag_seconds": 0,
+      "distinct_panels": 12,
+      "max_blank_seconds": 0.7,
+      "max_frozen_seconds": 0.6,
+      "source_snapshot": "evidence/beta_completion/comparison_20261101/render-source-snapshot.json",
+      "render_implementation_commit": "d1567b74b341efff5a30a28bec272c7d5c377406"
+    },
+    "owner_approved": false,
+    "release_qualified": false
+  },
+  "last_action": "Inspected completed Actions jobs and full failure logs. Recorded passing Windows/Android/Beta smoke and the exact Python 3.12, native producer and visual-motion failures.",
+  "latest_action_results": [
+    {
+      "gate": "Beta smoke",
+      "run": 41163710749,
+      "conclusion": "success",
+      "jobs": {
+        "python 3.11": "success",
+        "python 3.12": "success"
+      },
+      "url": "https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/41163710749"
+    },
+    {
+      "gate": "Windows Portable GUI",
+      "run": 41163710660,
+      "conclusion": "success",
+      "url": "https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/41163710660"
+    },
+    {
+      "gate": "Android offline smoke",
+      "run": 41163710668,
+      "conclusion": "success",
+      "jobs": {
+        "API 30": "success",
+        "API 36": "success"
+      },
+      "url": "https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/41163710668"
+    },
+    {
+      "gate": "Full regression audit",
+      "run": 41163710718,
+      "conclusion": "failure",
+      "source_commit": "7d34b5e merge of c009595 into 59f3240",
+      "python_311": "success",
+      "python_312": "failure",
+      "failures": [
+        {
+          "test": "test_bounded_chroma_preserves_reference_across_long_partial_blocks[1]",
+          "mismatched": 10,
+          "total": 4097,
+          "max_abs_diff": 2.66020723e-07
+        },
+        {
+          "test": "test_bounded_chroma_preserves_reference_across_long_partial_blocks[61]",
+          "mismatched": 22,
+          "total": 4157,
+          "max_abs_diff": 1.99515542e-07
+        },
+        {
+          "test": "test_bounded_chroma_preserves_reference_across_long_partial_blocks[509]",
+          "mismatched": 18,
+          "total": 4605,
+          "max_abs_diff": 1.33010362e-07
+        }
+      ],
+      "tolerance": "atol=1e-7, rtol=0",
+      "other_passed": 2214,
+      "subtests_passed": 24,
+      "skipped": 6,
+      "url": "https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/41163710718"
+    },
+    {
+      "gate": "Final band/native verification",
+      "run": 41163710727,
+      "conclusion": "failure",
+      "native_proof": "success",
+      "accepted_native_band": "failure",
+      "cause": "No successful native producer at c009595; producer run 41163710797 failed",
+      "url": "https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/41163710727"
+    },
+    {
+      "gate": "Twelve-layout approval render",
+      "run": 41163710805,
+      "conclusion": "failure",
+      "source_commit": "c009595976a2b660bc4094b7302b9b284588c3c4",
+      "cause": "Missing pilot evidence for vocal timing and approved-reference identity; visible_stage_motion median 0.425 < 0.65",
+      "url": "https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/41163710805"
+    }
+  ],
+  "reconciliation_20261104": {
+    "updated_at": "2026-11-04T21:52:11.765534+00:00",
+    "branch": "codex/eight-hour-recovery-20261019",
+    "starting_commit": "05c1de55d2e4d747652452ade0d9752d370b55d9",
+    "tasks": [
+      {
+        "id": "BETA-RECON-20261104",
+        "priority": "P0",
+        "status": "IN_PROGRESS",
+        "source_files": [
+          "AGENTS.md",
+          "MASTER_TODO.md",
+          "docs/BETA_COMPLETION_LIVE_HANDOFF.md"
+        ],
+        "acceptance_criteria": "Reconcile live PR188/205 heads, CI failures, frozen nine inventory and canonical provenance without duplicating prior work.",
+        "tests_performed": [
+          "Live GitHub metadata/jobs/logs read; repository clone and clean status"
+        ],
+        "evidence": [
+          "evidence/beta_completion/reconciliation_20261104/github_state.json"
+        ],
+        "remaining_work": "Verify review fixes, current native inputs and reachable historical artifacts.",
+        "next_executable_action": "Run bounded classifier reproduction under Haswell and default kernels."
+      },
+      {
+        "id": "BETA-CHROMA-PORTABILITY",
+        "priority": "P0",
+        "status": "FAILED",
+        "source_files": [
+          "core/audio_intelligence.py",
+          "tests/test_bounded_audio.py"
+        ],
+        "acceptance_criteria": "Retain 1e-7 entropy tolerance, exact pitch/event clocks, global tuning and bounded memory across supported numerical backends.",
+        "tests_performed": [
+          "Reproduced 4 failures under Haswell on pinned Python3.12: max entropy error 2.66020723e-7; unchanged 1e-7 tolerance",
+          "Padding, overlap and float64/einsum probes failed to establish parity; no experimental DSP change applied",
+          "Pinned Python3.11 Haswell also reproduces exactly the same 4 failures; both JUnit receipts retained."
+        ],
+        "evidence": [
+          "https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/41398351091"
+        ],
+        "remaining_work": "Numerically portable bounded transform still required; cannot infer success from default-kernel passes.",
+        "next_executable_action": "Verify Python3.11 reproduction and retain backend diagnosis."
+      },
+      {
+        "id": "BETA-NINE-DELIVERY",
+        "priority": "P0",
+        "status": "BLOCKED",
+        "source_files": [
+          "evidence/beta_completion/current_owner_review_20261030.json",
+          "tools/assemble_beta_review.py"
+        ],
+        "acceptance_criteria": "Exactly the frozen nine real-audio files; canonical geometry, independent vocals, native compatibility, full decode and accessible download.",
+        "tests_performed": [
+          "Historical 427604937-byte ZIP receipt inspected; not locally retrieved or verified"
+        ],
+        "evidence": [
+          "evidence/beta_completion/owner_review_zip_20261030.json"
+        ],
+        "remaining_work": "Restore Library-only inputs or locate accessible equivalents; qualify vocal sources and source-front3D assets; rerender affected outputs.",
+        "next_executable_action": "Locate source recordings/stems through connected Drive and retained Actions artifacts."
+      },
+      {
+        "id": "BETA-OWNER-APPROVAL",
+        "priority": "P0",
+        "status": "OWNER_APPROVAL_REQUIRED",
+        "source_files": [
+          "MASTER_TODO.md"
+        ],
+        "acceptance_criteria": "Owner explicitly approves final nine movies and beta before merge/publication.",
+        "tests_performed": [],
+        "evidence": [
+          "https://github.com/ryankorkowski-boop/helix-sequencer/pull/188"
+        ],
+        "remaining_work": "Complete technical work and provide reviewable artifacts.",
+        "next_executable_action": "Keep PR188 unmerged and beta unpublished while completing technical gates."
+      },
+      {
+        "id": "BETA-REVIEW-REGRESSIONS",
+        "priority": "P0",
+        "status": "IN_PROGRESS",
+        "source_files": [
+          "core/snowman_band.py",
+          "tools/ac_on_export.py",
+          "tools/spatial_choreography.py",
+          "tests/test_ac_on_export.py",
+          "tests/test_native_pitched_props.py",
+          "tests/test_spatial_choreography.py"
+        ],
+        "acceptance_criteria": "Preserve explicit AC Off rests, two short same-pitch notes and native submodel ownership through export; regression suites pass.",
+        "tests_performed": [
+          "Python3.12: 53 focused tests pass including end-to-end repeated-note native XSQ export and drummer/source3D guards",
+          "Initial new test expected nested EffectLayer but this supported exporter writes direct SubModelEffectLayer/Effect; assertion corrected to inspect actual effects and source timings unchanged",
+          "Python3.11 focused set also passes 53 tests; actual 68-event/eight-target cue+mapping+debug payload SHA256 47c9cee53b80c5950ce0e4c0252142d1ec0001af036b3303103a994d7816b904 exactly matches established PR205 control."
+        ],
+        "evidence": [
+          "evidence/beta_completion/reconciliation_20261104/review_fixes_py312.xml"
+        ],
+        "remaining_work": "Python3.11/full suites and actual native render verification.",
+        "next_executable_action": "Complete running tests, render source-matched native XSQ and compare exact target/time/channel output."
+      },
+      {
+        "id": "BETA-ANDROID30-RECON",
+        "priority": "P0",
+        "status": "VERIFIED",
+        "source_files": [
+          "android/app",
+          "evidence/beta_completion/reconciliation_20261104/android30_embedded_source.json"
+        ],
+        "acceptance_criteria": "Independently inspect retained source05c1de5 Android30 instrumentation, full real-audio preview and installed review APK identity.",
+        "tests_performed": [
+          "Downloaded artifact13120509114 and checked archive; extracted source05c1de5 embedded build manifest",
+          "4 instrumentation cases pass,0errors/failures",
+          "237.439979s real source ->237.466708s H264/AAC movie,3562frames,0msaudiooffset,.995714454correlation in CI decode report",
+          "Review APK SHA matches b430b1b6136cb86318c1362d4ef101c0c755d15478e9f61b45eca97ee834ee10; CI signature/launch/co-install receipts inspected"
+        ],
+        "evidence": [
+          "evidence/beta_completion/reconciliation_20261104/android30_review-install.json",
+          "evidence/beta_completion/reconciliation_20261104/android30_decoded-verification.json"
+        ],
+        "remaining_work": "Current fixes need current source build; physical phone and historical in-place upgrade unverified. This does not claim universal Android beta readiness.",
+        "next_executable_action": "After final implementation, run supported Android API30/36 CI and verify current APK source/signing/full-song output."
+      },
+      {
+        "id": "BETA-NATIVE-CURRENT",
+        "priority": "P0",
+        "status": "IN_PROGRESS",
+        "source_files": [
+          "tools/native_preview.py",
+          "tools/build_current_comparison.py",
+          "models/source_drummer_3d.py"
+        ],
+        "acceptance_criteria": "Actual pinned native xLights FSEQ/XSQ/current audio renders with verified channels, hashes and independent video checks.",
+        "tests_performed": [
+          "Pinned renderer and wx hashes verified; approved Drum1 reference restored byte-identically",
+          "Actual failed pilot frames inspected: distant/dim drummer; failed motion gate remains accurate",
+          "Fresh engine sequencing approved34.88s hook in progress; Ubuntu24 native runtime installing"
+        ],
+        "evidence": [
+          "evidence/beta_completion/reconciliation_20261104/drummer_oracle.json"
+        ],
+        "remaining_work": "Finish runtime, generate current native AC/band/face views, execute rendering and checks.",
+        "next_executable_action": "Complete source-current staging, build native views1/2/6 and render in isolated owned Xvfb session."
+      },
+      {
+        "id": "BETA-SOURCE-TIMING-PREVIEW",
+        "priority": "P0",
+        "status": "IN_PROGRESS",
+        "source_files": [
+          "core/effect_engine.py",
+          "core/audit.py",
+          "core/sequence_builder.py",
+          "tools/preview_renderer.py",
+          "tests/test_native_face_instructions.py",
+          "tests/test_preview_source_binding.py",
+          "tests/test_preview_renderer.py"
+        ],
+        "acceptance_criteria": "Short valid native phonemes survive both final validation/audit passes; per-song preview soundtracks match XSQ media; native key submodels remain visible independently in previews.",
+        "tests_performed": [
+          "35 focused Python3.12 cases targeted; Python3.11 previous34 pass before added audit overlap case",
+          "Real note-writer -> preview-parser -> intensity regression retains exact short-note rest and unlit other rung",
+          "Batch mux/provenance binding regression for two distinct inputs; mismatched/ambiguous media fails instead of silently using first audio",
+          "Native short113\u2013137ms mouth cue survives both passes while ordinary24ms On still obeys50ms minimum"
+        ],
+        "evidence": [
+          "evidence/beta_completion/reconciliation_20261104/source_timing_preview_py312.xml",
+          "evidence/beta_completion/reconciliation_20261104/source_timing_preview_py311.xml"
+        ],
+        "remaining_work": "Final focused Python3.11 and full final-source suites; actual native current media checks.",
+        "next_executable_action": "Run final focused matrix and complete full gate after source changes are committed."
+      }
+    ],
+    "owner_approval": "OWNER_APPROVAL_REQUIRED",
+    "final_acceptance": "BLOCKED",
+    "user_vocal_sources": "Owner reports no isolated lead/harmony or verified transcripts; existing MDX/VAD clocks remain estimates.",
+    "native_inputs": {
+      "renderer_zip": "/workspace/helix-native/renderer.zip",
+      "renderer_sha256": "39e52c8f2034db05888a2c6b6513a8e80307f68890ab62b89ab393947075bf73",
+      "pilot_zip": "/workspace/helix-inputs/pilot-diagnostic.zip",
+      "pilot_sha256": "f5553debdcc030be13641fa98e374040fd7d578f78a19369a7b61ecec377efa9",
+      "artifact_download": "GitHub CLI blob redirect denied; connected GitHub artifact download materialized successfully. Returned authenticated file references downloaded locally; CRC/extraction completed."
+    },
+    "current_commit": "7aa91ebc619d25e718b4fd22a784339c9796a15c",
+    "full_suite_threefixes": {
+      "python311": "2326 passed,6existing skips,24subtests,645.61s",
+      "python312": "2325 passed,1failed new-test lookup loaded before its correction,6existing skips,24subtests,572.95s",
+      "note": "These suites started before the new timing/preview changes. The Python3.12 failure was the old nested-layer test lookup; corrected real-export test passes focused sets. Neither is a final-source portability pass; Haswell fails4cases independently."
+    },
+    "source3d_media": {
+      "file": "canonical-source3D-candidate.mp4",
+      "sha256": "ca7e6c4093ccce2f3f6468bfa883fc51c6b26127d70bdb4d38a02671328bbead",
+      "bytes": 5783880,
+      "source_audio": "Phoneme_Test_Hook.mp3",
+      "source_audio_sha256": "19e90c273d0d747938f24b36586b50818c104cddffbefe4a4128927374301938",
+      "source_duration_seconds": 34.88,
+      "codecs": [
+        "h264",
+        "aac"
+      ],
+      "dimensions": [
+        1920,
+        1080
+      ],
+      "actual_frame_rate": "20/1",
+      "actual_frame_count": "698",
+      "video_duration_seconds": 34.9,
+      "audio_duration_seconds": 34.88,
+      "stream_start_seconds": [
+        0,
+        0
+      ],
+      "full_decode": true,
+      "soundtrack_correlation": 0.999018237103682,
+      "window_alignment": [
+        {
+          "source_start_seconds": 3.488,
+          "decoded_lag_seconds": 0
+        },
+        {
+          "source_start_seconds": 17.44,
+          "decoded_lag_seconds": 0
+        },
+        {
+          "source_start_seconds": 29.648,
+          "decoded_lag_seconds": 0
+        },
+        {
+          "source_start_seconds": 32.83,
+          "decoded_lag_seconds": 0
+        }
+      ],
+      "musical_or_visual_acceptance": false,
+      "readability": {
+        "schema": "helix.showcase_readability.v1",
+        "frames": 70,
+        "sample_fps": 2,
+        "thresholds": {
+          "median_luma": 12,
+          "median_bright_fraction": 0.012,
+          "median_motion": 0.65,
+          "min_visible_width": 0.4,
+          "min_visible_height": 0.35
+        },
+        "measurements": {
+          "median_luma": 32.69,
+          "median_bright_fraction": 0.17157,
+          "median_motion": 1.062,
+          "visible_width": 0.794,
+          "visible_height": 0.522
+        },
+        "checks": {
+          "visible_stage_width": true,
+          "visible_stage_height": true,
+          "median_stage_luminance": true,
+          "bright_stage_area": true,
+          "visible_stage_motion": true,
+          "opening_static_cast_framing": true
+        },
+        "passed": true,
+        "note": "Quantitative visibility gate only; no artistic, musical or source classification approval"
+      },
+      "path": "/workspace/helix-work/native-current/canonical-source3D-candidate.mp4",
+      "acceptance": "Technical candidate only; independent singer identity/lexical and owner acceptance remain open. Not a native xLights video."
+    },
+    "native_runtime_recovery": "Ubuntu24 dependency install initially hit filesystem limit; removed failed duplicate venv and reuses installed pinned3.12 workspace wheels. Fixed GTK library mixing and adjacent official resources after first GUI abort; native headless FSEQ succeeds on AC and173712-channel band. Current native MP4 rendering in progress; no fallback counted as success."
+  },
+  "autonomous_20261105": {
+    "starting_commit": "35bf41ae27dc3fc7278c3af100401cf63fecf3e0",
+    "source_drive_id": "12gRu8SUf-8GVCQdJnrIROnTY6XumOUzZ",
+    "original_audio_sha256": "fc91e3f48f709e615ba598a5d49ae63ab9652c0d16e324095f6e1b20377e082b",
+    "local_excerpt_sha256": "489b161bb48b986d355fbf28d4b8f58578ce0bb4deb01f6d8aa6274c0c49fb63",
+    "engine_exit_code": 0,
+    "engine_effect_nodes": 12016,
+    "engine_xsq_sha256": "f54da9175671083238203faaaee005509d422ec90c2c684a5618ead97a260f1f",
+    "prior_native_run": 42027740755,
+    "prior_native_artifact": 13417243372,
+    "prior_native_readability": {
+      "schema": "helix.showcase_readability.v1",
+      "frames": 80,
+      "sample_fps": 2,
+      "thresholds": {
+        "median_luma": 12,
+        "median_bright_fraction": 0.012,
+        "median_motion": 0.65,
+        "min_visible_width": 0.4,
+        "min_visible_height": 0.35
+      },
+      "measurements": {
+        "median_luma": 3.043,
+        "median_bright_fraction": 0,
+        "median_motion": 0.156,
+        "visible_width": 0,
+        "visible_height": 0
+      },
+      "checks": {
+        "visible_stage_width": false,
+        "visible_stage_height": false,
+        "median_stage_luminance": false,
+        "bright_stage_area": false,
+        "visible_stage_motion": false
+      },
+      "passed": false,
+      "note": "Quantitative visibility gate only; no artistic, musical or source classification approval"
+    },
+    "current_source_ci": {
+      "python_3_11_and_3_12": 42054533014,
+      "windows": 42054532961,
+      "android_api30_api36": 42054533183
+    },
+    "checks": [
+      "21 bounded-audio/AC tests passed",
+      "11 preview mapping/AC tests passed; 256 addresses, fixed colors, original groups, exact musical XSQ retained"
+    ],
+    "local_native_limitation": "Pinned Ubuntu24 binary cannot run on this Debian executor: required system libraries absent; apt install unavailable without root. Reuse GitHub cached renderer.",
+    "blocking_source_qualification": "Retained E14 analysis lacks independently resolved lead and harmony tracks; do not fabricate qualified source or pilot acceptance.",
+    "next_command": "gh workflow run native-drive-audio-ac256.yml --ref codex/eight-hour-recovery-20261019",
+    "approval_zip_created": false,
+    "comparison16_created": false,
+    "final_checkpoint": {
+      "implementation_commit": "ed581cd440a673bd69f40b97f071a03b109a3085",
+      "source_commit_of_apps": "35bf41ae27dc3fc7278c3af100401cf63fecf3e0",
+      "native_run": {
+        "id": 42060667368,
+        "status": "in_progress",
+        "last_observed_step": "Validate and restore native renderer runtime",
+        "checked_at": "2026-11-05T16:08:21Z"
+      },
+      "tests": {
+        "default_bounded_and_ac": 21,
+        "preview_and_ac": 11,
+        "source_geometry_vocals_pilot_mapping": 22,
+        "haswell_bounded": {
+          "passed": 8,
+          "failed": 4,
+          "unchanged_entropy_tolerance": 1e-07
+        }
+      },
+      "delivered_apps": [
+        {
+          "filename": "HELIX_WINDOWS_BETA_CANDIDATE_35bf41a.zip",
+          "library_file_id": "libfile_625ff3ceb7488191bb15e8ed9bcf8c51",
+          "sha256": "c902eecddf47b414bc5dfc8a538c3101cc7492cbc06d40be11d52405b78dc118"
+        },
+        {
+          "filename": "HELIX_ANDROID_BETA_REVIEW_35bf41a.apk",
+          "library_file_id": "libfile_14d6aec58c008191865dac5af26a61cc",
+          "sha256": "e29f3d9acb401ad5cfb2c4c71db253460d6fe44f3b104a0ef53117499e4f64f3"
+        }
+      ],
+      "recovery_archive": {
+        "library_file_id": "libfile_94e636d47790819182793f0a0ac911c8",
+        "sha256": "e95c8ef0829d5d0d8335d75f938e99751afe8b2a23cb00816f3319351a97e618"
+      },
+      "evidence_report": {
+        "library_file_id": "libfile_8b4e24e7b4bc8191b05c36bd79813528"
+      },
+      "approval_zip": null,
+      "comparison16": null,
+      "qualified_current_mp4_count": 0,
+      "external_source_blocker": "Owner has no isolated lead/harmony sources or verified transcripts (retained reconciliation checkpoint); connected Drive vocal/harmony/stem searches return no separate sources. Existing mixed-bus separation is explicitly unqualified. Do not fabricate singer identity or pilot acceptance.",
+      "remaining_code_gates": [
+        "Haswell bounded chroma 4 precision failures",
+        "Source-front continuous canonical native/reference qualification",
+        "Failed prior native readability/motion; new AC result not yet known"
+      ],
+      "resume_command": "cd /workspace/scratch/2767c34bf8f0/helix-sequencer && OPENBLAS_CORETYPE=Haswell OPENBLAS_NUM_THREADS=2 /workspace/scratch/2767c34bf8f0/venv/bin/python -m pytest -q tests/test_bounded_audio.py",
+      "next_connector_action": {
+        "tool": "github.fetch_workflow_run_jobs",
+        "repo_full_name": "ryankorkowski-boop/helix-sequencer",
+        "run_id": 42060667368
+      },
+      "no_merge_or_release": true
+    }
+  },
+  "historical_reported_delivery_before_20261105": {
+    "delivered_mp4_count": 9,
+    "note": "Historical review delivery claim retained for provenance; not a current qualified nine-video collection."
+  },
+  "historical_snapshot_before_implementation_20261105": {
+    "updated_at": "2026-11-05T16:08:21Z",
+    "current_implementation_sha": "cd0c852b0fc522ca04850eefece70e5b9bfb94bb",
+    "current_task": "BETA-NINE-DELIVERY",
+    "next_three_actions": [
+      "Collect and fully inspect native run42060667368 artifacts before claiming readable AC media",
+      "Repair inherited Haswell chroma parity without weakening numerical thresholds",
+      "Obtain source-bound independent singer/reference qualification before scaling the frozen nine; only then implement16benchmark"
+    ]
+  },
+  "last_checked_pr_head": "aa58cc0dc1843fc32129e5489cb5cc71123b51a6",
+  "implementation_log": "evidence/beta_completion/implementation_20261105/task_log.json",
+  "qualified_approval_mp4_count": 0,
+  "current_execution": {
+    "source_worktree_dirty": false,
+    "compile": "passed",
+    "focused_tests": 48,
+    "native_guard_tests": 83,
+    "native_guard_subtests": 10,
+    "bounded_audio_default_tests": 12,
+    "engine_exit_code": 0,
+    "engine_effects": 13612,
+    "native_render": "native_export_verified_motion_failed",
+    "owner_approval": false,
+    "bounded_audio_haswell": {
+      "passed": 8,
+      "failed": 4,
+      "tolerance_unchanged": true
+    },
+    "full_python312": {
+      "passed": 2349,
+      "skipped": 6,
+      "subtests_passed": 24,
+      "seconds": 334.27
+    },
+    "native_run_id": 42151760898,
+    "native_artifact_id": 13473241277,
+    "readability_passed": false,
+    "native_motion": 0.372,
+    "required_native_motion": 0.65
+  }
+}

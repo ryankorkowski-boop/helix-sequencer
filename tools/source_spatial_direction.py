@@ -1,0 +1,188 @@
+"""Source-bound spatial motifs for native props, with explicit semantic roles.
+
+Propagation is authored choreography of one measured event, never a new note.
+No random source activity or whole-display beat/volume broadcast is introduced.
+"""
+from __future__ import annotations
+import numpy as np
+import re
+
+
+def role_for(model):
+    explicit=model.details.get('musical_role')
+    if explicit:return explicit
+    name=model.name.upper();zone=model.zone.upper();native=getattr(model,'display','').upper()
+    if 'WINDOW' in name or native=='WINDOW FRAME' or zone=='SPIRALS':return 'harmony'
+    if 'ROOF' in name or 'RIDGE' in name or zone in ('TREES','GROVE') or native.startswith('TREE '):return 'guitarist'
+    if ('MATRIX' in name or 'MATRIX' in native or native=='CUBE' or zone.startswith('DNA')
+            or zone in ('MATRICES','HELIX','OPTICAL')):return 'keyboardist'
+    if 'EAVE' in name or zone in ('DEPTH','CATHEDRAL'):return 'bassist'
+    if 'CANE' in name or native=='CANDY CANES':return 'keyboardist'
+    if zone in ('ARCHES','SPINNER','SPINNERS','ACCENTS') or native in ('ARCHES','SPINNER'):return 'drummer'
+    if zone=='SKY_JEWELS' or native in ('STAR','SPHERE'):return 'lead'
+    return 'bassist'
+
+
+def parts_for(model):
+    if model.kind=='ac':return list(model.submodels)
+    # Native matrix models have real row geometry even when their names do
+    # not contain MATRIX. Build rows from physical Y, never insertion order.
+    if 'MATRIX' in getattr(model,'display','').upper() and not any(p.startswith('ROW_') for p in model.submodels):
+        y=model.points[:,1];height=float(np.ptp(y))
+        if height>0:
+            bins=np.minimum(15,np.floor((y-y.min())/height*16).astype(int))
+            for row in np.unique(bins):
+                model.submodels[f'ROW_{row:02}']=(np.flatnonzero(bins==row)+1).tolist()
+    # Prefer physically coherent rows/strands over generic array sectors.
+    for prefix in ('ROW_','STRAND_','RAY_','SECTOR_'):
+        parts=[p for p in model.submodels if p.startswith(prefix)]
+        if parts:return parts
+    model.submodels.setdefault('ALL',list(range(1,len(model.points)+1)))
+    return ['ALL']
+
+
+def voice_events(cache,lane):
+    # An unseparated sampler must not borrow the Phoneme recording's clock or
+    # fabricate backing activity. Missing source evidence means abstention.
+    if lane+'_energy' not in cache:return []
+    energy=cache[lane+'_energy'];active=energy>0
+    cuts=np.r_[0,np.flatnonzero(np.diff(active))+1,len(active)]
+    return [dict(start_ms=int(a)*10,end_ms=int(b)*10,velocity=float(energy[a:b].max()),
+                 kind='estimated_vocal_activity',source=lane)
+            for a,b in zip(cuts[:-1],cuts[1:]) if active[a]]
+
+
+def section_strategy(label,role):
+    """Choose spatial composition from the retained song-part annotation."""
+    label=re.sub(r'[-_\s]','',str(label).lower())
+    if any(word in label for word in ('breakdown','bridge','intro','outro')):
+        return dict(name='sparse',steps=1,step_ms=0,direction=1)
+    if any(word in label for word in ('build','rise','prechorus')):
+        return dict(name='ascending',steps=4,step_ms=35,direction=1)
+    if any(word in label for word in ('drop','chorus','refrain')):
+        return dict(name='wide_response',steps=5 if role in ('guitarist','keyboardist') else 3,step_ms=30,direction=-1)
+    if 'solo' in label:
+        return dict(name='solo_trace',steps=4,step_ms=65,direction=1)
+    return dict(name='note_trace',steps=3 if role in ('keyboardist','guitarist') else 2,step_ms=50,direction=1)
+
+
+def section_color(role, section, palette):
+    """Keep role contrast while changing the palette at supported song sections."""
+    base={'guitarist':0,'bassist':1,'keyboardist':2,'drummer':2,'lead':0,'harmony':1}[role]
+    strategy=section_strategy(section,role)['name']
+    offset={'ascending':1,'wide_response':2,'solo_trace':1}.get(strategy,0)
+    return palette[(base+offset)%len(palette)]
+
+
+def supported_phrases(events):
+    """Union sounding intervals, never turn a short musical rest into a note.
+
+    Sort by time before section: overlapping notes from different sections must
+    not extend a previous section's native surface effect across the change.
+    """
+    windows=sorted({(e['source_start_ms'],e['source_end_ms'],e['section']) for e in events})
+    phrases=[]
+    for a,b,section in windows:
+        if b<=a:continue
+        if phrases and section==phrases[-1][2] and a<=phrases[-1][1]:
+            phrases[-1][1]=max(phrases[-1][1],b)
+        else:
+            if phrases and section!=phrases[-1][2]:
+                phrases[-1][1]=min(phrases[-1][1],a)
+            phrases.append([a,b,section])
+    return [p for p in phrases if p[1]>p[0]]
+
+
+def schedule(model,plan,cache,duration):
+    role=role_for(model);parts=parts_for(model)
+    source=(voice_events(cache,'estimated_backing') if role=='harmony' else
+            voice_events(cache,'estimated_lead') if role=='lead' else plan['cues'].get(role,[]))
+    center=np.mean(model.points,axis=0)
+    depth_ms=int(model.details.get('propagation_delay_ms',0))
+    phase=float(model.details.get('spatial_phase',0))
+    direction=int(model.details.get('spatial_direction',1))
+    result=[]
+    for index,cue in enumerate(source):
+        if cue.get('kind')=='chord_change':continue
+        component=model.details.get('percussion_component')
+        if role=='drummer' and component and cue.get('kind')!=component:continue
+        a,b=int(cue['start_ms']),int(cue['end_ms'])
+        if b<=a:continue
+        pitch=cue.get('pitch_midi')
+        if pitch is not None:
+            position=np.clip((float(pitch)-21)/87,0,1)
+        elif role=='drummer':
+            position={'kick':.1,'snare':.5,'hihat':.9,'cymbal':.75}.get(cue.get('kind'),.35)
+        else:
+            # Same phrase enters neighboring props at physical X positions;
+            # no random event index is used to fake independence.
+            position=np.clip((center[0]+100)/200,0,1)
+        shifted=position+phase
+        origin=int(round((shifted if 0<=shifted<=1 else shifted%1)*(len(parts)-1)))
+        level=float(np.clip(cue.get('velocity',cue.get('expression',{}).get('brightness',.7)),.05,1))
+        strategy=section_strategy(cue.get('section',''),role)
+        steps=min(len(parts),strategy['steps'])
+        for step in range(steps):
+            part=parts[(origin+direction*strategy['direction']*step)%len(parts)]
+            delay=depth_ms+step*strategy['step_ms']
+            start=max(0,a+delay);end=min(duration,b+delay)
+            if end<=start:continue
+            result.append(dict(part=part,start_ms=start,end_ms=end,level=level*(.72**step),
+                source_start_ms=a,source_end_ms=b,source_event=index,role=role,
+                source_kind=cue.get('kind','pitched_note'),pitch_midi=pitch,
+                source_confidence=cue.get('confidence'),source_method=cue.get('source',cue.get('source_reason')),
+                propagation_delay_ms=delay,section=cue.get('section',''),strategy=strategy['name']))
+    return result
+
+
+def export_model(sequence,model,plan,cache,palette):
+    events=schedule(model,plan,cache,sequence.duration)
+    role=role_for(model)
+    fixed_color=({'Single Color Red':'#FF4040','Single Color Green':'#40FF60','Single Color White':'#FFFFFF'}[model.attrs['StringType']]
+                 if model.kind=='ac' else None)
+    native_effect='On'
+    # Native Bars is applied only to a real 2-D sampled surface. The black
+    # second palette creates traveling negative space rather than a full wash.
+    matrix=any(p.startswith('ROW_') for p in model.submodels)
+    for event in events:
+        color=fixed_color or section_color(role,event['section'],palette)
+        event['color']=color
+        provenance={k:str(v) for k,v in dict(sourceRole=event['role'],sourceMethod='semantic_source_spatial_direction',
+            sourceStartMs=event['source_start_ms'],sourceEndMs=event['source_end_ms'],
+            sourceEventIndex=event['source_event'],sourcePitchMIDI=event['pitch_midi'],
+            sourceConfidence=event['source_confidence'],sourceAnalysisMethod=event['source_method'],
+            sourceSection=event['section'],spatialStrategy=event['strategy'],
+            authoredPropagationMs=event['propagation_delay_ms']).items() if v is not None}
+        # Quiet retained attacks must be visible in a small native overview.
+        # This changes display illumination only; zero/rest windows and every
+        # source event, velocity order, pitch and clock remain unchanged.
+        floor=float(model.details.get('source_display_floor',0))
+        attack=floor+(1-floor)*event['level']
+        provenance['displayAttackFloor']=str(floor)
+        sequence.effect(model,event['part'],event['start_ms'],event['end_ms'],color,
+            round(attack*100),round(attack*.12*100),provenance=provenance)
+    # Group real note windows into sustained phrases for native matrix motion;
+    # the effect ends at the final supported source event, with no release tail.
+    if matrix and model.kind=='pixel' and events:
+        phrases=supported_phrases(events)
+        model.submodels['SPATIAL_SURFACE']=sorted({n for p in parts_for(model) for n in model.submodels[p]})
+        for a,b,section in phrases:
+            if b-a<400:continue
+            strategy=section_strategy(section,role)
+            # Sparse sections retain their note windows, without a broad
+            # sustained surface that would hide a break in the arrangement.
+            if strategy['name']=='sparse':continue
+            color=section_color(role,section,palette)
+            cycles=2.0 if strategy['name']=='ascending' else .5 if strategy['name']=='solo_trace' else 1.0
+            direction=model.details.get('spatial_direction',1)*strategy['direction']
+            sequence.effect(model,'SPATIAL_SURFACE',a,b,color,provenance={
+                'sourceRole':role,'sourceMethod':'source_phrase_native_Bars','sourceStartMs':str(a),'sourceEndMs':str(b),
+                'sourceSection':str(section),'spatialStrategy':strategy['name']},
+                settings=f'E_SLIDER_Bars_BarCount=2,E_TEXTCTRL_Bars_Cycles={cycles},E_CHOICE_Bars_Direction='+
+                    ('Left' if direction>0 else 'Right')+',E_CHECKBOX_Bars_Gradient=1',
+                palette=f'C_BUTTON_Palette1={color},C_CHECKBOX_Palette1=1,C_BUTTON_Palette2=#000000,C_CHECKBOX_Palette2=1',
+                effect_name='Bars')
+            native_effect='On + Bars'
+    return dict(model=model.name,zone=model.zone,role=role,native_effects=native_effect,
+        authored_propagation=True,source_events=len({e['source_event'] for e in events}),
+        output_events=len(events),events=events,uncertainty='retained mixed-bus role estimates; not isolated instrument ground truth')

@@ -1,0 +1,206 @@
+{
+  "baseline": "f0aca518f5a1dff15ab24eb8127d09cc26ea8990",
+  "files": [
+    {
+      "path": "evidence/drummer/dry_drum_test.wav",
+      "git_blob": "fe406f153ca7a1aab69237a4da6b8115a96d2e70",
+      "sha256": "4cd9ee35b65d359aa44ac4c9e01a256bbcaf3297458340fc512084bae1463913"
+    },
+    {
+      "path": "evidence/drummer/dry_drum_test_adtof.json",
+      "git_blob": "df7b0deb9577d3ef228e93b5da83212b7c82e79a",
+      "sha256": "63bd55c7d7db57de12d45f4c19335fe1cf57b1f096e8104a87265d4ef1270eca"
+    },
+    {
+      "path": "evidence/drummer/dry_drum_test_detailed_probe.json",
+      "git_blob": "3a455c0e9046f147e8f6eb47d7b54a86b7c1fec2",
+      "sha256": "1af2217fdd2116ba2d2c81d7b4c487e408fc284735c57c85be36e57d520d1a54"
+    },
+    {
+      "path": "evidence/drummer/dry_drum_test_signal_inspection.json",
+      "git_blob": "e4efe495947c25f8d298e200cbed732511a46645",
+      "sha256": "a7a969c0a59a0d8b30985c34349d40ce0c7fc4ad0341d2a326b17ee8475e87bd"
+    },
+    {
+      "path": "evidence/drummer/dry_drum_test_source_calibration.json",
+      "git_blob": "556224590dc944d258930a10483a9b1a67eea693",
+      "sha256": "dcb1083a009ddd9a20d5deda576dd66a24b3128d3e9bc877bd7aa0e92d8f892c"
+    },
+    {
+      "path": "evidence/drummer/dry_drum_test_tom_review.json",
+      "git_blob": "ca457c6313da9c9d531d844f90a1cf41f48d1917",
+      "sha256": "c5dd6c5889d0e903da2510f1904ddef5ab4f48e9af9c4a05a08b1a719ca73673"
+    },
+    {
+      "path": "evidence/drummer/helix_adtof_stem.json",
+      "git_blob": "47c21c060d4bcf468ac0f30a8fcba14fa67fcbcc",
+      "sha256": "fe37e1baea60676042e457d68cc20086448dcebe96e73c0fdd182a191c861388"
+    },
+    {
+      "path": "evidence/drummer_shoulder_revision/Helix_Drummer_DRY_TEST_ONLY.xsq",
+      "git_blob": "80da7a2b495fe12801855d390b62b491d8820ad9",
+      "sha256": "65a579c7b659e689fb331387d2199038c98f78cfa92da90ae9ff6e0388485a13"
+    },
+    {
+      "path": "evidence/drummer_shoulder_revision/dry_test_accepted_report.json",
+      "git_blob": "60b37c978ed02e4676e1645373d6a757c90e1215",
+      "sha256": "9330e87225a88706b2dcb93b97083f5d068dfcea693c36bac6fb0a4410a50b75"
+    },
+    {
+      "path": "evidence/drummer_shoulder_revision/encoded_hit_review.jpg",
+      "git_blob": "166beabae089d251fb0d8fa7997d72d4eacc41ca",
+      "sha256": "c6be41cda7d81d288bde28c7c3a4245f3cc7cfc0f69ce67344e4616b6354f9b7"
+    },
+    {
+      "path": "evidence/drummer_shoulder_revision/ffprobe.json",
+      "git_blob": "2764b6168295688733781c75e10987463a80286a",
+      "sha256": "5e25c40761156b19a8aba5f31bfaec39f98c18d515b11afe104b49622d9dd1c5"
+    },
+    {
+      "path": "evidence/drummer_shoulder_revision/preservation.json",
+      "git_blob": "6dd1ad90c12add5a051dd69de81a383f105e9e90",
+      "sha256": "ab7bccec8daed9f9219f982411a61c2a32e5a51198d311dc47696a2e9a9471d2"
+    },
+    {
+      "path": "evidence/drummer_shoulder_revision/publication.json",
+      "git_blob": "abc0fd4cce0a878aa4a0b15b1ea97e6b77b8ede1",
+      "sha256": "9a1e3579c07ea0e04fcf91ba4522f648c5fda5285bf32fda9b96e87e4e88c405"
+    },
+    {
+      "path": "evidence/drummer_shoulder_revision/scores.json",
+      "git_blob": "653f4a80bc78682aad95b5f0d577a80acb183549",
+      "sha256": "1b41c7dbd352e34cbf6d51bc25e09fbcb64ff070f694e27c219fd98ffce2cc9e"
+    },
+    {
+      "path": "evidence/drummer_shoulder_revision/shoulder_comparison.jpg",
+      "git_blob": "9005475905c11e43eeb3d4d4a6377e83e6cee526",
+      "sha256": "9ba16b15d842a3ce81deb8f172bc5a8226419d248d177a684d5117901fcce26d"
+    },
+    {
+      "path": "evidence/drummer_shoulder_revision/verification.json",
+      "git_blob": "6c3736f82a9aa0df6ea25502f7ba731f3e5d71f0",
+      "sha256": "a91f37b438130144ab4579dfe1fd5d635c42a5dd87f1a2222286ccec601ccc96"
+    },
+    {
+      "path": "evidence/drummer_shoulder_revision/visual_review.json",
+      "git_blob": "8bc1bb4c1934eed73352672ed6a81537e77eef9e",
+      "sha256": "392c0d35d7224c7ba4697e18519648266bf5e44bd308151e22c4e06f94f330a9"
+    },
+    {
+      "path": "fixtures/band_geometry/drummer_v3_png_layer_manifest.json",
+      "git_blob": "c5d4cc5060c0f1c2b0979505f953d3d47abb22cf",
+      "sha256": "43602cf96f4be45e59b7fdd58c5ffa6c60f89df83858192be22c88266d2b5e18"
+    },
+    {
+      "path": "fixtures/band_geometry/drummer_v3_pose_spec.json",
+      "git_blob": "bb82e3552b0fa74d1cefb8bc0746ec1a5c5fa9e0",
+      "sha256": "2964ec17bec74bcf947d68e43fee5bc2afea9ed83327a6b77fa19f6e0346b8a1"
+    },
+    {
+      "path": "fixtures/band_geometry/geometry_manifest.json",
+      "git_blob": "f5a6c85acee94c3b77864dbdab51e8d302971805",
+      "sha256": "8eb714383a7b0d26c88fdc9e229a58859a7f97f86a9c2738deae8a9ba2068ee0"
+    },
+    {
+      "path": "fixtures/band_geometry/layers/drummer_downbeat_impact.png",
+      "git_blob": "cfe092b47acb322483a27c1edde3d28876d995c3",
+      "sha256": "fbf9d0faa99597d1a08cadcc7cbdfbf6764ceb7cdea7be51249d30e7ac97804c"
+    },
+    {
+      "path": "fixtures/band_geometry/layers/drummer_hit_both_crash.png",
+      "git_blob": "e63e913e323ed5b8974740217c70072332168c1a",
+      "sha256": "a84bc677ddcd4474f8691f15640135e8ab7f673a75578a911d19c757763b03a9"
+    },
+    {
+      "path": "fixtures/band_geometry/layers/drummer_hit_floor_tom.png",
+      "git_blob": "95f7ff2c7831e1d57350e364e7585c8cefea6082",
+      "sha256": "3e994aa3555d57ed0af333e9a340297b50c3787bde19e3ce24a602c9fbc35447"
+    },
+    {
+      "path": "fixtures/band_geometry/layers/drummer_hit_hi_hat.png",
+      "git_blob": "06dff86482130de83af41d8285ba842b2bbd65b0",
+      "sha256": "9ceaa92d3e8d75ea5bb3c3aa99d71cc69698f50c269abaee9761b05f6f701ef1"
+    },
+    {
+      "path": "fixtures/band_geometry/layers/drummer_hit_high_tom.png",
+      "git_blob": "acd81ec8167f11a5f8236355b1699ffd7e184a19",
+      "sha256": "c07845a56f56bd0ad5dfa212f44a0c783ad30a466ab10f4edf84a5fe4b3f7f3e"
+    },
+    {
+      "path": "fixtures/band_geometry/layers/drummer_hit_kick.png",
+      "git_blob": "96453365afcb476518428eb856e1fea2be42fdf7",
+      "sha256": "a37ab16f23cca4ba64924d984f2c8c0f405eaee2506e9214df5522a39e1c6088"
+    },
+    {
+      "path": "fixtures/band_geometry/layers/drummer_hit_left_crash.png",
+      "git_blob": "dc3a783ca274377851f4aa22db4693403dd03f7c",
+      "sha256": "1f2117022d2747c6a6a68f991b9f00fe369923f8e81f9ab5dfafc1cb6dd7c164"
+    },
+    {
+      "path": "fixtures/band_geometry/layers/drummer_hit_left_tom.png",
+      "git_blob": "0a98869ebe064fd7e0ef0167a884e5cac090a25c",
+      "sha256": "63b1f5b74b95d5f808640aaea46ee15eb9aac3f031c92cb98f2bdd5a0aae7495"
+    },
+    {
+      "path": "fixtures/band_geometry/layers/drummer_hit_mid_tom.png",
+      "git_blob": "2a7625ce94ca4d0ae198789056ce85d27ad85d20",
+      "sha256": "4f4f992b1bd2dac3564605d7aeab69e91a6c565c87f70e5a43f1dea759c94ee6"
+    },
+    {
+      "path": "fixtures/band_geometry/layers/drummer_hit_right_crash.png",
+      "git_blob": "061df2be0700b70a86e4cc3efd93440c9b33be7c",
+      "sha256": "767be06e8ff0593e650a40a3e6f3ce454c0e14e8cb2152e886759f77aefad6c6"
+    },
+    {
+      "path": "fixtures/band_geometry/layers/drummer_hit_right_tom.png",
+      "git_blob": "296d78906805deed2d00f06a42b427dfdd6f07ea",
+      "sha256": "65b16e32ce352113be3d201f423a6481050b25be8d7ca75b022943a08da9373b"
+    },
+    {
+      "path": "fixtures/band_geometry/layers/drummer_hit_snare.png",
+      "git_blob": "02dd771b73a475eff2a8f519de3b57245f4b1eb8",
+      "sha256": "83a324f2fdaa918a6a23a5eb34487813f8f8f2fa47813f7d86683d96f2c3b7a6"
+    },
+    {
+      "path": "fixtures/band_geometry/layers/drummer_hit_snare_right.png",
+      "git_blob": "01b2d5d306618ab701f050d82a8b8479ec6e067b",
+      "sha256": "613f7ab079df6625ff4cad78e0c187e57dc05da70536ecd9b39ca0519ea94540"
+    },
+    {
+      "path": "fixtures/band_geometry/models/HX_SNOWMAN_DRUMMER.xmodel",
+      "git_blob": "a08c53c6d66c9384bf5f176dc56139c2c5da536a",
+      "sha256": "925cddc6f24487d113d52d4425435bfa6eed56015b5808a3d68bab704af6458a"
+    },
+    {
+      "path": "fixtures/band_geometry/models/HX_SNOWMAN_DRUMMER_V3.xmodel",
+      "git_blob": "7430bf1cc0409ac5ac58be68f6df6692be2fe259",
+      "sha256": "70c11eafe25243f2ec10e8207ed89c1456acf2692d9e1de7db5a4801f0cd8c79"
+    },
+    {
+      "path": "fixtures/band_geometry/previews/HX_SNOWMAN_DRUMMER_V3_pose_sheet.png",
+      "git_blob": "626eaa56fe82e73381dbd66399421db7c7eb29ea",
+      "sha256": "d85075e6bc40fd89ada76224abde56dd5a49260521a30c2edd0d9a5fb2c92d81"
+    },
+    {
+      "path": "fixtures/band_geometry/source/README.md",
+      "git_blob": "7a1501eda54922eeeeaef7659c070792c6fbbd74",
+      "sha256": "dddb86c4bb521b44367ae433886382b3c9e7733abf5c6c5616f64de8f3d8aa15"
+    },
+    {
+      "path": "fixtures/band_geometry/source/drummer_idle.png",
+      "git_blob": "d1e94cce920877b4e0123fd50910470bd0f47b5e",
+      "sha256": "7299061b867c324ee46f037aef15fe64a04f946992021235e69ec137e9f4137e"
+    },
+    {
+      "path": "fixtures/band_geometry/source/drummerbg.png",
+      "git_blob": "0cab1cd46be7379a4cd63a6af20271e87bbe746c",
+      "sha256": "643e1bfb7fb0b245cb7400010a80f9f75037f8a5554adde7bde8cba7a53374fa"
+    },
+    {
+      "path": "fixtures/band_geometry/source/drummerbg.png.b64",
+      "git_blob": "a626ea82c4a085afe41d93f24e828002adfb4ebe",
+      "sha256": "3607e20e6c19c383b2c66ea33fdddb3d3e3e5a52f127b320b5d24f1e3ae9301e"
+    }
+  ],
+  "all_preserved": true
+}
