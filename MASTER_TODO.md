@@ -1,3 +1,17 @@
+## 6 November — owner-requested live approval Site and agent attribution
+
+Goal: synchronize the private PR #188 approval dashboard with GitHub and identify agents only from explicit reports or commit metadata. Changed repository files: AGENTS.md, docs/AGENT_ACTIVITY_REPORTING.md and this master ledger. Dashboard source is maintained separately by Sites.
+
+Preserved: existing frozen nine-video scope, original six-member band/drummer, independent-vocal qualification, AC256 mapping/colors, advanced RGB requirements, all acceptance thresholds, issue #199 and explicit owner merge/release hold. No sequencing, DSP, asset, export or rendering code changes; no new MP4 pass or owner approval claimed. Drummer mallets remain permitted only for a distinct audible mallet source.
+
+New behavior: documented private agent task/checkpoint reporting, accurate optional Agent-Name/Agent-ID/Agent-Provider commit trailers, and a source-attributed dashboard feed. GitHub authorship alone does not identify the coding agent. Working reports become stale after15minutes. The Site keeps repository claims separate from owner-recorded verification and invalidates earlier approval on changed source.
+
+Evidence: dashboard TypeScript/build and15 focused application/route checks pass; private service access and synchronized source readback are verified through the Site. These checks do not validate Helix engine behavior or a new native movie. Current engine/visual/vocal blockers in the preceding entries remain open. Commit-triggered refresh and hourly CI refresh are configured through authorized task connections, not a borrowed GitHub credential.
+
+Limitations/deferred work: instantaneous process telemetry and unreported agent identities are unavailable; agents must self-report. Earlier-source green workflows do not prove current-source acceptance. No beta feature scope, CI rerender or new independent polling task is introduced. Risk: a Site unavailable to an agent can miss heartbeats; preserve the master ledger and report the limitation instead of guessing.
+
+Resume from MASTER_TODO.md, then docs/AGENT_ACTIVITY_REPORTING.md for dashboard reporting. The existing beta repair/render work remains the priority.
+
 ## 5 November — tested native vocal implementation; fresh render fails motion gate
 
 Implementation `a9beaa7c9be89fffc21a856e033bf75a3136c29b` repairs the malformed newline block, preserves source-clock stemless estimates at10/25/50ms, connects explicit `--stemless-duet` to production show/native Faces, and keeps its CSV timeline equal to actual XSQ intervals. Goal/files/preserved behavior and test history are in the preceding entry and `evidence/beta_completion/implementation_20261105/task_log.json`. No DSP/oracle, AC wiring/color, six-member default, drummer asset, strict independent-source/pilot gate or acceptance threshold changed. No merge/release.
