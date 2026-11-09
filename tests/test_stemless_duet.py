@@ -84,3 +84,26 @@ def test_invalid_shapes_fail_before_audio_decode(value):
     shapes = np.ones((20, 2)); shapes[0, 0] = value
     with pytest.raises(ValueError, match='mouth shapes'):
         stemless_duet.estimate_duet('does-not-exist', np.ones((20, 2)), shapes, frames=20)
+
+
+def test_stemless_second_pitch_never_borrows_lead_phonemes(monkeypatch):
+    """A pitch candidate cannot manufacture harmony syllables without a backing clock."""
+    frames = 20
+    monkeypatch.setattr(stemless_duet.librosa, 'load',
+                        lambda *a, **k: (np.zeros(12000), 12000))
+    monkeypatch.setattr(stemless_duet.librosa, 'stft',
+                        lambda *a, **k: np.zeros((3, frames)))
+    pitch = np.tile([[220.], [277.18], [0.]], (1, frames))
+    mag = np.tile([[1.], [.8], [0.]], (1, frames))
+    monkeypatch.setattr(stemless_duet.librosa, 'piptrack',
+                        lambda **k: (pitch, mag))
+    energy = np.zeros((frames, 2), dtype='f4')
+    energy[:, 0] = .9
+    shapes = np.zeros((frames, 2), dtype='i2')
+    shapes[:, 0] = 2
+    result, mouth, proof = stemless_duet.estimate_duet(
+        'unused', energy, shapes, frames=frames)
+    assert np.any(result[:, 0])
+    assert not np.any(result[:, 1])
+    assert not np.any(mouth[:, 1])
+    assert proof['independent_voice_identity_proven'] is False
