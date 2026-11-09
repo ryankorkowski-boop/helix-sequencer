@@ -17,7 +17,9 @@ def source(tmp_path):
               "model_lanes": [{"name": "solo", "role": "lead", "model_lane": 0},
                               {"name": "backing", "role": "background", "model_lane": 1}]}
     (tmp_path / "voice_roles.json").write_text(json.dumps(report))
-    np.savez(tmp_path / "voice_roles.npz", energy=np.full((20, 2), .4), shapes=np.ones((20, 2), "int8"))
+    energy = np.full((20, 2), .4, dtype="float32")
+    energy[::2, 1] = .2
+    np.savez(tmp_path / "voice_roles.npz", energy=energy, shapes=np.ones((20, 2), "int8"))
     return audio, tmp_path, report
 
 
@@ -48,3 +50,12 @@ def test_duplicate_sources_cannot_pass_two_vocalist_gate(source):
     report["input_tracks"]["backing"]["duplicate_of"] = "solo"
     (folder / "voice_roles.json").write_text(json.dumps(report))
     with pytest.raises(ValueError, match="ownership"): verify(audio, folder)
+
+
+def test_copied_mouth_clocks_rejected_even_with_distinct_track_hashes(source):
+    audio, folder, _ = source
+    energy = np.full((20, 2), .4, dtype="float32")
+    shapes = np.ones((20, 2), dtype="int8")
+    np.savez(folder / "voice_roles.npz", energy=energy, shapes=shapes)
+    with pytest.raises(ValueError, match="mouth clocks are identical"):
+        verify(audio, folder)
