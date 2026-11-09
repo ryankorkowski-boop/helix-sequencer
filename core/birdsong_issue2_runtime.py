@@ -244,6 +244,10 @@ def emit_birdsong_rows(
             if strict:
                 raise
             continue
+        # Strict native proof cannot treat a legacy None callback return as
+        # evidence that an XSQ effect was actually placed.
+        if strict and result is None:
+            raise RuntimeError("Birdsong native placement callback returned no proof")
         count += _emission_count(result)
     return count
 

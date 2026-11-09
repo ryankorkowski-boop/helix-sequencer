@@ -12097,13 +12097,24 @@ def run_variant(
             log(f"Neighbor showcase placements added: {neighbor_attempts}")
 
     if not hardkor_mode:
+        # Count accepted native effect placements, not Birdsong's attempted
+        # calls. add_model may reject requests because of model/layer conflicts.
+        birdsong_accepted_rows = 0
+
+        def add_birdsong_model(*args, **kwargs):
+            nonlocal birdsong_accepted_rows
+            before = total
+            add_model(*args, **kwargs)
+            if total > before:
+                birdsong_accepted_rows += total - before
+
         birdsong_result = birdsong_engine.place_birdsong_engine(
             audio=audio,
             note_events=note_events,
             hats=hats,
             vocal_peaks=vocal_peaks,
             pools=pools,
-            add_model=add_model,
+            add_model=add_birdsong_model,
             in_blackout=in_blackout,
             rng=rng,
             enabled=bool(tuning.birdsong_enabled),
@@ -12112,12 +12123,17 @@ def run_variant(
             min_confidence=float(tuning.birdsong_min_confidence),
             profile=str(tuning.birdsong_profile),
         )
+        if tuning.birdsong_enabled and (not birdsong_result.enabled or birdsong_accepted_rows == 0):
+            raise RuntimeError(
+                "Explicit native Birdsong requested but no native effect placements were accepted: "
+                + str(birdsong_result.reason or "all placements rejected")
+            )
         if birdsong_result.timing_spans:
             birdsong_track.extend(birdsong_result.timing_spans)
         if birdsong_result.enabled:
             log(
                 "Birdsong engine placements: "
-                f"calls={birdsong_result.calls}, echos={birdsong_result.echos}, "
+                f"accepted_native_rows={birdsong_accepted_rows}, calls={birdsong_result.calls}, echos={birdsong_result.echos}, "
                 f"sweeps={birdsong_result.sweeps}, confidence={birdsong_result.confidence:.2f}, "
                 f"profile={birdsong_result.profile}"
             )

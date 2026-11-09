@@ -26,6 +26,8 @@ def verify(audio: Path, analysis: Path) -> dict:
         track = tracks.get(item.get("name"), {})
         if item.get("role") not in expected or track.get("evidence") not in {"individual", "ensemble"} or track.get("duplicate_of"):
             raise ValueError("Vocal model lanes lack independent source ownership")
+        if track.get("origin") != "recorded_isolated":
+            raise ValueError("Native approval requires explicitly recorded_isolated singer sources; model estimates, mixed buses and unspecified origins are not verified")
         fingerprints.append(track.get("sha256"))
     if any(not isinstance(value, str) or len(value) != 64 for value in fingerprints) or len(set(fingerprints)) != 2:
         raise ValueError("Duplicate or missing vocal source fingerprints")
@@ -38,9 +40,30 @@ def verify(audio: Path, analysis: Path) -> dict:
                 or np.any(shapes != np.floor(shapes)) or np.any(shapes < 0)
                 or np.any(shapes >= len(SHAPE_NAMES))):
             raise ValueError("Invalid source-bound vocal frame arrays")
+        # A mouth must be REST whenever its source lane is silent. Otherwise
+        # stale phoneme shapes can animate a singer during instrumental gaps.
+        rest = SHAPE_NAMES.index("REST")
+        if np.any((energy == 0) & (shapes != rest)):
+            raise ValueError("Silent vocal frames contain non-REST mouth shapes")
+        if np.any((energy > 0) & (shapes == rest)):
+            raise ValueError("Active vocal frames contain REST mouth shapes")
         active = np.sum((energy > 0) & (shapes != SHAPE_NAMES.index("REST")), axis=0)
     if not np.all(active > 0):
         raise ValueError("Full-band source has an empty lead/backing non-rest vocal lane; no render can repair absent source events")
+    # Distinct source fingerprints alone do not prove independent mouth clocks.
+    # A copied vocal lane can have a different file hash after re-encoding.
+    # Re-encoding, gain changes or tiny noise can make copies byte-distinct.
+    # Reject a proportional copy only when *all* active/rest decisions and
+    # mouth shapes match, with negligible normalized envelope residual.
+    lead, backing = energy[:, 0], energy[:, 1]
+    if np.array_equal(shapes[:, 0], shapes[:, 1]) and np.array_equal(lead > 0, backing > 0):
+        active_mask = lead > 0
+        if np.any(active_mask):
+            x, y = lead[active_mask].astype("float64"), backing[active_mask].astype("float64")
+            gain = float(np.dot(x, y) / max(np.dot(x, x), 1e-12))
+            residual = float(np.linalg.norm(y - gain * x) / max(np.linalg.norm(y), 1e-12))
+            if gain > 0 and residual < 1e-4:
+                raise ValueError("Lead and backing mouth clocks are identical or gain-scaled copies; independent vocal activity not demonstrated")
     return {"passed": True, "audio_sha256": digest, "frames": frames,
             "non_rest_frames": {"lead": int(active[0]), "harmony": int(active[1])},
             "limit": "Source qualification only; native output and artistic acceptance remain separate"}

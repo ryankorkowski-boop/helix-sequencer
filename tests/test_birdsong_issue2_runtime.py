@@ -349,3 +349,14 @@ def test_generate_birdsong_rows_skips_non_finite_frame_times() -> None:
     )
 
     assert rows == []
+
+
+def test_strict_birdsong_native_emission_requires_confirmed_callback():
+    import pytest
+    from core.birdsong_issue2_runtime import BirdsongSequenceRow
+    row = BirdsongSequenceRow(model="Tree", start_ms=100, end_ms=280,
+                             label="Birdsong", effect="Twinkle",
+                             motif="sparkle_field", intensity=0.8)
+    with pytest.raises(RuntimeError, match="no proof"):
+        emit_birdsong_rows([row], lambda *args, **kwargs: None, strict=True)
+    assert emit_birdsong_rows([row], lambda *args, **kwargs: True, strict=True) == 1

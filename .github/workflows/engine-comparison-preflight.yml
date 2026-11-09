@@ -1,0 +1,25 @@
+name: Engine comparison preflight #210
+on:
+  push:
+    branches:
+      - codex/engine-comparison-preflight-210
+    paths:
+      - tools/engine_comparison_preflight.py
+      - tests/test_engine_comparison_preflight.py
+      - .github/workflows/engine-comparison-preflight.yml
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install pytest
+        run: python -m pip install pytest
+      - name: Run comparison evidence tests
+        run: python -m pytest -q tests/test_engine_comparison_preflight.py

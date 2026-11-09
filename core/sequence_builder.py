@@ -244,101 +244,24 @@ def _artifact_kind(path: Path) -> str:
 
 
 def _run_birdsong_hook(config: RunConfig, engine_args: list[str] | None, ctx: RunContext) -> None:
-    """Guarded, minimal birdsong post-run adapter.
+    """Use the existing native Birdsong engine, never the synthetic sidecar.
 
-    This implementation is intentionally conservative: it runs only when the
-    engine args include an explicit birdsong-enabling flag ("--enable-birdsong").
-    It synthesizes a short demo feature-frame sequence if real per-frame audio
-    features aren't available, builds a birdsong plan using the Issue #2
-    runtime, writes a manifest into the run output, and records the manifest
-    as an artifact in the run context.
+    core.effect_engine.run_variant already calls
+    birdsong_engine.place_birdsong_engine(add_model=...) before XSQ export.
+    The canonical --birdsong flag enables that implementation. Unsupported
+    aliases must fail before an expensive run rather than claim success.
     """
     args = list(engine_args or [])
-    enabled = any(a in ("--enable-birdsong", "--birdsong", "--birdsong-enabled") for a in args)
-    if not enabled:
-        return
-
-    try:
-        from core import birdsong_issue2_runtime as birdsong
-        from core import feature_state
-    except Exception as exc:  # pragma: no cover - defensive
-        ctx.record_warning(f"birdsong: import failed: {exc}")
-        return
-
-    # Try to discover model names from provided template; fall back to a small default set.
-    template_path: Path | None = None
-    for idx, a in enumerate(args):
-        if a == "--template" and idx + 1 < len(args):
-            template_path = Path(args[idx + 1])
-            break
-
-    model_names: list[str] = []
-    if template_path is not None and template_path.exists():
-        try:
-            import xml.etree.ElementTree as ET
-
-            tree = ET.parse(template_path)
-            root = tree.getroot()
-            # Collect any element with a name attribute (models/elements)
-            seen: set[str] = set()
-            for el in root.iter():
-                name = el.get("name")
-                if name:
-                    key = name.strip()
-                    if key and key not in seen:
-                        seen.add(key)
-                        model_names.append(key)
-        except Exception:
-            model_names = []
-
-    if not model_names:
-        # Conservative default pool to allow birdsong to place some demo rows.
-        model_names = [
-            "Helix_Birdsong_Group",
-            "Mega Tree",
-            "Left Tree",
-            "Right Tree",
-            "Center Arch",
-        ]
-
-    # Build a short synthetic feature sequence (20s @ 10 fps -> 200 frames) as a demo.
-    duration_seconds = 20.0
-    fps = 10.0
-    steps = max(1, int(duration_seconds * fps))
-    import math
-
-    energy = [max(0.0, min(1.0, 0.25 + 0.6 * (0.5 + 0.5 * math.sin(2 * math.pi * (i / max(1, steps)) * 3)))) for i in range(steps)]
-    centroid = [4000.0 + 2000.0 * math.sin(2 * math.pi * (i / max(1, steps)) * 1.2) for i in range(steps)]
-
-    features = {
-        "energy": energy,
-        "centroid": centroid,
-        "tempo": 120.0,
-    }
-
-    frames = feature_state.build_feature_state_sequence(features, fps=fps)
-    if not frames:
-        ctx.record_warning("birdsong: no feature frames could be built for demo")
-        return
-
-    cfg = birdsong.BirdsongRuntimeConfig(enabled=True)
-    plan = birdsong.plan_birdsong_runtime(frames, model_names, config=cfg)
-
-    # Write manifest in the configured output root
-    try:
-        out_root = Path(config.output_root or Path("outputs"))
-    except Exception:
-        out_root = Path("outputs")
-    out_root.mkdir(parents=True, exist_ok=True)
-    manifest_path = out_root / "birdsong_runtime_manifest.json"
-    try:
-        birdsong.write_birdsong_runtime_manifest(manifest_path, frames, model_names, config=cfg)
-        ctx.record_artifact("birdsong_runtime_manifest", manifest_path)
-        # Record a short run note
-        motifs = list(plan.decision_report.motifs) if plan and plan.decision_report else []
-        ctx.record_warning(f"birdsong: generated rows={len(plan.rows)} phrases={len(plan.phrase_snapshots)} motifs={motifs}")
-    except Exception as exc:  # pragma: no cover - defensive
-        ctx.record_warning(f"birdsong: failed to write manifest: {exc}")
+    unsupported = {"--enable-birdsong", "--birdsong-enabled"}
+    if any(arg in unsupported for arg in args):
+        raise RuntimeError(
+            "Birdsong native export unavailable for alias: use --birdsong "
+            "to enable the real effect-engine placement path."
+        )
+    if "--birdsong" in args and "--no-birdsong" in args:
+        raise RuntimeError("Conflicting Birdsong flags: --birdsong and --no-birdsong")
+    if "--birdsong" in args and "--hardkor" in args:
+        raise RuntimeError("Birdsong is disabled by the hardKor AC-only profile")
 
 
 def _artifact_search_roots(config: RunConfig, version: str) -> list[Path]:
@@ -990,6 +913,9 @@ def run_profile(profile_id: str | None, engine_args: list[str] | None = None) ->
         print("Use --help for usage information.", file=sys.stderr)
         raise SystemExit(1)
 
+    # Reject unsupported Birdsong *before* doing expensive sequencing or
+    # producing an apparently successful XSQ without real Birdsong rows.
+    _run_birdsong_hook(config, engine_args, None)
     command = ["main.py", "--profile", resolved_profile_id, "--", *(engine_args or [])]
     try:
         ctx = RunManager(config).start(command=command, require_existing=False)
@@ -1083,11 +1009,6 @@ def run_profile(profile_id: str | None, engine_args: list[str] | None = None) ->
                     layout, ctx, lor_mode=lor_source is not None,
                     preview_seconds=preview_seconds,
                 )
-            # Optional birdsong post-run hook (guarded by explicit engine flag)
-            try:
-                _run_birdsong_hook(config, engine_args, ctx)
-            except Exception as exc:  # pragma: no cover - safe guard
-                print(f"birdsong: post-run hook failed: {exc}", file=sys.stderr)
         finally:
             _record_changed_artifacts(ctx, artifact_roots, artifact_snapshot)
             ctx.record_artifact("configured_output_root", config.output_root)
