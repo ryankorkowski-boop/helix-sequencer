@@ -153,8 +153,8 @@ def verify_android(outer: Path, destination: Path, source_sha: str) -> dict:
         require(status['instrumentation_exit_code'] == 0 and not status['proof_errors'],
                 'Android instrumentation proof incomplete')
         reports = read_json(artifact, 'device-proof/decoded/decoded-verification.json')
-        require(len(reports) == 4 and {r['mode'] for r in reports} ==
-                {'xlights', 'lor', 'real-rgb', 'full-song'}, 'Android decode proof incomplete')
+        require(len(reports) == 5 and {r['mode'] for r in reports} ==
+                {'xlights', 'lor', 'real-rgb', 'full-song', 'band-off'}, 'Android decode proof incomplete')
         for report in reports:
             require(report['audio_correlation'] > .97 and abs(report['audio_offset_ms']) < 5 and
                     report['max_mean_pixel_error'] < 12 and

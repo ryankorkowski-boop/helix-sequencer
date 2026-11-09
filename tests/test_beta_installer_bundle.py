@@ -23,7 +23,8 @@ def zipped(files):
 
 
 def fixture_inputs(tmp_path, *, windows_commit=SHA, android_commit=SHA, corrupt_engine=False,
-                   corrupt_windows=False, failed_decode=False):
+                   corrupt_windows=False, failed_decode=False,
+                   android_modes=('xlights', 'lor', 'real-rgb', 'full-song', 'band-off')):
     """Tiny synthetic archives test rejection contracts, not executable behavior."""
     runs = {role: {'id': i, 'run_number': i, 'run_attempt': 1, 'head_sha': SHA,
                    'path': path, 'status': 'completed', 'conclusion': 'success',
@@ -53,7 +54,7 @@ def fixture_inputs(tmp_path, *, windows_commit=SHA, android_commit=SHA, corrupt_
     report = [{'mode': mode, 'audio_correlation': .99, 'audio_offset_ms': 0,
                'max_mean_pixel_error': 2, 'minimum_expected_lit_pixels_visible': .99,
                'full_song_preview_verified': mode == 'full-song', 'duration': '237.47'}
-              for mode in ('xlights', 'lor', 'real-rgb', 'full-song')]
+              for mode in android_modes]
     if failed_decode:
         report[-1]['audio_offset_ms'] = 100
     outer_android = zipped({
@@ -131,6 +132,18 @@ def test_embedded_source_and_engine_bytes_must_match(tmp_path, kwargs, message):
         build(tmp_path, **kwargs)
     assert not (tmp_path / 'delivery').exists()
     assert not list(tmp_path.glob('helix-installers-*'))
+
+
+@pytest.mark.parametrize('modes', [
+    ('xlights', 'lor', 'real-rgb', 'full-song'),
+    ('xlights', 'lor', 'real-rgb', 'full-song', 'full-song'),
+    ('xlights', 'lor', 'real-rgb', 'band-off', 'band-off'),
+    ('xlights', 'lor', 'real-rgb', 'full-song', 'band-off', 'unknown'),
+])
+def test_android_requires_each_current_preview_mode_exactly_once(tmp_path, modes):
+    with pytest.raises(ValueError, match='Android decode proof incomplete'):
+        build(tmp_path, android_modes=modes)
+    assert not (tmp_path / 'delivery').exists()
 
 
 def test_existing_delivery_is_preserved_on_rerun(tmp_path):
