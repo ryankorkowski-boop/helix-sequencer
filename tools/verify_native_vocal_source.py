@@ -40,6 +40,13 @@ def verify(audio: Path, analysis: Path) -> dict:
                 or np.any(shapes != np.floor(shapes)) or np.any(shapes < 0)
                 or np.any(shapes >= len(SHAPE_NAMES))):
             raise ValueError("Invalid source-bound vocal frame arrays")
+        # A mouth must be REST whenever its source lane is silent. Otherwise
+        # stale phoneme shapes can animate a singer during instrumental gaps.
+        rest = SHAPE_NAMES.index("REST")
+        if np.any((energy == 0) & (shapes != rest)):
+            raise ValueError("Silent vocal frames contain non-REST mouth shapes")
+        if np.any((energy > 0) & (shapes == rest)):
+            raise ValueError("Active vocal frames contain REST mouth shapes")
         active = np.sum((energy > 0) & (shapes != SHAPE_NAMES.index("REST")), axis=0)
     if not np.all(active > 0):
         raise ValueError("Full-band source has an empty lead/backing non-rest vocal lane; no render can repair absent source events")
