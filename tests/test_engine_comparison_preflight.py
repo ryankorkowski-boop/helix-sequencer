@@ -82,3 +82,32 @@ def test_birdsong_native_hook_rejects_synthetic_data():
     with pytest.raises(RuntimeError, match="Birdsong native export unavailable"):
         _run_birdsong_hook(None, ["--enable-birdsong"], None)
     assert _run_birdsong_hook(None, [], None) is None
+
+
+
+def test_native_artifact_bytes_match_claimed_hashes(tmp_path):
+    import hashlib
+    from tools.engine_comparison_preflight import verify_local_artifacts
+
+    data = manifest()
+    for p in data["panels"]:
+        for kind in ("xsq", "fseq"):
+            payload = f"native-{p['panel']}-{kind}".encode()
+            name = f"panel-{p['panel']}.{kind}"
+            (tmp_path / name).write_bytes(payload)
+            p[f"{kind}_path"] = name
+            p[f"{kind}_sha256"] = hashlib.sha256(payload).hexdigest()
+    assert verify_local_artifacts(data, tmp_path) == []
+    (tmp_path / "panel-3.fseq").write_bytes(b"tampered")
+    assert any("bytes differ" in error for error in verify_local_artifacts(data, tmp_path))
+
+
+def test_native_artifact_traversal_is_rejected(tmp_path):
+    from tools.engine_comparison_preflight import verify_local_artifacts
+    data = manifest()
+    for p in data["panels"]:
+        p["xsq_path"] = "../outside.xsq"
+        p["fseq_path"] = "/tmp/outside.fseq"
+    errors = verify_local_artifacts(data, tmp_path)
+    assert any("unsafe xsq_path" in error for error in errors)
+    assert any("unsafe fseq_path" in error for error in errors)
