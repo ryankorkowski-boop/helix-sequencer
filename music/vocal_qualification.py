@@ -35,11 +35,30 @@ def independence_metrics(energy, shapes):
         correlation = float(np.corrcoef(x[shared], y[shared])[0, 1])
     same_activity = bool(np.array_equal(active[:, 0], active[:, 1]))
     same_shapes = bool(np.array_equal(shapes[:, 0], shapes[:, 1]))
+    shared_frames = int(shared.sum())
+    shared_shape_agreement = (float(np.count_nonzero(
+        shared & (shapes[:, 0] == shapes[:, 1])) / shared_frames)
+        if shared_frames else 0.0)
+    # Two independent people can sing in unison: neither a shared onset nor
+    # matching phonemes is sufficient to discard a real backing singer.
+    # However, near-identical frame activity, exact-like shapes AND an almost
+    # gain-scaled envelope in unverified model estimates are a strong sign of
+    # the same vocal lane copied into both faces. Account for small quantization
+    # differences which bypass the older byte-for-byte duplicate check.
+    suspicious_mirror = bool(
+        shared_frames >= 20
+        and union.sum() > 0
+        and shared_frames / union.sum() >= .985
+        and shared_shape_agreement >= .985
+        and residual <= .045
+    )
     return dict(non_rest_frames=active.sum(axis=0).astype(int).tolist(),
                 unique_active_frames=[int(np.sum(active[:, i] & ~active[:, 1-i])) for i in (0, 1)],
                 activity_jaccard=float(shared.sum()/max(1, union.sum())),
                 shared_active_envelope_correlation=correlation,
                 gain_normalized_residual=residual,
+                shared_shape_agreement=shared_shape_agreement,
+                suspicious_mirror=suspicious_mirror,
                 duplicate_clock=bool(union.any() and same_activity and same_shapes and residual < 1e-4))
 
 
@@ -76,12 +95,17 @@ def screen_candidate_lanes(energy, shapes, probabilities, *, fps=100,
     screened_shapes = np.where(active, shapes, 0).astype('i1')
     metrics = independence_metrics(screened_energy, screened_shapes)
     duplicate = metrics['duplicate_clock']
-    if duplicate:
-        # Abstain from a second singer rather than display a duplicate mouth.
+    suspicious_mirror = metrics['suspicious_mirror']
+    if duplicate or suspicious_mirror:
+        # This policy is only for estimated, unverified two-lane material.
+        # A source-verified harmony is evaluated on its own track evidence.
+        # Retain the lead and abstain from an apparent copied backing clock.
         screened_energy[:, 1] = 0
         screened_shapes[:, 1] = 0
     return screened_energy, screened_shapes, dict(
-        state='REJECTED' if duplicate else 'ESTIMATED',
+        state='REJECTED' if duplicate or suspicious_mirror else 'ESTIMATED',
+        suppression_reason=('exact_duplicate' if duplicate else
+                            'near_mirrored_estimate' if suspicious_mirror else None),
         independent_backing_verified=False, identity_confidence=None,
         policy=dict(onset=onset, offset=offset, minimum_seconds=minimum_seconds, fps=fps),
         metrics_before_duplicate_suppression=metrics,
