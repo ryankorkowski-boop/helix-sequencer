@@ -87,7 +87,7 @@ def test_estimated_vocal_source_cannot_be_promoted_to_verified_singer(source):
     audio, folder, report = source
     report["input_tracks"]["backing"]["origin"] = "model_estimate"
     (folder / "voice_roles.json").write_text(json.dumps(report))
-    with pytest.raises(ValueError, match="Model-estimated vocal candidates"):
+    with pytest.raises(ValueError, match="recorded_isolated"):
         verify(audio, folder)
 
 
