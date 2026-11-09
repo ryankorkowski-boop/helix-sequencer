@@ -63,7 +63,7 @@ class SurfaceParts:
 
 
 def add_final_native_band(garden, prefix, position, *, rock=False, stage='ember_amphitheatre', include_stage=True, mouth_scale=1.0, surface_spacing=None,
-                          include_xylophonist=False, full_keyboard=False):
+                          include_xylophonist=False, full_keyboard=False, keyboard_contacts=False):
     scene = FinalBandScene(stage, rock=rock, include_xylophonist=include_xylophonist, full_keyboard=full_keyboard)
     # Import all original canonical submodels; only this copy's world placement
     # changes. The existing physical kit and channel identities stay intact.
@@ -123,6 +123,9 @@ def add_final_native_band(garden, prefix, position, *, rock=False, stage='ember_
             side = rig['side'].upper()
             for i in tuple(rig['ids'])+tuple(rig.get('mallet_ids',())):
                 parts.primitive('ARM_'+side+'_IDLE', scene.instances[i])
+            if role=='piano' and keyboard_contacts:
+                from models.native_keyboard_contacts import add_contacts
+                add_contacts(scene,parts,rig)
             if role != 'xylophone':
                 # Two genuine addressable light poses on the same authored
                 # shoulder and fixed link lengths; do not duplicate IDLE.
@@ -175,6 +178,7 @@ def add_final_native_band(garden, prefix, position, *, rock=False, stage='ember_
             details=dict(final_band_role=role, stage=prefix, solid_surface_samples=True,
                 surface_spacing_source_units=surface_spacing,
                 pose_method='stationary addressable light poses',
+                native_keyboard_contacts=bool(role=='piano' and keyboard_contacts),
                 continuous_mesh_motion=False, wireframe_performer=False))
         # Surface sampling can quantize a passing arm and a different bar to
         # the same node. Keys own their nodes exclusively; an arm must never

@@ -15,7 +15,8 @@ VISEMES = {'AI': 'AH', 'E': 'EE', 'FV': 'FV', 'L': 'L', 'MBP': 'MBP',
 def add_band(garden, prefix='HX_SNOW', position=(0, 0, 0), *, include_xylophonist=False, full_keyboard=False):
     before = len(garden.models)
     add_final_native_band(garden, prefix, position, include_stage=False, mouth_scale=.42, surface_spacing=.08,
-                          include_xylophonist=include_xylophonist, full_keyboard=full_keyboard)
+                          include_xylophonist=include_xylophonist, full_keyboard=full_keyboard,
+                          keyboard_contacts=True)
     models = garden.models[before:]
     expected = set(ROLES) | ({'xylophone'} if include_xylophonist else set())
     if len(models) != len(expected) or {m.details['final_band_role'] for m in models} != expected:

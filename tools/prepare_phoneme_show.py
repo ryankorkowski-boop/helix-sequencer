@@ -92,6 +92,8 @@ def prepare(audio: Path, output: Path, *, expected_sha256=EXPECTED_SHA256,
         'tools/prepare_phoneme_show.py', 'tools/native_preview.py', 'tools/phoneme_vocal_export.py',
         'tools/vocal_diagnostic.py',
         'music/vocal_qualification.py', 'tools/vocal_analysis_fixture.py',
+        'tools/canonical_band_cues.py',
+        'models/native_keyboard_contacts.py',
         'tools/native_source_pose_band.py', 'xlights/xml_io.py')}
     manifest['vocal_cache_sha256'] = digest(vocal_fixture/'acoustic_vocal_clocks.npz')
     manifest['vocal_receipt_sha256'] = digest(vocal_fixture/'diagnostic.json')

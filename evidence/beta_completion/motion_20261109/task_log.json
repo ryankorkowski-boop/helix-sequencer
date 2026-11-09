@@ -1,0 +1,20 @@
+{
+  "base": "9a6ea3db9e5ba3620fc5f0f2c585257e3b7b7a37",
+  "status": "in_progress",
+  "events": [
+    {
+      "action": "Reproduce next blockers",
+      "result": "Remote branch unchanged. Haswell single-thread/padding probes still fail without tolerance changes. Native source arm export uses whole-note active intervals and always right hand for keyboard; repair planned."
+    },
+    {
+      "action": "Attack-only contact pilot",
+      "result": "19focusedtests pass; actual native real-audio render succeeds. Full-key note clocks unchanged; arm duty drops keyboard74.4%\u219237.5%,guitar73.7%\u219237.4%,bass30.2%\u219212.1%. Motion gate remains failed0.269; do not relabel pilot approved."
+    },
+    {
+      "action": "Add literal-key reachable contacts",
+      "result": "Canonical-only piano pose bank uses authored key centers, hand halves and original fixed shoulder/link lengths. Source keys outside reach remain lit without invented contact. One contact per physical hand per onset; consecutive source attacks clip prior contact, preserving sustained keys. Existing37-key scene omits292/659notes; next actual engine/native run uses existing88-key option. Unit physical/contact contracts pass before final rerun."
+    }
+  ],
+  "owner_approved": false,
+  "merge_or_release": false
+}
