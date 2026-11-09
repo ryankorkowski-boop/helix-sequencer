@@ -88,3 +88,19 @@ def test_estimated_vocal_source_cannot_be_promoted_to_verified_singer(source):
     (folder / "voice_roles.json").write_text(json.dumps(report))
     with pytest.raises(ValueError, match="Model-estimated vocal candidates"):
         verify(audio, folder)
+
+
+@pytest.mark.parametrize("energy_value,shape_value,error", [
+    (0.0, 2, "Silent vocal frames"),
+    (0.4, 0, "Active vocal frames"),
+])
+def test_silence_and_mouth_shapes_must_agree(source, energy_value, shape_value, error):
+    audio, folder, _ = source
+    energy = np.full((20, 2), .4, dtype="float32")
+    energy[::2, 1] = .2
+    shapes = np.ones((20, 2), dtype="int8")
+    energy[3, 1] = energy_value
+    shapes[3, 1] = shape_value
+    np.savez(folder / "voice_roles.npz", energy=energy, shapes=shapes)
+    with pytest.raises(ValueError, match=error):
+        verify(audio, folder)
