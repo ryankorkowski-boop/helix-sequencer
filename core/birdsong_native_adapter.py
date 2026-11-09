@@ -38,7 +38,7 @@ def place_source_birdsong(
         raise ValueError("Birdsong features do not match verified source audio")
     if not 1 <= fps <= 240:
         raise ValueError("Birdsong feature fps out of range")
-    if not features.get("energy") or not features.get("centroid"):
+    if "energy" not in features or "centroid" not in features:
         raise ValueError("Birdsong source features missing energy or centroid")
     if not models:
         raise ValueError("Birdsong has no native target models")
