@@ -17,12 +17,18 @@ def prepare(config_path,output):
         p=Path(value);return p if p.is_absolute() else base/p
     source=path(config['source_audio']);duration=float(config['duration'])
     if abs(sf.info(source).duration-duration)>.025:raise ValueError('Source excerpt duration mismatch')
-    tracks=[];hashes={}
+    tracks=[];hashes={};origins={}
     for row in config['tracks']:
         # Duplicate identifiers overwrite provenance hashes and make the
         # exported model-lane report ambiguous even for distinct stems.
         if row['name'] in hashes:
             raise ValueError(f"Duplicate vocal track name: {row['name']}")
+        origin=row.get('origin','unspecified')
+        if origin not in ('unspecified','recorded_isolated','model_estimate','mixed_bus'):
+            raise ValueError('Unknown vocal track origin')
+        if origin == 'model_estimate' and row.get('evidence') in ('individual','ensemble'):
+            raise ValueError('Model-estimated vocal candidates cannot be declared verified individual or ensemble singers')
+        origins[row['name']]=origin
         p=path(row['path']);y,sr=sf.read(p,dtype='float32',always_2d=True)
         if abs(len(y)/sr-duration)>.025:raise ValueError('Stems must use the same excerpt-local zero and duration')
         tracks.append(VoiceTrack(row['name'],y,sr,row.get('evidence','mixed'),row.get('role'),tuple(row.get('phonemes',()))))
@@ -45,6 +51,9 @@ def prepare(config_path,output):
         energy[:,slot]=lane['energy'];shapes[:,slot]=lane['shapes']
     if config.get('known_instrumental'):
         energy[:]=0;shapes[:]=0;modes[:]='silence';report['instrumental_source_guard']=True
+    for name, origin in origins.items():
+        if name in report.get('input_tracks', {}):
+            report['input_tracks'][name]['origin']=origin
     report.update(source_sha256=hashlib.sha256(source.read_bytes()).hexdigest(),stem_file_sha256=hashes,
         model_lanes=[dict(name=l['name'],role=l['role'],
                           model_lane=0 if l['role']=='lead' else 1) for l in ordered],
