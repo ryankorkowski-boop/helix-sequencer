@@ -35,12 +35,39 @@ def test_export_choice_routes_to_compatible_engine(selection, mode):
     assert app.export_format_var.get() == selection
 
 
+@pytest.mark.parametrize("output,mode,expected", [
+    ("XSQ", "Light-O-Rama", "LMS"),
+    ("Both", "Light-O-Rama", "Both"),
+    ("LMS", "xLights", "XSQ"),
+    ("Both", "xLights", "XSQ"),
+])
+def test_mode_choice_synchronizes_output_with_real_variable_callbacks(output, mode, expected):
+    interpreter = gui.tk.Tcl()
+    app = SimpleNamespace(
+        export_format_var=gui.tk.StringVar(interpreter, output),
+        sequence_mode_var=gui.tk.StringVar(interpreter, "xLights"),
+        _update_mode_ui=Mock(),
+    )
+    app.export_format_var.trace_add("write", lambda *_: gui.HelixGui._sync_export_format(app))
+    app.sequence_mode_var.trace_add("write", lambda *_: gui.HelixGui._sync_sequence_mode(app))
+    app.sequence_mode_var.set(mode)
+    assert app.sequence_mode_var.get() == mode
+    assert app.export_format_var.get() == expected
+    app._update_mode_ui.assert_called_once()
+    # Switching output back also updates mode and widgets, without recursion.
+    other_output = "XSQ" if mode == "Light-O-Rama" else "Both"
+    app.export_format_var.set(other_output)
+    assert app.export_format_var.get() == other_output
+    assert app.sequence_mode_var.get() == ("xLights" if other_output == "XSQ" else "Light-O-Rama")
+    assert app._update_mode_ui.call_count == 2
+
+
 def dual_app(tmp_path):
     interpreter = gui.tk.Tcl()
     audio, source = tmp_path / "song.wav", tmp_path / "source.lms"
     audio.touch()
     source.touch()
-    values = dict(export_format_var="Both", sequence_mode_var="xLights", variants_var=1,
+    values = dict(export_format_var="Both", sequence_mode_var="Light-O-Rama", variants_var=1,
                   audio_var=str(audio), lor_source_var=str(source), template_var="", layout_var="",
                   output_var=str(tmp_path / "out"), profile_var="master",
                   lor_compatible_var=False, ac_on_only_var=False, generate_mp4_var=False,

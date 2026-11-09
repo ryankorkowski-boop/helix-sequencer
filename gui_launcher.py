@@ -173,7 +173,7 @@ class HelixGui(tk.Tk):
             values=["XSQ", "LMS", "Both"], state="readonly", width=12,
         ).grid(row=0, column=3, sticky="w", **pad)
         self.export_format_var.trace_add("write", lambda *_a: self._sync_export_format())
-        self.sequence_mode_var.trace_add("write", lambda *_a: self._update_mode_ui())
+        self.sequence_mode_var.trace_add("write", lambda *_a: self._sync_sequence_mode())
 
         ttk.Label(top, text="Layout Preset").grid(row=1, column=0, sticky="w", **pad)
         preset_combo = ttk.Combobox(
@@ -353,7 +353,20 @@ class HelixGui(tk.Tk):
     def _sync_export_format(self) -> None:
         """Map supported choices onto the existing sequencer modes."""
         selected = self.export_format_var.get()
-        self.sequence_mode_var.set("Light-O-Rama" if selected in {"LMS", "Both"} else "xLights")
+        mode = "Light-O-Rama" if selected in {"LMS", "Both"} else "xLights"
+        if self.sequence_mode_var.get() != mode:
+            self.sequence_mode_var.set(mode)
+
+    def _sync_sequence_mode(self) -> None:
+        """Keep the output choice consistent with the user's selected mode."""
+        selected = self.export_format_var.get()
+        if self.sequence_mode_var.get() == "Light-O-Rama":
+            output = selected if selected in {"LMS", "Both"} else "LMS"
+        else:
+            output = "XSQ"
+        if selected != output:
+            self.export_format_var.set(output)
+        self._update_mode_ui()
 
     def _update_mode_ui(self) -> None:
         lor = self.sequence_mode_var.get() == "Light-O-Rama"
@@ -586,10 +599,6 @@ class HelixGui(tk.Tk):
     def _run_sequence(self) -> None:
         if self._busy:
             return
-        selected = self.export_format_var.get()
-        expected_mode = "Light-O-Rama" if selected in {"LMS", "Both"} else "xLights"
-        if self.sequence_mode_var.get() != expected_mode:
-            self.sequence_mode_var.set(expected_mode)
         lor_mode = self.sequence_mode_var.get() == "Light-O-Rama"
         rgb_enabled = not (lor_mode or self.lor_compatible_var.get() or self.ac_on_only_var.get())
         try:
