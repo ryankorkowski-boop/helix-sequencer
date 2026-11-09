@@ -1,0 +1,28 @@
+{
+  "schema": "helix.scoped-export-identity.v1",
+  "render_source_commit": "1900958577898a1764ce317a3c63666c86b3a853",
+  "scope_correction_commit": "c80cbbda36aa8c6ed0bd91b8a74f5a9937f21985",
+  "canonicalization": "ElementTreeC14N2;allattributes/elements/valuesretained",
+  "shows": [
+    {
+      "rendered_show": "ac256-transparent",
+      "final_export_show": "ac256-final",
+      "xsq_byte_identical": true,
+      "layout_byte_identical": false,
+      "layout_xml_semantically_identical": true,
+      "layout_canonical_sha256": "beba0dea8c3059ba772e63cf768711768dd79bf451a570a87cadd237b7b4fd44",
+      "difference": "XMLattributeorderingonly",
+      "rerender_necessary": false
+    },
+    {
+      "rendered_show": "rgb-transparent/06_Modern_Pixel_House",
+      "final_export_show": "rgb-final/06_Modern_Pixel_House",
+      "xsq_byte_identical": true,
+      "layout_byte_identical": false,
+      "layout_xml_semantically_identical": true,
+      "layout_canonical_sha256": "5ad536df6f3a6fcf4c2d6b46117aeaae686bcef1d75348db178ca83f1e383381",
+      "difference": "XMLattributeorderingonly",
+      "rerender_necessary": false
+    }
+  ]
+}

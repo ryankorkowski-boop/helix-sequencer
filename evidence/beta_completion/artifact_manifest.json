@@ -1,6 +1,6 @@
 {
   "schema": "helix.beta-artifacts.v1",
-  "updated_at": "2026-11-09T02:20:07.917874+00:00",
+  "updated_at": "2026-11-09T03:19:03.045592+00:00",
   "requested_count": 9,
   "verified_count": 0,
   "artifacts": [
@@ -1355,59 +1355,11 @@
     "render_implementation_commit": "d1567b74b341efff5a30a28bec272c7d5c377406"
   },
   "active_delivery": {
-    "implementation_commit": "ed581cd440a673bd69f40b97f071a03b109a3085",
-    "source_commit_of_apps": "35bf41ae27dc3fc7278c3af100401cf63fecf3e0",
-    "native_run": {
-      "id": 42060667368,
-      "status": "in_progress",
-      "last_observed_step": "Validate and restore native renderer runtime",
-      "checked_at": "2026-11-05T16:08:21Z"
-    },
-    "tests": {
-      "default_bounded_and_ac": 21,
-      "preview_and_ac": 11,
-      "source_geometry_vocals_pilot_mapping": 22,
-      "haswell_bounded": {
-        "passed": 8,
-        "failed": 4,
-        "unchanged_entropy_tolerance": 1e-07
-      }
-    },
-    "delivered_apps": [
-      {
-        "filename": "HELIX_WINDOWS_BETA_CANDIDATE_35bf41a.zip",
-        "library_file_id": "libfile_625ff3ceb7488191bb15e8ed9bcf8c51",
-        "sha256": "c902eecddf47b414bc5dfc8a538c3101cc7492cbc06d40be11d52405b78dc118"
-      },
-      {
-        "filename": "HELIX_ANDROID_BETA_REVIEW_35bf41a.apk",
-        "library_file_id": "libfile_14d6aec58c008191865dac5af26a61cc",
-        "sha256": "e29f3d9acb401ad5cfb2c4c71db253460d6fe44f3b104a0ef53117499e4f64f3"
-      }
-    ],
-    "recovery_archive": {
-      "library_file_id": "libfile_94e636d47790819182793f0a0ac911c8",
-      "sha256": "e95c8ef0829d5d0d8335d75f938e99751afe8b2a23cb00816f3319351a97e618"
-    },
-    "evidence_report": {
-      "library_file_id": "libfile_8b4e24e7b4bc8191b05c36bd79813528"
-    },
-    "approval_zip": null,
-    "comparison16": null,
-    "qualified_current_mp4_count": 0,
-    "external_source_blocker": "Owner has no isolated lead/harmony sources or verified transcripts (retained reconciliation checkpoint); connected Drive vocal/harmony/stem searches return no separate sources. Existing mixed-bus separation is explicitly unqualified. Do not fabricate singer identity or pilot acceptance.",
-    "remaining_code_gates": [
-      "Haswell bounded chroma 4 precision failures",
-      "Source-front continuous canonical native/reference qualification",
-      "Failed prior native readability/motion; new AC result not yet known"
-    ],
-    "resume_command": "cd /workspace/scratch/2767c34bf8f0/helix-sequencer && OPENBLAS_CORETYPE=Haswell OPENBLAS_NUM_THREADS=2 /workspace/scratch/2767c34bf8f0/venv/bin/python -m pytest -q tests/test_bounded_audio.py",
-    "next_connector_action": {
-      "tool": "github.fetch_workflow_run_jobs",
-      "repo_full_name": "ryankorkowski-boop/helix-sequencer",
-      "run_id": 42060667368
-    },
-    "no_merge_or_release": true
+    "implementation_commit": "c80cbbda36aa8c6ed0bd91b8a74f5a9937f21985",
+    "actual_mp4_files": 2,
+    "qualified_for_frozen_nine_count": 0,
+    "delivery": "evidence/beta_completion/composition_20261109/delivery.json",
+    "final_zip": null
   },
   "historical_artifacts_note": "Top-level nine-file artifacts/counts describe the retained30October collection rejected by owner; current task has one fresh twelve-layout comparison under active_delivery. No old footage promoted.",
   "latest_actions_validation": [
@@ -1815,11 +1767,101 @@
     "implementation_commit": "a9beaa7c9be89fffc21a856e033bf75a3136c29b"
   },
   "composition_20261109": {
-    "base_commit": "d00c2e4dbbfb60379da030a2780b14bff57f7303",
-    "status": "implemented_focused_verified_native_running",
+    "implementation_commit": "c80cbbda36aa8c6ed0bd91b8a74f5a9937f21985",
+    "status": "partial_delivery_acceptance_held",
+    "actual_mp4_files": 2,
+    "automated_media_pass_count": 1,
+    "qualified_for_frozen_nine_count": 0,
+    "files": [
+      {
+        "layout": "RGB",
+        "url": "https://drive.google.com/file/d/1whRSdSwDlT3kJVqNy9yFHWv1JMcsXKB6/view",
+        "sha256": "e3fb61d74a174a16e6cd3afac4d460339c5021cc0b192d122ba2882cbb9ab3c1",
+        "bytes": 24915291,
+        "automated_status": "PASS",
+        "musical_and_owner_acceptance": "UNVERIFIED",
+        "qualified_for_frozen_nine": false,
+        "source_commit": "1900958577898a1764ce317a3c63666c86b3a853",
+        "compatible_scoped_implementation": "c80cbbda36aa8c6ed0bd91b8a74f5a9937f21985",
+        "source_identity_receipt": "scoped_export_identity.json",
+        "source_audio": "Phoneme_Test_Hook.mp3",
+        "source_audio_sha256": "19e90c273d0d747938f24b36586b50818c104cddffbefe4a4128927374301938",
+        "native_xlights": "2026.18",
+        "dimensions": [
+          1920,
+          1080
+        ],
+        "fps": "20/1",
+        "report": "evidence/beta_completion/composition_20261109/rgb_transparent_candidate.json"
+      },
+      {
+        "layout": "Original AC256",
+        "url": "https://drive.google.com/file/d/1uK1RjEKYBC_W38-WCv5gfAmfQtutYTZJ/view",
+        "sha256": "5ad029d27208d60f06378192e1f7f928c5f2eecebf23cca6996d74ab5b978526",
+        "bytes": 14392089,
+        "automated_status": "FAIL",
+        "musical_and_owner_acceptance": "UNVERIFIED",
+        "qualified_for_frozen_nine": false,
+        "source_commit": "1900958577898a1764ce317a3c63666c86b3a853",
+        "compatible_scoped_implementation": "c80cbbda36aa8c6ed0bd91b8a74f5a9937f21985",
+        "source_identity_receipt": "scoped_export_identity.json",
+        "source_audio": "Phoneme_Test_Hook.mp3",
+        "source_audio_sha256": "19e90c273d0d747938f24b36586b50818c104cddffbefe4a4128927374301938",
+        "native_xlights": "2026.18",
+        "dimensions": [
+          1920,
+          1080
+        ],
+        "fps": "20/1",
+        "report": "evidence/beta_completion/composition_20261109/ac256_transparent_candidate.json"
+      }
+    ],
+    "source_archive": {
+      "id": "16oS9PYd0vKDjkqvsOW8wz4lROeC-fpdg",
+      "url": "https://drive.google.com/file/d/16oS9PYd0vKDjkqvsOW8wz4lROeC-fpdg/view?usp=drivesdk",
+      "name": "HELIX_NATIVE_SOURCE_AND_VERIFICATION_20261109.zip",
+      "bytes": 4736837,
+      "sha256": "23292391ce8dc4df303ceec5d7ab71664c4be0b6edfb640bc78b426d3fde7d36",
+      "download_readback_hash_matches": true,
+      "shared": false,
+      "final_nine_package": false
+    },
+    "final_suites": {
+      "311": {
+        "passed": 2353,
+        "subtests_passed": 24,
+        "skipped": 6,
+        "failures": 0,
+        "errors": 0,
+        "junit": "evidence/beta_completion/composition_20261109/repaired_python311.xml",
+        "root_preview_passed": 3,
+        "source_commit": "c80cbbda36aa8c6ed0bd91b8a74f5a9937f21985",
+        "backend": "default",
+        "status": "PASS"
+      },
+      "312": {
+        "passed": 2353,
+        "subtests_passed": 24,
+        "skipped": 6,
+        "failures": 0,
+        "errors": 0,
+        "junit": "evidence/beta_completion/composition_20261109/repaired_python312.xml",
+        "root_preview_passed": 3,
+        "source_commit": "c80cbbda36aa8c6ed0bd91b8a74f5a9937f21985",
+        "backend": "default",
+        "status": "PASS"
+      }
+    },
+    "haswell312": {
+      "passed": 8,
+      "failed": 4,
+      "status": "FAIL",
+      "tolerance_unchanged": true,
+      "junit": "evidence/beta_completion/composition_20261109/haswell312.xml"
+    },
     "task_log": "evidence/beta_completion/composition_20261109/task_log.json",
-    "qualified_mp4_count": 0,
-    "render_directory": "/workspace/helix-output/ac256",
-    "owner_approval": false
+    "delivery": "evidence/beta_completion/composition_20261109/delivery.json",
+    "owner_approved": false,
+    "resume_command": "cd /workspace/helix-sequencer && OPENBLAS_NUM_THREADS=2 /workspace/helix-venv/bin/python -m evidence.beta_completion.composition_20261109.verify_candidates"
   }
 }

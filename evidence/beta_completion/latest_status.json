@@ -1,11 +1,11 @@
 {
   "schema": "helix.beta-completion.v1",
-  "updated_at": "2026-11-09T02:20:07.915374+00:00",
+  "updated_at": "2026-11-09T03:19:03.045592+00:00",
   "repository": "https://github.com/ryankorkowski-boop/helix-sequencer",
   "branch": "codex/eight-hour-recovery-20261019",
   "recovered_head": "45f17d69fac91d7683984cc22c54bb701eb2226e",
-  "last_verified_implementation_sha": "a9beaa7c9be89fffc21a856e033bf75a3136c29b",
-  "current_task": "PR188-COMPILE-STEMLESS-INTEGRATION",
+  "last_verified_implementation_sha": "c80cbbda36aa8c6ed0bd91b8a74f5a9937f21985",
+  "current_task": "PR188-SOURCE-AND-NATIVE-COMPOSITION-REPAIR",
   "tasks": [
     {
       "id": "REC-01",
@@ -1980,39 +1980,173 @@
   "implementation_log": "evidence/beta_completion/implementation_20261105/task_log.json",
   "qualified_approval_mp4_count": 0,
   "current_execution": {
-    "source_worktree_dirty": false,
-    "compile": "passed",
-    "focused_tests": 48,
-    "native_guard_tests": 83,
-    "native_guard_subtests": 10,
-    "bounded_audio_default_tests": 12,
-    "engine_exit_code": 0,
-    "engine_effects": 13612,
-    "native_render": "native_export_verified_motion_failed",
-    "owner_approval": false,
-    "bounded_audio_haswell": {
+    "implementation_commit": "c80cbbda36aa8c6ed0bd91b8a74f5a9937f21985",
+    "full_suites": {
+      "311": {
+        "passed": 2353,
+        "subtests_passed": 24,
+        "skipped": 6,
+        "failures": 0,
+        "errors": 0,
+        "junit": "evidence/beta_completion/composition_20261109/repaired_python311.xml",
+        "root_preview_passed": 3,
+        "source_commit": "c80cbbda36aa8c6ed0bd91b8a74f5a9937f21985",
+        "backend": "default",
+        "status": "PASS"
+      },
+      "312": {
+        "passed": 2353,
+        "subtests_passed": 24,
+        "skipped": 6,
+        "failures": 0,
+        "errors": 0,
+        "junit": "evidence/beta_completion/composition_20261109/repaired_python312.xml",
+        "root_preview_passed": 3,
+        "source_commit": "c80cbbda36aa8c6ed0bd91b8a74f5a9937f21985",
+        "backend": "default",
+        "status": "PASS"
+      }
+    },
+    "actual_native_mp4_files": 2,
+    "rgb_automated_media_status": "PASS",
+    "ac_automated_media_status": "FAIL",
+    "qualified_approval_mp4_count": 0,
+    "haswell312": {
       "passed": 8,
       "failed": 4,
-      "tolerance_unchanged": true
+      "status": "FAIL",
+      "tolerance_unchanged": true,
+      "junit": "evidence/beta_completion/composition_20261109/haswell312.xml"
     },
-    "full_python312": {
-      "passed": 2349,
-      "skipped": 6,
-      "subtests_passed": 24,
-      "seconds": 334.27
-    },
-    "native_run_id": 42151760898,
-    "native_artifact_id": 13473241277,
-    "readability_passed": false,
-    "native_motion": 0.372,
-    "required_native_motion": 0.65
+    "owner_approval": false,
+    "delivery": "evidence/beta_completion/composition_20261109/delivery.json"
   },
   "composition_20261109": {
-    "base_commit": "d00c2e4dbbfb60379da030a2780b14bff57f7303",
-    "status": "implemented_focused_verified_native_running",
+    "implementation_commit": "c80cbbda36aa8c6ed0bd91b8a74f5a9937f21985",
+    "status": "partial_delivery_acceptance_held",
+    "actual_mp4_files": 2,
+    "automated_media_pass_count": 1,
+    "qualified_for_frozen_nine_count": 0,
+    "files": [
+      {
+        "layout": "RGB",
+        "url": "https://drive.google.com/file/d/1whRSdSwDlT3kJVqNy9yFHWv1JMcsXKB6/view",
+        "sha256": "e3fb61d74a174a16e6cd3afac4d460339c5021cc0b192d122ba2882cbb9ab3c1",
+        "bytes": 24915291,
+        "automated_status": "PASS",
+        "musical_and_owner_acceptance": "UNVERIFIED",
+        "qualified_for_frozen_nine": false,
+        "source_commit": "1900958577898a1764ce317a3c63666c86b3a853",
+        "compatible_scoped_implementation": "c80cbbda36aa8c6ed0bd91b8a74f5a9937f21985",
+        "source_identity_receipt": "scoped_export_identity.json",
+        "source_audio": "Phoneme_Test_Hook.mp3",
+        "source_audio_sha256": "19e90c273d0d747938f24b36586b50818c104cddffbefe4a4128927374301938",
+        "native_xlights": "2026.18",
+        "dimensions": [
+          1920,
+          1080
+        ],
+        "fps": "20/1",
+        "report": "evidence/beta_completion/composition_20261109/rgb_transparent_candidate.json"
+      },
+      {
+        "layout": "Original AC256",
+        "url": "https://drive.google.com/file/d/1uK1RjEKYBC_W38-WCv5gfAmfQtutYTZJ/view",
+        "sha256": "5ad029d27208d60f06378192e1f7f928c5f2eecebf23cca6996d74ab5b978526",
+        "bytes": 14392089,
+        "automated_status": "FAIL",
+        "musical_and_owner_acceptance": "UNVERIFIED",
+        "qualified_for_frozen_nine": false,
+        "source_commit": "1900958577898a1764ce317a3c63666c86b3a853",
+        "compatible_scoped_implementation": "c80cbbda36aa8c6ed0bd91b8a74f5a9937f21985",
+        "source_identity_receipt": "scoped_export_identity.json",
+        "source_audio": "Phoneme_Test_Hook.mp3",
+        "source_audio_sha256": "19e90c273d0d747938f24b36586b50818c104cddffbefe4a4128927374301938",
+        "native_xlights": "2026.18",
+        "dimensions": [
+          1920,
+          1080
+        ],
+        "fps": "20/1",
+        "report": "evidence/beta_completion/composition_20261109/ac256_transparent_candidate.json"
+      }
+    ],
+    "source_archive": {
+      "id": "16oS9PYd0vKDjkqvsOW8wz4lROeC-fpdg",
+      "url": "https://drive.google.com/file/d/16oS9PYd0vKDjkqvsOW8wz4lROeC-fpdg/view?usp=drivesdk",
+      "name": "HELIX_NATIVE_SOURCE_AND_VERIFICATION_20261109.zip",
+      "bytes": 4736837,
+      "sha256": "23292391ce8dc4df303ceec5d7ab71664c4be0b6edfb640bc78b426d3fde7d36",
+      "download_readback_hash_matches": true,
+      "shared": false,
+      "final_nine_package": false
+    },
+    "final_suites": {
+      "311": {
+        "passed": 2353,
+        "subtests_passed": 24,
+        "skipped": 6,
+        "failures": 0,
+        "errors": 0,
+        "junit": "evidence/beta_completion/composition_20261109/repaired_python311.xml",
+        "root_preview_passed": 3,
+        "source_commit": "c80cbbda36aa8c6ed0bd91b8a74f5a9937f21985",
+        "backend": "default",
+        "status": "PASS"
+      },
+      "312": {
+        "passed": 2353,
+        "subtests_passed": 24,
+        "skipped": 6,
+        "failures": 0,
+        "errors": 0,
+        "junit": "evidence/beta_completion/composition_20261109/repaired_python312.xml",
+        "root_preview_passed": 3,
+        "source_commit": "c80cbbda36aa8c6ed0bd91b8a74f5a9937f21985",
+        "backend": "default",
+        "status": "PASS"
+      }
+    },
+    "haswell312": {
+      "passed": 8,
+      "failed": 4,
+      "status": "FAIL",
+      "tolerance_unchanged": true,
+      "junit": "evidence/beta_completion/composition_20261109/haswell312.xml"
+    },
     "task_log": "evidence/beta_completion/composition_20261109/task_log.json",
-    "qualified_mp4_count": 0,
-    "render_directory": "/workspace/helix-output/ac256",
-    "owner_approval": false
+    "delivery": "evidence/beta_completion/composition_20261109/delivery.json",
+    "owner_approved": false,
+    "resume_command": "cd /workspace/helix-sequencer && OPENBLAS_NUM_THREADS=2 /workspace/helix-venv/bin/python -m evidence.beta_completion.composition_20261109.verify_candidates"
+  },
+  "historical_before_composition_20261109": {
+    "current_execution": {
+      "source_worktree_dirty": false,
+      "compile": "passed",
+      "focused_tests": 48,
+      "native_guard_tests": 83,
+      "native_guard_subtests": 10,
+      "bounded_audio_default_tests": 12,
+      "engine_exit_code": 0,
+      "engine_effects": 13612,
+      "native_render": "native_export_verified_motion_failed",
+      "owner_approval": false,
+      "bounded_audio_haswell": {
+        "passed": 8,
+        "failed": 4,
+        "tolerance_unchanged": true
+      },
+      "full_python312": {
+        "passed": 2349,
+        "skipped": 6,
+        "subtests_passed": 24,
+        "seconds": 334.27
+      },
+      "native_run_id": 42151760898,
+      "native_artifact_id": 13473241277,
+      "readability_passed": false,
+      "native_motion": 0.372,
+      "required_native_motion": 0.65
+    }
   }
 }

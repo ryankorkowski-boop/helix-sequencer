@@ -1,0 +1,20 @@
+[
+  {
+    "name": "native-renderer.zip",
+    "bytes": 32496267,
+    "sha256": "a7bbe02770f9d77ec30eadd8340994dfd235f689775c3b0834f9c283de4d161b",
+    "status": "extracted_runtime_retained_archive_removed_for_disk"
+  },
+  {
+    "name": "native-wx.zip",
+    "bytes": 8931745,
+    "sha256": "203d453b4f1d5c7a4dafb474208cb47af907c6f3db43d8977c7b4402790f6424",
+    "status": "extracted_runtime_retained_archive_removed_for_disk"
+  },
+  {
+    "name": "xLights-2026.18.AppImage",
+    "bytes": 130521592,
+    "sha256": "62affb88b9a9b03cf5164974ac69bcefe35c559719d157b3364e4d4a5ab4214b",
+    "status": "extracted_runtime_retained_archive_removed_for_disk"
+  }
+]

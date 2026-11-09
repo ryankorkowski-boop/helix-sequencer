@@ -1,0 +1,62 @@
+{
+  "file": "preview.mp4",
+  "sha256": "6f66a0079a3fb8ad600c0502aef963f8e11dfcb0ca78db5e52f6833daa712923",
+  "bytes": 21461550,
+  "native_xlights": true,
+  "dimensions": [
+    1920,
+    1080
+  ],
+  "fps": "20/1",
+  "frames": "698",
+  "video_duration": 34.9,
+  "audio_duration": 34.88,
+  "full_decode": true,
+  "original_soundtrack_correlation": 0.9968081439606467,
+  "audio_start_time": 0.0,
+  "video_start_time": 0.0,
+  "readability": {
+    "schema": "helix.showcase_readability.v1",
+    "frames": 70,
+    "sample_fps": 2,
+    "thresholds": {
+      "median_luma": 12.0,
+      "median_bright_fraction": 0.012,
+      "median_motion": 0.65,
+      "min_visible_width": 0.4,
+      "min_visible_height": 0.35
+    },
+    "measurements": {
+      "median_luma": 10.951,
+      "median_bright_fraction": 0.05584,
+      "median_motion": 7.133,
+      "visible_width": 0.812,
+      "visible_height": 0.6
+    },
+    "checks": {
+      "visible_stage_width": true,
+      "visible_stage_height": true,
+      "median_stage_luminance": false,
+      "bright_stage_area": true,
+      "visible_stage_motion": true
+    },
+    "passed": false,
+    "note": "Quantitative visibility gate only; no artistic, musical or source classification approval"
+  },
+  "status": "FAIL",
+  "owner_approved": false,
+  "musical_or_owner_acceptance": "UNVERIFIED",
+  "source_commit": "c15bed4a97dd50a6affa68588b4622a219fd9761",
+  "source_audio_filename": "Phoneme_Test_Hook.mp3",
+  "source_audio_sha256": "19e90c273d0d747938f24b36586b50818c104cddffbefe4a4128927374301938",
+  "xsq_sha256": "da77aa337d0cc72d5539000158c29705112baa517015c1801411fa33353814f4",
+  "fseq_sha256": "9c335b46b108034649a9a69d4bb614989e9a9640c8e7f71144b6d94b2d956692",
+  "native_version": "2026.18",
+  "native_directory": "/workspace/helix-output/rgb/06_Modern_Pixel_House",
+  "limitations": [
+    "Independent acoustic lead/harmony ownership and lexical phoneme truth unqualified",
+    "Native20fps source clock;30fps not exercised",
+    "Existing modern pixel house; no arbitrary new layout scope"
+  ],
+  "workflow_url": null
+}

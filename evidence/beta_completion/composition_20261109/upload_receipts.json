@@ -1,0 +1,30 @@
+{
+  "folder": {
+    "success": true,
+    "id": "1uV3Y5PB24iaqi7kJd0Oo3jq11Nxkvqt8",
+    "url": "https://drive.google.com/drive/folders/1uV3Y5PB24iaqi7kJd0Oo3jq11Nxkvqt8",
+    "title": "Helix Native Repair Review 2026-11-09",
+    "parent_id": null
+  },
+  "files": [
+    {
+      "id": "1whRSdSwDlT3kJVqNy9yFHWv1JMcsXKB6",
+      "url": "https://drive.google.com/file/d/1whRSdSwDlT3kJVqNy9yFHWv1JMcsXKB6/view?usp=drivesdk",
+      "name": "HELIX_RGB_NATIVE_UNAPPROVED_1900958.mp4",
+      "mime_type": "video/mp4",
+      "parent_id": "1uV3Y5PB24iaqi7kJd0Oo3jq11Nxkvqt8"
+    },
+    {
+      "id": "1uK1RjEKYBC_W38-WCv5gfAmfQtutYTZJ",
+      "url": "https://drive.google.com/file/d/1uK1RjEKYBC_W38-WCv5gfAmfQtutYTZJ/view?usp=drivesdk",
+      "name": "HELIX_AC256_NATIVE_DIAGNOSTIC_1900958.mp4",
+      "mime_type": "video/mp4",
+      "parent_id": "1uV3Y5PB24iaqi7kJd0Oo3jq11Nxkvqt8"
+    }
+  ],
+  "site_upload_failure": {
+    "status": 401,
+    "message": "Sign in to upload clips.",
+    "method": "POST /api/files?kind=evidence; supported service token does not supply signed-in clip ownership; no access or credentials changed"
+  }
+}

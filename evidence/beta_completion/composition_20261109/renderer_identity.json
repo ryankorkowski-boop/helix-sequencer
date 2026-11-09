@@ -1,0 +1,8 @@
+{
+  "upstream_commit": "839c0f590dc454bb7adb8a16c4dd92a70b46156e",
+  "source_commit": "a9beaa7c9be89fffc21a856e033bf75a3136c29b",
+  "patch_sha256": "93bedae81caefda745034651994a16b2d127079a5af784013109becfb428566b",
+  "original_binary_sha256": "b811870522f2820f2791c301b11725322fc3b8b1e496273962f552955288a841",
+  "stripped_binary_sha256": "5d9a5e84defa945877fee0c7fae0b8f5344c0df3f3e72b2cf5238d3014ef2819",
+  "libraries": "native-runtime-libraries.log; retain pinned2026.18 resources and compatible wxWidgets"
+}

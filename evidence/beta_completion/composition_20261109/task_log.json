@@ -33,8 +33,8 @@
     }
   ],
   "approval_count": 0,
-  "status": "scoped_repairs_verified_final_matrices_pending",
-  "next_command": "OPENBLAS_NUM_THREADS=2 OMP_NUM_THREADS=2 /workspace/helix-venv/bin/python -m pytest -q tests/",
+  "status": "repairs_verified_partial_delivery_acceptance_held",
+  "next_command": "cd /workspace/helix-sequencer && OPENBLAS_NUM_THREADS=2 /workspace/helix-venv/bin/python -m evidence.beta_completion.composition_20261109.verify_candidates",
   "changed_modules": [
     "tools/source_role_routing.py",
     "tools/source_spatial_direction.py",
@@ -49,7 +49,7 @@
     "real_audio_routing": "real_audio_routing.json",
     "new_native": "running_no_mp4_claim"
   },
-  "updated_at": "2026-11-09T02:20:07.906794+00:00",
+  "updated_at": "2026-11-09T03:19:03.045592+00:00",
   "native_occlusion_root_cause": {
     "path": "tools/build_helpers/ultimate_showcase.py:model_xml",
     "upstream": "xLights839c0f590dc454bb7adb8a16c4dd92a70b46156e src-core/models/Model.cpp:3064,3373;Model.h:333",
@@ -74,5 +74,34 @@
     "haswell312": "4fail/8pass,unchanged1e-7;notfixedhere",
     "ac_visibility": "FAILretained",
     "site_clip_upload": "401Signintouploadclips;Drivefallbackverified"
-  }
+  },
+  "implementation_commit": "c80cbbda36aa8c6ed0bd91b8a74f5a9937f21985",
+  "final_suites": {
+    "311": {
+      "passed": 2353,
+      "subtests_passed": 24,
+      "skipped": 6,
+      "failures": 0,
+      "errors": 0,
+      "junit": "evidence/beta_completion/composition_20261109/repaired_python311.xml",
+      "root_preview_passed": 3,
+      "source_commit": "c80cbbda36aa8c6ed0bd91b8a74f5a9937f21985",
+      "backend": "default",
+      "status": "PASS"
+    },
+    "312": {
+      "passed": 2353,
+      "subtests_passed": 24,
+      "skipped": 6,
+      "failures": 0,
+      "errors": 0,
+      "junit": "evidence/beta_completion/composition_20261109/repaired_python312.xml",
+      "root_preview_passed": 3,
+      "source_commit": "c80cbbda36aa8c6ed0bd91b8a74f5a9937f21985",
+      "backend": "default",
+      "status": "PASS"
+    }
+  },
+  "delivery": "evidence/beta_completion/composition_20261109/delivery.json",
+  "work_in_progress": "No render or test running. Remaining vocals/parity worker source not available remotely; AC visibility and canonical/source qualifications remain open."
 }
