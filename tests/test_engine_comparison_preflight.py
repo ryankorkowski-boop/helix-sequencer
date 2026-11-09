@@ -12,7 +12,10 @@ def manifest():
     }
     return {"panels": [
         {**shared, "panel": i, "xsq_sha256": f"{i:064x}",
-         "fseq_sha256": f"{i+100:064x}", "birdsong_enabled": False}
+         "fseq_sha256": f"{i+100:064x}",
+         "birdsong_enabled": i in (9, 15, 16),
+         "birdsong_native_rows": 1 if i in (9, 15, 16) else 0,
+         "birdsong_real_features_verified": i in (9, 15, 16)}
         for i in range(1, 17)
     ]}
 
@@ -119,3 +122,10 @@ def test_unordered_panel_cannot_bypass_frozen_field_validation():
     data["panels"][0]["camera_id"] = "changed-camera"
     errors = validate_comparison_manifest(data)
     assert any("differs in frozen field camera_id" in e for e in errors)
+
+
+def test_required_birdsong_cannot_be_silently_disabled():
+    data = manifest()
+    data["panels"][8]["birdsong_enabled"] = False
+    assert any("required Birdsong engine is disabled" in error
+               for error in validate_comparison_manifest(data))
