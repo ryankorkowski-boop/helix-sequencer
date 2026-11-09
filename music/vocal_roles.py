@@ -93,6 +93,12 @@ def route_voices(tracks: list[VoiceTrack], *, duration: float, fps: int = 20):
             shape[mask] = SHAPE_NAMES.index(name)
             energy[mask] = np.maximum(energy[mask], .45 if name != 'REST' else 0)
             if name == 'REST': energy[mask] = 0
+        # Source silence wins over a stale shape sampled from a neighboring
+        # 10 ms analysis frame. Conversely, a REST shape cannot drive a
+        # nonzero performer envelope. Preserve genuine verified consonant
+        # cues, which already assign nonzero energy above.
+        shape[energy <= 0] = SHAPE_NAMES.index('REST')
+        energy[shape == SHAPE_NAMES.index('REST')] = 0
         clocks[track.name] = (energy, shape)
         waves[track.name] = wave
         accepted.append(track.name)
