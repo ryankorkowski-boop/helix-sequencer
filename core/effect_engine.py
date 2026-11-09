@@ -12112,6 +12112,11 @@ def run_variant(
             min_confidence=float(tuning.birdsong_min_confidence),
             profile=str(tuning.birdsong_profile),
         )
+        if tuning.birdsong_enabled and not birdsong_result.enabled:
+            raise RuntimeError(
+                "Explicit native Birdsong requested but no effects could be placed: "
+                + str(birdsong_result.reason)
+            )
         if birdsong_result.timing_spans:
             birdsong_track.extend(birdsong_result.timing_spans)
         if birdsong_result.enabled:
