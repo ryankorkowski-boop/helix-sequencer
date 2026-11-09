@@ -1,0 +1,52 @@
+from copy import deepcopy
+
+from tools.engine_comparison_preflight import validate_comparison_manifest
+
+
+def manifest():
+    shared = {
+        "audio_sha256": "a" * 64, "layout_sha256": "b" * 64,
+        "camera_id": "front", "palette_sha256": "c" * 64,
+        "channel_map_sha256": "d" * 64, "fps": 20,
+        "source_commit": "e" * 40, "audio_kind": "real",
+        "features_source": "source_audio", "engine_execution_verified": True,
+        "native_render_verified": True, "synthetic_fallback_used": False,
+    }
+    return {"panels": [
+        {**shared, "panel": i, "xsq_sha256": f"{i:064x}",
+         "fseq_sha256": f"{i+100:064x}", "birdsong_enabled": False}
+        for i in range(1, 17)
+    ]}
+
+
+def test_complete_unique_native_outputs_pass():
+    assert validate_comparison_manifest(manifest()) == []
+
+
+def test_frozen_audio_and_layout_rejected():
+    data = manifest()
+    data["panels"][2]["audio_sha256"] = "z" * 64
+    data["panels"][3]["layout_sha256"] = "y" * 64
+    errors = validate_comparison_manifest(data)
+    assert any("audio_sha256" in e for e in errors)
+    assert any("layout_sha256" in e for e in errors)
+
+
+def test_synthetic_birdsong_and_identical_outputs_rejected():
+    data = manifest()
+    data["panels"][8].update({
+        "birdsong_enabled": True, "birdsong_native_rows": 0,
+        "birdsong_real_features_verified": False, "features_source": "synthetic",
+    })
+    data["panels"][15]["fseq_sha256"] = data["panels"][14]["fseq_sha256"]
+    errors = validate_comparison_manifest(data)
+    assert any("Birdsong" in e for e in errors)
+    assert any("synthetic" in e for e in errors)
+    assert any("identical FSEQ" in e for e in errors)
+
+
+def test_missing_or_unverified_native_artifacts_rejected():
+    data = manifest()
+    data["panels"][0]["native_render_verified"] = False
+    data["panels"][1]["xsq_sha256"] = None
+    assert len(validate_comparison_manifest(data)) >= 2
