@@ -77,6 +77,17 @@ Do not mark complete from unit tests alone.
 
 ## Change Ledger
 
+### 2026-11-09 — Part B: share a whole-layout flash cooldown
+**Goal:** stop chained red/green/white whole-layout flashing and honor full flash restraint.
+**Changed files:** `core/global_flash_policy.py`, `core/effect_engine.py`, `tests/test_global_flash_policy.py`, `MASTER_TODO.md`.
+**Preserved behavior:** existing musical selection, per-model effects, and probability gates (including chorus floors) at default flash_guard 0.80; other effect cooldowns remain intact. No whole-run unit test was introduced.
+**New behavior:** pure `allows_global_flash` checks all accepted flash start times with one 1000/cap ms spacing across colors. Generation calls it at final clipped placement time through the shared add_model placement path, covering bass, green VU, vocals, chorus drops, and helper-selected whole-layout color targets. Out-of-order passes are supported; rejected placements consume no flash slot. Per-color cooldowns are replaced for these targets. RuntimeTuning/CLI expose `max_global_flashes_per_sec` / `--max-global-flashes-per-sec`, default 2; nonpositive caps disable flashes. flash_guard >= 1 disables all whole-layout color placements and explicitly disables both chorus drop blocks. Reports include cap and accepted flash count.
+**Tests/evidence:** 17 pure policy tests pass (shared colors, full guard, exact cooldown boundaries, out-of-order history, fractional/disabled caps, nonfinite values, no mutation). Combined audio/cache/policy selection: **46 passed**. CLI `main(["--help"])` exposes the new flag. `git diff --check` passed. Existing failures remain recorded under Part A; full comparison follows Part C.
+**Limitations:** counts flash starts, not illuminated duration or all other aggregate groups (house/perimeter); long effects may still sustain broad illumination. Placement-pass order determines which competing flash survives. Accepted history is conservative if later priority replacement removes a flash.
+**Deferred work:** do not wire `core/power_engine.py`, `core/effect_layering_engine.py`, `helix_style/restraint_engine`, or `helix_style/brightness_budget` into generation in this change. Real-song XSQ/MP4/xLights visual review remains outstanding.
+**Regression risks:** fewer whole-layout effects can reduce accent density; all references resolving to the same whole-layout target are restrained, regardless of which helper requests them. Existing placement retry shifts remain subject to the same final-time cap.
+
+
 ### 2026-11-09 — Part A: cache separated stems and reuse mix HPSS
 **Goal:** avoid repeating stem separation, mix loading/HPSS, and stem-summary STFT work.
 **Changed files:** `core/audio_intelligence.py`, `tests/test_audio_stem_cache.py`, `MASTER_TODO.md`.

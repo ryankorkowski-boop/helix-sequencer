@@ -24,6 +24,7 @@ from core import audio_intelligence as ai
 from core import chronoflow as chronoflow_engine
 from core import helixualizer as helixualizer_engine
 from core import hardkor_engine
+from core.global_flash_policy import allows_global_flash
 from core import matrix_intelligence as matrix_planner
 from core import birdsong_engine
 from core import lyric_interpreter
@@ -165,6 +166,7 @@ class RuntimeTuning:
     polyphony_override: int | None = None
     cane_focus: float = 1.0
     flash_guard: float = 0.80
+    max_global_flashes_per_sec: float = 2.0
     keyboard_mix: float = 1.0
     model_overrides: dict[str, str | list[str]] | None = None
     use_moises: bool = False
@@ -10352,6 +10354,8 @@ def run_variant(
     }
     timelines = {nm: EffectTimeline() for nm in layers}
     cooldowns = base.Cooldowns()
+    global_flash_times_ms: list[int] = []
+    global_flash_targets = {name for name in (layout.all_red, layout.all_green, layout.all_white) if name}
     stats = base.PlacementStats()
     total = 0
     ramp_ok = (xsq.ramp_tpl.settings is not None or xsq.ramp_tpl.palette is not None)
@@ -10783,6 +10787,13 @@ def run_variant(
         if en_i - st_i < max(50, int(tuning.min_effect_ms)):
             reject_effect(nm, st_i, en_i, effect_name, layer_key, "trimmed duration below minimum threshold")
             return False
+        is_global_flash = nm in global_flash_targets
+        if is_global_flash and not allows_global_flash(
+            st_i, float(tuning.flash_guard), float(tuning.max_global_flashes_per_sec),
+            global_flash_times_ms,
+        ):
+            reject_effect(nm, st_i, en_i, effect_name, layer_key, "shared global flash policy")
+            return False
         if layering_mode == "smart_layer":
             existing = existing_windows_by_model.get(nm, [])
             if overlaps_window(st_i, en_i, existing):
@@ -10841,6 +10852,8 @@ def run_variant(
                 else:
                     used_root_models.add(model.name)
         total += 1
+        if is_global_flash:
+            global_flash_times_ms.append(st_i)
         return True
 
     def add_model(
@@ -10858,6 +10871,10 @@ def run_variant(
             return
         st_i = int(st)
         en_i = int(max(st_i + 1, en))
+        is_global_flash = nm in global_flash_targets
+        if is_global_flash:
+            # The shared policy replaces independent per-color cooldowns.
+            cd_key = None
         min_dur = max(1, int(tuning.min_effect_ms))
         if cd_key and not cooldowns.allow(cd_key, st_i):
             reject_effect(nm, st_i, en_i, eff, "cooldown", f"cooldown active for key {cd_key}")
@@ -12083,7 +12100,7 @@ def run_variant(
                     )
                 elif drop_pool and drop_pool.models:
                     add_model(drop_pool.models[0], part.start_ms, min(part.end_ms, part.start_ms + 280), "drop_focus", stem="drums")
-                if rng.random() < (0.85 * max(0.35, global_flash_prob)):
+                if flash_guard < 1.0 and rng.random() < (0.85 * max(0.35, global_flash_prob)):
                     add_model(
                         layout.all_white,
                         part.start_ms,
@@ -12093,7 +12110,7 @@ def run_variant(
                         cd_ms=80,
                         stem="drums",
                     )
-                if rng.random() < (0.95 * max(0.45, global_flash_prob)):
+                if flash_guard < 1.0 and rng.random() < (0.95 * max(0.45, global_flash_prob)):
                     add_model(
                         layout.all_red,
                         part.start_ms,
@@ -12345,6 +12362,8 @@ def run_variant(
             "polyphony": style.polyphony,
             "cane_focus": cane_focus,
             "flash_guard": flash_guard,
+            "max_global_flashes_per_sec": tuning.max_global_flashes_per_sec,
+            "global_flash_count": len(global_flash_times_ms),
             "keyboard_mix": keyboard_mix,
             "layering_mode": layering_mode,
             "stem_priorities": priorities,
@@ -12677,6 +12696,8 @@ def parse_args(style: VariantStyle, argv: list[str] | None = None) -> argparse.N
     parser.add_argument("--polyphony", type=int, help="Override polyphony depth (1-8)")
     parser.add_argument("--cane-focus", type=float, dest="cane_focus", help="Prioritize canes/note-like lanes")
     parser.add_argument("--flash-guard", type=float, dest="flash_guard", help="Reduce all-house/all-group flash behavior")
+    parser.add_argument("--max-global-flashes-per-sec", type=float, default=2.0,
+                        help="Shared whole-layout color flash cap (0 disables flashes)")
     parser.add_argument("--keyboard-mix", type=float, dest="keyboard_mix", help="Polyphonic keyboard intensity")
     parser.add_argument("--model-overrides-file", dest="model_overrides_file", help="Optional JSON file for group/model mapping overrides")
     parser.add_argument("--layout-file", dest="layout_file", help="xLights layout XML/XBKP for spatial routing")
@@ -12875,6 +12896,7 @@ def main_for(version: str, argv: list[str] | None = None) -> None:
         polyphony_override=int(args.polyphony) if args.polyphony is not None else None,
         cane_focus=float(args.cane_focus if args.cane_focus is not None else 1.0),
         flash_guard=float(args.flash_guard if args.flash_guard is not None else 0.80),
+        max_global_flashes_per_sec=float(args.max_global_flashes_per_sec),
         keyboard_mix=float(args.keyboard_mix if args.keyboard_mix is not None else 1.0),
         model_overrides=overrides_payload,
         use_moises=bool(args.use_moises),
@@ -12994,6 +13016,7 @@ def main_for(version: str, argv: list[str] | None = None) -> None:
         "Runtime: "
         f"polyphony={style.polyphony}, cane_focus={tuning.cane_focus:.2f}, "
         f"flash_guard={tuning.flash_guard:.2f}, keyboard_mix={tuning.keyboard_mix:.2f}, "
+        f"max_global_flashes_per_sec={tuning.max_global_flashes_per_sec:g}, "
         f"layering={normalize_layering_mode(tuning.layering_mode)}, "
         f"spatial={tuning.spatial_awareness:.2f}/{normalize_chase_style(tuning.chase_style)}, "
         f"effects(base/motion/accent)={tuning.base_effect}/{tuning.motion_effect}/{tuning.accent_effect}, "
