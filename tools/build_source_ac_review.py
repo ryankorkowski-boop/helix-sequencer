@@ -75,6 +75,8 @@ def geometry(source, *, include_rgb=False):
             g.models.append(model)
     from tools.source_role_routing import configure_source_routes
     configure_source_routes(g.models)
+    from tools.native_prop_visibility import prepare_review_visibility
+    prepare_review_visibility(g)
     return g
 
 

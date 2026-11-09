@@ -54,6 +54,8 @@ def build(source, output, *, audio_name='Phoneme_Test_Hook.mp3', expected_sha256
         folder=output/f'{number:02}_{name}'
         if folder.exists():raise FileExistsError(folder)
         g=build_layout(number,include_xylophonist=include_xylophonist,full_keyboard=full_keyboard)
+        from tools.native_prop_visibility import prepare_review_visibility
+        prepare_review_visibility(g)
         band=[m for m in g.models if m.details.get('review_role')]
         if band:
             # Static material export operates only on canonical performers.
