@@ -102,3 +102,24 @@ def test_model_estimate_cannot_claim_independent_singer_identity(tmp_path):
     with pytest.raises(ValueError, match='Model-estimated vocal candidates'):
         preparation.prepare(config, tmp_path / 'analysis')
     assert not (tmp_path / 'analysis' / 'voice_roles.npz').exists()
+
+
+def test_route_voices_reconciles_silent_shapes_without_faking_activity(monkeypatch):
+    from music import vocal_roles
+    def fake_clock(track):
+        energy = np.full(100, .5, dtype='float32')
+        shapes = np.full(100, 2, dtype='int8')
+        energy[10:20] = 0
+        shapes[10:20] = 2  # stale phoneme in actual silence
+        shapes[30:40] = 0  # stale REST in active audio
+        return np.ones(16000, dtype='float32'), {'energy': energy, 'shapes': shapes}
+    monkeypatch.setattr(vocal_roles, '_clock', fake_clock)
+    tracks = [vocal_roles.VoiceTrack('lead', np.ones(16000, dtype='float32'), 16000,
+                                    evidence='individual', role='lead')]
+    lanes, _, _ = vocal_roles.route_voices(tracks, duration=1., fps=20)
+    lane = lanes[0]
+    assert np.all(lane['energy'][2:4] == 0)
+    assert np.all(lane['shapes'][2:4] == 0)
+    assert np.all(lane['energy'][6:8] == 0)
+    assert np.all(lane['shapes'][6:8] == 0)
+    assert np.all(lane['energy'][0:2] > 0)
