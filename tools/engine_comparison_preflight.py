@@ -31,8 +31,8 @@ def validate_comparison_manifest(manifest: dict) -> list[str]:
         expected = baseline.get(field)
         if expected is None or expected == "":
             errors.append(f"baseline missing {field}")
-        for p in panels[1:]:
-            if isinstance(p, dict) and p.get(field) != expected:
+        for p in panels:
+            if isinstance(p, dict) and p.get("panel") != 1 and p.get(field) != expected:
                 errors.append(f"panel {p.get('panel')} differs in frozen field {field}")
     signatures: dict[str, int] = {}
     for p in panels:
