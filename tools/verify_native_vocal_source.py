@@ -41,6 +41,10 @@ def verify(audio: Path, analysis: Path) -> dict:
         active = np.sum((energy > 0) & (shapes != SHAPE_NAMES.index("REST")), axis=0)
     if not np.all(active > 0):
         raise ValueError("Full-band source has an empty lead/backing non-rest vocal lane; no render can repair absent source events")
+    # Distinct source fingerprints alone do not prove independent mouth clocks.
+    # A copied vocal lane can have a different file hash after re-encoding.
+    if np.array_equal(energy[:, 0], energy[:, 1]) and np.array_equal(shapes[:, 0], shapes[:, 1]):
+        raise ValueError("Lead and backing mouth clocks are identical; independent vocal activity not demonstrated")
     return {"passed": True, "audio_sha256": digest, "frames": frames,
             "non_rest_frames": {"lead": int(active[0]), "harmony": int(active[1])},
             "limit": "Source qualification only; native output and artistic acceptance remain separate"}
