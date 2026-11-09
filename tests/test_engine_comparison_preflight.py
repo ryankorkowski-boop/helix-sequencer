@@ -71,3 +71,14 @@ def test_baseline_uses_panel_one_even_when_unordered():
     data = manifest()
     data["panels"] = data["panels"][1:] + data["panels"][:1]
     assert validate_comparison_manifest(data) == []
+
+
+def test_birdsong_native_hook_rejects_synthetic_data():
+    # The native post-run adapter previously wrote plausible-looking fake
+    # features without changing the actual XSQ/FSEQ. It must now fail closed.
+    from core.sequence_builder import _run_birdsong_hook
+    import pytest
+
+    with pytest.raises(RuntimeError, match="Birdsong native export unavailable"):
+        _run_birdsong_hook(None, ["--enable-birdsong"], None)
+    assert _run_birdsong_hook(None, [], None) is None
