@@ -6,6 +6,7 @@ This module deliberately does not synthesize features or claim rendered proof.
 from __future__ import annotations
 
 import hashlib
+import math
 from pathlib import Path
 from typing import Callable, Mapping, Sequence
 
@@ -33,10 +34,14 @@ def place_source_birdsong(
     """
     if not audio_path.is_file():
         raise ValueError("Birdsong source audio is missing")
-    actual = hashlib.sha256(audio_path.read_bytes()).hexdigest()
+    digest = hashlib.sha256()
+    with audio_path.open("rb") as source:
+        for chunk in iter(lambda: source.read(1024 * 1024), b""):
+            digest.update(chunk)
+    actual = digest.hexdigest()
     if actual != source_audio_sha256 or actual != features_audio_sha256:
         raise ValueError("Birdsong features do not match verified source audio")
-    if not 1 <= fps <= 240:
+    if not math.isfinite(fps) or not 1 <= fps <= 240:
         raise ValueError("Birdsong feature fps out of range")
     if "energy" not in features or "centroid" not in features:
         raise ValueError("Birdsong source features missing energy or centroid")
