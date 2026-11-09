@@ -912,6 +912,9 @@ def run_profile(profile_id: str | None, engine_args: list[str] | None = None) ->
         print("Use --help for usage information.", file=sys.stderr)
         raise SystemExit(1)
 
+    # Reject unsupported Birdsong *before* doing expensive sequencing or
+    # producing an apparently successful XSQ without real Birdsong rows.
+    _run_birdsong_hook(config, engine_args, None)
     command = ["main.py", "--profile", resolved_profile_id, "--", *(engine_args or [])]
     try:
         ctx = RunManager(config).start(command=command, require_existing=False)
@@ -1005,8 +1008,6 @@ def run_profile(profile_id: str | None, engine_args: list[str] | None = None) ->
                     layout, ctx, lor_mode=lor_source is not None,
                     preview_seconds=preview_seconds,
                 )
-            # Do not label synthetic post-run diagnostics as native output.
-            _run_birdsong_hook(config, engine_args, ctx)
         finally:
             _record_changed_artifacts(ctx, artifact_roots, artifact_snapshot)
             ctx.record_artifact("configured_output_root", config.output_root)
