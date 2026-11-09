@@ -1,4 +1,4 @@
-name: Helix Remote Review Preview MP4
+name: Helix Verified Owner Audio AC256 Preview MP4
 
 on:
   push:
@@ -48,32 +48,29 @@ jobs:
         run: |
           set -euo pipefail
           python -m pip install --upgrade pip
-          python -m pip install numpy scipy librosa soundfile numba llvmlite imageio imageio-ffmpeg pillow scikit-learn pytest
+          python -m pip install numpy scipy librosa soundfile numba llvmlite imageio imageio-ffmpeg pillow scikit-learn pytest gdown==6.4.2
 
       - name: Compile preview stack
         run: |
           python -m compileall -q core ai xlights tools tests main.py gui_launcher.py
 
-      - name: Stage deterministic audio and layout
+      - name: Stage verified owner song from Songs with Lyrics (not synthetic)
         run: |
           set -euo pipefail
           mkdir -p fixtures/legacy_256/converted
           cp template.xsq fixtures/legacy_256/converted/template.xsq
           cp xlights_rgbeffects.xml fixtures/legacy_256/converted/xlights_rgbeffects.xml
-          duration="${{ inputs.duration_seconds || '20' }}"
-          python tools/generate_structured_benchmark_audio.py LightsOutTheme.wav --duration "$duration"
+          # Real owner-supplied Google Drive source: Wub Wub Wonderland.mp3
+          python -m gdown 138aiXex83gbRKi5a88U6rtB54HTSH3iN -O owner_song.mp3
+          echo '76641340a2a59c5797b333cd36b1e108f503017d190510fbe8da9931ea3f9abc  owner_song.mp3' | sha256sum --check
           python - <<'PY'
-          import imageio_ffmpeg
-          import subprocess
-          ffmpeg = imageio_ffmpeg.get_ffmpeg_exe()
-          subprocess.run([
-              ffmpeg,
-              '-y',
-              '-i', 'LightsOutTheme.wav',
-              '-c:a', 'libmp3lame',
-              '-b:a', '192k',
-              'LightsOutTheme.mp3',
-          ], check=True)
+          import imageio_ffmpeg, subprocess
+          ffmpeg=imageio_ffmpeg.get_ffmpeg_exe()
+          subprocess.run([ffmpeg,'-v','error','-y','-ss','110','-i','owner_song.mp3',
+              '-t','20','-ac','2','-ar','44100','-c:a','libmp3lame','-b:a','192k',
+              'LightsOutTheme.mp3'],check=True)
+          subprocess.run([ffmpeg,'-v','error','-xerror','-i','LightsOutTheme.mp3',
+              '-f','null','-'],check=True)
           PY
 
       - name: Generate and score candidate XSQ files
@@ -130,7 +127,7 @@ jobs:
           audio = audio_candidates[0] if audio_candidates else Path('LightsOutTheme.mp3')
 
           if candidates:
-              score, neg_issues, winner = sorted(candidates, reverse=True)[0]
+              score, neg_issues, winner = max(candidates, key=lambda r: (r[0], r[1], str(r[2].get('version', ''))))
               xsq = Path(winner['sequence'])
               source = 'ranked_variant'
               version = str(winner.get('version'))
@@ -144,6 +141,7 @@ jobs:
                   '--quality-preset', '${{ inputs.quality_preset || 'xlights' }}',
               ]
           else:
+              raise SystemExit('No valid real-audio engine candidate: refusing fallback demo render')
               xsq = out / 'fallback' / 'helix_demo_vocal.xsq'
               score = 0.0
               version = 'demo_fallback'
