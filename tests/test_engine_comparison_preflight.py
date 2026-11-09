@@ -111,3 +111,11 @@ def test_native_artifact_traversal_is_rejected(tmp_path):
     errors = verify_local_artifacts(data, tmp_path)
     assert any("unsafe xsq_path" in error for error in errors)
     assert any("unsafe fseq_path" in error for error in errors)
+
+
+def test_unordered_panel_cannot_bypass_frozen_field_validation():
+    data = manifest()
+    data["panels"] = data["panels"][1:] + data["panels"][:1]
+    data["panels"][0]["camera_id"] = "changed-camera"
+    errors = validate_comparison_manifest(data)
+    assert any("differs in frozen field camera_id" in e for e in errors)
