@@ -80,3 +80,11 @@ def test_independent_harmony_with_distinct_phrase_timing_passes(source):
     np.savez(folder / "voice_roles.npz", energy=energy, shapes=shapes)
     result = verify(audio, folder)
     assert result["non_rest_frames"] == {"lead": 20, "harmony": 15}
+
+
+def test_estimated_vocal_source_cannot_be_promoted_to_verified_singer(source):
+    audio, folder, report = source
+    report["input_tracks"]["backing"]["origin"] = "model_estimate"
+    (folder / "voice_roles.json").write_text(json.dumps(report))
+    with pytest.raises(ValueError, match="Model-estimated vocal candidates"):
+        verify(audio, folder)
