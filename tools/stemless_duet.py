@@ -70,10 +70,15 @@ def estimate_duet(audio, source_energy, source_shapes, *, frames=720, sr=12000,
     shapes = np.zeros((frames, 2), dtype=source_shapes.dtype)
     energy[:, 0] = np.where(vocal_gate, lead, 0)
     shapes[:, 0] = np.where(vocal_gate, source_shapes[:, 0], 0)
-    energy[:, 1] = np.where(second, np.minimum(lead * .75, confidence), 0)
-    # Reuse the estimated shared syllable shape; this is not phoneme
-    # identification for the second singer.
-    shapes[:, 1] = np.where(second, source_shapes[:, 0], 0)
+    # A second pitch in a mono mix is not a second singer's phoneme.
+    # Preserve only the existing backing clock's own supported mouth shape.
+    # Never copy the lead's syllables into the harmony lane: doing so produces
+    # a convincing but false synchronized duet in native xLights previews.
+    backing = np.clip(source_energy[:, 1], 0, 1)
+    backing_supported = (backing > .12) & (source_shapes[:, 1] != 0)
+    second &= backing_supported
+    energy[:, 1] = np.where(second, np.minimum(backing, confidence), 0)
+    shapes[:, 1] = np.where(second, source_shapes[:, 1], 0)
     return energy, shapes, {
         "mode": "stemless_mixed_audio_estimate",
         "independent_voice_identity_proven": False,
@@ -84,6 +89,6 @@ def estimate_duet(audio, source_energy, source_shapes, *, frames=720, sr=12000,
         "second_lane_active_frames": int(second.sum()),
         "method": "original vocal activity gated by persistent non-octave dual-pitch evidence",
         "limitations": ["Harmonic instruments may mimic a second pitch",
-                        "Harmony mouth shapes borrow lead syllables",
+                        "Harmony requires its own pre-existing source-clock mouth shapes",
                         "Not eligible as independent vocal-source proof"],
     }
