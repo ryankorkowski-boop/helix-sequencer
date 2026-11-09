@@ -12,8 +12,8 @@ def source(tmp_path):
     sf.write(audio, np.zeros(16000, "float32"), 16000)
     report = {"source_sha256": hashlib.sha256(audio.read_bytes()).hexdigest(),
               "mixed_bus_only": False, "voice_identity_resolved": True, "independent_tracks": 2,
-              "input_tracks": {"solo": {"evidence": "individual", "sha256": "a" * 64},
-                               "backing": {"evidence": "individual", "sha256": "b" * 64}},
+              "input_tracks": {"solo": {"evidence": "individual", "origin": "recorded_isolated", "sha256": "a" * 64},
+                               "backing": {"evidence": "individual", "origin": "recorded_isolated", "sha256": "b" * 64}},
               "model_lanes": [{"name": "solo", "role": "lead", "model_lane": 0},
                               {"name": "backing", "role": "background", "model_lane": 1}]}
     (tmp_path / "voice_roles.json").write_text(json.dumps(report))
@@ -104,4 +104,16 @@ def test_silence_and_mouth_shapes_must_agree(source, energy_value, shape_value, 
     shapes[3, 1] = shape_value
     np.savez(folder / "voice_roles.npz", energy=energy, shapes=shapes)
     with pytest.raises(ValueError, match=error):
+        verify(audio, folder)
+
+
+@pytest.mark.parametrize("origin", ["unspecified", "mixed_bus", "model_estimate", None])
+def test_unverified_vocal_provenance_cannot_pass_native_gate(source, origin):
+    audio, folder, report = source
+    if origin is None:
+        report["input_tracks"]["backing"].pop("origin")
+    else:
+        report["input_tracks"]["backing"]["origin"] = origin
+    (folder / "voice_roles.json").write_text(json.dumps(report))
+    with pytest.raises(ValueError, match="recorded_isolated"):
         verify(audio, folder)
