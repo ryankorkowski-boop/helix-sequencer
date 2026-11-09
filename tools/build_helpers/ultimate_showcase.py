@@ -32,7 +32,10 @@ def _ranges(nodes: list[int]) -> str:
 def model_xml(m, tag: str = "model") -> ET.Element:
     attrs={"name":m.name,"DisplayAs":m.display,"StringType":"RGB Nodes" if m.kind=="pixel" else "Single Color White",
            "StartChannel":str(m.start),"Controller":"","LayoutGroup":"Default",
-           "StartSide":"B","Dir":"L","PixelSize":"2","Antialias":"1","Transparency":"0",
+           # Unlit virtual bulbs must not paint opaque black discs over other
+           # independently lit props. Match the canonical native band; an
+           # explicit caller value in m.attrs still owns matte/occluder intent.
+           "StartSide":"B","Dir":"L","PixelSize":"2","Antialias":"1","Transparency":"0","BlackTransparency":"100",
            "versionNumber":"7","parm1":"1","parm2":"1","parm3":"1", **m.attrs}
     root=ET.Element(tag,{k:str(v) for k,v in attrs.items()})
     for name,nodes in m.submodels.items():

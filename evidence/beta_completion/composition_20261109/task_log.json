@@ -49,5 +49,16 @@
     "real_audio_routing": "real_audio_routing.json",
     "new_native": "running_no_mp4_claim"
   },
-  "updated_at": "2026-11-09T02:20:07.906794+00:00"
+  "updated_at": "2026-11-09T02:20:07.906794+00:00",
+  "native_occlusion_root_cause": {
+    "path": "tools/build_helpers/ultimate_showcase.py:model_xml",
+    "upstream": "xLights839c0f590dc454bb7adb8a16c4dd92a70b46156e src-core/models/Model.cpp:3064,3373;Model.h:333",
+    "before": "BlackTransparency omitted; opaque black unlit nodes",
+    "after": "Default100;explicit model override retained;canonical band already100",
+    "status": "implemented_tests_running"
+  },
+  "failed_native_candidates": [
+    "ac256_candidate.json",
+    "rgb_candidate.json"
+  ]
 }
