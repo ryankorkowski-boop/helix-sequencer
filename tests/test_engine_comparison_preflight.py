@@ -82,8 +82,9 @@ def test_birdsong_native_hook_rejects_synthetic_data():
     from core.sequence_builder import _run_birdsong_hook
     import pytest
 
-    with pytest.raises(RuntimeError, match="Birdsong native export unavailable"):
+    with pytest.raises(RuntimeError, match="use --birdsong"):
         _run_birdsong_hook(None, ["--enable-birdsong"], None)
+    assert _run_birdsong_hook(None, ["--birdsong"], None) is None
     assert _run_birdsong_hook(None, [], None) is None
 
 
