@@ -10,10 +10,32 @@ from models.approval_layouts import build_layout, NAMES
 from tools.build_snowman_ensemble import NativeSequence
 from tools.build_helpers.ultimate_showcase import write_layout
 from tools.phoneme_source import EXPECTED_SHA256, digest
-from tools.phoneme_vocal_export import static_materials, export, FIXTURE
+from tools.phoneme_vocal_export import static_materials, export, FIXTURE, screened_lanes
 from tools.canonical_band_cues import export_instruments, export_drums, refresh_models
 from models.band_sampler_logic import SHAPE_NAMES
 from xlights.xml_io import materialize_native_effect_tables
+
+
+def reviewed_vocal_clocks(clock_mapping, receipt):
+    """Route generic faces through the exact same qualified clock policy as band Faces.
+
+    Previous twelve-layout code read unfiltered energy/shape arrays for generic
+    singing faces while the six-member stage used screened_lanes(). That let
+    false positive/duplicated estimated backing mouths survive on houses/trees,
+    even when band vocals had suppressed them. Qualified source tracks remain
+    untouched and must pass the separate source verification gate.
+    """
+    clocks = dict(clock_mapping)
+    state = receipt.get('verification_state')
+    if state == 'VERIFIED':
+        return clocks, dict(state='VERIFIED', policy='unaltered_qualified_source_clocks')
+    if state not in ('ESTIMATED', 'REJECTED', None):
+        raise ValueError('Unrecognized vocal verification state')
+    screened, audit = screened_lanes(clocks, fps=100)
+    for source, (energy, shapes) in screened.items():
+        clocks[source+'_energy'] = energy
+        clocks[source+'_shapes'] = shapes
+    return clocks, audit
 
 
 def build(source, output, *, audio_name='Phoneme_Test_Hook.mp3', expected_sha256=EXPECTED_SHA256, vocal_fixture=FIXTURE, numbers=None,
@@ -34,6 +56,7 @@ def build(source, output, *, audio_name='Phoneme_Test_Hook.mp3', expected_sha256
     # the same compressed clocks inside each prop loop repeats decompression.
     with np.load(vocal_fixture/'acoustic_vocal_clocks.npz',allow_pickle=False) as clocks:
         vocal_clocks={key:clocks[key] for key in clocks.files}
+    vocal_clocks, vocal_screening = reviewed_vocal_clocks(vocal_clocks, vocal_receipt)
     for values in vocal_clocks.values():values.flags.writeable=False
     source_manifest=json.loads((source/'run_manifest.json').read_text())
     if source_manifest.get('audio_sha256')!=expected_sha256:
@@ -138,6 +161,7 @@ def build(source, output, *, audio_name='Phoneme_Test_Hook.mp3', expected_sha256
                   export_source_commit=export_commit,export_source_module_sha256=export_hashes,
                   model_count=len(g.models),channels=sum(m.channels for m in g.models),
                   canonical_members=len(band),native_render_status='not_started',
+                  vocal_screening=vocal_screening,
                   native_limits=['Stationary native geometry; no geometric helix rotation claimed',
                                  'AC16/64/256 use exact circuit budgets; physical wiring not tested'])
         (folder/'Spatial_Event_Provenance.json').write_text(json.dumps(spatial_reports,indent=2)+'\n')
