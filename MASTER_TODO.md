@@ -77,6 +77,20 @@ Do not mark complete from unit tests alone.
 
 ## Change Ledger
 
+### 2026-11-09 — Follow-up: fresh full-song MP4 review links
+**Goal:** provide fresh MP4 links for the audio/cache/flash branch at the user's follow-up request.
+**Changed files:** `MASTER_TODO.md` only; generated review artifacts stay under ignored `test_runs/fresh_perf_cache_20261109/` and the MP4s are uploaded to connected Google Drive. No engine/workflow/test files changed.
+**Preserved behavior:** implementation commits and all existing tests remain unchanged. Both runs use v28.9, the same full repository song, template and 256-leaf-model layout, spatial-awareness 0.35, left_to_right chase, showcase profile and max 2 layers per prop; only flash_guard differs.
+**New behavior:** fresh full-song XSQ/MP4 evidence is available for flash_guard 0.80 / cap 2/sec and flash_guard 1.00 / cap 2/sec. Source code commit: `ad18331f199f1d749daddc9ab76793c75563a302`. Renderer: `python -m tools.preview_hq ... --quality-preset standard --fps 15 --no-audio-reactive`, with original soundtrack. Extra renderer audio-reactive brightness modulation is disabled for comparison.
+**Tests/evidence:** generation succeeded for both runs; reports list zero structural validation issues and classifier status ok (66 windows / 22,260 frames from local proxy). Default guard: 47,052 effects, 16 whole-layout color effects, 5 drop flashes; final XSQ minimum whole-layout start gap 3915 ms. Full guard: 47,036 effects, zero whole-layout colors and zero drop flashes, independently verified in final XML and reports. Both MP4s passed renderer FFmpeg full-decode validation and ffprobe stream/duration checks: 1280×720 H.264 at 15 fps, AAC soundtrack, 237.439979 s duration. Default file size 13,756,600 bytes; full-guard file size 13,650,164 bytes; Drive metadata readback confirms exact file sizes/MIME types. Sample frames at 45/120/200 s (default) and 45 s (full guard) showed visible layout activity. `git diff --check` passed. No new tests or engine changes were needed for artifact generation; the 969-pass baseline comparison above remains the source regression evidence.
+**Links:**
+- [Fresh default-guard MP4](https://drive.google.com/file/d/1imAnnegvePCCbbWzCEfAON8rgpct_Wyy/view?usp=drivesdk)
+- [Fresh full-guard MP4](https://drive.google.com/file/d/1u2eRBaVWfInDT3LeQfsHI2sE9V7PUjos/view?usp=drivesdk)
+**Limitations:** these are local layout-intensity previews, not native xLights renders or animated-band proof. Both generation runs logged the pre-existing `KeyError('composite_submodels')` and skipped Snowman band planning; backup-vocal cue visualization is therefore unverified. No full human timing review or drummer-oracle comparison. Drive files were uploaded without changing sharing permissions. GitHub release-asset upload failed with HTTP 401 on uploads.github.com; no release was published (release lookup returns not found). Local provenance, probes, logs, reports, XSQs and checksums are retained alongside the videos.
+**Deferred work:** fix the existing band mapper contract separately, then render/review band and backup vocals; native xLights import/render and prior drummer-oracle comparison remain outstanding. Power/helix_style integration remains deferred.
+**Regression risks:** the preview renderer approximates native effect/color behavior; sparse frame sampling does not establish timing quality throughout the song. Fresh links establish artifact availability and technical validity only.
+
+
 ### 2026-11-09 — Part C: diagnose and constrain background-vocal routing
 **Goal:** expose classifier failures, stop implicit backup-vocal invention, use classifier windows for performer cues, and change the pitch term only after measuring saturation.
 **Changed files:** `debug/bgvocal_diagnostics.py`, `core/audio_intelligence.py`, `core/vocal_timeline.py`, `core/snowman_band.py`, `core/effect_engine.py` (classifier status in report only), `config/audio_analysis_defaults.json`, `tests/test_background_vocal_detection.py`, `tests/test_snowman_band.py`, `MASTER_TODO.md`.
