@@ -28,6 +28,16 @@ def add_band(garden, prefix='HX_SNOW', position=(0, 0, 0), *, include_xylophonis
         model.attrs.update(PixelSize='6', Antialias='1', BlackTransparency='100',
                            HelixOutputMode='pixel')
         if role == 'drummer':
+            # The imported source grid includes large editor margins. Its old
+            # stage size made the actual drummer less than half a singer's
+            # height in native export. Enlarge this copy uniformly; retain
+            # every source pixel, contact range, channel and kit position.
+            import numpy as np
+            center = np.array([float(model.attrs['WorldPos'+a]) for a in 'XYZ'])
+            model.points = (model.points-center)*np.array((2.2, 2.2, 1.0))+center
+            for axis in 'XY':
+                model.attrs['Scale'+axis] = str(float(model.attrs['Scale'+axis])*2.2)
+            model.details['source_drummer_display_scale'] = 2.2
             # xLights draws CustomBkgImage in the exported House Preview,
             # including the source editor's gray rectangle. Keep the exact
             # authored reference portable without compositing it over pixels.
@@ -36,7 +46,6 @@ def add_band(garden, prefix='HX_SNOW', position=(0, 0, 0), *, include_xylophonis
             # replace source contact/shoulder/pedal pixels with a new drummer.
             model.submodels['BASE_DIM'] = list(model.submodels['BODY_KEEPALIVE'])
             from PIL import Image
-            import numpy as np
             from models.approved_concepts import ROOT
             pixels = np.asarray(Image.open(ROOT/'fixtures/band_geometry/source/drummer_idle.png').convert('RGB').resize((96,72),Image.Resampling.BOX)).reshape(-1,3)
             model.colors = ['#'+''.join(f'{int(c):02X}' for c in pixel) for pixel in pixels]

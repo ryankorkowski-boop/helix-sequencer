@@ -1,0 +1,29 @@
+{
+  "schema": "helix.task-log.v1",
+  "source_head": "4640c70e915c0f422b233eb52eaba98e668ed879",
+  "agent": "Codex",
+  "events": [
+    {
+      "action": "Read latest branch, research and continuity",
+      "result": "Research report read; 17 focused baseline tests pass; verified real source SHA 19e90c273d0d747938f24b36586b50818c104cddffbefe4a4128927374301938"
+    },
+    {
+      "action": "Recover native renderer",
+      "result": "Retained patched binary restored and missing shared libraries resolved with pinned 2026.18 AppImage; display runtime setup in progress"
+    },
+    {
+      "action": "Implement confidence/identity guards",
+      "result": "In progress; tests pending"
+    },
+    {
+      "action": "Actual engine and native render",
+      "result": "Engine exit0; FSEQ273918channels/697frames all lit. 1920x1080 native MP4 created after correct runtime resource relocation. First render retained as diagnostic; source drummer uniformly enlarged2.2 for final rerender."
+    },
+    {
+      "action": "Regression baseline",
+      "result": "12default bounded pass; four inherited Haswell parity failures reproduced; unchanged tolerance. Single-process full suite resource-killed during concurrent native run, isolated batches follow."
+    }
+  ],
+  "owner_approved": false,
+  "merge_or_release": false
+}

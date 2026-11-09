@@ -22,7 +22,7 @@ ROOT = Path(__file__).resolve().parents[1]
 
 def prepare(audio: Path, output: Path, *, expected_sha256=EXPECTED_SHA256,
             vocal_fixture=None, title='Phoneme Test Hook', include_xylophonist=False, full_keyboard=False,
-            drum_events=None, stemless_duet=False) -> Path:
+            drum_events=None, stemless_duet=False, vocal_analysis=None) -> Path:
     import soundfile as sf
     from models.canonical_native_band import add_band, visual_identity
     from models.ultimate_showcase import Garden
@@ -35,9 +35,15 @@ def prepare(audio: Path, output: Path, *, expected_sha256=EXPECTED_SHA256,
         raise ValueError('Original owner source hash mismatch')
     from tools.phoneme_vocal_export import FIXTURE
     vocal_fixture = Path(vocal_fixture) if vocal_fixture is not None else FIXTURE
-    receipt = json.loads((vocal_fixture/'diagnostic.json').read_text())
-    if receipt.get('audio_sha256') != expected_sha256:
-        raise ValueError('Vocal cache belongs to another recording')
+    if vocal_analysis is not None:
+        from tools.verify_native_vocal_source import verify
+        if stemless_duet:
+            raise ValueError('Qualified vocal analysis cannot use stemless replacement')
+        verify(audio, Path(vocal_analysis))
+    else:
+        receipt = json.loads((vocal_fixture/'diagnostic.json').read_text())
+        if receipt.get('audio_sha256') != expected_sha256:
+            raise ValueError('Vocal cache belongs to another recording')
     if output.exists():
         raise FileExistsError('Use a fresh show directory: ' + str(output))
     duration = sf.info(audio).duration
@@ -50,6 +56,9 @@ def prepare(audio: Path, output: Path, *, expected_sha256=EXPECTED_SHA256,
     from tools.phoneme_vocal_export import static_materials
     static_materials(garden)
     write_layout(garden, output, include_demo=False)
+    if vocal_analysis is not None:
+        from tools.vocal_analysis_fixture import build
+        vocal_fixture = build(audio, vocal_analysis, output/'qualified_vocals')
     layout = output / 'xlights_rgbeffects.xml'
     tree = ET.parse(layout)
     for camera in tree.findall('./Viewpoints/*'):
@@ -82,6 +91,7 @@ def prepare(audio: Path, output: Path, *, expected_sha256=EXPECTED_SHA256,
         'xlights/xsq_writer.py', 'models/canonical_native_band.py', 'models/final_band_scene.py', 'models/final_band_native.py',
         'tools/prepare_phoneme_show.py', 'tools/native_preview.py', 'tools/phoneme_vocal_export.py',
         'tools/vocal_diagnostic.py',
+        'music/vocal_qualification.py', 'tools/vocal_analysis_fixture.py',
         'tools/native_source_pose_band.py', 'xlights/xml_io.py')}
     manifest['vocal_cache_sha256'] = digest(vocal_fixture/'acoustic_vocal_clocks.npz')
     manifest['vocal_receipt_sha256'] = digest(vocal_fixture/'diagnostic.json')
@@ -131,8 +141,12 @@ def prepare(audio: Path, output: Path, *, expected_sha256=EXPECTED_SHA256,
     from tools.phoneme_vocal_export import export as export_vocal_estimates
     separated = export_vocal_estimates(tree.getroot(), layout, garden,
         fixture=vocal_fixture, expected_sha256=expected_sha256,
-        stemless_audio=retained if stemless_duet else None)
+        stemless_audio=retained if stemless_duet else None, source_audio=retained)
     (output / 'source_separated_vocal_export.json').write_text(json.dumps(separated, indent=2) + '\n')
+    manifest['independent_backing_verified'] = separated['independent_backing_verified']
+    manifest['vocal_mode'] = ('qualified_source_stems' if separated['independent_backing_verified']
+                              else manifest['vocal_mode'])
+    (output / 'run_manifest.json').write_text(json.dumps(manifest, indent=2) + '\n')
     from xlights.xml_io import materialize_native_effect_tables
     native_tables = materialize_native_effect_tables(tree.getroot())
     (output / 'native_effect_tables.json').write_text(json.dumps(native_tables, indent=2) + '\n')
@@ -140,8 +154,9 @@ def prepare(audio: Path, output: Path, *, expected_sha256=EXPECTED_SHA256,
     if abs(float(tree.findtext('head/sequenceDuration')) - duration) > .001:
         raise ValueError('Generated sequence does not cover original full recording')
     report = dict(audio_sha256=expected_sha256, source_duration_seconds=duration,
-                  independent_backing_verified=False, exact_phoneme_boundaries_verified=False,
-                  source_kind='mixed stereo owner upload', models={},
+                  independent_backing_verified=separated['independent_backing_verified'],
+                  exact_phoneme_boundaries_verified=False,
+                  source_kind='source-bound independent stems' if separated['independent_backing_verified'] else 'mixed stereo owner upload', models={},
                   limitation='Production mixed-bus cues are estimates. Separate non-rest faces do not prove independent vocal parts. Obtain isolated backing/lead sources or validated source separation before release acceptance.')
     for role in ('LEAD', 'HARMONY'):
         name = 'HX_SNOW_' + role
@@ -151,6 +166,8 @@ def prepare(audio: Path, output: Path, *, expected_sha256=EXPECTED_SHA256,
                                      **{k:v for k,v in separated['models'][name].items() if k != 'faces_effect_count'})
     report['source_separation'] = separated['source']
     report['limitation'] = 'Two-stage source separation produces distinct lead/residual-backing estimates with measured clocks; leakage and voice identity require review. Acoustic vowel colors are not verified lexical phonemes. No independent backing ground truth or artistic approval is claimed.'
+    if separated['independent_backing_verified']:
+        report['limitation'] = 'Independent source ownership passed strict qualification; lexical phoneme boundaries, native output and owner visual acceptance remain separate.'
     if stemless_duet:
         report['stemless_estimate'] = separated['stemless_estimate']
         report['limitation'] = 'Stemless mixed-audio estimates use retained lead activity and persistent dual-pitch evidence. Harmony shapes borrow lead syllables. Independent singer identity and lexical phonemes are unverified.'
@@ -166,6 +183,7 @@ if __name__ == '__main__':
     parser.add_argument('--output', type=Path, required=True)
     parser.add_argument('--expected-sha256', default=EXPECTED_SHA256)
     parser.add_argument('--vocal-fixture', type=Path)
+    parser.add_argument('--vocal-analysis', type=Path, help='Source-bound independent voice_roles.json/.npz; strictly verified before engine execution')
     parser.add_argument('--title', default='Phoneme Test Hook')
     parser.add_argument('--include-xylophonist',action='store_true')
     parser.add_argument('--full-keyboard',action='store_true')
@@ -176,4 +194,5 @@ if __name__ == '__main__':
     print(prepare(args.audio, args.output, expected_sha256=args.expected_sha256,
                   vocal_fixture=args.vocal_fixture, title=args.title,
                   include_xylophonist=args.include_xylophonist,full_keyboard=args.full_keyboard,
-                  drum_events=args.drum_events,stemless_duet=args.stemless_duet))
+                  drum_events=args.drum_events,stemless_duet=args.stemless_duet,
+                  vocal_analysis=args.vocal_analysis))

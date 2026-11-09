@@ -3,10 +3,12 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
+import re
 from pathlib import Path
 import numpy as np
 import soundfile as sf
 from models.band_sampler_logic import SHAPE_NAMES
+from music.vocal_qualification import independence_metrics, validate_lanes
 
 
 def verify(audio: Path, analysis: Path) -> dict:
@@ -14,6 +16,8 @@ def verify(audio: Path, analysis: Path) -> dict:
     digest = hashlib.sha256(audio.read_bytes()).hexdigest()
     if report.get("source_sha256") != digest:
         raise ValueError("Vocal analysis does not belong to this source audio")
+    if report.get('origin') == 'model_estimate' or report.get('verification_state') in {'ESTIMATED', 'REJECTED'}:
+        raise ValueError('Model-estimated vocal identity is not verified source ownership')
     if report.get("mixed_bus_only") or not report.get("voice_identity_resolved") or report.get("independent_tracks", 0) < 2:
         raise ValueError("Full-band source lacks independently resolved lead and backing vocal tracks; supply source-bound vocal analysis instead of repeating the silent-harmony render")
     tracks = report.get("input_tracks", {})
@@ -24,14 +28,17 @@ def verify(audio: Path, analysis: Path) -> dict:
     for item in lanes:
         expected = {"lead"} if item["model_lane"] == 0 else {"second", "background"}
         track = tracks.get(item.get("name"), {})
+        if track.get('origin') == 'model_estimate':
+            raise ValueError('Model-estimated vocal identity is not verified source ownership')
         if item.get("role") not in expected or track.get("evidence") not in {"individual", "ensemble"} or track.get("duplicate_of"):
             raise ValueError("Vocal model lanes lack independent source ownership")
         fingerprints.append(track.get("sha256"))
-    if any(not isinstance(value, str) or len(value) != 64 for value in fingerprints) or len(set(fingerprints)) != 2:
+    if any(not isinstance(value, str) or not re.fullmatch('[0-9a-f]{64}', value) for value in fingerprints) or len(set(fingerprints)) != 2:
         raise ValueError("Duplicate or missing vocal source fingerprints")
     frames = round(sf.info(audio).duration * 20)
     with np.load(analysis / "voice_roles.npz", allow_pickle=False) as data:
         energy, shapes = data["energy"], data["shapes"]
+        validate_lanes(energy, shapes)
         if (energy.shape != (frames, 2) or shapes.shape != energy.shape
                 or not np.isfinite(energy).all() or not np.isfinite(shapes).all()
                 or np.any(energy < 0) or np.any(energy > 1)
@@ -41,7 +48,13 @@ def verify(audio: Path, analysis: Path) -> dict:
         active = np.sum((energy > 0) & (shapes != SHAPE_NAMES.index("REST")), axis=0)
     if not np.all(active > 0):
         raise ValueError("Full-band source has an empty lead/backing non-rest vocal lane; no render can repair absent source events")
-    return {"passed": True, "audio_sha256": digest, "frames": frames,
+    if np.any((energy == 0) != (shapes == SHAPE_NAMES.index('REST'))):
+        raise ValueError('Vocal silence/REST inconsistency')
+    metrics = independence_metrics(energy, shapes)
+    if metrics['duplicate_clock']:
+        raise ValueError('Duplicate or gain-scaled lead/backing mouth clocks')
+    return {"passed": True, "state": "VERIFIED", "independence_metrics": metrics,
+            "audio_sha256": digest, "frames": frames,
             "non_rest_frames": {"lead": int(active[0]), "harmony": int(active[1])},
             "limit": "Source qualification only; native output and artistic acceptance remain separate"}
 
@@ -55,7 +68,7 @@ def main():
     try:
         result = verify(args.audio, args.analysis)
     except (OSError, ValueError, KeyError, TypeError) as exc:
-        result = {"passed": False, "error": str(exc)}
+        result = {"passed": False, "state": "REJECTED", "error": str(exc)}
     args.report.parent.mkdir(parents=True, exist_ok=True)
     args.report.write_text(json.dumps(result, indent=2) + "\n", encoding="utf-8")
     print(json.dumps(result, indent=2))

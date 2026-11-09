@@ -25,7 +25,8 @@ def prepare(config_path,output):
             raise ValueError(f"Duplicate vocal track name: {row['name']}")
         p=path(row['path']);y,sr=sf.read(p,dtype='float32',always_2d=True)
         if abs(len(y)/sr-duration)>.025:raise ValueError('Stems must use the same excerpt-local zero and duration')
-        tracks.append(VoiceTrack(row['name'],y,sr,row.get('evidence','mixed'),row.get('role'),tuple(row.get('phonemes',()))))
+        tracks.append(VoiceTrack(row['name'],y,sr,row.get('evidence','mixed'),row.get('role'),
+                                 tuple(row.get('phonemes',())),row.get('origin','source_stem')))
         hashes[row['name']]=hashlib.sha256(p.read_bytes()).hexdigest()
     lanes,modes,report=route_voices(tracks,duration=duration)
     # Seven-person preview has two visible singers. Keep a full per-track

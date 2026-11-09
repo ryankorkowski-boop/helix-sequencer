@@ -34,6 +34,7 @@ def test_source_drummer_ranges_preserved_and_native_limitation(garden):
         assert drummer.submodels[component]
     assert visual_identity()['canonical_solid_3d_band'] is False
     assert visual_identity()['canonical_surface_geometry'] is True
+    assert drummer.details['source_drummer_display_scale'] == 2.2
 
 
 def test_presence_screened_vocal_cache_maps_to_distinct_singers(garden, tmp_path):
@@ -42,8 +43,9 @@ def test_presence_screened_vocal_cache_maps_to_distinct_singers(garden, tmp_path
     ET.SubElement(ET.SubElement(root,'head'),'sequenceDuration').text='34.88'
     ET.SubElement(root,'DisplayElements'); ET.SubElement(root,'ElementEffects')
     result=export(root,tmp_path/'xlights_rgbeffects.xml',garden)
-    for role, expected in [('LEAD',264), ('HARMONY',86)]:
-        # Golden counts bind this cache revision to its screened source clocks.
+    for role, expected in [('LEAD',202), ('HARMONY',37)]:
+        # Confidence hysteresis deliberately removes low-confidence openings;
+        # separate CSV/native interval parity is tested for every emitted cue.
         assert result['models']['HX_SNOW_'+role]['faces_effect_count'] == expected
         singer=next(m for m in garden.models if m.name=='HX_SNOW_'+role)
         assert set(k.removeprefix('MOUTH_') for k in singer.submodels if k.startswith('MOUTH_')) == {

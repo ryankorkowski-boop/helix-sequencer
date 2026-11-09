@@ -43,6 +43,25 @@ def test_verified_unvoiced_consonant_keeps_its_timing():
         route_voices([VoiceTrack('a',tone(180),16000,phonemes=({'start':0,'end':1,'shape':'FV'},))],duration=2)
 
 
+def test_uncertain_lexical_alignment_cannot_claim_a_verified_phone():
+    cues = ({'start': .5, 'end': .65, 'shape': 'FV', 'verified': True, 'confidence': .4},)
+    with pytest.raises(ValueError, match='confidence'):
+        route_voices([VoiceTrack('a', tone(180), 16000, 'individual', phonemes=cues)], duration=2)
+
+
+def test_overlapping_phones_do_not_silently_overwrite_one_singer():
+    cues = ({'start': .5, 'end': .8, 'shape': 'FV', 'verified': True},
+            {'start': .7, 'end': .9, 'shape': 'OH', 'verified': True})
+    with pytest.raises(ValueError, match='Overlapping'):
+        route_voices([VoiceTrack('a', tone(180), 16000, 'individual', phonemes=cues)], duration=2)
+
+
+def test_separator_origin_cannot_be_relabelled_as_an_individual_singer():
+    with pytest.raises(ValueError, match='independent source ownership'):
+        route_voices([VoiceTrack('model', tone(180), 16000, 'individual',
+                                origin='model_estimate')], duration=2)
+
+
 def test_controller_type_not_lor_transport_or_sixteen_ports():
     assert detect_output({}, {'Type':'LOR','Channels':'16'}).mode=='unknown'
     assert detect_output({}, {'Model':'CTB16PCg3'}).mode=='ac16'

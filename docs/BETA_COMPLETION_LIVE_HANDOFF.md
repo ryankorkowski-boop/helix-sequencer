@@ -1,3 +1,9 @@
+## 2026-11-09 — vocal confidence implementation in progress
+
+Current agent: Codex (OpenAI), ID openai/1b509784c427. Base4640c70. Read MASTER_TODO.md first. New shared confidence/duplicate qualification, model-origin rejection, separate singer timing tracks and strict --vocal-analysis path implemented. Retained source candidates remain ESTIMATED, never verified singer identities or lexical ground truth. First real engine run/native XSQ/FSEQ/1920x1080 H264/AAC MP4 exists; initial frame inspection identified undersized original drummer; same source model uniformly scaled2.2, final rerender pending. No replacement asset or default mallet performer. GUI resource crash repaired with native-runtime/bin/xLights and native-runtime/share/xLights; never mix old movie with new layout.
+
+Task log: evidence/beta_completion/vocals_20261109/task_log.json. Runtime and shows are /workspace/scratch/1b509784c427/{native-runtime,vocal-show-final}. Python: /workspace/scratch/1b509784c427/venv/bin/python. Final-source focused tests and isolated whole-suite batches pending. Four inherited Haswell parity failures remain reproduced; tolerance unchanged. No merge/release/owner approval.
+
 ## 9 November — verified native repair delivery; acceptance remains held
 
 Implementation c80cbbda36aa8c6ed0bd91b8a74f5a9937f21985 on codex/eight-hour-recovery-20261019; focused changes and preserved behavior are in the preceding entries and docs/HELIX_ROOT_CAUSE_REPAIR_20261109.md. Final clean Python3.11 and3.12 each pass2353tests plus24subtests,6existing skips; threeadditional root preview tests pass perruntime.68focused exporter/source/frozenAurora checks pass perruntime. Initial ENOSPCerrors and global-opacity/Aurorafailures remain preserved beside the passing repaired matrices. Haswell312remains4fail/8pass at unchanged1e-7; no all-CI-green or finalWindows/Android claim. Latest hostedWindows42151760882 andAndroid42151760913 pass ata9beaa7.

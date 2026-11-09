@@ -20,6 +20,7 @@ class VoiceTrack:
     evidence: str = 'mixed'  # mixed, individual, ensemble
     role: str | None = None  # lead, second, background; only for isolated inputs
     phonemes: tuple[dict, ...] = ()  # verified local-time cues, not guessed text
+    origin: str = 'source_stem'  # model_estimate must never establish identity
 
 
 def _clock(track):
@@ -66,6 +67,10 @@ def route_voices(tracks: list[VoiceTrack], *, duration: float, fps: int = 20):
             raise ValueError('Voice track names must be unique')
         if track.evidence not in ('mixed', 'individual', 'ensemble'):
             raise ValueError('Unknown voice evidence')
+        if track.origin not in ('source_stem', 'model_estimate'):
+            raise ValueError('Unknown vocal source origin')
+        if track.origin == 'model_estimate' and track.evidence != 'mixed':
+            raise ValueError('Model estimates cannot claim independent source ownership')
         if track.role not in (None, 'lead', 'second', 'background'):
             raise ValueError('Unknown voice role')
         if track.evidence == 'mixed' and track.role in ('second', 'background'):
@@ -76,18 +81,25 @@ def route_voices(tracks: list[VoiceTrack], *, duration: float, fps: int = 20):
         energy, shape = c['energy'][indices].copy(), c['shapes'][indices].copy()
         energy[raw_indices>=len(c['energy'])]=0;shape[raw_indices>=len(c['energy'])]=0
         duplicate = next((name for name in accepted if _duplicate(wave, waves[name])), None)
-        metadata[track.name] = dict(evidence=track.evidence, requested_role=track.role,
+        metadata[track.name] = dict(evidence=track.evidence, origin=track.origin, requested_role=track.role,
             sha256=hashlib.sha256(np.asarray(track.audio, '<f4').tobytes()).hexdigest(),
             duplicate_of=duplicate, voiced_fraction=float(np.mean(energy > 0)),
             prominence=float(np.sqrt(np.mean(wave**2))))
         if duplicate:
             continue
+        cue_intervals = []
         for cue in track.phonemes:
             if not cue.get('verified'):
                 raise ValueError('Explicit phoneme cues require verified=True')
             name = cue['shape'].upper()
             if name not in SHAPE_NAMES or not 0 <= cue['start'] < cue['end'] <= duration:
                 raise ValueError('Invalid phoneme cue')
+            confidence = cue.get('confidence', 1.0)
+            if not np.isfinite(confidence) or not .70 <= confidence <= 1:
+                raise ValueError('Verified lexical phonemes require confidence >= 0.70')
+            if any(cue['start'] < end and cue['end'] > start for start, end in cue_intervals):
+                raise ValueError('Overlapping phoneme cues in one singer lane')
+            cue_intervals.append((cue['start'], cue['end']))
             mask = (np.arange(frames)/fps >= cue['start']) & (np.arange(frames)/fps < cue['end'])
             # Verified consonants may be unvoiced: they own their cue interval.
             shape[mask] = SHAPE_NAMES.index(name)
@@ -136,7 +148,7 @@ def route_voices(tracks: list[VoiceTrack], *, duration: float, fps: int = 20):
                         'duet' if 'second' in active and 'lead' in active else
                         'background' if all(r=='background' for r in active) else 'solo')
     report = dict(schema='helix.voice_roles.v1', input_tracks=metadata,
-        voice_identity_resolved=bool(isolated), mixed_bus_only=not bool(isolated),
+        voice_identity_resolved=len(isolated) >= 2, mixed_bus_only=not bool(isolated),
         independent_tracks=len(isolated), classifications={k:int(np.sum(modes==k)) for k in np.unique(modes)},
         timing_hop_seconds=.01, release_padding_seconds=0,
         phoneme_method='verified cues where supplied; broad AH/EE/OH acoustic estimates elsewhere',

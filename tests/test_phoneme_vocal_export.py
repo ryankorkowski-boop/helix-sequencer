@@ -46,6 +46,26 @@ def test_real_source_cache_exports_bounded_distinct_estimates_and_keeps_acceptan
         assert report['models'][name]['non_rest_effect_count'] > 0
         identities.append(report['models'][name]['source_track_sha256'])
     assert identities[0] != identities[1]
+    tracks = [root.find(f'./ElementEffects/Element[@name="Helix_{role}_Phonemes"]')
+              for role in ('Lead', 'Harmony')]
+    assert all(track is not None for track in tracks)
+    assert ET.tostring(tracks[0]) != ET.tostring(tracks[1])
+
+
+def test_confidence_screened_csv_matches_every_native_face_interval(tmp_path):
+    import csv
+    from tools.vocal_diagnostic import export as diagnostic
+    root = sequence()
+    report = export(root, source_layout(tmp_path), SimpleNamespace(models=[]))
+    diagnostic(AUDIO, FIXTURE, tmp_path/'diagnostic')
+    rows = list(csv.DictReader((tmp_path/'diagnostic/Vocal_Timeline.csv').open()))
+    assert report['confidence_screening']['state'] == 'ESTIMATED'
+    for role, name in [('LEAD', 'lead'), ('HARMONY', 'backing')]:
+        effects = list(root.find(f'./ElementEffects/Element[@name="HX_SNOW_{role}"]').iter('Effect'))
+        for effect in effects:
+            start, end = int(effect.get('startTime'))//10, int(effect.get('endTime'))//10
+            active = 'Phoneme=rest,' not in effect.get('settings', '')
+            assert all(bool(int(row[name+'_active'])) == active for row in rows[start:end])
 
 
 def test_changed_vocal_cache_receipt_is_rejected_before_export(tmp_path):

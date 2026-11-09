@@ -54,6 +54,16 @@ def export(audio: Path, fixture: Path, output: Path, *, stemless_duet=False) -> 
     if len(lanes['lead']['energy']) != len(lanes['backing']['energy']):
         raise ValueError('Singer clocks have different lengths')
     estimate = None
+    confidence = None
+    if not stemless_duet and all(lane['probability'] is not None for lane in lanes.values()):
+        from tools.phoneme_vocal_export import screened_lanes
+        with np.load(clocks, allow_pickle=False) as data:
+            screened, confidence = screened_lanes(data)
+        for role, prefix in LANES:
+            energy, shapes = screened[prefix]
+            lanes[role]['energy'] = energy
+            lanes[role]['active'] = energy > 0
+            lanes[role]['names'] = [SHAPE_NAMES[int(s)] for s in shapes]
     if stemless_duet:
         from tools.stemless_duet import estimate_duet
         energy = np.column_stack([lane['energy'] for lane in lanes.values()])
@@ -85,12 +95,15 @@ def export(audio: Path, fixture: Path, output: Path, *, stemless_duet=False) -> 
             writer.writerow(row)
     summary = dict(schema='helix.vocal-review-timeline.v1', source_audio_sha256=digest(audio),
         source_clock_sha256=digest(clocks), source_duration_seconds=duration, hop_seconds=hop,
-        independent_backing_verified=False, exact_phoneme_boundaries_verified=False,
+        independent_backing_verified=bool(receipt.get('independent_backing_verified')),
+        exact_phoneme_boundaries_verified=False,
         confidence_meaning='Speech VAD probability where retained; not calibrated singing or singer identity confidence. Blank CSV fields mean unavailable.',
         lanes={})
     if stemless_duet:
         summary['stemless_estimate'] = estimate
         summary['confidence_meaning'] = 'Mixed-audio estimates; no calibrated singer or phoneme confidence. Input VAD values are not exported as estimate confidence.'
+    if confidence is not None:
+        summary['confidence_screening'] = confidence
     for role, lane in lanes.items():
         cuts = np.r_[0, np.flatnonzero(np.diff(lane['active']))+1, len(lane['active'])]
         summary['lanes'][role] = dict(active_seconds=float(np.count_nonzero(lane['active'])*hop),
@@ -106,6 +119,8 @@ def export(audio: Path, fixture: Path, output: Path, *, stemless_duet=False) -> 
     font = ImageFont.truetype(font_path, 16)
     small = ImageFont.truetype(font_path, 13)
     title = 'STEMLESS MIXED-AUDIO ESTIMATES' if stemless_duet else 'SOURCE-SEPARATED VOCAL ESTIMATES'
+    if receipt.get('verification_state') == 'VERIFIED':
+        title = 'SOURCE-BOUND INDEPENDENT VOCAL CLOCKS'
     draw.text((18, 10), title+' | identity and lexical phonemes unverified', font=font, fill='white')
     for j, (role, lane) in enumerate(lanes.items()):
         y = 60+j*50

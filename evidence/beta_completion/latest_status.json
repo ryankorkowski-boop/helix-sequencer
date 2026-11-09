@@ -1,11 +1,11 @@
 {
   "schema": "helix.beta-completion.v1",
-  "updated_at": "2026-11-09T03:19:03.045592+00:00",
+  "updated_at": "2026-11-09T11:39:16.953359+00:00",
   "repository": "https://github.com/ryankorkowski-boop/helix-sequencer",
   "branch": "codex/eight-hour-recovery-20261019",
   "recovered_head": "45f17d69fac91d7683984cc22c54bb701eb2226e",
   "last_verified_implementation_sha": "c80cbbda36aa8c6ed0bd91b8a74f5a9937f21985",
-  "current_task": "PR188-SOURCE-AND-NATIVE-COMPOSITION-REPAIR",
+  "current_task": "VOCAL-CONFIDENCE-INTEGRATION-20261109",
   "tasks": [
     {
       "id": "REC-01",
@@ -2148,5 +2148,23 @@
       "native_motion": 0.372,
       "required_native_motion": 0.65
     }
+  },
+  "vocal_confidence_20261109": {
+    "base_sha": "4640c70e915c0f422b233eb52eaba98e668ed879",
+    "status": "implementation_in_progress_native_rerender_pending",
+    "source_identity": "ESTIMATED",
+    "lexical_phonemes_verified": false,
+    "first_native_fseq": {
+      "channels": 273918,
+      "frames": 697,
+      "nonzero_frames": 697
+    },
+    "first_mp4_dimensions": [
+      1920,
+      1080
+    ],
+    "haswell_inherited_failures": 4,
+    "owner_approved": false,
+    "task_log": "evidence/beta_completion/vocals_20261109/task_log.json"
   }
 }

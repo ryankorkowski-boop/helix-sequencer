@@ -1863,5 +1863,11 @@
     "delivery": "evidence/beta_completion/composition_20261109/delivery.json",
     "owner_approved": false,
     "resume_command": "cd /workspace/helix-sequencer && OPENBLAS_NUM_THREADS=2 /workspace/helix-venv/bin/python -m evidence.beta_completion.composition_20261109.verify_candidates"
+  },
+  "vocal_confidence_20261109": {
+    "status": "rerender_pending",
+    "approval_qualified": false,
+    "source_audio_sha256": "19e90c273d0d747938f24b36586b50818c104cddffbefe4a4128927374301938",
+    "first_movie_not_final": true
   }
 }
