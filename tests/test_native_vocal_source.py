@@ -41,7 +41,8 @@ def test_mixed_or_wrong_source_rejected_before_native_build(source, field, value
 def test_empty_backing_is_a_negative_source_even_with_two_models(source):
     audio, folder, _ = source
     shapes = np.ones((20, 2), "int8"); shapes[:, 1] = 0
-    np.savez(folder / "voice_roles.npz", energy=np.full((20, 2), .5), shapes=shapes)
+    energy = np.full((20, 2), .5, dtype="float32"); energy[:, 1] = 0
+    np.savez(folder / "voice_roles.npz", energy=energy, shapes=shapes)
     with pytest.raises(ValueError, match="empty lead/backing"): verify(audio, folder)
 
 
