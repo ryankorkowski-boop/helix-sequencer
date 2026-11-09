@@ -59,3 +59,24 @@ def test_copied_mouth_clocks_rejected_even_with_distinct_track_hashes(source):
     np.savez(folder / "voice_roles.npz", energy=energy, shapes=shapes)
     with pytest.raises(ValueError, match="mouth clocks are identical"):
         verify(audio, folder)
+
+
+def test_gain_scaled_duplicate_mouth_clock_rejected(source):
+    audio, folder, _ = source
+    lead = np.linspace(.2, .8, 20, dtype="float32")
+    energy = np.column_stack([lead, lead * .7]).astype("float32")
+    shapes = np.ones((20, 2), dtype="int8")
+    np.savez(folder / "voice_roles.npz", energy=energy, shapes=shapes)
+    with pytest.raises(ValueError, match="gain-scaled copies"):
+        verify(audio, folder)
+
+
+def test_independent_harmony_with_distinct_phrase_timing_passes(source):
+    audio, folder, _ = source
+    energy = np.full((20, 2), .4, dtype="float32")
+    energy[:5, 1] = 0
+    shapes = np.ones((20, 2), dtype="int8")
+    shapes[:5, 1] = 0
+    np.savez(folder / "voice_roles.npz", energy=energy, shapes=shapes)
+    result = verify(audio, folder)
+    assert result["non_rest_frames"] == {"lead": 20, "harmony": 15}
