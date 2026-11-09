@@ -244,23 +244,24 @@ def _artifact_kind(path: Path) -> str:
 
 
 def _run_birdsong_hook(config: RunConfig, engine_args: list[str] | None, ctx: RunContext) -> None:
-    """Fail closed until real-audio Birdsong is integrated before native export.
+    """Use the existing native Birdsong engine, never the synthetic sidecar.
 
-    The previous post-run hook generated synthetic features and wrote a
-    diagnostic manifest *after* XSQ/FSEQ export. Such a plan is not evidence of
-    Birdsong lighting output. Explicit opt-in must not silently succeed.
+    core.effect_engine.run_variant already calls
+    birdsong_engine.place_birdsong_engine(add_model=...) before XSQ export.
+    The canonical --birdsong flag enables that implementation. Unsupported
+    aliases must fail before an expensive run rather than claim success.
     """
     args = list(engine_args or [])
-    enabled = any(
-        a in ("--enable-birdsong", "--birdsong", "--birdsong-enabled")
-        for a in args
-    )
-    if enabled:
+    unsupported = {"--enable-birdsong", "--birdsong-enabled"}
+    if any(arg in unsupported for arg in args):
         raise RuntimeError(
-            "Birdsong native export unavailable: synthetic post-run feature "
-            "fixture is prohibited. Wire verified source-audio features and "
-            "native placements before enabling Birdsong."
+            "Birdsong native export unavailable for alias: use --birdsong "
+            "to enable the real effect-engine placement path."
         )
+    if "--birdsong" in args and "--no-birdsong" in args:
+        raise RuntimeError("Conflicting Birdsong flags: --birdsong and --no-birdsong")
+    if "--birdsong" in args and "--hardkor" in args:
+        raise RuntimeError("Birdsong is disabled by the hardKor AC-only profile")
 
 
 def _artifact_search_roots(config: RunConfig, version: str) -> list[Path]:
