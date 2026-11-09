@@ -1,5 +1,3 @@
-from copy import deepcopy
-
 from tools.engine_comparison_preflight import validate_comparison_manifest
 
 
@@ -50,3 +48,26 @@ def test_missing_or_unverified_native_artifacts_rejected():
     data["panels"][0]["native_render_verified"] = False
     data["panels"][1]["xsq_sha256"] = None
     assert len(validate_comparison_manifest(data)) >= 2
+
+
+def test_malformed_manifest_and_hashes_fail_closed():
+    assert validate_comparison_manifest(None) == ["manifest must be an object"]
+    data = manifest()
+    data["panels"][0]["xsq_sha256"] = "not-a-sha"
+    data["panels"][1]["fseq_sha256"] = 123
+    errors = validate_comparison_manifest(data)
+    assert any("invalid or missing xsq_sha256" in e for e in errors)
+    assert any("invalid or missing fseq_sha256" in e for e in errors)
+
+
+def test_invalid_birdsong_row_type_fails_without_exception():
+    data = manifest()
+    data["panels"][8].update({"birdsong_enabled": True,
+        "birdsong_native_rows": "many", "birdsong_real_features_verified": True})
+    assert any("Birdsong" in e for e in validate_comparison_manifest(data))
+
+
+def test_baseline_uses_panel_one_even_when_unordered():
+    data = manifest()
+    data["panels"] = data["panels"][1:] + data["panels"][:1]
+    assert validate_comparison_manifest(data) == []
