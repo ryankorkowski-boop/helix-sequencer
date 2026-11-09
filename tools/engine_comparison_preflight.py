@@ -5,6 +5,7 @@ Run before assembling any 16-panel native comparison. This is not a renderer.
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 from pathlib import Path
 
@@ -64,12 +65,53 @@ def validate_comparison_manifest(manifest: dict) -> list[str]:
     return errors
 
 
+
+def verify_local_artifacts(manifest: dict, root: Path) -> list[str]:
+    """Verify actual native bytes, not only self-reported hashes.
+
+    Paths are relative to the trusted comparison workspace; absolute paths,
+    parent traversal and symlink escapes are rejected.
+    """
+    errors: list[str] = []
+    if not isinstance(manifest, dict) or not isinstance(manifest.get("panels"), list):
+        return ["manifest panels unavailable for artifact verification"]
+    root = root.resolve()
+    for panel in manifest["panels"]:
+        if not isinstance(panel, dict):
+            errors.append("invalid panel entry")
+            continue
+        for kind in ("xsq", "fseq"):
+            rel = panel.get(f"{kind}_path")
+            expected = panel.get(f"{kind}_sha256")
+            if not isinstance(rel, str) or not rel:
+                errors.append(f"panel {panel.get('panel')}: missing {kind}_path")
+                continue
+            path = Path(rel)
+            if path.is_absolute() or ".." in path.parts:
+                errors.append(f"panel {panel.get('panel')}: unsafe {kind}_path")
+                continue
+            resolved = (root / path).resolve()
+            if not resolved.is_relative_to(root) or not resolved.is_file():
+                errors.append(f"panel {panel.get('panel')}: missing or escaped {kind} artifact")
+                continue
+            digest = hashlib.sha256()
+            with resolved.open("rb") as handle:
+                for chunk in iter(lambda: handle.read(1024 * 1024), b""):
+                    digest.update(chunk)
+            if digest.hexdigest() != expected:
+                errors.append(f"panel {panel.get('panel')}: {kind} bytes differ from claimed SHA256")
+    return errors
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("manifest", type=Path)
+    parser.add_argument("--artifact-root", type=Path, help="verify actual XSQ/FSEQ bytes under this directory")
     args = parser.parse_args()
     payload = json.loads(args.manifest.read_text(encoding="utf-8"))
     errors = validate_comparison_manifest(payload)
+    if args.artifact_root is not None:
+        errors.extend(verify_local_artifacts(payload, args.artifact_root))
     print(json.dumps({"valid": not errors, "errors": errors}, indent=2))
     return 1 if errors else 0
 
