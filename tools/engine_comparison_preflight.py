@@ -58,7 +58,9 @@ def validate_comparison_manifest(manifest: dict) -> list[str]:
                 errors.append(f"panel {num}: identical FSEQ hash to panel {signatures[signature]}")
             else:
                 signatures[signature] = num
-        if num in (9, 15, 16) and p.get("birdsong_enabled"):
+        if num in (9, 15, 16):
+            if p.get("birdsong_enabled") is not True:
+                errors.append(f"panel {num}: required Birdsong engine is disabled")
             rows = p.get("birdsong_native_rows")
             if type(rows) is not int or rows <= 0 or p.get("birdsong_real_features_verified") is not True:
                 errors.append(f"panel {num}: Birdsong not proven in native output with real features")
