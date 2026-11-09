@@ -77,6 +77,39 @@ Do not mark complete from unit tests alone.
 
 ## Change Ledger
 
+### 2026-11-09 — Part A: cache separated stems and reuse mix HPSS
+**Goal:** avoid repeating stem separation, mix loading/HPSS, and stem-summary STFT work.
+**Changed files:** `core/audio_intelligence.py`, `tests/test_audio_stem_cache.py`, `MASTER_TODO.md`.
+**Preserved behavior:** separator preference (Moises → Demucs → local → direct), per-stem timing/feature analysis on every invocation, local DSP output when mix is omitted, and spectral band totals. No patch attachment was available.
+**New behavior:** `stems_manifest.json` under each audio-stem cache directory uses audio SHA-256, use_moises, and Demucs PATH availability; only existing files resolving within that directory are reused. Corrupt/incomplete/escaped entries miss; empty direct fallbacks are never cached. `analyze_audio_file` supplies its computed mix and HPSS arrays to local separation. Stem summaries share one magnitude STFT.
+**Tests/evidence:** dependencies installed with the requested requirements command after installing CPU PyTorch (the initial CUDA dependency download was interrupted to preserve disk space). `python -m pytest` before changes stopped at the existing `test_drum_mapping.py` import error (`assign_hand` absent). Expanded baseline, `python -m pytest --continue-on-collection-errors`: **19 failed, 910 passed, 5 skipped, 1 xfailed, 1 collection error**. `python -m pytest tests/test_audio.py tests/test_audio_stem_cache.py -q`: **30 passed**. Tests cover round trip/separation once per file (including preserved relative-path metadata), changed content at equal length, Moises/Demucs fingerprint changes, missing files, relative/absolute/symlink escapes, corrupt manifests, no caching of direct fallback, forwarding/reusing mix, identical synthetic local outputs, and single-STFT band totals. `git diff --check` passed.
+**Limitations:** cached stems still incur timing/classification work; no concurrent-writer locking, separator-version fingerprinting, cache eviction, or real-audio timing claim in this part. A failed remote/Demucs attempt can cache its successful local fallback until the fingerprint changes.
+**Deferred work:** broader audio feature caching and benchmark/render validation; Part B flash cap and Part C background-vocal diagnostics follow.
+**Regression risks:** same-stem filenames share a cache slot (content SHA invalidates it); PATH changes trigger re-separation; cached PCM output can outlive separator/config changes not represented by the requested fingerprint.
+**Branch/base:** `perf/audio-stem-cache-hpss-once` starts at `feature/restructure-core` (`59f3240`), as explicitly selected by the user. A PR to main includes that branch's pre-existing changes.
+
+**Pre-existing expanded-baseline failures (not changed or weakened):**
+- `test_band_export_manifest_tool.py::test_export_band_performance_manifest_writes_expected_files`
+- `test_band_geometry_manifest.py::test_geometry_status_reports_all_manifested_models`
+- `test_band_runtime_catalog.py::test_performer_runtime_catalog_contains_all_five_members`
+- `test_band_runtime_full_band_alignment.py::test_runtime_catalog_matches_full_band_model_specs`
+- `test_band_vocal_face_export.py::test_band_demo_manifest_includes_vocal_face_export`
+- `test_drum_detection.py::DrumDetectionTests::test_classifier_maps_frequency_profiles`
+- `test_drum_detection.py::DrumDetectionTests::test_mixed_track_profiles_do_not_collapse_to_bus`
+- `test_drummer_v3_pose_sheet.py::test_drummer_v3_xmodel_has_exactly_three_tom_zones`
+- `test_helixia_props.py::HelixiaPropsTests::test_all_snowman_band_members_have_structural_models`
+- `test_helixia_props.py::HelixiaPropsTests::test_member_specific_instrument_submodels_are_present`
+- `test_helixia_props.py::HelixiaPropsTests::test_snowman_drummer_models_submodels_and_groups`
+- `test_helixia_xlights_band_specs.py::HelixiaXlightsBandSpecsTests::test_opt_in_band_model_specs_are_stem_map_compatible`
+- `test_helixia_xlights_band_specs.py::HelixiaXlightsBandSpecsTests::test_opt_in_band_model_specs_generate_real_band_models_and_submodels`
+- `test_preview_mux.py::test_mux_success_first_attempt`
+- `test_preview_mux.py::test_mux_fallback_then_success`
+- `test_preview_mux.py::test_mux_both_fail_preserve_silent`
+- `test_snowman_band.py::SnowmanBandTests::test_structured_drum_events_drive_intelligent_drummer_cues`
+- `test_working_drummer.py::WorkingDrummerTests::test_reactive_drummer_uses_legacy_marks_when_typed_streams_missing`
+- `test_xsq_validation_tool.py::test_valid_fixture_passes`
+
+
 ### 2026-10-02 — Beta tester feedback checklist documented
 **Agent:** GitHub Copilot
 **Branch:** `feature/restructure-core`

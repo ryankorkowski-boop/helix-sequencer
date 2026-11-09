@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import csv
+import hashlib
 import json
 import os
 import shutil
@@ -356,12 +357,20 @@ def _clip_audio(y: np.ndarray) -> np.ndarray:
     return np.clip(np.asarray(y, dtype=np.float32), -1.0, 1.0)
 
 
-def _local_stem_separation(audio_path: Path, out_dir: Path, log_fn: Callable[[str], None] | None) -> dict[str, Path]:
+def _local_stem_separation(
+    audio_path: Path,
+    out_dir: Path,
+    log_fn: Callable[[str], None] | None,
+    mix: tuple[np.ndarray, int, np.ndarray, np.ndarray] | None = None,
+) -> dict[str, Path]:
     """Fallback local stem splitting using harmonic/percussive + frequency masking."""
     _log(log_fn, "Stem split: using local fallback separation.")
-    y, sr = librosa.load(str(audio_path), sr=None, mono=True)
-    y = np.asarray(y, dtype=np.float32)
-    harm, perc = librosa.effects.hpss(y)
+    if mix is None:
+        y, sr = librosa.load(str(audio_path), sr=None, mono=True)
+        y = np.asarray(y, dtype=np.float32)
+        harm, perc = librosa.effects.hpss(y)
+    else:
+        y, sr, harm, perc = mix
 
     n_fft = 2048
     hop = 512
@@ -776,8 +785,8 @@ def _summarize_stem_file(
     ) if onset_env.size else np.asarray([], dtype=int)
     limit = max(1, int(max_events_per_second * max(1.0, len(y) / max(1.0, float(sr))) * 0.2))
     times_s = librosa.frames_to_time(np.arange(len(rms)), sr=sr, hop_length=hop)
-    total = max(1e-9, float(np.sum(np.abs(librosa.stft(y, n_fft=2048, hop_length=hop)))))
     spec = np.abs(librosa.stft(y, n_fft=2048, hop_length=hop))
+    total = max(1e-9, float(np.sum(spec)))
     freqs = librosa.fft_frequencies(sr=sr, n_fft=2048)
     low = float(np.sum(spec[(freqs >= 20) & (freqs < 250)])) / total
     mid = float(np.sum(spec[(freqs >= 250) & (freqs < 2500)])) / total
@@ -810,6 +819,32 @@ def _summarize_stem_file(
     }
 
 
+def _read_stems_manifest(
+    stem_dir: Path, fingerprint: dict[str, object],
+) -> tuple[str, dict[str, Path]] | None:
+    """Treat malformed, incomplete, or escaped cache entries as misses."""
+    try:
+        manifest = json.loads((stem_dir / "stems_manifest.json").read_text(encoding="utf-8"))
+        if manifest["fingerprint"] != fingerprint or manifest["source"] not in {"local", "demucs", "moises"}:
+            return None
+        entries = manifest["stems"]
+        if not isinstance(entries, dict) or not entries:
+            return None
+        root = stem_dir.resolve()
+        stems = {}
+        for name, value in entries.items():
+            if not isinstance(name, str) or not isinstance(value, str):
+                return None
+            candidate = stem_dir / value
+            path = candidate.resolve()
+            if not path.is_relative_to(root) or not path.is_file():
+                return None
+            stems[name] = candidate
+        return manifest["source"], stems
+    except (OSError, ValueError, TypeError, KeyError, RuntimeError):
+        return None
+
+
 def build_stem_analysis(
     audio_path: Path,
     use_moises: bool,
@@ -817,6 +852,7 @@ def build_stem_analysis(
     cache_dir: Path,
     config: AudioAnalysisConfig | None = None,
     log_fn: Callable[[str], None] | None = None,
+    mix: tuple[np.ndarray, int, np.ndarray, np.ndarray] | None = None,
 ) -> StemAnalysis:
     """Build stems and per-stem timing cues used by the sequencer engine."""
     settings = config or load_audio_analysis_config()
@@ -839,9 +875,19 @@ def build_stem_analysis(
     stem_dir = cache_dir / audio_path.stem
     stem_dir.mkdir(parents=True, exist_ok=True)
 
-    stems: dict[str, Path] | None = None
-    source = "local"
-    if use_moises:
+    with audio_path.open("rb") as handle:
+        audio_sha256 = hashlib.file_digest(handle, "sha256").hexdigest()
+    fingerprint = {
+        "audio_sha256": audio_sha256,
+        "use_moises": bool(use_moises),
+        "demucs_available": shutil.which("demucs") is not None,
+    }
+    cached = _read_stems_manifest(stem_dir, fingerprint)
+    source, stems = cached if cached is not None else ("local", None)
+    manifest_path = stem_dir / "stems_manifest.json"
+    if cached is None:
+        manifest_path.unlink(missing_ok=True)
+    if not stems and use_moises:
         stems = _try_moises_stem_separation(audio_path, stem_dir, api_key or "", log_fn)
         if stems:
             source = "moises"
@@ -851,12 +897,23 @@ def build_stem_analysis(
             source = "demucs"
     if not stems:
         try:
-            stems = _local_stem_separation(audio_path, stem_dir, log_fn)
+            stems = _local_stem_separation(audio_path, stem_dir, log_fn, mix=mix)
             source = "local"
         except Exception as exc:
             _log(log_fn, f"Stem split fallback failed, using direct audio analysis only: {exc}")
             stems = {}
             source = "direct"
+
+    if cached is None and stems:
+        try:
+            root = stem_dir.resolve()
+            entries = {name: str(path.resolve().relative_to(root)) for name, path in stems.items()}
+            if all(path.is_file() for path in stems.values()):
+                manifest_path.write_text(json.dumps({
+                    "fingerprint": fingerprint, "source": source, "stems": entries,
+                }, indent=2), encoding="utf-8")
+        except (OSError, ValueError) as exc:
+            _log(log_fn, f"Stem cache write skipped: {exc}")
 
     drum_src = stems.get("drums") or audio_path
     bass_src = stems.get("bass") or audio_path
@@ -1628,7 +1685,10 @@ def analyze_audio_file(
     audio_reactive_actions = audio_trigger_routes.build_audio_reactive_actions(beat_feature_timeline)
     audio_reactive_summary = audio_trigger_routes.build_audio_reactive_summary(audio_reactive_actions)
 
-    stem = build_stem_analysis(audio_path, use_moises, api_key, cache_root, config=settings, log_fn=log_fn)
+    stem = build_stem_analysis(
+        audio_path, use_moises, api_key, cache_root,
+        config=settings, log_fn=log_fn, mix=(y, sr, harm, perc),
+    )
     lyric_timeline = (
         extract_lyric_timeline(audio_path, use_moises, api_key, stem.vocal_peaks_ms, log_fn=log_fn)
         if enable_lyrics
