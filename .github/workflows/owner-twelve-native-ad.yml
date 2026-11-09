@@ -1,0 +1,93 @@
+name: Helix 12 Distinct Native Layouts Real Owner Music Advertisement
+
+on:
+  push:
+    branches:
+      - codex/real-songs-12-native-ad-20261109
+    paths:
+      - .github/workflows/owner-twelve-native-ad.yml
+      - tools/render_owner_twelve_layout_ad.py
+      - models/approval_layouts.py
+      - models/canonical_native_band.py
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  real-owner-native-ad:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 120
+    env:
+      PYTHONPATH: .
+      XL_NO_GPU_COMPUTE: '1'
+      LIBGL_ALWAYS_SOFTWARE: '1'
+      OPENBLAS_NUM_THREADS: '2'
+      OMP_NUM_THREADS: '2'
+      NUMBA_NUM_THREADS: '2'
+    steps:
+      - name: Check out exact candidate
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Python 3.12
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install real audio Helix and native preview dependencies
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq ffmpeg xvfb xauth libgtk-3-0t64 libgl1 libegl1 libegl-mesa0 libopengl0 libglu1-mesa fonts-dejavu-core
+          python -m pip install numpy==1.26.4 scipy==1.13.1 numba==0.61.2 librosa==0.10.2.post1 soundfile Pillow PyYAML imageio imageio-ffmpeg zstandard scikit-learn gdown==6.4.2 trimesh moderngl glcontext
+      - name: Compile and validate twelve distinct layout geometries and physical AC budgets
+        run: |
+          python -m py_compile tools/render_owner_twelve_layout_ad.py
+          python -m tools.render_owner_twelve_layout_ad --preflight-only --output outputs/real-owner-12 --xlights /usr/bin/true | tee 12-layout-preflight.json
+      - name: Obtain checksum-pinned official xLights 2026.18
+        run: |
+          mkdir -p "$RUNNER_TEMP/xlights-native"
+          cd "$RUNNER_TEMP/xlights-native"
+          curl --fail --location --retry 3 --output xlights.AppImage https://github.com/xLightsSequencer/xLights/releases/download/2026.18/xLights-2026.18-x86_64.AppImage
+          echo '62affb88b9a9b03cf5164974ac69bcefe35c559719d157b3364e4d4a5ab4214b  xlights.AppImage' | sha256sum --check
+          chmod +x xlights.AppImage
+          ./xlights.AppImage --appimage-extract > /dev/null
+      - name: Run real Helix engine and native xLights for every distinct layout and compose one synchronized MP4
+        run: |
+          python -m tools.render_owner_twelve_layout_ad --output outputs/real-owner-12 --xlights "$RUNNER_TEMP/xlights-native/squashfs-root/AppRun"
+      - name: Verify real downloadable MP4 and twelve separate native FSEQ proofs
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          root=Path('outputs/real-owner-12')
+          m=json.loads((root/'manifest.json').read_text())
+          assert len(m['layouts'])==12
+          assert len({r['layout_sha256'] for r in m['layouts']})==12
+          assert [r['channel_count'] for r in m['layouts'][:3]]==[16,64,256]
+          assert all(r['native_effect_count']>0 and r['frame_count']==720 for r in m['layouts'])
+          assert m['video']['full_decode'] is True
+          assert m['video']['source_audio_sha256']==m['audio']['media_sha256']
+          assert m['owner_approval']=='PENDING'
+          movie=root/m['video']['file']
+          assert movie.is_file() and movie.stat().st_size>100000
+          print('MP4_CANDIDATE_READY',movie,m['video']['sha256'])
+          PY
+      - name: Upload real MP4, audio provenance, source XSQ/FSEQ and logs
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: Helix-Owner-Twelve-Distinct-Native-Layouts-Real-Audio
+          compression-level: 0
+          retention-days: 30
+          if-no-files-found: warn
+          path: |
+            outputs/real-owner-12/*.mp4
+            outputs/real-owner-12/*.json
+            outputs/real-owner-12/*.wav
+            outputs/real-owner-12/shows/**/Performance.xsq
+            outputs/real-owner-12/shows/**/Performance.fseq
+            outputs/real-owner-12/shows/**/xlights_rgbeffects.xml
+            outputs/real-owner-12/shows/**/native_proof.json
+            outputs/real-owner-12/shows/**/helix_engine.log
+            outputs/real-owner-12/shows/**/xlights_native.log
+            12-layout-preflight.json
