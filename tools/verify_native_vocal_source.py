@@ -26,6 +26,8 @@ def verify(audio: Path, analysis: Path) -> dict:
         track = tracks.get(item.get("name"), {})
         if item.get("role") not in expected or track.get("evidence") not in {"individual", "ensemble"} or track.get("duplicate_of"):
             raise ValueError("Vocal model lanes lack independent source ownership")
+        if track.get("origin") == "model_estimate":
+            raise ValueError("Model-estimated vocal candidates are not verified independent singer sources")
         fingerprints.append(track.get("sha256"))
     if any(not isinstance(value, str) or len(value) != 64 for value in fingerprints) or len(set(fingerprints)) != 2:
         raise ValueError("Duplicate or missing vocal source fingerprints")
