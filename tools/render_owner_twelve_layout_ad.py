@@ -130,6 +130,95 @@ def prepare_for_engine(g, show):
         return template
     return prepare_template(g,show)
 
+def install_source_timed_band(xsq, g, show, plan_path):
+    """Replace broad whole-performer FX with source-backed instrument submodels.
+
+    All generic effects on canonical performers are removed, then rebuilt using
+    the Helix snowman-band plan recorded for THIS exact sampler. No guessed
+    xylophonist, no speculative backing-mouth animation, no all-on piano keys.
+    """
+    import xml.etree.ElementTree as ET
+    from types import SimpleNamespace
+    from xlights.xsq_writer import EffectTemplate, add_effect
+    from xlights.xml_io import materialize_native_effect_tables
+    from tools.canonical_band_cues import export_instruments, export_drums, refresh_models
+
+    if not plan_path.is_file():
+        raise FileNotFoundError("Actual source-bound snowman-band plan missing: "+str(plan_path))
+    plan=json.loads(plan_path.read_text())
+    if not isinstance(plan.get("cues"),dict):
+        raise ValueError("Missing actual Helix performer cue lanes")
+    band=[m for m in g.models if m.details.get("review_role")]
+    roles={m.details["review_role"] for m in band}
+    if roles!={"drummer","bass","guitar","piano","lead","harmony"}:
+        raise ValueError("Canonical 6-member band requirement failed")
+    tree=ET.parse(xsq);root=tree.getroot()
+    holder=SimpleNamespace(models=band)
+    proof={"source_plan_sha256":digest(plan_path),"source_role_counts":
+           {k:len(v) if isinstance(v,list) else -1 for k,v in plan["cues"].items()},
+           "generic_performer_fx_removed":True}
+    proof["instruments"]=export_instruments(root,holder,plan)
+    proof["drums"]=export_drums(root,holder,plan)
+    elements=root.find("ElementEffects");displays=root.find("DisplayElements")
+    # This legacy "idle note" alias can turn every key bright continuously.
+    # A silent key must stay silent; preserve only source-backed key attacks.
+    for m in band:
+        for part in list(m.submodels):
+            if part.startswith("INSTRUMENT_IDLE_"):
+                m.submodels.pop(part)
+                for el in list(elements):
+                    if el.get("name")==m.name+"/"+part:
+                        elements.remove(el)
+    duration=round(float(root.findtext("head/sequenceDuration"))*1000)
+    def base(m,part,brightness):
+        if not m.submodels.get(part):
+            return
+        row=next((x for x in elements if x.get("name")==m.name+"/"+part),None)
+        if row is None:
+            row=ET.SubElement(elements,"Element",type="model",name=m.name+"/"+part)
+        layer=next((x for x in row if x.tag=="EffectLayer"),None)
+        if layer is None:
+            layer=ET.SubElement(row,"EffectLayer")
+        add_effect(layer,0,duration,"On",EffectTemplate(
+            settings=f"E_TEXTCTRL_Eff_On_Start={brightness},E_TEXTCTRL_Eff_On_End={brightness}",
+            palette="C_BUTTON_Palette1=#B6C8D5,C_CHECKBOX_Palette1=1"))
+    for m in band:
+        role=m.details["review_role"]
+        if role in ("lead","harmony"):
+            # Without independent source proof, false harmony is worse than a
+            # neutral resting singer. No generic whole-body color animations.
+            for el in list(elements):
+                if el.get("name")==m.name or el.get("name","").startswith(m.name+"/"):
+                    elements.remove(el)
+            for el in list(displays):
+                if el.get("name")==m.name or el.get("name","").startswith(m.name+"/"):
+                    displays.remove(el)
+            ET.SubElement(displays,"Element",type="model",name=m.name,visible="1",collapsed="1")
+            ET.SubElement(ET.SubElement(elements,"Element",type="model",name=m.name),"EffectLayer")
+            base(m,"BODY",15)
+            for part in ("ARM_LEFT_IDLE","ARM_RIGHT_IDLE"):
+                base(m,part,18)
+            # REST mouth only, no unsupported speech or duplicate harmony.
+            base(m,"MOUTH_rest",10)
+        elif role=="drummer":
+            base(m,"BODY_KEEPALIVE",17)
+        else:
+            base(m,"BODY",15)
+    # Remove parent-wide band group FX if generated: they can override all of
+    # the individual note/contact envelopes and produce a white rectangle.
+    for el in list(elements):
+        if el.get("name") in ("HX_ZONE_HX_SNOW","HX_ZONE_BAND","HX_GROUP_BAND"):
+            elements.remove(el)
+    materialize_native_effect_tables(root)
+    refresh_models(g,show/"xlights_rgbeffects.xml")
+    tree.write(xsq,encoding="utf-8",xml_declaration=True)
+    proof["independent_vocal_ownership_verified"]=False
+    proof["mallet_player_present"]=False
+    proof["native_xlights_band_effects"]=len(root.findall("ElementEffects/Element/EffectLayer/Effect"))
+    (show/"band_cue_provenance.json").write_text(json.dumps(proof,indent=2)+"\n")
+    return proof
+
+
 def export_one(root, audio, number, xlights, cache):
     g=build_layout(number,include_xylophonist=False,full_keyboard=True)
     budget = {1:16,2:64,3:256}
@@ -162,6 +251,8 @@ def export_one(root, audio, number, xlights, cache):
     info=native_music_xsq(raw,xsq,inclusion,local,DURATION)
     if info["native_effects"] <= 0:
         raise ValueError("No actual Helix effects: "+NAMES[number-1])
+    if cast:
+        install_source_timed_band(xsq,g,out,out/"engine_raw.snowman_band.json")
     native_cmd=[str(xlights),"--headless","-q","-s",str(out.resolve()),
                 "-od",str(out.resolve()),str(xsq.resolve())]
     if shutil.which("xvfb-run"):
@@ -212,12 +303,14 @@ def visual_model(g,number):
         new.kind="pixel"
         new.start=start
         start+=n*3
-    if number==7:
-        # Camera-only reframing, never a change to the underlying native nodes.
+    if number<=8:
+        # Camera-only framing improves small AC and residential/band previews;
+        # the original xLights model coordinates and every FSEQ channel remain unchanged.
         bounds=np.concatenate([m.points for m in visual.models])
         center=(bounds.min(axis=0)+bounds.max(axis=0))/2
+        zoom=2.1 if number==7 else 1.6 if number in (1,2,3,4,5,6,8) else 1
         for m in visual.models:
-            m.points=(m.points-center)*2.1+np.array([0,35,0])
+            m.points=(m.points-center)*zoom+np.array([0,35,0])
     return visual,np.asarray(sources,dtype=np.int64),np.asarray(gains,dtype=np.float32)
 
 def frames_to_full(reader, payload, total_channels):
