@@ -22,8 +22,43 @@
     {
       "action": "Regression baseline",
       "result": "12default bounded pass; four inherited Haswell parity failures reproduced; unchanged tolerance. Single-process full suite resource-killed during concurrent native run, isolated batches follow."
+    },
+    {
+      "action": "Publish implementation",
+      "result": "Connected GitHub create-tree/commit/ref succeeded at c8c01e1; exact tree98b2dc80 matches local tested7cf895c. CLI push lacked authentication; no borrowed credential used."
+    },
+    {
+      "action": "Final-source focused checks",
+      "result": "62passed; original-source drummer display2.2x and confidence-dependent golden event counts verified."
+    },
+    {
+      "action": "Full default regression in isolated processes",
+      "result": "All399testmodules executed:2371passed,24subtests passed,6skips;55flatbatches plus7nested modules. No failures/errors. Python3.11 not run for this change."
+    },
+    {
+      "action": "Final actual native render and independent verification",
+      "result": "Helix engine exit0, native xLights2026.18 XSQ/FSEQ/MP4. 1920x1080 H264/AAC20fps698video frames,697FSEQframes. Full decode,0.996808soundtrack correlation,4zero-lagwindows includingtail. Native lead265/harmony47frames, zero guarded-rest openings in372/639frames. Originaldrummer artwork retained. Brightness/framing pass; actual motion0.377<0.65 fails. Sourceidentity/lexical/canonical-solid acceptance remains open."
+    },
+    {
+      "action": "Save actual MP4",
+      "result": "libfile_5a9c6a9924508191bcbef7d65126f86d;10656010bytes;SHAa912403edc71d1d9af15a907d80a3040c22b44ac37b936e06be54a2c1d7acb23. Metadata helper succeeded."
+    },
+    {
+      "action": "Save portable native source package",
+      "result": "libfile_40fc35a268c08191be396124f1b6c5e8;24895611bytes;97entriesCRCverified;SHA9624a06142770db3cd6b8e0e7d9e7b540b766dd85d01018391035df6e1310c85. MatchingXSQ/FSEQ/layout/assets/audio plus verification and all isolated test XMLs. Metadata helper succeeded."
     }
   ],
   "owner_approved": false,
-  "merge_or_release": false
+  "merge_or_release": false,
+  "implementation_commit": "c8c01e1589bc8925c497fbd1150532cd6d968dc1",
+  "status": "actual_native_candidate_delivered_acceptance_held",
+  "blockers": [
+    "Independent singer identities/lexical timing remain unverified model estimates",
+    "Native motion0.377 below0.65",
+    "Four inherited Haswell parity failures",
+    "Original source-art drummer is planar; solid canonical equivalence remains open"
+  ],
+  "work_in_progress": false,
+  "next_action": "Read MASTER_TODO.md and native_delivery_verification.json; qualify independent acoustic/lexical sources and repair actual motion and Haswell parity before promoting any approval candidate.",
+  "delivery": "delivery.json"
 }
