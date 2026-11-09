@@ -1,0 +1,85 @@
+name: Starred real-audio advanced layouts x Helix styles
+on:
+  push:
+    branches:
+      - codex/starred-advanced-styles-20261109
+    paths:
+      - .github/workflows/starred-advanced-styles.yml
+      - tools/starred_advanced_style_comparison.py
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  native-compare:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 120
+    strategy:
+      fail-fast: false
+      matrix:
+        style: [musical, cinematic, kinetic]
+    env:
+      XL_NO_GPU_COMPUTE: '1'
+      LIBGL_ALWAYS_SOFTWARE: '1'
+      OPENBLAS_NUM_THREADS: '2'
+      OMP_NUM_THREADS: '2'
+      NUMBA_NUM_THREADS: '2'
+    steps:
+      - name: Check out exact source
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Python 3.12
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install verified Helix and native render dependencies
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq ffmpeg xvfb xauth libgtk-3-0t64 libgl1 libegl1 libegl-mesa0 libopengl0 libglu1-mesa fonts-dejavu-core
+          python -m pip install numpy==1.26.4 scipy==1.13.1 numba==0.61.2 librosa==0.10.2.post1 soundfile Pillow PyYAML imageio imageio-ffmpeg zstandard scikit-learn gdown==6.4.2
+          python -m py_compile tools/starred_advanced_style_comparison.py
+      - name: Obtain checksum-pinned official xLights 2026.18
+        run: |
+          mkdir -p "$RUNNER_TEMP/xlights-native"
+          cd "$RUNNER_TEMP/xlights-native"
+          curl --fail --location --retry 3 --output xlights.AppImage https://github.com/xLightsSequencer/xLights/releases/download/2026.18/xLights-2026.18-x86_64.AppImage
+          echo '62affb88b9a9b03cf5164974ac69bcefe35c559719d157b3364e4d4a5ab4214b  xlights.AppImage' | sha256sum --check
+          chmod +x xlights.AppImage
+          ./xlights.AppImage --appimage-extract > /dev/null
+      - name: Run actual Helix on three SHA-verified Starred songs and six distinct native layouts
+        run: |
+          PYTHONPATH=. python -m tools.starred_advanced_style_comparison --style "${{ matrix.style }}" --output "outputs/${{ matrix.style }}" --xlights "$RUNNER_TEMP/xlights-native/squashfs-root/AppRun"
+      - name: Verify approval candidate video and source evidence
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          roots=list(Path('outputs').glob('*/manifest.json'))
+          assert len(roots)==1,roots
+          manifest=json.loads(roots[0].read_text())
+          assert manifest['owner_approval']=='PENDING'
+          assert len(manifest['native_xsq_fseq'])==6
+          assert manifest['video']['decoded']
+          assert manifest['video']['original_audio_sha256']==manifest['source_audio_sha256']
+          assert all(r['frame_count']==720 and r['native_effects']>0 for r in manifest['native_xsq_fseq'])
+          movie=roots[0].parent/manifest['video']['mp4']
+          assert movie.is_file() and movie.stat().st_size>100000
+          print('REVIEW_MP4_UNAPPROVED',movie,manifest['video']['mp4_sha256'])
+          PY
+      - name: Upload actual playable MP4 and native XSQ/FSEQ evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: Helix-Starred-${{ matrix.style }}-six-native-layouts
+          compression-level: 0
+          retention-days: 30
+          if-no-files-found: warn
+          path: |
+            outputs/${{ matrix.style }}/Helix_Starred_*.mp4
+            outputs/${{ matrix.style }}/manifest.json
+            outputs/${{ matrix.style }}/sampler/Sampler_Provenance.json
+            outputs/${{ matrix.style }}/source_config.json
+            outputs/${{ matrix.style }}/shows/**/*.xsq
+            outputs/${{ matrix.style }}/shows/**/*.fseq
+            outputs/${{ matrix.style }}/shows/**/helix_engine.log
+            outputs/${{ matrix.style }}/shows/**/native_xlights.log
