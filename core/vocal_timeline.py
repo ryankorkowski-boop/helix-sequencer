@@ -1,7 +1,9 @@
 from __future__ import annotations
 
+import json
 import re
 from dataclasses import asdict, dataclass, field
+from pathlib import Path
 from typing import Any, Iterable, Mapping
 
 
@@ -127,6 +129,21 @@ class VocalRoutingConfig:
     background_vocal_chorus_boost: float = 0.18
     background_face_max_intensity: float = 0.46
     background_face_min_duration: float = 0.10
+    allow_peak_fallback: bool = False
+
+
+def load_vocal_routing_config(path: Path | None = None) -> VocalRoutingConfig:
+    """Load routing thresholds without depending on the DSP analysis module."""
+    target = path or Path(__file__).resolve().parents[1] / "config" / "audio_analysis_defaults.json"
+    defaults = VocalRoutingConfig()
+    try:
+        payload = json.loads(target.read_text(encoding="utf-8"))
+        return VocalRoutingConfig(
+            background_vocal_confidence_min=float(payload.get("background_vocal_confidence_min", defaults.background_vocal_confidence_min)),
+            background_vocal_energy_min=float(payload.get("background_vocal_energy_min", defaults.background_vocal_energy_min)),
+        )
+    except (OSError, ValueError, TypeError, AttributeError):
+        return defaults
 
 
 def _event_start_ms(event: Any) -> int:
@@ -385,9 +402,10 @@ def detect_background_vocal_windows(
     lyric_timeline: LyricTimeline,
     song_parts: list[SongPart],
     vocal_peaks_ms: Iterable[int],
-    config: VocalRoutingConfig = VocalRoutingConfig(),
+    config: VocalRoutingConfig | None = None,
     classifier_events: Iterable[Any] | None = None,
 ) -> list[dict[str, Any]]:
+    config = config or load_vocal_routing_config()
     windows: list[dict[str, Any]] = []
     for idx, event in enumerate(classifier_events or []):
         start_ms = int(getattr(event, "start_ms", 0) or 0)
@@ -417,7 +435,7 @@ def detect_background_vocal_windows(
                 "energy": round(max(0.0, min(1.0, energy)), 3),
             }
         )
-    if windows:
+    if windows or not config.allow_peak_fallback:
         return windows
     lead_word_starts = [word.start_ms for word in lyric_timeline.words]
     for idx, peak_ms in enumerate(sorted(set(int(v) for v in vocal_peaks_ms))):

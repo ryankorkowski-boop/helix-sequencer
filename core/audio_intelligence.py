@@ -3,6 +3,7 @@ from __future__ import annotations
 import csv
 import hashlib
 import json
+import logging
 import os
 import shutil
 import tempfile
@@ -70,6 +71,7 @@ class StemAnalysis:
     drum_event_streams: dict[str, list[object]] | None = None
     stem_features: dict[str, dict[str, object]] = field(default_factory=dict)
     confidence_summary: dict[str, float] = field(default_factory=dict)
+    background_vocal_classifier_status: dict[str, object] = field(default_factory=lambda: {"status": "not_run"})
 
 
 @dataclass(frozen=True)
@@ -79,7 +81,9 @@ class AudioAnalysisConfig:
     stem_event_sensitivity: float = 0.72
     pitch_confidence_min: float = 0.18
     vocal_confidence_min: float = 0.22
-    background_vocal_confidence_min: float = 0.32
+    background_vocal_confidence_min: float = 0.42
+    background_vocal_energy_min: float = 0.35
+    background_vocal_score_threshold: float = 0.56
     drum_hit_confidence_min: float = 0.18
     stem_hit_confidence_min: float = 0.18
     section_change_sensitivity: float = 0.68
@@ -255,6 +259,8 @@ def load_audio_analysis_config(path: Path | None = None) -> AudioAnalysisConfig:
         pitch_confidence_min=float(source["pitch_confidence_min"]),
         vocal_confidence_min=float(source["vocal_confidence_min"]),
         background_vocal_confidence_min=float(source["background_vocal_confidence_min"]),
+        background_vocal_energy_min=float(source["background_vocal_energy_min"]),
+        background_vocal_score_threshold=float(source["background_vocal_score_threshold"]),
         drum_hit_confidence_min=float(source["drum_hit_confidence_min"]),
         stem_hit_confidence_min=float(source["stem_hit_confidence_min"]),
         section_change_sensitivity=float(source["section_change_sensitivity"]),
@@ -655,10 +661,12 @@ def _group_background_vocal_scores(
     scores: list[float],
     energies: list[float],
     *,
-    threshold: float = 0.56,
+    threshold: float | None = None,
     min_duration_ms: int = 140,
     max_gap_ms: int = 180,
 ) -> list[BackgroundVocalEvent]:
+    if threshold is None:
+        threshold = load_audio_analysis_config().background_vocal_score_threshold
     events: list[BackgroundVocalEvent] = []
     active_start: int | None = None
     last_ms = 0
@@ -704,52 +712,95 @@ def _group_background_vocal_scores(
     return events
 
 
-def _classify_background_vocals(path: Path, log_fn: Callable[[str], None] | None = None) -> list[BackgroundVocalEvent]:
-    """Classify harmony/background vocals from the selected vocal stem.
+def _independent_pitch_counts(pitch_hz: np.ndarray, pitch_mag: np.ndarray) -> np.ndarray:
+    """Count strong spectral peaks, retaining the anchor but excluding harmonics.
 
-    This is a deterministic feature classifier, not a lyric heuristic: it looks
-    for sustained vocal energy with simultaneous pitch/chroma spread, which is a
-    practical signal for harmonies and gang vocals when only a mixed vocal stem
-    is available.
+    piptrack contains sparse peaks: a quantile over its mostly-zero bins cannot
+    distinguish weak peaks from voices. Require 20% of the frame maximum and
+    exclude peaks within 3% of integer multiples of the strongest pitch.
+    A single harmonic series then contributes one peak, not a saturated score.
     """
+    if not pitch_mag.size:
+        return np.asarray([], dtype=int)
+    strongest_rows = np.argmax(pitch_mag, axis=0)
+    columns = np.arange(pitch_mag.shape[1])
+    strongest_hz = pitch_hz[strongest_rows, columns]
+    strongest_mag = pitch_mag[strongest_rows, columns]
+    strong = (pitch_mag >= 0.20 * strongest_mag) & (pitch_mag > 1e-8) & (pitch_hz > 0)
+    ratios = np.divide(pitch_hz, strongest_hz, out=np.zeros_like(pitch_hz, dtype=float), where=strongest_hz > 0)
+    multiples = np.rint(ratios)
+    harmonics = (multiples >= 1) & (np.abs(ratios - multiples) <= 0.03 * multiples)
+    harmonics[strongest_rows, columns] = False
+    return np.sum(strong & ~harmonics, axis=0)
+
+
+def _background_vocal_frame_features(path: Path) -> dict[str, np.ndarray]:
+    """Return the classifier's aligned frame features for reproducible diagnostics."""
+    y, sr = librosa.load(str(path), sr=None, mono=True)
+    y = np.asarray(y, dtype=np.float32)
+    if y.size < max(2048, int(sr * 0.2)):
+        return {}
+    hop = 512
+    harm, _ = librosa.effects.hpss(y)
+    rms = librosa.feature.rms(y=harm, hop_length=hop)[0]
+    if not rms.size or float(np.max(rms)) <= 0.0:
+        return {}
+    rms01 = np.asarray(rms, dtype=float) / max(float(np.max(rms)), 1e-9)
+    stft_mag = np.abs(librosa.stft(harm, n_fft=2048, hop_length=hop))
+    pitch_hz, pitch_mag = librosa.piptrack(S=stft_mag, sr=sr, hop_length=hop, fmin=110.0, fmax=2200.0)
+    if pitch_mag.size:
+        pitch_counts = _independent_pitch_counts(pitch_hz, pitch_mag)
+        multi_pitch01 = np.clip((pitch_counts - 1.0) / 3.0, 0.0, 1.0)
+    else:
+        multi_pitch01 = np.zeros_like(rms01)
+    chroma = librosa.feature.chroma_stft(S=stft_mag, sr=sr, hop_length=hop)
+    chroma_sum = np.sum(chroma, axis=0) + 1e-9
+    chroma_prob = chroma / chroma_sum
+    chroma_entropy = -np.sum(chroma_prob * np.log2(chroma_prob + 1e-9), axis=0) / np.log2(12.0)
+    size = min(len(rms01), len(multi_pitch01), len(chroma_entropy))
+    if size <= 0:
+        return {}
+    scores = np.clip((0.46 * rms01[:size]) + (0.36 * multi_pitch01[:size]) + (0.18 * chroma_entropy[:size]), 0.0, 1.0)
+    times = librosa.frames_to_time(np.arange(size), sr=sr, hop_length=hop)
+    return {
+        "times_ms": np.asarray([int(round(float(t) * 1000.0)) for t in times]),
+        "rms01": rms01[:size],
+        "multi_pitch01": multi_pitch01[:size],
+        "chroma_entropy": chroma_entropy[:size],
+        "score": scores,
+    }
+
+
+def _classify_background_vocals(
+    path: Path,
+    log_fn: Callable[[str], None] | None = None,
+    *,
+    config: AudioAnalysisConfig | None = None,
+    status: dict[str, object] | None = None,
+) -> list[BackgroundVocalEvent]:
+    """Classify harmonic spread; report failures even without a log callback."""
+    diagnostics = status if status is not None else {}
+    diagnostics.update(status="running", event_count=0, frame_count=0)
     try:
-        y, sr = librosa.load(str(path), sr=None, mono=True)
-        y = np.asarray(y, dtype=np.float32)
-        if y.size < max(2048, int(sr * 0.2)):
+        settings = config or load_audio_analysis_config()
+        features = _background_vocal_frame_features(path)
+        if not features:
+            diagnostics.update(status="no_features", reason="short_or_silent_audio")
             return []
-        hop = 512
-        harm, _ = librosa.effects.hpss(y)
-        rms = librosa.feature.rms(y=harm, hop_length=hop)[0]
-        if not rms.size or float(np.max(rms)) <= 0.0:
-            return []
-        rms01 = np.asarray(rms, dtype=float) / max(float(np.max(rms)), 1e-9)
-        stft_mag = np.abs(librosa.stft(harm, n_fft=2048, hop_length=hop))
-        pitch_hz, pitch_mag = librosa.piptrack(S=stft_mag, sr=sr, hop_length=hop, fmin=110.0, fmax=2200.0)
-        if pitch_mag.size:
-            frame_thresholds = np.quantile(pitch_mag, 0.92, axis=0)
-            pitch_counts = np.sum(pitch_mag > np.maximum(frame_thresholds, 1e-8), axis=0)
-            multi_pitch01 = np.clip((pitch_counts - 1.0) / 3.0, 0.0, 1.0)
-        else:
-            multi_pitch01 = np.zeros_like(rms01)
-        chroma = librosa.feature.chroma_stft(S=stft_mag, sr=sr, hop_length=hop)
-        chroma_sum = np.sum(chroma, axis=0) + 1e-9
-        chroma_prob = chroma / chroma_sum
-        chroma_entropy = -np.sum(chroma_prob * np.log2(chroma_prob + 1e-9), axis=0) / np.log2(12.0)
-        size = min(len(rms01), len(multi_pitch01), len(chroma_entropy))
-        if size <= 0:
-            return []
-        scores = np.clip((0.46 * rms01[:size]) + (0.36 * multi_pitch01[:size]) + (0.18 * chroma_entropy[:size]), 0.0, 1.0)
-        times = librosa.frames_to_time(np.arange(size), sr=sr, hop_length=hop)
         events = _group_background_vocal_scores(
-            [int(round(float(t) * 1000.0)) for t in times],
-            [float(v) for v in scores],
-            [float(v) for v in rms01[:size]],
+            [int(value) for value in features["times_ms"]],
+            [float(value) for value in features["score"]],
+            [float(value) for value in features["rms01"]],
+            threshold=settings.background_vocal_score_threshold,
         )
+        diagnostics.update(status="ok", event_count=len(events), frame_count=len(features["score"]))
         if events:
             _log(log_fn, f"Background vocal classifier: {len(events)} harmony/group windows.")
         return events
     except Exception as exc:
-        _log(log_fn, f"Background vocal classifier skipped: {exc}")
+        logging.getLogger(__name__).exception("Background vocal classifier failed for %s", path)
+        diagnostics.update(status="error", error_type=type(exc).__name__, error=str(exc))
+        _log(log_fn, f"Background vocal classifier failed: {exc}")
         return []
 
 
@@ -922,7 +973,10 @@ def build_stem_analysis(
     drum_event_streams = drum_intel.detect_drum_event_streams_from_file(drum_src, log_fn=log_fn)
     bass_peaks = _analyze_peak_events(bass_src, "bass")
     vocal_peaks = _analyze_peak_events(vocal_src, "vocals")
-    background_vocal_events = _classify_background_vocals(vocal_src, log_fn)
+    classifier_status = {"status": "not_run", "stem_source": source, "vocal_path": str(vocal_src)}
+    background_vocal_events = _classify_background_vocals(
+        vocal_src, log_fn, config=settings, status=classifier_status,
+    )
     stem_features = {
         name: _summarize_stem_file(
             path,
@@ -948,6 +1002,7 @@ def build_stem_analysis(
         drum_event_streams=drum_event_streams,
         stem_features=stem_features,
         confidence_summary=confidence_summary,
+        background_vocal_classifier_status=classifier_status,
     )
 
 
@@ -1840,6 +1895,7 @@ def analyze_audio_file(
             "stems": round(sum(float(value) for value in stem.confidence_summary.values()) / max(1, len(stem.confidence_summary)), 4) if stem.confidence_summary else 0.0,
         },
         debug_summaries={
+            "background_vocal_classifier": dict(stem.background_vocal_classifier_status),
             "raw_candidate_counts": {"onsets": len(onset_frames), "beats": len(beat_events), "pitch_candidates": len(raw_pitch), "notes": len(note_events)},
             "timeline_segments": [asdict(item) for item in timeline[:32]],
             "feature_state": {"frames": len(feature_state_frames), "beat_timeline_entries": len(beat_feature_timeline)},

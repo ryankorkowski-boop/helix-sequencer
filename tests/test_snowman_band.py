@@ -162,6 +162,16 @@ class SnowmanBandTests(unittest.TestCase):
             chronoflow_payload={"debug": {"event_count": 4}},
             multiband=SimpleNamespace(tempo_bpm=120.0),
             enable_lyrics=True,
+            background_vocal_events=[
+                audio_intelligence.BackgroundVocalEvent(
+                    start_ms=2360, end_ms=2700, confidence=0.72, energy=0.65,
+                    role="harmony", source_reason="demo_classifier", performer_hint="bassist",
+                ),
+                audio_intelligence.BackgroundVocalEvent(
+                    start_ms=2820, end_ms=3200, confidence=0.72, energy=0.65,
+                    role="harmony", source_reason="demo_classifier", performer_hint="guitarist",
+                ),
+            ],
         )
         self.assertTrue(payload["global_timeline"]["lyric_words"])
         self.assertTrue(payload["global_timeline"]["phoneme_events"])

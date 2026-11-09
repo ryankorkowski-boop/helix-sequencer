@@ -77,6 +77,49 @@ Do not mark complete from unit tests alone.
 
 ## Change Ledger
 
+### 2026-11-09 — Part C: diagnose and constrain background-vocal routing
+**Goal:** expose classifier failures, stop implicit backup-vocal invention, use classifier windows for performer cues, and change the pitch term only after measuring saturation.
+**Changed files:** `debug/bgvocal_diagnostics.py`, `core/audio_intelligence.py`, `core/vocal_timeline.py`, `core/snowman_band.py`, `core/effect_engine.py` (classifier status in report only), `config/audio_analysis_defaults.json`, `tests/test_background_vocal_detection.py`, `tests/test_snowman_band.py`, `MASTER_TODO.md`.
+**Preserved behavior:** score weights (0.46/0.36/0.18), event grouping/durations, classifier threshold 0.56, routing confidence minimum 0.42 and energy minimum 0.35, and lead/drummer face routing. Legacy peak-window and peak-cue algorithms remain available when `VocalRoutingConfig.allow_peak_fallback=True`. The previously unused analysis confidence default of 0.32 now reads 0.42 to match the existing active routing gate; no active 0.42 gate was lowered.
+**New behavior:** diagnostic CLI uses the classifier's shared frame-feature function. Exceptions always emit a Python exception log plus optional callback; StemAnalysis, audio analysis debug metadata, and generation reports record status (`ok`, `no_features`, `error`, or `not_run`), counts, stem source/path, and error details when applicable. Classifier-empty or rejected events yield no background windows by default. Snowman background cues use window times/performers/provenance; the old peak cue builder is called only with explicit fallback opt-in and no windows. JSON settings drive score and routing thresholds. `build_snowman_band_plan` accepts an optional routing_config for explicit fallback/threshold overrides.
+**Tests/evidence:** diagnostics were added and run on the full real song BEFORE any formula change. Original multi_pitch01 saturation was **93.5669%**, above the required 90% gate. Only then was sparse-bin quantile counting replaced by peaks at >=20% of the frame maximum, excluding peaks within 3% of integer multiples of the strongest pitch while retaining that anchor. The same diagnostic was rerun: saturation **60.5256%**; score-threshold occupancy **92.6774% → 68.1716%**. This demonstrates the measured formula change, not backup-vocal accuracy. Both outputs are preserved below. Song SHA-256: `8ced92ba179c931a2c7f29f834df1c8fd6a399d78074de0de030bc952bb5f0ec`; librosa 1.0.0, soundfile 0.14.0; local HPSS vocal proxy, no Demucs.
+
+Command for each diagnostic: `python -m debug.bgvocal_diagnostics "Helix Audiolights.mp3"`.
+
+Before (original formula):
+```text
+Audio: Helix Audiolights.mp3
+Source: local HPSS/frequency-masked vocal proxy (not isolated voices)
+Frames: 22260
+rms01: min=0.000074 median=0.276500 p90=0.562337 max=1.000000
+multi_pitch01: min=0.000000 median=1.000000 p90=1.000000 max=1.000000
+chroma_entropy: min=0.665637 median=0.941538 p90=0.975208 max=0.999171
+score: min=0.177419 median=0.649776 p90=0.766287 max=0.956178
+fraction score >= 0.56: 0.926774
+fraction multi_pitch01 >= 0.99: 0.935669
+```
+
+After (strong-peak / harmonic exclusion formula):
+```text
+Audio: Helix Audiolights.mp3
+Source: local HPSS/frequency-masked vocal proxy (not isolated voices)
+Frames: 22260
+rms01: min=0.000074 median=0.276500 p90=0.562337 max=1.000000
+multi_pitch01: min=0.000000 median=1.000000 p90=1.000000 max=1.000000
+chroma_entropy: min=0.665637 median=0.941538 p90=0.975208 max=0.999171
+score: min=0.164794 median=0.607929 p90=0.715594 max=0.904416
+fraction score >= 0.56: 0.681716
+fraction multi_pitch01 >= 0.99: 0.605256
+```
+
+**Additional real-audio evidence:** on the same 48 kHz song (11,397,119 samples), an isolated build_stem_analysis cache check produced all four real local WAV stems, called separation once across two builds, preserved relative-path metadata and file mtimes, and raised on any attempted mix reload/repeated mix HPSS. First separation/cache step 1.490 s; hit 0.005 s. Initial mix load/HPSS and downstream event/classifier/summary analysis were excluded (downstream functions mocked); these are not end-to-end timings. The check exposed a relative-versus-absolute cache-path metadata discrepancy; its fix and regression test were folded into the Part A commit.
+
+**Unit/regression evidence:** 22 new background-vocal tests cover fallback opt-in/default, classifier precedence, cue source/times/provenance, legacy cue fallback, JSON defaults/overrides, routing threshold boundaries, malformed routing config, exception logs/status, exported analysis status, weak/harmonic peak rejection, and harmonic tolerance/silence. Focused audio/cache/policy/background selection: **69 passed**. Existing demo routing fixture now supplies explicit bassist/guitarist classifier events because its old implicit peak fallback is intentionally disabled; all original assertions remain. No existing tests were weakened/deleted and no snapshots changed. Final `python -m pytest` reproduces the baseline `assign_hand` collection error. Final `python -m pytest --continue-on-collection-errors`: **19 failed, 969 passed, 5 skipped, 1 xfailed, 1 collection error**, with exactly the same failing test IDs as Part A's **19 failed, 910 passed** baseline (**59 additional passing tests**, no new failures). Syntax-focused flake8 checks for new modules/tests and `git diff --check` passed.
+**Limitations:** the local 'vocals' stem is harmonic 220–4200 Hz content, including instruments. New counts are spectral diversity, not a validated voice count; saturation still affects 60.5% of real-song frames. The strongest peak may be an overtone; only its integer multiples are excluded, and harmonics of other sources can remain. Diagnostic output is not labeled ground truth or a false-positive/recall measurement. No Demucs/Moises service, lyric transcription, full generation, real-song XSQ/MP4, xLights import, prior drummer-oracle comparison, or human visual review was performed. No broader sequencing-quality completion claim is made.
+**Deferred work:** validate against labeled isolated vocals/lead-only/instrumental material and quantify false positives/recall; tune stronger source-aware detection only with evidence. Power/effect-layering and helix_style restraint/brightness modules remain unwired as required; render/oracle/visual validation remains on the roadmap.
+**Regression risks:** fewer background cues without classifier evidence; source leakage can still create false positives; a stronger-peak threshold may miss quiet harmonies. Explicit allow_peak_fallback restores the older heuristic and its known false-positive risk. Config confidence now consistently controls the previously hardcoded routing gate.
+
+
 ### 2026-11-09 — Part B: share a whole-layout flash cooldown
 **Goal:** stop chained red/green/white whole-layout flashing and honor full flash restraint.
 **Changed files:** `core/global_flash_policy.py`, `core/effect_engine.py`, `tests/test_global_flash_policy.py`, `MASTER_TODO.md`.

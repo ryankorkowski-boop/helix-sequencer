@@ -12414,6 +12414,7 @@ def run_variant(
         },
         "stem_analysis": {
             "source": stem_analysis.source,
+            "background_vocal_classifier": dict(stem_analysis.background_vocal_classifier_status),
             "available_stems": sorted(stem_analysis.stems.keys()),
             "bass_peaks": len(bass_peaks),
             "vocal_peaks": len(vocal_peaks),
