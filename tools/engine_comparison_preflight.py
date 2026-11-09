@@ -15,6 +15,8 @@ REQUIRED_SHARED = ("audio_sha256", "layout_sha256", "camera_id", "palette_sha256
 
 def validate_comparison_manifest(manifest: dict) -> list[str]:
     errors: list[str] = []
+    if not isinstance(manifest, dict):
+        return ["manifest must be an object"]
     panels = manifest.get("panels")
     if not isinstance(panels, list):
         return ["panels must be a list"]
@@ -23,7 +25,7 @@ def validate_comparison_manifest(manifest: dict) -> list[str]:
     numbers = [p.get("panel") for p in panels if isinstance(p, dict)]
     if sorted(n for n in numbers if type(n) is int) != list(REQUIRED_VARIANTS):
         errors.append("panel identifiers must be exactly 1 through 16, once each")
-    baseline = panels[0] if panels and isinstance(panels[0], dict) else {}
+    baseline = next((p for p in panels if isinstance(p, dict) and p.get("panel") == 1), {})
     for field in REQUIRED_SHARED:
         expected = baseline.get(field)
         if expected is None or expected == "":
@@ -43,8 +45,10 @@ def validate_comparison_manifest(manifest: dict) -> list[str]:
             errors.append(f"panel {num}: engine execution not verified")
         if p.get("native_render_verified") is not True:
             errors.append(f"panel {num}: native render not verified")
-        if p.get("xsq_sha256") in (None, "") or p.get("fseq_sha256") in (None, ""):
-            errors.append(f"panel {num}: missing native output hashes")
+        for hash_field in ("xsq_sha256", "fseq_sha256"):
+            value = p.get(hash_field)
+            if not isinstance(value, str) or len(value) != 64 or any(c not in "0123456789abcdef" for c in value):
+                errors.append(f"panel {num}: invalid or missing {hash_field}")
         if p.get("synthetic_fallback_used") is not False:
             errors.append(f"panel {num}: synthetic fallback not explicitly excluded")
         signature = p.get("fseq_sha256")
@@ -54,7 +58,8 @@ def validate_comparison_manifest(manifest: dict) -> list[str]:
             else:
                 signatures[signature] = num
         if num in (9, 15, 16) and p.get("birdsong_enabled"):
-            if p.get("birdsong_native_rows", 0) <= 0 or p.get("birdsong_real_features_verified") is not True:
+            rows = p.get("birdsong_native_rows")
+            if type(rows) is not int or rows <= 0 or p.get("birdsong_real_features_verified") is not True:
                 errors.append(f"panel {num}: Birdsong not proven in native output with real features")
     return errors
 
