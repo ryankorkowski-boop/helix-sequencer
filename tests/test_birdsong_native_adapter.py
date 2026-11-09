@@ -44,3 +44,12 @@ def test_birdsong_preexport_callback_records_rows_without_claiming_native_proof(
     assert result["planned_rows"] == len(calls) > 0
     assert result["callback_confirmed_rows"] == len(calls)
     assert result["native_artifact_verified"] is False
+
+
+def test_birdsong_rejects_nonfinite_frame_rate(tmp_path):
+    audio, digest, features = _inputs(tmp_path)
+    for fps in (float("nan"), float("inf"), float("-inf")):
+        with pytest.raises(ValueError, match="fps out of range"):
+            place_source_birdsong(audio, features, source_audio_sha256=digest,
+                                  features_audio_sha256=digest, fps=fps,
+                                  models=["Pixel Tree"], add_model=lambda *a, **kw: True)
