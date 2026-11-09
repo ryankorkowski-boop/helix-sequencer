@@ -1,6 +1,6 @@
 {
   "schema": "helix.beta-artifacts.v1",
-  "updated_at": "2026-11-09T11:52:40.088888+00:00",
+  "updated_at": "2026-11-09T12:32:45.469905+00:00",
   "requested_count": 9,
   "verified_count": 0,
   "artifacts": [
@@ -1355,10 +1355,10 @@
     "render_implementation_commit": "d1567b74b341efff5a30a28bec272c7d5c377406"
   },
   "active_delivery": {
-    "implementation_commit": "c8c01e1589bc8925c497fbd1150532cd6d968dc1",
+    "implementation_commit": "2d4c505e442292f3cba9eb909aeabcc76acb33cf",
     "actual_mp4_files": 1,
     "qualified_for_frozen_nine_count": 0,
-    "delivery": "evidence/beta_completion/vocals_20261109/delivery.json",
+    "delivery": "evidence/beta_completion/motion_20261109/delivery.json",
     "final_zip": null
   },
   "historical_artifacts_note": "Top-level nine-file artifacts/counts describe the retained30October collection rejected by owner; current task has one fresh twelve-layout comparison under active_delivery. No old footage promoted.",
@@ -1959,5 +1959,95 @@
     "qualified_for_frozen_nine_count": 0,
     "delivery": "evidence/beta_completion/composition_20261109/delivery.json",
     "final_zip": null
+  },
+  "historical_active_delivery_before_native_contacts_20261109": {
+    "implementation_commit": "c8c01e1589bc8925c497fbd1150532cd6d968dc1",
+    "actual_mp4_files": 1,
+    "qualified_for_frozen_nine_count": 0,
+    "delivery": "evidence/beta_completion/vocals_20261109/delivery.json",
+    "final_zip": null
+  },
+  "native_contacts_20261109": {
+    "schema": "helix.native-contact-delivery.v1",
+    "updated_at": "2026-11-09T12:32:45.469905+00:00",
+    "implementation_commit": "2d4c505e442292f3cba9eb909aeabcc76acb33cf",
+    "status": "delivered_actual_native_candidate_acceptance_held",
+    "movie": {
+      "filename": "HELIX_NATIVE_KEY_CONTACT_REVIEW_2d4c505.mp4",
+      "library_file_id": "libfile_5120e907f9bc81918f87f85cea9b6434",
+      "url": "https://chatgpt.com/library?file_id=libfile_5120e907f9bc81918f87f85cea9b6434&account_id=personal",
+      "bytes": 9129337,
+      "sha256": "274ec7caac73cc3d1b23c0381e5c409d36dd188955f5bd5a311a73d50385621c",
+      "status": "NATIVE_REVIEW_CANDIDATE_MOTION_FAILED",
+      "qualified_for_final_nine": false,
+      "owner_approved": false
+    },
+    "source_archive": {
+      "filename": "HELIX_NATIVE_KEY_CONTACT_SOURCE_2d4c505.zip",
+      "library_file_id": "libfile_647b4c41e2b08191864d57926f25a285",
+      "url": "https://chatgpt.com/library?file_id=libfile_647b4c41e2b08191864d57926f25a285&account_id=personal",
+      "bytes": 25020647,
+      "sha256": "6c42fcd9a427089e3fb4825c6fcfced9bce5aadec12e2255366af942eb9a480b",
+      "entries": 44,
+      "crc_verified": true,
+      "final_nine_package": false
+    },
+    "tests": {
+      "implementation_commit": "2d4c505e442292f3cba9eb909aeabcc76acb33cf",
+      "actual_engine_local_commit": "4f3b4eaaf5936cbe5bf77a9237eef59a4f0c6384",
+      "equivalent_git_tree": "a37c53cd90ba0168f696ed4466871f63d3e3c046",
+      "affected_regressions": {
+        "passed": 86,
+        "failures": 0,
+        "junit": "affected_regressions.xml"
+      },
+      "historical_full_default": {
+        "source": "c8c01e1",
+        "passed": 2371,
+        "subtests_passed": 24,
+        "skipped": 6,
+        "not_a_current_full_suite": true
+      },
+      "haswell": {
+        "status": "FAIL_UNCHANGED",
+        "selected_tests_failed": 4,
+        "new_stage_thread_overlap_probes": "did not repair unchanged1e-7; no DSP modification adopted"
+      },
+      "native_quality": "MOTION_FAILED",
+      "owner_approved": false
+    },
+    "native_quality": {
+      "schema": "helix.showcase_readability.v1",
+      "frames": 70,
+      "sample_fps": 2,
+      "thresholds": {
+        "median_luma": 12.0,
+        "median_bright_fraction": 0.012,
+        "median_motion": 0.65,
+        "min_visible_width": 0.4,
+        "min_visible_height": 0.35
+      },
+      "measurements": {
+        "median_luma": 12.486,
+        "median_bright_fraction": 0.07254,
+        "median_motion": 0.274,
+        "visible_width": 0.669,
+        "visible_height": 0.622
+      },
+      "checks": {
+        "visible_stage_width": true,
+        "visible_stage_height": true,
+        "median_stage_luminance": true,
+        "bright_stage_area": true,
+        "visible_stage_motion": false,
+        "opening_static_cast_framing": true
+      },
+      "passed": false,
+      "note": "Quantitative visibility gate only; no artistic, musical or source classification approval"
+    },
+    "source_singer_identity_verified": false,
+    "lexical_phoneme_boundaries_verified": false,
+    "owner_approved": false,
+    "merge_or_release": false
   }
 }

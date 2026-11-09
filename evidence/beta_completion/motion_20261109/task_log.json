@@ -1,6 +1,6 @@
 {
   "base": "9a6ea3db9e5ba3620fc5f0f2c585257e3b7b7a37",
-  "status": "in_progress",
+  "status": "native_contact_candidate_delivered_acceptance_held",
   "events": [
     {
       "action": "Reproduce next blockers",
@@ -13,8 +13,34 @@
     {
       "action": "Add literal-key reachable contacts",
       "result": "Canonical-only piano pose bank uses authored key centers, hand halves and original fixed shoulder/link lengths. Source keys outside reach remain lit without invented contact. One contact per physical hand per onset; consecutive source attacks clip prior contact, preserving sustained keys. Existing37-key scene omits292/659notes; next actual engine/native run uses existing88-key option. Unit physical/contact contracts pass before final rerun."
+    },
+    {
+      "action": "Run actual88-key engine/native show",
+      "result": "Helix exit0; native xLights2026.18 success.380772channels/697FSEQframes,698nativevideo frames,1920x1080H264/AAC20fps.659/659keyboardnotes map at source pitch;228keyed hand contacts(141left/87right) with zero overlaps per hand;15unreachable contact omissions explicitly retained while notes illuminate."
+    },
+    {
+      "action": "Verify actual media and vocal channels",
+      "result": "Full decode passes; correlation0.996808 and4zero-lag windows includingtail.265lead-only/47harmony-only native mouth frames; zero guarded-rest openings. All17source-module hashes match. Native brightness/framing pass; motion0.274<0.65 FAIL retained. No source identity/lexical/canonical-solid acceptance claimed."
+    },
+    {
+      "action": "Run affected regressions",
+      "result": "86pass in67.63s,0fail. Includes geometry/native/source/voices/frozen flavor/legacy optional seven coverage. Prior full default2371pass+24subtest c8 evidence stays historical; no repeated full current suite claim."
+    },
+    {
+      "action": "Save actual native candidate and source archive",
+      "result": "Prepared ordered upload succeeded forMP4libfile_5120e907f9bc81918f87f85cea9b6434(9129337bytes/SHA274ec7caac73cc3d1b23c0381e5c409d36dd188955f5bd5a311a73d50385621c) andmatching44-entryCRCverifiedsourceZIPlibfile_647b4c41e2b08191864d57926f25a285(25020647bytes/SHA6c42fcd9a427089e3fb4825c6fcfced9bce5aadec12e2255366af942eb9a480b). Bothlocalmetadata writes succeeded."
     }
   ],
   "owner_approved": false,
-  "merge_or_release": false
+  "merge_or_release": false,
+  "implementation_commit": "2d4c505e442292f3cba9eb909aeabcc76acb33cf",
+  "work_in_progress": false,
+  "remaining_blockers": [
+    "Native motion0.274 below0.65",
+    "Independent acoustic/lexical vocal qualification remains unverified",
+    "Four Haswell chroma parity failures; unchanged threshold",
+    "Retained original drummer is planar; canonical solid equivalence remains unverified"
+  ],
+  "next_action": "Read MASTER_TODO.md and current verification before changing code. Preserve this failed native source and earlier pilots; qualify actual singer sources/lexical timings and restore source-equivalent solid/native performance before approval packaging.",
+  "delivery": "delivery.json"
 }

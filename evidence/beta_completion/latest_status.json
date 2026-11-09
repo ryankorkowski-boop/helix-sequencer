@@ -1,11 +1,11 @@
 {
   "schema": "helix.beta-completion.v1",
-  "updated_at": "2026-11-09T11:52:40.088888+00:00",
+  "updated_at": "2026-11-09T12:32:45.469905+00:00",
   "repository": "https://github.com/ryankorkowski-boop/helix-sequencer",
   "branch": "codex/eight-hour-recovery-20261019",
   "recovered_head": "45f17d69fac91d7683984cc22c54bb701eb2226e",
-  "last_verified_implementation_sha": "c8c01e1589bc8925c497fbd1150532cd6d968dc1",
-  "current_task": "VOCAL-CONFIDENCE-DELIVERED-ACCEPTANCE-HELD",
+  "last_verified_implementation_sha": "2d4c505e442292f3cba9eb909aeabcc76acb33cf",
+  "current_task": "NATIVE-KEY-CONTACT-DELIVERED-ACCEPTANCE-HELD",
   "tasks": [
     {
       "id": "REC-01",
@@ -1980,48 +1980,16 @@
   "implementation_log": "evidence/beta_completion/implementation_20261105/task_log.json",
   "qualified_approval_mp4_count": 0,
   "current_execution": {
-    "implementation_commit": "c8c01e1589bc8925c497fbd1150532cd6d968dc1",
-    "default_python312": {
-      "source_commit": "c8c01e1589bc8925c497fbd1150532cd6d968dc1",
-      "actual_test_tree": "98b2dc80b46f0714b09010aab6412aebe619714f",
-      "python": "3.12.14",
-      "backend": "default",
-      "execution": "55 isolated subprocess batches plus seven nested showcase modules",
-      "unique_files": 399,
-      "complete": true,
-      "all_batch_exit_codes_zero": true,
-      "failures": 0,
-      "errors": 0,
-      "passed": 2371,
-      "subtests_passed": 24,
-      "skipped": 6,
-      "haswell": {
-        "status": "FAIL",
-        "selected_tests": 4,
-        "failed": 4,
-        "deselected": 8,
-        "tolerance_unchanged": true,
-        "log": "haswell_baseline.log"
-      },
-      "single_process_attempt": {
-        "status": "RESOURCE_KILLED",
-        "exit_code": 137,
-        "not_a_pass": true
-      },
-      "python311": "not run for this change; previous-source evidence remains historical"
-    },
+    "implementation_commit": "2d4c505e442292f3cba9eb909aeabcc76acb33cf",
+    "affected_tests_passed": 86,
+    "current_full_matrix_run": false,
     "actual_native_mp4_files": 1,
-    "qualified_approval_mp4_count": 0,
-    "native_source_archive": {
-      "filename": "HELIX_VOCAL_FIX_NATIVE_SOURCE_c8c01e1.zip",
-      "library_file_id": "libfile_40fc35a268c08191be396124f1b6c5e8",
-      "url": "https://chatgpt.com/library?file_id=libfile_40fc35a268c08191be396124f1b6c5e8&account_id=personal",
-      "bytes": 24895611,
-      "sha256": "9624a06142770db3cd6b8e0e7d9e7b540b766dd85d01018391035df6e1310c85",
-      "entries": 97,
-      "crc_verified": true,
-      "final_nine_package": false
-    },
+    "native_channels": 380772,
+    "native_frames": 697,
+    "native_motion": 0.274,
+    "native_motion_required": 0.65,
+    "native_motion_check_passed": false,
+    "voice_identity_state": "ESTIMATED",
     "vocal_routes": {
       "LEAD": {
         "native_open_frames": 265,
@@ -2035,10 +2003,9 @@
       }
     },
     "native_vocal_rest_check_passed": true,
-    "native_motion_check_passed": false,
-    "voice_identity_state": "ESTIMATED",
+    "qualified_approval_mp4_count": 0,
     "owner_approval": false,
-    "delivery": "evidence/beta_completion/vocals_20261109/delivery.json"
+    "delivery": "evidence/beta_completion/motion_20261109/delivery.json"
   },
   "composition_20261109": {
     "implementation_commit": "c80cbbda36aa8c6ed0bd91b8a74f5a9937f21985",
@@ -2300,5 +2267,151 @@
       "owner_approval": false,
       "delivery": "evidence/beta_completion/composition_20261109/delivery.json"
     }
+  },
+  "historical_before_native_contacts_20261109": {
+    "current_execution": {
+      "implementation_commit": "c8c01e1589bc8925c497fbd1150532cd6d968dc1",
+      "default_python312": {
+        "source_commit": "c8c01e1589bc8925c497fbd1150532cd6d968dc1",
+        "actual_test_tree": "98b2dc80b46f0714b09010aab6412aebe619714f",
+        "python": "3.12.14",
+        "backend": "default",
+        "execution": "55 isolated subprocess batches plus seven nested showcase modules",
+        "unique_files": 399,
+        "complete": true,
+        "all_batch_exit_codes_zero": true,
+        "failures": 0,
+        "errors": 0,
+        "passed": 2371,
+        "subtests_passed": 24,
+        "skipped": 6,
+        "haswell": {
+          "status": "FAIL",
+          "selected_tests": 4,
+          "failed": 4,
+          "deselected": 8,
+          "tolerance_unchanged": true,
+          "log": "haswell_baseline.log"
+        },
+        "single_process_attempt": {
+          "status": "RESOURCE_KILLED",
+          "exit_code": 137,
+          "not_a_pass": true
+        },
+        "python311": "not run for this change; previous-source evidence remains historical"
+      },
+      "actual_native_mp4_files": 1,
+      "qualified_approval_mp4_count": 0,
+      "native_source_archive": {
+        "filename": "HELIX_VOCAL_FIX_NATIVE_SOURCE_c8c01e1.zip",
+        "library_file_id": "libfile_40fc35a268c08191be396124f1b6c5e8",
+        "url": "https://chatgpt.com/library?file_id=libfile_40fc35a268c08191be396124f1b6c5e8&account_id=personal",
+        "bytes": 24895611,
+        "sha256": "9624a06142770db3cd6b8e0e7d9e7b540b766dd85d01018391035df6e1310c85",
+        "entries": 97,
+        "crc_verified": true,
+        "final_nine_package": false
+      },
+      "vocal_routes": {
+        "LEAD": {
+          "native_open_frames": 265,
+          "guarded_estimated_rest_frames": 372,
+          "openings_on_guarded_estimated_rests": 0
+        },
+        "HARMONY": {
+          "native_open_frames": 47,
+          "guarded_estimated_rest_frames": 639,
+          "openings_on_guarded_estimated_rests": 0
+        }
+      },
+      "native_vocal_rest_check_passed": true,
+      "native_motion_check_passed": false,
+      "voice_identity_state": "ESTIMATED",
+      "owner_approval": false,
+      "delivery": "evidence/beta_completion/vocals_20261109/delivery.json"
+    }
+  },
+  "native_contacts_20261109": {
+    "schema": "helix.native-contact-delivery.v1",
+    "updated_at": "2026-11-09T12:32:45.469905+00:00",
+    "implementation_commit": "2d4c505e442292f3cba9eb909aeabcc76acb33cf",
+    "status": "delivered_actual_native_candidate_acceptance_held",
+    "movie": {
+      "filename": "HELIX_NATIVE_KEY_CONTACT_REVIEW_2d4c505.mp4",
+      "library_file_id": "libfile_5120e907f9bc81918f87f85cea9b6434",
+      "url": "https://chatgpt.com/library?file_id=libfile_5120e907f9bc81918f87f85cea9b6434&account_id=personal",
+      "bytes": 9129337,
+      "sha256": "274ec7caac73cc3d1b23c0381e5c409d36dd188955f5bd5a311a73d50385621c",
+      "status": "NATIVE_REVIEW_CANDIDATE_MOTION_FAILED",
+      "qualified_for_final_nine": false,
+      "owner_approved": false
+    },
+    "source_archive": {
+      "filename": "HELIX_NATIVE_KEY_CONTACT_SOURCE_2d4c505.zip",
+      "library_file_id": "libfile_647b4c41e2b08191864d57926f25a285",
+      "url": "https://chatgpt.com/library?file_id=libfile_647b4c41e2b08191864d57926f25a285&account_id=personal",
+      "bytes": 25020647,
+      "sha256": "6c42fcd9a427089e3fb4825c6fcfced9bce5aadec12e2255366af942eb9a480b",
+      "entries": 44,
+      "crc_verified": true,
+      "final_nine_package": false
+    },
+    "tests": {
+      "implementation_commit": "2d4c505e442292f3cba9eb909aeabcc76acb33cf",
+      "actual_engine_local_commit": "4f3b4eaaf5936cbe5bf77a9237eef59a4f0c6384",
+      "equivalent_git_tree": "a37c53cd90ba0168f696ed4466871f63d3e3c046",
+      "affected_regressions": {
+        "passed": 86,
+        "failures": 0,
+        "junit": "affected_regressions.xml"
+      },
+      "historical_full_default": {
+        "source": "c8c01e1",
+        "passed": 2371,
+        "subtests_passed": 24,
+        "skipped": 6,
+        "not_a_current_full_suite": true
+      },
+      "haswell": {
+        "status": "FAIL_UNCHANGED",
+        "selected_tests_failed": 4,
+        "new_stage_thread_overlap_probes": "did not repair unchanged1e-7; no DSP modification adopted"
+      },
+      "native_quality": "MOTION_FAILED",
+      "owner_approved": false
+    },
+    "native_quality": {
+      "schema": "helix.showcase_readability.v1",
+      "frames": 70,
+      "sample_fps": 2,
+      "thresholds": {
+        "median_luma": 12.0,
+        "median_bright_fraction": 0.012,
+        "median_motion": 0.65,
+        "min_visible_width": 0.4,
+        "min_visible_height": 0.35
+      },
+      "measurements": {
+        "median_luma": 12.486,
+        "median_bright_fraction": 0.07254,
+        "median_motion": 0.274,
+        "visible_width": 0.669,
+        "visible_height": 0.622
+      },
+      "checks": {
+        "visible_stage_width": true,
+        "visible_stage_height": true,
+        "median_stage_luminance": true,
+        "bright_stage_area": true,
+        "visible_stage_motion": false,
+        "opening_static_cast_framing": true
+      },
+      "passed": false,
+      "note": "Quantitative visibility gate only; no artistic, musical or source classification approval"
+    },
+    "source_singer_identity_verified": false,
+    "lexical_phoneme_boundaries_verified": false,
+    "owner_approved": false,
+    "merge_or_release": false
   }
 }
