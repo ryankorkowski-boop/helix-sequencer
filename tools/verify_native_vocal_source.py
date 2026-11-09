@@ -43,8 +43,18 @@ def verify(audio: Path, analysis: Path) -> dict:
         raise ValueError("Full-band source has an empty lead/backing non-rest vocal lane; no render can repair absent source events")
     # Distinct source fingerprints alone do not prove independent mouth clocks.
     # A copied vocal lane can have a different file hash after re-encoding.
-    if np.array_equal(energy[:, 0], energy[:, 1]) and np.array_equal(shapes[:, 0], shapes[:, 1]):
-        raise ValueError("Lead and backing mouth clocks are identical; independent vocal activity not demonstrated")
+    # Re-encoding, gain changes or tiny noise can make copies byte-distinct.
+    # Reject a proportional copy only when *all* active/rest decisions and
+    # mouth shapes match, with negligible normalized envelope residual.
+    lead, backing = energy[:, 0], energy[:, 1]
+    if np.array_equal(shapes[:, 0], shapes[:, 1]) and np.array_equal(lead > 0, backing > 0):
+        active_mask = lead > 0
+        if np.any(active_mask):
+            x, y = lead[active_mask].astype("float64"), backing[active_mask].astype("float64")
+            gain = float(np.dot(x, y) / max(np.dot(x, x), 1e-12))
+            residual = float(np.linalg.norm(y - gain * x) / max(np.linalg.norm(y), 1e-12))
+            if gain > 0 and residual < 1e-4:
+                raise ValueError("Lead and backing mouth clocks are identical or gain-scaled copies; independent vocal activity not demonstrated")
     return {"passed": True, "audio_sha256": digest, "frames": frames,
             "non_rest_frames": {"lead": int(active[0]), "harmony": int(active[1])},
             "limit": "Source qualification only; native output and artistic acceptance remain separate"}
