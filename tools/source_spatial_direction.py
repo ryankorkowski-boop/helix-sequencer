@@ -102,6 +102,13 @@ def schedule(model,plan,cache,duration):
     phase=float(model.details.get('spatial_phase',0))
     direction=int(model.details.get('spatial_direction',1))
     result=[]
+    from tools.source_role_routing import route_event
+    section_onsets={}
+    for cue in source:
+        section=cue.get('section','')
+        section_onsets.setdefault(section,set()).add(int(cue['start_ms']))
+    section_onsets={section:{t:i for i,t in enumerate(sorted(times))}
+                    for section,times in section_onsets.items()}
     for index,cue in enumerate(source):
         if cue.get('kind')=='chord_change':continue
         component=model.details.get('percussion_component')
@@ -121,17 +128,23 @@ def schedule(model,plan,cache,duration):
         origin=int(round((shifted if 0<=shifted<=1 else shifted%1)*(len(parts)-1)))
         level=float(np.clip(cue.get('velocity',cue.get('expression',{}).get('brightness',.7)),.05,1))
         strategy=section_strategy(cue.get('section',''),role)
+        route_delay=route_event(model,cue,section_onsets[cue.get('section','')][a],strategy)
+        if route_delay is None:continue
         steps=min(len(parts),strategy['steps'])
         for step in range(steps):
             part=parts[(origin+direction*strategy['direction']*step)%len(parts)]
-            delay=depth_ms+step*strategy['step_ms']
+            delay=depth_ms+step*strategy['step_ms']+route_delay
             start=max(0,a+delay);end=min(duration,b+delay)
+            if model.details.get('source_route_count',1)>1:
+                end=min(end,b)
             if end<=start:continue
             result.append(dict(part=part,start_ms=start,end_ms=end,level=level*(.72**step),
                 source_start_ms=a,source_end_ms=b,source_event=index,role=role,
                 source_kind=cue.get('kind','pitched_note'),pitch_midi=pitch,
                 source_confidence=cue.get('confidence'),source_method=cue.get('source',cue.get('source_reason')),
-                propagation_delay_ms=delay,section=cue.get('section',''),strategy=strategy['name']))
+                propagation_delay_ms=delay,section=cue.get('section',''),strategy=strategy['name'],
+                route_bank=model.details.get('source_route_bank'),
+                route_rank=model.details.get('source_route_rank')))
     return result
 
 
@@ -153,6 +166,8 @@ def export_model(sequence,model,plan,cache,palette):
             sourceConfidence=event['source_confidence'],sourceAnalysisMethod=event['source_method'],
             sourceSection=event['section'],spatialStrategy=event['strategy'],
             authoredPropagationMs=event['propagation_delay_ms']).items() if v is not None}
+        if event.get('route_bank') is not None:
+            provenance.update(sourceRouteBank=event['route_bank'],sourceRouteRank=str(event['route_rank']))
         # Quiet retained attacks must be visible in a small native overview.
         # This changes display illumination only; zero/rest windows and every
         # source event, velocity order, pitch and clock remain unchanged.

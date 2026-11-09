@@ -1,0 +1,53 @@
+{
+  "schema": "helix.repair-log.v1",
+  "base_commit": "d00c2e4dbbfb60379da030a2780b14bff57f7303",
+  "branch": "codex/eight-hour-recovery-20261019",
+  "started_at": "2026-11-09T02:12:54.217675+00:00",
+  "scope": "Physical group/leaf composition, native AC/RGB verification; coordinate with separate active vocal/parity worker",
+  "baseline_tests": {
+    "command": "OPENBLAS_NUM_THREADS=2 OMP_NUM_THREADS=2 /workspace/helix-venv/bin/python -m pytest -q tests/test_source_spatial_direction.py tests/test_spatial_choreography.py tests/test_ac_on_export.py tests/test_native_instrument_channel_ownership.py",
+    "passed": 23
+  },
+  "findings": [
+    {
+      "path": "core/effect_engine.py:10417",
+      "observation": "Timelines keyed by target string; related group/leaf rows do not share overlap checks. Confirmed source path; rejected-video causal attribution still needs native/channel evidence."
+    },
+    {
+      "path": "tools/source_spatial_direction.py:schedule",
+      "root_cause": "Every one-channel prop receives complete role cue stream; only ALL part means identical timing across 126 bass and87 keyboard circuits on real production hook."
+    },
+    {
+      "path": "tools/build_source_ac_review.py:geometry",
+      "root_cause": "32 numeric note props and32 candy canes fall through to bass role."
+    }
+  ],
+  "external_failures": [
+    {
+      "command": "gh run download 42151760880",
+      "result": "GitHub artifact Azure redirect Forbidden. Connected GitHub download succeeds and exact archive recovered."
+    },
+    {
+      "command": "Ubuntu24 runtime apt install",
+      "result": "Dependency package first named incorrectly; corrected libxlsxwriter5t64. Subsequent install failed ENOSPC; downloads cleaned. Recovered native with pinned AppImage libraries and extracted Xvfb."
+    }
+  ],
+  "approval_count": 0,
+  "status": "implemented_focused_verified_native_running",
+  "next_command": "/workspace/helix-venv/bin/python -m pytest -q tests/test_group_composition.py",
+  "changed_modules": [
+    "tools/source_role_routing.py",
+    "tools/source_spatial_direction.py",
+    "tools/build_source_ac_review.py",
+    "tests/test_source_role_routing.py"
+  ],
+  "verified": {
+    "focused_python312": {
+      "passed": 29,
+      "junit": "focused.xml"
+    },
+    "real_audio_routing": "real_audio_routing.json",
+    "new_native": "running_no_mp4_claim"
+  },
+  "updated_at": "2026-11-09T02:20:07.906794+00:00"
+}

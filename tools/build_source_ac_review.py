@@ -56,7 +56,7 @@ def geometry(source, *, include_rgb=False):
         m.attrs['CustomModelCompressed']=';'.join('1,'+c.split(',',1)[1] for c in cells)
         m.kind='ac';m.start=old.start_channel
         name=old.name.lower()
-        role=('drummer' if 'arch' in name else 'keyboardist' if any(s in name for s in ('tree','icicle','star'))
+        role=('drummer' if 'arch' in name else 'keyboardist' if name.isdigit() or any(s in name for s in ('tree','icicle','star','cane'))
               else 'guitarist' if any(s in name for s in ('roof','gutter','window')) else 'bassist')
         m.details.update(circuit_count=1,musical_role=role,source_display_floor=.6,
             original_start_channel=old.start_channel,original_string_type=old.string_type,
@@ -73,6 +73,8 @@ def geometry(source, *, include_rgb=False):
             model.start=start;start+=model.channels
             model.attrs.pop('StartChannel',None);model.attrs['PixelSize']='10'
             g.models.append(model)
+    from tools.source_role_routing import configure_source_routes
+    configure_source_routes(g.models)
     return g
 
 
@@ -81,8 +83,10 @@ def build(source, production, fixture, output, *, include_rgb=False):
     if output.exists():raise FileExistsError(output)
     before=digest(source);g=geometry(source,include_rgb=include_rgb)
     manifest=json.loads((production/'run_manifest.json').read_text())
-    audio=next((production/'media').glob('*.wav'))
-    if digest(audio)!=manifest['audio_sha256']:raise ValueError('Source audio identity mismatch')
+    candidates=[p for p in (production/'media').iterdir()
+                if p.is_file() and digest(p)==manifest['audio_sha256']]
+    if len(candidates)!=1:raise ValueError('Expected one source-hash-matched recording')
+    audio=candidates[0]
     receipt=json.loads((fixture/'diagnostic.json').read_text())
     if receipt['audio_sha256']!=digest(audio) or receipt['clock_sha256']!=digest(fixture/'acoustic_vocal_clocks.npz'):
         raise ValueError('Source vocal cache mismatch')
@@ -103,7 +107,9 @@ def build(source, production, fixture, output, *, include_rgb=False):
     assert digest(source)==before
     report=dict(schema='helix.source-ac-review.v1',source_layout_sha256=before,original_addresses=list(range(1,257)),
         source_commit=subprocess.check_output(['git','rev-parse','HEAD'],text=True).strip(),
-        audio_sha256=digest(audio),source_duration_seconds=duration,sequence_file=sequence.name,warnings=[],
+        audio_sha256=digest(audio),audio_name=audio.name,source_duration_seconds=duration,sequence_file=sequence.name,warnings=[],
+        analysis_source_commit=manifest.get('source_commit'),source_analysis_sha256=digest(next((production/'sequence').glob('*.snowman_band.json'))),
+        source_route_policy='measured_role_bank_v1',
         fixed_ac_channels=256,total_channels=max(m.start+m.channels-1 for m in g.models),
         original_source_unchanged=True,virtual_geometry_not_surveyed=True,owner_visual_approval=False)
     (output/'run_manifest.json').write_text(json.dumps(report,indent=2)+'\n')
