@@ -1,0 +1,115 @@
+name: Corrected authentic 3D snowman-band animation
+on:
+  push:
+    branches: [codex/fresh-real-band-mp4-20261017]
+    paths:
+      - .github/workflows/corrected-animated-band.yml
+      - models/review_3d_scene.py
+      - models/band_motion_refinement.py
+      - tools/musical_band_performance.py
+      - tools/render_corrected_3d_band.py
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  render:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 90
+    env:
+      ARCHIVE_ID: '1XZTghW96Adc27iL4b_7Vi8kBJQzLCM1j'
+      ARCHIVE_SHA256: '604107acea8e57e8e5436b6bcbcb6f584806a4bed3a85679f72295d340c37b10'
+      AUDIO_SHA256: '8905fcaf105faf5016608517cf2d8a798d1809d8e615f1d4f5bca58e0c0b1171'
+      OMP_NUM_THREADS: '2'
+      LIBGL_ALWAYS_SOFTWARE: '1'
+      MESA_GL_VERSION_OVERRIDE: '3.3'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install authentic Helix renderer
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y xvfb xauth ffmpeg libegl1 libgl1 libgl1-mesa-dri libopengl0 libglu1-mesa libgstreamer-plugins-base1.0-0
+          python -m pip install numpy scipy librosa==0.10.2.post1 soundfile numba llvmlite Pillow trimesh moderngl zstandard imageio imageio-ffmpeg gdown
+          python -m compileall -q models/review_3d_scene.py models/band_motion_refinement.py tools/musical_band_performance.py tools/render_corrected_3d_band.py
+      - name: Fetch SHA256-verified hardKor source and analysis
+        run: |
+          mkdir -p "$RUNNER_TEMP/real-source"
+          python -m gdown "$ARCHIVE_ID" -O "$RUNNER_TEMP/source.zip"
+          echo "$ARCHIVE_SHA256  $RUNNER_TEMP/source.zip" | sha256sum -c -
+          python - <<'PY'
+          import json,os,zipfile,hashlib
+          from pathlib import Path
+          temp=Path(os.environ['RUNNER_TEMP'])
+          root=temp/'real-source'
+          with zipfile.ZipFile(temp/'source.zip') as z:
+              for entry in z.infolist():
+                  member=Path(entry.filename)
+                  if member.is_absolute() or '..' in member.parts or entry.file_size>2*1024**3:
+                      raise SystemExit('Untrusted source archive member')
+              z.extractall(root)
+          audio=root/'sources/E14/audio.wav'
+          if hashlib.sha256(audio.read_bytes()).hexdigest()!=os.environ['AUDIO_SHA256']:
+              raise SystemExit('Source waveform digest mismatch')
+          verify=json.loads((root/'analysis/E14/verification.json').read_text())
+          if verify.get('source_sha256')!=os.environ['AUDIO_SHA256']:
+              raise SystemExit('Performance score does not belong to original audio')
+          with open(os.environ['GITHUB_ENV'],'a') as out:
+              out.write('SOURCE_ROOT='+str(root)+'\n')
+          print('Verified original hardKor audio and analysis')
+          PY
+      - name: Validate corrected kit, arm IK and source performance
+        run: |
+          python -m tools.render_corrected_3d_band --root "$SOURCE_ROOT" --check-only
+      - name: Render 36 seconds of actual animated Helix 3D band
+        run: |
+          xvfb-run -a -s '-screen 0 1920x1080x24' python -m tools.render_corrected_3d_band --root "$SOURCE_ROOT" --frames 720
+      - name: Verify visual frames, synchronization and video decode
+        run: |
+          mkdir -p corrected-delivery
+          cp "$SOURCE_ROOT/videos/02_E14_Snowman_Band.mp4" corrected-delivery/Helix_Corrected_3D_Snowman_Band.mp4
+          cp "$SOURCE_ROOT/videos/02_E14_Snowman_Band.render.json" corrected-delivery/animation_provenance.json
+          cp "$SOURCE_ROOT/videos/corrected_band_preflight.json" corrected-delivery/geometry_and_motion_validation.json
+          python - <<'PY'
+          import hashlib,json,subprocess
+          from pathlib import Path
+          video=Path('corrected-delivery/Helix_Corrected_3D_Snowman_Band.mp4')
+          info=json.loads(subprocess.check_output(['ffprobe','-v','error','-show_streams','-show_format','-of','json',str(video)]))
+          picture=[s for s in info['streams'] if s['codec_type']=='video']
+          audio=[s for s in info['streams'] if s['codec_type']=='audio']
+          if len(picture)!=1 or len(audio)!=1:raise SystemExit('Video/audio tracks absent')
+          s=picture[0]
+          if (s['width'],s['height'])!=(1280,720) or s['r_frame_rate']!='20/1':
+              raise SystemExit('Wrong animated 3D video dimensions or cadence')
+          if abs(float(info['format']['duration'])-36)>0.15:
+              raise SystemExit('Video duration not 36s')
+          subprocess.run(['ffmpeg','-v','error','-xerror','-i',str(video),'-f','null','-'],check=True)
+          samples=subprocess.check_output(['ffmpeg','-v','error','-i',str(video),
+              '-vf','fps=1,scale=64:36','-f','rawvideo','-pix_fmt','gray','-'])
+          block=64*36
+          values=[sum(1 for value in samples[i:i+block] if value>18) for i in range(0,len(samples),block)]
+          if len(values)!=36 or min(values)<100:
+              raise SystemExit('Invisible frames rejected: '+str(values))
+          evidence=json.loads(Path('corrected-delivery/geometry_and_motion_validation.json').read_text())
+          report={'mp4_sha256':hashlib.sha256(video.read_bytes()).hexdigest(),
+                  'source_audio_sha256':evidence['source_audio_sha256'],
+                  'frames':720,'fps':20,'duration_seconds':36,
+                  'resolution':'1280x720','visible_frame_seconds':len(values),
+                  'seven_real_snowman_roles':True,'source_performance':'analyzed Helix Audiolights excerpt',
+                  'native_xlights_house_preview':False,'actual_3d_helix_renderer':True,
+                  'artistic_review_status':'pending'}
+          Path('corrected-delivery/verification.json').write_text(json.dumps(report,indent=2)+'\n')
+          print('ANIMATED_HELIX_BAND_VALIDATED',json.dumps(report))
+          PY
+      - name: Preserve real render and failure diagnostics for owner review
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: helix-corrected-drummer-keyboard-3d-band
+          path: |
+            corrected-delivery/**
+            ${{ runner.temp }}/real-source/videos/*.json
+            ${{ runner.temp }}/real-source/videos/*.mp4
+          if-no-files-found: warn
+          retention-days: 14

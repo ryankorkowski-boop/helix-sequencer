@@ -1,0 +1,116 @@
+[
+  {
+    "file": "Helix_Two_Stages_1.mp4",
+    "bytes": 26598843,
+    "sha256": "74f4212c77100b353fcd2ac348ea03e92b04cc98e063ad5aed3493483223b16a",
+    "seconds": 78.2,
+    "frames": 1564,
+    "full_decode_passed": true,
+    "codec": "H264/AAC",
+    "waveform_correlation": 0.9987253528433357,
+    "decoded_samples": [
+      {
+        "time": 4.692,
+        "path": "Helix_Two_Stages_1_decoded_0.jpg",
+        "lit_fraction": 0.14476032021604937
+      },
+      {
+        "time": 17.204,
+        "path": "Helix_Two_Stages_1_decoded_1.jpg",
+        "lit_fraction": 0.14851032021604937
+      },
+      {
+        "time": 33.626,
+        "path": "Helix_Two_Stages_1_decoded_2.jpg",
+        "lit_fraction": 0.1466917438271605
+      },
+      {
+        "time": 49.266000000000005,
+        "path": "Helix_Two_Stages_1_decoded_3.jpg",
+        "lit_fraction": 0.1457908950617284
+      },
+      {
+        "time": 66.47,
+        "path": "Helix_Two_Stages_1_decoded_4.jpg",
+        "lit_fraction": 0.1472048611111111
+      }
+    ],
+    "max_contact_error": 0
+  },
+  {
+    "file": "Helix_Two_Stages_2.mp4",
+    "bytes": 20212213,
+    "sha256": "7514e15fc732591f1ac1fbcdbcb4f936c9a1a6df9624b78044bf028381386c33",
+    "seconds": 68.2,
+    "frames": 1364,
+    "full_decode_passed": true,
+    "codec": "H264/AAC",
+    "waveform_correlation": 0.9984528680949298,
+    "decoded_samples": [
+      {
+        "time": 4.092,
+        "path": "Helix_Two_Stages_2_decoded_0.jpg",
+        "lit_fraction": 0.11732301311728395
+      },
+      {
+        "time": 15.004000000000001,
+        "path": "Helix_Two_Stages_2_decoded_1.jpg",
+        "lit_fraction": 0.11793065200617284
+      },
+      {
+        "time": 29.326,
+        "path": "Helix_Two_Stages_2_decoded_2.jpg",
+        "lit_fraction": 0.1176441936728395
+      },
+      {
+        "time": 42.966,
+        "path": "Helix_Two_Stages_2_decoded_3.jpg",
+        "lit_fraction": 0.11748890817901235
+      },
+      {
+        "time": 57.97,
+        "path": "Helix_Two_Stages_2_decoded_4.jpg",
+        "lit_fraction": 0.11829137731481482
+      }
+    ],
+    "max_contact_error": 0
+  },
+  {
+    "file": "Helix_Two_Stages_3.mp4",
+    "bytes": 25697773,
+    "sha256": "68f3ff3ab14153d0c50c005dfc5741292ede12dfb7b07db43f8d1dd3d7ba36bb",
+    "seconds": 80.2,
+    "frames": 1604,
+    "full_decode_passed": true,
+    "codec": "H264/AAC",
+    "waveform_correlation": 0.9988174767548302,
+    "decoded_samples": [
+      {
+        "time": 4.812,
+        "path": "Helix_Two_Stages_3_decoded_0.jpg",
+        "lit_fraction": 0.16359905478395062
+      },
+      {
+        "time": 17.644000000000002,
+        "path": "Helix_Two_Stages_3_decoded_1.jpg",
+        "lit_fraction": 0.1638358410493827
+      },
+      {
+        "time": 34.486000000000004,
+        "path": "Helix_Two_Stages_3_decoded_2.jpg",
+        "lit_fraction": 0.1655859375
+      },
+      {
+        "time": 50.526,
+        "path": "Helix_Two_Stages_3_decoded_3.jpg",
+        "lit_fraction": 0.16342737268518517
+      },
+      {
+        "time": 68.17,
+        "path": "Helix_Two_Stages_3_decoded_4.jpg",
+        "lit_fraction": 0.1643282214506173
+      }
+    ],
+    "max_contact_error": 0
+  }
+]

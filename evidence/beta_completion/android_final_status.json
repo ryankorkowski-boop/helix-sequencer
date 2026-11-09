@@ -1,0 +1,88 @@
+{
+  "source_commit": "dd73e36777d0a02c6d403245d03421d093bda0fd",
+  "run": 40989578333,
+  "api30": {
+    "api": 30,
+    "job": 123848585104,
+    "conclusion": "success",
+    "instrumented_tests": 4,
+    "failures": 0,
+    "errors": 0,
+    "test_timestamps": [
+      "2026-10-30T02:13:35.0339400Z Starting 4 tests on emulator-5554 - 11",
+      "2026-10-30T02:22:32.3343385Z Finished 4 tests on emulator-5554 - 11"
+    ],
+    "full_song": {
+      "mode": "full-song",
+      "frames": 3562,
+      "video_codec": "h264",
+      "audio_codec": "aac",
+      "duration": "237.466708",
+      "source_duration_seconds": 237.43997916666666,
+      "full_song_preview_verified": true,
+      "max_mean_pixel_error": 1.728548900462963,
+      "minimum_expected_lit_pixels_visible": 0.9649313087490962,
+      "audio_correlation": 0.9957144538319959,
+      "audio_offset_ms": 0
+    },
+    "artifact": {
+      "id": 12949431885,
+      "name": "Helix-Android-stability-api-30",
+      "bytes": 400724439,
+      "archive_digest": "sha256:0fcdbbd98fb96b8f5a9b449682e663d981219edec748838b5df36751bcba99ff",
+      "source_commit": "dd73e36777d0a02c6d403245d03421d093bda0fd",
+      "expires_at": "2027-01-28T02:04:53Z"
+    }
+  },
+  "api36": {
+    "api": 36,
+    "job": 123848585374,
+    "conclusion": "success",
+    "instrumented_tests": 4,
+    "failures": 0,
+    "errors": 0,
+    "test_timestamps": [
+      "2026-10-30T02:14:04.9868466Z Starting 4 tests on emulator-5554 - 16",
+      "2026-10-30T02:19:39.9919394Z Finished 4 tests on emulator-5554 - 16"
+    ],
+    "full_song": {
+      "mode": "full-song",
+      "frames": 3562,
+      "video_codec": "h264",
+      "audio_codec": "aac",
+      "duration": "237.466708",
+      "source_duration_seconds": 237.43997916666666,
+      "full_song_preview_verified": true,
+      "max_mean_pixel_error": 2.2302025462962964,
+      "minimum_expected_lit_pixels_visible": 0.9649313087490962,
+      "audio_correlation": 0.9957144538319959,
+      "audio_offset_ms": 0
+    },
+    "artifact": {
+      "id": 12949321938,
+      "name": "Helix-Android-stability-api-36",
+      "bytes": 401024618,
+      "archive_digest": "sha256:5e4cc81f95ea25652510c016db21a25427d52da86b5d3e7d109364140cade63b",
+      "source_commit": "dd73e36777d0a02c6d403245d03421d093bda0fd",
+      "expires_at": "2027-01-28T02:04:53Z"
+    }
+  },
+  "reproduced_api30_memory_blocker_resolved_in_ci_emulator": true,
+  "physical_samsung_verified": false,
+  "simulated_preview_not_native_xlights": true,
+  "original_signing_migration_out_of_scope": true,
+  "beta_acceptance": false,
+  "owner_approval": false,
+  "independent_pr_repeat": {
+    "run": 40989590969,
+    "source_commit": "dd73e36777d0a02c6d403245d03421d093bda0fd",
+    "api30": {
+      "job": 123848630286,
+      "conclusion": "success"
+    },
+    "api36": {
+      "job": 123848630566,
+      "conclusion": "success"
+    }
+  }
+}

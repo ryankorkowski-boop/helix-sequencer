@@ -130,24 +130,33 @@ HELIXVILLE4_BAND_STEM_TARGETS: tuple[StemTarget, ...] = (
 )
 
 
-def build_helixville4_band_stem_map() -> dict[str, Any]:
+def build_helixville4_band_stem_map(model_submodels: dict[str, set[str]] | None = None) -> dict[str, Any]:
+    targets = list(HELIXVILLE4_BAND_STEM_TARGETS)
+    canonical = "HX_SNOWMAN_DRUMMER_V3"
+    if model_submodels is not None and canonical in model_submodels and "HX_SNOWMAN_DRUMMER" not in model_submodels:
+        suffixes = {"kick": ("KICK",), "snare": ("SNARE",), "hihat": ("HI_HAT",),
+                    "cymbals": ("CYMBAL_LEFT", "CYMBAL_RIGHT"),
+                    "toms": ("TOM_HIGH", "TOM_MID", "TOM_FLOOR")}
+        targets = [StemTarget(t.stem, t.timing_lanes, canonical,
+                              tuple(f"{canonical}_{s}" for s in suffixes[t.stem]), t.purpose)
+                   if t.model == "HX_SNOWMAN_DRUMMER" else t for t in targets]
     return {
         "schema": "helixville4.band_stem_map.v1",
         "stem_count": len(HELIXVILLE4_BAND_STEM_TARGETS),
-        "targets": [target.to_dict() for target in HELIXVILLE4_BAND_STEM_TARGETS],
+        "targets": [target.to_dict() for target in targets],
     }
 
 
 def validate_stem_map_against_submodels(model_submodels: dict[str, set[str]]) -> dict[str, Any]:
     errors: list[str] = []
-    for target in HELIXVILLE4_BAND_STEM_TARGETS:
-        available = model_submodels.get(target.model)
+    for target in build_helixville4_band_stem_map(model_submodels)["targets"]:
+        available = model_submodels.get(target["model"])
         if available is None:
-            errors.append(f"{target.stem} references missing model: {target.model}")
+            errors.append(f"{target['stem']} references missing model: {target['model']}")
             continue
-        for submodel in target.submodels:
+        for submodel in target["submodels"]:
             if submodel not in available:
-                errors.append(f"{target.stem} references missing submodel: {target.model}/{submodel}")
+                errors.append(f"{target['stem']} references missing submodel: {target['model']}/{submodel}")
     return {
         "schema": "helixville4.band_stem_map_validation.v1",
         "valid": not errors,

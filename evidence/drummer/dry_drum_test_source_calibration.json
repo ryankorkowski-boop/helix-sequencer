@@ -1,0 +1,59 @@
+{
+  "schema": "helix.drum_source_calibration.v1",
+  "audio_sha256": "4cd9ee35b65d359aa44ac4c9e01a256bbcaf3297458340fc512084bae1463913",
+  "scope_seconds": [
+    32.3,
+    34
+  ],
+  "review_status": "source_inspected_inference_pending_user_listening",
+  "reason": "User identifies missed 32–34 second notes as a high tom/timpani sound. Existing ADTOF generic-tom attacks were discarded because the five-family model supplied no identity. Original-source attack/body exemplars resolve physical HIGH; no family reassignment or invented attacks.",
+  "limits": "User reviews passage timbre and earlier descending fill, not every individual attack. ADT_STR probes contradict user listening and vary with clip boundaries; retain only as rejected diagnostic evidence. Unmatched timbres including the lower-pitched change near 33.93 s remain unassigned. Exact source and audited passage only.",
+  "rejected_independent_probe": "evidence/drummer/dry_drum_test_detailed_probe.json",
+  "exemplars": [
+    {
+      "timestamp": 9.69,
+      "drum_family": "tom",
+      "tom_class": "high",
+      "label_source": "user_reviewed_descending_fill_order",
+      "source_body_peak_hz": 181.64
+    },
+    {
+      "timestamp": 10.01,
+      "drum_family": "tom",
+      "tom_class": "mid",
+      "label_source": "user_reviewed_descending_fill_order",
+      "source_body_peak_hz": 177.25
+    },
+    {
+      "timestamp": 10.32,
+      "drum_family": "tom",
+      "tom_class": "floor",
+      "label_source": "user_reviewed_descending_fill_order",
+      "source_body_peak_hz": 146.48
+    },
+    {
+      "timestamp": 32.36,
+      "drum_family": "tom",
+      "tom_class": "high",
+      "label_source": "user_heard_high_tom_or_timpani_in_32_to34s_passage",
+      "source_body_peak_hz": 533.2,
+      "note": "Representative attack/body; dominant mode exceeds the isolated 60–400 Hz search."
+    },
+    {
+      "timestamp": 32.68,
+      "drum_family": "tom",
+      "tom_class": "high",
+      "label_source": "user_heard_high_tom_or_timpani_in_32_to34s_passage",
+      "note": "Brighter attack articulation in the reviewed passage; high-band energy alone must not force hi-hat assignment."
+    },
+    {
+      "timestamp": 33.15,
+      "drum_family": "tom",
+      "tom_class": "high",
+      "label_source": "user_heard_high_tom_or_timpani_in_32_to34s_passage",
+      "source_body_peak_hz": 501,
+      "note": "Short, quieter ringing articulation in the reviewed passage."
+    }
+  ]
+}
+

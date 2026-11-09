@@ -2,6 +2,10 @@
 
 The Helix Sequencer is under active development and available as a beta release. This document outlines our approach to data, privacy, and stability.
 
+## License and permitted use
+
+Helix is free for personal and other permitted noncommercial use under the [PolyForm Noncommercial License 1.0.0](../LICENSE). Commercial use requires a separate paid written license from the applicable rights holders. See [commercial licensing](../COMMERCIAL_LICENSING.md) and https://facebook.com/helixsequencer. Third-party licenses and prior MIT grants remain unaffected.
+
 ## Data Collection and Privacy
 
 ### What We Do NOT Collect

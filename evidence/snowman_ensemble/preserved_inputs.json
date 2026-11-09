@@ -1,0 +1,23 @@
+{
+  "fixtures/band_geometry/source/drummerbg.png": "643e1bfb7fb0b245cb7400010a80f9f75037f8a5554adde7bde8cba7a53374fa",
+  "fixtures/band_geometry/source/drummer_idle.png": "3c1bc92206214d749816910e5133239000f2960ba136ce00bc1c7602905f5dbc",
+  "fixtures/band_geometry/models/HX_SNOWMAN_DRUMMER_V3.xmodel": "d6fc7472cfb11efba812d5147cc8f9cc247aafffbebce3c5a2e825c1bfaa6be1",
+  "fixtures/band_geometry/layers/drummer_hit_both_crash.png": "48bb646212c3266ccdaddc9c1a2fc701d20d3b60eef7dea3fdf4c8089083faf9",
+  "fixtures/band_geometry/layers/drummer_hit_floor_tom.png": "822a9bb9099d5a0911be54a7fd04c6a5ab1cbfa8049f0ec49a3b62a2c09efb77",
+  "fixtures/band_geometry/layers/drummer_hit_high_tom.png": "40a02e782f807cc5155c7ac666146ee8115eabb8477c163d2f112ba83c7bf29e",
+  "fixtures/band_geometry/layers/drummer_hit_mid_tom.png": "059a8d7563775bfced8ad4d644e4abac5d9e6962300511d04dd9acb7250fb962",
+  "fixtures/band_geometry/layers/drummer_downbeat_impact.png": "a23af34c2feb6daf79641765060c087e99044d9eb293154f0c0584ab6818d1f7",
+  "fixtures/band_geometry/layers/drummer_hit_hi_hat.png": "4b66bcbcf34b905d152310414ad86f7e0d20441e799be9436c7e47df709120df",
+  "fixtures/band_geometry/layers/drummer_hit_kick.png": "bca071002f886162c45720b7be08f5d9e790aae928af77a5a746ae00683e2d74",
+  "fixtures/band_geometry/layers/drummer_hit_right_crash.png": "6fb45e96ca03b6e10336ef74f1a11bf8532d967346c0acdfb2d99913cd2a9cd2",
+  "fixtures/band_geometry/layers/drummer_hit_snare.png": "db8281949a250cbd07e4835d8a35514ff07cc1404770b8cd0aaeeb9122a01996",
+  "fixtures/band_geometry/layers/drummer_hit_left_crash.png": "0f345577502715668dbb19911104f3820a836882037e83585932ef8aac85de6f",
+  "fixtures/band_geometry/layers/drummer_hit_right_tom.png": "65b16e32ce352113be3d201f423a6481050b25be8d7ca75b022943a08da9373b",
+  "fixtures/band_geometry/layers/drummer_hit_left_tom.png": "63b1f5b74b95d5f808640aaea46ee15eb9aac3f031c92cb98f2bdd5a0aae7495",
+  "fixtures/band_geometry/layers/drummer_hit_snare_right.png": "3a022b24b9075d319ca89b1ff8aaf8e2783ec71cf521c4821ebb10690c0ad7c7",
+  "evidence/showcase_audio/source/5-Bell-Circuit-Carol-1-.mp3": "546d214fafc467c8581175bae47e78531eae01fb7abcd99a1a37358670885885",
+  "evidence/showcase_audio/source/3-Frostbitten-Fingerboard-1-.mp3": "657e5c5dbb9b6372d5c9086b547d236b47815c32306e53a753735f5f5775e504",
+  "evidence/showcase_audio/source/4-Holly-Steel-Run-1-.mp3": "47e61a145578fa7d153b2ecb7de02bf10c61646bf246421365f24439df697dc1",
+  "evidence/showcase_audio/source/2-Tinsel-Sawtooth-1-.mp3": "e9add1d351989d4a359cdda837fc5139a8e358ca067d31a839cafa6b35c954fc",
+  "evidence/showcase_audio/source/1-Wire-Tree.mp3": "60c78154189231db21791de1a7ad64f063af2eaaf18bb7f318b151620f41cca5"
+}

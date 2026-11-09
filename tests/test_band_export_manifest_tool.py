@@ -6,7 +6,7 @@ from tools.export_band_performance_manifest import ARTIFACT_FILENAMES, export_de
 
 
 EXPECTED_MODELS = {
-    "HX_SNOWMAN_DRUMMER",
+    "HX_SNOWMAN_DRUMMER_V3",
     "HX_SNOWMAN_GUITARIST",
     "HX_SNOWMAN_BASSIST",
     "HX_SNOWMAN_SINGER",
@@ -44,7 +44,10 @@ def test_export_band_performance_manifest_writes_expected_files(tmp_path) -> Non
 
     assert runtime_catalog["performer_count"] == 5
     assert set(runtime_catalog["model_names"]) == EXPECTED_MODELS
-    assert set(xlights_export["models"]) == EXPECTED_MODELS
-    assert set(xlights_export["performers"]) == EXPECTED_PERFORMERS
+    assert set(xlights_export["models"]) == {'HX_SNOWMAN_DRUMMER_V3'}
+    assert set(xlights_export["performers"]) == {'drummer'}
+    assert payload['runtime_export_complete'] is False
+    assert {p['performer'] for p in payload['deferred_runtime_performers']}==EXPECTED_PERFORMERS-{'drummer'}
+    assert all(p['reason']=='no approved runtime states' for p in payload['deferred_runtime_performers'])
     assert xlights_export["effect_count"] > 0
     assert set(vocal_face_export["performers"]) == {"singer", "female_singer"}

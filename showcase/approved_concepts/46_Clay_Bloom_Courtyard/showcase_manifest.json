@@ -1,0 +1,5182 @@
+{
+  "schema": "helix.approved_concept.v1",
+  "name": "Clay Bloom Courtyard",
+  "coordinate_system": "x-right, y-up, z-depth; design feet",
+  "xlights_source_ref": "6ceddc6b25a24d82754d4f9af28e18ee70b51f81",
+  "coverage": {
+    "Custom": 99
+  },
+  "native_families": [
+    "Custom"
+  ],
+  "native_coverage_complete": false,
+  "model_count": 99,
+  "rgb_pixels": 9810,
+  "channel_count": 29430,
+  "spiral_trees": 0,
+  "double_helices": 0,
+  "preview_contract": "Custom sparse-grid coordinates exactly match exported XML; native-family preview coordinates illustrate the authored geometry. Native xLights render/load evidence is recorded separately.",
+  "models": [
+    {
+      "name": "HX_001_FLOWER_STEM",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "STEMS",
+      "design": "FLOWER STEM",
+      "kind": "pixel",
+      "nodes": 70,
+      "start_channel": 1,
+      "end_channel": 210,
+      "bounds_ft": [
+        [
+          -85.0,
+          0.0,
+          0.0
+        ],
+        [
+          -85.0,
+          55.0,
+          0.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.2463768115942031
+    },
+    {
+      "name": "HX_002_REPLACEMENT_PETAL",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_00",
+      "design": "REPLACEMENT PETAL",
+      "kind": "pixel",
+      "nodes": 100,
+      "start_channel": 211,
+      "end_channel": 510,
+      "bounds_ft": [
+        [
+          -85.0,
+          53.6875,
+          0.0
+        ],
+        [
+          -79.0,
+          56.3125,
+          0.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.0625,
+      "max_snap_error_ft": 0.03677750118409241,
+      "pose_index": 0,
+      "pose_count": 4,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3,
+        3,
+        2,
+        1,
+        0
+      ]
+    },
+    {
+      "name": "HX_003_REPLACEMENT_PETAL",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_00",
+      "design": "REPLACEMENT PETAL",
+      "kind": "pixel",
+      "nodes": 100,
+      "start_channel": 511,
+      "end_channel": 810,
+      "bounds_ft": [
+        [
+          -85.1875,
+          54.8125,
+          0.0
+        ],
+        [
+          -80.5625,
+          59.4375,
+          0.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.0625,
+      "max_snap_error_ft": 0.03705510564455588,
+      "pose_index": 0,
+      "pose_count": 4,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3,
+        3,
+        2,
+        1,
+        0
+      ]
+    },
+    {
+      "name": "HX_004_REPLACEMENT_PETAL",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_00",
+      "design": "REPLACEMENT PETAL",
+      "kind": "pixel",
+      "nodes": 100,
+      "start_channel": 811,
+      "end_channel": 1110,
+      "bounds_ft": [
+        [
+          -86.3125,
+          55.0,
+          0.0
+        ],
+        [
+          -83.6875,
+          61.0,
+          0.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.0625,
+      "max_snap_error_ft": 0.03677750118409241,
+      "pose_index": 0,
+      "pose_count": 4,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3,
+        3,
+        2,
+        1,
+        0
+      ]
+    },
+    {
+      "name": "HX_005_REPLACEMENT_PETAL",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_00",
+      "design": "REPLACEMENT PETAL",
+      "kind": "pixel",
+      "nodes": 100,
+      "start_channel": 1111,
+      "end_channel": 1410,
+      "bounds_ft": [
+        [
+          -89.4375,
+          54.8125,
+          0.0
+        ],
+        [
+          -84.8125,
+          59.4375,
+          0.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.0625,
+      "max_snap_error_ft": 0.03705510564455588,
+      "pose_index": 0,
+      "pose_count": 4,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3,
+        3,
+        2,
+        1,
+        0
+      ]
+    },
+    {
+      "name": "HX_006_REPLACEMENT_PETAL",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_00",
+      "design": "REPLACEMENT PETAL",
+      "kind": "pixel",
+      "nodes": 100,
+      "start_channel": 1411,
+      "end_channel": 1710,
+      "bounds_ft": [
+        [
+          -91.0,
+          53.6875,
+          0.0
+        ],
+        [
+          -85.0,
+          56.3125,
+          0.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.0625,
+      "max_snap_error_ft": 0.03677750118409241,
+      "pose_index": 0,
+      "pose_count": 4,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3,
+        3,
+        2,
+        1,
+        0
+      ]
+    },
+    {
+      "name": "HX_007_REPLACEMENT_PETAL",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_00",
+      "design": "REPLACEMENT PETAL",
+      "kind": "pixel",
+      "nodes": 100,
+      "start_channel": 1711,
+      "end_channel": 2010,
+      "bounds_ft": [
+        [
+          -89.4375,
+          50.5625,
+          0.0
+        ],
+        [
+          -84.8125,
+          55.1875,
+          0.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.0625,
+      "max_snap_error_ft": 0.03705510564455588,
+      "pose_index": 0,
+      "pose_count": 4,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3,
+        3,
+        2,
+        1,
+        0
+      ]
+    },
+    {
+      "name": "HX_008_REPLACEMENT_PETAL",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_00",
+      "design": "REPLACEMENT PETAL",
+      "kind": "pixel",
+      "nodes": 100,
+      "start_channel": 2011,
+      "end_channel": 2310,
+      "bounds_ft": [
+        [
+          -86.3125,
+          49.0,
+          0.0
+        ],
+        [
+          -83.6875,
+          55.0,
+          0.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.0625,
+      "max_snap_error_ft": 0.03677750118409241,
+      "pose_index": 0,
+      "pose_count": 4,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3,
+        3,
+        2,
+        1,
+        0
+      ]
+    },
+    {
+      "name": "HX_009_REPLACEMENT_PETAL",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_00",
+      "design": "REPLACEMENT PETAL",
+      "kind": "pixel",
+      "nodes": 100,
+      "start_channel": 2311,
+      "end_channel": 2610,
+      "bounds_ft": [
+        [
+          -85.1875,
+          50.5625,
+          0.0
+        ],
+        [
+          -80.5625,
+          55.1875,
+          0.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.0625,
+      "max_snap_error_ft": 0.03705510564455588,
+      "pose_index": 0,
+      "pose_count": 4,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3,
+        3,
+        2,
+        1,
+        0
+      ]
+    },
+    {
+      "name": "HX_010_REPLACEMENT_PETAL",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_01",
+      "design": "REPLACEMENT PETAL",
+      "kind": "pixel",
+      "nodes": 100,
+      "start_channel": 2611,
+      "end_channel": 2910,
+      "bounds_ft": [
+        [
+          -85.0,
+          51.75,
+          4.0
+        ],
+        [
+          -70.0,
+          58.25,
+          4.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.25,
+      "max_snap_error_ft": 0.166534816383113,
+      "pose_index": 1,
+      "pose_count": 4,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3,
+        3,
+        2,
+        1,
+        0
+      ]
+    },
+    {
+      "name": "HX_011_REPLACEMENT_PETAL",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_01",
+      "design": "REPLACEMENT PETAL",
+      "kind": "pixel",
+      "nodes": 100,
+      "start_channel": 2911,
+      "end_channel": 3210,
+      "bounds_ft": [
+        [
+          -85.5,
+          54.5,
+          4.0
+        ],
+        [
+          -73.875,
+          66.125,
+          4.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.125,
+      "max_snap_error_ft": 0.0704772920391334,
+      "pose_index": 1,
+      "pose_count": 4,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3,
+        3,
+        2,
+        1,
+        0
+      ]
+    },
+    {
+      "name": "HX_012_REPLACEMENT_PETAL",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_01",
+      "design": "REPLACEMENT PETAL",
+      "kind": "pixel",
+      "nodes": 100,
+      "start_channel": 3211,
+      "end_channel": 3510,
+      "bounds_ft": [
+        [
+          -88.25,
+          55.0,
+          4.0
+        ],
+        [
+          -81.75,
+          70.0,
+          4.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.25,
+      "max_snap_error_ft": 0.166534816383113,
+      "pose_index": 1,
+      "pose_count": 4,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3,
+        3,
+        2,
+        1,
+        0
+      ]
+    },
+    {
+      "name": "HX_013_REPLACEMENT_PETAL",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_01",
+      "design": "REPLACEMENT PETAL",
+      "kind": "pixel",
+      "nodes": 100,
+      "start_channel": 3511,
+      "end_channel": 3810,
+      "bounds_ft": [
+        [
+          -96.125,
+          54.5,
+          4.0
+        ],
+        [
+          -84.5,
+          66.125,
+          4.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.125,
+      "max_snap_error_ft": 0.0704772920391334,
+      "pose_index": 1,
+      "pose_count": 4,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3,
+        3,
+        2,
+        1,
+        0
+      ]
+    },
+    {
+      "name": "HX_014_REPLACEMENT_PETAL",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_01",
+      "design": "REPLACEMENT PETAL",
+      "kind": "pixel",
+      "nodes": 100,
+      "start_channel": 3811,
+      "end_channel": 4110,
+      "bounds_ft": [
+        [
+          -100.0,
+          51.75,
+          4.0
+        ],
+        [
+          -85.0,
+          58.25,
+          4.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.25,
+      "max_snap_error_ft": 0.166534816383113,
+      "pose_index": 1,
+      "pose_count": 4,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3,
+        3,
+        2,
+        1,
+        0
+      ]
+    },
+    {
+      "name": "HX_015_REPLACEMENT_PETAL",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_01",
+      "design": "REPLACEMENT PETAL",
+      "kind": "pixel",
+      "nodes": 100,
+      "start_channel": 4111,
+      "end_channel": 4410,
+      "bounds_ft": [
+        [
+          -96.125,
+          43.875,
+          4.0
+        ],
+        [
+          -84.5,
+          55.5,
+          4.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.125,
+      "max_snap_error_ft": 0.0704772920391435,
+      "pose_index": 1,
+      "pose_count": 4,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3,
+        3,
+        2,
+        1,
+        0
+      ]
+    },
+    {
+      "name": "HX_016_REPLACEMENT_PETAL",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_01",
+      "design": "REPLACEMENT PETAL",
+      "kind": "pixel",
+      "nodes": 100,
+      "start_channel": 4411,
+      "end_channel": 4710,
+      "bounds_ft": [
+        [
+          -88.25,
+          40.0,
+          4.0
+        ],
+        [
+          -81.75,
+          55.0,
+          4.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.25,
+      "max_snap_error_ft": 0.166534816383113,
+      "pose_index": 1,
+      "pose_count": 4,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3,
+        3,
+        2,
+        1,
+        0
+      ]
+    },
+    {
+      "name": "HX_017_REPLACEMENT_PETAL",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_01",
+      "design": "REPLACEMENT PETAL",
+      "kind": "pixel",
+      "nodes": 100,
+      "start_channel": 4711,
+      "end_channel": 5010,
+      "bounds_ft": [
+        [
+          -85.5,
+          43.875,
+          4.0
+        ],
+        [
+          -73.875,
+          55.5,
+          4.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.125,
+      "max_snap_error_ft": 0.07047729203913845,
+      "pose_index": 1,
+      "pose_count": 4,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3,
+        3,
+        2,
+        1,
+        0
+      ]
+    },
+    {
+      "name": "HX_018_REPLACEMENT_PETAL",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_02",
+      "design": "REPLACEMENT PETAL",
+      "kind": "pixel",
+      "nodes": 100,
+      "start_channel": 5011,
+      "end_channel": 5310,
+      "bounds_ft": [
+        [
+          -85.0,
+          49.0,
+          8.0
+        ],
+        [
+          -58.0,
+          61.0,
+          8.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.25,
+      "max_snap_error_ft": 0.13740729231682713,
+      "pose_index": 2,
+      "pose_count": 4,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3,
+        3,
+        2,
+        1,
+        0
+      ]
+    },
+    {
+      "name": "HX_019_REPLACEMENT_PETAL",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_02",
+      "design": "REPLACEMENT PETAL",
+      "kind": "pixel",
+      "nodes": 100,
+      "start_channel": 5311,
+      "end_channel": 5610,
+      "bounds_ft": [
+        [
+          -86.0,
+          54.0,
+          8.0
+        ],
+        [
+          -65.0,
+          75.0,
+          8.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.25,
+      "max_snap_error_ft": 0.1702243555347534,
+      "pose_index": 2,
+      "pose_count": 4,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3,
+        3,
+        2,
+        1,
+        0
+      ]
+    },
+    {
+      "name": "HX_020_REPLACEMENT_PETAL",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_02",
+      "design": "REPLACEMENT PETAL",
+      "kind": "pixel",
+      "nodes": 100,
+      "start_channel": 5611,
+      "end_channel": 5910,
+      "bounds_ft": [
+        [
+          -91.0,
+          55.0,
+          8.0
+        ],
+        [
+          -79.0,
+          82.0,
+          8.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.25,
+      "max_snap_error_ft": 0.13740729231683127,
+      "pose_index": 2,
+      "pose_count": 4,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3,
+        3,
+        2,
+        1,
+        0
+      ]
+    },
+    {
+      "name": "HX_021_REPLACEMENT_PETAL",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_02",
+      "design": "REPLACEMENT PETAL",
+      "kind": "pixel",
+      "nodes": 100,
+      "start_channel": 5911,
+      "end_channel": 6210,
+      "bounds_ft": [
+        [
+          -105.0,
+          54.0,
+          8.0
+        ],
+        [
+          -84.0,
+          75.0,
+          8.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.25,
+      "max_snap_error_ft": 0.1702243555347534,
+      "pose_index": 2,
+      "pose_count": 4,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3,
+        3,
+        2,
+        1,
+        0
+      ]
+    },
+    {
+      "name": "HX_022_REPLACEMENT_PETAL",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_02",
+      "design": "REPLACEMENT PETAL",
+      "kind": "pixel",
+      "nodes": 100,
+      "start_channel": 6211,
+      "end_channel": 6510,
+      "bounds_ft": [
+        [
+          -112.0,
+          49.0,
+          8.0
+        ],
+        [
+          -85.0,
+          61.0,
+          8.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.25,
+      "max_snap_error_ft": 0.13740729231682713,
+      "pose_index": 2,
+      "pose_count": 4,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3,
+        3,
+        2,
+        1,
+        0
+      ]
+    },
+    {
+      "name": "HX_023_REPLACEMENT_PETAL",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_02",
+      "design": "REPLACEMENT PETAL",
+      "kind": "pixel",
+      "nodes": 100,
+      "start_channel": 6511,
+      "end_channel": 6810,
+      "bounds_ft": [
+        [
+          -105.0,
+          35.0,
+          8.0
+        ],
+        [
+          -84.0,
+          56.0,
+          8.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.25,
+      "max_snap_error_ft": 0.17022435553475843,
+      "pose_index": 2,
+      "pose_count": 4,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3,
+        3,
+        2,
+        1,
+        0
+      ]
+    },
+    {
+      "name": "HX_024_REPLACEMENT_PETAL",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_02",
+      "design": "REPLACEMENT PETAL",
+      "kind": "pixel",
+      "nodes": 100,
+      "start_channel": 6811,
+      "end_channel": 7110,
+      "bounds_ft": [
+        [
+          -91.0,
+          28.0,
+          8.0
+        ],
+        [
+          -79.0,
+          55.0,
+          8.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.25,
+      "max_snap_error_ft": 0.13740729231683127,
+      "pose_index": 2,
+      "pose_count": 4,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3,
+        3,
+        2,
+        1,
+        0
+      ]
+    },
+    {
+      "name": "HX_025_REPLACEMENT_PETAL",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_02",
+      "design": "REPLACEMENT PETAL",
+      "kind": "pixel",
+      "nodes": 100,
+      "start_channel": 7111,
+      "end_channel": 7410,
+      "bounds_ft": [
+        [
+          -86.0,
+          35.0,
+          8.0
+        ],
+        [
+          -65.0,
+          56.0,
+          8.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.25,
+      "max_snap_error_ft": 0.1702243555347534,
+      "pose_index": 2,
+      "pose_count": 4,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3,
+        3,
+        2,
+        1,
+        0
+      ]
+    },
+    {
+      "name": "HX_026_REPLACEMENT_PETAL",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_03",
+      "design": "REPLACEMENT PETAL",
+      "kind": "pixel",
+      "nodes": 100,
+      "start_channel": 7411,
+      "end_channel": 7710,
+      "bounds_ft": [
+        [
+          -85.0,
+          46.5,
+          12.0
+        ],
+        [
+          -47.0,
+          63.5,
+          12.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.29014668782883674,
+      "pose_index": 3,
+      "pose_count": 4,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3,
+        3,
+        2,
+        1,
+        0
+      ]
+    },
+    {
+      "name": "HX_027_REPLACEMENT_PETAL",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_03",
+      "design": "REPLACEMENT PETAL",
+      "kind": "pixel",
+      "nodes": 100,
+      "start_channel": 7711,
+      "end_channel": 8010,
+      "bounds_ft": [
+        [
+          -86.0,
+          54.0,
+          12.0
+        ],
+        [
+          -57.0,
+          83.0,
+          12.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.33424282980907355,
+      "pose_index": 3,
+      "pose_count": 4,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3,
+        3,
+        2,
+        1,
+        0
+      ]
+    },
+    {
+      "name": "HX_028_REPLACEMENT_PETAL",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_03",
+      "design": "REPLACEMENT PETAL",
+      "kind": "pixel",
+      "nodes": 100,
+      "start_channel": 8011,
+      "end_channel": 8310,
+      "bounds_ft": [
+        [
+          -93.5,
+          55.0,
+          12.0
+        ],
+        [
+          -76.5,
+          93.0,
+          12.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.2901466878288425,
+      "pose_index": 3,
+      "pose_count": 4,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3,
+        3,
+        2,
+        1,
+        0
+      ]
+    },
+    {
+      "name": "HX_029_REPLACEMENT_PETAL",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_03",
+      "design": "REPLACEMENT PETAL",
+      "kind": "pixel",
+      "nodes": 100,
+      "start_channel": 8311,
+      "end_channel": 8610,
+      "bounds_ft": [
+        [
+          -113.0,
+          54.0,
+          12.0
+        ],
+        [
+          -84.0,
+          83.0,
+          12.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.33424282980906384,
+      "pose_index": 3,
+      "pose_count": 4,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3,
+        3,
+        2,
+        1,
+        0
+      ]
+    },
+    {
+      "name": "HX_030_REPLACEMENT_PETAL",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_03",
+      "design": "REPLACEMENT PETAL",
+      "kind": "pixel",
+      "nodes": 100,
+      "start_channel": 8611,
+      "end_channel": 8910,
+      "bounds_ft": [
+        [
+          -123.0,
+          46.5,
+          12.0
+        ],
+        [
+          -85.0,
+          63.5,
+          12.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.2901466878288425,
+      "pose_index": 3,
+      "pose_count": 4,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3,
+        3,
+        2,
+        1,
+        0
+      ]
+    },
+    {
+      "name": "HX_031_REPLACEMENT_PETAL",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_03",
+      "design": "REPLACEMENT PETAL",
+      "kind": "pixel",
+      "nodes": 100,
+      "start_channel": 8911,
+      "end_channel": 9210,
+      "bounds_ft": [
+        [
+          -113.0,
+          27.0,
+          12.0
+        ],
+        [
+          -84.0,
+          56.0,
+          12.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.33424282980908393,
+      "pose_index": 3,
+      "pose_count": 4,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3,
+        3,
+        2,
+        1,
+        0
+      ]
+    },
+    {
+      "name": "HX_032_REPLACEMENT_PETAL",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_03",
+      "design": "REPLACEMENT PETAL",
+      "kind": "pixel",
+      "nodes": 100,
+      "start_channel": 9211,
+      "end_channel": 9510,
+      "bounds_ft": [
+        [
+          -93.5,
+          17.0,
+          12.0
+        ],
+        [
+          -76.5,
+          55.0,
+          12.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.29014668782884045,
+      "pose_index": 3,
+      "pose_count": 4,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3,
+        3,
+        2,
+        1,
+        0
+      ]
+    },
+    {
+      "name": "HX_033_REPLACEMENT_PETAL",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_03",
+      "design": "REPLACEMENT PETAL",
+      "kind": "pixel",
+      "nodes": 100,
+      "start_channel": 9511,
+      "end_channel": 9810,
+      "bounds_ft": [
+        [
+          -86.0,
+          27.0,
+          12.0
+        ],
+        [
+          -57.0,
+          56.0,
+          12.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.33424282980906384,
+      "pose_index": 3,
+      "pose_count": 4,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3,
+        3,
+        2,
+        1,
+        0
+      ]
+    },
+    {
+      "name": "HX_034_FLOWER_STEM",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "STEMS",
+      "design": "FLOWER STEM",
+      "kind": "pixel",
+      "nodes": 70,
+      "start_channel": 9811,
+      "end_channel": 10020,
+      "bounds_ft": [
+        [
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          55.0,
+          0.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.2463768115942031
+    },
+    {
+      "name": "HX_035_REPLACEMENT_PETAL",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_00",
+      "design": "REPLACEMENT PETAL",
+      "kind": "pixel",
+      "nodes": 100,
+      "start_channel": 10021,
+      "end_channel": 10320,
+      "bounds_ft": [
+        [
+          0.0,
+          53.6875,
+          0.0
+        ],
+        [
+          6.0,
+          56.3125,
+          0.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.0625,
+      "max_snap_error_ft": 0.03677750118409261,
+      "pose_index": 0,
+      "pose_count": 4,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3,
+        3,
+        2,
+        1,
+        0
+      ]
+    },
+    {
+      "name": "HX_036_REPLACEMENT_PETAL",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_00",
+      "design": "REPLACEMENT PETAL",
+      "kind": "pixel",
+      "nodes": 100,
+      "start_channel": 10321,
+      "end_channel": 10620,
+      "bounds_ft": [
+        [
+          -0.1875,
+          54.8125,
+          0.0
+        ],
+        [
+          4.4375,
+          59.4375,
+          0.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.0625,
+      "max_snap_error_ft": 0.037055105644557176,
+      "pose_index": 0,
+      "pose_count": 4,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3,
+        3,
+        2,
+        1,
+        0
+      ]
+    },
+    {
+      "name": "HX_037_REPLACEMENT_PETAL",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_00",
+      "design": "REPLACEMENT PETAL",
+      "kind": "pixel",
+      "nodes": 100,
+      "start_channel": 10621,
+      "end_channel": 10920,
+      "bounds_ft": [
+        [
+          -1.3125,
+          55.0,
+          0.0
+        ],
+        [
+          1.3125,
+          61.0,
+          0.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.0625,
+      "max_snap_error_ft": 0.03677750118409188,
+      "pose_index": 0,
+      "pose_count": 4,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3,
+        3,
+        2,
+        1,
+        0
+      ]
+    },
+    {
+      "name": "HX_038_REPLACEMENT_PETAL",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_00",
+      "design": "REPLACEMENT PETAL",
+      "kind": "pixel",
+      "nodes": 100,
+      "start_channel": 10921,
+      "end_channel": 11220,
+      "bounds_ft": [
+        [
+          -4.4375,
+          54.8125,
+          0.0
+        ],
+        [
+          0.1875,
+          59.4375,
+          0.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.0625,
+      "max_snap_error_ft": 0.03705510564455783,
+      "pose_index": 0,
+      "pose_count": 4,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3,
+        3,
+        2,
+        1,
+        0
+      ]
+    },
+    {
+      "name": "HX_039_REPLACEMENT_PETAL",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_00",
+      "design": "REPLACEMENT PETAL",
+      "kind": "pixel",
+      "nodes": 100,
+      "start_channel": 11221,
+      "end_channel": 11520,
+      "bounds_ft": [
+        [
+          -6.0,
+          53.6875,
+          0.0
+        ],
+        [
+          0.0,
+          56.3125,
+          0.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.0625,
+      "max_snap_error_ft": 0.03677750118409264,
+      "pose_index": 0,
+      "pose_count": 4,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3,
+        3,
+        2,
+        1,
+        0
+      ]
+    },
+    {
+      "name": "HX_040_REPLACEMENT_PETAL",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_00",
+      "design": "REPLACEMENT PETAL",
+      "kind": "pixel",
+      "nodes": 100,
+      "start_channel": 11521,
+      "end_channel": 11820,
+      "bounds_ft": [
+        [
+          -4.4375,
+          50.5625,
+          0.0
+        ],
+        [
+          0.1875,
+          55.1875,
+          0.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.0625,
+      "max_snap_error_ft": 0.03705510564455699,
+      "pose_index": 0,
+      "pose_count": 4,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3,
+        3,
+        2,
+        1,
+        0
+      ]
+    },
+    {
+      "name": "HX_041_REPLACEMENT_PETAL",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_00",
+      "design": "REPLACEMENT PETAL",
+      "kind": "pixel",
+      "nodes": 100,
+      "start_channel": 11821,
+      "end_channel": 12120,
+      "bounds_ft": [
+        [
+          -1.3125,
+          49.0,
+          0.0
+        ],
+        [
+          1.3125,
+          55.0,
+          0.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.0625,
+      "max_snap_error_ft": 0.03677750118409246,
+      "pose_index": 0,
+      "pose_count": 4,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3,
+        3,
+        2,
+        1,
+        0
+      ]
+    },
+    {
+      "name": "HX_042_REPLACEMENT_PETAL",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_00",
+      "design": "REPLACEMENT PETAL",
+      "kind": "pixel",
+      "nodes": 100,
+      "start_channel": 12121,
+      "end_channel": 12420,
+      "bounds_ft": [
+        [
+          -0.1875,
+          50.5625,
+          0.0
+        ],
+        [
+          4.4375,
+          55.1875,
+          0.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.0625,
+      "max_snap_error_ft": 0.037055105644557926,
+      "pose_index": 0,
+      "pose_count": 4,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3,
+        3,
+        2,
+        1,
+        0
+      ]
+    },
+    {
+      "name": "HX_043_REPLACEMENT_PETAL",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_01",
+      "design": "REPLACEMENT PETAL",
+      "kind": "pixel",
+      "nodes": 100,
+      "start_channel": 12421,
+      "end_channel": 12720,
+      "bounds_ft": [
+        [
+          0.0,
+          51.75,
+          4.0
+        ],
+        [
+          15.0,
+          58.25,
+          4.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.25,
+      "max_snap_error_ft": 0.166534816383113,
+      "pose_index": 1,
+      "pose_count": 4,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3,
+        3,
+        2,
+        1,
+        0
+      ]
+    },
+    {
+      "name": "HX_044_REPLACEMENT_PETAL",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_01",
+      "design": "REPLACEMENT PETAL",
+      "kind": "pixel",
+      "nodes": 100,
+      "start_channel": 12721,
+      "end_channel": 13020,
+      "bounds_ft": [
+        [
+          -0.5,
+          54.5,
+          4.0
+        ],
+        [
+          11.125,
+          66.125,
+          4.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.125,
+      "max_snap_error_ft": 0.07047729203913972,
+      "pose_index": 1,
+      "pose_count": 4,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3,
+        3,
+        2,
+        1,
+        0
+      ]
+    },
+    {
+      "name": "HX_045_REPLACEMENT_PETAL",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_01",
+      "design": "REPLACEMENT PETAL",
+      "kind": "pixel",
+      "nodes": 100,
+      "start_channel": 13021,
+      "end_channel": 13320,
+      "bounds_ft": [
+        [
+          -3.25,
+          55.0,
+          4.0
+        ],
+        [
+          3.25,
+          70.0,
+          4.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.25,
+      "max_snap_error_ft": 0.16653481638311235,
+      "pose_index": 1,
+      "pose_count": 4,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3,
+        3,
+        2,
+        1,
+        0
+      ]
+    },
+    {
+      "name": "HX_046_REPLACEMENT_PETAL",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_01",
+      "design": "REPLACEMENT PETAL",
+      "kind": "pixel",
+      "nodes": 100,
+      "start_channel": 13321,
+      "end_channel": 13620,
+      "bounds_ft": [
+        [
+          -11.125,
+          54.5,
+          4.0
+        ],
+        [
+          0.5,
+          66.125,
+          4.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.125,
+      "max_snap_error_ft": 0.07047729203914098,
+      "pose_index": 1,
+      "pose_count": 4,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3,
+        3,
+        2,
+        1,
+        0
+      ]
+    },
+    {
+      "name": "HX_047_REPLACEMENT_PETAL",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_01",
+      "design": "REPLACEMENT PETAL",
+      "kind": "pixel",
+      "nodes": 100,
+      "start_channel": 13621,
+      "end_channel": 13920,
+      "bounds_ft": [
+        [
+          -15.0,
+          51.75,
+          4.0
+        ],
+        [
+          0.0,
+          58.25,
+          4.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.25,
+      "max_snap_error_ft": 0.166534816383113,
+      "pose_index": 1,
+      "pose_count": 4,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3,
+        3,
+        2,
+        1,
+        0
+      ]
+    },
+    {
+      "name": "HX_048_REPLACEMENT_PETAL",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_01",
+      "design": "REPLACEMENT PETAL",
+      "kind": "pixel",
+      "nodes": 100,
+      "start_channel": 13921,
+      "end_channel": 14220,
+      "bounds_ft": [
+        [
+          -11.125,
+          43.875,
+          4.0
+        ],
+        [
+          0.5,
+          55.5,
+          4.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.125,
+      "max_snap_error_ft": 0.070477292039141,
+      "pose_index": 1,
+      "pose_count": 4,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3,
+        3,
+        2,
+        1,
+        0
+      ]
+    },
+    {
+      "name": "HX_049_REPLACEMENT_PETAL",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_01",
+      "design": "REPLACEMENT PETAL",
+      "kind": "pixel",
+      "nodes": 100,
+      "start_channel": 14221,
+      "end_channel": 14520,
+      "bounds_ft": [
+        [
+          -3.25,
+          40.0,
+          4.0
+        ],
+        [
+          3.25,
+          55.0,
+          4.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.25,
+      "max_snap_error_ft": 0.16653481638311368,
+      "pose_index": 1,
+      "pose_count": 4,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3,
+        3,
+        2,
+        1,
+        0
+      ]
+    },
+    {
+      "name": "HX_050_REPLACEMENT_PETAL",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_01",
+      "design": "REPLACEMENT PETAL",
+      "kind": "pixel",
+      "nodes": 100,
+      "start_channel": 14521,
+      "end_channel": 14820,
+      "bounds_ft": [
+        [
+          -0.5,
+          43.875,
+          4.0
+        ],
+        [
+          11.125,
+          55.5,
+          4.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.125,
+      "max_snap_error_ft": 0.0704772920391397,
+      "pose_index": 1,
+      "pose_count": 4,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3,
+        3,
+        2,
+        1,
+        0
+      ]
+    },
+    {
+      "name": "HX_051_REPLACEMENT_PETAL",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_02",
+      "design": "REPLACEMENT PETAL",
+      "kind": "pixel",
+      "nodes": 100,
+      "start_channel": 14821,
+      "end_channel": 15120,
+      "bounds_ft": [
+        [
+          0.0,
+          49.0,
+          8.0
+        ],
+        [
+          27.0,
+          61.0,
+          8.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.25,
+      "max_snap_error_ft": 0.13740729231683035,
+      "pose_index": 2,
+      "pose_count": 4,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3,
+        3,
+        2,
+        1,
+        0
+      ]
+    },
+    {
+      "name": "HX_052_REPLACEMENT_PETAL",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_02",
+      "design": "REPLACEMENT PETAL",
+      "kind": "pixel",
+      "nodes": 100,
+      "start_channel": 15121,
+      "end_channel": 15420,
+      "bounds_ft": [
+        [
+          -1.0,
+          54.0,
+          8.0
+        ],
+        [
+          20.0,
+          75.0,
+          8.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.25,
+      "max_snap_error_ft": 0.1702243555347534,
+      "pose_index": 2,
+      "pose_count": 4,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3,
+        3,
+        2,
+        1,
+        0
+      ]
+    },
+    {
+      "name": "HX_053_REPLACEMENT_PETAL",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_02",
+      "design": "REPLACEMENT PETAL",
+      "kind": "pixel",
+      "nodes": 100,
+      "start_channel": 15421,
+      "end_channel": 15720,
+      "bounds_ft": [
+        [
+          -6.0,
+          55.0,
+          8.0
+        ],
+        [
+          6.0,
+          82.0,
+          8.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.25,
+      "max_snap_error_ft": 0.13740729231683307,
+      "pose_index": 2,
+      "pose_count": 4,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3,
+        3,
+        2,
+        1,
+        0
+      ]
+    },
+    {
+      "name": "HX_054_REPLACEMENT_PETAL",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_02",
+      "design": "REPLACEMENT PETAL",
+      "kind": "pixel",
+      "nodes": 100,
+      "start_channel": 15721,
+      "end_channel": 16020,
+      "bounds_ft": [
+        [
+          -20.0,
+          54.0,
+          8.0
+        ],
+        [
+          1.0,
+          75.0,
+          8.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.25,
+      "max_snap_error_ft": 0.1702243555347559,
+      "pose_index": 2,
+      "pose_count": 4,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3,
+        3,
+        2,
+        1,
+        0
+      ]
+    },
+    {
+      "name": "HX_055_REPLACEMENT_PETAL",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_02",
+      "design": "REPLACEMENT PETAL",
+      "kind": "pixel",
+      "nodes": 100,
+      "start_channel": 16021,
+      "end_channel": 16320,
+      "bounds_ft": [
+        [
+          -27.0,
+          49.0,
+          8.0
+        ],
+        [
+          0.0,
+          61.0,
+          8.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.25,
+      "max_snap_error_ft": 0.13740729231683063,
+      "pose_index": 2,
+      "pose_count": 4,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3,
+        3,
+        2,
+        1,
+        0
+      ]
+    },
+    {
+      "name": "HX_056_REPLACEMENT_PETAL",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_02",
+      "design": "REPLACEMENT PETAL",
+      "kind": "pixel",
+      "nodes": 100,
+      "start_channel": 16321,
+      "end_channel": 16620,
+      "bounds_ft": [
+        [
+          -20.0,
+          35.0,
+          8.0
+        ],
+        [
+          1.0,
+          56.0,
+          8.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.25,
+      "max_snap_error_ft": 0.17022435553474835,
+      "pose_index": 2,
+      "pose_count": 4,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3,
+        3,
+        2,
+        1,
+        0
+      ]
+    },
+    {
+      "name": "HX_057_REPLACEMENT_PETAL",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_02",
+      "design": "REPLACEMENT PETAL",
+      "kind": "pixel",
+      "nodes": 100,
+      "start_channel": 16621,
+      "end_channel": 16920,
+      "bounds_ft": [
+        [
+          -6.0,
+          28.0,
+          8.0
+        ],
+        [
+          6.0,
+          55.0,
+          8.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.25,
+      "max_snap_error_ft": 0.13740729231683427,
+      "pose_index": 2,
+      "pose_count": 4,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3,
+        3,
+        2,
+        1,
+        0
+      ]
+    },
+    {
+      "name": "HX_058_REPLACEMENT_PETAL",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_02",
+      "design": "REPLACEMENT PETAL",
+      "kind": "pixel",
+      "nodes": 100,
+      "start_channel": 16921,
+      "end_channel": 17220,
+      "bounds_ft": [
+        [
+          -1.0,
+          35.0,
+          8.0
+        ],
+        [
+          20.0,
+          56.0,
+          8.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.25,
+      "max_snap_error_ft": 0.1702243555347534,
+      "pose_index": 2,
+      "pose_count": 4,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3,
+        3,
+        2,
+        1,
+        0
+      ]
+    },
+    {
+      "name": "HX_059_REPLACEMENT_PETAL",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_03",
+      "design": "REPLACEMENT PETAL",
+      "kind": "pixel",
+      "nodes": 100,
+      "start_channel": 17221,
+      "end_channel": 17520,
+      "bounds_ft": [
+        [
+          0.0,
+          46.5,
+          12.0
+        ],
+        [
+          38.0,
+          63.5,
+          12.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.2901466878288346,
+      "pose_index": 3,
+      "pose_count": 4,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3,
+        3,
+        2,
+        1,
+        0
+      ]
+    },
+    {
+      "name": "HX_060_REPLACEMENT_PETAL",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_03",
+      "design": "REPLACEMENT PETAL",
+      "kind": "pixel",
+      "nodes": 100,
+      "start_channel": 17521,
+      "end_channel": 17820,
+      "bounds_ft": [
+        [
+          -1.0,
+          54.0,
+          12.0
+        ],
+        [
+          28.0,
+          83.0,
+          12.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3342428298090748,
+      "pose_index": 3,
+      "pose_count": 4,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3,
+        3,
+        2,
+        1,
+        0
+      ]
+    },
+    {
+      "name": "HX_061_REPLACEMENT_PETAL",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_03",
+      "design": "REPLACEMENT PETAL",
+      "kind": "pixel",
+      "nodes": 100,
+      "start_channel": 17821,
+      "end_channel": 18120,
+      "bounds_ft": [
+        [
+          -8.5,
+          55.0,
+          12.0
+        ],
+        [
+          8.5,
+          93.0,
+          12.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.2901466878288396,
+      "pose_index": 3,
+      "pose_count": 4,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3,
+        3,
+        2,
+        1,
+        0
+      ]
+    },
+    {
+      "name": "HX_062_REPLACEMENT_PETAL",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_03",
+      "design": "REPLACEMENT PETAL",
+      "kind": "pixel",
+      "nodes": 100,
+      "start_channel": 18121,
+      "end_channel": 18420,
+      "bounds_ft": [
+        [
+          -28.0,
+          54.0,
+          12.0
+        ],
+        [
+          1.0,
+          83.0,
+          12.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3342428298090711,
+      "pose_index": 3,
+      "pose_count": 4,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3,
+        3,
+        2,
+        1,
+        0
+      ]
+    },
+    {
+      "name": "HX_063_REPLACEMENT_PETAL",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_03",
+      "design": "REPLACEMENT PETAL",
+      "kind": "pixel",
+      "nodes": 100,
+      "start_channel": 18421,
+      "end_channel": 18720,
+      "bounds_ft": [
+        [
+          -38.0,
+          46.5,
+          12.0
+        ],
+        [
+          0.0,
+          63.5,
+          12.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.29014668782884045,
+      "pose_index": 3,
+      "pose_count": 4,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3,
+        3,
+        2,
+        1,
+        0
+      ]
+    },
+    {
+      "name": "HX_064_REPLACEMENT_PETAL",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_03",
+      "design": "REPLACEMENT PETAL",
+      "kind": "pixel",
+      "nodes": 100,
+      "start_channel": 18721,
+      "end_channel": 19020,
+      "bounds_ft": [
+        [
+          -28.0,
+          27.0,
+          12.0
+        ],
+        [
+          1.0,
+          56.0,
+          12.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.33424282980907616,
+      "pose_index": 3,
+      "pose_count": 4,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3,
+        3,
+        2,
+        1,
+        0
+      ]
+    },
+    {
+      "name": "HX_065_REPLACEMENT_PETAL",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_03",
+      "design": "REPLACEMENT PETAL",
+      "kind": "pixel",
+      "nodes": 100,
+      "start_channel": 19021,
+      "end_channel": 19320,
+      "bounds_ft": [
+        [
+          -8.5,
+          17.0,
+          12.0
+        ],
+        [
+          8.5,
+          55.0,
+          12.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.29014668782884045,
+      "pose_index": 3,
+      "pose_count": 4,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3,
+        3,
+        2,
+        1,
+        0
+      ]
+    },
+    {
+      "name": "HX_066_REPLACEMENT_PETAL",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_03",
+      "design": "REPLACEMENT PETAL",
+      "kind": "pixel",
+      "nodes": 100,
+      "start_channel": 19321,
+      "end_channel": 19620,
+      "bounds_ft": [
+        [
+          -1.0,
+          27.0,
+          12.0
+        ],
+        [
+          28.0,
+          56.0,
+          12.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3342428298090711,
+      "pose_index": 3,
+      "pose_count": 4,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3,
+        3,
+        2,
+        1,
+        0
+      ]
+    },
+    {
+      "name": "HX_067_FLOWER_STEM",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "STEMS",
+      "design": "FLOWER STEM",
+      "kind": "pixel",
+      "nodes": 70,
+      "start_channel": 19621,
+      "end_channel": 19830,
+      "bounds_ft": [
+        [
+          85.0,
+          0.0,
+          0.0
+        ],
+        [
+          85.0,
+          55.0,
+          0.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.2463768115942031
+    },
+    {
+      "name": "HX_068_REPLACEMENT_PETAL",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_00",
+      "design": "REPLACEMENT PETAL",
+      "kind": "pixel",
+      "nodes": 100,
+      "start_channel": 19831,
+      "end_channel": 20130,
+      "bounds_ft": [
+        [
+          85.0,
+          53.6875,
+          0.0
+        ],
+        [
+          91.0,
+          56.3125,
+          0.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.0625,
+      "max_snap_error_ft": 0.03677750118409241,
+      "pose_index": 0,
+      "pose_count": 4,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3,
+        3,
+        2,
+        1,
+        0
+      ]
+    },
+    {
+      "name": "HX_069_REPLACEMENT_PETAL",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_00",
+      "design": "REPLACEMENT PETAL",
+      "kind": "pixel",
+      "nodes": 100,
+      "start_channel": 20131,
+      "end_channel": 20430,
+      "bounds_ft": [
+        [
+          84.8125,
+          54.8125,
+          0.0
+        ],
+        [
+          89.4375,
+          59.4375,
+          0.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.0625,
+      "max_snap_error_ft": 0.03705510564455588,
+      "pose_index": 0,
+      "pose_count": 4,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3,
+        3,
+        2,
+        1,
+        0
+      ]
+    },
+    {
+      "name": "HX_070_REPLACEMENT_PETAL",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_00",
+      "design": "REPLACEMENT PETAL",
+      "kind": "pixel",
+      "nodes": 100,
+      "start_channel": 20431,
+      "end_channel": 20730,
+      "bounds_ft": [
+        [
+          83.6875,
+          55.0,
+          0.0
+        ],
+        [
+          86.3125,
+          61.0,
+          0.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.0625,
+      "max_snap_error_ft": 0.03677750118409241,
+      "pose_index": 0,
+      "pose_count": 4,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3,
+        3,
+        2,
+        1,
+        0
+      ]
+    },
+    {
+      "name": "HX_071_REPLACEMENT_PETAL",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_00",
+      "design": "REPLACEMENT PETAL",
+      "kind": "pixel",
+      "nodes": 100,
+      "start_channel": 20731,
+      "end_channel": 21030,
+      "bounds_ft": [
+        [
+          80.5625,
+          54.8125,
+          0.0
+        ],
+        [
+          85.1875,
+          59.4375,
+          0.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.0625,
+      "max_snap_error_ft": 0.03705510564455588,
+      "pose_index": 0,
+      "pose_count": 4,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3,
+        3,
+        2,
+        1,
+        0
+      ]
+    },
+    {
+      "name": "HX_072_REPLACEMENT_PETAL",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_00",
+      "design": "REPLACEMENT PETAL",
+      "kind": "pixel",
+      "nodes": 100,
+      "start_channel": 21031,
+      "end_channel": 21330,
+      "bounds_ft": [
+        [
+          79.0,
+          53.6875,
+          0.0
+        ],
+        [
+          85.0,
+          56.3125,
+          0.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.0625,
+      "max_snap_error_ft": 0.03677750118409241,
+      "pose_index": 0,
+      "pose_count": 4,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3,
+        3,
+        2,
+        1,
+        0
+      ]
+    },
+    {
+      "name": "HX_073_REPLACEMENT_PETAL",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_00",
+      "design": "REPLACEMENT PETAL",
+      "kind": "pixel",
+      "nodes": 100,
+      "start_channel": 21331,
+      "end_channel": 21630,
+      "bounds_ft": [
+        [
+          80.5625,
+          50.5625,
+          0.0
+        ],
+        [
+          85.1875,
+          55.1875,
+          0.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.0625,
+      "max_snap_error_ft": 0.03705510564455588,
+      "pose_index": 0,
+      "pose_count": 4,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3,
+        3,
+        2,
+        1,
+        0
+      ]
+    },
+    {
+      "name": "HX_074_REPLACEMENT_PETAL",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_00",
+      "design": "REPLACEMENT PETAL",
+      "kind": "pixel",
+      "nodes": 100,
+      "start_channel": 21631,
+      "end_channel": 21930,
+      "bounds_ft": [
+        [
+          83.6875,
+          49.0,
+          0.0
+        ],
+        [
+          86.3125,
+          55.0,
+          0.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.0625,
+      "max_snap_error_ft": 0.03677750118409241,
+      "pose_index": 0,
+      "pose_count": 4,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3,
+        3,
+        2,
+        1,
+        0
+      ]
+    },
+    {
+      "name": "HX_075_REPLACEMENT_PETAL",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_00",
+      "design": "REPLACEMENT PETAL",
+      "kind": "pixel",
+      "nodes": 100,
+      "start_channel": 21931,
+      "end_channel": 22230,
+      "bounds_ft": [
+        [
+          84.8125,
+          50.5625,
+          0.0
+        ],
+        [
+          89.4375,
+          55.1875,
+          0.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.0625,
+      "max_snap_error_ft": 0.03705510564455588,
+      "pose_index": 0,
+      "pose_count": 4,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3,
+        3,
+        2,
+        1,
+        0
+      ]
+    },
+    {
+      "name": "HX_076_REPLACEMENT_PETAL",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_01",
+      "design": "REPLACEMENT PETAL",
+      "kind": "pixel",
+      "nodes": 100,
+      "start_channel": 22231,
+      "end_channel": 22530,
+      "bounds_ft": [
+        [
+          85.0,
+          51.75,
+          4.0
+        ],
+        [
+          100.0,
+          58.25,
+          4.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.25,
+      "max_snap_error_ft": 0.166534816383113,
+      "pose_index": 1,
+      "pose_count": 4,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3,
+        3,
+        2,
+        1,
+        0
+      ]
+    },
+    {
+      "name": "HX_077_REPLACEMENT_PETAL",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_01",
+      "design": "REPLACEMENT PETAL",
+      "kind": "pixel",
+      "nodes": 100,
+      "start_channel": 22531,
+      "end_channel": 22830,
+      "bounds_ft": [
+        [
+          84.5,
+          54.5,
+          4.0
+        ],
+        [
+          96.125,
+          66.125,
+          4.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.125,
+      "max_snap_error_ft": 0.0704772920391334,
+      "pose_index": 1,
+      "pose_count": 4,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3,
+        3,
+        2,
+        1,
+        0
+      ]
+    },
+    {
+      "name": "HX_078_REPLACEMENT_PETAL",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_01",
+      "design": "REPLACEMENT PETAL",
+      "kind": "pixel",
+      "nodes": 100,
+      "start_channel": 22831,
+      "end_channel": 23130,
+      "bounds_ft": [
+        [
+          81.75,
+          55.0,
+          4.0
+        ],
+        [
+          88.25,
+          70.0,
+          4.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.25,
+      "max_snap_error_ft": 0.166534816383113,
+      "pose_index": 1,
+      "pose_count": 4,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3,
+        3,
+        2,
+        1,
+        0
+      ]
+    },
+    {
+      "name": "HX_079_REPLACEMENT_PETAL",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_01",
+      "design": "REPLACEMENT PETAL",
+      "kind": "pixel",
+      "nodes": 100,
+      "start_channel": 23131,
+      "end_channel": 23430,
+      "bounds_ft": [
+        [
+          73.875,
+          54.5,
+          4.0
+        ],
+        [
+          85.5,
+          66.125,
+          4.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.125,
+      "max_snap_error_ft": 0.0704772920391334,
+      "pose_index": 1,
+      "pose_count": 4,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3,
+        3,
+        2,
+        1,
+        0
+      ]
+    },
+    {
+      "name": "HX_080_REPLACEMENT_PETAL",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_01",
+      "design": "REPLACEMENT PETAL",
+      "kind": "pixel",
+      "nodes": 100,
+      "start_channel": 23431,
+      "end_channel": 23730,
+      "bounds_ft": [
+        [
+          70.0,
+          51.75,
+          4.0
+        ],
+        [
+          85.0,
+          58.25,
+          4.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.25,
+      "max_snap_error_ft": 0.166534816383113,
+      "pose_index": 1,
+      "pose_count": 4,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3,
+        3,
+        2,
+        1,
+        0
+      ]
+    },
+    {
+      "name": "HX_081_REPLACEMENT_PETAL",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_01",
+      "design": "REPLACEMENT PETAL",
+      "kind": "pixel",
+      "nodes": 100,
+      "start_channel": 23731,
+      "end_channel": 24030,
+      "bounds_ft": [
+        [
+          73.875,
+          43.875,
+          4.0
+        ],
+        [
+          85.5,
+          55.5,
+          4.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.125,
+      "max_snap_error_ft": 0.0704772920391435,
+      "pose_index": 1,
+      "pose_count": 4,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3,
+        3,
+        2,
+        1,
+        0
+      ]
+    },
+    {
+      "name": "HX_082_REPLACEMENT_PETAL",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_01",
+      "design": "REPLACEMENT PETAL",
+      "kind": "pixel",
+      "nodes": 100,
+      "start_channel": 24031,
+      "end_channel": 24330,
+      "bounds_ft": [
+        [
+          81.75,
+          40.0,
+          4.0
+        ],
+        [
+          88.25,
+          55.0,
+          4.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.25,
+      "max_snap_error_ft": 0.166534816383113,
+      "pose_index": 1,
+      "pose_count": 4,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3,
+        3,
+        2,
+        1,
+        0
+      ]
+    },
+    {
+      "name": "HX_083_REPLACEMENT_PETAL",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_01",
+      "design": "REPLACEMENT PETAL",
+      "kind": "pixel",
+      "nodes": 100,
+      "start_channel": 24331,
+      "end_channel": 24630,
+      "bounds_ft": [
+        [
+          84.5,
+          43.875,
+          4.0
+        ],
+        [
+          96.125,
+          55.5,
+          4.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.125,
+      "max_snap_error_ft": 0.07047729203913845,
+      "pose_index": 1,
+      "pose_count": 4,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3,
+        3,
+        2,
+        1,
+        0
+      ]
+    },
+    {
+      "name": "HX_084_REPLACEMENT_PETAL",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_02",
+      "design": "REPLACEMENT PETAL",
+      "kind": "pixel",
+      "nodes": 100,
+      "start_channel": 24631,
+      "end_channel": 24930,
+      "bounds_ft": [
+        [
+          85.0,
+          49.0,
+          8.0
+        ],
+        [
+          112.0,
+          61.0,
+          8.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.25,
+      "max_snap_error_ft": 0.13740729231682713,
+      "pose_index": 2,
+      "pose_count": 4,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3,
+        3,
+        2,
+        1,
+        0
+      ]
+    },
+    {
+      "name": "HX_085_REPLACEMENT_PETAL",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_02",
+      "design": "REPLACEMENT PETAL",
+      "kind": "pixel",
+      "nodes": 100,
+      "start_channel": 24931,
+      "end_channel": 25230,
+      "bounds_ft": [
+        [
+          84.0,
+          54.0,
+          8.0
+        ],
+        [
+          105.0,
+          75.0,
+          8.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.25,
+      "max_snap_error_ft": 0.1702243555347534,
+      "pose_index": 2,
+      "pose_count": 4,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3,
+        3,
+        2,
+        1,
+        0
+      ]
+    },
+    {
+      "name": "HX_086_REPLACEMENT_PETAL",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_02",
+      "design": "REPLACEMENT PETAL",
+      "kind": "pixel",
+      "nodes": 100,
+      "start_channel": 25231,
+      "end_channel": 25530,
+      "bounds_ft": [
+        [
+          79.0,
+          55.0,
+          8.0
+        ],
+        [
+          91.0,
+          82.0,
+          8.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.25,
+      "max_snap_error_ft": 0.13740729231683127,
+      "pose_index": 2,
+      "pose_count": 4,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3,
+        3,
+        2,
+        1,
+        0
+      ]
+    },
+    {
+      "name": "HX_087_REPLACEMENT_PETAL",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_02",
+      "design": "REPLACEMENT PETAL",
+      "kind": "pixel",
+      "nodes": 100,
+      "start_channel": 25531,
+      "end_channel": 25830,
+      "bounds_ft": [
+        [
+          65.0,
+          54.0,
+          8.0
+        ],
+        [
+          86.0,
+          75.0,
+          8.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.25,
+      "max_snap_error_ft": 0.1702243555347534,
+      "pose_index": 2,
+      "pose_count": 4,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3,
+        3,
+        2,
+        1,
+        0
+      ]
+    },
+    {
+      "name": "HX_088_REPLACEMENT_PETAL",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_02",
+      "design": "REPLACEMENT PETAL",
+      "kind": "pixel",
+      "nodes": 100,
+      "start_channel": 25831,
+      "end_channel": 26130,
+      "bounds_ft": [
+        [
+          58.0,
+          49.0,
+          8.0
+        ],
+        [
+          85.0,
+          61.0,
+          8.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.25,
+      "max_snap_error_ft": 0.13740729231682713,
+      "pose_index": 2,
+      "pose_count": 4,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3,
+        3,
+        2,
+        1,
+        0
+      ]
+    },
+    {
+      "name": "HX_089_REPLACEMENT_PETAL",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_02",
+      "design": "REPLACEMENT PETAL",
+      "kind": "pixel",
+      "nodes": 100,
+      "start_channel": 26131,
+      "end_channel": 26430,
+      "bounds_ft": [
+        [
+          65.0,
+          35.0,
+          8.0
+        ],
+        [
+          86.0,
+          56.0,
+          8.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.25,
+      "max_snap_error_ft": 0.17022435553475843,
+      "pose_index": 2,
+      "pose_count": 4,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3,
+        3,
+        2,
+        1,
+        0
+      ]
+    },
+    {
+      "name": "HX_090_REPLACEMENT_PETAL",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_02",
+      "design": "REPLACEMENT PETAL",
+      "kind": "pixel",
+      "nodes": 100,
+      "start_channel": 26431,
+      "end_channel": 26730,
+      "bounds_ft": [
+        [
+          79.0,
+          28.0,
+          8.0
+        ],
+        [
+          91.0,
+          55.0,
+          8.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.25,
+      "max_snap_error_ft": 0.13740729231683127,
+      "pose_index": 2,
+      "pose_count": 4,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3,
+        3,
+        2,
+        1,
+        0
+      ]
+    },
+    {
+      "name": "HX_091_REPLACEMENT_PETAL",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_02",
+      "design": "REPLACEMENT PETAL",
+      "kind": "pixel",
+      "nodes": 100,
+      "start_channel": 26731,
+      "end_channel": 27030,
+      "bounds_ft": [
+        [
+          84.0,
+          35.0,
+          8.0
+        ],
+        [
+          105.0,
+          56.0,
+          8.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.25,
+      "max_snap_error_ft": 0.1702243555347534,
+      "pose_index": 2,
+      "pose_count": 4,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3,
+        3,
+        2,
+        1,
+        0
+      ]
+    },
+    {
+      "name": "HX_092_REPLACEMENT_PETAL",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_03",
+      "design": "REPLACEMENT PETAL",
+      "kind": "pixel",
+      "nodes": 100,
+      "start_channel": 27031,
+      "end_channel": 27330,
+      "bounds_ft": [
+        [
+          85.0,
+          46.5,
+          12.0
+        ],
+        [
+          123.0,
+          63.5,
+          12.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.29014668782883674,
+      "pose_index": 3,
+      "pose_count": 4,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3,
+        3,
+        2,
+        1,
+        0
+      ]
+    },
+    {
+      "name": "HX_093_REPLACEMENT_PETAL",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_03",
+      "design": "REPLACEMENT PETAL",
+      "kind": "pixel",
+      "nodes": 100,
+      "start_channel": 27331,
+      "end_channel": 27630,
+      "bounds_ft": [
+        [
+          84.0,
+          54.0,
+          12.0
+        ],
+        [
+          113.0,
+          83.0,
+          12.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.33424282980907355,
+      "pose_index": 3,
+      "pose_count": 4,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3,
+        3,
+        2,
+        1,
+        0
+      ]
+    },
+    {
+      "name": "HX_094_REPLACEMENT_PETAL",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_03",
+      "design": "REPLACEMENT PETAL",
+      "kind": "pixel",
+      "nodes": 100,
+      "start_channel": 27631,
+      "end_channel": 27930,
+      "bounds_ft": [
+        [
+          76.5,
+          55.0,
+          12.0
+        ],
+        [
+          93.5,
+          93.0,
+          12.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.2901466878288425,
+      "pose_index": 3,
+      "pose_count": 4,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3,
+        3,
+        2,
+        1,
+        0
+      ]
+    },
+    {
+      "name": "HX_095_REPLACEMENT_PETAL",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_03",
+      "design": "REPLACEMENT PETAL",
+      "kind": "pixel",
+      "nodes": 100,
+      "start_channel": 27931,
+      "end_channel": 28230,
+      "bounds_ft": [
+        [
+          57.0,
+          54.0,
+          12.0
+        ],
+        [
+          86.0,
+          83.0,
+          12.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.33424282980906384,
+      "pose_index": 3,
+      "pose_count": 4,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3,
+        3,
+        2,
+        1,
+        0
+      ]
+    },
+    {
+      "name": "HX_096_REPLACEMENT_PETAL",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_03",
+      "design": "REPLACEMENT PETAL",
+      "kind": "pixel",
+      "nodes": 100,
+      "start_channel": 28231,
+      "end_channel": 28530,
+      "bounds_ft": [
+        [
+          47.0,
+          46.5,
+          12.0
+        ],
+        [
+          85.0,
+          63.5,
+          12.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.2901466878288425,
+      "pose_index": 3,
+      "pose_count": 4,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3,
+        3,
+        2,
+        1,
+        0
+      ]
+    },
+    {
+      "name": "HX_097_REPLACEMENT_PETAL",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_03",
+      "design": "REPLACEMENT PETAL",
+      "kind": "pixel",
+      "nodes": 100,
+      "start_channel": 28531,
+      "end_channel": 28830,
+      "bounds_ft": [
+        [
+          57.0,
+          27.0,
+          12.0
+        ],
+        [
+          86.0,
+          56.0,
+          12.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.33424282980908393,
+      "pose_index": 3,
+      "pose_count": 4,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3,
+        3,
+        2,
+        1,
+        0
+      ]
+    },
+    {
+      "name": "HX_098_REPLACEMENT_PETAL",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_03",
+      "design": "REPLACEMENT PETAL",
+      "kind": "pixel",
+      "nodes": 100,
+      "start_channel": 28831,
+      "end_channel": 29130,
+      "bounds_ft": [
+        [
+          76.5,
+          17.0,
+          12.0
+        ],
+        [
+          93.5,
+          55.0,
+          12.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.29014668782884045,
+      "pose_index": 3,
+      "pose_count": 4,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3,
+        3,
+        2,
+        1,
+        0
+      ]
+    },
+    {
+      "name": "HX_099_REPLACEMENT_PETAL",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_03",
+      "design": "REPLACEMENT PETAL",
+      "kind": "pixel",
+      "nodes": 100,
+      "start_channel": 29131,
+      "end_channel": 29430,
+      "bounds_ft": [
+        [
+          84.0,
+          27.0,
+          12.0
+        ],
+        [
+          113.0,
+          56.0,
+          12.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.33424282980906384,
+      "pose_index": 3,
+      "pose_count": 4,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3,
+        3,
+        2,
+        1,
+        0
+      ]
+    }
+  ],
+  "file_prefix": "Clay_Bloom_Courtyard",
+  "description": "Swapping bud, half-open and full-bloom contours creates a sculpted flower-opening effect.",
+  "palette": [
+    "#FFD277",
+    "#C9A1FF",
+    "#FFF0CF"
+  ],
+  "groups": {
+    "HX_ALL_PIXELS": [
+      "HX_001_FLOWER_STEM",
+      "HX_002_REPLACEMENT_PETAL",
+      "HX_003_REPLACEMENT_PETAL",
+      "HX_004_REPLACEMENT_PETAL",
+      "HX_005_REPLACEMENT_PETAL",
+      "HX_006_REPLACEMENT_PETAL",
+      "HX_007_REPLACEMENT_PETAL",
+      "HX_008_REPLACEMENT_PETAL",
+      "HX_009_REPLACEMENT_PETAL",
+      "HX_010_REPLACEMENT_PETAL",
+      "HX_011_REPLACEMENT_PETAL",
+      "HX_012_REPLACEMENT_PETAL",
+      "HX_013_REPLACEMENT_PETAL",
+      "HX_014_REPLACEMENT_PETAL",
+      "HX_015_REPLACEMENT_PETAL",
+      "HX_016_REPLACEMENT_PETAL",
+      "HX_017_REPLACEMENT_PETAL",
+      "HX_018_REPLACEMENT_PETAL",
+      "HX_019_REPLACEMENT_PETAL",
+      "HX_020_REPLACEMENT_PETAL",
+      "HX_021_REPLACEMENT_PETAL",
+      "HX_022_REPLACEMENT_PETAL",
+      "HX_023_REPLACEMENT_PETAL",
+      "HX_024_REPLACEMENT_PETAL",
+      "HX_025_REPLACEMENT_PETAL",
+      "HX_026_REPLACEMENT_PETAL",
+      "HX_027_REPLACEMENT_PETAL",
+      "HX_028_REPLACEMENT_PETAL",
+      "HX_029_REPLACEMENT_PETAL",
+      "HX_030_REPLACEMENT_PETAL",
+      "HX_031_REPLACEMENT_PETAL",
+      "HX_032_REPLACEMENT_PETAL",
+      "HX_033_REPLACEMENT_PETAL",
+      "HX_034_FLOWER_STEM",
+      "HX_035_REPLACEMENT_PETAL",
+      "HX_036_REPLACEMENT_PETAL",
+      "HX_037_REPLACEMENT_PETAL",
+      "HX_038_REPLACEMENT_PETAL",
+      "HX_039_REPLACEMENT_PETAL",
+      "HX_040_REPLACEMENT_PETAL",
+      "HX_041_REPLACEMENT_PETAL",
+      "HX_042_REPLACEMENT_PETAL",
+      "HX_043_REPLACEMENT_PETAL",
+      "HX_044_REPLACEMENT_PETAL",
+      "HX_045_REPLACEMENT_PETAL",
+      "HX_046_REPLACEMENT_PETAL",
+      "HX_047_REPLACEMENT_PETAL",
+      "HX_048_REPLACEMENT_PETAL",
+      "HX_049_REPLACEMENT_PETAL",
+      "HX_050_REPLACEMENT_PETAL",
+      "HX_051_REPLACEMENT_PETAL",
+      "HX_052_REPLACEMENT_PETAL",
+      "HX_053_REPLACEMENT_PETAL",
+      "HX_054_REPLACEMENT_PETAL",
+      "HX_055_REPLACEMENT_PETAL",
+      "HX_056_REPLACEMENT_PETAL",
+      "HX_057_REPLACEMENT_PETAL",
+      "HX_058_REPLACEMENT_PETAL",
+      "HX_059_REPLACEMENT_PETAL",
+      "HX_060_REPLACEMENT_PETAL",
+      "HX_061_REPLACEMENT_PETAL",
+      "HX_062_REPLACEMENT_PETAL",
+      "HX_063_REPLACEMENT_PETAL",
+      "HX_064_REPLACEMENT_PETAL",
+      "HX_065_REPLACEMENT_PETAL",
+      "HX_066_REPLACEMENT_PETAL",
+      "HX_067_FLOWER_STEM",
+      "HX_068_REPLACEMENT_PETAL",
+      "HX_069_REPLACEMENT_PETAL",
+      "HX_070_REPLACEMENT_PETAL",
+      "HX_071_REPLACEMENT_PETAL",
+      "HX_072_REPLACEMENT_PETAL",
+      "HX_073_REPLACEMENT_PETAL",
+      "HX_074_REPLACEMENT_PETAL",
+      "HX_075_REPLACEMENT_PETAL",
+      "HX_076_REPLACEMENT_PETAL",
+      "HX_077_REPLACEMENT_PETAL",
+      "HX_078_REPLACEMENT_PETAL",
+      "HX_079_REPLACEMENT_PETAL",
+      "HX_080_REPLACEMENT_PETAL",
+      "HX_081_REPLACEMENT_PETAL",
+      "HX_082_REPLACEMENT_PETAL",
+      "HX_083_REPLACEMENT_PETAL",
+      "HX_084_REPLACEMENT_PETAL",
+      "HX_085_REPLACEMENT_PETAL",
+      "HX_086_REPLACEMENT_PETAL",
+      "HX_087_REPLACEMENT_PETAL",
+      "HX_088_REPLACEMENT_PETAL",
+      "HX_089_REPLACEMENT_PETAL",
+      "HX_090_REPLACEMENT_PETAL",
+      "HX_091_REPLACEMENT_PETAL",
+      "HX_092_REPLACEMENT_PETAL",
+      "HX_093_REPLACEMENT_PETAL",
+      "HX_094_REPLACEMENT_PETAL",
+      "HX_095_REPLACEMENT_PETAL",
+      "HX_096_REPLACEMENT_PETAL",
+      "HX_097_REPLACEMENT_PETAL",
+      "HX_098_REPLACEMENT_PETAL",
+      "HX_099_REPLACEMENT_PETAL"
+    ],
+    "HX_NATIVE_CUSTOM": [
+      "HX_001_FLOWER_STEM",
+      "HX_002_REPLACEMENT_PETAL",
+      "HX_003_REPLACEMENT_PETAL",
+      "HX_004_REPLACEMENT_PETAL",
+      "HX_005_REPLACEMENT_PETAL",
+      "HX_006_REPLACEMENT_PETAL",
+      "HX_007_REPLACEMENT_PETAL",
+      "HX_008_REPLACEMENT_PETAL",
+      "HX_009_REPLACEMENT_PETAL",
+      "HX_010_REPLACEMENT_PETAL",
+      "HX_011_REPLACEMENT_PETAL",
+      "HX_012_REPLACEMENT_PETAL",
+      "HX_013_REPLACEMENT_PETAL",
+      "HX_014_REPLACEMENT_PETAL",
+      "HX_015_REPLACEMENT_PETAL",
+      "HX_016_REPLACEMENT_PETAL",
+      "HX_017_REPLACEMENT_PETAL",
+      "HX_018_REPLACEMENT_PETAL",
+      "HX_019_REPLACEMENT_PETAL",
+      "HX_020_REPLACEMENT_PETAL",
+      "HX_021_REPLACEMENT_PETAL",
+      "HX_022_REPLACEMENT_PETAL",
+      "HX_023_REPLACEMENT_PETAL",
+      "HX_024_REPLACEMENT_PETAL",
+      "HX_025_REPLACEMENT_PETAL",
+      "HX_026_REPLACEMENT_PETAL",
+      "HX_027_REPLACEMENT_PETAL",
+      "HX_028_REPLACEMENT_PETAL",
+      "HX_029_REPLACEMENT_PETAL",
+      "HX_030_REPLACEMENT_PETAL",
+      "HX_031_REPLACEMENT_PETAL",
+      "HX_032_REPLACEMENT_PETAL",
+      "HX_033_REPLACEMENT_PETAL",
+      "HX_034_FLOWER_STEM",
+      "HX_035_REPLACEMENT_PETAL",
+      "HX_036_REPLACEMENT_PETAL",
+      "HX_037_REPLACEMENT_PETAL",
+      "HX_038_REPLACEMENT_PETAL",
+      "HX_039_REPLACEMENT_PETAL",
+      "HX_040_REPLACEMENT_PETAL",
+      "HX_041_REPLACEMENT_PETAL",
+      "HX_042_REPLACEMENT_PETAL",
+      "HX_043_REPLACEMENT_PETAL",
+      "HX_044_REPLACEMENT_PETAL",
+      "HX_045_REPLACEMENT_PETAL",
+      "HX_046_REPLACEMENT_PETAL",
+      "HX_047_REPLACEMENT_PETAL",
+      "HX_048_REPLACEMENT_PETAL",
+      "HX_049_REPLACEMENT_PETAL",
+      "HX_050_REPLACEMENT_PETAL",
+      "HX_051_REPLACEMENT_PETAL",
+      "HX_052_REPLACEMENT_PETAL",
+      "HX_053_REPLACEMENT_PETAL",
+      "HX_054_REPLACEMENT_PETAL",
+      "HX_055_REPLACEMENT_PETAL",
+      "HX_056_REPLACEMENT_PETAL",
+      "HX_057_REPLACEMENT_PETAL",
+      "HX_058_REPLACEMENT_PETAL",
+      "HX_059_REPLACEMENT_PETAL",
+      "HX_060_REPLACEMENT_PETAL",
+      "HX_061_REPLACEMENT_PETAL",
+      "HX_062_REPLACEMENT_PETAL",
+      "HX_063_REPLACEMENT_PETAL",
+      "HX_064_REPLACEMENT_PETAL",
+      "HX_065_REPLACEMENT_PETAL",
+      "HX_066_REPLACEMENT_PETAL",
+      "HX_067_FLOWER_STEM",
+      "HX_068_REPLACEMENT_PETAL",
+      "HX_069_REPLACEMENT_PETAL",
+      "HX_070_REPLACEMENT_PETAL",
+      "HX_071_REPLACEMENT_PETAL",
+      "HX_072_REPLACEMENT_PETAL",
+      "HX_073_REPLACEMENT_PETAL",
+      "HX_074_REPLACEMENT_PETAL",
+      "HX_075_REPLACEMENT_PETAL",
+      "HX_076_REPLACEMENT_PETAL",
+      "HX_077_REPLACEMENT_PETAL",
+      "HX_078_REPLACEMENT_PETAL",
+      "HX_079_REPLACEMENT_PETAL",
+      "HX_080_REPLACEMENT_PETAL",
+      "HX_081_REPLACEMENT_PETAL",
+      "HX_082_REPLACEMENT_PETAL",
+      "HX_083_REPLACEMENT_PETAL",
+      "HX_084_REPLACEMENT_PETAL",
+      "HX_085_REPLACEMENT_PETAL",
+      "HX_086_REPLACEMENT_PETAL",
+      "HX_087_REPLACEMENT_PETAL",
+      "HX_088_REPLACEMENT_PETAL",
+      "HX_089_REPLACEMENT_PETAL",
+      "HX_090_REPLACEMENT_PETAL",
+      "HX_091_REPLACEMENT_PETAL",
+      "HX_092_REPLACEMENT_PETAL",
+      "HX_093_REPLACEMENT_PETAL",
+      "HX_094_REPLACEMENT_PETAL",
+      "HX_095_REPLACEMENT_PETAL",
+      "HX_096_REPLACEMENT_PETAL",
+      "HX_097_REPLACEMENT_PETAL",
+      "HX_098_REPLACEMENT_PETAL",
+      "HX_099_REPLACEMENT_PETAL"
+    ],
+    "HX_WHOLE_SHOW": [
+      "HX_001_FLOWER_STEM",
+      "HX_002_REPLACEMENT_PETAL",
+      "HX_003_REPLACEMENT_PETAL",
+      "HX_004_REPLACEMENT_PETAL",
+      "HX_005_REPLACEMENT_PETAL",
+      "HX_006_REPLACEMENT_PETAL",
+      "HX_007_REPLACEMENT_PETAL",
+      "HX_008_REPLACEMENT_PETAL",
+      "HX_009_REPLACEMENT_PETAL",
+      "HX_010_REPLACEMENT_PETAL",
+      "HX_011_REPLACEMENT_PETAL",
+      "HX_012_REPLACEMENT_PETAL",
+      "HX_013_REPLACEMENT_PETAL",
+      "HX_014_REPLACEMENT_PETAL",
+      "HX_015_REPLACEMENT_PETAL",
+      "HX_016_REPLACEMENT_PETAL",
+      "HX_017_REPLACEMENT_PETAL",
+      "HX_018_REPLACEMENT_PETAL",
+      "HX_019_REPLACEMENT_PETAL",
+      "HX_020_REPLACEMENT_PETAL",
+      "HX_021_REPLACEMENT_PETAL",
+      "HX_022_REPLACEMENT_PETAL",
+      "HX_023_REPLACEMENT_PETAL",
+      "HX_024_REPLACEMENT_PETAL",
+      "HX_025_REPLACEMENT_PETAL",
+      "HX_026_REPLACEMENT_PETAL",
+      "HX_027_REPLACEMENT_PETAL",
+      "HX_028_REPLACEMENT_PETAL",
+      "HX_029_REPLACEMENT_PETAL",
+      "HX_030_REPLACEMENT_PETAL",
+      "HX_031_REPLACEMENT_PETAL",
+      "HX_032_REPLACEMENT_PETAL",
+      "HX_033_REPLACEMENT_PETAL",
+      "HX_034_FLOWER_STEM",
+      "HX_035_REPLACEMENT_PETAL",
+      "HX_036_REPLACEMENT_PETAL",
+      "HX_037_REPLACEMENT_PETAL",
+      "HX_038_REPLACEMENT_PETAL",
+      "HX_039_REPLACEMENT_PETAL",
+      "HX_040_REPLACEMENT_PETAL",
+      "HX_041_REPLACEMENT_PETAL",
+      "HX_042_REPLACEMENT_PETAL",
+      "HX_043_REPLACEMENT_PETAL",
+      "HX_044_REPLACEMENT_PETAL",
+      "HX_045_REPLACEMENT_PETAL",
+      "HX_046_REPLACEMENT_PETAL",
+      "HX_047_REPLACEMENT_PETAL",
+      "HX_048_REPLACEMENT_PETAL",
+      "HX_049_REPLACEMENT_PETAL",
+      "HX_050_REPLACEMENT_PETAL",
+      "HX_051_REPLACEMENT_PETAL",
+      "HX_052_REPLACEMENT_PETAL",
+      "HX_053_REPLACEMENT_PETAL",
+      "HX_054_REPLACEMENT_PETAL",
+      "HX_055_REPLACEMENT_PETAL",
+      "HX_056_REPLACEMENT_PETAL",
+      "HX_057_REPLACEMENT_PETAL",
+      "HX_058_REPLACEMENT_PETAL",
+      "HX_059_REPLACEMENT_PETAL",
+      "HX_060_REPLACEMENT_PETAL",
+      "HX_061_REPLACEMENT_PETAL",
+      "HX_062_REPLACEMENT_PETAL",
+      "HX_063_REPLACEMENT_PETAL",
+      "HX_064_REPLACEMENT_PETAL",
+      "HX_065_REPLACEMENT_PETAL",
+      "HX_066_REPLACEMENT_PETAL",
+      "HX_067_FLOWER_STEM",
+      "HX_068_REPLACEMENT_PETAL",
+      "HX_069_REPLACEMENT_PETAL",
+      "HX_070_REPLACEMENT_PETAL",
+      "HX_071_REPLACEMENT_PETAL",
+      "HX_072_REPLACEMENT_PETAL",
+      "HX_073_REPLACEMENT_PETAL",
+      "HX_074_REPLACEMENT_PETAL",
+      "HX_075_REPLACEMENT_PETAL",
+      "HX_076_REPLACEMENT_PETAL",
+      "HX_077_REPLACEMENT_PETAL",
+      "HX_078_REPLACEMENT_PETAL",
+      "HX_079_REPLACEMENT_PETAL",
+      "HX_080_REPLACEMENT_PETAL",
+      "HX_081_REPLACEMENT_PETAL",
+      "HX_082_REPLACEMENT_PETAL",
+      "HX_083_REPLACEMENT_PETAL",
+      "HX_084_REPLACEMENT_PETAL",
+      "HX_085_REPLACEMENT_PETAL",
+      "HX_086_REPLACEMENT_PETAL",
+      "HX_087_REPLACEMENT_PETAL",
+      "HX_088_REPLACEMENT_PETAL",
+      "HX_089_REPLACEMENT_PETAL",
+      "HX_090_REPLACEMENT_PETAL",
+      "HX_091_REPLACEMENT_PETAL",
+      "HX_092_REPLACEMENT_PETAL",
+      "HX_093_REPLACEMENT_PETAL",
+      "HX_094_REPLACEMENT_PETAL",
+      "HX_095_REPLACEMENT_PETAL",
+      "HX_096_REPLACEMENT_PETAL",
+      "HX_097_REPLACEMENT_PETAL",
+      "HX_098_REPLACEMENT_PETAL",
+      "HX_099_REPLACEMENT_PETAL"
+    ],
+    "HX_ZONE_POSE_BODY_00": [
+      "HX_002_REPLACEMENT_PETAL",
+      "HX_003_REPLACEMENT_PETAL",
+      "HX_004_REPLACEMENT_PETAL",
+      "HX_005_REPLACEMENT_PETAL",
+      "HX_006_REPLACEMENT_PETAL",
+      "HX_007_REPLACEMENT_PETAL",
+      "HX_008_REPLACEMENT_PETAL",
+      "HX_009_REPLACEMENT_PETAL",
+      "HX_035_REPLACEMENT_PETAL",
+      "HX_036_REPLACEMENT_PETAL",
+      "HX_037_REPLACEMENT_PETAL",
+      "HX_038_REPLACEMENT_PETAL",
+      "HX_039_REPLACEMENT_PETAL",
+      "HX_040_REPLACEMENT_PETAL",
+      "HX_041_REPLACEMENT_PETAL",
+      "HX_042_REPLACEMENT_PETAL",
+      "HX_068_REPLACEMENT_PETAL",
+      "HX_069_REPLACEMENT_PETAL",
+      "HX_070_REPLACEMENT_PETAL",
+      "HX_071_REPLACEMENT_PETAL",
+      "HX_072_REPLACEMENT_PETAL",
+      "HX_073_REPLACEMENT_PETAL",
+      "HX_074_REPLACEMENT_PETAL",
+      "HX_075_REPLACEMENT_PETAL"
+    ],
+    "HX_ZONE_POSE_BODY_01": [
+      "HX_010_REPLACEMENT_PETAL",
+      "HX_011_REPLACEMENT_PETAL",
+      "HX_012_REPLACEMENT_PETAL",
+      "HX_013_REPLACEMENT_PETAL",
+      "HX_014_REPLACEMENT_PETAL",
+      "HX_015_REPLACEMENT_PETAL",
+      "HX_016_REPLACEMENT_PETAL",
+      "HX_017_REPLACEMENT_PETAL",
+      "HX_043_REPLACEMENT_PETAL",
+      "HX_044_REPLACEMENT_PETAL",
+      "HX_045_REPLACEMENT_PETAL",
+      "HX_046_REPLACEMENT_PETAL",
+      "HX_047_REPLACEMENT_PETAL",
+      "HX_048_REPLACEMENT_PETAL",
+      "HX_049_REPLACEMENT_PETAL",
+      "HX_050_REPLACEMENT_PETAL",
+      "HX_076_REPLACEMENT_PETAL",
+      "HX_077_REPLACEMENT_PETAL",
+      "HX_078_REPLACEMENT_PETAL",
+      "HX_079_REPLACEMENT_PETAL",
+      "HX_080_REPLACEMENT_PETAL",
+      "HX_081_REPLACEMENT_PETAL",
+      "HX_082_REPLACEMENT_PETAL",
+      "HX_083_REPLACEMENT_PETAL"
+    ],
+    "HX_ZONE_POSE_BODY_02": [
+      "HX_018_REPLACEMENT_PETAL",
+      "HX_019_REPLACEMENT_PETAL",
+      "HX_020_REPLACEMENT_PETAL",
+      "HX_021_REPLACEMENT_PETAL",
+      "HX_022_REPLACEMENT_PETAL",
+      "HX_023_REPLACEMENT_PETAL",
+      "HX_024_REPLACEMENT_PETAL",
+      "HX_025_REPLACEMENT_PETAL",
+      "HX_051_REPLACEMENT_PETAL",
+      "HX_052_REPLACEMENT_PETAL",
+      "HX_053_REPLACEMENT_PETAL",
+      "HX_054_REPLACEMENT_PETAL",
+      "HX_055_REPLACEMENT_PETAL",
+      "HX_056_REPLACEMENT_PETAL",
+      "HX_057_REPLACEMENT_PETAL",
+      "HX_058_REPLACEMENT_PETAL",
+      "HX_084_REPLACEMENT_PETAL",
+      "HX_085_REPLACEMENT_PETAL",
+      "HX_086_REPLACEMENT_PETAL",
+      "HX_087_REPLACEMENT_PETAL",
+      "HX_088_REPLACEMENT_PETAL",
+      "HX_089_REPLACEMENT_PETAL",
+      "HX_090_REPLACEMENT_PETAL",
+      "HX_091_REPLACEMENT_PETAL"
+    ],
+    "HX_ZONE_POSE_BODY_03": [
+      "HX_026_REPLACEMENT_PETAL",
+      "HX_027_REPLACEMENT_PETAL",
+      "HX_028_REPLACEMENT_PETAL",
+      "HX_029_REPLACEMENT_PETAL",
+      "HX_030_REPLACEMENT_PETAL",
+      "HX_031_REPLACEMENT_PETAL",
+      "HX_032_REPLACEMENT_PETAL",
+      "HX_033_REPLACEMENT_PETAL",
+      "HX_059_REPLACEMENT_PETAL",
+      "HX_060_REPLACEMENT_PETAL",
+      "HX_061_REPLACEMENT_PETAL",
+      "HX_062_REPLACEMENT_PETAL",
+      "HX_063_REPLACEMENT_PETAL",
+      "HX_064_REPLACEMENT_PETAL",
+      "HX_065_REPLACEMENT_PETAL",
+      "HX_066_REPLACEMENT_PETAL",
+      "HX_092_REPLACEMENT_PETAL",
+      "HX_093_REPLACEMENT_PETAL",
+      "HX_094_REPLACEMENT_PETAL",
+      "HX_095_REPLACEMENT_PETAL",
+      "HX_096_REPLACEMENT_PETAL",
+      "HX_097_REPLACEMENT_PETAL",
+      "HX_098_REPLACEMENT_PETAL",
+      "HX_099_REPLACEMENT_PETAL"
+    ],
+    "HX_ZONE_STEMS": [
+      "HX_001_FLOWER_STEM",
+      "HX_034_FLOWER_STEM",
+      "HX_067_FLOWER_STEM"
+    ]
+  },
+  "group_count": 8,
+  "concept_id": "46",
+  "source_art": "images/45_46.png",
+  "source_art_side": "right",
+  "build_status": "native planning layout",
+  "source_brief": {
+    "id": "46",
+    "name": "Clay Bloom Courtyard",
+    "principle": "Replacement animation",
+    "standout": "Swapping bud, half-open and full-bloom contours creates a sculpted flower-opening effect.",
+    "scene": "A magical courtyard with three giant coral, pink and mint sculptural light flowers. Their petals are OPEN LED contour ribs in several stacked depth-separated replacement-shape layers, a bright full-bloom flower in hero, surrounding bud and intermediate petal frames dim. Four bottom storyboard cells show a closed bud, small opening, half-open blossom and broad full flower. Clay-animation softness of shape expressed in finite light ribs, no solid clay model.",
+    "board": 2,
+    "side": "right",
+    "image": "images/45_46.png",
+    "status": "awaiting approval",
+    "source_catalog": "showcase/concepts/2026_10_09_stop_motion/concepts.json",
+    "description": "Swapping bud, half-open and full-bloom contours creates a sculpted flower-opening effect.",
+    "constraint": "Finite artwork-guided planning geometry; no physical actuation or surveyed construction dimensions.",
+    "round": "stop_motion"
+  },
+  "sequence_type": "24-second silent Animation study",
+  "physical_output_networks": 0,
+  "limits": [
+    "Finite artwork-guided planning geometry; no physical actuation or surveyed construction dimensions.",
+    "Artwork-guided finite geometry, not a scanned/surveyed reconstruction.",
+    "No complete music sequence or musical drummer acceptance claimed."
+  ]
+}

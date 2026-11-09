@@ -1,0 +1,89 @@
+name: Helix Android verified downloads
+on:
+  push:
+    branches: ['feature/android-offline-app-stability-20261013']
+    paths: ['.github/workflows/android-stability-handoff.yml']
+  workflow_dispatch:
+permissions:
+  contents: read
+  actions: read
+jobs:
+  split-verified-outputs:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          sparse-checkout: |
+            docs
+      - uses: actions/download-artifact@v4
+        with:
+          name: Helix-Android-stability-api-36
+          run-id: 38391577471
+          github-token: ${{ github.token }}
+          path: retained
+      - name: Verify exact source bytes and prepare simpler downloads
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import hashlib, shutil, zipfile, json
+          root=Path('retained'); out=Path('handoff')
+          for group in ('APK','AAB','Media-and-shows','Evidence'):
+              (out/group).mkdir(parents=True,exist_ok=True)
+          def sha(path):
+              h=hashlib.sha256()
+              with path.open('rb') as src:
+                  for b in iter(lambda:src.read(1048576),b''): h.update(b)
+              return h.hexdigest()
+          sums=(root/'device-proof/SHA256SUMS.txt').read_text().splitlines()
+          expected={Path(line.split('  ')[1]).name:line.split('  ')[0] for line in sums}
+          apk=root/'outputs/apk/debug/app-debug.apk'
+          aab=root/'outputs/bundle/release/app-release.aab'
+          assert sha(apk)==expected['app-debug.apk']
+          assert sha(aab)==expected['app-release.aab']
+          with zipfile.ZipFile(apk) as z:
+              assert z.testzip() is None
+              assert json.loads(z.read('assets/helix-engine-build.json'))['commit']=='6bdae4e461256df6184200e55dde2675741381ad'
+          shutil.copy2(apk,out/'APK/Helix-Android-0.3.0-beta.apk')
+          shutil.copy2(aab,out/'AAB/Helix-Android-0.3.0-unsigned.aab')
+          shutil.copy2(root/'device-proof/signing-certificate.txt',out/'APK/signing-certificate.txt')
+          for doc in ('ANDROID_INSTALLATION.md','ANDROID_STABILITY_REPORT.md'):
+              shutil.copy2(Path('docs')/doc,out/'APK'/doc)
+          shutil.copy2(Path('docs/GOOGLE_PLAY_READINESS.md'),out/'AAB/GOOGLE_PLAY_READINESS.md')
+          for source,target in [('real-rgb-show.zip','Helix-RGB-show.zip'),('full-song-show.zip','Helix-256-full-song-show.zip')]:
+              shutil.copy2(root/'device-proof'/source,out/'Media-and-shows'/target)
+          with zipfile.ZipFile(root/'device-proof/real-rgb-show.zip') as z:
+              assert z.testzip() is None
+              movie=next(n for n in z.namelist() if n.endswith('.mp4'))
+              (out/'Media-and-shows/Helix-RGB-preview.mp4').write_bytes(z.read(movie))
+              (out/'Media-and-shows/Helix-RGB-sequence.xsq').write_bytes(z.read(movie.replace('.mp4','.xsq')))
+          for image in (root/'device-proof').glob('screen-*.png'):
+              shutil.copy2(image,out/'Media-and-shows'/image.name)
+          for name in ('install-upgrade.json','cancellation.json','remote-transport.json','status.json','failed-preview-show.zip','lor-show.zip'):
+              shutil.copy2(root/'device-proof'/name,out/'Evidence'/name)
+          shutil.copy2(root/'device-proof/decoded/decoded-verification.json',out/'Evidence/decoded-verification.json')
+          for group in out.iterdir():
+              files=sorted(p for p in group.iterdir() if p.is_file())
+              (group/'SHA256SUMS.txt').write_text(''.join(sha(p)+'  '+p.name+'\n' for p in files))
+          print('APK SHA256:',sha(apk))
+          print('AAB SHA256:',sha(aab))
+          print((root/'device-proof/signing-certificate.txt').read_text())
+          print((root/'device-proof/decoded/decoded-verification.json').read_text())
+          print((root/'device-proof/install-upgrade.json').read_text())
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: Helix-Android-APK-download
+          path: handoff/APK/*
+      - uses: actions/upload-artifact@v4
+        with:
+          name: Helix-Android-unsigned-AAB
+          path: handoff/AAB/*
+      - uses: actions/upload-artifact@v4
+        with:
+          name: Helix-Android-real-preview-and-shows
+          path: handoff/Media-and-shows/*
+      - uses: actions/upload-artifact@v4
+        with:
+          name: Helix-Android-test-evidence
+          path: handoff/Evidence/*

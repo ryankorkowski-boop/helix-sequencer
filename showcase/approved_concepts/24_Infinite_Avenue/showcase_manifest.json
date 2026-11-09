@@ -1,0 +1,457 @@
+{
+  "schema": "helix.approved_concept.v1",
+  "name": "Infinite Avenue",
+  "coordinate_system": "x-right, y-up, z-depth; design feet",
+  "xlights_source_ref": "6ceddc6b25a24d82754d4f9af28e18ee70b51f81",
+  "coverage": {
+    "Custom": 10
+  },
+  "native_families": [
+    "Custom"
+  ],
+  "native_coverage_complete": false,
+  "model_count": 10,
+  "rgb_pixels": 2320,
+  "channel_count": 6960,
+  "spiral_trees": 0,
+  "double_helices": 0,
+  "preview_contract": "Custom sparse-grid coordinates exactly match exported XML; native-family preview coordinates illustrate the authored geometry. Native xLights render/load evidence is recorded separately.",
+  "models": [
+    {
+      "name": "HX_001_TAPERED_PORTAL",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "AVENUE",
+      "design": "TAPERED PORTAL",
+      "kind": "pixel",
+      "nodes": 250,
+      "start_channel": 1,
+      "end_channel": 750,
+      "bounds_ft": [
+        [
+          -80.0,
+          0.0,
+          0.0
+        ],
+        [
+          80.0,
+          120.0,
+          0.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.24899598393574252
+    },
+    {
+      "name": "HX_002_TAPERED_PORTAL",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "AVENUE",
+      "design": "TAPERED PORTAL",
+      "kind": "pixel",
+      "nodes": 250,
+      "start_channel": 751,
+      "end_channel": 1500,
+      "bounds_ft": [
+        [
+          -64.0,
+          0.0,
+          -24.0
+        ],
+        [
+          64.0,
+          96.0,
+          -24.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.24899598393574252
+    },
+    {
+      "name": "HX_003_TAPERED_PORTAL",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "AVENUE",
+      "design": "TAPERED PORTAL",
+      "kind": "pixel",
+      "nodes": 250,
+      "start_channel": 1501,
+      "end_channel": 2250,
+      "bounds_ft": [
+        [
+          -51.0,
+          0.0,
+          -48.0
+        ],
+        [
+          51.0,
+          77.0,
+          -48.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3193728229141101
+    },
+    {
+      "name": "HX_004_TAPERED_PORTAL",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "AVENUE",
+      "design": "TAPERED PORTAL",
+      "kind": "pixel",
+      "nodes": 250,
+      "start_channel": 2251,
+      "end_channel": 3000,
+      "bounds_ft": [
+        [
+          -41.0,
+          0.0,
+          -72.0
+        ],
+        [
+          41.0,
+          61.5,
+          -72.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.2557326035717952
+    },
+    {
+      "name": "HX_005_TAPERED_PORTAL",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "AVENUE",
+      "design": "TAPERED PORTAL",
+      "kind": "pixel",
+      "nodes": 250,
+      "start_channel": 3001,
+      "end_channel": 3750,
+      "bounds_ft": [
+        [
+          -33.0,
+          0.0,
+          -96.0
+        ],
+        [
+          33.0,
+          49.0,
+          -96.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.33629415719747074
+    },
+    {
+      "name": "HX_006_TAPERED_PORTAL",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "AVENUE",
+      "design": "TAPERED PORTAL",
+      "kind": "pixel",
+      "nodes": 250,
+      "start_channel": 3751,
+      "end_channel": 4500,
+      "bounds_ft": [
+        [
+          -26.0,
+          0.0,
+          -120.0
+        ],
+        [
+          26.0,
+          39.5,
+          -120.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.32329506326271024
+    },
+    {
+      "name": "HX_007_TAPERED_PORTAL",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "AVENUE",
+      "design": "TAPERED PORTAL",
+      "kind": "pixel",
+      "nodes": 250,
+      "start_channel": 4501,
+      "end_channel": 5250,
+      "bounds_ft": [
+        [
+          -21.0,
+          0.0,
+          -144.0
+        ],
+        [
+          21.0,
+          31.5,
+          -144.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.25,
+      "max_snap_error_ft": 0.12802986546190467
+    },
+    {
+      "name": "HX_008_TAPERED_PORTAL",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "AVENUE",
+      "design": "TAPERED PORTAL",
+      "kind": "pixel",
+      "nodes": 250,
+      "start_channel": 5251,
+      "end_channel": 6000,
+      "bounds_ft": [
+        [
+          -16.75,
+          0.0,
+          -168.0
+        ],
+        [
+          16.75,
+          25.25,
+          -168.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.25,
+      "max_snap_error_ft": 0.15008440347873506
+    },
+    {
+      "name": "HX_009_PATH_RAIL",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "GROUND",
+      "design": "PATH RAIL",
+      "kind": "pixel",
+      "nodes": 160,
+      "start_channel": 6001,
+      "end_channel": 6480,
+      "bounds_ft": [
+        [
+          -70.0,
+          0.0,
+          -180.0
+        ],
+        [
+          -14.0,
+          0.0,
+          15.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.33594856368667464
+    },
+    {
+      "name": "HX_010_PATH_RAIL",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "GROUND",
+      "design": "PATH RAIL",
+      "kind": "pixel",
+      "nodes": 160,
+      "start_channel": 6481,
+      "end_channel": 6960,
+      "bounds_ft": [
+        [
+          14.0,
+          0.0,
+          -180.0
+        ],
+        [
+          70.0,
+          0.0,
+          15.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.33594856368667464
+    }
+  ],
+  "file_prefix": "Infinite_Avenue",
+  "description": "Progressively smaller, closer arches make a compact installation appear to stretch much farther into the distance.",
+  "palette": [
+    "#69EFFF",
+    "#B599FF",
+    "#FFD98A"
+  ],
+  "groups": {
+    "HX_ALL_PIXELS": [
+      "HX_001_TAPERED_PORTAL",
+      "HX_002_TAPERED_PORTAL",
+      "HX_003_TAPERED_PORTAL",
+      "HX_004_TAPERED_PORTAL",
+      "HX_005_TAPERED_PORTAL",
+      "HX_006_TAPERED_PORTAL",
+      "HX_007_TAPERED_PORTAL",
+      "HX_008_TAPERED_PORTAL",
+      "HX_009_PATH_RAIL",
+      "HX_010_PATH_RAIL"
+    ],
+    "HX_NATIVE_CUSTOM": [
+      "HX_001_TAPERED_PORTAL",
+      "HX_002_TAPERED_PORTAL",
+      "HX_003_TAPERED_PORTAL",
+      "HX_004_TAPERED_PORTAL",
+      "HX_005_TAPERED_PORTAL",
+      "HX_006_TAPERED_PORTAL",
+      "HX_007_TAPERED_PORTAL",
+      "HX_008_TAPERED_PORTAL",
+      "HX_009_PATH_RAIL",
+      "HX_010_PATH_RAIL"
+    ],
+    "HX_WHOLE_SHOW": [
+      "HX_001_TAPERED_PORTAL",
+      "HX_002_TAPERED_PORTAL",
+      "HX_003_TAPERED_PORTAL",
+      "HX_004_TAPERED_PORTAL",
+      "HX_005_TAPERED_PORTAL",
+      "HX_006_TAPERED_PORTAL",
+      "HX_007_TAPERED_PORTAL",
+      "HX_008_TAPERED_PORTAL",
+      "HX_009_PATH_RAIL",
+      "HX_010_PATH_RAIL"
+    ],
+    "HX_ZONE_AVENUE": [
+      "HX_001_TAPERED_PORTAL",
+      "HX_002_TAPERED_PORTAL",
+      "HX_003_TAPERED_PORTAL",
+      "HX_004_TAPERED_PORTAL",
+      "HX_005_TAPERED_PORTAL",
+      "HX_006_TAPERED_PORTAL",
+      "HX_007_TAPERED_PORTAL",
+      "HX_008_TAPERED_PORTAL"
+    ],
+    "HX_ZONE_GROUND": [
+      "HX_009_PATH_RAIL",
+      "HX_010_PATH_RAIL"
+    ]
+  },
+  "group_count": 5,
+  "concept_id": "24",
+  "source_art": "images/23_24.png",
+  "source_art_side": "right",
+  "build_status": "native planning layout",
+  "source_brief": {
+    "id": "24",
+    "name": "Infinite Avenue",
+    "standout": "Progressively smaller, closer arches make a compact installation appear to stretch much farther into the distance.",
+    "scene": "A finite avenue of EIGHT illuminated gold and ice-blue rectangular arch frames that progressively shrink in actual physical size and tighten their spacing toward the rear, producing an exaggerated infinite depth illusion. A clean central black path and thin violet ground rails; tapered frame heights unmistakable; dark rear terminus rather than an actual infinite scene.",
+    "board": 1,
+    "side": "right",
+    "image": "images/23_24.png",
+    "status": "awaiting approval",
+    "scope": "Concept art; no xmodel/XML/XSQ/MP4 build.",
+    "source_catalog": "showcase/concepts/2026_10_09_advanced/concepts.json",
+    "description": "Progressively smaller, closer arches make a compact installation appear to stretch much farther into the distance.",
+    "constraint": "Finite artwork-guided planning geometry; no physical actuation or surveyed construction dimensions.",
+    "round": "advanced"
+  },
+  "sequence_type": "24-second silent Animation study",
+  "physical_output_networks": 0,
+  "limits": [
+    "Finite artwork-guided planning geometry; no physical actuation or surveyed construction dimensions.",
+    "Artwork-guided finite geometry, not a scanned/surveyed reconstruction.",
+    "No complete music sequence or musical drummer acceptance claimed."
+  ]
+}

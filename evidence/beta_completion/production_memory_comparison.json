@@ -1,0 +1,19 @@
+{
+  "source_commit": "d52d23439fd60940809c49674af8dc01e223e9aa",
+  "baseline_commit": "45f17d69fac91d7683984cc22c54bb701eb2226e",
+  "baseline_seconds": 142.8320898249999,
+  "final_seconds": 142.71967468999992,
+  "baseline_peak_rss_bytes": 1850908672,
+  "final_peak_rss_bytes": 1805180928,
+  "peak_reduction_percent": 2.4705564727074747,
+  "effects": 43913,
+  "musical_signature": "fed5565412b36f5f48967eaf4e68572cd4b846b399d8f523161b094d31e2864c",
+  "musical_export_equivalent": true,
+  "source_module_hashes_match": true,
+  "limits": [
+    "Linux Android numerical bridge, not device proof",
+    "Fresh stem separation and MP4 excluded equally",
+    "Whole-pipeline peak remains high; unprofiled setup stage needs call stack trace",
+    "No material overall speedup claimed"
+  ]
+}

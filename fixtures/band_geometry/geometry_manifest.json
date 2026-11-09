@@ -2,43 +2,6 @@
   "schema": "helix.band_geometry_manifest.v1",
   "status": "metadata_seed_not_physical_render_proof",
   "models": {
-    "HX_SNOWMAN_DRUMMER": {
-      "asset_path": "fixtures/band_geometry/models/HX_SNOWMAN_DRUMMER.xmodel",
-      "validation_status": "generated_starter_xmodel_no_arms",
-      "notes": "Starter xLights custom model generated from the drummer reference grid. Arm submodels intentionally omitted; hit composites use drum/cymbal targets plus sticks only.",
-      "submodels": [
-        "HX_SNOWMAN_DRUMMER_HEAD",
-        "HX_SNOWMAN_DRUMMER_FACE",
-        "HX_SNOWMAN_DRUMMER_HAT",
-        "HX_SNOWMAN_DRUMMER_HAT_BAND",
-        "HX_SNOWMAN_DRUMMER_SCARF",
-        "HX_SNOWMAN_DRUMMER_TORSO",
-        "HX_SNOWMAN_DRUMMER_BUTTONS",
-        "HX_SNOWMAN_DRUMMER_PLATFORM",
-        "HX_SNOWMAN_DRUMMER_HAT_HOLLY",
-        "HX_SNOWMAN_DRUMMER_LEFT_STICK",
-        "HX_SNOWMAN_DRUMMER_RIGHT_STICK",
-        "HX_SNOWMAN_DRUMMER_KICK",
-        "HX_SNOWMAN_DRUMMER_KICK_RIM",
-        "HX_SNOWMAN_DRUMMER_SNARE",
-        "HX_SNOWMAN_DRUMMER_SNARE_RIM",
-        "HX_SNOWMAN_DRUMMER_TOM_LEFT",
-        "HX_SNOWMAN_DRUMMER_TOM_RIGHT",
-        "HX_SNOWMAN_DRUMMER_HI_HAT",
-        "HX_SNOWMAN_DRUMMER_CYMBAL_LEFT",
-        "HX_SNOWMAN_DRUMMER_CYMBAL_RIGHT",
-        "HX_SNOWMAN_DRUMMER_STANDS",
-        "HX_SNOWMAN_DRUMMER_DRUMKIT_ALL",
-        "HX_SNOWMAN_DRUMMER_HIT_LEFT_CRASH",
-        "HX_SNOWMAN_DRUMMER_HIT_RIGHT_CRASH",
-        "HX_SNOWMAN_DRUMMER_HIT_HIHAT",
-        "HX_SNOWMAN_DRUMMER_HIT_LEFT_TOM",
-        "HX_SNOWMAN_DRUMMER_HIT_RIGHT_TOM",
-        "HX_SNOWMAN_DRUMMER_HIT_SNARE",
-        "HX_SNOWMAN_DRUMMER_HIT_KICK",
-        "HX_SNOWMAN_DRUMMER_HIT_BOTH_CRASH"
-      ]
-    },
     "HX_SNOWMAN_GUITARIST": {
       "asset_path": "fixtures/band_geometry/models/HX_SNOWMAN_GUITARIST.xmodel",
       "validation_status": "asset_pending",
@@ -158,6 +121,60 @@
         "HX_SNOWMAN_SINGER_FEMALE_TORSO_LOWER",
         "HX_SNOWMAN_SINGER_FEMALE_VOCAL_GLOW",
         "HX_SNOWMAN_SINGER_FEMALE_STAGE_GLOW"
+      ]
+    },
+    "HX_SNOWMAN_DRUMMER_V3": {
+      "asset_path": "fixtures/band_geometry/models/HX_SNOWMAN_DRUMMER_V3.xmodel",
+      "validation_status": "independent_component_lighting_candidate",
+      "notes": "Active Drummer V3 runtime contract: eight public hit targets with integrated arm/stick or foot geometry and source-aligned xmodel nodes.",
+      "submodels": [
+        "HX_SNOWMAN_DRUMMER_V3_KICK",
+        "HX_SNOWMAN_DRUMMER_V3_SNARE",
+        "HX_SNOWMAN_DRUMMER_V3_HI_HAT",
+        "HX_SNOWMAN_DRUMMER_V3_TOM_HIGH",
+        "HX_SNOWMAN_DRUMMER_V3_TOM_MID",
+        "HX_SNOWMAN_DRUMMER_V3_TOM_FLOOR",
+        "HX_SNOWMAN_DRUMMER_V3_CYMBAL_LEFT",
+        "HX_SNOWMAN_DRUMMER_V3_CYMBAL_RIGHT"
+      ]
+    }
+  },
+  "archived_models": {
+    "HX_SNOWMAN_DRUMMER": {
+      "asset_path": "fixtures/band_geometry/models/HX_SNOWMAN_DRUMMER.xmodel",
+      "validation_status": "archived_starter_contract_complete",
+      "notes": "Archived starter asset retained for compatibility. HEAD and DRUMKIT_ALL are real unions; active runtime uses HX_SNOWMAN_DRUMMER_V3.",
+      "submodels": [
+        "HX_SNOWMAN_DRUMMER_HEAD",
+        "HX_SNOWMAN_DRUMMER_FACE",
+        "HX_SNOWMAN_DRUMMER_HAT",
+        "HX_SNOWMAN_DRUMMER_HAT_BAND",
+        "HX_SNOWMAN_DRUMMER_SCARF",
+        "HX_SNOWMAN_DRUMMER_TORSO",
+        "HX_SNOWMAN_DRUMMER_BUTTONS",
+        "HX_SNOWMAN_DRUMMER_PLATFORM",
+        "HX_SNOWMAN_DRUMMER_HAT_HOLLY",
+        "HX_SNOWMAN_DRUMMER_LEFT_STICK",
+        "HX_SNOWMAN_DRUMMER_RIGHT_STICK",
+        "HX_SNOWMAN_DRUMMER_KICK",
+        "HX_SNOWMAN_DRUMMER_KICK_RIM",
+        "HX_SNOWMAN_DRUMMER_SNARE",
+        "HX_SNOWMAN_DRUMMER_SNARE_RIM",
+        "HX_SNOWMAN_DRUMMER_TOM_LEFT",
+        "HX_SNOWMAN_DRUMMER_TOM_RIGHT",
+        "HX_SNOWMAN_DRUMMER_HI_HAT",
+        "HX_SNOWMAN_DRUMMER_CYMBAL_LEFT",
+        "HX_SNOWMAN_DRUMMER_CYMBAL_RIGHT",
+        "HX_SNOWMAN_DRUMMER_STANDS",
+        "HX_SNOWMAN_DRUMMER_DRUMKIT_ALL",
+        "HX_SNOWMAN_DRUMMER_HIT_LEFT_CRASH",
+        "HX_SNOWMAN_DRUMMER_HIT_RIGHT_CRASH",
+        "HX_SNOWMAN_DRUMMER_HIT_HIHAT",
+        "HX_SNOWMAN_DRUMMER_HIT_LEFT_TOM",
+        "HX_SNOWMAN_DRUMMER_HIT_RIGHT_TOM",
+        "HX_SNOWMAN_DRUMMER_HIT_SNARE",
+        "HX_SNOWMAN_DRUMMER_HIT_KICK",
+        "HX_SNOWMAN_DRUMMER_HIT_BOTH_CRASH"
       ]
     }
   }

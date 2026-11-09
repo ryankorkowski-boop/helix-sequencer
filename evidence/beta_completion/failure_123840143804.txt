@@ -1,0 +1,4 @@
+2026-10-30T01:44:43.1525023Z     if not evidence.is_file():raise ValueError('Pilot acceptance evidence missing: vocal timing and approved-reference identity gates remain open; do not scale to the full collection')
+2026-10-30T01:44:43.1526787Z ValueError: Pilot acceptance evidence missing: vocal timing and approved-reference identity gates remain open; do not scale to the full collection
+2026-10-30T01:44:44.6747094Z     raise ValueError('Native image quality failed: ' + failed + '; measurements=' +
+2026-10-30T01:44:44.6748983Z ValueError: Native image quality failed: visible_stage_motion; measurements={"median_bright_fraction": 0.08007, "median_luma": 13.466, "median_motion": 0.425, "visible_height": 0.644, "visible_width": 0.681}; retain diagnostic media without promoting it for owner approval

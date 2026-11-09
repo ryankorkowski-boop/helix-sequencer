@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsequence FixedPointTiming="1">
+  <head>
+    <version>2026.18</version>
+    <sequenceType>Animation</sequenceType>
+    <sequenceTiming>50 ms</sequenceTiming>
+    <sequenceDuration>4.000</sequenceDuration>
+  </head>
+  <ColorPalettes>
+    <ColorPalette>C_BUTTON_Palette1=#ff0000,C_BUTTON_Palette2=#00ff00,C_CHECKBOX_Palette1=1</ColorPalette>
+    <ColorPalette>C_BUTTON_Palette1=#0000ff,C_CHECKBOX_Palette1=1</ColorPalette>
+  </ColorPalettes>
+  <EffectDB>
+    <Effect>E_TEXTCTRL_Eff_On_Start=100,E_TEXTCTRL_Eff_On_End=0</Effect>
+    <Effect>E_TEXTCTRL_Eff_On_Start=100,E_TEXTCTRL_Eff_On_End=100</Effect>
+    <Effect>E_TEXTCTRL_Eff_On_Start=80,E_TEXTCTRL_Eff_On_End=80</Effect>
+    <Effect>E_TEXTCTRL_Eff_On_Start=0,E_TEXTCTRL_Eff_On_End=0</Effect>
+  </EffectDB>
+  <DisplayElements>
+    <Element type="timing" name="Onsets" visible="1" active="1"/>
+    <Element type="model" name="Arch" visible="1"/>
+    <Element type="model" name="Star" visible="1"/>
+    <Element type="model" name="All" visible="1"/>
+  </DisplayElements>
+  <ElementEffects>
+    <Element type="timing" name="Onsets">
+      <EffectLayer><Effect id="1" label="ignored marker" startTime="0" endTime="10"/></EffectLayer>
+    </Element>
+    <Element type="model" name="Arch">
+      <EffectLayer>
+        <Effect id="2" name="On" ref="0" palette="0" startTime="0" endTime="1000"/>
+        <Effect id="3" name="On" ref="0" palette="0" startTime="1000" endTime="2000"/>
+      </EffectLayer>
+    </Element>
+    <Element type="model" name="Star">
+      <EffectLayer>
+        <Effect id="4" name="On" ref="1" palette="1" startTime="1000" endTime="2000"/>
+        <Effect id="5" name="On" ref="3" palette="1" startTime="3000" endTime="4000"/>
+      </EffectLayer>
+    </Element>
+    <Element type="model" name="All">
+      <EffectLayer><Effect id="6" name="On" ref="2" palette="0" startTime="2500" endTime="3000"/></EffectLayer>
+    </Element>
+  </ElementEffects>
+</xsequence>

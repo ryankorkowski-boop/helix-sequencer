@@ -1,0 +1,304 @@
+{
+  "schema": "helix.approved_concept.v1",
+  "name": "Origami Metamorphosis",
+  "coordinate_system": "x-right, y-up, z-depth; design feet",
+  "xlights_source_ref": "6ceddc6b25a24d82754d4f9af28e18ee70b51f81",
+  "coverage": {
+    "Custom": 5
+  },
+  "native_families": [
+    "Custom"
+  ],
+  "native_coverage_complete": false,
+  "model_count": 5,
+  "rgb_pixels": 1200,
+  "channel_count": 3600,
+  "spiral_trees": 0,
+  "double_helices": 0,
+  "preview_contract": "Custom sparse-grid coordinates exactly match exported XML; native-family preview coordinates illustrate the authored geometry. Native xLights render/load evidence is recorded separately.",
+  "models": [
+    {
+      "name": "HX_001_ORIGAMI_REPLACEMENT",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_00",
+      "design": "ORIGAMI REPLACEMENT",
+      "kind": "pixel",
+      "nodes": 250,
+      "start_channel": 1,
+      "end_channel": 750,
+      "bounds_ft": [
+        [
+          -40.0,
+          12.0,
+          0.0
+        ],
+        [
+          40.0,
+          22.0,
+          0.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.2400000000000091,
+      "pose_index": 0,
+      "pose_count": 4,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "name": "HX_002_ORIGAMI_REPLACEMENT",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_01",
+      "design": "ORIGAMI REPLACEMENT",
+      "kind": "pixel",
+      "nodes": 250,
+      "start_channel": 751,
+      "end_channel": 1500,
+      "bounds_ft": [
+        [
+          -40.0,
+          12.0,
+          5.0
+        ],
+        [
+          40.0,
+          57.0,
+          5.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3336350696334208,
+      "pose_index": 1,
+      "pose_count": 4,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "name": "HX_003_ORIGAMI_REPLACEMENT",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_02",
+      "design": "ORIGAMI REPLACEMENT",
+      "kind": "pixel",
+      "nodes": 250,
+      "start_channel": 1501,
+      "end_channel": 2250,
+      "bounds_ft": [
+        [
+          -40.0,
+          12.0,
+          10.0
+        ],
+        [
+          54.75,
+          81.5,
+          10.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.25,
+      "max_snap_error_ft": 0.1646317758552749,
+      "pose_index": 2,
+      "pose_count": 4,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "name": "HX_004_ORIGAMI_REPLACEMENT",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_03",
+      "design": "ORIGAMI REPLACEMENT",
+      "kind": "pixel",
+      "nodes": 250,
+      "start_channel": 2251,
+      "end_channel": 3000,
+      "bounds_ft": [
+        [
+          -75.0,
+          12.5,
+          15.0
+        ],
+        [
+          77.5,
+          105.5,
+          15.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3478777007553911,
+      "pose_index": 3,
+      "pose_count": 4,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "name": "HX_005_DISPLAY_PLATFORM",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "GROUND",
+      "design": "DISPLAY PLATFORM",
+      "kind": "pixel",
+      "nodes": 200,
+      "start_channel": 3001,
+      "end_channel": 3600,
+      "bounds_ft": [
+        [
+          -87.5,
+          0.0,
+          -30.0
+        ],
+        [
+          87.5,
+          0.0,
+          30.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.25
+    }
+  ],
+  "file_prefix": "Origami_Metamorphosis",
+  "description": "A finite series of folded outlines turns a flat sheet into a recognizable crane.",
+  "palette": [
+    "#69EFFF",
+    "#B599FF",
+    "#FFD98A"
+  ],
+  "groups": {
+    "HX_ALL_PIXELS": [
+      "HX_001_ORIGAMI_REPLACEMENT",
+      "HX_002_ORIGAMI_REPLACEMENT",
+      "HX_003_ORIGAMI_REPLACEMENT",
+      "HX_004_ORIGAMI_REPLACEMENT",
+      "HX_005_DISPLAY_PLATFORM"
+    ],
+    "HX_NATIVE_CUSTOM": [
+      "HX_001_ORIGAMI_REPLACEMENT",
+      "HX_002_ORIGAMI_REPLACEMENT",
+      "HX_003_ORIGAMI_REPLACEMENT",
+      "HX_004_ORIGAMI_REPLACEMENT",
+      "HX_005_DISPLAY_PLATFORM"
+    ],
+    "HX_WHOLE_SHOW": [
+      "HX_001_ORIGAMI_REPLACEMENT",
+      "HX_002_ORIGAMI_REPLACEMENT",
+      "HX_003_ORIGAMI_REPLACEMENT",
+      "HX_004_ORIGAMI_REPLACEMENT",
+      "HX_005_DISPLAY_PLATFORM"
+    ],
+    "HX_ZONE_GROUND": [
+      "HX_005_DISPLAY_PLATFORM"
+    ],
+    "HX_ZONE_POSE_BODY_00": [
+      "HX_001_ORIGAMI_REPLACEMENT"
+    ],
+    "HX_ZONE_POSE_BODY_01": [
+      "HX_002_ORIGAMI_REPLACEMENT"
+    ],
+    "HX_ZONE_POSE_BODY_02": [
+      "HX_003_ORIGAMI_REPLACEMENT"
+    ],
+    "HX_ZONE_POSE_BODY_03": [
+      "HX_004_ORIGAMI_REPLACEMENT"
+    ]
+  },
+  "group_count": 8,
+  "concept_id": "50",
+  "source_art": "images/49_50.png",
+  "source_art_side": "right",
+  "build_status": "native planning layout",
+  "source_brief": {
+    "id": "50",
+    "name": "Origami Metamorphosis",
+    "principle": "Shape replacement",
+    "standout": "A finite series of folded outlines turns a flat sheet into a recognizable crane.",
+    "scene": "A refined cyan, silver and coral nighttime light pavilion with four separate original origami replacement contour sculptures on low dark platforms. One luminous completed paper-crane-like open wireframe silhouette is prominent; folded-sheet states are dim. Four bottom storyboard cells show flat square, folded triangle, emerging neck and wings, completed crane. Faceted triangular light ribs, no giant opaque paper walls or physically folding mechanism.",
+    "board": 4,
+    "side": "right",
+    "image": "images/49_50.png",
+    "status": "awaiting approval",
+    "source_catalog": "showcase/concepts/2026_10_09_stop_motion/concepts.json",
+    "description": "A finite series of folded outlines turns a flat sheet into a recognizable crane.",
+    "constraint": "Finite artwork-guided planning geometry; no physical actuation or surveyed construction dimensions.",
+    "round": "stop_motion"
+  },
+  "sequence_type": "24-second silent Animation study",
+  "physical_output_networks": 0,
+  "limits": [
+    "Finite artwork-guided planning geometry; no physical actuation or surveyed construction dimensions.",
+    "Artwork-guided finite geometry, not a scanned/surveyed reconstruction.",
+    "No complete music sequence or musical drummer acceptance claimed."
+  ]
+}

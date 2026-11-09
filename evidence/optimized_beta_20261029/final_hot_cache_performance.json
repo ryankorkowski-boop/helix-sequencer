@@ -1,0 +1,14 @@
+{
+  "elapsed_seconds": 2.532397600999957,
+  "hits": 5,
+  "movies": 5,
+  "source_commit": "76c0176d3c2c3776d5f9e9abd5e98c004f379021",
+  "output_hashes": {
+    "04_Residential_AC_RGB_Comparison.mp4": "5aceca545c801b293ac7e4f8340915d81d074091a326c825877e43fbd4134a90",
+    "05_Six_Layout_Synchronized_Comparison.mp4": "98be00316b2d364c35d8e46cc225c9baa0f4c96e849814e60146867d15606e53",
+    "06_Advanced_Technical_Showcase.mp4": "a0f834b929d8e3fe3a44b26a1f7f267af47d788f6c44b44c27a3a16af57bde00",
+    "07_Double_Helix_and_Musical_Direction.mp4": "88c1a206fc2a8c6d0b1b8a7e85e0c23c5b89cc42316c83845d6b28c826619745",
+    "09_Starred_Music_Sampler.mp4": "f238f06e5fedcb0e4a18dfde60992979344b8ff559561331360a33ca033d924f"
+  },
+  "scope": "Presentation assembly only; same source audio/native videos/configuration and code; full input/output hashes checked"
+}

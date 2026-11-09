@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xrgb>
+  <models>
+    <model name="Arch" DisplayAs="Arches" ChannelCount="1"
+      StringType="Single Color Red" StartChannel="1"
+      parm1="1" parm2="1" parm3="20" LayoutGroup="Default"
+      WorldPosX="0" WorldPosY="0" WorldPosZ="0"
+      ScaleX="10" ScaleY="10" ScaleZ="10"/>
+    <model name="Star" DisplayAs="Star" ChannelCount="3"
+      StringType="RGB Nodes" StartChannel="2"
+      parm1="1" parm2="1" parm3="5" LayoutGroup="Default"
+      WorldPosX="100" WorldPosY="0" WorldPosZ="0"
+      ScaleX="10" ScaleY="10" ScaleZ="10"/>
+  </models>
+  <modelGroups>
+    <modelGroup name="Rhythm" models="Arch"/>
+    <modelGroup name="All" models="Rhythm,Star,Arch"/>
+  </modelGroups>
+</xrgb>

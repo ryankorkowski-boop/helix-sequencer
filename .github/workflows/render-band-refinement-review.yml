@@ -1,0 +1,114 @@
+name: Rebuild and publish isolated Helix band review
+on:
+  push:
+    branches: [codex/band-performance-refinement-20261012]
+    paths:
+      - .github/workflows/render-band-refinement-review.yml
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  review:
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    env:
+      LIBGL_ALWAYS_SOFTWARE: '1'
+      EGL_PLATFORM: surfaceless
+      LP_NUM_THREADS: '2'
+      OPENBLAS_NUM_THREADS: '2'
+      OMP_NUM_THREADS: '2'
+      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      REVIEW_TAG: codex-band-refinement-20261012-v2
+      MEDIA_BRANCH: artifacts/codex-band-refinement-20261012-v2
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install review and native rendering dependencies
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq ffmpeg xvfb xauth libgtk-3-0t64 libgl1 libegl1 libegl-mesa0 libopengl0 libglu1-mesa libgstreamer-plugins-base1.0-0 fonts-dejavu-core
+          python -m pip install numpy scipy librosa soundfile numba Pillow PyYAML imageio imageio-ffmpeg zstandard pytest trimesh==5.1.1 moderngl==5.13.0
+      - name: Restore exact source audio and accepted inference caches
+        run: |
+          python - <<'PY'
+          import hashlib,json,urllib.request,zipfile
+          from pathlib import Path
+          request=json.load(open('evidence/band_instrument_review/remote_render_request.json'))
+          url='https://raw.githubusercontent.com/'+request['repo']+'/'+request['media_commit']+'/band_instrument_inputs.zip'
+          data=urllib.request.urlopen(url,timeout=120).read()
+          assert len(data)==request['bytes'] and hashlib.sha256(data).hexdigest()==request['sha256']
+          path=Path('restored_band_inputs.zip');path.write_bytes(data)
+          with zipfile.ZipFile(path) as z:
+              assert z.testzip() is None
+              for name in z.namelist():assert Path(name).resolve().is_relative_to(Path.cwd())
+              z.extractall('.')
+          PY
+          python -m tools.rebuild_band_logic_review
+      - name: Focused defect regressions
+        run: |
+          mkdir -p evidence/band_execution
+          python -m pytest -q tests/test_band_motion_refinement.py tests/test_refined_band_native_export.py tests/test_readable_band_instruments.py tests/test_band_logic_reassessment.py tests/test_drummer_shoulder_revision.py | tee evidence/band_execution/remote_focused_tests.log
+      - name: Render the complete original dry comparison and test
+        run: python -m tools.render_refined_helix_band --dry
+      - name: Render all actual source musical excerpts
+        run: |
+          for job in 0 1 2 3 4 5; do
+            python -m tools.render_refined_helix_band --job "$job"
+          done
+          python -m tools.package_refined_band --montages --exports
+      - name: Restore pinned xLights
+        run: |
+          mkdir -p "$RUNNER_TEMP/xlights-native"
+          curl --fail --location --retry 3 --output "$RUNNER_TEMP/xlights-native/xlights.AppImage" https://github.com/xLightsSequencer/xLights/releases/download/2026.18/xLights-2026.18-x86_64.AppImage
+          test "$(sha256sum "$RUNNER_TEMP/xlights-native/xlights.AppImage" | cut -d' ' -f1)" = 62affb88b9a9b03cf5164974ac69bcefe35c559719d157b3364e4d4a5ab4214b
+          chmod +x "$RUNNER_TEMP/xlights-native/xlights.AppImage"
+          cd "$RUNNER_TEMP/xlights-native"
+          ./xlights.AppImage --appimage-extract > /dev/null
+      - name: Verify actual native output, every movie and original audio cuts
+        run: |
+          python -m tools.audit_refined_band_native --binary "$RUNNER_TEMP/xlights-native/squashfs-root/AppRun" --display 121 | tee evidence/band_execution/remote_native_audit.log
+          python -m tools.audit_refined_band_output | tee evidence/band_execution/remote_output_audit.log
+          python -m tools.audit_refined_band_soundtrack | tee evidence/band_execution/remote_soundtrack_audit.log
+          python -m tools.complete_refined_band_delivery
+      - uses: actions/upload-artifact@v4
+        with:
+          name: helix-band-refinement-review
+          path: |
+            outputs/Band_Refinement_20261012/Helix_Band_Review_Matrix_XSQ_Bundle.zip
+            outputs/Band_Refinement_20261012/archive_verification.json
+          compression-level: 0
+          retention-days: 30
+      - name: Preserve bounded review media on a new artifacts branch
+        run: |
+          python - <<'PY'
+          import os,json,shutil
+          from pathlib import Path
+          source=Path('outputs/Band_Refinement_20261012')
+          destination=Path(os.environ['RUNNER_TEMP'])/'helix-band-review-media'/'review'
+          manifest=json.load(open(source/'delivery_manifest.json'))
+          names=[row['file'] for row in manifest['files']]+['delivery_manifest.json','archive_verification.json']
+          for name in names:
+              path=source/name;target=destination/name;target.parent.mkdir(parents=True,exist_ok=True)
+              assert path.stat().st_size<95*1024*1024
+              shutil.copyfile(path,target)
+          PY
+          gh auth setup-git
+          MEDIA_ROOT="$RUNNER_TEMP/helix-band-review-media"
+          git -C "$MEDIA_ROOT" init
+          git -C "$MEDIA_ROOT" checkout -b "$MEDIA_BRANCH"
+          git -C "$MEDIA_ROOT" config user.name "github-actions[bot]"
+          git -C "$MEDIA_ROOT" config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git -C "$MEDIA_ROOT" add review
+          git -C "$MEDIA_ROOT" commit -m "artifacts(band): preserve verified real-audio matrix review"
+          git -C "$MEDIA_ROOT" remote add origin "https://github.com/$GITHUB_REPOSITORY.git"
+          git -C "$MEDIA_ROOT" -c pack.window=0 -c pack.compression=1 -c pack.threads=2 push origin "HEAD:$MEDIA_BRANCH"
+          git -C "$MEDIA_ROOT" rev-parse HEAD > outputs/Band_Refinement_20261012/media_commit.txt
+      - name: Publish review downloads without merging primary development
+        run: |
+          OUT=outputs/Band_Refinement_20261012
+          gh release create "$REVIEW_TAG" --repo "$GITHUB_REPOSITORY" --target "$GITHUB_SHA" --prerelease --title "Helix Band refinement — review build" --notes-file docs/BAND_EXECUTION_REPORT.md
+          gh release upload "$REVIEW_TAG" --repo "$GITHUB_REPOSITORY" "$OUT/Helix_Band_Review_Matrix_XSQ_Bundle.zip" "$OUT/Video_A_Drummer_Geometry_Comparison.mp4" "$OUT/Video_B_Original_Dry_Drum_Test.mp4" "$OUT/Video_C_Bass_and_Guitar.mp4" "$OUT/D_Pitched_Percussion_Candidates_Festivus.mp4" "$OUT/Video_E_Full_Band_Showcase.mp4" "$OUT/Helix_Band_Actual_Render_Review.jpg" "$OUT/Helix_Band_Refinement_Report.md" "$OUT/archive_verification.json"

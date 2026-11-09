@@ -1,0 +1,461 @@
+{
+  "selected_at": "2026-10-08",
+  "baseline_commit": "15a7e5450d2798eacc57b821267d6a526428884a",
+  "preservation": "Existing exports and assets unchanged; no rebuild",
+  "favorites": [
+    {
+      "key": "fire_and_ice",
+      "title": "Fire & Ice",
+      "status": "user-selected favorite; retain existing baseline for later tweaks",
+      "directory": "showcase/flavors/Helix_Fire_and_Ice",
+      "files": [
+        {
+          "path": "showcase/flavors/Helix_Fire_and_Ice/Helix_Fire_and_Ice_3D.html",
+          "sha256": "d693f9b3d6efbe9f37b2cea64a4433d5baf43cc1845af5469a4957b940338801",
+          "bytes": 1236452
+        },
+        {
+          "path": "showcase/flavors/Helix_Fire_and_Ice/Helix_Fire_and_Ice_Night.png",
+          "sha256": "ce287e5f9f72c7e322044ad4238b95ee487aefe0b6c2fe8b754ea232b50e3d9a",
+          "bytes": 801175
+        },
+        {
+          "path": "showcase/flavors/Helix_Fire_and_Ice/Helix_Fire_and_Ice_Perspective.png",
+          "sha256": "2366b7bc1878066a8567edbaf63aafca501b4902d968fe92b1d7a3f6af0ed368",
+          "bytes": 871655
+        },
+        {
+          "path": "showcase/flavors/Helix_Fire_and_Ice/Helix_Fire_and_Ice_Showcase.xsq",
+          "sha256": "6f8b815cefdfb3561df7600325439d2d652d569ac56fc1df000461b1a8d43ae2",
+          "bytes": 95201
+        },
+        {
+          "path": "showcase/flavors/Helix_Fire_and_Ice/README.txt",
+          "sha256": "4aafe4a42f7166db08c1711873c663a4e30467570b6de49305cb26a4e26efaa1",
+          "bytes": 1408
+        },
+        {
+          "path": "showcase/flavors/Helix_Fire_and_Ice/assets/helix_crest.png",
+          "sha256": "74a9b84296f226c690423e2b973ec19abad036b7d9c0c360a69852a87c5fe95e",
+          "bytes": 4444
+        },
+        {
+          "path": "showcase/flavors/Helix_Fire_and_Ice/assets/kinetic_base.obj",
+          "sha256": "5d888f4000ba7fa60367552d95ee4d4cbb387cf188eb7e12fdd2a8195082ba39",
+          "bytes": 1332
+        },
+        {
+          "path": "showcase/flavors/Helix_Fire_and_Ice/assets/kinetic_base.png",
+          "sha256": "74a9b84296f226c690423e2b973ec19abad036b7d9c0c360a69852a87c5fe95e",
+          "bytes": 4444
+        },
+        {
+          "path": "showcase/flavors/Helix_Fire_and_Ice/assets/kinetic_dna.obj",
+          "sha256": "2d188c11a58f76e1811462514f8b3861fcf537296598f5ce8edf655df2f4e1a9",
+          "bytes": 77838
+        },
+        {
+          "path": "showcase/flavors/Helix_Fire_and_Ice/assets/kinetic_rotor.png",
+          "sha256": "a3e45f1fc9e36911629fa6708de070cf812823ab3901ba8e856694c7e7658682",
+          "bytes": 6011
+        },
+        {
+          "path": "showcase/flavors/Helix_Fire_and_Ice/model_inventory.csv",
+          "sha256": "7bf4cd67b7227bee72a098f05725eaa1701e30bb316534bbb2a9acaeb2022219",
+          "bytes": 12919
+        },
+        {
+          "path": "showcase/flavors/Helix_Fire_and_Ice/models/HX_FI_CONFLUENCE_RING.xmodel",
+          "sha256": "82cc35692b6f874f93d602df31637f0894caf39ca001e060189517febb11ccd2",
+          "bytes": 18419
+        },
+        {
+          "path": "showcase/flavors/Helix_Fire_and_Ice/models/HX_FI_ELEMENTAL_BRIDGE.xmodel",
+          "sha256": "ce98fbf73c7677fcb5c387005637644874ce2ce9e04358448df2ca3228932697",
+          "bytes": 18489
+        },
+        {
+          "path": "showcase/flavors/Helix_Fire_and_Ice/models/HX_FI_ELEMENT_-1_0.xmodel",
+          "sha256": "d2dd5b3340afea536e16c73952fb17995bf65a3a69f4c579163ca07930cb469d",
+          "bytes": 17804
+        },
+        {
+          "path": "showcase/flavors/Helix_Fire_and_Ice/models/HX_FI_ELEMENT_-1_1.xmodel",
+          "sha256": "e260f4b237f697c57a8b6deaeb276362c1165b051d8ae99246d4272b2308d8cf",
+          "bytes": 11492
+        },
+        {
+          "path": "showcase/flavors/Helix_Fire_and_Ice/models/HX_FI_ELEMENT_-1_2.xmodel",
+          "sha256": "ffd5baf0fb71f6a8954a4808be1aafec98cab13e18a125a27bf74c1a78341809",
+          "bytes": 10825
+        },
+        {
+          "path": "showcase/flavors/Helix_Fire_and_Ice/models/HX_FI_ELEMENT_1_0.xmodel",
+          "sha256": "cdb696ddf2712363932c9ae2a6a8ab9beb0f285d27721bcd0c6ac295efc24603",
+          "bytes": 17802
+        },
+        {
+          "path": "showcase/flavors/Helix_Fire_and_Ice/models/HX_FI_ELEMENT_1_1.xmodel",
+          "sha256": "60abf44fe586b6730cba04af4f8e4a2b20f5fb13b4d0e21e27b15e35fee7fe20",
+          "bytes": 11490
+        },
+        {
+          "path": "showcase/flavors/Helix_Fire_and_Ice/models/HX_FI_ELEMENT_1_2.xmodel",
+          "sha256": "f2848fc470c697155b259d6454896e8ad4208f3b287c725926fa94d36ea9690b",
+          "bytes": 10823
+        },
+        {
+          "path": "showcase/flavors/Helix_Fire_and_Ice/models/HX_FI_SENTINEL_-1_0.xmodel",
+          "sha256": "155fa4aae150c86a73d2fb89a2035d8780d79251274a36815f331b95bb5551d3",
+          "bytes": 7760
+        },
+        {
+          "path": "showcase/flavors/Helix_Fire_and_Ice/models/HX_FI_SENTINEL_-1_1.xmodel",
+          "sha256": "1bd838cf67d46e857bb64d1eddbbda22c26094c78ca5e1f24952274eefb0b6fb",
+          "bytes": 7483
+        },
+        {
+          "path": "showcase/flavors/Helix_Fire_and_Ice/models/HX_FI_SENTINEL_-1_2.xmodel",
+          "sha256": "48e4ab9972e5994756face22b1e8d907d5e7e3ec92d4eed639177ccc8216f03e",
+          "bytes": 7760
+        },
+        {
+          "path": "showcase/flavors/Helix_Fire_and_Ice/models/HX_FI_SENTINEL_-1_3.xmodel",
+          "sha256": "bc7c9afa712b1a6655b8ff0fe3216a0caf8243db3bd86ad1301046ecf252d2a9",
+          "bytes": 7483
+        },
+        {
+          "path": "showcase/flavors/Helix_Fire_and_Ice/models/HX_FI_SENTINEL_1_0.xmodel",
+          "sha256": "aab7068091f0b7e1568c430a70e0bc65c8d0857a3a799429089534078ea7ea7f",
+          "bytes": 7758
+        },
+        {
+          "path": "showcase/flavors/Helix_Fire_and_Ice/models/HX_FI_SENTINEL_1_1.xmodel",
+          "sha256": "f8dbee4c07a94c2ebf3fd20b528edf8df32ee40aa71d22281624c68f4a017713",
+          "bytes": 7481
+        },
+        {
+          "path": "showcase/flavors/Helix_Fire_and_Ice/models/HX_FI_SENTINEL_1_2.xmodel",
+          "sha256": "ebd4fdb2b4e66283308392ea7ad30d22788c30eb4b101ec145df044aa17ca646",
+          "bytes": 7758
+        },
+        {
+          "path": "showcase/flavors/Helix_Fire_and_Ice/models/HX_FI_SENTINEL_1_3.xmodel",
+          "sha256": "a6045a5375f25002e857809840bb0039742ce1260e0cc1b2ca485f63d8360ab9",
+          "bytes": 7481
+        },
+        {
+          "path": "showcase/flavors/Helix_Fire_and_Ice/native_verification.json",
+          "sha256": "83c7d1bb78b3204cb65e493d4b32cbb9f9eafbbf0f1c394adfe00154c0cf746c",
+          "bytes": 15511
+        },
+        {
+          "path": "showcase/flavors/Helix_Fire_and_Ice/showcase_manifest.json",
+          "sha256": "dde5c6a593725f78760d0417f0726930d065fdcd52d5a64de039c3762a8cd3b9",
+          "bytes": 89234
+        },
+        {
+          "path": "showcase/flavors/Helix_Fire_and_Ice/xlights_networks.xml",
+          "sha256": "8a27b0a3825a92cd345deeeb2eb7068fe74190614e5120f2f4733fa3c1f36295",
+          "bytes": 81
+        },
+        {
+          "path": "showcase/flavors/Helix_Fire_and_Ice/xlights_rgbeffects.xml",
+          "sha256": "692f9ec4b765e4e66121131afaeafadbf97ab9764a77da15b790366f73594c6c",
+          "bytes": 277697
+        }
+      ]
+    },
+    {
+      "key": "enchanted_grove",
+      "title": "Enchanted Grove",
+      "status": "user-selected favorite; retain existing baseline for later tweaks",
+      "directory": "showcase/flavors/Helix_Enchanted_Grove",
+      "files": [
+        {
+          "path": "showcase/flavors/Helix_Enchanted_Grove/Helix_Enchanted_Grove_3D.html",
+          "sha256": "6a3b06e46ffdffdfb8fbc2dc26a4e496cd7e08d1eefd98900e88b9c882453879",
+          "bytes": 1055449
+        },
+        {
+          "path": "showcase/flavors/Helix_Enchanted_Grove/Helix_Enchanted_Grove_Night.png",
+          "sha256": "6d3d4bbb7754e2791fa7c1a8858dd264fc1db6341b58b65469055201299169d2",
+          "bytes": 765328
+        },
+        {
+          "path": "showcase/flavors/Helix_Enchanted_Grove/Helix_Enchanted_Grove_Perspective.png",
+          "sha256": "bd6ee2f43c6acbfe45b50ed9ece9497428c755287f50ddc1f3273b41160d389b",
+          "bytes": 799536
+        },
+        {
+          "path": "showcase/flavors/Helix_Enchanted_Grove/Helix_Enchanted_Grove_Showcase.xsq",
+          "sha256": "3ceda68781f9f736b89566160219cb1eb3ad9205672dd78b14000754d0a73f6c",
+          "bytes": 82986
+        },
+        {
+          "path": "showcase/flavors/Helix_Enchanted_Grove/README.txt",
+          "sha256": "e82fbcd85dbb852b2e27dd5f01eb9ca91a321c77b55c79d27e3f3f7084dc96cc",
+          "bytes": 1424
+        },
+        {
+          "path": "showcase/flavors/Helix_Enchanted_Grove/assets/helix_crest.png",
+          "sha256": "3d0a7ce543f1c91c84753b50adb0599909690e0081b3a07eb70a41828bc3b57a",
+          "bytes": 4467
+        },
+        {
+          "path": "showcase/flavors/Helix_Enchanted_Grove/assets/kinetic_base.obj",
+          "sha256": "5d888f4000ba7fa60367552d95ee4d4cbb387cf188eb7e12fdd2a8195082ba39",
+          "bytes": 1332
+        },
+        {
+          "path": "showcase/flavors/Helix_Enchanted_Grove/assets/kinetic_base.png",
+          "sha256": "3d0a7ce543f1c91c84753b50adb0599909690e0081b3a07eb70a41828bc3b57a",
+          "bytes": 4467
+        },
+        {
+          "path": "showcase/flavors/Helix_Enchanted_Grove/assets/kinetic_dna.obj",
+          "sha256": "2d188c11a58f76e1811462514f8b3861fcf537296598f5ce8edf655df2f4e1a9",
+          "bytes": 77838
+        },
+        {
+          "path": "showcase/flavors/Helix_Enchanted_Grove/assets/kinetic_rotor.png",
+          "sha256": "dfb4bd46eab0cdf5a9052b84c19cb0658ffabe87d9a20d003cd3918a3be78631",
+          "bytes": 6014
+        },
+        {
+          "path": "showcase/flavors/Helix_Enchanted_Grove/model_inventory.csv",
+          "sha256": "448c0a379f5decf3e816031373b11f6aa14112097bd6d20148c5b61bc4b6e758",
+          "bytes": 12192
+        },
+        {
+          "path": "showcase/flavors/Helix_Enchanted_Grove/models/HX_EG_ANCIENT_TRUNK_0.xmodel",
+          "sha256": "da6f1c0f26309b055d37972d7b41eb8267a2ad981232a57e5296b420cc9c11b7",
+          "bytes": 11002
+        },
+        {
+          "path": "showcase/flavors/Helix_Enchanted_Grove/models/HX_EG_ANCIENT_TRUNK_1.xmodel",
+          "sha256": "cefaecf8d230d452c69941c4f34faf91100dad67c656dee26d682081c69baef9",
+          "bytes": 16689
+        },
+        {
+          "path": "showcase/flavors/Helix_Enchanted_Grove/models/HX_EG_ANCIENT_TRUNK_2.xmodel",
+          "sha256": "66313ab1a61259b9083bbda09b4dc02da6abbedaf4ba648c696d9ccc84b0577c",
+          "bytes": 10940
+        },
+        {
+          "path": "showcase/flavors/Helix_Enchanted_Grove/models/HX_EG_LANTERN_PATH_0.xmodel",
+          "sha256": "279ad4916f83edaf9ff2bfd48a60847f3986a34ab0959ad22dd219129ed84217",
+          "bytes": 7009
+        },
+        {
+          "path": "showcase/flavors/Helix_Enchanted_Grove/models/HX_EG_LANTERN_PATH_1.xmodel",
+          "sha256": "8bcceb036528eb3003c63b30037309f95368a54b35de76d9d966ef20e539fe67",
+          "bytes": 7104
+        },
+        {
+          "path": "showcase/flavors/Helix_Enchanted_Grove/models/HX_EG_LANTERN_PATH_2.xmodel",
+          "sha256": "9b2a3d993146edc12cd3bf9821e86eb6e8be4144b7bee189d20a22ac77fb52cf",
+          "bytes": 7185
+        },
+        {
+          "path": "showcase/flavors/Helix_Enchanted_Grove/models/HX_EG_LANTERN_PATH_3.xmodel",
+          "sha256": "ebc62277b436a1030b5b70c3b561990fd62308b0d36131d833549b7971677298",
+          "bytes": 7011
+        },
+        {
+          "path": "showcase/flavors/Helix_Enchanted_Grove/models/HX_EG_LANTERN_PATH_4.xmodel",
+          "sha256": "dc17cdd77f99dd4a35c4381db4d46dd631f782b6f5d46681f53c2a1014ac99b6",
+          "bytes": 7109
+        },
+        {
+          "path": "showcase/flavors/Helix_Enchanted_Grove/models/HX_EG_LANTERN_PATH_5.xmodel",
+          "sha256": "67052f06854b75a126731d298e863bf14d95d0a0cbc200f5b88333f09d4a7ef8",
+          "bytes": 7188
+        },
+        {
+          "path": "showcase/flavors/Helix_Enchanted_Grove/models/HX_EG_LANTERN_PATH_6.xmodel",
+          "sha256": "51603df0a346eccd1292617c7fc8c71ba3d107bc9b69debf8e5ae5df65990438",
+          "bytes": 7007
+        },
+        {
+          "path": "showcase/flavors/Helix_Enchanted_Grove/models/HX_EG_LANTERN_PATH_7.xmodel",
+          "sha256": "a4f5c40274f072947d5998f204c63338e62ecb1032b5df8d5d52df57704d24bd",
+          "bytes": 7103
+        },
+        {
+          "path": "showcase/flavors/Helix_Enchanted_Grove/models/HX_EG_ROOT_BRIDGE.xmodel",
+          "sha256": "4f40e64d13cdd9b2c8e621923d1e38be089f34637c58a943570b818dae52146b",
+          "bytes": 16114
+        },
+        {
+          "path": "showcase/flavors/Helix_Enchanted_Grove/native_verification.json",
+          "sha256": "40a8d8a546517e144b3e1d387977432ea2595afa2d91bc2e11627bf620d55ebc",
+          "bytes": 14203
+        },
+        {
+          "path": "showcase/flavors/Helix_Enchanted_Grove/showcase_manifest.json",
+          "sha256": "c212375fa06674b692367b1b07760d03ba58d9c1aec48e085fbf073364eaac36",
+          "bytes": 82842
+        },
+        {
+          "path": "showcase/flavors/Helix_Enchanted_Grove/xlights_networks.xml",
+          "sha256": "8a27b0a3825a92cd345deeeb2eb7068fe74190614e5120f2f4733fa3c1f36295",
+          "bytes": 81
+        },
+        {
+          "path": "showcase/flavors/Helix_Enchanted_Grove/xlights_rgbeffects.xml",
+          "sha256": "ae49f1d2f4b45b0e30a552d8fe69891435041052b597a5dd7898c1b47c06fb91",
+          "bytes": 206761
+        }
+      ]
+    },
+    {
+      "key": "aurora",
+      "title": "Helix Aurora \u2014 original first showcase",
+      "status": "user-selected original favorite; retain baseline for ultimate goal bundle",
+      "directory": "showcase/Helix_Aurora",
+      "files": [
+        {
+          "path": "showcase/Helix_Aurora/Helix_Aurora_3D.html",
+          "sha256": "0d07c1c8ac242c5ec3035911bc57f31dd186df562163d80328a1efddf06fe3e3",
+          "bytes": 1090835
+        },
+        {
+          "path": "showcase/Helix_Aurora/Helix_Aurora_Night.png",
+          "sha256": "329663fb972c500fa553e5c7f89db5f79a0a5997edc62c6388f0897d9d58284d",
+          "bytes": 832299
+        },
+        {
+          "path": "showcase/Helix_Aurora/Helix_Aurora_Perspective.png",
+          "sha256": "7a32166526bfa52a39a725dfe323dc86734efc49fc6387aa97ee1996f2ce15bc",
+          "bytes": 913133
+        },
+        {
+          "path": "showcase/Helix_Aurora/Helix_Aurora_Showcase.xsq",
+          "sha256": "668a44e57b74136e5ca7b72c8afbc775efc50db05bf6eb39e1dc387548d15336",
+          "bytes": 88682
+        },
+        {
+          "path": "showcase/Helix_Aurora/README.txt",
+          "sha256": "4525b757996f2af21fd28e9d795f2ffcf524087656fe82aa894e46c8580c51fd",
+          "bytes": 1388
+        },
+        {
+          "path": "showcase/Helix_Aurora/assets/helix_crest.png",
+          "sha256": "c171ce52544375541126419ab8963bbb44290cabfb614f33404275500fed8768",
+          "bytes": 4409
+        },
+        {
+          "path": "showcase/Helix_Aurora/assets/kinetic_base.obj",
+          "sha256": "5d888f4000ba7fa60367552d95ee4d4cbb387cf188eb7e12fdd2a8195082ba39",
+          "bytes": 1332
+        },
+        {
+          "path": "showcase/Helix_Aurora/assets/kinetic_base.png",
+          "sha256": "c171ce52544375541126419ab8963bbb44290cabfb614f33404275500fed8768",
+          "bytes": 4409
+        },
+        {
+          "path": "showcase/Helix_Aurora/assets/kinetic_dna.obj",
+          "sha256": "2d188c11a58f76e1811462514f8b3861fcf537296598f5ce8edf655df2f4e1a9",
+          "bytes": 77838
+        },
+        {
+          "path": "showcase/Helix_Aurora/assets/kinetic_rotor.png",
+          "sha256": "d5d61ae5a2d636f516a7c5115519be1768bae3dc34c4bd0454a42bda054c46e3",
+          "bytes": 6025
+        },
+        {
+          "path": "showcase/Helix_Aurora/model_inventory.csv",
+          "sha256": "24d3e1b9db7bd388d8b185895e871f8b10291bd04d95ffda7043d630a233915e",
+          "bytes": 11942
+        },
+        {
+          "path": "showcase/Helix_Aurora/models/HX_DNA_CATHEDRAL.xmodel",
+          "sha256": "1532f4f84805bbfd5ee99f659bfb77e230d25da7b3f2d9074de76e5ef97f817c",
+          "bytes": 29252
+        },
+        {
+          "path": "showcase/Helix_Aurora/models/HX_DNA_GATE_-1.xmodel",
+          "sha256": "1dd05a4fc9f0ef25047871b184f951a5a4660201fd82fdb6f4bafc09d8d64816",
+          "bytes": 8981
+        },
+        {
+          "path": "showcase/Helix_Aurora/models/HX_DNA_GATE_1.xmodel",
+          "sha256": "25e66a7723e4ceab12db1ec6f93ca31da03719bb0796c018f9f816b8c4f7a33f",
+          "bytes": 8979
+        },
+        {
+          "path": "showcase/Helix_Aurora/models/HX_DNA_ORBIT.xmodel",
+          "sha256": "49c707b29f83830d7adf5d3df1533257ef70d85f5a61b212a4ead0f7f8dd28cc",
+          "bytes": 26489
+        },
+        {
+          "path": "showcase/Helix_Aurora/models/HX_DNA_PATH_-1_1.xmodel",
+          "sha256": "3ad0fc7ebb8884f5987631efc7c2d33cb3833e8f7804ac5d6422b619509ec7d0",
+          "bytes": 5343
+        },
+        {
+          "path": "showcase/Helix_Aurora/models/HX_DNA_PATH_-1_2.xmodel",
+          "sha256": "9423c1b036311798b0ec9d76165c649a10091d2d2229e995583125afd9523c6b",
+          "bytes": 5355
+        },
+        {
+          "path": "showcase/Helix_Aurora/models/HX_DNA_PATH_-1_3.xmodel",
+          "sha256": "0328e5ceaa6e44f26a39191d6f5b5de67f6e396df92e60980fa985d32c7e4e33",
+          "bytes": 5367
+        },
+        {
+          "path": "showcase/Helix_Aurora/models/HX_DNA_PATH_1_1.xmodel",
+          "sha256": "d0742ab09beda178046489ea12590a3660b5b17e8f5b6900d9438b60deec35c9",
+          "bytes": 5341
+        },
+        {
+          "path": "showcase/Helix_Aurora/models/HX_DNA_PATH_1_2.xmodel",
+          "sha256": "29dca1796ab6915dcbfdc16ee7d7aafbea75aaa2134dd2f1cedea7734bb4910a",
+          "bytes": 5353
+        },
+        {
+          "path": "showcase/Helix_Aurora/models/HX_DNA_PATH_1_3.xmodel",
+          "sha256": "2e39aa2526cec2dc0db8d2becefee4d760269b9010eb6ccd25210b914943a457",
+          "bytes": 5365
+        },
+        {
+          "path": "showcase/Helix_Aurora/models/HX_DNA_TOWER_EAST.xmodel",
+          "sha256": "30435deed504a0a936d44eda3f42fb70afce1013add4d91ca387d16fa8d8f241",
+          "bytes": 16656
+        },
+        {
+          "path": "showcase/Helix_Aurora/models/HX_DNA_TOWER_WEST.xmodel",
+          "sha256": "5f6a600b4634e07b102d8bbac8a7e9b0035e9319cb493e886f83016dbcef6ab9",
+          "bytes": 16656
+        },
+        {
+          "path": "showcase/Helix_Aurora/native_verification.json",
+          "sha256": "bdf3ae92ae90133bd66e2c025c5a4c4aec84375759821a22f1e1036d35f688a3",
+          "bytes": 15221
+        },
+        {
+          "path": "showcase/Helix_Aurora/showcase_manifest.json",
+          "sha256": "ca752e53906f449e51f9ee4160b677052ed02c567a03eda92d2e38ccbdb7bae2",
+          "bytes": 83750
+        },
+        {
+          "path": "showcase/Helix_Aurora/xlights_networks.xml",
+          "sha256": "8a27b0a3825a92cd345deeeb2eb7068fe74190614e5120f2f4733fa3c1f36295",
+          "bytes": 81
+        },
+        {
+          "path": "showcase/Helix_Aurora/xlights_rgbeffects.xml",
+          "sha256": "be3f510a19fff5eaaa7abf2a7f49c597918ecdbff364198e8fed31c2cd577d63",
+          "bytes": 235329
+        }
+      ]
+    }
+  ],
+  "ultimate_goal_bundle": [
+    "Helix Aurora",
+    "Fire & Ice",
+    "Enchanted Grove"
+  ]
+}

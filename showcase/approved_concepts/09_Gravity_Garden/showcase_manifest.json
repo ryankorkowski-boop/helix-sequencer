@@ -1,0 +1,591 @@
+{
+  "schema": "helix.approved_concept.v1",
+  "name": "Gravity Garden",
+  "coordinate_system": "x-right, y-up, z-depth; design feet",
+  "xlights_source_ref": "6ceddc6b25a24d82754d4f9af28e18ee70b51f81",
+  "coverage": {
+    "Custom": 11
+  },
+  "native_families": [
+    "Custom"
+  ],
+  "native_coverage_complete": false,
+  "model_count": 11,
+  "rgb_pixels": 3425,
+  "channel_count": 10275,
+  "spiral_trees": 9,
+  "double_helices": 1,
+  "preview_contract": "Custom sparse-grid coordinates exactly match exported XML; native-family preview coordinates illustrate the authored geometry. Native xLights render/load evidence is recorded separately.",
+  "models": [
+    {
+      "name": "HX_001_SPIRAL_TREE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "GROVE",
+      "design": "SPIRAL TREE",
+      "kind": "pixel",
+      "nodes": 320,
+      "start_channel": 1,
+      "end_channel": 960,
+      "bounds_ft": [
+        [
+          -152.5,
+          14.0,
+          -63.5
+        ],
+        [
+          -121.5,
+          58.5,
+          -36.5
+        ]
+      ],
+      "submodels": [
+        "STRAND_1",
+        "STRAND_2",
+        "STRAND_3",
+        "STRAND_4",
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3968423908132752,
+      "spiral_tree": true,
+      "custom_exact": true
+    },
+    {
+      "name": "HX_002_SPIRAL_TREE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "GROVE",
+      "design": "SPIRAL TREE",
+      "kind": "pixel",
+      "nodes": 320,
+      "start_channel": 961,
+      "end_channel": 1920,
+      "bounds_ft": [
+        [
+          -135.0,
+          36.5,
+          -23.5
+        ],
+        [
+          -104.5,
+          81.0,
+          3.5
+        ]
+      ],
+      "submodels": [
+        "STRAND_1",
+        "STRAND_2",
+        "STRAND_3",
+        "STRAND_4",
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.40363123150208224,
+      "spiral_tree": true,
+      "custom_exact": true
+    },
+    {
+      "name": "HX_003_SPIRAL_TREE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "GROVE",
+      "design": "SPIRAL TREE",
+      "kind": "pixel",
+      "nodes": 320,
+      "start_channel": 1921,
+      "end_channel": 2880,
+      "bounds_ft": [
+        [
+          -82.5,
+          48.0,
+          16.5
+        ],
+        [
+          -51.5,
+          92.5,
+          43.5
+        ]
+      ],
+      "submodels": [
+        "STRAND_1",
+        "STRAND_2",
+        "STRAND_3",
+        "STRAND_4",
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3968423908132872,
+      "spiral_tree": true,
+      "custom_exact": true
+    },
+    {
+      "name": "HX_004_SPIRAL_TREE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "GROVE",
+      "design": "SPIRAL TREE",
+      "kind": "pixel",
+      "nodes": 320,
+      "start_channel": 2881,
+      "end_channel": 3840,
+      "bounds_ft": [
+        [
+          -65.0,
+          19.5,
+          -63.5
+        ],
+        [
+          -34.5,
+          64.0,
+          -36.5
+        ]
+      ],
+      "submodels": [
+        "STRAND_1",
+        "STRAND_2",
+        "STRAND_3",
+        "STRAND_4",
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.40363123150207586,
+      "spiral_tree": true,
+      "custom_exact": true
+    },
+    {
+      "name": "HX_005_SPIRAL_TREE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "GROVE",
+      "design": "SPIRAL TREE",
+      "kind": "pixel",
+      "nodes": 320,
+      "start_channel": 3841,
+      "end_channel": 4800,
+      "bounds_ft": [
+        [
+          -12.5,
+          31.0,
+          -23.5
+        ],
+        [
+          18.5,
+          75.5,
+          3.5
+        ]
+      ],
+      "submodels": [
+        "STRAND_1",
+        "STRAND_2",
+        "STRAND_3",
+        "STRAND_4",
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.39684239081328526,
+      "spiral_tree": true,
+      "custom_exact": true
+    },
+    {
+      "name": "HX_006_SPIRAL_TREE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "GROVE",
+      "design": "SPIRAL TREE",
+      "kind": "pixel",
+      "nodes": 320,
+      "start_channel": 4801,
+      "end_channel": 5760,
+      "bounds_ft": [
+        [
+          5.0,
+          53.5,
+          16.5
+        ],
+        [
+          35.5,
+          98.0,
+          43.5
+        ]
+      ],
+      "submodels": [
+        "STRAND_1",
+        "STRAND_2",
+        "STRAND_3",
+        "STRAND_4",
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.40363123150207586,
+      "spiral_tree": true,
+      "custom_exact": true
+    },
+    {
+      "name": "HX_007_SPIRAL_TREE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "GROVE",
+      "design": "SPIRAL TREE",
+      "kind": "pixel",
+      "nodes": 320,
+      "start_channel": 5761,
+      "end_channel": 6720,
+      "bounds_ft": [
+        [
+          57.5,
+          14.0,
+          -63.5
+        ],
+        [
+          88.5,
+          58.5,
+          -36.5
+        ]
+      ],
+      "submodels": [
+        "STRAND_1",
+        "STRAND_2",
+        "STRAND_3",
+        "STRAND_4",
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.39684239081328304,
+      "spiral_tree": true,
+      "custom_exact": true
+    },
+    {
+      "name": "HX_008_SPIRAL_TREE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "GROVE",
+      "design": "SPIRAL TREE",
+      "kind": "pixel",
+      "nodes": 320,
+      "start_channel": 6721,
+      "end_channel": 7680,
+      "bounds_ft": [
+        [
+          75.0,
+          36.5,
+          -23.5
+        ],
+        [
+          105.5,
+          81.0,
+          3.5
+        ]
+      ],
+      "submodels": [
+        "STRAND_1",
+        "STRAND_2",
+        "STRAND_3",
+        "STRAND_4",
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.40363123150208224,
+      "spiral_tree": true,
+      "custom_exact": true
+    },
+    {
+      "name": "HX_009_SPIRAL_TREE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "GROVE",
+      "design": "SPIRAL TREE",
+      "kind": "pixel",
+      "nodes": 320,
+      "start_channel": 7681,
+      "end_channel": 8640,
+      "bounds_ft": [
+        [
+          127.5,
+          48.0,
+          16.5
+        ],
+        [
+          158.5,
+          92.5,
+          43.5
+        ]
+      ],
+      "submodels": [
+        "STRAND_1",
+        "STRAND_2",
+        "STRAND_3",
+        "STRAND_4",
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3968423908132794,
+      "spiral_tree": true,
+      "custom_exact": true
+    },
+    {
+      "name": "HX_010_GRAVITY_SPINE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "SPINE",
+      "design": "GRAVITY SPINE",
+      "kind": "pixel",
+      "nodes": 395,
+      "start_channel": 8641,
+      "end_channel": 9825,
+      "bounds_ft": [
+        [
+          -151.5,
+          21.5,
+          -46.0
+        ],
+        [
+          141.5,
+          102.5,
+          46.0
+        ]
+      ],
+      "submodels": [
+        "STRAND_A",
+        "STRAND_B",
+        "RUNGS",
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.40634350545056785,
+      "double_helix": true
+    },
+    {
+      "name": "HX_011_GROUNDED_RING",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "GROUND",
+      "design": "GROUNDED RING",
+      "kind": "pixel",
+      "nodes": 150,
+      "start_channel": 9826,
+      "end_channel": 10275,
+      "bounds_ft": [
+        [
+          -165.0,
+          0.0,
+          -70.0
+        ],
+        [
+          165.0,
+          0.0,
+          70.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.34227856203302504
+    }
+  ],
+  "file_prefix": "Gravity_Garden",
+  "description": "Supported tilted and inverted spiral trees hang at different heights around a twisting diagonal DNA spine.",
+  "palette": [
+    "#B68AFF",
+    "#63FFC9",
+    "#FF9EE8"
+  ],
+  "groups": {
+    "HX_ALL_PIXELS": [
+      "HX_001_SPIRAL_TREE",
+      "HX_002_SPIRAL_TREE",
+      "HX_003_SPIRAL_TREE",
+      "HX_004_SPIRAL_TREE",
+      "HX_005_SPIRAL_TREE",
+      "HX_006_SPIRAL_TREE",
+      "HX_007_SPIRAL_TREE",
+      "HX_008_SPIRAL_TREE",
+      "HX_009_SPIRAL_TREE",
+      "HX_010_GRAVITY_SPINE",
+      "HX_011_GROUNDED_RING"
+    ],
+    "HX_DNA_ALL": [
+      "HX_010_GRAVITY_SPINE"
+    ],
+    "HX_DNA_RUNGS": [
+      "HX_010_GRAVITY_SPINE/RUNGS"
+    ],
+    "HX_DNA_STRAND_A": [
+      "HX_010_GRAVITY_SPINE/STRAND_A"
+    ],
+    "HX_DNA_STRAND_B": [
+      "HX_010_GRAVITY_SPINE/STRAND_B"
+    ],
+    "HX_NATIVE_CUSTOM": [
+      "HX_001_SPIRAL_TREE",
+      "HX_002_SPIRAL_TREE",
+      "HX_003_SPIRAL_TREE",
+      "HX_004_SPIRAL_TREE",
+      "HX_005_SPIRAL_TREE",
+      "HX_006_SPIRAL_TREE",
+      "HX_007_SPIRAL_TREE",
+      "HX_008_SPIRAL_TREE",
+      "HX_009_SPIRAL_TREE",
+      "HX_010_GRAVITY_SPINE",
+      "HX_011_GROUNDED_RING"
+    ],
+    "HX_SPIRALS_EAST": [
+      "HX_005_SPIRAL_TREE",
+      "HX_006_SPIRAL_TREE",
+      "HX_007_SPIRAL_TREE",
+      "HX_008_SPIRAL_TREE",
+      "HX_009_SPIRAL_TREE"
+    ],
+    "HX_SPIRALS_WEST": [
+      "HX_001_SPIRAL_TREE",
+      "HX_002_SPIRAL_TREE",
+      "HX_003_SPIRAL_TREE",
+      "HX_004_SPIRAL_TREE"
+    ],
+    "HX_SPIRAL_TREES": [
+      "HX_001_SPIRAL_TREE",
+      "HX_002_SPIRAL_TREE",
+      "HX_003_SPIRAL_TREE",
+      "HX_004_SPIRAL_TREE",
+      "HX_005_SPIRAL_TREE",
+      "HX_006_SPIRAL_TREE",
+      "HX_007_SPIRAL_TREE",
+      "HX_008_SPIRAL_TREE",
+      "HX_009_SPIRAL_TREE"
+    ],
+    "HX_WHOLE_SHOW": [
+      "HX_001_SPIRAL_TREE",
+      "HX_002_SPIRAL_TREE",
+      "HX_003_SPIRAL_TREE",
+      "HX_004_SPIRAL_TREE",
+      "HX_005_SPIRAL_TREE",
+      "HX_006_SPIRAL_TREE",
+      "HX_007_SPIRAL_TREE",
+      "HX_008_SPIRAL_TREE",
+      "HX_009_SPIRAL_TREE",
+      "HX_010_GRAVITY_SPINE",
+      "HX_011_GROUNDED_RING"
+    ],
+    "HX_ZONE_GROUND": [
+      "HX_011_GROUNDED_RING"
+    ],
+    "HX_ZONE_GROVE": [
+      "HX_001_SPIRAL_TREE",
+      "HX_002_SPIRAL_TREE",
+      "HX_003_SPIRAL_TREE",
+      "HX_004_SPIRAL_TREE",
+      "HX_005_SPIRAL_TREE",
+      "HX_006_SPIRAL_TREE",
+      "HX_007_SPIRAL_TREE",
+      "HX_008_SPIRAL_TREE",
+      "HX_009_SPIRAL_TREE"
+    ],
+    "HX_ZONE_SPINE": [
+      "HX_010_GRAVITY_SPINE"
+    ]
+  },
+  "group_count": 13,
+  "concept_id": "09",
+  "source_art": "images/09_10_Gravity_Vortex.png",
+  "source_art_side": "left",
+  "build_status": "native planning layout",
+  "source_brief": {
+    "id": "09",
+    "name": "Gravity Garden",
+    "round": "abstract",
+    "board": 5,
+    "side": "left",
+    "description": "Supported tilted and inverted spiral trees hang at different heights around a twisting diagonal DNA spine.",
+    "spatial": "Rotated tree axes, staggered suspended tiers and a grounded outer ring.",
+    "choreography": "Cascades reverse direction between tiers, creating the impression of a rotating forest.",
+    "constraint": "No levitation: support columns, tension wires and clearance are essential.",
+    "image": "images/09_10_Gravity_Vortex.png",
+    "panel_ratio": 1.0,
+    "status": "awaiting user selection"
+  },
+  "sequence_type": "24-second silent Animation study",
+  "physical_output_networks": 0,
+  "limits": [
+    "No levitation: support columns, tension wires and clearance are essential.",
+    "Artwork-guided finite geometry, not a scanned/surveyed reconstruction.",
+    "No complete music sequence or musical drummer acceptance claimed."
+  ]
+}

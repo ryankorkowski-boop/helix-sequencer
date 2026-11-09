@@ -1,0 +1,20 @@
+{
+  "checked_refs": {
+    "origin/feature/drummer-shoulder-anchors": {
+      "commit": "f0aca518f5a1dff15ab24eb8127d09cc26ea8990",
+      "conclusion": "No matched owner-approved fully modeled drummer established; current source family retains planar V3 artwork"
+    },
+    "origin/codex/band-performance-refinement-20261012": {
+      "commit": "5c78ffa1a5739f857e8ff2ed2f3e1bbd547f4710",
+      "conclusion": "No matched owner-approved fully modeled drummer established; current source family retains planar V3 artwork"
+    },
+    "origin/codex/3d-vocal-controller-review-20261016": {
+      "commit": "f8fafec4c3ad4e1495306613cc29dd0fd00e7d44",
+      "conclusion": "No matched owner-approved fully modeled drummer established; current source family retains planar V3 artwork"
+    }
+  },
+  "approved_source_document": "fixtures/band_geometry/source/README.md",
+  "documented_approved_input": "drummerbg.png; transparent event overlays",
+  "conclusion": "The inspected approved V3 source is PNG/xModel artwork; this is not proof that no other source exists elsewhere",
+  "newer_volumetric_reconstruction_substituted": false
+}

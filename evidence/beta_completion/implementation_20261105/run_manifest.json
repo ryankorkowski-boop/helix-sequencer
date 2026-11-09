@@ -1,0 +1,49 @@
+{
+  "schema": "helix.run_manifest.v1",
+  "status": "sequence_generated",
+  "warnings": [],
+  "source_commit": "aa58cc0dc1843fc32129e5489cb5cc71123b51a6",
+  "audio_sha256": "19e90c273d0d747938f24b36586b50818c104cddffbefe4a4128927374301938",
+  "sequence_file": "Phoneme_Test_Hook_Helix.xsq",
+  "source_duration_seconds": 34.879979166666665,
+  "visual_review_status": "not_reviewed",
+  "geometry_source": "models.final_band_scene.FinalBandScene / canonical_native_band",
+  "owner_approved_geometry": false,
+  "independent_backing_verified": false,
+  "visual_identity": {
+    "renderer": "xlights_house_preview",
+    "geometry_source": "models.final_band_scene.FinalBandScene",
+    "canonical_solid_3d_band": false,
+    "canonical_surface_geometry": true,
+    "owner_vocal_animation_review": "rejected_timing_reopened_20261023",
+    "owner_canonical_visual_review": "rejected_identity_reopened_20261023",
+    "limitations": [
+      "Native surface samples and stationary light poses are not continuous solid meshes",
+      "Canonical source drummer is planar artwork, as in the solid scene compositor"
+    ],
+    "performer_count": 6,
+    "optional_xylophonist": false
+  },
+  "source_worktree_dirty": true,
+  "source_module_sha256": {
+    "core/effect_engine.py": "0323996cb45fe7cd22d38a49f9eca54b80e18c4722d746530d48ba88aeccb932",
+    "core/snowman_band.py": "6da30400d33c697e18f1e007b64a9940dd8d4ff4a51b81d381677dcc33c1f06d",
+    "core/native_face_instructions.py": "26bce88ce1cdf7644a008a753f59db66f06be511da61d5b988995bd8baf99af5",
+    "xlights/xsq_writer.py": "42e325cf54ddbc8c842b1050c0b80d5fb58b1c1762ebcb277dccc65010fd8cc9",
+    "models/canonical_native_band.py": "a8e6347e478b00fae7fa2b3fbea69a3c871d043796abc8583d649ba7c00076f7",
+    "models/final_band_scene.py": "cd7120596f8058b324c3363f115154120ada7dbb8568ea1e3d68af15a99ae96c",
+    "models/final_band_native.py": "bea203ec76167fc6285c2b885cc65aab0246a79966cc84a91dc80171595ca376",
+    "tools/prepare_phoneme_show.py": "65f98c36bb2f3e5ac3037178a5fd3d7f987bca184f53ea3fca94467454c06656",
+    "tools/native_preview.py": "89628126db7266528df8ee4786729783ff6f0324c4fc0af19e131db8a1de7b3c",
+    "tools/phoneme_vocal_export.py": "9771ff09f9c7e9d641d714cfb7826e1f037799ebeb723d9193212722675b8268",
+    "tools/vocal_diagnostic.py": "8f65fd43e9f00d5b520cd0a8ca2f3e1ccdabf3feab3728ca24f8ec2f6c9f8f7a",
+    "tools/native_source_pose_band.py": "8a511a003031f593ed9957491a87e841df516f0489ccb5629dfe8d5ad7612b3a",
+    "xlights/xml_io.py": "e9084acbc1a2df0ae458f1d45c5b7cf9254c867a8a2e9637d50eeb1fa87082c3",
+    "tools/stemless_duet.py": "a38124c4e79059552bd037e7d95c155903297874773cdf83496421e5e86a55ad"
+  },
+  "vocal_cache_sha256": "30adba33d80e52d43d95796fb3e9562137a4c1b57fbe05424baa1fd5d11ea7a0",
+  "vocal_receipt_sha256": "e208faa534215776c70967872e56bcb4b749d852ed50effce3cae64c3cf13bcf",
+  "vocal_mode": "stemless_mixed_audio_estimate",
+  "sequencer_seconds": 47.21354101499992,
+  "sequencer_exit_code": 0
+}

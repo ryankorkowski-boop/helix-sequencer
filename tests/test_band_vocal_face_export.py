@@ -31,3 +31,29 @@ def test_band_demo_manifest_includes_vocal_face_export() -> None:
     assert payload["vocal_face_export"]["schema"] == "helixville4.band_vocal_face_export.v1"
     assert payload["vocal_face_export"]["effect_count"] > 0
     assert set(payload["vocal_face_export"]["performers"]) == {"singer", "female_singer"}
+
+
+def test_harmony_requires_independent_non_rest_events() -> None:
+    """Idle/body light or a lead-only demo must not count as backup singing."""
+    compiler = BandVocalFaceExportCompiler()
+    lead_only = compiler.build_manifest((
+        VocalPhonemeTiming("singer", "AH", 0.0, 0.2),
+        VocalPhonemeTiming("female_singer", "REST", 0.0, 0.2),
+    ))
+    assert not any(
+        effect["performer"] == "female_singer" and effect["phoneme"] != "REST"
+        and effect["intensity"] > 0
+        for effect in lead_only["effects"]
+    )
+    harmony = compiler.build_manifest((
+        VocalPhonemeTiming("singer", "AH", 0.0, 0.2),
+        VocalPhonemeTiming("female_singer", "OH", 0.35, 0.22),
+    ))
+    assert any(
+        effect["performer"] == "female_singer" and effect["phoneme"] != "REST"
+        and effect["intensity"] > 0 and effect["end"] > effect["start"]
+        for effect in harmony["effects"]
+    )
+    assert {effect["start"] for effect in harmony["effects"] if effect["performer"] == "singer"} != {
+        effect["start"] for effect in harmony["effects"] if effect["performer"] == "female_singer"
+    }

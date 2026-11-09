@@ -1,0 +1,32 @@
+{
+  "release_url": "https://github.com/ryankorkowski-boop/helix-sequencer/releases/tag/review-movies-2026-10-10",
+  "publication_run_id": 38050908245,
+  "publication_conclusion": "success",
+  "assets": [
+    {
+      "file": "Earlier_Layout_And_Drummer_MP4s.zip",
+      "bytes": 405628496,
+      "sha256": "52b50b007b67771501f3bc25595ef1ef6906e4586a647c8ba81874297035c7b8",
+      "github_asset_digest_matches": true,
+      "public_download_http_status": 200,
+      "url": "https://github.com/ryankorkowski-boop/helix-sequencer/releases/download/review-movies-2026-10-10/Earlier_Layout_And_Drummer_MP4s.zip"
+    },
+    {
+      "file": "All_Available_Recent_MP4s.zip",
+      "bytes": 855995646,
+      "sha256": "5816d2f07e227d328e0581726d0319339a553056e9f14da24d17f8b84cda0274",
+      "github_asset_digest_matches": true,
+      "public_download_http_status": 200,
+      "url": "https://github.com/ryankorkowski-boop/helix-sequencer/releases/download/review-movies-2026-10-10/All_Available_Recent_MP4s.zip"
+    },
+    {
+      "file": "Snowman_Band_Refined_3D_MP4s.zip",
+      "bytes": 103718403,
+      "sha256": "8ee26b0dc6d42628d2d99bd43348c14da1b1591b4c0c627babcc0e89fe341e4c",
+      "github_asset_digest_matches": true,
+      "public_download_http_status": 200,
+      "url": "https://github.com/ryankorkowski-boop/helix-sequencer/releases/download/review-movies-2026-10-10/Snowman_Band_Refined_3D_MP4s.zip"
+    }
+  ],
+  "band_zip_full_public_download_sha256_matches": true
+}

@@ -1,0 +1,14 @@
+{
+  "render_revision": 2,
+  "decoded_frames_reviewed": {
+    "idle": 0,
+    "left_cymbal_strike": 14.1,
+    "post_cymbal_hold": 14.6
+  },
+  "idle_sticks_down": true,
+  "strike_moves_only_scheduled_hand": true,
+  "cymbal_decay_does_not_hold_arm": true,
+  "hollow_face_mouth_contrast_corrected": true,
+  "geometry_and_schedule_tests": "9 passed",
+  "no_approved_newer_drummer_image_recovered": true
+}

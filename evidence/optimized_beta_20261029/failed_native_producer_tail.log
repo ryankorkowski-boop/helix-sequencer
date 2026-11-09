@@ -1,0 +1,262 @@
+TAIL ONLY. Full job:123322885983 / run40836353360
+nux2014_x86_64.manylinux_2_17_x86_64.whl.metadata (2.5 kB)
+2026-10-29T07:38:34.3359775Z Collecting glcontext>=3.0.0 (from moderngl)
+2026-10-29T07:38:34.3443568Z   Downloading glcontext-3.1.0-cp312-cp312-manylinux1_x86_64.manylinux_2_28_x86_64.manylinux_2_5_x86_64.whl.metadata (6.2 kB)
+2026-10-29T07:38:34.3636987Z Collecting pycparser (from cffi>=1.0->soundfile)
+2026-10-29T07:38:34.3710263Z   Downloading pycparser-3.12-py3-none-any.whl.metadata (9.7 kB)
+2026-10-29T07:38:34.3881211Z Collecting cloudpickle>=3.0 (from joblib>=0.14->librosa==0.10.2.post1)
+2026-10-29T07:38:34.3952833Z   Downloading cloudpickle-3.1.2-py3-none-any.whl.metadata (7.1 kB)
+2026-10-29T07:38:34.4143080Z Collecting packaging (from lazy-loader>=0.1->librosa==0.10.2.post1)
+2026-10-29T07:38:34.4213012Z   Downloading packaging-26.3-py3-none-any.whl.metadata (3.5 kB)
+2026-10-29T07:38:34.4451491Z Collecting platformdirs>=2.5.0 (from pooch>=1.1->librosa==0.10.2.post1)
+2026-10-29T07:38:34.4522137Z   Downloading platformdirs-4.14.0-py3-none-any.whl.metadata (5.4 kB)
+2026-10-29T07:38:34.6038737Z Collecting charset_normalizer<4,>=2 (from requests[socks]->gdown==6.4.2)
+2026-10-29T07:38:34.6115028Z   Downloading charset_normalizer-3.5.2-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl.metadata (46 kB)
+2026-10-29T07:38:34.6323841Z Collecting idna<4,>=2.5 (from requests[socks]->gdown==6.4.2)
+2026-10-29T07:38:34.6396445Z   Downloading idna-3.20-py3-none-any.whl.metadata (7.2 kB)
+2026-10-29T07:38:34.6617316Z Collecting certifi>=2023.5.7 (from requests[socks]->gdown==6.4.2)
+2026-10-29T07:38:34.6688610Z   Downloading certifi-2026.10.23-py3-none-any.whl.metadata (2.5 kB)
+2026-10-29T07:38:34.7079464Z Collecting narwhals>=2.0.1 (from scikit-learn>=0.20.0->librosa==0.10.2.post1)
+2026-10-29T07:38:34.7151845Z   Downloading narwhals-2.28.0-py3-none-any.whl.metadata (15 kB)
+2026-10-29T07:38:34.7319277Z Collecting threadpoolctl>=3.5.0 (from scikit-learn>=0.20.0->librosa==0.10.2.post1)
+2026-10-29T07:38:34.7390102Z   Downloading threadpoolctl-3.7.0-py3-none-any.whl.metadata (24 kB)
+2026-10-29T07:38:34.7623661Z Collecting soupsieve>=1.6.1 (from beautifulsoup4->gdown==6.4.2)
+2026-10-29T07:38:34.7691875Z   Downloading soupsieve-3.0.4-py3-none-any.whl.metadata (4.4 kB)
+2026-10-29T07:38:34.7864297Z Collecting PySocks!=1.5.7,>=1.5.6 (from requests[socks]->gdown==6.4.2)
+2026-10-29T07:38:34.7933441Z   Downloading PySocks-1.7.1-py3-none-any.whl.metadata (13 kB)
+2026-10-29T07:38:34.8066607Z Downloading librosa-0.10.2.post1-py3-none-any.whl (260 kB)
+2026-10-29T07:38:34.8371998Z Downloading gdown-6.4.2-py3-none-any.whl (50 kB)
+2026-10-29T07:38:34.8479963Z Downloading numpy-2.5.4-cp312-cp312-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl (16.7 MB)
+2026-10-29T07:38:35.1436203Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 16.7/16.7 MB 59.8 MB/s  0:00:00
+2026-10-29T07:38:35.1507341Z Downloading scipy-1.18.1-cp312-cp312-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl (35.3 MB)
+2026-10-29T07:38:35.3048111Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 35.3/35.3 MB 231.6 MB/s  0:00:00
+2026-10-29T07:38:35.3121644Z Downloading soundfile-0.14.0-py2.py3-none-manylinux_2_28_x86_64.whl (1.3 MB)
+2026-10-29T07:38:35.3218634Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 1.3/1.3 MB 164.0 MB/s  0:00:00
+2026-10-29T07:38:35.3308967Z Downloading numba-0.68.1-cp312-cp312-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl (3.9 MB)
+2026-10-29T07:38:35.3476823Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 3.9/3.9 MB 249.6 MB/s  0:00:00
+2026-10-29T07:38:35.3550287Z Downloading llvmlite-0.50.0-cp312-cp312-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl (59.7 MB)
+2026-10-29T07:38:35.6675711Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 59.7/59.7 MB 193.7 MB/s  0:00:00
+2026-10-29T07:38:35.6753715Z Downloading pillow-13.0.0-cp312-cp312-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl (7.1 MB)
+2026-10-29T07:38:35.7001774Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 7.1/7.1 MB 318.3 MB/s  0:00:00
+2026-10-29T07:38:35.7080803Z Downloading trimesh-5.2.0-py3-none-any.whl (751 kB)
+2026-10-29T07:38:35.7230943Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 751.5/751.5 kB 53.5 MB/s  0:00:00
+2026-10-29T07:38:35.7325273Z Downloading moderngl-5.13.0-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl (305 kB)
+2026-10-29T07:38:35.7420832Z Downloading zstandard-0.25.0-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.whl (5.5 MB)
+2026-10-29T07:38:35.7604536Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 5.5/5.5 MB 340.3 MB/s  0:00:00
+2026-10-29T07:38:35.7677183Z Downloading imageio-2.38.1-py3-none-any.whl (328 kB)
+2026-10-29T07:38:35.7772796Z Downloading imageio_ffmpeg-0.7.0-py3-none-manylinux2014_x86_64.whl (29.5 MB)
+2026-10-29T07:38:35.9386886Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 29.5/29.5 MB 184.7 MB/s  0:00:00
+2026-10-29T07:38:35.9459817Z Downloading audioread-3.1.0-py3-none-any.whl (23 kB)
+2026-10-29T07:38:35.9547797Z Downloading cffi-2.1.1-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.whl (221 kB)
+2026-10-29T07:38:35.9637226Z Downloading decorator-5.3.1-py3-none-any.whl (10 kB)
+2026-10-29T07:38:35.9746908Z Downloading glcontext-3.1.0-cp312-cp312-manylinux1_x86_64.manylinux_2_28_x86_64.manylinux_2_5_x86_64.whl (47 kB)
+2026-10-29T07:38:35.9832738Z Downloading joblib-1.6.0-py3-none-any.whl (306 kB)
+2026-10-29T07:38:35.9927505Z Downloading cloudpickle-3.1.2-py3-none-any.whl (22 kB)
+2026-10-29T07:38:36.0012434Z Downloading lazy_loader-0.6-py3-none-any.whl (8.8 kB)
+2026-10-29T07:38:36.0185206Z Downloading msgpack-1.2.4-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl (475 kB)
+2026-10-29T07:38:36.0298117Z Downloading pooch-1.9.0-py3-none-any.whl (67 kB)
+2026-10-29T07:38:36.0388044Z Downloading packaging-26.3-py3-none-any.whl (129 kB)
+2026-10-29T07:38:36.0476861Z Downloading platformdirs-4.14.0-py3-none-any.whl (35 kB)
+2026-10-29T07:38:36.0561601Z Downloading requests-2.34.2-py3-none-any.whl (73 kB)
+2026-10-29T07:38:36.0652921Z Downloading charset_normalizer-3.5.2-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl (257 kB)
+2026-10-29T07:38:36.0749076Z Downloading idna-3.20-py3-none-any.whl (69 kB)
+2026-10-29T07:38:36.0838507Z Downloading urllib3-2.8.0-py3-none-any.whl (135 kB)
+2026-10-29T07:38:36.0926918Z Downloading certifi-2026.10.23-py3-none-any.whl (135 kB)
+2026-10-29T07:38:36.1019417Z Downloading scikit_learn-1.9.1-cp312-cp312-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl (9.2 MB)
+2026-10-29T07:38:36.1302728Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 9.2/9.2 MB 347.8 MB/s  0:00:00
+2026-10-29T07:38:36.1374635Z Downloading narwhals-2.28.0-py3-none-any.whl (490 kB)
+2026-10-29T07:38:36.1473349Z Downloading soxr-1.1.0-cp312-abi3-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl (240 kB)
+2026-10-29T07:38:36.1571634Z Downloading threadpoolctl-3.7.0-py3-none-any.whl (26 kB)
+2026-10-29T07:38:36.1665599Z Downloading typing_extensions-4.16.0-py3-none-any.whl (45 kB)
+2026-10-29T07:38:36.1761466Z Downloading beautifulsoup4-4.15.0-py3-none-any.whl (109 kB)
+2026-10-29T07:38:36.1901752Z Downloading soupsieve-3.0.4-py3-none-any.whl (42 kB)
+2026-10-29T07:38:36.2324907Z Downloading filelock-4.2.4-py3-none-any.whl (162 kB)
+2026-10-29T07:38:36.3941019Z Downloading pycparser-3.12-py3-none-any.whl (62 kB)
+2026-10-29T07:38:36.4029694Z Downloading PySocks-1.7.1-py3-none-any.whl (16 kB)
+2026-10-29T07:38:36.4114892Z Downloading tqdm-4.70.1-py3-none-any.whl (80 kB)
+2026-10-29T07:38:36.9892456Z Installing collected packages: glcontext, zstandard, urllib3, typing-extensions, tqdm, threadpoolctl, soupsieve, PySocks, pycparser, platformdirs, Pillow, packaging, numpy, narwhals, msgpack, moderngl, llvmlite, imageio-ffmpeg, idna, filelock, decorator, cloudpickle, charset_normalizer, certifi, audioread, trimesh, soxr, scipy, requests, numba, lazy-loader, joblib, imageio, cffi, beautifulsoup4, soundfile, scikit-learn, pooch, librosa, gdown
+2026-10-29T07:38:52.1010691Z 
+2026-10-29T07:38:52.1046797Z Successfully installed Pillow-13.0.0 PySocks-1.7.1 audioread-3.1.0 beautifulsoup4-4.15.0 certifi-2026.10.23 cffi-2.1.1 charset_normalizer-3.5.2 cloudpickle-3.1.2 decorator-5.3.1 filelock-4.2.4 gdown-6.4.2 glcontext-3.1.0 idna-3.20 imageio-2.38.1 imageio-ffmpeg-0.7.0 joblib-1.6.0 lazy-loader-0.6 librosa-0.10.2.post1 llvmlite-0.50.0 moderngl-5.13.0 msgpack-1.2.4 narwhals-2.28.0 numba-0.68.1 numpy-2.5.4 packaging-26.3 platformdirs-4.14.0 pooch-1.9.0 pycparser-3.12 requests-2.34.2 scikit-learn-1.9.1 scipy-1.18.1 soundfile-0.14.0 soupsieve-3.0.4 soxr-1.1.0 threadpoolctl-3.7.0 tqdm-4.70.1 trimesh-5.2.0 typing-extensions-4.16.0 urllib3-2.8.0 zstandard-0.25.0
+2026-10-29T07:38:52.2708811Z ##[group]Run mkdir -p "$RUNNER_TEMP/real-source"
+2026-10-29T07:38:52.2709289Z [36;1mmkdir -p "$RUNNER_TEMP/real-source"[0m
+2026-10-29T07:38:52.2709731Z [36;1m# Transient Drive download throttling must not silently block a render.[0m
+2026-10-29T07:38:52.2710248Z [36;1m# Never substitute another audio file: the exact SHA256 is mandatory.[0m
+2026-10-29T07:38:52.2710638Z [36;1msource_ok=0[0m
+2026-10-29T07:38:52.2710874Z [36;1mfor attempt in 1 2 3; do[0m
+2026-10-29T07:38:52.2711159Z [36;1m  rm -f "$RUNNER_TEMP/original.zip"[0m
+2026-10-29T07:38:52.2711578Z [36;1m  if python -m gdown "$ARCHIVE_ID" -O "$RUNNER_TEMP/original.zip" && \[0m
+2026-10-29T07:38:52.2712105Z [36;1m     echo "$ARCHIVE_SHA256  $RUNNER_TEMP/original.zip" | sha256sum -c -; then[0m
+2026-10-29T07:38:52.2712499Z [36;1m    source_ok=1[0m
+2026-10-29T07:38:52.2712728Z [36;1m    break[0m
+2026-10-29T07:38:52.2712937Z [36;1m  fi[0m
+2026-10-29T07:38:52.2713564Z [36;1m  echo "::warning::Original source archive download/identity check failed (attempt $attempt/3)"[0m
+2026-10-29T07:38:52.2714494Z [36;1m  if [ "$attempt" -lt 3 ]; then sleep $((attempt * 15)); fi[0m
+2026-10-29T07:38:52.2714833Z [36;1mdone[0m
+2026-10-29T07:38:52.2715053Z [36;1mif [ "$source_ok" -ne 1 ]; then[0m
+2026-10-29T07:38:52.2715637Z [36;1m  echo "::error::Exact original archive is inaccessible or SHA256 mismatched. Check Drive sharing/quota; refusing substitute media."[0m
+2026-10-29T07:38:52.2716199Z [36;1m  exit 1[0m
+2026-10-29T07:38:52.2716405Z [36;1mfi[0m
+2026-10-29T07:38:52.2716621Z [36;1mpython - <<'PY'[0m
+2026-10-29T07:38:52.2716877Z [36;1mimport os,json,zipfile,hashlib[0m
+2026-10-29T07:38:52.2717166Z [36;1mfrom pathlib import Path[0m
+2026-10-29T07:38:52.2717455Z [36;1mtemp=Path(os.environ['RUNNER_TEMP'])[0m
+2026-10-29T07:38:52.2717801Z [36;1mwith zipfile.ZipFile(temp/'original.zip') as z:[0m
+2026-10-29T07:38:52.2718138Z [36;1m    for info in z.infolist():[0m
+2026-10-29T07:38:52.2718443Z [36;1m        parts=Path(info.filename)[0m
+2026-10-29T07:38:52.2718878Z [36;1m        if parts.is_absolute() or '..' in parts.parts or info.file_size > 2*1024**3:[0m
+2026-10-29T07:38:52.2719393Z [36;1m            raise SystemExit('Source archive contains an unsafe member')[0m
+2026-10-29T07:38:52.2719802Z [36;1m    z.extractall(temp/'real-source')[0m
+2026-10-29T07:38:52.2720246Z [36;1mmanifests=list((temp/'real-source').rglob('sources/selected_excerpts.json'))[0m
+2026-10-29T07:38:52.2720673Z [36;1mif len(manifests)!=1:[0m
+2026-10-29T07:38:52.2721070Z [36;1m    raise SystemExit('Exactly one sources/selected_excerpts.json required')[0m
+2026-10-29T07:38:52.2721498Z [36;1mroot=manifests[0].parent.parent[0m
+2026-10-29T07:38:52.2721816Z [36;1mrows=json.loads(manifests[0].read_text())[0m
+2026-10-29T07:38:52.2722176Z [36;1mif not any(x.get('excerpt_id')=='E14' for x in rows):[0m
+2026-10-29T07:38:52.2722618Z [36;1m    raise SystemExit('E14 absent from original source manifest')[0m
+2026-10-29T07:38:52.2723014Z [36;1maudio=root/'sources/E14/audio.wav'[0m
+2026-10-29T07:38:52.2723326Z [36;1mexpected=os.environ['AUDIO_SHA256'][0m
+2026-10-29T07:38:52.2723761Z [36;1mif not audio.is_file() or hashlib.sha256(audio.read_bytes()).hexdigest()!=expected:[0m
+2026-10-29T07:38:52.2724416Z [36;1m    raise SystemExit('Original E14 WAV absent or digest mismatch')[0m
+2026-10-29T07:38:52.2724903Z [36;1mproof=json.loads((root/'analysis/E14/verification.json').read_text())[0m
+2026-10-29T07:38:52.2725322Z [36;1mif proof.get('source_sha256')!=expected:[0m
+2026-10-29T07:38:52.2725771Z [36;1m    raise SystemExit('Retained instrument analysis does not belong to original WAV')[0m
+2026-10-29T07:38:52.2726300Z [36;1mvocals=json.loads((root/'analysis/E14/vocals.json').read_text())[0m
+2026-10-29T07:38:52.2726688Z [36;1mif vocals.get('audio_sha256')!=expected:[0m
+2026-10-29T07:38:52.2727113Z [36;1m    raise SystemExit('Retained vocal analysis does not belong to original WAV')[0m
+2026-10-29T07:38:52.2727877Z [36;1mfor relative in ('sources/E14/drummer.xsq','analysis/E14/performance_curves.npz',[0m
+2026-10-29T07:38:52.2728438Z [36;1m                 'analysis/E14/pitched_roles.json','analysis/E14/voice_roles.npz'):[0m
+2026-10-29T07:38:52.2728856Z [36;1m    if not (root/relative).is_file():[0m
+2026-10-29T07:38:52.2729265Z [36;1m        raise SystemExit('Original analysis package incomplete: '+relative)[0m
+2026-10-29T07:38:52.2729718Z [36;1mwith open(os.environ['GITHUB_ENV'],'a') as out:[0m
+2026-10-29T07:38:52.2730061Z [36;1m    out.write('SOURCE_ROOT='+str(root)+'\n')[0m
+2026-10-29T07:38:52.2730483Z [36;1mprint('Verified E14 original audio and retained source analysis:',expected)[0m
+2026-10-29T07:38:52.2730876Z [36;1mPY[0m
+2026-10-29T07:38:52.2753277Z shell: /usr/bin/bash -e {0}
+2026-10-29T07:38:52.2753547Z env:
+2026-10-29T07:38:52.2753847Z   HELIX_SOURCE_COMMIT: 76c0176d3c2c3776d5f9e9abd5e98c004f379021
+2026-10-29T07:38:52.2754509Z   ARCHIVE_ID: 1XZTghW96Adc27iL4b_7Vi8kBJQzLCM1j
+2026-10-29T07:38:52.2755165Z   ARCHIVE_SHA256: 604107acea8e57e8e5436b6bcbcb6f584806a4bed3a85679f72295d340c37b10
+2026-10-29T07:38:52.2755711Z   AUDIO_SHA256: 8905fcaf105faf5016608517cf2d8a798d1809d8e615f1d4f5bca58e0c0b1171
+2026-10-29T07:38:52.2756112Z   XL_NO_GPU_COMPUTE: 1
+2026-10-29T07:38:52.2756358Z   HELIX_NATIVE_PREVIEW_WIDTH: 1920
+2026-10-29T07:38:52.2756634Z   HELIX_NATIVE_PREVIEW_HEIGHT: 1080
+2026-10-29T07:38:52.2756895Z   OMP_NUM_THREADS: 2
+2026-10-29T07:38:52.2757187Z   pythonLocation: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-10-29T07:38:52.2757613Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.12.15/x64/lib/pkgconfig
+2026-10-29T07:38:52.2758042Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-10-29T07:38:52.2758418Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-10-29T07:38:52.2758789Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-10-29T07:38:52.2759162Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.12.15/x64/lib
+2026-10-29T07:38:52.2759495Z ##[endgroup]
+2026-10-29T07:38:54.2577306Z Downloading...
+2026-10-29T07:38:54.2577827Z From: https://drive.google.com/uc?id=1XZTghW96Adc27iL4b_7Vi8kBJQzLCM1j
+2026-10-29T07:38:54.2578264Z To: /home/runner/work/_temp/original.zip
+2026-10-29T07:38:54.3242661Z 
+2026-10-29T07:38:54.3857411Z   0%|          | 0.00/6.41M [00:00<?, ?B/s]
+2026-10-29T07:38:54.3858311Z 100%|██████████| 6.41M/6.41M [00:00<00:00, 105MB/s]
+2026-10-29T07:38:54.4265173Z /home/runner/work/_temp/original.zip: OK
+2026-10-29T07:38:54.5149607Z Verified E14 original audio and retained source analysis: 8905fcaf105faf5016608517cf2d8a798d1809d8e615f1d4f5bca58e0c0b1171
+2026-10-29T07:38:54.5248966Z ##[group]Run python -m tools.verify_native_vocal_source "$SOURCE_ROOT/sources/E14/audio.wav" "$SOURCE_ROOT/analysis/E14" --report review/SOURCE_VOCAL_PREFLIGHT.json
+2026-10-29T07:38:54.5250041Z [36;1mpython -m tools.verify_native_vocal_source "$SOURCE_ROOT/sources/E14/audio.wav" "$SOURCE_ROOT/analysis/E14" --report review/SOURCE_VOCAL_PREFLIGHT.json[0m
+2026-10-29T07:38:54.5272448Z shell: /usr/bin/bash -e {0}
+2026-10-29T07:38:54.5272707Z env:
+2026-10-29T07:38:54.5272999Z   HELIX_SOURCE_COMMIT: 76c0176d3c2c3776d5f9e9abd5e98c004f379021
+2026-10-29T07:38:54.5273389Z   ARCHIVE_ID: 1XZTghW96Adc27iL4b_7Vi8kBJQzLCM1j
+2026-10-29T07:38:54.5273833Z   ARCHIVE_SHA256: 604107acea8e57e8e5436b6bcbcb6f584806a4bed3a85679f72295d340c37b10
+2026-10-29T07:38:54.5274640Z   AUDIO_SHA256: 8905fcaf105faf5016608517cf2d8a798d1809d8e615f1d4f5bca58e0c0b1171
+2026-10-29T07:38:54.5275037Z   XL_NO_GPU_COMPUTE: 1
+2026-10-29T07:38:54.5275275Z   HELIX_NATIVE_PREVIEW_WIDTH: 1920
+2026-10-29T07:38:54.5275581Z   HELIX_NATIVE_PREVIEW_HEIGHT: 1080
+2026-10-29T07:38:54.5275840Z   OMP_NUM_THREADS: 2
+2026-10-29T07:38:54.5276125Z   pythonLocation: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-10-29T07:38:54.5276547Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.12.15/x64/lib/pkgconfig
+2026-10-29T07:38:54.5276963Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-10-29T07:38:54.5277345Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-10-29T07:38:54.5277722Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-10-29T07:38:54.5278100Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.12.15/x64/lib
+2026-10-29T07:38:54.5278462Z   SOURCE_ROOT: /home/runner/work/_temp/real-source
+2026-10-29T07:38:54.5278759Z ##[endgroup]
+2026-10-29T07:38:54.6798192Z {
+2026-10-29T07:38:54.6798574Z   "passed": false,
+2026-10-29T07:38:54.6799701Z   "error": "Full-band source lacks independently resolved lead and backing vocal tracks; supply source-bound vocal analysis instead of repeating the silent-harmony render"
+2026-10-29T07:38:54.6800764Z }
+2026-10-29T07:38:54.6978028Z ##[error]Process completed with exit code 1.
+2026-10-29T07:38:54.7109528Z ##[group]Run actions/upload-artifact@v4
+2026-10-29T07:38:54.7109828Z with:
+2026-10-29T07:38:54.7110106Z   name: helix-fresh-original-audio-six-snowmen-keyboard
+2026-10-29T07:38:54.7112427Z   path: xlights-native-build.log
+native-runtime-libraries.log
+review/**/preview.mp4
+review/**/Performance.fseq
+review/SHOWCASE_READABILITY.json
+review/show/media/audio.wav
+review/**/native_headless.log
+review/**/native_gui.log
+review/**/native_startup_windows.json
+review/**/native_startup_health.json
+review/**/native_startup_profile.json
+review/**/native_window_geometry.txt
+review/**/native_canvas_resize.json
+review/**/native_channels.json
+review/show/Performance.xsq
+review/show/xlights_rgbeffects.xml
+review/show/pose_provenance.json
+review/show/run_manifest.json
+review/source-identity.json
+review/SOURCE_VOCAL_PREFLIGHT.json
+review/PROVENANCE.json
+
+2026-10-29T07:38:54.7115023Z   if-no-files-found: warn
+2026-10-29T07:38:54.7115272Z   retention-days: 14
+2026-10-29T07:38:54.7115529Z   compression-level: 6
+2026-10-29T07:38:54.7115754Z   overwrite: false
+2026-10-29T07:38:54.7115977Z   include-hidden-files: false
+2026-10-29T07:38:54.7116218Z env:
+2026-10-29T07:38:54.7116484Z   HELIX_SOURCE_COMMIT: 76c0176d3c2c3776d5f9e9abd5e98c004f379021
+2026-10-29T07:38:54.7116873Z   ARCHIVE_ID: 1XZTghW96Adc27iL4b_7Vi8kBJQzLCM1j
+2026-10-29T07:38:54.7117335Z   ARCHIVE_SHA256: 604107acea8e57e8e5436b6bcbcb6f584806a4bed3a85679f72295d340c37b10
+2026-10-29T07:38:54.7117884Z   AUDIO_SHA256: 8905fcaf105faf5016608517cf2d8a798d1809d8e615f1d4f5bca58e0c0b1171
+2026-10-29T07:38:54.7118281Z   XL_NO_GPU_COMPUTE: 1
+2026-10-29T07:38:54.7118527Z   HELIX_NATIVE_PREVIEW_WIDTH: 1920
+2026-10-29T07:38:54.7118800Z   HELIX_NATIVE_PREVIEW_HEIGHT: 1080
+2026-10-29T07:38:54.7119059Z   OMP_NUM_THREADS: 2
+2026-10-29T07:38:54.7119347Z   pythonLocation: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-10-29T07:38:54.7119773Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.12.15/x64/lib/pkgconfig
+2026-10-29T07:38:54.7120194Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-10-29T07:38:54.7120570Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-10-29T07:38:54.7120952Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-10-29T07:38:54.7121329Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.12.15/x64/lib
+2026-10-29T07:38:54.7121696Z   SOURCE_ROOT: /home/runner/work/_temp/real-source
+2026-10-29T07:38:54.7121990Z ##[endgroup]
+2026-10-29T07:38:54.8945393Z (node:4358) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+2026-10-29T07:38:54.8946952Z (Use `node --trace-deprecation ...` to show where the warning was created)
+2026-10-29T07:38:54.9031023Z Multiple search paths detected. Calculating the least common ancestor of all paths
+2026-10-29T07:38:54.9040355Z The least common ancestor is /home/runner/work/helix-sequencer/helix-sequencer. This will be the root directory of the artifact
+2026-10-29T07:38:54.9045818Z With the provided path, there will be 1 file uploaded
+2026-10-29T07:38:54.9047059Z Artifact name is valid!
+2026-10-29T07:38:54.9047624Z Root directory input is valid!
+2026-10-29T07:38:55.1495302Z Beginning upload of artifact content to blob storage
+2026-10-29T07:38:55.1685382Z (node:4358) [DEP0169] DeprecationWarning: `url.parse()` behavior is not standardized and prone to errors that have security implications. Use the WHATWG URL API instead. CVEs are not issued for `url.parse()` vulnerabilities.
+2026-10-29T07:38:55.2202136Z Uploaded bytes 321
+2026-10-29T07:38:55.2455843Z Finished uploading artifact content to blob storage!
+2026-10-29T07:38:55.2456848Z SHA256 digest of uploaded artifact zip is 4961bcd2499cc479dbb0bc6dbc5506d36ddc7ac8d9c19e828dc32c6c4a972c25
+2026-10-29T07:38:55.2458440Z Finalizing artifact upload
+2026-10-29T07:38:55.6970474Z Artifact helix-fresh-original-audio-six-snowmen-keyboard.zip successfully finalized. Artifact ID 12880718550
+2026-10-29T07:38:55.6972278Z Artifact helix-fresh-original-audio-six-snowmen-keyboard has been successfully uploaded! Final size is 321 bytes. Artifact ID is 12880718550
+2026-10-29T07:38:55.6979716Z Artifact download URL: https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/40836353360/artifacts/12880718550
+2026-10-29T07:38:55.7222938Z Post job cleanup.
+2026-10-29T07:38:55.8154876Z [command]/usr/bin/git version
+2026-10-29T07:38:55.8200805Z git version 2.56.0
+2026-10-29T07:38:55.8238904Z Temporarily overriding HOME='/home/runner/work/_temp/99f0ea8d-84e2-4888-aa76-4eb2e70d6098' before making global git config changes
+2026-10-29T07:38:55.8240556Z Adding repository directory to the temporary git global config as a safe directory
+2026-10-29T07:38:55.8244958Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/helix-sequencer/helix-sequencer
+2026-10-29T07:38:55.8290318Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-10-29T07:38:55.8332671Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-10-29T07:38:55.8631033Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-10-29T07:38:55.8664307Z http.https://github.com/.extraheader
+2026-10-29T07:38:55.8678125Z [command]/usr/bin/git config --local --unset-all http.https://github.com/.extraheader
+2026-10-29T07:38:55.8724187Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-10-29T07:38:55.9049129Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-10-29T07:38:55.9100290Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-10-29T07:38:55.9582238Z Cleaning up orphan processes
+2026-10-29T07:38:56.0008956Z ##[warning]Node.js 20 is deprecated. The following actions target Node.js 20 but are being forced to run on Node.js 24: actions/checkout@v4, actions/setup-python@v5, actions/upload-artifact@v4. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/

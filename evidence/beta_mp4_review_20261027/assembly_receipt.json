@@ -1,0 +1,522 @@
+{
+  "schema": "helix.native-review-assembly.v1",
+  "source_commit": "a72559517610347afb911a081ab5ca1746da22bb",
+  "movies": [
+    {
+      "filename": "01_Snowman_Band_Review.mp4",
+      "bytes": 1698381,
+      "sha256": "0f1644bd2757085b2672e9968d3f7fe0ac9dfb2378e3de9925e6e2e8aa81e925",
+      "source": {
+        "filename": "01_Snowman_Band_Review.mp4",
+        "title": "Helix - Snowman Band - Native Performance",
+        "audio": "/workspace/scratch/ec314907d82d/review-vocal-qualified-sampler/Helix_Starred_New_Review.wav",
+        "audio_sha256": "9ff4606afbefe536120335088f5865da1581e75f113f9f2fa62acd8fd9a44ef4",
+        "duration": 30,
+        "sources": [
+          {
+            "video": "/workspace/scratch/ec314907d82d/resume-band-show/native-preview-awgckhi4/preview.mp4",
+            "video_sha256": "3b0e77e3e01f9b290fa7eb2c8940541afcf54c94ac30db98d8ff0b89ba5d22b4",
+            "gamma": 1.6,
+            "title": ""
+          }
+        ],
+        "kind": "single"
+      },
+      "ffmpeg_command": [
+        "ffmpeg",
+        "-v",
+        "error",
+        "-nostdin",
+        "-y",
+        "-filter_threads",
+        "2",
+        "-filter_complex_threads",
+        "2",
+        "-i",
+        "/workspace/scratch/ec314907d82d/resume-band-show/native-preview-awgckhi4/preview.mp4",
+        "-i",
+        "/workspace/scratch/ec314907d82d/review-vocal-qualified-sampler/Helix_Starred_New_Review.wav",
+        "-map",
+        "0:v:0",
+        "-map",
+        "1:a:0",
+        "-vf",
+        "scale=1280:720:flags=lanczos,setsar=1,format=gbrp,lutrgb=r='min(255,pow(val/255,1/1.6)*255*1.0)':g='min(255,pow(val/255,1/1.6)*255*1.0)':b='min(255,pow(val/255,1/1.6)*255*1.0)',format=yuv420p,drawtext=fontfile=/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf:text='Helix - Snowman Band - Native Performance':fontcolor=white:fontsize=26:x=(w-tw)/2:y=24:box=1:boxcolor=black@0.65:boxborderw=8",
+        "-t",
+        "30.0",
+        "-c:v",
+        "libx264",
+        "-threads",
+        "4",
+        "-preset",
+        "fast",
+        "-crf",
+        "21",
+        "-pix_fmt",
+        "yuv420p",
+        "-r",
+        "20",
+        "-c:a",
+        "aac",
+        "-b:a",
+        "192k",
+        "-movflags",
+        "+faststart",
+        "../HELIX_MP4_REVIEW/01_Snowman_Band_Review.encoding.mp4"
+      ],
+      "visual_acceptance": false
+    },
+    {
+      "filename": "02_Lead_and_Harmony_Vocals.mp4",
+      "bytes": 1442880,
+      "sha256": "f8bcfca1f160aa1889887f627afaf342ddad75ddf0d29f49ee34f6acc6b69540",
+      "source": {
+        "filename": "02_Lead_and_Harmony_Vocals.mp4",
+        "title": "Helix - Lead and Harmony - Vocal Candidates",
+        "audio": "/workspace/scratch/ec314907d82d/review-vocal-qualified-sampler/Helix_Starred_New_Review.wav",
+        "audio_sha256": "9ff4606afbefe536120335088f5865da1581e75f113f9f2fa62acd8fd9a44ef4",
+        "duration": 30,
+        "sources": [
+          {
+            "video": "/workspace/scratch/ec314907d82d/resume-features/02_Vocal_Closeup/native-preview-i05oemgu/preview.mp4",
+            "video_sha256": "f03bdb33edb618f48954125b0ccd38a1c44c6c71681da2465450fdd85dfb30b1",
+            "gamma": 1.8,
+            "title": ""
+          }
+        ],
+        "kind": "vocal_duo",
+        "face_crops": [
+          [
+            580,
+            580,
+            200,
+            240
+          ],
+          [
+            580,
+            580,
+            1230,
+            240
+          ]
+        ]
+      },
+      "ffmpeg_command": [
+        "ffmpeg",
+        "-v",
+        "error",
+        "-nostdin",
+        "-y",
+        "-filter_threads",
+        "2",
+        "-filter_complex_threads",
+        "2",
+        "-i",
+        "/workspace/scratch/ec314907d82d/resume-features/02_Vocal_Closeup/native-preview-i05oemgu/preview.mp4",
+        "-i",
+        "/workspace/scratch/ec314907d82d/review-vocal-qualified-sampler/Helix_Starred_New_Review.wav",
+        "-filter_complex",
+        "[0:v]split=2[a][b];[a]crop=580:580:200:240,scale=640:640:flags=lanczos,setsar=1,format=gbrp,lutrgb=r='min(255,pow(val/255,1/1.8)*255*1.0)':g='min(255,pow(val/255,1/1.8)*255*1.0)':b='min(255,pow(val/255,1/1.8)*255*1.0)',format=yuv420p[lead];[b]crop=580:580:1230:240,scale=640:640:flags=lanczos,setsar=1,format=gbrp,lutrgb=r='min(255,pow(val/255,1/1.8)*255*1.0)':g='min(255,pow(val/255,1/1.8)*255*1.0)':b='min(255,pow(val/255,1/1.8)*255*1.0)',format=yuv420p[harmony];[lead][harmony]hstack,pad=1280:720:0:72:black,drawtext=fontfile=/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf:text='Helix - Lead and Harmony - Vocal Candidates':fontcolor=white:fontsize=24:x=(w-tw)/2:y=12:box=1:boxcolor=black@0.65:boxborderw=8,drawtext=fontfile=/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf:text='Lead':fontcolor=white:fontsize=23:x=290:y=44:box=1:boxcolor=black@0.65:boxborderw=8,drawtext=fontfile=/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf:text='Harmony':fontcolor=white:fontsize=23:x=910:y=44:box=1:boxcolor=black@0.65:boxborderw=8[out]",
+        "-map",
+        "[out]",
+        "-map",
+        "1:a:0",
+        "-t",
+        "30.0",
+        "-c:v",
+        "libx264",
+        "-threads",
+        "4",
+        "-preset",
+        "fast",
+        "-crf",
+        "21",
+        "-pix_fmt",
+        "yuv420p",
+        "-r",
+        "20",
+        "-c:a",
+        "aac",
+        "-b:a",
+        "192k",
+        "-movflags",
+        "+faststart",
+        "../HELIX_MP4_REVIEW/02_Lead_and_Harmony_Vocals.encoding.mp4"
+      ],
+      "visual_acceptance": false
+    },
+    {
+      "filename": "03_Drummer_V3_Performance.mp4",
+      "bytes": 3564811,
+      "sha256": "977611c069d0197869c42d7609b66279a885d40b6cf332ba1d8a856b33783991",
+      "source": {
+        "filename": "03_Drummer_V3_Performance.mp4",
+        "title": "Helix - Original V3 Source Art - Tinsel Tornado",
+        "audio": "/workspace/scratch/ec314907d82d/resume-features/03_Drummer_Articulation/media/Tinsel_Tornado_Articulation_30s.wav",
+        "audio_sha256": "8a227a8f1392847bd508c80e7f53769649e896b1c7a9e665b90dc9924ebd5925",
+        "duration": 30,
+        "sources": [
+          {
+            "video": "/workspace/scratch/ec314907d82d/resume-features/03_Drummer_Articulation/native-preview-_8twaejc/preview.mp4",
+            "video_sha256": "2aa39298627cc7dfd7696a1cbda6d4c277e48fc8958a90ae0c0fff6a2475dc32",
+            "gamma": 3,
+            "title": "",
+            "crop": [
+              1344,
+              756,
+              288,
+              100
+            ]
+          }
+        ],
+        "kind": "single"
+      },
+      "ffmpeg_command": [
+        "ffmpeg",
+        "-v",
+        "error",
+        "-nostdin",
+        "-y",
+        "-filter_threads",
+        "2",
+        "-filter_complex_threads",
+        "2",
+        "-i",
+        "/workspace/scratch/ec314907d82d/resume-features/03_Drummer_Articulation/native-preview-_8twaejc/preview.mp4",
+        "-i",
+        "/workspace/scratch/ec314907d82d/resume-features/03_Drummer_Articulation/media/Tinsel_Tornado_Articulation_30s.wav",
+        "-map",
+        "0:v:0",
+        "-map",
+        "1:a:0",
+        "-vf",
+        "crop=1344:756:288:100,scale=1280:720:flags=lanczos,setsar=1,format=gbrp,lutrgb=r='min(255,pow(val/255,1/3.0)*255*1.0)':g='min(255,pow(val/255,1/3.0)*255*1.0)':b='min(255,pow(val/255,1/3.0)*255*1.0)',format=yuv420p,drawtext=fontfile=/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf:text='Helix - Original V3 Source Art - Tinsel Tornado':fontcolor=white:fontsize=26:x=(w-tw)/2:y=24:box=1:boxcolor=black@0.65:boxborderw=8",
+        "-t",
+        "30.0",
+        "-c:v",
+        "libx264",
+        "-threads",
+        "4",
+        "-preset",
+        "fast",
+        "-crf",
+        "21",
+        "-pix_fmt",
+        "yuv420p",
+        "-r",
+        "20",
+        "-c:a",
+        "aac",
+        "-b:a",
+        "192k",
+        "-movflags",
+        "+faststart",
+        "../HELIX_MP4_REVIEW/03_Drummer_V3_Performance.encoding.mp4"
+      ],
+      "visual_acceptance": false
+    },
+    {
+      "filename": "04_Six_Layout_Comparison.mp4",
+      "bytes": 66732448,
+      "sha256": "32951be569dc6f4abc3adca7e33d16430cce5750566fdef6f07506cfe6d5ef3d",
+      "source": {
+        "filename": "04_Six_Layout_Comparison.mp4",
+        "title": "Helix - Six Synchronized Musical Layouts",
+        "audio": "/workspace/scratch/ec314907d82d/new-sampler-final/Helix_Starred_New_Review.wav",
+        "audio_sha256": "50857fef6ac17197821bb6a9ce27f7ebd1c23b7eb8c82521345296bd22087677",
+        "duration": 120,
+        "sources": [
+          {
+            "video": "/workspace/scratch/ec314907d82d/resume-native-layouts/01_Traditional_256_AC/native-preview-1vu8mrfr/preview.mp4",
+            "video_sha256": "a70e07d98f57fc3551bcd88610004ef40b9173b687e8c86da415f893d1cf8c78",
+            "gamma": 3,
+            "title": "Traditional 256 AC",
+            "crop": [
+              1472,
+              828,
+              224,
+              126
+            ],
+            "gain": 1.45
+          },
+          {
+            "video": "/workspace/scratch/ec314907d82d/resume-native-layouts/02_Experimental_256_AC_RGB/native-preview-qgza3275/preview.mp4",
+            "video_sha256": "f4aaa33d96a9870fe7fd24807a1bd20572e145748f746bc41c14b1945fcff704",
+            "gamma": 3,
+            "title": "256 AC + RGB",
+            "crop": [
+              1472,
+              828,
+              224,
+              126
+            ],
+            "gain": 1.45
+          },
+          {
+            "video": "/workspace/scratch/ec314907d82d/resume-native-layouts/06_Modern_Pixel_House/native-preview-pdcye6vp/preview.mp4",
+            "video_sha256": "4187fd74d3bc1d782615a31508d6b987eff8d76033c56afb07afc8335500f64b",
+            "gamma": 2.2,
+            "title": "Residential RGB",
+            "gain": 1.45
+          },
+          {
+            "video": "/workspace/scratch/ec314907d82d/resume-directed-layouts/09_Double_Helix_Cathedral/native-preview-ybjh5s2q/preview.mp4",
+            "video_sha256": "2709ea27135af2dddf978c17ab78bad1fd361ef5393131777c1d06961605a664",
+            "gamma": 2.4,
+            "title": "Pitch-mapped double helix",
+            "gain": 1.45
+          },
+          {
+            "video": "/workspace/scratch/ec314907d82d/resume-directed-layouts/11_Forced_Perspective/native-preview-8ugufj0m/preview.mp4",
+            "video_sha256": "ee1ffa9d45ad6e9bed135dd2bde01947224dd9121706fefdc6e712e7b510883a",
+            "gamma": 2.2,
+            "title": "Forced perspective",
+            "gain": 1.45
+          },
+          {
+            "video": "/workspace/scratch/ec314907d82d/resume-directed-layouts/10_Moire_Optical_Illusion/native-preview-pialy9ph/preview.mp4",
+            "video_sha256": "45cff64632364a7384eee20659867c309f694ed5078628f440e0cee8ee05c3dd",
+            "gamma": 2.2,
+            "title": "Moire and geometry",
+            "gain": 1.45
+          }
+        ],
+        "kind": "comparison"
+      },
+      "ffmpeg_command": [
+        "ffmpeg",
+        "-v",
+        "error",
+        "-nostdin",
+        "-y",
+        "-filter_threads",
+        "2",
+        "-filter_complex_threads",
+        "2",
+        "-i",
+        "/workspace/scratch/ec314907d82d/resume-native-layouts/01_Traditional_256_AC/native-preview-1vu8mrfr/preview.mp4",
+        "-i",
+        "/workspace/scratch/ec314907d82d/resume-native-layouts/02_Experimental_256_AC_RGB/native-preview-qgza3275/preview.mp4",
+        "-i",
+        "/workspace/scratch/ec314907d82d/resume-native-layouts/06_Modern_Pixel_House/native-preview-pdcye6vp/preview.mp4",
+        "-i",
+        "/workspace/scratch/ec314907d82d/resume-directed-layouts/09_Double_Helix_Cathedral/native-preview-ybjh5s2q/preview.mp4",
+        "-i",
+        "/workspace/scratch/ec314907d82d/resume-directed-layouts/11_Forced_Perspective/native-preview-8ugufj0m/preview.mp4",
+        "-i",
+        "/workspace/scratch/ec314907d82d/resume-directed-layouts/10_Moire_Optical_Illusion/native-preview-pialy9ph/preview.mp4",
+        "-i",
+        "/workspace/scratch/ec314907d82d/new-sampler-final/Helix_Starred_New_Review.wav",
+        "-filter_complex",
+        "[0:v]setpts=PTS-STARTPTS,crop=1472:828:224:126,scale=640:360:flags=lanczos,setsar=1,format=gbrp,lutrgb=r='min(255,pow(val/255,1/3.0)*255*1.45)':g='min(255,pow(val/255,1/3.0)*255*1.45)':b='min(255,pow(val/255,1/3.0)*255*1.45)',format=yuv420p,pad=640:470:0:48:black,drawtext=fontfile=/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf:text='Traditional 256 AC':fontcolor=white:fontsize=22:x=(w-tw)/2:y=9:box=1:boxcolor=black@0.65:boxborderw=8[p0];[1:v]setpts=PTS-STARTPTS,crop=1472:828:224:126,scale=640:360:flags=lanczos,setsar=1,format=gbrp,lutrgb=r='min(255,pow(val/255,1/3.0)*255*1.45)':g='min(255,pow(val/255,1/3.0)*255*1.45)':b='min(255,pow(val/255,1/3.0)*255*1.45)',format=yuv420p,pad=640:470:0:48:black,drawtext=fontfile=/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf:text='256 AC + RGB':fontcolor=white:fontsize=22:x=(w-tw)/2:y=9:box=1:boxcolor=black@0.65:boxborderw=8[p1];[2:v]setpts=PTS-STARTPTS,scale=640:360:flags=lanczos,setsar=1,format=gbrp,lutrgb=r='min(255,pow(val/255,1/2.2)*255*1.45)':g='min(255,pow(val/255,1/2.2)*255*1.45)':b='min(255,pow(val/255,1/2.2)*255*1.45)',format=yuv420p,pad=640:470:0:48:black,drawtext=fontfile=/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf:text='Residential RGB':fontcolor=white:fontsize=22:x=(w-tw)/2:y=9:box=1:boxcolor=black@0.65:boxborderw=8[p2];[3:v]setpts=PTS-STARTPTS,scale=640:360:flags=lanczos,setsar=1,format=gbrp,lutrgb=r='min(255,pow(val/255,1/2.4)*255*1.45)':g='min(255,pow(val/255,1/2.4)*255*1.45)':b='min(255,pow(val/255,1/2.4)*255*1.45)',format=yuv420p,pad=640:470:0:48:black,drawtext=fontfile=/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf:text='Pitch-mapped double helix':fontcolor=white:fontsize=22:x=(w-tw)/2:y=9:box=1:boxcolor=black@0.65:boxborderw=8[p3];[4:v]setpts=PTS-STARTPTS,scale=640:360:flags=lanczos,setsar=1,format=gbrp,lutrgb=r='min(255,pow(val/255,1/2.2)*255*1.45)':g='min(255,pow(val/255,1/2.2)*255*1.45)':b='min(255,pow(val/255,1/2.2)*255*1.45)',format=yuv420p,pad=640:470:0:48:black,drawtext=fontfile=/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf:text='Forced perspective':fontcolor=white:fontsize=22:x=(w-tw)/2:y=9:box=1:boxcolor=black@0.65:boxborderw=8[p4];[5:v]setpts=PTS-STARTPTS,scale=640:360:flags=lanczos,setsar=1,format=gbrp,lutrgb=r='min(255,pow(val/255,1/2.2)*255*1.45)':g='min(255,pow(val/255,1/2.2)*255*1.45)':b='min(255,pow(val/255,1/2.2)*255*1.45)',format=yuv420p,pad=640:470:0:48:black,drawtext=fontfile=/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf:text='Moire and geometry':fontcolor=white:fontsize=22:x=(w-tw)/2:y=9:box=1:boxcolor=black@0.65:boxborderw=8[p5];[p0][p1][p2][p3][p4][p5]xstack=inputs=6:layout=0_0|640_0|1280_0|0_470|640_470|1280_470:fill=black,pad=1920:1080:0:70:black,drawtext=fontfile=/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf:text='Helix - Six Synchronized Musical Layouts':fontcolor=white:fontsize=30:x=(w-tw)/2:y=22:box=1:boxcolor=black@0.65:boxborderw=8,drawtext=fontfile=/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf:text='Identical original audio and source time in all six panels':fontcolor=white:fontsize=22:x=(w-tw)/2:y=1030:box=1:boxcolor=black@0.65:boxborderw=8[out]",
+        "-map",
+        "[out]",
+        "-map",
+        "6:a:0",
+        "-t",
+        "120.0",
+        "-c:v",
+        "libx264",
+        "-threads",
+        "4",
+        "-preset",
+        "fast",
+        "-crf",
+        "21",
+        "-pix_fmt",
+        "yuv420p",
+        "-r",
+        "20",
+        "-c:a",
+        "aac",
+        "-b:a",
+        "192k",
+        "-movflags",
+        "+faststart",
+        "../HELIX_MP4_REVIEW/04_Six_Layout_Comparison.encoding.mp4"
+      ],
+      "visual_acceptance": false
+    },
+    {
+      "filename": "05_Advanced_Technical_Layouts.mp4",
+      "bytes": 18122591,
+      "sha256": "67441706f0470cc052b8babffa63964a74f72518bd85d084e12a620b2907d51a",
+      "source": {
+        "filename": "05_Advanced_Technical_Layouts.mp4",
+        "title": "Helix - Advanced Technical Layouts",
+        "audio": "/workspace/scratch/ec314907d82d/review-technical-60s.wav",
+        "audio_sha256": "852696ab332502296389ec326a1e782c4ab30706ced811921eec26c8efa6e522",
+        "duration": 60,
+        "sources": [
+          {
+            "video": "/workspace/scratch/ec314907d82d/resume-directed-layouts/10_Moire_Optical_Illusion/native-preview-pialy9ph/preview.mp4",
+            "video_sha256": "45cff64632364a7384eee20659867c309f694ed5078628f440e0cee8ee05c3dd",
+            "gamma": 2.2,
+            "title": "Moire and geometry",
+            "gain": 1.45
+          },
+          {
+            "video": "/workspace/scratch/ec314907d82d/resume-directed-layouts/09_Double_Helix_Cathedral/native-preview-ybjh5s2q/preview.mp4",
+            "video_sha256": "2709ea27135af2dddf978c17ab78bad1fd361ef5393131777c1d06961605a664",
+            "gamma": 2.4,
+            "title": "Pitch-mapped double helix",
+            "gain": 1.45
+          },
+          {
+            "video": "/workspace/scratch/ec314907d82d/resume-directed-layouts/11_Forced_Perspective/native-preview-8ugufj0m/preview.mp4",
+            "video_sha256": "ee1ffa9d45ad6e9bed135dd2bde01947224dd9121706fefdc6e712e7b510883a",
+            "gamma": 2.2,
+            "title": "Forced perspective",
+            "gain": 1.45
+          }
+        ],
+        "kind": "montage",
+        "segments": [
+          {
+            "source": 0,
+            "start": 0,
+            "end": 16
+          },
+          {
+            "source": 1,
+            "start": 16,
+            "end": 30
+          },
+          {
+            "source": 2,
+            "start": 30,
+            "end": 48
+          },
+          {
+            "source": 0,
+            "start": 48,
+            "end": 60
+          }
+        ]
+      },
+      "ffmpeg_command": [
+        "ffmpeg",
+        "-v",
+        "error",
+        "-nostdin",
+        "-y",
+        "-filter_threads",
+        "2",
+        "-filter_complex_threads",
+        "2",
+        "-i",
+        "/workspace/scratch/ec314907d82d/resume-directed-layouts/10_Moire_Optical_Illusion/native-preview-pialy9ph/preview.mp4",
+        "-i",
+        "/workspace/scratch/ec314907d82d/resume-directed-layouts/09_Double_Helix_Cathedral/native-preview-ybjh5s2q/preview.mp4",
+        "-i",
+        "/workspace/scratch/ec314907d82d/resume-directed-layouts/11_Forced_Perspective/native-preview-8ugufj0m/preview.mp4",
+        "-i",
+        "/workspace/scratch/ec314907d82d/review-technical-60s.wav",
+        "-filter_complex",
+        "[0:v]trim=start=0:end=16,setpts=PTS-STARTPTS,scale=1280:720:flags=lanczos,setsar=1,format=gbrp,lutrgb=r='min(255,pow(val/255,1/2.2)*255*1.45)':g='min(255,pow(val/255,1/2.2)*255*1.45)':b='min(255,pow(val/255,1/2.2)*255*1.45)',format=yuv420p,drawtext=fontfile=/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf:text='Moire and geometry':fontcolor=white:fontsize=26:x=(w-tw)/2:y=24:box=1:boxcolor=black@0.65:boxborderw=8[s0];[1:v]trim=start=16:end=30,setpts=PTS-STARTPTS,scale=1280:720:flags=lanczos,setsar=1,format=gbrp,lutrgb=r='min(255,pow(val/255,1/2.4)*255*1.45)':g='min(255,pow(val/255,1/2.4)*255*1.45)':b='min(255,pow(val/255,1/2.4)*255*1.45)',format=yuv420p,drawtext=fontfile=/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf:text='Pitch-mapped double helix':fontcolor=white:fontsize=26:x=(w-tw)/2:y=24:box=1:boxcolor=black@0.65:boxborderw=8[s1];[2:v]trim=start=30:end=48,setpts=PTS-STARTPTS,scale=1280:720:flags=lanczos,setsar=1,format=gbrp,lutrgb=r='min(255,pow(val/255,1/2.2)*255*1.45)':g='min(255,pow(val/255,1/2.2)*255*1.45)':b='min(255,pow(val/255,1/2.2)*255*1.45)',format=yuv420p,drawtext=fontfile=/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf:text='Forced perspective':fontcolor=white:fontsize=26:x=(w-tw)/2:y=24:box=1:boxcolor=black@0.65:boxborderw=8[s2];[0:v]trim=start=48:end=60,setpts=PTS-STARTPTS,scale=1280:720:flags=lanczos,setsar=1,format=gbrp,lutrgb=r='min(255,pow(val/255,1/2.2)*255*1.45)':g='min(255,pow(val/255,1/2.2)*255*1.45)':b='min(255,pow(val/255,1/2.2)*255*1.45)',format=yuv420p,drawtext=fontfile=/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf:text='Moire and geometry':fontcolor=white:fontsize=26:x=(w-tw)/2:y=24:box=1:boxcolor=black@0.65:boxborderw=8[s3];[s0][s1][s2][s3]concat=n=4:v=1:a=0[out]",
+        "-map",
+        "[out]",
+        "-map",
+        "3:a:0",
+        "-t",
+        "60.0",
+        "-c:v",
+        "libx264",
+        "-threads",
+        "4",
+        "-preset",
+        "fast",
+        "-crf",
+        "21",
+        "-pix_fmt",
+        "yuv420p",
+        "-r",
+        "20",
+        "-c:a",
+        "aac",
+        "-b:a",
+        "192k",
+        "-movflags",
+        "+faststart",
+        "../HELIX_MP4_REVIEW/05_Advanced_Technical_Layouts.encoding.mp4"
+      ],
+      "visual_acceptance": false
+    },
+    {
+      "filename": "06_Full_Helix_Showcase.mp4",
+      "bytes": 3475684,
+      "sha256": "3e6615df357691c048a270cb899c9db15212f35a27fb0025d517dfa41d889ea9",
+      "source": {
+        "filename": "06_Full_Helix_Showcase.mp4",
+        "title": "Helix - Band and Lighting - Native Performance",
+        "audio": "/workspace/scratch/ec314907d82d/review-vocal-qualified-sampler/Helix_Starred_New_Review.wav",
+        "audio_sha256": "9ff4606afbefe536120335088f5865da1581e75f113f9f2fa62acd8fd9a44ef4",
+        "duration": 30,
+        "sources": [
+          {
+            "video": "/workspace/scratch/ec314907d82d/resume-vocal-layouts/08_Band_and_House/native-preview-yez15fbg/preview.mp4",
+            "video_sha256": "ab43715bc41135cbb5bc1cb4e84e4ad14dcfe60cb6e73c7d4d881341c9abf63c",
+            "gamma": 2.2,
+            "title": "",
+            "crop": [
+              1280,
+              720,
+              320,
+              200
+            ]
+          }
+        ],
+        "kind": "single"
+      },
+      "ffmpeg_command": [
+        "ffmpeg",
+        "-v",
+        "error",
+        "-nostdin",
+        "-y",
+        "-filter_threads",
+        "2",
+        "-filter_complex_threads",
+        "2",
+        "-i",
+        "/workspace/scratch/ec314907d82d/resume-vocal-layouts/08_Band_and_House/native-preview-yez15fbg/preview.mp4",
+        "-i",
+        "/workspace/scratch/ec314907d82d/review-vocal-qualified-sampler/Helix_Starred_New_Review.wav",
+        "-map",
+        "0:v:0",
+        "-map",
+        "1:a:0",
+        "-vf",
+        "crop=1280:720:320:200,scale=1280:720:flags=lanczos,setsar=1,format=gbrp,lutrgb=r='min(255,pow(val/255,1/2.2)*255*1.0)':g='min(255,pow(val/255,1/2.2)*255*1.0)':b='min(255,pow(val/255,1/2.2)*255*1.0)',format=yuv420p,drawtext=fontfile=/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf:text='Helix - Band and Lighting - Native Performance':fontcolor=white:fontsize=26:x=(w-tw)/2:y=24:box=1:boxcolor=black@0.65:boxborderw=8",
+        "-t",
+        "30.0",
+        "-c:v",
+        "libx264",
+        "-threads",
+        "4",
+        "-preset",
+        "fast",
+        "-crf",
+        "21",
+        "-pix_fmt",
+        "yuv420p",
+        "-r",
+        "20",
+        "-c:a",
+        "aac",
+        "-b:a",
+        "192k",
+        "-movflags",
+        "+faststart",
+        "/workspace/scratch/ec314907d82d/HELIX_MP4_REVIEW/06_Full_Helix_Showcase.encoding.mp4"
+      ],
+      "visual_acceptance": false
+    }
+  ],
+  "beta_acceptance": false,
+  "limitations": [
+    "Original V3 drummer is retained planar pixel artwork, not a recovered fully modeled approved 3D mesh.",
+    "Lead/backing are independently activated UVR/KARA source estimates; singer identity and lexical phoneme timing remain unverified.",
+    "AC geometry is the existing Helix virtual interpretation of original 256 circuit addresses, not surveyed native source-layout equivalence.",
+    "No owner visual acceptance, merge, or public beta release."
+  ]
+}

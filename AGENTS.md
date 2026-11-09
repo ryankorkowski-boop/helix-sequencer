@@ -20,3 +20,8 @@
 - Do not claim a feature is complete without evidence appropriate to the feature. For sequencing behavior, rendered XSQ/MP4 and/or xLights import evidence may be required in addition to unit tests.
 - If an undocumented existing behavior is discovered, preserve it until its fate is explicitly documented.
 - Handoffs must point the next agent to the master ledger rather than relying on chat-only context.
+
+## Approval dashboard activity
+
+- When changing this repository, follow [docs/AGENT_ACTIVITY_REPORTING.md](docs/AGENT_ACTIVITY_REPORTING.md) to report your real agent identity, task, source commit and completion when supported access is available.
+- Do not infer another agent's identity or liveness from commits under a shared account. Reporting supplements MASTER_TODO.md and must not delay authorized beta work if the dashboard is unavailable.

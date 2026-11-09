@@ -1,0 +1,19 @@
+{
+  "folder_shared": false,
+  "files": [
+    {
+      "id": "1whRSdSwDlT3kJVqNy9yFHWv1JMcsXKB6",
+      "bytes": 24915291,
+      "downloaded_sha256": "e3fb61d74a174a16e6cd3afac4d460339c5021cc0b192d122ba2882cbb9ab3c1",
+      "matches_local": true,
+      "shared": false
+    },
+    {
+      "id": "1uK1RjEKYBC_W38-WCv5gfAmfQtutYTZJ",
+      "bytes": 14392089,
+      "downloaded_sha256": "5ad029d27208d60f06378192e1f7f928c5f2eecebf23cca6996d74ab5b978526",
+      "matches_local": true,
+      "shared": false
+    }
+  ]
+}

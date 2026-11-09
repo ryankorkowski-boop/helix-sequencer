@@ -1,0 +1,9 @@
+{
+  "source_audio_sha256": "19e90c273d0d747938f24b36586b50818c104cddffbefe4a4128927374301938",
+  "layout": "helixville4",
+  "clip_seconds": 10.0,
+  "unresolved_face_cues": 6,
+  "harmony_body_substitute_effects": 0,
+  "native_singing_verified": false,
+  "reason": "Sample has no native mouth definition; cues remain unresolved instead of torso strobes"
+}

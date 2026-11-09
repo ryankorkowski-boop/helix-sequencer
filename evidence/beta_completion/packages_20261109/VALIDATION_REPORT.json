@@ -1,0 +1,302 @@
+{
+  "schema": "helix.runtime-installer-review.v1",
+  "runtime_source": "712b7ba45409f92f704d322440a76f4243090d2e",
+  "release_ready": false,
+  "distribution": "local and GitHub Actions installer review",
+  "files": {
+    "Helix-Android-Beta-debug.apk": {
+      "bytes": 144537371,
+      "sha256": "c0841aae4b570b4551e778e781a64b704c4b0c99bb9a8a7f0b802a6c5443b84a"
+    },
+    "Helix-Windows-Portable.zip": {
+      "bytes": 188300806,
+      "sha256": "611aa87e2b29bc476b891f8d9ef4221328a68f3f794a7cafbb7cb0dfaf7cbbcc"
+    }
+  },
+  "verification": {
+    "windows": {
+      "build": {
+        "schema": "helix.windows.build.v1",
+        "commit": "712b7ba45409f92f704d322440a76f4243090d2e",
+        "files": {
+          "Helix.exe": "cc63fd93cf6ab2d8946ba23c08a72bc4bb59a667975f7cc8c4a4bb592f9caa3f",
+          "HelixCLI.exe": "7b8d60ae4f8be382fc7f132aa8f26a880b7f7da4becda8e6fa2153a1cf2e2247",
+          "WELCOME_TO_HELIX.md": "fee76825c339356217314656a86ffc8262f12fd95c9c1e6c57e8f4c43a5326fb",
+          "INSTALL_AND_TROUBLESHOOT.md": "eac226a3239928d621faa217f7ee477cf0d718de3a4e20db9c05bfbe600bb338",
+          "LICENSE": "5394b99239b49451056951121d92357612da5dd2cc10b5bb12ed6798ba31f4d8",
+          "NOTICE": "58535b4d5731d8e8d0974812699fbbbdb9a91a70ad3775ee2cdafe18e09745c0",
+          "THIRD_PARTY_LICENSES.md": "23421e0ed22bce268a0a2f3462d91fe127d32e242363b4f07e4848422faccab4",
+          "COMMERCIAL_LICENSING.md": "e300cea0325a9bb5099eb5c1151171e010f3a58193b041bba4020e9785de73f2",
+          "MUSIC_PERMISSIONS.md": "555b3fccd961a880d80aaca560afd01db9c1886548060a986a03332e327608c7"
+        },
+        "github_run_id": "42672170196",
+        "github_repository": "ryankorkowski-boop/helix-sequencer"
+      },
+      "smoke": {
+        "steps": [
+          {
+            "step": "native_fseq",
+            "returncode": 0
+          },
+          {
+            "step": "lor_engine",
+            "returncode": 0
+          },
+          {
+            "step": "xlights_engine",
+            "returncode": 0
+          }
+        ],
+        "real_audio_source": "Tinsel Sawtooth (1).mp3",
+        "source_lms_preserved": true,
+        "legacy_lor_import_in_vendor_app_verified": false
+      }
+    },
+    "android30": {
+      "apk_sha256": "c0841aae4b570b4551e778e781a64b704c4b0c99bb9a8a7f0b802a6c5443b84a",
+      "engine_commit": "712b7ba45409f92f704d322440a76f4243090d2e",
+      "engine_files_verified": 1113,
+      "decoded": [
+        {
+          "mode": "xlights",
+          "frames": 45,
+          "video_codec": "h264",
+          "audio_codec": "aac",
+          "duration": "3.000000",
+          "source_duration_seconds": 8.0,
+          "full_song_preview_verified": false,
+          "max_mean_pixel_error": 1.9779658564814815,
+          "minimum_expected_lit_pixels_visible": 0.9821706768218799,
+          "audio_correlation": 0.9999563842574754,
+          "audio_offset_ms": 0.0
+        },
+        {
+          "mode": "lor",
+          "frames": 45,
+          "video_codec": "h264",
+          "audio_codec": "aac",
+          "duration": "3.000000",
+          "source_duration_seconds": 8.0,
+          "full_song_preview_verified": false,
+          "max_mean_pixel_error": 1.6728457754629629,
+          "minimum_expected_lit_pixels_visible": 0.9634881247784474,
+          "audio_correlation": 0.9999563842574754,
+          "audio_offset_ms": 0.0
+        },
+        {
+          "mode": "real-rgb",
+          "frames": 120,
+          "video_codec": "h264",
+          "audio_codec": "aac",
+          "duration": "8.000000",
+          "source_duration_seconds": 8.0,
+          "full_song_preview_verified": false,
+          "max_mean_pixel_error": 1.7437080439814814,
+          "minimum_expected_lit_pixels_visible": 0.9737937790840069,
+          "audio_correlation": 0.9977437981465205,
+          "audio_offset_ms": 0.0
+        },
+        {
+          "mode": "full-song",
+          "frames": 3562,
+          "video_codec": "h264",
+          "audio_codec": "aac",
+          "duration": "237.466708",
+          "source_duration_seconds": 237.43997916666666,
+          "full_song_preview_verified": true,
+          "max_mean_pixel_error": 1.728548900462963,
+          "minimum_expected_lit_pixels_visible": 0.9649313087490962,
+          "audio_correlation": 0.9957144538319959,
+          "audio_offset_ms": 0.0
+        },
+        {
+          "mode": "band-off",
+          "frames": 45,
+          "video_codec": "h264",
+          "audio_codec": "aac",
+          "duration": "3.000000",
+          "source_duration_seconds": 8.0,
+          "full_song_preview_verified": false,
+          "max_mean_pixel_error": 1.7449464699074073,
+          "minimum_expected_lit_pixels_visible": 0.9747796278158668,
+          "audio_correlation": 0.9990602343817021,
+          "audio_offset_ms": 0.0
+        }
+      ],
+      "signing_certificate": "Signer #1 certificate DN: C=US, O=Android, CN=Android Debug\nSigner #1 certificate SHA-256 digest: 5f0f078dfc1d8bc45cdad98d31553d8b7d6567bc1b2a7a39a90b9a8201b77db0\nSigner #1 certificate SHA-1 digest: ec6075b615f8d3294b58d9ea807889f44f55bfbe\nSigner #1 certificate MD5 digest: 341b6fed9508a23f493fd5fe3d90387f\n",
+      "signing_status": "debug beta; production upgrade not verified",
+      "current_tracked_engine_files": 1113,
+      "compatibility": {
+        "package_id": "org.helixsequencer.android",
+        "variants": [
+          {
+            "variant": "debug",
+            "filename": "app-debug.apk",
+            "exists": true,
+            "apk_sha256": "c0841aae4b570b4551e778e781a64b704c4b0c99bb9a8a7f0b802a6c5443b84a",
+            "signature_verified": true,
+            "certificate_details": "Signer #1 certificate DN: C=US, O=Android, CN=Android Debug\nSigner #1 certificate SHA-256 digest: 5f0f078dfc1d8bc45cdad98d31553d8b7d6567bc1b2a7a39a90b9a8201b77db0\nSigner #1 certificate SHA-1 digest: ec6075b615f8d3294b58d9ea807889f44f55bfbe\nSigner #1 certificate MD5 digest: 341b6fed9508a23f493fd5fe3d90387f",
+            "error": "",
+            "installation_verified": true,
+            "installable": true
+          },
+          {
+            "variant": "release",
+            "filename": "app-release-unsigned.apk",
+            "exists": true,
+            "apk_sha256": "1aa37fd00ff7ff2b6b095c36721f9f8ff6d3b05b55cb7a71ce07bcd127c488e2",
+            "signature_verified": false,
+            "certificate_details": "",
+            "error": "DOES NOT VERIFY\nERROR: Missing META-INF/MANIFEST.MF",
+            "installation_verified": false,
+            "installable": false
+          }
+        ],
+        "debug_to_release_certificate_match": false,
+        "debug_to_release_update_compatible": false,
+        "old_beta_upgrade_verified": false,
+        "limitation": "Only the exact installed and launched APK is verified. Cross-build/old-beta upgrades require the original installed signing key and an actual update test; unsigned APKs cannot install."
+      },
+      "artifact_id": 13699791623,
+      "source": "712b7ba45409f92f704d322440a76f4243090d2e",
+      "release_ready": false,
+      "source_matches_staged_commit_inventory": true,
+      "inventory_source_commit": "712b7ba45409f92f704d322440a76f4243090d2e"
+    },
+    "android36": {
+      "apk_sha256": "8aa43fc12e9f4c2d446fabe628b04f09c171ed68d9621c766c39e3c61030512c",
+      "engine_commit": "712b7ba45409f92f704d322440a76f4243090d2e",
+      "engine_files_verified": 1113,
+      "decoded": [
+        {
+          "mode": "xlights",
+          "frames": 45,
+          "video_codec": "h264",
+          "audio_codec": "aac",
+          "duration": "3.000000",
+          "source_duration_seconds": 8.0,
+          "full_song_preview_verified": false,
+          "max_mean_pixel_error": 2.451377314814815,
+          "minimum_expected_lit_pixels_visible": 0.9821706768218799,
+          "audio_correlation": 0.9999563842574755,
+          "audio_offset_ms": 0.0
+        },
+        {
+          "mode": "lor",
+          "frames": 45,
+          "video_codec": "h264",
+          "audio_codec": "aac",
+          "duration": "3.000000",
+          "source_duration_seconds": 8.0,
+          "full_song_preview_verified": false,
+          "max_mean_pixel_error": 2.1894835069444443,
+          "minimum_expected_lit_pixels_visible": 0.9634881247784474,
+          "audio_correlation": 0.9999563842574755,
+          "audio_offset_ms": 0.0
+        },
+        {
+          "mode": "real-rgb",
+          "frames": 120,
+          "video_codec": "h264",
+          "audio_codec": "aac",
+          "duration": "8.000000",
+          "source_duration_seconds": 8.0,
+          "full_song_preview_verified": false,
+          "max_mean_pixel_error": 2.1484765625,
+          "minimum_expected_lit_pixels_visible": 0.9737937790840069,
+          "audio_correlation": 0.9977437981465194,
+          "audio_offset_ms": 0.0
+        },
+        {
+          "mode": "full-song",
+          "frames": 3562,
+          "video_codec": "h264",
+          "audio_codec": "aac",
+          "duration": "237.466708",
+          "source_duration_seconds": 237.43997916666666,
+          "full_song_preview_verified": true,
+          "max_mean_pixel_error": 2.2302025462962964,
+          "minimum_expected_lit_pixels_visible": 0.9649313087490962,
+          "audio_correlation": 0.9957144538319779,
+          "audio_offset_ms": 0.0
+        },
+        {
+          "mode": "band-off",
+          "frames": 45,
+          "video_codec": "h264",
+          "audio_codec": "aac",
+          "duration": "3.000000",
+          "source_duration_seconds": 8.0,
+          "full_song_preview_verified": false,
+          "max_mean_pixel_error": 2.1359346064814817,
+          "minimum_expected_lit_pixels_visible": 0.9747796278158668,
+          "audio_correlation": 0.9990602343817028,
+          "audio_offset_ms": 0.0
+        }
+      ],
+      "signing_certificate": "Signer #1 certificate DN: C=US, O=Android, CN=Android Debug\nSigner #1 certificate SHA-256 digest: 7b36cf39e212e22d229666197085ccc26b09f7cf3b0a0c16794f806340d152c6\nSigner #1 certificate SHA-1 digest: ab10e1ba537974b524ac4124a0bd51c8540a4a4e\nSigner #1 certificate MD5 digest: b6ecd3a1d7d4b4b5aa413f6ae49056bb\n",
+      "signing_status": "debug beta; production upgrade not verified",
+      "current_tracked_engine_files": 1113,
+      "compatibility": {
+        "package_id": "org.helixsequencer.android",
+        "variants": [
+          {
+            "variant": "debug",
+            "filename": "app-debug.apk",
+            "exists": true,
+            "apk_sha256": "8aa43fc12e9f4c2d446fabe628b04f09c171ed68d9621c766c39e3c61030512c",
+            "signature_verified": true,
+            "certificate_details": "Signer #1 certificate DN: C=US, O=Android, CN=Android Debug\nSigner #1 certificate SHA-256 digest: 7b36cf39e212e22d229666197085ccc26b09f7cf3b0a0c16794f806340d152c6\nSigner #1 certificate SHA-1 digest: ab10e1ba537974b524ac4124a0bd51c8540a4a4e\nSigner #1 certificate MD5 digest: b6ecd3a1d7d4b4b5aa413f6ae49056bb",
+            "error": "",
+            "installation_verified": true,
+            "installable": true
+          },
+          {
+            "variant": "release",
+            "filename": "app-release-unsigned.apk",
+            "exists": true,
+            "apk_sha256": "6aa1f15940ddf211cdbd99cb78a742dbe4f524223ab8f46ee33532b1107d0db4",
+            "signature_verified": false,
+            "certificate_details": "",
+            "error": "DOES NOT VERIFY\nERROR: Missing META-INF/MANIFEST.MF",
+            "installation_verified": false,
+            "installable": false
+          }
+        ],
+        "debug_to_release_certificate_match": false,
+        "debug_to_release_update_compatible": false,
+        "old_beta_upgrade_verified": false,
+        "limitation": "Only the exact installed and launched APK is verified. Cross-build/old-beta upgrades require the original installed signing key and an actual update test; unsigned APKs cannot install."
+      },
+      "artifact_id": 13699776977,
+      "source": "712b7ba45409f92f704d322440a76f4243090d2e",
+      "release_ready": false,
+      "source_matches_staged_commit_inventory": true,
+      "inventory_source_commit": "712b7ba45409f92f704d322440a76f4243090d2e"
+    }
+  },
+  "tests": {
+    "full_runtime_python312": {
+      "passed": 2386,
+      "subtests": 24,
+      "skipped": 6
+    },
+    "host_packaging_followup": {
+      "passed": 63
+    }
+  },
+  "open_gates": [
+    "Nine qualified real-audio native MP4s and owner visual approval",
+    "Independent acoustic and lexical lead/harmony source qualification",
+    "Native motion, AC visibility and canonical solid drummer equivalence",
+    "Four inherited Haswell numerical reference failures",
+    "Physical Samsung, controller and vendor LOR acceptance",
+    "Android production signing and old-beta key compatibility"
+  ],
+  "host_installer_verifier_sha256": "2abc69a9f46561aef23edac0b505ab050f5be2ef1e3c8179de354ab7ccdd1f50",
+  "downloads": {
+    "android30": "https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/42671898667/artifacts/13699791623",
+    "android36": "https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/42671884943/artifacts/13699776977",
+    "windows": "https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/42672170196/artifacts/13698673732"
+  }
+}

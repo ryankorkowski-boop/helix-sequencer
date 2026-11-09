@@ -1,0 +1,29 @@
+{
+  "source_commit": "c8c01e1589bc8925c497fbd1150532cd6d968dc1",
+  "actual_test_tree": "98b2dc80b46f0714b09010aab6412aebe619714f",
+  "python": "3.12.14",
+  "backend": "default",
+  "execution": "55 isolated subprocess batches plus seven nested showcase modules",
+  "unique_files": 399,
+  "complete": true,
+  "all_batch_exit_codes_zero": true,
+  "failures": 0,
+  "errors": 0,
+  "passed": 2371,
+  "subtests_passed": 24,
+  "skipped": 6,
+  "haswell": {
+    "status": "FAIL",
+    "selected_tests": 4,
+    "failed": 4,
+    "deselected": 8,
+    "tolerance_unchanged": true,
+    "log": "haswell_baseline.log"
+  },
+  "single_process_attempt": {
+    "status": "RESOURCE_KILLED",
+    "exit_code": 137,
+    "not_a_pass": true
+  },
+  "python311": "not run for this change; previous-source evidence remains historical"
+}

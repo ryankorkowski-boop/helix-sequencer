@@ -1,0 +1,45 @@
+{
+  "file": "preview.mp4",
+  "sha256": "f86b82d5dc68054b72395bc5cf2f498588ace8812c030b4a1223ec9885f1cd9e",
+  "bytes": 5462562,
+  "source_audio": "Let_It_Glow_36s_clean.wav",
+  "source_audio_sha256": "f3562aaedd1b8594baa8ef0991374881d0fb2ac49dcaed67cf0525ceee370cd6",
+  "source_duration_seconds": 36.0,
+  "codecs": [
+    "h264",
+    "aac"
+  ],
+  "dimensions": [
+    1280,
+    720
+  ],
+  "actual_frame_rate": "20/1",
+  "actual_frame_count": "720",
+  "video_duration_seconds": 36.0,
+  "audio_duration_seconds": 36.0,
+  "stream_start_seconds": [
+    0.0,
+    0.0
+  ],
+  "full_decode": true,
+  "soundtrack_correlation": 0.9964087951630132,
+  "window_alignment": [
+    {
+      "source_start_seconds": 3.6,
+      "decoded_lag_seconds": 0.0
+    },
+    {
+      "source_start_seconds": 18.0,
+      "decoded_lag_seconds": 0.0
+    },
+    {
+      "source_start_seconds": 30.5999375,
+      "decoded_lag_seconds": 0.0
+    },
+    {
+      "source_start_seconds": 33.95,
+      "decoded_lag_seconds": 0.0
+    }
+  ],
+  "musical_or_visual_acceptance": false
+}

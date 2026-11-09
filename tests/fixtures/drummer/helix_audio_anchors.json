@@ -1,0 +1,95 @@
+{
+  "schema": "helix.drummer.sparse_anchors.v1",
+  "audio": "Helix Audiolights.mp3",
+  "review_status": "signal_inspected_pending_human_audio_review",
+  "provenance": "Independent full-mix waveform and spectral inspection, not detector output. Reviewer: Codex, 2026-10-07. These provisional labels are engineering checks; human auditory confirmation remains required.",
+  "windows": [
+    [
+      10.7,
+      12.2
+    ],
+    [
+      18.5,
+      20.5
+    ],
+    [
+      23.0,
+      24.8
+    ],
+    [
+      65.0,
+      68.0
+    ]
+  ],
+  "anchors": [
+    {
+      "timestamp": 11.0,
+      "family": "kick",
+      "tolerance_ms": 40,
+      "evidence": "Abrupt low-band impulse at 11.00s with a strong low-frequency decay."
+    },
+    {
+      "timestamp": 11.98,
+      "family": "kick",
+      "tolerance_ms": 40,
+      "evidence": "Distinct low-band pulse and waveform attack, separate from preceding high-frequency activity."
+    },
+    {
+      "timestamp": 19.145,
+      "family": "kick",
+      "tolerance_ms": 40,
+      "evidence": "Low-band impulse with a short body decay; no matching sustained high-band rise."
+    },
+    {
+      "timestamp": 19.805,
+      "family": "kick",
+      "tolerance_ms": 40,
+      "evidence": "Low-band impulse and onset peak in the alternating attack passage."
+    },
+    {
+      "timestamp": 20.13,
+      "family": "kick",
+      "tolerance_ms": 40,
+      "evidence": "Strong low-frequency impulse and waveform attack at about 20.13s."
+    },
+    {
+      "timestamp": 23.39,
+      "family": "snare",
+      "tolerance_ms": 50,
+      "evidence": "Broad mid/high noise attack with little sub-bass, then a brief noise tail."
+    },
+    {
+      "timestamp": 24.53,
+      "family": "kick",
+      "tolerance_ms": 40,
+      "evidence": "Dominant sub-bass pulse with decaying body and little high-band impulse."
+    },
+    {
+      "timestamp": 24.7,
+      "family": "hihat",
+      "tolerance_ms": 50,
+      "evidence": "Short high-band noise impulse, far weaker low-frequency body than the preceding kick."
+    },
+    {
+      "timestamp": 65.135,
+      "family": "hihat",
+      "tolerance_ms": 50,
+      "evidence": "Short high-frequency impulse contrasting with low-band content between hits."
+    }
+  ],
+  "excluded_regions": [
+    {
+      "start": 0.0,
+      "end": 10.0,
+      "reason": "Intro transients lack the later drum entrance's low/body attack pattern."
+    }
+  ],
+  "burst_limits_per_second": {
+    "kick": 8,
+    "snare": 8,
+    "hihat": 16,
+    "cymbal": 12,
+    "tom": 10
+  },
+  "audio_sha256": "8ced92ba179c931a2c7f29f834df1c8fd6a399d78074de0de030bc952bb5f0ec"
+}

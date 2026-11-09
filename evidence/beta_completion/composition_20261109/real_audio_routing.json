@@ -1,0 +1,55 @@
+{
+  "schema": "helix.source-role-routing-evidence.v1",
+  "audio": "Phoneme_Test_Hook.mp3",
+  "audio_sha256": "19e90c273d0d747938f24b36586b50818c104cddffbefe4a4128927374301938",
+  "analysis_sha256": "51150ec0e3dbe05c94c00d560ccc66cc64a0f139aadeaf7901cf7fefbbc10611",
+  "analysis_source": "retained genuine production master from a9beaa7",
+  "layout_sha256": "1f3b0abaae93429f96e52710e33067cb6b49214132428d30f428269e8d2e7c0b",
+  "results": {
+    "baseline": {
+      "effects_before_native_quantization": 65744,
+      "role_models": {
+        "bassist": 126,
+        "guitarist": 7,
+        "drummer": 36,
+        "keyboardist": 87
+      },
+      "distinct_model_timelines": {
+        "bassist": 1,
+        "guitarist": 1,
+        "drummer": 4,
+        "keyboardist": 1
+      },
+      "largest_identical_timeline_cohort": {
+        "bassist": 126,
+        "guitarist": 7,
+        "drummer": 9,
+        "keyboardist": 87
+      }
+    },
+    "repaired": {
+      "effects_before_native_quantization": 26263,
+      "role_models": {
+        "bassist": 62,
+        "guitarist": 7,
+        "drummer": 36,
+        "keyboardist": 151
+      },
+      "distinct_model_timelines": {
+        "bassist": 15,
+        "guitarist": 1,
+        "drummer": 34,
+        "keyboardist": 38
+      },
+      "largest_identical_timeline_cohort": {
+        "bassist": 34,
+        "guitarist": 7,
+        "drummer": 3,
+        "keyboardist": 8
+      }
+    }
+  },
+  "native_render_verified": false,
+  "owner_approved": false,
+  "limitation": "Routing evidence demonstrates distinct source-derived timelines, not acoustic ownership or artistic approval."
+}

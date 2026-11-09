@@ -1,0 +1,15 @@
+{
+  "entry_point": "tools.render_band_upgrade.render(performance_refinement=True)",
+  "frames": 10,
+  "source_audio_sha256": "60c78154189231db21791de1a7ad64f063af2eaaf18bb7f318b151620f41cca5",
+  "soundtrack": {
+    "source_offset_seconds": 164,
+    "sample_rate": 8000,
+    "zero_offset_correlation": 0.9999589305820528,
+    "source_samples": 4000,
+    "movie_samples": 4000,
+    "original_excerpt_matches": true
+  },
+  "all_matrices_finite": true,
+  "primary_merged": false
+}

@@ -1,0 +1,1 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="0" skipped="0" tests="1" time="1.463" timestamp="2026-11-09T02:27:10.555117+00:00" hostname="01dffa57ad3d"><testcase classname="tests.test_android_offline" name="test_native_aac_delay_is_measured_from_actual_pcm" time="1.247" /></testsuite></testsuites>

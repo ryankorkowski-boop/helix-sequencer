@@ -1,0 +1,20 @@
+{
+  "schema": "helix.owner-showcase-audio.v1",
+  "title": "Let It Glow",
+  "artist": "hardKor",
+  "album": "Helix Music Mix",
+  "source_url": "https://drive.google.com/file/d/1xygmcQ9M6c3xeZO6XSnycW2eeQCqnMYi/view",
+  "starred_parent": "1TM4Yo763FnHIOkmy8V72xzLCGy5IHLxg",
+  "source_sha256": "d0fdcf1fc60c68a2b0834795a3d182326b1094561035f1d60ea789ab3d863dc5",
+  "excerpt_sha256": "f7fb94235d81db2c5032e227d85eae604a7bc93267f29cba42c7a62ccba498fd",
+  "source_start_seconds": 76,
+  "source_end_seconds": 112,
+  "duration_seconds": 36,
+  "output_sample_rate": 44100,
+  "output_channels": 2,
+  "codec": "PCM16",
+  "processing": "decode, trim, resample48kHz to44.1kHz; no normalization or fade",
+  "rationale": "Contains entire77.85\u2013107.85s activity-selected passage from the retained Starred catalog provenance, plus context. Different source from rejected Phoneme pilot.",
+  "source_recording_modified": false,
+  "vocal_candidates": "Two pinned UVR models and Silero VAD; estimated roles, not independent singer ground truth"
+}

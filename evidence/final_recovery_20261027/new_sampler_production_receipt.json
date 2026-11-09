@@ -1,0 +1,25 @@
+{
+  "source_commit_local": "981bf5d0982495dcd85529dba82b82760b016cc5",
+  "published_equivalent_commit": "51d69819b44e5f32625873bbddfb7327bd66498d",
+  "identical_source_tree": "52dac5d79a732cc703dfa60ea6eae43340c3f10b",
+  "audio_sha256": "50857fef6ac17197821bb6a9ce27f7ebd1c23b7eb8c82521345296bd22087677",
+  "duration_seconds": 120,
+  "production_sequencer_exit_code": 0,
+  "generated_model_rows": 6849,
+  "production_effects": 6222,
+  "cue_counts": {
+    "lead_singer": 0,
+    "background_vocals": 67,
+    "lead_face_activations": 67,
+    "background_face_activations": 3,
+    "part_hit_reactions": 36,
+    "bassist": 116,
+    "guitarist": 889,
+    "keyboardist": 2162,
+    "drummer": 598
+  },
+  "native_movie_rendered": false,
+  "canonical_visual_identity_verified": false,
+  "independent_backing_verified": false,
+  "approval_bundle_created": false
+}

@@ -1,0 +1,51 @@
+{
+  "analysis_source_commit": "a9beaa7c9be89fffc21a856e033bf75a3136c29b",
+  "export_commit": "1900958577898a1764ce317a3c63666c86b3a853",
+  "audio_sha256": "19e90c273d0d747938f24b36586b50818c104cddffbefe4a4128927374301938",
+  "modules": [
+    {
+      "module": "core/effect_engine.py",
+      "analysis_sha256": "0323996cb45fe7cd22d38a49f9eca54b80e18c4722d746530d48ba88aeccb932",
+      "current_sha256": "0323996cb45fe7cd22d38a49f9eca54b80e18c4722d746530d48ba88aeccb932",
+      "identical": true
+    },
+    {
+      "module": "core/audio_intelligence.py",
+      "analysis_sha256": "19192d2b2a140abe170c8e5c9c2c4a8cc1a50051a8ef6cc5033abe85890d7604",
+      "current_sha256": "19192d2b2a140abe170c8e5c9c2c4a8cc1a50051a8ef6cc5033abe85890d7604",
+      "identical": true
+    },
+    {
+      "module": "core/band_planning.py",
+      "analysis_sha256": "0e0d6fc1453856c395f240a38fd936aa70acf9314065fc0c1ec1fd837ac18391",
+      "current_sha256": "0e0d6fc1453856c395f240a38fd936aa70acf9314065fc0c1ec1fd837ac18391",
+      "identical": true
+    },
+    {
+      "module": "core/chronoflow.py",
+      "analysis_sha256": "91e59443d8d4f26049f47061ba20432f4d5ae614324d346e2a926264f8710155",
+      "current_sha256": "91e59443d8d4f26049f47061ba20432f4d5ae614324d346e2a926264f8710155",
+      "identical": true
+    },
+    {
+      "module": "core/snowman_band.py",
+      "analysis_sha256": "6da30400d33c697e18f1e007b64a9940dd8d4ff4a51b81d381677dcc33c1f06d",
+      "current_sha256": "6da30400d33c697e18f1e007b64a9940dd8d4ff4a51b81d381677dcc33c1f06d",
+      "identical": true
+    },
+    {
+      "module": "audio/drummer_v3.py",
+      "analysis_sha256": "3a614bcfe56f839a02c0136941d17bfb2257929807253cf6ee72a310a254e839",
+      "current_sha256": "3a614bcfe56f839a02c0136941d17bfb2257929807253cf6ee72a310a254e839",
+      "identical": true
+    },
+    {
+      "module": "mapping/drum_mapper.py",
+      "analysis_sha256": "595c96bcb211ede0f7cd1d431741ddb10e9a7343911ead9bcd1728d5362b3808",
+      "current_sha256": "595c96bcb211ede0f7cd1d431741ddb10e9a7343911ead9bcd1728d5362b3808",
+      "identical": true
+    }
+  ],
+  "analysis_reused": true,
+  "no_new_source_ownership_claim": true
+}

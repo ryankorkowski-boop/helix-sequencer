@@ -1,0 +1,87 @@
+........................................................................ [  4%]
+........................................................................ [  9%]
+........................................................................ [ 14%]
+........................................................................ [ 18%]
+........................................................................ [ 23%]
+........................................................................ [ 28%]
+................sssss................................................... [ 33%]
+........................................................................ [ 37%]
+........................................................................ [ 42%]
+........................................................................ [ 47%]
+........................................................................ [ 52%]
+........................................................................ [ 56%]
+........................................................................ [ 61%]
+........................................................................ [ 66%]
+........................................................................ [ 71%]
+........................................................................ [ 75%]
+........................................................................ [ 80%]
+........................................................................ [ 85%]
+........................................................................ [ 90%]
+........................................................................ [ 94%]
+........................................................................ [ 99%]
+........                                                                 [100%]
+=============================== warnings summary ===============================
+tests/test_audio.py::AudioIntelligenceTests::test_analyze_audio_file_builds_sections_hits_and_spatial_frames
+  /root/.local/lib/python3.12/site-packages/audioread/rawread.py:16: DeprecationWarning: 'aifc' is deprecated and slated for removal in Python 3.13
+    import aifc
+
+tests/test_audio.py::AudioIntelligenceTests::test_analyze_audio_file_builds_sections_hits_and_spatial_frames
+  /root/.local/lib/python3.12/site-packages/audioread/rawread.py:17: DeprecationWarning: 'audioop' is deprecated and slated for removal in Python 3.13
+    import audioop
+
+tests/test_audio.py::AudioIntelligenceTests::test_analyze_audio_file_builds_sections_hits_and_spatial_frames
+  /root/.local/lib/python3.12/site-packages/audioread/rawread.py:19: DeprecationWarning: 'sunau' is deprecated and slated for removal in Python 3.13
+    import sunau
+
+tests/test_build_helixia_layout_cli.py::BuildHelixiaLayoutCliTests::test_cli_can_enable_spec_driven_band_layout
+tests/test_build_helixia_layout_cli.py::BuildHelixiaLayoutCliTests::test_cli_can_enable_spec_driven_band_layout
+tests/test_helixia_xlights_band_specs.py::HelixiaXlightsBandSpecsTests::test_opt_in_band_model_specs_are_stem_map_compatible
+tests/test_helixia_xlights_band_specs.py::HelixiaXlightsBandSpecsTests::test_opt_in_band_model_specs_are_stem_map_compatible
+tests/test_helixia_xlights_band_specs.py::HelixiaXlightsBandSpecsTests::test_opt_in_band_model_specs_generate_real_band_models_and_submodels
+tests/test_helixia_xlights_band_specs.py::HelixiaXlightsBandSpecsTests::test_opt_in_band_model_specs_generate_real_band_models_and_submodels
+  <repo>/tools/build_helpers/helixia.py:35: DeprecationWarning: Testing an element's truth value will always return True in future versions.  Use specific 'len(elem)' or 'elem is not None' test instead.
+    tree=ET.parse(layout_path); root=tree.getroot(); models_el=root.find("models") or ET.SubElement(root,"models"); groups_el=root.find("modelGroups") or ET.SubElement(root,"modelGroups"); start=900000
+
+tests/test_chronoflow.py::ChronoflowTests::test_build_chronoflow_plan_returns_visualizer_and_embedding
+  /root/.local/lib/python3.12/site-packages/librosa/core/spectrum.py:266: UserWarning: n_fft=1024 is too large for input signal of length=690
+    warnings.warn(
+
+tests/test_finished_helixville4_band_exports.py: 1 warning
+tests/test_finished_helixville4_drummer.py: 2 warnings
+tests/test_helixville4_full_band_models.py: 3 warnings
+tests/test_helixville4_performance_regions.py: 5 warnings
+  <repo>/tools/build_helpers/helixville4_full_band.py:363: DeprecationWarning: Testing an element's truth value will always return True in future versions.  Use specific 'len(elem)' or 'elem is not None' test instead.
+    models_el = root.find("models") or ET.SubElement(root, "models")
+
+tests/test_finished_helixville4_band_exports.py::test_finished_band_helper_exports_all_members_without_placeholder_marker
+tests/test_helixville4_full_band_models.py::Helixville4FullBandModelTests::test_all_approved_band_members_are_exported
+tests/test_helixville4_full_band_models.py::Helixville4FullBandModelTests::test_band_members_are_not_tiny_placeholders
+tests/test_helixville4_full_band_models.py::Helixville4FullBandModelTests::test_every_member_has_many_named_submodels
+tests/test_helixville4_performance_regions.py::Helixville4PerformanceRegionTests::test_bassist_reactive_string_regions_exist
+tests/test_helixville4_performance_regions.py::Helixville4PerformanceRegionTests::test_drummer_kit_regions_exist
+tests/test_helixville4_performance_regions.py::Helixville4PerformanceRegionTests::test_female_singer_harmony_regions_exist
+tests/test_helixville4_performance_regions.py::Helixville4PerformanceRegionTests::test_guitarist_reactive_string_regions_exist
+tests/test_helixville4_performance_regions.py::Helixville4PerformanceRegionTests::test_singer_vocal_regions_exist
+  <repo>/tools/build_helpers/helixville4_full_band.py:364: DeprecationWarning: Testing an element's truth value will always return True in future versions.  Use specific 'len(elem)' or 'elem is not None' test instead.
+    groups_el = root.find("modelGroups") or ET.SubElement(root, "modelGroups")
+
+tests/test_helixville4_floor_piano.py::Helixville4FloorPianoTests::test_floor_piano_contains_expected_note_submodels
+tests/test_helixville4_floor_piano.py::Helixville4FloorPianoTests::test_floor_piano_exists
+tests/test_helixville4_floor_piano.py::Helixville4FloorPianoTests::test_global_layer_submodels_exist
+  <repo>/tools/build_helpers/helixville4_floor_piano.py:180: DeprecationWarning: Testing an element's truth value will always return True in future versions.  Use specific 'len(elem)' or 'elem is not None' test instead.
+    models_el = root.find("models") or ET.SubElement(root, "models")
+
+tests/test_helixville4_floor_piano.py::Helixville4FloorPianoTests::test_floor_piano_contains_expected_note_submodels
+tests/test_helixville4_floor_piano.py::Helixville4FloorPianoTests::test_floor_piano_exists
+tests/test_helixville4_floor_piano.py::Helixville4FloorPianoTests::test_global_layer_submodels_exist
+  <repo>/tools/build_helpers/helixville4_floor_piano.py:181: DeprecationWarning: Testing an element's truth value will always return True in future versions.  Use specific 'len(elem)' or 'elem is not None' test instead.
+    groups_el = root.find("modelGroups") or ET.SubElement(root, "modelGroups")
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ============================
+SKIPPED [1] tests/test_core_sandbox.py:95: 2.wav not found; sandbox regression harness requires fixed audio input
+SKIPPED [1] tests/test_core_sandbox.py:44: 2.wav not found; sandbox regression harness requires fixed audio input
+SKIPPED [1] tests/test_core_sandbox.py:63: 2.wav not found; sandbox regression harness requires fixed audio input
+SKIPPED [1] tests/test_core_sandbox.py:27: 2.wav not found; sandbox regression harness requires fixed audio input
+SKIPPED [1] tests/test_core_sandbox.py:81: 2.wav not found; sandbox regression harness requires fixed audio input
+1515 passed, 5 skipped, 36 warnings in 209.69s (0:03:29)

@@ -1,0 +1,61 @@
+{
+  "apk_sha256": "4398e906e7d2e98725bcb052779fbe22891a592de0839ea2ee1b87215554f887",
+  "engine_commit": "546fcd454c4dd37ba357d05c9928f3e45e696d26",
+  "engine_files_verified": 1043,
+  "decoded": [
+    {
+      "mode": "xlights",
+      "frames": 45,
+      "video_codec": "h264",
+      "audio_codec": "aac",
+      "duration": "3.000000",
+      "source_duration_seconds": 8.0,
+      "full_song_preview_verified": false,
+      "max_mean_pixel_error": 1.776662326388889,
+      "minimum_expected_lit_pixels_visible": 0.9827615062761507,
+      "audio_correlation": 0.9999563842574755,
+      "audio_offset_ms": 0.0
+    },
+    {
+      "mode": "lor",
+      "frames": 45,
+      "video_codec": "h264",
+      "audio_codec": "aac",
+      "duration": "3.000000",
+      "source_duration_seconds": 8.0,
+      "full_song_preview_verified": false,
+      "max_mean_pixel_error": 1.6728457754629629,
+      "minimum_expected_lit_pixels_visible": 0.9634881247784474,
+      "audio_correlation": 0.9999563842574755,
+      "audio_offset_ms": 0.0
+    },
+    {
+      "mode": "real-rgb",
+      "frames": 120,
+      "video_codec": "h264",
+      "audio_codec": "aac",
+      "duration": "8.000000",
+      "source_duration_seconds": 8.0,
+      "full_song_preview_verified": false,
+      "max_mean_pixel_error": 1.758884548611111,
+      "minimum_expected_lit_pixels_visible": 0.9744447098160974,
+      "audio_correlation": 0.9977437981465194,
+      "audio_offset_ms": 0.0
+    },
+    {
+      "mode": "full-song",
+      "frames": 3562,
+      "video_codec": "h264",
+      "audio_codec": "aac",
+      "duration": "237.466708",
+      "source_duration_seconds": 237.43997916666666,
+      "full_song_preview_verified": true,
+      "max_mean_pixel_error": 1.728548900462963,
+      "minimum_expected_lit_pixels_visible": 0.9650953580424613,
+      "audio_correlation": 0.9957144538319779,
+      "audio_offset_ms": 0.0
+    }
+  ],
+  "signing_certificate": "Signer #1 certificate DN: C=US, O=Android, CN=Android Debug\nSigner #1 certificate SHA-256 digest: 51ce414f107506f9c8b30501158afc53093eb7acd21b4fcf68699c2138bb3e21\nSigner #1 certificate SHA-1 digest: af0c3efa9945d2f95d10b214dc65a778513f97b8\nSigner #1 certificate MD5 digest: ebbe23761046ef7b887791f90a9940f3\n",
+  "signing_status": "debug beta; production upgrade not verified"
+}
