@@ -1,0 +1,185 @@
+# Helix layered drummer manifest
+#
+# This manifest intentionally describes the asset stack before all rendered PNGs exist.
+# Generators and validators can use it as the source of truth for filenames,
+# brightness, event IDs, and overlay composition rules.
+
+asset_id: snowman_locked_drummer
+version: 1
+canvas:
+  width: 2048
+  height: 2048
+  registration: full_canvas_same_origin
+  format: png
+
+base_layer:
+  id: DRUMMER_BASE_LOCKED_DIM
+  file: drummer_base_locked_dim.png
+  role: locked_background
+  alpha_mode: normal
+  transparent_background: preferred
+  intensity: 0.32
+  stationary_components:
+    - body
+    - head
+    - scarf
+    - hat
+    - torso
+    - legs
+    - dim_drum_kit_outline
+  forbidden_motion:
+    - active_strike_arms
+    - moving_sticks
+
+default_event_behavior:
+  alpha_mode: transparent_overlay
+  event_intensity: 1.25
+  contact_glow_intensity: 1.65
+  hit_hold_ms: 80
+  hit_fade_ms: 180
+  no_stationary_body_duplicates: true
+  align_to_base_canvas: true
+
+layers:
+  - id: DRUMMER_KICK
+    event: kick
+    file: drummer_hit_kick.png
+    target_components:
+      - kick_drum
+      - beater_or_foot_pulse
+    moving_components:
+      - kick_contact_glow
+    decay_ms: 260
+
+  - id: DRUMMER_SNARE_L
+    event: snare_left
+    file: drummer_hit_snare_left.png
+    target_components:
+      - snare
+    moving_components:
+      - left_arm_contact_pose
+      - left_stick_touching_snare
+      - snare_contact_glow
+    decay_ms: 220
+
+  - id: DRUMMER_SNARE_R
+    event: snare_right
+    file: drummer_hit_snare_right.png
+    target_components:
+      - snare
+    moving_components:
+      - right_arm_contact_pose
+      - right_stick_touching_snare
+      - snare_contact_glow
+    decay_ms: 220
+
+  - id: DRUMMER_TOM_L
+    event: tom_left
+    file: drummer_hit_left_tom.png
+    target_components:
+      - left_tom
+    moving_components:
+      - left_arm_contact_pose
+      - left_stick_touching_left_tom
+      - left_tom_contact_glow
+    decay_ms: 220
+
+  - id: DRUMMER_TOM_R
+    event: tom_right
+    file: drummer_hit_right_tom.png
+    target_components:
+      - right_tom
+    moving_components:
+      - right_arm_contact_pose
+      - right_stick_touching_right_tom
+      - right_tom_contact_glow
+    decay_ms: 220
+
+  - id: DRUMMER_FLOOR_TOM
+    event: floor_tom
+    file: drummer_hit_floor_tom.png
+    target_components:
+      - floor_tom
+    moving_components:
+      - right_arm_low_contact_pose
+      - right_stick_touching_floor_tom
+      - floor_tom_contact_glow
+    decay_ms: 240
+
+  - id: DRUMMER_HIHAT_CLOSED
+    event: hihat_closed
+    file: drummer_hit_hihat_closed.png
+    target_components:
+      - hihat
+    moving_components:
+      - left_arm_contact_pose
+      - left_stick_touching_hihat
+      - tight_hihat_contact_glow
+    decay_ms: 120
+    shimmer_ms: 80
+
+  - id: DRUMMER_HIHAT_OPEN
+    event: hihat_open
+    file: drummer_hit_hihat_open.png
+    target_components:
+      - hihat_open
+    moving_components:
+      - left_arm_contact_pose
+      - left_stick_touching_open_hihat
+      - open_hihat_contact_glow
+    decay_ms: 260
+    shimmer_ms: 250
+
+  - id: DRUMMER_CRASH_L
+    event: crash_left
+    file: drummer_hit_crash_left.png
+    target_components:
+      - left_crash_cymbal
+    moving_components:
+      - left_arm_high_contact_pose
+      - left_stick_touching_left_crash
+      - left_crash_contact_glow
+      - cymbal_ring_halo
+    decay_ms: 450
+    shimmer_ms: 450
+
+  - id: DRUMMER_CRASH_R
+    event: crash_right
+    file: drummer_hit_crash_right.png
+    target_components:
+      - right_crash_cymbal
+    moving_components:
+      - right_arm_high_contact_pose
+      - right_stick_touching_right_crash
+      - right_crash_contact_glow
+      - cymbal_ring_halo
+    decay_ms: 450
+    shimmer_ms: 450
+
+  - id: DRUMMER_RIDE
+    event: ride
+    file: drummer_hit_ride.png
+    target_components:
+      - ride_cymbal
+    moving_components:
+      - right_arm_ride_contact_pose
+      - right_stick_touching_ride
+      - ride_contact_glow
+    decay_ms: 300
+    shimmer_ms: 260
+
+  - id: DRUMMER_DUAL_CRASH
+    event: dual_crash
+    file: drummer_hit_dual_crash.png
+    target_components:
+      - left_crash_cymbal
+      - right_crash_cymbal
+    moving_components:
+      - left_arm_high_contact_pose
+      - right_arm_high_contact_pose
+      - left_stick_touching_left_crash
+      - right_stick_touching_right_crash
+      - dual_cymbal_contact_glow
+      - dual_cymbal_ring_halo
+    decay_ms: 520
+    shimmer_ms: 520

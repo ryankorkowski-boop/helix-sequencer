@@ -1,0 +1,73 @@
+{
+  "version": "0.1",
+  "sequence_id": "song_02",
+  "sequence_plan_ref": "sequence_plan.json",
+  "source_audio_ref": "2.wav",
+  "fps": 40,
+  "timebase": "ms",
+  "defaults": {
+    "mode": "protect",
+    "strength": "hard",
+    "padding_before_ms": 100,
+    "padding_after_ms": 120,
+    "min_remaining_ms": 0,
+    "require_user_consent": false
+  },
+  "locks": [
+    {
+      "id": "lock_chorus_burst_01",
+      "label": "Manual whole-house chorus burst",
+      "enabled": true,
+      "origin": "manual",
+      "scope": "cue",
+      "anchor": {
+        "type": "cue_ref",
+        "cue_id": "cue_manual_034",
+        "fallback_interval": {
+          "start_ms": 42000,
+          "end_ms": 43200
+        }
+      },
+      "selector": {
+        "groups": ["whole_house"],
+        "layers": ["base"],
+        "effect_ids": ["cue_manual_034"]
+      },
+      "freeze": ["occupancy", "timing", "targeting", "payload"],
+      "policy": {
+        "mode": "protect",
+        "strength": "hard",
+        "padding_before_ms": 120,
+        "padding_after_ms": 180,
+        "require_user_consent": false
+      },
+      "notes": "Keep the hand-placed burst exactly as authored."
+    },
+    {
+      "id": "lock_singer_phrase_01",
+      "label": "Protect singer lane during lyric phrase",
+      "enabled": true,
+      "origin": "manual",
+      "scope": "group",
+      "anchor": {
+        "type": "time_range",
+        "start_ms": 55300,
+        "end_ms": 58800
+      },
+      "selector": {
+        "groups": ["snowman_singer"],
+        "layers": ["base"]
+      },
+      "freeze": ["occupancy"],
+      "policy": {
+        "mode": "trim",
+        "strength": "hard",
+        "padding_before_ms": 80,
+        "padding_after_ms": 80,
+        "min_remaining_ms": 250,
+        "require_user_consent": false
+      },
+      "notes": "Auto-fill may trim around this singer phrase but cannot overwrite it."
+    }
+  ]
+}

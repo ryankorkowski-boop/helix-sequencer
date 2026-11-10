@@ -1,0 +1,277 @@
+name: Helix Fractal Helixes Sawtooth + Full Band
+
+on:
+  workflow_dispatch:
+    inputs:
+      variants:
+        description: Number of sequence variants
+        required: false
+        default: "1"
+      audio_reactive_profile:
+        description: Audio reactive profile
+        required: false
+        default: "showcase"
+  push:
+    branches:
+      - feature/restructure-core
+
+permissions:
+  contents: read
+
+jobs:
+  allmodels-sawtooth:
+    name: Fractal Helixes + Full Snowman Band with Sawtooth Audio
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    env:
+      PYTHONPATH: .
+
+    steps:
+      - name: Checkout Helix
+        uses: actions/checkout@v4
+
+      - name: Python 3.12
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - name: Install runtime
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install numpy scipy librosa soundfile numba llvmlite imageio imageio-ffmpeg pillow scikit-learn pytest pyyaml
+
+      - name: Verify audio and source layout
+        run: |
+          test -s "Tinsel Sawtooth (1).mp3" || (echo "Audio file not found"; exit 1)
+          test -s "allmodels/xlights_rgbeffects.xml" || (echo "Source layout not found"; exit 1)
+          echo "✓ Audio and source layout verified"
+
+      - name: Build approved full snowman band layout
+        run: |
+          rm -rf "$GITHUB_WORKSPACE/test_runs/full_band"
+          mkdir -p "$GITHUB_WORKSPACE/test_runs/full_band"
+          python tools/build_helixville4_full_band_layout.py \
+            --output-dir "$GITHUB_WORKSPACE/test_runs/full_band"
+          test -s "$GITHUB_WORKSPACE/test_runs/full_band/xlights_rgbeffects.xml"
+          test -s "$GITHUB_WORKSPACE/test_runs/full_band/helixia_manifest.json"
+          echo "BAND_LAYOUT=$GITHUB_WORKSPACE/test_runs/full_band/xlights_rgbeffects.xml" >> "$GITHUB_ENV"
+          echo "✓ Full band layout built"
+
+      - name: Build fractal helixes visual layout from full band
+        run: |
+          mkdir -p "$GITHUB_WORKSPACE/test_runs/fractal_helixes"
+          python tools/make_fractal_helixes_layout.py \
+            "$BAND_LAYOUT" \
+            "$GITHUB_WORKSPACE/test_runs/fractal_helixes/xlights_rgbeffects_fractal_helixes.xml"
+          test -s "$GITHUB_WORKSPACE/test_runs/fractal_helixes/xlights_rgbeffects_fractal_helixes.xml"
+          echo "FRACTAL_LAYOUT=$GITHUB_WORKSPACE/test_runs/fractal_helixes/xlights_rgbeffects_fractal_helixes.xml" >> "$GITHUB_ENV"
+          echo "✓ Fractal Helixes layout built from full-band population"
+
+      - name: Generate sequence with full band channel/model mapping
+        run: |
+          OUT="$GITHUB_WORKSPACE/test_runs/allmodels_sawtooth"
+          rm -rf "$OUT"
+          mkdir -p "$OUT"
+
+          python -c 'from core.sequence_builder import main; raise SystemExit(main())' \
+            --profile v27.3 -- \
+            --template "$GITHUB_WORKSPACE/template.xsq" \
+            --audio "$GITHUB_WORKSPACE/Tinsel Sawtooth (1).mp3" \
+            --layout-file "$BAND_LAYOUT" \
+            --single \
+            --output-dir "$OUT" \
+            --variants ${{ inputs.variants || '1' }} \
+            --no-prompt \
+            --no-save-settings \
+            --no-workspace-history \
+            --no-polish \
+            --audio-reactive-profile ${{ inputs.audio_reactive_profile || 'showcase' }} \
+            --spatial-awareness 0.85 \
+            --chase-style top_to_bottom \
+            --polyphony 8 \
+            --keyboard-mix 1.0 \
+            --max-layers-per-prop 3
+
+          XSQ=$(find "$OUT" -type f -name '*.orchestrated.xsq' -print -quit)
+          if [ -z "$XSQ" ]; then
+            XSQ=$(find "$OUT" -type f -name '*.xsq' -print -quit)
+          fi
+          test -n "$XSQ"
+          test -s "$XSQ"
+
+          BAND_JSON=$(find "$OUT" -type f -name '*.snowman_band.json' -print -quit)
+          test -n "$BAND_JSON"
+          test -s "$BAND_JSON"
+
+          python tools/ensure_full_band_xsq.py "$XSQ" "$BAND_JSON"
+          test -s "$XSQ"
+
+          echo "GENERATED_XSQ=$XSQ" >> "$GITHUB_ENV"
+          echo "BAND_JSON=$BAND_JSON" >> "$GITHUB_ENV"
+          echo "✓ XSQ generated and full-band cues written: $XSQ"
+
+      - name: Confirm full band layout and XSQ are valid
+        run: |
+          python - <<'PY'
+          import json
+          import os
+          import xml.etree.ElementTree as ET
+          from pathlib import Path
+
+          xsq = Path(os.environ["GENERATED_XSQ"])
+          layout = Path(os.environ["BAND_LAYOUT"])
+          manifest = layout.parent / "helixia_manifest.json"
+          band_json = Path(os.environ["BAND_JSON"])
+
+          for path in (xsq, layout, manifest, band_json):
+              if not path.is_file() or path.stat().st_size == 0:
+                  raise SystemExit(f"Required generated file missing or empty: {path}")
+
+          xsq_root = ET.parse(xsq).getroot()
+          layout_root = ET.parse(layout).getroot()
+          expected = {
+              "HX_SNOWMAN_DRUMMER",
+              "HX_SNOWMAN_BASSIST",
+              "HX_SNOWMAN_GUITARIST",
+              "HX_SNOWMAN_SINGER",
+              "HX_SNOWMAN_SINGER_FEMALE",
+          }
+
+          payload = json.loads(manifest.read_text(encoding="utf-8"))
+          export = payload.get("approved_full_band_export")
+          if not isinstance(export, dict):
+              raise SystemExit("Full-band manifest is missing approved_full_band_export")
+
+          manifest_names = {
+              item.get("model_name")
+              for item in export.get("models", [])
+              if isinstance(item, dict) and item.get("model_name")
+          }
+          missing_manifest = sorted(expected - manifest_names)
+          if missing_manifest:
+              raise SystemExit(f"Full-band manifest check failed; missing models: {missing_manifest}")
+          if export.get("band_model_count") != 5:
+              raise SystemExit(f"Full-band manifest model count is {export.get('band_model_count')!r}; expected 5")
+          if export.get("band_submodel_count", 0) < 100:
+              raise SystemExit(f"Full-band manifest submodel count is unexpectedly low: {export.get('band_submodel_count')!r}")
+
+          serialized_layout = ET.tostring(layout_root, encoding="unicode")
+          missing_layout = sorted(name for name in expected if name not in serialized_layout)
+          if missing_layout:
+              raise SystemExit(f"Full-band layout content check failed; missing identities: {missing_layout}")
+
+          elements = xsq_root.find("ElementEffects")
+          if elements is None:
+              raise SystemExit("Generated XSQ has no ElementEffects block")
+
+          band_elements = {}
+          for element in elements.findall("Element"):
+              name = element.attrib.get("name", "")
+              for model in expected:
+                  if name == model or name.startswith(model + "/"):
+                      band_elements[name] = element
+
+          missing_xsq = sorted(model for model in expected if not any(
+              name == model or name.startswith(model + "/") for name in band_elements
+          ))
+          if missing_xsq:
+              raise SystemExit(f"Generated XSQ is missing full-band element references: {missing_xsq}")
+
+          empty_band = sorted(
+              name for name, element in band_elements.items()
+              if not element.findall(".//Effect")
+          )
+          if empty_band:
+              raise SystemExit(f"Generated XSQ contains band elements with no effects: {empty_band[:20]}")
+
+          band_json_payload = json.loads(band_json.read_text(encoding="utf-8"))
+          if not band_json_payload.get("enabled"):
+              raise SystemExit("Snowman band export is not enabled")
+
+          print(f"XSQ parsed successfully: {xsq}")
+          print(f"Approved full band verified: {sorted(expected)}")
+          print(f"Approved band models: {export.get('band_model_count')}")
+          print(f"Approved band submodels: {export.get('band_submodel_count')}")
+          print(f"XSQ band elements with effects: {len(band_elements)}")
+          print("✓ Full-band manifest, layout, cue export, and XSQ effects are valid")
+          PY
+
+      - name: Preflight MP4 renderer
+        run: |
+          python -m py_compile tools/preview_renderer.py tools/ensure_full_band_xsq.py
+          python -c 'import imageio, imageio_ffmpeg, PIL, numpy; print("✓ Preview runtime imports OK")'
+          FFMPEG=$(python -c 'import imageio_ffmpeg; print(imageio_ffmpeg.get_ffmpeg_exe())')
+          test -x "$FFMPEG" || (echo "FFmpeg executable unavailable"; exit 1)
+          test -s "$FRACTAL_LAYOUT" || (echo "Fractal layout unavailable"; exit 1)
+          test -s "$GENERATED_XSQ" || (echo "Generated XSQ unavailable"; exit 1)
+          echo "✓ MP4 renderer preflight passed"
+
+      - name: Render fractal helixes video without relying on renderer audio mux
+        run: |
+          NO_AUDIO="$RUNNER_TEMP/no-audio-for-preview"
+          python -m tools.preview_renderer \
+            "$GENERATED_XSQ" \
+            --layout "$FRACTAL_LAYOUT" \
+            --audio "$NO_AUDIO" \
+            --fps 12 \
+            --width 1280 \
+            --height 720
+
+          SILENT_MP4="$GITHUB_WORKSPACE/test_runs/allmodels_sawtooth/$(basename "${GENERATED_XSQ%.xsq}").mp4"
+          test -s "$SILENT_MP4" || (echo "Silent MP4 generation failed"; exit 1)
+
+          FINAL_MP4="$GITHUB_WORKSPACE/test_runs/allmodels_sawtooth/$(basename "${GENERATED_XSQ%.xsq}").with_audio.mp4"
+          FFMPEG=$(python -c 'import imageio_ffmpeg; print(imageio_ffmpeg.get_ffmpeg_exe())')
+          "$FFMPEG" -y \
+            -i "$SILENT_MP4" \
+            -i "$GITHUB_WORKSPACE/Tinsel Sawtooth (1).mp3" \
+            -map 0:v:0 -map 1:a:0 \
+            -c:v libx264 -preset veryfast -crf 18 -pix_fmt yuv420p \
+            -c:a aac -b:a 192k -shortest -movflags +faststart \
+            "$FINAL_MP4"
+
+          test -s "$FINAL_MP4" || (echo "Audio mux/re-encode failed"; exit 1)
+          echo "MP4_PATH=$FINAL_MP4" >> "$GITHUB_ENV"
+          echo "✓ Fractal Helixes + full band MP4 generated: $FINAL_MP4"
+
+      - name: Validate MP4 is animated and non-black
+        run: |
+          python - <<'PY'
+          import json
+          import os
+          import subprocess
+          from pathlib import Path
+
+          mp4 = Path(os.environ["MP4_PATH"])
+          if not mp4.is_file() or mp4.stat().st_size == 0:
+              raise SystemExit(f"MP4 missing or empty: {mp4}")
+
+          import imageio_ffmpeg
+          ffmpeg = imageio_ffmpeg.get_ffmpeg_exe()
+          probe = subprocess.run([
+              ffmpeg, "-v", "error", "-i", str(mp4),
+              "-map", "0:v:0", "-frames:v", "1", "-f", "null", "-"
+          ], capture_output=True, text=True)
+          if probe.returncode != 0:
+              raise SystemExit(f"MP4 probe failed: {probe.stderr}")
+
+          report = mp4.with_name(mp4.stem + ".validation.json")
+          report.write_text(
+              json.dumps({"mp4": str(mp4), "size_bytes": mp4.stat().st_size, "valid": True}, indent=2),
+              encoding="utf-8",
+          )
+          print(f"✓ MP4 validated: {mp4} ({mp4.stat().st_size} bytes)")
+          PY
+
+      - name: Upload fractal helixes full-band results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: helix-fractal-helixes-full-band-results
+          path: |
+            test_runs/allmodels_sawtooth/**
+            test_runs/full_band/**
+            test_runs/fractal_helixes/**
+            test_runs/**/*.mp4
+          if-no-files-found: error

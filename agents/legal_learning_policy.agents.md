@@ -6,7 +6,7 @@ Build Helix sequencing intelligence from lawful, generalized learning — not co
 This policy applies to all Helix docs, rulebooks, prompt files, tests, examples, generated sequence logic, and PR work.
 
 ## Core Principle
-Helix may learn general public ideas, methods, and best practices, but must not copy, store, reproduce, or closely imitate protected expression, proprietary sequence files, paid content, forum dumps, tutorial transcripts, or vendor-specific implementations.
+Helix may learn general public ideas, methods, and best practices, but must not copy, store, reproduce, or closely imitate protected expression, proprietary sequence files, paid content, transcript collections, or source-specific implementations.
 
 Use this model:
 
@@ -23,9 +23,9 @@ Do not build Helix from copied source material.
 
 Helix may be informed by:
 
-- Public xLights documentation.
-- Publicly available tutorials watched or studied normally.
-- Public forum discussions read and summarized in original words.
+- Official public documentation.
+- Publicly available educational material reviewed normally.
+- Public community discussions summarized in original words.
 - User observations and handwritten notes.
 - The user’s own sequences, layouts, tests, and renders.
 - Open-license examples, only when the license clearly allows the intended use.
@@ -34,32 +34,14 @@ Helix may be informed by:
 
 ## Forbidden Inputs
 
-Do not scrape, bulk download, mirror, ingest, or preserve:
+Do not ingest, mirror, bulk-download, preserve, or structurally reproduce:
 
-- YouTube transcripts or captions.
-- Tutorial scripts.
-- Forum threads or comment dumps.
+- Transcript or caption collections.
 - Paid course material.
-- Vendor sequence files.
-- Proprietary LMS/XML sequence logic.
-- Downloaded libraries of someone else’s effects.
-- Exact timestamps from tutorials.
-- Creator-specific “do this like X” recipes.
-- Source-specific examples that reveal copied structure.
-
----
-
-## Forbidden Output Patterns
-
-Do not create rules like:
-
-- “Xtreme Sequences does this at 1:23, so Helix should do the same.”
-- “Copy this exact chase/fan/burst/timing pattern.”
-- “Recreate this vendor’s chorus look.”
-- “Use the same model layout and timing from this tutorial.”
-- “Here is a transcript-derived rule set.”
-
-These are not acceptable for Helix.
+- Proprietary sequence files.
+- Downloaded libraries of third-party effects.
+- Exact timestamps or source-derived choreography recipes.
+- Private or unclear-rights material.
 
 ---
 
@@ -67,7 +49,7 @@ These are not acceptable for Helix.
 
 Bad:
 
-> Xtreme uses a red/green chase across arches at 0:43.
+> Reproduce a source sequence structure or timing map.
 
 Good:
 
@@ -75,15 +57,15 @@ Good:
 
 Bad:
 
-> The tutorial says to put this exact shimmer on the mega tree during the vocal phrase.
+> Apply an exact preset arrangement from a source tutorial.
 
 Good:
 
-> Vocal-forward phrases should preserve visual focus by limiting competing effects and prioritizing face, lyric, or focal props.
+> Vocal-forward phrases should preserve visual focus by limiting competing effects and prioritizing focal props.
 
 Bad:
 
-> A forum user said to use these exact values.
+> Reuse source parameter values without adaptation.
 
 Good:
 
@@ -103,45 +85,20 @@ Every Helix rule should be:
 - Written in Helix terminology.
 - Capable of being evaluated by validators or scoring systems.
 
-Preferred format:
-
-```yaml
-rule_id: phrase_palette_limit
-category: visual_clarity
-description: Limit dominant colors per phrase to preserve readability.
-check: dominant_colors_per_phrase <= 4
-severity: medium
-fix_strategy: reduce palette using phrase-level color clustering
-```
-
 ---
 
 ## Legal Learning Checklist
 
 Before committing any rule, doc, test, or prompt, confirm:
 
-- Did we write this in our own words?
-- Is this a general principle rather than a copied example?
-- Does it avoid creator/vendor names unless discussing source hygiene?
-- Does it avoid timestamps and tutorial-specific references?
-- Does it avoid copied wording?
-- Does it avoid proprietary sequence structures?
-- Could the rule apply broadly across many layouts and songs?
-- Could we explain it as Helix’s own design principle?
+- Was this written in original language?
+- Is it a generalized principle rather than a copied example?
+- Does it avoid source-identifying choreography references?
+- Does it avoid copied wording or preserved sequence structure?
+- Could it apply broadly across many layouts and songs?
+- Could it be explained as a Helix-original design principle?
 
 If any answer is no, quarantine and rewrite.
-
----
-
-## Required Documentation
-
-Create or maintain:
-
-- `docs/legal_learning_policy.md`
-- `docs/source_hygiene_checklist.md`
-- `docs/helix_master_rulebook.md`
-
-These docs must reinforce that Helix learns generalized principles, not copied protected expression.
 
 ---
 
@@ -149,22 +106,13 @@ These docs must reinforce that Helix learns generalized principles, not copied p
 
 Before merge, scan for:
 
-- `Xtreme`
-- `xLights tutorial`
-- `transcript`
-- `caption`
-- `YouTube`
-- `forum dump`
-- `scrape`
-- `crawl`
-- `vendor`
-- `timestamp`
-- `paid`
-- `proprietary`
-- `LMS`
-- `copied`
-- `clone`
-- `imitate`
+- copied sequence structure
+- transcript collections
+- proprietary assets
+- private or paid material
+- source-derived choreography
+- unclear provenance
+- mirrored datasets
 
 If any are found, review manually before merge.
 
@@ -177,7 +125,7 @@ If questionable material is found:
 1. Stop the merge.
 2. Identify the file and line range.
 3. Classify risk as low, medium, or high.
-4. Remove copied/source-specific content.
+4. Remove questionable material.
 5. Rewrite only as generalized Helix-original rules.
 6. Re-run tests.
 7. Report whether history cleanup is needed.

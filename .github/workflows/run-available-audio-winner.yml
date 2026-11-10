@@ -1,0 +1,147 @@
+name: Run available audio newest winner preview
+
+on:
+  push:
+    branches:
+      - feature/restructure-core
+      - preview-mp4-quality-presets
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  run-winner:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: "pip"
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install numpy scipy librosa soundfile numba llvmlite imageio imageio-ffmpeg pillow scikit-learn
+
+      - name: Stage available audio and layout
+        run: |
+          set -euo pipefail
+          mkdir -p fixtures/legacy_256/converted
+          cp template.xsq fixtures/legacy_256/converted/template.xsq
+          cp xlights_rgbeffects.xml fixtures/legacy_256/converted/xlights_rgbeffects.xml
+          python tools/generate_structured_benchmark_audio.py LightsOutTheme.wav --duration 30
+          python - <<'PY'
+          import imageio_ffmpeg, subprocess
+          ffmpeg = imageio_ffmpeg.get_ffmpeg_exe()
+          subprocess.run([ffmpeg, '-y', '-i', 'LightsOutTheme.wav', '-c:a', 'libmp3lame', '-b:a', '192k', 'LightsOutTheme.mp3'], check=True)
+          PY
+
+      - name: Analyze drum detection
+        env:
+          PYTHONPATH: .
+        run: |
+          python tools/analyze_drum_detection.py LightsOutTheme.wav --output test_runs/available_audio_newest_winner/drum_detection_report.json
+
+      - name: Run newest variants short test
+        env:
+          PYTHONPATH: .
+        run: |
+          python tools/run_v28_legacy_256_previews.py \
+            --audio LightsOutTheme.mp3 \
+            --template fixtures/legacy_256/converted/template.xsq \
+            --layout fixtures/legacy_256/converted/xlights_rgbeffects.xml \
+            --output-root test_runs/available_audio_newest_winner \
+            --duration-seconds 20 \
+            --versions v28.7 v28.8 v28.9 \
+            --fps 15 --width 1280 --height 720 --skip-render
+
+      - name: Pick winner and render preview MP4
+        env:
+          PYTHONPATH: .
+        run: |
+          python - <<'PY'
+          import json, shutil, subprocess, sys
+          from pathlib import Path
+          out = Path('test_runs/available_audio_newest_winner')
+          summary = json.loads((out / 'v28_legacy_256_preview_summary.json').read_text())
+          candidates = []
+          for item in summary.get('results', []):
+              report = item.get('report', {})
+              if item.get('sequence_ok'):
+                  candidates.append((float(report.get('quality_score') or 0), -int(report.get('validation_issues') or 0), item))
+          if not candidates:
+              raise SystemExit('No successful newest variant to render')
+          score, neg_issues, winner = sorted(candidates, reverse=True)[0]
+          xsq = Path(winner['sequence'])
+          clip_candidates = sorted((out / '_media').glob('LightsOutTheme.first_*s.mp3')) + sorted((out / '_media').glob('*.mp3'))
+          audio = clip_candidates[0] if clip_candidates else Path('LightsOutTheme.mp3')
+          hq = Path('tools/preview_hq.py')
+          if hq.exists():
+              cmd = [sys.executable, 'tools/preview_hq.py', str(xsq), '--layout', 'fixtures/legacy_256/converted/xlights_rgbeffects.xml', '--audio', str(audio), '--quality-preset', 'xlights']
+          else:
+              cmd = [sys.executable, '-m', 'tools.preview_renderer', str(xsq), '--layout', 'fixtures/legacy_256/converted/xlights_rgbeffects.xml', '--audio', str(audio), '--fps', '15', '--width', '1280', '--height', '720']
+          print(' '.join(cmd), flush=True)
+          subprocess.run(cmd, check=True)
+          mp4 = xsq.with_suffix('.mp4')
+          final = out / f"WINNER_{winner.get('version')}_{mp4.name}"
+          shutil.copy2(mp4, final)
+
+          wadena_cmd = [
+              sys.executable,
+              'tools/render_wadena_preview.py',
+              str(xsq),
+              '--layout', 'fixtures/legacy_256/converted/xlights_rgbeffects.xml',
+              '--audio', str(audio),
+              '--fps', '15', '--width', '1280', '--height', '720',
+          ]
+          print(' '.join(wadena_cmd), flush=True)
+          subprocess.run(wadena_cmd, check=True)
+          wadena_mp4 = xsq.with_suffix('.mp4')
+          wadena_final = out / f"WADENA_{winner.get('version')}_{mp4.name}"
+          shutil.copy2(wadena_mp4, wadena_final)
+
+          payload = {
+              'winner': winner.get('version'),
+              'score': score,
+              'issues': -neg_issues,
+              'winner_xsq': str(xsq),
+              'winner_mp4': str(final),
+              'wadena_mp4': str(wadena_final),
+              'audio': str(audio),
+              'render_command': ' '.join(cmd),
+              'wadena_render_command': ' '.join(wadena_cmd),
+          }
+          (out / 'winner_preview_result.json').write_text(json.dumps(payload, indent=2, sort_keys=True) + '\n')
+          print(json.dumps(payload, indent=2, sort_keys=True), flush=True)
+          PY
+
+      - name: Validate Wadena MP4 is non-empty
+        env:
+          PYTHONPATH: .
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import json
+          out = Path('test_runs/available_audio_newest_winner')
+          payload = json.loads((out / 'winner_preview_result.json').read_text())
+          path = Path(payload['wadena_mp4'])
+          if not path.exists() or path.stat().st_size < 100_000:
+              raise SystemExit(f'Wadena preview missing or suspiciously small: {path}')
+          print(f'Wadena preview OK: {path} ({path.stat().st_size} bytes)')
+          PY
+
+      - name: Upload winner artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: available-audio-newest-winner
+          path: |
+            test_runs/available_audio_newest_winner/**/*.xsq
+            test_runs/available_audio_newest_winner/**/*.mp4
+            test_runs/available_audio_newest_winner/**/*.json
+            test_runs/available_audio_newest_winner/**/*.txt
+          if-no-files-found: warn

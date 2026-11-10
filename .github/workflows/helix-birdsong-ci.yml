@@ -1,0 +1,78 @@
+name: Helix Birdsong CI
+
+on:
+  pull_request:
+  push:
+    branches:
+      - feature/restructure-core
+      - 'feature/**'
+      - 'codex/**'
+      - 'beta/**'
+
+jobs:
+  birdsong-core:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ['3.11', '3.12']
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+          cache: pip
+          cache-dependency-path: |
+            requirements.txt
+            requirements-dev.txt
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -r requirements-dev.txt
+
+      - name: Compile Birdsong modules
+        run: |
+          python -m compileall -q \
+            core/birdsong_feature_state.py \
+            core/birdsong_phrase_engine.py \
+            core/birdsong_motion.py \
+            core/birdsong_effect_scoring.py \
+            core/birdsong_behavior_planner.py \
+            core/birdsong_intent_manifest.py \
+            tools/export_birdsong_demo_manifest.py \
+            tests/test_birdsong_feature_state.py \
+            tests/test_birdsong_phrase_engine.py \
+            tests/test_birdsong_motion.py \
+            tests/test_birdsong_effect_scoring.py \
+            tests/test_birdsong_behavior_planner.py \
+            tests/test_birdsong_intent_manifest.py \
+            tests/test_export_birdsong_demo_manifest.py
+
+      - name: Run Birdsong tests
+        run: |
+          python -m pytest -q \
+            tests/test_birdsong_feature_state.py \
+            tests/test_birdsong_phrase_engine.py \
+            tests/test_birdsong_motion.py \
+            tests/test_birdsong_effect_scoring.py \
+            tests/test_birdsong_behavior_planner.py \
+            tests/test_birdsong_intent_manifest.py \
+            tests/test_export_birdsong_demo_manifest.py
+
+      - name: Export 20-second Birdsong demo manifest
+        run: |
+          python -m tools.export_birdsong_demo_manifest \
+            --output test_runs/birdsong_demo/birdsong_intents.json \
+            --duration-seconds 20 \
+            --step-seconds 1 \
+            --bpm 120
+
+      - name: Upload Birdsong demo manifest
+        uses: actions/upload-artifact@v4
+        with:
+          name: helix-birdsong-demo-manifest
+          path: test_runs/birdsong_demo/birdsong_intents.json
+          if-no-files-found: error

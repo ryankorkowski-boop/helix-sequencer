@@ -4,6 +4,7 @@ import subprocess
 import sys
 import threading
 from pathlib import Path
+import webbrowser
 import tkinter as tk
 from tkinter import filedialog, messagebox, ttk
 
@@ -50,6 +51,12 @@ class HelixGui(tk.Tk):
         self.birdsong_profile_var = tk.StringVar(value="canopy")
         self.birdsong_intensity_var = tk.DoubleVar(value=1.2)
         self.birdsong_min_conf_var = tk.DoubleVar(value=0.45)
+
+        self.hardkor_var = tk.BooleanVar(value=False)
+        self.hardkor_profile_var = tk.StringVar(value="ac256")
+        self.hardkor_intensity_var = tk.DoubleVar(value=1.2)
+        self.style_preset_var = tk.StringVar(value="Prime")
+
         self.variants_var = tk.IntVar(value=4)
 
         self._build_ui()
@@ -105,7 +112,18 @@ class HelixGui(tk.Tk):
         controls = ttk.LabelFrame(frame, text="Engine Controls")
         controls.pack(fill=tk.X, **pad)
 
-        ttk.Label(controls, text="Profile").grid(row=0, column=0, sticky="w", **pad)
+        ttk.Label(controls, text="Style Preset").grid(row=0, column=0, sticky="w", **pad)
+        style_combo = ttk.Combobox(
+            controls,
+            textvariable=self.style_preset_var,
+            values=["Prime", "HardKor", "Birdsong", "HardKor+Birdsong"],
+            state="readonly",
+            width=18,
+        )
+        style_combo.grid(row=0, column=1, sticky="w", **pad)
+        style_combo.bind("<<ComboboxSelected>>", lambda e: self._apply_style_preset())
+
+        ttk.Label(controls, text="Profile").grid(row=0, column=2, sticky="w", **pad)
         ttk.Combobox(controls, textvariable=self.profile_var, values=["master"], width=12, state="readonly").grid(
             row=0, column=1, sticky="w", **pad
         )
@@ -116,7 +134,7 @@ class HelixGui(tk.Tk):
         ttk.Checkbutton(controls, text="Matrix Intelligence", variable=self.matrix_var).grid(row=1, column=1, sticky="w", **pad)
         ttk.Checkbutton(controls, text="Polish", variable=self.polish_var).grid(row=1, column=2, sticky="w", **pad)
         ttk.Checkbutton(controls, text="Auto Shortlist", variable=self.shortlist_var).grid(row=1, column=3, sticky="w", **pad)
-        ttk.Checkbutton(controls, text="Helix Learning Memory", variable=self.learn_xsq_var).grid(row=1, column=4, sticky="w", **pad)
+        ttk.Checkbutton(controls, text="Learn From My XSQs", variable=self.learn_xsq_var).grid(row=1, column=4, sticky="w", **pad)
 
         birdsong = ttk.LabelFrame(frame, text="Birdsong Engine")
         birdsong.pack(fill=tk.X, **pad)
@@ -141,16 +159,32 @@ class HelixGui(tk.Tk):
             row=0, column=7, sticky="w", **pad
         )
 
+        hardkor = ttk.LabelFrame(frame, text="HardKor Engine")
+        hardkor.pack(fill=tk.X, **pad)
+        ttk.Checkbutton(hardkor, text="Enable HardKor", variable=self.hardkor_var).grid(row=0, column=0, sticky="w", **pad)
+        ttk.Label(hardkor, text="Profile").grid(row=0, column=1, sticky="w", **pad)
+        ttk.Combobox(
+            hardkor,
+            textvariable=self.hardkor_profile_var,
+            values=["ac256", "aggressive", "balanced", "drop"],
+            width=12,
+            state="readonly",
+        ).grid(row=0, column=2, sticky="w", **pad)
+        ttk.Label(hardkor, text="Intensity").grid(row=0, column=3, sticky="w", **pad)
+        ttk.Spinbox(hardkor, from_=0.25, to=2.5, increment=0.1, textvariable=self.hardkor_intensity_var, width=8).grid(
+            row=0, column=4, sticky="w", **pad
+        )
+
+        legal = ttk.LabelFrame(frame, text="Legal / Licensing")
+        legal.pack(fill=tk.X, **pad)
+        ttk.Label(legal, text="Helix Sequencer: PolyForm Noncommercial 1.0.0 | Free for qualifying noncommercial use; commercial use requires a separate license.", wraplength=900).pack(anchor="w", padx=8, pady=4)
+        ttk.Button(legal, text="View License", command=lambda: webbrowser.open("https://polyformproject.org/licenses/noncommercial/1.0.0/")).pack(side=tk.LEFT, padx=8, pady=4)
+        ttk.Button(legal, text="Third-Party Licenses", command=lambda: webbrowser.open((ROOT / "THIRD_PARTY_LICENSES.md").as_uri())).pack(side=tk.LEFT, padx=8, pady=4)
+
         actions = ttk.Frame(frame)
         actions.pack(fill=tk.X, **pad)
         self.run_button = ttk.Button(actions, text="Run Sequence Build", command=self._run_sequence)
         self.run_button.pack(side=tk.LEFT, padx=8, pady=6)
-        self.benchmark_button = ttk.Button(
-            actions,
-            text="Run Helixville Benchmark Pack",
-            command=lambda: self._run_sequence(benchmark_mode=True),
-        )
-        self.benchmark_button.pack(side=tk.LEFT, padx=8, pady=6)
         self.status_label = ttk.Label(actions, text="Ready")
         self.status_label.pack(side=tk.LEFT, padx=8, pady=6)
 
@@ -188,7 +222,7 @@ class HelixGui(tk.Tk):
             else:
                 self.output_var.set(str(ROOT / "outputs"))
 
-    def _build_helixville(self, quiet: bool = False) -> bool:
+    def _build_helixville(self) -> None:
         cmd = [sys.executable, str(ROOT / "tools" / "build_helixville_layout.py")]
         self._log("Building/refreshing helixville layout...")
         result = subprocess.run(cmd, cwd=str(ROOT), capture_output=True, text=True)
@@ -197,37 +231,13 @@ class HelixGui(tk.Tk):
         if result.returncode != 0:
             if result.stderr:
                 self._log(result.stderr.strip())
-            if not quiet:
-                messagebox.showerror("Helixville Build Failed", "Could not build Helixville layout. Check log output.")
-            return False
+            messagebox.showerror("Helixville Build Failed", "Could not build Helixville layout. Check log output.")
+            return
         self.layout_preset_var.set("helixville")
         self._apply_layout_preset()
-        if not quiet:
-            messagebox.showinfo("Helixville Ready", "Helixville layout has been generated and selected.")
-        return True
+        messagebox.showinfo("Helixville Ready", "Helixville layout has been generated and selected.")
 
-    def _apply_helixville_benchmark_preset(self) -> None:
-        self.layout_preset_var.set("helixville")
-        self._apply_layout_preset()
-        self.output_var.set(str(ROOT / "helixville" / "benchmarks"))
-        self.vendor_bar_var.set(True)
-        self.matrix_var.set(True)
-        self.polish_var.set(True)
-        self.shortlist_var.set(True)
-        self.learn_xsq_var.set(True)
-        self.birdsong_var.set(True)
-        self.birdsong_auto_var.set(True)
-        self.birdsong_profile_var.set("canopy")
-        self.birdsong_intensity_var.set(1.35)
-        self.birdsong_min_conf_var.set(0.40)
-        self.variants_var.set(6)
-
-    def _run_sequence(self, benchmark_mode: bool = False) -> None:
-        if benchmark_mode:
-            if not self._build_helixville(quiet=True):
-                messagebox.showerror("Benchmark Setup Failed", "Could not build or refresh helixville.")
-                return
-            self._apply_helixville_benchmark_preset()
+    def _run_sequence(self) -> None:
         if not self.audio_var.get().strip():
             messagebox.showwarning("Missing Audio", "Choose an audio file before running.")
             return
@@ -268,9 +278,7 @@ class HelixGui(tk.Tk):
         if self.shortlist_var.get():
             cmd.append("--auto-shortlist")
         if self.learn_xsq_var.get():
-            cmd.append("--learning-memory")
-        else:
-            cmd.append("--no-learning-memory")
+            cmd.append("--learn-from-my-xsqs")
 
         if self.birdsong_var.get():
             cmd.extend(
@@ -286,27 +294,23 @@ class HelixGui(tk.Tk):
             )
             if self.birdsong_auto_var.get():
                 cmd.append("--birdsong-auto")
+        else:
+            cmd.append("--no-birdsong")
 
-        if benchmark_mode:
+        if self.hardkor_var.get():
             cmd.extend(
                 [
-                    "--spatial-awareness",
-                    "0.62",
-                    "--chase-style",
-                    "wave",
-                    "--palette-mode",
-                    "workspace_match",
-                    "--vendor-min-quality",
-                    "90.0",
-                    "--vendor-min-audit",
-                    "86.0",
-                    "--vendor-max-rejected",
-                    "240",
+                    "--hardkor",
+                    "--hardkor-profile",
+                    self.hardkor_profile_var.get().strip() or "ac256",
+                    "--hardkor-intensity",
+                    f"{float(self.hardkor_intensity_var.get()):.2f}",
                 ]
             )
+        else:
+            cmd.append("--no-hardkor")
 
         self.run_button.configure(state=tk.DISABLED)
-        self.benchmark_button.configure(state=tk.DISABLED)
         self.status_label.configure(text="Running...")
         self._log("")
         self._log("Running command:")
@@ -335,7 +339,6 @@ class HelixGui(tk.Tk):
             self._log(f"Run failed with exit code {rc}.")
             self.status_label.configure(text="Failed")
         self.run_button.configure(state=tk.NORMAL)
-        self.benchmark_button.configure(state=tk.NORMAL)
 
 
 def main() -> int:

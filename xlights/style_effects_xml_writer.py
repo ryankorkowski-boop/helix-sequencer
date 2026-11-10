@@ -1,0 +1,39 @@
+from __future__ import annotations
+from pathlib import Path
+from xml.etree.ElementTree import Element, SubElement, ElementTree
+
+
+# Local Helix XML writer used by tests and demo artifacts.
+def build_style_effects_xml(rows):
+    root = Element("HelixStyleEffects")
+
+    for row in rows:
+        effect = SubElement(root, "Effect")
+
+        # Set flat attributes except palette
+        for key, value in row.items():
+            if key == "palette":
+                continue
+
+            # Normalize intensity casing (case-insensitive)
+            if key.lower() == "intensity":
+                xml_key = "Intensity"
+            else:
+                xml_key = key
+
+            effect.set(str(xml_key), str(value))
+
+        # Nested palette structure
+        palette_node = SubElement(effect, "Palette")
+        for color in row.get("palette", []):
+            SubElement(palette_node, "Color", {"name": str(color)})
+
+    return root
+
+
+def write_style_effects_xml(rows, output_path):
+    root = build_style_effects_xml(rows)
+    tree = ElementTree(root)
+    output_path = Path(output_path)
+    tree.write(output_path, encoding="utf-8")
+    return output_path

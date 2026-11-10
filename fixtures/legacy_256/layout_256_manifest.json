@@ -1,0 +1,41 @@
+{
+  "schema": "helix.legacy_256_manifest.v1",
+  "fixture_id": "legacy_256",
+  "description": "Constrained 256-channel legacy layout proving ground for Helix calibration.",
+  "channel_count": 256,
+  "layout_type": "legacy_ac_or_mixed_legacy",
+  "permission_status": {
+    "source_lms_local_only_by_default": true,
+    "source_lms_commit_allowed": false,
+    "converted_assets_commit_allowed": false,
+    "notes": "Update fixtures/legacy_256/permissions.md before committing source or converted assets."
+  },
+  "paths": {
+    "local_source_lms_dir": "local_fixtures/legacy_256/source_lms",
+    "local_audio_dir": "local_fixtures/legacy_256/audio",
+    "converted_template_xsq": "fixtures/legacy_256/converted/template.xsq",
+    "converted_layout_file": "fixtures/legacy_256/converted/xlights_rgbeffects.xml",
+    "expected_baseline_report": "fixtures/legacy_256/expected/baseline_report.json"
+  },
+  "quality_goal": {
+    "preset": "showcase",
+    "min_quality_score": 93.0,
+    "min_audit_score": 86.0,
+    "max_rejected_effects": 18000
+  },
+  "profile_direction": [
+    "legacy_256_clean",
+    "legacy_256_showcase",
+    "legacy_256_pro"
+  ],
+  "placement_rules": {
+    "avoid_pixel_only_effects": true,
+    "avoid_matrix_assumptions": true,
+    "prefer_ac_safe_effects": true,
+    "prefer_section_clarity": true,
+    "prefer_low_rejected_effect_count": true,
+    "prefer_channel_family_coverage": true,
+    "limit_full_layout_flashes": true
+  },
+  "channel_families": []
+}

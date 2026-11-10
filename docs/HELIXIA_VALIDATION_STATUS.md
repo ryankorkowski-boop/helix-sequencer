@@ -44,6 +44,18 @@
 - Visual review remains separate from parser validity.
 - Manifest embeds the absolute `output_layout` path, so temp-regenerated manifests differ only by environment path.
 
+## Evidence Capture
+
+Record xLights/manual/controller evidence with:
+
+```bash
+python -m tools.capture_xlights_validation_evidence --artifact-run-url <run-url> --probe-rest
+```
+
+Use the status values documented in `docs/xlights_import_validation.md`. A
+blocked or unavailable xLights automation endpoint is useful evidence, but it
+does not complete import validation or production-readiness claims.
+
 ## Validation Levels
 
 - Parser-valid: XML is syntactically valid and accepted by the repo parser.

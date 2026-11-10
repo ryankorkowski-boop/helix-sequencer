@@ -1,0 +1,55 @@
+name: Wadena Propagation Proof
+
+on:
+  push:
+    branches: [feature/restructure-core]
+  workflow_dispatch:
+
+jobs:
+  proof:
+    runs-on: ubuntu-latest
+    env:
+      PYTHONPATH: .
+    steps:
+      - name: Checkout Helix
+        uses: actions/checkout@v4
+      - name: Python 3.12
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: pip
+      - name: Install runtime
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install numpy scipy matplotlib pytest
+      - name: Validate Wadena calibration fixture
+        run: |
+          python -m pytest -q tests/test_wadena_video_calibration.py tests/test_wadena_av_sync.py
+          test -s data/wadena_video_calibration.json
+      - name: Compile Wadena proof tools
+        run: |
+          python -m py_compile tools/render_wadena_propagation_proof.py
+          python -m py_compile tools/render_wadena_xsq_proof.py
+          python -m py_compile core/wadena_av_sync.py
+      - name: Render Wadena propagation MP4
+        run: |
+          mkdir -p proof_output
+          python tools/render_wadena_propagation_proof.py proof_output/wadena_temporal_propagation_proof.mp4
+      - name: Render Wadena propagation XSQ
+        run: |
+          python tools/render_wadena_xsq_proof.py proof_output/wadena_temporal_propagation_proof.xsq
+      - name: Validate proof artifacts
+        run: |
+          test -s proof_output/wadena_temporal_propagation_proof.mp4
+          test -s proof_output/wadena_temporal_propagation_proof.xsq
+          ffprobe -v error -show_entries format=duration -of default=noprint_wrappers=1 proof_output/wadena_temporal_propagation_proof.mp4
+          python tools/validate_xsq_structure.py proof_output/wadena_temporal_propagation_proof.xsq
+      - name: Publish calibration fixture
+        run: |
+          cp data/wadena_video_calibration.json proof_output/wadena_video_calibration.json
+      - name: Upload Wadena proof artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: wadena-temporal-propagation-proof
+          path: proof_output/
+          retention-days: 14

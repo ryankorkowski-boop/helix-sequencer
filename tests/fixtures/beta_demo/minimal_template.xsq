@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<helixBetaTemplate>
+  <head>
+    <version>2024.0</version>
+    <author>Helix clean-room beta fixture</author>
+  </head>
+  <elements>
+    <element type="model" name="HX_BETA_DEMO_ARCH" />
+    <element type="model" name="HX_BETA_DEMO_STAR" />
+  </elements>
+  <dataLayers />
+</helixBetaTemplate>

@@ -1,0 +1,7 @@
+-r requirements.txt
+pytest>=8.0
+scikit-learn>=1.4
+flake8>=7.0
+mypy>=1.8
+pytest-cov>=4.1
+bandit>=1.7

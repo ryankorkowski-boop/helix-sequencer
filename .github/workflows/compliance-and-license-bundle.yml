@@ -1,0 +1,48 @@
+name: Compliance and License Bundle
+
+on:
+  push:
+    branches:
+      - feature/restructure-core
+      - main
+      - develop
+  pull_request:
+
+jobs:
+  compliance:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Verify compliance directories
+        run: |
+          test -d LICENSES
+          test -d docs
+
+      - name: Verify required compliance files
+        run: |
+          test -f NOTICE
+          test -f LICENSES/THIRD_PARTY_LICENSE_CHECKLIST.md
+          test -f docs/TRAINING_POLICY.md
+          test -f docs/GPL_BOUNDARY.md
+          test -f docs/WATERMARK_POLICY.md
+
+      - name: Build compliance bundle
+        run: |
+          mkdir -p compliance_bundle
+          cp NOTICE compliance_bundle/
+          cp -r LICENSES compliance_bundle/
+          cp -r docs compliance_bundle/
+
+      - name: Generate compliance manifest
+        run: |
+          echo "Helix Compliance Bundle" > compliance_bundle/MANIFEST.txt
+          echo "Generated on $(date -u)" >> compliance_bundle/MANIFEST.txt
+
+      - name: Upload compliance bundle artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: compliance-bundle
+          path: compliance_bundle

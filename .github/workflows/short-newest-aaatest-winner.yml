@@ -1,0 +1,117 @@
+name: Short newest AAATEST winner preview
+
+on:
+  workflow_dispatch:
+    inputs:
+      duration_seconds:
+        description: Short test duration in seconds
+        required: false
+        default: "20"
+      versions:
+        description: Space-separated newest variants
+        required: false
+        default: "v28.7 v28.8 v28.9"
+
+permissions:
+  contents: read
+
+jobs:
+  winner-preview:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: "pip"
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install numpy scipy librosa soundfile numba llvmlite imageio imageio-ffmpeg pillow scikit-learn
+
+      - name: Check requested 414 assets
+        run: |
+          set -euo pipefail
+          test -f 414/lightsouttheme.mp3
+          test -f 414/aaatest/xlights_rgbeffects.xml
+          if [[ ! -f 414/aaatest/template.xsq && ! -f 414/template.xsq && ! -f template.xsq ]]; then
+            echo "No template.xsq found in 414/aaatest, 414, or repo root" >&2
+            exit 2
+          fi
+
+      - name: Select template
+        id: template
+        run: |
+          if [[ -f 414/aaatest/template.xsq ]]; then
+            echo "path=414/aaatest/template.xsq" >> "$GITHUB_OUTPUT"
+          elif [[ -f 414/template.xsq ]]; then
+            echo "path=414/template.xsq" >> "$GITHUB_OUTPUT"
+          else
+            echo "path=template.xsq" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Run short tests without previews
+        env:
+          PYTHONPATH: .
+        run: |
+          python tools/run_v28_legacy_256_previews.py \
+            --audio 414/lightsouttheme.mp3 \
+            --template "${{ steps.template.outputs.path }}" \
+            --layout 414/aaatest/xlights_rgbeffects.xml \
+            --output-root 414/test_runs/short_newest_aaatest_winner \
+            --duration-seconds "${{ github.event.inputs.duration_seconds }}" \
+            --versions ${{ github.event.inputs.versions }} \
+            --fps 15 --width 1280 --height 720 --skip-render
+
+      - name: Pick winner and render winner preview
+        env:
+          PYTHONPATH: .
+        run: |
+          python - <<'PY'
+          import json, subprocess, sys, shutil
+          from pathlib import Path
+          root = Path('.')
+          out = Path('414/test_runs/short_newest_aaatest_winner')
+          summary = json.loads((out / 'v28_legacy_256_preview_summary.json').read_text())
+          results = []
+          for item in summary.get('results', []):
+              report = item.get('report', {})
+              if item.get('sequence_ok'):
+                  results.append((float(report.get('quality_score') or 0), -int(report.get('validation_issues') or 0), item))
+          if not results:
+              raise SystemExit('No successful sequence result to render')
+          score, neg_issues, winner = sorted(results, reverse=True)[0]
+          xsq = root / winner['sequence']
+          clip = out / '_media' / 'lightsouttheme.first_${{ github.event.inputs.duration_seconds }}s.mp3'
+          if not clip.exists():
+              clips = sorted((out / '_media').glob('lightsouttheme.first_*s.mp3'))
+              clip = clips[0] if clips else Path('414/lightsouttheme.mp3')
+          hq = Path('tools/preview_hq.py')
+          if hq.exists():
+              cmd = [sys.executable, 'tools/preview_hq.py', str(xsq), '--layout', '414/aaatest/xlights_rgbeffects.xml', '--audio', str(clip), '--quality-preset', 'xlights']
+          else:
+              cmd = [sys.executable, '-m', 'tools.preview_renderer', str(xsq), '--layout', '414/aaatest/xlights_rgbeffects.xml', '--audio', str(clip), '--fps', '15', '--width', '1280', '--height', '720']
+          print(' '.join(cmd), flush=True)
+          subprocess.run(cmd, check=True)
+          mp4 = xsq.with_suffix('.mp4')
+          final = out / f"WINNER_{winner.get('version')}_{mp4.name}"
+          shutil.copy2(mp4, final)
+          payload = {'winner': winner.get('version'), 'score': score, 'issues': -neg_issues, 'winner_xsq': str(xsq), 'winner_mp4': str(final), 'render_command': ' '.join(cmd)}
+          (out / 'winner_preview_result.json').write_text(json.dumps(payload, indent=2, sort_keys=True) + '\n')
+          print(json.dumps(payload, indent=2, sort_keys=True))
+          PY
+
+      - name: Upload winner artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: short-newest-aaatest-winner
+          path: |
+            414/test_runs/short_newest_aaatest_winner/**/*.xsq
+            414/test_runs/short_newest_aaatest_winner/**/*.mp4
+            414/test_runs/short_newest_aaatest_winner/**/*.json
+            414/test_runs/short_newest_aaatest_winner/**/*.txt
+          if-no-files-found: warn

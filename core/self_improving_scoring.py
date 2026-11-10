@@ -14,12 +14,13 @@ DEFAULT_WEIGHT_ADJUSTMENT_RATE = 0.035
 
 
 DEFAULT_METRIC_WEIGHTS: dict[str, float] = {
-    "beat_alignment": 0.20,
-    "visual_coherence": 0.18,
-    "repetition_penalty": 0.12,
-    "spatial_coverage": 0.16,
-    "energy_balance": 0.18,
-    "emotional_consistency": 0.16,
+    "beat_alignment": 0.17,
+    "rhythmic_accuracy": 0.13,
+    "visual_coherence": 0.17,
+    "repetition_penalty": 0.11,
+    "spatial_coverage": 0.15,
+    "energy_balance": 0.14,
+    "emotional_consistency": 0.13,
 }
 
 
@@ -94,12 +95,80 @@ def is_helix_generated_payload(payload: dict[str, Any]) -> bool:
     return bool(responsible_use.get("helix_generated_only", False))
 
 
+def _timing_delta_values(payload: dict[str, Any]) -> list[float]:
+    """Collect raw-vs-snapped timing deltas from beat-grid-aware payloads.
+
+    Supported shapes are intentionally permissive so this can score timeline
+    dicts, serialized dataclasses, or compact audit summaries without forcing a
+    single payload schema while Issue #41 is being wired through the engine.
+    """
+
+    deltas: list[float] = []
+
+    def visit(value: Any) -> None:
+        if isinstance(value, dict):
+            if "raw_start_ms" in value and "snapped_start_ms" in value:
+                try:
+                    deltas.append(abs(float(value["snapped_start_ms"]) - float(value["raw_start_ms"])))
+                except Exception:
+                    pass
+            if "raw_ms" in value and "snapped_ms" in value:
+                try:
+                    deltas.append(abs(float(value["snapped_ms"]) - float(value["raw_ms"])))
+                except Exception:
+                    pass
+            for child in value.values():
+                visit(child)
+        elif isinstance(value, list):
+            for child in value:
+                visit(child)
+
+    candidates = [
+        payload.get("beat_grid"),
+        payload.get("timing"),
+        payload.get("lyric_timeline"),
+        payload.get("vocal_timeline"),
+        payload.get("song_parts"),
+        payload.get("part_hits"),
+        ((payload.get("audit") or {}).get("final") or {}).get("beat_grid"),
+    ]
+    for candidate in candidates:
+        visit(candidate)
+    return deltas
+
+
+def rhythmic_accuracy_score(payload: dict[str, Any]) -> float:
+    """Score how closely raw timing events align with their snapped grid points."""
+
+    explicit = (
+        (payload.get("quality") or {}).get("rhythmic_accuracy")
+        or (payload.get("beat_grid") or {}).get("rhythmic_accuracy")
+        or (_final_audit(payload).get("rhythmic_accuracy"))
+    )
+    if explicit is not None:
+        value = float(explicit)
+        return _score01(value) if value > 1.0 else clamp01(value)
+
+    deltas = _timing_delta_values(payload)
+    if not deltas:
+        return beat_alignment_score(payload)
+
+    avg_delta = mean(deltas)
+    max_delta = max(deltas)
+    avg_component = 1.0 - min(avg_delta, 80.0) / 80.0
+    max_component = 1.0 - min(max_delta, 160.0) / 160.0
+    return clamp01((avg_component * 0.78) + (max_component * 0.22))
+
+
 def beat_alignment_score(payload: dict[str, Any]) -> float:
     audit = _final_audit(payload)
     components = _component_scores(payload)
     musical = _score01(audit.get("musical_coherence", 0.0))
     validation = _score01(components.get("validation", 0.0))
-    return clamp01((musical * 0.70) + (validation * 0.30))
+    legacy_score = clamp01((musical * 0.70) + (validation * 0.30))
+    if _timing_delta_values(payload):
+        return clamp01((legacy_score * 0.65) + (rhythmic_accuracy_score(payload) * 0.35))
+    return legacy_score
 
 
 def visual_coherence_score(payload: dict[str, Any]) -> float:
@@ -158,6 +227,7 @@ def emotional_consistency_score(payload: dict[str, Any]) -> float:
 def evaluate_metrics(payload: dict[str, Any]) -> dict[str, float]:
     return {
         "beat_alignment": beat_alignment_score(payload),
+        "rhythmic_accuracy": rhythmic_accuracy_score(payload),
         "visual_coherence": visual_coherence_score(payload),
         "repetition_penalty": repetition_penalty_score(payload),
         "spatial_coverage": spatial_coverage_score(payload),

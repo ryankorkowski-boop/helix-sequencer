@@ -13,17 +13,17 @@ If this file and other policy docs diverge, resolve in this order:
 
 ## 1) Legal And Ethical Boundary (Non-Negotiable)
 
-1. Use official docs, release notes, public forum guidance, and public tutorials as *process knowledge*, not as choreography templates.
-2. Do not copy timeline patterns, phrase maps, effect timing, or model-by-model artistic choices from paid/vendor sequences.
+1. Use official docs, release notes, and public tool documentation as process knowledge, not as choreography templates.
+2. Do not copy timeline patterns, phrase maps, effect timing, or model-by-model artistic choices from third-party sequences.
 3. Imported sequences are for licensed use and adaptation within rights granted by the source; do not redistribute assets beyond license terms.
 4. Preserve attribution, source URLs, and license notes for every imported model/asset/preset.
-5. Training/learning systems must only persist your own legally generated outputs and metadata, never unlicensed third-party sequence content.
+5. Learning systems must only persist your own legally generated outputs and metadata, never unlicensed third-party sequence content.
 
 ## 2) Source Priority And Trust Model
 
 1. Tier 1 (authoritative): xLights manual, xlights.org, official release/change notes, xLights GitHub.
-2. Tier 2 (credible practice): xLights Zoom/video ecosystem and structured tutorial indexes.
-3. Tier 3 (community anecdote): forums/reddit; use for troubleshooting heuristics, not canonical behavior.
+2. Tier 2 (project-owned practice): user-authored notes, Helix-generated experiments, and local regression fixtures.
+3. Tier 3 (community troubleshooting): public troubleshooting guidance may inform debugging only when provenance is clear.
 4. When sources conflict:
    - Prefer current official manual/release notes.
    - Validate with a small reproducible test sequence.
@@ -83,14 +83,15 @@ If this file and other policy docs diverge, resolve in this order:
 4. Use presets to standardize reusable micro-patterns (color+movement combinations), not to clone full sequence identity.
 5. Prefer effect families that match prop topology (line effects on lines, matrix dynamics on matrices, etc.).
 
-## 8) Import/Mapping Rules (Vendor Or Shared Sequences)
+## 8) Import/Mapping Rules
 
-1. Always inspect donor sequence in an isolated folder first.
-2. Render and preview donor sequence before mapping.
+1. Always inspect external sequence material in an isolated folder first.
+2. Render and preview before mapping.
 3. Build explicit donor-to-target mapping notes for model counts and topology.
 4. Map by function and geometry, not by name similarity alone.
 5. Re-render after mapping and resolve channel/group mismatches before artistic edits.
 6. Keep imported timing and effect layers distinguishable from native work until final integration pass.
+7. Use only material where the license and intended use are clear.
 
 ## 9) Performance And Render Stability Rules
 
@@ -134,7 +135,7 @@ If this file and other policy docs diverge, resolve in this order:
    - mood score from lexical + audio context
 4. Keep semantic lyric cues additive and bounded; never let them flood timeline density.
 
-## 13) Vendor-Bar Quality Rulebook (Helix-Specific)
+## 13) Quality Rulebook (Helix-Specific)
 
 1. Quality score must be decomposable into components (density, structure, keyboard balance, validation, coverage, detail, diversity, dominance, audit blend).
 2. Audit score must reflect overlap/clutter control, section coverage, intensity balance, and musical coherence.
@@ -190,8 +191,5 @@ If this file and other policy docs diverge, resolve in this order:
 - xLights Manual (Help/Support links): [manual.xlights.org/.../help](https://manual.xlights.org/xlights/chapters/chapter-five-menus/help)
 - xLights Downloads/Releases: [xlights.org/releases](https://xlights.org/releases/)
 - xLights GitHub Wiki Home: [github.com/xLightsSequencer/xLights/wiki](https://github.com/xLightsSequencer/xLights/wiki)
-- xLights video ecosystem sample page: [videos.xlights.org/xlights-gem-fpp-basics...](https://videos.xlights.org/xlights-gem-fpp-basics_9d882cb15.html)
-- Public tutorial index category: use source-agnostic notes and avoid creator-specific choreography replication.
-- Pixel Pro webinar index page: [pixelprodisplays.com/xlights-webinar-exploring-xlights-hidden-gems](https://pixelprodisplays.com/xlights-webinar-exploring-xlights-hidden-gems/)
 
-Note: This ruleset intentionally captures methods, guardrails, and workflow heuristics only. It excludes proprietary sequence choreography and paid content replication.
+Note: This ruleset intentionally captures methods, guardrails, and workflow heuristics only. It excludes proprietary sequence choreography and restricted content replication.

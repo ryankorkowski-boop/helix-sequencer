@@ -1,0 +1,146 @@
+name: Helix Wand
+
+on:
+  workflow_dispatch:
+    inputs:
+      duration_seconds:
+        description: Preview/test duration
+        required: false
+        default: "20"
+      run_drummer:
+        description: Run drummer and submodel validation
+        required: false
+        default: "true"
+  push:
+    branches:
+      - feature/restructure-core
+
+permissions:
+  contents: read
+
+jobs:
+  helix-wand:
+    name: Cloud Helix runtime
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    env:
+      PYTHONPATH: .
+      HELIX_DURATION: ${{ inputs.duration_seconds || '20' }}
+    steps:
+      - name: Checkout Helix
+        uses: actions/checkout@v4
+
+      - name: Python 3.12
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - name: Install runtime
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install numpy scipy librosa soundfile numba llvmlite imageio imageio-ffmpeg pillow scikit-learn pytest pyyaml
+
+      - name: Compile Helix runtime
+        run: |
+          python -m compileall -q core ai models mapping animation export tools tests main.py gui_launcher.py
+
+      - name: Validate drummer/submodel stack
+        if: ${{ inputs.run_drummer != 'false' }}
+        run: |
+          pytest -q tests/test_drummer_layers.py tests/test_drummer_xmodel_asset.py tests/test_drummer_v3_pose_sheet.py tests/test_drummer_v3_png_layers.py tests/test_finished_helixville4_drummer.py
+
+      - name: Validate preview stack
+        run: |
+          pytest -q tests/test_preview_hq.py tests/test_render_xsq_skeleton_preview.py tests/test_export_demo_xsq.py
+
+      - name: Generate deterministic ground-truth drum audio
+        run: |
+          mkdir -p wand_output
+          python - <<'PY'
+          import math, os, struct, wave
+          duration = max(1.0, float(os.environ.get('HELIX_DURATION', '20')))
+          sr = 44100
+          frames = int(duration * sr)
+          bpm = 120.0
+          beat = 60.0 / bpm
+          out = 'wand_output/helix_drummer_ground_truth.wav'
+          with wave.open(out, 'wb') as w:
+              w.setnchannels(2); w.setsampwidth(2); w.setframerate(sr)
+              for i in range(frames):
+                  t = i / sr
+                  phase = t % beat
+                  beat_i = int(t / beat)
+                  kick = math.exp(-phase * 35.0) * math.sin(2*math.pi*(65-25*min(phase/0.08,1))*t) if beat_i % 4 in (0,2) else 0.0
+                  snare_phase = (t - beat*1.0) % (beat*2)
+                  snare = math.exp(-snare_phase*55.0) * (math.sin(2*math.pi*1800*t)+0.5*math.sin(2*math.pi*2400*t)) if snare_phase < 0.09 else 0.0
+                  hat_phase = t % (beat/2)
+                  hat = math.exp(-hat_phase*90.0) * math.sin(2*math.pi*7000*t) * 0.22
+                  accent_phase = (t - 2.0) % 4.0
+                  tom = 0.12 * math.exp(-((accent_phase) * 22.0)) * math.sin(2*math.pi*140*t) if accent_phase < 0.12 else 0.0
+                  cym = 0.10 * math.exp(-((accent_phase) * 35.0)) * math.sin(2*math.pi*5200*t) if accent_phase < 0.12 else 0.0
+                  bass = 0.10 * math.sin(2*math.pi*(110 + 25*math.sin(2*math.pi*t/4))*t)
+                  x = max(-0.95, min(0.95, 0.42*kick + 0.18*snare + hat + tom + cym + bass))
+                  s = int(x * 32767)
+                  w.writeframes(struct.pack('<hh', s, s))
+          PY
+          test -s wand_output/helix_drummer_ground_truth.wav
+
+      - name: Generate drummer ground-truth XSQ
+        run: |
+          python tools/export_drummer_ground_truth_xsq.py --output wand_output/helix_drummer_ground_truth.xsq
+          python tools/validate_xsq_structure.py wand_output/helix_drummer_ground_truth.xsq
+          python - <<'PY'
+          import xml.etree.ElementTree as ET
+          p = 'wand_output/helix_drummer_ground_truth.xsq'
+          root = ET.parse(p).getroot()
+          expected = {
+              'HX_SNOWMAN_DRUMMER_V3_KICK',
+              'HX_SNOWMAN_DRUMMER_V3_SNARE',
+              'HX_SNOWMAN_DRUMMER_V3_HI_HAT',
+              'HX_SNOWMAN_DRUMMER_V3_CYMBAL_LEFT',
+              'HX_SNOWMAN_DRUMMER_V3_CYMBAL_RIGHT',
+              'HX_SNOWMAN_DRUMMER_V3_TOM_LEFT',
+              'HX_SNOWMAN_DRUMMER_V3_TOM_RIGHT',
+              'HX_SNOWMAN_DRUMMER_V3_DRUMKIT_ALL',
+          }
+          actual = {e.attrib.get('name') for e in root.findall('./ElementEffects/Element')}
+          missing = expected - actual
+          if missing:
+              raise SystemExit(f'Missing drummer submodels: {sorted(missing)}')
+          effect_count = len(root.findall('./ElementEffects/Element/EffectLayer/Effect'))
+          if effect_count < 40:
+              raise SystemExit(f'Ground-truth effect count unexpectedly low: {effect_count}')
+          print(f'DRUMMER GROUND TRUTH PASSED: {len(actual)} real submodels, {effect_count} visible effects')
+          PY
+
+      - name: Render real drummer submodel preview with synchronized audio
+        run: |
+          python tools/render_xsq_skeleton_preview.py wand_output/helix_drummer_ground_truth.xsq --width 1280 --height 720 --fps 24 --audio wand_output/helix_drummer_ground_truth.wav
+          test -s wand_output/helix_drummer_ground_truth.mp4
+          python - <<'PY'
+          import subprocess
+          from pathlib import Path
+          import imageio_ffmpeg
+          video = Path('wand_output/helix_drummer_ground_truth.mp4')
+          ffmpeg = imageio_ffmpeg.get_ffmpeg_exe()
+          probe = subprocess.run([ffmpeg, '-hide_banner', '-i', str(video)], capture_output=True, text=True)
+          text = probe.stdout + probe.stderr
+          if 'Audio:' not in text:
+              raise SystemExit('VALIDATION FAILED: MP4 has no audio stream')
+          if 'Video:' not in text:
+              raise SystemExit('VALIDATION FAILED: MP4 has no video stream')
+          print('MEDIA VALIDATION PASSED: drummer MP4 contains audio + video streams')
+          PY
+
+      - name: Upload Helix Wand results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: helix-wand-results
+          path: |
+            wand_output/**
+            fixtures/band_geometry/drummer_v3_pose_spec.json
+            fixtures/band_geometry/drummer_v3_png_layer_manifest.json
+            fixtures/band_geometry/models/HX_SNOWMAN_DRUMMER_V3.xmodel
+          if-no-files-found: warn

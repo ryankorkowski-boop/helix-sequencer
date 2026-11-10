@@ -4,7 +4,7 @@
     "require_source_url": true,
     "require_license_notes": true,
     "allow_redistribution_default": false,
-    "allow_training_default": "metadata_only"
+    "default_permitted_use": "metadata_reference_only"
   },
   "resources": [
     {
@@ -16,7 +16,7 @@
       "direct_download": false,
       "license_notes": "List of free sequence links is exposed by xLights UI; rights remain with the source author.",
       "redistribution_allowed": false,
-      "training_use": "metadata_only"
+      "permitted_use": "metadata_reference_only"
     },
     {
       "id": "xlights_model_download_dialog",
@@ -27,7 +27,7 @@
       "direct_download": false,
       "license_notes": "Catalog is vendor-provided inside xLights; each model remains subject to vendor terms.",
       "redistribution_allowed": false,
-      "training_use": "metadata_only"
+      "permitted_use": "metadata_reference_only"
     },
     {
       "id": "xlights_custom_model_exchange",
@@ -38,7 +38,7 @@
       "direct_download": false,
       "license_notes": "xModel files can be shared; permission still depends on original creator/vendor rights.",
       "redistribution_allowed": false,
-      "training_use": "metadata_only"
+      "permitted_use": "metadata_reference_only"
     },
     {
       "id": "sequenceexchange_free_to_test",
@@ -49,7 +49,7 @@
       "direct_download": false,
       "license_notes": "Marketplace includes free and paid entries with limited license terms.",
       "redistribution_allowed": false,
-      "training_use": "metadata_only"
+      "permitted_use": "metadata_reference_only"
     },
     {
       "id": "models_xlights_app_free_tier",
@@ -60,7 +60,7 @@
       "direct_download": true,
       "license_notes": "Free tier supports xModel export for user-created designs; platform terms apply.",
       "redistribution_allowed": false,
-      "training_use": "own_generated_only"
+      "permitted_use": "user_generated_assets_only"
     },
     {
       "id": "rgb_sequences_free_samples",
@@ -71,7 +71,7 @@
       "direct_download": false,
       "license_notes": "Site advertises a few free xLights sequences; distribution and use rights remain vendor-defined.",
       "redistribution_allowed": false,
-      "training_use": "metadata_only"
+      "permitted_use": "metadata_reference_only"
     }
   ]
 }

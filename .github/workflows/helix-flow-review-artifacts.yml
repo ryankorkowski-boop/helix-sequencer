@@ -1,0 +1,93 @@
+name: Helix Flow Review Artifacts
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - feature/restructure-core
+      - 'feature/**'
+      - 'codex/**'
+      - 'beta/**'
+
+jobs:
+  export-review-artifacts:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: pip
+          cache-dependency-path: |
+            requirements.txt
+            requirements-dev.txt
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -r requirements-dev.txt
+
+      - name: Export Helix Flow reports and XSQ
+        run: |
+          set -o pipefail
+          mkdir -p test_runs/helix_flow_demo
+          python -m tools.export_birdsong_demo_manifest \
+            --output test_runs/helix_flow_demo/helix_flow_intents.json \
+            --quality-report test_runs/helix_flow_demo/helix_flow_quality_report.json \
+            --baseline-report test_runs/helix_flow_demo/helix_flow_baseline_report.json \
+            --iteration-report test_runs/helix_flow_demo/helix_flow_iteration_report.json \
+            --acceptance-summary test_runs/helix_flow_demo/helix_flow_acceptance_summary.md \
+            --xsq-output test_runs/helix_flow_demo/helix_flow_demo.xsq \
+            --mp4-output test_runs/helix_flow_demo/helix_flow_demo.mp4 \
+            --duration-seconds 20 \
+            --step-seconds 1 \
+            --bpm 120 2>&1 | tee test_runs/helix_flow_demo/export.log
+
+      - name: Render Helix Flow MP4
+        id: render_mp4
+        continue-on-error: true
+        run: |
+          set -o pipefail
+          python -m tools.render_xsq_skeleton_preview \
+            test_runs/helix_flow_demo/helix_flow_demo.xsq \
+            --width 1280 \
+            --height 720 \
+            --fps 24 2>&1 | tee test_runs/helix_flow_demo/render.log
+
+      - name: Refresh acceptance summary after MP4 exists
+        if: always()
+        run: |
+          set -o pipefail
+          python - <<'PY' 2>&1 | tee test_runs/helix_flow_demo/acceptance.log
+          from pathlib import Path
+          from tools.export_birdsong_demo_manifest import export_helix_flow_acceptance_summary
+          base = Path('test_runs/helix_flow_demo')
+          export_helix_flow_acceptance_summary(
+              base / 'helix_flow_quality_report.json',
+              base / 'helix_flow_baseline_report.json',
+              base / 'helix_flow_iteration_report.json',
+              base / 'helix_flow_acceptance_summary.md',
+              xsq_path=base / 'helix_flow_demo.xsq',
+              mp4_path=base / 'helix_flow_demo.mp4',
+          )
+          PY
+
+      - name: Upload Helix Flow review artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: helix-flow-review-artifacts
+          path: |
+            test_runs/helix_flow_demo/*.json
+            test_runs/helix_flow_demo/*.xsq
+            test_runs/helix_flow_demo/*.mp4
+            test_runs/helix_flow_demo/*.md
+            test_runs/helix_flow_demo/*.log
+          if-no-files-found: warn
+
+      - name: Fail if MP4 render failed
+        if: steps.render_mp4.outcome == 'failure'
+        run: |
+          echo "::error::Helix Flow MP4 render failed. Download helix-flow-review-artifacts and inspect render.log."
+          exit 1

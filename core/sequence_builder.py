@@ -8,7 +8,6 @@ from typing import Iterable
 
 from core import engine_profiles
 from core.effects_orchestration_bridge import EffectsOrchestrationRunReport, run_effects_orchestration
-from core.full_show_orchestrator import apply_full_show_enhancements
 from core.prime_beat_grid import prime_beat_grid_args
 from core.run_config import RunConfig
 from core.run_manager import RunContext, RunManager
@@ -450,18 +449,6 @@ def run_profile(profile_id: str | None, engine_args: list[str] | None = None) ->
                 _run_birdsong_hook(config, engine_args, ctx)
             except Exception as exc:  # pragma: no cover - safe guard
                 print(f"birdsong: post-run hook failed: {exc}", file=sys.stderr)
-            # Full-show enhancements (previously unintegrated engines)
-            try:
-                full_report = apply_full_show_enhancements(
-                    audio_path=getattr(config, "audio_path", None) or getattr(config, "audio", None),
-                    layout_path=getattr(config, "layout_file", None),
-                    output_dir=getattr(config, "output_root", None),
-                )
-                print(f"full_show: {len(full_report.get('engines', []))} engines processed", file=sys.stderr)
-                if full_report.get("report_path"):
-                    ctx.record_artifact("full_show_report", Path(full_report["report_path"]))
-            except Exception as exc:  # pragma: no cover
-                print(f"full_show: enhancement failed: {exc}", file=sys.stderr)
         finally:
             _record_changed_artifacts(ctx, artifact_roots, artifact_snapshot)
             ctx.record_artifact("configured_output_root", config.output_root)

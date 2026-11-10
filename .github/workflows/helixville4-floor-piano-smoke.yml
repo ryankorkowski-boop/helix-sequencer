@@ -1,0 +1,43 @@
+name: Helixville4 Floor Piano Smoke
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - feature/restructure-core
+    paths:
+      - 'core/sequential_layering.py'
+      - 'core/floor_piano_animation_map.py'
+      - 'tools/build_helpers/helixville4_floor_piano.py'
+      - 'tools/build_helixville4_floor_piano_layout.py'
+      - 'tests/test_helixville4_floor_piano.py'
+      - 'tests/test_floor_piano_animation_map.py'
+      - '.github/workflows/helixville4-floor-piano-smoke.yml'
+
+jobs:
+  floor-piano-smoke:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Run sequential layering tests
+        run: |
+          python -m unittest \
+            tests.test_helixville4_floor_piano \
+            tests.test_floor_piano_animation_map
+
+      - name: Build floor piano layout
+        run: |
+          python tools/build_helixville4_floor_piano_layout.py \
+            --output-dir test_runs/helixville4_floor_piano_ci
+
+      - name: Upload floor piano artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: helixville4-floor-piano
+          path: |
+            test_runs/helixville4_floor_piano_ci/**
+          if-no-files-found: error

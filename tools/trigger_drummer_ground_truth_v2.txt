@@ -1,0 +1,1 @@
+Trigger second drummer ground-truth workflow after Pillow dependency fix.

@@ -32,7 +32,6 @@ OFFICIAL_DISPLAY_ALIASES = {
     "dmxservo3axis": "dmx servo 3d",
     "dmxskull": "dmx skull",
     "windowframe": "window frame",
-    "candycane": "candy cane",
     "singleline": "single line",
     "polyline": "poly line",
     "channelblock": "channel block",

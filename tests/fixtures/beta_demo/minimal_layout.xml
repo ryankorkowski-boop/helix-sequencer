@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xrgb>
+  <models>
+    <model name="HX_BETA_DEMO_ARCH" type="single_line" startChannel="1" parm1="10" parm2="1" stringType="RGB Nodes"/>
+    <model name="HX_BETA_DEMO_STAR" type="star" startChannel="31" parm1="5" parm2="1" stringType="RGB Nodes"/>
+  </models>
+  <modelGroups>
+    <modelGroup name="HX_BETA_DEMO_ALL" models="HX_BETA_DEMO_ARCH,HX_BETA_DEMO_STAR"/>
+  </modelGroups>
+</xrgb>

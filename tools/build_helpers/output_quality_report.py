@@ -1,0 +1,163 @@
+from __future__ import annotations
+
+from dataclasses import dataclass, field
+from typing import Iterable, Mapping
+
+from tools.build_helpers.explainable_variant_scoring import rank_variants
+from tools.build_helpers.gui_quality_options import GuiQualityOptions, normalize_gui_quality_options
+from tools.build_helpers.manual_locks import ManualLockError, parse_manual_lock_file
+from tools.build_helpers.motif_memory import score_motif_memory
+from tools.build_helpers.palette_discipline import score_palette_discipline
+from tools.build_helpers.prop_roles import summarize_roles
+from tools.build_helpers.regression_snapshots import compact_quality_snapshot
+from tools.build_helpers.restraint import score_restraint
+from tools.build_helpers.section_identity import score_section_identity
+from tools.showcase.energy_curve import score_showcase_energy
+from tools.showcase.hero_dominance import score_hero_dominance
+from tools.showcase.impact_model import score_impact_model
+from tools.showcase.motion_continuity import score_motion_continuity
+from tools.showcase.palette_arc import score_palette_arc
+from tools.showcase.showcase_score import score_showcase_report
+
+
+@dataclass(frozen=True)
+class OutputQualityReport:
+    version: str
+    report_only: bool
+    quality_preset: str
+    style_preset: str
+    enabled_modules: tuple[str, ...]
+    reports: dict[str, object] = field(default_factory=dict)
+    summary: dict[str, object] = field(default_factory=dict)
+    warnings: tuple[str, ...] = field(default_factory=tuple)
+
+    def as_dict(self) -> dict[str, object]:
+        return {
+            "version": self.version,
+            "report_only": self.report_only,
+            "quality_preset": self.quality_preset,
+            "style_preset": self.style_preset,
+            "enabled_modules": list(self.enabled_modules),
+            "reports": self.reports,
+            "summary": self.summary,
+            "warnings": list(self.warnings),
+        }
+
+
+def _build_manual_lock_summary(raw: Mapping[str, object]) -> dict[str, object]:
+    lock_file = parse_manual_lock_file(raw)
+    return {
+        "schema": "helix.manual_locks.report.v1",
+        "summary": lock_file.summary(),
+        "sequence_id": lock_file.sequence_id,
+    }
+
+
+def build_output_quality_report(
+    *,
+    options: Mapping[str, object] | GuiQualityOptions | None = None,
+    model_names: Iterable[str] | None = None,
+    cues: Iterable[Mapping[str, object]] | None = None,
+    sections: Iterable[Mapping[str, object]] | None = None,
+    showcase_sections: Iterable[Mapping[str, object]] | None = None,
+    showcase_motions: Iterable[Mapping[str, object]] | None = None,
+    showcase_palettes: Iterable[Mapping[str, object]] | None = None,
+    showcase_impacts: Iterable[Mapping[str, object]] | None = None,
+    motifs: Iterable[Mapping[str, object]] | None = None,
+    manual_locks: Mapping[str, object] | None = None,
+    variants: Iterable[Mapping[str, object]] | None = None,
+    baseline_candidate: Mapping[str, object] | None = None,
+) -> OutputQualityReport:
+    normalized_options = options if isinstance(options, GuiQualityOptions) else normalize_gui_quality_options(options)
+    enabled = set(normalized_options.enabled_report_modules())
+    reports: dict[str, object] = {}
+    warnings: list[str] = []
+
+    if "prop_roles" in enabled:
+        if model_names is None:
+            warnings.append("prop_roles skipped: no model_names provided")
+        else:
+            reports["prop_roles"] = summarize_roles(model_names)
+    if "density_restraint" in enabled:
+        if cues is None:
+            warnings.append("density_restraint skipped: no cues provided")
+        else:
+            reports["density_restraint"] = score_restraint(cues).as_dict()
+    if "section_identity" in enabled:
+        if sections is None:
+            warnings.append("section_identity skipped: no sections provided")
+        else:
+            reports["section_identity"] = score_section_identity(sections).as_dict()
+    if "palette_discipline" in enabled:
+        if sections is None:
+            warnings.append("palette_discipline skipped: no sections provided")
+        else:
+            reports["palette_discipline"] = score_palette_discipline(sections, style=normalized_options.style_preset).as_dict()
+    if "motif_memory" in enabled:
+        if motifs is None:
+            warnings.append("motif_memory skipped: no motifs provided")
+        else:
+            reports["motif_memory"] = score_motif_memory(motifs).as_dict()
+
+    if manual_locks is not None:
+        try:
+            reports["manual_locks"] = _build_manual_lock_summary(manual_locks)
+        except (ManualLockError, KeyError, TypeError, ValueError) as exc:
+            warnings.append(f"manual_locks skipped: {exc}")
+
+    if showcase_sections is not None:
+        reports["showcase_energy"] = score_showcase_energy(showcase_sections).as_dict()
+        reports["showcase_hero_dominance"] = score_hero_dominance(showcase_sections).as_dict()
+    if showcase_motions is not None:
+        reports["showcase_motion_continuity"] = score_motion_continuity(showcase_motions).as_dict()
+    if showcase_palettes is not None:
+        reports["showcase_palette_arc"] = score_palette_arc(showcase_palettes).as_dict()
+    if showcase_impacts is not None:
+        reports["showcase_impact_model"] = score_impact_model(showcase_impacts).as_dict()
+    if any(key.startswith("showcase_") for key in reports):
+        reports["showcase_score"] = score_showcase_report(reports).as_dict()
+    if variants is not None:
+        reports["explainable_variants"] = rank_variants(variants, preset=normalized_options.quality_preset).as_dict()
+    if baseline_candidate is not None:
+        reports["compact_quality_snapshot"] = compact_quality_snapshot(baseline_candidate)
+
+    return OutputQualityReport(
+        version="0.1",
+        report_only=True,
+        quality_preset=normalized_options.quality_preset,
+        style_preset=normalized_options.style_preset,
+        enabled_modules=normalized_options.enabled_report_modules(),
+        reports=reports,
+        summary=_summarize_reports(reports),
+        warnings=tuple(warnings),
+    )
+
+
+def _summarize_reports(reports: Mapping[str, object]) -> dict[str, object]:
+    summary: dict[str, object] = {"report_count": len(reports), "available_reports": sorted(reports)}
+    score_keys = {
+        "density_restraint": "score",
+        "section_identity": "score",
+        "palette_discipline": "score",
+        "motif_memory": "score",
+        "showcase_energy": "showcase_energy_score",
+        "showcase_hero_dominance": "showcase_hero_score",
+        "showcase_motion_continuity": "showcase_motion_score",
+        "showcase_palette_arc": "showcase_palette_score",
+        "showcase_impact_model": "showcase_impact_score",
+        "showcase_score": "score",
+    }
+    component_scores: dict[str, float] = {}
+    for report_name, score_key in score_keys.items():
+        report = reports.get(report_name)
+        if isinstance(report, Mapping) and score_key in report:
+            component_scores[report_name] = float(report[score_key])
+    variants = reports.get("explainable_variants")
+    if isinstance(variants, Mapping) and variants.get("winner") is not None:
+        summary["winner"] = variants["winner"]
+    if component_scores:
+        summary["component_scores"] = component_scores
+        summary["average_component_score"] = round(sum(component_scores.values()) / len(component_scores), 4)
+        if "showcase_score" in component_scores:
+            summary["showcase_score"] = component_scores["showcase_score"]
+    return summary

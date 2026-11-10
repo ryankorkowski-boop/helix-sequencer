@@ -1,0 +1,67 @@
+{
+  "schema": "helix.birdsong_issue2.runtime_fixture.v1",
+  "status": "repo_safe_synthetic_fixture",
+  "config": {
+    "duration_ms": 120,
+    "enabled": true,
+    "max_targets_per_frame": 2,
+    "min_energy": 0.25,
+    "min_onset": 0.55
+  },
+  "frames": [
+    {
+      "beat_phase": 0.0,
+      "centroid": 1000.0,
+      "energy": 0.05,
+      "high": 0.01,
+      "low": 0.05,
+      "mid": 0.02,
+      "onset": 0.0,
+      "time_s": 0.0
+    },
+    {
+      "beat_phase": 0.5,
+      "centroid": 7000.0,
+      "energy": 0.9,
+      "high": 0.9,
+      "low": 0.1,
+      "mid": 0.2,
+      "onset": 1.0,
+      "time_s": 0.5
+    },
+    {
+      "beat_phase": 0.1,
+      "centroid": 900.0,
+      "energy": 0.75,
+      "high": 0.1,
+      "low": 0.8,
+      "mid": 0.2,
+      "onset": 0.7,
+      "time_s": 1.0
+    }
+  ],
+  "model_names": [
+    "star",
+    "arch",
+    "ground",
+    "mega"
+  ],
+  "expected": {
+    "motifs": [
+      "sparkle_field",
+      "pulse_cascade"
+    ],
+    "phrase_count": 2,
+    "row_count": 4,
+    "target_models": [
+      [
+        "mega",
+        "star"
+      ],
+      [
+        "ground",
+        "arch"
+      ]
+    ]
+  }
+}

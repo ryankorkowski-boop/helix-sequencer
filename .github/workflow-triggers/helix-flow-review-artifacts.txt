@@ -1,0 +1,5 @@
+Trigger file for the Helix Flow Review Artifacts workflow.
+
+Purpose: force a push-triggered run on feature/restructure-core so the helix-flow-review-artifacts artifact can be generated and checked for helix_flow_demo.mp4.
+
+Created by ChatGPT connector on 2026-05-21T03:14Z.
