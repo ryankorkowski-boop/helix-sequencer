@@ -391,3 +391,23 @@ def ensure_master_view_models(root: ET.Element) -> dict[str, int]:
         "effects_added": added_effects,
         "rows_touched": updated,
     }
+
+
+def validate_xsq_layout_rows(xsq: "XsqIndex", layout_path: Path) -> dict[str, object]:
+    """Verify every layout group/model/submodel has an editable ElementEffects row."""
+    if not layout_path.is_file():
+        raise FileNotFoundError(f"xLights layout not found: {layout_path}")
+    ordered_names, lookup = layout_entries_and_lookup(layout_path)
+    rows = collect_effect_elements(xsq.root)
+    mapped_rows: dict[str, str] = {}
+    for row_name in rows:
+        mapped = map_layout_name(row_name, lookup)
+        if mapped:
+            mapped_rows[mapped] = row_name
+    missing = [name for name in ordered_names if name not in mapped_rows]
+    return {
+        "expected_rows": len(ordered_names),
+        "actual_mapped_rows": len(mapped_rows),
+        "missing_rows": missing,
+        "passed": not missing,
+    }

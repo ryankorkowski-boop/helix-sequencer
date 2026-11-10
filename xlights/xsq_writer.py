@@ -590,6 +590,10 @@ def _collect_effect_elements(root: ET.Element) -> dict[str, ET.Element]:
 def sync_xsq_to_layout(xsq: XsqIndex, layout_path: Path | None) -> dict[str, int]:
     return _layout_sync.sync_xsq_to_layout(xsq, layout_path)
 
+
+def validate_xsq_layout_rows(xsq: XsqIndex, layout_path: Path) -> dict[str, object]:
+    return _layout_sync.validate_xsq_layout_rows(xsq, layout_path)
+
 def ensure_layer(el: ET.Element, layer_name: str) -> ET.Element:
     return _xml_io.ensure_layer(el, layer_name)
 
