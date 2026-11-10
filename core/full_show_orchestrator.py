@@ -1,0 +1,1 @@
+$(cat /tmp/helix-sequencer/core/full_show_orchestrator.py)
