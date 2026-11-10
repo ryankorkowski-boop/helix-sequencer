@@ -49,12 +49,14 @@ def build_args(request, job, engine):
             str(job/'input/xlights_rgbeffects.xml' if (job/'input/xlights_rgbeffects.xml').exists() else engine/'xlights_rgbeffects.xml'),
             '--output-dir', str(job/'outputs'), '--variants', str(variants), '--no-prompt',
             '--no-save-settings', '--no-effects-orchestrator', '--no-workspace-history',
-            '--no-learning-memory', '--auto-shortlist']
+            '--no-learning-memory']
+    if variants == 1:
+        args.append('--auto-shortlist')
     args.append('--polish' if request.get('polish', True) else '--no-polish')
     if request.get('quick_clip', False):
         args.append('--helix-quick-clip')
-    if mode == 'xlights' and not (job/'input/xlights_rgbeffects.xml').is_file() and request.get('sample_layout', 'custom') != 'custom':
-        args[args.index('--layout-file') + 1] = str(resolve_layout(engine, request['sample_layout']))
+    if mode == 'xlights' and not (job/'input/xlights_rgbeffects.xml').is_file() and request.get('sample_layout', 'layout_sampler') != 'custom':
+        args[args.index('--layout-file') + 1] = str(resolve_layout(engine, request.get('sample_layout', 'layout_sampler')))
     if mode == 'lor':
         source = job/'input/source.lms'
         if not source.is_file():
@@ -142,28 +144,39 @@ def render_preview(xsq, layout, wav, seconds, callback):
     from tools import preview_renderer as p
     seq = preview_sequence(p.parse_sequence(xsq), seconds)
     geom = p.parse_models(layout)
+    unsupported = p.unsupported_effects(seq)
+    if unsupported:
+        callback.log('Preview cannot render these native xLights effects: '+', '.join(unsupported))
     # Crop the frame timeline BEFORE allocating RGB/intensity matrices on a phone.
-    fps, width, height = 15, 640, 360
-    leaves, intensities = p.build_leaf_intensity_matrix(geom, seq, fps)
-    colors = p.build_leaf_color_matrix(geom, seq, fps, leaves, intensities.shape[1])
+    fps, width, height = 15, 960, 540
+    import math
+    frame_count = max(1, math.ceil(seq.duration_ms*fps/1000))
     renderer = p.HouseRenderer(geom, width=width, height=height)
     final_output = xsq.with_suffix('.mp4')
     output = xsq.with_suffix('.pending.mp4')
     callback.beginPreview(str(output), str(wav), width, height, fps)
     try:
-        for i in range(intensities.shape[1]):
-            image = renderer.render_frame(leaf_names=leaves, frame_values=intensities[:, i],
-                title=xsq.name, t_ms=round(i*1000/fps), duration_ms=seq.duration_ms,
-                overlays={}, frame_colors=colors[:, i, :])
-            from core.output_provenance import brand_frame
-            image = brand_frame(image)
-            buffer = io.BytesIO()
-            image.convert('RGB').save(buffer, format='PNG')
-            callback.previewFrame(buffer.getvalue(), i*1_000_000//fps)
-            if i % fps == 0:
-                notify(callback, 'previewProgress', i, intensities.shape[1])
-                notify(callback, 'stage', 'preview',
-                       'Rendering preview: %d/%d seconds' % (i//fps, round(intensities.shape[1]/fps)))
+        for block_start in range(0, frame_count, fps):
+            offset_ms = block_start*1000/fps
+            block_end = min(frame_count, block_start+fps)
+            end_ms = block_end*1000/fps
+            block = replace(seq, duration_ms=end_ms-offset_ms, model_effects={
+                name: [replace(e,start_ms=e.start_ms-offset_ms,end_ms=e.end_ms-offset_ms)
+                       for e in effects if e.start_ms<end_ms and e.end_ms>offset_ms]
+                for name,effects in seq.model_effects.items()})
+            leaves, intensities = p.build_leaf_intensity_matrix(geom, block, fps)
+            colors = p.build_leaf_color_matrix(geom, block, fps, leaves, intensities.shape[1])
+            for local, i in enumerate(range(block_start,block_end)):
+                image = renderer.render_frame(leaf_names=leaves, frame_values=intensities[:, local],
+                    title=xsq.name, t_ms=round(i*1000/fps), duration_ms=seq.duration_ms,
+                    overlays={}, frame_colors=colors[:, local, :] if colors is not None else None)
+                from core.output_provenance import brand_frame
+                image = brand_frame(image)
+                buffer = io.BytesIO()
+                image.convert('RGB').save(buffer, format='PNG')
+                callback.previewFrame(buffer.getvalue(), i*1_000_000//fps)
+            notify(callback, 'previewProgress', block_end, frame_count)
+            notify(callback, 'stage', 'preview', f'Rendering preview: {block_end//fps}/{round(frame_count/fps)} seconds')
         callback.endPreview()
     except BaseException:
         callback.abortPreview()
@@ -173,7 +186,7 @@ def render_preview(xsq, layout, wav, seconds, callback):
     decoded = output.with_suffix('.alignment.wav')
     try:
         callback.decodePreviewAudio(str(output), str(decoded))
-        alignment = synchronize(output, wav, decoded, intensities.shape[1]/fps)
+        alignment = synchronize(output, wav, decoded, frame_count/fps)
         from core.output_provenance import stamp_mp4
         stamp_mp4(output)
         output.replace(final_output)
@@ -185,9 +198,12 @@ def render_preview(xsq, layout, wav, seconds, callback):
     final_output.with_suffix('.preview_provenance.json').write_text(json.dumps({
         'schema': 'helix.preview_provenance.v1', 'native_xlights': False,
         'source': 'Helix simulated effect-level model preview; Android MediaCodec H.264/AAC',
-        'duration_seconds': intensities.shape[1]/fps, 'fps': fps, 'audio_alignment': alignment,
+        'unsupported_effects_omitted': unsupported,
+        'duration_seconds': frame_count/fps, 'fps': fps, 'audio_alignment': alignment,
         'generator': 'Helix', 'credit': 'Made with Helix | Audio in. Lights out.',
         'visible_watermark': True,
+        'xsq_sha256': file_hash(Path(xsq)), 'layout_sha256': file_hash(Path(layout)),
+        'audio_sha256': file_hash(Path(wav)),
     }, indent=2))
     return final_output
 
@@ -212,28 +228,28 @@ def run(engine_path, job_path, request_json, callback):
     manifest = {'schema': 'helix.android.run.v2', 'processing': 'on-device',
         'mode': request.get('mode', 'xlights'), 'stages': stages,
         'band_enabled': bool(request.get('band_enabled', True)),
-        'sequences': [], 'lms': [], 'previews': [],
+        'sequences': [], 'lms': [], 'previews': [], 'variant_previews': [],
         'limitations': ['No neural stem separation/Whisper', 'Simulated preview, not native xLights playback',
                         'Serial joblib and Python Numba kernels; large songs may run slowly'],
         'input_hashes': {x.name: file_hash(x) for x in (job/'input').iterdir() if x.is_file()}}
     result = {'bundle': '', 'preview': '', 'sequence': '', 'report': str(job/'outputs/Android-run-report.txt'),
-              'manifest': str(job/'outputs/android-run.json'), 'sequence_count': 0, 'mode': manifest['mode'],
+              'manifest': str(job/'outputs/android-run.json'), 'previews': [], 'variant_previews': [], 'sequence_count': 0, 'mode': manifest['mode'],
               'stages': stages}
     try:
         if manifest['mode'] == 'xlights':
             for name in ('template.xsq', 'xlights_rgbeffects.xml'):
                 dest = job/'input'/name
                 if not dest.exists():
-                    if name == 'xlights_rgbeffects.xml' and request.get('sample_layout', 'custom') != 'custom':
+                    if name == 'xlights_rgbeffects.xml' and request.get('sample_layout', 'layout_sampler') != 'custom':
                         from core.gui_options import resolve_layout
-                        shutil.copy2(resolve_layout(engine, request['sample_layout']), dest)
+                        shutil.copy2(resolve_layout(engine, request.get('sample_layout', 'layout_sampler')), dest)
                     else:
                         shutil.copy2(engine/name, dest)
                 manifest['input_hashes'][name] = file_hash(dest)
-            from core.band_visibility import apply as apply_band_visibility
-            manifest['band_visibility'] = apply_band_visibility(
-                job/'input/xlights_rgbeffects.xml', job/'input/template.xsq',
-                enabled=request.get('band_enabled', True))
+            from core.gui_band import configure
+            manifest['band_visibility'] = configure(
+                job/'input/xlights_rgbeffects.xml', job/'input/template.xsq', engine,
+                enabled=request.get('band_enabled', True) and not request.get('ac_compatible', False))
             manifest['effective_input_hashes'] = {
                 name: file_hash(job/'input'/name) for name in ('template.xsq', 'xlights_rgbeffects.xml')}
         os.chdir(job)
@@ -247,11 +263,15 @@ def run(engine_path, job_path, request_json, callback):
             xsqs = sorted((job/'outputs').rglob('*.xsq'))
             from tools.preview_renderer import parse_sequence
             valid = [x for x in xsqs if any(parse_sequence(x).model_effects.values())
-                     and '.helix_lor_workspace' not in x.parts]
+                     and '.helix_lor_workspace' not in x.parts
+                     and '.helix_gui_workspace' not in x.parts
+                     and not any(mark in x.name for mark in ('.orchestrated.', '.uncolored.'))]
             if not valid:
                 raise RuntimeError('Helix produced no nonempty sequence; inspect the run log')
             lms_files = [x for x in (job/'outputs').rglob('*.lms')
-                         if x.name != 'helix_lor_source_layout.lms' and '.helix_lor_workspace' not in x.parts]
+                         if x.name != 'helix_lor_source_layout.lms' and '.helix_lor_workspace' not in x.parts
+                     and '.helix_gui_workspace' not in x.parts
+                     and not any(mark in x.name for mark in ('.orchestrated.', '.uncolored.'))]
             if manifest['mode'] == 'lor' and not lms_files:
                 raise RuntimeError('LOR export did not produce an LMS')
             selected = next((x for x in valid if '.runtime_' not in x.name), valid[0])
@@ -283,21 +303,33 @@ def run(engine_path, job_path, request_json, callback):
                 notify(callback, 'stage', 'preview', 'Encoding preview with the actual soundtrack…')
                 stages['preview'] = {'status': 'running'}
                 write_report(job, manifest)
-                layout = selected.parent/'xlights_rgbeffects.xml'
-                if not layout.is_file():
-                    layout = next((job/'outputs').rglob('xlights_rgbeffects.xml'), None)
-                try:
-                    if layout is None:
-                        raise RuntimeError('Generated sequence is missing its packaged preview layout')
-                    preview = render_preview(selected, layout, job/'input/audio.wav', seconds, callback)
-                    result['preview'] = str(preview)
-                    manifest['previews'] = [str(preview.relative_to(job))]
-                    stages['preview'] = {'status': 'success'}
-                except Exception as exc:
-                    stages['preview'] = {'status': 'failed', 'error': str(exc)}
-                    callback.log('Sequence succeeded. Optional MP4 preview failed: ' + str(exc))
-                    # Keep the original stack in the local log; never advertise a failed movie.
-                    callback.log(traceback.format_exc())
+                errors = []
+                from core.sequence_builder import _preview_audio_for_sequence
+                for index, variant in enumerate(valid, 1):
+                    entry = {'sequence': str(variant), 'variant': index, 'status': 'running', 'preview': ''}
+                    result['variant_previews'].append(entry)
+                    try:
+                        layout = variant.parent/'xlights_rgbeffects.xml'
+                        if not layout.is_file():
+                            raise RuntimeError('Generated variant is missing its packaged preview layout')
+                        soundtrack = _preview_audio_for_sequence(variant, [job/'input/audio.wav'])
+                        notify(callback, 'stage', 'preview', f'Rendering variant {index}/{len(valid)}: {variant.name}')
+                        preview = render_preview(variant, layout, soundtrack, seconds, callback)
+                        entry.update(status='success', preview=str(preview))
+                        result['previews'].append(str(preview))
+                        if not result['preview']:
+                            result['preview'] = str(preview)
+                        manifest['previews'].append(str(preview.relative_to(job)))
+                    except Exception as exc:
+                        entry.update(status='failed', error=str(exc))
+                        errors.append(str(exc))
+                        callback.log('Variant preview failed: ' + variant.name + ': ' + str(exc))
+                        callback.log(traceback.format_exc())
+                    manifest['variant_previews'] = list(result['variant_previews'])
+                    write_report(job, manifest)
+                    notify(callback, 'checkpoint', json.dumps(result))
+                stages['preview'] = ({'status': 'failed', 'error': '; '.join(errors)} if errors else
+                                     {'status': 'success'})
                 package()
             write_report(job, manifest)
             return json.dumps(result)

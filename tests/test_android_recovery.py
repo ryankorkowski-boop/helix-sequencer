@@ -26,8 +26,13 @@ def completed_job(tmp_path,monkeypatch):
     from tools import preview_renderer
     import helix_numba
     monkeypatch.setattr(helix_numba,'install',lambda:None)
+    from core import gui_band
+    monkeypatch.setattr(gui_band,'configure',lambda *a,**kw:dict(enabled=True))
+    from core import gui_options
+    original_resolve=gui_options.resolve_layout
+    monkeypatch.setattr(gui_options,'resolve_layout',lambda engine,key:engine/'xlights_rgbeffects.xml' if (engine/'xlights_rgbeffects.xml').is_file() else original_resolve(engine,key))
     engine=tmp_path/'engine';engine.mkdir()
-    for name in ['template.xsq','xlights_rgbeffects.xml']:(engine/name).write_text('<fixture/>')
+    for name in ['template.xsq','xlights_rgbeffects.xml']:(engine/name).write_text('<xrgb><models><model name="Roof" DisplayAs="Single Line" StartChannel="1"/></models></xrgb>' if name.endswith('.xml') else '<fixture/>')
     job=tmp_path/'job';(job/'input').mkdir(parents=True);(job/'input/audio.wav').write_bytes(b'PCM fixture')
     def sequence(profile,args):
         output=job/'outputs';output.mkdir();(output/'song.xsq').write_text('<sequence/>')
@@ -101,3 +106,44 @@ def test_long_preview_request_reaches_renderer(completed_job,monkeypatch,seconds
 def test_preview_outside_desktop_parity_limit_is_rejected(tmp_path,seconds):
     with pytest.raises(ValueError,match='1–600'):
         mobile.run(str(tmp_path),str(tmp_path),json.dumps({'preview_seconds':seconds}),Callback())
+
+
+def test_every_variant_gets_its_own_movie_and_zip_entry(completed_job,monkeypatch):
+    engine,job=completed_job
+    from core import sequence_builder
+    original=sequence_builder.run_profile
+    def build(*args):
+        original(*args)
+        (job/'outputs/song.runtime_2.xsq').write_text('<sequence/>')
+        (job/'outputs/song.orchestrated.xsq').write_text('<sequence/>')
+    monkeypatch.setattr(sequence_builder,'run_profile',build)
+    seen=[]
+    def render(xsq,layout,wav,seconds,callback):
+        seen.append(xsq.name)
+        result=xsq.with_suffix('.mp4');result.write_bytes(xsq.name.encode());return result
+    monkeypatch.setattr(mobile,'render_preview',render)
+    result=json.loads(mobile.run(str(engine),str(job),'{"variants":2}',Callback()))
+    assert set(seen)=={'song.xsq','song.runtime_2.xsq'}
+    assert len(result['previews'])==2 and result['sequence_count']==2
+    assert all(row['status']=='success' for row in result['variant_previews'])
+    with zipfile.ZipFile(result['bundle']) as archive:
+        assert {Path(p).name for p in result['previews']} <= set(archive.namelist())
+
+
+def test_failed_first_variant_does_not_skip_later_variants(completed_job,monkeypatch):
+    engine,job=completed_job
+    from core import sequence_builder
+    original=sequence_builder.run_profile
+    def build(*args):
+        original(*args)
+        (job/'outputs/z.runtime_2.xsq').write_text('<sequence/>')
+    monkeypatch.setattr(sequence_builder,'run_profile',build)
+    def render(xsq,*args):
+        if xsq.name=='song.xsq':raise ValueError('first movie failed')
+        movie=xsq.with_suffix('.mp4');movie.write_bytes(b'fixture');return movie
+    monkeypatch.setattr(mobile,'render_preview',render)
+    result=json.loads(mobile.run(str(engine),str(job),'{"variants":2}',Callback()))
+    assert len(result['previews'])==1
+    assert Path(result['preview']).name=='z.runtime_2.mp4'
+    assert [row['status'] for row in result['variant_previews']]==['failed','success']
+    assert result['stages']['preview']['status']=='failed'

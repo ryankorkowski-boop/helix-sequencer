@@ -88,6 +88,7 @@ class HelixGui(tk.Tk):
         self.lor_source_var = tk.StringVar(value="")
         self.model_routing_var = tk.StringVar(value="")
         self.generate_mp4_var = tk.BooleanVar(value=True)
+        self.band_enabled_var = tk.BooleanVar(value=True)
         self.preview_seconds_var = tk.IntVar(value=30)
         self.quick_clip_var = tk.BooleanVar(value=False)
 
@@ -190,6 +191,8 @@ class HelixGui(tk.Tk):
         ttk.Button(top, text="Build/Refresh Helixville", command=self._build_helixville).grid(
             row=1, column=2, sticky="w", **pad
         )
+
+        ttk.Checkbutton(top, text="Include canonical six-member band", variable=self.band_enabled_var).grid(row=1, column=3, sticky="w", **pad)
 
         ttk.Label(top, text="Template XSQ").grid(row=2, column=0, sticky="w", **pad)
         self.template_entry = ttk.Entry(top, textvariable=self.template_var, width=86)
@@ -687,6 +690,8 @@ class HelixGui(tk.Tk):
             if self.ac_on_only_var.get():
                 cmd.append("--helix-ac-on-only")
 
+        if not lor_mode:
+            cmd.append("--helix-band-enabled" if self.band_enabled_var.get() else "--helix-band-disabled")
         if self.generate_mp4_var.get():
             try:
                 seconds = int(self.preview_seconds_var.get())
@@ -705,7 +710,7 @@ class HelixGui(tk.Tk):
             cmd.append("--polish")
         else:
             cmd.append("--no-polish")
-        if self.shortlist_var.get():
+        if self.shortlist_var.get() and variants == 1:
             cmd.append("--auto-shortlist")
         if self.learn_xsq_var.get():
             cmd.append("--learn-from-my-xsqs")

@@ -432,6 +432,14 @@ class Model:
         return pixels[start_index:end_index]
 
     def virtual_pixel_map(self) -> list[PixelPoint]:
+        if self.raw_attrs.get('HelixGuiBand') or self.raw_attrs.get('HelixSamplerPanel'):
+            from core.preview_geometry import custom_nodes
+            element = ET.Element('model', self.raw_attrs)
+            nodes = custom_nodes(element)
+            if nodes:
+                by_node = {n:p for n,p in nodes}
+                return [PixelPoint(index=n-1, x=p[0], y=p[1], z=p[2], string_index=0, node_index=n-1)
+                        for n,p in sorted(by_node.items())]
         if self.geometry_points:
             samples = _sample_path(self.geometry_points, max(1, self.total_pixels))
         elif self.coordinates and self.end_coordinates:
@@ -830,6 +838,13 @@ def _model_from_xml(model_el: ET.Element) -> Model:
     semantic_type = _semantic_type(display_as, attrs, geometry_points or [origin, delta])
     strings, nodes_per_string = _infer_string_counts(display_as, semantic_type, attrs, len(geometry_points))
     total_pixels = max(1, strings * nodes_per_string)
+    if attrs.get('HelixGuiBand') or attrs.get('HelixSamplerPanel'):
+        from core.preview_geometry import custom_nodes
+        nodes = custom_nodes(model_el)
+        if nodes:
+            geometry_points = [p for _,p in nodes]
+            strings, nodes_per_string = 1, max(n for n,_ in nodes)
+            total_pixels = nodes_per_string
     aliases = [child.attrib.get("name", "").strip() for child in model_el.findall("./Aliases/alias") if child.attrib.get("name", "").strip()]
     string_type = (attrs.get("StringType") or "").strip()
     wiring = " ".join(part for part in (attrs.get("StartSide", ""), attrs.get("Dir", ""), attrs.get("StarStartLocation", "")) if part).strip() or None

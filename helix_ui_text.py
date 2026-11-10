@@ -11,7 +11,7 @@ INSTRUCTIONS = '''Your first Helix show
 7. Play the preview, then save the sequence and complete show ZIP. Keep the soundtrack, layout and controller files together.
 8. Import and check the show in your lighting software before controller playback.
 
-Band performers: in Layout, turn Band performers on to include the performers already present in your selected xLights layout. Turn it off for a lights-only sequence and preview. The choice is remembered. Helixville 4 includes a band; the switch does not add performers to a layout that has none. LOR retains your addressed channels.
+Band performers: the default comparison sampler includes the canonical six-member band alongside 16-channel AC, 64-channel AC and RGB layouts. Band on adds the packaged performers when an xLights layout has none. Band off makes a lights-only show. LOR retains your addressed channels. Each selected variant gets its own preview MP4; choose a completed movie in Results, or save all of them in the show ZIP. Phone previews draw authored custom nodes and native mouth cues. Unsupported xLights effects are reported and omitted; final playback still requires xLights verification.
 
 Instructions and Legal each remember their scroll position while you switch pages or rotate the phone. Quick clip sequences the first ten seconds when enabled.
 
