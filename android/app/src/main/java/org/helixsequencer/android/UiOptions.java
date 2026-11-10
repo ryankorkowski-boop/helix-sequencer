@@ -6,11 +6,13 @@ import java.io.*;
 /** Shared engine, desktop and phone catalog. */
 final class UiOptions {
     private final JSONArray palettes,layouts;
+    private final String defaultLayout;
     UiOptions(Context context) {
         try (InputStream in=context.getAssets().open("gui-options.json")) {
             ByteArrayOutputStream bytes=new ByteArrayOutputStream();byte[] buffer=new byte[4096];int n;
             while((n=in.read(buffer))!=-1)bytes.write(buffer,0,n);
             JSONObject options=new JSONObject(bytes.toString("UTF-8"));
+            defaultLayout=options.getString("default_layout");
             palettes=options.getJSONArray("palettes");layouts=new JSONArray();
             layouts.put(new JSONObject().put("key","custom").put("title","Imported layout (takes priority)"));
             for(String group:new String[]{"layouts","stages"}) {
@@ -24,6 +26,8 @@ final class UiOptions {
         for(int i=0;i<items.length();i++)result[i]=items.optJSONObject(i).optString("title");
         return result;
     }
+    int defaultLayoutIndex(){return layoutIndex(defaultLayout);}
+    int layoutIndex(String key){for(int i=0;i<layouts.length();i++)if(key.equals(layout(i)))return i;return 0;}
     String[] paletteTitles(){return titles(palettes);}
     String[] layoutTitles(){return titles(layouts);}
     String palette(int index){return palettes.optJSONObject(Math.max(0,Math.min(index,palettes.length()-1))).optString("key");}

@@ -1,5 +1,5 @@
 {
-  "default_layout": "helixville4",
+  "default_layout": "layout_sampler",
   "palettes": [
     {
       "key": "default",
@@ -33,54 +33,59 @@
   "layouts": [
     {
       "key": "greg256",
-      "title": "1 · Original Greg 256 AC",
+      "title": "1 \u00b7 Original Greg 256 AC",
       "path": "xlights_rgbeffects.xml"
     },
     {
       "key": "helixville2",
-      "title": "2 · Helixville 2 · expanded yard",
+      "title": "2 \u00b7 Helixville 2 \u00b7 expanded yard",
       "path": "helixville2/xlights_rgbeffects.xml"
     },
     {
       "key": "allmodels",
-      "title": "3 · All Models · prop collection",
+      "title": "3 \u00b7 All Models \u00b7 prop collection",
       "path": "allmodels/xlights_rgbeffects.xml"
     },
     {
       "key": "helixville3",
-      "title": "4 · Helixville 3 · layered display",
+      "title": "4 \u00b7 Helixville 3 \u00b7 layered display",
       "path": "helixville3/xlights_rgbeffects.xml"
     },
     {
       "key": "aurora",
-      "title": "5 · Aurora · 3D showcase",
+      "title": "5 \u00b7 Aurora \u00b7 3D showcase",
       "path": "showcase/Helix_Aurora/xlights_rgbeffects.xml"
     },
     {
       "key": "helixville4",
-      "title": "6 · Helixville 4 · extravagant neighborhood",
+      "title": "6 \u00b7 Helixville 4 \u00b7 extravagant neighborhood",
       "path": "helixville4/xlights_rgbeffects.xml"
     },
     {
       "key": "greg256_spirals",
-      "title": "7 · Greg 256 · three-color AC spiral trees",
+      "title": "7 \u00b7 Greg 256 \u00b7 three-color AC spiral trees",
       "path": "showcase/Experimental_256_AC_Spirals/xlights_rgbeffects.xml"
+    },
+    {
+      "key": "layout_sampler",
+      "title": "Default \u00b7 Layout sampler / comparison with band",
+      "path": "showcase/Layout_Sampler/xlights_rgbeffects.xml"
     }
   ],
   "stages": [
     {
       "key": "arena",
-      "title": "Stage scenery · Helix Arena",
+      "title": "Stage scenery \u00b7 Helix Arena",
       "path": "showcase/approved_concepts/15_Helix_Arena/xlights_rgbeffects.xml"
     },
     {
       "key": "thunder",
-      "title": "Stage scenery · Thunder Vault",
+      "title": "Stage scenery \u00b7 Thunder Vault",
       "path": "showcase/approved_concepts/16_Thunder_Vault_Stage/xlights_rgbeffects.xml"
     },
     {
       "key": "gravity",
-      "title": "Stage scenery · Gravity Inversion",
+      "title": "Stage scenery \u00b7 Gravity Inversion",
       "path": "showcase/approved_concepts/31_Gravity_Inversion_Stage/xlights_rgbeffects.xml"
     }
   ]

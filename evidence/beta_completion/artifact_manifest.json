@@ -2351,5 +2351,13 @@
       "android36": "https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/42671884943/artifacts/13699776977",
       "windows": "https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/42672170196/artifacts/13698673732"
     }
+  },
+  "gui_preview_repair": {
+    "branch": "codex/gui-real-variant-previews-20261109",
+    "status": "public_push_authorized_builds_pending",
+    "verification": "evidence/beta_completion/gui_previews_20261109/verification.json",
+    "report": "docs/GUI_PREVIEW_REPAIR_20261109.md",
+    "owner_approval": false,
+    "host_tests_passed": 139
   }
 }

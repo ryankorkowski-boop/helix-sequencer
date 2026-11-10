@@ -57,11 +57,17 @@ public class OfflineEngineTest {
                 String lms="<sequence musicFilename=\"old.wav\"><channels><channel name=\"Roof red\" deviceType=\"LOR\" unit=\"1\" circuit=\"1\" color=\"255\" savedIndex=\"0\" centiseconds=\"800\"/><channel name=\"Roof green\" deviceType=\"LOR\" unit=\"1\" circuit=\"2\" color=\"65280\" savedIndex=\"1\" centiseconds=\"800\"/></channels><tracks><track totalCentiseconds=\"800\"><channels><channel savedIndex=\"0\"/><channel savedIndex=\"1\"/></channels></track></tracks></sequence>";
                 Files.write(new File(input,"source.lms").toPath(),lms.getBytes("UTF-8"));
             }
-            JSONObject request=new JSONObject();request.put("mode",mode);request.put("variants",1);request.put("preview",true);request.put("preview_seconds",3);request.put("palette","neon");
+            JSONObject request=new JSONObject();request.put("mode",mode);request.put("variants","xlights".equals(mode)?2:1);request.put("preview",true);request.put("preview_seconds",3);request.put("palette","neon");
             Callbacks callbacks=new Callbacks();
             JSONObject result=new JSONObject(Python.getInstance().getModule("helix_mobile").callAttr("run",engine.toString(),job.toString(),request.toString(),callbacks).toString());
             assertTrue(result.getInt("sequence_count")>0);File bundle=new File(result.getString("bundle"));assertTrue(bundle.length()>1000);
             try(ZipFile z=new ZipFile(bundle)){assertNotNull(z.getEntry("android-run.json"));}
+            if("xlights".equals(mode)){
+                assertEquals(2,result.getJSONArray("previews").length());
+                assertEquals(2,result.getJSONArray("variant_previews").length());
+                assertNotEquals(result.getJSONArray("previews").getString(0),result.getJSONArray("previews").getString(1));
+                for(int vi=0;vi<2;vi++)assertTrue(new File(result.getJSONArray("previews").getString(vi)).length()>0);
+            }
             MediaExtractor mp4=new MediaExtractor();try{mp4.setDataSource(result.getString("preview"));int v=MediaRuntime.track(mp4,"video/"),a=MediaRuntime.track(mp4,"audio/");
                 assertEquals("video/avc",mp4.getTrackFormat(v).getString(MediaFormat.KEY_MIME));assertEquals("audio/mp4a-latm",mp4.getTrackFormat(a).getString(MediaFormat.KEY_MIME));
                 assertTrue(mp4.getTrackFormat(v).getLong(MediaFormat.KEY_DURATION)>2_000_000);

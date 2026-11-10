@@ -77,6 +77,7 @@ class ModelGeom:
     points: tuple[tuple[float, float], ...]
     display_as: str
     color: tuple[int, int, int]
+    discrete_nodes: bool = False
 
 
 @dataclass
@@ -96,6 +97,7 @@ class LayoutData:
     leaf_models: dict[str, ModelGeom]
     groups: dict[str, GroupGeom]
     bounds: tuple[float, float, float, float]
+    face_targets: dict = field(default_factory=dict)
 
     def resolve_leaves(self, name: str) -> list[str]:
         if name in self.leaf_models:
@@ -187,6 +189,17 @@ def parse_models(layout_xml: Path) -> LayoutData:
         xs.extend([point[0] for point in points])
         ys.extend([point[1] for point in points])
 
+    from core.preview_geometry import authored_geometry
+    authored, face_targets = authored_geometry(layout_xml)
+    for name, points in authored.items():
+        if not points:
+            continue
+        parent = leaf_models.get(name.split('/', 1)[0])
+        color = parent.color if parent else (230, 235, 245)
+        leaf_models[name] = ModelGeom(name, *points[0], *points[-1], points, 'Custom', color, True)
+        xs.extend(p[0] for p in points)
+        ys.extend(p[1] for p in points)
+
     for group_name, group in parsed_layout.groups.items():
         node = scene.group_nodes.get(group_name)
         if node is None:
@@ -214,6 +227,7 @@ def parse_models(layout_xml: Path) -> LayoutData:
         leaf_models=leaf_models,
         groups=groups,
         bounds=(min(xs), min(ys), max(xs), max(ys)),
+        face_targets=face_targets,
     )
 
 
@@ -350,11 +364,37 @@ def _ac_pulse_curve(
     return baseline
 
 
+def unsupported_effects(sequence):
+    supported = {'on', 'off', 'ramp', 'shimmer', 'twinkle', 'faces'}
+    return sorted({e.name for effects in sequence.model_effects.values() for e in effects
+                   if e.name.strip().lower() not in supported})
+
+
+def resolved_face_sequence(layout, sequence):
+    effects = {}
+    for target, records in sequence.model_effects.items():
+        for effect in records:
+            destination = target
+            if effect.name.lower() == 'faces':
+                settings = dict(token.split('=', 1) for token in (effect.settings or '').split(',') if '=' in token)
+                key = (target, settings.get('E_CHOICE_Faces_FaceDefinition', ''),
+                       settings.get('E_CHOICE_Faces_Phoneme', 'rest').lower())
+                destination = layout.face_targets.get(key)
+                if destination is None:
+                    # Never illuminate the entire singer for an unresolved mouth cue.
+                    continue
+                effect = EffectRecord('On', effect.start_ms, effect.end_ms, None, effect.palette)
+            effects.setdefault(destination, []).append(effect)
+    from dataclasses import replace
+    return replace(sequence, model_effects=effects)
+
+
 def build_leaf_intensity_matrix(
     layout: LayoutData,
     sequence: SequenceData,
     fps: int,
 ) -> tuple[list[str], np.ndarray]:
+    sequence = resolved_face_sequence(layout, sequence)
     leaf_names = sorted(layout.leaf_models)
     leaf_index = {name: idx for idx, name in enumerate(leaf_names)}
     frame_count = max(1, int(math.ceil(sequence.duration_ms / (1000.0 / fps))))
@@ -381,7 +421,8 @@ def build_leaf_intensity_matrix(
                         effect, frame_times_ms[start_frame:end_frame], leaf
                     )
                 else:
-                    curve = np.ones((end_frame - start_frame,), dtype=np.float32)
+                    # Unsupported native effects must never become fabricated full-model flashes.
+                    curve = np.zeros((end_frame - start_frame,), dtype=np.float32)
                 intensities[idx, start_frame:end_frame] = np.maximum(
                     intensities[idx, start_frame:end_frame], curve
                 )
@@ -402,6 +443,7 @@ def build_leaf_color_matrix(
     choose the strongest currently active effect rather than merging RGB
     channels into unintended white. Uncolored effects use layout colors.
     """
+    sequence = resolved_face_sequence(layout, sequence)
     if not sequence.palettes:
         return None
     colors = np.zeros((len(leaf_names), frame_count, 3), dtype=np.uint8)
@@ -431,7 +473,7 @@ def build_leaf_color_matrix(
                 continue
             curve = (
                 ramp_intensity(effect, frame_times_ms[start:end])
-                if effect.name.strip().lower() == "ramp"
+                if effect.name.strip().lower() in {"ramp", "on", "off"}
                 else np.ones(end - start, dtype=np.float32)
             )
             for idx in indexes:
@@ -517,6 +559,8 @@ class HouseRenderer:
         ghost = Image.new("RGBA", image.size, (0, 0, 0, 0))
         ghost_draw = ImageDraw.Draw(ghost)
         for name, geom in self.layout.leaf_models.items():
+            if geom.discrete_nodes:
+                continue
             self.draw_model(ghost_draw, name, dim_color(geom.color, 0.14), glow=False, width_boost=0)
         ghost = ghost.filter(ImageFilter.GaussianBlur(radius=0.8))
         image.alpha_composite(ghost)
@@ -532,6 +576,12 @@ class HouseRenderer:
     ) -> None:
         x1, y1, x2, y2, _ = self.projected_models[model_name]
         path = self.projected_paths.get(model_name, ((x1, y1), (x2, y2)))
+        if self.layout.leaf_models[model_name].discrete_nodes:
+            # Draw disconnected authored bulbs; joining them creates false wireframes.
+            radius = .8 if not glow else 1.2
+            for px, py in path:
+                draw.ellipse((px-radius, py-radius, px+radius, py+radius), fill=color+(255,))
+            return
         length = 0.0
         for idx in range(len(path) - 1):
             ax, ay = path[idx]
@@ -588,33 +638,11 @@ class HouseRenderer:
         base.alpha_composite(solid_layer)
 
         hud = ImageDraw.Draw(base)
-        hud.rounded_rectangle((28, 20, 420, 148), radius=20, fill=(8, 12, 20, 206), outline=(200, 220, 255, 70), width=1)
-        hud.text((46, 38), safe_label(title, 48), font=self.font, fill=(245, 248, 255, 255))
-        hud.text((46, 62), f"time {format_time(t_ms)} / {format_time(duration_ms)}", font=self.font, fill=(200, 216, 240, 255))
-        hud.text((46, 86), f"active models {active_count}", font=self.font, fill=(170, 215, 255, 255))
-        hud.text((46, 110), "preview source xlights_rgbeffects.xml", font=self.font, fill=(145, 165, 188, 255))
-
-        right_x = self.width - 430
-        hud.rounded_rectangle((right_x, 20, self.width - 28, 172), radius=20, fill=(8, 12, 20, 206), outline=(200, 220, 255, 70), width=1)
-        line_y = 38
-        for key in ("song part", "piano", "sweep", "drop"):
-            value = overlays.get(key, "")
-            if not value:
-                continue
-            hud.text((right_x + 18, line_y), f"{key}: {safe_label(value, 34)}", font=self.font, fill=(245, 248, 255, 255))
-            line_y += 24
-        if line_y == 38:
-            hud.text((right_x + 18, line_y), "no active timing label", font=self.font, fill=(185, 195, 210, 255))
-
-        bar_left = 34
-        bar_top = self.height - 42
-        bar_right = self.width - 34
-        bar_bottom = self.height - 22
-        hud.rounded_rectangle((bar_left, bar_top, bar_right, bar_bottom), radius=8, fill=(35, 46, 63, 255))
-        progress = 0.0 if duration_ms <= 0 else max(0.0, min(1.0, t_ms / duration_ms))
-        fill_right = bar_left + int(round((bar_right - bar_left) * progress))
-        hud.rounded_rectangle((bar_left, bar_top, fill_right, bar_bottom), radius=8, fill=(67, 173, 255, 255))
-        hud.text((bar_left, bar_top - 18), "sequence progress", font=self.font, fill=(170, 215, 255, 255))
+        # Compact header/footer leave the generated display visible on phone screens.
+        hud.rectangle((0, 0, self.width, 28), fill=(8,12,20,230))
+        hud.text((8, 8), safe_label(title, max(20,self.width//8)), font=self.font, fill=(245,248,255,255))
+        hud.text((8, self.height-20), f"{format_time(t_ms)} / {format_time(duration_ms)} | XSQ effect preview",
+                 font=self.font, fill=(200,216,240,255))
 
         return base
 

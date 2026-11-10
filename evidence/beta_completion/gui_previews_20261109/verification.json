@@ -1,0 +1,54 @@
+{
+  "schema": "helix.gui-preview-repair.v1",
+  "source_audio": "Helix Audiolights.mp3",
+  "source_audio_sha256": "8ced92ba179c931a2c7f29f834df1c8fd6a399d78074de0de030bc952bb5f0ec",
+  "engine_exit": 0,
+  "variants": [
+    {
+      "filename": "Helix Audiolights-quick-10s,v27.3.alt1.mp4",
+      "sha256": "da12520bb9519f1a56190e73c1630f52b2e80f8e2a16f13ca892107270490170",
+      "bytes": 425492,
+      "width": 960,
+      "height": 540,
+      "fps": "15/1",
+      "decoded_frames": 45,
+      "video_codec": "h264",
+      "audio_codec": "aac",
+      "duration_seconds": 3.0,
+      "mean_frame_difference": 1.5996978026795736,
+      "panel_peak": {
+        "AC16": 255.0,
+        "AC64": 255.0,
+        "RGB": 255.0,
+        "band": 255.0
+      }
+    },
+    {
+      "filename": "Helix Audiolights-quick-10s,v27.3.mp4",
+      "sha256": "b9730dc221bfb6ee7f072cd0ae81d97e7dd53330f3010a959070161b1ee29833",
+      "bytes": 425556,
+      "width": 960,
+      "height": 540,
+      "fps": "15/1",
+      "decoded_frames": 45,
+      "video_codec": "h264",
+      "audio_codec": "aac",
+      "duration_seconds": 3.0,
+      "mean_frame_difference": 1.599723040591096,
+      "panel_peak": {
+        "AC16": 255.0,
+        "AC64": 255.0,
+        "RGB": 255.0,
+        "band": 255.0
+      }
+    }
+  ],
+  "preview_fidelity": "XSQ On/submodel/Faces simulation with authored Custom nodes; not native xLights",
+  "installer_verification": "owner_authorized_public_push_and_builds_pending",
+  "owner_approval": "not_requested_or_inferred",
+  "host_regressions": {
+    "passed": 139,
+    "failed": 0,
+    "junit": "host_regressions.xml"
+  }
+}

@@ -58,7 +58,7 @@ for distribution in ("imageio", "imageio-ffmpeg", "librosa", "zstandard"):
 
 hiddenimports = ["imageio.plugins.ffmpeg", "imageio.plugins.pillow", "zstandard"]
 for package in (
-    "core", "xlights", "tools", "audio", "helix", "helix_composers",
+    "core", "xlights", "tools", "audio", "models", "helix", "helix_composers",
     "helix_intent", "helix_knowledge", "helix_layout", "helix_mapping",
     "helix_music", "helix_preview", "helix_render", "helix_sequencer",
     "helix_spatial", "helix_style", "librosa", "imageio_ffmpeg",

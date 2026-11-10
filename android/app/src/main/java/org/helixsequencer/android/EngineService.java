@@ -122,7 +122,7 @@ public class EngineService extends Service {
             JSONObject state=new JSONObject();state.put("phase",phase);state.put("message",message);state.put("log",logs.toString());state.put("updated_ms",System.currentTimeMillis());
             state.put("active_stage",activeStage);state.put("preview_percent",previewPercent);
             if(completedResult!=null){
-                for(String key:new String[]{"bundle","preview","sequence","report","manifest","stages"})
+                for(String key:new String[]{"bundle","preview","previews","variant_previews","sequence","report","manifest","stages"})
                     if(completedResult.has(key))state.put(key,completedResult.get(key));
                 if("cancelled".equals(phase)||"failed".equals(phase)){
                     JSONObject stages=state.optJSONObject("stages");

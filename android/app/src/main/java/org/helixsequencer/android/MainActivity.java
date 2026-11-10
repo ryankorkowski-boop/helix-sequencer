@@ -24,7 +24,9 @@ public class MainActivity extends Activity {
     private final String[] steps={"Music","Layout","Style","Advanced","Generate","Results"};
     private final LinearLayout[] pages=new LinearLayout[6];
     private LinearLayout body,expert;
-    private Spinner mode,palette,sampleLayout;
+    private Spinner mode,palette,sampleLayout,previewVariant;
+    private JSONArray previewFiles=new JSONArray();
+    private String previewCatalog="";
     private UiOptions options;
     private EditText variants,duration;
     private CheckBox polish,matrix,birdsong,spatial,ac,preview,quickClip,includeBand;
@@ -89,10 +91,10 @@ public class MainActivity extends Activity {
         panel(1);text("Choose the program you use for your lighting show.",17,Color.WHITE);
         mode=spinner(new String[]{"xLights · export XSQ","Light-O-Rama · export LMS"});
         select("layout","Import xLights layout · RGB effects XML");select("lor","Import LOR channels · existing LMS");
-        text("Sample layouts · six display choices and separate stage scenery",16,Color.WHITE);
-        sampleLayout=spinner(options.layoutTitles());sampleLayout.setSelection(6);
+        text("Sample layouts · comparison sampler, displays and stages",16,Color.WHITE);
+        sampleLayout=spinner(options.layoutTitles());sampleLayout.setSelection(options.defaultLayoutIndex());
         includeBand=check("Band performers",true);includeBand.setId(R.id.include_band);
-        text("Include the band when it is present in your xLights layout. Turn it off for a lights-only show.",14,Color.LTGRAY);
+        text("Include the canonical six-member band. With no imported layout, the comparison sampler is selected automatically. Turn Band off for a lights-only show.",14,Color.LTGRAY);
         text("Your imported layout takes priority. With no import, the selected sample is used. Stage scenery contains the stage props; it does not replace the band design.",14,Color.LTGRAY);
         text("LOR: choose a legacy LMS with real Unit/Circuit addresses. Native .loredit and LCC import are unavailable.",14,Color.LTGRAY);
 
@@ -101,7 +103,7 @@ public class MainActivity extends Activity {
         text("Choose template, Christmas, warm, cool, neon, varied or workspace colors. RGB color overrides are disabled for AC/LOR.",14,Color.LTGRAY);
         quickClip=check("Quick clip · sequence only the first 10 seconds",false);
         preview=check("Also make a preview with the soundtrack",true);
-        text("A preview failure never takes away your sequence. Phone previews illustrate model-level effects; verify final playback in your lighting software.",14,Color.LTGRAY);
+        text("A preview failure never takes away your sequence. Phone previews use authored custom nodes and sequence cues; verify final playback in your lighting software.",14,Color.LTGRAY);
 
         panel(3);text("The defaults work without expert adjustments.",17,Color.WHITE);
         variants=number("Sequence variations · 1–8 (one uses less time and memory)","1");
@@ -124,8 +126,16 @@ public class MainActivity extends Activity {
 
         panel(5);results=text("Your sequence, show ZIP and preview will appear here.",16,Color.WHITE);
         sequence=button("Save sequence…",()->export(sequencePath,sequencePath.endsWith(".lms")?"application/xml":"application/octet-stream",new File(sequencePath).getName()));
+        previewVariant=spinner(new String[]{"No generated previews yet"});
+        previewVariant.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener(){
+            public void onNothingSelected(AdapterView<?> parent){}
+            public void onItemSelected(AdapterView<?> parent,View view,int position,long id){
+                previewPath=previewFiles.optString(position,"");
+                watch.setEnabled(available(previewPath));movie.setEnabled(available(previewPath));
+            }
+        });
         watch=button("Play preview",()->startActivity(new Intent(this,PreviewActivity.class).putExtra("path",previewPath)));
-        movie=button("Save MP4…",()->export(previewPath,"video/mp4","Helix-preview.mp4"));
+        movie=button("Save MP4…",()->export(previewPath,"video/mp4",new File(previewPath).getName()));
         save=button("Save show ZIP…",()->export(bundlePath,"application/zip","Helix-show.zip"));share=button("Share show ZIP…",this::shareShow);
         report=button("Save run report…",()->export(reportPath,"text/plain","Helix-run-report.txt"));
         for(Button v:new Button[]{sequence,watch,movie,save,share,report})v.setEnabled(false);
@@ -152,7 +162,7 @@ public class MainActivity extends Activity {
     private void restorePreferences(){
         android.content.SharedPreferences p=getPreferences(0);mode.setSelection(p.getInt("mode",0));palette.setSelection(p.getInt("palette",0));
         variants.setText(p.getString("variants","1"));duration.setText(p.getString("duration","30"));preview.setChecked(p.getBoolean("preview",true));
-        quickClip.setChecked(p.getBoolean("quick_clip",false));sampleLayout.setSelection(p.getInt("sample_layout",6));
+        quickClip.setChecked(p.getBoolean("quick_clip",false));sampleLayout.setSelection(p.contains("sample_layout_key")?options.layoutIndex(p.getString("sample_layout_key","")):p.getInt("sample_layout",options.defaultLayoutIndex()));
         includeBand.setChecked(p.getBoolean("band_enabled",true));
         spatial.setChecked(p.getBoolean("spatial",true));ac.setChecked(p.getBoolean("ac",false));polish.setChecked(p.getBoolean("polish",true));
         matrix.setChecked(p.getBoolean("matrix",true));birdsong.setChecked(p.getBoolean("birdsong",true));
@@ -164,6 +174,7 @@ public class MainActivity extends Activity {
             .putString("variants",variants.getText().toString()).putString("duration",duration.getText().toString())
             .putBoolean("preview",preview.isChecked()).putBoolean("spatial",spatial.isChecked()).putBoolean("ac",ac.isChecked())
             .putBoolean("quick_clip",quickClip.isChecked()).putInt("sample_layout",sampleLayout.getSelectedItemPosition())
+            .putString("sample_layout_key",options.layout(sampleLayout.getSelectedItemPosition()))
             .putBoolean("band_enabled",includeBand.isChecked())
             .putBoolean("polish",polish.isChecked()).putBoolean("matrix",matrix.isChecked()).putBoolean("birdsong",birdsong.isChecked()).putInt("page",page).apply();
     }
@@ -215,6 +226,17 @@ public class MainActivity extends Activity {
             int percent=s.optInt("preview_percent",-1);boolean measured=busy&&"preview".equals(s.optString("active_stage"))&&percent>=0;progress.setIndeterminate(!measured);if(measured)progress.setProgress(percent);
             status.setText(s.optString("message",phase));log.setText(s.optString("log"));updateMode();
             bundlePath=s.optString("bundle");previewPath=s.optString("preview");sequencePath=s.optString("sequence");reportPath=s.optString("report");
+            JSONArray movies=s.optJSONArray("previews");
+            if(movies==null){movies=new JSONArray();if(available(previewPath))movies.put(previewPath);}
+            if(!movies.toString().equals(previewCatalog)){
+                int selected=previewVariant.getSelectedItemPosition();previewFiles=movies;previewCatalog=movies.toString();
+                String[] titles=new String[Math.max(1,movies.length())];
+                if(movies.length()==0)titles[0]="No generated previews yet";
+                else for(int i=0;i<movies.length();i++)titles[i]=new File(movies.optString(i)).getName();
+                previewVariant.setAdapter(new ArrayAdapter<>(this,android.R.layout.simple_spinner_dropdown_item,titles));
+                previewVariant.setSelection(Math.max(0,Math.min(selected,movies.length()-1)));
+            }
+            previewPath=previewFiles.optString(previewVariant.getSelectedItemPosition(),"");
             sequence.setEnabled(available(sequencePath));save.setEnabled(available(bundlePath));share.setEnabled(save.isEnabled());watch.setEnabled(available(previewPath));movie.setEnabled(watch.isEnabled());report.setEnabled(available(reportPath));
             StringBuilder summary=new StringBuilder(s.optString("message",phase));JSONObject stages=s.optJSONObject("stages");
             if(stages!=null)for(String key:new String[]{"sequencing","packaging","preview"}){

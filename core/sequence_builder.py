@@ -695,6 +695,7 @@ def _render_new_previews(
     visual review and carries a machine-readable fidelity warning.
     """
     import json
+    import hashlib
     from tools.preview_renderer import parse_models, render_sequence_to_mp4
 
     paths = _generated_sequence_paths(roots, before, engine_args)
@@ -729,7 +730,10 @@ def _render_new_previews(
             "xsq": str(source),
             "source": "Helix simulated effect-level model preview",
             "max_preview_seconds": preview_seconds,
+
             "audio": str(audio) if audio else None,
+            "xsq_sha256": hashlib.sha256(source.read_bytes()).hexdigest(),
+            "layout_sha256": hashlib.sha256(layout.read_bytes()).hexdigest() if layout.is_file() else None,
             "native_xlights_render_verified": False,
             "native_lor_render_verified": False,
             "physical_geometry_verified": False,
@@ -888,6 +892,19 @@ def run_profile(profile_id: str | None, engine_args: list[str] | None = None) ->
         raise SystemExit(1)
 
     raw_engine_args = list(engine_args or [])
+    band_enabled = '--helix-band-enabled' in raw_engine_args
+    band_disabled = '--helix-band-disabled' in raw_engine_args
+    raw_engine_args = [a for a in raw_engine_args if a not in ('--helix-band-enabled', '--helix-band-disabled')]
+    if band_enabled or band_disabled:
+        def gui_arg(flag):
+            return next((raw_engine_args[i+1] for i,a in enumerate(raw_engine_args[:-1]) if a == flag), None)
+        if LOR_SOURCE_FLAG not in raw_engine_args and '--ac-lights-only' not in raw_engine_args:
+            from core.gui_band import prepare
+            asset_root = Path(__file__).resolve().parents[1]
+            gui_layout, gui_template, _ = prepare(gui_arg('--layout-file'), gui_arg('--template'),
+                gui_arg('--output-dir') or 'outputs', asset_root, enabled=band_enabled)
+            raw_engine_args = _set_or_replace_arg(raw_engine_args, '--layout-file', str(gui_layout))
+            raw_engine_args = _set_or_replace_arg(raw_engine_args, '--template', str(gui_template))
     ac_only = AC_ONLY_FLAG in raw_engine_args
     spatial_accent = SPATIAL_ACCENT_FLAG in raw_engine_args
     strict_showcase = SHOWCASE_GATE_FLAG in raw_engine_args
@@ -1044,6 +1061,13 @@ def run_profile(profile_id: str | None, engine_args: list[str] | None = None) ->
                     _add_new_spatial_accents(artifact_roots,artifact_snapshot,selected_layout,ctx)
                 neon = "--palette-mode=neon" in engine_args or any(a=="--palette-mode" and engine_args[i+1]=="neon" for i,a in enumerate(engine_args[:-1]))
                 _audit_new_showcase_sequences(artifact_roots,artifact_snapshot,ctx,neon=neon,strict=strict_showcase)
+            if not lor_compatible and not ac_only:
+                band_layout = next((Path(engine_args[i+1]) for i,a in enumerate(engine_args[:-1]) if a == '--layout-file'), None)
+                if band_layout is not None:
+                    from core.gui_band import apply_performance
+                    for output in _generated_sequence_paths(artifact_roots, artifact_snapshot, engine_args):
+                        if apply_performance(output, band_layout) is not None:
+                            ctx.record_artifact('gui_band_performance', output.with_suffix('.gui_band.json'))
             from core.output_provenance import stamp_xml, write_manifest
             generated = _generated_sequence_paths(artifact_roots, artifact_snapshot, engine_args)
             for sequence in generated:
