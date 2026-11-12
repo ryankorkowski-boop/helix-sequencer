@@ -202,8 +202,13 @@ def build(source,vocals,output,*,numbers=None,names=NAMES,layout_builder=layout,
                     for a,b in zip(cuts[:-1],cuts[1:]):
                         part='MOUTH_'+SHAPE_NAMES[int(values[a])]
                         if m.submodels.get(part):sequence.effect(m,part,int(a)*10,int(b)*10,g.palette[2],95)
-                for part in ('OUTLINE','BASE','BODY','EYES'):
-                    if m.submodels.get(part):sequence.effect(m,part,0,duration_ms,g.palette[0],40)
+                face_parts=('OUTLINE','BASE','BODY','EYES')
+                if full_song:
+                    face_parts+=tuple(part for part in m.submodels if part.startswith('EYE_'))
+                for part in face_parts:
+                    if m.submodels.get(part):
+                        color=m.colors[m.submodels[part][0]-1] if full_song else g.palette[0]
+                        sequence.effect(m,part,0,duration_ms,color,75 if full_song else 40)
                 continue
             if m.details.get('keyboard_pitch_rungs'):
                 for role,part,color in [('guitarist','STRAND_A',g.palette[0]),('bassist','STRAND_B',g.palette[1])]:
