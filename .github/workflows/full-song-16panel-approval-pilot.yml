@@ -1,3 +1,5 @@
+# OWNER APPROVAL GATE: ONE verified Helix Motion source only; never dispatch the 82-song batch.
+# Canonical V3 drummer and all four advanced finale props are required.
 name: Helix Motion 16-panel OWNER approval pilot (native)
 on:
   push:
