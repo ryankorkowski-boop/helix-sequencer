@@ -12,7 +12,7 @@ NAMES = (
     'LOR 16 AC', 'LOR 64 AC', 'Original 256 AC', 'AC arches and canes',
     'Dual mega trees', 'RGB outline', 'RGB arches and spirals', 'Singing faces',
     'Singing pixel tree', 'RGB matrix', 'Canonical snowman band', 'Advanced RGB house',
-    '3D pixel grid', 'Double helix', 'Neighborhood', 'Ultimate technical RGB',
+    'Mega RGB Estate', '3D Pixel Universe', 'Synchronized Neighborhood', 'Ultimate Helix Showcase',
 )
 
 
@@ -21,8 +21,9 @@ def build(number, plan, *, duration):
         return build_layout(number), None
     if number == 3:
         return current_layout(1, plan, duration=duration)
-    if number in (14, 15, 16):
-        return current_layout({14: 8, 15: 10, 16: 12}[number], plan, duration=duration)
+    if number in (13, 14, 15, 16):
+        from models.advanced_full_song_showcase import build_showcase
+        return build_showcase(number, plan, duration=duration, native_band=native_band)
 
     garden = Garden(title=NAMES[number - 1], slug=f'full_song_{number:02}')
     if number == 4:
@@ -64,15 +65,6 @@ def build(number, plan, *, duration):
         return garden, native_band(garden, plan, rock=False, duration=duration)
     elif number == 12:
         return current_layout(9, plan, duration=duration)
-    elif number == 13:
-        for depth in range(6):
-            for row in range(6):
-                points = np.column_stack((np.linspace(-20, 20, 8), np.full(8, row * 5),
-                                          np.full(8, (depth - 2.5) * 7)))
-                model = garden.custom(f'GRID_Z{depth}_Y{row}', points, 'MATRICES', '3D grid row',
-                                      [garden.palette[depth % 3]] * len(points),
-                                      {'ROW_00': list(range(1, 9))})
-                model.details.update(propagation_delay_ms=depth * 20, spatial_phase=row / 6)
     else:
         raise ValueError(f'Unknown full-song layout {number}')
 
