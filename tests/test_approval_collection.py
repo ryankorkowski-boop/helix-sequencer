@@ -98,6 +98,30 @@ def test_failed_comparison_preserves_existing_movie_and_removes_partial(tmp_path
     assert not list(tmp_path.glob('.comparison-*'))
 
 
+def test_sixteen_layout_compositor_uses_a_1080p_grid_and_one_original_track(tmp_path, monkeypatch):
+    from pathlib import Path
+    import tools.render_approval_collection as collection
+
+    captured = []
+
+    def produce(args):
+        captured.extend(args)
+        Path(args[-1]).write_bytes(b'completed comparison')
+
+    monkeypatch.setattr(collection, 'command', produce)
+    monkeypatch.setattr(collection, 'probe_media', lambda *args: {'streams': []})
+    paths = [tmp_path / f'{i}.mp4' for i in range(16)]
+    collection.comparison(paths, [str(i) for i in range(16)], tmp_path / 'grid.mp4',
+                          tmp_path / 'original.mp3', 4, 4, duration=264.84)
+
+    graph = captured[captured.index('-filter_complex') + 1]
+    assert graph.count('fps=30,scale=480:270:') == 16
+    assert 'xstack=inputs=16:layout=0_0|480_0|960_0|1440_0|' in graph
+    assert graph.endswith('1440_810:fill=black[v]')
+    assert [captured[i + 1] for i, flag in enumerate(captured) if flag == '-map'] == ['[v]', '16:a:0']
+    assert captured[captured.index('-t') + 1] == '264.84'
+
+
 def test_native_toms_retain_detected_physical_class_and_source_timestamps():
     garden=build_layout(7);sequence=NativeSequence(garden,2,'','detected toms')
     cues=[dict(start_ms=103+i*300,end_ms=207+i*300,kind='tom',velocity=.8,

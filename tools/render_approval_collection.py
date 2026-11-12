@@ -89,13 +89,18 @@ def comparison(paths,labels,target,audio,cols,rows, *, duration=34.88):
     if not paths or cols<=0 or rows<=0 or len(paths)!=cols*rows:
         raise ValueError('Comparison grid must contain exactly one source per cell')
     twelve=len(paths)==12
+    sixteen=len(paths)==16
     if twelve and (cols,rows)!=(4,3):
         raise ValueError('Twelve-layout comparison requires four columns and three rows')
+    if sixteen and (cols,rows)!=(4,4):
+        raise ValueError('Sixteen-layout comparison requires four columns and four rows')
     if labels and len(labels)!=len(paths):
         raise ValueError('Each source must have its own label')
     if twelve and not labels:
         raise ValueError('Twelve-layout comparison requires explicit panel labels')
-    width,height=(480,360) if twelve else (1280,720)
+    if sixteen and not labels:
+        raise ValueError('Sixteen-layout comparison requires explicit panel labels')
+    width,height=(480,270) if sixteen else (480,360) if twelve else (1280,720)
     args=['ffmpeg','-v','error','-y','-filter_complex_threads','2']
     for path in paths:args+=['-threads','1','-i',str(path)]
     args+=['-i',str(audio)]
@@ -107,13 +112,13 @@ def comparison(paths,labels,target,audio,cols,rows, *, duration=34.88):
             filters=[]
             for i,path in enumerate(paths):
                 chain=f'[{i}:v]setpts=PTS-STARTPTS,'
-                if twelve:chain+='fps=30,'
+                if twelve or sixteen:chain+='fps=30,'
                 chain+=f'scale={width}:{height}:force_original_aspect_ratio=decrease,pad={width}:{height}:(ow-iw)/2:(oh-ih)/2:black,setsar=1'
                 if labels:
                     caption=Path(text_dir)/f'{i}.txt'
                     caption.write_text(str(labels[i]),encoding='utf-8')
                     chain+=(f",drawtext=fontfile=/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf:textfile={caption}"
-                            f":expansion=none:x=10:y=10:fontsize={16 if twelve else 23}:fontcolor=white:box=1:boxcolor=black@0.75:boxborderw=4")
+                            f":expansion=none:x=10:y=10:fontsize={16 if twelve or sixteen else 23}:fontcolor=white:box=1:boxcolor=black@0.75:boxborderw=4")
                 filters.append(chain+f'[p{i}]')
             positions='|'.join(f'{(i%cols)*width}_{(i//cols)*height}' for i in range(len(paths)))
             filters.append(''.join(f'[p{i}]' for i in range(len(paths)))+f'xstack=inputs={len(paths)}:layout={positions}:fill=black[v]')

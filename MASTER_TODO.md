@@ -1,3 +1,12 @@
+## 12 November — full-song 16-layout batch implementation (issue #216)
+
+- Goal: render one native-derived 1920×1080 4×4 comparison per verified unique Drive recording, beginning with the complete Helix Motion pilot.
+- Changed: `models/full_song_layouts.py`, `tools/build_current_comparison.py`, `tools/render_full_song_comparison.py`, `tools/render_approval_collection.py`, and compositor regression coverage. Run and recovery commands are in `docs/FULL_SONG_COMPARISON_BATCH.md`.
+- Preserved: existing twelve-panel and sampler entry points, original AC addresses, source drummer design, no default xylophonist, native xLights verification, and explicit owner review. The batch work uses a dedicated branch outside PR #188.
+- New: ordered 16-layout native XSQs from one production plan, an explicit instrumental rest mode or recording-bound vocal evidence, hash-checked panel checkpoints, exact 4×4/30 fps composition, full media decode and source alignment, and decoded per-panel visibility and distinctness. Native preview uses the original soundtrack and checks actual 16/64/256 AC output budgets.
+- Evidence and remaining work: see the issue #216 pilot receipt and Drive batch status for execution, upload and recording inventory. Independent vocal evidence is required for a vocal input. The instrumental pilot cannot qualify lead/backing behavior. Native point/pose rendering cannot certify continuous mesh animation or physical controller output. Review and library-wide rendering follow the technical pilot gate.
+- Regression risks: xLights renderer/display availability, resource use for dense layouts, visible activity at cell size, and source-clock mismatches. Inspect the native per-panel receipts before reusing any cache or counting any upload.
+
 ## 9 November — current APK and Windows EXE bundle verified and delivered
 
 Goal: update the current installers with the latest runtime and finish the PR188 code-review fixes. Runtime implementation: 712b7ba45409f92f704d322440a76f4243090d2e. Files: GUI/selectors and Windows build check from the earlier runtime commit; host installer verifier/test, docs/BETA_PACKAGE_RECOVERY_20261109.md, latest_status.json, artifact_manifest.json and evidence/beta_completion/packages_20261109/ in this follow-up. Preserve sequencing/GUI behavior after712b7ba, original audio/cast/drummer, native thresholds and frozen nine-video scope. New behavior: require all five current Android media proofs exactly once, with every existing quality/source gate preserved. All seven PR review threads resolved after evidence checks.

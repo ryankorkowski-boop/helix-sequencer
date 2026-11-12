@@ -140,40 +140,68 @@ def layout(number,plan,*,duration=36):
     return allocate(g),None
 
 
-def build(source,vocals,output,*,numbers=None):
-    source,vocals,output=map(Path,(source,vocals,output));output.mkdir(parents=True,exist_ok=True)
+def build(source,vocals,output,*,numbers=None,names=NAMES,layout_builder=layout,
+          preserve_addresses=(1,),instrumental=False,expected_sha256=None):
+    source,output=map(Path,(source,output));output.mkdir(parents=True,exist_ok=True)
     source_manifest=json.loads((source/'run_manifest.json').read_text())
     audio=source/'media'/source_manifest.get('audio_name','Helix_Starred_New_Review.wav');sha=digest(audio)
+    full_song=expected_sha256 is not None
+    if full_song and (sha!=expected_sha256 or source_manifest.get('audio_sha256')!=sha):
+        raise ValueError('Production analysis does not belong to the verified original')
+    if instrumental != (vocals is None):
+        raise ValueError('Supply source vocal evidence or explicitly select instrumental input')
     import soundfile as sf
     duration=sf.info(audio).duration;duration_ms=round(duration*1000)
-    receipt=json.loads((vocals/'diagnostic.json').read_text())
-    if receipt['audio_sha256']!=sha or receipt['clock_sha256']!=digest(vocals/'acoustic_vocal_clocks.npz'):
-        raise ValueError('Foreign vocal analysis')
-    plan_path,=(source/'sequence').glob('*.snowman_band.json');plan=json.loads(plan_path.read_text())
-    with np.load(vocals/'acoustic_vocal_clocks.npz') as z:cache={k:z[k].copy() for k in z.files}
-    numbers=tuple(range(1,13)) if numbers is None else tuple(numbers)
-    if not numbers or len(set(numbers))!=len(numbers) or any(type(n) is not int or not 1<=n<=12 for n in numbers):
-        raise ValueError('Choose unique layout numbers in1..12')
+    plans=(source/'sequence').rglob('*.snowman_band.json') if full_song else (source/'sequence').glob('*.snowman_band.json')
+    plan_path,=plans
+    plan=json.loads(plan_path.read_text())
+    cache={}
+    if vocals is not None:
+        vocals=Path(vocals)
+        receipt=json.loads((vocals/'diagnostic.json').read_text())
+        if receipt['audio_sha256']!=sha or receipt['clock_sha256']!=digest(vocals/'acoustic_vocal_clocks.npz'):
+            raise ValueError('Foreign vocal analysis')
+        with np.load(vocals/'acoustic_vocal_clocks.npz') as z:cache={k:z[k].copy() for k in z.files}
+        if full_song and receipt.get('verification_state')=='VERIFIED':
+            from tools.vocal_analysis_fixture import verify_fixture
+            verify_fixture(audio,vocals,receipt)
+        elif full_song:
+            from tools.phoneme_vocal_export import screened_lanes
+            lanes,_=screened_lanes(cache)
+            for lane,(energy,shapes) in lanes.items():
+                cache[lane+'_energy'],cache[lane+'_shapes']=energy,shapes
+    numbers=tuple(range(1,len(names)+1)) if numbers is None else tuple(numbers)
+    if not numbers or len(set(numbers))!=len(numbers) or any(type(n) is not int or not 1<=n<=len(names) for n in numbers):
+        raise ValueError(f'Choose unique layout numbers in 1..{len(names)}')
     manifest=json.loads((output/'Layout_Manifest.json').read_text()) if (output/'Layout_Manifest.json').exists() else []
     if any(item['source_audio_sha256']!=sha for item in manifest):raise ValueError('Foreign retained layout source')
     manifest=[item for item in manifest if item['number'] not in numbers]
     for number in numbers:
-        name=NAMES[number-1]
+        name=names[number-1]
         folder=output/f'{number:02}'
         if folder.exists():raise FileExistsError(folder)
-        g,band=layout(number,plan,duration=duration);g.title=name
-        if number!=1:allocate(g)
+        g,band=layout_builder(number,plan,duration=duration);g.title=name
+        if number not in preserve_addresses:allocate(g)
         for m in g.models:
             if not m.submodels:m.submodels['ALL']=list(range(1,len(m.points)+1))
         sequence=NativeSequence(g,duration,'media/'+audio.name,name);reports=[]
+        if full_song:
+            sequence.duration=duration_ms
+            sequence.root.find('head/sequenceDuration').text=f'{duration:.3f}'
+            sequence.root.find('head/comment').text='Helix production analysis on the verified full recording.'
         for m in g.models:
             if m.details.get('review_role'):continue
             if m.details.get('generic_singer'):
-                lane=m.details['generic_singer'];values=np.where(cache[lane+'_energy']>0,cache[lane+'_shapes'],0)
-                cuts=np.r_[0,np.flatnonzero(np.diff(values))+1,len(values)]
-                for a,b in zip(cuts[:-1],cuts[1:]):
-                    part='MOUTH_'+SHAPE_NAMES[int(values[a])]
-                    if m.submodels.get(part):sequence.effect(m,part,int(a)*10,int(b)*10,g.palette[2],95)
+                lane=m.details['generic_singer']
+                if instrumental:
+                    if m.submodels.get('MOUTH_REST'):
+                        sequence.effect(m,'MOUTH_REST',0,duration_ms,g.palette[2],50)
+                else:
+                    values=np.where(cache[lane+'_energy']>0,cache[lane+'_shapes'],0)
+                    cuts=np.r_[0,np.flatnonzero(np.diff(values))+1,len(values)]
+                    for a,b in zip(cuts[:-1],cuts[1:]):
+                        part='MOUTH_'+SHAPE_NAMES[int(values[a])]
+                        if m.submodels.get(part):sequence.effect(m,part,int(a)*10,int(b)*10,g.palette[2],95)
                 for part in ('OUTLINE','BASE','BODY','EYES'):
                     if m.submodels.get(part):sequence.effect(m,part,0,duration_ms,g.palette[0],40)
                 continue
@@ -201,8 +229,16 @@ def build(source,vocals,output,*,numbers=None):
                     m.attrs['HelixPhonemeOwnership']='exclusive'
             static_materials(SimpleNamespace(models=performers));write_layout(g,folder,include_demo=False,export_all_custom=True)
             export_instruments(sequence.root,SimpleNamespace(models=performers),plan)
-            export_vocals(sequence.root,folder/'xlights_rgbeffects.xml',SimpleNamespace(models=performers),
-                          fixture=vocals,expected_sha256=sha)
+            if instrumental:
+                for m in performers:
+                    for part in m.submodels:
+                        if part.startswith('STATIC_RGB_'):
+                            sequence.effect(m,part,0,duration_ms,'#'+part.removeprefix('STATIC_RGB_'),90)
+                    if m.submodels.get('MOUTH_rest'):
+                        sequence.effect(m,'MOUTH_rest',0,duration_ms,'#F1C383',55)
+            else:
+                export_vocals(sequence.root,folder/'xlights_rgbeffects.xml',SimpleNamespace(models=performers),
+                              fixture=vocals,expected_sha256=sha,source_audio=audio)
             drummer,states,proof=band
             colors=('#DC2D1C','#D65CBE','#DCA416','#2CB242','#2CB242','#2CB242','#DCA416','#DCA416')
             from tools.render_owner_band_review import drum_hits
@@ -221,20 +257,33 @@ def build(source,vocals,output,*,numbers=None):
         materialize_native_effect_tables(sequence.root)
         path=folder/'Performance.xsq';sequence.write(path)
         points=np.concatenate([m.points for m in g.models]);lo,hi=points.min(0),points.max(0);center=(lo+hi)/2;span=hi-lo
-        distance=max(span[0]*.82,span[1]*1.75,45)+(span[2]/2 if number==11 else 0)
-        if number==1:distance*=.85
-        if number in (3,4,6,9):distance*=1.18
-        if number==7:distance*=.80
+        if full_song:
+            distance=max(span[0]*.88,span[1]*1.75,42)+span[2]*.40
+            pitch=12 if number==13 else 5
+            yaw=20 if number==13 else 0
+        else:
+            distance=max(span[0]*.82,span[1]*1.75,45)+(span[2]/2 if number==11 else 0)
+            if number==1:distance*=.85
+            if number in (3,4,6,9):distance*=1.18
+            if number==7:distance*=.80
+            pitch=8 if number in (2,7,10) else 5
+            yaw=0
         camera=ET.parse(folder/'xlights_rgbeffects.xml')
         for view in camera.findall('Viewpoints/*'):
-            for key,value in dict(angleX=8 if number in (2,7,10) else 5,angleY=0,distance=-distance,
+            for key,value in dict(angleX=pitch,angleY=yaw,distance=-distance,
                                   panx=-center[0],pany=-center[1],panz=-center[2]).items():view.set(key,str(value))
         camera.write(folder/'xlights_rgbeffects.xml',encoding='utf-8',xml_declaration=True)
-        residential_preview(folder,number)
+        if not full_song:
+            residential_preview(folder,number)
         item=dict(number=number,name=name,folder=str(folder.resolve()),xsq='Performance.xsq',source_audio_sha256=sha,
                   source_analysis_sha256=digest(plan_path),source_duration_seconds=duration,audio_name=audio.name,models=len(g.models),
                   channels=max(m.start+m.channels-1 for m in g.models),warnings=[],native_render_status='pending',
-                  renderer_for_comparison='Helix solid 3D' if number==2 else 'native xLights',owner_approved=False)
+                  renderer_for_comparison='Helix solid 3D' if number==2 and not full_song else 'native xLights',
+                  owner_approved=False)
+        if full_song:
+            item.update(layout_sha256=digest(folder/'xlights_rgbeffects.xml'),xsq_sha256=digest(path),
+                        vocal_mode='instrumental_rest' if instrumental else receipt.get('verification_state','estimate'),
+                        canonical_cast_count=len(performers) if band else 0)
         (folder/'run_manifest.json').write_text(json.dumps(item,indent=2)+'\n')
         (folder/'Spatial_Event_Provenance.json').write_text(json.dumps(reports,indent=2)+'\n')
         manifest.append(item);print('BUILT',number,name,item['models'],item['channels'],flush=True)
