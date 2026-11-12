@@ -146,6 +146,12 @@ def export(root, layout: Path, garden, *, fixture: Path = FIXTURE,
             result['models'][target] = dict(faces_effect_count=count, non_rest_effect_count=sounding,
                                             rest_effect_count=rest, source_track_sha256=track_hash,
                                             timing_track=timing_name)
+    export_static_materials(root, garden, duration_ms)
+    return result
+
+
+def export_static_materials(root, garden, duration_ms):
+    """Attach authored material after instrument exporters replace model rows."""
     for model in garden.models:
         for part, nodes in model.submodels.items():
             if not part.startswith('STATIC_RGB_') or not nodes:
@@ -158,4 +164,3 @@ def export(root, layout: Path, garden, *, fixture: Path = FIXTURE,
                 settings='E_TEXTCTRL_Eff_On_Start=90,E_TEXTCTRL_Eff_On_End=90',
                 palette='C_BUTTON_Palette1='+color+',C_CHECKBOX_Palette1=1'))
             effect.set('sourceRole', 'static_authored_material')
-    return result

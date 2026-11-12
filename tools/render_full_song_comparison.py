@@ -70,9 +70,11 @@ def prepare(audio, work, sha, *, instrumental, vocals):
     settings = dict(identity, plan_sha256=digest(plan), instrumental=instrumental,
                     vocal_clock_sha256=digest(vocals / 'acoustic_vocal_clocks.npz') if vocals else None)
     checkpoint = layouts / 'batch_identity.json'
-    if checkpoint.exists() and json.loads(checkpoint.read_text()) != settings:
-        raise ValueError('Layout checkpoint belongs to different inputs')
-    write_json(checkpoint, settings)
+    if checkpoint.exists():
+        if json.loads(checkpoint.read_text()) != settings:
+            raise ValueError('Layout checkpoint belongs to different inputs')
+    else:
+        write_json(checkpoint, settings)
     for number in range(1, len(NAMES) + 1):
         folder = layouts / f'{number:02}'
         panel = folder / 'run_manifest.json'

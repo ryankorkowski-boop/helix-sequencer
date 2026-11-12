@@ -214,7 +214,7 @@ def build(source,vocals,output,*,numbers=None,names=NAMES,layout_builder=layout,
                 continue
             reports.append(export_model(sequence,m,plan,cache,g.palette))
         if band:
-            from tools.phoneme_vocal_export import static_materials,export as export_vocals
+            from tools.phoneme_vocal_export import export_static_materials, static_materials, export as export_vocals
             from tools.canonical_band_cues import export_instruments
             from models.canonical_native_band import VISEMES
             from tools.build_helpers.ultimate_showcase import model_xml
@@ -230,10 +230,8 @@ def build(source,vocals,output,*,numbers=None,names=NAMES,layout_builder=layout,
             static_materials(SimpleNamespace(models=performers));write_layout(g,folder,include_demo=False,export_all_custom=True)
             export_instruments(sequence.root,SimpleNamespace(models=performers),plan)
             if instrumental:
+                export_static_materials(sequence.root,SimpleNamespace(models=performers),duration_ms)
                 for m in performers:
-                    for part in m.submodels:
-                        if part.startswith('STATIC_RGB_'):
-                            sequence.effect(m,part,0,duration_ms,'#'+part.removeprefix('STATIC_RGB_'),90)
                     if m.submodels.get('MOUTH_rest'):
                         sequence.effect(m,'MOUTH_rest',0,duration_ms,'#F1C383',55)
             else:
@@ -256,10 +254,11 @@ def build(source,vocals,output,*,numbers=None,names=NAMES,layout_builder=layout,
         from xlights.xml_io import materialize_native_effect_tables
         materialize_native_effect_tables(sequence.root)
         path=folder/'Performance.xsq';sequence.write(path)
-        points=np.concatenate([m.points for m in g.models]);lo,hi=points.min(0),points.max(0);center=(lo+hi)/2;span=hi-lo
+        camera_models=performers if full_song and band else g.models
+        points=np.concatenate([m.points for m in camera_models]);lo,hi=points.min(0),points.max(0);center=(lo+hi)/2;span=hi-lo
         if full_song:
             distance=max(span[0]*.88,span[1]*1.75,42)+span[2]*.40
-            pitch=12 if number==13 else 5
+            pitch=8 if band else 12 if number==13 else 5
             yaw=20 if number==13 else 0
         else:
             distance=max(span[0]*.82,span[1]*1.75,45)+(span[2]/2 if number==11 else 0)

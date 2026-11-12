@@ -122,6 +122,24 @@ def test_sixteen_layout_compositor_uses_a_1080p_grid_and_one_original_track(tmp_
     assert captured[captured.index('-t') + 1] == '264.84'
 
 
+def test_static_band_materials_attach_after_instrument_rows_are_replaced():
+    from types import SimpleNamespace
+    import xml.etree.ElementTree as ET
+    from tools.phoneme_vocal_export import export_static_materials
+
+    root = ET.fromstring('<xsequence><DisplayElements/><ElementEffects>'
+                         '<Element name="HX_SNOW_BASS"><EffectLayer/></Element>'
+                         '</ElementEffects></xsequence>')
+    model = SimpleNamespace(name='HX_SNOW_BASS', submodels={'STATIC_RGB_FFFFFF': [1], 'STRING_0': [2]})
+    export_static_materials(root, SimpleNamespace(models=[model]), 1000)
+
+    static = root.find("./ElementEffects/Element[@name='HX_SNOW_BASS/STATIC_RGB_FFFFFF']/EffectLayer/Effect")
+    assert static.get('startTime') == '0'
+    assert static.get('endTime') == '1000'
+    assert static.get('sourceRole') == 'static_authored_material'
+    assert root.find("./ElementEffects/Element[@name='HX_SNOW_BASS/STRING_0']") is None
+
+
 def test_native_toms_retain_detected_physical_class_and_source_timestamps():
     garden=build_layout(7);sequence=NativeSequence(garden,2,'','detected toms')
     cues=[dict(start_ms=103+i*300,end_ms=207+i*300,kind='tom',velocity=.8,
