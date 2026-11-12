@@ -1,0 +1,144 @@
+name: Helix Motion 16-panel OWNER approval pilot (native)
+on:
+  push:
+    branches: [codex/full-song-16-panel-216]
+    paths: [.github/workflows/full-song-16panel-approval-pilot.yml]
+  workflow_dispatch:
+permissions:
+  contents: read
+  actions: read
+concurrency:
+  group: helix-motion-owner-pilot
+  cancel-in-progress: true
+jobs:
+  render-one-owner-pilot:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 300
+    env:
+      PYTHONPATH: .
+      OMP_NUM_THREADS: '2'
+      OPENBLAS_NUM_THREADS: '2'
+      XL_NO_GPU_COMPUTE: '1'
+      HELIX_NATIVE_PREVIEW_WIDTH: '640'
+      HELIX_NATIVE_PREVIEW_HEIGHT: '360'
+      HELIX_DRIVE_SOURCE_ID: '12gRu8SUf-8GVCQdJnrIROnTY6XumOUzZ'
+      HELIX_DRIVE_SOURCE_SHA256: 'fc91e3f48f709e615ba598a5d49ae63ab9652c0d16e324095f6e1b20377e082b'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: pip
+      - name: Install Helix DSP and native preview requirements
+        run: |
+          set -euo pipefail
+          sudo apt-get update -qq
+          sudo apt-get install -y ffmpeg xvfb xauth openbox wmctrl xdotool x11-utils x11-xserver-utils libgtk-3-0t64 libgl1 libegl1 libopengl0 libglu1-mesa libgstreamer-plugins-base1.0-0
+          python -m pip install numpy scipy librosa==0.10.2.post1 soundfile numba llvmlite scikit-learn Pillow trimesh moderngl zstandard imageio imageio-ffmpeg cmudict PyYAML requests pytest gdown==6.4.2
+      - name: Validate the hero layouts and source-event policy
+        run: |
+          set -euo pipefail
+          python -m pytest -q tests/test_full_song_advanced_showcase.py
+          python -m compileall -q models/advanced_full_song_showcase.py models/full_song_layouts.py tools/render_full_song_comparison.py
+      - name: Retrieve actual owner Drive Helix Motion audio (no substitute)
+        run: |
+          set -euo pipefail
+          mkdir -p pilot-source
+          python -m gdown "$HELIX_DRIVE_SOURCE_ID" -O pilot-source/Helix_Motion_original.mp3
+          echo "$HELIX_DRIVE_SOURCE_SHA256  pilot-source/Helix_Motion_original.mp3" | sha256sum -c -
+          ffprobe -v error -show_entries format=duration -of default=noprint_wrappers=1 pilot-source/Helix_Motion_original.mp3
+      - name: Restore pinned native xLights 2026.18 build
+        id: native-cache
+        uses: actions/cache/restore@v4
+        with:
+          path: ${{ runner.temp }}/xlights-src
+          key: xlights-native-ubuntu24-2026.18-${{ hashFiles('tools/patch_xlights_native_export.py') }}
+          restore-keys: xlights-native-ubuntu24-2026.18-
+      - name: Validate or build authentic patched native xLights
+        run: |
+          set -euo pipefail
+          sudo apt-get install -y build-essential cmake ninja-build pkg-config libgtk-3-dev libgstreamer1.0-dev libgstreamer-plugins-base1.0-dev freeglut3-dev libavcodec-dev libavformat-dev libavfilter-dev libswscale-dev libsdl2-dev libzstd-dev libcurl4-openssl-dev liblua5.3-dev libwebp-dev libsecret-1-dev libegl-dev libfreetype-dev libharfbuzz-dev libfontconfig-dev libavahi-compat-libdnssd-dev libminizip-dev libxlsxwriter-dev cbp2make glslc glslang-dev
+          root="$RUNNER_TEMP/xlights-src"
+          if [ ! -d "$root/.git" ]; then
+            git clone --depth 1 --branch 2026.18 --recurse-submodules https://github.com/xLightsSequencer/xLights.git "$root"
+          fi
+          cd "$root"
+          test "$(git rev-parse HEAD)" = 839c0f590dc454bb7adb8a16c4dd92a70b46156e
+          if [ -f wxWidgets-xlights_2026.17c/lib/libwx_gtk3u-3.3.so.4.0.0 ]; then
+            sudo make -C wxWidgets-xlights_2026.17c install
+            sudo ldconfig
+          fi
+          if ! python -c "import sys;sys.path.insert(0,'$GITHUB_WORKSPACE');from tools.native_renderer_bundle import validate_tree;validate_tree(__import__('pathlib').Path.cwd())"; then
+            git checkout -- src-ui-wx/xLightsMain.cpp src-ui-wx/app-shell/TabSequence.cpp src-ui-wx/graphics/opengl/xlGLCanvas.cpp src-ui-wx/graphics/opengl/xlGLCanvas.h src-ui-wx/graphics/vulkan/xlVulkanCanvas.cpp
+            python "$GITHUB_WORKSPACE/tools/patch_xlights_native_export.py" "$root"
+            timeout --signal=TERM --kill-after=30s 65m make -j 4
+          fi
+          test -x "$root/bin/xLights"
+          ldd "$root/bin/xLights" | tee "$GITHUB_WORKSPACE/pilot-source/native-ldd.txt"
+          ! grep -q 'not found' "$GITHUB_WORKSPACE/pilot-source/native-ldd.txt"
+          echo "HELIX_PATCHED_XLIGHTS=$root/bin/xLights" >> "$GITHUB_ENV"
+      - name: Preserve working native renderer in cross-run cache
+        if: steps.native-cache.outputs.cache-hit != 'true'
+        uses: actions/cache/save@v4
+        with:
+          path: ${{ runner.temp }}/xlights-src
+          key: xlights-native-ubuntu24-2026.18-${{ hashFiles('tools/patch_xlights_native_export.py') }}
+      - name: Run the actual full Helix engine then native xLights 16-panel export
+        run: |
+          set -euo pipefail
+          xvfb-run -a -s '-screen 0 2560x1440x24' sh -c '
+            openbox >pilot-source/openbox.log 2>&1 &
+            exec python -m tools.render_full_song_comparison \
+              pilot-source/Helix_Motion_original.mp3 \
+              pilot-work/helix-motion \
+              --expected-sha256 "$HELIX_DRIVE_SOURCE_SHA256" \
+              --instrumental --xlights "$HELIX_PATCHED_XLIGHTS"
+          '
+      - name: Verify 16 genuine panels and keep owner acceptance pending
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          root = Path('pilot-work/helix-motion')
+          p = json.loads((root/'comparison_manifest.json').read_text())
+          assert p['status'] == 'technically_verified'
+          assert p['owner_approved'] is False
+          assert p['identity']['audio_sha256'] == 'fc91e3f48f709e615ba598a5d49ae63ab9652c0d16e324095f6e1b20377e082b' if 'identity' in p else p['audio_sha256'] == 'fc91e3f48f709e615ba598a5d49ae63ab9652c0d16e324095f6e1b20377e082b'
+          assert len(p['panels']) == 16
+          assert len({r['layout_sha256'] for r in p['panels']}) == 16
+          assert len({r['fseq_sha256'] for r in p['panels']}) == 16
+          assert (root/'Full_Length_16_Panel_Comparison.mp4').stat().st_size > 1000000
+          receipt = {'status':'AWAITING_OWNER_APPROVAL','batch_allowed':False,
+                     'source':'actual Helix master + pinned xLights native renderer',
+                     'original_audio_sha256':p['audio_sha256'],
+                     'panel_count':16,'manifest':'comparison_manifest.json'}
+          (root/'OWNER_APPROVAL_GATE.json').write_text(json.dumps(receipt,indent=2)+'\n')
+          print(json.dumps(receipt,indent=2))
+          PY
+      - name: Upload only the verified one-song approval package
+        if: success()
+        uses: actions/upload-artifact@v4
+        with:
+          name: Helix-Motion-CORRECTED-16-Panel-OWNER-REVIEW
+          retention-days: 30
+          if-no-files-found: error
+          path: |
+            pilot-work/helix-motion/Full_Length_16_Panel_Comparison.mp4
+            pilot-work/helix-motion/comparison_manifest.json
+            pilot-work/helix-motion/panel_activity.json
+            pilot-work/helix-motion/OWNER_APPROVAL_GATE.json
+            pilot-work/helix-motion/layouts/**/run_manifest.json
+            pilot-work/helix-motion/layouts/**/*.xsq
+      - name: Retain only diagnostic logs on failure, never label as approval
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: Helix-Motion-16-Panel-FAILED-DIAGNOSTICS
+          retention-days: 14
+          if-no-files-found: warn
+          path: |
+            pilot-source/*.txt
+            pilot-source/*.log
+            pilot-work/helix-motion/**/*.log
+            pilot-work/helix-motion/**/*.json
