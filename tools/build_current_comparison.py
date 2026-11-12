@@ -227,12 +227,13 @@ def build(source,vocals,output,*,numbers=None,names=NAMES,layout_builder=layout,
             performers=[m for m in g.models if m.details.get('review_role')]
             for m in performers:
                 if m.details['review_role'] in ('lead','harmony'):
-                    original=dict(m.submodels)
-                    for viseme,shape in VISEMES.items():m.submodels['MOUTH_'+viseme]=list(original['MOUTH_'+shape])
-                    m.children.append(('faceInfo',dict(Name='Helix independent phonemes',Type='NodeRange',
-                        **{'Mouth-'+v:','.join(map(str,m.submodels['MOUTH_'+v])) for v in VISEMES},
-                        **{'Eyes-Open':'','Eyes-Closed':'','FaceOutline':''})))
-                    m.attrs['HelixPhonemeOwnership']='exclusive'
+                    if 'MOUTH_AI' not in m.submodels:
+                        original=dict(m.submodels)
+                        for viseme,shape in VISEMES.items():m.submodels['MOUTH_'+viseme]=list(original['MOUTH_'+shape])
+                        m.children.append(('faceInfo',dict(Name='Helix independent phonemes',Type='NodeRange',
+                            **{'Mouth-'+v:','.join(map(str,m.submodels['MOUTH_'+v])) for v in VISEMES},
+                            **{'Eyes-Open':'','Eyes-Closed':'','FaceOutline':''})))
+                        m.attrs['HelixPhonemeOwnership']='exclusive'
             static_materials(SimpleNamespace(models=performers));write_layout(g,folder,include_demo=False,export_all_custom=True)
             export_instruments(sequence.root,SimpleNamespace(models=performers),plan)
             if instrumental:
@@ -244,23 +245,31 @@ def build(source,vocals,output,*,numbers=None,names=NAMES,layout_builder=layout,
                 export_vocals(sequence.root,folder/'xlights_rgbeffects.xml',SimpleNamespace(models=performers),
                               fixture=vocals,expected_sha256=sha,source_audio=audio)
             drummer,states,proof=band
-            colors=('#DC2D1C','#D65CBE','#DCA416','#2CB242','#2CB242','#2CB242','#DCA416','#DCA416')
-            from tools.render_owner_band_review import drum_hits
-            from tools.render_drummer_v3_preview import TARGETS
-            hits,_=drum_hits(plan['cues']['drummer'])
-            for target,color in zip(TARGETS,colors):
-                part=target+'_SURFACE';sequence.effect(drummer,part,0,duration_ms,color,22)
-                for hit in hits:
-                    if hit['target']==target:sequence.effect(drummer,part,round(hit['time']*1000),min(duration_ms,round(hit['time']*1000)+250),color,100,22)
-            cuts=np.r_[0,np.flatnonzero(np.diff(states))+1,len(states)]
-            for a,b in zip(cuts[:-1],cuts[1:]):sequence.effect(drummer,f'SOURCE_POSE_{states[a]:02}',int(a)*50,int(b)*50,'#C5D6DD',80)
-            (folder/'Dimensional_Drummer.json').write_text(json.dumps(proof,indent=2)+'\n')
+            if states is None:
+                # An owner-reviewed V3 kit has real source component IDs.
+                # Never discard it and replace it with a guessed pose bank.
+                from tools.canonical_band_cues import export_drums
+                source_report=export_drums(sequence.root,SimpleNamespace(models=performers),plan)
+                (folder/'Canonical_Drummer.json').write_text(json.dumps(
+                    dict(geometry=proof,event_mapping=source_report),indent=2)+'\n')
+            else:
+                colors=('#DC2D1C','#D65CBE','#DCA416','#2CB242','#2CB242','#2CB242','#DCA416','#DCA416')
+                from tools.render_owner_band_review import drum_hits
+                from tools.render_drummer_v3_preview import TARGETS
+                hits,_=drum_hits(plan['cues']['drummer'])
+                for target,color in zip(TARGETS,colors):
+                    part=target+'_SURFACE';sequence.effect(drummer,part,0,duration_ms,color,22)
+                    for hit in hits:
+                        if hit['target']==target:sequence.effect(drummer,part,round(hit['time']*1000),min(duration_ms,round(hit['time']*1000)+250),color,100,22)
+                cuts=np.r_[0,np.flatnonzero(np.diff(states))+1,len(states)]
+                for a,b in zip(cuts[:-1],cuts[1:]):sequence.effect(drummer,f'SOURCE_POSE_{states[a]:02}',int(a)*50,int(b)*50,'#C5D6DD',80)
+                (folder/'Dimensional_Drummer.json').write_text(json.dumps(proof,indent=2)+'\n')
         else:write_layout(g,folder,include_demo=False,export_all_custom=True)
         (folder/'media').mkdir(exist_ok=True);shutil.copyfile(audio,folder/'media'/audio.name)
         from xlights.xml_io import materialize_native_effect_tables
         materialize_native_effect_tables(sequence.root)
         path=folder/'Performance.xsq';sequence.write(path)
-        camera_models=performers if full_song and band else g.models
+        camera_models=performers if full_song and band and number != 16 else g.models
         points=np.concatenate([m.points for m in camera_models]);lo,hi=points.min(0),points.max(0);center=(lo+hi)/2;span=hi-lo
         if full_song:
             distance=max(span[0]*.88,span[1]*1.75,42)+span[2]*.40
