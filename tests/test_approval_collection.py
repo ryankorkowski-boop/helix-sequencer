@@ -120,6 +120,7 @@ def test_sixteen_layout_compositor_uses_a_1080p_grid_and_one_original_track(tmp_
     assert graph.endswith('1440_810:fill=black[v]')
     assert [captured[i + 1] for i, flag in enumerate(captured) if flag == '-map'] == ['[v]', '16:a:0']
     assert captured[captured.index('-t') + 1] == '264.84'
+    assert captured[captured.index('-crf') + 1] == '22'
 
 
 def test_static_band_materials_attach_after_instrument_rows_are_replaced():

@@ -123,7 +123,7 @@ def comparison(paths,labels,target,audio,cols,rows, *, duration=34.88):
             positions='|'.join(f'{(i%cols)*width}_{(i//cols)*height}' for i in range(len(paths)))
             filters.append(''.join(f'[p{i}]' for i in range(len(paths)))+f'xstack=inputs={len(paths)}:layout={positions}:fill=black[v]')
             args+=['-filter_complex',';'.join(filters),'-map','[v]','-map',f'{len(paths)}:a:0',
-                   '-t',str(duration),'-c:v','libx264','-preset','fast','-crf','20','-threads','4',
+                   '-t',str(duration),'-c:v','libx264','-preset','fast','-crf','22' if sixteen else '20','-threads','4',
                    '-pix_fmt','yuv420p','-c:a','aac','-b:a','192k','-movflags','+faststart',str(temporary)]
             command(args)
         probe_media(temporary,'ffprobe')
