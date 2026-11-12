@@ -8,7 +8,7 @@ from models.ultimate_showcase import Garden
 from tools.build_current_comparison import layout as current_layout, native_band
 
 
-def canonical_owner_band(garden, plan, *, duration):
+def canonical_owner_band(garden, plan, *, duration, rock=False):
     """Use the original V3 kit and six native models, never substitute a drummer.
 
     The source component lanes are exported by canonical_band_cues.export_drums;
