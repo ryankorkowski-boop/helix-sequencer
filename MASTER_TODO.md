@@ -79,7 +79,7 @@ Do not mark complete from unit tests alone.
 
 ### 2026-11-13 — Section palettes follow the song and the yard
 **Agent:** Cursor cloud agent
-**Branch:** `cursor/showcase12-palettes-f36b` (own PR, based on `cursor/rich-palettes-f36b` until #218 merges, then retarget to `feature/restructure-core`)
+**Branch:** `cursor/showcase12-palettes-f36b` (own PR against `feature/restructure-core`; #218 has merged)
 
 **Goal:** The same section hues should not land on every song and every layout. Singing faces should keep a real Faces effect instead of crashing the snowman planner.
 
@@ -95,11 +95,11 @@ Do not mark complete from unit tests alone.
 
 **New behavior:** Verse and chorus, major and minor, fast and slow, and two different prop mixes produce different chromatic ColorPalette rows. Faces effects on reserved models use `E_CHOICE_Faces_TimingTrack=Phonemes`.
 
-**Tests/evidence:** `tests/test_palette_not_white.py` and `tests/test_snowman_face_sync.py`.
+**Tests/evidence:** `tests/test_palette_not_white.py` and `tests/test_snowman_face_sync.py`. Full suite after this change: 918 passed, 18 failed, 5 skipped, 1 xfailed, 1 collection error in `tests/test_drum_mapping.py`. That is above the 914 passed / 19 failed baseline. Showcase renders from xLights 2026.19 FSEQ: RGB near-white share stayed under 0.09% on every panel. Palette diversity (mean pairwise distance of chromatic colors across the 12 panels) was 0.764, 0.702, 0.722, and 0.751 on S1-NPO, S2-CCC, S3-WWW, and S4-CLB.
 
-**Limitations:** Key detection is a CQT correlation, not a transcribed chord chart. Vocal-energy fallback cycles visemes when no lyric text is present. Single-channel AC props are still colored by the model color.
+**Limitations:** Key detection is a CQT correlation, not a transcribed chord chart. Vocal-energy fallback cycles visemes when no lyric text is present. Single-channel AC props are still colored by the model color. One lineup was rendered against four songs; a second panel lineup was not rendered.
 
-**Deferred work:** Showcase12 comparison videos rendered from these palettes.
+**Deferred work:** None for the palette and showcase12 render. A second panel lineup was not rendered.
 
 **Regression risks:** Sequences that previously shared one red/green/gold family will now differ by song and layout. Singing-face models are left out of generic pools when `--sync-lyrics-heads` is on.
 
