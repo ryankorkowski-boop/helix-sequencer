@@ -1344,6 +1344,15 @@ def detailed_pool_summary(pool: SequentialPool) -> str:
     return f"{pool.name} [{pool.category}] count={len(models)} :: {preview}"
 
 
+def is_lip_sync_face(name: str) -> bool:
+    """Root models, and their submodels, that the Faces pass drives from the phoneme track."""
+    if not name:
+        return False
+    root = name.split("/", 1)[0]
+    lowered = root.lower()
+    return "singing face" in lowered or "singing tree" in lowered
+
+
 def discover_talking_heads(names: list[str]) -> list[str]:
     numbered = find_series_anywhere(
         names,
@@ -10584,7 +10593,7 @@ def run_variant(
     layout = enrich_layout_with_parsed(base.discover_layout(names), names, parsed_layout)
     pools = discover_sequential_pools(names, layout, parsed_layout)
     if tuning.sync_lyrics_heads:
-        reserved_faces = set(discover_talking_heads(names))
+        reserved_faces = {name for name in names if is_lip_sync_face(name)}
         if reserved_faces:
             for pool in pools:
                 pool.models = [model for model in pool.models if model not in reserved_faces]
@@ -12214,6 +12223,7 @@ def run_variant(
         lyric_text_targets = list(snowman_face_routing.get("lyric_surfaces", []) or [])
         if not lyric_text_targets:
             lyric_text_targets = lyric_text_pool.models if lyric_text_pool else []
+        lyric_text_targets = [name for name in lyric_text_targets if not is_lip_sync_face(name)]
         text_template_source = template_library.get("text")
         lyric_targets = list(snowman_face_routing.get("lead_cycle", []) or [])
         if not lyric_targets:
@@ -12230,10 +12240,12 @@ def run_variant(
                     continue
                 syllables = max(1, min(7, len(re.findall(r"[aeiouy]+", text.lower()))))
                 mouth_step = max(55, int((en - st) / syllables))
-                for hit in range(syllables):
-                    hit_st = st + hit * mouth_step
-                    hit_en = min(en, hit_st + max(45, int(mouth_step * 0.72)))
-                    add_model(target, hit_st, hit_en, "lyric_mouth_sync", stem="vocals")
+                # The consolidated Faces effect owns these models for the whole vocal span.
+                if not is_lip_sync_face(target):
+                    for hit in range(syllables):
+                        hit_st = st + hit * mouth_step
+                        hit_en = min(en, hit_st + max(45, int(mouth_step * 0.72)))
+                        add_model(target, hit_st, hit_en, "lyric_mouth_sync", stem="vocals")
                 if lyric_text_targets and (idx % 2) == 0:
                     text_target = lyric_text_targets[idx % len(lyric_text_targets)]
                     text_tpl = text_template_with_phrase(base_template=text_template_source, phrase=text)
@@ -12286,11 +12298,7 @@ def run_variant(
         )
         placed_snowman_faces = 0
         # Every singing face shares the phoneme track so the whole band mouths the vocal.
-        singing_models = [
-            name
-            for name in layers
-            if "/" not in name and ("singing face" in name.lower() or "singing tree" in name.lower())
-        ]
+        singing_models = [name for name in layers if "/" not in name and is_lip_sync_face(name)]
         targets = singing_models or list(face_span)
         if phoneme_spans and targets:
             st = min(item[1] for item in phoneme_spans)

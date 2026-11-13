@@ -189,6 +189,10 @@ class Layout:
         return [model["name"] for model in self.models]
 
 
+# One dimmable channel. Without these, the parser treats the rectangle's vertices as pixels.
+AC_WINDOW = {"TopNodes": "1", "SideNodes": "0", "BottomNodes": "0"}
+
+
 def ac(layout, name, points, color_name, hex_color, display="Single Line", extra=None):
     attrs = {"parm1": "1", "parm2": "1", "parm3": "1"}
     if extra:
@@ -241,8 +245,8 @@ def build_ac16():
     ac(layout, "Roofline", line(80, 560, 1120, 600, steps=8), "White", white)
     ac(layout, "Eaves", line(100, 500, 1100, 500, steps=6), "Red", red)
     ac(layout, "Door Outline", rect(560, 280, 80, 140), "White", white)
-    ac(layout, "Window Frame 1", rect(360, 420, 110, 80), "White", white, "Window Frame")
-    ac(layout, "Window Frame 2", rect(760, 420, 110, 80), "White", white, "Window Frame")
+    ac(layout, "Window Frame 1", rect(360, 420, 110, 80), "White", white, "Window Frame", AC_WINDOW)
+    ac(layout, "Window Frame 2", rect(760, 420, 110, 80), "White", white, "Window Frame", AC_WINDOW)
     for i, x in enumerate((220, 420, 780, 980), start=1):
         ac(layout, f"Mini Tree {i}", tree_outline(x, 220, 50, 100), "Green", green, "Tree Flat")
     ac(layout, "Wreath 1", ellipse(600, 470, 28, 28, steps=12), "Green", green)
@@ -266,11 +270,11 @@ def build_ac_count(channel_count, layout_id, title, summary):
     colors = [("Red", red), ("Green", green), ("White", white)]
     n = 0
 
-    def take(name, points, color_name, hex_color, display="Single Line"):
+    def take(name, points, color_name, hex_color, display="Single Line", extra=None):
         nonlocal n
         if layout.channel_count >= channel_count:
             return
-        ac(layout, name, points, color_name, hex_color, display)
+        ac(layout, name, points, color_name, hex_color, display, extra)
         n += 1
 
     take("Roofline", line(60, 580, 1180, 620, steps=8), "White", white)
@@ -278,7 +282,7 @@ def build_ac_count(channel_count, layout_id, title, summary):
     take("Door Outline", rect(560, 260, 90, 150), "White", white)
     take("Garage Outline", rect(860, 250, 200, 160), "White", white)
     for i, x in enumerate((180, 300, 420, 980, 1100), start=1):
-        take(f"Window Frame {i}", rect(x, 400, 80, 60), "White", white, "Window Frame")
+        take(f"Window Frame {i}", rect(x, 400, 80, 60), "White", white, "Window Frame", AC_WINDOW)
     for i in range(1, 13):
         take(f"Mini Tree {i}", tree_outline(80 + i * 85, 180, 40, 90), "Green", green, "Tree Flat")
     for i in range(1, 9):

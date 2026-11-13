@@ -103,6 +103,28 @@ Do not mark complete from unit tests alone.
 
 **Regression risks:** Sequences that previously shared one red/green/gold family will now differ by song and layout. Singing-face models are left out of generic pools when `--sync-lyrics-heads` is on.
 
+### 2026-11-13 — Showcase review fixes for windows and face reservation
+**Agent:** Cursor cloud agent
+**Branch:** `cursor/showcase12-palettes-f36b`
+
+**Goal:** AC window frames must occupy the one channel they were given, and every model the Faces pass drives must be reserved before generic or lyric-mouth effects land on it.
+
+**Changed files/modules:**
+- `tools/showcase12/generate_layouts.py` sets `TopNodes=1` on AC window frames so the parser does not treat the rectangle vertices as extra pixels.
+- `core/effect_engine.py` reserves singing faces and singing trees with the same predicate the Faces pass uses, including when a numbered singing face would otherwise hide an unnumbered singing tree. Lyric mouth hits and lyric text are not placed on those models.
+
+**Intentionally preserved behavior:** Numbered talking-head discovery for generic pools is unchanged. RGB window frames are unchanged. Palette selection is unchanged.
+
+**New behavior:** An AC window is one channel in both the fixture and the FSEQ painter. A singing tree next to `Singing Face 1` is reserved for the phoneme Faces effect, and earlier mouth hits do not occupy that layer.
+
+**Tests/evidence:** `tests/test_showcase12_faces.py`.
+
+**Limitations:** The FSEQ channel data was already one channel per AC window. The comparison videos are repainted from those files so the window outline no longer samples the next props.
+
+**Deferred work:** None.
+
+**Regression risks:** Layouts that relied on a window frame consuming several AC channels from its outline points will now sequence and draw that window as one channel. That matches the channel the generator allocated.
+
 ### 2026-11-13 — Beta 1.3 packages the palette fix for Windows and Android
 **Agent:** Cursor cloud agent
 **Branch:** `cursor/beta-1-3-release-1aae`
