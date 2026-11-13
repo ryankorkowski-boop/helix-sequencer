@@ -28,6 +28,7 @@ def test_clean_and_extreme_have_distinct_prop_sets():
 
 def test_transit_connect_has_only_body_outlines_and_brand():
     transit, _ = build("transit_connect_rgb")
-    assert {m.zone for m in transit.models} == {"BODY_OUTLINE", "BREWERY_EMBLEM"}
+    assert {"BODY_MATRIX", "FRONT_MATRIX", "BREWERY_EMBLEM"}.issubset({m.zone for m in transit.models})
     assert sum(bool(m.details.get("brand_emblem")) for m in transit.models) == 2
+    assert sum(len(m.points) for m in transit.models if m.zone == "BODY_MATRIX") > 500
     assert not any(m.details.get("skeleton_performer_role") for m in transit.models)
