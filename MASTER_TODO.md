@@ -77,6 +77,32 @@ Do not mark complete from unit tests alone.
 
 ## Change Ledger
 
+### 2026-11-13 — Section palettes follow the song and the yard
+**Agent:** Cursor cloud agent
+**Branch:** `cursor/showcase12-palettes-f36b` (own PR, based on `cursor/rich-palettes-f36b` until #218 merges, then retarget to `feature/restructure-core`)
+
+**Goal:** The same section hues should not land on every song and every layout. Singing faces should keep a real Faces effect instead of crashing the snowman planner.
+
+**Changed files/modules:**
+- `core/effect_engine.py` builds a palette from estimated key and mode, energy, tempo, section, and a layout-family shift. White stays an accent. When lyric sync is on, singing-face and singing-tree models are reserved and one Faces effect reads a Phonemes timing track.
+- `mapping/drum_mapper.py` includes `composite_submodels` on mapped hits.
+- `core/snowman_band.py` reads that field without raising if it is missing, and routes singing trees as faces.
+- `core/vocal_timeline.py` cycles visemes when only vocal-energy peaks exist.
+- `tests/test_palette_not_white.py` still rejects a white-only palette and now requires distinct songs or layouts to differ.
+- `tests/test_snowman_face_sync.py` covers the drum-map crash and Faces instructions.
+
+**Intentionally preserved behavior:** A template palette that already enables a chromatic color is left unchanged. `palette_mode=template` still starts from the template palette. Palette index 0 is still replaced when it is white-only. Effect choice, timing, and model targeting are otherwise unchanged.
+
+**New behavior:** Verse and chorus, major and minor, fast and slow, and two different prop mixes produce different chromatic ColorPalette rows. Faces effects on reserved models use `E_CHOICE_Faces_TimingTrack=Phonemes`.
+
+**Tests/evidence:** `tests/test_palette_not_white.py` and `tests/test_snowman_face_sync.py`.
+
+**Limitations:** Key detection is a CQT correlation, not a transcribed chord chart. Vocal-energy fallback cycles visemes when no lyric text is present. Single-channel AC props are still colored by the model color.
+
+**Deferred work:** Showcase12 comparison videos rendered from these palettes.
+
+**Regression risks:** Sequences that previously shared one red/green/gold family will now differ by song and layout. Singing-face models are left out of generic pools when `--sync-lyrics-heads` is on.
+
 ### 2026-11-13 — Default sequences no longer collapse to a white-only palette
 **Agent:** Cursor cloud agent
 **Branch:** `cursor/rich-palettes-f36b`

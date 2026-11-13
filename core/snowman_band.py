@@ -133,7 +133,7 @@ def preferred_face_routing(layout_names: list[str]) -> dict[str, Any]:
     support_faces = [
         name
         for name, norm in normalized
-        if any(token in norm for token in ("singing face", "talking head", "face panel", "singer"))
+        if any(token in norm for token in ("singing face", "singing tree", "talking head", "face panel", "singer"))
     ]
     lyric_surfaces = [
         name
@@ -441,8 +441,8 @@ def _build_intelligent_drum_cues(
             "end_ms": int(effect.get("end_ms", start_ms + 140)),
             "kind": drum_type,
             "section": _part_label(parts, start_ms),
-            "submodel": item["submodel"],
-            "composite_submodels": item["composite_submodels"],
+            "submodel": item.get("submodel", ""),
+            "composite_submodels": list(item.get("composite_submodels") or []),
             "velocity": item["velocity"],
             "confidence": item["confidence"],
             "frequency_band_info": item["frequency_band_info"],
