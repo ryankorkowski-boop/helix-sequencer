@@ -7,6 +7,7 @@ on:
       - '.github/workflows/polar-prism-parade.yml'
       - 'models/parade_float.py'
       - 'models/brewery_van_variants.py'
+      - 'models/transit_connect_rgb.py'
       - 'tools/render_parade_float.py'
       - 'tests/test_brewery_van_variants.py'
       - 'models/brewery_branding.py'
@@ -49,7 +50,7 @@ jobs:
       - name: Compile and execute parade design smoke tests
         run: |
           set -euo pipefail
-          python -m compileall -q models/parade_float.py models/brewery_van_variants.py models/brewery_branding.py models/brewery_skeleton_band.py tools/brewery_skeleton_cues.py tools/render_parade_float.py
+          python -m compileall -q models/parade_float.py models/brewery_van_variants.py models/transit_connect_rgb.py models/brewery_branding.py models/brewery_skeleton_band.py tools/brewery_skeleton_cues.py tools/render_parade_float.py
           python -m pytest -q tests/test_parade_float.py tests/test_brewery_van_variants.py
       - name: Fetch exact original instrumental from Drive
         run: |
@@ -99,7 +100,7 @@ jobs:
           set -euo pipefail
           xvfb-run -a -s '-screen 0 2560x1440x24' sh -c '
             openbox >pilot-source/openbox.log 2>&1 &
-            for variant in clean_matrix_van extreme_skeleton_van; do
+            for variant in transit_connect_rgb; do
               python -m tools.render_parade_float \
                 --audio "pilot-source/Polar Prism Parade.mp3" \
                 --sha256 "$SOURCE_SHA256" \
@@ -115,7 +116,7 @@ jobs:
           import json,subprocess
           from pathlib import Path
           from tools.phoneme_source import digest
-          for variant in ('clean_matrix_van','extreme_skeleton_van'):
+          for variant in ('transit_connect_rgb',):
             p=Path('pilot-work/polar-prism') / f'{variant}_verified.json'
             r=json.loads(p.read_text())
             assert r['layout']==variant
@@ -134,7 +135,7 @@ jobs:
         if: success()
         uses: actions/upload-artifact@v4
         with:
-          name: Drastic-Measures-NATIVE-Float-OWNER-REVIEW
+          name: Drastic-Measures-TRANSIT-CONNECT-RGB-OWNER-REVIEW
           retention-days: 30
           if-no-files-found: error
           path: |
