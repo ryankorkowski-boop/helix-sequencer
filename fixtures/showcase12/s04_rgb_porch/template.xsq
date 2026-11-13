@@ -1,0 +1,35 @@
+<?xml version='1.0' encoding='utf-8'?>
+<xsequence BaseChannel="0" ChanCtrlBasic="0" ChanCtrlColor="0" FixedPointTiming="1" ModelBlending="true">
+  <head>
+    <version>2026.01</version>
+    <author>Helix showcase12</author>
+    <comment>Clean-room empty template.</comment>
+    <sequenceTiming>50 ms</sequenceTiming>
+    <sequenceType>Media</sequenceType>
+    <mediaFile />
+    <sequenceDuration>35.000</sequenceDuration>
+  </head>
+  <nextid>1</nextid>
+  <ColorPalettes>
+    <ColorPalette>C_BUTTON_Palette1=#FFFFFF,C_CHECKBOX_Palette1=1</ColorPalette>
+    <ColorPalette>C_BUTTON_Palette1=#FF0000,C_BUTTON_Palette2=#00FF00,C_CHECKBOX_Palette1=1,C_CHECKBOX_Palette2=1</ColorPalette>
+  </ColorPalettes>
+  <DisplayElements>
+    <Element collapsed="0" type="timing" name="Beats" visible="1" active="1" />
+    <Element collapsed="0" type="model" name="Bench Palette" visible="1" />
+  </DisplayElements>
+  <ElementEffects>
+    <Element type="timing" name="Beats">
+      <EffectLayer />
+    </Element>
+    <Element type="model" name="Bench Palette">
+      <EffectLayer>
+        <Effect name="On" startTime="0" endTime="50" palette="0" settings="E_TEXTCTRL_Eff_On_Start=100,E_TEXTCTRL_Eff_On_End=100" />
+        <Effect name="Bars" startTime="50" endTime="100" palette="0" />
+        <Effect name="Wave" startTime="100" endTime="150" palette="0" />
+        <Effect name="Faces" startTime="150" endTime="200" palette="0" settings="E_CHOICE_Faces_FaceDefinition=NodeRange,E_CHOICE_Faces_TimingTrack=Phonemes,E_CHOICE_Faces_Eyes=Auto" />
+      </EffectLayer>
+    </Element>
+  </ElementEffects>
+  <lastView>0</lastView>
+</xsequence>

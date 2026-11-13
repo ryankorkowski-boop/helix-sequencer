@@ -101,7 +101,32 @@ def map_events_to_drummer_v3_poses(events: Iterable[DrumEvent]) -> list[dict[str
     return [{**item, "pose": DRUMMER_V3_POSE_BY_TYPE.get(str(item["drum_type"]), "downbeat_impact"), "submodels": [item["component"]]} for item in map_events_to_drummer_components(events)]
 
 def map_events_to_submodels(events: Iterable[DrumEvent]) -> list[dict[str, object]]:
-    return [{"timestamp_ms": e.timestamp_ms, "drum_type": e.drum_type, "submodel": DRUM_SUBMODEL_BY_TYPE.get(e.drum_type, "drum_bus"), "velocity": e.velocity, "confidence": e.confidence, "frequency_band_info": e.frequency_band_info, "cluster_id": e.cluster_id, "source": e.source} for e in events]
+    mapped: list[dict[str, object]] = []
+    tom_index = 0
+    cymbal_index = 0
+    for event in events:
+        if event.drum_type == "tom":
+            component = drummer_component_for_event(event, event_index=tom_index)
+            tom_index += 1
+        elif event.drum_type == "cymbal":
+            component = drummer_component_for_event(event, event_index=cymbal_index)
+            cymbal_index += 1
+        else:
+            component = drummer_component_for_event(event)
+        mapped.append(
+            {
+                "timestamp_ms": event.timestamp_ms,
+                "drum_type": event.drum_type,
+                "submodel": DRUM_SUBMODEL_BY_TYPE.get(event.drum_type, "drum_bus"),
+                "composite_submodels": [component],
+                "velocity": event.velocity,
+                "confidence": event.confidence,
+                "frequency_band_info": event.frequency_band_info,
+                "cluster_id": event.cluster_id,
+                "source": event.source,
+            }
+        )
+    return mapped
 
 
 def resolve_drum_streams(streams: dict[str, list[DrumEvent]] | None, *, fallback_kicks: Iterable[int] = (), fallback_snares: Iterable[int] = (), fallback_hats: Iterable[int] = (), fallback_cymbals: Iterable[int] = (), config: DrumMappingConfig = DrumMappingConfig()) -> dict[str, object]:

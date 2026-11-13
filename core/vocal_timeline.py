@@ -262,6 +262,7 @@ def build_lyric_timeline(lyric_events: Iterable[Any], vocal_peaks_ms: Iterable[i
     peaks = list(vocal_peaks_ms or [])
     if not words and peaks:
         source = "vocal_energy_fallback"
+        viseme_cycle = ("AH", "EH", "OH", "MBP", "UW", "EH")
         for idx, peak_ms in enumerate(peaks):
             word = LyricWord(
                 text="vocal_hit",
@@ -269,7 +270,9 @@ def build_lyric_timeline(lyric_events: Iterable[Any], vocal_peaks_ms: Iterable[i
                 end_time=round((int(peak_ms) + 140) / 1000.0, 3),
                 confidence=0.32,
             )
-            word.phonemes = [PhonemeEvent("AH", "mouth_A", "mouth_A", word.start_time, word.end_time, 0.32, word.text, source)]
+            phoneme = viseme_cycle[idx % len(viseme_cycle)]
+            mouth = phoneme_to_mouth_shape(phoneme)
+            word.phonemes = [PhonemeEvent(phoneme, mouth, mouth, word.start_time, word.end_time, 0.32, word.text, source)]
             words.append(word)
             phoneme_events.extend(word.phonemes)
             lines.append(LyricLine([word], word.start_time, word.end_time, 0.32))

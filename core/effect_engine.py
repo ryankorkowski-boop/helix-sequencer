@@ -889,16 +889,34 @@ def apply_workspace_learning(style: VariantStyle, workspace_history: WorkspaceHi
     )
 
 
-_SECTION_HUES: dict[str, tuple[str, ...]] = {
-    "INTRO": ("#1D4ED8", "#22D3EE", "#4ADE80"),
-    "VERSE": ("#DC2626", "#16A34A", "#F59E0B"),
-    "PRECHORUS": ("#EA580C", "#DC2626", "#7C3AED"),
-    "CHORUS": ("#E11D48", "#FACC15", "#06B6D4"),
-    "DROP": ("#E11D48", "#A855F7", "#84CC16"),
-    "BRIDGE": ("#6D28D9", "#2563EB", "#F59E0B"),
-    "OUTRO": ("#1E3A8A", "#14B8A6", "#F59E0B"),
-}
 _WHITE_ACCENT_EFFECTS = ("strobe", "twinkle", "shimmer", "snowflake", "sparkle")
+# Semitone stacks from the song's tonic. None means the mode's third (major 4, minor 3).
+_SECTION_INTERVALS: dict[str, tuple[int | None, ...]] = {
+    "INTRO": (0, 7, 10),
+    "VERSE": (0, None, 7),
+    "PRECHORUS": (0, 5, None),
+    "CHORUS": (0, None, 9),
+    "DROP": (0, 3, 8),
+    "BRIDGE": (5, 9, 0),
+    "OUTRO": (0, 7, 2),
+}
+_MAJOR_KEY_PROFILE = (6.35, 2.23, 3.48, 2.33, 4.38, 4.09, 2.52, 5.19, 2.39, 3.66, 2.29, 2.88)
+_MINOR_KEY_PROFILE = (6.33, 2.68, 3.52, 5.38, 2.60, 3.53, 2.54, 4.75, 3.98, 2.69, 3.34, 3.17)
+
+
+@dataclass(frozen=True)
+class PaletteContext:
+    """Deterministic color family for one sequence.
+
+    key_pitch is 0-11 (C=0). layout_shift is a semitone offset from the prop mix
+    so the same song on two yards does not reuse one triad.
+    """
+
+    key_pitch: int = 0
+    mode: str = "major"
+    energy: float = 0.62
+    tempo_bpm: float = 112.0
+    layout_shift: int = 0
 
 
 def color_palette_table(root: ET.Element) -> list[str]:
@@ -969,11 +987,120 @@ def palette_collapses_to_white(choice: str | None, tables: list[str]) -> bool:
     return all(hex_is_near_white(color) for color in colors)
 
 
-def musical_palette_string(section: str, effect_index: int, effect_name: str = "") -> str:
-    """xLights palette with several hues. White is added only for accent effects."""
-    hues = list(_SECTION_HUES.get((section or "").upper(), _SECTION_HUES["VERSE"]))
+def _hex_from_hsv(hue_deg: float, saturation: float, value: float) -> str:
+    hue = float(hue_deg) % 360.0
+    sat = max(0.35, min(1.0, float(saturation)))
+    val = max(0.28, min(1.0, float(value)))
+    chroma = val * sat
+    mix = chroma * (1.0 - abs((hue / 60.0) % 2.0 - 1.0))
+    base_value = val - chroma
+    sector = int(hue // 60.0) % 6
+    red, green, blue = (
+        (chroma, mix, 0.0),
+        (mix, chroma, 0.0),
+        (0.0, chroma, mix),
+        (0.0, mix, chroma),
+        (mix, 0.0, chroma),
+        (chroma, 0.0, mix),
+    )[sector]
+    return "#{:02X}{:02X}{:02X}".format(
+        int(round((red + base_value) * 255)),
+        int(round((green + base_value) * 255)),
+        int(round((blue + base_value) * 255)),
+    )
+
+
+def layout_palette_shift(names: list[str]) -> int:
+    """Stable semitone offset from the prop families in a layout."""
+    families: list[str] = []
+    for name in sorted(names):
+        family = infer_sequence_family_from_name(name) or "prop"
+        families.append(family)
+    digest = hashlib.sha1("|".join(families).encode("utf-8")).hexdigest()
+    return int(digest[:2], 16) % 12
+
+
+def estimate_song_key(harmonic: HarmonicData) -> tuple[int, str]:
+    """Pick a tonic and major/minor from the harmonic CQT. C is pitch 0."""
+    magnitude = np.asarray(getattr(harmonic, "cqt_mag", np.zeros((0, 0))), dtype=float)
+    chroma = np.zeros(12, dtype=float)
+    if magnitude.size == 0:
+        return 0, "major"
+    base_midi = int(getattr(harmonic, "base_midi", 36))
+    for index in range(magnitude.shape[0]):
+        chroma[(base_midi + index) % 12] += float(np.sum(magnitude[index]))
+    if float(np.sum(chroma)) <= 0.0:
+        return 0, "major"
+
+    def correlation(profile: tuple[float, ...], pitch: int) -> float:
+        rotated = np.roll(np.asarray(profile, dtype=float), pitch)
+        left = chroma - float(np.mean(chroma))
+        right = rotated - float(np.mean(rotated))
+        denom = float(np.linalg.norm(left) * np.linalg.norm(right))
+        if denom <= 1e-9:
+            return 0.0
+        return float(np.dot(left, right) / denom)
+
+    best_pitch = 0
+    best_mode = "major"
+    best_score = -2.0
+    for pitch in range(12):
+        major_score = correlation(_MAJOR_KEY_PROFILE, pitch)
+        minor_score = correlation(_MINOR_KEY_PROFILE, pitch)
+        if major_score >= best_score:
+            best_score = major_score
+            best_pitch = pitch
+            best_mode = "major"
+        if minor_score > best_score:
+            best_score = minor_score
+            best_pitch = pitch
+            best_mode = "minor"
+    return best_pitch, best_mode
+
+
+def build_palette_context(
+    *,
+    harmonic: HarmonicData | None = None,
+    energy: float = 0.62,
+    tempo_bpm: float = 112.0,
+    layout_names: list[str] | None = None,
+) -> PaletteContext:
+    pitch, mode = estimate_song_key(harmonic) if harmonic is not None else (0, "major")
+    return PaletteContext(
+        key_pitch=pitch,
+        mode=mode,
+        energy=float(max(0.0, min(1.0, energy))),
+        tempo_bpm=float(tempo_bpm or 0.0),
+        layout_shift=layout_palette_shift(layout_names or []),
+    )
+
+
+def section_hues(section: str, effect_index: int, context: PaletteContext | None = None) -> list[str]:
+    """Three chromatic hues for this section, song, and layout."""
+    ctx = context or PaletteContext()
+    label = (section or "VERSE").upper()
+    intervals = list(_SECTION_INTERVALS.get(label, _SECTION_INTERVALS["VERSE"]))
+    third = 3 if (ctx.mode or "major").lower() == "minor" else 4
+    resolved = [third if step is None else int(step) for step in intervals]
+    tempo = float(ctx.tempo_bpm or 0.0)
+    tempo_shift = 1 if tempo >= 126.0 else (-1 if 0.0 < tempo < 90.0 else 0)
+    root = (int(ctx.key_pitch) + int(ctx.layout_shift) + tempo_shift) % 12
+    energy = float(max(0.0, min(1.0, ctx.energy)))
+    saturation = 0.68 + 0.28 * energy
+    value = 0.48 + 0.46 * energy
+    hues = [_hex_from_hsv((root + step) * 30.0, saturation, value) for step in resolved]
     shift = int(effect_index) % len(hues)
-    hues = hues[shift:] + hues[:shift]
+    return hues[shift:] + hues[:shift]
+
+
+def musical_palette_string(
+    section: str,
+    effect_index: int,
+    effect_name: str = "",
+    context: PaletteContext | None = None,
+) -> str:
+    """xLights palette with several hues. White is added only for accent effects."""
+    hues = section_hues(section, effect_index, context)
     lowered = (effect_name or "").lower()
     if any(token in lowered for token in _WHITE_ACCENT_EFFECTS):
         hues.append("#F8FAFC")
@@ -982,6 +1109,47 @@ def musical_palette_string(section: str, effect_index: int, effect_name: str = "
         parts.append(f"C_BUTTON_Palette{index}={color}")
         parts.append(f"C_CHECKBOX_Palette{index}=1")
     return ",".join(parts)
+
+
+_XLIGHTS_MOUTH_LABELS = {
+    "AI": "AI",
+    "AH": "AI",
+    "A": "AI",
+    "MOUTH_A": "AI",
+    "E": "E",
+    "EH": "E",
+    "EE": "E",
+    "MOUTH_E": "E",
+    "I": "E",
+    "MOUTH_I": "E",
+    "O": "O",
+    "OH": "O",
+    "MOUTH_O": "O",
+    "U": "U",
+    "UW": "U",
+    "MOUTH_U": "U",
+    "MBP": "MBP",
+    "MOUTH_MBP": "MBP",
+    "FV": "FV",
+    "MOUTH_FV": "FV",
+    "L": "L",
+    "MOUTH_L": "L",
+    "WQ": "WQ",
+    "MOUTH_WQ": "WQ",
+    "ETC": "etc",
+    "MOUTH_ETC": "etc",
+    "REST": "rest",
+    "MOUTH_REST": "rest",
+}
+
+
+def xlights_mouth_label(phoneme: str, mouth_shape: str = "") -> str:
+    """Map a Helix phoneme or mouth shape onto an xLights Faces timing label."""
+    for raw in (mouth_shape, phoneme):
+        key = str(raw or "").strip().upper().replace("-", "_")
+        if key in _XLIGHTS_MOUTH_LABELS:
+            return _XLIGHTS_MOUTH_LABELS[key]
+    return "AI"
 
 
 def _color_palettes_element(root: ET.Element) -> ET.Element:
@@ -1024,10 +1192,11 @@ def palette_for_output(
     effect_index: int,
     effect_name: str,
     root: ET.Element | None = None,
+    context: PaletteContext | None = None,
 ) -> str | None:
     if not palette_collapses_to_white(choice, tables):
         return choice
-    text = musical_palette_string(section, effect_index, effect_name)
+    text = musical_palette_string(section, effect_index, effect_name, context)
     if root is None:
         return text
     return register_palette_index(root, text)
@@ -1175,6 +1344,15 @@ def detailed_pool_summary(pool: SequentialPool) -> str:
     return f"{pool.name} [{pool.category}] count={len(models)} :: {preview}"
 
 
+def is_lip_sync_face(name: str) -> bool:
+    """Root models, and their submodels, that the Faces pass drives from the phoneme track."""
+    if not name:
+        return False
+    root = name.split("/", 1)[0]
+    lowered = root.lower()
+    return "singing face" in lowered or "singing tree" in lowered
+
+
 def discover_talking_heads(names: list[str]) -> list[str]:
     numbered = find_series_anywhere(
         names,
@@ -1199,7 +1377,7 @@ def discover_talking_heads(names: list[str]) -> list[str]:
             for token in (
                 "talking head",
                 "singing face",
-                "singing tree face",
+                "singing tree",
                 "face panel",
                 "singer",
                 "lyric",
@@ -10248,6 +10426,13 @@ def build_all_models_all_effects_sequence(
         base.clear_effects(el, "layer", auto_layer_name)
         layers[nm] = base.ensure_layer(el, auto_layer_name)
 
+    showcase_palette = build_palette_context(layout_names=names)
+    stem_shift = int(hashlib.sha1(audio_path.stem.encode("utf-8")).hexdigest()[:2], 16) % 12
+    showcase_palette = replace(
+        showcase_palette,
+        key_pitch=(showcase_palette.key_pitch + stem_shift) % 12,
+        layout_shift=(showcase_palette.layout_shift + stem_shift) % 12,
+    )
     rng = random.Random(base.SEED + base.stable_name_seed(style.version + "_all_effects"))
     slot_ms = max(90, int(tuning.min_effect_ms) + 40)
     cursor_by_model: dict[str, int] = {nm: 0 for nm in names}
@@ -10277,6 +10462,7 @@ def build_all_models_all_effects_sequence(
             effect_index=idx,
             effect_name=effect_name,
             root=xsq.root,
+            context=showcase_palette,
         )
         if palette != tpl.palette:
             tpl = base.EffectTemplate(settings=tpl.settings, palette=palette)
@@ -10299,6 +10485,7 @@ def build_all_models_all_effects_sequence(
             effect_index=idx,
             effect_name="On",
             root=xsq.root,
+            context=showcase_palette,
         )
         tpl = base.EffectTemplate(settings=xsq.on_tpl.settings, palette=fallback_palette)
         base.add_effect(layers[model], st, en, "On", tpl)
@@ -10405,6 +10592,12 @@ def run_variant(
             spatial_scene_model = None
     layout = enrich_layout_with_parsed(base.discover_layout(names), names, parsed_layout)
     pools = discover_sequential_pools(names, layout, parsed_layout)
+    if tuning.sync_lyrics_heads:
+        reserved_faces = {name for name in names if is_lip_sync_face(name)}
+        if reserved_faces:
+            for pool in pools:
+                pool.models = [model for model in pool.models if model not in reserved_faces]
+            log(f"Reserved {len(reserved_faces)} singing-face models for Faces lip-sync.")
     layout_updates, pool_updates, lane_override = apply_model_overrides(
         layout,
         pools,
@@ -10620,6 +10813,19 @@ def run_variant(
         onset_ms=onset_ms,
         beat_ms=beat_ms,
         vocal_peaks=vocal_peaks,
+    )
+    rms_curve = np.asarray(audio.rms01, dtype=float)
+    palette_context = build_palette_context(
+        harmonic=harmonic,
+        energy=float(np.mean(rms_curve)) if rms_curve.size else 0.55,
+        tempo_bpm=float(multiband.tempo_bpm or 0.0),
+        layout_names=names,
+    )
+    log(
+        "Palette family: "
+        f"key={palette_context.key_pitch} mode={palette_context.mode} "
+        f"energy={palette_context.energy:.2f} tempo={palette_context.tempo_bpm:.0f} "
+        f"layout_shift={palette_context.layout_shift}"
     )
     audio_reactive_beat_timeline = build_audio_reactive_beat_timeline(
         audio=audio,
@@ -11016,6 +11222,7 @@ def run_variant(
         cd_key: str | None = None,
         cd_ms: int = 0,
         stem: str = "other",
+        lock_effect: bool = False,
     ) -> None:
         if nm is None or nm not in layers:
             return
@@ -11036,7 +11243,10 @@ def run_variant(
                 en_i = st_i + min_dur
         family_key = prop_family(nm, model_category_map.get(nm))
         parsed_model = parsed_layout.model_for(nm) if parsed_layout is not None else None
-        if hardkor_mode:
+        if lock_effect:
+            runtime_effect = str(eff or "Faces")
+            template_to_use = tpl or xsq.on_tpl
+        elif hardkor_mode:
             request_key = str(eff or "On").strip().lower()
             runtime_effect = "Ramp" if request_key == "ramp" else "On"
             template_to_use = xsq.ramp_tpl if runtime_effect == "Ramp" else xsq.on_tpl
@@ -11081,7 +11291,7 @@ def run_variant(
                     duration_cap_ms = 360
             elif runtime_key == "ramp" and style.placement_mode in {"showcase_signature", "showcase_stems", "showcase_arc", "hierarchy_roles"}:
                 duration_cap_ms = 420
-            if duration_cap_ms > 0 and (en_i - st_i) > duration_cap_ms:
+            if (not lock_effect) and duration_cap_ms > 0 and (en_i - st_i) > duration_cap_ms:
                 en_i = st_i + duration_cap_ms
         palette_choice = pick_palette_for_effect(
             mode=tuning.palette_mode,
@@ -11098,6 +11308,7 @@ def run_variant(
             effect_index=total,
             effect_name=runtime_effect,
             root=xsq.root,
+            context=palette_context,
         )
         if palette_choice and palette_choice != template_to_use.palette:
             template_to_use = base.EffectTemplate(
@@ -12012,6 +12223,7 @@ def run_variant(
         lyric_text_targets = list(snowman_face_routing.get("lyric_surfaces", []) or [])
         if not lyric_text_targets:
             lyric_text_targets = lyric_text_pool.models if lyric_text_pool else []
+        lyric_text_targets = [name for name in lyric_text_targets if not is_lip_sync_face(name)]
         text_template_source = template_library.get("text")
         lyric_targets = list(snowman_face_routing.get("lead_cycle", []) or [])
         if not lyric_targets:
@@ -12028,10 +12240,12 @@ def run_variant(
                     continue
                 syllables = max(1, min(7, len(re.findall(r"[aeiouy]+", text.lower()))))
                 mouth_step = max(55, int((en - st) / syllables))
-                for hit in range(syllables):
-                    hit_st = st + hit * mouth_step
-                    hit_en = min(en, hit_st + max(45, int(mouth_step * 0.72)))
-                    add_model(target, hit_st, hit_en, "lyric_mouth_sync", stem="vocals")
+                # The consolidated Faces effect owns these models for the whole vocal span.
+                if not is_lip_sync_face(target):
+                    for hit in range(syllables):
+                        hit_st = st + hit * mouth_step
+                        hit_en = min(en, hit_st + max(45, int(mouth_step * 0.72)))
+                        add_model(target, hit_st, hit_en, "lyric_mouth_sync", stem="vocals")
                 if lyric_text_targets and (idx % 2) == 0:
                     text_target = lyric_text_targets[idx % len(lyric_text_targets)]
                     text_tpl = text_template_with_phrase(base_template=text_template_source, phrase=text)
@@ -12054,26 +12268,61 @@ def run_variant(
         ((snowman_band_payload.get("xlights_translation", {}) or {}).get("sequence_effect_instructions", []) or [])
     )
     if snowman_sequence_instructions:
-        placed_snowman_faces = 0
+        phoneme_spans: list[tuple[str, int, int]] = []
+        face_span: dict[str, list[int]] = {}
         for instruction in snowman_sequence_instructions:
             target = str(instruction.get("target_model", "") or "")
+            if "/" in target:
+                target = target.split("/", 1)[0]
             if target not in layers:
                 continue
             st = max(0, int(instruction.get("start_ms", 0) or 0))
-            en = max(st + max(1, int(tuning.min_effect_ms)), int(instruction.get("end_ms", st) or st))
-            label = str(instruction.get("label", "snowman_face_timing") or "snowman_face_timing")
-            effect_name = str(instruction.get("effect", "Faces") or "Faces")
+            en = max(st + 40, int(instruction.get("end_ms", st) or st))
+            mouth = xlights_mouth_label(
+                str(instruction.get("phoneme", "") or ""),
+                str(instruction.get("mouth_shape", "") or ""),
+            )
+            phoneme_spans.append((mouth, st, en))
+            window = face_span.setdefault(target, [st, en])
+            window[0] = min(window[0], st)
+            window[1] = max(window[1], en)
+        if phoneme_spans:
+            base.write_timing_track(xsq.root, "Phonemes", phoneme_spans[:4000], active=True)
+        faces_tpl = base.EffectTemplate(
+            settings=(
+                "E_CHOICE_Faces_FaceDefinition=NodeRange,"
+                "E_CHOICE_Faces_TimingTrack=Phonemes,"
+                "E_CHOICE_Faces_Eyes=Auto"
+            ),
+            palette=None,
+        )
+        placed_snowman_faces = 0
+        # Every singing face shares the phoneme track so the whole band mouths the vocal.
+        singing_models = [name for name in layers if "/" not in name and is_lip_sync_face(name)]
+        targets = singing_models or list(face_span)
+        if phoneme_spans and targets:
+            st = min(item[1] for item in phoneme_spans)
+            en = max(item[2] for item in phoneme_spans)
+            for target in targets:
+                face_span[target] = [st, en]
+        for target, window in face_span.items():
+            if target not in layers:
+                continue
+            st, en = window
             before_total = total
-            add_model(target, st, en, label, eff=effect_name, stem="vocals")
+            add_model(
+                target,
+                st,
+                max(en, st + int(tuning.min_effect_ms)),
+                "snowman_face_lip_sync",
+                eff="Faces",
+                tpl=faces_tpl,
+                stem="vocals",
+                lock_effect=True,
+            )
             if total > before_total:
                 placed_snowman_faces += 1
-                snowman_sequence_face_track.append(
-                    (
-                        str(instruction.get("timing_label", label) or label),
-                        st,
-                        en,
-                    )
-                )
+                snowman_sequence_face_track.append(("Faces", st, en))
         if placed_snowman_faces:
             log(f"Snowman sequence face effects placed: {placed_snowman_faces}")
 
