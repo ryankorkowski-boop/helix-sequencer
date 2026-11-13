@@ -13,7 +13,7 @@ from models.ultimate_showcase import Garden
 from models.parade_float import build as build_extreme_float
 
 PALETTE = ("#62F0FF", "#FF6DD6", "#FFE49C")
-VARIANTS = ("clean_matrix_van", "extreme_skeleton_van")
+VARIANTS = ("clean_matrix_van", "extreme_skeleton_van", "transit_connect_rgb")
 
 
 def build_clean_van(plan=None, *, duration=None):
@@ -71,6 +71,9 @@ def build_extreme_van(plan=None, *, duration=None):
 
 
 def build(variant="clean_matrix_van", plan=None, *, duration=None):
+    if variant == "transit_connect_rgb":
+        from models.transit_connect_rgb import build as build_transit
+        return build_transit(plan=plan, duration=duration)
     if variant == "clean_matrix_van":
         return build_clean_van(plan=plan, duration=duration)
     if variant == "extreme_skeleton_van":
