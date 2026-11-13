@@ -3,7 +3,7 @@ from models.brewery_van_variants import VARIANTS, build, inventory
 
 
 def test_both_van_variants_have_unique_native_models():
-    assert VARIANTS == ("clean_matrix_van", "extreme_skeleton_van")
+    assert VARIANTS == ("clean_matrix_van", "extreme_skeleton_van", "transit_connect_rgb")
     for variant in VARIANTS:
         garden, singer = build(variant)
         assert singer is None
@@ -24,3 +24,10 @@ def test_clean_and_extreme_have_distinct_prop_sets():
             if m.details.get("skeleton_performer_role")} == {
                 "drummer", "guitarist", "bassist", "frontman"}
     assert len(extreme.models) > len(clean.models)
+
+
+def test_transit_connect_has_only_body_outlines_and_brand():
+    transit, _ = build("transit_connect_rgb")
+    assert {m.zone for m in transit.models} == {"BODY_OUTLINE", "BREWERY_EMBLEM"}
+    assert sum(bool(m.details.get("brand_emblem")) for m in transit.models) == 2
+    assert not any(m.details.get("skeleton_performer_role") for m in transit.models)
