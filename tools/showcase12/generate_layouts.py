@@ -8,11 +8,14 @@ from __future__ import annotations
 
 import json
 import math
+import sys
 import xml.etree.ElementTree as ET
 from pathlib import Path
 
 
 ROOT = Path(__file__).resolve().parents[2]
+if str(ROOT) not in sys.path:
+    sys.path.insert(0, str(ROOT))
 OUT_DIR = ROOT / "fixtures" / "showcase12"
 
 FACE = {
@@ -140,6 +143,7 @@ class Layout:
         self.summary = summary
         self.models = []
         self.groups = []
+        self.silhouette: list[dict] = []
         self._channel = 1
 
     def add(self, name, display, points, *, rgb=False, pixels=1, color="#FFFFFF", string_type=None, extra=None, face=None, submodels=None):
@@ -635,12 +639,19 @@ def write_template(layout: Layout, path: Path) -> None:
 
 
 def main() -> int:
+    from tools.showcase12.houses import BUILDERS
+
     manifest = []
     for builder in BUILDERS:
         layout = builder()
         folder = OUT_DIR / layout.layout_id
         write_layout_xml(layout, folder / "xlights_rgbeffects.xml")
         write_template(layout, folder / "template.xsq")
+        if layout.silhouette:
+            (folder / "house.json").write_text(
+                json.dumps({"polygons": layout.silhouette}, indent=2) + "\n",
+                encoding="utf-8",
+            )
         pixels = sum(model["pixels"] for model in layout.models)
         manifest.append(
             {

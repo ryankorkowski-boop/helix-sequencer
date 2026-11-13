@@ -77,6 +77,29 @@ Do not mark complete from unit tests alone.
 
 ## Change Ledger
 
+### 2026-11-13 — Showcase layouts redrawn as residential houses
+**Agent:** Cursor cloud agent
+**Branch:** `cursor/showcase12-palettes-f36b`
+
+**Goal:** The 12 showcase panels should read as real houses and yards, not abstract props.
+
+**Changed files/modules:**
+- `tools/showcase12/houses.py` builds front elevations in inches: gabled roofs, windows, doors, garage, shrubs, evergreens, and yard props.
+- `tools/showcase12/generate_layouts.py` writes `house.json` silhouettes.
+- `tools/showcase12/xlights_fseq.py` and `render_showcase.py` draw that silhouette behind FSEQ pixels, and light a whole AC outline from its one channel.
+
+**Intentionally preserved behavior:** Palette selection, the Faces phoneme track, and the one-channel AC window contract. Songs are not committed.
+
+**New behavior:** Each panel is a street-facing house. RGB runs use about 3-inch spacing. Mega trees are cone fans at 16-20 feet. The garage on the matrix house is a pixel matrix.
+
+**Tests/evidence:** `tests/test_showcase12_faces.py`. Full-on geometry previews show a gabled house, yard trees, and a side-yard stage. FSEQ comparison videos are rendered after this change.
+
+**Limitations:** The preview tree and matrix placement follows this repo's model parser, which fits matrices to the model bounds. xLights still renders the channel data; the silhouette is not light output.
+
+**Deferred work:** None for this redraw.
+
+**Regression risks:** Old showcase12 sequences no longer match these fixtures and must be regenerated.
+
 ### 2026-11-13 — Section palettes follow the song and the yard
 **Agent:** Cursor cloud agent
 **Branch:** `cursor/showcase12-palettes-f36b` (own PR against `feature/restructure-core`; #218 has merged)

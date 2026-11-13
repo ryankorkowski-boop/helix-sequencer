@@ -221,7 +221,21 @@ def build_node_drawlist(layout_xml: Path, width: int, height: int, header_h: int
             points = [(model.coordinates[0], model.coordinates[1])]
         xs.extend(point[0] for point in points)
         ys.extend(point[1] for point in points)
+        for point in model.geometry_points:
+            xs.append(point[0])
+            ys.append(point[1])
         prepared.append((model, points))
+    house_path = Path(layout_xml).with_name("house.json")
+    house_polys: list[tuple[str, list[tuple[float, float]]]] = []
+    if house_path.exists():
+        import json
+        payload = json.loads(house_path.read_text(encoding="utf-8"))
+        for poly in payload.get("polygons", []):
+            pts = [(float(p[0]), float(p[1])) for p in poly.get("points", [])]
+            if len(pts) >= 3:
+                house_polys.append((str(poly.get("kind", "wall")), pts))
+                xs.extend(p[0] for p in pts)
+                ys.extend(p[1] for p in pts)
     if not xs:
         xs, ys = [0.0, 1.0], [0.0, 1.0]
     min_x, max_x = min(xs), max(xs)
@@ -254,7 +268,8 @@ def build_node_drawlist(layout_xml: Path, width: int, height: int, header_h: int
         origin = int(model.start_channel) - 1
         projected = [project(x, y) for x, y in points]
         if model.total_pixels <= 1:
-            strands.append((model.name, projected, _hex_color(model), origin))
+            geo = [(point[0], point[1]) for point in model.geometry_points] or points
+            strands.append((model.name, [project(x, y) for x, y in geo], _hex_color(model), origin))
             continue
         count = min(model.total_pixels, max(1, len(projected)))
         for index in range(count):
@@ -271,6 +286,7 @@ def build_node_drawlist(layout_xml: Path, width: int, height: int, header_h: int
         "color": nodes_color,
         "model": nodes_model,
         "strands": strands,
+        "house": [(kind, [project(x, y) for x, y in pts]) for kind, pts in house_polys],
     }
 
 

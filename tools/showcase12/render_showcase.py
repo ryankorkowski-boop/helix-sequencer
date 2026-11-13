@@ -52,9 +52,25 @@ def _ffmpeg() -> str:
     return shutil.which("ffmpeg") or "ffmpeg"
 
 
+_HOUSE_FILL = {
+    "ground": (14, 22, 18),
+    "drive": (18, 20, 24),
+    "wall": (28, 32, 40),
+    "roof": (18, 20, 28),
+    "opening": (10, 12, 18),
+    "stage": (32, 28, 26),
+}
+
+
 def paint_frame(drawlist, row, sparse_start, title) -> np.ndarray:
     image = np.zeros((PANEL_H, PANEL_W, 3), dtype=np.uint8)
-    image[:, :] = (8, 12, 22)
+    image[:, :] = (6, 10, 18)
+    picture = Image.fromarray(image, mode="RGB")
+    draw = ImageDraw.Draw(picture)
+    for kind, pts in drawlist.get("house", []):
+        if len(pts) >= 3:
+            draw.polygon(pts, fill=_HOUSE_FILL.get(kind, _HOUSE_FILL["wall"]))
+    image = np.array(picture)
 
     def stamp(x, y, rgb, radius):
         for dy in range(-radius, radius + 1):
@@ -65,16 +81,6 @@ def paint_frame(drawlist, row, sparse_start, title) -> np.ndarray:
                 xx = x + dx
                 if 0 <= xx < PANEL_W:
                     image[yy, xx] = rgb
-
-    for points, _color, _origin in []:
-        pass
-    for (x1, y1), (x2, y2) in []:
-        pass
-    for (pts, color, origin) in [
-        (item[1], item[2], item[3]) for item in drawlist["strands"]
-    ]:
-        # AC strands: color comes from the frame later; geometry is drawn per node below when pixels > 1.
-        del color, origin, pts
     for (x, y), channel, is_rgb, color in zip(drawlist["xy"], drawlist["ch"], drawlist["rgb"], drawlist["color"]):
         index = channel - sparse_start
         if is_rgb:
