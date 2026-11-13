@@ -59,3 +59,14 @@ Owner supplied a Facebook screenshot of the black screw-press **D** mark with in
 **NOT YET VERIFIED:** the new GitHub commits have not passed a fresh CI test or produced a native XSQ/FSEQ/MP4. Four pose submodels are not equivalent to physically rigged skeletal animation; source-event-specific exclusive pose selection still needs implementation and validation. Do not represent a native pixel-pose silhouette as an actual mechanical arm. Current geometry uses arbitrary design units and is NOT a street-legal float fabrication plan. The cost table is still an allowance rather than an exact bill of materials.
 
 **Next:** run tests; inspect real music plan; add non-overlapping per-instrument pose cue scheduling; render authentic XSQ/FSEQ through xLights with original MP3; validate duration, audio and visual activity; capture approval MP4; obtain exact logo vector/permission; re-estimate materials after scaled layout and electrical load engineering.
+
+## 2026-11-13 follow-on execution handoff
+
+- [x] Added `tools/brewery_skeleton_cues.py`: exclusive per-frame pose timeline from retained actual Helix role cues, with rests and attack/recovery phases; frontman follows instrumental guitar phrasing and never fabricates vocals.
+- [x] Wired `export_skeleton` into `tools/build_current_comparison.py` so the native XSQ has independent skeleton pose lanes. Signage and D/M emblem receive continuous readable native pixel illumination.
+- [x] Updated `.github/workflows/polar-prism-parade.yml` to trigger on brewery code changes, compile the new modules, and run the design smoke test before authentic audio/native renderer.
+- [ ] **Workflow run verification:** the latest commit `a749f6422e0fd2bfcecf0ef2047312899e770767` has no PR-triggered run listed by the available commit-workflow lookup; a completed native render is not evidenced. Check GitHub Actions UI for the push-triggered run or manually dispatch the workflow if necessary.
+- [ ] Run tests and fix all failures. Check source role plan validity and source-clock pose windows, xLights XML submodels, channel allocation, and model framing.
+- [ ] Run native xLights and verify authentic full-length XSQ/FSEQ/MP4, then deliver direct owner-review video link. Do not mark approved.
+- [ ] Exact owner-supplied screw-press D/M logo trace and licensed branding confirmation remain outstanding.
+- [ ] Measure physical float and produce costed BOM; current budget is approximate.
