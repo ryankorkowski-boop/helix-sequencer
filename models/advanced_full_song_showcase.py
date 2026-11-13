@@ -21,7 +21,7 @@ def _music(garden, first, role, *, phase=0., direction=1, delay=0, drum=None):
         )
         if role == 'drummer':
             model.details['percussion_component'] = drum or ('kick', 'snare', 'hihat', 'cymbal')[index % 4]
-        model.attrs.setdefault('PixelSize', '16')
+        model.attrs.setdefault('PixelSize', '8')
 
 
 def _estate(g, s):
@@ -38,6 +38,18 @@ def _estate(g, s):
                 propagation_delay_ms=index * 85,
                 source_display_floor=.20,
             )
+    for row, z in enumerate((-35, -10, 17)):
+        for lane, x in enumerate(range(-106, 107, 27)):
+            model = s.tree(x + (row % 2) * 9, z, 13 + (row + lane) % 3 * 4, 5, color=lane + row)
+            model.zone = f'SPIRAL_GROVE_{row + 1}'
+            _music(g, len(g.models) - 1, ('guitarist', 'keyboardist', 'bassist')[row],
+                   phase=lane / 8, direction=1 if (lane + row) % 2 else -1, delay=row * 26)
+            model.details['spatial_axis'] = 'y'
+    from models.full_song_layouts import mega_tree
+    for x in (-126, 126):
+        first = len(g.models)
+        mega_tree(g, x, -58, height=52, radius=13, sculptor=s)
+        _music(g, first, 'keyboardist', direction=1 if x < 0 else -1)
     for index, x in enumerate((-117, -74, -30, 30, 74, 117)):
         first = len(g.models)
         s.tree(x, -35 if index % 2 else -51, 37 + index % 3 * 7, 10, color=index)
@@ -64,7 +76,20 @@ def _estate(g, s):
                drum=('hihat', 'snare', 'cymbal', 'kick')[index])
 
 
-def _universe(g, s):
+def _megastructure(g, s):
+    for depth, z in enumerate(range(-65, 58, 17)):
+        first = len(g.models)
+        s.ring(f'SPIRAL_TUNNEL_{depth}', (0, 30, z), 42, 29,
+               'SPIRAL_TUNNELS', depth, plane='xy', count=100)
+        _music(g, first, ('bassist', 'guitarist')[depth % 2], direction=(-1) ** depth,
+               delay=depth * 20)
+    for i, x in enumerate((-85, 85)):
+        for j, radius in enumerate((8, 15, 22)):
+            model = s.dna(f'NESTED_TOWER_{i}_{j}', (x, 0, -17), (x, 83 - j * 8, -17),
+                          radius, (-1) ** j * (3 + j), 'NESTED_TOWERS', i + j)
+            _music(g, len(g.models) - 1, ('guitarist', 'keyboardist', 'bassist')[j],
+                   phase=i * .5, direction=(-1) ** j)
+            model.details['spatial_axis'] = 'y'
     # Nine independent native matrix planes in actual X/Y/Z space, not
     # nine differently colored copies of one front-facing layout.
     for depth, z in enumerate((-72, -45, -18)):
@@ -100,49 +125,59 @@ def _universe(g, s):
         _music(g, first, 'keyboardist', phase=index / 4, direction=(-1) ** index)
 
 
-def _neighborhood(g, s):
-    for index, (x, z) in enumerate(((-112, -55), (-56, -72), (0, -55),
-                                   (56, -72), (112, -55))):
+def _wonderland(g, s):
+    for pair, x in enumerate((-40, 40)):
+        for lane, (dx, turns) in enumerate(((-8, 3.5), (8, -3.5))):
+            model = s.dna(f'WONDERLAND_HELIX_{pair}_{lane}', (x + dx, 0, -26 + lane * 14),
+                          (x - dx, 74, -36 + lane * 14), 11, turns, 'TWIN_HELICES', lane)
+            _music(g, len(g.models) - 1, ('guitarist', 'bassist')[lane],
+                   phase=pair * .35, direction=1 - lane * 2)
+            model.details['spatial_axis'] = 'y'
+    for lane, x in enumerate((-103, -86, -70, -20, 0, 20, 70, 86, 103)):
+        for row, z in enumerate((4, 27)):
+            model = s.tree(x, z, 14 + (lane % 3) * 5, 5, color=lane + row)
+            model.zone = f'COUNTER_ROTATING_GROVE_{row + 1}'
+            _music(g, len(g.models) - 1, ('guitarist', 'keyboardist')[row],
+                   phase=lane / 9, direction=(-1) ** row, delay=lane * 12)
+            model.details['spatial_axis'] = 'y'
+    for row, z in enumerate((-41, -11, 32)):
         first = len(g.models)
-        house(g, x, z, .57, prefix=f'NEIGHBORHOOD_{index}')
-        for model in g.models[first:]:
-            role = 'guitarist' if 'ROOF' in model.name or 'RIDGE' in model.name else (
-                'keyboardist' if 'WINDOW' in model.name else 'bassist')
-            model.details.update(musical_role=role, spatial_phase=index / 5,
-                                 spatial_direction=1 if index % 2 else -1,
-                                 propagation_delay_ms=index * 95,
-                                 source_display_floor=.20)
-        for j, dx in enumerate((-22, 0, 22)):
-            first = len(g.models)
-            s.arch((x + dx, 0, z + 34), 17, 14 + j * 2, (index + j) % 3)
-            _music(g, first, 'drummer', phase=(index * 3 + j) / 15,
-                   delay=index * 95 + j * 24,
-                   drum=('kick', 'snare', 'hihat')[j])
-        for j, dx in enumerate((-28, 28)):
-            first = len(g.models)
-            s.tree(x + dx, z + 11, 26 + 5 * j, 6, color=index + j)
-            _music(g, first, 'guitarist' if j == 0 else 'bassist',
-                   phase=(index + j) / 6, delay=index * 95)
+        s.arch((0, 0, z), 178 - row * 32, 56 - row * 15, row, zone='LAYERED_ARCHES')
+        _music(g, first, ('drummer', 'guitarist', 'bassist')[row], direction=(-1) ** row)
+    for i, x in enumerate((-100, -70, 70, 100)):
         first = len(g.models)
-        s.mesh(f'NEIGHBORHOOD_MATRIX_{index}', (x, 4, z + 5),
-               20, 23, 'MATRICES', index)
-        _music(g, first, 'keyboardist', phase=index / 5, delay=index * 95)
-        first = len(g.models)
-        s.starburst((x, 44, z), 6, color=index)
-        _music(g, first, 'drummer', phase=index / 5, drum='cymbal')
-    for index, z in enumerate((3, 22, 40)):
-        first = len(g.models)
-        s.path(f'NEIGHBORHOOD_TRAVEL_{index}',
-               [(-138, 2 + index * 5, z), (-70, 6 + index * 5, z),
-                (0, 9 + index * 5, z), (70, 6 + index * 5, z),
-                (138, 2 + index * 5, z)],
-               'TRAVEL', index, count=320)
-        _music(g, first, ('keyboardist', 'guitarist', 'bassist')[index],
-               phase=index / 3, direction=1 if index % 2 else -1)
+        s.starburst((x, 40, -9), 7, color=i, zone='SNOWFLAKES')
+        _music(g, first, 'drummer', drum=('kick', 'snare', 'hihat', 'cymbal')[i])
 
 
 def _ultimate(g, s):
-    # Preserve a clear central foreground for the original canonical cast.
+    # Keep the foreground cast and both face pairs in separate sight lines.
+    from models.full_song_layouts import mega_tree, singing_props
+    singing_props(g, ('bulb', 'snowman', 'tree', 'tree'),
+                  ((-61, 2, 43), (61, 2, 43), (-106, 1, 30), (106, 1, 30)), scale=.67)
+    for row, z in enumerate((-37, -9, 17)):
+        for lane, x in enumerate((-118, -98, -79, -44, 44, 79, 98, 118)):
+            model = s.tree(x, z, 11 + (lane + row) % 4 * 4, 5, color=lane + row)
+            model.zone = f'FINALE_SPIRAL_FOREST_{row + 1}'
+            model.details['spatial_axis'] = 'y'
+            _music(g, len(g.models) - 1, ('guitarist', 'keyboardist', 'bassist')[row],
+                   direction=(-1) ** lane, phase=lane / 8, delay=row * 25)
+    for i, x in enumerate((-135, -73, 73, 135)):
+        first = len(g.models)
+        mega_tree(g, x, -49, height=40 + (i % 2) * 10, radius=11, sculptor=s)
+        _music(g, first, 'keyboardist', direction=(-1) ** i, phase=i / 4)
+    for i, z in enumerate((-54, -30, -6, 18)):
+        first = len(g.models)
+        s.ring(f'FINALE_TUNNEL_{i}', (0, 31, z), 45 - i * 4, 31 - i * 3,
+               'SPIRAL_TUNNELS', i, plane='xy')
+        s.mesh(f'FINALE_DEPTH_GRID_{i}', (0, 1, z - 7), 78, 24,
+               'THREE_D_GRID', i, wave=3, yaw=(-1) ** i * 12)
+        _music(g, first, ('bassist', 'keyboardist')[i % 2], delay=i * 42)
+    for i, x in enumerate((-120, -88, 88, 120)):
+        first = len(g.models)
+        s.arch((x, 0, 40), 26, 12, i, zone='FORECOURT_ARCHES')
+        s.starburst((x, 25, 28), 6, color=i, zone='SNOWFLAKES')
+        _music(g, first, 'drummer', drum=('kick', 'snare', 'hihat', 'cymbal')[i])
     for index, x in enumerate((-115, -72, 72, 115)):
         first = len(g.models)
         s.tree(x, -68, 50 + index % 2 * 14, 12, color=index)
@@ -196,15 +231,15 @@ def _ultimate(g, s):
 def build_showcase(number, plan, *, duration, native_band):
     if number not in (13, 14, 15, 16):
         raise ValueError('Advanced showcase is limited to panels 13–16')
-    names = {13: 'Mega RGB Estate', 14: '3D Pixel Universe',
-             15: 'Synchronized Neighborhood', 16: 'Ultimate Helix Showcase'}
-    g = Garden(title=names[number], slug=f'full_song_{number:02}',
+    from models.full_song_layouts import NAMES
+    g = Garden(title=NAMES[number - 1], slug=f'full_song_{number:02}',
                palette=('#63E4FF', '#F68BFF', '#FFE38C'))
     s = structures(g)
-    {13: _estate, 14: _universe, 15: _neighborhood, 16: _ultimate}[number](g, s)
+    {13: _estate, 14: _wonderland, 15: _megastructure, 16: _ultimate}[number](g, s)
     cast = native_band(g, plan, rock=False, duration=duration) if number == 16 else None
     for model in g.models:
-        model.attrs.setdefault('PixelSize', '16')
+        model.attrs.setdefault('PixelSize', '8')
+        model.attrs.setdefault('BlackTransparency', '100')
         model.details.setdefault('source_display_floor', .20)
         if not model.submodels:
             model.submodels['ALL'] = list(range(1, len(model.points) + 1))

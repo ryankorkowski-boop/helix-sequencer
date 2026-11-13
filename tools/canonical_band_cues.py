@@ -94,7 +94,7 @@ def export_drums(root, garden, plan):
         event_timing_preserved=True,independent_component_ground_truth_verified=False)
 
 
-def export_instruments(root, garden, plan):
+def export_instruments(root, garden, plan, *, qualified_keyboard=False):
     duration = round(float(root.findtext('head/sequenceDuration')) * 1000)
     elements = root.find('ElementEffects')
     report = dict(source='retained production snowman_band plan', detected_instrument_identity_verified=False,
@@ -158,6 +158,8 @@ def export_instruments(root, garden, plan):
         counts['source_lane']=key
         counts['arm_contact_omissions']=[]
         counts['arm_gestures'] = 0
+        if qualified_keyboard and role=='piano':
+            counts['keyboard_source_abstentions']=0
         gestures = set()
         claimed_contacts = set()
         last_contacts = {}
@@ -165,6 +167,15 @@ def export_instruments(root, garden, plan):
         for source in sorted(plan.get('cues',{}).get(key,[]), key=lambda e: e['start_ms']):
             counts['source_events']+=1
             level=source.get('velocity',source.get('expression',{}).get('brightness',.8))
+            if role=='piano' and qualified_keyboard:
+                from core.source_ownership import SourceOwnership, resolve_owner
+                raw=source.get('source_owner')
+                owner=SourceOwnership(**raw) if raw else None
+                qualified=resolve_owner(owner if owner and owner.origin=='detected' else None,
+                                        owner if owner and owner.origin=='estimated' else None)
+                if qualified.performer!='keyboardist':
+                    counts['keyboard_source_abstentions']+=1
+                    continue
             if role in ('piano','xylophone'):
                 pitch=float(source['pitch_midi'])
                 if pitch != round(pitch):

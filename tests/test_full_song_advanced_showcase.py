@@ -39,3 +39,59 @@ def test_advanced_panels_do_not_invent_voice_events():
     plan = {'cues': {role: [] for role in ('guitarist', 'bassist', 'keyboardist', 'drummer')}}
     for m in g.models:
         assert schedule(m, plan, {}, 1000) == [], 'No audio events means no decorative fake beat'
+
+
+def test_residential_inventory_and_original_ac_addresses():
+    from collections import Counter
+    from pathlib import Path
+    from core.model_parser import parse_layout
+    from models.full_song_layouts import NAMES, build
+
+    assert len(NAMES) == len(set(NAMES)) == 16
+    for panel, channels in ((1, 16), (2, 64), (3, 256)):
+        garden, cast = build(panel, {}, duration=1)
+        assert cast is None
+        assert sum(model.channels for model in garden.models) == channels
+        if panel == 3:
+            original = parse_layout(Path(__file__).resolve().parents[1] / 'xlights_rgbeffects.xml')
+            assert {m.name: m.start for m in garden.models} == {
+                m.name: m.start_channel for m in original.models.values() if not m.is_submodel
+            }
+
+    for panel, count in ((4, 0), (5, 0), (6, 1), (7, 2), (8, 0), (9, 0), (10, 0), (12, 2)):
+        garden, _ = build(panel, {}, duration=1)
+        assert sum(m.zone == 'MEGA_TREES' for m in garden.models) == count
+        assert len({m.name for m in garden.models}) == len(garden.models)
+        if panel in (8, 9):
+            faces = [m for m in garden.models if m.details.get('generic_singer')]
+            assert Counter(m.details['generic_singer'] for m in faces) == {
+                'estimated_lead': 1, 'estimated_backing': 1,
+            }
+            assert all(m.attrs['BlackTransparency'] == '100' for m in faces)
+
+
+def test_showcase_drummer_exports_source_depth_and_materials():
+    from collections import Counter
+    from models.full_song_layouts import build
+    from models.source_drummer_3d import SOURCE_SHA256
+    from tools.render_drummer_v3_preview import TARGETS
+
+    plan = {'cues': {'drummer': [
+        dict(start_ms=150, end_ms=270, kind='kick', velocity=.8),
+        dict(start_ms=450, end_ms=570, kind='hihat', velocity=.8),
+        dict(start_ms=700, end_ms=820, kind='snare', velocity=.8),
+    ]}}
+    garden, (drummer, states, proof) = build(11, plan, duration=1)
+    assert Counter(m.details['review_role'] for m in garden.models) == {
+        role: 1 for role in ('drummer', 'bass', 'guitar', 'piano', 'lead', 'harmony')
+    }
+    assert proof['source_sha256'] == SOURCE_SHA256
+    assert all(item['watertight'] and item['depth'] > 0 for item in proof['closed_components'])
+    assert proof['resolved_strikes'] == 3
+    assert len(set(states)) > 1
+    assert all(drummer.submodels[target + '_SURFACE'] for target in TARGETS)
+    assert len({drummer.colors[n - 1] for n in drummer.submodels['BASE_DIM']}) > 40
+    kick = drummer.points[[n - 1 for n in drummer.submodels[TARGETS[0] + '_SURFACE']]]
+    hat = drummer.points[[n - 1 for n in drummer.submodels[TARGETS[2] + '_SURFACE']]]
+    assert kick[:, 1].mean() < hat[:, 1].mean()
+    assert kick[:, 2].max() - kick[:, 2].min() > 2

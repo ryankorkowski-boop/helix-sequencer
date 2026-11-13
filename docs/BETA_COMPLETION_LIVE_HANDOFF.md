@@ -1,3 +1,13 @@
+## 12 November — rebuild of the owner-rejected 16-panel showcase
+
+- Goal: deliver a new Helix Motion pilot and a separate real-vocal verification, with native XSQ/FSEQ and owner review.
+- Changed: full-song layout and flagship model builders, source spatial export, native band staging and keyboard gate, focused regression coverage and the four handoff files. See [layout inventory and technical handoff](FULL_SONG_SHOWCASE_REBUILD.md).
+- Preserved: original legacy 256 AC names, addresses and colors, canonical V3 source art and detector, six-performer default, legacy sampler behavior, exact original audio and owner approval requirements.
+- New: sixteen residential-to-flagship layouts, transparent idle pixels, native faces at readable sizes, source-front volumetric drummer with separate strike and pose lanes, measured section and coordinate choreography, and an ownership gate for keyboard performance. Missing keyboard attribution leaves the pianist idle.
+- Evidence: 44 focused Python 3.12 tests passed. Native xLights 2026.18 verified all three Phoneme Test Hook views. All three decoded FSEQs show 265 lead-only and 47 backing-only open-mouth frames. The 1920×1080 30 fps vocal MP4 fully decoded with 0.999018 original-audio correlation and zero lag in four checks.
+- Open: native Helix Motion rendering and visual checks, independent backing identity, lexical phonemes, physical controller testing, and application integration and parity. This branch has no approval to begin the 82-song batch or release the beta. Automatic approval review blocked the optional direct dashboard credential request. GitHub remains the handoff source.
+- Regression risks: large flagship XSQs and software-render time, sampled native geometry versus continuous motion, mixed-bus instrument identity, and readability in the 480×270 grid cells.
+
 ## 9 November — literal-key contacts and fresh native MP4 delivered; motion gate still fails
 
 Goal: remove sustained-note hand locking and render source-correct keyboard contacts. Source implementation [2d4c505](https://github.com/ryankorkowski-boop/helix-sequencer/commit/2d4c505e442292f3cba9eb909aeabcc76acb33cf), identical treea37c53cd to local engine4f3b4ea. Files: tools/canonical_band_cues.py, models/native_keyboard_contacts.py, canonical/final native adapters, prepare_phoneme_show.py, two regression modules and evidence/beta_completion/motion_20261109/. Preserved: six source identities, original drummer artwork/relative kit/channels, independent mouth clocks, key/string measured note intervals, 37-key legacy default and optional seven-person path, all acceptance thresholds, owner approval hold. No substitute drummer/defaultxylophonist or synthetic audio.

@@ -48,19 +48,24 @@ def residential_preview(folder,number):
     tree.write(path,encoding='utf-8',xml_declaration=True)
 
 
-def native_band(g,plan,*,rock=True,duration=36):
+def native_band(g,plan,*,rock=True,duration=36,showcase_source=False):
     from models.final_band_native import add_final_native_band,SurfaceParts
     from models.final_band_scene import FinalBandScene
     from models.source_drummer_3d import SourceDrummer3D
     from tools.render_owner_band_review import drum_hits
     from tools.native_source_pose_band import select_states
-    add_final_native_band(g,'HX_SNOW',(0,0,0),rock=rock,include_stage=True,
-                          full_keyboard=True,surface_spacing=.18,mouth_scale=.42)
-    for model in g.models:
+    first=len(g.models)
+    add_final_native_band(g,'HX_SNOW',(0,0,0),rock=rock,include_stage=not showcase_source,
+                          full_keyboard=True,surface_spacing=.12 if showcase_source else .18,
+                          mouth_scale=.42,keyboard_contacts=showcase_source)
+    cast=g.models[first:]
+    for model in cast:
         if model.details.get('final_band_role'):
             model.details['review_role']=model.details['final_band_role']
     scene=FinalBandScene('ember_amphitheatre',rock=rock,full_keyboard=True)
-    hits,_=drum_hits(plan['cues']['drummer']);rig=SourceDrummer3D(scene,hits)
+    hits,unresolved=drum_hits(plan.get('cues',{}).get('drummer',[]))
+    rig=SourceDrummer3D(scene,hits,width=5.1 if showcase_source else 4.5,
+                        center=(0,4.3,-1.4) if showcase_source else (0,2.26,-1.4))
     parts=SurfaceParts((0,0,0),scale=5)
     for item in rig.meshes:
         name=item['name'];part=name+'_SURFACE' if name.startswith('HX_SNOWMAN_') else 'BASE_DIM'
@@ -68,14 +73,21 @@ def native_band(g,plan,*,rock=True,duration=36):
         # creating one native effect lane for every antialiased image value.
         color=np.clip(np.rint(item['mesh'].visual.vertex_colors[:,:3]/32)*32,0,255).astype('u1')
         colors=['#'+''.join(f'{int(c):02X}' for c in row) for row in color]
-        parts.add(part,item['mesh'].vertices[::2],colors[::2])
+        if showcase_source:
+            # Sample both front and rear; the previous stride selected half
+            # the front and discarded its authored materials during export.
+            points=item['mesh'].vertices
+            parts.add('BASE_DIM',points,colors)
+            if part!='BASE_DIM':parts.add(part,points,colors)
+        else:
+            parts.add(part,item['mesh'].vertices[::2],colors[::2])
     for i in rig.connector_ids:parts.primitive('BASE_DIM',scene.instances[i])
     ids=[i for values in rig.rigs.values() for i in values]+[rig.foot,rig.pedal,rig.beater]
     samples=[]
     for frame in range(math.ceil(duration*20)):
         rig.pose(frame/20)
         samples.append(np.array([scene.instances[i]['matrix'][:3,3] for i in ids]))
-    selected,states,error=select_states(samples,limit=24)
+    selected,states,error=select_states(samples,limit=48 if showcase_source else 24)
     for number,frame in enumerate(selected):
         rig.pose(int(frame)/20)
         for i in ids:parts.primitive(f'SOURCE_POSE_{number:02}',scene.instances[i])
@@ -85,10 +97,14 @@ def native_band(g,plan,*,rock=True,duration=36):
         parts.colors,{k:sorted(set(v)) for k,v in parts.parts.items()},
         details=dict(review_role='drummer',final_band_role='drummer',source_front_volume=True,
                      source_pose_error=error,pose_method='source-clock selected real 3D poses'))
-    for m in g.models:
+    for m in (*cast,model):
         m.attrs.pop('StartChannel',None)
         m.attrs.update(PixelSize='7',Antialias='1',BlackTransparency='100')
-    return model,states,rig.proof()
+    if showcase_source:
+        model.attrs['HelixReferenceImage']='assets/drummerbg.png'
+        model.details['showcase_source_drummer']=True
+    return model,states,dict(rig.proof(),resolved_strikes=len(hits),unresolved_strikes=unresolved,
+                             pose_states=len(selected),max_pose_error=float(error))
 
 
 def layout(number,plan,*,duration=36):
@@ -195,7 +211,7 @@ def build(source,vocals,output,*,numbers=None,names=NAMES,layout_builder=layout,
                 lane=m.details['generic_singer']
                 if instrumental:
                     if m.submodels.get('MOUTH_REST'):
-                        sequence.effect(m,'MOUTH_REST',0,duration_ms,g.palette[2],50)
+                        sequence.effect(m,'MOUTH_REST',0,duration_ms,g.palette[2],75 if m.details.get('showcase_face') else 50)
                 else:
                     values=np.where(cache[lane+'_energy']>0,cache[lane+'_shapes'],0)
                     cuts=np.r_[0,np.flatnonzero(np.diff(values))+1,len(values)]
@@ -203,7 +219,7 @@ def build(source,vocals,output,*,numbers=None,names=NAMES,layout_builder=layout,
                         part='MOUTH_'+SHAPE_NAMES[int(values[a])]
                         if m.submodels.get(part):sequence.effect(m,part,int(a)*10,int(b)*10,g.palette[2],95)
                 face_parts=('OUTLINE','BASE','BODY','EYES')
-                primary_faces=full_song and number in (8,9)
+                primary_faces=full_song and (number in (8,9) or m.details.get('showcase_face'))
                 if primary_faces:
                     face_parts+=tuple(part for part in m.submodels if part.startswith('EYE_'))
                 for part in face_parts:
@@ -235,15 +251,20 @@ def build(source,vocals,output,*,numbers=None,names=NAMES,layout_builder=layout,
                             **{'Eyes-Open':'','Eyes-Closed':'','FaceOutline':''})))
                         m.attrs['HelixPhonemeOwnership']='exclusive'
             static_materials(SimpleNamespace(models=performers));write_layout(g,folder,include_demo=False,export_all_custom=True)
-            export_instruments(sequence.root,SimpleNamespace(models=performers),plan)
+            instrument_report=export_instruments(sequence.root,SimpleNamespace(models=performers),plan,
+                                                 qualified_keyboard=full_song)
+            if full_song:
+                (folder/'Band_Instrument_Provenance.json').write_text(json.dumps(instrument_report,indent=2)+'\n')
             if instrumental:
                 export_static_materials(sequence.root,SimpleNamespace(models=performers),duration_ms)
                 for m in performers:
                     if m.submodels.get('MOUTH_rest'):
                         sequence.effect(m,'MOUTH_rest',0,duration_ms,'#F1C383',55)
             else:
-                export_vocals(sequence.root,folder/'xlights_rgbeffects.xml',SimpleNamespace(models=performers),
-                              fixture=vocals,expected_sha256=sha,source_audio=audio)
+                vocal_report=export_vocals(sequence.root,folder/'xlights_rgbeffects.xml',SimpleNamespace(models=performers),
+                                           fixture=vocals,expected_sha256=sha,source_audio=audio)
+                if full_song:
+                    (folder/'Band_Vocal_Provenance.json').write_text(json.dumps(vocal_report,indent=2)+'\n')
             drummer,states,proof=band
             if states is None:
                 # An owner-reviewed V3 kit has real source component IDs.
@@ -258,11 +279,16 @@ def build(source,vocals,output,*,numbers=None,names=NAMES,layout_builder=layout,
                 from tools.render_drummer_v3_preview import TARGETS
                 hits,_=drum_hits(plan['cues']['drummer'])
                 for target,color in zip(TARGETS,colors):
-                    part=target+'_SURFACE';sequence.effect(drummer,part,0,duration_ms,color,22)
+                    part=target+'_SURFACE'
+                    if not drummer.details.get('showcase_source_drummer'):
+                        sequence.effect(drummer,part,0,duration_ms,color,22)
                     for hit in hits:
                         if hit['target']==target:sequence.effect(drummer,part,round(hit['time']*1000),min(duration_ms,round(hit['time']*1000)+250),color,100,22)
                 cuts=np.r_[0,np.flatnonzero(np.diff(states))+1,len(states)]
-                for a,b in zip(cuts[:-1],cuts[1:]):sequence.effect(drummer,f'SOURCE_POSE_{states[a]:02}',int(a)*50,int(b)*50,'#C5D6DD',80)
+                for a,b in zip(cuts[:-1],cuts[1:]):
+                    part=f'SOURCE_POSE_{states[a]:02}'
+                    if part in drummer.submodels:
+                        sequence.effect(drummer,part,int(a)*50,int(b)*50,'#C5D6DD',80)
                 (folder/'Dimensional_Drummer.json').write_text(json.dumps(proof,indent=2)+'\n')
         else:write_layout(g,folder,include_demo=False,export_all_custom=True)
         (folder/'media').mkdir(exist_ok=True);shutil.copyfile(audio,folder/'media'/audio.name)
@@ -273,8 +299,8 @@ def build(source,vocals,output,*,numbers=None,names=NAMES,layout_builder=layout,
         points=np.concatenate([m.points for m in camera_models]);lo,hi=points.min(0),points.max(0);center=(lo+hi)/2;span=hi-lo
         if full_song:
             distance=max(span[0]*.88,span[1]*1.75,42)+span[2]*.40
-            pitch=8 if band else 12 if number==13 else 5
-            yaw=20 if number==13 else 0
+            pitch=5 if band else 14 if number in (13,15) else 5
+            yaw=17 if number==15 else 7 if number==13 else 0
         else:
             distance=max(span[0]*.82,span[1]*1.75,45)+(span[2]/2 if number==11 else 0)
             if number==1:distance*=.85
@@ -289,6 +315,9 @@ def build(source,vocals,output,*,numbers=None,names=NAMES,layout_builder=layout,
         camera.write(folder/'xlights_rgbeffects.xml',encoding='utf-8',xml_declaration=True)
         if not full_song:
             residential_preview(folder,number)
+        elif number in (1,2,4,6,7,8,10,12):
+            from tools.native_residential_context import add_context
+            add_context(folder)
         item=dict(number=number,name=name,folder=str(folder.resolve()),xsq='Performance.xsq',source_audio_sha256=sha,
                   source_analysis_sha256=digest(plan_path),source_duration_seconds=duration,audio_name=audio.name,models=len(g.models),
                   channels=max(m.start+m.channels-1 for m in g.models),warnings=[],native_render_status='pending',

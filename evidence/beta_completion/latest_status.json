@@ -1243,8 +1243,8 @@
       "source_commit": "09677d4822e35d724e9f229c0ab7465c9f34fd7a",
       "engine_worktree_module_changes": false,
       "source_library_tracks": [
-        "Tinsel Tornado164\u2013182s",
-        "Christmas in the Ether76.5\u201394.5s"
+        "Tinsel Tornado164–182s",
+        "Christmas in the Ether76.5–94.5s"
       ],
       "effects": 5155,
       "detected_parts": [
@@ -1750,7 +1750,7 @@
           "35 focused Python3.12 cases targeted; Python3.11 previous34 pass before added audit overlap case",
           "Real note-writer -> preview-parser -> intensity regression retains exact short-note rest and unlit other rung",
           "Batch mux/provenance binding regression for two distinct inputs; mismatched/ambiguous media fails instead of silently using first audio",
-          "Native short113\u2013137ms mouth cue survives both passes while ordinary24ms On still obeys50ms minimum"
+          "Native short113–137ms mouth cue survives both passes while ordinary24ms On still obeys50ms minimum"
         ],
         "evidence": [
           "evidence/beta_completion/reconciliation_20261104/source_timing_preview_py312.xml",
@@ -2715,5 +2715,32 @@
       "android36": "https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/42671884943/artifacts/13699776977",
       "windows": "https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/42672170196/artifacts/13698673732"
     }
+  },
+  "full_song_showcase_216": {
+    "branch": "codex/full-song-16-panel-216",
+    "pr": 217,
+    "issue": 216,
+    "previous_owner_rejected_runs": [
+      43274451494
+    ],
+    "source_parent_commit": "b84f7c118dbfb291aa7c798ec872b301480053c8",
+    "source_module_sha256": {
+      "models/full_song_layouts.py": "1cd4933579c541493aead286b7aec4d83fe74c92ff4aefc087b70847c253f97f",
+      "models/advanced_full_song_showcase.py": "48d9bcbcee588b386cc94502494b857ae1334efe03916f721607bb114e4414a9",
+      "tools/build_current_comparison.py": "6c65f0d25c0be0de9c08dde6e88dc3c1f76ec3697f580a7a4a12e9ac82da3c22",
+      "tools/canonical_band_cues.py": "d126156eb764f1d04ddf6a185514caf13d26c7c266f7e56a50631a7c44b80495",
+      "tools/source_spatial_direction.py": "35c8553cb325aa28d537dea617315aed83ff33662aa90dbf65aae6f966283c71"
+    },
+    "pilot": "NATIVE_RENDER_IN_PROGRESS",
+    "owner_approved": false,
+    "remaining_82_song_batch": "BLOCKED_PENDING_OWNER_APPROVAL",
+    "public_release": "NOT_AUTHORIZED",
+    "vocal_technical": "NATIVE_ESTIMATED_CLOCKS_VERIFIED",
+    "vocal_identity": "UNVERIFIED",
+    "lexical_phonemes": "UNVERIFIED",
+    "windows": "SHOWCASE_INTEGRATION_PENDING",
+    "android": "SHOWCASE_INTEGRATION_PENDING",
+    "focused_python_3_12_passed": 44,
+    "handoff": "docs/FULL_SONG_SHOWCASE_REBUILD.md"
   }
 }
