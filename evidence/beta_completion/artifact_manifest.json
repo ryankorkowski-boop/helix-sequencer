@@ -2602,7 +2602,27 @@
       "android_candidate_run": "https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/43401604473",
       "public_release_authorized": false,
       "batch_allowed": false,
-      "readback_sha256_match": true
+      "readback_sha256_match": true,
+      "android_emulator": {
+        "api30": "PASS",
+        "api36": "PASS",
+        "source_commit": "65433a984e1420ebbb2e2e853a05220c0f245798",
+        "api30_artifact": "https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/43401604473/artifacts/14026182343",
+        "api36_artifact": "https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/43401604473/artifacts/14025773468"
+      },
+      "python_3_12": {
+        "source_commit": "cf4b19de9ed6de425c8a8a1079478b807ebe6cfd",
+        "passed": 2398,
+        "skipped": 6,
+        "subtests_passed": 24
+      },
+      "python_3_11": {
+        "default_focused_passed": 49,
+        "haswell_focused_passed": 45,
+        "haswell_focused_failed": 4,
+        "final_vocal_android_focused_passed": 24
+      },
+      "vocal_closeup_proof_url": "https://drive.google.com/file/d/1HIIJqK4i218HHsWEpKuRWx9cL9A_DFcq/view?usp=drivesdk"
     }
   }
 }
