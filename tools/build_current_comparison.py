@@ -212,6 +212,17 @@ def build(source,vocals,output,*,numbers=None,names=NAMES,layout_builder=layout,
             sequence.root.find('head/sequenceDuration').text=f'{duration:.3f}'
             sequence.root.find('head/comment').text='Helix production analysis on the verified full recording.'
         for m in g.models:
+            if m.details.get('skeleton_performer_role'):
+                from tools.brewery_skeleton_cues import export_skeleton
+                reports.append(export_skeleton(sequence,m,plan,duration_ms))
+                continue
+            if m.details.get('brand_sign') or m.details.get('brand_emblem'):
+                # Brewery identity must remain legible during rests and breaks.
+                part='LETTERS' if m.details.get('brand_sign') else 'ALL'
+                if part not in m.submodels:
+                    m.submodels[part]=list(range(1,len(m.points)+1))
+                sequence.effect(m,part,0,duration_ms,'#FFD38A',65)
+                continue
             if m.details.get('review_role'):continue
             if m.details.get('generic_singer'):
                 lane=m.details['generic_singer']
