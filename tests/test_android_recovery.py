@@ -101,3 +101,33 @@ def test_long_preview_request_reaches_renderer(completed_job,monkeypatch,seconds
 def test_preview_outside_desktop_parity_limit_is_rejected(tmp_path,seconds):
     with pytest.raises(ValueError,match='1–600'):
         mobile.run(str(tmp_path),str(tmp_path),json.dumps({'preview_seconds':seconds}),Callback())
+
+
+
+def test_variant_previews_continue_after_one_codec_failure(completed_job, monkeypatch):
+    engine, job = completed_job
+    from core import sequence_builder
+    original = sequence_builder.run_profile
+
+    def sequence(profile, args):
+        original(profile, args)
+        for name in ('variant-b.xsq', 'variant-c.xsq'):
+            (job/'outputs'/name).write_text('<sequence/>')
+
+    def render(xsq, layout, wav, seconds, callback):
+        if xsq.name == 'variant-b.xsq':
+            raise ValueError('codec failure')
+        movie = xsq.with_suffix('.mp4')
+        movie.write_bytes(xsq.name.encode())
+        return movie
+
+    monkeypatch.setattr(sequence_builder, 'run_profile', sequence)
+    monkeypatch.setattr(mobile, 'render_preview', render)
+    result = json.loads(mobile.run(str(engine), str(job), '{"variants":3}', Callback()))
+    assert [Path(path).name for path in result['previews']] == ['song.mp4', 'variant-c.mp4']
+    assert result['preview'] == result['previews'][0]
+    assert result['stages']['preview'] == {'status': 'partial', 'error': 'variant-b.xsq: codec failure'}
+    with zipfile.ZipFile(result['bundle']) as archive:
+        assert {name for name in archive.namelist() if name.endswith('.mp4')} == {
+            'song.mp4', 'variant-c.mp4',
+        }

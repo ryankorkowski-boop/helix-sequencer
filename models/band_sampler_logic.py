@@ -5,6 +5,7 @@ import re
 import numpy as np
 
 SHAPE_NAMES = ('REST', 'MBP', 'AH', 'EE', 'OH', 'FV', 'L')
+NATIVE_SHAPE_NAMES = SHAPE_NAMES + ('U', 'WQ', 'ETC')
 
 
 def bass_neck_height(note, low=28, high=64):

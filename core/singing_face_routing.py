@@ -16,6 +16,7 @@ PHONEME_ALIASES = {
     "FV": ("FV",),
     "L": ("L",),
     "WQ": ("WQ", "U"),
+    "ETC": ("ETC",),
     "REST": ("REST", "OFF"),
 }
 

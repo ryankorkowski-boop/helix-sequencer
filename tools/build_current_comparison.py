@@ -20,7 +20,7 @@ from tools.build_helpers.ultimate_showcase import write_layout
 from tools.build_source_ac_review import geometry as original_ac
 from tools.source_spatial_direction import export_model
 from tools.phoneme_source import digest
-from models.band_sampler_logic import SHAPE_NAMES
+from models.band_sampler_logic import NATIVE_SHAPE_NAMES, SHAPE_NAMES
 
 NAMES=('Original 256-channel AC Christmas','Canonical 3D snowman band',
        'Simple RGB house','RGB arches and roofline','RGB mega trees and spirals',
@@ -48,7 +48,7 @@ def residential_preview(folder,number):
     tree.write(path,encoding='utf-8',xml_declaration=True)
 
 
-def native_band(g,plan,*,rock=True,duration=36,showcase_source=False,overview=False):
+def native_band(g,plan,*,rock=True,duration=36,showcase_source=False,overview=False,native_extended_mouths=False):
     from models.final_band_native import add_final_native_band,SurfaceParts
     from models.final_band_scene import FinalBandScene
     from models.source_drummer_3d import SourceDrummer3D
@@ -57,7 +57,8 @@ def native_band(g,plan,*,rock=True,duration=36,showcase_source=False,overview=Fa
     first=len(g.models)
     add_final_native_band(g,'HX_SNOW',(0,0,0),rock=rock,include_stage=not showcase_source,
                           full_keyboard=True,surface_spacing=.12 if showcase_source and not overview else .18,
-                          mouth_scale=.42,keyboard_contacts=showcase_source)
+                          mouth_scale=.42,keyboard_contacts=showcase_source,
+                          native_extended_mouths=native_extended_mouths)
     cast=g.models[first:]
     for model in cast:
         if model.details.get('final_band_role'):
@@ -174,6 +175,7 @@ def build(source,vocals,output,*,numbers=None,names=NAMES,layout_builder=layout,
     plan_path,=plans
     plan=json.loads(plan_path.read_text())
     cache={}
+    shape_names=SHAPE_NAMES
     if vocals is not None:
         vocals=Path(vocals)
         receipt=json.loads((vocals/'diagnostic.json').read_text())
@@ -183,6 +185,7 @@ def build(source,vocals,output,*,numbers=None,names=NAMES,layout_builder=layout,
         if full_song and receipt.get('verification_state')=='VERIFIED':
             from tools.vocal_analysis_fixture import verify_fixture
             verify_fixture(audio,vocals,receipt)
+            shape_names=NATIVE_SHAPE_NAMES
         elif full_song:
             from tools.phoneme_vocal_export import screened_lanes
             lanes,_=screened_lanes(cache)
@@ -198,7 +201,8 @@ def build(source,vocals,output,*,numbers=None,names=NAMES,layout_builder=layout,
         name=names[number-1]
         folder=output/f'{number:02}'
         if folder.exists():raise FileExistsError(folder)
-        g,band=layout_builder(number,plan,duration=duration);g.title=name
+        layout_options = {'native_extended_mouths': True} if shape_names == NATIVE_SHAPE_NAMES else {}
+        g,band=layout_builder(number,plan,duration=duration,**layout_options);g.title=name
         if number not in preserve_addresses:allocate(g)
         for m in g.models:
             if not m.submodels:m.submodels['ALL']=list(range(1,len(m.points)+1))
@@ -218,7 +222,7 @@ def build(source,vocals,output,*,numbers=None,names=NAMES,layout_builder=layout,
                     values=np.where(cache[lane+'_energy']>0,cache[lane+'_shapes'],0)
                     cuts=np.r_[0,np.flatnonzero(np.diff(values))+1,len(values)]
                     for a,b in zip(cuts[:-1],cuts[1:]):
-                        part='MOUTH_'+SHAPE_NAMES[int(values[a])]
+                        part='MOUTH_'+shape_names[int(values[a])]
                         if m.submodels.get(part):sequence.effect(m,part,int(a)*10,int(b)*10,g.palette[2],95)
                 face_parts=('OUTLINE','BASE','BODY','EYES')
                 primary_faces=full_song and (number in (8,9) or m.details.get('showcase_face'))
@@ -240,16 +244,17 @@ def build(source,vocals,output,*,numbers=None,names=NAMES,layout_builder=layout,
         if band:
             from tools.phoneme_vocal_export import export_static_materials, static_materials, export as export_vocals
             from tools.canonical_band_cues import export_instruments
-            from models.canonical_native_band import VISEMES
+            from models.canonical_native_band import EXTENDED_VISEMES, VISEMES
             from tools.build_helpers.ultimate_showcase import model_xml
             performers=[m for m in g.models if m.details.get('review_role')]
             for m in performers:
                 if m.details['review_role'] in ('lead','harmony'):
                     if 'MOUTH_AI' not in m.submodels:
                         original=dict(m.submodels)
-                        for viseme,shape in VISEMES.items():m.submodels['MOUTH_'+viseme]=list(original['MOUTH_'+shape])
+                        visemes = EXTENDED_VISEMES if 'MOUTH_U' in original else VISEMES
+                        for viseme,shape in visemes.items():m.submodels['MOUTH_'+viseme]=list(original['MOUTH_'+shape])
                         m.children.append(('faceInfo',dict(Name='Helix independent phonemes',Type='NodeRange',
-                            **{'Mouth-'+v:','.join(map(str,m.submodels['MOUTH_'+v])) for v in VISEMES},
+                            **{'Mouth-'+v:','.join(map(str,m.submodels['MOUTH_'+v])) for v in visemes},
                             **{'Eyes-Open':'','Eyes-Closed':'','FaceOutline':''})))
                         m.attrs['HelixPhonemeOwnership']='exclusive'
             static_materials(SimpleNamespace(models=performers));write_layout(g,folder,include_demo=False,export_all_custom=True)
@@ -317,9 +322,9 @@ def build(source,vocals,output,*,numbers=None,names=NAMES,layout_builder=layout,
         camera.write(folder/'xlights_rgbeffects.xml',encoding='utf-8',xml_declaration=True)
         if not full_song:
             residential_preview(folder,number)
-        elif number in (1,2,4,6,7,8,10,12):
-            from tools.native_residential_context import add_context
-            add_context(folder)
+        else:
+            from tools.native_residential_context import add_showcase_context
+            add_showcase_context(folder, g)
         item=dict(number=number,name=name,folder=str(folder.resolve()),xsq='Performance.xsq',source_audio_sha256=sha,
                   source_analysis_sha256=digest(plan_path),source_duration_seconds=duration,audio_name=audio.name,models=len(g.models),
                   channels=max(m.start+m.channels-1 for m in g.models),warnings=[],native_render_status='pending',

@@ -9,7 +9,7 @@ from dataclasses import dataclass
 import hashlib
 import numpy as np
 from music.review_score import vocal_clock
-from models.band_sampler_logic import SHAPE_NAMES
+from models.band_sampler_logic import NATIVE_SHAPE_NAMES, SHAPE_NAMES
 
 
 @dataclass
@@ -57,9 +57,11 @@ def _duplicate(a, b):
     return False
 
 
-def route_voices(tracks: list[VoiceTrack], *, duration: float, fps: int = 20):
+def route_voices(tracks: list[VoiceTrack], *, duration: float, fps: int = 20,
+                 native_extended_mouths: bool = False):
     if duration <= 0 or fps <= 0:
         raise ValueError('Positive duration and fps required')
+    shape_names = NATIVE_SHAPE_NAMES if native_extended_mouths else SHAPE_NAMES
     frames = round(duration*fps)
     clocks, waves, metadata, accepted = {}, {}, {}, []
     for track in tracks:
@@ -92,7 +94,7 @@ def route_voices(tracks: list[VoiceTrack], *, duration: float, fps: int = 20):
             if not cue.get('verified'):
                 raise ValueError('Explicit phoneme cues require verified=True')
             name = cue['shape'].upper()
-            if name not in SHAPE_NAMES or not 0 <= cue['start'] < cue['end'] <= duration:
+            if name not in shape_names or not 0 <= cue['start'] < cue['end'] <= duration:
                 raise ValueError('Invalid phoneme cue')
             confidence = cue.get('confidence', 1.0)
             if not np.isfinite(confidence) or not .70 <= confidence <= 1:
@@ -102,7 +104,7 @@ def route_voices(tracks: list[VoiceTrack], *, duration: float, fps: int = 20):
             cue_intervals.append((cue['start'], cue['end']))
             mask = (np.arange(frames)/fps >= cue['start']) & (np.arange(frames)/fps < cue['end'])
             # Verified consonants may be unvoiced: they own their cue interval.
-            shape[mask] = SHAPE_NAMES.index(name)
+            shape[mask] = shape_names.index(name)
             energy[mask] = np.maximum(energy[mask], .45 if name != 'REST' else 0)
             if name == 'REST': energy[mask] = 0
         clocks[track.name] = (energy, shape)

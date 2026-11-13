@@ -3,6 +3,8 @@
 This tests native prop topology and source routing. A passing test does not
 replace true native xLights rendering or the owner's artistic approval.
 """
+import pytest
+
 from models.advanced_full_song_showcase import build_showcase
 
 
@@ -95,3 +97,50 @@ def test_showcase_drummer_exports_source_depth_and_materials():
     hat = drummer.points[[n - 1 for n in drummer.submodels[TARGETS[2] + '_SURFACE']]]
     assert kick[:, 1].mean() < hat[:, 1].mean()
     assert kick[:, 2].max() - kick[:, 2].min() > 2
+
+
+
+def test_showcase_facades_follow_each_house_and_stay_behind_its_lights(tmp_path):
+    import xml.etree.ElementTree as ET
+    from models.full_song_layouts import build
+    from tools.native_residential_context import add_showcase_context
+
+    for panel, count in ((1, 1), (4, 1), (7, 1), (13, 3)):
+        folder = tmp_path / str(panel)
+        folder.mkdir()
+        layout = folder / 'xlights_rgbeffects.xml'
+        layout.write_text('<xrgb><models /></xrgb>')
+        garden, _ = build(panel, {}, duration=1)
+        add_showcase_context(folder, garden)
+        add_showcase_context(folder, garden)
+        root = ET.parse(layout)
+        assert list(root.find('models')) == []
+        objects = root.findall('./view_objects/view_object')
+        assert len(objects) == count
+        for obj in objects:
+            prefix = obj.get('name').removesuffix(' ambient facade')
+            vertices = [
+                [float(value) for value in row.split()[1:]]
+                for row in (folder / obj.get('ObjFile')).read_text().splitlines()
+                if row.startswith('v ')
+            ]
+            roof = next(model for model in garden.models if model.name == prefix + '_ROOF')
+            assert max(z for _, _, z in vertices) < min(roof.points[:, 2])
+            assert max(y for _, y, _ in vertices) == pytest.approx(max(roof.points[:, 1]), abs=1e-5)
+            assert min(x for x, _, _ in vertices) == pytest.approx(min(roof.points[:, 0]), abs=1e-5)
+
+
+
+def test_qualified_vocal_layouts_have_ten_distinct_native_mouths():
+    from models.full_song_layouts import build
+    from models.band_sampler_logic import NATIVE_SHAPE_NAMES
+
+    for panel in (8, 9, 11):
+        garden, _ = build(panel, {}, duration=1, native_extended_mouths=True)
+        singers = [model for model in garden.models if model.details.get('generic_singer')
+                   or model.details.get('review_role') in ('lead', 'harmony')]
+        assert len(singers) == 2
+        for singer in singers:
+            parts = [tuple(singer.submodels['MOUTH_' + name]) for name in NATIVE_SHAPE_NAMES]
+            assert all(parts) and len(set(parts)) == 10
+            assert not set(singer.submodels.get('BODY', ())) & set().union(*map(set, parts))

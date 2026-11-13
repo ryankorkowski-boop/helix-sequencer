@@ -11,7 +11,7 @@ import trimesh
 from models.final_band_scene import FinalBandScene
 from models.band_performance_scene import matrix, line_matrix
 from models.band_motion_refinement import elbow_3d
-from models.expressive_band_face import MOUTH_SIZES
+from models.expressive_band_face import MOUTH_SIZES, NATIVE_EXTRA_MOUTH_SIZES
 
 
 class SurfaceParts:
@@ -63,7 +63,7 @@ class SurfaceParts:
 
 
 def add_final_native_band(garden, prefix, position, *, rock=False, stage='ember_amphitheatre', include_stage=True, mouth_scale=1.0, surface_spacing=None,
-                          include_xylophonist=False, full_keyboard=False, keyboard_contacts=False):
+                          include_xylophonist=False, full_keyboard=False, keyboard_contacts=False, native_extended_mouths=False):
     scene = FinalBandScene(stage, rock=rock, include_xylophonist=include_xylophonist, full_keyboard=full_keyboard)
     # Import all original canonical submodels; only this copy's world placement
     # changes. The existing physical kit and channel identities stay intact.
@@ -164,7 +164,8 @@ def add_final_native_band(garden, prefix, position, *, rock=False, stage='ember_
                 q=np.asarray(parts.points[node-1])-native_center
                 if not ((q[0]/width)**2+(q[1]/height)**2<1 and q[2]>-.8):body.append(node)
             parts.parts['BODY']=body
-            for shape, (width,height) in MOUTH_SIZES.items():
+            mouth_sizes = MOUTH_SIZES | NATIVE_EXTRA_MOUTH_SIZES if native_extended_mouths else MOUTH_SIZES
+            for shape, (width,height) in mouth_sizes.items():
                 width, height = width * mouth_scale, height * mouth_scale
                 theta=np.linspace(0,2*np.pi,64,endpoint=False)
                 outline=center+np.c_[width*1.12*np.cos(theta),(height+.006)*np.sin(theta),np.full(64,.060)]

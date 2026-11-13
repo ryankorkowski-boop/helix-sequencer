@@ -217,7 +217,7 @@ def run(engine_path, job_path, request_json, callback):
                         'Serial joblib and Python Numba kernels; large songs may run slowly'],
         'input_hashes': {x.name: file_hash(x) for x in (job/'input').iterdir() if x.is_file()}}
     result = {'bundle': '', 'preview': '', 'sequence': '', 'report': str(job/'outputs/Android-run-report.txt'),
-              'manifest': str(job/'outputs/android-run.json'), 'sequence_count': 0, 'mode': manifest['mode'],
+              'manifest': str(job/'outputs/android-run.json'), 'sequence_count': 0, 'previews': [], 'mode': manifest['mode'],
               'stages': stages}
     try:
         if manifest['mode'] == 'xlights':
@@ -283,21 +283,32 @@ def run(engine_path, job_path, request_json, callback):
                 notify(callback, 'stage', 'preview', 'Encoding preview with the actual soundtrack…')
                 stages['preview'] = {'status': 'running'}
                 write_report(job, manifest)
-                layout = selected.parent/'xlights_rgbeffects.xml'
-                if not layout.is_file():
-                    layout = next((job/'outputs').rglob('xlights_rgbeffects.xml'), None)
-                try:
-                    if layout is None:
-                        raise RuntimeError('Generated sequence is missing its packaged preview layout')
-                    preview = render_preview(selected, layout, job/'input/audio.wav', seconds, callback)
-                    result['preview'] = str(preview)
-                    manifest['previews'] = [str(preview.relative_to(job))]
+                errors = []
+                preview_sequences = [selected, *(x for x in valid
+                    if x != selected and '.runtime_' not in x.name)]
+                for xsq in preview_sequences:
+                    layout = xsq.parent/'xlights_rgbeffects.xml'
+                    if not layout.is_file():
+                        layout = next((job/'outputs').rglob('xlights_rgbeffects.xml'), None)
+                    try:
+                        if layout is None:
+                            raise RuntimeError('Generated sequence is missing its packaged preview layout')
+                        preview = render_preview(xsq, layout, job/'input/audio.wav', seconds, callback)
+                        result['previews'].append(str(preview))
+                        manifest['previews'].append(str(preview.relative_to(job)))
+                        if not result['preview']:
+                            result['preview'] = str(preview)
+                    except Exception as exc:
+                        errors.append(f'{xsq.name}: {exc}' if len(preview_sequences) > 1 else str(exc))
+                        callback.log('Optional MP4 preview failed: ' + errors[-1])
+                        callback.log(traceback.format_exc())
+                if errors:
+                    stages['preview'] = {
+                        'status': 'partial' if result['previews'] else 'failed',
+                        'error': '; '.join(errors),
+                    }
+                else:
                     stages['preview'] = {'status': 'success'}
-                except Exception as exc:
-                    stages['preview'] = {'status': 'failed', 'error': str(exc)}
-                    callback.log('Sequence succeeded. Optional MP4 preview failed: ' + str(exc))
-                    # Keep the original stack in the local log; never advertise a failed movie.
-                    callback.log(traceback.format_exc())
                 package()
             write_report(job, manifest)
             return json.dumps(result)

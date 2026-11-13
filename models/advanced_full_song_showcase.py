@@ -150,11 +150,12 @@ def _wonderland(g, s):
         _music(g, first, 'drummer', drum=('kick', 'snare', 'hihat', 'cymbal')[i])
 
 
-def _ultimate(g, s):
+def _ultimate(g, s, *, native_extended_mouths=False):
     # Keep the foreground cast and both face pairs in separate sight lines.
     from models.full_song_layouts import mega_tree, singing_props
     singing_props(g, ('bulb', 'snowman', 'tree', 'tree'),
-                  ((-61, 2, 43), (61, 2, 43), (-106, 1, 30), (106, 1, 30)), scale=.67)
+                  ((-61, 2, 43), (61, 2, 43), (-106, 1, 30), (106, 1, 30)), scale=.67,
+                  native_extended_mouths=native_extended_mouths)
     for row, z in enumerate((-37, -9, 17)):
         for lane, x in enumerate((-118, -98, -79, -44, 44, 79, 98, 118)):
             model = s.tree(x, z, 11 + (lane + row) % 4 * 4, 5, color=lane + row)
@@ -228,14 +229,17 @@ def _ultimate(g, s):
                phase=index / 4)
 
 
-def build_showcase(number, plan, *, duration, native_band):
+def build_showcase(number, plan, *, duration, native_band, native_extended_mouths=False):
     if number not in (13, 14, 15, 16):
         raise ValueError('Advanced showcase is limited to panels 13–16')
     from models.full_song_layouts import NAMES
     g = Garden(title=NAMES[number - 1], slug=f'full_song_{number:02}',
                palette=('#63E4FF', '#F68BFF', '#FFE38C'))
     s = structures(g)
-    {13: _estate, 14: _wonderland, 15: _megastructure, 16: _ultimate}[number](g, s)
+    if number == 16:
+        _ultimate(g, s, native_extended_mouths=native_extended_mouths)
+    else:
+        {13: _estate, 14: _wonderland, 15: _megastructure}[number](g, s)
     cast = None
     if number == 16:
         # Distribute pitched phrases across physical prop banks. This prevents
@@ -253,7 +257,8 @@ def build_showcase(number, plan, *, duration, native_band):
             for rank, model in enumerate(members):
                 model.details.update(source_route_bank=f'{zone}|{role}', source_route_rank=rank,
                                      source_route_count=len(members))
-        cast = native_band(g, plan, rock=False, duration=duration)
+        cast = native_band(g, plan, rock=False, duration=duration,
+                           native_extended_mouths=native_extended_mouths)
     for model in g.models:
         model.attrs.setdefault('PixelSize', '8')
         model.attrs.setdefault('BlackTransparency', '100')

@@ -6,7 +6,7 @@ import xml.etree.ElementTree as ET
 import numpy as np
 from core.native_face_instructions import face_template
 from core.singing_face_discovery import detect_singing_faces
-from models.band_sampler_logic import SHAPE_NAMES
+from models.band_sampler_logic import NATIVE_SHAPE_NAMES, SHAPE_NAMES
 from tools.phoneme_source import digest, EXPECTED_SHA256
 from xlights.xsq_writer import EffectTemplate, add_effect, write_timing_track
 
@@ -69,6 +69,7 @@ def export(root, layout: Path, garden, *, fixture: Path = FIXTURE,
     if stemless_audio is not None and digest(stemless_audio) != expected_sha256:
         raise ValueError('Stemless estimate audio does not match original source')
     qualified = report.get('verification_state') == 'VERIFIED'
+    shape_names = NATIVE_SHAPE_NAMES if qualified else SHAPE_NAMES
     if qualified:
         from tools.vocal_analysis_fixture import verify_fixture
         if source_audio is None or stemless_audio is not None:
@@ -89,7 +90,7 @@ def export(root, layout: Path, garden, *, fixture: Path = FIXTURE,
             if (energy.ndim != 1 or energy.shape != shapes.shape or abs(len(energy)*.01-duration) > .02
                     or not np.isfinite(energy).all() or not np.isfinite(shapes).all()
                     or np.any(energy < 0) or np.any(energy > 1) or np.any(shapes != np.floor(shapes))
-                    or np.any(shapes < 0) or np.any(shapes >= len(SHAPE_NAMES))):
+                    or np.any(shapes < 0) or np.any(shapes >= len(shape_names))):
                 raise ValueError('Invalid source-separated vocal clock')
             lanes[source] = (energy, shapes)
         if stemless_audio is not None:
@@ -126,7 +127,7 @@ def export(root, layout: Path, garden, *, fixture: Path = FIXTURE,
                 start, end = int(a)*10, min(duration_ms, int(b)*10)
                 if end <= start:
                     continue
-                shape = SHAPE_NAMES[int(values[a])]
+                shape = shape_names[int(values[a])]
                 mouth = {'AH': 'A', 'EE': 'E', 'OH': 'O'}.get(shape, shape)
                 cue = dict(target_model=target, mouth_shape='mouth_' + mouth,
                            face_definition='Helix independent phonemes')

@@ -2376,7 +2376,7 @@
       "vocal_identity": "UNVERIFIED",
       "lexical_phonemes": "UNVERIFIED",
       "windows": "UNRELEASED_CANDIDATE_SMOKE_TESTED",
-      "android": "BUILT_EMULATOR_TESTS_PENDING",
+      "android": "PRIOR_API30_AND_API36_EMULATOR_TESTED",
       "focused_python_3_12_passed": 44,
       "handoff": "docs/FULL_SONG_SHOWCASE_REBUILD.md",
       "latest_finale_recovery": {
@@ -2510,6 +2510,17 @@
         "both": 0,
         "neither": 385
       }
+    },
+    "continuation": {
+      "baseline_head": "2b856a21345d971f507af9ba3f77484c27581492",
+      "handoff": "docs/BETA_COMPLETION_LIVE_HANDOFF.md",
+      "vocal_status": "UNVERIFIED",
+      "windows_showcase_parity": "BLOCKED",
+      "android_showcase_parity": "BLOCKED",
+      "android_variant_preview_host_regression": "PASS",
+      "native_facade_short_ab": "PASS",
+      "native_full_length_refresh": "IN_PROGRESS",
+      "owner_approved": false
     }
   }
 }

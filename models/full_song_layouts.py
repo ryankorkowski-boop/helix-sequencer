@@ -19,12 +19,13 @@ PALETTES = (
 )
 
 
-def singing_props(garden, kinds, positions, *, scale):
+def singing_props(garden, kinds, positions, *, scale, native_extended_mouths=False):
     from models.showcase_flavors import _move
     from models.snowman_ensemble import face
 
     for i, (kind, position) in enumerate(zip(kinds, positions, strict=True)):
-        model = face(garden, kind, 0, garden.palette[i % len(garden.palette)])
+        model = face(garden, kind, 0, garden.palette[i % len(garden.palette)],
+                     native_extended_mouths=native_extended_mouths)
         _move(model, (0, 5, 0), position, scale)
         model.name = f'SHOWCASE_{kind.upper()}_FACE_{i + 1}'
         model.zone = 'SINGING_TREES' if kind == 'tree' else 'SINGING_FACES'
@@ -81,7 +82,7 @@ def ac_house(garden, number):
                                  percussion_component=('kick', 'snare', 'hihat', 'cymbal')[(i - 6) % 4])
 
 
-def residential(garden, number):
+def residential(garden, number, *, native_extended_mouths=False):
     if number in (4, 6, 7, 8, 10, 12):
         house(garden, z=-19, scale=.85 if number in (6, 7) else 1)
     if number in (4, 6, 7, 12):
@@ -100,9 +101,9 @@ def residential(garden, number):
         for x in (-48, 48):
             mega_tree(garden, x, -14, height=41, radius=11)
     if number == 8:
-        singing_props(garden, ('bulb', 'snowman'), ((-32, 0, 19), (32, 0, 19)), scale=.88)
+        singing_props(garden, ('bulb', 'snowman'), ((-32, 0, 19), (32, 0, 19)), scale=.88, native_extended_mouths=native_extended_mouths)
     if number == 9:
-        singing_props(garden, ('tree', 'tree'), ((-30, 0, 13), (30, 0, 13)), scale=1.05)
+        singing_props(garden, ('tree', 'tree'), ((-30, 0, 13), (30, 0, 13)), scale=1.05, native_extended_mouths=native_extended_mouths)
         for x in (-52, 0, 52):
             cane(garden, x, 22, h=10)
     if number == 10:
@@ -120,7 +121,7 @@ def residential(garden, number):
             s.starburst((x, 15, 10), 7, color=i, zone='SPINNERS')
 
 
-def build(number, plan, *, duration):
+def build(number, plan, *, duration, native_extended_mouths=False):
     from tools.build_current_comparison import layout as current_layout
 
     if not 1 <= number <= len(NAMES):
@@ -131,16 +132,18 @@ def build(number, plan, *, duration):
         return garden, band
     if number >= 13:
         from models.advanced_full_song_showcase import build_showcase
-        return build_showcase(number, plan, duration=duration, native_band=canonical_owner_band)
+        return build_showcase(number, plan, duration=duration, native_band=canonical_owner_band,
+                              native_extended_mouths=native_extended_mouths)
 
     garden = Garden(title=NAMES[number - 1], slug=f'full_song_{number:02}',
                     palette=PALETTES[0 if number <= 2 else 1 + (number % 3)])
     if number == 11:
-        return garden, canonical_owner_band(garden, plan, duration=duration)
+        return garden, canonical_owner_band(garden, plan, duration=duration,
+                                           native_extended_mouths=native_extended_mouths)
     if number <= 2:
         ac_house(garden, number)
     else:
-        residential(garden, number)
+        residential(garden, number, native_extended_mouths=native_extended_mouths)
     return assign_routes(garden), None
 
 
@@ -150,8 +153,8 @@ def configure_legacy_routes(garden):
     configure_source_routes(garden.models)
 
 
-def canonical_owner_band(garden, plan, *, duration, rock=False):
+def canonical_owner_band(garden, plan, *, duration, rock=False, native_extended_mouths=False):
     from tools.build_current_comparison import native_band
 
     return native_band(garden, plan, rock=rock, duration=duration, showcase_source=True,
-                       overview=bool(garden.models))
+                       overview=bool(garden.models), native_extended_mouths=native_extended_mouths)

@@ -28,7 +28,7 @@ def prepare(config_path,output):
         tracks.append(VoiceTrack(row['name'],y,sr,row.get('evidence','mixed'),row.get('role'),
                                  tuple(row.get('phonemes',())),row.get('origin','source_stem')))
         hashes[row['name']]=hashlib.sha256(p.read_bytes()).hexdigest()
-    lanes,modes,report=route_voices(tracks,duration=duration)
+    lanes,modes,report=route_voices(tracks,duration=duration,native_extended_mouths=True)
     # Seven-person preview has two visible singers. Keep a full per-track
     # archive, and refuse to silently collapse three voices onto one mouth.
     if len(lanes)>2:raise ValueError('More than two independent vocal tracks require separate backing-face models; no silent mouth merging')

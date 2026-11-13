@@ -1,3 +1,16 @@
+## 13 November — Issue #216 continuation checklist
+
+- [x] Confirmed draft PR #217 HEAD `2b856a2`, the two owner rejections (including run 43274451494), the existing third pilot, and PR #188's separate frozen scope. Both stored MP4s fully decoded. Original authenticated Drive audio matched both source hashes, with soundtrack correlations 0.9991234 (pilot) and 0.9990182 (vocals).
+- [x] Traced the fixed residential facade occluding native window and roofline pixels. `tools/native_residential_context.py` and `tools/build_current_comparison.py` now position a dim, zero-channel facade behind each authored house, including all three estate houses. Native 24-second A/B on panel 4 restored the door, windows and eave with identical channel activity. Existing legacy preview callers retain their earlier backdrop path.
+- [x] Added ten physically distinct mouth profiles for qualified native source cues. The source role compiler, native fixture verifier, band Faces exporter, and residential face models retain independent source clocks and the original seven-code estimates. The real mixed recording still has no qualified lead/backing stems or verified lexical timing.
+- [x] Android now attempts each output variant's preview serially, reports partial success, keeps successful videos in the show ZIP, and offers each through the existing Play/Save controls. A host test covers one failed variant between successful ones. Prior API 30 and 36 installed and passed offline smoke and export on `3872c7f`. Those packages predate this Android change.
+- [ ] Finish the affected full-length native panel renders and verify decoded channel equality against the retained native exports. Compose once from the changed native clips and unchanged pilot cells, decode, check soundtrack and deliver the updated pilot with exact provenance.
+- [ ] Qualify independent vocal identity and acoustic phoneme boundaries using aligned source stems or independently labeled recording evidence. Reuse the existing vocal render until additional evidence supports changing the mouth clocks.
+- [ ] Integrate showcase choreography into the normal desktop and mobile preset paths and run new packaged platform, physical device and export parity checks. Windows white-flicker reproduction remains open. Python 3.11's four inherited chroma parity failures remain open. An unpadded-tail experiment also failed local multi-thread Haswell comparisons and was reverted.
+- [ ] Owner review and release gates. Hold the other 82 songs, PR #188 and all public downloads. No approval inferred from technical evidence.
+
+Focused Python 3.12 checks passed for native layout/source routing and Android host recovery. Regression risks are small-screen mouth readability, pixel occlusion across camera angles, and multi-preview runtime on low-memory devices. Direct Site activity reporting was unavailable on the previous checkpoint and this work is recorded in GitHub.
+
 ## 13 November — rebuilt Helix Motion and vocal review delivered
 
 - Native Helix Motion pilot: 264.800 s, 1920×1080 H.264/AAC, 30 fps, 7,944 frames, all 16 distinct and active. Source correlation 0.9991234, max lag 0.125 ms. SHA-256 `68ba662f92004deaeb61c1d190bda34e2c2999438486f0751ef1b2d8ca5398e0`. [MP4](https://chatgpt.com/library?file_id=libfile_b16cb208a6688191864cc1772c066dcf&account_id=personal).
