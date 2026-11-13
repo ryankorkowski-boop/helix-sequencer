@@ -6,6 +6,19 @@ name: Helix Beta 1.3 packages
 # same package shape from the current tree.
 on:
   workflow_dispatch:
+  # Dispatch is preferred. This push filter also starts a build when the
+  # packaging workflow itself changes, because the cloud agent token cannot
+  # call workflow_dispatch (actions permission is not granted).
+  push:
+    branches:
+      - feature/restructure-core
+    paths:
+      - .github/workflows/beta-v1.3-packages.yml
+      - core/effect_engine.py
+      - core/helix_version.py
+      - android/**
+      - windows_portable.spec
+      - windows_portable_entry.py
 
 permissions:
   contents: read
