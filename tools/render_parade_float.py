@@ -110,8 +110,17 @@ def run(audio: Path, sha256: str, work: Path, xlights: Path):
             "plan_sha256": digest(plans[0])})
     else:
         source = json.loads((production / "run_manifest.json").read_text())
-        if source["audio_sha256"] != sha256 or digest(production / "media" / AUDIO) != sha256:
-            raise ValueError("Existing production cache belongs to a different source")
+        import subprocess
+        from tools.render_full_song_comparison import ROOT
+        current_commit = subprocess.check_output(
+            ["git", "rev-parse", "HEAD"], cwd=ROOT, text=True).strip()
+        plans = list((production / "sequence").rglob("*.snowman_band.json"))
+        if (source["audio_sha256"] != sha256
+                or digest(production / "media" / AUDIO) != sha256
+                or source.get("source_commit") != current_commit
+                or len(plans) != 1
+                or digest(plans[0]) != source.get("plan_sha256")):
+            raise ValueError("Existing production cache belongs to different source or code")
     layouts = work / "parade_layouts"
     folder = layouts / "01"
     if not folder.exists():
