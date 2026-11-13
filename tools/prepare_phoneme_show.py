@@ -48,7 +48,8 @@ def prepare(audio: Path, output: Path, *, expected_sha256=EXPECTED_SHA256,
         raise FileExistsError('Use a fresh show directory: ' + str(output))
     duration = sf.info(audio).duration
     garden = Garden(title='Helix '+title+' diagnostic candidate', slug=audio.stem)
-    add_band(garden,include_xylophonist=include_xylophonist,full_keyboard=full_keyboard)
+    add_band(garden,include_xylophonist=include_xylophonist,full_keyboard=full_keyboard,
+             native_extended_mouths=vocal_analysis is not None)
     stage_native_cast(garden.models,legacy_xylophone=include_xylophonist)
     for model in garden.models:
         if model.details['review_role'] in {'lead', 'harmony'}:

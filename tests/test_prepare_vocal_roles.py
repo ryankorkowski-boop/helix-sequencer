@@ -88,3 +88,23 @@ def test_duplicate_vocal_track_names_rejected_before_export(tmp_path):
     with pytest.raises(ValueError, match='Duplicate vocal track name'):
         preparation.prepare(config, tmp_path / 'analysis')
     assert not (tmp_path / 'analysis' / 'voice_roles.npz').exists()
+
+
+
+def test_preparation_keeps_verified_extended_native_shape(tmp_path):
+    from models.band_sampler_logic import NATIVE_SHAPE_NAMES
+
+    source = tmp_path/'source.wav'
+    sf.write(source, np.zeros(16000, dtype='float32'), 16000)
+    config = tmp_path/'config.json'
+    config.write_text(json.dumps({
+        'source_audio': source.name, 'duration': 1.,
+        'tracks': [{'name': 'lead', 'path': source.name, 'evidence': 'individual',
+                    'role': 'lead', 'phonemes': [{'shape': 'WQ', 'start': .2, 'end': .4,
+                                                 'verified': True}]}],
+    }))
+    output = tmp_path/'analysis'
+    preparation.prepare(config, output)
+    with np.load(output/'voice_roles.npz') as data:
+        assert np.all(data['shapes'][4:8, 0] == NATIVE_SHAPE_NAMES.index('WQ'))
+        assert not np.any(data['shapes'][:, 1])

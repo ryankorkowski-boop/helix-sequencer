@@ -25,6 +25,17 @@ def role_for(model):
 
 def parts_for(model):
     if model.kind=='ac':return list(model.submodels)
+    axis=model.details.get('spatial_axis')
+    if axis in ('x','y','z'):
+        # Divide physical coordinates rather than pixel insertion order.
+        # A spiral can now travel up a tower instead of switching whole strands.
+        values=model.points[:,'xyz'.index(axis)]
+        span=float(np.ptp(values))
+        if span>0:
+            bins=np.minimum(11,np.floor((values-values.min())/span*12).astype(int))
+            for index in np.unique(bins):
+                model.submodels[f'COORD_{index:02}']=(np.flatnonzero(bins==index)+1).tolist()
+            return [name for name in model.submodels if name.startswith('COORD_')]
     # Native matrix models have real row geometry even when their names do
     # not contain MATRIX. Build rows from physical Y, never insertion order.
     if 'MATRIX' in getattr(model,'display','').upper() and not any(p.startswith('ROW_') for p in model.submodels):
@@ -135,7 +146,9 @@ def schedule(model,plan,cache,duration):
             part=parts[(origin+direction*strategy['direction']*step)%len(parts)]
             delay=depth_ms+step*strategy['step_ms']+route_delay
             start=max(0,a+delay);end=min(duration,b+delay)
-            if model.details.get('source_route_count',1)>1:
+            if model.details.get('source_route_count',1)>1 or model.details.get('spatial_axis'):
+                # Preserve the source clock and negative space even when
+                # neighboring nodes respond at staggered times.
                 end=min(end,b)
             if end<=start:continue
             result.append(dict(part=part,start_ms=start,end_ms=end,level=level*(.72**step),

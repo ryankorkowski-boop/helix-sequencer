@@ -7,7 +7,7 @@ import re
 from pathlib import Path
 import numpy as np
 import soundfile as sf
-from models.band_sampler_logic import SHAPE_NAMES
+from models.band_sampler_logic import NATIVE_SHAPE_NAMES as SHAPE_NAMES
 from music.vocal_qualification import independence_metrics, validate_lanes
 
 
@@ -38,7 +38,7 @@ def verify(audio: Path, analysis: Path) -> dict:
     frames = round(sf.info(audio).duration * 20)
     with np.load(analysis / "voice_roles.npz", allow_pickle=False) as data:
         energy, shapes = data["energy"], data["shapes"]
-        validate_lanes(energy, shapes)
+        validate_lanes(energy, shapes, shape_names=SHAPE_NAMES)
         if (energy.shape != (frames, 2) or shapes.shape != energy.shape
                 or not np.isfinite(energy).all() or not np.isfinite(shapes).all()
                 or np.any(energy < 0) or np.any(energy > 1)

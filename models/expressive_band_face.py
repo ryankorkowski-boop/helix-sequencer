@@ -15,6 +15,11 @@ MOUTH_SIZES = {
 }
 
 
+# xLights has three more native visemes than the historical acoustic estimator.
+# These profiles are selected only by explicit source-bound phoneme cues.
+NATIVE_EXTRA_MOUTH_SIZES = {'U': (.135, .103), 'WQ': (.092, .135), 'ETC': (.275, .120)}
+
+
 def lip_ring_mesh():
     t = np.linspace(0, math.tau, 64, endpoint=False)
     return tube(np.c_[np.cos(t), np.sin(t), np.zeros(len(t))], .15, True)

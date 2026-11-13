@@ -2,27 +2,27 @@
 from __future__ import annotations
 
 import numpy as np
-from models.band_sampler_logic import SHAPE_NAMES
+from models.band_sampler_logic import NATIVE_SHAPE_NAMES, SHAPE_NAMES
 
 
-def validate_lanes(energy, shapes):
+def validate_lanes(energy, shapes, *, shape_names=SHAPE_NAMES):
     energy, shapes = np.asarray(energy), np.asarray(shapes)
     if (energy.ndim != 2 or energy.shape[1] != 2 or not len(energy)
             or shapes.shape != energy.shape or not np.isfinite(energy).all()
             or np.any((energy < 0) | (energy > 1))
             or not np.isfinite(shapes).all() or np.any(shapes != np.floor(shapes))
-            or np.any((shapes < 0) | (shapes >= len(SHAPE_NAMES)))):
+            or np.any((shapes < 0) | (shapes >= len(shape_names)))):
         raise ValueError('Invalid source-bound vocal frame arrays')
     return energy, shapes
 
 
-def independence_metrics(energy, shapes):
+def independence_metrics(energy, shapes, *, shape_names=NATIVE_SHAPE_NAMES):
     """Measure clocks, including gain copies that have different file hashes.
 
     Similar activity alone is not a rejection: real harmony can sing in unison.
     Exact shape/activity duplication AND proportional envelopes are rejected.
     """
-    energy, shapes = validate_lanes(energy, shapes)
+    energy, shapes = validate_lanes(energy, shapes, shape_names=shape_names)
     active = (energy > 0) & (shapes != SHAPE_NAMES.index('REST'))
     x, y = energy.astype('float64').T
     denominator = float(x @ x)

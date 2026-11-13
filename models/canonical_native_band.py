@@ -10,13 +10,14 @@ from models.final_band_native import add_final_native_band
 ROLES = ('drummer', 'bass', 'guitar', 'piano', 'lead', 'harmony')
 VISEMES = {'AI': 'AH', 'E': 'EE', 'FV': 'FV', 'L': 'L', 'MBP': 'MBP',
            'O': 'OH', 'U': 'OH', 'WQ': 'OH', 'etc': 'EE', 'rest': 'REST'}
+EXTENDED_VISEMES = VISEMES | {'U': 'U', 'WQ': 'WQ', 'etc': 'ETC'}
 
 
-def add_band(garden, prefix='HX_SNOW', position=(0, 0, 0), *, include_xylophonist=False, full_keyboard=False):
+def add_band(garden, prefix='HX_SNOW', position=(0, 0, 0), *, include_xylophonist=False, full_keyboard=False, native_extended_mouths=False):
     before = len(garden.models)
     add_final_native_band(garden, prefix, position, include_stage=False, mouth_scale=.42, surface_spacing=.08,
                           include_xylophonist=include_xylophonist, full_keyboard=full_keyboard,
-                          keyboard_contacts=True)
+                          keyboard_contacts=True, native_extended_mouths=native_extended_mouths)
     models = garden.models[before:]
     expected = set(ROLES) | ({'xylophone'} if include_xylophonist else set())
     if len(models) != len(expected) or {m.details['final_band_role'] for m in models} != expected:
@@ -66,10 +67,11 @@ def add_band(garden, prefix='HX_SNOW', position=(0, 0, 0), *, include_xylophonis
             for name in list(model.submodels):
                 if name.startswith('MOUTH_'):
                     del model.submodels[name]
-            for viseme, shape in VISEMES.items():
+            visemes = EXTENDED_VISEMES if native_extended_mouths else VISEMES
+            for viseme, shape in visemes.items():
                 model.submodels['MOUTH_' + viseme] = list(original['MOUTH_' + shape])
             model.children.append(('faceInfo', dict(Name='Helix independent phonemes', Type='NodeRange',
-                **{'Mouth-' + v: ','.join(map(str, model.submodels['MOUTH_' + v])) for v in VISEMES},
+                **{'Mouth-' + v: ','.join(map(str, model.submodels['MOUTH_' + v])) for v in visemes},
                 **{'Eyes-Open': '', 'Eyes-Closed': '', 'FaceOutline': ''})))
             model.attrs['HelixPhonemeOwnership'] = 'exclusive'
             model.details['mouth_scale_relative_to_solid_scene'] = .42

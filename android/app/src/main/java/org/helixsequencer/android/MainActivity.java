@@ -21,6 +21,7 @@ public class MainActivity extends Activity {
     private final Map<String,Uri> inputs=new HashMap<>();
     private final Map<String,Button> selectors=new HashMap<>();
     private final List<View> settings=new ArrayList<>();
+    private final List<String> previewPaths=new ArrayList<>();
     private final String[] steps={"Music","Layout","Style","Advanced","Generate","Results"};
     private final LinearLayout[] pages=new LinearLayout[6];
     private LinearLayout body,expert;
@@ -124,8 +125,8 @@ public class MainActivity extends Activity {
 
         panel(5);results=text("Your sequence, show ZIP and preview will appear here.",16,Color.WHITE);
         sequence=button("Save sequence…",()->export(sequencePath,sequencePath.endsWith(".lms")?"application/xml":"application/octet-stream",new File(sequencePath).getName()));
-        watch=button("Play preview",()->startActivity(new Intent(this,PreviewActivity.class).putExtra("path",previewPath)));
-        movie=button("Save MP4…",()->export(previewPath,"video/mp4","Helix-preview.mp4"));
+        watch=button("Play preview",()->choosePreview(path->startActivity(new Intent(this,PreviewActivity.class).putExtra("path",path))));
+        movie=button("Save MP4…",()->choosePreview(path->export(path,"video/mp4",new File(path).getName())));
         save=button("Save show ZIP…",()->export(bundlePath,"application/zip","Helix-show.zip"));share=button("Share show ZIP…",this::shareShow);
         report=button("Save run report…",()->export(reportPath,"text/plain","Helix-run-report.txt"));
         for(Button v:new Button[]{sequence,watch,movie,save,share,report})v.setEnabled(false);
@@ -215,7 +216,14 @@ public class MainActivity extends Activity {
             int percent=s.optInt("preview_percent",-1);boolean measured=busy&&"preview".equals(s.optString("active_stage"))&&percent>=0;progress.setIndeterminate(!measured);if(measured)progress.setProgress(percent);
             status.setText(s.optString("message",phase));log.setText(s.optString("log"));updateMode();
             bundlePath=s.optString("bundle");previewPath=s.optString("preview");sequencePath=s.optString("sequence");reportPath=s.optString("report");
-            sequence.setEnabled(available(sequencePath));save.setEnabled(available(bundlePath));share.setEnabled(save.isEnabled());watch.setEnabled(available(previewPath));movie.setEnabled(watch.isEnabled());report.setEnabled(available(reportPath));
+            previewPaths.clear();
+            JSONArray previews=s.optJSONArray("previews");
+            if(previews!=null)for(int i=0;i<previews.length();i++){
+                String path=previews.optString(i);
+                if(available(path))previewPaths.add(path);
+            }
+            if(previewPaths.isEmpty()&&available(previewPath))previewPaths.add(previewPath);
+            sequence.setEnabled(available(sequencePath));save.setEnabled(available(bundlePath));share.setEnabled(save.isEnabled());watch.setEnabled(!previewPaths.isEmpty());movie.setEnabled(watch.isEnabled());report.setEnabled(available(reportPath));
             StringBuilder summary=new StringBuilder(s.optString("message",phase));JSONObject stages=s.optJSONObject("stages");
             if(stages!=null)for(String key:new String[]{"sequencing","packaging","preview"}){
                 JSONObject stage=stages.optJSONObject(key);if(stage!=null)summary.append("\n\n").append(key).append(": ").append(stage.optString("status")).append(stage.has("error")?" · "+stage.optString("error"):"");
@@ -226,6 +234,14 @@ public class MainActivity extends Activity {
     @Override protected void onResume(){super.onResume();handler.removeCallbacks(ticker);handler.post(ticker);}
     @Override protected void onPause(){remember();handler.removeCallbacks(ticker);super.onPause();}
     @Override protected void onSaveInstanceState(Bundle s){s.putString("picking",picking);s.putString("exporting",exporting);s.putInt("page",page);remember();super.onSaveInstanceState(s);}
+    private void choosePreview(java.util.function.Consumer<String> action){
+        List<String> paths=new ArrayList<>(previewPaths);
+        if(paths.size()==1){action.accept(paths.get(0));return;}
+        if(paths.isEmpty())return;
+        String[] names=paths.stream().map(path->new File(path).getName()).toArray(String[]::new);
+        new AlertDialog.Builder(this).setTitle("Choose a preview")
+            .setItems(names,(dialog,index)->action.accept(paths.get(index))).show();
+    }
     private void export(String path,String mime,String filename){
         if(!available(path)){alert("This output is not available yet.");return;}exporting=path;
         startActivityForResult(new Intent(Intent.ACTION_CREATE_DOCUMENT).setType(mime).addCategory(Intent.CATEGORY_OPENABLE).putExtra(Intent.EXTRA_TITLE,filename),200);

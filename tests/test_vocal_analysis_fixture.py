@@ -55,3 +55,38 @@ def test_unqualified_source_fails_before_creating_native_fixture(tmp_path):
     with pytest.raises(ValueError, match='Model-estimated'):
         build(audio, analysis, tmp_path/'fixture')
     assert not (tmp_path/'fixture').exists()
+
+
+
+def test_qualified_native_export_keeps_distinct_extended_shapes(tmp_path):
+    from types import SimpleNamespace
+    import xml.etree.ElementTree as ET
+    from models.band_sampler_logic import NATIVE_SHAPE_NAMES
+    from tools.phoneme_vocal_export import export
+
+    audio, analysis, energy, shapes = qualified(tmp_path)
+    shapes[1:4, 0] = NATIVE_SHAPE_NAMES.index('U')
+    shapes[4:8, 0] = NATIVE_SHAPE_NAMES.index('WQ')
+    shapes[10:18, 1] = NATIVE_SHAPE_NAMES.index('ETC')
+    np.savez(analysis/'voice_roles.npz', energy=energy, shapes=shapes)
+    fixture = build(audio, analysis, tmp_path/'fixture')
+    layout = tmp_path/'layout.xml'
+    layout.write_text('<xrgb><models>' + ''.join(
+        f'<model name="HX_SNOW_{role}"><faceInfo Name="Helix independent phonemes" '
+        'Type="NodeRange" Mouth-U="1" Mouth-WQ="2" Mouth-etc="3" Mouth-rest="4"/>'
+        '</model>' for role in ('LEAD', 'HARMONY')) + '</models></xrgb>')
+    root = ET.fromstring('<xsequence><head><sequenceDuration>1</sequenceDuration></head>'
+                         '<DisplayElements/><ElementEffects/></xsequence>')
+    result = export(root, layout, SimpleNamespace(models=[]), fixture=fixture,
+                    expected_sha256=digest(audio), source_audio=audio)
+    assert result['independent_backing_verified']
+    assert not result['exact_phoneme_boundaries_verified']
+    rows = {
+        role: [node.get('settings') for node in root.findall(
+            f'./ElementEffects/Element[@name="HX_SNOW_{role}"]/EffectLayer/Effect')]
+        for role in ('LEAD', 'HARMONY')
+    }
+    assert any('Phoneme=U,' in value for value in rows['LEAD'])
+    assert any('Phoneme=WQ,' in value for value in rows['LEAD'])
+    assert any('Phoneme=etc,' in value for value in rows['HARMONY'])
+    assert all('Phoneme=etc,' not in value for value in rows['LEAD'])

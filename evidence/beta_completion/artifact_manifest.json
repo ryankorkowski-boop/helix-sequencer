@@ -1120,8 +1120,8 @@
       "source_commit": "09677d4822e35d724e9f229c0ab7465c9f34fd7a",
       "engine_worktree_module_changes": false,
       "source_library_tracks": [
-        "Tinsel Tornado164\u2013182s",
-        "Christmas in the Ether76.5\u201394.5s"
+        "Tinsel Tornado164–182s",
+        "Christmas in the Ether76.5–94.5s"
       ],
       "effects": 5155,
       "detected_parts": [
@@ -1610,7 +1610,7 @@
           "35 focused Python3.12 cases targeted; Python3.11 previous34 pass before added audit overlap case",
           "Real note-writer -> preview-parser -> intensity regression retains exact short-note rest and unlit other rung",
           "Batch mux/provenance binding regression for two distinct inputs; mismatched/ambiguous media fails instead of silently using first audio",
-          "Native short113\u2013137ms mouth cue survives both passes while ordinary24ms On still obeys50ms minimum"
+          "Native short113–137ms mouth cue survives both passes while ordinary24ms On still obeys50ms minimum"
         ],
         "evidence": [
           "evidence/beta_completion/reconciliation_20261104/source_timing_preview_py312.xml",
@@ -2350,6 +2350,279 @@
       "android30": "https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/42671898667/artifacts/13699791623",
       "android36": "https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/42671884943/artifacts/13699776977",
       "windows": "https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/42672170196/artifacts/13698673732"
+    }
+  },
+  "full_song_showcase_216": {
+    "showcase": {
+      "branch": "codex/full-song-16-panel-216",
+      "pr": 217,
+      "issue": 216,
+      "previous_owner_rejected_runs": [
+        43274451494
+      ],
+      "source_parent_commit": "b84f7c118dbfb291aa7c798ec872b301480053c8",
+      "source_module_sha256": {
+        "models/full_song_layouts.py": "d02e4a33dec8a6ea22808cbd186318f2bcdd2f53b099db6885c5594882d5564f",
+        "models/advanced_full_song_showcase.py": "9241a0b147f2a5da4ece648f085787fd0ed4d602c0d046ba7426d69075058866",
+        "tools/build_current_comparison.py": "a5816657d9934fe23fdf1db954af448d2a08595bbb21f07416fd832b5e66fb26",
+        "tools/canonical_band_cues.py": "d126156eb764f1d04ddf6a185514caf13d26c7c266f7e56a50631a7c44b80495",
+        "tools/source_spatial_direction.py": "35c8553cb325aa28d537dea617315aed83ff33662aa90dbf65aae6f966283c71"
+      },
+      "pilot": "AWAITING_OWNER_APPROVAL",
+      "owner_approved": false,
+      "remaining_82_song_batch": "BLOCKED_PENDING_OWNER_APPROVAL",
+      "public_release": "NOT_AUTHORIZED",
+      "vocal_technical": "NATIVE_ESTIMATED_CLOCKS_VERIFIED",
+      "vocal_identity": "UNVERIFIED",
+      "lexical_phonemes": "UNVERIFIED",
+      "windows": "UNRELEASED_CANDIDATE_SMOKE_TESTED",
+      "android": "PRIOR_API30_AND_API36_EMULATOR_TESTED",
+      "focused_python_3_12_passed": 44,
+      "handoff": "docs/FULL_SONG_SHOWCASE_REBUILD.md",
+      "latest_finale_recovery": {
+        "initial_native_exit": -9,
+        "initial_xsq_mib": 427,
+        "retry_xsq_mib": 110,
+        "models": 180,
+        "native_channels": 334437,
+        "focused_tests_passed": 20,
+        "second_monolithic_exit": -9,
+        "verified_native_chunks": 6,
+        "frames": 5296
+      },
+      "implementation_commit": "3872c7fc450d19bfa8d46e7986266cbca6d65559",
+      "python_3_12": {
+        "passed": 2396,
+        "skipped": 6,
+        "subtests_passed": 24
+      },
+      "python_3_11": {
+        "passed": 2392,
+        "failed": 4,
+        "skipped": 6,
+        "subtests_passed": 24
+      },
+      "pilot_media": {
+        "file": "Helix_Motion_16_Layout_Showcase_Rebuild.mp4",
+        "sha256": "68ba662f92004deaeb61c1d190bda34e2c2999438486f0751ef1b2d8ca5398e0",
+        "bytes": 80263882,
+        "source_audio": "Helix_Motion.mp3",
+        "source_audio_sha256": "fc91e3f48f709e615ba598a5d49ae63ab9652c0d16e324095f6e1b20377e082b",
+        "source_duration_seconds": 264.8001875,
+        "codecs": [
+          "h264",
+          "aac"
+        ],
+        "dimensions": [
+          1920,
+          1080
+        ],
+        "actual_frame_rate": "30/1",
+        "actual_frame_count": "7944",
+        "video_duration_seconds": 264.8,
+        "audio_duration_seconds": 264.8,
+        "stream_start_seconds": [
+          0.0,
+          0.0
+        ],
+        "full_decode": true,
+        "soundtrack_correlation": 0.9991234218476341,
+        "window_alignment": [
+          {
+            "source_start_seconds": 26.48,
+            "decoded_lag_seconds": 0.0
+          },
+          {
+            "source_start_seconds": 132.4000625,
+            "decoded_lag_seconds": 0.0
+          },
+          {
+            "source_start_seconds": 225.080125,
+            "decoded_lag_seconds": 0.0
+          },
+          {
+            "source_start_seconds": 262.7501875,
+            "decoded_lag_seconds": 0.000125
+          }
+        ],
+        "musical_or_visual_acceptance": false
+      },
+      "pilot_library_file_id": "libfile_b16cb208a6688191864cc1772c066dcf",
+      "native_package_library_file_id": "libfile_0ad590fdca4c8191a3d176bf3ba97f9e",
+      "native_package_sha256": "d138d454feaad8df471365a1e88f7b44558ac4793738eea06fcafe2e8b5684b9",
+      "vocal_drive_url": "https://drive.google.com/file/d/1fYm8KxIG5v3dWxb4Wx5Ufw_mPLygS9dA/view"
+    },
+    "vocal_review": {
+      "file": "Helix_Phoneme_Test_Hook_Native_Vocal_Review.mp4",
+      "sha256": "cc56007189571ddaa59870f590ee5104167c0e3c9f055fbead5d234ab8503990",
+      "bytes": 2373007,
+      "source_audio": "Phoneme_Test_Hook.mp3",
+      "source_audio_sha256": "19e90c273d0d747938f24b36586b50818c104cddffbefe4a4128927374301938",
+      "source_duration_seconds": 34.88,
+      "codecs": [
+        "h264",
+        "aac"
+      ],
+      "dimensions": [
+        1920,
+        1080
+      ],
+      "actual_frame_rate": "30/1",
+      "actual_frame_count": "1046",
+      "video_duration_seconds": 34.866667,
+      "audio_duration_seconds": 34.88,
+      "stream_start_seconds": [
+        0.0,
+        0.0
+      ],
+      "full_decode": true,
+      "soundtrack_correlation": 0.999018237103682,
+      "window_alignment": [
+        {
+          "source_start_seconds": 3.488,
+          "decoded_lag_seconds": 0.0
+        },
+        {
+          "source_start_seconds": 17.44,
+          "decoded_lag_seconds": 0.0
+        },
+        {
+          "source_start_seconds": 29.648,
+          "decoded_lag_seconds": 0.0
+        },
+        {
+          "source_start_seconds": 32.83,
+          "decoded_lag_seconds": 0.0
+        }
+      ],
+      "musical_or_visual_acceptance": false,
+      "state": "NATIVE_VOCAL_ESTIMATE_REVIEW",
+      "independent_singer_identity_verified": false,
+      "lexical_phonemes_verified": false,
+      "decoded_fseq_panels": {
+        "8": "fb2d230396d0e60799018555987a02cd5166c0a2368377fd228674c7792269e5",
+        "9": "a552f3a3b729581bf1b6c0cda4842939233beaa0ebcb0a2405e6eb66f733bc07",
+        "11": "a7241ea7475cc3cecd50c6ef14012becbaa7fbab4fb991fc2baa84893a8e9a8f"
+      },
+      "native_open_mouth_frames_per_panel": {
+        "lead_only": 265,
+        "backing_only": 47,
+        "both": 0,
+        "neither": 385
+      }
+    },
+    "continuation": {
+      "baseline_head": "2b856a21345d971f507af9ba3f77484c27581492",
+      "handoff": "docs/BETA_COMPLETION_LIVE_HANDOFF.md",
+      "vocal_status": "UNVERIFIED",
+      "windows_showcase_parity": "BLOCKED",
+      "android_showcase_parity": "BLOCKED",
+      "android_variant_preview_host_regression": "PASS",
+      "native_facade_short_ab": "PASS",
+      "native_full_length_refresh": "DELIVERED_AWAITING_OWNER_APPROVAL",
+      "owner_approved": false,
+      "source_changes": "65433a984e1420ebbb2e2e853a05220c0f245798",
+      "vocal_cue_compatibility_fix": "cf4b19de9ed6de425c8a8a1079478b807ebe6cfd",
+      "pilot_url": "https://drive.google.com/file/d/16nqUJHo-cBHOoW2pLgFX-aRTN1MPGdlP/view?usp=drivesdk",
+      "pilot_verification_url": "https://drive.google.com/file/d/1X2VperJWIbmrAgoWj0j1n5CCfLwNfRhP/view?usp=drivesdk",
+      "pilot_media": {
+        "file": "Helix_Motion_16_Panel_Residential_Visibility_Review.mp4",
+        "sha256": "e063a01df2d00c681c25ef545b1dab89238eb2a1cc8c30bfcfeb4dfb73a6217a",
+        "bytes": 84954592,
+        "source_audio": "Helix_Motion_original.mp3",
+        "source_audio_sha256": "fc91e3f48f709e615ba598a5d49ae63ab9652c0d16e324095f6e1b20377e082b",
+        "source_duration_seconds": 264.8001875,
+        "codecs": [
+          "h264",
+          "aac"
+        ],
+        "dimensions": [
+          1920,
+          1080
+        ],
+        "actual_frame_rate": "30/1",
+        "actual_frame_count": "7944",
+        "video_duration_seconds": 264.8,
+        "audio_duration_seconds": 264.8,
+        "stream_start_seconds": [
+          0.0,
+          0.0
+        ],
+        "full_decode": true,
+        "soundtrack_correlation": 0.9991234218476341,
+        "window_alignment": [
+          {
+            "source_start_seconds": 26.48,
+            "decoded_lag_seconds": 0.0
+          },
+          {
+            "source_start_seconds": 132.4000625,
+            "decoded_lag_seconds": 0.0
+          },
+          {
+            "source_start_seconds": 225.080125,
+            "decoded_lag_seconds": 0.0
+          },
+          {
+            "source_start_seconds": 262.7501875,
+            "decoded_lag_seconds": 0.000125
+          }
+        ],
+        "musical_or_visual_acceptance": false
+      },
+      "updated_panels": [
+        1,
+        2,
+        4,
+        6,
+        7,
+        8,
+        10,
+        12,
+        13
+      ],
+      "retained_panels": [
+        3,
+        5,
+        9,
+        11,
+        14,
+        15,
+        16
+      ],
+      "channel_values_equal_on_updated_panels": true,
+      "native_update_url": "https://drive.google.com/file/d/1yM9B3ELYNyeln3H45NQrlznNCG6q5B1s/view?usp=drivesdk",
+      "native_update_sha256": "d9b34cc9efd8d28e8ae9fc8658157ad76d4a49f3934ad470ac3443eefed75781",
+      "vocal_closeup_url": "https://drive.google.com/file/d/15cwilV1UWdovH3pG_EHrppOjdKRRAIqm/view?usp=drivesdk",
+      "vocal_closeup_sha256": "60af952fd4209e43b5266b4744741a1a19cd262dd396492abf6e22f2991c8177",
+      "vocal_closeup_xsq_sha256": "c76f3906b5090d55138b10c36d3f29f2ea8f62bc760a54e9eaa9c18bcf6f7f99",
+      "vocal_closeup_fseq_sha256": "c78a26f50fa145b376bfe40f29816f50cf01e12681acf83f010a12d56155a1ea",
+      "vocal_closeup_layout_sha256": "67434b8cc826a6a1eff6b604eafd566e3be37471a76f9b56a81d243709f84d77",
+      "windows_candidate_artifact": "https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/43401604645/artifacts/14025442150",
+      "android_candidate_run": "https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/43401604473",
+      "public_release_authorized": false,
+      "batch_allowed": false,
+      "readback_sha256_match": true,
+      "android_emulator": {
+        "api30": "PASS",
+        "api36": "PASS",
+        "source_commit": "65433a984e1420ebbb2e2e853a05220c0f245798",
+        "api30_artifact": "https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/43401604473/artifacts/14026182343",
+        "api36_artifact": "https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/43401604473/artifacts/14025773468"
+      },
+      "python_3_12": {
+        "source_commit": "cf4b19de9ed6de425c8a8a1079478b807ebe6cfd",
+        "passed": 2398,
+        "skipped": 6,
+        "subtests_passed": 24
+      },
+      "python_3_11": {
+        "default_focused_passed": 49,
+        "haswell_focused_passed": 45,
+        "haswell_focused_failed": 4,
+        "final_vocal_android_focused_passed": 24
+      },
+      "vocal_closeup_proof_url": "https://drive.google.com/file/d/1HIIJqK4i218HHsWEpKuRWx9cL9A_DFcq/view?usp=drivesdk"
     }
   }
 }

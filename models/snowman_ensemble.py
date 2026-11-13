@@ -62,10 +62,13 @@ class Parts:
         return model
 
 
-def mouths(p, center=(0,39,9)):
+def mouths(p, center=(0,39,9), *, native_extended_mouths=False):
     shapes={'REST':(2,.35),'MBP':(2,.55),'AH':(2.8,2.3),'EE':(3.1,.9),
             'OH':(1.5,2),'FV':(2,1),'L':(2.1,1.7)}
-    for shape in PHONEME_NAMES:
+    if native_extended_mouths:
+        shapes.update(U=(1.3, 1.05), WQ=(.9, 1.45), ETC=(2.7, 1.3))
+    order = PHONEME_NAMES + (('U', 'WQ', 'ETC') if native_extended_mouths else ())
+    for shape in order:
         p.ellipse('MOUTH_'+shape,center,shapes[shape], '#FF9EA9',count=44)
 
 
@@ -122,7 +125,7 @@ def performer(g,role,pos,accent):
     return p.finish()
 
 
-def face(g,kind,x,accent):
+def face(g,kind,x,accent,*,native_extended_mouths=False):
     p=Parts(g,'HX_HELIX_FACE_'+kind.upper(),(x,5,0),kind)
     if kind=='tree':outline=[(0,51,0),(-18,35,0),(-10,35,0),(-22,17,0),(-12,17,0),(-24,0,0),(24,0,0),(12,17,0),(22,17,0),(10,35,0),(18,35,0)]
     elif kind=='bulb':outline=[(-8,0,0),(8,0,0),(8,8,0),(19,20,0),(17,35,0),(8,45,0),(-8,45,0),(-17,35,0),(-19,20,0),(-8,8,0)]
@@ -141,7 +144,7 @@ def face(g,kind,x,accent):
         p.add(rail,points+offset,COLORS[0 if phase==0 else 1])
     cy=31 if kind!='snowman' else 40
     for side in (-1,1):p.ellipse('EYE_'+str(side),(side*6,cy+4,7),(2,2.7),WHITE,44)
-    mouths(p,(0,cy-5,8))
+    mouths(p,(0,cy-5,8),native_extended_mouths=native_extended_mouths)
     return p.finish()
 
 
