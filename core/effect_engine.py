@@ -984,6 +984,38 @@ def musical_palette_string(section: str, effect_index: int, effect_name: str = "
     return ",".join(parts)
 
 
+def _color_palettes_element(root: ET.Element) -> ET.Element:
+    for child in list(root):
+        if str(child.tag).endswith("ColorPalettes"):
+            return child
+    element = ET.Element("ColorPalettes")
+    insert_at = 0
+    for index, child in enumerate(list(root)):
+        if str(child.tag).endswith("head"):
+            insert_at = index + 1
+            break
+    root.insert(insert_at, element)
+    return element
+
+
+def register_palette_index(root: ET.Element, palette_text: str) -> str:
+    """Append a ColorPalette when needed and return its index.
+
+    xLights renders the ColorPalettes entry selected by a numeric effect
+    palette. An inline palette string on the effect is ignored and the
+    sequence falls back to palette 0, which is white on the stock template.
+    """
+    parent = _color_palettes_element(root)
+    existing = [child for child in list(parent) if str(child.tag).endswith("ColorPalette")]
+    wanted = (palette_text or "").strip()
+    for index, child in enumerate(existing):
+        if (child.text or "").strip() == wanted:
+            return str(index)
+    child = ET.SubElement(parent, "ColorPalette")
+    child.text = wanted
+    return str(len(existing))
+
+
 def palette_for_output(
     choice: str | None,
     tables: list[str],
@@ -991,10 +1023,14 @@ def palette_for_output(
     section: str,
     effect_index: int,
     effect_name: str,
+    root: ET.Element | None = None,
 ) -> str | None:
     if not palette_collapses_to_white(choice, tables):
         return choice
-    return musical_palette_string(section, effect_index, effect_name)
+    text = musical_palette_string(section, effect_index, effect_name)
+    if root is None:
+        return text
+    return register_palette_index(root, text)
 
 
 def pick_palette_for_effect(
@@ -10240,6 +10276,7 @@ def build_all_models_all_effects_sequence(
             section=("VERSE", "CHORUS", "BRIDGE", "OUTRO")[idx % 4],
             effect_index=idx,
             effect_name=effect_name,
+            root=xsq.root,
         )
         if palette != tpl.palette:
             tpl = base.EffectTemplate(settings=tpl.settings, palette=palette)
@@ -10261,6 +10298,7 @@ def build_all_models_all_effects_sequence(
             section="VERSE",
             effect_index=idx,
             effect_name="On",
+            root=xsq.root,
         )
         tpl = base.EffectTemplate(settings=xsq.on_tpl.settings, palette=fallback_palette)
         base.add_effect(layers[model], st, en, "On", tpl)
@@ -11059,6 +11097,7 @@ def run_variant(
             section=part_for_time(parts, st_i),
             effect_index=total,
             effect_name=runtime_effect,
+            root=xsq.root,
         )
         if palette_choice and palette_choice != template_to_use.palette:
             template_to_use = base.EffectTemplate(
@@ -12294,7 +12333,11 @@ def run_variant(
             min_effect_ms=max(50, int(tuning.min_effect_ms)),
             used_root_models=used_root_models,
             neighbor_graph=neighbor_graph,
-            template_palette_pool=template_palette_pool,
+            template_palette_pool=[
+                palette
+                for palette in template_palette_pool
+                if palette and not palette_collapses_to_white(palette, color_palette_table(xsq.root))
+            ],
             vocal_peaks=vocal_peaks,
             bass_peaks=bass_peaks,
             drum_peaks=sorted(set(kicks + snares)),

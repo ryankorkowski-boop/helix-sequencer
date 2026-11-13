@@ -84,21 +84,21 @@ Do not mark complete from unit tests alone.
 **Goal:** Master-profile output should use multiple hues, change color with the song section, and reserve white for accent effects.
 
 **Changed files/modules:**
-- `core/effect_engine.py` replaces a white-only template palette (including palette index `0`) with a section hue string before effects are written.
-- The all-models showcase path that calls `add_effect` directly uses the same replacement.
-- `tests/test_palette_not_white.py` fails if that path returns a white-only palette again.
+- `core/effect_engine.py` replaces a white-only template palette (including palette index `0`) before effects are written, on both `add_model` and the all-models showcase path.
+- The polish pass no longer copies a white-only template palette back onto effects near section boundaries.
+- `tests/test_palette_not_white.py` fails if that path returns palette `0` or any white-only palette again.
 
 **Intentionally preserved behavior:** A template palette that already enables a chromatic color is left unchanged. Effect choice, timing, and model targeting are unchanged. `palette_mode=template` still starts from the template palette.
 
-**New behavior:** When the resolved palette enables only near-white, Helix writes an inline xLights palette of section hues. Twinkle, Shimmer, Strobe, Snowflake, and Sparkle also check a white accent. Other effects do not.
+**New behavior:** When the resolved palette enables only near-white, Helix appends a ColorPalettes row of section hues and sets the effect palette to that index. xLights ignores an inline palette string and falls back to palette 0, so an index is required. Twinkle, Shimmer, Strobe, Snowflake, and Sparkle also check a white accent. Other effects do not.
 
-**Tests/evidence:** `tests/test_palette_not_white.py`. Before the change, real xLights FSEQ renders averaged 91.1% near-white lit RGB pixel-frames.
+**Tests/evidence:** `tests/test_palette_not_white.py`. Before the change, real xLights FSEQ renders averaged 91.1% near-white lit RGB pixel-frames. An isolated xLights 2026.19 probe rendered palette index 0 red and an inline blue string red as well, confirming the inline string is discarded.
 
 **Limitations:** Color still follows song sections already detected by Helix. A song that stays in one section keeps one hue family, with the lead color rotating per effect.
 
-**Deferred work:** Re-render of the layout-bench comparison videos after this change.
+**Deferred work:** Re-render of the layout-bench comparison videos after the index fix. The first render on this branch still used inline palette strings and stayed near 91% white.
 
-**Regression risks:** Sequences whose template palette 0 was intentionally white-only will now gain color. That is the requested change.
+**Regression risks:** Sequences whose template palette 0 was intentionally white-only will now gain color. That is the requested change. The sequence gains extra ColorPalette rows.
 
 ### 2026-10-02 — Beta tester feedback checklist documented
 **Agent:** GitHub Copilot
