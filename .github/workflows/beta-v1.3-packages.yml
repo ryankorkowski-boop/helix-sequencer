@@ -1,0 +1,159 @@
+name: Helix Beta 1.3 packages
+
+# The November Drive handoff was built by windows-portable.yml (one-part
+# Helix folder zip) and android-offline.yml (Chaquopy assembleDebug APK).
+# Those workflow files are not on this branch. This dispatch rebuilds that
+# same package shape from the current tree.
+on:
+  workflow_dispatch:
+  # Dispatch is preferred. This push filter also starts a build when the
+  # packaging workflow itself changes, because the cloud agent token cannot
+  # call workflow_dispatch (actions permission is not granted).
+  push:
+    branches:
+      - feature/restructure-core
+    paths:
+      - .github/workflows/beta-v1.3-packages.yml
+      - core/effect_engine.py
+      - core/helix_version.py
+      - android/**
+      - windows_portable.spec
+      - windows_portable_entry.py
+      - tools/palette_smoke.py
+
+permissions:
+  contents: read
+
+concurrency:
+  group: helix-beta-1-3-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  windows-portable:
+    runs-on: windows-2022
+    timeout-minutes: 90
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+          cache-dependency-path: requirements-windows-portable.txt
+      - name: Install portable build dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -r requirements-windows-portable.txt
+          python -m pip install pytest
+      - name: Check version and palette regression
+        run: python -m pytest -q tests/test_helix_version.py tests/test_palette_not_white.py
+      - name: Build one-folder portable app
+        run: python -m PyInstaller --noconfirm --clean windows_portable.spec
+      - name: Assemble customer folder
+        shell: pwsh
+        run: |
+          $root = "dist/Helix"
+          foreach ($file in @("Helix.exe", "HelixCLI.exe", "_internal/template.xsq")) {
+            if (-not (Test-Path "$root/$file")) { throw "Missing packaged file: $file" }
+          }
+          Copy-Item "$root/_internal/template.xsq" "$root/template.xsq" -Force
+          if (Test-Path "$root/_internal/xlights_rgbeffects.xml") {
+            Copy-Item "$root/_internal/xlights_rgbeffects.xml" "$root/xlights_rgbeffects.xml" -Force
+          }
+          foreach ($name in @("WINDOWS_PORTABLE_README.txt", "THIRD_PARTY_LICENSES.md", "NOTICE", "LICENSE", "CHANGELOG.md")) {
+            $source = "$root/_internal/$name"
+            if (Test-Path $source) { Copy-Item $source "$root/$name" -Force }
+          }
+          New-Item -ItemType Directory -Force -Path "$root/outputs" | Out-Null
+      - name: Smoke the packaged worker palette
+        shell: pwsh
+        run: |
+          python tools/palette_smoke.py --output palette-smoke --runner dist/Helix/HelixCLI.exe
+          if ($LASTEXITCODE -ne 0) { throw "Packaged palette smoke failed" }
+      - name: Create one-part zip and checksum
+        shell: pwsh
+        run: |
+          if (Test-Path Helix-Windows-Beta-v1.3.zip) { Remove-Item Helix-Windows-Beta-v1.3.zip -Force }
+          Compress-Archive -Path "dist/Helix" -DestinationPath "Helix-Windows-Beta-v1.3.zip" -CompressionLevel Optimal
+          $hash = (Get-FileHash "Helix-Windows-Beta-v1.3.zip" -Algorithm SHA256).Hash.ToLowerInvariant()
+          "$hash  Helix-Windows-Beta-v1.3.zip" | Set-Content -Encoding ascii Helix-Windows-Beta-v1.3.sha256
+          Get-Item Helix-Windows-Beta-v1.3.zip | Select-Object Name, Length
+      - uses: actions/upload-artifact@v4
+        with:
+          name: Helix-Windows-Beta-v1.3
+          path: |
+            Helix-Windows-Beta-v1.3.zip
+            Helix-Windows-Beta-v1.3.sha256
+            palette-smoke/palette-smoke.json
+          retention-days: 14
+          if-no-files-found: error
+
+  android-debug:
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "17"
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.10"
+      - name: Install host tools
+        run: python -m pip install --upgrade pip setuptools wheel
+      - uses: gradle/actions/setup-gradle@v4
+        with:
+          gradle-version: "8.11.1"
+      - name: Install Android SDK packages
+        run: |
+          sdk_root="${ANDROID_SDK_ROOT:-${ANDROID_HOME:-/usr/local/lib/android/sdk}}"
+          echo "ANDROID_SDK_ROOT=$sdk_root" >> "$GITHUB_ENV"
+          echo "ANDROID_HOME=$sdk_root" >> "$GITHUB_ENV"
+          tool=""
+          for candidate in "$sdk_root/cmdline-tools/latest/bin/sdkmanager" "$sdk_root/cmdline-tools/16.0/bin/sdkmanager"; do
+            if [ -x "$candidate" ]; then tool="$candidate"; break; fi
+          done
+          if [ -z "$tool" ]; then
+            echo "sdkmanager not found under $sdk_root" >&2
+            find "$sdk_root" -name sdkmanager -type f | head
+            exit 1
+          fi
+          # setup-android@v3 asks sdkmanager for the removed "tools" package.
+          yes | "$tool" --sdk_root="$sdk_root" --licenses >/dev/null || true
+          "$tool" --sdk_root="$sdk_root" "platforms;android-36" "build-tools;36.0.0" "platform-tools"
+      - name: Build debug APK the same way as the offline beta
+        working-directory: android
+        env:
+          HELIX_BUILD_PYTHON: python3.10
+        run: gradle --no-daemon :app:assembleDebug
+      - name: Name the APK and zip it like the Drive handoff
+        run: |
+          cp android/app/build/outputs/apk/debug/app-debug.apk Helix-Android-Beta-v1.3.apk
+          python - <<'PY'
+          import io, zipfile
+          apk = zipfile.ZipFile("Helix-Android-Beta-v1.3.apk")
+          names = [name for name in apk.namelist() if name.endswith("helix-engine.zip")]
+          if not names:
+              raise SystemExit("APK is missing the staged helix-engine.zip")
+          engine = zipfile.ZipFile(io.BytesIO(apk.read(names[0])))
+          source = engine.read("core/effect_engine.py").decode("utf-8", "replace")
+          version = engine.read("core/helix_version.py").decode("utf-8", "replace")
+          if "def palette_for_output" not in source or "def register_palette_index" not in source:
+              raise SystemExit("APK engine is missing the palette index fix")
+          if "1.3.0-beta" not in version:
+              raise SystemExit("APK engine version is not 1.3.0-beta")
+          print("APK contains palette_for_output and Beta 1.3")
+          PY
+          rm -f Helix-Android-Beta-v1.3.zip
+          zip -q Helix-Android-Beta-v1.3.zip Helix-Android-Beta-v1.3.apk
+          sha256sum Helix-Android-Beta-v1.3.apk Helix-Android-Beta-v1.3.zip | tee SHA256SUMS-android.txt
+          ls -l Helix-Android-Beta-v1.3.apk Helix-Android-Beta-v1.3.zip
+      - uses: actions/upload-artifact@v4
+        with:
+          name: Helix-Android-Beta-v1.3
+          path: |
+            Helix-Android-Beta-v1.3.apk
+            Helix-Android-Beta-v1.3.zip
+            SHA256SUMS-android.txt
+          retention-days: 14
+          if-no-files-found: error

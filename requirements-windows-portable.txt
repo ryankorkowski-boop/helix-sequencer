@@ -1,0 +1,15 @@
+# Windows 10/11 portable beta. Same runtime as the November one-part zip,
+# without optional Whisper/PyTorch transcription.
+numpy==2.2.6
+scipy>=1.11
+librosa==0.10.2.post1
+soundfile>=0.12.1
+numba==0.61.2
+llvmlite==0.44.0
+imageio>=2.34
+imageio-ffmpeg>=0.5
+Pillow>=10.2
+PyYAML>=6.0
+requests>=2.34.2
+pyinstaller>=6.10
+zstandard>=0.23

@@ -7,6 +7,7 @@ from pathlib import Path
 import tkinter as tk
 from tkinter import messagebox, ttk
 
+from core.helix_version import TITLE
 from gui_launcher import HelixGui, ROOT
 
 
@@ -17,7 +18,7 @@ class HelixDrummerGui(HelixGui):
         self.drummer_var = tk.BooleanVar(value=True)
         self.drummer_ground_truth_var = tk.BooleanVar(value=False)
         super().__init__()
-        self.title("Helix Sequence Weaver - Helixville Control Center + Drummer V3")
+        self.title(f"{TITLE} + Drummer V3")
         self._add_drummer_controls()
 
     def _add_drummer_controls(self) -> None:
