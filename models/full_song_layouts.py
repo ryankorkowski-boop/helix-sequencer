@@ -153,4 +153,5 @@ def configure_legacy_routes(garden):
 def canonical_owner_band(garden, plan, *, duration, rock=False):
     from tools.build_current_comparison import native_band
 
-    return native_band(garden, plan, rock=rock, duration=duration, showcase_source=True)
+    return native_band(garden, plan, rock=rock, duration=duration, showcase_source=True,
+                       overview=bool(garden.models))

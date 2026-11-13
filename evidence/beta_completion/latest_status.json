@@ -2725,9 +2725,9 @@
     ],
     "source_parent_commit": "b84f7c118dbfb291aa7c798ec872b301480053c8",
     "source_module_sha256": {
-      "models/full_song_layouts.py": "1cd4933579c541493aead286b7aec4d83fe74c92ff4aefc087b70847c253f97f",
-      "models/advanced_full_song_showcase.py": "48d9bcbcee588b386cc94502494b857ae1334efe03916f721607bb114e4414a9",
-      "tools/build_current_comparison.py": "6c65f0d25c0be0de9c08dde6e88dc3c1f76ec3697f580a7a4a12e9ac82da3c22",
+      "models/full_song_layouts.py": "d02e4a33dec8a6ea22808cbd186318f2bcdd2f53b099db6885c5594882d5564f",
+      "models/advanced_full_song_showcase.py": "9241a0b147f2a5da4ece648f085787fd0ed4d602c0d046ba7426d69075058866",
+      "tools/build_current_comparison.py": "a5816657d9934fe23fdf1db954af448d2a08595bbb21f07416fd832b5e66fb26",
       "tools/canonical_band_cues.py": "d126156eb764f1d04ddf6a185514caf13d26c7c266f7e56a50631a7c44b80495",
       "tools/source_spatial_direction.py": "35c8553cb325aa28d537dea617315aed83ff33662aa90dbf65aae6f966283c71"
     },
@@ -2741,6 +2741,14 @@
     "windows": "SHOWCASE_INTEGRATION_PENDING",
     "android": "SHOWCASE_INTEGRATION_PENDING",
     "focused_python_3_12_passed": 44,
-    "handoff": "docs/FULL_SONG_SHOWCASE_REBUILD.md"
+    "handoff": "docs/FULL_SONG_SHOWCASE_REBUILD.md",
+    "latest_finale_recovery": {
+      "initial_native_exit": -9,
+      "initial_xsq_mib": 427,
+      "retry_xsq_mib": 110,
+      "models": 180,
+      "native_channels": 334437,
+      "focused_tests_passed": 20
+    }
   }
 }

@@ -236,7 +236,24 @@ def build_showcase(number, plan, *, duration, native_band):
                palette=('#63E4FF', '#F68BFF', '#FFE38C'))
     s = structures(g)
     {13: _estate, 14: _wonderland, 15: _megastructure, 16: _ultimate}[number](g, s)
-    cast = native_band(g, plan, rock=False, duration=duration) if number == 16 else None
+    cast = None
+    if number == 16:
+        # Distribute pitched phrases across physical prop banks. This prevents
+        # broadcasting every simultaneous pitch to every fixture in the finale.
+        from collections import defaultdict
+        import numpy as np
+
+        banks = defaultdict(list)
+        for model in g.models:
+            role = model.details.get('musical_role')
+            if role in ('guitarist', 'keyboardist', 'bassist'):
+                banks[model.zone, role].append(model)
+        for (zone, role), members in banks.items():
+            members.sort(key=lambda model: (*np.mean(model.points, axis=0), model.name))
+            for rank, model in enumerate(members):
+                model.details.update(source_route_bank=f'{zone}|{role}', source_route_rank=rank,
+                                     source_route_count=len(members))
+        cast = native_band(g, plan, rock=False, duration=duration)
     for model in g.models:
         model.attrs.setdefault('PixelSize', '8')
         model.attrs.setdefault('BlackTransparency', '100')

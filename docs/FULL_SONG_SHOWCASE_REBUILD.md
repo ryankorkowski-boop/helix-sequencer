@@ -45,3 +45,7 @@ Measured production notes and percussion drive the native prop scheduler. Coordi
 ## Application paths
 
 Windows starts the shared production CLI via `gui_launcher.py`. Android stages the shared Python engine via `tools/stage_android_engine.py` and runs it through `helix_mobile.py`. The showcase layout and native preview adapters in this branch are still a separate entry point. Same-source GUI layout selection, xLights and FSEQ behavior, preview visibility, offline resource limits and physical device parity require implementation and testing before packaging. The historical Windows and Android builds do not establish parity for this change.
+
+## Finale render recovery
+
+The initial 427 MiB panel 16 XSQ exceeded the native process budget and ended with signal 9. The revised panel retains 180 models and the same source kit and layout, distributes measured pitches across physical prop banks, and uses a lower native surface sampling density for the overview. The regenerated XSQ is 110 MiB and contains 334,437 native channel slots. The full-resolution vocal band view and panel 11 retain the original sampling.

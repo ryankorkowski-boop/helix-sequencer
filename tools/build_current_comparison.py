@@ -48,7 +48,7 @@ def residential_preview(folder,number):
     tree.write(path,encoding='utf-8',xml_declaration=True)
 
 
-def native_band(g,plan,*,rock=True,duration=36,showcase_source=False):
+def native_band(g,plan,*,rock=True,duration=36,showcase_source=False,overview=False):
     from models.final_band_native import add_final_native_band,SurfaceParts
     from models.final_band_scene import FinalBandScene
     from models.source_drummer_3d import SourceDrummer3D
@@ -56,7 +56,7 @@ def native_band(g,plan,*,rock=True,duration=36,showcase_source=False):
     from tools.native_source_pose_band import select_states
     first=len(g.models)
     add_final_native_band(g,'HX_SNOW',(0,0,0),rock=rock,include_stage=not showcase_source,
-                          full_keyboard=True,surface_spacing=.12 if showcase_source else .18,
+                          full_keyboard=True,surface_spacing=.12 if showcase_source and not overview else .18,
                           mouth_scale=.42,keyboard_contacts=showcase_source)
     cast=g.models[first:]
     for model in cast:
@@ -76,9 +76,11 @@ def native_band(g,plan,*,rock=True,duration=36,showcase_source=False):
         if showcase_source:
             # Sample both front and rear; the previous stride selected half
             # the front and discarded its authored materials during export.
-            points=item['mesh'].vertices
-            parts.add('BASE_DIM',points,colors)
-            if part!='BASE_DIM':parts.add(part,points,colors)
+            stride=2 if overview else 1
+            points=item['mesh'].vertices[::stride]
+            material=colors[::stride]
+            parts.add('BASE_DIM',points,material)
+            if part!='BASE_DIM':parts.add(part,points,material)
         else:
             parts.add(part,item['mesh'].vertices[::2],colors[::2])
     for i in rig.connector_ids:parts.primitive('BASE_DIM',scene.instances[i])
@@ -87,7 +89,7 @@ def native_band(g,plan,*,rock=True,duration=36,showcase_source=False):
     for frame in range(math.ceil(duration*20)):
         rig.pose(frame/20)
         samples.append(np.array([scene.instances[i]['matrix'][:3,3] for i in ids]))
-    selected,states,error=select_states(samples,limit=48 if showcase_source else 24)
+    selected,states,error=select_states(samples,limit=48 if showcase_source and not overview else 24)
     for number,frame in enumerate(selected):
         rig.pose(int(frame)/20)
         for i in ids:parts.primitive(f'SOURCE_POSE_{number:02}',scene.instances[i])
