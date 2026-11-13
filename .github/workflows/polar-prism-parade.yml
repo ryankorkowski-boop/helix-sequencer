@@ -6,6 +6,9 @@ on:
     paths:
       - '.github/workflows/polar-prism-parade.yml'
       - 'models/parade_float.py'
+      - 'models/brewery_van_variants.py'
+      - 'tools/render_parade_float.py'
+      - 'tests/test_brewery_van_variants.py'
       - 'models/brewery_branding.py'
       - 'models/brewery_skeleton_band.py'
       - 'tools/brewery_skeleton_cues.py'
@@ -46,8 +49,8 @@ jobs:
       - name: Compile and execute parade design smoke tests
         run: |
           set -euo pipefail
-          python -m compileall -q models/parade_float.py models/brewery_branding.py models/brewery_skeleton_band.py tools/brewery_skeleton_cues.py tools/render_parade_float.py
-          python -m pytest -q tests/test_parade_float.py
+          python -m compileall -q models/parade_float.py models/brewery_van_variants.py models/brewery_branding.py models/brewery_skeleton_band.py tools/brewery_skeleton_cues.py tools/render_parade_float.py
+          python -m pytest -q tests/test_parade_float.py tests/test_brewery_van_variants.py
       - name: Fetch exact original instrumental from Drive
         run: |
           set -euo pipefail
@@ -91,16 +94,19 @@ jobs:
         with:
           path: ${{ runner.temp }}/xlights-src
           key: xlights-native-ubuntu24-2026.18-${{ hashFiles('tools/patch_xlights_native_export.py') }}
-      - name: Run authentic Helix engine and single native 3D float
+      - name: Run authentic Helix engine for both native delivery van variants
         run: |
           set -euo pipefail
           xvfb-run -a -s '-screen 0 2560x1440x24' sh -c '
             openbox >pilot-source/openbox.log 2>&1 &
-            exec python -m tools.render_parade_float \
-              --audio "pilot-source/Polar Prism Parade.mp3" \
-              --sha256 "$SOURCE_SHA256" \
-              --work "pilot-work/polar-prism" \
-              --xlights "$HELIX_PATCHED_XLIGHTS"
+            for variant in clean_matrix_van extreme_skeleton_van; do
+              python -m tools.render_parade_float \
+                --audio "pilot-source/Polar Prism Parade.mp3" \
+                --sha256 "$SOURCE_SHA256" \
+                --work "pilot-work/polar-prism" \
+                --xlights "$HELIX_PATCHED_XLIGHTS" \
+                --variant "$variant"
+            done
           '
       - name: Validate the owner gate and full native video decode
         run: |
@@ -109,18 +115,20 @@ jobs:
           import json,subprocess
           from pathlib import Path
           from tools.phoneme_source import digest
-          p=Path('pilot-work/polar-prism/parade_floats_verified.json')
-          r=json.loads(p.read_text())
-          assert r['source_sha256']=='f349d05738ab274a6a37125021a7addae5569f9d074278b351a17c62072a2a0f'
-          assert r['owner_approved'] is False
-          native=r['native_receipt']
-          movie=Path(native['mp4'])
-          assert movie.is_file() and digest(movie)==native['mp4_sha256']
-          subprocess.run(['ffmpeg','-v','error','-xerror','-i',str(movie),'-map','0:v:0','-map','0:a:0','-f','null','-'],check=True)
-          info=json.loads(subprocess.check_output(['ffprobe','-v','error','-show_streams','-show_format','-of','json',str(movie)]))
-          v=next(s for s in info['streams'] if s['codec_type']=='video')
-          assert (int(v['width']),int(v['height']))==(1920,1080)
-          print('Native video decoded:',movie)
+          for variant in ('clean_matrix_van','extreme_skeleton_van'):
+            p=Path('pilot-work/polar-prism') / f'{variant}_verified.json'
+            r=json.loads(p.read_text())
+            assert r['layout']==variant
+            assert r['source_sha256']=='f349d05738ab274a6a37125021a7addae5569f9d074278b351a17c62072a2a0f'
+            assert r['owner_approved'] is False
+            native=r['native_receipt']
+            movie=Path(native['mp4'])
+            assert movie.is_file() and digest(movie)==native['mp4_sha256']
+            subprocess.run(['ffmpeg','-v','error','-xerror','-i',str(movie),'-map','0:v:0','-map','0:a:0','-f','null','-'],check=True)
+            info=json.loads(subprocess.check_output(['ffprobe','-v','error','-show_streams','-show_format','-of','json',str(movie)]))
+            v=next(s for s in info['streams'] if s['codec_type']=='video')
+            assert (int(v['width']),int(v['height']))==(1920,1080)
+            print('Native video decoded:',variant,movie)
           PY
       - name: Upload verified pilot and editable files only
         if: success()
@@ -130,8 +138,8 @@ jobs:
           retention-days: 30
           if-no-files-found: error
           path: |
-            pilot-work/polar-prism/parade_floats_verified.json
-            pilot-work/polar-prism/parade_layouts/01/run_manifest.json
+            pilot-work/polar-prism/*_verified.json
+            pilot-work/polar-prism/parade_layouts/*/01/run_manifest.json
             pilot-work/polar-prism/parade_layouts/01/Performance.xsq
             pilot-work/polar-prism/parade_layouts/01/xlights_rgbeffects.xml
             pilot-work/polar-prism/parade_layouts/01/xlights_networks.xml
