@@ -12285,7 +12285,21 @@ def run_variant(
             palette=None,
         )
         placed_snowman_faces = 0
+        # Every singing face shares the phoneme track so the whole band mouths the vocal.
+        singing_models = [
+            name
+            for name in layers
+            if "/" not in name and ("singing face" in name.lower() or "singing tree" in name.lower())
+        ]
+        targets = singing_models or list(face_span)
+        if phoneme_spans and targets:
+            st = min(item[1] for item in phoneme_spans)
+            en = max(item[2] for item in phoneme_spans)
+            for target in targets:
+                face_span[target] = [st, en]
         for target, window in face_span.items():
+            if target not in layers:
+                continue
             st, en = window
             before_total = total
             add_model(
