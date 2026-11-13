@@ -156,7 +156,7 @@ def main():
     parser.add_argument("--sha256",required=True)
     parser.add_argument("--work",type=Path,required=True)
     parser.add_argument("--xlights",type=Path,required=True)
-    parser.add_argument("--variant", choices=("clean_matrix_van", "extreme_skeleton_van"), default="extreme_skeleton_van")
+    parser.add_argument("--variant", choices=("clean_matrix_van", "extreme_skeleton_van", "transit_connect_rgb"), default="extreme_skeleton_van")
     a=parser.parse_args()
     print(json.dumps(run(a.audio,a.sha256,a.work,a.xlights,a.variant),indent=2))
 
