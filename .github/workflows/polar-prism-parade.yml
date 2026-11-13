@@ -1,10 +1,16 @@
 # Isolated owner-review pilot. Does not merge, release, or dispatch the song batch.
-name: Polar Prism native parade float — owner review
+name: Drastic Measures native brewery float — owner review
 on:
   push:
     branches: [codex/hypnotic-parade-float-20261113]
     paths:
       - '.github/workflows/polar-prism-parade.yml'
+      - 'models/parade_float.py'
+      - 'models/brewery_branding.py'
+      - 'models/brewery_skeleton_band.py'
+      - 'tools/brewery_skeleton_cues.py'
+      - 'tools/build_current_comparison.py'
+      - 'tests/test_parade_float.py'
   workflow_dispatch:
 permissions:
   contents: read
@@ -40,7 +46,7 @@ jobs:
       - name: Compile and execute parade design smoke tests
         run: |
           set -euo pipefail
-          python -m compileall -q models/parade_float.py tools/render_parade_float.py
+          python -m compileall -q models/parade_float.py models/brewery_branding.py models/brewery_skeleton_band.py tools/brewery_skeleton_cues.py tools/render_parade_float.py
           python -m pytest -q tests/test_parade_float.py
       - name: Fetch exact original instrumental from Drive
         run: |
@@ -120,7 +126,7 @@ jobs:
         if: success()
         uses: actions/upload-artifact@v4
         with:
-          name: Polar-Prism-NATIVE-Float-OWNER-REVIEW
+          name: Drastic-Measures-NATIVE-Float-OWNER-REVIEW
           retention-days: 30
           if-no-files-found: error
           path: |
@@ -135,7 +141,7 @@ jobs:
         if: failure()
         uses: actions/upload-artifact@v4
         with:
-          name: Polar-Prism-FAILED-diagnostics
+          name: Drastic-Measures-FAILED-diagnostics
           retention-days: 14
           if-no-files-found: warn
           path: |
