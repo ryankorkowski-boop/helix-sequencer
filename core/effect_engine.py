@@ -12260,6 +12260,8 @@ def run_variant(
         face_span: dict[str, list[int]] = {}
         for instruction in snowman_sequence_instructions:
             target = str(instruction.get("target_model", "") or "")
+            if "/" in target:
+                target = target.split("/", 1)[0]
             if target not in layers:
                 continue
             st = max(0, int(instruction.get("start_ms", 0) or 0))

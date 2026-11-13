@@ -127,7 +127,7 @@ def _viseme_for_fragment(fragment: str) -> str:
 
 
 def preferred_face_routing(layout_names: list[str]) -> dict[str, Any]:
-    normalized = [(name, normalize_name(name)) for name in layout_names]
+    normalized = [(name, normalize_name(name)) for name in layout_names if "/" not in name]
     mascot_custom = [name for name, norm in normalized if "helixmascot" in norm and "custom" in norm]
     mascot_image = [name for name, norm in normalized if "helixmascot" in norm and "image" in norm]
     support_faces = [
