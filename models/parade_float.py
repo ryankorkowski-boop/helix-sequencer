@@ -12,7 +12,7 @@ from collections import Counter
 from models.approval_layouts import allocate, structures
 from models.ultimate_showcase import Garden
 
-TITLE = "POLAR PRISM — Infinite Night Parade"
+TITLE = "DRASTIC MEASURES BREWING — Infinite Night Parade"
 AUDIO = "Polar Prism Parade.mp3"
 AUDIO_DRIVE_ID = "1VdhX9WvUFgMNhO8HGpziiG-dcInItegJ"
 PALETTE = ("#62F0FF", "#FF6DD6", "#FFE49C")
@@ -25,6 +25,9 @@ GROUPS = {
     "FLOAT_HARMONY": ("MEGA_TREES", "SPIRAL_FOREST", "HARMONIC_MATRICES"),
     "FLOAT_FLOW": ("WAVE_RAILS", "FLOOR_RUNWAYS", "SIDE_RIBBONS"),
     "FLOAT_ACCENTS": ("SNOWFLAKES", "EDGE_HIGHLIGHTS"),
+    "FLOAT_BRAND": ("BRAND_SIGNAGE", "BREWERY_PROPS", "BREWERY_EMBLEM"),
+    "FLOAT_SKELETONS": ("SKELETON_DRUMMER", "SKELETON_GUITARIST", "SKELETON_BASSIST", "SKELETON_FRONTMAN"),
+    "FLOAT_OPTICAL": ("MOIRE_LAYERS", "PERSPECTIVE_VANISHING"),
 }
 # These are choreography priorities, not hardcoded on/off sequences.
 SECTION_MAP = {
@@ -203,6 +206,36 @@ def build(plan=None, *, duration=None):
                    index,count=85)
             _route(g,start,"EDGE_HIGHLIGHTS","drummer",
                    component=PERCUSSION[(index+2)%4],direction=side)
+
+    # Crossed 3D moire planes with opposite angles and source-driven phase.
+    for side in (-1, 1):
+        for layer in range(6):
+            start = len(g.models)
+            s.mesh("MOIRE_PARALLAX", (side * 22, 14, -54 + layer * 21),
+                   43 - layer * 1.7, 38 + layer * 2,
+                   "MOIRE_LAYERS", layer, wave=1.5 + layer * .7,
+                   yaw=(1 if layer % 2 else -1) * (11 + layer * 4))
+            _route(g, start, "MOIRE_LAYERS",
+                   ("guitarist", "bassist", "keyboardist")[layer % 3],
+                   phase=layer / 6, direction=(-1) ** layer,
+                   delay=layer * 65, axis="y", floor=.12)
+    # Physically converging depth rails create a forced-perspective vanishing point.
+    for side in (-1, 1):
+        for tier in range(6):
+            start = len(g.models)
+            s.path("VANISHING_RAIL",
+                   [(side * (49 - tier * 3), 3 + tier * 7, 73),
+                    (side * (12 + tier), 24 + tier * 2, -72)],
+                   "PERSPECTIVE_VANISHING", tier, count=200)
+            _route(g, start, "PERSPECTIVE_VANISHING",
+                   "guitarist" if tier % 2 else "bassist",
+                   phase=tier / 6, direction=side, delay=tier * 42,
+                   axis="z", floor=.16)
+    from models.brewery_skeleton_band import add_four_skeletons
+    from models.brewery_branding import add_brewery_signage
+    add_four_skeletons(g)
+    add_brewery_signage(g)
+
     # Existing source-specific spatial route compiler owns actual note timing.
     from tools.source_role_routing import configure_source_routes
     configure_source_routes(g.models)
