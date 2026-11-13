@@ -2731,15 +2731,15 @@
       "tools/canonical_band_cues.py": "d126156eb764f1d04ddf6a185514caf13d26c7c266f7e56a50631a7c44b80495",
       "tools/source_spatial_direction.py": "35c8553cb325aa28d537dea617315aed83ff33662aa90dbf65aae6f966283c71"
     },
-    "pilot": "NATIVE_RENDER_IN_PROGRESS",
+    "pilot": "AWAITING_OWNER_APPROVAL",
     "owner_approved": false,
     "remaining_82_song_batch": "BLOCKED_PENDING_OWNER_APPROVAL",
     "public_release": "NOT_AUTHORIZED",
     "vocal_technical": "NATIVE_ESTIMATED_CLOCKS_VERIFIED",
     "vocal_identity": "UNVERIFIED",
     "lexical_phonemes": "UNVERIFIED",
-    "windows": "SHOWCASE_INTEGRATION_PENDING",
-    "android": "SHOWCASE_INTEGRATION_PENDING",
+    "windows": "UNRELEASED_CANDIDATE_SMOKE_TESTED",
+    "android": "BUILT_EMULATOR_TESTS_PENDING",
     "focused_python_3_12_passed": 44,
     "handoff": "docs/FULL_SONG_SHOWCASE_REBUILD.md",
     "latest_finale_recovery": {
@@ -2748,7 +2748,71 @@
       "retry_xsq_mib": 110,
       "models": 180,
       "native_channels": 334437,
-      "focused_tests_passed": 20
-    }
+      "focused_tests_passed": 20,
+      "second_monolithic_exit": -9,
+      "verified_native_chunks": 6,
+      "frames": 5296
+    },
+    "implementation_commit": "3872c7fc450d19bfa8d46e7986266cbca6d65559",
+    "python_3_12": {
+      "passed": 2396,
+      "skipped": 6,
+      "subtests_passed": 24
+    },
+    "python_3_11": {
+      "passed": 2392,
+      "failed": 4,
+      "skipped": 6,
+      "subtests_passed": 24
+    },
+    "pilot_media": {
+      "file": "Helix_Motion_16_Layout_Showcase_Rebuild.mp4",
+      "sha256": "68ba662f92004deaeb61c1d190bda34e2c2999438486f0751ef1b2d8ca5398e0",
+      "bytes": 80263882,
+      "source_audio": "Helix_Motion.mp3",
+      "source_audio_sha256": "fc91e3f48f709e615ba598a5d49ae63ab9652c0d16e324095f6e1b20377e082b",
+      "source_duration_seconds": 264.8001875,
+      "codecs": [
+        "h264",
+        "aac"
+      ],
+      "dimensions": [
+        1920,
+        1080
+      ],
+      "actual_frame_rate": "30/1",
+      "actual_frame_count": "7944",
+      "video_duration_seconds": 264.8,
+      "audio_duration_seconds": 264.8,
+      "stream_start_seconds": [
+        0.0,
+        0.0
+      ],
+      "full_decode": true,
+      "soundtrack_correlation": 0.9991234218476341,
+      "window_alignment": [
+        {
+          "source_start_seconds": 26.48,
+          "decoded_lag_seconds": 0.0
+        },
+        {
+          "source_start_seconds": 132.4000625,
+          "decoded_lag_seconds": 0.0
+        },
+        {
+          "source_start_seconds": 225.080125,
+          "decoded_lag_seconds": 0.0
+        },
+        {
+          "source_start_seconds": 262.7501875,
+          "decoded_lag_seconds": 0.000125
+        }
+      ],
+      "musical_or_visual_acceptance": false
+    },
+    "pilot_library_file_id": "libfile_b16cb208a6688191864cc1772c066dcf",
+    "native_package_library_file_id": "libfile_0ad590fdca4c8191a3d176bf3ba97f9e",
+    "native_package_sha256": "d138d454feaad8df471365a1e88f7b44558ac4793738eea06fcafe2e8b5684b9",
+    "vocal_drive_url": "https://drive.google.com/file/d/1fYm8KxIG5v3dWxb4Wx5Ufw_mPLygS9dA/view"
   }
 }

@@ -1,3 +1,13 @@
+## 13 November — rebuilt Helix Motion and vocal review delivered
+
+- Native Helix Motion pilot: 264.800 s, 1920×1080 H.264/AAC, 30 fps, 7,944 frames, all 16 distinct and active. Source correlation 0.9991234, max lag 0.125 ms. SHA-256 `68ba662f92004deaeb61c1d190bda34e2c2999438486f0751ef1b2d8ca5398e0`. [MP4](https://chatgpt.com/library?file_id=libfile_b16cb208a6688191864cc1772c066dcf&account_id=personal).
+- The finale's second monolithic native attempt also exited with signal 9. Six bounded xLights 2026.18 renders supplied the exact 5,296-frame channel timeline. The archive preserves the full editable XSQ, chunk XSQs and original native FSEQ blocks. Intersecting On fades were interpolated; native effect phase can restart at a join. [Native XSQ/FSEQ and layout inventory](https://chatgpt.com/library?file_id=libfile_0ad590fdca4c8191a3d176bf3ba97f9e&account_id=personal).
+- The 16/64/256 AC panels each have zero all-on frames. All three checked instrumental face panels have zero open-mouth frames. The source-front V3 kit uses the same `drummerbg.png` SHA as `54ded375`. [Drummer frame comparison](https://chatgpt.com/library?file_id=libfile_2d519f0d83548191a3d4db5d613b5e96&account_id=personal).
+- Native vocal review: [Phoneme Test Hook MP4](https://drive.google.com/file/d/1fYm8KxIG5v3dWxb4Wx5Ufw_mPLygS9dA/view), SHA `cc56007189571ddaa59870f590ee5104167c0e3c9f055fbead5d234ab8503990`. 265 lead-only and 47 backing-only native open-mouth frames in each view. Seven physical mouth profiles and acoustic estimates remain; lexical alignment and independent singer identity are unverified.
+- Exact-source Windows candidate `3872c7f` passed packaged smoke and archive/EXE integrity checks. [Unreleased candidate](https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/43374313005/artifacts/14013538889). Android API 30 and 36 compiled at that commit. [Android emulator and export run](https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/43374312938). Showcase selection/native adapter integration, device behavior and parity require separate completion.
+- Exact-source Python 3.12 passed 2,396 tests with six skips and 24 subtests. Python 3.11 passed 2,392 and failed four inherited bounded-audio numerical assertions at their existing tolerance. Strict independent vocal qualification still fails. [Regression runs](https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/43374313207).
+- Status: awaiting owner review. Other 82 songs held. PR #188 open and unmerged. Beta publication and public installer replacement remain unauthorized.
+
 ## 12 November — rebuild of the owner-rejected 16-panel showcase
 
 - Goal: deliver a new Helix Motion pilot and a separate real-vocal verification, with native XSQ/FSEQ and owner review.
