@@ -153,18 +153,24 @@ class SourceDrummer3D:
                             ((CROP[1]+CROP[3])/2-pixel[1])*self.scale,z)
 
     def pose(self,time):
-        for side,ids in self.rigs.items():
-            shoulder,elbow,wrist,tip,gain=self.player._pose(side,time)
-            a,b,c,d=ids;s,e,w,t=[self.point(p) for p in (shoulder,elbow,wrist,tip)]
-            for index,p,q,radius in ((a,s,e,.057),(b,e,w,.045),(d,w,t,.016)):
-                self.scene.instances[index]['matrix']=line_matrix(p,q,radius)
-            self.scene.instances[c]['matrix']=matrix(w,(.057,.046,.055))
-        hat=any(0<=time-h['time']<.11 for h in self.player.foot_hits)
+        for side in self.rigs:
+            self.pose_arm(side, time)
+        self.pose_feet(any(0<=time-h['time']<.11 for h in self.player.foot_hits),
+                       any(0<=time-h['time']<.10 for h in self.player.kick_hits))
+
+    def pose_arm(self, side, time):
+        a,b,c,d=self.rigs[side]
+        shoulder,elbow,wrist,tip,_=self.player._pose(side,time)
+        s,e,w,t=[self.point(p) for p in (shoulder,elbow,wrist,tip)]
+        for index,p,q,radius in ((a,s,e,.057),(b,e,w,.045),(d,w,t,.016)):
+            self.scene.instances[index]['matrix']=line_matrix(p,q,radius)
+        self.scene.instances[c]['matrix']=matrix(w,(.057,.046,.055))
+
+    def pose_feet(self, hat, kick):
         heel=self.point(np.array((.638,.710))*self.player.scale)
         toe=self.point(np.array((.697,.735))*self.player.scale)+(0,0 if hat else .06,0)
         self.scene.instances[self.foot]['matrix']=matrix((heel+toe)/2,(.16,.055,.09))
         self.scene.instances[self.pedal]['matrix']=line_matrix(heel-(0,.025,0),toe-(0,.025,0),.025)
-        kick=any(0<=time-h['time']<.10 for h in self.player.kick_hits)
         root=self.point((290,368),-.04)
         tip=self.point((290,337),-.02 if kick else -.30)
         self.scene.instances[self.beater]['matrix']=line_matrix(root,tip,.022)

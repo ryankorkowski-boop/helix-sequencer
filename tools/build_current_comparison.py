@@ -86,23 +86,74 @@ def native_band(g,plan,*,rock=True,duration=36,showcase_source=False,overview=Fa
             parts.add(part,item['mesh'].vertices[::2],colors[::2])
     for i in rig.connector_ids:parts.primitive('BASE_DIM',scene.instances[i])
     ids=[i for values in rig.rigs.values() for i in values]+[rig.foot,rig.pedal,rig.beater]
-    samples=[]
+    pose_times = np.arange(math.ceil(duration*20)) / 20
     contacts = {}
+    pose_lanes = {}
     if showcase_source:
-        for hit in (*rig.player.hits, *rig.player.foot_hits, *rig.player.kick_hits):
-            frame = int(hit['time'] * 20)
-            previous = contacts.get(frame)
-            if previous is None or hit['velocity'] > previous['velocity']:
-                contacts[frame] = hit
-    pose_times = [contacts[frame]['time'] if frame in contacts else frame/20
-                  for frame in range(math.ceil(duration*20))]
-    for time in pose_times:
-        rig.pose(time)
-        samples.append(np.array([scene.instances[i]['matrix'][:3,3] for i in ids]))
-    selected,states,error=select_states(samples,limit=48 if showcase_source and not overview else 24)
-    for number,frame in enumerate(selected):
-        rig.pose(pose_times[int(frame)])
-        for i in ids:parts.primitive(f'SOURCE_POSE_{number:02}',scene.instances[i])
+        for side, lane in rig.player.lanes.items():
+            target_ids = rig.rigs[side]
+            times = pose_times.copy()
+            contact_frames = {}
+            for hit in lane.events:
+                frame = min(len(times)-1, round(hit['time']*20))
+                previous = contact_frames.get(frame)
+                if previous is None or hit['velocity'] > previous['velocity']:
+                    contact_frames[frame] = hit
+            for frame, hit in contact_frames.items():
+                times[frame] = hit['time']
+            samples = []
+            for time in times:
+                rig.pose_arm(side, time)
+                samples.append([scene.instances[i]['matrix'][:3,3] for i in target_ids])
+            # Contact poses are assigned from exact targets. Quantize only transit.
+            selected, states, error = select_states(samples, limit=18 if overview else 30)
+            names = []
+            for number, frame in enumerate(selected):
+                part = f'SOURCE_POSE_{side.upper()}_{number:02}'
+                rig.pose_arm(side, times[frame])
+                for i in target_ids:
+                    parts.primitive(part, scene.instances[i])
+                names.append(part)
+            sequence_parts = np.asarray(names, dtype=object)[states]
+            for frame, hit in contact_frames.items():
+                part = f'SOURCE_POSE_{side.upper()}_{hit["target"].rsplit("_V3_",1)[-1]}'
+                if part not in parts.parts:
+                    rig.pose_arm(side, hit['time'])
+                    for i in target_ids:
+                        parts.primitive(part, scene.instances[i])
+                sequence_parts[frame] = part
+            contacts[side] = len(contact_frames)
+            pose_lanes[side] = (sequence_parts, error)
+        for part, target_ids, source_hits in (
+            ('HAT', (rig.foot, rig.pedal), rig.player.foot_hits),
+            ('KICK', (rig.beater,), rig.player.kick_hits),
+        ):
+            clock = np.full(len(pose_times), f'SOURCE_POSE_{part}_REST', dtype=object)
+            for hit in source_hits:
+                frame = min(len(clock)-1, round(hit['time']*20))
+                clock[frame:frame+2] = f'SOURCE_POSE_{part}_CONTACT'
+            rig.pose_feet(False, False)
+            for i in target_ids:
+                parts.primitive(f'SOURCE_POSE_{part}_REST', scene.instances[i])
+            if source_hits:
+                rig.pose_feet(part=='HAT', part=='KICK')
+                for i in target_ids:
+                    parts.primitive(f'SOURCE_POSE_{part}_CONTACT', scene.instances[i])
+            pose_lanes[part] = (clock, 0)
+        states = {lane: clock for lane,(clock,_) in pose_lanes.items()}
+        error = max(error for _,error in pose_lanes.values())
+        pose_count = sum(name.startswith('SOURCE_POSE_') for name in parts.parts)
+    else:
+        samples = []
+        for time in pose_times:
+            rig.pose(time)
+            samples.append([scene.instances[i]['matrix'][:3,3] for i in ids])
+        selected, states, error = select_states(samples, limit=24)
+        for number, frame in enumerate(selected):
+            rig.pose(pose_times[frame])
+            for i in ids:
+                parts.primitive(f'SOURCE_POSE_{number:02}', scene.instances[i])
+        pose_count = len(selected)
     old=next(m for m in g.models if m.details.get('review_role')=='drummer')
     g.models.remove(old)
     model=g.custom('HX_SNOW_DRUMMER',parts.points,'BAND','Source-front closed dimensional V3',
@@ -116,8 +167,9 @@ def native_band(g,plan,*,rock=True,duration=36,showcase_source=False,overview=Fa
         model.attrs['HelixReferenceImage']='assets/drummerbg.png'
         model.details['showcase_source_drummer']=True
     return model,states,dict(rig.proof(),resolved_strikes=len(hits),unresolved_strikes=unresolved,
-                             pose_states=len(selected),max_pose_error=float(error),
-                             contact_sample_frames=len(contacts),
+                             pose_states=pose_count,max_pose_error=float(error),
+                             contact_sample_frames=sum(contacts.values()),
+                             independent_native_pose_lanes=list(pose_lanes),
                              physically_rejected_arm_strikes=len(rig.player.motion_rejections))
 
 
@@ -311,12 +363,19 @@ def build(source,vocals,output,*,numbers=None,names=NAMES,layout_builder=layout,
                     if not drummer.details.get('showcase_source_drummer'):
                         sequence.effect(drummer,part,0,duration_ms,color,22)
                     for hit in hits:
-                        if hit['target']==target:sequence.effect(drummer,part,round(hit['time']*1000),min(duration_ms,round(hit['time']*1000)+250),color,100,22)
-                cuts=np.r_[0,np.flatnonzero(np.diff(states))+1,len(states)]
-                for a,b in zip(cuts[:-1],cuts[1:]):
-                    part=f'SOURCE_POSE_{states[a]:02}'
-                    if part in drummer.submodels:
-                        sequence.effect(drummer,part,int(a)*50,int(b)*50,'#C5D6DD',80)
+                        if hit['target']==target:
+                            start=round(hit['time']*1000)
+                            tail=95 if target in TARGETS[:3] else 150 if target in TARGETS[3:6] else 220
+                            intensity=round(25+75*hit['velocity'])
+                            sequence.effect(drummer,part,start,min(duration_ms,start+tail),color,intensity,18)
+                clocks = states.values() if isinstance(states, dict) else (
+                    np.asarray([f'SOURCE_POSE_{state:02}' for state in states]),)
+                for clock in clocks:
+                    cuts=np.r_[0,np.flatnonzero(clock[1:] != clock[:-1])+1,len(clock)]
+                    for a,b in zip(cuts[:-1],cuts[1:]):
+                        part=clock[a]
+                        if part in drummer.submodels:
+                            sequence.effect(drummer,part,int(a)*50,int(b)*50,'#C5D6DD',80)
                 (folder/'Dimensional_Drummer.json').write_text(json.dumps(proof,indent=2)+'\n')
         else:write_layout(g,folder,include_demo=False,export_all_custom=True)
         (folder/'media').mkdir(exist_ok=True);shutil.copyfile(audio,folder/'media'/audio.name)

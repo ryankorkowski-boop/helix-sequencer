@@ -90,7 +90,10 @@ def test_showcase_drummer_exports_source_depth_and_materials():
     assert proof['source_sha256'] == SOURCE_SHA256
     assert all(item['watertight'] and item['depth'] > 0 for item in proof['closed_components'])
     assert proof['resolved_strikes'] == 3
-    assert len(set(states)) > 1
+    assert set(states) == {'left', 'right', 'HAT', 'KICK'}
+    assert states['HAT'][9] == 'SOURCE_POSE_HAT_CONTACT'
+    assert states['KICK'][3] == 'SOURCE_POSE_KICK_CONTACT'
+    assert any('SNARE' in clock[14] for clock in (states['left'], states['right']))
     assert all(drummer.submodels[target + '_SURFACE'] for target in TARGETS)
     assert len({drummer.colors[n - 1] for n in drummer.submodels['BASE_DIM']}) > 40
     kick = drummer.points[[n - 1 for n in drummer.submodels[TARGETS[0] + '_SURFACE']]]

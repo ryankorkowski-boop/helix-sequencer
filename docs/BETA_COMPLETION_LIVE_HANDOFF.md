@@ -1,3 +1,10 @@
+## 13 November — follow-up on the band and vocal review
+
+- [x] Owner rejected the drummer logic in the 35-second Phoneme Test Hook repair review. Vocal accuracy improved but remains imperfect, and the owner identified this recording as especially difficult training material. This feedback grants no approval.
+- [x] Split the native V3 drummer into independent left-hand, right-hand, hi-hat pedal and kick beater pose lanes. Preserve measured stick contacts before quantizing transit poses, and give kit lighting source-velocity-sensitive envelopes.
+- [ ] Drum-source attribution remains open. Both the original-mix and local-stem runs of the historical detector return predominantly cymbal and hi-hat cues for Helix Motion. Source qualification and artistic review still gate drummer acceptance.
+- [ ] Keep all remaining songs, PR #188 and beta distribution held.
+
 ## 13 November — owner rejection of the refreshed pilot
 
 - [x] Owner rejected the exact residential-visibility cut (MP4 SHA-256 `e063a01df2d00c681c25ef545b1dab89238eb2a1cc8c30bfcfeb4dfb73a6217a`). The guitar was off, the bass did not visibly perform, the drummer did not play correctly, and the singers and both singing-face layouts did not sing. The concept improved, with more realistic residential proportions and independent prop grouping, routing and layering still requested.
