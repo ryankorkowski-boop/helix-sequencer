@@ -1,0 +1,49 @@
+<?xml version='1.0' encoding='utf-8'?>
+<xrgb>
+  <!-- Helix showcase12 fixture. Synthetic geometry. No imported show data. -->
+  <models>
+    <model name="Roofline" DisplayAs="Poly Line" StringType="RGB Nodes" CustomColor="#FFB000" TagColour="#FFB000" Antialias="1" PixelSize="2" Transparency="0" LayoutGroup="Default" Dir="L" StartSide="B" WorldPosX="600.0000" WorldPosY="580.0000" WorldPosZ="0.0000" X2="1040.0000" Y2="40.0000" Z2="0.0000" ScaleX="1.0000" ScaleY="1.0000" ScaleZ="1.0000" versionNumber="7" StartChannel="1" NumPoints="8" PointData="-520.0000,-20.0000,0.0000,-371.4286,-14.2857,0.0000,-222.8571,-8.5714,0.0000,-74.2857,-2.8571,0.0000,74.2857,2.8571,0.0000,222.8571,8.5714,0.0000,371.4286,14.2857,0.0000,520.0000,20.0000,0.0000" parm1="1" parm2="80">
+      <ControllerConnection Protocol="ws2811" />
+    </model>
+    <model name="Eaves" DisplayAs="Poly Line" StringType="RGB Nodes" CustomColor="#FF4FA3" TagColour="#FF4FA3" Antialias="1" PixelSize="2" Transparency="0" LayoutGroup="Default" Dir="L" StartSide="B" WorldPosX="600.0000" WorldPosY="500.0000" WorldPosZ="0.0000" X2="1000.0000" Y2="4.0000" Z2="0.0000" ScaleX="1.0000" ScaleY="1.0000" ScaleZ="1.0000" versionNumber="7" StartChannel="241" NumPoints="6" PointData="-500.0000,0.0000,0.0000,-300.0000,0.0000,0.0000,-100.0000,0.0000,0.0000,100.0000,0.0000,0.0000,300.0000,0.0000,0.0000,500.0000,0.0000,0.0000" parm1="1" parm2="60">
+      <ControllerConnection Protocol="ws2811" />
+    </model>
+    <model name="Door Outline" DisplayAs="Poly Line" StringType="RGB Nodes" CustomColor="#F4F1DE" TagColour="#F4F1DE" Antialias="1" PixelSize="2" Transparency="0" LayoutGroup="Default" Dir="L" StartSide="B" WorldPosX="596.0000" WorldPosY="340.0000" WorldPosZ="0.0000" X2="90.0000" Y2="150.0000" Z2="0.0000" ScaleX="1.0000" ScaleY="1.0000" ScaleZ="1.0000" versionNumber="7" StartChannel="421" NumPoints="5" PointData="-36.0000,-60.0000,0.0000,54.0000,-60.0000,0.0000,54.0000,90.0000,0.0000,-36.0000,90.0000,0.0000,-36.0000,-60.0000,0.0000" parm1="1" parm2="40">
+      <ControllerConnection Protocol="ws2811" />
+    </model>
+    <model name="Window Frame 1" DisplayAs="Window Frame" StringType="RGB Nodes" CustomColor="#7AA2FF" TagColour="#7AA2FF" Antialias="1" PixelSize="2" Transparency="0" LayoutGroup="Default" Dir="L" StartSide="B" WorldPosX="388.0000" WorldPosY="456.0000" WorldPosZ="0.0000" X2="120.0000" Y2="90.0000" Z2="0.0000" ScaleX="1.0000" ScaleY="1.0000" ScaleZ="1.0000" versionNumber="7" StartChannel="541" NumPoints="5" PointData="-48.0000,-36.0000,0.0000,72.0000,-36.0000,0.0000,72.0000,54.0000,0.0000,-48.0000,54.0000,0.0000,-48.0000,-36.0000,0.0000" parm1="1" parm2="36">
+      <ControllerConnection Protocol="ws2811" />
+    </model>
+    <model name="Window Frame 2" DisplayAs="Window Frame" StringType="RGB Nodes" CustomColor="#7AA2FF" TagColour="#7AA2FF" Antialias="1" PixelSize="2" Transparency="0" LayoutGroup="Default" Dir="L" StartSide="B" WorldPosX="828.0000" WorldPosY="456.0000" WorldPosZ="0.0000" X2="120.0000" Y2="90.0000" Z2="0.0000" ScaleX="1.0000" ScaleY="1.0000" ScaleZ="1.0000" versionNumber="7" StartChannel="649" NumPoints="5" PointData="-48.0000,-36.0000,0.0000,72.0000,-36.0000,0.0000,72.0000,54.0000,0.0000,-48.0000,54.0000,0.0000,-48.0000,-36.0000,0.0000" parm1="1" parm2="36">
+      <ControllerConnection Protocol="ws2811" />
+    </model>
+    <model name="Mini Tree 1" DisplayAs="Tree Flat" StringType="RGB Nodes" CustomColor="#39E07A" TagColour="#39E07A" Antialias="1" PixelSize="2" Transparency="0" LayoutGroup="Default" Dir="L" StartSide="B" WorldPosX="180.0000" WorldPosY="202.0000" WorldPosZ="0.0000" X2="48.0000" Y2="110.0000" Z2="0.0000" ScaleX="1.0000" ScaleY="1.0000" ScaleZ="1.0000" versionNumber="7" StartChannel="757" NumPoints="5" PointData="0.0000,-22.0000,0.0000,-24.0000,-22.0000,0.0000,0.0000,88.0000,0.0000,24.0000,-22.0000,0.0000,0.0000,-22.0000,0.0000" parm1="5" parm2="10">
+      <ControllerConnection Protocol="ws2811" />
+    </model>
+    <model name="Mini Tree 2" DisplayAs="Tree Flat" StringType="RGB Nodes" CustomColor="#39E07A" TagColour="#39E07A" Antialias="1" PixelSize="2" Transparency="0" LayoutGroup="Default" Dir="L" StartSide="B" WorldPosX="320.0000" WorldPosY="202.0000" WorldPosZ="0.0000" X2="48.0000" Y2="110.0000" Z2="0.0000" ScaleX="1.0000" ScaleY="1.0000" ScaleZ="1.0000" versionNumber="7" StartChannel="907" NumPoints="5" PointData="0.0000,-22.0000,0.0000,-24.0000,-22.0000,0.0000,0.0000,88.0000,0.0000,24.0000,-22.0000,0.0000,0.0000,-22.0000,0.0000" parm1="5" parm2="10">
+      <ControllerConnection Protocol="ws2811" />
+    </model>
+    <model name="Mini Tree 3" DisplayAs="Tree Flat" StringType="RGB Nodes" CustomColor="#39E07A" TagColour="#39E07A" Antialias="1" PixelSize="2" Transparency="0" LayoutGroup="Default" Dir="L" StartSide="B" WorldPosX="460.0000" WorldPosY="202.0000" WorldPosZ="0.0000" X2="48.0000" Y2="110.0000" Z2="0.0000" ScaleX="1.0000" ScaleY="1.0000" ScaleZ="1.0000" versionNumber="7" StartChannel="1057" NumPoints="5" PointData="0.0000,-22.0000,0.0000,-24.0000,-22.0000,0.0000,0.0000,88.0000,0.0000,24.0000,-22.0000,0.0000,0.0000,-22.0000,0.0000" parm1="5" parm2="10">
+      <ControllerConnection Protocol="ws2811" />
+    </model>
+    <model name="Mini Tree 4" DisplayAs="Tree Flat" StringType="RGB Nodes" CustomColor="#39E07A" TagColour="#39E07A" Antialias="1" PixelSize="2" Transparency="0" LayoutGroup="Default" Dir="L" StartSide="B" WorldPosX="760.0000" WorldPosY="202.0000" WorldPosZ="0.0000" X2="48.0000" Y2="110.0000" Z2="0.0000" ScaleX="1.0000" ScaleY="1.0000" ScaleZ="1.0000" versionNumber="7" StartChannel="1207" NumPoints="5" PointData="0.0000,-22.0000,0.0000,-24.0000,-22.0000,0.0000,0.0000,88.0000,0.0000,24.0000,-22.0000,0.0000,0.0000,-22.0000,0.0000" parm1="5" parm2="10">
+      <ControllerConnection Protocol="ws2811" />
+    </model>
+    <model name="Mini Tree 5" DisplayAs="Tree Flat" StringType="RGB Nodes" CustomColor="#39E07A" TagColour="#39E07A" Antialias="1" PixelSize="2" Transparency="0" LayoutGroup="Default" Dir="L" StartSide="B" WorldPosX="900.0000" WorldPosY="202.0000" WorldPosZ="0.0000" X2="48.0000" Y2="110.0000" Z2="0.0000" ScaleX="1.0000" ScaleY="1.0000" ScaleZ="1.0000" versionNumber="7" StartChannel="1357" NumPoints="5" PointData="0.0000,-22.0000,0.0000,-24.0000,-22.0000,0.0000,0.0000,88.0000,0.0000,24.0000,-22.0000,0.0000,0.0000,-22.0000,0.0000" parm1="5" parm2="10">
+      <ControllerConnection Protocol="ws2811" />
+    </model>
+    <model name="Mini Tree 6" DisplayAs="Tree Flat" StringType="RGB Nodes" CustomColor="#39E07A" TagColour="#39E07A" Antialias="1" PixelSize="2" Transparency="0" LayoutGroup="Default" Dir="L" StartSide="B" WorldPosX="1040.0000" WorldPosY="202.0000" WorldPosZ="0.0000" X2="48.0000" Y2="110.0000" Z2="0.0000" ScaleX="1.0000" ScaleY="1.0000" ScaleZ="1.0000" versionNumber="7" StartChannel="1507" NumPoints="5" PointData="0.0000,-22.0000,0.0000,-24.0000,-22.0000,0.0000,0.0000,88.0000,0.0000,24.0000,-22.0000,0.0000,0.0000,-22.0000,0.0000" parm1="5" parm2="10">
+      <ControllerConnection Protocol="ws2811" />
+    </model>
+    <model name="Bush 1" DisplayAs="Poly Line" StringType="RGB Nodes" CustomColor="#2EC4B6" TagColour="#2EC4B6" Antialias="1" PixelSize="2" Transparency="0" LayoutGroup="Default" Dir="L" StartSide="B" WorldPosX="162.7692" WorldPosY="140.0000" WorldPosZ="0.0000" X2="72.0000" Y2="32.0000" Z2="0.0000" ScaleX="1.0000" ScaleY="1.0000" ScaleZ="1.0000" versionNumber="7" StartChannel="1657" NumPoints="13" PointData="33.2308,0.0000,0.0000,28.4077,8.0000,0.0000,15.2308,13.8564,0.0000,-2.7692,16.0000,0.0000,-20.7692,13.8564,0.0000,-33.9461,8.0000,0.0000,-38.7692,0.0000,0.0000,-33.9461,-8.0000,0.0000,-20.7692,-13.8564,0.0000,-2.7692,-16.0000,0.0000,15.2308,-13.8564,0.0000,28.4077,-8.0000,0.0000,33.2308,0.0000,0.0000" parm1="1" parm2="24">
+      <ControllerConnection Protocol="ws2811" />
+    </model>
+    <model name="Star 1" DisplayAs="Star" StringType="RGB Nodes" CustomColor="#FFE56B" TagColour="#FFE56B" Antialias="1" PixelSize="2" Transparency="0" LayoutGroup="Default" Dir="L" StartSide="B" WorldPosX="600.0000" WorldPosY="657.6364" WorldPosZ="0.0000" X2="49.4549" Y2="47.0344" Z2="0.0000" ScaleX="1.0000" ScaleY="1.0000" ScaleZ="1.0000" versionNumber="7" StartChannel="1729" NumPoints="11" PointData="0.0000,-23.6364,0.0000,6.4186,-6.4708,0.0000,24.7275,-5.6708,0.0000,10.3855,5.7381,0.0000,15.2824,23.3981,0.0000,0.0000,13.2836,0.0000,-15.2824,23.3981,0.0000,-10.3855,5.7381,0.0000,-24.7275,-5.6708,0.0000,-6.4186,-6.4708,0.0000,0.0000,-23.6364,0.0000" parm1="1" parm2="30" parm3="5">
+      <ControllerConnection Protocol="ws2811" />
+    </model>
+  </models>
+  <modelGroups>
+    <modelGroup name="Whole House" models="Roofline,Eaves,Door Outline,Window Frame 1,Window Frame 2,Mini Tree 1,Mini Tree 2,Mini Tree 3,Mini Tree 4,Mini Tree 5,Mini Tree 6,Bush 1,Star 1" layout="minimalGrid" GridSize="400" LayoutGroup="Default" />
+    <modelGroup name="All Mini Trees" models="Mini Tree 1,Mini Tree 2,Mini Tree 3,Mini Tree 4,Mini Tree 5,Mini Tree 6" layout="minimalGrid" GridSize="400" LayoutGroup="Default" />
+  </modelGroups>
+</xrgb>

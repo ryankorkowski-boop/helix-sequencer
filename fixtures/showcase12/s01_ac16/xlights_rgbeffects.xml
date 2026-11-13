@@ -1,0 +1,59 @@
+<?xml version='1.0' encoding='utf-8'?>
+<xrgb>
+  <!-- Helix showcase12 fixture. Synthetic geometry. No imported show data. -->
+  <models>
+    <model name="Roofline" DisplayAs="Single Line" StringType="Single Color White" CustomColor="#FFFFFF" TagColour="#FFFFFF" Antialias="1" PixelSize="2" Transparency="0" LayoutGroup="Default" Dir="L" StartSide="B" WorldPosX="600.0000" WorldPosY="580.0000" WorldPosZ="0.0000" X2="1040.0000" Y2="40.0000" Z2="0.0000" ScaleX="1.0000" ScaleY="1.0000" ScaleZ="1.0000" versionNumber="7" StartChannel="1" NumPoints="8" PointData="-520.0000,-20.0000,0.0000,-371.4286,-14.2857,0.0000,-222.8571,-8.5714,0.0000,-74.2857,-2.8571,0.0000,74.2857,2.8571,0.0000,222.8571,8.5714,0.0000,371.4286,14.2857,0.0000,520.0000,20.0000,0.0000" parm1="1" parm2="1" parm3="1">
+      <ControllerConnection Protocol="LOR Optimised" />
+    </model>
+    <model name="Eaves" DisplayAs="Single Line" StringType="Single Color Red" CustomColor="#FF0000" TagColour="#FF0000" Antialias="1" PixelSize="2" Transparency="0" LayoutGroup="Default" Dir="L" StartSide="B" WorldPosX="600.0000" WorldPosY="500.0000" WorldPosZ="0.0000" X2="1000.0000" Y2="4.0000" Z2="0.0000" ScaleX="1.0000" ScaleY="1.0000" ScaleZ="1.0000" versionNumber="7" StartChannel="2" NumPoints="6" PointData="-500.0000,0.0000,0.0000,-300.0000,0.0000,0.0000,-100.0000,0.0000,0.0000,100.0000,0.0000,0.0000,300.0000,0.0000,0.0000,500.0000,0.0000,0.0000" parm1="1" parm2="1" parm3="1">
+      <ControllerConnection Protocol="LOR Optimised" />
+    </model>
+    <model name="Door Outline" DisplayAs="Single Line" StringType="Single Color White" CustomColor="#FFFFFF" TagColour="#FFFFFF" Antialias="1" PixelSize="2" Transparency="0" LayoutGroup="Default" Dir="L" StartSide="B" WorldPosX="592.0000" WorldPosY="336.0000" WorldPosZ="0.0000" X2="80.0000" Y2="140.0000" Z2="0.0000" ScaleX="1.0000" ScaleY="1.0000" ScaleZ="1.0000" versionNumber="7" StartChannel="3" NumPoints="5" PointData="-32.0000,-56.0000,0.0000,48.0000,-56.0000,0.0000,48.0000,84.0000,0.0000,-32.0000,84.0000,0.0000,-32.0000,-56.0000,0.0000" parm1="1" parm2="1" parm3="1">
+      <ControllerConnection Protocol="LOR Optimised" />
+    </model>
+    <model name="Window Frame 1" DisplayAs="Window Frame" StringType="Single Color White" CustomColor="#FFFFFF" TagColour="#FFFFFF" Antialias="1" PixelSize="2" Transparency="0" LayoutGroup="Default" Dir="L" StartSide="B" WorldPosX="404.0000" WorldPosY="452.0000" WorldPosZ="0.0000" X2="110.0000" Y2="80.0000" Z2="0.0000" ScaleX="1.0000" ScaleY="1.0000" ScaleZ="1.0000" versionNumber="7" StartChannel="4" NumPoints="5" PointData="-44.0000,-32.0000,0.0000,66.0000,-32.0000,0.0000,66.0000,48.0000,0.0000,-44.0000,48.0000,0.0000,-44.0000,-32.0000,0.0000" parm1="1" parm2="1" parm3="1">
+      <ControllerConnection Protocol="LOR Optimised" />
+    </model>
+    <model name="Window Frame 2" DisplayAs="Window Frame" StringType="Single Color White" CustomColor="#FFFFFF" TagColour="#FFFFFF" Antialias="1" PixelSize="2" Transparency="0" LayoutGroup="Default" Dir="L" StartSide="B" WorldPosX="804.0000" WorldPosY="452.0000" WorldPosZ="0.0000" X2="110.0000" Y2="80.0000" Z2="0.0000" ScaleX="1.0000" ScaleY="1.0000" ScaleZ="1.0000" versionNumber="7" StartChannel="5" NumPoints="5" PointData="-44.0000,-32.0000,0.0000,66.0000,-32.0000,0.0000,66.0000,48.0000,0.0000,-44.0000,48.0000,0.0000,-44.0000,-32.0000,0.0000" parm1="1" parm2="1" parm3="1">
+      <ControllerConnection Protocol="LOR Optimised" />
+    </model>
+    <model name="Mini Tree 1" DisplayAs="Tree Flat" StringType="Single Color Green" CustomColor="#00FF00" TagColour="#00FF00" Antialias="1" PixelSize="2" Transparency="0" LayoutGroup="Default" Dir="L" StartSide="B" WorldPosX="220.0000" WorldPosY="240.0000" WorldPosZ="0.0000" X2="50.0000" Y2="100.0000" Z2="0.0000" ScaleX="1.0000" ScaleY="1.0000" ScaleZ="1.0000" versionNumber="7" StartChannel="6" NumPoints="5" PointData="0.0000,-20.0000,0.0000,-25.0000,-20.0000,0.0000,0.0000,80.0000,0.0000,25.0000,-20.0000,0.0000,0.0000,-20.0000,0.0000" parm1="1" parm2="1" parm3="1">
+      <ControllerConnection Protocol="LOR Optimised" />
+    </model>
+    <model name="Mini Tree 2" DisplayAs="Tree Flat" StringType="Single Color Green" CustomColor="#00FF00" TagColour="#00FF00" Antialias="1" PixelSize="2" Transparency="0" LayoutGroup="Default" Dir="L" StartSide="B" WorldPosX="420.0000" WorldPosY="240.0000" WorldPosZ="0.0000" X2="50.0000" Y2="100.0000" Z2="0.0000" ScaleX="1.0000" ScaleY="1.0000" ScaleZ="1.0000" versionNumber="7" StartChannel="7" NumPoints="5" PointData="0.0000,-20.0000,0.0000,-25.0000,-20.0000,0.0000,0.0000,80.0000,0.0000,25.0000,-20.0000,0.0000,0.0000,-20.0000,0.0000" parm1="1" parm2="1" parm3="1">
+      <ControllerConnection Protocol="LOR Optimised" />
+    </model>
+    <model name="Mini Tree 3" DisplayAs="Tree Flat" StringType="Single Color Green" CustomColor="#00FF00" TagColour="#00FF00" Antialias="1" PixelSize="2" Transparency="0" LayoutGroup="Default" Dir="L" StartSide="B" WorldPosX="780.0000" WorldPosY="240.0000" WorldPosZ="0.0000" X2="50.0000" Y2="100.0000" Z2="0.0000" ScaleX="1.0000" ScaleY="1.0000" ScaleZ="1.0000" versionNumber="7" StartChannel="8" NumPoints="5" PointData="0.0000,-20.0000,0.0000,-25.0000,-20.0000,0.0000,0.0000,80.0000,0.0000,25.0000,-20.0000,0.0000,0.0000,-20.0000,0.0000" parm1="1" parm2="1" parm3="1">
+      <ControllerConnection Protocol="LOR Optimised" />
+    </model>
+    <model name="Mini Tree 4" DisplayAs="Tree Flat" StringType="Single Color Green" CustomColor="#00FF00" TagColour="#00FF00" Antialias="1" PixelSize="2" Transparency="0" LayoutGroup="Default" Dir="L" StartSide="B" WorldPosX="980.0000" WorldPosY="240.0000" WorldPosZ="0.0000" X2="50.0000" Y2="100.0000" Z2="0.0000" ScaleX="1.0000" ScaleY="1.0000" ScaleZ="1.0000" versionNumber="7" StartChannel="9" NumPoints="5" PointData="0.0000,-20.0000,0.0000,-25.0000,-20.0000,0.0000,0.0000,80.0000,0.0000,25.0000,-20.0000,0.0000,0.0000,-20.0000,0.0000" parm1="1" parm2="1" parm3="1">
+      <ControllerConnection Protocol="LOR Optimised" />
+    </model>
+    <model name="Wreath 1" DisplayAs="Single Line" StringType="Single Color Green" CustomColor="#00FF00" TagColour="#00FF00" Antialias="1" PixelSize="2" Transparency="0" LayoutGroup="Default" Dir="L" StartSide="B" WorldPosX="602.1538" WorldPosY="470.0000" WorldPosZ="0.0000" X2="56.0000" Y2="56.0000" Z2="0.0000" ScaleX="1.0000" ScaleY="1.0000" ScaleZ="1.0000" versionNumber="7" StartChannel="10" NumPoints="13" PointData="25.8462,0.0000,0.0000,22.0949,14.0000,0.0000,11.8462,24.2487,0.0000,-2.1538,28.0000,0.0000,-16.1538,24.2487,0.0000,-26.4026,14.0000,0.0000,-30.1538,0.0000,0.0000,-26.4026,-14.0000,0.0000,-16.1538,-24.2487,0.0000,-2.1538,-28.0000,0.0000,11.8462,-24.2487,0.0000,22.0949,-14.0000,0.0000,25.8462,0.0000,0.0000" parm1="1" parm2="1" parm3="1">
+      <ControllerConnection Protocol="LOR Optimised" />
+    </model>
+    <model name="Bush 1" DisplayAs="Single Line" StringType="Single Color Green" CustomColor="#00FF00" TagColour="#00FF00" Antialias="1" PixelSize="2" Transparency="0" LayoutGroup="Default" Dir="L" StartSide="B" WorldPosX="184.4444" WorldPosY="160.0000" WorldPosZ="0.0000" X2="80.0000" Y2="36.0000" Z2="0.0000" ScaleX="1.0000" ScaleY="1.0000" ScaleZ="1.0000" versionNumber="7" StartChannel="11" NumPoints="9" PointData="35.5556,0.0000,0.0000,23.8398,12.7279,0.0000,-4.4444,18.0000,0.0000,-32.7287,12.7279,0.0000,-44.4444,0.0000,0.0000,-32.7287,-12.7279,0.0000,-4.4444,-18.0000,0.0000,23.8398,-12.7279,0.0000,35.5556,0.0000,0.0000" parm1="1" parm2="1" parm3="1">
+      <ControllerConnection Protocol="LOR Optimised" />
+    </model>
+    <model name="Star 1" DisplayAs="Star" StringType="Single Color White" CustomColor="#FFFFFF" TagColour="#FFFFFF" Antialias="1" PixelSize="2" Transparency="0" LayoutGroup="Default" Dir="L" StartSide="B" WorldPosX="600.0000" WorldPosY="637.4545" WorldPosZ="0.0000" X2="53.2592" Y2="50.6525" Z2="0.0000" ScaleX="1.0000" ScaleY="1.0000" ScaleZ="1.0000" versionNumber="7" StartChannel="12" NumPoints="11" PointData="0.0000,-25.4545,0.0000,6.9124,-6.9686,0.0000,26.6296,-6.1070,0.0000,11.1844,6.1795,0.0000,16.4580,25.1979,0.0000,0.0000,14.3055,0.0000,-16.4580,25.1979,0.0000,-11.1844,6.1795,0.0000,-26.6296,-6.1070,0.0000,-6.9124,-6.9686,0.0000,0.0000,-25.4545,0.0000" parm1="1" parm2="1" parm3="1">
+      <ControllerConnection Protocol="LOR Optimised" />
+    </model>
+    <model name="Arch 1" DisplayAs="Poly Line" StringType="Single Color White" CustomColor="#FFFFFF" TagColour="#FFFFFF" Antialias="1" PixelSize="2" Transparency="0" LayoutGroup="Default" Dir="L" StartSide="B" WorldPosX="300.0000" WorldPosY="187.9835" WorldPosZ="0.0000" X2="180.0000" Y2="90.0000" Z2="0.0000" ScaleX="1.0000" ScaleY="1.0000" ScaleZ="1.0000" versionNumber="7" StartChannel="13" NumPoints="7" PointData="-90.0000,-47.9835,0.0000,-77.9423,-2.9835,0.0000,-45.0000,29.9588,0.0000,0.0000,42.0165,0.0000,45.0000,29.9588,0.0000,77.9423,-2.9835,0.0000,90.0000,-47.9835,0.0000" parm1="1" parm2="1" parm3="1">
+      <ControllerConnection Protocol="LOR Optimised" />
+    </model>
+    <model name="Arch 2" DisplayAs="Poly Line" StringType="Single Color White" CustomColor="#FFFFFF" TagColour="#FFFFFF" Antialias="1" PixelSize="2" Transparency="0" LayoutGroup="Default" Dir="L" StartSide="B" WorldPosX="900.0000" WorldPosY="187.9835" WorldPosZ="0.0000" X2="180.0000" Y2="90.0000" Z2="0.0000" ScaleX="1.0000" ScaleY="1.0000" ScaleZ="1.0000" versionNumber="7" StartChannel="14" NumPoints="7" PointData="-90.0000,-47.9835,0.0000,-77.9423,-2.9835,0.0000,-45.0000,29.9588,0.0000,0.0000,42.0165,0.0000,45.0000,29.9588,0.0000,77.9423,-2.9835,0.0000,90.0000,-47.9835,0.0000" parm1="1" parm2="1" parm3="1">
+      <ControllerConnection Protocol="LOR Optimised" />
+    </model>
+    <model name="Candy Cane 1" DisplayAs="Candy Canes" StringType="Single Color Red" CustomColor="#FF0000" TagColour="#FF0000" Antialias="1" PixelSize="2" Transparency="0" LayoutGroup="Default" Dir="L" StartSide="B" WorldPosX="712.2676" WorldPosY="260.7200" WorldPosZ="0.0000" X2="27.2980" Y2="120.8000" Z2="0.0000" ScaleX="1.0000" ScaleY="1.0000" ScaleZ="1.0000" versionNumber="7" StartChannel="15" NumPoints="10" PointData="-12.2676,-80.7200,0.0000,-12.2676,-15.9200,0.0000,-12.2676,-15.9200,0.0000,-0.1189,-13.1471,0.0000,9.6237,-5.3777,0.0000,15.0304,5.8494,0.0000,15.0304,18.3106,0.0000,9.6237,29.5377,0.0000,-0.1189,37.3071,0.0000,-12.2676,40.0800,0.0000" parm1="1" parm2="1" parm3="1">
+      <ControllerConnection Protocol="LOR Optimised" />
+    </model>
+    <model name="Flood Light 1" DisplayAs="Single Line" StringType="Single Color White" CustomColor="#FFFFFF" TagColour="#FFFFFF" Antialias="1" PixelSize="2" Transparency="0" LayoutGroup="Default" Dir="L" StartSide="B" WorldPosX="670.0000" WorldPosY="80.0000" WorldPosZ="0.0000" X2="60.0000" Y2="4.0000" Z2="0.0000" ScaleX="1.0000" ScaleY="1.0000" ScaleZ="1.0000" versionNumber="7" StartChannel="16" NumPoints="2" PointData="-30.0000,0.0000,0.0000,30.0000,0.0000,0.0000" parm1="1" parm2="1" parm3="1">
+      <ControllerConnection Protocol="LOR Optimised" />
+    </model>
+  </models>
+  <modelGroups>
+    <modelGroup name="Whole House" models="Roofline,Eaves,Door Outline,Window Frame 1,Window Frame 2,Mini Tree 1,Mini Tree 2,Mini Tree 3,Mini Tree 4,Wreath 1,Bush 1,Star 1,Arch 1,Arch 2,Candy Cane 1,Flood Light 1" layout="minimalGrid" GridSize="400" LayoutGroup="Default" />
+    <modelGroup name="All Mini Trees" models="Mini Tree 1,Mini Tree 2,Mini Tree 3,Mini Tree 4" layout="minimalGrid" GridSize="400" LayoutGroup="Default" />
+    <modelGroup name="All Arches" models="Arch 1,Arch 2" layout="minimalGrid" GridSize="400" LayoutGroup="Default" />
+  </modelGroups>
+</xrgb>
