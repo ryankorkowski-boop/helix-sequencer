@@ -19,10 +19,11 @@ from tools.phoneme_source import digest
 from tools.render_full_song_comparison import render_panel, write_json
 
 
-def _layout(number, plan, *, duration, **kwargs):
+def _layout(number, plan, *, duration, variant="extreme_skeleton_van", **kwargs):
     if number != 1:
         raise ValueError("Only one parade-float scene is supported")
-    return build(plan, duration=duration)
+    from models.brewery_van_variants import build as build_van
+    return build_van(variant, plan, duration=duration)
 
 
 def add_macro_groups(folder: Path):
@@ -68,7 +69,10 @@ def add_macro_groups(folder: Path):
     return receipt
 
 
-def run(audio: Path, sha256: str, work: Path, xlights: Path):
+def run(audio: Path, sha256: str, work: Path, xlights: Path, variant="extreme_skeleton_van"):
+    from models.brewery_van_variants import VARIANTS, inventory as van_inventory
+    if variant not in VARIANTS:
+        raise ValueError(f"Unknown van variant: {variant}")
     audio, work, xlights = Path(audio), Path(work), Path(xlights)
     if audio.name != AUDIO:
         raise ValueError(f"Expected exact source filename: {AUDIO}")
@@ -121,26 +125,28 @@ def run(audio: Path, sha256: str, work: Path, xlights: Path):
                 or len(plans) != 1
                 or digest(plans[0]) != source.get("plan_sha256")):
             raise ValueError("Existing production cache belongs to different source or code")
-    layouts = work / "parade_layouts"
+    layouts = work / "parade_layouts" / variant
     folder = layouts / "01"
     if not folder.exists():
         build_native_layout(production, None, layouts, numbers=(1,),
-                            names=(TITLE,), layout_builder=_layout,
+                            names=(f"Drastic Measures {variant}",),
+                            layout_builder=lambda n, p, duration, **kw: _layout(n, p, duration=duration, variant=variant),
                             preserve_addresses=(), instrumental=True,
                             expected_sha256=sha256)
     if not (folder / "run_manifest.json").exists():
         raise RuntimeError("No source-bound native layout manifest")
-    add_macro_groups(folder)
+    if variant == "extreme_skeleton_van":
+        add_macro_groups(folder)
     row, report, fseq = render_panel(folder, audio, xlights)
     if report["status"] != "success":
         raise RuntimeError("Native render not verified")
     receipt = dict(source_sha256=sha256, audio_name=AUDIO,
-                   layout=TITLE, design=inventory(),
+                   layout=variant, design=van_inventory(variant),
                    native_receipt=report,
                    fseq_sha256=digest(fseq),
                    xsq_sha256=digest(folder / row["xsq"]),
                    source_bound=True, owner_approved=False)
-    write_json(work / "parade_floats_verified.json", receipt)
+    write_json(work / f"{variant}_verified.json", receipt)
     return receipt
 
 
@@ -150,8 +156,9 @@ def main():
     parser.add_argument("--sha256",required=True)
     parser.add_argument("--work",type=Path,required=True)
     parser.add_argument("--xlights",type=Path,required=True)
+    parser.add_argument("--variant", choices=("clean_matrix_van", "extreme_skeleton_van"), default="extreme_skeleton_van")
     a=parser.parse_args()
-    print(json.dumps(run(a.audio,a.sha256,a.work,a.xlights),indent=2))
+    print(json.dumps(run(a.audio,a.sha256,a.work,a.xlights,a.variant),indent=2))
 
 
 if __name__=="__main__":
