@@ -130,7 +130,7 @@ jobs:
             pilot-work/polar-prism/parade_layouts/01/xlights_rgbeffects.xml
             pilot-work/polar-prism/parade_layouts/01/xlights_networks.xml
             pilot-work/polar-prism/parade_layouts/01/models/*.xmodel
-            pilot-work/polar-prism/parade_layouts/01/native_preview/**/*
+            pilot-work/polar-prism/parade_layouts/01/native-preview-*/**/*
       - name: Preserve failures as diagnostics, never approval
         if: failure()
         uses: actions/upload-artifact@v4
