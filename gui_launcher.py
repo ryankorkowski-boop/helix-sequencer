@@ -9,6 +9,8 @@ import tkinter as tk
 from tkinter import filedialog, messagebox, ttk
 
 
+from core.helix_version import TITLE, VERSION
+
 ROOT = Path(__file__).resolve().parent
 
 
@@ -22,7 +24,7 @@ def _best_layout_file(folder: Path) -> Path:
 class HelixGui(tk.Tk):
     def __init__(self) -> None:
         super().__init__()
-        self.title("Helix Sequence Weaver - Helixville Control Center")
+        self.title(TITLE)
         self.geometry("1060x760")
         self.minsize(960, 680)
 
@@ -64,7 +66,10 @@ class HelixGui(tk.Tk):
         top = ttk.LabelFrame(frame, text="Show Context")
         top.pack(fill=tk.X, **pad)
 
-        ttk.Label(top, text="Layout Preset").grid(row=0, column=0, sticky="w", **pad)
+        ttk.Label(top, text=TITLE).grid(row=0, column=0, columnspan=2, sticky="w", **pad)
+        ttk.Button(top, text="About", command=self._show_about).grid(row=0, column=2, sticky="w", **pad)
+
+        ttk.Label(top, text="Layout Preset").grid(row=1, column=0, sticky="w", **pad)
         preset_combo = ttk.Combobox(
             top,
             textvariable=self.layout_preset_var,
@@ -72,36 +77,36 @@ class HelixGui(tk.Tk):
             state="readonly",
             width=20,
         )
-        preset_combo.grid(row=0, column=1, sticky="w", **pad)
+        preset_combo.grid(row=1, column=1, sticky="w", **pad)
         preset_combo.bind("<<ComboboxSelected>>", lambda _event: self._apply_layout_preset())
 
         ttk.Button(top, text="Build/Refresh Helixville", command=self._build_helixville).grid(
-            row=0, column=2, sticky="w", **pad
+            row=1, column=2, sticky="w", **pad
         )
 
-        ttk.Label(top, text="Template XSQ").grid(row=1, column=0, sticky="w", **pad)
-        ttk.Entry(top, textvariable=self.template_var, width=86).grid(row=1, column=1, columnspan=2, sticky="we", **pad)
+        ttk.Label(top, text="Template XSQ").grid(row=2, column=0, sticky="w", **pad)
+        ttk.Entry(top, textvariable=self.template_var, width=86).grid(row=2, column=1, columnspan=2, sticky="we", **pad)
         ttk.Button(top, text="Browse", command=lambda: self._browse_file(self.template_var, [("XSQ", "*.xsq")])).grid(
-            row=1, column=3, sticky="w", **pad
+            row=2, column=3, sticky="w", **pad
         )
 
-        ttk.Label(top, text="Audio File").grid(row=2, column=0, sticky="w", **pad)
-        ttk.Entry(top, textvariable=self.audio_var, width=86).grid(row=2, column=1, columnspan=2, sticky="we", **pad)
+        ttk.Label(top, text="Audio File").grid(row=3, column=0, sticky="w", **pad)
+        ttk.Entry(top, textvariable=self.audio_var, width=86).grid(row=3, column=1, columnspan=2, sticky="we", **pad)
         ttk.Button(top, text="Browse", command=lambda: self._browse_file(self.audio_var, [("Audio", "*.wav *.mp3 *.flac *.ogg *.m4a")])).grid(
-            row=2, column=3,
+            row=3, column=3,
             sticky="w",
             **pad,
         )
 
-        ttk.Label(top, text="Layout File").grid(row=3, column=0, sticky="w", **pad)
-        ttk.Entry(top, textvariable=self.layout_var, width=86).grid(row=3, column=1, columnspan=2, sticky="we", **pad)
+        ttk.Label(top, text="Layout File").grid(row=4, column=0, sticky="w", **pad)
+        ttk.Entry(top, textvariable=self.layout_var, width=86).grid(row=4, column=1, columnspan=2, sticky="we", **pad)
         ttk.Button(top, text="Browse", command=lambda: self._browse_file(self.layout_var, [("xLights Layout", "*.xml *.xbkp")])).grid(
-            row=3, column=3, sticky="w", **pad
+            row=4, column=3, sticky="w", **pad
         )
 
-        ttk.Label(top, text="Output Folder").grid(row=4, column=0, sticky="w", **pad)
-        ttk.Entry(top, textvariable=self.output_var, width=86).grid(row=4, column=1, columnspan=2, sticky="we", **pad)
-        ttk.Button(top, text="Browse", command=lambda: self._browse_folder(self.output_var)).grid(row=4, column=3, sticky="w", **pad)
+        ttk.Label(top, text="Output Folder").grid(row=5, column=0, sticky="w", **pad)
+        ttk.Entry(top, textvariable=self.output_var, width=86).grid(row=5, column=1, columnspan=2, sticky="we", **pad)
+        ttk.Button(top, text="Browse", command=lambda: self._browse_folder(self.output_var)).grid(row=5, column=3, sticky="w", **pad)
 
         controls = ttk.LabelFrame(frame, text="Engine Controls")
         controls.pack(fill=tk.X, **pad)
@@ -188,6 +193,17 @@ class HelixGui(tk.Tk):
                 self.output_var.set(str(ROOT / "allmodels" / "outputs"))
             else:
                 self.output_var.set(str(ROOT / "outputs"))
+
+    def _show_about(self) -> None:
+        messagebox.showinfo(
+            "About Helix",
+            (
+                f"{TITLE}\n\n"
+                f"Version {VERSION}.\n\n"
+                "Section colors are written into the sequence palette table. "
+                "White is reserved for strobe, twinkle, shimmer, snowflake, and sparkle."
+            ),
+        )
 
     def _build_helixville(self) -> None:
         cmd = [sys.executable, str(ROOT / "tools" / "build_helixville_layout.py")]

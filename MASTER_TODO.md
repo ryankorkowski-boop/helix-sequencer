@@ -77,6 +77,30 @@ Do not mark complete from unit tests alone.
 
 ## Change Ledger
 
+### 2026-11-13 — Beta 1.3 packages the palette fix for Windows and Android
+**Agent:** Cursor cloud agent
+**Branch:** `cursor/beta-1-3-release-1aae`
+
+**Goal:** Ship the white-output fix from pull request #218 in the Windows portable zip and Android APK testers install, labeled Beta 1.3.
+
+**Changed files/modules:**
+- Merged #218 (`core/effect_engine.py`, `tests/test_palette_not_white.py`).
+- `core/helix_version.py`, desktop title/About, CLI `--version`, Android `versionName` `1.3.0-beta` / versionCode 9, and the Windows version resource.
+- Restored the November Drive packaging shape: `windows_portable.spec` one-folder zip and the Chaquopy `android/` debug project, with `.github/workflows/beta-v1.3-packages.yml`.
+- `tools/palette_smoke.py` generates a synthetic sequence and fails if effects still resolve to a white-only palette.
+
+**Intentionally preserved behavior:** Effect choice, timing, and model targeting from the merged default branch. A template palette that already enables a chromatic color is left unchanged. Release signing still requires the owner's keystore; the handoff APK stays the debug build testers already install. Layouts that are not on this branch were dropped from the Android sample list.
+
+**New behavior:** User-visible version is Beta 1.3. Packaged effects point at section palette rows instead of a white-only palette 0.
+
+**Tests/evidence:** `tests/test_palette_not_white.py` and `tests/test_helix_version.py`. Full suite: 916 passed, 19 failed, 5 skipped, 1 xfailed, 1 collection error in `tests/test_drum_mapping.py`. The 19 failures are the pre-existing band, drummer, preview-mux, and xsq-validation tests. A local synthetic-tone sequence wrote 2128 named effects, none on a white-only palette, across palette indexes 3–8. Packaged Windows and Android evidence is produced by `.github/workflows/beta-v1.3-packages.yml`.
+
+**Limitations:** The historical `windows-portable.yml` and `android-offline.yml` files are not on this branch, so the new dispatch workflow rebuilds that package shape without the emulator matrix or release keystore. Android code that depended on `core.band_visibility`, `core.output_provenance`, and later-only CLI flags is skipped when those modules are absent. The separate palette-variety pull request is not included.
+
+**Deferred work:** Production Android signing (`HELIX_ANDROID_KEYSTORE`, `HELIX_ANDROID_STORE_PASSWORD`, `HELIX_ANDROID_KEY_ALIAS`, `HELIX_ANDROID_KEY_PASSWORD`) and the API 30/36 emulator matrix from `android-offline.yml`.
+
+**Regression risks:** Desktop About/title text moved the layout-preset row down one. Android LOR runs use AC-safe effects without the later source-LMS binder.
+
 ### 2026-11-13 — Default sequences no longer collapse to a white-only palette
 **Agent:** Cursor cloud agent
 **Branch:** `cursor/rich-palettes-f36b`

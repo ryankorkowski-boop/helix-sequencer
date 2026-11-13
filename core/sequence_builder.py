@@ -8,6 +8,7 @@ from typing import Iterable
 
 from core import engine_profiles
 from core.effects_orchestration_bridge import EffectsOrchestrationRunReport, run_effects_orchestration
+from core.helix_version import TITLE, VERSION
 from core.prime_beat_grid import prime_beat_grid_args
 from core.run_config import RunConfig
 from core.run_manager import RunContext, RunManager
@@ -493,6 +494,11 @@ def build_parser() -> argparse.ArgumentParser:
             "  --no-snap: Disable Prime BeatGrid timing alignment."
         ),
         formatter_class=argparse.RawDescriptionHelpFormatter,
+    )
+    parser.add_argument(
+        "--version",
+        action="version",
+        version=f"{TITLE} ({VERSION})",
     )
     parser.add_argument(
         "--list-profiles",
