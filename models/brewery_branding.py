@@ -85,6 +85,45 @@ def add_brewery_details(g):
         m.attrs.update(BlackTransparency="100", PixelSize="8", Antialias="1")
 
 
+
+def add_screw_press_emblem(g):
+    """Source-informed screw-press D/M outline, native addressable 3D nodes.
+
+    This is an editable geometric interpretation of the owner-supplied
+    Facebook screenshot, not a pixel-perfect licensed vector trace.
+    """
+    from models.approval_layouts import structures
+    s = structures(g)
+    # Distinct depth layers let the curved D cast a luminous parallax rim.
+    start = len(g.models)
+    for z in (84, 87, 90):
+        s.path("PRESS_D_CURVE",
+               [(-9, 22, z), (5, 22, z), (16, 19, z),
+                (20, 12, z), (20, 4, z), (16, -3, z),
+                (5, -7, z), (-9, -7, z)],
+               "BREWERY_EMBLEM", 2, count=180)
+        s.path("PRESS_D_SPINE", [(-9, -7, z), (-9, 22, z)],
+               "BREWERY_EMBLEM", 2, count=70)
+    s.path("PRESS_TOP_BAR", [(-15, 22, 89), (1, 22, 89)],
+           "BREWERY_EMBLEM", 1, count=65)
+    s.path("PRESS_SCREW", [(-9, 26, 89), (-9, -9, 89)],
+           "BREWERY_EMBLEM", 0, count=105)
+    s.path("PRESS_HANDLE", [(-17, 28, 89), (-1, 28, 89)],
+           "BREWERY_EMBLEM", 0, count=65)
+    s.path("PRESS_M", [(-8, 9, 91), (-2, 15, 91), (4, 8, 91),
+                        (10, 15, 91), (10, 5, 91)],
+           "BREWERY_EMBLEM", 1, count=125)
+    for m in g.models[start:]:
+        m.zone = "BREWERY_EMBLEM"
+        m.details.update(brand_emblem=True, musical_role="guitarist",
+                         parade_layer="BREWERY_EMBLEM",
+                         logo_reference="owner_supplied_facebook_screenshot",
+                         approximation_not_exact_trace=True,
+                         spatial_axis="y", source_display_floor=.55)
+        m.attrs.update(BlackTransparency="100", PixelSize="10",
+                       Antialias="1")
+
+
 def add_brewery_signage(g):
     # Physical front/rear and both long sides. X/z positions are design units,
     # not a street-legal vehicle dimension.
@@ -97,3 +136,4 @@ def add_brewery_signage(g):
     for text, name, pos, plane, scale in signs:
         add_sign(g, text, name=name, pos=pos, plane=plane, size=scale)
     add_brewery_details(g)
+    add_screw_press_emblem(g)
