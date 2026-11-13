@@ -2,6 +2,10 @@
 
 Issue #216 and draft PR #217 track the one-song pilot. Both previous Helix Motion videos, including run 43274451494 at b84f7c1, remain owner-rejected. A separate Phoneme Test Hook render exercises vocal models. The other 82 songs require explicit pilot approval. PR #188 and public release have separate approval gates.
 
+## Current review files
+
+The [refreshed Helix Motion pilot](https://drive.google.com/file/d/16nqUJHo-cBHOoW2pLgFX-aRTN1MPGdlP/view?usp=drivesdk) uses nine fresh native preview renders and seven cells from the preceding native composite. The facade placement changed; the decoded FSEQ channel values matched on all nine panels. The [live handoff](BETA_COMPLETION_LIVE_HANDOFF.md) contains source hashes, the editable native update, singer close-up, test results and remaining acceptance work.
+
 ## Residential layout references
 
 - Light-O-Rama's [sequence layouts](https://store.lightorama.com/pages/sequence-layouts) and [48-channel layout drawing](https://www1.lightorama.com/wp-content/uploads/TypicalLayout48Channels.pdf) show how house circuits, mini trees and arches can share a residential installation. The 16- and 64-channel builds here use independently addressed circuits, with editable custom prop geometry.

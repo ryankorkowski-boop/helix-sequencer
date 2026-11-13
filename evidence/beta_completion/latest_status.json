@@ -2822,8 +2822,90 @@
       "android_showcase_parity": "BLOCKED",
       "android_variant_preview_host_regression": "PASS",
       "native_facade_short_ab": "PASS",
-      "native_full_length_refresh": "IN_PROGRESS",
-      "owner_approved": false
+      "native_full_length_refresh": "DELIVERED_AWAITING_OWNER_APPROVAL",
+      "owner_approved": false,
+      "source_changes": "65433a984e1420ebbb2e2e853a05220c0f245798",
+      "vocal_cue_compatibility_fix": "cf4b19de9ed6de425c8a8a1079478b807ebe6cfd",
+      "pilot_url": "https://drive.google.com/file/d/16nqUJHo-cBHOoW2pLgFX-aRTN1MPGdlP/view?usp=drivesdk",
+      "pilot_verification_url": "https://drive.google.com/file/d/1X2VperJWIbmrAgoWj0j1n5CCfLwNfRhP/view?usp=drivesdk",
+      "pilot_media": {
+        "file": "Helix_Motion_16_Panel_Residential_Visibility_Review.mp4",
+        "sha256": "e063a01df2d00c681c25ef545b1dab89238eb2a1cc8c30bfcfeb4dfb73a6217a",
+        "bytes": 84954592,
+        "source_audio": "Helix_Motion_original.mp3",
+        "source_audio_sha256": "fc91e3f48f709e615ba598a5d49ae63ab9652c0d16e324095f6e1b20377e082b",
+        "source_duration_seconds": 264.8001875,
+        "codecs": [
+          "h264",
+          "aac"
+        ],
+        "dimensions": [
+          1920,
+          1080
+        ],
+        "actual_frame_rate": "30/1",
+        "actual_frame_count": "7944",
+        "video_duration_seconds": 264.8,
+        "audio_duration_seconds": 264.8,
+        "stream_start_seconds": [
+          0.0,
+          0.0
+        ],
+        "full_decode": true,
+        "soundtrack_correlation": 0.9991234218476341,
+        "window_alignment": [
+          {
+            "source_start_seconds": 26.48,
+            "decoded_lag_seconds": 0.0
+          },
+          {
+            "source_start_seconds": 132.4000625,
+            "decoded_lag_seconds": 0.0
+          },
+          {
+            "source_start_seconds": 225.080125,
+            "decoded_lag_seconds": 0.0
+          },
+          {
+            "source_start_seconds": 262.7501875,
+            "decoded_lag_seconds": 0.000125
+          }
+        ],
+        "musical_or_visual_acceptance": false
+      },
+      "updated_panels": [
+        1,
+        2,
+        4,
+        6,
+        7,
+        8,
+        10,
+        12,
+        13
+      ],
+      "retained_panels": [
+        3,
+        5,
+        9,
+        11,
+        14,
+        15,
+        16
+      ],
+      "channel_values_equal_on_updated_panels": true,
+      "native_update_url": "https://drive.google.com/file/d/1yM9B3ELYNyeln3H45NQrlznNCG6q5B1s/view?usp=drivesdk",
+      "native_update_sha256": "d9b34cc9efd8d28e8ae9fc8658157ad76d4a49f3934ad470ac3443eefed75781",
+      "vocal_closeup_url": "https://drive.google.com/file/d/15cwilV1UWdovH3pG_EHrppOjdKRRAIqm/view?usp=drivesdk",
+      "vocal_closeup_sha256": "60af952fd4209e43b5266b4744741a1a19cd262dd396492abf6e22f2991c8177",
+      "vocal_closeup_xsq_sha256": "c76f3906b5090d55138b10c36d3f29f2ea8f62bc760a54e9eaa9c18bcf6f7f99",
+      "vocal_closeup_fseq_sha256": "c78a26f50fa145b376bfe40f29816f50cf01e12681acf83f010a12d56155a1ea",
+      "vocal_closeup_layout_sha256": "67434b8cc826a6a1eff6b604eafd566e3be37471a76f9b56a81d243709f84d77",
+      "windows_candidate_artifact": "https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/43401604645/artifacts/14025442150",
+      "android_candidate_run": "https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/43401604473",
+      "public_release_authorized": false,
+      "batch_allowed": false,
+      "readback_sha256_match": true
     }
   }
 }
