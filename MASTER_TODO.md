@@ -77,6 +77,29 @@ Do not mark complete from unit tests alone.
 
 ## Change Ledger
 
+### 2026-11-13 — Default sequences no longer collapse to a white-only palette
+**Agent:** Cursor cloud agent
+**Branch:** `cursor/rich-palettes-f36b`
+
+**Goal:** Master-profile output should use multiple hues, change color with the song section, and reserve white for accent effects.
+
+**Changed files/modules:**
+- `core/effect_engine.py` replaces a white-only template palette (including palette index `0`) with a section hue string before effects are written.
+- The all-models showcase path that calls `add_effect` directly uses the same replacement.
+- `tests/test_palette_not_white.py` fails if that path returns a white-only palette again.
+
+**Intentionally preserved behavior:** A template palette that already enables a chromatic color is left unchanged. Effect choice, timing, and model targeting are unchanged. `palette_mode=template` still starts from the template palette.
+
+**New behavior:** When the resolved palette enables only near-white, Helix writes an inline xLights palette of section hues. Twinkle, Shimmer, Strobe, Snowflake, and Sparkle also check a white accent. Other effects do not.
+
+**Tests/evidence:** `tests/test_palette_not_white.py`. Before the change, real xLights FSEQ renders averaged 91.1% near-white lit RGB pixel-frames.
+
+**Limitations:** Color still follows song sections already detected by Helix. A song that stays in one section keeps one hue family, with the lead color rotating per effect.
+
+**Deferred work:** Re-render of the layout-bench comparison videos after this change.
+
+**Regression risks:** Sequences whose template palette 0 was intentionally white-only will now gain color. That is the requested change.
+
 ### 2026-10-02 — Beta tester feedback checklist documented
 **Agent:** GitHub Copilot
 **Branch:** `feature/restructure-core`

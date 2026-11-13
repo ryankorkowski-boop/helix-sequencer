@@ -889,6 +889,114 @@ def apply_workspace_learning(style: VariantStyle, workspace_history: WorkspaceHi
     )
 
 
+_SECTION_HUES: dict[str, tuple[str, ...]] = {
+    "INTRO": ("#1D4ED8", "#22D3EE", "#4ADE80"),
+    "VERSE": ("#DC2626", "#16A34A", "#F59E0B"),
+    "PRECHORUS": ("#EA580C", "#DC2626", "#7C3AED"),
+    "CHORUS": ("#E11D48", "#FACC15", "#06B6D4"),
+    "DROP": ("#E11D48", "#A855F7", "#84CC16"),
+    "BRIDGE": ("#6D28D9", "#2563EB", "#F59E0B"),
+    "OUTRO": ("#1E3A8A", "#14B8A6", "#F59E0B"),
+}
+_WHITE_ACCENT_EFFECTS = ("strobe", "twinkle", "shimmer", "snowflake", "sparkle")
+
+
+def color_palette_table(root: ET.Element) -> list[str]:
+    for element in root.iter():
+        if str(element.tag).endswith("ColorPalettes"):
+            return [child.text or "" for child in list(element) if str(child.tag).endswith("ColorPalette")]
+    return []
+
+
+def _palette_buttons_and_checks(palette_text: str) -> tuple[dict[str, str], set[str]]:
+    buttons: dict[str, str] = {}
+    checks: set[str] = set()
+    for part in (palette_text or "").split(","):
+        token = part.strip()
+        if "=" not in token:
+            continue
+        key, value = token.split("=", 1)
+        if key.startswith("C_BUTTON_Palette"):
+            number = key.removeprefix("C_BUTTON_Palette")
+            if re.fullmatch(r"#[0-9A-Fa-f]{6}", value.strip()):
+                buttons[number] = value.strip().upper()
+        elif key.startswith("C_CHECKBOX_Palette") and value.strip() == "1":
+            checks.add(key.removeprefix("C_CHECKBOX_Palette"))
+    return buttons, checks
+
+
+def enabled_palette_hexes(palette_text: str) -> list[str]:
+    """Colors xLights will use: checked buttons, or every button when none are checked."""
+    buttons, checks = _palette_buttons_and_checks(palette_text)
+    numbers = checks if checks else set(buttons)
+    ordered = sorted(numbers, key=lambda item: int(item) if item.isdigit() else 999)
+    return [buttons[number] for number in ordered if number in buttons]
+
+
+def hex_is_near_white(color: str) -> bool:
+    raw = (color or "").strip().lstrip("#")
+    if len(raw) != 6:
+        return False
+    try:
+        red, green, blue = int(raw[0:2], 16), int(raw[2:4], 16), int(raw[4:6], 16)
+    except ValueError:
+        return False
+    peak = max(red, green, blue)
+    floor = min(red, green, blue)
+    return peak >= 200 and (peak - floor) <= 28
+
+
+def resolve_palette_text(choice: str | None, tables: list[str]) -> str:
+    text = (choice or "").strip()
+    if text.isdigit():
+        index = int(text)
+        if 0 <= index < len(tables):
+            return tables[index]
+        return ""
+    return text
+
+
+def palette_collapses_to_white(choice: str | None, tables: list[str]) -> bool:
+    """True when the effect would render with no chromatic color.
+
+    Template effects store palette="0". That index usually points at a
+    ColorPalette whose only checked color is #FFFFFF, so every copied effect
+    paints white.
+    """
+    colors = enabled_palette_hexes(resolve_palette_text(choice, tables))
+    if not colors:
+        return True
+    return all(hex_is_near_white(color) for color in colors)
+
+
+def musical_palette_string(section: str, effect_index: int, effect_name: str = "") -> str:
+    """xLights palette with several hues. White is added only for accent effects."""
+    hues = list(_SECTION_HUES.get((section or "").upper(), _SECTION_HUES["VERSE"]))
+    shift = int(effect_index) % len(hues)
+    hues = hues[shift:] + hues[:shift]
+    lowered = (effect_name or "").lower()
+    if any(token in lowered for token in _WHITE_ACCENT_EFFECTS):
+        hues.append("#F8FAFC")
+    parts: list[str] = []
+    for index, color in enumerate(hues, start=1):
+        parts.append(f"C_BUTTON_Palette{index}={color}")
+        parts.append(f"C_CHECKBOX_Palette{index}=1")
+    return ",".join(parts)
+
+
+def palette_for_output(
+    choice: str | None,
+    tables: list[str],
+    *,
+    section: str,
+    effect_index: int,
+    effect_name: str,
+) -> str | None:
+    if not palette_collapses_to_white(choice, tables):
+        return choice
+    return musical_palette_string(section, effect_index, effect_name)
+
+
 def pick_palette_for_effect(
     *,
     mode: str,
@@ -10126,6 +10234,15 @@ def build_all_models_all_effects_sequence(
         if palette_pool:
             palette = palette_pool[(idx + rng.randrange(len(palette_pool))) % len(palette_pool)]
             tpl = base.EffectTemplate(settings=tpl.settings, palette=palette)
+        palette = palette_for_output(
+            tpl.palette,
+            color_palette_table(xsq.root),
+            section=("VERSE", "CHORUS", "BRIDGE", "OUTRO")[idx % 4],
+            effect_index=idx,
+            effect_name=effect_name,
+        )
+        if palette != tpl.palette:
+            tpl = base.EffectTemplate(settings=tpl.settings, palette=palette)
         base.add_effect(layers[model], st, en, effect_name, tpl)
         cursor_by_model[model] = en + 15
         touched_models.add(model)
@@ -10137,7 +10254,15 @@ def build_all_models_all_effects_sequence(
             continue
         st = cursor_by_model[model]
         en = st + max(slot_ms, 120)
-        tpl = base.EffectTemplate(settings=xsq.on_tpl.settings, palette=palette_pool[idx % len(palette_pool)] if palette_pool else xsq.on_tpl.palette)
+        fallback_palette = palette_pool[idx % len(palette_pool)] if palette_pool else xsq.on_tpl.palette
+        fallback_palette = palette_for_output(
+            fallback_palette,
+            color_palette_table(xsq.root),
+            section="VERSE",
+            effect_index=idx,
+            effect_name="On",
+        )
+        tpl = base.EffectTemplate(settings=xsq.on_tpl.settings, palette=fallback_palette)
         base.add_effect(layers[model], st, en, "On", tpl)
         effect_track.append((f"{model}:On", st, en))
         max_end = max(max_end, en)
@@ -10927,6 +11052,13 @@ def run_variant(
             history_pool=workspace_history.palette_pool,
             rng=rng,
             effect_index=total,
+        )
+        palette_choice = palette_for_output(
+            palette_choice,
+            color_palette_table(xsq.root),
+            section=part_for_time(parts, st_i),
+            effect_index=total,
+            effect_name=runtime_effect,
         )
         if palette_choice and palette_choice != template_to_use.palette:
             template_to_use = base.EffectTemplate(
