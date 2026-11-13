@@ -1,7 +1,7 @@
-"""Ford Transit Connect side/front three-quarter native RGB pixel-matrix concept.
+"""Ford Transit Connect rear/side three-quarter native RGB pixel-matrix concept.
 
 Design-unit coordinates only; not a vehicle measurement or wiring plan.
-Front faces positive Z. Both side panels carry the owner's traced D/M mark.
+Front faces positive Z; rear faces negative Z. Both side panels carry the owner's traced D/M mark.
 """
 from __future__ import annotations
 import numpy as np
@@ -34,7 +34,7 @@ def build(plan=None, *, duration=None):
                 if y < 20 and (abs(z+43) < 14 or abs(z-46) < 14):
                     continue
                 # Side glass and windshield are unlit.
-                if y >= 29 and ((-48 <= z <= -18) or (-12 <= z <= 32) or (37 <= z <= 53)):
+                if y >= 29 and (18 <= z <= 53):
                     continue
                 if -45 <= z <= 4 and 19 <= y <= 42:
                     logo_field.append((x, float(y), float(z)))
@@ -72,7 +72,15 @@ def build(plan=None, *, duration=None):
         # Dark wheel outlines establish the vehicle profile, not floating decoration.
         for z in (-43,46):
             s.ring("TRANSIT_WHEEL", (x,11,z), 12,12,"WHEELS",0,plane="yz",count=80)
-    # Front grille, headlights, and hood matrix establish a front/side view.
+    # Rear split cargo doors and tail lamps establish the owner's rear/side view.
+    rear=[(float(x),float(y),-70.) for x in range(-31,32,3)
+          for y in range(10,49,3) if not (abs(x)<3)]
+    _panel(g,"TRANSIT_REAR_DOOR_MATRIX",rear,"REAR_MATRIX","#45DFFF",
+           source_display_floor=.14)
+    for side in (-1,1):
+        s.path("TRANSIT_TAIL_LAMP",[(side*31,17,-71),(side*31,42,-71)],
+               "TAIL_LAMPS",0,count=50)
+    # Front grille, headlights, and hood matrix retain the opposite angle.
     front=[(float(x),float(y),70.) for x in range(-31,32,3)
            for y in range(12,28,3) if not (-19 < x < 19 and 14 < y < 20)]
     _panel(g,"TRANSIT_FRONT_MATRIX",front,"FRONT_MATRIX","#45DFFF",
