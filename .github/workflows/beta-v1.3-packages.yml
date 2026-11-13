@@ -19,6 +19,7 @@ on:
       - android/**
       - windows_portable.spec
       - windows_portable_entry.py
+      - tools/palette_smoke.py
 
 permissions:
   contents: read
@@ -66,7 +67,7 @@ jobs:
       - name: Smoke the packaged worker palette
         shell: pwsh
         run: |
-          python tools/palette_smoke.py --output palette-smoke --command -- dist/Helix/HelixCLI.exe --helix-cli
+          python tools/palette_smoke.py --output palette-smoke --runner dist/Helix/HelixCLI.exe
           if ($LASTEXITCODE -ne 0) { throw "Packaged palette smoke failed" }
       - name: Create one-part zip and checksum
         shell: pwsh
@@ -103,9 +104,23 @@ jobs:
       - uses: gradle/actions/setup-gradle@v4
         with:
           gradle-version: "8.11.1"
-      - uses: android-actions/setup-android@v3
       - name: Install Android SDK packages
-        run: sdkmanager "platforms;android-36" "build-tools;36.0.0"
+        run: |
+          sdk_root="${ANDROID_SDK_ROOT:-${ANDROID_HOME:-/usr/local/lib/android/sdk}}"
+          echo "ANDROID_SDK_ROOT=$sdk_root" >> "$GITHUB_ENV"
+          echo "ANDROID_HOME=$sdk_root" >> "$GITHUB_ENV"
+          tool=""
+          for candidate in "$sdk_root/cmdline-tools/latest/bin/sdkmanager" "$sdk_root/cmdline-tools/16.0/bin/sdkmanager"; do
+            if [ -x "$candidate" ]; then tool="$candidate"; break; fi
+          done
+          if [ -z "$tool" ]; then
+            echo "sdkmanager not found under $sdk_root" >&2
+            find "$sdk_root" -name sdkmanager -type f | head
+            exit 1
+          fi
+          # setup-android@v3 asks sdkmanager for the removed "tools" package.
+          yes | "$tool" --sdk_root="$sdk_root" --licenses >/dev/null || true
+          "$tool" --sdk_root="$sdk_root" "platforms;android-36" "build-tools;36.0.0" "platform-tools"
       - name: Build debug APK the same way as the offline beta
         working-directory: android
         env:

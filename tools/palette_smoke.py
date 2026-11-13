@@ -90,18 +90,19 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--template", type=Path, default=ROOT / "template.xsq")
     parser.add_argument("--layout", type=Path, default=ROOT / "xlights_rgbeffects.xml")
     parser.add_argument(
-        "--command",
-        nargs=argparse.REMAINDER,
-        help="Runner prefix. Default is the current Python and main.py.",
+        "--runner",
+        default="",
+        help="Packaged console executable. Empty uses python main.py.",
     )
     args = parser.parse_args(argv)
     output = args.output
     output.mkdir(parents=True, exist_ok=True)
     audio = output / "synthetic-tone.wav"
     write_tone(audio)
-    command = list(args.command or [sys.executable, str(ROOT / "main.py")])
-    if command and command[0] == "--":
-        command = command[1:]
+    if args.runner:
+        command = [args.runner, "--helix-cli"]
+    else:
+        command = [sys.executable, str(ROOT / "main.py")]
     command += [
         "--profile", "master", "--",
         "--template", str(args.template),
