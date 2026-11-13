@@ -1,0 +1,27 @@
+{
+  "title": "Polar Prism Parade.mp3",
+  "source_sha256": "f349d05738ab274a6a37125021a7addae5569f9d074278b351a17c62072a2a0f",
+  "source_size_bytes": 4660374,
+  "ffprobe_duration_seconds": 193.344,
+  "estimated_tempo_bpm": 136,
+  "detected_transients": 654,
+  "analysis_method": "Locally decoded authentic Drive MP3, librosa onset-strength and beat tracking at 11025Hz; estimates, not Helix master event plan.",
+  "densest_windows_seconds": [
+    {
+      "start": 80,
+      "end": 96,
+      "detected_onsets": 74
+    },
+    {
+      "start": 96,
+      "end": 112,
+      "detected_onsets": 68
+    },
+    {
+      "start": 112,
+      "end": 128,
+      "detected_onsets": 64
+    }
+  ],
+  "notes": "Track is a good candidate for complex rhythm/spatial choreography. Peak-onset windows are DSP observations, not certified musical sections; no invented instruments or voices."
+}
