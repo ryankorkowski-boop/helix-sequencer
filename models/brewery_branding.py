@@ -86,42 +86,72 @@ def add_brewery_details(g):
 
 
 
-def add_screw_press_emblem(g):
-    """Source-informed screw-press D/M outline, native addressable 3D nodes.
 
-    This is an editable geometric interpretation of the owner-supplied
-    Facebook screenshot, not a pixel-perfect licensed vector trace.
+# Compressed 112 x 146 monochrome shape traced from the owner-supplied
+# November 12, 2025 Drastic Measures Brewing Facebook screenshot.
+# The source crop excludes the Facebook UI, background and tree silhouettes.
+# Exact logo source, unlike hand-drawn approximation; downsampling is a
+# physical pixel-density choice. No logo redistribution license inferred.
+_LOGO_MASK_B64 = (
+"eNqt1Ttu3DAQAFDKLNQElssUAXSFlK4sH8VHcJnCWMlw4dJH8FFCI0VKX4GAL6CSBriccIbkkGOttgqBxeotf7P8jJQ6W8alPv_QYK5Zh6gH1gwAYU-61Y3op_TRfBdS_0FQdZHU18CoLEJOCOiPswyNWMoqmnpULzruzWGzVDtMXJapzh_VlUFJWBmqRqEhT5jU5wmTdI47qdvIslQOZi5Df5HbSCdNKdC81lI5UNaRFO5alboAVQOEmVoKHW3WtDQtoVGfFYpGqrNFpm0p9WLafqRPkw5RErAsfq0n9WyxuxOyWX_jw0CLY4pwo0bTJVGZzmhG_Vk3wuWEosHhzrK8UKD_UQQYXdUiZPDDsnGDqlYhFzcd9ZE1N_KN8LzEk5oVH7v4Q9EET7Fr1rcRnsHeqqTLHmJgJmt4CgM8sowbg-b51vvJDSyvwNHqfuBah7hLU1XcFyiri3rblYbHRh10u1LRuLfvmGiCeqhSN-pXI6V-Cl0lveR0FRXP4OvyVXRequgSo37ToV3LfVB8Ijc6KL4P8cYdxP2Tt5EOqjcnb7ir4szgRdbwIqMUWVbNRF5kKS8y2FY113mRB30NM2vmbOprKEm6ZmGfJjCsseZrT4MEVaRLSiZxusasOHJi1yLpDxlBvBCcaGjahunNMbUNuZtq65ZT77jz2i__ABsPQFI"
+)
+
+
+def owner_logo_mask():
+    """Decode the traced press-shaped D/M exactly as provided by the owner."""
+    import base64
+    import zlib
+    payload = _LOGO_MASK_B64 + "=" * (-len(_LOGO_MASK_B64) % 4)
+    packed = zlib.decompress(base64.urlsafe_b64decode(payload))
+    image = np.unpackbits(np.frombuffer(packed, dtype=np.uint8))
+    if image.size != 112 * 146:
+        raise ValueError("Brewery logo mask was truncated or changed")
+    return image.reshape(146, 112).astype(bool)
+
+
+def add_screw_press_emblem(g):
+    """Make actual screenshot-traced brand silhouette from native xLights nodes.
+
+    The physical pixel sample retains all contour nodes and a sparse interior
+    illumination lattice. A second inset contour creates modest parallax depth.
+    This is a native xLights Custom model, never an image/video overlay.
     """
-    from models.approval_layouts import structures
-    s = structures(g)
-    # Distinct depth layers let the curved D cast a luminous parallax rim.
-    start = len(g.models)
-    for z in (84, 87, 90):
-        s.path("PRESS_D_CURVE",
-               [(-9, 22, z), (5, 22, z), (16, 19, z),
-                (20, 12, z), (20, 4, z), (16, -3, z),
-                (5, -7, z), (-9, -7, z)],
-               "BREWERY_EMBLEM", 2, count=180)
-        s.path("PRESS_D_SPINE", [(-9, -7, z), (-9, 22, z)],
-               "BREWERY_EMBLEM", 2, count=70)
-    s.path("PRESS_TOP_BAR", [(-15, 22, 89), (1, 22, 89)],
-           "BREWERY_EMBLEM", 1, count=65)
-    s.path("PRESS_SCREW", [(-9, 26, 89), (-9, -9, 89)],
-           "BREWERY_EMBLEM", 0, count=105)
-    s.path("PRESS_HANDLE", [(-17, 28, 89), (-1, 28, 89)],
-           "BREWERY_EMBLEM", 0, count=65)
-    s.path("PRESS_M", [(-8, 9, 91), (-2, 15, 91), (4, 8, 91),
-                        (10, 15, 91), (10, 5, 91)],
-           "BREWERY_EMBLEM", 1, count=125)
-    for m in g.models[start:]:
-        m.zone = "BREWERY_EMBLEM"
-        m.details.update(brand_emblem=True, musical_role="guitarist",
-                         parade_layer="BREWERY_EMBLEM",
-                         logo_reference="owner_supplied_facebook_screenshot",
-                         approximation_not_exact_trace=True,
-                         spatial_axis="y", source_display_floor=.55)
-        m.attrs.update(BlackTransparency="100", PixelSize="10",
-                       Antialias="1")
+    m = owner_logo_mask()
+    up = np.zeros_like(m); up[1:] = m[:-1]
+    down = np.zeros_like(m); down[:-1] = m[1:]
+    left = np.zeros_like(m); left[:, 1:] = m[:, :-1]
+    right = np.zeros_like(m); right[:, :-1] = m[:, 1:]
+    edge = m & ~(up & down & left & right)
+    rr, cc = np.indices(m.shape)
+    fill = m & ~edge & (rr % 4 == 0) & (cc % 4 == 0)
+    parts = {}
+    points = []
+    def layer(name, selected, depth):
+        indices = np.argwhere(selected)
+        ids = []
+        for row, col in indices:
+            # Image origin is top-left; xLights Y is vertical.
+            x = (float(col) - 55.5) * .26
+            y = 34 + (145 - float(row)) * .26
+            z = depth
+            ids.append(len(points) + 1)
+            points.append((x, y, z))
+        parts[name] = ids
+    layer("PRESS_SILHOUETTE", edge, 88)
+    layer("PRESS_FILL", fill, 88)
+    layer("PRESS_DEPTH", edge & ((rr + cc) % 3 == 0), 85)
+    g.custom("HX_DRASTIC_PRESS_DM_LOGO", points, "BREWERY_EMBLEM",
+             "Source-traced screw press D / inner M in 3D illuminated pixels",
+             ["#FFE6AA"] * len(points), parts,
+             details={"brand_emblem": True, "brand_reference": "owner_facebook_screenshot_2025_11_12",
+                      "brand_trace_kind": "binary_pixel_source_trace",
+                      "trace_size": [112, 146], "musical_role": "guitarist",
+                      "parade_layer": "BREWERY_EMBLEM",
+                      "original_logo_nodes": len(points),
+                      "source_display_floor": .55,
+                      "mechanical_artwork_engineering_verified": False})
+    result = g.models[-1]
+    result.attrs.update(BlackTransparency="100", PixelSize="10", Antialias="1")
 
 
 def add_brewery_signage(g):
