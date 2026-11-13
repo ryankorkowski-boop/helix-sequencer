@@ -118,7 +118,7 @@ def export_instruments(root, garden, plan, *, qualified_keyboard=False):
         parent=ET.SubElement(elements,'Element',type='model',name=model.name)
         ET.SubElement(parent,'EffectLayer')
         layers, windows = {}, {}
-        def cue(part, source, color, strength=1, *, musical=True, gesture=False):
+        def cue(part, source, color, strength=1, *, musical=True, gesture=False, hold=False):
             if not model.submodels.get(part):
                 return False
             a, b = int(source['start_ms']), min(duration, int(source['end_ms']))
@@ -136,7 +136,7 @@ def export_instruments(root, garden, plan, *, qualified_keyboard=False):
             level=max(.05,min(1,float(strength)))
             bright=round((.22+.78*level if musical else level)*100)
             e=add_effect(layers[part],a,b,'On',EffectTemplate(
-                settings=f'E_TEXTCTRL_Eff_On_Start={bright},E_TEXTCTRL_Eff_On_End={max(3,round(bright*.28)) if musical else bright}',
+                settings=f'E_TEXTCTRL_Eff_On_Start={bright},E_TEXTCTRL_Eff_On_End={max(3,round(bright*.28)) if musical and not hold else bright}',
                 palette=f'C_BUTTON_Palette1={color},C_CHECKBOX_Palette1=1'))
             e.set('sourceMethod','retained_production_band_plan' if musical else 'nonmusical_instrument_visibility')
             if musical:
@@ -160,11 +160,61 @@ def export_instruments(root, garden, plan, *, qualified_keyboard=False):
         counts['arm_gestures'] = 0
         if qualified_keyboard and role=='piano':
             counts['keyboard_source_abstentions']=0
+        last_contacts = {}
+        if model.details.get('native_string_contacts'):
+            from models.band_performance_scene import TUNINGS, string_assignment
+
+            for source in sorted(plan.get('cues', {}).get(key, []), key=lambda e: e.get('source_start_ms', e['start_ms'])):
+                counts['source_events'] += 1
+                pitch = source.get('pitch_midi')
+                kind = source.get('kind')
+                if kind in ('chord_change', 'transition'):
+                    continue
+                assignment = string_assignment(round(pitch), role) if pitch is not None else None
+                is_strum = role == 'guitar' and kind == 'strum'
+                if assignment is None and not is_strum:
+                    unmapped(source, 'Missing or out-of-range source pitch')
+                    continue
+                a = int(source.get('source_start_ms', source['start_ms'] - source.get('motion', {}).get('humanized_offset_ms', 0)))
+                b = int(source.get('source_end_ms', source['end_ms']))
+                if not 0 <= a < min(b, duration):
+                    continue
+                attack = dict(source, start_ms=a, end_ms=b)
+                strength = source.get('velocity', source.get('expression', {}).get('brightness', .8))
+                strings = range(len(TUNINGS[role])) if is_strum else (assignment[0],)
+                mapped = False
+                for string in strings:
+                    mapped = cue(f'STRING_{string}', attack, '#FFF1AD', strength) or mapped
+                counts['mapped_events'] += int(mapped)
+                if assignment is not None:
+                    string, fret = assignment
+                    fret = round(fret / 2) * 2
+                    part = f'ARM_FINGER_STRING_{string}_FRET_{fret}'
+                    contacts = last_contacts.setdefault('FINGER', {})
+                    contacts[a] = (part, attack)
+                if kind in ('strum', 'picking', 'pluck'):
+                    side = 'STRUM' if role == 'guitar' else 'PLUCK'
+                    last_string = len(TUNINGS[role]) - 1
+                    string = (0 if source.get('motion', {}).get('stroke') == 'upstroke' else last_string) if is_strum else assignment[0]
+                    contacts = last_contacts.setdefault(side, {})
+                    contacts[a] = (f'ARM_{side}_STRING_{string}', dict(attack, end_ms=min(b, a + (150 if is_strum else 110))))
+            for side, contacts in last_contacts.items():
+                starts = sorted(contacts)
+                for i, a in enumerate(starts):
+                    part, attack = contacts[a]
+                    b = min(attack['end_ms'], starts[i + 1] if i + 1 < len(starts) else duration)
+                    if b > a and cue(part, dict(attack, end_ms=b), '#D1B899', .95, hold=True):
+                        counts['arm_gestures'] += 1
+                        windows.setdefault(f'ARM_{side}_ACTIVE', []).append((a, min(b, duration)))
+                    elif b > a:
+                        counts['arm_contact_omissions'].append(dict(start_ms=a, part=part, reason='Unreachable native pose'))
+            sources = []
+        else:
+            sources = sorted(plan.get('cues',{}).get(key,[]), key=lambda e: e['start_ms'])
         gestures = set()
         claimed_contacts = set()
-        last_contacts = {}
         last_mallet_side='RIGHT'
-        for source in sorted(plan.get('cues',{}).get(key,[]), key=lambda e: e['start_ms']):
+        for source in sources:
             counts['source_events']+=1
             level=source.get('velocity',source.get('expression',{}).get('brightness',.8))
             if role=='piano' and qualified_keyboard:

@@ -58,7 +58,7 @@ def native_band(g,plan,*,rock=True,duration=36,showcase_source=False,overview=Fa
     add_final_native_band(g,'HX_SNOW',(0,0,0),rock=rock,include_stage=not showcase_source,
                           full_keyboard=True,surface_spacing=.12 if showcase_source and not overview else .18,
                           mouth_scale=.42,keyboard_contacts=showcase_source,
-                          native_extended_mouths=native_extended_mouths)
+                          native_extended_mouths=native_extended_mouths, string_contacts=showcase_source)
     cast=g.models[first:]
     for model in cast:
         if model.details.get('final_band_role'):
@@ -87,12 +87,21 @@ def native_band(g,plan,*,rock=True,duration=36,showcase_source=False,overview=Fa
     for i in rig.connector_ids:parts.primitive('BASE_DIM',scene.instances[i])
     ids=[i for values in rig.rigs.values() for i in values]+[rig.foot,rig.pedal,rig.beater]
     samples=[]
-    for frame in range(math.ceil(duration*20)):
-        rig.pose(frame/20)
+    contacts = {}
+    if showcase_source:
+        for hit in (*rig.player.hits, *rig.player.foot_hits, *rig.player.kick_hits):
+            frame = int(hit['time'] * 20)
+            previous = contacts.get(frame)
+            if previous is None or hit['velocity'] > previous['velocity']:
+                contacts[frame] = hit
+    pose_times = [contacts[frame]['time'] if frame in contacts else frame/20
+                  for frame in range(math.ceil(duration*20))]
+    for time in pose_times:
+        rig.pose(time)
         samples.append(np.array([scene.instances[i]['matrix'][:3,3] for i in ids]))
     selected,states,error=select_states(samples,limit=48 if showcase_source and not overview else 24)
     for number,frame in enumerate(selected):
-        rig.pose(int(frame)/20)
+        rig.pose(pose_times[int(frame)])
         for i in ids:parts.primitive(f'SOURCE_POSE_{number:02}',scene.instances[i])
     old=next(m for m in g.models if m.details.get('review_role')=='drummer')
     g.models.remove(old)
@@ -107,7 +116,9 @@ def native_band(g,plan,*,rock=True,duration=36,showcase_source=False,overview=Fa
         model.attrs['HelixReferenceImage']='assets/drummerbg.png'
         model.details['showcase_source_drummer']=True
     return model,states,dict(rig.proof(),resolved_strikes=len(hits),unresolved_strikes=unresolved,
-                             pose_states=len(selected),max_pose_error=float(error))
+                             pose_states=len(selected),max_pose_error=float(error),
+                             contact_sample_frames=len(contacts),
+                             physically_rejected_arm_strikes=len(rig.player.motion_rejections))
 
 
 def layout(number,plan,*,duration=36):
@@ -232,6 +243,15 @@ def build(source,vocals,output,*,numbers=None,names=NAMES,layout_builder=layout,
                     if m.submodels.get(part):
                         color=m.colors[m.submodels[part][0]-1] if primary_faces else g.palette[0]
                         sequence.effect(m,part,0,duration_ms,color,75 if primary_faces else 40)
+                if m.details.get('showcase_face'):
+                    for lane, part, color in (
+                        ('bassist', 'HELIX_A', g.palette[0]),
+                        ('guitarist', 'HELIX_B', g.palette[1]),
+                    ):
+                        if m.submodels.get(part):
+                            for cue in plan['cues'].get(lane, ()):
+                                if cue['kind'] not in ('chord_change', 'transition'):
+                                    sequence.effect(m, part, cue['start_ms'], cue['end_ms'], color, 45, 12)
                 continue
             if m.details.get('keyboard_pitch_rungs'):
                 for role,part,color in [('guitarist','STRAND_A',g.palette[0]),('bassist','STRAND_B',g.palette[1])]:
@@ -245,7 +265,6 @@ def build(source,vocals,output,*,numbers=None,names=NAMES,layout_builder=layout,
             from tools.phoneme_vocal_export import export_static_materials, static_materials, export as export_vocals
             from tools.canonical_band_cues import export_instruments
             from models.canonical_native_band import EXTENDED_VISEMES, VISEMES
-            from tools.build_helpers.ultimate_showcase import model_xml
             performers=[m for m in g.models if m.details.get('review_role')]
             for m in performers:
                 if m.details['review_role'] in ('lead','harmony'):
@@ -260,6 +279,8 @@ def build(source,vocals,output,*,numbers=None,names=NAMES,layout_builder=layout,
             static_materials(SimpleNamespace(models=performers));write_layout(g,folder,include_demo=False,export_all_custom=True)
             instrument_report=export_instruments(sequence.root,SimpleNamespace(models=performers),plan,
                                                  qualified_keyboard=full_song)
+            from tools.canonical_band_cues import refresh_models
+            refresh_models(g, folder/'xlights_rgbeffects.xml')
             if full_song:
                 (folder/'Band_Instrument_Provenance.json').write_text(json.dumps(instrument_report,indent=2)+'\n')
             if instrumental:

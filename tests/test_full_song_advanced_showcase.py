@@ -144,3 +144,43 @@ def test_qualified_vocal_layouts_have_ten_distinct_native_mouths():
             parts = [tuple(singer.submodels['MOUTH_' + name]) for name in NATIVE_SHAPE_NAMES]
             assert all(parts) and len(set(parts)) == 10
             assert not set(singer.submodels.get('BODY', ())) & set().union(*map(set, parts))
+
+
+def test_showcase_faces_fit_house_and_use_separate_yard_groups():
+    import numpy as np
+    from models.full_song_layouts import build
+
+    for panel, max_height in ((8, 15), (9, 24)):
+        garden, _ = build(panel, {}, duration=1)
+        faces = [model for model in garden.models if model.details.get('showcase_face')]
+        assert len(faces) == 2
+        assert all(np.ptp(model.points[:, 1]) <= max_height for model in faces)
+        assert {model.details.get('showcase_group', '').split('_')[0] for model in garden.models} >= {
+            'FACADE', 'FOREGROUND', 'YARD',
+        }
+
+
+def test_showcase_bass_and_guitar_use_original_attacks_and_string_contacts():
+    from types import SimpleNamespace
+    from xml.etree import ElementTree as ET
+    from tools.canonical_band_cues import export_instruments
+
+    models = [
+        SimpleNamespace(name='Bass', details={'review_role': 'bass', 'native_string_contacts': True},
+                        submodels={'STRING_0': [1], 'ARM_PLUCK_STRING_0': [2],
+                                   'ARM_FINGER_STRING_0_FRET_4': [3]}),
+        SimpleNamespace(name='Guitar', details={'review_role': 'guitar', 'native_string_contacts': True},
+                        submodels={'STRING_0': [1], 'ARM_STRUM_STRING_0': [2],
+                                   'ARM_FINGER_STRING_0_FRET_4': [3]}),
+    ]
+    root = ET.fromstring('<xsequence><head><sequenceDuration>1</sequenceDuration></head>'
+                         '<DisplayElements/><ElementEffects/></xsequence>')
+    timing = {'source_start_ms': 100, 'source_end_ms': 260, 'start_ms': 170, 'end_ms': 510}
+    plan = {'cues': {'bassist': [dict(timing, kind='pluck', pitch_midi=32)],
+                     'guitarist': [dict(timing, kind='picking', pitch_midi=44)]}}
+    receipt = export_instruments(root, SimpleNamespace(models=models), plan)
+    for model in models:
+        assert receipt['models'][model.name]['arm_gestures'] == 2
+        assert receipt['models'][model.name]['mapped_events'] == 1
+        elements = root.findall(f'./ElementEffects/Element[@name="{model.name}/STRING_0"]/EffectLayer/Effect')
+        assert [(e.get('startTime'), e.get('endTime')) for e in elements] == [('100', '260')]

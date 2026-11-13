@@ -1,3 +1,11 @@
+## 13 November — owner rejection of the refreshed pilot
+
+- [x] Owner rejected the exact residential-visibility cut (MP4 SHA-256 `e063a01df2d00c681c25ef545b1dab89238eb2a1cc8c30bfcfeb4dfb73a6217a`). The guitar was off, the bass did not visibly perform, the drummer did not play correctly, and the singers and both singing-face layouts did not sing. The concept improved, with more realistic residential proportions and independent prop grouping, routing and layering still requested.
+- [x] Keep the other 82 songs held. PR #188 and beta distribution require separate owner acceptance.
+- [x] Native string export now uses the original attack intervals and instrument-specific playing and fretting poses. The V3 drummer pose sampler includes source strike contact times. Residential faces are rescaled and placed in facade and yard layers, with separately routed light groups.
+- [ ] Review the source-matched Phoneme Test Hook band and face repairs at readable scale. The full Helix Motion recording is instrumental. Its mouths remain at rest, with instrument-driven decorative lighting on the face props. Phoneme Test Hook lead and backing clocks remain acoustic estimates with independent singer identity and lexical timing unverified.
+- [ ] Verify and deliver a new full-length 16-panel pilot before resuming the remaining batch.
+
 ## 13 November — refreshed native pilot and singer close-up delivered
 
 - [x] Completed the full-length [Helix Motion 16-panel MP4](https://drive.google.com/file/d/16nqUJHo-cBHOoW2pLgFX-aRTN1MPGdlP/view?usp=drivesdk). Native xLights 2026.18 rerendered panels 1, 2, 4, 6, 7, 8, 10, 12 and 13 with facades behind their real fixture coordinates. Every decoded channel sample matched the corresponding preceding FSEQ. Seven cells came from the preceding verified native composite. The 264.800-second MP4 fully decoded at 1920×1080, H.264/AAC and 30 fps (7,944 frames), with all 16 distinct, visible and moving. Original Drive soundtrack correlation was 0.9991234 and maximum measured lag was 0.125 ms. Drive readback matched SHA-256 `e063a01df2d00c681c25ef545b1dab89238eb2a1cc8c30bfcfeb4dfb73a6217a`. [Verification, source commits and panel hashes](https://drive.google.com/file/d/1X2VperJWIbmrAgoWj0j1n5CCfLwNfRhP/view?usp=drivesdk).

@@ -63,7 +63,7 @@ class SurfaceParts:
 
 
 def add_final_native_band(garden, prefix, position, *, rock=False, stage='ember_amphitheatre', include_stage=True, mouth_scale=1.0, surface_spacing=None,
-                          include_xylophonist=False, full_keyboard=False, keyboard_contacts=False, native_extended_mouths=False):
+                          include_xylophonist=False, full_keyboard=False, keyboard_contacts=False, native_extended_mouths=False, string_contacts=False):
     scene = FinalBandScene(stage, rock=rock, include_xylophonist=include_xylophonist, full_keyboard=full_keyboard)
     # Import all original canonical submodels; only this copy's world placement
     # changes. The existing physical kit and channel identities stay intact.
@@ -126,6 +126,34 @@ def add_final_native_band(garden, prefix, position, *, rock=False, stage='ember_
             if role=='piano' and keyboard_contacts:
                 from models.native_keyboard_contacts import add_contacts
                 add_contacts(scene,parts,rig)
+            if string_contacts and role in ('bass', 'guitar'):
+                from models.band_performance_scene import TUNINGS
+
+                def contact(part, hand):
+                    shoulder = rig['shoulder']
+                    lengths = rig['link_lengths']
+                    if np.linalg.norm(hand - shoulder) >= sum(lengths):
+                        return
+                    elbow = elbow_3d(shoulder, hand, *lengths, (-.8, -.2, .8))
+                    for a, b in ((shoulder, elbow), (elbow, hand)):
+                        parts.primitive(part, dict(kind='cylinder', matrix=line_matrix(a, b, .055),
+                                                   color=np.array((.78, .66, .50))))
+                    parts.primitive(part, dict(kind='sphere', matrix=matrix(hand, (.13, .10, .10)),
+                                               color=np.array((.90, .95, .99))))
+
+                for string in range(len(TUNINGS[role])):
+                    if side == 'FINGER':
+                        point = scene.bass_contact if role == 'bass' else scene.guitar_contact
+                        for fret in range(0, 25, 2):
+                            contact(f'ARM_FINGER_STRING_{string}_FRET_{fret}',
+                                    point(string, fret) + (0, 0, .065))
+                    else:
+                        geometry = scene.strings[role][string]
+                        along = np.clip(np.dot(rig['hand'] - geometry['a'], geometry['b'] - geometry['a']) /
+                                        np.sum((geometry['b'] - geometry['a']) ** 2), .07, .35)
+                        hand = geometry['a'] + along * (geometry['b'] - geometry['a']) + (0, 0, .065)
+                        contact(f'ARM_{side}_STRING_{string}', hand)
+                continue
             if role != 'xylophone':
                 # Two genuine addressable light poses on the same authored
                 # shoulder and fixed link lengths; do not duplicate IDLE.
@@ -180,6 +208,7 @@ def add_final_native_band(garden, prefix, position, *, rock=False, stage='ember_
                 surface_spacing_source_units=surface_spacing,
                 pose_method='stationary addressable light poses',
                 native_keyboard_contacts=bool(role=='piano' and keyboard_contacts),
+                native_string_contacts=bool(role in ('bass', 'guitar') and string_contacts),
                 continuous_mesh_motion=False, wireframe_performer=False))
         # Surface sampling can quantize a passing arm and a different bar to
         # the same node. Keys own their nodes exclusively; an arm must never

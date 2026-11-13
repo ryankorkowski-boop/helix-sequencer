@@ -31,7 +31,7 @@ def singing_props(garden, kinds, positions, *, scale, native_extended_mouths=Fal
         model.zone = 'SINGING_TREES' if kind == 'tree' else 'SINGING_FACES'
         model.details.update(generic_singer=('estimated_lead', 'estimated_backing')[i % 2],
                              showcase_face=True)
-        model.attrs.update(PixelSize='18', BlackTransparency='100')
+        model.attrs.update(PixelSize='11', BlackTransparency='100')
 
 
 def assign_routes(garden):
@@ -52,6 +52,19 @@ def assign_routes(garden):
             model.details['musical_role'] = 'keyboardist'
         if model.zone == 'ARCHES':
             model.details.setdefault('spatial_axis', 'x')
+        if model.kind != 'ac':
+            model.attrs['PixelSize'] = str(min(int(model.attrs['PixelSize']), 11))
+            zone = model.zone
+            if zone in ('ARCHES', 'TREES', 'CANES', 'MEGA_TREES', 'HOUSE'):
+                x, _, z = model.points.mean(axis=0)
+                layer = 'FACADE' if zone == 'HOUSE' else 'FOREGROUND' if z > 14 else 'YARD'
+                model.details.setdefault('showcase_group', f'{layer}_{"LEFT" if x < -5 else "RIGHT" if x > 5 else "CENTER"}')
+                model.details.setdefault('spatial_phase', (x / 110 + .5) % 1)
+                model.details.setdefault('spatial_direction', 1 if x < 0 else -1)
+                if zone in ('ARCHES', 'MEGA_TREES', 'TREES'):
+                    model.details.setdefault('propagation_delay_ms', round(min(60, abs(x) * 1.1)))
+                if zone == 'TREES':
+                    model.details.setdefault('spatial_axis', 'y')
     configure_source_routes(garden.models)
     return allocate(garden)
 
@@ -83,8 +96,8 @@ def ac_house(garden, number):
 
 
 def residential(garden, number, *, native_extended_mouths=False):
-    if number in (4, 6, 7, 8, 10, 12):
-        house(garden, z=-19, scale=.85 if number in (6, 7) else 1)
+    if number in (4, 6, 7, 8, 9, 10, 12):
+        house(garden, z=-23, scale=.85 if number in (6, 7, 9) else 1)
     if number in (4, 6, 7, 12):
         for x in (-35, 35):
             cane(garden, x, 15)
@@ -101,11 +114,19 @@ def residential(garden, number, *, native_extended_mouths=False):
         for x in (-48, 48):
             mega_tree(garden, x, -14, height=41, radius=11)
     if number == 8:
-        singing_props(garden, ('bulb', 'snowman'), ((-32, 0, 19), (32, 0, 19)), scale=.88, native_extended_mouths=native_extended_mouths)
+        singing_props(garden, ('bulb', 'snowman'), ((-16, 14, -19), (16, 14, -19)),
+                      scale=.25, native_extended_mouths=native_extended_mouths)
+        for x in (-33, 33):
+            tree(garden, x, -2, h=10, r=3)
+        for x in (-19, 0, 19):
+            arch(garden, x, 19, width=12, height=5)
     if number == 9:
-        singing_props(garden, ('tree', 'tree'), ((-30, 0, 13), (30, 0, 13)), scale=1.05, native_extended_mouths=native_extended_mouths)
-        for x in (-52, 0, 52):
-            cane(garden, x, 22, h=10)
+        singing_props(garden, ('tree', 'tree'), ((-23, 0, 10), (22, 0, 6)),
+                      scale=.44, native_extended_mouths=native_extended_mouths)
+        for x in (-34, 0, 34):
+            cane(garden, x, 20, h=7)
+        for x in (-36, 35):
+            tree(garden, x, -10, h=12, r=3.5)
     if number == 10:
         structures(garden).mesh('PORCH_MATRIX', (0, 4, 9), 39, 23, 'MATRICES')
         for x in (-38, 38):

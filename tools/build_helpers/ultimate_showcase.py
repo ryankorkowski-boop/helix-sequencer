@@ -107,6 +107,8 @@ def write_layout(g: Garden, output: Path, *, include_demo: bool = True, export_a
         if m.display == 'Custom' and (export_all_custom or m.details.get('review_role')):
             _write_xml(model_xml(m,"custommodel"),custom_dir/(m.name+".xmodel"))
         membership["HX_ZONE_"+m.zone].append(m.name)
+        if group := m.details.get("showcase_group"):
+            membership["HX_SHOWCASE_"+group].append(m.name)
         membership["HX_NATIVE_"+family(m.display).upper().replace(" ","_")].append(m.name)
         membership["HX_ALL_PIXELS" if m.kind=="pixel" else "HX_CONTROL_FIXTURES"].append(m.name)
         if m.details.get("double_helix"):
