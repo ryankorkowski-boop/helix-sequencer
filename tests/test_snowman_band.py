@@ -295,7 +295,8 @@ class SnowmanBandTests(unittest.TestCase):
             },
         )
         self.assertEqual(payload["debug"]["drum_intelligence_mode"], "typed_detection")
-        self.assertTrue(any(cue.get("submodel") == "kick" for cue in payload["cues"]["drummer"]))
+        kick = next(cue for cue in payload["cues"]["drummer"] if cue["submodel"] == "kick")
+        self.assertEqual(kick["composite_submodels"], ["kick"])
         self.assertTrue(payload["kit"]["drum_intelligence"]["motion_events"])
 
 

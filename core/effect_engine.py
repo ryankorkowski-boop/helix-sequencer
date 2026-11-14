@@ -13197,6 +13197,7 @@ def main_for(version: str, argv: list[str] | None = None) -> None:
     log(f"Processing {len(audios)} audio file(s) with {style.version}...")
     runtime_candidates = build_runtime_candidates(style, tuning, tuning.variant_count)
 
+    song_failures: list[tuple[Path, Exception]] = []
     for i, audio in enumerate(audios, 1):
         out = variant_output_name(audio, output_dir, style.version)
         log(f"\n[{i}/{len(audios)}] {audio.name} -> {out.name}")
@@ -13296,7 +13297,11 @@ def main_for(version: str, argv: list[str] | None = None) -> None:
                     write_report(selected_report_path, selected_payload)
         except Exception as exc:
             log(f"FAILED: {audio.name}: {repr(exc)}")
+            song_failures.append((audio, exc))
 
+    if song_failures:
+        names = ", ".join(audio.name for audio, _ in song_failures)
+        raise RuntimeError(f"Helix failed for {len(song_failures)} song(s): {names}") from song_failures[0][1]
     log("\nDone.")
 
 

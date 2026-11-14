@@ -44,8 +44,11 @@ jobs:
           python -m pip install --upgrade pip
           python -m pip install -r requirements-windows-portable.txt
           python -m pip install pytest
-      - name: Check version and palette regression
-        run: python -m pytest -q tests/test_helix_version.py tests/test_palette_not_white.py
+      - name: Check version, palette, GUI worker and band routing
+        run: >-
+          python -m pytest -q tests/test_helix_version.py tests/test_palette_not_white.py
+          tests/test_gui_worker_command.py tests/test_snowman_band.py
+          tests/test_sequence_builder.py tests/test_sequence_builder_orchestrator_promotion.py
       - name: Build one-folder portable app
         run: python -m PyInstaller --noconfirm --clean windows_portable.spec
       - name: Assemble customer folder

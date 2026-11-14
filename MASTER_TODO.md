@@ -77,6 +77,15 @@ Do not mark complete from unit tests alone.
 
 ## Change Ledger
 
+### 2026-11-13 — Beta 1.3 workflow audit and targeted repairs
+
+- Goal. Exercise the current customer engine and showcase candidate on the same real-audio excerpt and repair verified workflow failures on a feature branch.
+- Changes. Adapted the Snowman Band consumer to the current drum mapper's single-submodel event. Routed the frozen Windows Run and Helixville builder actions through the packaged console worker. Propagated song failures to the run manifest after the batch attempt and corrected the misleading orchestration-promotion log. Added targeted checks to the Windows packaging job.
+- Preserved. Explicit orchestration-template promotion, processing of later songs in a batch, existing effect selection, palette fix, and original drum detection, source data and asset geometry.
+- Evidence. On a 32-second Tinsel Sawtooth excerpt, the Beta 1.3 run produced zero band cues after a missing-key exception. The repair produced 784 planning cues, including 253 drum cues. The same run generated a 32-second decodable simulation. An invalid WAV produced a failing manifest and exit code 1. The local focused regression set passed 31 tests. The Windows executable needs a new packaged GUI run.
+- Open. The Beta 1.3 Android host bridge generated XSQ in LOR mode and failed because it had no source-address LMS export. PR #217 exported an LMS with the input Unit/Circuit addresses and colors on the audit fixture. Its native showcase path still needs integration with the apps. Independent vocal attribution, lexical timing, canonical performer motion, native approval jobs, complete regression and physical device/controller verification remain open.
+- Regression risks. An overall batch failure can still leave successful earlier/later song files for recovery. A band-plan cue count does not establish mapped native performer motion. Keep native acceptance and packaged behavior tied to the exact tested commit.
+
 ### 2026-11-13 — Beta 1.3 packages the palette fix for Windows and Android
 **Agent:** Cursor cloud agent
 **Branch:** `cursor/beta-1-3-release-1aae`

@@ -28,11 +28,12 @@ def _report(*, invoked: bool = True, xsq_written: bool = True, path: str | None 
     )
 
 
-def test_run_profile_keeps_orchestrated_xsq_as_sidecar_by_default(monkeypatch) -> None:
+def test_run_profile_keeps_orchestrated_xsq_as_sidecar_by_default(monkeypatch, capsys) -> None:
     fake_engine = _FakeEngine()
     monkeypatch.setattr(sequence_builder.engine_profiles, "resolve_profile", lambda profile_id: _profile())
     monkeypatch.setattr(sequence_builder, "_effect_engine", lambda: fake_engine)
     monkeypatch.setattr(sequence_builder, "run_effects_orchestration", lambda engine_args: _report())
+    monkeypatch.setattr(sequence_builder, "prime_beat_grid_args", lambda **kwargs: ["--snap-grid", "16"])
 
     sequence_builder.run_profile(
         "master",
@@ -45,6 +46,7 @@ def test_run_profile_keeps_orchestrated_xsq_as_sidecar_by_default(monkeypatch) -
             ["--template", "template.xsq", "--audio", "song.mp3", "--output-dir", "out"],
         )
     ]
+    assert "effects_orchestrator: promoted template=" not in capsys.readouterr().out
 
 
 def test_run_profile_promotes_orchestrated_xsq_as_next_template_when_requested(monkeypatch) -> None:

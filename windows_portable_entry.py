@@ -14,6 +14,9 @@ def main() -> int:
         sys.argv = [sys.argv[0], *sys.argv[2:]]
         from core.sequence_builder import main as cli_main
         return cli_main()
+    if len(sys.argv) > 1 and sys.argv[1] == "--helix-build-helixville":
+        from tools.build_helixville_layout import main as build_helixville
+        return build_helixville(sys.argv[2:])
     if len(sys.argv) > 1 and sys.argv[1] == "--helix-gui-smoke":
         from gui_launcher import HelixGui
 
