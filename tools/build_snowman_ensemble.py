@@ -59,7 +59,9 @@ class NativeSequence:
         self.identifier+=1
 
     def write(self,path):
-        self.root.find('nextid').text=str(self.identifier);_write_xml(self.root,path)
+        next_id = self.root.find('nextid')
+        next_id.text = str(max(self.identifier, int(next_id.text)))
+        _write_xml(self.root,path)
 
 
 def intervals(values):

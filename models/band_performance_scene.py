@@ -22,9 +22,9 @@ GOLD = '#E8B759'
 TUNINGS = {'bass': (28, 33, 38, 43), 'guitar': (40, 45, 50, 55, 59, 64)}
 
 
-def string_assignment(note, kind):
+def string_assignment(note, kind, *, tuning=None):
     candidates = [(note-open_note, k, note-open_note)
-                  for k, open_note in enumerate(TUNINGS[kind])
+                  for k, open_note in enumerate(TUNINGS[kind] if tuning is None else tuning)
                   if 0 <= note-open_note <= 24]
     if not candidates:
         return None

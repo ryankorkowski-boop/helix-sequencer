@@ -1,0 +1,174 @@
+{
+  "source_recording": "1-Wire-Tree.mp3",
+  "source_recording_sha256": "60c78154189231db21791de1a7ad64f063af2eaaf18bb7f318b151620f41cca5",
+  "source_excerpt_s": [
+    196.0,
+    224.2
+  ],
+  "source_excerpt_sha256": "c2de0fb24c83162d81a64e5361dfc510c10d3c5fe1f7c9377ce9aff43bf10699",
+  "production_base": "653053db05f754b5dbb85594af8de3cb9aa719e1",
+  "xlights_version": "2026.19",
+  "preview": "fixed front camera projecting decoded native RGB values",
+  "resolution": [
+    1920,
+    1080
+  ],
+  "duration_s": 28.2,
+  "native_frames": 564,
+  "native_frame_ms": 50,
+  "channel_slots": 548556,
+  "blank_native_frames": 0,
+  "xlights_effect_drops": 0,
+  "xlights_logged_errors": 0,
+  "media_full_decode": true,
+  "mouth_frames": {
+    "lead_only": 425,
+    "harmony_only": 69,
+    "both": 22,
+    "both_rest": 48
+  },
+  "singers": {
+    "lead": {
+      "shapes_by_frame": {
+        "O": 143,
+        "E": 268,
+        "rest": 117,
+        "AI": 36
+      },
+      "native_mismatched_frames": 0
+    },
+    "harmony": {
+      "shapes_by_frame": {
+        "rest": 473,
+        "E": 59,
+        "AI": 27,
+        "O": 5
+      },
+      "native_mismatched_frames": 0
+    }
+  },
+  "native_model_frame_changes": {
+    "HX_SNOW_BASS": 367,
+    "HX_SNOW_GUITAR": 0,
+    "HX_SNOW_LEAD": 111,
+    "HX_SNOW_HARMONY": 40,
+    "HX_SNOW_PIANO": 0,
+    "HX_SNOW_DRUMMER": 267
+  },
+  "bass_notes_mapped": 70,
+  "bass_tuning_midi": [
+    24,
+    31,
+    36,
+    41
+  ],
+  "drum_resolved_strikes": 134,
+  "drum_source": {
+    "source": "adtof_frame_rnn_polyphonic",
+    "rejected": {
+      "unresolved_tom_identity": 1
+    },
+    "sha256": "926ca53c237f296aa91f0fc6e0349c27d25fc83e5a02a1d8a51eb862afa6b540"
+  },
+  "guitar_and_piano": "idle because their separated candidates were below the activity gate",
+  "stem_evidence": {
+    "bassist": {
+      "sha256": "26a0e6e832049534eed0a99a5f6a7fa6082214f14eac1f36d6ef865ad0bdc811",
+      "rms_to_mix": 0.4353655656019514,
+      "audible_candidate": true
+    },
+    "guitarist": {
+      "sha256": "afcf312aedf623ace1dc7de0bf2021b5ba6b223909ec8d6fe7bf2be17c9c5f41",
+      "rms_to_mix": 0.000956277089628839,
+      "audible_candidate": false
+    },
+    "keyboardist": {
+      "sha256": "1d66fd0d5da1239e96f0093a284f5d0d7897821b0bb38b77c7798365b0459cf3",
+      "rms_to_mix": 0.000988400269690584,
+      "audible_candidate": false
+    }
+  },
+  "soundtrack_checks": [
+    {
+      "start_s": 0,
+      "channel": 0,
+      "lag_in_samples": 0,
+      "correlation": 0.9995851
+    },
+    {
+      "start_s": 0,
+      "channel": 1,
+      "lag_in_samples": 0,
+      "correlation": 0.9995833
+    },
+    {
+      "start_s": 7,
+      "channel": 0,
+      "lag_in_samples": 0,
+      "correlation": 0.9998106
+    },
+    {
+      "start_s": 7,
+      "channel": 1,
+      "lag_in_samples": 0,
+      "correlation": 0.9998035
+    },
+    {
+      "start_s": 14,
+      "channel": 0,
+      "lag_in_samples": 0,
+      "correlation": 0.9997138
+    },
+    {
+      "start_s": 14,
+      "channel": 1,
+      "lag_in_samples": 0,
+      "correlation": 0.9997033
+    },
+    {
+      "start_s": 21,
+      "channel": 0,
+      "lag_in_samples": 0,
+      "correlation": 0.9996977
+    },
+    {
+      "start_s": 21,
+      "channel": 1,
+      "lag_in_samples": 0,
+      "correlation": 0.999709
+    },
+    {
+      "start_s": 26,
+      "channel": 0,
+      "lag_in_samples": 0,
+      "correlation": 0.9998497
+    },
+    {
+      "start_s": 26,
+      "channel": 1,
+      "lag_in_samples": 0,
+      "correlation": 0.9998284
+    }
+  ],
+  "xsq_sha256": "fe3778100c8d96c47f30486aa4516d93d15497b8b4e2b5bdb586a33c7ba971bd",
+  "fseq_sha256": "972c961f98e788e8ba25458f747c16abfde7ef259893f87e89d2070dd8864050",
+  "movie_sha256": "a6cb5142d298610acf98309e5ef2603c47464971099df7b166c7a931d6703ce7",
+  "approval": "pending owner playback",
+  "limitations": [
+    "Vocal candidate identity and exact word-to-mouth alignment require listening validation or labeled sources.",
+    "The drummer and bass events are model estimates; one unresolved tom candidate was omitted.",
+    "The quiet guitar and keyboard candidates do not test active playing in this excerpt.",
+    "The bass tuning was assigned for this excerpt to preserve estimated pitch."
+  ],
+  "focused_tests_passed": 53,
+  "artifacts": {
+    "Wire_Tree_Band_Only.mp4": {
+      "bytes": 2560108,
+      "sha256": "a6cb5142d298610acf98309e5ef2603c47464971099df7b166c7a931d6703ce7"
+    },
+    "Wire_Tree_Native_Show.zip": {
+      "bytes": 25740986,
+      "sha256": "979dd82c538b52c546ddc9332df4f88b5ee342c2a73172b15b4da794a2595df9"
+    }
+  }
+}

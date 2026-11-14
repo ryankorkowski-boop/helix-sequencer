@@ -13,19 +13,30 @@ from tools.build_helpers.ultimate_showcase_preview import _base,_font,_project,r
 
 
 class NativeSongView:
-    def __init__(self,g,song:str,width=1280,height=720,*,halo_scale=1,yaw=7,pitch=18):
+    def __init__(self,g,song:str,width=1280,height=720,*,halo_scale=1,yaw=7,pitch=18,fit_models=False):
         self.width,self.height=width,height
         self.halo_scale=halo_scale
         channels=max(m.start-1+m.channels for m in g.models)
-        self.base=render_frame(g,width,height,yaw=yaw,pitch=pitch,native=np.zeros(channels,dtype=np.uint8))
-        clean=_base(width,height,g.title)
-        bottom=int(height*.935);self.base.paste(clean.crop((0,bottom,width,height)),(0,bottom))
+        if fit_models:
+            self.base = Image.new('RGB', (width, height), '#07111E')
+            points = np.concatenate([m.points for m in g.models if m.kind == 'pixel'])
+            projected = _project(points,width,height,yaw,pitch)[:,:2]
+            lo, hi = projected.min(axis=0), projected.max(axis=0)
+            center = (lo + hi) / 2
+            zoom = min(np.array((width*.90,height*.80)) / np.maximum(hi-lo, .001))
+        else:
+            self.base=render_frame(g,width,height,yaw=yaw,pitch=pitch,native=np.zeros(channels,dtype=np.uint8))
+            clean=_base(width,height,g.title)
+            bottom=int(height*.935);self.base.paste(clean.crop((0,bottom,width,height)),(0,bottom))
         draw=ImageDraw.Draw(self.base)
         draw.text((width*.045,height*.95),song+'  /  NATIVE XLIGHTS • ORIGINAL SONG AUDIO',font=_font(round(width*.009)),fill=(134,180,198))
         locations=[];indices=[]
         for m in g.models:
             if m.kind!='pixel':continue
-            p=_project(m.points,width,height,yaw,pitch);x,y=np.rint(p[:,:2]).astype(int).T
+            p=_project(m.points,width,height,yaw,pitch)[:,:2]
+            if fit_models:
+                p = (p-center)*zoom + (width*.5,height*.475)
+            x,y=np.rint(p).astype(int).T
             keep=(x>=2)&(x<width-2)&(y>=2)&(y<height-2)
             locations.extend((y[keep]*width+x[keep]).tolist())
             indices.extend((m.start-1+np.arange(len(m.points))[keep]*3).tolist())
