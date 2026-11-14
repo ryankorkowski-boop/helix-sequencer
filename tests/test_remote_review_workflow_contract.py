@@ -44,3 +44,14 @@ def test_remote_review_workflow_generates_validated_demo_fallback() -> None:
     assert 'export_demo_xsq.py' in text
     assert 'validate_xsq_structure.py' in text
     assert 'helix_demo_vocal.xsq' in text
+
+
+def test_equal_preview_scores_choose_first_candidate_without_comparing_dicts() -> None:
+    step = _workflow_text().split("Pick highest-scoring valid candidate", 1)[1]
+    selection = next(line.strip() for line in step.splitlines()
+                     if line.strip().startswith("score, neg_issues, winner = "))
+    first = {"version": "first"}
+    candidates = [(90.0, -1, {"version": "lower"}), (95.0, 0, first), (95.0, 0, {"version": "second"})]
+    result = {"candidates": candidates}
+    exec(selection, result)
+    assert result["winner"] is first

@@ -77,6 +77,14 @@ Do not mark complete from unit tests alone.
 
 ## Change Ledger
 
+### 2026-11-13 — Fix remote preview ranking when variants tie
+
+- Goal. Restore ranked review previews after the candidate selector crashes on equal scores and validation counts.
+- Changes. In the remote review workflow, rank only by score and validation count. Keep input order as the tie-breaker. Added a targeted test that executes the workflow's selection with tied candidates.
+- Preserved. The priority of quality then validation count, diagnostic fallback, preview renderer and artifact format.
+- Evidence. Run 43545667486 stopped when Python tried to compare tied candidate dictionaries. The focused workflow tests include that case.
+- Open. Verify a hosted render from the updated workflow in an authorized release context. Native xLights approval and Pages delivery have separate checks. Exact ties now pick the first reported candidate.
+
 ### 2026-11-13 — Beta 1.3 packages the palette fix for Windows and Android
 **Agent:** Cursor cloud agent
 **Branch:** `cursor/beta-1-3-release-1aae`

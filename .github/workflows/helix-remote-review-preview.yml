@@ -130,7 +130,7 @@ jobs:
           audio = audio_candidates[0] if audio_candidates else Path('LightsOutTheme.mp3')
 
           if candidates:
-              score, neg_issues, winner = sorted(candidates, reverse=True)[0]
+              score, neg_issues, winner = max(candidates, key=lambda candidate: candidate[:2])
               xsq = Path(winner['sequence'])
               source = 'ranked_variant'
               version = str(winner.get('version'))
