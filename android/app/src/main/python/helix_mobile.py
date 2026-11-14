@@ -233,17 +233,10 @@ def run(engine_path, job_path, request_json, callback):
                     else:
                         shutil.copy2(engine/name, dest)
                 manifest['input_hashes'][name] = file_hash(dest)
-            try:
-                from core.band_visibility import apply as apply_band_visibility
-            except ImportError:
-                manifest['band_visibility'] = {
-                    'status': 'unavailable',
-                    'reason': 'core.band_visibility is not in this engine',
-                }
-            else:
-                manifest['band_visibility'] = apply_band_visibility(
-                    job/'input/xlights_rgbeffects.xml', job/'input/template.xsq',
-                    enabled=request.get('band_enabled', True))
+            from core.band_visibility import apply as apply_band_visibility
+            manifest['band_visibility'] = apply_band_visibility(
+                job/'input/xlights_rgbeffects.xml', job/'input/template.xsq',
+                enabled=request.get('band_enabled', True))
             manifest['effective_input_hashes'] = {
                 name: file_hash(job/'input'/name) for name in ('template.xsq', 'xlights_rgbeffects.xml')}
         os.chdir(job)

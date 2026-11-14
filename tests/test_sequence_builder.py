@@ -4,11 +4,38 @@ import json
 import unittest
 from pathlib import Path
 
+import pytest
+
 from core import effect_engine
 from core import engine_profiles
 from core import sequence_builder
 from core.run_config import RunConfig
 from core.run_manager import RunManager
+
+
+def test_failed_song_returns_nonzero_and_records_failure(monkeypatch, tmp_path):
+    monkeypatch.chdir(tmp_path)
+    audio = tmp_path / "bad.wav"
+    audio.touch()
+    template = tmp_path / "template.xsq"
+    template.touch()
+    output = tmp_path / "out"
+
+    def fail_generation(*args, **kwargs):
+        raise ValueError("Cannot decode audio")
+
+    monkeypatch.setattr(effect_engine, "run_variant", fail_generation)
+    with pytest.raises(SystemExit) as error:
+        sequence_builder.run_profile("master", [
+            "--audio", str(audio), "--template", str(template), "--output-dir", str(output),
+            "--no-prompt", "--no-save-settings", "--no-effects-orchestrator",
+        ])
+
+    assert error.value.code == 1
+    manifest, = output.rglob("run_manifest.json")
+    report = json.loads(manifest.read_text())
+    assert report["status"] == "failed"
+    assert "Cannot decode audio" in report["error_summary"]
 
 
 class SequenceBuilderTests(unittest.TestCase):

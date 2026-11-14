@@ -436,9 +436,10 @@ def run_profile(profile_id: str | None, engine_args: list[str] | None = None) ->
             _record_orchestration_artifacts(ctx, report)
 
         effective_engine_args = _promote_orchestrated_template(engine_args, report)
+        template_promoted = effective_engine_args != _clean_engine_args(engine_args)
         if not has_explicit_beat_grid_args:
             effective_engine_args = _strip_beat_grid_args(effective_engine_args)
-        if report is not None and report.invoked and report.xsq_written and effective_engine_args != _clean_engine_args(engine_args):
+        if report is not None and template_promoted:
             print(f"effects_orchestrator: promoted template={report.orchestrated_xsq_path}")
 
         artifact_roots = _artifact_search_roots(config, profile.version)

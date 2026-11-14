@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import math
 import re
 from pathlib import Path
 from typing import TYPE_CHECKING
@@ -167,6 +168,45 @@ def replace_audio_references(root: ET.Element, new_audio: Path) -> int:
                 el.text = new_text
                 changed += replacements
     return changed
+
+
+def set_sequence_duration(root: ET.Element, duration_seconds: float) -> int:
+    """Write the decoded soundtrack length with millisecond precision."""
+    if not math.isfinite(duration_seconds) or duration_seconds <= 0:
+        raise ValueError("Media duration requires finite positive seconds")
+    duration_ms = max(1, round(duration_seconds * 1000))
+    namespace = root.tag.rsplit("}", 1)[0] + "}" if "}" in root.tag else ""
+    head = root.find(namespace + "head")
+    if head is None:
+        head = ET.SubElement(root, namespace + "head")
+    for name, value in (("sequenceDuration", f"{duration_ms / 1000:.3f}"), ("sequenceType", "Media")):
+        element = head.find(namespace + name)
+        if element is None:
+            element = ET.SubElement(head, namespace + name)
+        element.text = value
+    return duration_ms
+
+
+def bound_media_effects(root: ET.Element, duration_ms: int) -> dict[str, int]:
+    """Keep lighting and timing intervals inside the decoded soundtrack."""
+    if duration_ms < 1:
+        raise ValueError("Media duration must be positive")
+    counts = {"trimmed": 0, "removed": 0}
+    for parent in root.iter():
+        for effect in list(parent):
+            if (not isinstance(effect.tag, str) or effect.tag.rsplit("}", 1)[-1] != "Effect"
+                    or "startTime" not in effect.attrib or "endTime" not in effect.attrib):
+                continue
+            start, end = int(effect.attrib["startTime"]), int(effect.attrib["endTime"])
+            lo, hi = max(0, start), min(duration_ms, end)
+            if hi <= lo:
+                parent.remove(effect)
+                counts["removed"] += 1
+            elif (lo, hi) != (start, end):
+                effect.set("startTime", str(lo))
+                effect.set("endTime", str(hi))
+                counts["trimmed"] += 1
+    return counts
 
 
 def find_root_child(root: ET.Element, suffix: str) -> ET.Element | None:

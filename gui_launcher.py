@@ -14,6 +14,12 @@ from core.helix_version import TITLE, VERSION
 ROOT = Path(__file__).resolve().parent
 
 
+def _worker_command(mode: str, script: Path) -> list[str]:
+    if getattr(sys, "frozen", False):
+        return [str(Path(sys.executable).with_name("HelixCLI.exe")), mode]
+    return [sys.executable, str(script)]
+
+
 def _best_layout_file(folder: Path) -> Path:
     xbkp = folder / "xlights_rgbeffects.xbkp"
     if xbkp.exists():
@@ -206,7 +212,7 @@ class HelixGui(tk.Tk):
         )
 
     def _build_helixville(self) -> None:
-        cmd = [sys.executable, str(ROOT / "tools" / "build_helixville_layout.py")]
+        cmd = _worker_command("--helix-build-helixville", ROOT / "tools" / "build_helixville_layout.py")
         self._log("Building/refreshing helixville layout...")
         result = subprocess.run(cmd, cwd=str(ROOT), capture_output=True, text=True)
         if result.stdout:
@@ -232,8 +238,7 @@ class HelixGui(tk.Tk):
             return
 
         cmd = [
-            sys.executable,
-            str(ROOT / "main.py"),
+            *_worker_command("--helix-cli", ROOT / "main.py"),
             "--profile",
             self.profile_var.get().strip() or "master",
             "--",
