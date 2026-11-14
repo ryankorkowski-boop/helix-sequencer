@@ -94,7 +94,7 @@ def export_drums(root, garden, plan):
         event_timing_preserved=True,independent_component_ground_truth_verified=False)
 
 
-def export_instruments(root, garden, plan, *, qualified_keyboard=False):
+def export_instruments(root, garden, plan, *, qualified_keyboard=False, native_frame_ms=None):
     duration = round(float(root.findtext('head/sequenceDuration')) * 1000)
     elements = root.find('ElementEffects')
     report = dict(source='retained production snowman_band plan', detected_instrument_identity_verified=False,
@@ -130,6 +130,12 @@ def export_instruments(root, garden, plan, *, qualified_keyboard=False):
                 # must not pin the entire arm in the contact pose. Instrument
                 # lighting above retains the full measured note interval.
                 b = min(b, a + 90)
+            source_start = a
+            if native_frame_ms is not None:
+                a = round(a / native_frame_ms) * native_frame_ms
+                b = min(duration, round(b / native_frame_ms) * native_frame_ms)
+                if b <= a:
+                    return False
             if part not in layers:
                 el=ET.SubElement(elements,'Element',name=model.name+'/'+part,type='model')
                 layers[part]=ET.SubElement(el,'EffectLayer')
@@ -140,11 +146,11 @@ def export_instruments(root, garden, plan, *, qualified_keyboard=False):
                 palette=f'C_BUTTON_Palette1={color},C_CHECKBOX_Palette1=1'))
             e.set('sourceMethod','retained_production_band_plan' if musical else 'nonmusical_instrument_visibility')
             if musical:
-                e.set('sourceStartMs',str(a)); e.set('sourceEndMs',str(source_end))
+                e.set('sourceStartMs',str(source_start)); e.set('sourceEndMs',str(source_end))
             if gesture:
                 e.set('sourceGesture', 'attack_contact')
             windows.setdefault(part,[]).append((a,b))
-            return True
+            return e
         counts=dict(source_events=0, mapped_events=0, unmapped_pitch_events=0, unmapped_events=[])
         def unmapped(source,reason):
             counts['unmapped_pitch_events']+=1
@@ -170,7 +176,8 @@ def export_instruments(root, garden, plan, *, qualified_keyboard=False):
                 kind = source.get('kind')
                 if kind in ('chord_change', 'transition'):
                     continue
-                assignment = string_assignment(round(pitch), role) if pitch is not None else None
+                tuning = plan.get('bass_tuning_midi') if role == 'bass' else None
+                assignment = string_assignment(round(pitch), role, tuning=tuning) if pitch is not None else None
                 is_strum = role == 'guitar' and kind == 'strum'
                 if assignment is None and not is_strum:
                     unmapped(source, 'Missing or out-of-range source pitch')
@@ -184,7 +191,7 @@ def export_instruments(root, garden, plan, *, qualified_keyboard=False):
                 strings = range(len(TUNINGS[role])) if is_strum else (assignment[0],)
                 mapped = False
                 for string in strings:
-                    mapped = cue(f'STRING_{string}', attack, '#FFF1AD', strength) or mapped
+                    mapped = (cue(f'STRING_{string}', attack, '#FFF1AD', strength) is not False) or mapped
                 counts['mapped_events'] += int(mapped)
                 if assignment is not None:
                     string, fret = assignment
@@ -203,9 +210,11 @@ def export_instruments(root, garden, plan, *, qualified_keyboard=False):
                 for i, a in enumerate(starts):
                     part, attack = contacts[a]
                     b = min(attack['end_ms'], starts[i + 1] if i + 1 < len(starts) else duration)
-                    if b > a and cue(part, dict(attack, end_ms=b), '#D1B899', .95, hold=True):
+                    contact = cue(part, dict(attack, end_ms=b), '#D1B899', .95, hold=True) if b > a else False
+                    if contact is not False:
                         counts['arm_gestures'] += 1
-                        windows.setdefault(f'ARM_{side}_ACTIVE', []).append((a, min(b, duration)))
+                        windows.setdefault(f'ARM_{side}_ACTIVE', []).append(
+                            (int(contact.get('startTime')), int(contact.get('endTime'))))
                     elif b > a:
                         counts['arm_contact_omissions'].append(dict(start_ms=a, part=part, reason='Unreachable native pose'))
             sources = []
@@ -245,7 +254,7 @@ def export_instruments(root, garden, plan, *, qualified_keyboard=False):
                 if not possible:
                     unmapped(source,'Pitch outside physical guitar string/fret range'); continue
                 parts=['STRING_'+str(possible[-1])]
-            mapped=any([cue(p,source,'#FFF1AD' if role!='piano' else '#81EDFF',level) for p in parts])
+            mapped=any([cue(p,source,'#FFF1AD' if role!='piano' else '#81EDFF',level) is not False for p in parts])
             counts['mapped_events']+=int(mapped)
             if not mapped:
                 unmapped(source,'Authored instrument has no matching native note/string submodel')
@@ -273,11 +282,17 @@ def export_instruments(root, garden, plan, *, qualified_keyboard=False):
                         if attack not in claimed_contacts:
                             claimed_contacts.add(attack)
                             part=f'ARM_{side}_NOTE_{pitch}'
-                            if cue(part,source,'#C5D6DD',.9,gesture=True):
+                            contact = cue(part,source,'#C5D6DD',.9,gesture=True)
+                            if contact is not False:
                                 counts['arm_gestures']+=1
-                                a=int(source['start_ms']);b=min(duration,int(source['end_ms']),a+90)
+                                a=int(contact.get('startTime'));b=int(contact.get('endTime'))
                                 active='ARM_'+side+'_ACTIVE'
                                 previous=last_contacts.get(side)
+                                if previous is not None and a==previous[1]:
+                                    layers[part].remove(contact)
+                                    windows[part].pop()
+                                    counts['arm_gestures'] -= 1
+                                    continue
                                 if previous is not None and a<previous[2]:
                                     # One physical hand cannot occupy two note
                                     # poses. A new actual attack ends the old
@@ -295,7 +310,7 @@ def export_instruments(root, garden, plan, *, qualified_keyboard=False):
                     # each key illumination remains independently source timed.
                     if interval not in gestures:
                         gestures.add(interval)
-                        counts['arm_gestures'] += int(cue(part,source,'#C5D6DD',.9,gesture=True))
+                        counts['arm_gestures'] += int(cue(part,source,'#C5D6DD',.9,gesture=True) is not False)
         # Rest complements keep source-timed contact and idle poses exclusive.
         for part in model.submodels:
             if not part.endswith('_IDLE') or not part.startswith('ARM_'):

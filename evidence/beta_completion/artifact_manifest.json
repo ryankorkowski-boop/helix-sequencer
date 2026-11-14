@@ -1,4 +1,10 @@
 {
+  "wire_tree_band_review": {
+    "status": "NATIVE_TECHNICAL_REVIEW_PENDING_OWNER_PLAYBACK",
+    "evidence": "evidence/beta_completion/wire_tree_band_20261113.json",
+    "video_library_file_id": "libfile_13ff3763ea0881919dabcb3caa8faef1",
+    "native_show_library_file_id": "libfile_3c7119774a9c819197a4584eade23030"
+  },
   "schema": "helix.beta-artifacts.v1",
   "updated_at": "2026-11-09T18:38:11.232382+00:00",
   "requested_count": 9,

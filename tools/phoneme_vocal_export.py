@@ -20,6 +20,12 @@ def screened_lanes(cache, *, fps=100):
     energy = np.column_stack([cache[s+'_energy'] for s in sources])
     shapes = np.column_stack([cache[s+'_shapes'] for s in sources])
     probability = np.column_stack([cache[s+'_presence_probability'] for s in sources])
+    # The optional acoustic corroboration is confined to the same source clock.
+    # Speech VAD alone can miss sustained pitched vocals in a dense mix.
+    corroboration = [cache.get(s+'_acoustic_corroboration') for s in sources]
+    for i, evidence in enumerate(corroboration):
+        if evidence is not None:
+            probability[:, i] = np.maximum(probability[:, i], evidence)
     energy, shapes, report = screen_candidate_lanes(energy, shapes, probability, fps=fps)
     return {s: (energy[:, i], shapes[:, i]) for i, s in enumerate(sources)}, report
 
@@ -61,7 +67,7 @@ def _clear(element):
 
 def export(root, layout: Path, garden, *, fixture: Path = FIXTURE,
            expected_sha256=EXPECTED_SHA256, stemless_audio: Path | None = None,
-           source_audio: Path | None = None):
+           source_audio: Path | None = None, native_frame_ms: int | None = None):
     report = json.loads((fixture / 'diagnostic.json').read_text())
     clocks = fixture / 'acoustic_vocal_clocks.npz'
     if report.get('audio_sha256') != expected_sha256 or digest(clocks) != report.get('clock_sha256'):
@@ -119,12 +125,22 @@ def export(root, layout: Path, garden, *, fixture: Path = FIXTURE,
             layer = ET.SubElement(_element(root, target), 'EffectLayer', name='Helix source-separated vocal estimate')
             active = (energy > 0) & (shapes != SHAPE_NAMES.index('REST'))
             values = np.where(active, shapes, SHAPE_NAMES.index('REST'))
+            step = 10
+            if native_frame_ms is not None:
+                if native_frame_ms < 10 or native_frame_ms % 10:
+                    raise ValueError('Native frame duration must be a positive multiple of 10 ms')
+                step = native_frame_ms
+                # Sample each physical frame at its center. Preserve rests as
+                # their own values and prevent sub-frame transitions collapsing.
+                starts = np.arange(0, duration_ms, step)
+                indices = starts + np.minimum(duration_ms - starts, step) // 2
+                values = values[np.minimum(indices // 10, len(values)-1)]
             cuts = np.r_[0, np.flatnonzero(np.diff(values)) + 1, len(values)]
             count, sounding, rest = 0, 0, 0
             timing_name = 'Helix_' + role.title() + '_Phonemes'
             spans = []
             for a, b in zip(cuts[:-1], cuts[1:]):
-                start, end = int(a)*10, min(duration_ms, int(b)*10)
+                start, end = int(a)*step, min(duration_ms, int(b)*step)
                 if end <= start:
                     continue
                 shape = shape_names[int(values[a])]

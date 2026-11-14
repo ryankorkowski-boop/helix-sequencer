@@ -68,6 +68,26 @@ def test_confidence_screened_csv_matches_every_native_face_interval(tmp_path):
             assert all(bool(int(row[name+'_active'])) == active for row in rows[start:end])
 
 
+def test_native_face_frames_sample_the_individual_source_clock_centers(tmp_path):
+    direct, native = sequence(), sequence()
+    layout = source_layout(tmp_path)
+    garden = SimpleNamespace(models=[])
+    export(direct, layout, garden)
+    export(native, layout, garden, native_frame_ms=50)
+    for role in ('LEAD', 'HARMONY'):
+        path = f'./ElementEffects/Element[@name="HX_SNOW_{role}"]/EffectLayer/Effect'
+        raw = direct.findall(path)
+        quantized = native.findall(path)
+        assert int(quantized[-1].get('endTime')) == 34880
+        assert all(int(e.get('startTime')) % 50 == 0 for e in quantized)
+        raw_settings = {t: e.get('settings') for e in raw
+                        for t in range(int(e.get('startTime')), int(e.get('endTime')))}
+        for effect in quantized:
+            lo, hi = int(effect.get('startTime')), int(effect.get('endTime'))
+            assert all(effect.get('settings') == raw_settings[t + min(34880 - t, 50) // 2]
+                       for t in range(lo, hi, 50))
+
+
 def test_changed_vocal_cache_receipt_is_rejected_before_export(tmp_path):
     fixture = tmp_path / 'cache'
     fixture.mkdir()

@@ -1,3 +1,13 @@
+## 13 November — Wire Tree band-only native review
+
+The 28.2-second final chorus of `1-Wire-Tree.mp3` ran through Helix's master profile. The first xLights render exposed two inactive mouths, dropped sub-frame effects, and guitar gestures fed from the mixed bus. The replacement gates performer cues against source-separated evidence, corroborates independent UVR vocal candidates against Demucs vocals, and samples the two existing mouth clocks at each native frame center. Demucs and ADTOF estimates drive the existing bass and V3 kit geometry. The original drummer artwork matches its repository hash.
+
+All 53 focused tests passed. On xLights 2026.19, both mouth node sets matched their authored effects on every frame. The bass rendered 70 estimated notes at pitch through excerpt-specific C1/G1/C2/F2 tuning. The drummer used 134 resolved strikes. The 1920×1080 H.264/AAC MP4 decoded all 564 frames without a blank native frame. Native logs had zero dropped effects or errors. The decoded soundtrack had zero sample lag at five sampled positions. [Native verification](../evidence/beta_completion/wire_tree_band_20261113.json).
+
+Replay the show with `python -m tools.build_current_comparison SOURCE VOCAL_CLOCKS OUTPUT --canonical-band --expected-audio-sha256 HASH --band-source-plan PLAN --align-band-frames`. `SOURCE` is a saved Helix run (manifest, source WAV and production band analysis). `VOCAL_CLOCKS` and `PLAN` are in the archive's evidence directory. To prepare new evidence, use the `instruments` and `vocals` commands in `python -m tools.band_source_evidence`. Run native xLights on the generated `11/Performance.xsq` with `11` as the show directory. [Playback MP4](https://chatgpt.com/library?file_id=libfile_13ff3763ea0881919dabcb3caa8faef1&account_id=personal) and [native show archive](https://chatgpt.com/library?file_id=libfile_3c7119774a9c819197a4584eade23030&account_id=personal).
+
+The rendition still needs listening evidence for singer identity, exact phonemes and artistic drum timing. One unqualified tom estimate was omitted. The excerpt covers guitar and keyboard rest; test active playing on material with attributable sources. Quality gates and platform parity for the full showcase remain open. The dashboard reporting route was unavailable. See [MASTER_TODO](../MASTER_TODO.md) before extending this work.
+
 ## 13 November — follow-up on the band and vocal review
 
 - [x] Owner rejected the drummer logic in the 35-second Phoneme Test Hook repair review. Vocal accuracy improved but remains imperfect, and the owner identified this recording as especially difficult training material. This feedback grants no approval.

@@ -223,7 +223,8 @@ def layout(number,plan,*,duration=36):
 
 
 def build(source,vocals,output,*,numbers=None,names=NAMES,layout_builder=layout,
-          preserve_addresses=(1,),instrumental=False,expected_sha256=None):
+          preserve_addresses=(1,),instrumental=False,expected_sha256=None,
+          band_source_plan=None, align_band_frames=False):
     source,output=map(Path,(source,output));output.mkdir(parents=True,exist_ok=True)
     source_manifest=json.loads((source/'run_manifest.json').read_text())
     audio=source/'media'/source_manifest.get('audio_name','Helix_Starred_New_Review.wav');sha=digest(audio)
@@ -237,6 +238,9 @@ def build(source,vocals,output,*,numbers=None,names=NAMES,layout_builder=layout,
     plans=(source/'sequence').rglob('*.snowman_band.json') if full_song else (source/'sequence').glob('*.snowman_band.json')
     plan_path,=plans
     plan=json.loads(plan_path.read_text())
+    if band_source_plan is not None:
+        from tools.band_source_evidence import apply_evidence
+        plan = apply_evidence(plan, audio, band_source_plan)
     cache={}
     shape_names=SHAPE_NAMES
     if vocals is not None:
@@ -330,7 +334,8 @@ def build(source,vocals,output,*,numbers=None,names=NAMES,layout_builder=layout,
                         m.attrs['HelixPhonemeOwnership']='exclusive'
             static_materials(SimpleNamespace(models=performers));write_layout(g,folder,include_demo=False,export_all_custom=True)
             instrument_report=export_instruments(sequence.root,SimpleNamespace(models=performers),plan,
-                                                 qualified_keyboard=full_song)
+                                                 qualified_keyboard=full_song,
+                                                 native_frame_ms=50 if align_band_frames else None)
             from tools.canonical_band_cues import refresh_models
             refresh_models(g, folder/'xlights_rgbeffects.xml')
             if full_song:
@@ -342,7 +347,8 @@ def build(source,vocals,output,*,numbers=None,names=NAMES,layout_builder=layout,
                         sequence.effect(m,'MOUTH_rest',0,duration_ms,'#F1C383',55)
             else:
                 vocal_report=export_vocals(sequence.root,folder/'xlights_rgbeffects.xml',SimpleNamespace(models=performers),
-                                           fixture=vocals,expected_sha256=sha,source_audio=audio)
+                                           fixture=vocals,expected_sha256=sha,source_audio=audio,
+                                           native_frame_ms=50 if align_band_frames else None)
                 if full_song:
                     (folder/'Band_Vocal_Provenance.json').write_text(json.dumps(vocal_report,indent=2)+'\n')
             drummer,states,proof=band
@@ -414,6 +420,8 @@ def build(source,vocals,output,*,numbers=None,names=NAMES,layout_builder=layout,
             item.update(layout_sha256=digest(folder/'xlights_rgbeffects.xml'),xsq_sha256=digest(path),
                         vocal_mode='instrumental_rest' if instrumental else receipt.get('verification_state','estimate'),
                         canonical_cast_count=len(performers) if band else 0)
+        if band_source_plan is not None:
+            item['band_source_plan_sha256'] = digest(Path(band_source_plan))
         (folder/'run_manifest.json').write_text(json.dumps(item,indent=2)+'\n')
         (folder/'Spatial_Event_Provenance.json').write_text(json.dumps(reports,indent=2)+'\n')
         manifest.append(item);print('BUILT',number,name,item['models'],item['channels'],flush=True)
@@ -426,4 +434,17 @@ if __name__=='__main__':
     parser=argparse.ArgumentParser(description=__doc__)
     for name in ('source','vocals','output'):parser.add_argument(name,type=Path)
     parser.add_argument('--layouts',type=int,nargs='+')
-    args=parser.parse_args();build(args.source,args.vocals,args.output,numbers=args.layouts)
+    parser.add_argument('--expected-audio-sha256')
+    parser.add_argument('--band-source-plan',type=Path)
+    parser.add_argument('--align-band-frames',action='store_true')
+    parser.add_argument('--canonical-band',action='store_true',help='Build the six-member full-song layout only')
+    args=parser.parse_args()
+    options = dict(numbers=args.layouts, expected_sha256=args.expected_audio_sha256,
+                   band_source_plan=args.band_source_plan, align_band_frames=args.align_band_frames)
+    if args.canonical_band:
+        if args.layouts is not None or args.expected_audio_sha256 is None:
+            parser.error('--canonical-band requires --expected-audio-sha256 and selects the layout itself')
+        from models.full_song_layouts import build as band_layout, NAMES as full_song_names
+        options.update(numbers=(11,), names=full_song_names, layout_builder=band_layout,
+                       preserve_addresses=())
+    build(args.source, args.vocals, args.output, **options)
