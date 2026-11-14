@@ -51,6 +51,7 @@ from tools.build_helpers import (
 )
 from tools import utilities as xfb
 from xlights import xsq_writer as base
+from xlights.xml_io import bound_media_effects, set_sequence_duration
 
 librosa = LazyModule("librosa")
 np = LazyModule("numpy")
@@ -12764,6 +12765,9 @@ def run_variant(
     write_sequence_notes(notes_path(out_path), payload)
 
     log("[6/8] Writing sequence")
+    duration_ms = set_sequence_duration(xsq.root, audio.dur_s)
+    boundary_report = bound_media_effects(xsq.root, duration_ms)
+    log(f"Audio export boundaries: {boundary_report}")
     base.normalize_display_views(xsq.root, force=True)
     if active_layout_file and active_layout_file.exists():
         final_sync = base.sync_xsq_to_layout(xsq, active_layout_file)
