@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import logging
 from pathlib import Path
 from typing import Any, Callable
 
@@ -23,21 +24,23 @@ def _log(log_fn: Callable[[str], None] | None, message: str) -> None:
         return
     try:
         log_fn(message)
-    except Exception:
-        pass
+    except Exception as exc:
+        logging.getLogger(__name__).debug('Optional progress callback failed, error type %s', type(exc).__name__)
 
 
 def _safe_float(value: Any, default: float = 0.0) -> float:
     try:
         return float(value)
-    except Exception:
+    except Exception as exc:
+        logging.getLogger(__name__).debug('Could not convert a number; using the fallback, error type %s', type(exc).__name__)
         return default
 
 
 def _safe_int(value: Any, default: int = 0) -> int:
     try:
         return int(round(float(value)))
-    except Exception:
+    except Exception as exc:
+        logging.getLogger(__name__).debug('Could not convert an integer; using the fallback, error type %s', type(exc).__name__)
         return default
 
 
@@ -123,7 +126,8 @@ def _load_stereo(audio_path: Path | None, audio: Any, target_len: int) -> dict[s
         try:
             y, loaded_sr = librosa.load(str(audio_path), sr=sr if sr > 0 else None, mono=False)
             sr = _safe_int(loaded_sr, sr)
-        except Exception:
+        except Exception as exc:
+            logging.getLogger(__name__).debug("_load_stereo fallback (%s)", type(exc).__name__)
             y = None
     if y is None:
         raw = np.asarray(getattr(audio, "y", []), dtype=float)
@@ -146,7 +150,8 @@ def _load_stereo(audio_path: Path | None, audio: Any, target_len: int) -> dict[s
     try:
         left = np.asarray(librosa.feature.rms(y=arr[0], hop_length=hop)[0], dtype=float)
         right = np.asarray(librosa.feature.rms(y=arr[1], hop_length=hop)[0], dtype=float)
-    except Exception:
+    except Exception as exc:
+        logging.getLogger(__name__).debug("_load_stereo fallback (%s)", type(exc).__name__)
         return {
             "available": False,
             "left_energy01": left_energy,
@@ -194,7 +199,8 @@ def _melbank_payload(signal_y: Any, sr: int, target_len: int) -> dict[str, Any]:
                 ),
                 dtype=float,
             )
-        except Exception:
+        except Exception as exc:
+            logging.getLogger(__name__).debug("_melbank_payload fallback (%s)", type(exc).__name__)
             mel = np.zeros((bins, target_len), dtype=float)
         if mel.ndim != 2:
             mel = np.zeros((bins, target_len), dtype=float)
@@ -252,7 +258,8 @@ def _build_piano_roll(signal_y: Any, sr: int, target_len: int) -> dict[str, Any]
             ),
             dtype=float,
         )
-    except Exception:
+    except Exception as exc:
+        logging.getLogger(__name__).debug("_build_piano_roll fallback (%s)", type(exc).__name__)
         cqt = np.zeros((_DEFAULT_PIANO_KEYS, target_len), dtype=float)
         fmin = 65.406
     if cqt.shape[1] != target_len:

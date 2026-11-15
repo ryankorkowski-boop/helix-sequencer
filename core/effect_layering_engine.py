@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import logging
 from dataclasses import asdict, dataclass, field
 from typing import Any, Iterable, Mapping
 
@@ -31,7 +32,10 @@ class EffectCandidate:
         role = self.layer.lower()
         try:
             base = int(self.priority if self.priority is not None else LAYER_ROLE_PRIORITY.get(role, 2))
-        except Exception:
+        except Exception as exc:
+            logging.getLogger(__name__).debug(
+                "normalized_priority fallback (%s)", type(exc).__name__,
+            )
             base = LAYER_ROLE_PRIORITY.get(role, 2)
         if context is not None:
             dominant = {item.lower() for item in context.dominant_elements}
@@ -119,7 +123,10 @@ def max_layers_for_context(context: SequenceContext | None, default: int = 3) ->
     raw = usage.get("max_layers", default)
     try:
         value = int(round(float(raw)))
-    except Exception:
+    except Exception as exc:
+        logging.getLogger(__name__).debug(
+            "max_layers_for_context fallback (%s)", type(exc).__name__,
+        )
         value = default
     clutter = 0.0
     coherence = 1.0
@@ -137,7 +144,8 @@ def _role_weight(role: str, context: SequenceContext | None) -> float:
     usage = _style_layer_usage(context)
     try:
         return clamp01(float(usage.get(role, 0.65)))
-    except Exception:
+    except Exception as exc:
+        logging.getLogger(__name__).debug("_role_weight fallback (%s)", type(exc).__name__)
         return 0.65
 
 

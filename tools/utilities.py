@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import logging
 import json
 import re
 from datetime import datetime, timezone
@@ -107,7 +108,8 @@ def load_catalog(path: Path) -> dict | None:
         return None
     try:
         return json.loads(path.read_text(encoding="utf-8"))
-    except Exception:
+    except (OSError, UnicodeError, json.JSONDecodeError) as exc:
+        logging.getLogger(__name__).debug("load_catalog fallback (%s)", type(exc).__name__)
         return None
 
 
@@ -119,7 +121,10 @@ def load_or_build_catalog(root: Path, *, repo_root: Path | None = None, cache_pa
         return cached
     try:
         catalog = build_xlights_catalog(repo)
-    except Exception:
+    except Exception as exc:
+        logging.getLogger(__name__).debug(
+            "load_or_build_catalog fallback (%s)", type(exc).__name__,
+        )
         return cached
     write_catalog(catalog, cache)
     return catalog

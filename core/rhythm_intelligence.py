@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import logging
 from bisect import bisect_left
 from statistics import median
 
@@ -277,7 +278,8 @@ def derive_phrase_boundaries(
 def _as_float_list(values: object) -> list[float]:
     try:
         return [float(item) for item in values]  # type: ignore[arg-type]
-    except Exception:
+    except Exception as exc:
+        logging.getLogger(__name__).debug("_as_float_list fallback (%s)", type(exc).__name__)
         return []
 
 

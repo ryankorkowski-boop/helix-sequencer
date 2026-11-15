@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 from __future__ import annotations
 
+import logging
 import argparse
 import hashlib
 import json
@@ -339,7 +340,7 @@ def ensure_audio_sidecar(audio_path: Path, out_path: Path) -> Path:
         if not dest.exists() or dest.stat().st_size != audio_path.stat().st_size:
             shutil.copy2(audio_path, dest)
         return dest
-    except Exception as exc:
+    except (OSError, ValueError) as exc:
         log(f"[WARN] Audio sidecar copy skipped: {exc}")
         return audio_path
 
@@ -560,7 +561,8 @@ def load_override_file(path: Path | None) -> dict[str, str | list[str]]:
         return {}
     try:
         payload = json.loads(path.read_text(encoding="utf-8"))
-    except Exception:
+    except (OSError, UnicodeError, json.JSONDecodeError) as exc:
+        logging.getLogger(__name__).debug("load_override_file fallback (%s)", type(exc).__name__)
         return {}
     return coerce_override_payload(payload)
 
@@ -833,7 +835,10 @@ def scan_workspace_preferences(
         if report_path.exists():
             try:
                 report_payload = json.loads(report_path.read_text(encoding="utf-8"))
-            except Exception:
+            except (OSError, UnicodeError, json.JSONDecodeError) as exc:
+                logging.getLogger(__name__).debug(
+                    "scan_workspace_preferences fallback (%s)", type(exc).__name__,
+                )
                 report_payload = {}
             if not sequence_scoring.is_helix_generated_payload(report_payload):
                 continue
@@ -852,7 +857,10 @@ def scan_workspace_preferences(
             darkness_biases.extend([base.clamp(darkness_value, 0.70, 1.45)] * report_weight)
         try:
             xsq = base.load_xsq(path)
-        except Exception:
+        except Exception as exc:
+            logging.getLogger(__name__).debug(
+                "scan_workspace_preferences fallback (%s)", type(exc).__name__,
+            )
             continue
         source_files.append(path.name)
         for model_name, element in xsq.elements.items():
@@ -1085,7 +1093,10 @@ def find_indexed_series_anywhere(names: list[str], patterns: list[str]) -> list[
                 break
             try:
                 num = int(m.group(1))
-            except Exception:
+            except ValueError as exc:
+                logging.getLogger(__name__).debug(
+                    "find_indexed_series_anywhere fallback (%s)", type(exc).__name__,
+                )
                 continue
             items.append((num, name))
             seen.add(key)
@@ -2155,7 +2166,10 @@ def derive_multiband_analysis(audio: base.Audio) -> MultiBandAnalysis:
         if mfcc.size:
             mfcc_delta = np.asarray(librosa.feature.delta(mfcc), dtype=float)
             mfcc_motion = _align_curve(np.mean(np.abs(mfcc_delta), axis=0), frame_count)
-    except Exception:
+    except Exception as exc:
+        logging.getLogger(__name__).debug(
+            "derive_multiband_analysis fallback (%s)", type(exc).__name__,
+        )
         mfcc_motion = np.zeros(frame_count, dtype=float)
     try:
         chroma = np.asarray(librosa.feature.chroma_cqt(y=audio.y, sr=audio.sr, hop_length=hop), dtype=float)
@@ -2166,7 +2180,10 @@ def derive_multiband_analysis(audio: base.Audio) -> MultiBandAnalysis:
             if tonnetz.size:
                 tonnetz_delta = np.asarray(librosa.feature.delta(tonnetz), dtype=float)
                 tonnetz_motion = _align_curve(np.mean(np.abs(tonnetz_delta), axis=0), frame_count)
-    except Exception:
+    except Exception as exc:
+        logging.getLogger(__name__).debug(
+            "derive_multiband_analysis fallback (%s)", type(exc).__name__,
+        )
         chroma_stability = np.zeros(frame_count, dtype=float)
         tonnetz_motion = np.zeros(frame_count, dtype=float)
 
@@ -2998,7 +3015,8 @@ def _mean_feature_sample(times_s: np.ndarray, values: np.ndarray, t_s: float, *,
 def _safe_int(value: object, default: int = 0) -> int:
     try:
         return int(value)
-    except Exception:
+    except Exception as exc:
+        logging.getLogger(__name__).debug('Could not convert an integer; using the fallback, error type %s', type(exc).__name__)
         return default
 
 
@@ -5593,11 +5611,17 @@ def _index_lyric_windows(lyric_events: list[ai.LyricEvent]) -> tuple[list[int], 
     for event in lyric_events:
         try:
             start_ms = int(getattr(event, "start_ms", 0))
-        except Exception:
+        except Exception as exc:
+            logging.getLogger(__name__).debug(
+                "_index_lyric_windows fallback (%s)", type(exc).__name__,
+            )
             start_ms = 0
         try:
             end_ms = max(start_ms + 1, int(getattr(event, "end_ms", start_ms + 1)))
-        except Exception:
+        except Exception as exc:
+            logging.getLogger(__name__).debug(
+                "_index_lyric_windows fallback (%s)", type(exc).__name__,
+            )
             end_ms = start_ms + 1
         windows.append((max(0, start_ms - 120), end_ms + 120))
 
@@ -7297,12 +7321,16 @@ def resolve_reference_poly_xsq(template_xsq: Path | None = None) -> Path | None:
         candidates.append(template_xsq.parent / "poly.xsq")
     try:
         candidates.append(Path.cwd() / "poly.xsq")
-    except Exception:
-        pass
+    except OSError as exc:
+        logging.getLogger(__name__).debug(
+            "resolve_reference_poly_xsq fallback (%s)", type(exc).__name__,
+        )
     try:
         candidates.append(Path(__file__).resolve().parent / "poly.xsq")
-    except Exception:
-        pass
+    except (OSError, RuntimeError, ValueError) as exc:
+        logging.getLogger(__name__).debug(
+            "resolve_reference_poly_xsq fallback (%s)", type(exc).__name__,
+        )
     seen: set[str] = set()
     for cand in candidates:
         key = str(cand).lower()
@@ -7319,7 +7347,10 @@ def load_reference_scale_midis(reference_xsq: Path | None) -> list[int]:
         return DEFAULT_REFERENCE_SCALE_MIDIS[:]
     try:
         root = ET.parse(reference_xsq).getroot()
-    except Exception:
+    except (OSError, ET.ParseError, LookupError, ValueError) as exc:
+        logging.getLogger(__name__).debug(
+            "load_reference_scale_midis fallback (%s)", type(exc).__name__,
+        )
         return DEFAULT_REFERENCE_SCALE_MIDIS[:]
     labels: list[int] = []
     seen: set[int] = set()
@@ -7334,7 +7365,10 @@ def load_reference_scale_midis(reference_xsq: Path | None) -> list[int]:
                 continue
             try:
                 midi = int(round(float(librosa.note_to_midi(label))))
-            except Exception:
+            except Exception as exc:
+                logging.getLogger(__name__).debug(
+                    "load_reference_scale_midis fallback (%s)", type(exc).__name__,
+                )
                 continue
             if midi in seen:
                 continue
@@ -8689,7 +8723,8 @@ def write_report(path: Path, payload: dict) -> None:
 def read_report_payload(path: Path) -> dict:
     try:
         return json.loads(path.read_text(encoding="utf-8"))
-    except Exception:
+    except (OSError, UnicodeError, json.JSONDecodeError) as exc:
+        logging.getLogger(__name__).debug("read_report_payload fallback (%s)", type(exc).__name__)
         return {}
 
 
@@ -9152,8 +9187,8 @@ class EffectTimeline:
             self.layers[layer].remove(entry)
         try:
             entry.xml_layer.remove(entry.xml_effect)
-        except Exception:
-            pass
+        except (AttributeError, TypeError, ValueError) as exc:
+            logging.getLogger(__name__).debug("remove_entry fallback (%s)", type(exc).__name__)
 
     def add(self, layer: str, entry: TimelineEntry) -> None:
         bucket = self.layers.setdefault(layer, [])
@@ -9578,14 +9613,20 @@ def reference_template_paths(template_xsq: Path) -> list[Path]:
     seen: set[Path] = set()
     try:
         template_resolved = template_xsq.resolve()
-    except Exception:
+    except (OSError, RuntimeError, ValueError) as exc:
+        logging.getLogger(__name__).debug(
+            "reference_template_paths fallback (%s)", type(exc).__name__,
+        )
         template_resolved = template_xsq
     for candidate in candidates:
         if not candidate.exists():
             continue
         try:
             resolved = candidate.resolve()
-        except Exception:
+        except (OSError, RuntimeError, ValueError) as exc:
+            logging.getLogger(__name__).debug(
+                "reference_template_paths fallback (%s)", type(exc).__name__,
+            )
             resolved = candidate
         if resolved == template_resolved or resolved in seen:
             continue
@@ -9651,7 +9692,10 @@ def collect_existing_windows(el: ET.Element, auto_layer_names: set[str]) -> list
             try:
                 st = int(float(st_raw))
                 en = int(float(en_raw))
-            except Exception:
+            except (TypeError, ValueError, OverflowError) as exc:
+                logging.getLogger(__name__).debug(
+                    "collect_existing_windows fallback (%s)", type(exc).__name__,
+                )
                 continue
             if en > st:
                 windows.append((st, en))
@@ -9789,7 +9833,10 @@ def apply_spatial_chase(
     if scene is None:
         try:
             scene = spatial.load_scene(tuning.layout_file)
-        except Exception:
+        except Exception as exc:
+            logging.getLogger(__name__).debug(
+                "apply_spatial_chase fallback (%s)", type(exc).__name__,
+            )
             scene = None
     coords = scene.projected_coordinate_map(names) if scene is not None else ai.parse_layout_coordinates(tuning.layout_file, names)
     if len(coords) < 3:
@@ -9836,7 +9883,8 @@ def apply_spatial_chase(
     def _pitch_hz_at(ms_value: int) -> float:
         try:
             hz = float(base.nearest(audio.times_s, audio.pitch_hz, ms_value / 1000.0))
-        except Exception:
+        except Exception as exc:
+            logging.getLogger(__name__).debug("_pitch_hz_at fallback (%s)", type(exc).__name__)
             return 0.0
         if not np.isfinite(hz) or hz <= 0.0:
             return 0.0
@@ -10346,8 +10394,10 @@ def build_all_models_all_effects_sequence(
     base.ensure_master_view_models(xsq.root)
     try:
         base.indent_xml(xsq.root)
-    except Exception:
-        pass
+    except (AttributeError, TypeError, RecursionError) as exc:
+        logging.getLogger(__name__).debug(
+            "build_all_models_all_effects_sequence fallback (%s)", type(exc).__name__,
+        )
     xsq.tree.write(out_path, encoding="utf-8", xml_declaration=True)
     return out_path
 
@@ -12772,11 +12822,11 @@ def run_variant(
     try:
         chronoflow_engine.write_export_json(chronoflow_json_path(out_path), chronoflow_payload)
         chronoflow_engine.write_export_html(chronoflow_view_path(out_path), chronoflow_payload)
-    except Exception as exc:
+    except (OSError, TypeError, ValueError, RecursionError) as exc:
         log(f"[WARN] Chronoflow export skipped: {exc!r}")
     try:
         snowman_band_engine.write_export_json(snowman_band_json_path(out_path), snowman_band_payload)
-    except Exception as exc:
+    except (OSError, TypeError, ValueError, RecursionError) as exc:
         log(f"[WARN] Snowman band export skipped: {exc!r}")
     validate_report_payload(payload)
     write_report(report_path(out_path), payload)
@@ -12804,8 +12854,8 @@ def run_variant(
         )
     try:
         base.indent_xml(xsq.root)
-    except Exception:
-        pass
+    except (AttributeError, TypeError, RecursionError) as exc:
+        logging.getLogger(__name__).debug("run_variant fallback (%s)", type(exc).__name__)
     xsq.tree.write(out_path, encoding="utf-8", xml_declaration=True)
 
     if GENERATE_SHOWCASE:

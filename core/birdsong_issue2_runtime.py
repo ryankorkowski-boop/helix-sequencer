@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import logging
 from dataclasses import asdict, dataclass
 import json
 import math
@@ -240,7 +241,10 @@ def emit_birdsong_rows(
                 eff=row.effect,
                 stem="other",
             )
-        except Exception:
+        except Exception as exc:
+            logging.getLogger(__name__).debug(
+                "emit_birdsong_rows fallback (%s)", type(exc).__name__,
+            )
             if strict:
                 raise
             continue

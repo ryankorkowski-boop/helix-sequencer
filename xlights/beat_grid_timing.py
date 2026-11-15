@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import logging
 from pathlib import Path
 import xml.etree.ElementTree as ET
 from typing import Any
@@ -36,8 +37,10 @@ def _duration_ms(root: ET.Element) -> int:
             if key in node.attrib:
                 try:
                     duration = max(duration, int(round(float(node.attrib[key]))))
-                except Exception:
-                    pass
+                except (KeyError, TypeError, ValueError, OverflowError) as exc:
+                    logging.getLogger(__name__).debug(
+                        "_duration_ms fallback (%s)", type(exc).__name__,
+                    )
     return duration + 1000
 
 
@@ -105,14 +108,20 @@ def snap_timing_tracks_in_root(
                 continue
             try:
                 raw_start = int(round(float(raw)))
-            except Exception:
+            except (TypeError, ValueError, OverflowError) as exc:
+                logging.getLogger(__name__).debug(
+                    "snap_timing_tracks_in_root fallback (%s)", type(exc).__name__,
+                )
                 continue
             raw_end_value = _get_attr(node, END_ATTRS)
             raw_end = raw_start + 1
             if raw_end_value is not None:
                 try:
                     raw_end = int(round(float(raw_end_value)))
-                except Exception:
+                except (TypeError, ValueError, OverflowError) as exc:
+                    logging.getLogger(__name__).debug(
+                        "snap_timing_tracks_in_root fallback (%s)", type(exc).__name__,
+                    )
                     raw_end = raw_start + 1
             snapped_start = snap_ms_to_grid(raw_start, grid_points, max_shift_ms=beat_grid.max_shift_ms, mode=beat_grid.mode)
             delta = snapped_start - raw_start
@@ -151,8 +160,10 @@ def snap_xsq_timing_tracks(path: Path, beat_grid: BeatGrid, *, output_path: Path
     target = output_path or path
     try:
         legacy.indent_xml(root)
-    except Exception:
-        pass
+    except (AttributeError, TypeError, RecursionError) as exc:
+        logging.getLogger(__name__).debug(
+            "snap_xsq_timing_tracks fallback (%s)", type(exc).__name__,
+        )
     tree.write(target, encoding="utf-8", xml_declaration=True)
     report["path"] = str(target)
     return report

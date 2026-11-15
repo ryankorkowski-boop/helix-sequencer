@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import logging
 import json
 from dataclasses import dataclass, field
 from pathlib import Path
@@ -31,14 +32,16 @@ def clamp01(value: float) -> float:
 def _score01(value: Any) -> float:
     try:
         return clamp01(float(value) / 100.0)
-    except Exception:
+    except Exception as exc:
+        logging.getLogger(__name__).debug("_score01 fallback (%s)", type(exc).__name__)
         return 0.0
 
 
 def _ratio(value: Any) -> float:
     try:
         return clamp01(float(value))
-    except Exception:
+    except Exception as exc:
+        logging.getLogger(__name__).debug("_ratio fallback (%s)", type(exc).__name__)
         return 0.0
 
 
@@ -110,13 +113,13 @@ def _timing_delta_values(payload: dict[str, Any]) -> list[float]:
             if "raw_start_ms" in value and "snapped_start_ms" in value:
                 try:
                     deltas.append(abs(float(value["snapped_start_ms"]) - float(value["raw_start_ms"])))
-                except Exception:
-                    pass
+                except (KeyError, TypeError, ValueError, OverflowError) as exc:
+                    logging.getLogger(__name__).debug("visit fallback (%s)", type(exc).__name__)
             if "raw_ms" in value and "snapped_ms" in value:
                 try:
                     deltas.append(abs(float(value["snapped_ms"]) - float(value["raw_ms"])))
-                except Exception:
-                    pass
+                except (KeyError, TypeError, ValueError, OverflowError) as exc:
+                    logging.getLogger(__name__).debug("visit fallback (%s)", type(exc).__name__)
             for child in value.values():
                 visit(child)
         elif isinstance(value, list):
@@ -356,7 +359,8 @@ def load_learning_memory(path: Path) -> dict[str, Any]:
         return default_memory_payload()
     try:
         payload = json.loads(path.read_text(encoding="utf-8"))
-    except Exception:
+    except (OSError, UnicodeError, json.JSONDecodeError) as exc:
+        logging.getLogger(__name__).debug("load_learning_memory fallback (%s)", type(exc).__name__)
         return default_memory_payload()
     if int(payload.get("schema_version", 0) or 0) != LEARNING_MEMORY_SCHEMA_VERSION:
         return default_memory_payload()

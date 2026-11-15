@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import logging
 from dataclasses import asdict, dataclass
 from typing import Iterable
 
@@ -82,5 +83,6 @@ def _frame_value(frame: dict[str, object], key: str) -> float:
         return 1.0 - _frame_value(frame, key.removeprefix("inverse_"))
     try:
         return float(frame.get(key, 0.0) or 0.0)
-    except Exception:
+    except Exception as exc:
+        logging.getLogger(__name__).debug("_frame_value fallback (%s)", type(exc).__name__)
         return 0.0

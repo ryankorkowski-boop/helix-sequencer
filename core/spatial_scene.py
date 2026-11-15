@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import logging
 import math
 from dataclasses import dataclass, field
 from functools import lru_cache
@@ -374,7 +375,8 @@ def _model_points(model: xmp.Model) -> list[tuple[float, float, float]]:
         return _downsample_points(model.geometry_points)
     try:
         pixels = model.virtual_pixel_map()
-    except Exception:
+    except Exception as exc:
+        logging.getLogger(__name__).debug("_model_points fallback (%s)", type(exc).__name__)
         pixels = []
     if pixels:
         sampled = _downsample_points([(point.x, point.y, point.z) for point in pixels])

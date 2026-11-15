@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import logging
 from collections import defaultdict
 from pathlib import Path
 from typing import Any
@@ -27,7 +28,8 @@ DISPLAY_BY_MODEL_TYPE = {
 def _float(v: object, default: float = 0.0) -> float:
     try:
         return float(v)
-    except Exception:
+    except Exception as exc:
+        logging.getLogger(__name__).debug("_float fallback (%s)", type(exc).__name__)
         return default
 
 

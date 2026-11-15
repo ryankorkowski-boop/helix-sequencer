@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 from __future__ import annotations
 
+import logging
 import argparse
 import csv
 import difflib
@@ -264,9 +265,13 @@ def read_text_lossy(path: Path) -> str | None:
         except UnicodeDecodeError:
             try:
                 return path.read_text(encoding="cp1252")
-            except Exception:
+            except (OSError, UnicodeError, ValueError) as exc:
+                logging.getLogger(__name__).debug(
+                    "read_text_lossy fallback (%s)", type(exc).__name__,
+                )
                 return None
-    except Exception:
+    except (OSError, UnicodeError, ValueError) as exc:
+        logging.getLogger(__name__).debug("read_text_lossy fallback (%s)", type(exc).__name__)
         return None
 
 
@@ -340,8 +345,10 @@ def folder_size_and_count(root: Path, active_project: Path, archive_root: Path) 
         try:
             total += path.stat().st_size
             count += 1
-        except OSError:
-            pass
+        except OSError as exc:
+            logging.getLogger(__name__).debug(
+                "folder_size_and_count fallback (%s)", type(exc).__name__,
+            )
     return total, count
 
 

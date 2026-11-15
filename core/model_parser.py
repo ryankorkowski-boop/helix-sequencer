@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import logging
 import math
 import re
 import xml.etree.ElementTree as ET
@@ -51,7 +52,8 @@ def _float_attr(attrs: dict[str, str], key: str, default: float = 0.0) -> float:
         return default
     try:
         return float(raw)
-    except Exception:
+    except Exception as exc:
+        logging.getLogger(__name__).debug("_float_attr fallback (%s)", type(exc).__name__)
         return default
 
 
@@ -61,7 +63,8 @@ def _int_attr(attrs: dict[str, str], key: str, default: int = 0) -> int:
         return default
     try:
         return int(round(float(raw)))
-    except Exception:
+    except Exception as exc:
+        logging.getLogger(__name__).debug("_int_attr fallback (%s)", type(exc).__name__)
         return default
 
 
@@ -85,7 +88,10 @@ def _parse_point_data(raw: str, origin: tuple[float, float, float]) -> list[tupl
             continue
         try:
             values.append(float(token))
-        except Exception:
+        except (TypeError, ValueError, OverflowError) as exc:
+            logging.getLogger(__name__).debug(
+                "_parse_point_data fallback (%s)", type(exc).__name__,
+            )
             continue
     triples: list[tuple[float, float, float]] = []
     for idx in range(0, len(values), 3):

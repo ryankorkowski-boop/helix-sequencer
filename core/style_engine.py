@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import logging
 from dataclasses import asdict, dataclass, field, replace
 from typing import Any, Mapping
 
@@ -146,14 +147,16 @@ def _tokens(value: Any) -> set[str]:
         return {part.strip().lower() for part in value.replace(",", " ").split() if part.strip()}
     try:
         return {str(item).lower() for item in value or []}
-    except Exception:
+    except Exception as exc:
+        logging.getLogger(__name__).debug("_tokens fallback (%s)", type(exc).__name__)
         return set()
 
 
 def _feature_float(features: Mapping[str, Any], key: str, default: float = 0.0) -> float:
     try:
         return float(features.get(key, default))
-    except Exception:
+    except Exception as exc:
+        logging.getLogger(__name__).debug("_feature_float fallback (%s)", type(exc).__name__)
         return default
 
 

@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import logging
 from dataclasses import dataclass
 from typing import Any, Iterable, Mapping
 
@@ -103,7 +104,8 @@ def quantize_drum_event(event: dict[str, Any], beat_grid: BeatGrid, *, duration_
         return False, "unknown"
     try:
         raw_start = int(round(float(event[key])))
-    except Exception:
+    except (KeyError, TypeError, ValueError, OverflowError) as exc:
+        logging.getLogger(__name__).debug("quantize_drum_event fallback (%s)", type(exc).__name__)
         return False, "unknown"
     kind = classify_drum_event(event)
     base_grid = generate_beat_grid(beat_grid, duration_ms)
@@ -130,7 +132,10 @@ def quantize_drum_event(event: dict[str, Any], beat_grid: BeatGrid, *, duration_
     if end_key is not None:
         try:
             raw_end = int(round(float(event[end_key])))
-        except Exception:
+        except (KeyError, TypeError, ValueError, OverflowError) as exc:
+            logging.getLogger(__name__).debug(
+                "quantize_drum_event fallback (%s)", type(exc).__name__,
+            )
             raw_end = raw_start + 1
         event.setdefault("raw_end_ms", raw_end)
         event[end_key] = max(snapped_start + 1, raw_end + delta)

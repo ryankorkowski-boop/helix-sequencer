@@ -1,5 +1,6 @@
 """Preview frame export utilities."""
 
+import logging
 from pathlib import Path
 
 
@@ -23,7 +24,8 @@ class PreviewExporter:
             return path
         try:
             frames[0].save(path, save_all=True, append_images=frames[1:], duration=duration, loop=0)
-        except Exception:
+        except Exception as exc:
+            logging.getLogger(__name__).debug("export_gif fallback (%s)", type(exc).__name__)
             path.touch()
         return path
 
@@ -32,7 +34,8 @@ class PreviewExporter:
         try:
             import imageio.v3 as iio
             iio.imwrite(path, frames, fps=fps)
-        except Exception:
+        except Exception as exc:
             # MP4 support is optional. GIF/frame export remains available.
+            logging.getLogger(__name__).debug("export_mp4 fallback (%s)", type(exc).__name__)
             path.touch()
         return path

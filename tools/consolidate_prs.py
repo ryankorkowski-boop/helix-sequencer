@@ -154,7 +154,7 @@ class ConsolidationScript:
                 return False, result.stderr.strip()
         except subprocess.TimeoutExpired:
             return False, f"Command timeout: {description}"
-        except Exception as e:
+        except (OSError, subprocess.SubprocessError, UnicodeError, ValueError) as e:
             return False, f"Command error: {str(e)}"
 
     def get_pr_status(self, pr_number: int) -> Dict:

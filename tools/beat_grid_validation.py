@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import logging
 import argparse
 import json
 from pathlib import Path
@@ -15,7 +16,8 @@ from core.self_improving_scoring import rhythmic_accuracy_score, score_sequence
 def _read_json(path: Path) -> dict[str, Any] | None:
     try:
         payload = json.loads(path.read_text(encoding="utf-8"))
-    except Exception:
+    except (OSError, UnicodeError, json.JSONDecodeError) as exc:
+        logging.getLogger(__name__).debug("_read_json fallback (%s)", type(exc).__name__)
         return None
     return payload if isinstance(payload, dict) else None
 

@@ -19,7 +19,7 @@ def load_xsq(path: Path) -> "XsqIndex":
     legacy = _legacy()
     try:
         tree = ET.parse(path)
-    except Exception as exc:
+    except (OSError, ET.ParseError, LookupError, ValueError) as exc:
         legacy.die(f"Failed to parse XSQ XML: {path.name}\n{exc}")
     root = tree.getroot()
 

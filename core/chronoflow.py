@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import logging
 import json
 import math
 from pathlib import Path
@@ -20,21 +21,23 @@ def _log(log_fn: Callable[[str], None] | None, message: str) -> None:
         return
     try:
         log_fn(message)
-    except Exception:
-        pass
+    except Exception as exc:
+        logging.getLogger(__name__).debug('Optional progress callback failed, error type %s', type(exc).__name__)
 
 
 def _safe_float(value: Any, default: float = 0.0) -> float:
     try:
         return float(value)
-    except Exception:
+    except Exception as exc:
+        logging.getLogger(__name__).debug('Could not convert a number; using the fallback, error type %s', type(exc).__name__)
         return default
 
 
 def _safe_int(value: Any, default: int = 0) -> int:
     try:
         return int(round(float(value)))
-    except Exception:
+    except Exception as exc:
+        logging.getLogger(__name__).debug('Could not convert an integer; using the fallback, error type %s', type(exc).__name__)
         return default
 
 
@@ -103,7 +106,8 @@ def _smooth_curve(values: Any, preferred_window: int = 9, order: int = 2) -> Any
         return arr
     try:
         return signal.savgol_filter(arr, window_length=window, polyorder=min(order, window - 2), mode="interp")
-    except Exception:
+    except Exception as exc:
+        logging.getLogger(__name__).debug("_smooth_curve fallback (%s)", type(exc).__name__)
         return _moving_average(arr, max(3, min(window, 5)))
 
 
@@ -197,7 +201,8 @@ def _load_stereo_field(audio_path: Path | None, frame_times_s: Any, sr: int) -> 
         }
     try:
         y, loaded_sr = librosa.load(str(audio_path), sr=sr if sr > 0 else None, mono=False)
-    except Exception:
+    except Exception as exc:
+        logging.getLogger(__name__).debug("_load_stereo_field fallback (%s)", type(exc).__name__)
         return {
             "available": False,
             "left_energy01": left_energy,
@@ -250,7 +255,8 @@ def _fill_pitch_midi(pitch_hz: Any, target_len: int) -> tuple[Any, Any]:
     midi = np.full((target_len,), np.nan, dtype=float)
     try:
         midi[valid] = librosa.hz_to_midi(hz[valid])
-    except Exception:
+    except Exception as exc:
+        logging.getLogger(__name__).debug("_fill_pitch_midi fallback (%s)", type(exc).__name__)
         midi[valid] = 60.0
     midi[~valid] = np.interp(indexes[~valid], indexes[valid], midi[valid])
     midi = np.nan_to_num(midi, nan=60.0, posinf=60.0, neginf=60.0)
@@ -262,7 +268,8 @@ def _compute_chroma(audio: Any, target_len: int) -> tuple[Any, Any]:
         return np.zeros((12, 0), dtype=float), np.zeros((12,), dtype=float)
     try:
         chroma = np.asarray(librosa.feature.chroma_cqt(y=np.asarray(audio.y, dtype=float), sr=int(audio.sr), hop_length=512), dtype=float)
-    except Exception:
+    except Exception as exc:
+        logging.getLogger(__name__).debug("_compute_chroma fallback (%s)", type(exc).__name__)
         chroma = np.zeros((12, target_len), dtype=float)
     if chroma.ndim != 2 or chroma.shape[0] != 12:
         chroma = np.zeros((12, target_len), dtype=float)
@@ -392,7 +399,8 @@ def _essentia_summary(audio_path: Path | None) -> dict[str, Any]:
                 "spectral_centroid": round(centroid_value, 4),
             },
         }
-    except Exception:
+    except Exception as exc:
+        logging.getLogger(__name__).debug("_essentia_summary fallback (%s)", type(exc).__name__)
         return {"available": True, "descriptors": {}}
 
 
@@ -415,15 +423,16 @@ def _pca_coordinates(feature_matrix: Any) -> tuple[Any, str]:
             if coords.shape[1] < 3:
                 coords = np.pad(coords, ((0, 0), (0, 3 - coords.shape[1])), mode="constant")
             return np.asarray(coords[:, :3], dtype=float), "sklearn_pca"
-        except Exception:
-            pass
+        except Exception as exc:
+            logging.getLogger(__name__).debug("_pca_coordinates fallback (%s)", type(exc).__name__)
     try:
         _u, _s, vh = np.linalg.svd(normalized, full_matrices=False)
         coords = normalized @ vh[: min(3, vh.shape[0])].T
         if coords.shape[1] < 3:
             coords = np.pad(coords, ((0, 0), (0, 3 - coords.shape[1])), mode="constant")
         return np.asarray(coords[:, :3], dtype=float), "svd_pca"
-    except Exception:
+    except Exception as exc:
+        logging.getLogger(__name__).debug("_pca_coordinates fallback (%s)", type(exc).__name__)
         return np.zeros((normalized.shape[0], 3), dtype=float), "fallback_zero"
 
 
@@ -508,7 +517,10 @@ def _collect_layout_mapping(parsed_layout: Any) -> dict[str, Any]:
             continue
         try:
             center = getattr(model, "center")()
-        except Exception:
+        except Exception as exc:
+            logging.getLogger(__name__).debug(
+                "_collect_layout_mapping fallback (%s)", type(exc).__name__,
+            )
             center = (0.0, 0.0, 0.0)
         roots.append(
             {

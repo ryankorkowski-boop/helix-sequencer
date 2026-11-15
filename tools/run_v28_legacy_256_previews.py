@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import logging
 import argparse
 import json
 import subprocess
@@ -19,7 +20,8 @@ V28_VERSIONS = tuple(f"v28.{idx}" for idx in range(1, 10))
 def rel(path: Path) -> str:
     try:
         return str(path.resolve().relative_to(ROOT))
-    except Exception:
+    except (OSError, RuntimeError, ValueError) as exc:
+        logging.getLogger(__name__).debug("rel fallback (%s)", type(exc).__name__)
         return str(path)
 
 
@@ -60,7 +62,8 @@ def ffmpeg_exe() -> str:
         import imageio_ffmpeg  # type: ignore
 
         return str(imageio_ffmpeg.get_ffmpeg_exe())
-    except Exception:
+    except Exception as exc:
+        logging.getLogger(__name__).debug("ffmpeg_exe fallback (%s)", type(exc).__name__)
         return "ffmpeg"
 
 
@@ -146,7 +149,7 @@ def load_report(path: Path) -> dict[str, object]:
         return {"exists": False, "path": rel(path)}
     try:
         data = json.loads(path.read_text(encoding="utf-8"))
-    except Exception as exc:
+    except (OSError, UnicodeError, json.JSONDecodeError) as exc:
         return {"exists": True, "path": rel(path), "error": str(exc)}
     quality = data.get("quality", {}) if isinstance(data, dict) else {}
     validation = data.get("validation", {}) if isinstance(data, dict) else {}

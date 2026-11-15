@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import logging
 import json
 from dataclasses import asdict, dataclass
 from pathlib import Path
@@ -97,8 +98,10 @@ def build_seed_graph(engine_args: list[str] | None = None) -> IntentGraph:
         if item in {"--duration", "--seconds"} and idx + 1 < len(args):
             try:
                 song_length_seconds = max(8.0, float(args[idx + 1]))
-            except ValueError:
-                pass
+            except ValueError as exc:
+                logging.getLogger(__name__).debug(
+                    "build_seed_graph fallback (%s)", type(exc).__name__,
+                )
     section_count = 5
     section_duration = max(1.0, song_length_seconds / section_count)
     sections = ("intro", "verse", "build", "chorus", "finale")
@@ -272,7 +275,10 @@ def _build_orchestrated_exports(final_graph: IntentGraph, engine_args: list[str]
 
             parsed_layout = xmp.parse_layout(layout_file)
             placement_source = str(layout_file)
-        except Exception:
+        except Exception as exc:
+            logging.getLogger(__name__).debug(
+                "_build_orchestrated_exports fallback (%s)", type(exc).__name__,
+            )
             parsed_layout = None
             placement_source = "fallback_candidates"
 

@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import logging
 import json
 import os
 import re
@@ -118,7 +119,8 @@ def load_trigger_lexicon(config_path: str | Path | None = None) -> dict[str, set
 
     try:
         payload = json.loads(candidate.read_text(encoding="utf-8"))
-    except Exception:
+    except (OSError, UnicodeError, json.JSONDecodeError) as exc:
+        logging.getLogger(__name__).debug("load_trigger_lexicon fallback (%s)", type(exc).__name__)
         return lexicon
 
     candidate_map = payload.get("trigger_lexicon") if isinstance(payload, dict) else None
@@ -146,7 +148,8 @@ def load_trigger_lexicon(config_path: str | Path | None = None) -> dict[str, set
 def _event_start_ms(event: Any) -> int:
     try:
         return max(0, int(getattr(event, "start_ms", 0)))
-    except Exception:
+    except Exception as exc:
+        logging.getLogger(__name__).debug("_event_start_ms fallback (%s)", type(exc).__name__)
         return 0
 
 

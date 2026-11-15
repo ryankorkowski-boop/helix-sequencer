@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import logging
 import json
 from pathlib import Path
 from typing import Any, Callable
@@ -18,14 +19,16 @@ def _clamp(value: float, lo: float, hi: float) -> float:
 def _safe_float(value: Any, default: float = 0.0) -> float:
     try:
         return float(value)
-    except Exception:
+    except Exception as exc:
+        logging.getLogger(__name__).debug('Could not convert a number; using the fallback, error type %s', type(exc).__name__)
         return default
 
 
 def _safe_int(value: Any, default: int = 0) -> int:
     try:
         return int(round(float(value)))
-    except Exception:
+    except Exception as exc:
+        logging.getLogger(__name__).debug('Could not convert an integer; using the fallback, error type %s', type(exc).__name__)
         return default
 
 
@@ -88,8 +91,10 @@ def discover_matrix_targets(parsed_layout: Any) -> list[dict[str, Any]]:
         center = (0.0, 0.0, 0.0)
         try:
             center = getattr(model, "center")()
-        except Exception:
-            pass
+        except Exception as exc:
+            logging.getLogger(__name__).debug(
+                "discover_matrix_targets fallback (%s)", type(exc).__name__,
+            )
         width = max(1, _safe_int(getattr(model, "strings", 1), 1))
         height = max(1, _safe_int(getattr(model, "nodes_per_string", 1), 1))
         pixels = max(1, _safe_int(getattr(model, "total_pixels", width * height), width * height))
@@ -182,7 +187,10 @@ def _load_blend_overrides(path: Path | None) -> dict[str, Any]:
         return {}
     try:
         payload = json.loads(path.read_text(encoding="utf-8"))
-    except Exception:
+    except (OSError, UnicodeError, json.JSONDecodeError) as exc:
+        logging.getLogger(__name__).debug(
+            "_load_blend_overrides fallback (%s)", type(exc).__name__,
+        )
         return {}
     return payload if isinstance(payload, dict) else {}
 

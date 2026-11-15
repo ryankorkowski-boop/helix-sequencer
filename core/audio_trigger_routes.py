@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import logging
 from dataclasses import asdict, dataclass
 
 from core import audio_reactive_effect_catalog as effect_catalog
@@ -227,12 +228,14 @@ def _feature_value(frame: dict[str, object], feature: str) -> float:
         return 1.0 - _feature_value(frame, feature.removeprefix("inverse_"))
     try:
         return float(frame.get(feature, 0.0) or 0.0)
-    except Exception:
+    except Exception as exc:
+        logging.getLogger(__name__).debug("_feature_value fallback (%s)", type(exc).__name__)
         return 0.0
 
 
 def _safe_int(value: object) -> int:
     try:
         return int(value)
-    except Exception:
+    except Exception as exc:
+        logging.getLogger(__name__).debug('Could not convert an integer; using the fallback, error type %s', type(exc).__name__)
         return 0

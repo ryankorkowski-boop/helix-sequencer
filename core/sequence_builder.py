@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import logging
 import argparse
 import sys
 import traceback
@@ -275,7 +276,10 @@ def _run_birdsong_hook(config: RunConfig, engine_args: list[str] | None, ctx: Ru
                     if key and key not in seen:
                         seen.add(key)
                         model_names.append(key)
-        except Exception:
+        except (OSError, ET.ParseError, LookupError, ValueError) as exc:
+            logging.getLogger(__name__).debug(
+                "_run_birdsong_hook fallback (%s)", type(exc).__name__,
+            )
             model_names = []
 
     if not model_names:
@@ -314,7 +318,8 @@ def _run_birdsong_hook(config: RunConfig, engine_args: list[str] | None, ctx: Ru
     # Write manifest in the configured output root
     try:
         out_root = Path(config.output_root or Path("outputs"))
-    except Exception:
+    except (TypeError, ValueError) as exc:
+        logging.getLogger(__name__).debug("_run_birdsong_hook fallback (%s)", type(exc).__name__)
         out_root = Path("outputs")
     out_root.mkdir(parents=True, exist_ok=True)
     manifest_path = out_root / "birdsong_runtime_manifest.json"
