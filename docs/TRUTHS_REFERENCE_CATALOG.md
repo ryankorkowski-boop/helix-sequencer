@@ -42,3 +42,21 @@ These clips are **selective inspiration, not blanket approval or verified musica
 - [ ] Obtain explicit owner approval before batch, merge of PR #188, or beta publication.
 
 Status: inventory captured from Drive metadata. Six files were retrieved for preliminary frame inspection in chat; **no full-frame or audio-ground-truth qualification completed**. This file introduces no changes to the sequencing engine.
+
+## Owner-locked nine-panel composition (2026-11-15)
+
+Use a 3×3 grid, fixed panel positions, identical source audio and synchronized clocks. This supersedes the earlier 16-panel arrangement for the **next approval pilot only**; it does not authorize the full-song batch or change the existing 16-panel tooling.
+
+| Position | Layout | Requirements |
+|---|---|---|
+| Top left (1) | 16-channel LOR AC | Deliberately simple traditional AC, discrete channels, fades and chases; no RGB. |
+| Top center (2) | 256-channel AC | Owner legacy AC wiring and fixed colors; arches and mega tree; preserve 16-strip 2D LED tree as separately specified, without inventing its pixel count or wiring. |
+| Top right (3) | RGB-heavy house | Realistic architectural facade, dense rooflines, windows, outlines, RGB layers and varied musical movement; reference prior top-right house. |
+| Middle left (4) | Coro singing house | Simple house and readable Coro-style singing faces; vocals only when source-qualified, idle otherwise. |
+| Middle center (5) | Canonical 3D snowman band | Fixed camera, all six members, approved V3 drummer geometry, independently qualified lead/harmony, anatomically bounded instrument gestures and correct instrument strike lights. |
+| Middle right (6) | Pixel singing trees/matrices | Dense singing pixel trees, matrix mouth shapes, coordinated patterns; no fabricated vocals. |
+| Bottom left (7) | Birdsong spatial matrix | Highly technical hypnotic digital matrix, nested 3D spatially-aware props and groups, moire, perspective, call/echo and multidirectional Birdsong choreography. Avoid uncontrolled strobing and all-white flashes. |
+| Bottom center (8) | Piano sequential instrument garden | Many sequential and hierarchical prop groups visibly responding to note onsets, pitch, chords, arpeggios, and left/right keyboard logic. Instrument attribution required; no spurious piano notes. |
+| Bottom right (9) | Ultimate xLights showcase | Dozens to hundreds of spiral trees, matrices, mega trees, arches, tunnels, depth layers and nested groupings; bound channel/model counts and rendering memory before scaling. |
+
+Acceptance: visually legible at 640×360 per cell in a 1920×1080 montage; native xLights XSQ/FSEQ exports, decoded channel checks, full-length H.264/AAC MP4 and audio sync; compare against timestamped Truths references; retain owner approval gate. Prefer a lyrics-bearing pilot with qualified vocals for face testing. An instrumental track must leave singer mouths idle and cannot count as vocal acceptance. Panels 7, 8 and 9 must demonstrate distinct spatial, musical and scale capabilities respectively. No approval is inferred from visual similarity to a reference clip.
