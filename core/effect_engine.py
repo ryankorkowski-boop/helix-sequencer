@@ -221,6 +221,7 @@ class RuntimeTuning:
     hardkor_profile: str = "ac256"
     power_metadata_file: Path | None = None
     fail_on_power_risk: bool = False
+    workers: int = 1
 
 
 @dataclass
@@ -10615,6 +10616,7 @@ def run_variant(
         api_key=(tuning.moises_api_key or ""),
         cache_dir=Path("RenderCache") / "stems",
         log_fn=log,
+        workers=tuning.workers,
     )
     if stem_analysis.bass_peaks_ms:
         bass_peaks = base.compress_times_ms(stem_analysis.bass_peaks_ms, base.scaled_gap(75))
@@ -12863,6 +12865,7 @@ def parse_args(style: VariantStyle, argv: list[str] | None = None) -> argparse.N
     parser.add_argument("--template", help="Path to template .xsq")
     parser.add_argument("--audio", nargs="*", help="Optional audio file(s) to process")
     parser.add_argument("--single", action="store_true", help="Process only the first audio file")
+    parser.add_argument("--workers", type=int, default=1, help="Concurrent local stem analyses (1–3; defaults to 1)")
     parser.add_argument("--feel", choices=sorted(base.FEEL_PRESETS.keys()))
     parser.add_argument("--density", type=float)
     parser.add_argument("--speed", type=float)
@@ -12970,7 +12973,10 @@ def parse_args(style: VariantStyle, argv: list[str] | None = None) -> argparse.N
         birdsong_auto=False,
         hardkor_enabled=False,
     )
-    return parser.parse_args(argv)
+    args = parser.parse_args(argv)
+    if args.workers < 1:
+        parser.error("--workers must be at least 1")
+    return args
 
 
 def resolve_path(folder: Path, raw: str | None) -> Path | None:
@@ -13068,6 +13074,7 @@ def main_for(version: str, argv: list[str] | None = None) -> None:
         args.audio_reactive_intensity,
     )
     tuning = RuntimeTuning(
+        workers=args.workers,
         polyphony_override=int(args.polyphony) if args.polyphony is not None else None,
         cane_focus=float(args.cane_focus if args.cane_focus is not None else 1.0),
         flash_guard=float(args.flash_guard if args.flash_guard is not None else 0.80),

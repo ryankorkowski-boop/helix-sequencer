@@ -62,6 +62,24 @@ class AudioIntelligenceTests(unittest.TestCase):
         self.assertEqual(result.background_vocal_events, [])
         self.assertEqual(result.drum_event_streams, {})
 
+    def test_local_stem_workers_preserve_events_features_and_logs(self) -> None:
+        rate = 22050
+        audio = self._write_wave([
+            0.4 * math.sin(2 * math.pi * 240 * i / rate) if i % 4000 < 1000 else 0.0
+            for i in range(rate)
+        ])
+        arguments = (audio, False, None, audio.parent / "cache")
+        serial_log: list[str] = []
+        parallel_log: list[str] = []
+        serial = audio_intelligence.build_stem_analysis(*arguments, log_fn=serial_log.append, _local_only=True)
+        with patch.object(audio_intelligence, "ThreadPoolExecutor", wraps=audio_intelligence.ThreadPoolExecutor) as executor:
+            parallel = audio_intelligence.build_stem_analysis(
+                *arguments, log_fn=parallel_log.append, workers=3, _local_only=True,
+            )
+        executor.assert_called_once()
+        self.assertEqual(serial, parallel)
+        self.assertEqual(serial_log, parallel_log)
+
     def test_background_vocal_score_grouping_classifies_harmony_and_chant(self) -> None:
         harmony = audio_intelligence._group_background_vocal_scores(
             times_ms=[0, 100, 200, 300, 700],
