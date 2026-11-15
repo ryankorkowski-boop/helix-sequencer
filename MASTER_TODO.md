@@ -77,6 +77,26 @@ Do not mark complete from unit tests alone.
 
 ## Change Ledger
 
+### 2026-11-14 — Optimization PR 3 of 8 · matrix lyric lookup
+
+#### Goal and files
+
+`core/effect_engine.py` now sorts padded lyric windows once per pixel-reactive score and finds the latest eligible start by binary search. The prefix maximum of end times preserves long lyrics that overlap shorter ones. `tests/test_matrix_intelligence.py` exercises unsorted, nested, reversed, and inclusive boundary cases through matrix placement.
+
+#### Verification and preserved behavior
+
+The lookup retains the existing 120 ms padding, clipping at the start of the timeline, minimum duration, and inclusive endpoints. Matrix effect names, RNG calls, order, and targets stay unchanged.
+
+- `python -m pytest tests/test_matrix_intelligence.py tests/test_audio.py tests/test_core_sandbox.py tests/test_palette_not_white.py tests/test_drummer_v3_xsq_integration.py tests/test_sequence_plan.py -q` returned 35 passed with one pre-existing XML warning. The six matrix tests also passed when pointed at the PR 2 engine.
+- The master CLI, a 15.024-second Tinsel Sawtooth excerpt, the 69-model pixel-classic bench layout, and six fixed lyric windows exercised matrix intelligence and lyric sync. All 62 matrix recommendation calls matched. Seven were vocal queries, including six active Text cues and one inactive Wave cue. The generated XSQs matched at 2,404 reported placements. SHA-256 is `767171e7c1ef31545f6bbd5d02325dd77af7676447d0d54a450ce2d1bff8babd`.
+- A synthetic 2,500-window, 4,500-query benchmark produced identical booleans. Three samples had a median of 1.040 s for the linear scan and 0.00436 s for index construction plus queries. Whole variant samples were 15.472 s before and 14.577 s after. The whole-run difference includes unrelated timing variation.
+
+#### Limitations, risks, and deferred work
+
+The lyric windows are treated as stable during a placement pass, as they are in the CLI. The speed measurement is confined to a synthetic lookup load, and sequence parity covers one excerpt and one matrix layout. Native playback remains unverified in this environment.
+
+PR 4 remains at the output-preservation decision gate. A workspace-history probe of the same generated XSQ produced 12 palette entries and 34 family-effect entries, compared with zero in an empty output folder. With identical RNG seeds, `workspace_match` selected a different palette once that XSQ existed. The second runtime candidate uses `workspace_match` when the first uses the template default. Parallelizing those candidates without preserving the first candidate's published history can change output. Preserve serial history-dependent runs and parallelize independently evaluated candidate or stem work if the owner accepts that scope. PRs 5–8 remain pending in order.
+
 ### 2026-11-14 — Optimization PR 2 of 8 · audio decode reuse and analysis cache
 
 #### Goal and files
@@ -157,8 +177,8 @@ The comparison covers one synthetic input, the repository layout, and generated 
 
 - [x] PR 1 · Track the sandbox fixtures, instrument the stages, and verify generated output against the base.
 - [x] PR 2 · Reuse decoded stems and add a cache for deterministic local analysis. The owner approved retaining both HPSS passes after the skip probe changed 116 note events to 119 on the drum fixture and 687 to 731 on the Tinsel Sawtooth excerpt. Both direct analysis and master XSQ parity are verified.
-- [ ] PR 3 · Replace the lyric interval scan and verify placement parity.
-- [ ] PR 4 · Add opt-in workers and verify identical output across worker counts.
+- [x] PR 3 · Replace the lyric interval scan. The fixed-lyric Tinsel matrix comparison verified identical recommendations and XSQ.
+- [ ] PR 4 · Add opt-in workers and verify identical output across worker counts. The current workspace-history dependency can change palette selection if dependent variants run in parallel. See the PR 3 handoff for the owner decision.
 - [ ] PR 5 · Narrow error handlers and preserve their fallbacks.
 - [ ] PR 6 · Consolidate smoke jobs and capture existing lint results before enforcing new violations on Python 3.11 and 3.12.
 - [ ] PR 7 · Validate asset references, clean up tracked files, and split runtime and build dependencies.
