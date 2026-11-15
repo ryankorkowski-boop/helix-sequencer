@@ -1,3 +1,12 @@
+## 15 November — nine-panel selection manifest implementation
+
+- [x] Goal: add a deterministic, inspectable mapping from owner-locked 3×3 positions to existing native 16-layout source panels. New `tools/nine_panel_pilot.py` exports JSON via `--output` or stdout, with unique source indices and explicit upgrade requirements.
+- Preserved: original 16-panel generator, native source layouts, V3 drummer, original AC channels, vocal gates, existing render behavior and release holds.
+- New behavior: selection manifest only; no native output or preview changes. Existing source panels are starting points, not acceptance-ready substitutes.
+- Tests/evidence: source reviewed against `docs/FULL_SONG_SHOWCASE_REBUILD.md` panel inventory; runtime execution and native render **not performed** in this environment.
+- [ ] Add executable test and integration into native render/montage runner; implement missing arches/mega tree, matrices, Birdsong and piano-reactive upgrades; inspect audio and render pilot.
+- Limitations: source panel 14 is helix architecture, not yet the requested piano logic; source panel 15 is spatial megastructure, not yet a Birdsong matrix. Panel 2 must preserve exact owner wiring. Regression risks: mislabeled source panels, large native FSEQ memory, vocal misattribution and excessive effects.
+
 ## 15 November — owner-locked nine-panel pilot layout
 
 - [x] Goal: record the exact 3×3 approval-video layout requested by owner. Updated `docs/TRUTHS_REFERENCE_CATALOG.md` with panel order, technical criteria and verification gates.
