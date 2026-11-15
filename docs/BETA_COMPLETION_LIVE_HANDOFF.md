@@ -1,3 +1,12 @@
+## 15 November — completed CI triage for PR #230
+
+At source SHA `a4759ec0f4dde77b21bf5b2213df04112077d481`:
+- Python 3.11 full regression and lint: PASS. Python 3.12 lint: PASS; full regression: **FAIL** (4 failures in `tests/test_bounded_audio.py`, 2404 passed, 6 skipped). Three chroma entropy comparisons differ by approximately 2e-7 to 3e-7, above the strict 1e-7 assertion; the classifier confidence/event-clock case also fails. Do not change numerical tolerances without investigating output equivalence and event timing.
+- Beta CI, Birdsong CI, Compliance: PASS.
+- Native-proof preliminary job: PASS. Accepted-native-band: FAIL because required native producer was unsuccessful, not because native acceptance independently rejected geometry.
+- Fresh native band producer: FAIL in `tools.verify_native_vocal_source`: source lacks independently resolved lead and backing vocal tracks. Original source identity/archive SHA verification passed. The job correctly failed closed before generating a playable MP4. No fabricated harmony, no bypass of source qualification.
+- Next: inspect exact Python 3.12 numerical deltas and their downstream event decisions, implement a separately scoped parity fix if justified; obtain genuinely source-bound lead/backing stems and rerun vocal preflight; only then native render, compare to Truths, and build 3×3 approval MP4. Keep all release/owner gates.
+
 ## 15 November — owner Truths reference inspection and limited drummer repair
 
 - **Work branch:** `codex/drummer-truths-integration-20261115`, stacked from PR #217 branch `codex/full-song-16-panel-216` source commit `653053db05f754b5dbb85594af8de3cb9aa719e1`.
