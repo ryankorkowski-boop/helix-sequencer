@@ -170,6 +170,19 @@ def suppress_intro_false_hits(
     return ordered, None, 0
 
 
+def _physical_hit_key(event: DrumEvent) -> tuple[str, str]:
+    """Identify the physical drum target for repeat suppression.
+
+    Independent classified toms are separate instruments even when detected
+    at the same time. Unknown toms are already rejected by the scheduler;
+    this helper does not invent a target for them.
+    """
+    if event.drum_type == "tom":
+        tom_class, _ = _explicit_tom_class(event)
+        return ("tom", tom_class or "unqualified")
+    return (event.drum_type, "")
+
+
 def schedule_drum_events(
     events: Iterable[DrumEvent],
     config: DrumMappingConfig = DrumMappingConfig(),
@@ -188,7 +201,7 @@ def schedule_drum_events(
     for event in sorted_events:
         if (
             merged
-            and event.drum_type == merged[-1].drum_type
+            and _physical_hit_key(event) == _physical_hit_key(merged[-1])
             and event.timestamp_ms - merged[-1].timestamp_ms <= config.merge_window_ms
         ):
             previous = merged[-1]
@@ -201,14 +214,22 @@ def schedule_drum_events(
         merged.append(event)
 
     scheduled: list[DrumEvent] = []
-    last_by_type: dict[str, DrumEvent] = {}
+    last_by_target: dict[tuple[str, str], DrumEvent] = {}
     for event in merged:
+        target_key = _physical_hit_key(event)
         nearby = [
             item
             for item in scheduled
             if 0 <= event.timestamp_ms - item.timestamp_ms <= config.clutter_window_ms
         ]
-        if len(nearby) >= config.max_hits_per_window:
+        # Do not discard a real multi-instrument chord at one exact onset.
+        # The normal clutter cap still applies to staggered/noisy bursts.
+        distinct_simultaneous = (
+            bool(nearby)
+            and all(item.timestamp_ms == event.timestamp_ms for item in nearby)
+            and all(_physical_hit_key(item) != target_key for item in nearby)
+        )
+        if len(nearby) >= config.max_hits_per_window and not distinct_simultaneous:
             worst = max(
                 nearby,
                 key=lambda item: (
@@ -226,7 +247,7 @@ def schedule_drum_events(
                 continue
             scheduled.remove(worst)
 
-        previous = last_by_type.get(event.drum_type)
+        previous = last_by_target.get(target_key)
         # Rapid kick doubles are intentional rhythmic events. Do not dim them:
         # downstream preview thresholding can otherwise hide later kicks in a roll.
         if previous and event.drum_type != "kick" and event.timestamp_ms - previous.timestamp_ms <= config.rapid_repeat_window_ms:
@@ -244,7 +265,7 @@ def schedule_drum_events(
             )
 
         scheduled.append(event)
-        last_by_type[event.drum_type] = event
+        last_by_target[target_key] = event
 
     return sorted(
         scheduled,

@@ -1,3 +1,37 @@
+## 15 November — Truths creation-date investigation and historical vocal logic
+
+The owner asks to recover the logic that made the approved Truths videos rather than inventing a replacement. Connected Google Drive folder `1SUtLHdk1nncBrQssmBpYHUeE327Q1VJj` contains Aaa, Bbb, Ccc uploads on 2026-11-15 UTC at approximately 06:06, 08:24 and 09:51 respectively. **These are Drive upload dates, not original render dates.** The inspected Bbb Vocalstruth, Bbb top-three and Bbb awesome MP4 containers identify FFmpeg Lavf60.16.100 / libx264 Lavc60.31.102 but have **no embedded creation_time**. Thus no defensible exact production date is established.
+
+GitHub historical implementation leads (not yet linked causally to the MP4s):
+- May 6, 2026: `cdc4b90bbb` working reactive snowman singer; `46755e48d8` independent female singer member; `51badf15ba` snowman stage preview generator.
+- May 10, 2026: `800b835b96` band vocal face export compiler with distinct singer/female_singer models; `a1154d2835` deterministic lyric-to-phoneme timing.
+- May 13, 2026: `4773e72ada` explicit singer phoneme targets.
+- May 15, 2026: `f82f8f1d2f` merged band phoneme/stem readiness PR #57.
+- May 19, 2026: `d4208e3259` vocal timing pipeline integration test.
+
+**Crucial caution:** `models/working_band_member.py` and `models/working_female_singer.py` contain short hard-coded DEFAULT_CUES; `core/band_vocal_face_export.py` contains `build_demo_vocal_face_timings()` with synthetic 4–6 s events. These may explain historical visually convincing demo animation, but are **not proof of genuine audio-derived independent singer clocks**. Do not reintroduce demo cues as full-song music intelligence. Recover the exact MP4 producer from filenames, matching audio, old render scripts/artifacts and commit history, then port only source-driven useful rendering/geometry into current canonical six-member band; validate native FSEQ/XSQ and independent singing.
+
+Next tasks: inspect remaining Truths container metadata and visual/audio contents, match frame composition/props to historical renderers, search historical workflows/artifacts and test old producer on a feature branch, determine whether old vocal movement was canned vs source-derived, and deliver new native approval MP4. No new video from this investigation. Protected beta PR and batch remain held.
+
+## 15 November — completed CI triage for PR #230
+
+At source SHA `a4759ec0f4dde77b21bf5b2213df04112077d481`:
+- Python 3.11 full regression and lint: PASS. Python 3.12 lint: PASS; full regression: **FAIL** (4 failures in `tests/test_bounded_audio.py`, 2404 passed, 6 skipped). Three chroma entropy comparisons differ by approximately 2e-7 to 3e-7, above the strict 1e-7 assertion; the classifier confidence/event-clock case also fails. Do not change numerical tolerances without investigating output equivalence and event timing.
+- Beta CI, Birdsong CI, Compliance: PASS.
+- Native-proof preliminary job: PASS. Accepted-native-band: FAIL because required native producer was unsuccessful, not because native acceptance independently rejected geometry.
+- Fresh native band producer: FAIL in `tools.verify_native_vocal_source`: source lacks independently resolved lead and backing vocal tracks. Original source identity/archive SHA verification passed. The job correctly failed closed before generating a playable MP4. No fabricated harmony, no bypass of source qualification.
+- Next: inspect exact Python 3.12 numerical deltas and their downstream event decisions, implement a separately scoped parity fix if justified; obtain genuinely source-bound lead/backing stems and rerun vocal preflight; only then native render, compare to Truths, and build 3×3 approval MP4. Keep all release/owner gates.
+
+## 15 November — owner Truths reference inspection and limited drummer repair
+
+- **Work branch:** `codex/drummer-truths-integration-20261115`, stacked from PR #217 branch `codex/full-song-16-panel-216` source commit `653053db05f754b5dbb85594af8de3cb9aa719e1`.
+- **Actual code change:** `mapping/drum_mapper.py` now keys near-simultaneous debounce and rapid-repeat attenuation to the *qualified physical target* for toms instead of the generic tom family. Exact-onset clusters of distinct physical drum targets bypass the staggered burst clutter cap; no invented events. Three-tom geometry, V3 source art, unrelated effect routing and detector abstention remain intact.
+- **Test change:** `tests/test_three_tom_truth_integration.py` covers 6 simultaneous typed kit strikes, separate tom-class repeat windows, same-tom debounce, staggered clutter suppression and unclassified tom rejection. Tests have not been run in this connector session. CI/native render evidence is still required.
+- **Ground truth:** [owner Truths folder](https://drive.google.com/drive/folders/1SUtLHdk1nncBrQssmBpYHUeE327Q1VJj); sampled both `Aaadrummergroundtruth.mp4` and `Aaadrummertruth.mp4`, and `Bbb Vocalstruth.mp4` and `Bbb vocals.mp4`. Reference metadata, full-file SHA-256 and exact links are in [the integration document](TRUTHS_DRUMMER_VOCAL_INTEGRATION_20261115.md). The readable `Bbb vocals.mp4` explicitly displays `ORIGINAL – TIMING FAIL`; do not treat it as reliable word-alignment or singer-attribution ground truth.
+- **NEXT (not complete):** run relevant automated tests and full Python 3.11/3.12 suite; native-render source-matched drummer and vocal review with qualified source tracks; verify all 8 component lanes, exact three toms, native FSEQ/timing and original audio; repair any visual failure; then produce new full-length 3×3 owner approval MP4 with band centered and the favored Advanced RGB Resistance-inspired spatial panel. Do not relabel the previous 16-panel pilot as a new ad.
+- **Risk/gates:** more true same-onset instruments may increase instantaneous effect density, so verify lighting/encoder performance and visual quality. No new MP4 or vocal source qualification has been delivered. No owner approval; hold PR #188, public beta and other 82-song batch. Site activity reporting tool was unavailable; record this work in GitHub.
+- **Master ledger:** `MASTER_TODO.md` has the full goal, changes, preserved behavior, new behavior, evidence, limitations, deferred work and regression risks.
+
 ## 13 November — follow-up on the band and vocal review
 
 - [x] Owner rejected the drummer logic in the 35-second Phoneme Test Hook repair review. Vocal accuracy improved but remains imperfect, and the owner identified this recording as especially difficult training material. This feedback grants no approval.
