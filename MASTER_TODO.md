@@ -1,3 +1,12 @@
+## 15 November — selective Truths reference inventory
+
+- [x] Goal: ground the next band/advanced-layout review in owner-supplied Google Drive videos without treating entire clips as approved behavior. Added `docs/TRUTHS_REFERENCE_CATALOG.md` with 22 Drive file IDs, categories, source links and acceptance-extraction checklist.
+- Preserved: all existing sequencer logic, deterministic output, canonical V3 drummer, original 256-channel AC addresses, independent vocal qualification gate, PR #188 owner approval gate and paused multi-song batch.
+- New behavior: documentation-only reference index; no production behavior changed.
+- Evidence/tests: authenticated Drive folder listing and preliminary retrieval of six videos; no automated tests needed for documentation-only change. No full timestamp/audio audit, duplicate hashing, native xLights rerender, or owner approval claimed.
+- Limitations/deferred: inspect all footage with timestamps, compute content hashes, map approved traits to focused tests, implement narrowly and verify native render before requesting owner approval.
+- Regression risks: none in runtime; misleading labels/filenames could bias future implementation, so source identity and selective approval are explicit.
+
 ## 13 November — refreshed native pilot and singer close-up delivered
 
 - [x] Completed the full-length [Helix Motion 16-panel MP4](https://drive.google.com/file/d/16nqUJHo-cBHOoW2pLgFX-aRTN1MPGdlP/view?usp=drivesdk). Native xLights 2026.18 rerendered panels 1, 2, 4, 6, 7, 8, 10, 12 and 13 with facades behind their real fixture coordinates. Every decoded channel sample matched the corresponding preceding FSEQ. Seven cells came from the preceding verified native composite. The 264.800-second MP4 fully decoded at 1920×1080, H.264/AAC and 30 fps (7,944 frames), with all 16 distinct, visible and moving. Original Drive soundtrack correlation was 0.9991234 and maximum measured lag was 0.125 ms. Drive readback matched SHA-256 `e063a01df2d00c681c25ef545b1dab89238eb2a1cc8c30bfcfeb4dfb73a6217a`. [Verification, source commits and panel hashes](https://drive.google.com/file/d/1X2VperJWIbmrAgoWj0j1n5CCfLwNfRhP/view?usp=drivesdk).
