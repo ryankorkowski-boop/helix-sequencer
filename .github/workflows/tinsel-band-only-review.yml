@@ -1,0 +1,177 @@
+name: Tinsel Tornado — isolated canonical six-member 3D band
+on:
+  push:
+    branches: [codex/tinsel-band-only-20261115]
+    paths: [.github/workflows/tinsel-band-only-review.yml]
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: tinsel-band-only-source-20261115
+  cancel-in-progress: true
+jobs:
+  helix-solid-band:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 180
+    env:
+      SOURCE_ID: '1Gv6hAzValSe2zRqTCfyrJVYGlfl8LLsp'
+      SOURCE_SHA256: '8b8caddd6c292a13995bde0e80ac66f948246bd634278ab4ade1a82163aa7086'
+      OMP_NUM_THREADS: '2'
+      OPENBLAS_NUM_THREADS: '2'
+      NUMBA_NUM_THREADS: '2'
+      LIBGL_ALWAYS_SOFTWARE: '1'
+      EGL_PLATFORM: 'surfaceless'
+      MESA_GL_VERSION_OVERRIDE: '3.3'
+      PYTHONPATH: .
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install Helix DSP, isolated vocals and solid 3D renderer
+        run: |
+          set -euo pipefail
+          sudo apt-get update -qq
+          sudo apt-get install -y --no-install-recommends ffmpeg libegl1 libgl1 libgl1-mesa-dri libgles2 libopengl0 libglu1-mesa libgomp1 fonts-dejavu-core
+          python -m pip install --upgrade pip
+          python -m pip install 'numpy>=1.26,<2' scipy librosa==0.10.2.post1 soundfile Pillow trimesh moderngl glcontext imageio imageio-ffmpeg numba llvmlite scikit-learn cmudict PyYAML requests gdown==6.4.2 demucs
+          python -m compileall -q tools/render_owner_band_review.py tools/prepare_phoneme_show.py models/final_band_scene.py
+      - name: Authenticate exact owner audio and preserved drummer source art
+        run: |
+          set -euo pipefail
+          mkdir -p pilot/audio pilot/vocals pilot/out
+          python -m gdown "$SOURCE_ID" -O pilot/audio/Tinsel_Tornado.mp3
+          echo "$SOURCE_SHA256  pilot/audio/Tinsel_Tornado.mp3" | sha256sum --check
+          echo '643e1bfb7fb0b245cb7400010a80f9f75037f8a5554adde7bde8cba7a53374fa  fixtures/band_geometry/source/drummerbg.png' | sha256sum --check
+          ffprobe -v error -show_entries format=duration -of default=noprint_wrappers=1 pilot/audio/Tinsel_Tornado.mp3
+      - name: Separate real vocals without inventing a backing singer
+        run: |
+          set -euo pipefail
+          python -m demucs.separate -n htdemucs --two-stems vocals --device cpu --shifts 0 --overlap 0.1 -j 2 --out pilot/stems pilot/audio/Tinsel_Tornado.mp3
+          test -s pilot/stems/htdemucs/Tinsel_Tornado/vocals.wav
+          python - <<'PY'
+          import hashlib, json
+          from pathlib import Path
+          import librosa
+          import numpy as np
+          import soundfile as sf
+          from music.review_score import vocal_clock
+          source=Path('pilot/audio/Tinsel_Tornado.mp3')
+          stem=Path('pilot/stems/htdemucs/Tinsel_Tornado/vocals.wav')
+          dest=Path('pilot/vocals')
+          sha=lambda p:hashlib.sha256(p.read_bytes()).hexdigest()
+          y,_=librosa.load(stem,sr=16000,mono=True)
+          lead=vocal_clock(y)
+          n=len(lead['energy'])
+          duration=sf.info(source).duration
+          if abs(n*.01-duration)>.02:raise SystemExit('Vocal source duration mismatch')
+          zero=np.zeros(n,dtype='f4')
+          archive=dest/'acoustic_vocal_clocks.npz'
+          np.savez_compressed(archive,
+              estimated_lead_energy=lead['energy'],
+              estimated_lead_shapes=lead['shapes'],
+              estimated_lead_presence_probability=np.where(lead['energy']>0,.95,0).astype('f4'),
+              estimated_backing_energy=zero,
+              estimated_backing_shapes=np.zeros(n,dtype='i1'),
+              estimated_backing_presence_probability=zero)
+          receipt={'schema':'helix.tinsel-band-source-estimate.v1',
+                   'audio_sha256':sha(source),'clock_sha256':sha(archive),
+                   'verification_state':'UNVERIFIED',
+                   'tracks':{
+                       'estimated_lead':{'sha256':sha(stem),'file':str(stem),'source':'Demucs vocals estimate'},
+                       'estimated_backing':{'sha256':sha(archive),'file':None,'source':'REST; no independent backing evidence'}},
+                   'independent_backing_verified':False,
+                   'exact_phoneme_boundaries_verified':False,
+                   'limitations':['Acoustic vowel estimates, not verified lyrics or phonemes',
+                                  'Harmony at rest because no verified second singer stem',
+                                  'Demucs may leak instruments into the lead vocal stem']}
+          (dest/'diagnostic.json').write_text(json.dumps(receipt,indent=2)+'\n')
+          print('SOURCE_BOUND_VOCAL_CLOCKS',n, 'lead_active',int(np.count_nonzero(lead['energy'])))
+          PY
+      - name: Run the real Helix master sequencer for six-member band only
+        run: |
+          set -euo pipefail
+          python -m tools.prepare_phoneme_show --audio pilot/audio/Tinsel_Tornado.mp3 --output pilot/show --expected-sha256 "$SOURCE_SHA256" --vocal-fixture pilot/vocals --title Tinsel_Tornado --full-keyboard
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          p=Path('pilot/show/run_manifest.json');r=json.loads(p.read_text())
+          r['audio_name']='Tinsel_Tornado.mp3'
+          r['owner_approved_geometry']=False
+          r['review_status']='diagnostic_only'
+          p.write_text(json.dumps(r,indent=2)+'\n')
+          print('HELIX_MASTER_STATUS',r['status'],'SOURCE_SHA',r['audio_sha256'])
+          PY
+      - name: Render full-audio fixed-front solid 3D band and exactly three toms
+        run: |
+          set -euo pipefail
+          python -m tools.render_owner_band_review pilot/show pilot/vocals fixtures/band_geometry/source/drummerbg.png pilot/out/Tinsel_Tornado_3D_Band_ONLY.mp4 --expected-sha256 "$SOURCE_SHA256" --dimensional-drummer --canonical-art-reference --rock --width 1280 --height 720
+      - name: Verify decoded soundtrack, six roles, nonblank motion and preserve receipt
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import hashlib,json,subprocess
+          from pathlib import Path
+          import numpy as np
+          original=Path('pilot/audio/Tinsel_Tornado.mp3')
+          movie=Path('pilot/out/Tinsel_Tornado_3D_Band_ONLY.mp4')
+          report=json.loads(movie.with_suffix('.json').read_text())
+          if len(report['visible_roles'])!=6 or set(report['visible_roles'])!={'drummer','bass','guitar','piano','lead','harmony'}:
+              raise SystemExit('Wrong six-member cast')
+          if movie.stat().st_size<1000000:raise SystemExit('MP4 absent or too small')
+          media=json.loads(subprocess.check_output(['ffprobe','-v','error','-show_streams','-show_format','-of','json',str(movie)]))
+          streams=media['streams']
+          video=next(s for s in streams if s['codec_type']=='video')
+          audio=next(s for s in streams if s['codec_type']=='audio')
+          if video['codec_name']!='h264' or (video['width'],video['height'])!=(1280,720) or audio['codec_name']!='aac':
+              raise SystemExit('Not a 720p H264/AAC video')
+          subprocess.run(['ffmpeg','-v','error','-xerror','-i',str(movie),'-f','null','-'],check=True,timeout=900)
+          def samples(file):
+              return np.frombuffer(subprocess.check_output(['ffmpeg','-v','error','-i',str(file),'-vn','-ac','1','-ar','16000','-f','f32le','-']),dtype='<f4')
+          x=samples(original);y=samples(movie);n=min(len(x),len(y))
+          corr=float(np.corrcoef(x[:n],y[:n])[0,1])
+          if not np.isfinite(corr) or corr<.95 or abs(len(x)-len(y))>3200:raise SystemExit('Original soundtrack not preserved: '+str(corr))
+          frames=subprocess.check_output(['ffmpeg','-v','error','-i',str(movie),'-an','-vf','fps=1,scale=80:45','-f','rawvideo','-pix_fmt','gray','-'])
+          size=80*45
+          images=np.frombuffer(frames,dtype='u1').reshape(-1,size)
+          if len(images)<10 or np.percentile(images.mean(axis=1),10)<4:raise SystemExit('Blank or short 3D band movie')
+          motion=float(np.max(np.mean(np.abs(images[1:].astype('i2')-images[:-1].astype('i2')),axis=1)))
+          if motion<.3:raise SystemExit('Band animation appears frozen')
+          receipt={'status':'TECHNICALLY_VERIFIED_DIAGNOSTIC','source_sha256':hashlib.sha256(original.read_bytes()).hexdigest(),
+              'mp4_sha256':hashlib.sha256(movie.read_bytes()).hexdigest(),'duration_seconds':float(media['format']['duration']),
+              'source_audio_correlation':corr,'measured_frame_motion':motion,'six_member_cast':report['visible_roles'],
+              'three_toms':['TOM_HIGH','TOM_MID','TOM_FLOOR'],'native_xlights':False,
+              'vocal_identity_verified':False,'owner_approved':False,'release_allowed':False,
+              'source_commit':report.get('source_commit'),'limitations':'Solid OpenGL renderer, not a native xLights export; vocal tracks are estimates'}
+          Path('pilot/out/verification.json').write_text(json.dumps(receipt,indent=2)+'\n')
+          print(json.dumps(receipt,indent=2))
+          PY
+      - name: Upload genuine band-only MP4 for owner review only after verification
+        if: success()
+        uses: actions/upload-artifact@v4
+        with:
+          name: Tinsel-Tornado-HELIX-SIX-MEMBER-3D-BAND-OWNER-REVIEW
+          path: |
+            pilot/out/Tinsel_Tornado_3D_Band_ONLY.mp4
+            pilot/out/Tinsel_Tornado_3D_Band_ONLY.json
+            pilot/out/verification.json
+            pilot/out/frames/*.jpg
+            pilot/show/run_manifest.json
+            pilot/show/instrument_export.json
+            pilot/show/vocal_lane_diagnostic.json
+          retention-days: 30
+          if-no-files-found: error
+      - name: Preserve truthful failure diagnostics without false MP4 approval
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: Tinsel-Tornado-3D-BAND-FAILED-DIAGNOSTICS
+          path: |
+            pilot/show/sequencer.log
+            pilot/show/run_manifest.json
+            pilot/show/instrument_export.json
+            pilot/show/vocal_lane_diagnostic.json
+            pilot/vocals/diagnostic.json
+            pilot/out/*.json
+          retention-days: 14
+          if-no-files-found: warn
