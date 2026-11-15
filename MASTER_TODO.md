@@ -77,6 +77,18 @@ Do not mark complete from unit tests alone.
 
 ## Change Ledger
 
+### 2026-11-15 — Optimization PR 4 of 8 · opt-in stem workers
+
+**Goal and files.** `core/audio_intelligence.py` can analyze independent local drum, vocal, and bass stems concurrently. `core/effect_engine.py` exposes `--workers`, defaulting to one, with at most three active stem tasks. `tests/test_audio.py` compares complete stem results and callback messages and verifies the executor was used.
+
+**Preserved behavior.** Stem separation, source fallback, decoded-audio reuse, classifiers, summaries, and the order of variant generation and report writes stay intact. Serial variant order lets the next variant read the preceding XSQ for workspace palette history.
+
+**Tests and evidence.** `python -m pytest -q tests/test_audio.py tests/test_core_sandbox.py tests/test_matrix_intelligence.py tests/test_drummer_v3_xsq_integration.py tests/test_sequence_builder.py tests/test_sequence_plan.py tests/test_palette_not_white.py` returned 42 passed with one pre-existing XML warning. The master CLI generated both the signature and alt1 variants with workspace history enabled on the synthetic drummer fixture and a 15-second Tinsel Sawtooth excerpt starting at 39 s. All four XSQs and their parsed reports matched the PR 3 base with one and three workers. The reports include band and audio results. Signature XSQ SHA-256 values were `94a3f47dfe3a79486d1613566a2ba93e8cbad7540e7841ab5baec18cea937080` and `686151ef870604111489a22f10f0e174cc79681cbe4f95e90cb9b39338782438` respectively.
+
+**Timing.** In the one-worker and three-worker CLI samples, the two drummer variants took 15.40 s and 13.00 s. The two Tinsel variants took 22.27 s and 19.79 s. These are single wall-clock measurements with one BLAS thread.
+
+**Limitations, deferred work, and risks.** Moises, Demucs, mixed-source fallback, and variant-level scheduling stay serial. Native playback and full-song peak memory remain unmeasured. Parallel DSP can increase peak memory and adds thread overhead. Future variant workers need isolated DSP, output names, and workspace state before they can run independently. PRs 5–8 remain pending.
+
 ### 2026-11-14 — Optimization PR 3 of 8 · matrix lyric lookup
 
 #### Goal and files
@@ -178,7 +190,7 @@ The comparison covers one synthetic input, the repository layout, and generated 
 - [x] PR 1 · Track the sandbox fixtures, instrument the stages, and verify generated output against the base.
 - [x] PR 2 · Reuse decoded stems and add a cache for deterministic local analysis. The owner approved retaining both HPSS passes after the skip probe changed 116 note events to 119 on the drum fixture and 687 to 731 on the Tinsel Sawtooth excerpt. Both direct analysis and master XSQ parity are verified.
 - [x] PR 3 · Replace the lyric interval scan. The fixed-lyric Tinsel matrix comparison verified identical recommendations and XSQ.
-- [ ] PR 4 · Add opt-in workers and verify identical output across worker counts. The current workspace-history dependency can change palette selection if dependent variants run in parallel. See the PR 3 handoff for the owner decision.
+- [x] PR 4 · Add opt-in local stem workers and verify identical output across worker counts with serial, history-dependent variant generation.
 - [ ] PR 5 · Narrow error handlers and preserve their fallbacks.
 - [ ] PR 6 · Consolidate smoke jobs and capture existing lint results before enforcing new violations on Python 3.11 and 3.12.
 - [ ] PR 7 · Validate asset references, clean up tracked files, and split runtime and build dependencies.

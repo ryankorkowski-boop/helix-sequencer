@@ -9,6 +9,7 @@ import tempfile
 import time
 import subprocess
 from bisect import bisect_left
+from concurrent.futures import ThreadPoolExecutor
 from dataclasses import asdict, dataclass, field, fields
 from functools import cache
 from pathlib import Path
@@ -832,6 +833,7 @@ def build_stem_analysis(
     config: AudioAnalysisConfig | None = None,
     log_fn: Callable[[str], None] | None = None,
     *,
+    workers: int = 1,
     _decode: Callable[[Path], tuple[np.ndarray, int]] | None = None,
     _local_only: bool = False,
 ) -> StemAnalysis:
@@ -879,15 +881,46 @@ def build_stem_analysis(
     drum_src = stems.get("drums") or audio_path
     bass_src = stems.get("bass") or audio_path
     vocal_src = stems.get("vocals") or audio_path
-    drum_audio = decode(drum_src)
-    kicks, snares, hats = _analyze_drum_events(*drum_audio)
-    drum_event_streams = drum_intel.detect_drum_event_streams_from_file(
-        drum_src, log_fn=log_fn, decoded_audio=drum_audio,
-    )
-    bass_peaks = _analyze_peak_events(*decode(bass_src), "bass")
-    vocal_audio = decode(vocal_src)
-    vocal_peaks = _analyze_peak_events(*vocal_audio, "vocals")
-    background_vocal_events = _classify_background_vocals(*vocal_audio, log_fn)
+
+    def analyze_drums(
+        emit: Callable[[str], None] | None,
+    ) -> tuple[tuple[list[int], list[int], list[int]], dict[str, list[drum_intel.DrumEvent]]]:
+        drum_audio = decode(drum_src)
+        marks = _analyze_drum_events(*drum_audio)
+        streams = drum_intel.detect_drum_event_streams_from_file(
+            drum_src, log_fn=emit, decoded_audio=drum_audio,
+        )
+        return marks, streams
+
+    def analyze_bass() -> list[int]:
+        return _analyze_peak_events(*decode(bass_src), "bass")
+
+    def analyze_vocals(
+        emit: Callable[[str], None] | None,
+    ) -> tuple[list[int], list[BackgroundVocalEvent]]:
+        vocal_audio = decode(vocal_src)
+        peaks = _analyze_peak_events(*vocal_audio, "vocals")
+        return peaks, _classify_background_vocals(*vocal_audio, emit)
+
+    if workers > 1 and source == "local" and len({drum_src, bass_src, vocal_src}) == 3:
+        drum_logs: list[str] = []
+        vocal_logs: list[str] = []
+        with ThreadPoolExecutor(max_workers=min(workers, 3), thread_name_prefix="helix-stem") as pool:
+            drums = pool.submit(analyze_drums, drum_logs.append)
+            vocals = pool.submit(analyze_vocals, vocal_logs.append)
+            bass = pool.submit(analyze_bass)
+            (kicks, snares, hats), drum_event_streams = drums.result()
+            if log_fn is not None:
+                for message in drum_logs:
+                    log_fn(message)
+            bass_peaks = bass.result()
+            vocal_peaks, background_vocal_events = vocals.result()
+            for message in vocal_logs:
+                _log(log_fn, message)
+    else:
+        (kicks, snares, hats), drum_event_streams = analyze_drums(log_fn)
+        bass_peaks = analyze_bass()
+        vocal_peaks, background_vocal_events = analyze_vocals(log_fn)
     stem_features = {
         name: _summarize_stem_file(
             path,
