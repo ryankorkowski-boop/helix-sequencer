@@ -1,0 +1,134 @@
+{
+  "module": "core.audio_intelligence",
+  "status": "ok",
+  "effect_timeline": [
+    {
+      "time_ms": 511,
+      "nearest_mark_ms": 0,
+      "confidence": 1.0
+    },
+    {
+      "time_ms": 697,
+      "nearest_mark_ms": 0,
+      "confidence": 1.0
+    },
+    {
+      "time_ms": 755,
+      "nearest_mark_ms": 0,
+      "confidence": 1.0
+    },
+    {
+      "time_ms": 1010,
+      "nearest_mark_ms": 0,
+      "confidence": 1.0
+    },
+    {
+      "time_ms": 1196,
+      "nearest_mark_ms": 0,
+      "confidence": 1.0
+    },
+    {
+      "time_ms": 1254,
+      "nearest_mark_ms": 0,
+      "confidence": 1.0
+    },
+    {
+      "time_ms": 1509,
+      "nearest_mark_ms": 0,
+      "confidence": 1.0
+    },
+    {
+      "time_ms": 1695,
+      "nearest_mark_ms": 0,
+      "confidence": 1.0
+    },
+    {
+      "time_ms": 1765,
+      "nearest_mark_ms": 0,
+      "confidence": 1.0
+    },
+    {
+      "time_ms": 2009,
+      "nearest_mark_ms": 0,
+      "confidence": 1.0
+    }
+  ],
+  "intensity_map": [
+    {
+      "time_ms": 0,
+      "rms": 0.501461,
+      "onset_confidence": 0.0
+    },
+    {
+      "time_ms": 1091,
+      "rms": 0.376561,
+      "onset_confidence": 0.631818
+    },
+    {
+      "time_ms": 2183,
+      "rms": 0.450921,
+      "onset_confidence": 0.209091
+    },
+    {
+      "time_ms": 3274,
+      "rms": 0.113322,
+      "onset_confidence": 0.945455
+    },
+    {
+      "time_ms": 4365,
+      "rms": 0.118147,
+      "onset_confidence": 0.363636
+    },
+    {
+      "time_ms": 5457,
+      "rms": 0.0,
+      "onset_confidence": 0.790909
+    },
+    {
+      "time_ms": 6536,
+      "rms": 0.609717,
+      "onset_confidence": 0.895455
+    },
+    {
+      "time_ms": 7628,
+      "rms": 0.319008,
+      "onset_confidence": 0.686364
+    },
+    {
+      "time_ms": 8719,
+      "rms": 0.512674,
+      "onset_confidence": 0.0
+    },
+    {
+      "time_ms": 9810,
+      "rms": 0.0,
+      "onset_confidence": 0.0
+    },
+    {
+      "time_ms": 10902,
+      "rms": 0.0,
+      "onset_confidence": 0.0
+    },
+    {
+      "time_ms": 11993,
+      "rms": 0.0,
+      "onset_confidence": 0.0
+    }
+  ],
+  "color_distribution": {
+    "warm": 6,
+    "neutral": 0,
+    "cool": 6
+  },
+  "spatial_coordinates": {
+    "ordered_models": [
+      "LEFT TREE"
+    ],
+    "coords": {
+      "LEFT TREE": [
+        121.14415483333335,
+        305.0806065
+      ]
+    }
+  }
+}

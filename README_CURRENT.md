@@ -16,6 +16,7 @@
 ## Run Tests
 - Regression guardrail tests:
   - `python -m pytest tests/test_core_sandbox.py -q`
+  - The tests generate their own audio using `tools/generate_drummer_ground_truth.py` and compare against the committed snapshots.
 - Full suite:
   - `python -m pytest`
 
@@ -51,6 +52,9 @@
 - No cleanup has been performed.
 
 ## Next Verification Command
-Run this command from `C:\Users\User\Desktop\414`:
+Run these commands from the repository root to inspect a standalone sandbox report:
 
-`python -m tools.core_sandbox --audio 2.wav --output-dir outputs/core_sandbox_after_merge --disable-effect-engine --enable-self-improving-scoring --disable-spatial-mapping-engine --disable-audio-intelligence; python -m pytest tests/test_core_sandbox.py -q; python -m pytest`
+```sh
+python -m tools.generate_drummer_ground_truth --wav outputs/drummer_ground_truth.wav --events outputs/drum_events.json
+python -m tools.core_sandbox --audio outputs/drummer_ground_truth.wav --output-dir outputs/core_sandbox
+```
