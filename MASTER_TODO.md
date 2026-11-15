@@ -1,3 +1,13 @@
+## 15 November — authenticated October V3 approval-recovery render attempt
+
+- [x] **Goal:** Run the recovered original-audio V3 band renderer on the current feature branch to obtain a new, inspectable historical-quality comparison MP4 without weakening native vocal-source validation.
+- [x] **Changed files:** `.github/workflows/original-v3-drummer-band.yml`, `MASTER_TODO.md`.
+- [x] **Preserved:** original E14 archive/song/excerpt SHA-256 checks, original authored eight-component three-tom drummer, no release gate bypass, no merge, no beta publication, no substitution of source art or audio.
+- [x] **New behavior:** workflow push trigger includes `codex/drummer-truths-integration-20261115`; changing the workflow starts the recovered producer and uploads the MP4 only if all provenance, audio/video and motion gates pass.
+- [ ] **Tests/evidence:** pending GitHub Actions completion and fresh MP4 verification. This is a historical 1280x720 20-fps 3D review render, NOT native xLights XSQ/FSEQ proof or a verified independent harmony approval.
+- [ ] **Limitations/deferred:** render depends on exact Drive E14 package availability. A true native nine-panel MP4 and authenticated independent harmony remain separate owner-approval blockers.
+- [ ] **Regression risks:** historical renderer has seven visible roles (six band models plus original drummer) and may retain unapproved singer/mallet behaviors; inspect before owner approval. Do not use this historical review to satisfy PR #188 acceptance.
+
 ## 15 November — experimental two-singer review qualifier (not rendered)
 
 - [x] **Goal:** Separate owner-authorized AI-estimated two-singer *review* from the authenticated release-vocal gate, without accepting duplicated singer clocks.
