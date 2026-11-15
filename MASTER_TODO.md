@@ -1,3 +1,13 @@
+## 15 November — experimental two-singer review qualifier (not rendered)
+
+- [x] **Goal:** Separate owner-authorized AI-estimated two-singer *review* from the authenticated release-vocal gate, without accepting duplicated singer clocks.
+- [x] **Changed files:** `tools/verify_estimated_vocal_review.py` and this ledger.
+- [x] **Preserved:** strict `tools/verify_native_vocal_source.py` release gate, existing voice-role schema, source attribution, silence rules, and all protected owner approval gates. No source tracks or clock arrays are modified.
+- [x] **New behavior:** an explicit `ESTIMATED_REVIEW` report checks that both vocal lanes contain non-rest frames, rejects exact gain/clock duplicates and requires some nonidentical activity. This is an experimental preflight, **not proof of distinct acoustic singers**.
+- [ ] **Tests/evidence:** new module committed, but not executed or integrated with a native xLights workflow. No new MP4 exists. Must add automated tests, run acoustic source review, wire an experimental native renderer, validate actual native FSEQ and render, then owner review.
+- [ ] **Limitations/deferred:** current native producer still uses the source-authenticated verifier; no qualified multi-vocal source and no new video. Review metadata must never be promoted to release VERIFIED.
+- [ ] **Regression risks:** different mouth clocks can still originate from a single mixed singer or separation bleed; only acoustic inspection can establish credible lead/harmony. Keep strict gate and release hold.
+
 ## 15 November — Truths-backed drummer event integration (draft; acceptance pending)
 
 - [x] **Goal:** Preserve correctly separated three-tom strikes and exact-onset multi-instrument hits for the canonical V3 drummer used in the nine-panel advertisement. Inspected current showcase branch and original owner Google Drive Truths references. Source baseline: `653053db05f754b5dbb85594af8de3cb9aa719e1`. Feature branch: `codex/drummer-truths-integration-20261115`.
