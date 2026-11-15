@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import csv
 import json
+import logging
 import os
 import shutil
 import tempfile
@@ -14,6 +15,7 @@ from typing import Callable
 import xml.etree.ElementTree as ET
 
 from core.lazy_imports import LazyModule, optional_import
+from core.stage_timer import StageTimer
 from core import audio_trigger_routes
 from core import feature_state
 from core import band_sync
@@ -27,6 +29,7 @@ from music.note_events import midi_note_name
 
 librosa = LazyModule("librosa")
 np = LazyModule("numpy")
+LOGGER = logging.getLogger(__name__)
 
 
 def _requests_module():
@@ -1565,6 +1568,7 @@ def analyze_audio_file(
     enable_lyrics: bool = True,
     log_fn: Callable[[str], None] | None = None,
 ) -> AudioAnalysisResult:
+    timer = StageTimer("configuration and decode")
     settings = config or load_audio_analysis_config()
     cache_root = cache_dir or (_repo_root() / "build" / "audio_analysis_cache")
     if not audio_path.exists():
@@ -1576,6 +1580,7 @@ def analyze_audio_file(
     y, sr = librosa.load(str(audio_path), sr=None, mono=True)
     y = np.asarray(y, dtype=np.float32).reshape(-1)
     duration_s = float(len(y) / max(1, sr))
+    timer.advance("onsets and beats")
     hop = 512
     onset_env = librosa.onset.onset_strength(y=y, sr=sr, hop_length=hop)
     frame_times_s = librosa.frames_to_time(np.arange(len(onset_env)), sr=sr, hop_length=hop)
@@ -1598,6 +1603,7 @@ def analyze_audio_file(
         local_bpm = _scalar_float(tempo_bpm) if idx == 0 or idx >= len(beat_events) - 1 else (60000.0 / max(1, beat_events[idx + 1].time_ms - event.time_ms))
         tempo_map.append({"time_ms": event.time_ms, "bpm": round(local_bpm, 3), "confidence": event.confidence, "downbeat": bool(event.metadata.get("downbeat", False))})
 
+    timer.advance("spectral and reactive features")
     rms = librosa.feature.rms(y=y, hop_length=hop)[0]
     rms01 = rms / max(1e-9, float(np.max(rms) if rms.size else 1.0))
     loudness = librosa.amplitude_to_db(np.maximum(rms, 1e-8), ref=np.max) if rms.size else np.asarray([], dtype=float)
@@ -1628,12 +1634,14 @@ def analyze_audio_file(
     audio_reactive_actions = audio_trigger_routes.build_audio_reactive_actions(beat_feature_timeline)
     audio_reactive_summary = audio_trigger_routes.build_audio_reactive_summary(audio_reactive_actions)
 
+    timer.advance("stems and lyrics")
     stem = build_stem_analysis(audio_path, use_moises, api_key, cache_root, config=settings, log_fn=log_fn)
     lyric_timeline = (
         extract_lyric_timeline(audio_path, use_moises, api_key, stem.vocal_peaks_ms, log_fn=log_fn)
         if enable_lyrics
         else vt.build_lyric_timeline([], stem.vocal_peaks_ms)
     )
+    timer.advance("pitch and notes")
     note_events, raw_pitch = _extract_note_candidates(harm, sr, source_stem="mix_harmonic", config=settings)
     if stem.stems.get("bass") and stem.stems["bass"].exists():
         bass_y, bass_sr = librosa.load(str(stem.stems["bass"]), sr=None, mono=True)
@@ -1642,6 +1650,7 @@ def analyze_audio_file(
         raw_pitch.extend(bass_pitch)
     note_events.sort(key=lambda item: (item.timestamp_ms, item.midi_note, item.duration_ms))
 
+    timer.advance("sections and timelines")
     sections = _detect_song_sections(duration_ms, [float(item) for item in list(rms01)], frame_times_s, sensitivity=settings.section_change_sensitivity)
     raw_parts = provided_parts or [
         type("HeuristicPart", (), {"label": section.section_type, "start_ms": section.start_ms, "end_ms": section.end_ms, "energy": section.strength})()
@@ -1697,6 +1706,7 @@ def analyze_audio_file(
         song_length_ms=duration_ms,
     )
     chord_key = _estimate_key_and_chords(chroma, frame_times_s)
+    timer.advance("analysis result")
     metadata = {
         "audio_path": str(audio_path),
         "sample_rate": int(sr),
@@ -1708,7 +1718,7 @@ def analyze_audio_file(
     }
     if layout_path:
         metadata["layout_coordinate_count"] = len(parse_layout_coordinates(layout_path, []))
-    return AudioAnalysisResult(
+    result = AudioAnalysisResult(
         metadata=metadata,
         tempo_map=tempo_map,
         beat_events=beat_events,
@@ -1795,6 +1805,11 @@ def analyze_audio_file(
             "pitch_candidates": raw_pitch[:512],
         },
     )
+    _log(
+        log_fn if log_fn is not None else LOGGER.info,
+        f"Audio analysis stage timings for {audio_path.name}: {timer.summary()}",
+    )
+    return result
 
 
 def export_audio_analysis_result(result: AudioAnalysisResult, output_dir: Path) -> dict[str, str]:

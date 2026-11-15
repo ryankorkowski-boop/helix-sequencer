@@ -17,6 +17,7 @@ from pathlib import Path
 import xml.etree.ElementTree as ET
 
 from core.lazy_imports import LazyModule
+from core.stage_timer import StageTimer
 
 from core import audit as sequence_audit
 from core import audio_trigger_routes
@@ -10347,6 +10348,7 @@ def run_variant(
     profile: base.UserProfile,
     tuning: RuntimeTuning | None = None,
 ) -> dict[str, object]:
+    timer = StageTimer("template and layout")
     tuning = tuning or RuntimeTuning()
     style = apply_runtime_style(style, tuning)
     rng = random.Random(base.SEED + base.stable_name_seed(style.version + audio_path.stem.lower()))
@@ -10542,6 +10544,7 @@ def run_variant(
             f"routes={len(neighbor_graph.routes)}, adjacency={len(neighbor_graph.adjacency)}"
         )
 
+    timer.advance("audio and polyphony")
     log("[2/8] Analyzing audio and polyphony")
     audio = base.analyze(audio_path)
     song_length_ms = max(1000, int(audio.dur_s * 1000.0))
@@ -10551,6 +10554,7 @@ def run_variant(
     if parts:
         log("Song parts: " + ", ".join(f"{part.label}:{part.start_ms/1000:.1f}-{part.end_ms/1000:.1f}s" for part in parts))
 
+    timer.advance("timing and planning")
     log("[3/8] Reading timing tracks")
     beats_tt = sanitize_template_marks(base.read_timing_track_marks_ms(xsq.root, base.TT_BEATS), song_length_ms)
     bars_tt = sanitize_template_marks(base.read_timing_track_marks_ms(xsq.root, base.TT_BARS), song_length_ms)
@@ -11226,6 +11230,7 @@ def run_variant(
         dynamic_random = min(dynamic_random, 0.12 if focused_mode else 0.18)
         global_flash_prob = min(global_flash_prob, 0.16 if focused_mode else 0.24)
 
+    timer.advance("effect placement")
     log("[4/8] Placing effects")
     if ramp_ok and not hardkor_mode:
         for part in parts:
@@ -12365,6 +12370,7 @@ def run_variant(
         quiet_windows=list(multiband.quiet_windows) + blackout_windows,
     )
 
+    timer.advance("timing tracks and report")
     log("[5/8] Writing timing tracks and report")
     if tuning.auto_timing_tracks:
         write_auto_timing_tracks(
@@ -12763,6 +12769,7 @@ def run_variant(
     write_report(report_path(out_path), payload)
     write_sequence_notes(notes_path(out_path), payload)
 
+    timer.advance("sequence write")
     log("[6/8] Writing sequence")
     base.normalize_display_views(xsq.root, force=True)
     if active_layout_file and active_layout_file.exists():
@@ -12789,6 +12796,7 @@ def run_variant(
     xsq.tree.write(out_path, encoding="utf-8", xml_declaration=True)
 
     if GENERATE_SHOWCASE:
+        timer.advance("showcase")
         showcase_path = out_path.with_name(f"{out_path.stem}.showcase.xsq")
         try:
             log("[7/8] Building final all-models/all-effects output")
@@ -12804,6 +12812,7 @@ def run_variant(
         except Exception as exc:
             log(f"Final all-models generation skipped: {exc!r}")
 
+    timer.advance("final reporting")
     log(f"[8/8] Saved: {out_path.name} | effects added: {total}")
     log(f"Placement report: {stats.summary()}")
     log(
@@ -12814,6 +12823,7 @@ def run_variant(
     log(f"Report saved: {report_path(out_path).name}")
     log(f"Chronoflow exports: {chronoflow_json_path(out_path).name}, {chronoflow_view_path(out_path).name}")
     log(f"Snowman band export: {snowman_band_json_path(out_path).name}")
+    log(f"Variant stage timings for {out_path.name}: {timer.summary()}")
     return {
         "output_path": str(out_path),
         "report_path": str(report_path(out_path)),

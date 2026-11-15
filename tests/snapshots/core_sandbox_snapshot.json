@@ -1,0 +1,405 @@
+{
+  "modules": {
+    "effect_engine": {
+      "module": "core.effect_engine",
+      "status": "ok",
+      "effect_timeline": [
+        {
+          "start_ms": 511,
+          "end_ms": 731,
+          "cue": "vocal"
+        },
+        {
+          "start_ms": 697,
+          "end_ms": 917,
+          "cue": "vocal"
+        },
+        {
+          "start_ms": 755,
+          "end_ms": 975,
+          "cue": "vocal"
+        },
+        {
+          "start_ms": 1010,
+          "end_ms": 1230,
+          "cue": "kick"
+        },
+        {
+          "start_ms": 1196,
+          "end_ms": 1416,
+          "cue": "vocal"
+        },
+        {
+          "start_ms": 1254,
+          "end_ms": 1474,
+          "cue": "vocal"
+        },
+        {
+          "start_ms": 1509,
+          "end_ms": 1729,
+          "cue": "vocal"
+        },
+        {
+          "start_ms": 1695,
+          "end_ms": 1915,
+          "cue": "vocal"
+        },
+        {
+          "start_ms": 1765,
+          "end_ms": 1985,
+          "cue": "vocal"
+        },
+        {
+          "start_ms": 2009,
+          "end_ms": 2229,
+          "cue": "kick"
+        }
+      ],
+      "intensity_map": [
+        {
+          "time_ms": 0,
+          "rms01": 0.901352,
+          "state": "peak"
+        },
+        {
+          "time_ms": 1091,
+          "rms01": 0.67685,
+          "state": "drop"
+        },
+        {
+          "time_ms": 2183,
+          "rms01": 0.810509,
+          "state": "steady"
+        },
+        {
+          "time_ms": 3274,
+          "rms01": 0.20369,
+          "state": "steady"
+        },
+        {
+          "time_ms": 4365,
+          "rms01": 0.212363,
+          "state": "steady"
+        },
+        {
+          "time_ms": 5457,
+          "rms01": 0.0,
+          "state": "peak"
+        },
+        {
+          "time_ms": 6536,
+          "rms01": 1.0,
+          "state": "peak"
+        },
+        {
+          "time_ms": 7628,
+          "rms01": 0.573402,
+          "state": "peak"
+        },
+        {
+          "time_ms": 8719,
+          "rms01": 0.921506,
+          "state": "peak"
+        },
+        {
+          "time_ms": 9810,
+          "rms01": 0.0,
+          "state": "quiet"
+        },
+        {
+          "time_ms": 10902,
+          "rms01": 0.0,
+          "state": "quiet"
+        },
+        {
+          "time_ms": 11993,
+          "rms01": 0.0,
+          "state": "quiet"
+        }
+      ],
+      "color_distribution": {
+        "red": 11,
+        "green": 13,
+        "blue": 3
+      },
+      "spatial_coordinates": {
+        "ordered_models": [
+          "C",
+          "B",
+          "D",
+          "A"
+        ],
+        "coords": {
+          "A": [
+            0.0,
+            0.8
+          ],
+          "B": [
+            0.6,
+            0.4
+          ],
+          "C": [
+            0.4,
+            0.1
+          ],
+          "D": [
+            0.9,
+            0.7
+          ]
+        }
+      },
+      "tempo_bpm": 120.18532
+    },
+    "audio_intelligence": {
+      "module": "core.audio_intelligence",
+      "status": "ok",
+      "effect_timeline": [
+        {
+          "time_ms": 511,
+          "nearest_mark_ms": 0,
+          "confidence": 1.0
+        },
+        {
+          "time_ms": 697,
+          "nearest_mark_ms": 0,
+          "confidence": 1.0
+        },
+        {
+          "time_ms": 755,
+          "nearest_mark_ms": 0,
+          "confidence": 1.0
+        },
+        {
+          "time_ms": 1010,
+          "nearest_mark_ms": 0,
+          "confidence": 1.0
+        },
+        {
+          "time_ms": 1196,
+          "nearest_mark_ms": 0,
+          "confidence": 1.0
+        },
+        {
+          "time_ms": 1254,
+          "nearest_mark_ms": 0,
+          "confidence": 1.0
+        },
+        {
+          "time_ms": 1509,
+          "nearest_mark_ms": 0,
+          "confidence": 1.0
+        },
+        {
+          "time_ms": 1695,
+          "nearest_mark_ms": 0,
+          "confidence": 1.0
+        },
+        {
+          "time_ms": 1765,
+          "nearest_mark_ms": 0,
+          "confidence": 1.0
+        },
+        {
+          "time_ms": 2009,
+          "nearest_mark_ms": 0,
+          "confidence": 1.0
+        }
+      ],
+      "intensity_map": [
+        {
+          "time_ms": 0,
+          "rms": 0.501461,
+          "onset_confidence": 0.0
+        },
+        {
+          "time_ms": 1091,
+          "rms": 0.376561,
+          "onset_confidence": 0.631818
+        },
+        {
+          "time_ms": 2183,
+          "rms": 0.450921,
+          "onset_confidence": 0.209091
+        },
+        {
+          "time_ms": 3274,
+          "rms": 0.113322,
+          "onset_confidence": 0.945455
+        },
+        {
+          "time_ms": 4365,
+          "rms": 0.118147,
+          "onset_confidence": 0.363636
+        },
+        {
+          "time_ms": 5457,
+          "rms": 0.0,
+          "onset_confidence": 0.790909
+        },
+        {
+          "time_ms": 6536,
+          "rms": 0.609717,
+          "onset_confidence": 0.895455
+        },
+        {
+          "time_ms": 7628,
+          "rms": 0.319008,
+          "onset_confidence": 0.686364
+        },
+        {
+          "time_ms": 8719,
+          "rms": 0.512674,
+          "onset_confidence": 0.0
+        },
+        {
+          "time_ms": 9810,
+          "rms": 0.0,
+          "onset_confidence": 0.0
+        },
+        {
+          "time_ms": 10902,
+          "rms": 0.0,
+          "onset_confidence": 0.0
+        },
+        {
+          "time_ms": 11993,
+          "rms": 0.0,
+          "onset_confidence": 0.0
+        }
+      ],
+      "color_distribution": {
+        "warm": 6,
+        "neutral": 0,
+        "cool": 6
+      },
+      "spatial_coordinates": {
+        "ordered_models": [
+          "LEFT TREE"
+        ],
+        "coords": {
+          "LEFT TREE": [
+            121.14415483333335,
+            305.0806065
+          ]
+        }
+      }
+    },
+    "self_improving_scoring": {
+      "module": "core.self_improving_scoring",
+      "status": "ok",
+      "effect_timeline": [
+        {
+          "label": "A",
+          "rank": 1,
+          "total_score": 0.7351
+        },
+        {
+          "label": "B",
+          "rank": 2,
+          "total_score": 0.7351
+        }
+      ],
+      "intensity_map": [
+        {
+          "metric": "beat_alignment",
+          "value": 0.789
+        },
+        {
+          "metric": "rhythmic_accuracy",
+          "value": 0.789
+        },
+        {
+          "metric": "visual_coherence",
+          "value": 0.7348
+        },
+        {
+          "metric": "repetition_penalty",
+          "value": 0.67
+        },
+        {
+          "metric": "spatial_coverage",
+          "value": 0.629
+        },
+        {
+          "metric": "energy_balance",
+          "value": 0.7244
+        },
+        {
+          "metric": "emotional_consistency",
+          "value": 0.8004
+        }
+      ],
+      "color_distribution": {},
+      "spatial_coordinates": {}
+    },
+    "spatial_mapping_engine": {
+      "module": "core.spatial_mapping_engine",
+      "status": "ok",
+      "effect_timeline": [
+        {
+          "model": "Arch 1 Sec 5",
+          "start_ms": 0,
+          "end_ms": 240
+        },
+        {
+          "model": "Roof Top White",
+          "start_ms": 121,
+          "end_ms": 361
+        },
+        {
+          "model": "Arch 1 Sec 5",
+          "start_ms": 14,
+          "end_ms": 464
+        },
+        {
+          "model": "Roof Top White",
+          "start_ms": 955,
+          "end_ms": 1405
+        }
+      ],
+      "intensity_map": [
+        {
+          "model": "Arch 1 Sec 5",
+          "intensity": 0.546
+        },
+        {
+          "model": "Roof Top White",
+          "intensity": 0.768
+        },
+        {
+          "model": "Arch 1 Sec 5",
+          "intensity": 0.568
+        },
+        {
+          "model": "Roof Top White",
+          "intensity": 0.712
+        }
+      ],
+      "color_distribution": {},
+      "spatial_coordinates": {
+        "coverage": {
+          "grid": [
+            "............",
+            "............",
+            "........##..",
+            "............",
+            ".##.........",
+            "............"
+          ],
+          "covered_models": [
+            "Arch 1 Sec 5",
+            "Roof Top White"
+          ],
+          "coverage_by_type": {
+            "tree": 0,
+            "arch": 4,
+            "matrix": 0,
+            "face": 0,
+            "ac": 0
+          },
+          "effect_count": 4
+        }
+      }
+    }
+  }
+}
