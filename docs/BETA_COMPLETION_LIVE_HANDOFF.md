@@ -1,3 +1,18 @@
+## 15 November — Truths creation-date investigation and historical vocal logic
+
+The owner asks to recover the logic that made the approved Truths videos rather than inventing a replacement. Connected Google Drive folder `1SUtLHdk1nncBrQssmBpYHUeE327Q1VJj` contains Aaa, Bbb, Ccc uploads on 2026-11-15 UTC at approximately 06:06, 08:24 and 09:51 respectively. **These are Drive upload dates, not original render dates.** The inspected Bbb Vocalstruth, Bbb top-three and Bbb awesome MP4 containers identify FFmpeg Lavf60.16.100 / libx264 Lavc60.31.102 but have **no embedded creation_time**. Thus no defensible exact production date is established.
+
+GitHub historical implementation leads (not yet linked causally to the MP4s):
+- May 6, 2026: `cdc4b90bbb` working reactive snowman singer; `46755e48d8` independent female singer member; `51badf15ba` snowman stage preview generator.
+- May 10, 2026: `800b835b96` band vocal face export compiler with distinct singer/female_singer models; `a1154d2835` deterministic lyric-to-phoneme timing.
+- May 13, 2026: `4773e72ada` explicit singer phoneme targets.
+- May 15, 2026: `f82f8f1d2f` merged band phoneme/stem readiness PR #57.
+- May 19, 2026: `d4208e3259` vocal timing pipeline integration test.
+
+**Crucial caution:** `models/working_band_member.py` and `models/working_female_singer.py` contain short hard-coded DEFAULT_CUES; `core/band_vocal_face_export.py` contains `build_demo_vocal_face_timings()` with synthetic 4–6 s events. These may explain historical visually convincing demo animation, but are **not proof of genuine audio-derived independent singer clocks**. Do not reintroduce demo cues as full-song music intelligence. Recover the exact MP4 producer from filenames, matching audio, old render scripts/artifacts and commit history, then port only source-driven useful rendering/geometry into current canonical six-member band; validate native FSEQ/XSQ and independent singing.
+
+Next tasks: inspect remaining Truths container metadata and visual/audio contents, match frame composition/props to historical renderers, search historical workflows/artifacts and test old producer on a feature branch, determine whether old vocal movement was canned vs source-derived, and deliver new native approval MP4. No new video from this investigation. Protected beta PR and batch remain held.
+
 ## 15 November — completed CI triage for PR #230
 
 At source SHA `a4759ec0f4dde77b21bf5b2213df04112077d481`:
