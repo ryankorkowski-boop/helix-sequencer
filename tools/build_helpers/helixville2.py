@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import logging
 import copy
 import json
 import re
@@ -30,7 +31,8 @@ def _norm(value: str | None) -> str:
 def _parse_float(value: str | None, fallback: float = 0.0) -> float:
     try:
         return float(value if value is not None else fallback)
-    except Exception:
+    except Exception as exc:
+        logging.getLogger(__name__).debug("_parse_float fallback (%s)", type(exc).__name__)
         return fallback
 
 

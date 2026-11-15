@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import logging
 import re
 from dataclasses import asdict, dataclass, field
 from typing import Any, Iterable, Mapping
@@ -146,7 +147,8 @@ def _event_text(event: Any) -> str:
 def _confidence(event: Any, default: float = 0.75) -> float:
     try:
         return max(0.0, min(1.0, float(getattr(event, "confidence", default))))
-    except Exception:
+    except Exception as exc:
+        logging.getLogger(__name__).debug("_confidence fallback (%s)", type(exc).__name__)
         return default
 
 

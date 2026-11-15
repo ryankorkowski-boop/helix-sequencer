@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import logging
 import json
 import os
 import subprocess
@@ -22,7 +23,8 @@ def _safe_slug(value: str) -> str:
 def _git_commit() -> str | None:
     try:
         return subprocess.check_output(["git", "rev-parse", "HEAD"], text=True, stderr=subprocess.DEVNULL).strip()
-    except Exception:
+    except (OSError, subprocess.SubprocessError, UnicodeError) as exc:
+        logging.getLogger(__name__).debug("_git_commit fallback (%s)", type(exc).__name__)
         return None
 
 

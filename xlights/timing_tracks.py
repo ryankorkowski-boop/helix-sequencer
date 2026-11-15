@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import logging
 import xml.etree.ElementTree as ET
 
 from xlights import xml_io
@@ -38,7 +39,10 @@ def ensure_last_view_index(root: ET.Element) -> int:
     value = (last_view.text or "").strip() if last_view is not None else ""
     try:
         normalized = max(0, int(value))
-    except Exception:
+    except Exception as exc:
+        logging.getLogger(__name__).debug(
+            "ensure_last_view_index fallback (%s)", type(exc).__name__,
+        )
         normalized = 0
     if last_view is None:
         last_view = ET.Element("lastView")
@@ -233,7 +237,10 @@ def read_timing_track_marks_ms(root: ET.Element, track_name: str) -> list[int]:
             continue
         try:
             value = int(round(float(start)))
-        except Exception:
+        except (TypeError, ValueError, OverflowError) as exc:
+            logging.getLogger(__name__).debug(
+                "read_timing_track_marks_ms fallback (%s)", type(exc).__name__,
+            )
             continue
         if value >= 0:
             marks_ms.append(value)

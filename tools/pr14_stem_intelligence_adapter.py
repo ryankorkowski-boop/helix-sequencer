@@ -6,6 +6,7 @@ requiring one exact legacy API shape. Outputs separated StemEvent lists.
 
 from __future__ import annotations
 
+import logging
 from importlib import import_module
 from pathlib import Path
 from typing import Any, Iterable, Mapping
@@ -30,7 +31,8 @@ DRUM_STREAM_TO_EVENT = {
 def _safe_import(module_name: str) -> Any | None:
     try:
         return import_module(module_name)
-    except Exception:
+    except Exception as exc:
+        logging.getLogger(__name__).debug("_safe_import fallback (%s)", type(exc).__name__)
         return None
 
 
@@ -44,9 +46,15 @@ def _call_first_available(module: Any, names: tuple[str, ...], wav_path: str | P
         except TypeError:
             try:
                 return fn(str(wav_path))
-            except Exception:
+            except Exception as exc:
+                logging.getLogger(__name__).debug(
+                    "_call_first_available fallback (%s)", type(exc).__name__,
+                )
                 continue
-        except Exception:
+        except Exception as exc:
+            logging.getLogger(__name__).debug(
+                "_call_first_available fallback (%s)", type(exc).__name__,
+            )
             continue
     return None
 

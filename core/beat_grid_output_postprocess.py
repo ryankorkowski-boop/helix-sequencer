@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import logging
 import json
 from pathlib import Path
 from typing import Any
@@ -12,7 +13,8 @@ from xlights.beat_grid_timing import snap_xsq_timing_tracks
 def _json_read(path: Path) -> dict[str, Any] | None:
     try:
         payload = json.loads(path.read_text(encoding="utf-8"))
-    except Exception:
+    except (OSError, UnicodeError, json.JSONDecodeError) as exc:
+        logging.getLogger(__name__).debug("_json_read fallback (%s)", type(exc).__name__)
         return None
     return payload if isinstance(payload, dict) else None
 

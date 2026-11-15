@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import logging
 from importlib import import_module
 from types import ModuleType
 
@@ -28,6 +29,7 @@ def optional_import(module_name: str) -> ModuleType | None:
     if module_name not in _OPTIONAL_CACHE:
         try:
             _OPTIONAL_CACHE[module_name] = import_module(module_name)
-        except Exception:
+        except Exception as exc:
+            logging.getLogger(__name__).debug("optional_import fallback (%s)", type(exc).__name__)
             _OPTIONAL_CACHE[module_name] = None
     return _OPTIONAL_CACHE[module_name]

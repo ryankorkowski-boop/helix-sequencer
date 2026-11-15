@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import logging
 from collections import deque
 from dataclasses import dataclass
 import math
@@ -218,7 +219,8 @@ def _ema(value: float, previous: float, alpha: float) -> float:
 def _safe_float(value: object, default: float = 0.0) -> float:
     try:
         out = float(value)
-    except Exception:
+    except Exception as exc:
+        logging.getLogger(__name__).debug('Could not convert a number; using the fallback, error type %s', type(exc).__name__)
         return default
     if not math.isfinite(out):
         return default

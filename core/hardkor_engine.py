@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import logging
 from bisect import bisect_right
 from collections import Counter
 from dataclasses import dataclass, field
@@ -30,7 +31,8 @@ def _num_key(value: str) -> tuple[int, str]:
     if match:
         try:
             return (int(match.group(1)), _norm(value))
-        except Exception:
+        except ValueError as exc:
+            logging.getLogger(__name__).debug("_num_key fallback (%s)", type(exc).__name__)
             return (10**9, _norm(value))
     return (10**9, _norm(value))
 

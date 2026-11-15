@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import logging
 from dataclasses import asdict, dataclass, field
 from pathlib import Path
 from typing import Any, Mapping
@@ -23,7 +24,8 @@ def _clean(value: Any) -> Any:
 def _clamp01(value: Any, default: float = 0.0) -> float:
     try:
         number = float(value)
-    except Exception:
+    except Exception as exc:
+        logging.getLogger(__name__).debug("_clamp01 fallback (%s)", type(exc).__name__)
         number = default
     return max(0.0, min(1.0, number))
 

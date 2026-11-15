@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import logging
 import math
 import sys
 import xml.etree.ElementTree as ET
@@ -37,8 +38,8 @@ def make_variant(src: Path, dst: Path) -> None:
     for m in models:
         try:
             positions.append((float(m.get('WorldPosX', '0')), float(m.get('WorldPosY', '0'))))
-        except ValueError:
-            pass
+        except ValueError as exc:
+            logging.getLogger(__name__).debug("make_variant fallback (%s)", type(exc).__name__)
     if not positions:
         raise RuntimeError('No model positions found')
 

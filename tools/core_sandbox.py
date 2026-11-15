@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import logging
 import argparse
 import importlib
 import json
@@ -49,7 +50,8 @@ def _load_flags(path: Path) -> CoreFlags:
         return CoreFlags()
     try:
         payload = json.loads(path.read_text(encoding="utf-8"))
-    except Exception:
+    except (OSError, UnicodeError, json.JSONDecodeError) as exc:
+        logging.getLogger(__name__).debug("_load_flags fallback (%s)", type(exc).__name__)
         return CoreFlags()
     return CoreFlags(
         effect_engine=bool(payload.get("effect_engine", True)),
@@ -74,14 +76,16 @@ def _override_flags(flags: CoreFlags, args: argparse.Namespace) -> CoreFlags:
 def _module_import(name: str) -> Any | None:
     try:
         return importlib.import_module(f"core.{name}")
-    except Exception:
+    except Exception as exc:
+        logging.getLogger(__name__).debug("_module_import fallback (%s)", type(exc).__name__)
         return None
 
 
 def _maybe_preview_frame(path: Path, values: list[float]) -> str | None:
     try:
         from PIL import Image, ImageDraw
-    except Exception:
+    except Exception as exc:
+        logging.getLogger(__name__).debug("_maybe_preview_frame fallback (%s)", type(exc).__name__)
         return None
 
     width = max(120, len(values) * 12)

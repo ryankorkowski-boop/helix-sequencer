@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import logging
 import math
 from dataclasses import dataclass
 from random import Random
@@ -41,11 +42,15 @@ def _as_float_sequence(raw: object) -> list[float]:
         for value in raw:  # type: ignore[assignment]
             try:
                 fv = float(value)
-            except Exception:
+            except Exception as exc:
+                logging.getLogger(__name__).debug(
+                    "_as_float_sequence fallback (%s)", type(exc).__name__,
+                )
                 continue
             if math.isfinite(fv):
                 out.append(fv)
-    except Exception:
+    except Exception as exc:
+        logging.getLogger(__name__).debug("_as_float_sequence fallback (%s)", type(exc).__name__)
         return out
     return out
 
@@ -56,7 +61,8 @@ def _event_midis(event: object) -> list[int]:
     for note in notes:
         try:
             midi = int(note[0])
-        except Exception:
+        except Exception as exc:
+            logging.getLogger(__name__).debug("_event_midis fallback (%s)", type(exc).__name__)
             continue
         out.append(midi)
     return out

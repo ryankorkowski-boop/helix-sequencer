@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import logging
 from dataclasses import dataclass, field
 from statistics import mean
 from typing import Any
@@ -23,8 +24,8 @@ def _set_entry_window(entry: Any, start_ms: int, end_ms: int) -> None:
     try:
         entry.xml_effect.attrib["startTime"] = str(start_ms)
         entry.xml_effect.attrib["endTime"] = str(end_ms)
-    except Exception:
-        pass
+    except (AttributeError, TypeError) as exc:
+        logging.getLogger(__name__).debug('Could not update XML timing attributes, error type %s', type(exc).__name__)
 
 
 def _flatten_entries(timelines: dict[str, Any]) -> list[tuple[str, str, Any]]:
@@ -75,7 +76,10 @@ def _apply_transition_palette(
             return False
         entry.xml_effect.attrib["palette"] = palette
         return True
-    except Exception:
+    except (AttributeError, TypeError) as exc:
+        logging.getLogger(__name__).debug(
+            "_apply_transition_palette fallback (%s)", type(exc).__name__,
+        )
         return False
 
 

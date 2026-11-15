@@ -245,7 +245,10 @@ def load_audio_analysis_config(path: Path | None = None) -> AudioAnalysisConfig:
         return config
     try:
         payload = json.loads(target.read_text(encoding="utf-8"))
-    except Exception:
+    except (OSError, UnicodeError, json.JSONDecodeError) as exc:
+        logging.getLogger(__name__).debug(
+            "load_audio_analysis_config fallback (%s)", type(exc).__name__,
+        )
         return config
     if not isinstance(payload, dict):
         return config
@@ -273,8 +276,8 @@ def _log(log_fn: Callable[[str], None] | None, text: str) -> None:
     if log_fn is not None:
         try:
             log_fn(text)
-        except Exception:
-            pass
+        except Exception as exc:
+            logging.getLogger(__name__).debug('Optional progress callback failed, error type %s', type(exc).__name__)
 
 
 def _ffmpeg_available() -> bool:
@@ -290,11 +293,13 @@ def _resolve_ffmpeg_exe() -> Path | None:
         return Path(which_path)
     try:
         import imageio_ffmpeg  # type: ignore
-    except Exception:
+    except Exception as exc:
+        logging.getLogger(__name__).debug("_resolve_ffmpeg_exe fallback (%s)", type(exc).__name__)
         return None
     try:
         exe = Path(imageio_ffmpeg.get_ffmpeg_exe())
-    except Exception:
+    except (OSError, RuntimeError) as exc:
+        logging.getLogger(__name__).debug("_resolve_ffmpeg_exe fallback (%s)", type(exc).__name__)
         return None
     return exe if exe.exists() else None
 
@@ -315,7 +320,10 @@ def _ensure_ffmpeg_environment() -> Path | None:
             if needs_copy:
                 shutil.copyfile(resolved, alias_path)
             ffmpeg_exe = alias_path
-        except Exception:
+        except (OSError, ValueError) as exc:
+            logging.getLogger(__name__).debug(
+                "_ensure_ffmpeg_environment fallback (%s)", type(exc).__name__,
+            )
             ffmpeg_exe = resolved
     os.environ["IMAGEIO_FFMPEG_EXE"] = str(ffmpeg_exe)
     ffmpeg_dir = str(ffmpeg_exe.parent)
@@ -429,7 +437,7 @@ def _try_demucs_stem_separation(
             str(audio_path),
         ]
         subprocess.run(cmd, check=True, capture_output=True)
-    except Exception as exc:
+    except (OSError, subprocess.SubprocessError, ValueError) as exc:
         _log(log_fn, f"Demucs split failed, falling back: {exc}")
         return None
 
@@ -496,7 +504,8 @@ def _http_json(method: str, url: str, **kwargs) -> dict | None:
         return None
     try:
         return resp.json()
-    except Exception:
+    except ValueError as exc:
+        logging.getLogger(__name__).debug("_http_json fallback (%s)", type(exc).__name__)
         return None
 
 
@@ -953,7 +962,8 @@ def build_stem_analysis(
 def _try_whisper_lyrics(audio_path: Path, log_fn: Callable[[str], None] | None = None) -> list[LyricEvent]:
     try:
         import whisper  # type: ignore
-    except Exception:
+    except Exception as exc:
+        logging.getLogger(__name__).debug("_try_whisper_lyrics fallback (%s)", type(exc).__name__)
         _log(log_fn, "Lyrics: Whisper package unavailable.")
         return []
 
@@ -1029,13 +1039,19 @@ def _try_moises_lyrics(
                 try:
                     st = int(round(float(start) * (1000.0 if float(start) < 10000 else 1.0)))
                     en = int(round(float(end) * (1000.0 if float(end) < 10000 else 1.0)))
-                except Exception:
+                except (TypeError, ValueError, OverflowError) as exc:
+                    logging.getLogger(__name__).debug(
+                        "_try_moises_lyrics fallback (%s)", type(exc).__name__,
+                    )
                     st, en = 0, 0
                 if en > st and text.strip():
                     conf = current.get("confidence") or current.get("score") or 0.76
                     try:
                         confidence = max(0.0, min(1.0, float(conf)))
-                    except Exception:
+                    except (TypeError, ValueError, OverflowError) as exc:
+                        logging.getLogger(__name__).debug(
+                            "_try_moises_lyrics fallback (%s)", type(exc).__name__,
+                        )
                         confidence = 0.76
                     events.append(LyricEvent(start_ms=st, end_ms=en, text=text.strip(), confidence=confidence))
             queue.extend(current.values())
@@ -1089,7 +1105,10 @@ def parse_layout_coordinates(layout_path: Path, available_names: list[str]) -> d
     try:
         scene = spatial_scene.load_scene(layout_path)
         return scene.projected_coordinate_map(available_names)
-    except Exception:
+    except Exception as exc:
+        logging.getLogger(__name__).debug(
+            "parse_layout_coordinates fallback (%s)", type(exc).__name__,
+        )
         tree = ET.parse(layout_path)
         root = tree.getroot()
         available_map = {normalize_name(name): name for name in available_names}
@@ -1110,7 +1129,10 @@ def parse_layout_coordinates(layout_path: Path, available_names: list[str]) -> d
                     y = float(model.attrib.get("WorldPosY", "0") or 0)
                     dx = float(model.attrib.get("X2", "0") or 0)
                     dy = float(model.attrib.get("Y2", "0") or 0)
-                except Exception:
+                except (TypeError, ValueError, OverflowError) as exc:
+                    logging.getLogger(__name__).debug(
+                        "parse_layout_coordinates fallback (%s)", type(exc).__name__,
+                    )
                     continue
                 out[actual] = (x + (dx * 0.5), y + (dy * 0.5))
 
@@ -1127,7 +1149,10 @@ def parse_layout_coordinates(layout_path: Path, available_names: list[str]) -> d
                 try:
                     x = float(group.attrib.get("centrex", "0") or 0)
                     y = float(group.attrib.get("centrey", "0") or 0)
-                except Exception:
+                except (TypeError, ValueError, OverflowError) as exc:
+                    logging.getLogger(__name__).debug(
+                        "parse_layout_coordinates fallback (%s)", type(exc).__name__,
+                    )
                     continue
                 out[actual] = (x, y)
 
@@ -1244,11 +1269,13 @@ def _scalar_float(value: object, default: float = 0.0) -> float:
         if hasattr(value, "item"):
             return float(value.item())
         return float(value)
-    except Exception:
+    except Exception as exc:
+        logging.getLogger(__name__).debug("_scalar_float fallback (%s)", type(exc).__name__)
         try:
             seq = list(value)  # type: ignore[arg-type]
             return float(seq[0]) if seq else default
-        except Exception:
+        except Exception as exc:
+            logging.getLogger(__name__).debug("_scalar_float fallback (%s)", type(exc).__name__)
             return default
 
 
@@ -1573,7 +1600,10 @@ def _build_spatial_audio_frames(
             reduced = centered @ vh[:3].T
             raw_vectors = reduced.tolist()
             projection_method = "pca"
-        except Exception:
+        except Exception as exc:
+            logging.getLogger(__name__).debug(
+                "_build_spatial_audio_frames fallback (%s)", type(exc).__name__,
+            )
             projection_method = "manual_axes"
     for idx, vector in enumerate(raw_vectors):
         time_ms = int(round(float(frame_times_s[min(idx * sample_step, len(frame_times_s) - 1)]) * 1000.0))
@@ -1735,7 +1765,8 @@ def analyze_audio_file(
     try:
         tempo_bpm, beat_frames = librosa.beat.beat_track(y=y, sr=sr, hop_length=hop, units="frames")
         beat_frame_list = [int(item) for item in list(np.asarray(beat_frames).reshape(-1))]
-    except Exception:
+    except Exception as exc:
+        logging.getLogger(__name__).debug("analyze_audio_file fallback (%s)", type(exc).__name__)
         tempo_bpm, beat_frame_list = 0.0, []
     beat_events = _timed_events_from_frames(beat_frame_list, frame_times_s, onset_env, label="beat")
     for idx, event in enumerate(beat_events):

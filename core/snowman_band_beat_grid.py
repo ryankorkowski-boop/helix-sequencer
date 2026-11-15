@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import logging
 from typing import Any, Mapping
 
 from core.beat_grid import BeatGrid, generate_beat_grid, snap_timing_events
@@ -43,8 +44,10 @@ def _infer_duration_ms(payload: Mapping[str, Any]) -> int:
                 if key in value:
                     try:
                         duration = max(duration, int(round(float(value[key]))))
-                    except Exception:
-                        pass
+                    except (KeyError, TypeError, ValueError, OverflowError) as exc:
+                        logging.getLogger(__name__).debug(
+                            "visit fallback (%s)", type(exc).__name__,
+                        )
             for child in value.values():
                 visit(child)
         elif isinstance(value, list):
@@ -62,7 +65,8 @@ def _snap_dict_event(event: dict[str, Any], grid_points: list[int], beat_grid: B
         return
     try:
         raw_start = int(round(float(event[start_key])))
-    except Exception:
+    except (KeyError, TypeError, ValueError, OverflowError) as exc:
+        logging.getLogger(__name__).debug("_snap_dict_event fallback (%s)", type(exc).__name__)
         return
     snapped_start = snap_timing_events([raw_start], grid_points, max_shift_ms=beat_grid.max_shift_ms, mode=beat_grid.mode)[0]
     delta = snapped_start - raw_start
@@ -77,14 +81,16 @@ def _snap_dict_event(event: dict[str, Any], grid_points: list[int], beat_grid: B
             event.setdefault("raw_end_ms", raw_end)
             event["end_ms"] = max(snapped_start + 1, raw_end + delta)
             event.setdefault("snapped_end_ms", event["end_ms"])
-        except Exception:
-            pass
+        except (KeyError, TypeError, ValueError, OverflowError) as exc:
+            logging.getLogger(__name__).debug("_snap_dict_event fallback (%s)", type(exc).__name__)
     for key in ("impact_end_ms",):
         if key in event:
             try:
                 event[key] = max(snapped_start + 1, int(round(float(event[key]))) + delta)
-            except Exception:
-                pass
+            except (KeyError, TypeError, ValueError, OverflowError) as exc:
+                logging.getLogger(__name__).debug(
+                    "_snap_dict_event fallback (%s)", type(exc).__name__,
+                )
 
 
 def snap_snowman_band_payload_to_grid(payload: dict[str, Any], beat_grid: BeatGrid, *, duration_ms: int | None = None) -> dict[str, Any]:

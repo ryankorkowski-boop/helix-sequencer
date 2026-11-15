@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import logging
 import json
 from pathlib import Path
 from statistics import median
@@ -18,7 +19,8 @@ BPM_KEYS = (
 def _valid_bpm(value: Any) -> float | None:
     try:
         bpm = float(value)
-    except Exception:
+    except Exception as exc:
+        logging.getLogger(__name__).debug("_valid_bpm fallback (%s)", type(exc).__name__)
         return None
     if 30.0 <= bpm <= 240.0:
         return bpm
@@ -66,7 +68,8 @@ def bpm_from_payload(payload: dict[str, Any]) -> float | None:
 def bpm_from_report_file(path: Path) -> float | None:
     try:
         payload = json.loads(path.read_text(encoding="utf-8"))
-    except Exception:
+    except (OSError, UnicodeError, json.JSONDecodeError) as exc:
+        logging.getLogger(__name__).debug("bpm_from_report_file fallback (%s)", type(exc).__name__)
         return None
     return bpm_from_payload(payload) if isinstance(payload, dict) else None
 

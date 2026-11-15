@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import logging
 import argparse
 import json
 import re
@@ -26,7 +27,8 @@ class DistrictPlan:
 def _parse_float(value: str | None, fallback: float = 0.0) -> float:
     try:
         return float(value if value is not None else fallback)
-    except Exception:
+    except Exception as exc:
+        logging.getLogger(__name__).debug("_parse_float fallback (%s)", type(exc).__name__)
         return fallback
 
 
@@ -38,7 +40,8 @@ def _parse_start_channel(value: str | None) -> int | None:
         return None
     try:
         return int(match.group(0))
-    except Exception:
+    except ValueError as exc:
+        logging.getLogger(__name__).debug("_parse_start_channel fallback (%s)", type(exc).__name__)
         return None
 
 

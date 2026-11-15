@@ -16,6 +16,7 @@ RUN:
 
 from __future__ import annotations
 
+import logging
 import argparse, copy, json, sys, time, shutil, re, random
 from dataclasses import dataclass, field
 from pathlib import Path
@@ -236,8 +237,8 @@ def log(msg: str) -> None:
             stream.write(text)
             stream.flush()
             return
-        except Exception:
-            pass
+        except Exception as exc:
+            logging.getLogger(__name__).debug("log fallback (%s)", type(exc).__name__)
 
 def die(msg: str, code: int = 1) -> None:
     text = f"ERROR: {msg}\n"
@@ -249,7 +250,8 @@ def die(msg: str, code: int = 1) -> None:
             stream.write(text)
             stream.flush()
             break
-        except Exception:
+        except Exception as exc:
+            logging.getLogger(__name__).debug("die fallback (%s)", type(exc).__name__)
             continue
     raise SystemExit(code)
 
@@ -298,7 +300,8 @@ def prompt_float(label: str, default: float, lo: float, hi: float) -> float:
         return default
     try:
         return clamp(float(raw), lo, hi)
-    except Exception:
+    except Exception as exc:
+        logging.getLogger(__name__).debug("prompt_float fallback (%s)", type(exc).__name__)
         return default
 
 def prompt_text(label: str, default: str, choices: set[str] | None = None) -> str:
@@ -368,7 +371,8 @@ def load_profile(path: Path) -> UserProfile:
         return UserProfile()
     try:
         data = json.loads(path.read_text(encoding="utf-8"))
-    except Exception:
+    except (OSError, UnicodeError, json.JSONDecodeError) as exc:
+        logging.getLogger(__name__).debug("load_profile fallback (%s)", type(exc).__name__)
         return UserProfile()
     return UserProfile(
         feel=str(data.get("feel", "balanced")).lower(),
@@ -610,7 +614,10 @@ def remove_startup_blip(el: ET.Element, window_ms: int) -> int:
             try:
                 st_i = int(float(st))
                 en_i = int(float(en))
-            except Exception:
+            except (TypeError, ValueError, OverflowError) as exc:
+                logging.getLogger(__name__).debug(
+                    "remove_startup_blip fallback (%s)", type(exc).__name__,
+                )
                 continue
             if st_i <= 10 and en_i <= window_ms:
                 layer.remove(eff)
@@ -739,8 +746,8 @@ def analyze(audio_path: Path) -> Audio:
             beat_ms_aubio = _aubio_beats(y, sr, hop)
             if len(beat_ms_aubio) >= 4:
                 beat_ms = beat_ms_aubio
-        except Exception:
-            pass
+        except Exception as exc:
+            logging.getLogger(__name__).debug("analyze fallback (%s)", type(exc).__name__)
 
     centroid = librosa.feature.spectral_centroid(y=y, sr=sr, hop_length=hop)[0]
     rms = librosa.feature.rms(y=y, hop_length=hop)[0]
@@ -1433,8 +1440,10 @@ def _legacy_sequence_one_song(template_xsq: Path, audio_path: Path, out_path: Pa
 
     try:
         indent_xml(xsq.root)
-    except Exception:
-        pass
+    except (AttributeError, TypeError, RecursionError) as exc:
+        logging.getLogger(__name__).debug(
+            "_legacy_sequence_one_song fallback (%s)", type(exc).__name__,
+        )
 
     xsq.tree.write(out_path, encoding="utf-8", xml_declaration=True)
     log(f"Saved: {out_path.name} | effects added: {total}")
@@ -1772,8 +1781,10 @@ def _v8_2_sequence_one_song(template_xsq: Path, audio_path: Path, out_path: Path
     log("[5/6] Writing sequence")
     try:
         indent_xml(xsq.root)
-    except Exception:
-        pass
+    except (AttributeError, TypeError, RecursionError) as exc:
+        logging.getLogger(__name__).debug(
+            "_v8_2_sequence_one_song fallback (%s)", type(exc).__name__,
+        )
 
     xsq.tree.write(out_path, encoding="utf-8", xml_declaration=True)
     log(f"[6/6] Saved: {out_path.name} | effects added: {total}")
@@ -2198,8 +2209,8 @@ def sequence_one_song(template_xsq: Path, audio_path: Path, out_path: Path, prof
     log("[6/7] Writing sequence")
     try:
         indent_xml(xsq.root)
-    except Exception:
-        pass
+    except (AttributeError, TypeError, RecursionError) as exc:
+        logging.getLogger(__name__).debug("sequence_one_song fallback (%s)", type(exc).__name__)
 
     xsq.tree.write(out_path, encoding="utf-8", xml_declaration=True)
     log(f"[7/7] Saved: {out_path.name} | effects added: {total}")

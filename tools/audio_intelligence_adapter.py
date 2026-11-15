@@ -6,6 +6,7 @@ independent timing/intelligence layers (beats, drops, lyrics, etc.).
 
 from __future__ import annotations
 
+import logging
 from importlib import import_module
 from pathlib import Path
 from typing import Any, Callable, Iterable, Mapping
@@ -27,7 +28,8 @@ CORE_ANALYZER_MODULES = (
 def _safe_import(module_name: str) -> Any | None:
     try:
         return import_module(module_name)
-    except Exception:
+    except Exception as exc:
+        logging.getLogger(__name__).debug("_safe_import fallback (%s)", type(exc).__name__)
         return None
 
 
@@ -39,7 +41,8 @@ def _candidate_functions(module: Any) -> list[Callable[..., Any]]:
 def _call_analyzer(func: Callable[..., Any], wav_path: str | Path) -> Any | None:
     try:
         return func(str(wav_path))
-    except Exception:
+    except Exception as exc:
+        logging.getLogger(__name__).debug("_call_analyzer fallback (%s)", type(exc).__name__)
         return None
 
 
