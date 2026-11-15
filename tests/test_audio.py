@@ -2,8 +2,10 @@ from __future__ import annotations
 
 import math
 from pathlib import Path
+import shutil
 import tempfile
 import unittest
+from unittest.mock import patch
 import wave
 
 from core import audio_intelligence
@@ -150,6 +152,72 @@ class AudioIntelligenceTests(unittest.TestCase):
 
         self.assertTrue(result.raw_candidates["pitch_candidates"])
         self.assertGreaterEqual(len(result.raw_candidates["pitch_candidates"]), len(result.note_events))
+
+    def test_local_analysis_loads_each_audio_file_once_and_reuses_typed_result(self) -> None:
+        sr = 22050
+        path = self._write_wave([0.25 * math.sin(2 * math.pi * 220 * i / sr) for i in range(sr)])
+        cache_root = path.parent / "cache"
+        with patch.object(audio_intelligence.shutil, "which", return_value=None):
+            with patch.object(audio_intelligence, "_load_mono", wraps=audio_intelligence._load_mono) as decode:
+                cold = audio_intelligence.analyze_audio_file(path, cache_dir=cache_root, enable_lyrics=False)
+                names = [item.args[0].name for item in decode.call_args_list]
+                self.assertCountEqual(names, [
+                    path.name, "test.vocals.wav", "test.drums.wav", "test.bass.wav", "test.other.wav",
+                ])
+                decode.reset_mock()
+                warm = audio_intelligence.analyze_audio_file(path, cache_dir=cache_root, enable_lyrics=False)
+                decode.assert_not_called()
+            self.assertEqual(cold, warm)
+            self.assertIsNot(cold.note_events, warm.note_events)
+            self.assertTrue(warm.note_events)
+            self.assertIsInstance(warm.note_events[0], audio_intelligence.NoteEvent)
+
+            same_content = path.parent / "copy" / path.name
+            same_content.parent.mkdir()
+            shutil.copyfile(path, same_content)
+            layout = same_content.parent / "layout.xml"
+            with (
+                patch.object(audio_intelligence, "_load_mono") as decode,
+                patch.object(audio_intelligence, "parse_layout_coordinates", return_value={"prop": (1, 1)}),
+            ):
+                moved = audio_intelligence.analyze_audio_file(
+                    same_content, cache_dir=cache_root, layout_path=layout, enable_lyrics=False,
+                )
+                decode.assert_not_called()
+            self.assertEqual(moved.metadata["audio_path"], str(same_content))
+            self.assertEqual(moved.metadata["layout_path"], str(layout))
+            self.assertEqual(moved.metadata["layout_coordinate_count"], 1)
+
+    def test_cache_misses_on_changed_inputs_and_missing_or_corrupt_sidecars(self) -> None:
+        path = self._write_wave([0.2 * math.sin(i / 8) for i in range(22050)])
+        cache_root = path.parent / "cache"
+        settings = audio_intelligence.AudioAnalysisConfig()
+        with patch.object(audio_intelligence.shutil, "which", return_value=None):
+            baseline = audio_intelligence.analyze_audio_file(
+                path, cache_dir=cache_root, config=settings, enable_lyrics=False,
+            )
+            cache_record, = (cache_root / "results").glob("*.json")
+            args = {"cache_dir": cache_root, "config": settings, "enable_lyrics": False}
+            with patch.object(audio_intelligence, "_load_mono", wraps=audio_intelligence._load_mono) as decode:
+                Path(baseline.stem_events["stems"]["bass"]).unlink()
+                self.assertEqual(baseline, audio_intelligence.analyze_audio_file(path, **args))
+                decode.assert_called()
+                decode.reset_mock()
+                cache_record.write_text("{corrupt", encoding="utf-8")
+                self.assertEqual(baseline, audio_intelligence.analyze_audio_file(path, **args))
+                decode.assert_called()
+            # These calls should all reach the decoder even with an existing cache.
+            with patch.object(audio_intelligence, "_load_mono", side_effect=RuntimeError("decode reached")):
+                with self.assertRaisesRegex(RuntimeError, "decode reached"):
+                    audio_intelligence.analyze_audio_file(path, **{**args, "enable_lyrics": True})
+                with self.assertRaisesRegex(RuntimeError, "decode reached"):
+                    audio_intelligence.analyze_audio_file(
+                        path, **{**args, "config": audio_intelligence.AudioAnalysisConfig(pitch_confidence_min=0.5)},
+                    )
+                replacement = self._write_wave([0.1 * math.sin(i / 11) for i in range(22050)])
+                shutil.copyfile(replacement, path)
+                with self.assertRaisesRegex(RuntimeError, "decode reached"):
+                    audio_intelligence.analyze_audio_file(path, **args)
 
 
 if __name__ == "__main__":
