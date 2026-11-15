@@ -1,3 +1,11 @@
+## 15 November — owner-locked nine-panel pilot layout
+
+- [x] Goal: record the exact 3×3 approval-video layout requested by owner. Updated `docs/TRUTHS_REFERENCE_CATALOG.md` with panel order, technical criteria and verification gates.
+- [x] Preserve existing deterministic engines, 256 AC wiring/colors, V3 drummer, source-qualified singers, original 16-panel tools, and protected release gates. Documentation-only change; no runtime behavior changed.
+- [ ] Implement layouts 1–9 with band center, Birdsong spatial matrix bottom-left, piano-sequential instrument groups bottom-center, and massive hierarchical 3D finale bottom-right.
+- [ ] Run focused tests, native XSQ/FSEQ, compare decoded channels and audio sync, and deliver real nine-panel approval MP4 before resuming batch.
+- Evidence: explicit owner specification; no tests or new renders performed. Limitations: 16-strip LED tree wiring unknown, vocal stems unverified, scale/memory limits require profiling. Regression risks: giant finale memory, visual density, misattributed notes/vocals and montage readability.
+
 ## 15 November — selective Truths reference inventory
 
 - [x] Goal: ground the next band/advanced-layout review in owner-supplied Google Drive videos without treating entire clips as approved behavior. Added `docs/TRUTHS_REFERENCE_CATALOG.md` with 22 Drive file IDs, categories, source links and acceptance-extraction checklist.
