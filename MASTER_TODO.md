@@ -1,10 +1,10 @@
 ## 15 November — experimental two-singer review qualifier (not rendered)
 
 - [x] **Goal:** Separate owner-authorized AI-estimated two-singer *review* from the authenticated release-vocal gate, without accepting duplicated singer clocks.
-- [x] **Changed files:** `tools/verify_estimated_vocal_review.py` and this ledger.
+- [x] **Changed files:** `tools/verify_estimated_vocal_review.py`, `tests/test_estimated_vocal_review.py`, and this ledger.
 - [x] **Preserved:** strict `tools/verify_native_vocal_source.py` release gate, existing voice-role schema, source attribution, silence rules, and all protected owner approval gates. No source tracks or clock arrays are modified.
 - [x] **New behavior:** an explicit `ESTIMATED_REVIEW` report checks that both vocal lanes contain non-rest frames, rejects exact gain/clock duplicates and requires some nonidentical activity. This is an experimental preflight, **not proof of distinct acoustic singers**.
-- [ ] **Tests/evidence:** new module committed, but not executed or integrated with a native xLights workflow. No new MP4 exists. Must add automated tests, run acoustic source review, wire an experimental native renderer, validate actual native FSEQ and render, then owner review.
+- [ ] **Tests/evidence:** new module and four regression tests committed, but not executed or integrated with a native xLights workflow. No new MP4 exists. Must run the automated tests, perform acoustic source review, wire an experimental native renderer, validate actual native FSEQ and render, then owner review.
 - [ ] **Limitations/deferred:** current native producer still uses the source-authenticated verifier; no qualified multi-vocal source and no new video. Review metadata must never be promoted to release VERIFIED.
 - [ ] **Regression risks:** different mouth clocks can still originate from a single mixed singer or separation bleed; only acoustic inspection can establish credible lead/harmony. Keep strict gate and release hold.
 
