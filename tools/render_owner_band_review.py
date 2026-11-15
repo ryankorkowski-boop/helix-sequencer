@@ -84,7 +84,7 @@ def dimensional_camera(width,height,elapsed):
 
 
 def render(source, vocals, reference, output, expected_sha256, *, seconds=None, width=1920, height=1080,
-           dimensional_drummer=False, rock=False):
+           dimensional_drummer=False, rock=False, canonical_art_reference=False):
     from PIL import ImageDraw, ImageFont
     import soundfile as sf
     from models.final_band_scene import FinalBandScene
@@ -107,8 +107,12 @@ def render(source, vocals, reference, output, expected_sha256, *, seconds=None, 
         raise ValueError('Original recording identity mismatch')
     expected_reference=('f014db45dc49688da40a4337a1185589ef09ffe81c13e234eb20d0f0f57e45b3'
                         if dimensional_drummer else 'ec0c30bb95fc51d18488bda90980188d99b3d6e4e952500eddf41db4409e00ef')
+    if canonical_art_reference:
+        # Opt-in Tinsel pilot uses the byte-verified original V3 source art.
+        # This confirms file identity only; it does not imply visual approval.
+        expected_reference = '643e1bfb7fb0b245cb7400010a80f9f75037f8a5554adde7bde8cba7a53374fa'
     if digest(reference) != expected_reference:
-        raise ValueError('Wrong owner-passed original V3 reference')
+        raise ValueError('Wrong V3 reference or canonical source-art identity')
     duration = sf.info(audio).duration
     if seconds is not None: duration = min(duration, float(seconds))
     if duration <= 0: raise ValueError('Positive duration required')
@@ -240,6 +244,9 @@ if __name__ == '__main__':
     p.add_argument('--expected-sha256', required=True); p.add_argument('--seconds', type=float)
     p.add_argument('--width', type=int, default=1920); p.add_argument('--height', type=int, default=1080)
     p.add_argument('--dimensional-drummer',action='store_true');p.add_argument('--rock',action='store_true')
+    p.add_argument('--canonical-art-reference', action='store_true',
+                   help='Opt in to SHA256-pinned canonical V3 drummer source-art reference (not approval)')
     a = p.parse_args()
     render(a.source, a.vocals, a.reference, a.output, a.expected_sha256, seconds=a.seconds, width=a.width, height=a.height,
-           dimensional_drummer=a.dimensional_drummer,rock=a.rock)
+           dimensional_drummer=a.dimensional_drummer,rock=a.rock,
+           canonical_art_reference=a.canonical_art_reference)
