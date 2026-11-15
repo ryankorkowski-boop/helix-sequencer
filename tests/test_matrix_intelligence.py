@@ -1,11 +1,14 @@
 from __future__ import annotations
 
+import random
 import unittest
 from types import SimpleNamespace
+from unittest.mock import patch
 
 import numpy as np
 
-from core import matrix_intelligence
+from core import effect_engine, matrix_intelligence
+from core.audio_intelligence import LyricEvent
 
 
 class _DummyModel:
@@ -158,6 +161,47 @@ class MatrixIntelligenceTests(unittest.TestCase):
             lyric_active=True,
         )
         self.assertEqual(effect_name, "Text")
+
+    def test_matrix_lyric_lookup_preserves_inclusive_and_nested_windows(self) -> None:
+        lyrics = [
+            LyricEvent(1500, 1600, "nested"),
+            LyricEvent(4000, 3900, "reversed"),
+            LyricEvent(1000, 3000, "outer"),
+            LyricEvent(-50, 10, "opening"),
+        ]
+        expected = {
+            0: True, 130: True, 131: False, 879: False, 880: True, 2900: True,
+            3120: True, 3121: False, 3879: False, 3880: True, 4121: True, 4122: False,
+        }
+        with patch.object(
+            matrix_intelligence, "recommend_sequence_effect",
+            wraps=matrix_intelligence.recommend_sequence_effect,
+        ) as recommend:
+            effect_engine.place_pixel_reactive_score(
+                style=effect_engine.VARIANTS[effect_engine.ACTIVE_STYLE_VERSION],
+                pools=[effect_engine.SequentialPool("Matrix", "matrix", ["Matrix"])],
+                parts=[effect_engine.SongPart("CHORUS", 0, 4500, 0.8)],
+                note_events=[],
+                lyric_events=lyrics,
+                kicks=[],
+                snares=[],
+                hats=[],
+                bass_peaks=[],
+                vocal_peaks=list(expected),
+                build_lifts=[],
+                bar_ms=[],
+                pool_state={},
+                rng=random.Random(10),
+                add_model=lambda *args, **kwargs: None,
+                in_blackout=lambda time_ms: False,
+                pixel_track=[],
+            )
+        actual = {
+            call.kwargs["target_ms"]: call.kwargs["lyric_active"]
+            for call in recommend.call_args_list
+            if call.kwargs["cue"] == "vocal" and call.kwargs["target_ms"] in expected
+        }
+        self.assertEqual(actual, expected)
 
     def test_recommend_sequence_effect_uses_section_scene_for_bass_hits(self) -> None:
         kwargs = self._build_common_inputs()

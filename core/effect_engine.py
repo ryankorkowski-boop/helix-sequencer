@@ -9,7 +9,7 @@ import os
 import random
 import re
 import shutil
-from bisect import bisect_left
+from bisect import bisect_left, bisect_right
 from collections.abc import Iterator, Mapping
 from collections import Counter
 from dataclasses import dataclass, field, replace
@@ -5587,6 +5587,29 @@ def place_showcase_signature(
             piano_track.append((f"{contour_pool.name}:signature:{event_cue}", event.start_ms, phrase_end))
 
 
+def _index_lyric_windows(lyric_events: list[ai.LyricEvent]) -> tuple[list[int], list[int]]:
+    windows = []
+    for event in lyric_events:
+        try:
+            start_ms = int(getattr(event, "start_ms", 0))
+        except Exception:
+            start_ms = 0
+        try:
+            end_ms = max(start_ms + 1, int(getattr(event, "end_ms", start_ms + 1)))
+        except Exception:
+            end_ms = start_ms + 1
+        windows.append((max(0, start_ms - 120), end_ms + 120))
+
+    starts: list[int] = []
+    latest_ends: list[int] = []
+    for start_ms, end_ms in sorted(windows):
+        if latest_ends:
+            end_ms = max(end_ms, latest_ends[-1])
+        starts.append(start_ms)
+        latest_ends.append(end_ms)
+    return starts, latest_ends
+
+
 def place_pixel_reactive_score(
     *,
     style: VariantStyle,
@@ -5611,6 +5634,7 @@ def place_pixel_reactive_score(
     if not pools:
         return 0
 
+    lyric_starts, lyric_latest_ends = _index_lyric_windows(lyric_events)
     dramatic_parts = {"PRECHORUS", "CHORUS", "BRIDGE"}
 
     def rotate_targets(
@@ -5652,24 +5676,11 @@ def place_pixel_reactive_score(
         if pool is None or pool.category != "matrix":
             return fallback
         lyric_active = False
-        if lyric_events and cue_name in {"vocal", "phrase"}:
-            def lyric_start(event: ai.LyricEvent) -> int:
-                try:
-                    return int(getattr(event, "start_ms", 0))
-                except Exception:
-                    return 0
-
-            def lyric_end(event: ai.LyricEvent) -> int:
-                start_ms = lyric_start(event)
-                try:
-                    return max(start_ms + 1, int(getattr(event, "end_ms", start_ms + 1)))
-                except Exception:
-                    return start_ms + 1
-
-            lyric_active = any(
-                max(lyric_start(event) - 120, 0) <= int(time_ms) <= (lyric_end(event) + 120)
-                for event in lyric_events
-            )
+        if lyric_starts and cue_name in {"vocal", "phrase"}:
+            cue_ms = int(time_ms)
+            window = bisect_right(lyric_starts, cue_ms) - 1
+            # A previous window can extend past a later, nested one.
+            lyric_active = window >= 0 and cue_ms <= lyric_latest_ends[window]
         return matrix_planner.recommend_sequence_effect(
             matrix_plan if isinstance(matrix_plan, dict) else None,
             cue=cue_name,
