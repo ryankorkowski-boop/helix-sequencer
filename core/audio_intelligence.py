@@ -9,7 +9,8 @@ import tempfile
 import time
 import subprocess
 from bisect import bisect_left
-from dataclasses import asdict, dataclass, field
+from dataclasses import asdict, dataclass, field, fields
+from functools import cache
 from pathlib import Path
 from typing import Callable
 import xml.etree.ElementTree as ET
@@ -17,6 +18,7 @@ import xml.etree.ElementTree as ET
 from core.lazy_imports import LazyModule, optional_import
 from core.stage_timer import StageTimer
 from core import audio_trigger_routes
+from core import audio_analysis_cache
 from core import feature_state
 from core import band_sync
 from core import model_parser as xmp
@@ -359,11 +361,27 @@ def _clip_audio(y: np.ndarray) -> np.ndarray:
     return np.clip(np.asarray(y, dtype=np.float32), -1.0, 1.0)
 
 
-def _local_stem_separation(audio_path: Path, out_dir: Path, log_fn: Callable[[str], None] | None) -> dict[str, Path]:
+def _load_mono(path: Path) -> tuple[np.ndarray, int]:
+    y, sr = librosa.load(str(path), sr=None, mono=True)
+    return np.asarray(y, dtype=np.float32), int(sr)
+
+
+def _local_stem_paths(audio_path: Path, out_dir: Path) -> dict[str, Path]:
+    return {
+        name: out_dir / f"{audio_path.stem}.{name}.wav"
+        for name in ("vocals", "drums", "bass", "other")
+    }
+
+
+def _local_stem_separation(
+    audio_path: Path,
+    out_dir: Path,
+    log_fn: Callable[[str], None] | None,
+    decode: Callable[[Path], tuple[np.ndarray, int]],
+) -> dict[str, Path]:
     """Fallback local stem splitting using harmonic/percussive + frequency masking."""
     _log(log_fn, "Stem split: using local fallback separation.")
-    y, sr = librosa.load(str(audio_path), sr=None, mono=True)
-    y = np.asarray(y, dtype=np.float32)
+    y, sr = decode(audio_path)
     harm, perc = librosa.effects.hpss(y)
 
     n_fft = 2048
@@ -382,12 +400,7 @@ def _local_stem_separation(audio_path: Path, out_dir: Path, log_fn: Callable[[st
     drums = perc
     other = y - (0.62 * vocals + 0.68 * drums + 0.70 * bass)
 
-    stems = {
-        "vocals": out_dir / f"{audio_path.stem}.vocals.wav",
-        "drums": out_dir / f"{audio_path.stem}.drums.wav",
-        "bass": out_dir / f"{audio_path.stem}.bass.wav",
-        "other": out_dir / f"{audio_path.stem}.other.wav",
-    }
+    stems = _local_stem_paths(audio_path, out_dir)
     _write_audio(stems["vocals"], _clip_audio(vocals), sr)
     _write_audio(stems["drums"], _clip_audio(drums), sr)
     _write_audio(stems["bass"], _clip_audio(bass), sr)
@@ -603,8 +616,7 @@ def _try_moises_stem_separation(
     return stems
 
 
-def _analyze_drum_events(path: Path) -> tuple[list[int], list[int], list[int]]:
-    y, sr = librosa.load(str(path), sr=None, mono=True)
+def _analyze_drum_events(y: np.ndarray, sr: int) -> tuple[list[int], list[int], list[int]]:
     onset_env = librosa.onset.onset_strength(y=y, sr=sr)
     frames = librosa.onset.onset_detect(onset_envelope=onset_env, sr=sr, backtrack=False)
     times = librosa.frames_to_time(frames, sr=sr)
@@ -627,8 +639,7 @@ def _analyze_drum_events(path: Path) -> tuple[list[int], list[int], list[int]]:
     return _compress_ms(kicks, 40), _compress_ms(snares, 32), _compress_ms(hats, 24)
 
 
-def _analyze_peak_events(path: Path, kind: str) -> list[int]:
-    y, sr = librosa.load(str(path), sr=None, mono=True)
+def _analyze_peak_events(y: np.ndarray, sr: int, kind: str) -> list[int]:
     hop = 512
     rms = librosa.feature.rms(y=y, hop_length=hop)[0]
     if kind == "bass":
@@ -698,7 +709,9 @@ def _group_background_vocal_scores(
     return events
 
 
-def _classify_background_vocals(path: Path, log_fn: Callable[[str], None] | None = None) -> list[BackgroundVocalEvent]:
+def _classify_background_vocals(
+    y: np.ndarray, sr: int, log_fn: Callable[[str], None] | None = None,
+) -> list[BackgroundVocalEvent]:
     """Classify harmony/background vocals from the selected vocal stem.
 
     This is a deterministic feature classifier, not a lyric heuristic: it looks
@@ -707,8 +720,6 @@ def _classify_background_vocals(path: Path, log_fn: Callable[[str], None] | None
     is available.
     """
     try:
-        y, sr = librosa.load(str(path), sr=None, mono=True)
-        y = np.asarray(y, dtype=np.float32)
         if y.size < max(2048, int(sr * 0.2)):
             return []
         hop = 512
@@ -753,6 +764,7 @@ def _summarize_stem_file(
     stem_name: str,
     sensitivity: float,
     max_events_per_second: int,
+    decode: Callable[[Path], tuple[np.ndarray, int]],
 ) -> dict[str, object]:
     if not path.exists():
         return {
@@ -763,8 +775,7 @@ def _summarize_stem_file(
             "confidence": 0.0,
             "notable_events": [],
         }
-    y, sr = librosa.load(str(path), sr=None, mono=True)
-    y = np.asarray(y, dtype=np.float32)
+    y, sr = decode(path)
     hop = 512
     rms = librosa.feature.rms(y=y, hop_length=hop)[0]
     onset_env = librosa.onset.onset_strength(y=y, sr=sr, hop_length=hop)
@@ -820,6 +831,9 @@ def build_stem_analysis(
     cache_dir: Path,
     config: AudioAnalysisConfig | None = None,
     log_fn: Callable[[str], None] | None = None,
+    *,
+    _decode: Callable[[Path], tuple[np.ndarray, int]] | None = None,
+    _local_only: bool = False,
 ) -> StemAnalysis:
     """Build stems and per-stem timing cues used by the sequencer engine."""
     settings = config or load_audio_analysis_config()
@@ -841,6 +855,7 @@ def build_stem_analysis(
 
     stem_dir = cache_dir / audio_path.stem
     stem_dir.mkdir(parents=True, exist_ok=True)
+    decode = _decode or cache(_load_mono)
 
     stems: dict[str, Path] | None = None
     source = "local"
@@ -848,13 +863,13 @@ def build_stem_analysis(
         stems = _try_moises_stem_separation(audio_path, stem_dir, api_key or "", log_fn)
         if stems:
             source = "moises"
-    if not stems:
+    if not stems and not _local_only:
         stems = _try_demucs_stem_separation(audio_path, stem_dir, log_fn)
         if stems:
             source = "demucs"
     if not stems:
         try:
-            stems = _local_stem_separation(audio_path, stem_dir, log_fn)
+            stems = _local_stem_separation(audio_path, stem_dir, log_fn, decode)
             source = "local"
         except Exception as exc:
             _log(log_fn, f"Stem split fallback failed, using direct audio analysis only: {exc}")
@@ -864,17 +879,22 @@ def build_stem_analysis(
     drum_src = stems.get("drums") or audio_path
     bass_src = stems.get("bass") or audio_path
     vocal_src = stems.get("vocals") or audio_path
-    kicks, snares, hats = _analyze_drum_events(drum_src)
-    drum_event_streams = drum_intel.detect_drum_event_streams_from_file(drum_src, log_fn=log_fn)
-    bass_peaks = _analyze_peak_events(bass_src, "bass")
-    vocal_peaks = _analyze_peak_events(vocal_src, "vocals")
-    background_vocal_events = _classify_background_vocals(vocal_src, log_fn)
+    drum_audio = decode(drum_src)
+    kicks, snares, hats = _analyze_drum_events(*drum_audio)
+    drum_event_streams = drum_intel.detect_drum_event_streams_from_file(
+        drum_src, log_fn=log_fn, decoded_audio=drum_audio,
+    )
+    bass_peaks = _analyze_peak_events(*decode(bass_src), "bass")
+    vocal_audio = decode(vocal_src)
+    vocal_peaks = _analyze_peak_events(*vocal_audio, "vocals")
+    background_vocal_events = _classify_background_vocals(*vocal_audio, log_fn)
     stem_features = {
         name: _summarize_stem_file(
             path,
             stem_name=name,
             sensitivity=settings.stem_event_sensitivity,
             max_events_per_second=settings.max_candidate_events_per_second,
+            decode=decode if path in (drum_src, bass_src, vocal_src) else _load_mono,
         )
         for name, path in stems.items()
     }
@@ -1556,6 +1576,77 @@ def _section_texture_signature(mfcc: np.ndarray, part: object, sr: int, hop: int
     return round(float(np.mean(window)), 4)
 
 
+def _restore_analysis(
+    payload: dict,
+    audio_path: Path,
+    layout_path: Path | None,
+    stems: dict[str, Path],
+) -> AudioAnalysisResult | None:
+    if payload.keys() != {item.name for item in fields(AudioAnalysisResult)}:
+        return None
+    try:
+        result = AudioAnalysisResult(
+            **{
+                **payload,
+                "beat_events": [TimedConfidenceEvent(**event) for event in payload["beat_events"]],
+                "onset_events": [TimedConfidenceEvent(**event) for event in payload["onset_events"]],
+                "note_events": [NoteEvent(**event) for event in payload["note_events"]],
+                "section_events": [SongSection(**event) for event in payload["section_events"]],
+                "spatial_audio_frames": [SpatialAudioFrame(**frame) for frame in payload["spatial_audio_frames"]],
+            },
+        )
+        result.metadata["audio_path"] = str(audio_path)
+        result.stem_events["stems"] = {name: str(path) for name, path in stems.items()}
+        result.metadata["layout_path"] = str(layout_path) if layout_path else ""
+        result.metadata.pop("layout_coordinate_count", None)
+    except (TypeError, AttributeError):
+        return None
+    if layout_path:
+        result.metadata["layout_coordinate_count"] = len(parse_layout_coordinates(layout_path, []))
+    return result
+
+
+def _analyze_file_stems(
+    audio_path: Path,
+    mix: tuple[np.ndarray, int],
+    use_moises: bool,
+    api_key: str | None,
+    cache_root: Path,
+    settings: AudioAnalysisConfig,
+    log_fn: Callable[[str], None] | None,
+    published_stems: dict[str, Path] | None,
+) -> tuple[StemAnalysis, tuple[np.ndarray, int] | None, dict[str, str]]:
+    @cache
+    def decode(path: Path) -> tuple[np.ndarray, int]:
+        return mix if path == audio_path else _load_mono(path)
+
+    def analyze(stem_root: Path) -> tuple[StemAnalysis, tuple[np.ndarray, int] | None]:
+        stem = build_stem_analysis(
+            audio_path, use_moises, api_key, stem_root, config=settings, log_fn=log_fn,
+            _decode=decode, _local_only=published_stems is not None,
+        )
+        bass_path = stem.stems.get("bass")
+        return stem, decode(bass_path) if bass_path is not None and bass_path.exists() else None
+
+    if published_stems is None:
+        stem, bass = analyze(cache_root)
+        return stem, bass, {}
+
+    # Same-named recordings can share the legacy sidecar paths. Analyze a
+    # private set of stems so competing writers cannot mix their analysis data.
+    stem_dir = cache_root / audio_path.stem
+    stem_dir.mkdir(parents=True, exist_ok=True)
+    with tempfile.TemporaryDirectory(dir=stem_dir) as staging_dir:
+        stem, bass = analyze(Path(staging_dir))
+        digests = {}
+        if stem.source == "local":
+            digests = {name: audio_analysis_cache.file_digest(path) for name, path in stem.stems.items()}
+            for name, path in stem.stems.items():
+                path.replace(published_stems[name])
+            stem.stems = published_stems
+    return stem, bass, digests
+
+
 def analyze_audio_file(
     audio_path: Path,
     *,
@@ -1568,17 +1659,36 @@ def analyze_audio_file(
     enable_lyrics: bool = True,
     log_fn: Callable[[str], None] | None = None,
 ) -> AudioAnalysisResult:
-    timer = StageTimer("configuration and decode")
+    timer = StageTimer("configuration, cache and decode")
     settings = config or load_audio_analysis_config()
     cache_root = cache_dir or (_repo_root() / "build" / "audio_analysis_cache")
+    analysis_log = log_fn if log_fn is not None else LOGGER.info
     if not audio_path.exists():
         return AudioAnalysisResult(
             metadata={"audio_path": str(audio_path), "exists": False, "config": settings.to_dict()},
             debug_summaries={"fallback": "missing_audio_file"},
         )
 
-    y, sr = librosa.load(str(audio_path), sr=None, mono=True)
-    y = np.asarray(y, dtype=np.float32).reshape(-1)
+    result_path = None
+    input_digest = None
+    published_stems = None
+    if not use_moises and not enable_lyrics and provided_parts is None and not shutil.which("demucs"):
+        try:
+            input_digest = audio_analysis_cache.file_digest(audio_path)
+        except OSError as exc:
+            _log(analysis_log, f"Audio analysis cache skipped: {exc}")
+        else:
+            result_path = audio_analysis_cache.result_path(audio_path, input_digest, settings.to_dict(), cache_root)
+            published_stems = _local_stem_paths(audio_path, cache_root / audio_path.stem)
+            payload = audio_analysis_cache.read_result(result_path, published_stems)
+            if payload is not None:
+                restored = _restore_analysis(payload, audio_path, layout_path, published_stems)
+                if restored is not None:
+                    _log(analysis_log, f"Audio analysis cache hit for {audio_path.name}: {timer.summary()}")
+                    return restored
+
+    y, sr = _load_mono(audio_path)
+    y = y.reshape(-1)
     duration_s = float(len(y) / max(1, sr))
     timer.advance("onsets and beats")
     hop = 512
@@ -1635,7 +1745,9 @@ def analyze_audio_file(
     audio_reactive_summary = audio_trigger_routes.build_audio_reactive_summary(audio_reactive_actions)
 
     timer.advance("stems and lyrics")
-    stem = build_stem_analysis(audio_path, use_moises, api_key, cache_root, config=settings, log_fn=log_fn)
+    stem, bass_audio, stem_digests = _analyze_file_stems(
+        audio_path, (y, sr), use_moises, api_key, cache_root, settings, log_fn, published_stems,
+    )
     lyric_timeline = (
         extract_lyric_timeline(audio_path, use_moises, api_key, stem.vocal_peaks_ms, log_fn=log_fn)
         if enable_lyrics
@@ -1643,9 +1755,8 @@ def analyze_audio_file(
     )
     timer.advance("pitch and notes")
     note_events, raw_pitch = _extract_note_candidates(harm, sr, source_stem="mix_harmonic", config=settings)
-    if stem.stems.get("bass") and stem.stems["bass"].exists():
-        bass_y, bass_sr = librosa.load(str(stem.stems["bass"]), sr=None, mono=True)
-        bass_notes, bass_pitch = _extract_note_candidates(np.asarray(bass_y, dtype=np.float32), int(bass_sr), source_stem="bass", config=settings)
+    if bass_audio is not None:
+        bass_notes, bass_pitch = _extract_note_candidates(*bass_audio, source_stem="bass", config=settings)
         note_events.extend(bass_notes)
         raw_pitch.extend(bass_pitch)
     note_events.sort(key=lambda item: (item.timestamp_ms, item.midi_note, item.duration_ms))
@@ -1805,10 +1916,14 @@ def analyze_audio_file(
             "pitch_candidates": raw_pitch[:512],
         },
     )
-    _log(
-        log_fn if log_fn is not None else LOGGER.info,
-        f"Audio analysis stage timings for {audio_path.name}: {timer.summary()}",
-    )
+    if result_path is not None and stem_digests:
+        timer.advance("cache write")
+        try:
+            if audio_analysis_cache.file_digest(audio_path) == input_digest:
+                audio_analysis_cache.write_result(result_path, asdict(result), stem_digests)
+        except (OSError, TypeError, ValueError) as exc:
+            _log(analysis_log, f"Audio analysis cache write skipped: {exc}")
+    _log(analysis_log, f"Audio analysis stage timings for {audio_path.name}: {timer.summary()}")
     return result
 
 

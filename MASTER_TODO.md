@@ -77,6 +77,48 @@ Do not mark complete from unit tests alone.
 
 ## Change Ledger
 
+### 2026-11-14 — Optimization PR 2 of 8 · audio decode reuse and analysis cache
+
+#### Goal and files
+
+Reuse each decoded waveform within a run and persist eligible analysis results without changing the pitch or drummer pipelines. Branch `codex/optimization-02-audio-analysis` builds on PR #225.
+
+- `core/audio_intelligence.py` reuses decoded mono PCM for mix separation, stem timing and summaries, background-vocal analysis, and bass pitch extraction. Both HPSS passes stay in the mix note path by owner decision.
+- `audio/drum_detection.py` lets the existing file entry point take the samples already decoded by the caller. Its classifier, event mapping, logging, and fallback are unchanged.
+- `core/audio_analysis_cache.py` keys local results by audio SHA-256, input filename, analysis configuration, cache version, and DSP runtime versions. Writes replace complete JSON records atomically. A hit verifies all four legacy stem checksums and restores typed events. The caller's source path and layout metadata are derived at read time. Cache misses isolate the local stem computation from other recordings with the same filename.
+- `tests/test_audio.py` checks one decode per input, typed cold/warm equality, input and setting invalidation, corrupt records, missing stems, and fresh caller paths.
+
+#### Verification and preserved behavior
+
+Both HPSS passes, the PCM16 stem round trip, pitch and vocal thresholds, event and target selection, and drummer event math are preserved. Master uses the shared stem decoder and its existing sequencing analysis. The full-result cache applies to the separate `analyze_audio_file` entry point.
+
+- `python -m pytest tests/test_core_sandbox.py tests/test_audio.py tests/test_palette_not_white.py tests/test_drummer_v3_xsq_integration.py tests/test_sequence_plan.py -q` returned 29 passed and one pre-existing XML truth-value warning. PR 1 documents the pre-existing `assign_hand` collection error.
+- Serialized analysis results, including stem and drum events, matched the PR 1 base byte-for-byte on cold and cached runs of the 12-second drum fixture and 15.024-second Tinsel Sawtooth excerpt. Their sorted JSON SHA-256 values are `0fb6f4820b47a53c53afe7f589f361cf2a575adbfe17fcfaccc6f18157e3ae97` and `2931e3875f984a456a96b9be92f60890b6f972942eec05f913f10ad7c2ad0602` using the benchmark's fixed paths.
+- Generated master XSQs matched byte-for-byte for both inputs with the PR 1 CLI flags and fixed filenames. The drummer fixture reported 2,053 placements and SHA-256 `01ae2f5c8f8b14a2d99af68fc6443fa97b529e7fc62ee2df63da35c8157b6757`. The song excerpt reported 4,144 placements and SHA-256 `8f3aafbb48b689caaae5a3808a760d5f458c1466d281a3f58d056c9f9882347a`.
+
+#### Before and after timings
+
+Single-process measurements used the PR 1 environment. The cold call decodes the input and runs DSP. The repeat uses the same path, content, and settings.
+
+| Input | Base cold | PR 2 cold | Base repeat | PR 2 cache hit |
+| --- | ---: | ---: | ---: | ---: |
+| Drummer fixture | 10.179 s | 10.276 s | 7.697 s | 0.023 s |
+| Tinsel Sawtooth excerpt | 12.377 s | 15.870 s | 14.101 s | 0.025 s |
+
+Both inputs went from two mix and ten stem decodes to one mix and four stem decodes on cold calls, and zero decodes on hits. A fresh process also returned identical cached output and bypassed the decoder for both inputs. In these samples the Tinsel cold run was slower, with most of the difference in stem analysis and pitch DSP. The repeat-call gains apply to eligible direct audio analysis. Master CLI wall time on the Tinsel excerpt was 19.41 s before and 18.95 s after, with 16.93 s inside the instrumented variant after this change.
+
+#### Limitations and regression risks
+
+The full-result cache is limited to local fallback stems with lyrics disabled and default song-part detection. Moises, Demucs, live transcription, and caller-supplied parts keep their existing analysis flow. Stem files continue to use legacy output names. Colliding names can invalidate a cache hit, and each cacheable analysis computes from its own staged sidecars. Decoded drums, vocals, and bass remain live through the stem pass. Full-song peak memory, Android execution, and Windows execution remain unmeasured. Bump the cache version when analysis semantics or the payload format change. The attempted xLights render was blocked by Xvfb listener initialization, so native playback and the historical drummer MP4 remain outside this verification.
+
+#### Follow-up optimization assessment
+
+- Share immutable master-path analysis across candidates and layouts once its input dependencies are explicit. The Tinsel excerpt spent 5.62 s in audio/polyphony and 9.72 s in timing/planning before this PR. Profiling isolated 7.30 s in stem analysis, including separation and drum/vocal DSP, during the instrumented run.
+- Remove exact duplicate DSP in a focused follow-up. `_summarize_stem_file` currently calculates the same STFT magnitude twice. `_extract_note_candidates` recomputes the maximum of the same pitch matrix for every frame. Verify full-song XSQ and analysis parity and measure peak RSS.
+- Profile report serialization and effect placement on a dense RGB layout. The profiled legacy layout serialized two reports and called `add_model` more than 4,700 times. Preserve palette indexes, overlap precedence, and RNG calls when optimizing these paths.
+- Keep history-dependent generation ordered. `scan_workspace_preferences` reads XSQs written earlier in the same output directory, and learning state can change after a song. Parallel work requires independent inputs and deterministic promotion.
+- Gate visual changes using native FSEQ samples and audio-aligned MP4 review. Track section-level prop activity and blackouts, near-white RGB frames, onset alignment, and canonical drummer targets. The current `grade_preview` derives its grades from intent counts and overlays, so it cannot measure these pixel-level failures.
+
 ### 2026-11-14 — Optimization PR 1 of 8 · baseline and safety net
 
 #### Goal and files
@@ -114,7 +156,7 @@ The comparison covers one synthetic input, the repository layout, and generated 
 #### Ordered optimization checklist
 
 - [x] PR 1 · Track the sandbox fixtures, instrument the stages, and verify generated output against the base.
-- [ ] PR 2 · Audio analysis deduplication and content-keyed cache. The proposed HPSS skip is blocked by analysis parity. An isolated probe converted 116 note events to 119 on the drum fixture and 687 to 731 on a 15-second Tinsel Sawtooth excerpt. Pitch candidate data and spatial audio frames also changed. The master XSQ path does not call `analyze_audio_file`; an unchanged master XSQ alone cannot establish parity for this path. Resolve the HPSS scope before implementation. Stem-decoding reuse and persistent analysis caching remain open.
+- [x] PR 2 · Reuse decoded stems and add a cache for deterministic local analysis. The owner approved retaining both HPSS passes after the skip probe changed 116 note events to 119 on the drum fixture and 687 to 731 on the Tinsel Sawtooth excerpt. Both direct analysis and master XSQ parity are verified.
 - [ ] PR 3 · Replace the lyric interval scan and verify placement parity.
 - [ ] PR 4 · Add opt-in workers and verify identical output across worker counts.
 - [ ] PR 5 · Narrow error handlers and preserve their fallbacks.

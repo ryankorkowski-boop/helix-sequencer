@@ -82,9 +82,16 @@ def detect_drum_event_streams(y: np.ndarray, sr: int, config: DrumDetectionConfi
     for event in _compress_events(raw_events, config.min_gap_ms): streams[stream_key_for_type(event.drum_type)].append(event)
     return streams
 
-def detect_drum_event_streams_from_file(path: Path, config: DrumDetectionConfig = DrumDetectionConfig(), log_fn: Callable[[str], None] | None = None) -> dict[str, list[DrumEvent]]:
+def detect_drum_event_streams_from_file(
+    path: Path,
+    config: DrumDetectionConfig = DrumDetectionConfig(),
+    log_fn: Callable[[str], None] | None = None,
+    *,
+    decoded_audio: tuple[np.ndarray, int] | None = None,
+) -> dict[str, list[DrumEvent]]:
     try:
-        y, sr = librosa.load(str(path), sr=None, mono=True); streams = detect_drum_event_streams(np.asarray(y, dtype=np.float32), int(sr), config)
+        y, sr = decoded_audio if decoded_audio is not None else librosa.load(str(path), sr=None, mono=True)
+        streams = detect_drum_event_streams(np.asarray(y, dtype=np.float32), int(sr), config)
         if log_fn is not None: log_fn(f"Drum intelligence: { {key: len(value) for key, value in streams.items()} }")
         return streams
     except Exception as exc:
