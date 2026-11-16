@@ -13,14 +13,18 @@ on:
 jobs:
   desktop-headless:
     runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ['3.11', '3.12']
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with:
-          python-version: '3.12'
+          python-version: ${{ matrix.python-version }}
       - run: python -m unittest discover -s tests -p test_gui_modernization_smoke.py -v
       - run: python -m py_compile gui_launcher.py gui_lightshow.py gui_launcher_drummer.py
-      - name: Drummer mapping regression (Python 3.12)
+      - name: Drummer mapping regression
         run: python -m unittest discover -s tests -p test_drum_mapping.py -v
   windows-package:
     runs-on: windows-latest
