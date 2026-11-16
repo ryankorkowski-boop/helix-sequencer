@@ -234,3 +234,14 @@ Do not mark complete from unit tests alone.
 **Limitations:** Desktop runner's other helper methods may still contain preexisting Tk threading issues; no Android instrumentation/emulator playback or native xLights video verification. Android project lacks a Gradle wrapper, so workflow uses setup-gradle.
 **Deferred work:** Inspect CI results, repair failures, run Android API 30/36 and Windows GUI tests, package builds, visually review navigation and performance, then complete full UI redesign.
 **Regression risks:** Tk event queue polling during window destruction; packaging dependencies; Android SDK/Chaquopy availability in CI.
+
+
+### 2026-11-16 — CI failure triage: Android SDK setup
+**Goal:** Unblock actual Android GUI compilation in CI.
+**Changed files:** .github/workflows/gui-modernization-smoke.yml.
+**Preserved behavior:** Android source, desktop GUI, donation/legal/instructions, sequencing engines and animations unchanged.
+**New behavior:** Android job uses runner's preinstalled Android SDK rather than android-actions/setup-android@v3 attempting obsolete sdkmanager package 'tools'.
+**Tests/evidence:** Initial GUI modernization workflow run 43898738834: desktop-headless SUCCESS; android-compile FAILURE during SDK setup before Gradle compilation. Log shows 'Failed to find package tools'. Corrected workflow committed; rerun result pending.
+**Limitations:** Android compile and APK runtime remain unverified; CI may uncover further Gradle/SDK/plugin issues.
+**Deferred work:** Inspect new CI run, repair any Gradle compile errors, package APK/EXE, run emulator and Windows smoke tests.
+**Regression risks:** Runner Android SDK paths/version drift; installed Gradle compatibility.
