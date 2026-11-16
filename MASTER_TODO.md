@@ -202,3 +202,13 @@ Do not mark complete from unit tests alone.
 **Limitations:** Windows EXE GUI is unchanged. No settings UI for scene selection yet. The decorative show is not an authoritative audio-synchronized render or band preview. A pending-job state may need further lifecycle validation.
 **Deferred work:** Android and Windows design parity, scene preferences, battery/reduced-motion settings, preview/variant UX overhaul, packaging and visual tests.
 **Regression risks:** Android UI lifecycle and frame invalidation; verify cancellation, activity recreation, memory usage, and API 30/36 before release.
+
+
+### 2026-11-16 — Preserve help, legal, and donation navigation during GUI refresh
+**Goal:** Keep user-requested Instructions, Legal, and Donate actions accessible as the Android UI changes.
+**Changed files:** android/app/src/main/java/org/helixsequencer/android/MainActivity.java.
+**Preserved behavior:** Existing Instructions button opens InfoActivity, legal footer opens its legal page, and SupportLinks.add still supplies both Donate to xLights and Donate to Helix links. InfoActivity retains its separate scroll positions and recreation handling.
+**New behavior:** Dedicated Legal button beside Instructions in the horizontally scrollable workflow navigation. Decorative animation pauses when activity is backgrounded and resumes for an active job.
+**Tests/evidence:** Source inspection confirms existing SupportLinks and InfoActivity wiring. Android build, instrumentation tests, and device screenshot have not run.
+**Limitations/deferred:** Windows UI parity and APK packaging remain outstanding. Verify navigation and background/resume behavior on emulator and real devices.
+**Regression risks:** Extra tab width on narrow phones; horizontal navigation must remain scrollable. Preserve donation URL configuration and legal wording exactly.
