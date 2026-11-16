@@ -2,7 +2,7 @@
   "android_band_repair": {
     "branch": "codex/android-band-preview-repair-20261115",
     "base_sha": "653053db05f754b5dbb85594af8de3cb9aa719e1",
-    "checkpoint": "Variant review controls, host diagnostic and focused tests",
+    "checkpoint": "Source-exact Windows smoke complete, Android APK compiled",
     "evidence": {
       "owner_zip": {
         "filename": "Helix-show (1).zip",
@@ -97,13 +97,70 @@
           "status": "no qualified vocal clocks; both singers idle"
         },
         "drum_motion_rejections": [],
-        "owner_review_status": "diagnostic"
+        "owner_review_status": "diagnostic",
+        "sampled_snare": {
+          "event_seconds": 4.516,
+          "frames": [
+            89,
+            91,
+            93,
+            98
+          ],
+          "crop_xywh": [
+            472,
+            340,
+            52,
+            12
+          ],
+          "mean_rgb": [
+            191.646,
+            222.018,
+            203.921,
+            192.361
+          ]
+        }
+      },
+      "truths": {
+        "v3_oracle_commit": "b27e8d77a63027ed32bcf6851dcff3925472c155",
+        "drummer_art_sha256": "643e1bfb7fb0b245cb7400010a80f9f75037f8a5554adde7bde8cba7a53374fa",
+        "reference_videos": [
+          {
+            "filename": "Aaadrummergroundtruth.mp4",
+            "seconds": 20,
+            "sha256": "e324abb3e73da098ccd7253b5a154d40d4d8ada63b099fcbd6cd504c69678458"
+          },
+          {
+            "filename": "Bbb Vocalstruth.mp4",
+            "seconds": 34.9,
+            "sha256": "2485eb68a2f3dd0866bf55818212f38645d85bb391b21c56cd453ee2e4d625d4"
+          }
+        ]
       }
     },
     "acceptance_mp4_count": 0,
     "candidate_apk": null,
     "previous_published_sha": "62cfb2d8623361da030e4e5c23e7646ff5be2519",
-    "draft_pr": 231
+    "draft_pr": 231,
+    "source_commit": "d15b0fc630d89142718cc425df11af404df889ba",
+    "windows_build": {
+      "commit": "d15b0fc630d89142718cc425df11af404df889ba",
+      "run_id": 43808787004,
+      "status": "TESTED",
+      "portable_artifact_id": 14199976217
+    },
+    "android_build": {
+      "commit": "d15b0fc630d89142718cc425df11af404df889ba",
+      "run_id": 43808787021,
+      "status": "IN PROGRESS",
+      "api_30_compiled": true,
+      "api_36_compiled": true,
+      "physical_device": "BLOCKED"
+    },
+    "native_full_band": {
+      "status": "FAILED \u2014 REPAIR REQUIRED",
+      "run_id": 43808786850,
+      "failure": "Full-band source lacks independently resolved lead and backing vocal tracks"
+    }
   },
   "schema": "helix.beta-artifacts.v1",
   "updated_at": "2026-11-09T18:38:11.232382+00:00",

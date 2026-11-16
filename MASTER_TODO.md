@@ -1,3 +1,7 @@
+## 15 November — Hosted review builds and V3 reference verification
+
+Goal: pin exact-source packaging and reference evidence for the next session. Files changed: MASTER_TODO.md, docs/BETA_COMPLETION_LIVE_HANDOFF.md and both beta completion JSON records. Source and behavior are preserved from `d15b0fc630d89142718cc425df11af404df889ba`. New evidence: the Windows candidate passed package, smoke and worker checks. Both Android API jobs compiled and reached their emulator checks. The native full-band workflow rejected unqualified backing vocals. The source V3 artwork matches the known-good Git commit, and the host clip's sampled snare rises and decays on its mapped hit. The Android in-app solid preview, full drum and vocal source qualification, physical-device verification and final review videos are still pending. Release risk is treating packaging or a brief host snare check as acceptance. See the live handoff for exact job and artifact links.
+
 ## 15 November — Parallel Android and Windows variant review
 
 Goal: let owners review and export current-run variants on both platforms and verify a real source-bound 3D diagnostic. Changed files: Android MainActivity, PreviewActivity, EngineService, resource IDs, helix_mobile.py and Android instrumentation tests, Windows gui_launcher.py, tools/variant_review_media.py, tools/render_owner_band_review.py, core/band_visibility.py, two focused Python tests and the four handoff records. The previous uploaded review commit was `62cfb2d8623361da030e4e5c23e7646ff5be2519` in draft #231.
