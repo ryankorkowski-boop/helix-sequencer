@@ -332,3 +332,14 @@ Do not mark complete from unit tests alone.
 **Limitations:** Python 3.12 alone does not prove 3.11 parity, native render quality or physical drummer motion.
 **Deferred work:** Inspect CI failures and repair smallest cause, add 3.11 coverage if dependencies permit, run native xLights and full-song approval tests.
 **Regression risks:** Existing test assumptions may still fail even after resolving stale import; report rather than skip failures.
+
+
+### 2026-11-16 — Drummer collection repair verified; add Python parity CI
+**Goal:** Confirm repaired drummer mapping test actually executes and check compatibility with Python 3.11 and 3.12.
+**Changed files/modules:** .github/workflows/gui-modernization-smoke.yml.
+**Preserved behavior:** Android and Windows build jobs, application code, sequencing logic, approved drummer assets, tests and artifacts unchanged.
+**New behavior:** desktop-headless smoke and drummer mapping regression jobs run on both Python 3.11 and 3.12 with fail-fast disabled.
+**Tests/evidence:** GitHub Actions runs 43933188888 and 43933177762 desktop-headless completed success, which includes test_drum_mapping.py on Python 3.12. Android and Windows jobs were still running at inspection. New parity matrix committed as 168f69781aa9f1d9169053447b709ea9caa964ec; parity results pending.
+**Limitations:** Python 3.12 success is targeted test evidence, not proof of full suite or native xLights output. No hardware Android or complete Windows EXE functional acceptance.
+**Deferred work:** Inspect 3.11/3.12 matrix results, Android/Windows build outcomes, investigate remaining band and export failures, compare drummer native MP4 against owner Truths.
+**Regression risks:** Python version differences may expose test or dependency compatibility issues; no production behavior modified.
