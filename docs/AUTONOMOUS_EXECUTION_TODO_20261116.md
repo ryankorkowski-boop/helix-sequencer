@@ -14,11 +14,12 @@
 - [x] Verify CI, Beta CI, Birdsong, Flow Quality, Flow Review, Compliance and Remote MP4 workflow success on previous head `6b9cd925`.
 - [x] Confirm remote workflow produced downloadable artifact `helix-remote-review-preview-mp4` (artifact ID 14231739526; 5,493,838 bytes) with `REMOTE_REVIEW_v28.9_LightsOutTheme.first_20s,v28.9.mp4`.
 - [x] Inspect successful remote workflow logs; no `Snowman band planning skipped` warning detected.
+- [x] Verify latest head `aa544018` passed Helix CI, Beta CI, Birdsong CI, Flow Quality, Flow Review, Compliance, and remote MP4 preview workflows.
 
 ## Active verification
-- [ ] Verify Python 3.11 and 3.12 beta smoke CI on newest head, including new band tests.
+- [x] Verify Python 3.11 and 3.12 beta smoke CI on head `aa544018`, including new band tests: 162 passed each; workflow 43882085814.
 - [ ] Download and visually inspect the MP4 for native xLights compatibility, correct six-member snowman geometry, drummer kit lighting, realistic limbs and independent vocal timing. A passing workflow is not visual acceptance.
-- [ ] Inspect rendered MP4 metadata, frame decode, audio sync, blank frames and brightness, then compare to owner Truths examples.
+- [ ] Inspect rendered MP4 metadata, frame decode, audio sync, blank frames and brightness, then compare to owner Truths examples. GitHub workflow artifact exists but its binary frames have not been visually inspected.
 
 ## Next implementation (separate focused changes)
 - [ ] Trace missing drum lighting, exactly three toms, independent cymbals and anatomical drummer motion against owner Truths.
