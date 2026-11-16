@@ -1,3 +1,16 @@
+
+### 2026-11-16 — Repair arbitration branch compilation and Flow export entry points
+**Agent:** ChatGPT
+**Branch:** `codex/arbitration-ci-repair-20261116`
+**Goal:** Restore runnable CI after opt-in orchestration audit integration without changing sequencing behavior.
+**Changed files/modules:** `core/effects_orchestrator_bridge.py`, `.github/workflows/helix-birdsong-quality-artifact.yml`, `MASTER_TODO.md`.
+**Intentionally preserved behavior:** Motion-conflict audit remains opt-in and observe-only; default effects, drummer, singers, timing, model targets and XSQ output are unchanged.
+**New behavior:** Remove a literal escaped newline that caused Python SyntaxError at bridge line 309; run Flow export and preview entry points as modules so `core` imports resolve from the repository root.
+**Tests/evidence:** Failures reproduced in GitHub Actions logs for run 43857800070 (Python compile) and 43857799990 (module import). Code fixes committed; fresh hosted validation pending.
+**Limitations:** No native xLights visual proof, phone test, or performance benchmark from these CI repairs.
+**Deferred work:** Inspect new Actions results, fix any subsequent failures, run focused arbitration tests and full regression, validate native nine-panel output and cross-platform builds before owner review.
+**Regression risks:** Module invocation can reveal packaging assumptions; inspect generated artifacts and keep release held.
+
 # HELIX MASTER TODO & AGENT HANDOFF LEDGER
 
 > Canonical project roadmap and cross-agent handoff layer.
