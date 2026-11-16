@@ -1,4 +1,15 @@
 
+### 2026-11-16 — Nine drummer cues, alternating snare sticks and crashes
+**Goal:** Preserve approved canonical drummer with nine distinct strike actions: kick, snare left/right, hi-hat, high/mid/floor toms, left/right crashes.
+**Changed files/modules:** `animation/drummer_motion.py`, `tests/test_drummer_nine_cue_contract.py`, `.github/workflows/helix-ci.yml`, `MASTER_TODO.md`.
+**Preserved behavior:** Same source artwork, eight physical instrument components, event timestamps, mapping, humanization seed, three toms and cymbal left/right physical alternation. No independently sequenced stick channels.
+**New behavior:** Successive snare strikes alternate left/right hands regardless of elapsed time, matching existing alternating physical cymbal targets. Tests cover both and nine-action/eight-component contract.
+**Tests/evidence:** Three new regression tests added to Python 3.11/3.12 beta smoke; fresh CI pending.
+**Limitations:** Hand assignment is a motion attribute; actual xLights contact pose/illumination requires native MP4 validation.
+**Deferred work:** Ensure nine cue poses are projected correctly to actual assets and native XSQ, visually compare owner-approved drummer and confirm strike lighting.
+**Regression risks:** Deliberate change for non-rapid snare repeats from same-hand to alternating; do not modify canonical artwork or kit.
+
+
 ### 2026-11-16 — Owner directive: restore approved drummer, never recreate
 **Goal:** Freeze the original V3 drummer visual and musical oracle instead of rebuilding its kit or animation.
 **Changed files/modules:** `docs/AUTONOMOUS_EXECUTION_TODO_20261116.md`, `MASTER_TODO.md`.
