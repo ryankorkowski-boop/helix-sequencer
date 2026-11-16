@@ -46,3 +46,10 @@ def test_director_opt_in_defaults_off():
     from core.multi_pass_orchestration_director import MultiPassOrchestrationDirector
     assert MultiPassOrchestrationDirector().audit_motion_conflicts is False
     assert MultiPassOrchestrationDirector(audit_motion_conflicts=True).audit_motion_conflicts is True
+
+
+def test_audit_flag_is_removed_before_engine_invocation():
+    from core.sequence_builder import _clean_engine_args
+    assert _clean_engine_args(["--audit-motion-conflicts", "--audio", "song.wav"]) == [
+        "--audio", "song.wav",
+    ]
