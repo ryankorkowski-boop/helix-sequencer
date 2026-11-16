@@ -1,4 +1,15 @@
 
+### 2026-11-16 — Preserve snowman drum cues when composite metadata is absent
+**Goal:** Prevent entire snowman band planning from aborting on optional composite submodel field.
+**Changed files/modules:** `core/snowman_band.py`, `MASTER_TODO.md`.
+**Preserved behavior:** Existing mapped submodel, drum type, timing, velocity, confidence, frames and source; provided composite submodels remain unchanged.
+**New behavior:** Optional composite metadata defaults to an empty list, matching the existing `models/working_drummer.py` consumer and `mapping/drum_mapper.py` schema.
+**Tests/evidence:** Inspected mapper's `map_events_to_submodels` (does not emit composite metadata) and remote preview warning `KeyError('composite_submodels')`; hosted tests and actual band render pending.
+**Limitations:** This repairs a crash, not three-tom spatial geometry, hit illumination, shoulder articulation, or independent vocals. Do not treat this as visual acceptance.
+**Deferred work:** Validate no band planning warnings in new workflow, compare native xLights drummer and vocals to owner Truths; add targeted test in subsequent focused PR.
+**Regression risks:** Consumers relying on nonempty composites must explicitly derive them from component mapping; no synthetic composite is invented here.
+
+
 ### 2026-11-16 — Remote review winner tie regression
 **Goal:** Prevent preview workflow failure when ranked candidates have equal quality and validation scores.
 **Changed files/modules:** `.github/workflows/helix-remote-review-preview.yml`, `MASTER_TODO.md`.
