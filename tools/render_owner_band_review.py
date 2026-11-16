@@ -84,7 +84,7 @@ def dimensional_camera(width,height,elapsed):
 
 
 def render(source, vocals, reference, output, expected_sha256, *, seconds=None, width=1920, height=1080,
-           dimensional_drummer=False, rock=False):
+           dimensional_drummer=False, rock=False, source_diagnostic=False):
     from PIL import ImageDraw, ImageFont
     import soundfile as sf
     from models.final_band_scene import FinalBandScene
@@ -100,14 +100,19 @@ def render(source, vocals, reference, output, expected_sha256, *, seconds=None, 
     from tools.render_intricate_band_samplers import SamplerView, SAMPLER_VERTEX
     from tools.render_refined_helix_band import REFINED_FRAGMENT, DynamicDry, encoder
 
-    source, vocals, reference, output = map(Path, (source, vocals, reference, output))
+    source, output = map(Path, (source, output))
+    if source_diagnostic:
+        if vocals is not None or reference is not None or rock or not dimensional_drummer:
+            raise ValueError('A source diagnostic requires the dimensional snowman scene and no external reference or vocal clocks')
+    else:
+        vocals, reference = map(Path, (vocals, reference))
     source_manifest=json.loads((source/'run_manifest.json').read_text())
     audio = source/'media'/source_manifest.get('audio_name','Helix_Starred_New_Review.wav')
     if digest(audio) != expected_sha256:
         raise ValueError('Original recording identity mismatch')
     expected_reference=('f014db45dc49688da40a4337a1185589ef09ffe81c13e234eb20d0f0f57e45b3'
                         if dimensional_drummer else 'ec0c30bb95fc51d18488bda90980188d99b3d6e4e952500eddf41db4409e00ef')
-    if digest(reference) != expected_reference:
+    if reference is not None and digest(reference) != expected_reference:
         raise ValueError('Wrong owner-passed original V3 reference')
     duration = sf.info(audio).duration
     if seconds is not None: duration = min(duration, float(seconds))
@@ -115,11 +120,15 @@ def render(source, vocals, reference, output, expected_sha256, *, seconds=None, 
     n = math.ceil(duration*20)
     plan_path, = (source/'sequence').glob('*.snowman_band.json')
     plan = json.loads(plan_path.read_text())['cues']
-    receipt = json.loads((vocals/'diagnostic.json').read_text())
-    if receipt['audio_sha256'] != expected_sha256 or digest(vocals/'acoustic_vocal_clocks.npz') != receipt['clock_sha256']:
-        raise ValueError('Vocal clock identity mismatch')
-    with np.load(vocals/'acoustic_vocal_clocks.npz', allow_pickle=False) as z:
-        clocks = {k:z[k].copy() for k in z.files}
+    if source_diagnostic:
+        receipt = {'audio_sha256': expected_sha256, 'status': 'no qualified vocal clocks; both singers idle'}
+        clocks = None
+    else:
+        receipt = json.loads((vocals/'diagnostic.json').read_text())
+        if receipt['audio_sha256'] != expected_sha256 or digest(vocals/'acoustic_vocal_clocks.npz') != receipt['clock_sha256']:
+            raise ValueError('Vocal clock identity mismatch')
+        with np.load(vocals/'acoustic_vocal_clocks.npz', allow_pickle=False) as z:
+            clocks = {k:z[k].copy() for k in z.files}
     scene = FinalBandScene('ember_amphitheatre' if rock else 'glacier_pier', rock=rock, full_keyboard=True)
     if scene.visible_roles != ROLES: raise ValueError('Six-member cast required')
     keys = {int(o['name'].rsplit('_', 1)[1]):o['matrix'][:3, 3].copy()
@@ -154,7 +163,8 @@ def render(source, vocals, reference, output, expected_sha256, *, seconds=None, 
             voice = []
             for k, role in enumerate(('lead', 'harmony')):
                 lane = ('estimated_lead', 'estimated_backing')[k]; j = i*5
-                energy = float(clocks[lane+'_energy'][j]); index = int(clocks[lane+'_shapes'][j]) if energy > 0 else 0
+                energy = 0.0 if clocks is None else float(clocks[lane+'_energy'][j])
+                index = int(clocks[lane+'_shapes'][j]) if energy > 0 else 0
                 shape = SHAPE_NAMES[index]; scene.update_singer_mouth(role, shape, energy)
                 if not dimensional_drummer:
                     for part in ('cavity', 'lips', 'tongue', 'teeth'):
@@ -207,7 +217,9 @@ def render(source, vocals, reference, output, expected_sha256, *, seconds=None, 
                 view.dry.time = t
                 image = view.frame(levels, lighting, strikes, 0, t, t)
             draw = ImageDraw.Draw(image); draw.rectangle((0, 0, width, round(height*.055)), fill='#07111E')
-            draw.text((24, 12), 'HELIX / SIX-MEMBER SNOWMAN BAND / REAL OWNER AUDIO', font=font, fill='#DCEBF4')
+            title = ('HELIX / HOST 3D DIAGNOSTIC / VOCALS IDLE' if source_diagnostic else
+                     'HELIX / SIX-MEMBER SNOWMAN BAND / REAL OWNER AUDIO')
+            draw.text((24, 12), title, font=font, fill='#DCEBF4')
             writer.stdin.write(image.tobytes())
             poses.append(dict(frame=i, seconds=t, voices=voice,
                               keys={side:assignments[side][i] for side in rigs}))
@@ -222,7 +234,8 @@ def render(source, vocals, reference, output, expected_sha256, *, seconds=None, 
     temporary.replace(output)
     result = dict(schema='helix.owner-six-band-review.v1', file=output.name, sha256=digest(output),
         frames=n, fps=20, source_audio_sha256=expected_sha256, source_plan_sha256=digest(plan_path),
-        passed_reference_sha256=digest(reference), visible_roles=list(scene.visible_roles),
+        passed_reference_sha256=digest(reference) if reference else None, visible_roles=list(scene.visible_roles),
+        source_diagnostic=source_diagnostic,
         renderer=('Helix solid meshes and closed source-front V3 volumes' if dimensional_drummer else
                   'OpenGL solid meshes plus preserved original planar V3 artwork'), native_xlights=False,
         camera='fixed front', keyboard=keyboard_report, unresolved_drums=unresolved,

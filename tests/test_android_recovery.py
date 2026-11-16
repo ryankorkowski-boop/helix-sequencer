@@ -136,7 +136,7 @@ def test_variant_previews_continue_after_one_codec_failure(completed_job, monkey
 def test_reports_short_variant_count_and_blocks_incomplete_band(completed_job, monkeypatch):
     engine, job = completed_job
     (engine/'xlights_rgbeffects.xml').write_text(
-        '<xrgb><models><model name="HX_SNOWMAN_DRUMMER_V3"/></models>'
+        '<xrgb><models><model name="HX_SNOWMAN_DRUMMER_V3" CustomBkgImage="assets/drummer_idle.png"/></models>'
         '<modelGroups><modelGroup name="HX_ZONE_BAND"/></modelGroups></xrgb>')
     monkeypatch.setattr(mobile, 'render_preview', lambda *args: pytest.fail('misleading model preview'))
     result = json.loads(mobile.run(str(engine), str(job), '{"variants":8}', Callback()))
@@ -144,8 +144,39 @@ def test_reports_short_variant_count_and_blocks_incomplete_band(completed_job, m
     assert result['stages']['layout_validation']['status'] == 'failed'
     assert result['stages']['preview']['status'] == 'failed'
     assert 'bass, guitar, piano, lead, harmony' in result['stages']['preview']['error']
+    assert 'assets/drummer_idle.png' in result['stages']['preview']['error']
     with zipfile.ZipFile(result['bundle']) as archive:
         report = json.loads(archive.read('android-run.json'))
         assert report['variant_summary']['outputs'][0]['preview_status'] == 'failed'
         assert report['variant_summary']['generated_count'] == 1
         assert report['variant_summary']['preview_count'] == 0
+
+
+def test_comparison_uses_the_same_frame_index_for_every_panel(tmp_path):
+    import io
+    from PIL import Image
+    from contextlib import ExitStack
+
+    with ExitStack() as stack:
+        caches = [stack.enter_context(zipfile.ZipFile(tmp_path/f'{i}.zip', 'w')) for i in range(8)]
+        for panel, cache in enumerate(caches):
+            for i in range(2):
+                stream = io.BytesIO()
+                Image.new('RGB', (320,180), (i*220,panel*30,0)).save(stream, format='PNG')
+                cache.writestr(str(i), stream.getvalue())
+        frames = list(mobile.comparison_images(caches, 2))
+        assert len(frames) == 2
+        for i, frame in enumerate(frames):
+            assert frame.size == (1280,720)
+            for panel in range(8):
+                assert frame.getpixel((panel%4*320+100,180+panel//4*180+100)) == (i*220,panel*30,0)
+
+
+def test_preview_archive_has_only_ordered_mp4s(tmp_path):
+    movies = [tmp_path/f'variant-{i}.mp4' for i in range(1,9)]
+    for movie in movies:
+        movie.write_bytes(movie.name.encode())
+    output = mobile.package_previews(movies, tmp_path/'all.zip')
+    with zipfile.ZipFile(output) as archive:
+        assert archive.testzip() is None
+        assert archive.namelist() == [movie.name for movie in movies]

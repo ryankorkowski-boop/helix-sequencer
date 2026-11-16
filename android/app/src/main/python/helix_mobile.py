@@ -8,6 +8,7 @@ import os
 import re
 import shutil
 import sys
+import tempfile
 import traceback
 import zipfile
 import xml.etree.ElementTree as ET
@@ -150,58 +151,117 @@ def package_show(job):
         temporary.unlink(missing_ok=True)
 
 
-def render_preview(xsq, layout, wav, seconds, callback):
+def encode_preview(images, final_output, wav, callback, *, width, height, count, source):
+    from core.output_provenance import brand_frame, stamp_mp4
+    from helix_mp4 import synchronize
+
+    fps = 15
+    output = final_output.with_suffix('.pending.mp4')
+    decoded = output.with_suffix('.alignment.wav')
+    try:
+        callback.beginPreview(str(output), str(wav), width, height, fps)
+        try:
+            for i, image in enumerate(images):
+                buffer = io.BytesIO()
+                brand_frame(image).convert('RGB').save(buffer, format='PNG')
+                callback.previewFrame(buffer.getvalue(), i*1_000_000//fps)
+                if i % fps == 0:
+                    notify(callback, 'previewProgress', i, count)
+                    notify(callback, 'stage', 'preview',
+                           'Rendering preview: %d/%d seconds' % (i//fps, round(count/fps)))
+            callback.endPreview()
+        except BaseException:
+            callback.abortPreview()
+            raise
+        callback.decodePreviewAudio(str(output), str(decoded))
+        alignment = synchronize(output, wav, decoded, count/fps)
+        stamp_mp4(output)
+        output.replace(final_output)
+        final_output.with_suffix('.preview_provenance.json').write_text(json.dumps({
+            'schema': 'helix.preview_provenance.v1', 'native_xlights': False, 'source': source,
+            'duration_seconds': count/fps, 'fps': fps, 'audio_alignment': alignment,
+            'generator': 'Helix', 'credit': 'Made with Helix | Audio in. Lights out.',
+            'visible_watermark': True,
+        }, indent=2))
+        return final_output
+    finally:
+        output.unlink(missing_ok=True)
+        decoded.unlink(missing_ok=True)
+
+
+def render_preview(xsq, layout, wav, seconds, callback, *, panel_cache=None):
     from tools import preview_renderer as p
     seq = preview_sequence(p.parse_sequence(xsq), seconds)
     geom = p.parse_models(layout)
-    # Crop the frame timeline BEFORE allocating RGB/intensity matrices on a phone.
     fps, width, height = 15, 640, 360
     leaves, intensities = p.build_leaf_intensity_matrix(geom, seq, fps)
-    colors = p.build_leaf_color_matrix(geom, seq, fps, leaves, intensities.shape[1])
+    count = intensities.shape[1]
+    colors = p.build_leaf_color_matrix(geom, seq, fps, leaves, count)
     renderer = p.HouseRenderer(geom, width=width, height=height)
-    final_output = xsq.with_suffix('.mp4')
-    output = xsq.with_suffix('.pending.mp4')
-    callback.beginPreview(str(output), str(wav), width, height, fps)
-    try:
-        for i in range(intensities.shape[1]):
+
+    def images(cache):
+        for i in range(count):
             image = renderer.render_frame(leaf_names=leaves, frame_values=intensities[:, i],
                 title=xsq.name, t_ms=round(i*1000/fps), duration_ms=seq.duration_ms,
                 overlays={}, frame_colors=colors[:, i, :])
-            from core.output_provenance import brand_frame
-            image = brand_frame(image)
-            buffer = io.BytesIO()
-            image.convert('RGB').save(buffer, format='PNG')
-            callback.previewFrame(buffer.getvalue(), i*1_000_000//fps)
-            if i % fps == 0:
-                notify(callback, 'previewProgress', i, intensities.shape[1])
-                notify(callback, 'stage', 'preview',
-                       'Rendering preview: %d/%d seconds' % (i//fps, round(intensities.shape[1]/fps)))
-        callback.endPreview()
-    except BaseException:
-        callback.abortPreview()
-        output.unlink(missing_ok=True)
-        raise
-    from helix_mp4 import synchronize
-    decoded = output.with_suffix('.alignment.wav')
+            if cache is not None:
+                buffer = io.BytesIO()
+                image.convert('RGB').resize((320,180)).save(buffer, format='JPEG', quality=82)
+                cache.writestr(str(i), buffer.getvalue())
+            yield image
+
+    with contextlib.ExitStack() as stack:
+        cache = stack.enter_context(zipfile.ZipFile(panel_cache, 'w')) if panel_cache else None
+        return encode_preview(images(cache), xsq.with_suffix('.mp4'), wav, callback,
+            width=width, height=height, count=count,
+            source='Helix simulated effect-level model preview; Android MediaCodec H.264/AAC')
+
+
+def comparison_images(caches, count):
+    from PIL import Image, ImageDraw
+
+    columns = 2 if len(caches) <= 4 else 4
+    width, height = 1280, 720
+    tile_w, tile_h = width//columns, height//columns
+    rows = (len(caches)+columns-1)//columns
+    top = (height - rows*tile_h)//2
+    for index in range(count):
+        frame = Image.new('RGB', (width, height), '#111926')
+        for cell, cache in enumerate(caches):
+            x, y = cell%columns*tile_w, top+cell//columns*tile_h
+            with Image.open(io.BytesIO(cache.read(str(index)))) as panel:
+                frame.paste(panel.resize((tile_w,tile_h)), (x,y))
+            draw = ImageDraw.Draw(frame)
+            draw.rectangle((x+5,y+5,x+76,y+22), fill='#111926')
+            draw.text((x+8,y+7), f'Variant {cell+1}', fill='white')
+        yield frame
+
+
+def render_comparison(paths, output, wav, callback):
+    with contextlib.ExitStack() as stack:
+        caches = [stack.enter_context(zipfile.ZipFile(path)) for path in paths]
+        count = len(caches[0].namelist())
+        if count < 1 or any(len(cache.namelist()) != count for cache in caches):
+            raise ValueError('Variant previews do not have a shared frame timeline')
+        return encode_preview(comparison_images(caches, count), output, wav, callback,
+            width=1280, height=720, count=count,
+            source='Helix synchronized simulated comparison; one Android MediaCodec soundtrack')
+
+
+def package_previews(paths, output):
+    temporary = output.with_suffix('.zip.tmp')
     try:
-        callback.decodePreviewAudio(str(output), str(decoded))
-        alignment = synchronize(output, wav, decoded, intensities.shape[1]/fps)
-        from core.output_provenance import stamp_mp4
-        stamp_mp4(output)
-        output.replace(final_output)
-    except BaseException:
-        output.unlink(missing_ok=True)
-        raise
+        with zipfile.ZipFile(temporary, 'w') as archive:
+            for path in paths:
+                path = Path(path)
+                archive.write(path, path.name)
+        with zipfile.ZipFile(temporary) as archive:
+            if archive.testzip() is not None:
+                raise RuntimeError('MP4 archive integrity check failed')
+        temporary.replace(output)
+        return output
     finally:
-        decoded.unlink(missing_ok=True)
-    final_output.with_suffix('.preview_provenance.json').write_text(json.dumps({
-        'schema': 'helix.preview_provenance.v1', 'native_xlights': False,
-        'source': 'Helix simulated effect-level model preview; Android MediaCodec H.264/AAC',
-        'duration_seconds': intensities.shape[1]/fps, 'fps': fps, 'audio_alignment': alignment,
-        'generator': 'Helix', 'credit': 'Made with Helix | Audio in. Lights out.',
-        'visible_watermark': True,
-    }, indent=2))
-    return final_output
+        temporary.unlink(missing_ok=True)
 
 
 def run(engine_path, job_path, request_json, callback):
@@ -226,6 +286,8 @@ def run(engine_path, job_path, request_json, callback):
     accounting = {'requested_count': requested, 'generated_count': 0, 'preview_count': 0,
                   'outputs': []}
     band_stage = None
+    comparison_requested = bool(request.get('comparison', False) and request.get('preview', True))
+    stages['comparison'] = {'status': 'pending' if comparison_requested else 'skipped'}
     manifest = {'schema': 'helix.android.run.v2', 'processing': 'on-device',
         'mode': request.get('mode', 'xlights'), 'stages': stages,
         'band_enabled': bool(request.get('band_enabled', True)),
@@ -256,8 +318,7 @@ def run(engine_path, job_path, request_json, callback):
                 band_stage = inspect_band_stage(job/'input/xlights_rgbeffects.xml')
             if band_stage:
                 manifest['band_stage'] = band_stage
-                missing = band_stage['missing_roles']
-                if missing:
+                if band_stage['missing_roles'] or band_stage['missing_assets']:
                     stages['layout_validation'] = {
                         'status': 'failed', 'error': band_stage_preview_error(band_stage)}
                 else:
@@ -309,8 +370,14 @@ def run(engine_path, job_path, request_json, callback):
             manifest['sequences'] = [str(x.relative_to(job)) for x in valid]
             manifest['lms'] = [str(x.relative_to(job)) for x in lms_files]
             from core.output_provenance import stamp_xml,write_manifest,notice
-            for sequence_file in valid+lms_files:stamp_xml(sequence_file)
-            manifest['provenance']=notice()
+            for sequence_file in valid+lms_files:
+                stamp_xml(sequence_file)
+            for xsq, item in zip(reviewable, accounting['outputs']):
+                item['sequence_sha256'] = file_hash(xsq)
+                report = xsq.with_suffix('.report.json')
+                if report.is_file():
+                    item['engine_report'] = str(report.relative_to(job))
+            manifest['provenance'] = notice()
             write_manifest(job/'outputs',valid+lms_files)
             # Checkpoint completed sequence and portable ZIP BEFORE optional rendering.
             def package():
@@ -330,35 +397,69 @@ def run(engine_path, job_path, request_json, callback):
                 stages['preview'] = {'status': 'running'}
                 write_report(job, manifest)
                 errors = []
-                preview_sequences = reviewable
-                for xsq, item in zip(preview_sequences, accounting['outputs']):
-                    layout = xsq.parent/'xlights_rgbeffects.xml'
-                    if not layout.is_file():
-                        layout = next((job/'outputs').rglob('xlights_rgbeffects.xml'), None)
-                    try:
-                        if band_stage:
-                            raise RuntimeError(band_stage_preview_error(band_stage))
-                        if layout is None:
-                            raise RuntimeError('Generated sequence is missing its packaged preview layout')
-                        preview = render_preview(xsq, layout, job/'input/audio.wav', seconds, callback)
-                        result['previews'].append(str(preview))
-                        manifest['previews'].append(str(preview.relative_to(job)))
-                        item.update(preview=str(preview.relative_to(job)), preview_status='success')
-                        accounting['preview_count'] += 1
-                        if not result['preview']:
-                            result['preview'] = str(preview)
-                    except Exception as exc:
-                        item.update(preview_status='failed', error=str(exc))
-                        errors.append(f'{xsq.name}: {exc}' if len(preview_sequences) > 1 else str(exc))
-                        callback.log('Optional MP4 preview failed: ' + errors[-1])
-                        callback.log(traceback.format_exc())
+                comparison_ready = comparison_requested and seconds <= 30 and exact_count and 2 <= requested <= 8 and not band_stage
+                if comparison_requested and not comparison_ready:
+                    if band_stage:
+                        reason = band_stage_preview_error(band_stage)
+                    elif seconds > 30:
+                        reason = 'Android comparison is limited to 30 seconds to bound temporary storage.'
+                    else:
+                        reason = 'Comparison requires two to eight complete variants.'
+                    stages['comparison'] = {'status': 'skipped', 'error': reason}
+                with contextlib.ExitStack() as cleanup:
+                    cache_dir = Path(cleanup.enter_context(tempfile.TemporaryDirectory(dir=job))) if comparison_ready else None
+                    caches = []
+                    for index, (xsq, item) in enumerate(zip(reviewable, accounting['outputs'])):
+                        layout = xsq.parent/'xlights_rgbeffects.xml'
+                        if not layout.is_file():
+                            layout = next((job/'outputs').rglob('xlights_rgbeffects.xml'), None)
+                        try:
+                            if band_stage:
+                                raise RuntimeError(band_stage_preview_error(band_stage))
+                            if layout is None:
+                                raise RuntimeError('Generated sequence is missing its packaged preview layout')
+                            if cache_dir is not None:
+                                cache = cache_dir/f'{index}.zip'
+                                preview = render_preview(xsq, layout, job/'input/audio.wav', seconds, callback, panel_cache=cache)
+                                caches.append(cache)
+                            else:
+                                preview = render_preview(xsq, layout, job/'input/audio.wav', seconds, callback)
+                            result['previews'].append(str(preview))
+                            manifest['previews'].append(str(preview.relative_to(job)))
+                            item.update(preview=str(preview.relative_to(job)), preview_status='success')
+                            accounting['preview_count'] += 1
+                            if not result['preview']:
+                                result['preview'] = str(preview)
+                        except Exception as exc:
+                            item.update(preview_status='failed', error=str(exc))
+                            errors.append(f'{xsq.name}: {exc}' if len(reviewable) > 1 else str(exc))
+                            callback.log('Optional MP4 preview failed: ' + errors[-1])
+                            callback.log(traceback.format_exc())
+                    if comparison_ready:
+                        if len(caches) != requested:
+                            stages['comparison'] = {'status':'failed', 'error':'One or more variant previews failed.'}
+                        else:
+                            try:
+                                comparison = render_comparison(caches, job/'outputs/Helix-Comparison.mp4', job/'input/audio.wav', callback)
+                                result['comparison'] = str(comparison)
+                                manifest['comparison'] = str(comparison.relative_to(job))
+                                stages['comparison'] = {'status':'success'}
+                            except Exception as exc:
+                                stages['comparison'] = {'status':'failed', 'error':str(exc)}
                 if errors:
                     stages['preview'] = {
                         'status': 'partial' if result['previews'] else 'failed',
-                        'error': '; '.join(errors),
+                        'error': '; '.join(errors) if not band_stage else band_stage_preview_error(band_stage),
                     }
                 else:
                     stages['preview'] = {'status': 'success'}
+                if comparison_requested and result['previews']:
+                    try:
+                        result['preview_archive'] = str(package_previews(result['previews'], job/'Helix-Variant-MP4s.zip'))
+                        stages['mp4_packaging'] = {'status': 'success'}
+                    except (OSError, RuntimeError) as exc:
+                        stages['mp4_packaging'] = {'status': 'failed', 'error': str(exc)}
+                        callback.log('MP4-only ZIP could not be written: ' + str(exc))
                 package()
             write_report(job, manifest)
             return json.dumps(result)

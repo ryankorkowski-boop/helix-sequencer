@@ -141,7 +141,7 @@ public class OfflineEngineTest {
         assertNotNull(findButton(launcher.getWindow().getDecorView(),"Donate to Helix"));
         assertNotNull(findButton(launcher.getWindow().getDecorView(),"Donate to xLights"));
         android.app.Instrumentation.ActivityMonitor playback=instrumentation.addMonitor(PreviewActivity.class.getName(),null,false);
-        instrumentation.runOnMainSync(()->findButton(launcher.getWindow().getDecorView(),"Play preview").performClick());
+        instrumentation.runOnMainSync(()->findButton(launcher.getWindow().getDecorView(),"Play selected").performClick());
         android.app.Activity player=playback.waitForActivityWithTimeout(5000);assertNotNull(player);instrumentation.removeMonitor(playback);
         boolean[] playing={false};
         for(int attempt=0;attempt<40&&!playing[0];attempt++){

@@ -2,7 +2,7 @@
   "android_band_repair": {
     "branch": "codex/android-band-preview-repair-20261115",
     "base_sha": "653053db05f754b5dbb85594af8de3cb9aa719e1",
-    "checkpoint": "Eight real host XSQs, misleading preview blocked",
+    "checkpoint": "Variant review controls, host diagnostic and focused tests",
     "evidence": {
       "owner_zip": {
         "filename": "Helix-show (1).zip",
@@ -50,10 +50,60 @@
         "layout_status": "failed",
         "platform": "Linux host, Android Python bridge",
         "logs": "JOB/run.log and JOB/engine.log"
+      },
+      "host_bridge_final": {
+        "wall_seconds": 29.948055677999946,
+        "peak_rss_kib": 444872,
+        "sequence_hashes": {
+          "audio,v27.3.alt1.xsq": "b34bfe1c5f4907417a4f3eb4adfb23fb9420865254f7f58dd60807b30db7dee2",
+          "audio,v27.3.alt2.xsq": "d80e4716bb763c6a6f2de639b89d9d3bbf38720a265ebbf049a6234230c131cf",
+          "audio,v27.3.alt3.xsq": "8b1dd2aed5fa5a4ac37a3f3b1b1b20c9e90e71bc2b9d1522f21a4eca3dfe8ee8",
+          "audio,v27.3.alt4.xsq": "455240645240f368ebb830edcc301354664c220d8b5f0c97da0652d55e1f6dd6",
+          "audio,v27.3.alt5.xsq": "25f3452ad0af39277b46b26b6b3aae4fbc38b445e3bee6f343707c82606a0bcc",
+          "audio,v27.3.alt6.xsq": "9a9e0d4cb1fc1e2b3d01eabd739bdea9cdd9048fe0715803c852e15cb29db753",
+          "audio,v27.3.alt7.xsq": "794ddb251aac8ba1a7ed2f8f2a5f22cbbe39d4b02306d855869474d80497e7f8",
+          "audio,v27.3.xsq": "2830c06207c2611da7895cf40cd117bae3b9a803dcf76bb11a7a1fc098c5eb8b"
+        },
+        "evidence_zip_library_file_id": "libfile_e78de24f777c8191bd9cf00af627d9cb",
+        "evidence_zip_sha256": "96d2ac4dd5542dee4072d7e7b141c1a24c6348b081c8a9f4421e7014674068c8",
+        "result": "8 distinct XSQs, 0 band previews, ZIP CRC passed",
+        "source": "owner WAV and layout, original template hash verified"
+      },
+      "host_solid_3d": {
+        "file": "Helix_Band_Host_Diagnostic.mp4",
+        "sha256": "0634d8ef1ee3d530ac4fbd56ab425fd2f147317969619b4e579c19d33e994732",
+        "width": 1280,
+        "height": 720,
+        "seconds": 10,
+        "decoded_frames": 200,
+        "fps": 20,
+        "partly_lit_pixels_min_fraction": 0.24388888888888888,
+        "lag_ms": 0.0,
+        "audio_correlation": 0.999294102191925,
+        "native_xlights": false,
+        "target_android_playback_verified": false,
+        "target_windows_playback_verified": false,
+        "library_file_id": "libfile_1d51183a87908191be7d63bace25e0a9",
+        "visible_roles": [
+          "drummer",
+          "bass",
+          "guitar",
+          "piano",
+          "lead",
+          "harmony"
+        ],
+        "voices": {
+          "audio_sha256": "d3f25fd28bfcbb6051dba023c8ac37c313fa1fd0320115b95950b33d83bb8b70",
+          "status": "no qualified vocal clocks; both singers idle"
+        },
+        "drum_motion_rejections": [],
+        "owner_review_status": "diagnostic"
       }
     },
     "acceptance_mp4_count": 0,
-    "candidate_apk": null
+    "candidate_apk": null,
+    "previous_published_sha": "62cfb2d8623361da030e4e5c23e7646ff5be2519",
+    "draft_pr": 231
   },
   "schema": "helix.beta-artifacts.v1",
   "updated_at": "2026-11-09T18:38:11.232382+00:00",

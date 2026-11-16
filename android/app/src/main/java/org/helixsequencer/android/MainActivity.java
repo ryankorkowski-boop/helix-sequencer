@@ -34,8 +34,8 @@ public class MainActivity extends Activity {
     private CheckBox polish,matrix,birdsong,spatial,ac,preview,quickClip,includeBand;
     private TextView status,log,stepTitle,results,variantStatus;
     private ProgressBar progress;
-    private Button run,cancel,save,watch,movie,sequence,report,share,next,back,playAll,previousVariant,nextVariant;
-    private String picking,exporting,bundlePath="",previewPath="",sequencePath="",reportPath="";
+    private Button run,cancel,save,watch,movie,sequence,report,share,next,back,playAll,previousVariant,nextVariant,compare,saveComparison,saveAllPreviews;
+    private String picking,exporting,bundlePath="",previewPath="",sequencePath="",reportPath="",comparisonPath="",previewArchivePath="";
     private File currentJob;
     private boolean busy,wasBusy;
     private int page,selectedVariant;
@@ -129,6 +129,7 @@ public class MainActivity extends Activity {
         panel(5);results=text("Your sequence, show ZIP and preview will appear here.",16,Color.WHITE);
         text("Variant",14,Color.LTGRAY);
         variantSelector=new Spinner(this);
+        variantSelector.setId(R.id.variant_selector);
         body.addView(variantSelector,new LinearLayout.LayoutParams(-1,dp(52)));
         variantSelector.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener(){
             public void onItemSelected(AdapterView<?> parent,View view,int index,long id){
@@ -150,9 +151,12 @@ public class MainActivity extends Activity {
             String path=variantPreviews.get(selectedVariant);
             export(path,"video/mp4",new File(path).getName());
         });
+        compare=button("Compare",()->startActivity(new Intent(this,PreviewActivity.class).putExtra("path",comparisonPath)));
+        saveComparison=button("Save comparison MP4…",()->export(comparisonPath,"video/mp4","Helix-Comparison.mp4"));
+        saveAllPreviews=button("Save all MP4s as ZIP…",()->export(previewArchivePath,"application/zip","Helix-Variant-MP4s.zip"));
         save=button("Save show ZIP…",()->export(bundlePath,"application/zip","Helix-show.zip"));share=button("Share show ZIP…",this::shareShow);
         report=button("Save run report…",()->export(reportPath,"text/plain","Helix-run-report.txt"));
-        for(Button v:new Button[]{sequence,watch,playAll,previousVariant,nextVariant,movie,save,share,report})v.setEnabled(false);
+        for(Button v:new Button[]{sequence,watch,playAll,previousVariant,nextVariant,movie,compare,saveComparison,saveAllPreviews,save,share,report})v.setEnabled(false);
         text("The ZIP includes generated sequences, available layout/configuration files, soundtrack, manifest and report. A synchronized preview is included when it succeeds.",14,Color.LTGRAY);
         body=root;LinearLayout controls=new LinearLayout(this);root.addView(controls);
         back=new Button(this);back.setText("Back");controls.addView(back,new LinearLayout.LayoutParams(0,-2,1));back.setOnClickListener(v->showPage(page-1));
@@ -211,15 +215,15 @@ public class MainActivity extends Activity {
             int n=Integer.parseInt(variants.getText().toString()),sec=Integer.parseInt(duration.getText().toString());
             if(n<1||n>8||sec<1||sec>600)throw new IllegalArgumentException("Use 1–8 variants and a 1–600 second preview.");
             JSONObject r=new JSONObject();r.put("mode",mode.getSelectedItemPosition()==1?"lor":"xlights");r.put("variants",n);r.put("preview_seconds",sec);
-            r.put("preview",preview.isChecked());r.put("polish",polish.isChecked());r.put("palette",options.palette(palette.getSelectedItemPosition()));
+            r.put("preview",preview.isChecked());r.put("comparison",n>1);r.put("polish",polish.isChecked());r.put("palette",options.palette(palette.getSelectedItemPosition()));
             r.put("quick_clip",quickClip.isChecked());r.put("sample_layout",options.layout(sampleLayout.getSelectedItemPosition()));
             r.put("band_enabled",includeBand.isChecked());
             r.put("matrix",matrix.isChecked());r.put("birdsong",birdsong.isChecked());r.put("spatial",spatial.isChecked());r.put("ac_compatible",ac.isChecked());
             JSONObject uris=new JSONObject();for(Map.Entry<String,Uri> e:inputs.entrySet())uris.put(e.getKey(),e.getValue().toString());r.put("inputs",uris);
             currentJob=new File(getFilesDir(),"jobs/"+UUID.randomUUID());getPreferences(0).edit().putString("job",currentJob.getAbsolutePath()).apply();
-            bundlePath=previewPath=sequencePath=reportPath="";lastState="";busy=wasBusy=true;
+            bundlePath=previewPath=sequencePath=reportPath=comparisonPath=previewArchivePath="";lastState="";busy=wasBusy=true;
             selectedVariant=0;previewPaths.clear();loadVariants(null);
-            for(Button v:new Button[]{sequence,watch,playAll,previousVariant,nextVariant,movie,save,share,report})v.setEnabled(false);run.setEnabled(false);cancel.setEnabled(true);status.setText("Starting local engine…");updateMode();remember();
+            for(Button v:new Button[]{sequence,watch,playAll,previousVariant,nextVariant,movie,compare,saveComparison,saveAllPreviews,save,share,report})v.setEnabled(false);run.setEnabled(false);cancel.setEnabled(true);status.setText("Starting local engine…");updateMode();remember();
             if(Build.VERSION.SDK_INT>=33&&!getPreferences(0).getBoolean("notifications_asked",false)){
                 getPreferences(0).edit().putBoolean("notifications_asked",true).apply();requestPermissions(new String[]{"android.permission.POST_NOTIFICATIONS"},1);
             }
@@ -240,6 +244,9 @@ public class MainActivity extends Activity {
             int percent=s.optInt("preview_percent",-1);boolean measured=busy&&"preview".equals(s.optString("active_stage"))&&percent>=0;progress.setIndeterminate(!measured);if(measured)progress.setProgress(percent);
             status.setText(s.optString("message",phase));log.setText(s.optString("log"));updateMode();
             bundlePath=s.optString("bundle");previewPath=s.optString("preview");sequencePath=s.optString("sequence");reportPath=s.optString("report");
+            comparisonPath=s.optString("comparison");previewArchivePath=s.optString("preview_archive");
+            compare.setEnabled(available(comparisonPath));saveComparison.setEnabled(compare.isEnabled());
+            saveAllPreviews.setEnabled(available(previewArchivePath));
             previewPaths.clear();
             JSONArray previews=s.optJSONArray("previews");
             if(previews!=null)for(int i=0;i<previews.length();i++){
@@ -254,7 +261,7 @@ public class MainActivity extends Activity {
             if(variantSummary!=null)summary.append("\n\nSequences: ").append(variantSummary.optInt("generated_count"))
                 .append("/").append(variantSummary.optInt("requested_count"))
                 .append(" · previews: ").append(variantSummary.optInt("preview_count"));
-            if(stages!=null)for(String key:new String[]{"sequencing","variants","layout_validation","packaging","preview"}){
+            if(stages!=null)for(String key:new String[]{"sequencing","variants","layout_validation","packaging","preview","comparison","mp4_packaging"}){
                 JSONObject stage=stages.optJSONObject(key);if(stage!=null)summary.append("\n\n").append(key).append(": ").append(stage.optString("status")).append(stage.has("error")?" · "+stage.optString("error"):"");
             }results.setText(summary.toString());if(wasBusy&&!busy)showPage(5);wasBusy=busy;
         }catch(Exception ignored){/* Retry an interrupted atomic state write. */}
