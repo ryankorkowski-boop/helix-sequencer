@@ -77,6 +77,19 @@ Do not mark complete from unit tests alone.
 
 ## Change Ledger
 
+### 2026-11-16 — Opt-in orchestration conflict audit integration
+**Agent:** ChatGPT
+**Branch:** `codex/logical-arbitration-20261116`
+**Goal:** Attach the non-mutating motion conflict report to the existing multipass director without changing default sequences.
+**Changed files/modules:** `core/multi_pass_orchestration_director.py`, `tests/test_intent_arbitration_diagnostics.py`, `MASTER_TODO.md`.
+**Intentionally preserved behavior:** Default director construction remains unchanged; no effects, timings, targets, vocals, drummer, exports, or package paths are modified.
+**New behavior:** `MultiPassOrchestrationDirector(audit_motion_conflicts=True)` adds `motion_conflict_audit` pass metadata after quality convergence, without altering the graph.
+**Tests/evidence:** Added opt-in/default-off constructor test. Tests not executed yet; production invocation still defaults to off.
+**Limitations:** Audit is opt-in API only; no GUI control or standalone report export. Overlap detection is heuristic and requires real XSQ/MP4 validation.
+**Deferred work:** Execute targeted/full regression tests; real-song measurement; review conflict classification and implement separately gated arbitration after approval.
+**Regression risks:** An opt-in diagnostic adds overlap computation; default runtime overhead is limited to a conditional check.
+
+
 ### 2026-11-16 — Observe-only choreography conflict diagnostics
 **Agent:** ChatGPT
 **Branch:** `codex/logical-arbitration-20261116`
