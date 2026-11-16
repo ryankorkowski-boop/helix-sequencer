@@ -223,3 +223,14 @@ Do not mark complete from unit tests alone.
 **Limitations:** Desktop Instructions falls back to README guidance when the Android bundled instructions asset is missing. Progress animation is decorative and not synchronized to audio or measured progress.
 **Deferred work:** Fix any desktop runtime/UI issues found by smoke tests, confirm packaged assets and support links, test Windows and Android builds and their navigation; implement complete multi-panel responsive UI.
 **Regression risks:** Tkinter worker thread currently performs some UI updates, an existing issue; validate thread safety. Desktop screen space and packaging asset paths require checks.
+
+
+### 2026-11-16 — GUI smoke validation infrastructure and desktop thread-safety repair
+**Goal:** Establish repeatable checks for the modernized Android/Windows interfaces and prevent Tk worker-thread UI access.
+**Changed files/modules:** gui_launcher.py, tests/test_gui_modernization_smoke.py, .github/workflows/gui-modernization-smoke.yml.
+**Preserved behavior:** Existing CLI command arguments, sequencing engine settings, support links, legal controls, instructions and decorative light-show scenes.
+**New behavior:** Worker stdout and completion status are passed through a queue polled by the Tk main loop. GitHub Actions workflow requests headless Python syntax/navigation checks and Android debug compilation using installed Gradle.
+**Tests/evidence:** Smoke test and CI workflow committed, but no successful run or APK/EXE build has been verified in this session.
+**Limitations:** Desktop runner's other helper methods may still contain preexisting Tk threading issues; no Android instrumentation/emulator playback or native xLights video verification. Android project lacks a Gradle wrapper, so workflow uses setup-gradle.
+**Deferred work:** Inspect CI results, repair failures, run Android API 30/36 and Windows GUI tests, package builds, visually review navigation and performance, then complete full UI redesign.
+**Regression risks:** Tk event queue polling during window destruction; packaging dependencies; Android SDK/Chaquopy availability in CI.
