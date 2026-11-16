@@ -298,3 +298,15 @@ Do not mark complete from unit tests alone.
 **Limitations:** Version metadata does not make an app production ready. Windows onefile review package may not include engine assets; Android and Windows runtime tests pending.
 **Deferred work:** Verify fresh artifacts, packaging and runtime; upload tested Beta 1.4 files and README to Drive, confirm links, hold public release/merge pending owner approval.
 **Regression risks:** Version code change impacts Android update compatibility; other hardcoded 1.3 labels may remain.
+
+
+### 2026-11-16 — Issue #234 autonomous integration dependency audit
+**Goal:** Inventory recent draft PR ancestry and prevent unsafe combined Beta 1.4 release.
+**Changed files/modules:** MASTER_TODO.md only.
+**Preserved behavior:** No sequencing, drummer, audio, export, UI or packaging code changed; no merge or release.
+**New behavior:** Recorded integration order and evidence for issue #234.
+**Tests/evidence:** GitHub PR metadata: #222 and #225 base on feature/restructure-core; #226 bases on #225; #227 on #226; #228 on #227; #229 on #228. #230 and #231 base on codex/full-song-16-panel-216; #232 on codex/logical-arbitration-20261116; #233 on feature/restructure-core. All inspected PRs are open and unmerged. Previous GUI workflow 43923131470 passed source/build checks but not full app runtime acceptance.
+**Integration order:** Baseline failures; compare #222 against #230/#231 for band and app conflicts; validate stacked #225→#229 sequentially with deterministic comparisons; reconcile #232 separately; integrate #233 modern GUI; package full apps; native exports/MP4/device tests; owner approval; Beta 1.4 Drive delivery.
+**Limitations:** PR ancestry audit, not full diff conflict simulation or runtime validation. The expected docs/BETA_COMPLETION_LIVE_HANDOFF.md was not found on this branch.
+**Deferred work:** Resolve assign_hand test collection error, examine overlap, verify drummer Truths and vocals, run complete regression and native renders, check Android API 30/36 and complete Windows worker package.
+**Regression risks:** #229 includes 50 cumulative changed files; stacked PRs integrated out of order may overwrite changes. #230/#231 may conflict with #222/#233. Do not merge or release without owner approval.
