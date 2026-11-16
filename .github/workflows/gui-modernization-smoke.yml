@@ -67,6 +67,15 @@ jobs:
             if (Test-Path "$root/_internal/$name") { Copy-Item "$root/_internal/$name" "$root/$name" -Force }
           }
           New-Item -ItemType Directory -Force -Path "$root/outputs" | Out-Null
+      - name: Verify packaged CLI reaches sequencing argument parser
+        shell: pwsh
+        run: |
+          $output = & dist/Helix/HelixCLI.exe --help 2>&1
+          if ($LASTEXITCODE -ne 0) { throw "Packaged CLI --help failed: $output" }
+          $help = $output -join ' '
+          if ($help -notmatch 'usage:' -or $help -notmatch 'audio') {
+            throw "Packaged CLI did not expose the sequencing argument parser: $help"
+          }
       - name: Exercise packaged palette engine
         shell: pwsh
         run: |
