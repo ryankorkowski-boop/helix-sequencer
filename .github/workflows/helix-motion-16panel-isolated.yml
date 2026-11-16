@@ -91,7 +91,7 @@ jobs:
               'duration_alignment_samples':-drift,
               'limitations':['No verified lyrics or lexical phoneme alignment',
                              'Harmony stays silent without independent source evidence']}
-          (dest/'diagnostic.json').write_text(json.dumps(receipt,indent=2)+'\\n')
+          (dest/'diagnostic.json').write_text(json.dumps(receipt,indent=2)+'\n')
           assert json.loads((dest/'diagnostic.json').read_text())['clock_hop_seconds']==.01
           print('VOCAL_SOURCE_CLOCKS',n,'lead_active',int(np.count_nonzero(lead['energy'])))
           PY
