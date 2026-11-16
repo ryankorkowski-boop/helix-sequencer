@@ -376,3 +376,14 @@ Do not mark complete from unit tests alone.
 **Limitations:** Updated version strings do not establish full functionality or release readiness; sourceFix remains historical reference to PR #218.
 **Deferred work:** Check actual EXE resource version and included manifest from packaged artifact, Android debug version, full Windows sequencing and native MP4 review.
 **Regression risks:** Old packaging workflows remain Beta 1.3 specific; use new Beta 1.4 candidate workflow, do not relabel historical artifacts.
+
+
+### 2026-11-16 — Fix actual Windows portable CLI dispatch defect
+**Goal:** Ensure packaged HelixCLI.exe invokes the sequencing engine rather than silently launching the GUI.
+**Changed files/modules:** windows_portable_entry.py; tests/test_windows_portable_entry.py; .github/workflows/gui-modernization-smoke.yml.
+**Preserved behavior:** Helix.exe launches GUI, --helix-cli explicit legacy dispatch remains, --version and --helix-gui-smoke remain, sequencing engine untouched.
+**New behavior:** Binary basename HelixCLI selects core.sequence_builder.main with unmodified CLI arguments; focused regression checks direct executable and legacy flag on Python 3.11/3.12.
+**Tests/evidence:** Source inspection found both EXEs share windows_portable_entry.py and only --helix-cli selected worker; Windows packaging smoke calls HelixCLI.exe directly. Fix 1499e0db7b021bb041ea5d763721958807155419; test 087e5cbe44e6707a1d7c056262b18c6d4c2d522c; CI c75525cfac7809d455e32f9606115f81232c4c08. CI and packaged palette smoke pending.
+**Limitations:** Does not verify complete native render or Windows GUI device operation. CI queue backlog observed.
+**Deferred work:** Inspect test and Windows package job results, run full-song packaged CLI native xLights verification, resolve Android and band blockers.
+**Regression risks:** Binary filename renaming away from HelixCLI.exe changes dispatch; explicit --helix-cli remains fallback.
