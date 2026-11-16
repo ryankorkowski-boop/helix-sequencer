@@ -16,6 +16,8 @@
 - [x] Inspect successful remote workflow logs; no `Snowman band planning skipped` warning detected.
 - [x] Verify latest head `aa544018` passed Helix CI, Beta CI, Birdsong CI, Flow Quality, Flow Review, Compliance, and remote MP4 preview workflows.
 
+- [x] Implement nine-action/eight-component drummer contract: successive snare hits alternate left/right sticks regardless of tempo; existing physical crashes alternate left/right. Three regression tests added to dual-Python CI; native visual confirmation pending.
+
 ## Active verification
 - [x] Verify Python 3.11 and 3.12 beta smoke CI on head `aa544018`, including new band tests: 162 passed each; workflow 43882085814.
 - [ ] Download and visually inspect the MP4 for native xLights compatibility, correct six-member snowman geometry, drummer kit lighting, realistic limbs and independent vocal timing. A passing workflow is not visual acceptance.
