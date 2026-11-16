@@ -287,3 +287,14 @@ Do not mark complete from unit tests alone.
 **Limitations:** Android build.gradle still declares versionName 1.3.0-beta; Windows review EXE is a bare PyInstaller GUI package and may lack dependencies/assets. No Android hardware or Windows runtime smoke testing. Do not mislabel these as final Beta 1.4.
 **Deferred work:** Finish functional packaging, update internal Android/Windows version metadata to 1.4, verify both applications, identify established Drive release folder, upload binaries/readme, verify uploaded file IDs and links, then request owner approval before merge/public beta release.
 **Regression risks:** Mismatched displayed version versus filename, missing packaged engine files, incomplete EXE, unverified Android functionality and premature distribution.
+
+
+### 2026-11-16 — Beta 1.4 internal version alignment
+**Goal:** Match user-visible Android and Windows version metadata to the owner's Beta Version 1.4 delivery requirement.
+**Changed files/modules:** core/helix_version.py; android/app/build.gradle.
+**Preserved behavior:** Sequencing logic, layout controls, exports, donation/legal/instructions, and existing signing safeguards.
+**New behavior:** Desktop/CLI TITLE, DISPLAY and VERSION identify Beta 1.4 (1.4.0-beta); Android versionName 1.4.0-beta, versionCode 10, and app label Helix Beta 1.4.
+**Tests/evidence:** Source changes committed; new CI rebuild and runtime inspection pending. Prior workflow 43923131470 compiled both platform review artifacts before these metadata changes.
+**Limitations:** Version metadata does not make an app production ready. Windows onefile review package may not include engine assets; Android and Windows runtime tests pending.
+**Deferred work:** Verify fresh artifacts, packaging and runtime; upload tested Beta 1.4 files and README to Drive, confirm links, hold public release/merge pending owner approval.
+**Regression risks:** Version code change impacts Android update compatibility; other hardcoded 1.3 labels may remain.
