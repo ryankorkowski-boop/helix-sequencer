@@ -30,3 +30,16 @@ def test_explicit_cli_flag_preserves_legacy_dispatch():
     with patch.object(sys, "argv", ["Helix.exe", "--helix-cli", "--help"]), patch.dict(sys.modules, {"core.sequence_builder": worker}):
         assert windows_portable_entry.main() == 0
     assert observed == [["Helix.exe", "--help"]]
+
+
+def test_named_cli_binary_accepts_legacy_selector_from_palette_runner():
+    worker = ModuleType("core.sequence_builder")
+    observed = []
+    def fake_worker():
+        observed.append(list(sys.argv))
+        return 0
+    worker.main = fake_worker
+    args = ["HelixCLI.exe", "--helix-cli", "--profile", "master", "--", "--audio", "tone.wav"]
+    with patch.object(sys, "argv", args), patch.dict(sys.modules, {"core.sequence_builder": worker}):
+        assert windows_portable_entry.main() == 0
+    assert observed == [["HelixCLI.exe", "--profile", "master", "--", "--audio", "tone.wav"]]
