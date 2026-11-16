@@ -1,4 +1,15 @@
 
+### 2026-11-16 — Owner directive: restore approved drummer, never recreate
+**Goal:** Freeze the original V3 drummer visual and musical oracle instead of rebuilding its kit or animation.
+**Changed files/modules:** `docs/AUTONOMOUS_EXECUTION_TODO_20261116.md`, `MASTER_TODO.md`.
+**Preserved behavior:** No runtime or asset changes. Known-good behavior baseline `b27e8d77a63027ed32bcf6851dcff3925472c155`; source-derived strike/asset reference `54ded3752fa33f8b1330baf6dd38d009c2259916`.
+**New behavior:** Checklist now prohibits substitute drummer models, invented toms, unapproved geometry, and independent arm/stick sequencing. Exactly three toms and eight public musical components are the target contract.
+**Tests/evidence:** GitHub commit history inspected; `docs/DRUMMER_TARGET_STRIKES_HANDOFF.md` at `54ded375` explicitly documents source-derived poses, original artwork, eight components, 76 focused tests, and remaining native/visual acceptance gaps. Historical owner original V3 review is the acceptance oracle; later video approvals/retractions must not be conflated.
+**Limitations:** Exact approved MP4 bytes and current asset SHA comparison not yet recovered. No current drummer visual sign-off.
+**Deferred work:** Retrieve approved video, compare original assets and mapping, minimally restore drift, native render with actual music, inspect and seek owner approval.
+**Regression risks:** Later remakes may contain unrelated improvements; restore only verified drummer divergences without wholesale rollback.
+
+
 ### 2026-11-16 — Confirm latest CI baseline and refresh autonomous handoff
 **Goal:** Record verified Python 3.11/3.12 tests and remote render status without claiming visual approval.
 **Changed files/modules:** `docs/AUTONOMOUS_EXECUTION_TODO_20261116.md`, `MASTER_TODO.md`.
