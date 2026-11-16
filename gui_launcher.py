@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import json
+import queue
 import subprocess
 import sys
 import threading
@@ -65,8 +66,10 @@ class HelixGui(tk.Tk):
         self.birdsong_min_conf_var = tk.DoubleVar(value=0.45)
         self.variants_var = tk.IntVar(value=4)
 
+        self._ui_events = queue.Queue()
         self._build_ui()
         self._apply_layout_preset()
+        self.after(80, self._drain_ui_events)
 
     def _build_ui(self) -> None:
         pad = {"padx": 8, "pady": 6}
@@ -193,6 +196,20 @@ class HelixGui(tk.Tk):
         selected = filedialog.askdirectory(initialdir=str(ROOT))
         if selected:
             target_var.set(selected)
+
+    def _drain_ui_events(self) -> None:
+        try:
+            while True:
+                kind, payload = self._ui_events.get_nowait()
+                if kind == "log":
+                    self._log(payload)
+                elif kind == "done":
+                    self.status_label.configure(text=payload)
+                    self.light_show.set_running(False)
+                    self.run_button.configure(state=tk.NORMAL)
+        except queue.Empty:
+            pass
+        self.after(80, self._drain_ui_events)
 
     def _log(self, message: str) -> None:
         self.log_text.insert(tk.END, message + "\n")
@@ -328,25 +345,20 @@ class HelixGui(tk.Tk):
         thread.start()
 
     def _run_subprocess(self, cmd: list[str]) -> None:
-        process = subprocess.Popen(
-            cmd,
-            cwd=str(ROOT),
-            stdout=subprocess.PIPE,
-            stderr=subprocess.STDOUT,
-            text=True,
-        )
-        assert process.stdout is not None
-        for line in process.stdout:
-            self._log(line.rstrip())
-        process.wait()
-        rc = process.returncode
-        if rc == 0:
-            self._log("Run complete.")
-            self.status_label.configure(text="Completed")
-        else:
-            self._log(f"Run failed with exit code {rc}.")
-            self.status_label.configure(text="Failed")
-        self.after(0, lambda: (self.light_show.set_running(False), self.run_button.configure(state=tk.NORMAL)))
+        try:
+            process = subprocess.Popen(
+                cmd, cwd=str(ROOT), stdout=subprocess.PIPE,
+                stderr=subprocess.STDOUT, text=True,
+            )
+            assert process.stdout is not None
+            for line in process.stdout:
+                self._ui_events.put(("log", line.rstrip()))
+            rc = process.wait()
+            self._ui_events.put(("log", "Run complete." if rc == 0 else f"Run failed with exit code {rc}."))
+            self._ui_events.put(("done", "Completed" if rc == 0 else "Failed"))
+        except Exception as exc:
+            self._ui_events.put(("log", f"Sequence process failed: {exc}"))
+            self._ui_events.put(("done", "Failed"))
 
 
 def main() -> int:
