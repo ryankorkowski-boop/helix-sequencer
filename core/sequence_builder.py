@@ -14,6 +14,7 @@ from core.run_config import RunConfig
 from core.run_manager import RunContext, RunManager
 
 NO_EFFECTS_ORCHESTRATOR_FLAG = "--no-effects-orchestrator"
+AUDIT_MOTION_CONFLICTS_FLAG = "--audit-motion-conflicts"
 PROMOTE_ORCHESTRATOR_TEMPLATE_FLAG = "--promote-orchestrated-template"
 NO_ORCHESTRATOR_TEMPLATE_PROMOTION_FLAG = "--no-orchestrator-template-promotion"
 BEAT_GRID_FLAGS = {
@@ -26,6 +27,7 @@ BEAT_GRID_FLAGS = {
 }
 BEAT_GRID_VALUE_FLAGS = BEAT_GRID_FLAGS - {"--no-snap"}
 ORCHESTRATOR_ONLY_FLAGS = {
+    AUDIT_MOTION_CONFLICTS_FLAG,
     NO_EFFECTS_ORCHESTRATOR_FLAG,
     PROMOTE_ORCHESTRATOR_TEMPLATE_FLAG,
     NO_ORCHESTRATOR_TEMPLATE_PROMOTION_FLAG,
