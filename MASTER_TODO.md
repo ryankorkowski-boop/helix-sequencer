@@ -1,3 +1,13 @@
+## 2026-11-15 — auditable word-level vocal alignment for 16-panel full mode
+- Goal: add word-by-word source-vocal recognition and lyric corroboration without misrepresenting phoneme estimates as verified acoustic phone boundaries.
+- Changed files: `tools/align_full_song_vocals.py`, `.github/workflows/helix-motion-16panel-isolated.yml`, `MASTER_TODO.md`.
+- Preserved: authenticated original Helix Motion Drive audio, master Helix engine, 16 native xLights panels, independent backing singer at rest, original acoustic vocal clock as fallback, owner approval gate.
+- New: stable-ts Whisper small.en recognition on Demucs vocals, MP3 embedded-lyrics comparison when present, word-confidence filtering, CMU-dictionary mouth allocation within corroborated words, acoustic-energy gating, source and stem SHA receipts, explicit unverified status when lyric reference absent or inconsistent. Output `word_alignment.json` and enriched `diagnostic.json`.
+- Tests/evidence: full hosted job must verify the input SHA, compile/run recognition and export, render and verify 16 native panels. A word corroboration status is not independent human listening verification. Phone boundary verification explicitly remains false. No MP4 has yet been accepted from this change.
+- Limitations: MP3 embedded lyrics may be absent, which intentionally leaves conservative acoustic mouth estimates; even corroborated words have estimated timings and evenly allocated phonemes. This does not fulfill verified acoustic phoneme alignment without a separately reviewed transcript and acoustic phone-level forced alignment.
+- Deferred: human-approved lyric reference, phoneme boundary measurements, independent harmony validation, release.
+- Regression risks: Whisper model download and CPU cost, sung-word recognition, sparse/incorrect embedded metadata, native mouth export.
+
 ## 2026-11-15 — full vocal mode for isolated Helix Motion 16-panel
 - Goal: replace the instrumental-only pilot with a genuine vocal-enabled Helix master sequence and native xLights 16-panel review.
 - Changed files: `.github/workflows/helix-motion-16panel-isolated.yml`, `MASTER_TODO.md`.
