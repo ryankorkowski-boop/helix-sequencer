@@ -365,3 +365,14 @@ Do not mark complete from unit tests alone.
 **Limitations:** Packaged CLI palette smoke does not prove GUI operation, full-song audio/XSQ/xLights native FSEQ/MP4, correct drummer/harmony, or physical Windows tester behavior.
 **Deferred work:** Inspect CI logs, repair package failures, test GUI initialization and actual end-to-end song workflow, compare band owner Truths, Android API 30/36, owner approval, Drive upload.
 **Regression risks:** Larger package and dependency collection may exceed runner time or reveal missing assets; do not substitute previous HelixGuiReview.exe artifact if the full build fails.
+
+
+### 2026-11-16 — Fix stale Beta 1.3 metadata embedded in Windows EXEs and release manifest
+**Goal:** Prevent Windows Explorer file properties and bundled manifest from mislabeling the Beta 1.4 candidate as Beta 1.3.
+**Changed files/modules:** packaging/helix_version_info.txt; packaging/release_manifest.json.
+**Preserved behavior:** Engine, xLights output, drummer, audio pipeline, signing and Android application ID unchanged.
+**New behavior:** Windows fixed/string version fields use 1.4.0.0/Beta 1.4; manifest uses 1.4.0-beta, versionCode 10, updated tag and ZIP naming consistent with core/helix_version.py and Android Gradle.
+**Tests/evidence:** Direct source inspection found stale 1.3 fields. Metadata updates committed as dbbf47bc64f141e0e804ae200fa9c4ebb60a815a and d63853c7d7d8af5c11b2283d423699f8489cd821. Windows CI packaging and binary inspection pending.
+**Limitations:** Updated version strings do not establish full functionality or release readiness; sourceFix remains historical reference to PR #218.
+**Deferred work:** Check actual EXE resource version and included manifest from packaged artifact, Android debug version, full Windows sequencing and native MP4 review.
+**Regression risks:** Old packaging workflows remain Beta 1.3 specific; use new Beta 1.4 candidate workflow, do not relabel historical artifacts.
