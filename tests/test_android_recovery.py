@@ -131,3 +131,21 @@ def test_variant_previews_continue_after_one_codec_failure(completed_job, monkey
         assert {name for name in archive.namelist() if name.endswith('.mp4')} == {
             'song.mp4', 'variant-c.mp4',
         }
+
+
+def test_reports_short_variant_count_and_blocks_incomplete_band(completed_job, monkeypatch):
+    engine, job = completed_job
+    (engine/'xlights_rgbeffects.xml').write_text(
+        '<xrgb><models><model name="HX_SNOWMAN_DRUMMER_V3"/></models>'
+        '<modelGroups><modelGroup name="HX_ZONE_BAND"/></modelGroups></xrgb>')
+    monkeypatch.setattr(mobile, 'render_preview', lambda *args: pytest.fail('misleading model preview'))
+    result = json.loads(mobile.run(str(engine), str(job), '{"variants":8}', Callback()))
+    assert result['stages']['variants'] == {'status':'partial', 'error':'Requested 8 variants; generated 1.'}
+    assert result['stages']['layout_validation']['status'] == 'failed'
+    assert result['stages']['preview']['status'] == 'failed'
+    assert 'bass, guitar, piano, lead, harmony' in result['stages']['preview']['error']
+    with zipfile.ZipFile(result['bundle']) as archive:
+        report = json.loads(archive.read('android-run.json'))
+        assert report['variant_summary']['outputs'][0]['preview_status'] == 'failed'
+        assert report['variant_summary']['generated_count'] == 1
+        assert report['variant_summary']['preview_count'] == 0

@@ -707,6 +707,8 @@ class HelixGui(tk.Tk):
             cmd.append("--no-polish")
         if self.shortlist_var.get():
             cmd.append("--auto-shortlist")
+        if not lor_mode:
+            cmd.append("--keep-variant-identity")
         if self.learn_xsq_var.get():
             cmd.append("--learn-from-my-xsqs")
 

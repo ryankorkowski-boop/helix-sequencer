@@ -2,7 +2,7 @@
   "android_band_repair": {
     "branch": "codex/android-band-preview-repair-20261115",
     "base_sha": "653053db05f754b5dbb85594af8de3cb9aa719e1",
-    "checkpoint": "Owner failure confirmed",
+    "checkpoint": "Eight real host XSQs, misleading preview blocked",
     "evidence": {
       "owner_zip": {
         "filename": "Helix-show (1).zip",
@@ -31,6 +31,25 @@
         ],
         "sequencing_wall_seconds_from_manifest": 47.387574,
         "exported_engine_commit": null
+      },
+      "host_bridge": {
+        "wall_seconds": 31.110682064999992,
+        "peak_rss_kib": 450268,
+        "sequence_hashes": {
+          "audio,v27.3.alt1.xsq": "b34bfe1c5f4907417a4f3eb4adfb23fb9420865254f7f58dd60807b30db7dee2",
+          "audio,v27.3.alt2.xsq": "d80e4716bb763c6a6f2de639b89d9d3bbf38720a265ebbf049a6234230c131cf",
+          "audio,v27.3.alt3.xsq": "8b1dd2aed5fa5a4ac37a3f3b1b1b20c9e90e71bc2b9d1522f21a4eca3dfe8ee8",
+          "audio,v27.3.alt4.xsq": "455240645240f368ebb830edcc301354664c220d8b5f0c97da0652d55e1f6dd6",
+          "audio,v27.3.alt5.xsq": "25f3452ad0af39277b46b26b6b3aae4fbc38b445e3bee6f343707c82606a0bcc",
+          "audio,v27.3.alt6.xsq": "9a9e0d4cb1fc1e2b3d01eabd739bdea9cdd9048fe0715803c852e15cb29db753",
+          "audio,v27.3.alt7.xsq": "794ddb251aac8ba1a7ed2f8f2a5f22cbbe39d4b02306d855869474d80497e7f8",
+          "audio,v27.3.xsq": "2830c06207c2611da7895cf40cd117bae3b9a803dcf76bb11a7a1fc098c5eb8b"
+        },
+        "zip_crc": "pass",
+        "mp4_count": 0,
+        "layout_status": "failed",
+        "platform": "Linux host, Android Python bridge",
+        "logs": "JOB/run.log and JOB/engine.log"
       }
     },
     "acceptance_mp4_count": 0,

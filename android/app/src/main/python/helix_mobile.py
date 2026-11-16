@@ -5,6 +5,7 @@ import hashlib
 import io
 import json
 import os
+import re
 import shutil
 import sys
 import traceback
@@ -49,7 +50,10 @@ def build_args(request, job, engine):
             str(job/'input/xlights_rgbeffects.xml' if (job/'input/xlights_rgbeffects.xml').exists() else engine/'xlights_rgbeffects.xml'),
             '--output-dir', str(job/'outputs'), '--variants', str(variants), '--no-prompt',
             '--no-save-settings', '--no-effects-orchestrator', '--no-workspace-history',
-            '--no-learning-memory', '--auto-shortlist']
+            '--no-learning-memory']
+    args.append('--auto-shortlist')
+    if mode == 'xlights':
+        args.append('--keep-variant-identity')
     args.append('--polish' if request.get('polish', True) else '--no-polish')
     if request.get('quick_clip', False):
         args.append('--helix-quick-clip')
@@ -79,6 +83,12 @@ def build_args(request, job, engine):
         if (job/'input/routing.json').is_file():
             args += ['--model-overrides-file', str(job/'input/routing.json')]
     return args
+
+
+def variant_number(path):
+    match = re.search(r'\.alt(\d+)$', path.stem)
+    return int(match.group(1)) + 1 if match else 1
+
 
 
 def preview_sequence(sequence, seconds):
@@ -115,7 +125,9 @@ def write_report(job, manifest):
     lines = ['Helix Android run', 'Mode: ' + manifest['mode']]
     for name, state in manifest['stages'].items():
         lines.append(name + ': ' + state['status'] + (' — ' + state['error'] if state.get('error') else ''))
-    lines += ['Sequences: ' + ', '.join(manifest.get('sequences', [])),
+    counts = manifest['variant_summary']
+    lines += [f"Variants: {counts['generated_count']}/{counts['requested_count']}; previews: {counts['preview_count']}",
+              'Sequences: ' + ', '.join(manifest.get('sequences', [])),
               'LMS: ' + ', '.join(manifest.get('lms', []))]
     (output/'Android-run-report.txt').write_text('\n'.join(lines) + '\n')
 
@@ -207,18 +219,23 @@ def run(engine_path, job_path, request_json, callback):
     helix_numba.install()
     stream = LogStream(callback)
     old_cwd = Path.cwd()
-    stages = {'sequencing': {'status': 'running'}, 'packaging': {'status': 'pending'},
+    stages = {'sequencing': {'status': 'running'}, 'variants': {'status': 'pending'},
+              'layout_validation': {'status': 'pending'}, 'packaging': {'status': 'pending'},
               'preview': {'status': 'pending' if request.get('preview', True) else 'skipped'}}
+    requested = int(request.get('variants', 1))
+    accounting = {'requested_count': requested, 'generated_count': 0, 'preview_count': 0,
+                  'outputs': []}
+    band_stage = None
     manifest = {'schema': 'helix.android.run.v2', 'processing': 'on-device',
         'mode': request.get('mode', 'xlights'), 'stages': stages,
         'band_enabled': bool(request.get('band_enabled', True)),
-        'sequences': [], 'lms': [], 'previews': [],
+        'sequences': [], 'lms': [], 'previews': [], 'variant_summary': accounting,
         'limitations': ['No neural stem separation/Whisper', 'Simulated preview, not native xLights playback',
                         'Serial joblib and Python Numba kernels; large songs may run slowly'],
         'input_hashes': {x.name: file_hash(x) for x in (job/'input').iterdir() if x.is_file()}}
     result = {'bundle': '', 'preview': '', 'sequence': '', 'report': str(job/'outputs/Android-run-report.txt'),
               'manifest': str(job/'outputs/android-run.json'), 'sequence_count': 0, 'previews': [], 'mode': manifest['mode'],
-              'stages': stages}
+              'stages': stages, 'variant_summary': accounting}
     try:
         if manifest['mode'] == 'xlights':
             for name in ('template.xsq', 'xlights_rgbeffects.xml'):
@@ -231,11 +248,26 @@ def run(engine_path, job_path, request_json, callback):
                         shutil.copy2(engine/name, dest)
                 manifest['input_hashes'][name] = file_hash(dest)
             from core.band_visibility import apply as apply_band_visibility
+            from core.band_visibility import inspect_band_stage, band_stage_preview_error
             manifest['band_visibility'] = apply_band_visibility(
                 job/'input/xlights_rgbeffects.xml', job/'input/template.xsq',
                 enabled=request.get('band_enabled', True))
+            if manifest['band_enabled']:
+                band_stage = inspect_band_stage(job/'input/xlights_rgbeffects.xml')
+            if band_stage:
+                manifest['band_stage'] = band_stage
+                missing = band_stage['missing_roles']
+                if missing:
+                    stages['layout_validation'] = {
+                        'status': 'failed', 'error': band_stage_preview_error(band_stage)}
+                else:
+                    stages['layout_validation'] = {'status': 'success'}
+            else:
+                stages['layout_validation'] = {'status': 'skipped'}
             manifest['effective_input_hashes'] = {
                 name: file_hash(job/'input'/name) for name in ('template.xsq', 'xlights_rgbeffects.xml')}
+        else:
+            stages['layout_validation'] = {'status': 'skipped'}
         os.chdir(job)
         with contextlib.redirect_stdout(stream), contextlib.redirect_stderr(stream):
             from core import sequence_builder
@@ -254,11 +286,25 @@ def run(engine_path, job_path, request_json, callback):
                          if x.name != 'helix_lor_source_layout.lms' and '.helix_lor_workspace' not in x.parts]
             if manifest['mode'] == 'lor' and not lms_files:
                 raise RuntimeError('LOR export did not produce an LMS')
-            selected = next((x for x in valid if '.runtime_' not in x.name), valid[0])
+            reviewable = sorted((x for x in valid if '.runtime_' not in x.name),
+                                key=lambda x: (variant_number(x), x.name))
+            if not reviewable:
+                raise RuntimeError('Helix produced no exported sequence variants')
+            selected = reviewable[0]
             result['sequence'] = str(selected.with_suffix('.lms') if manifest['mode'] == 'lor' else selected)
             if not Path(result['sequence']).is_file():
                 raise RuntimeError('Selected sequence export is missing')
-            result['sequence_count'] = len(valid)
+            result['sequence_count'] = len(reviewable)
+            accounting['generated_count'] = len(reviewable)
+            exact_count = len(reviewable) == requested
+            stages['variants'] = {'status': 'success'} if exact_count else {
+                'status': 'partial', 'error': f'Requested {requested} variants; generated {len(reviewable)}.'}
+            for index, xsq in enumerate(reviewable, 1):
+                accounting['outputs'].append({
+                    'id': index, 'name': xsq.stem,
+                    'sequence': str(xsq.relative_to(job)),
+                    'preview_status': 'pending' if request.get('preview', True) else 'skipped',
+                })
             stages['sequencing'] = {'status': 'success'}
             manifest['sequences'] = [str(x.relative_to(job)) for x in valid]
             manifest['lms'] = [str(x.relative_to(job)) for x in lms_files]
@@ -284,21 +330,25 @@ def run(engine_path, job_path, request_json, callback):
                 stages['preview'] = {'status': 'running'}
                 write_report(job, manifest)
                 errors = []
-                preview_sequences = [selected, *(x for x in valid
-                    if x != selected and '.runtime_' not in x.name)]
-                for xsq in preview_sequences:
+                preview_sequences = reviewable
+                for xsq, item in zip(preview_sequences, accounting['outputs']):
                     layout = xsq.parent/'xlights_rgbeffects.xml'
                     if not layout.is_file():
                         layout = next((job/'outputs').rglob('xlights_rgbeffects.xml'), None)
                     try:
+                        if band_stage:
+                            raise RuntimeError(band_stage_preview_error(band_stage))
                         if layout is None:
                             raise RuntimeError('Generated sequence is missing its packaged preview layout')
                         preview = render_preview(xsq, layout, job/'input/audio.wav', seconds, callback)
                         result['previews'].append(str(preview))
                         manifest['previews'].append(str(preview.relative_to(job)))
+                        item.update(preview=str(preview.relative_to(job)), preview_status='success')
+                        accounting['preview_count'] += 1
                         if not result['preview']:
                             result['preview'] = str(preview)
                     except Exception as exc:
+                        item.update(preview_status='failed', error=str(exc))
                         errors.append(f'{xsq.name}: {exc}' if len(preview_sequences) > 1 else str(exc))
                         callback.log('Optional MP4 preview failed: ' + errors[-1])
                         callback.log(traceback.format_exc())

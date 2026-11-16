@@ -1,3 +1,11 @@
+## 15 November — Eight variant outputs and partial band safeguards
+
+Goal: generate eight identifiable candidates, preserve the original signature, expose results and reject the incomplete stage preview. Windows EXE is also in scope. Changed modules: `tools/build_helpers/variants.py`, `core/effect_engine.py`, `core/band_visibility.py`, `core/sequence_builder.py`, `gui_launcher.py`, `tools/desktop_remote_worker.py`, Android Python bridge and `EngineService.java`, `MainActivity.java`, `PreviewActivity.java`, and the targeted Build Helpers and Android recovery tests. The four running handoff files are updated here.
+
+Preserved: first five candidate configurations, scoring, CLI promotion by default, LOR dispatch, unrelated model geometry and audio analysis. New: three deterministic alternate configurations, rank-only shortlist for variant review in xLights app runs, shared gate for misleading effect-level stage preview, Android manifest counts and per-output state, and Android selection, navigation and sequential playback through one VideoView. Android UI implementation requires APK and device verification.
+
+Evidence: 72 Python tests passed across Android recovery, MP4 alignment, candidate helpers, scoring, band visibility and desktop transport. A real host execution of the mobile bridge with the supplied stage XML/WAV and a checksum-matched original template generated and packaged eight distinct readable XSQs. This run used the initial implementation with shortlist removed from xLights; the final shared rank-only option is checked separately. The host correctly blocked all simulated band-stage previews. Limitations: no canonical solid renderer has been integrated into phone or desktop Results, native visual output is unverified, comparison and full-song audio/device performance remain pending. Risk: additional variants increase CPU and temporary output size; APK media lifecycle and accessibility need device tests.
+
 ## 15 November — Android band stage and eight-variant checkpoint
 
 Goal: repair the owner's 10-second Android stage failure and keep per-variant previews reviewable. The branch starts at the open #217 head so it retains existing serial preview recovery and the canonical scene work. #222 is a separate Beta 1.3 visibility fix and #224 is a standalone native-review path. Neither establishes Android band playback.
