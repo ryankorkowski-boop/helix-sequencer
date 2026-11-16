@@ -1,3 +1,13 @@
+## 2026-11-15 — repair Helix Motion word-alignment JSON and retry native 16-panel pilot
+- Goal: fix run #43780121725 failure at the word-alignment step (JSONDecodeError: Extra data, line 23).
+- Changed files: `.github/workflows/helix-motion-16panel-isolated.yml`, `MASTER_TODO.md`.
+- Preserved: authenticated original Drive audio, Demucs source separation, conservative vocal estimation, independent harmony at rest, 16-panel native xLights path, owner approval gate and no batch dispatch.
+- New: write a genuine newline instead of a literal backslash-n after the vocal diagnostic JSON object; record the 10 ms vocal-clock hop, check duration against source samples, and parse the receipt immediately as a workflow sanity check.
+- Tests/evidence: GitHub Actions rerun triggered by workflow push; require successful word-alignment, native xLights build, genuine MP4, 16 distinct FSEQ/panel hashes and approval manifest. Run outcome pending at change time.
+- Limitations: ASR words require independently corroborated embedded lyrics; phone boundaries are dictionary-timed estimates and not acoustically or human verified.
+- Deferred: address any subsequent hosted failures, independent phoneme verification, owner acceptance, release.
+- Regression risks: MP3 metadata may lack lyrics; CPU/native build and renderer resource limits.
+
 ## 2026-11-15 — auditable word-level vocal alignment for 16-panel full mode
 - Goal: add word-by-word source-vocal recognition and lyric corroboration without misrepresenting phoneme estimates as verified acoustic phone boundaries.
 - Changed files: `tools/align_full_song_vocals.py`, `.github/workflows/helix-motion-16panel-isolated.yml`, `MASTER_TODO.md`.
