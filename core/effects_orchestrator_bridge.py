@@ -305,7 +305,8 @@ def _build_orchestrated_exports(final_graph: IntentGraph, engine_args: list[str]
 def run_effects_orchestration(engine_args: list[str] | None = None, *, write_report: bool = True) -> EffectsOrchestrationRunReport:
     try:
         graph = build_seed_graph(engine_args)
-        director = MultiPassOrchestrationDirector()
+        director = MultiPassOrchestrationDirector(
+            audit_motion_conflicts="--audit-motion-conflicts" in (engine_args or []),\n        )
         result = director.direct(graph)
         passes = tuple({"pass_name": item.pass_name, "metadata": item.metadata} for item in result.passes)
         export_payload = _build_orchestrated_exports(result.final_graph, engine_args) if write_report else {
