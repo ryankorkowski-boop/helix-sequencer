@@ -7,6 +7,7 @@ from core.adaptive_emotional_storytelling_engine import AdaptiveEmotionalStoryte
 from core.autonomous_masterpiece_evaluator import AutonomousMasterpieceEvaluator
 from core.choreography_correction_loop import ChoreographyCorrectionLoop
 from core.intent_graph import IntentGraph
+from core.intent_arbitration_diagnostics import arbitration_diagnostics
 from core.iterative_quality_convergence import IterativeQualityConvergence
 from core.live_audience_energy_engine import LiveAudienceEnergyEngine
 from core.sequence_memory_engine import SequenceMemoryEngine
@@ -33,7 +34,8 @@ class DirectedOrchestrationResult:
 class MultiPassOrchestrationDirector:
     """Central deterministic choreography authority for Helix orchestration."""
 
-    def __init__(self):
+    def __init__(self, *, audit_motion_conflicts: bool = False):
+        self.audit_motion_conflicts = audit_motion_conflicts
         self.timeline = CanonicalTimelineOrchestrator()
         self.memory = SequenceMemoryEngine()
         self.storytelling = AdaptiveEmotionalStorytellingEngine()
@@ -83,6 +85,12 @@ class MultiPassOrchestrationDirector:
                 },
             )
         )
+
+        if self.audit_motion_conflicts:
+            passes.append(OrchestrationPassResult(
+                pass_name="motion_conflict_audit",
+                metadata=arbitration_diagnostics(graph),
+            ))
 
         masterpiece = self.masterpiece.evaluate(graph)
 
