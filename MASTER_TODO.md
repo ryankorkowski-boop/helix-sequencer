@@ -1,4 +1,15 @@
 
+### 2026-11-16 — Band composite compatibility regression tests
+**Goal:** Exercise the band planner with legacy drum marks and no drum marks.
+**Changed files/modules:** `tests/test_snowman_band_optional_composites.py`, `MASTER_TODO.md`.
+**Preserved behavior:** Existing event mapping and fallback semantics.
+**New behavior:** No runtime change; two tests assert valid cue output and optional composite lists without a KeyError.
+**Tests/evidence:** Test source committed; CI execution pending.
+**Limitations:** Does not establish visual drum illumination or native xLights behavior.
+**Deferred work:** Run targeted tests, inspect full CI and MP4, reconcile native geometry and vocal timing.
+**Regression risks:** None to production runtime.
+
+
 ### 2026-11-16 — Preserve snowman drum cues when composite metadata is absent
 **Goal:** Prevent entire snowman band planning from aborting on optional composite submodel field.
 **Changed files/modules:** `core/snowman_band.py`, `MASTER_TODO.md`.
