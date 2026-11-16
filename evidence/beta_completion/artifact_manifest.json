@@ -135,6 +135,42 @@
             "sha256": "2485eb68a2f3dd0866bf55818212f38645d85bb391b21c56cd453ee2e4d625d4"
           }
         ]
+      },
+      "phoneme_harmony_preview": {
+        "file": "Helix_Phoneme_Test_Hook_Harmony_Preview.mp4",
+        "sha256": "f8727f85495fb00d50ed9f5910f29ec771cbf687322b6a795626d7e80792388e",
+        "source_sha256": "19e90c273d0d747938f24b36586b50818c104cddffbefe4a4128927374301938",
+        "production_plan_sha256": "60d24df7ac0ccc4691c3b954ef939bb569248192cad7a4a9bcd7f136736fba92",
+        "source_commit": "02ae1859d3e277c521f51eddccddbf6169ff8729",
+        "source_start_seconds": 11,
+        "source_end_seconds": 24,
+        "duration_seconds": 13,
+        "fps": 20,
+        "decoded_frames": 260,
+        "width": 1920,
+        "height": 1080,
+        "roles": [
+          "drummer",
+          "bass",
+          "guitar",
+          "piano",
+          "lead",
+          "harmony"
+        ],
+        "audio_correlation": 0.9989703297615051,
+        "audio_lag_ms": 0.0,
+        "estimated_lead_only_frames": 71,
+        "estimated_harmony_only_frames": 51,
+        "estimated_overlap_frames": 15,
+        "estimated_both_idle_frames": 123,
+        "independent_singer_identity_verified": false,
+        "lyric_alignment_verified": false,
+        "native_xlights": false,
+        "target_app_playback": false,
+        "release_acceptance": false,
+        "library_file_id": "libfile_3a436e8539f88191a39c49f99edc31e7",
+        "status": "TESTED",
+        "review_scope": "Host harmony diagnostic"
       }
     },
     "acceptance_mp4_count": 0,
