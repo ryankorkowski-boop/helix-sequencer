@@ -276,3 +276,14 @@ Do not mark complete from unit tests alone.
 **Limitations:** Windows onefile GUI review executable may lack bundled data/assets and may not execute full sequencing; do not present it as release-ready. Android APK compilation is not emulator or hardware validation.
 **Deferred work:** Check Windows packaging and artifact outputs, test launch, support navigation, actual sequencing, APK installation on API 30/36, and package complete production assets.
 **Regression risks:** PyInstaller hidden imports and asset paths, missing runtime Python dependencies, Android test install/runtime differences.
+
+
+### 2026-11-16 — Owner delivery instruction: Beta Version 1.4 to Google Drive
+**Goal:** After both Android and Windows builds are functional and validated, upload them to the existing Helix Google Drive delivery area, labeled Beta Version 1.4.
+**Changed files/modules:** MASTER_TODO.md (delivery and approval requirements only).
+**Preserved behavior:** Existing code, engine, artifacts and prior beta release remain untouched; no merge or public release.
+**New behavior:** Delivery naming requirement recorded: Helix Sequencer Beta Version 1.4, separate APK and EXE, with readme/build evidence; use a single ZIP if appropriate to established Drive release conventions.
+**Tests/evidence:** GUI workflow 43923131470 SUCCESS (desktop-headless, android-compile, windows-package). GitHub artifacts: helix-gui-android-debug and helix-gui-windows-review. These are review artifacts, not verified full production builds.
+**Limitations:** Android build.gradle still declares versionName 1.3.0-beta; Windows review EXE is a bare PyInstaller GUI package and may lack dependencies/assets. No Android hardware or Windows runtime smoke testing. Do not mislabel these as final Beta 1.4.
+**Deferred work:** Finish functional packaging, update internal Android/Windows version metadata to 1.4, verify both applications, identify established Drive release folder, upload binaries/readme, verify uploaded file IDs and links, then request owner approval before merge/public beta release.
+**Regression risks:** Mismatched displayed version versus filename, missing packaged engine files, incomplete EXE, unverified Android functionality and premature distribution.
