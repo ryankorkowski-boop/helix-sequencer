@@ -80,8 +80,11 @@ jobs:
               estimated_lead_presence_probability=np.where(lead['energy']>0,.95,0).astype('f4'),
               estimated_backing_energy=zero,estimated_backing_shapes=np.zeros(n,dtype='i1'),
               estimated_backing_presence_probability=zero)
+          if abs(n*.01-len(original)/16000)>.02:
+              raise SystemExit('Vocal clock duration does not match decoded source')
           receipt={'schema':'helix.helix-motion-vocals.v1','audio_sha256':sha(source),
               'clock_sha256':sha(archive),'verification_state':'UNVERIFIED',
+              'clock_hop_seconds':0.01,
               'tracks':{'estimated_lead':{'sha256':sha(stem),'source':'Demucs isolated vocal estimate'},
                         'estimated_backing':{'sha256':sha(archive),'source':'REST; no verified separate harmony'}},
               'independent_backing_verified':False,'exact_phoneme_boundaries_verified':False,
@@ -89,6 +92,7 @@ jobs:
               'limitations':['No verified lyrics or lexical phoneme alignment',
                              'Harmony stays silent without independent source evidence']}
           (dest/'diagnostic.json').write_text(json.dumps(receipt,indent=2)+'\\n')
+          assert json.loads((dest/'diagnostic.json').read_text())['clock_hop_seconds']==.01
           print('VOCAL_SOURCE_CLOCKS',n,'lead_active',int(np.count_nonzero(lead['energy'])))
           PY
       - name: Align source vocals word by word and verify lexical provenance
