@@ -20,6 +20,8 @@ jobs:
           python-version: '3.12'
       - run: python -m unittest discover -s tests -p test_gui_modernization_smoke.py -v
       - run: python -m py_compile gui_launcher.py gui_lightshow.py gui_launcher_drummer.py
+      - name: Drummer mapping regression (Python 3.12)
+        run: python -m unittest discover -s tests -p test_drum_mapping.py -v
   windows-package:
     runs-on: windows-latest
     steps:
