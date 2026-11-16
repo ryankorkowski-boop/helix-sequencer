@@ -1,4 +1,15 @@
 
+### 2026-11-16 — Autonomous checklist and CI-enforced band regression
+**Goal:** Keep a durable executable plan and ensure band metadata regression tests run in Python 3.11/3.12 beta smoke.
+**Changed files/modules:** `.github/workflows/helix-ci.yml`, `docs/AUTONOMOUS_EXECUTION_TODO_20261116.md`, `MASTER_TODO.md`.
+**Preserved behavior:** Existing beta smoke tests, sequencing, mapping, drum timing and model targeting.
+**New behavior:** CI explicitly runs `tests/test_snowman_band_optional_composites.py`; dedicated evidence-backed checklist records completed, pending and owner-gated work.
+**Tests/evidence:** Previous head `6b9cd925` passed CI, Beta CI, Birdsong, Flow Quality, Flow Review, Compliance, and remote MP4 workflow 43880078404; artifact ID 14231739526 generated. New workflow test addition awaiting fresh CI.
+**Limitations:** MP4 is not yet visually inspected, native xLights and Android/Windows parity unverified.
+**Deferred work:** Three-tom drummer lighting/geometry, lead/harmony lexical phonemes, nine-panel native xLights, APK/EXE end-to-end.
+**Regression risks:** Extra beta smoke tests may reveal preexisting band failures; no runtime effect changes in this change set.
+
+
 ### 2026-11-16 — Band composite compatibility regression tests
 **Goal:** Exercise the band planner with legacy drum marks and no drum marks.
 **Changed files/modules:** `tests/test_snowman_band_optional_composites.py`, `MASTER_TODO.md`.
