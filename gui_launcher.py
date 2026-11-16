@@ -10,6 +10,7 @@ from tkinter import filedialog, messagebox, ttk
 
 
 from core.helix_version import TITLE, VERSION
+from gui_lightshow import SequencingLightShow
 
 ROOT = Path(__file__).resolve().parent
 
@@ -27,6 +28,14 @@ class HelixGui(tk.Tk):
         self.title(TITLE)
         self.geometry("1060x760")
         self.minsize(960, 680)
+        self.configure(bg="#091020")
+        style = ttk.Style(self)
+        if "clam" in style.theme_names():
+            style.theme_use("clam")
+        style.configure("TFrame", background="#101b30")
+        style.configure("TLabelframe", background="#101b30", foreground="#5de5ef")
+        style.configure("TLabelframe.Label", background="#101b30", foreground="#5de5ef")
+        style.configure("TLabel", background="#101b30", foreground="#e7f1ff")
 
         self.layout_presets = {
             "GP's House": _best_layout_file(ROOT),
@@ -159,6 +168,12 @@ class HelixGui(tk.Tk):
         self.run_button.pack(side=tk.LEFT, padx=8, pady=6)
         self.status_label = ttk.Label(actions, text="Ready")
         self.status_label.pack(side=tk.LEFT, padx=8, pady=6)
+        ttk.Label(actions, text="Animation").pack(side=tk.LEFT, padx=(16, 4))
+        self.animation_scene = tk.StringVar(value="Combined")
+        ttk.Combobox(actions, textvariable=self.animation_scene, values=["Combined", "Arches", "Mega tree"], state="readonly", width=12).pack(side=tk.LEFT)
+        self.light_show = SequencingLightShow(frame)
+        self.light_show.pack(fill=tk.X, padx=8, pady=(0, 6))
+        self.animation_scene.trace_add("write", lambda *_: self.light_show.set_scene(self.animation_scene.get()))
 
         log_frame = ttk.LabelFrame(frame, text="Run Log")
         log_frame.pack(fill=tk.BOTH, expand=True, **pad)
@@ -280,6 +295,7 @@ class HelixGui(tk.Tk):
 
         self.run_button.configure(state=tk.DISABLED)
         self.status_label.configure(text="Running...")
+        self.light_show.set_running(True)
         self._log("")
         self._log("Running command:")
         self._log(" ".join(cmd))
@@ -306,7 +322,7 @@ class HelixGui(tk.Tk):
         else:
             self._log(f"Run failed with exit code {rc}.")
             self.status_label.configure(text="Failed")
-        self.run_button.configure(state=tk.NORMAL)
+        self.after(0, lambda: (self.light_show.set_running(False), self.run_button.configure(state=tk.NORMAL)))
 
 
 def main() -> int:
