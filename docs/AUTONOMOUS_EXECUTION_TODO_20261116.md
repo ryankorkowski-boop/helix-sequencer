@@ -22,7 +22,8 @@
 - [ ] Inspect rendered MP4 metadata, frame decode, audio sync, blank frames and brightness, then compare to owner Truths examples. GitHub workflow artifact exists but its binary frames have not been visually inspected.
 
 ## Next implementation (separate focused changes)
-- [ ] Trace missing drum lighting, exactly three toms, independent cymbals and anatomical drummer motion against owner Truths.
+- [ ] **RESTORE, DO NOT RECREATE:** compare current drummer to known-good behavior commit `b27e8d77a63027ed32bcf6851dcff3925472c155` and source-derived asset/pose commit `54ded3752fa33f8b1330baf6dd38d009c2259916`; use owner-approved original V3 drummer review as the visual oracle. Preserve source artwork, exactly three toms, eight musical targets (kick/snare/hi-hat/high/mid/floor/left crash/right crash), natural resting sticks and strike-contact poses. No independently sequenced arms or sticks, no generic substitute drummer, no unapproved new kit. Reconcile conflicting approvals by exact video/date, never assume later remakes passed.
+- [ ] Compare assets and cue mapping by SHA/geometry against the approved revision, then repair only divergences; run focused drummer tests and real-audio native MP4 approval before updating canonical assets.
 - [ ] Reconcile band asset schema and missing snowman models on Android and Windows; test eight variants, per-variant playback, export, persistence and memory limits.
 - [ ] Validate independently sourced lead and harmony vocals with phoneme/word timing; reject false harmony detections and silence animation.
 - [ ] Integrate non-destructive engine arbitration with musical transitions, chases, piano routes and Birdsong spatial effects, with baseline XSQ comparisons.
