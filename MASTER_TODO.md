@@ -1,3 +1,9 @@
+## 16 November — Phoneme Test Hook harmony review refinement
+
+Goal: make the lead-to-harmony exchange clearer after the owner described the first diagnostic as passable. Files: MASTER_TODO.md, docs/BETA_COMPLETION_LIVE_HANDOFF.md and the two completion JSON records. This uses the exact saved production cue plan and deployed diagnostic tree at `4e3e854747400e6eef9c69e14e79d615976b4d6b`. The production sequencing and app code has no diff. The fixed front view retains all six model identities, the original source audio and V3 instrument motion.
+
+A host-only render applied independent presence screening, eased open mouth transitions with immediate closures, slightly tightened the front camera and gave source-driven overhead and floor accents a short decay. Visible openings of 100 ms or less fell from seven to three and shape changes from 97 to 81 across both singers. Retained estimated simultaneous frames fell from 15 to nine. Visual spot checks include lead, purple harmony and together. Full MP4 decode passed for all 260 frames with zero measured audio lag. The gate can remove real but uncertain backing activity and remains an estimate. Singer identities, word alignment and the mobile/Windows acceptance gates remain open. [Updated diagnostic](https://chatgpt.com/library?file_id=libfile_2d6455635d40819188e726c5f6f56ca4&account_id=personal).
+
 ## 15 November — Phoneme Test Hook harmony diagnostic
 
 Goal: rerun the six-snowman host preview on vocal material. Changed files: MASTER_TODO.md, docs/BETA_COMPLETION_LIVE_HANDOFF.md, latest_status.json and artifact_manifest.json. Source tree `22816e1368ab1743e00d3fdd744166bc53711bde` at hosted `02ae1859d3e277c521f51eddccddbf6169ff8729`, local `527252098cd650323c52df110637e3d4d0b9aa06`. The production engine, phone and Windows code, original audio, drummer geometry, performer positions and release gates are preserved.

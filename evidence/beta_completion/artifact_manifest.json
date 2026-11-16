@@ -171,6 +171,83 @@
         "library_file_id": "libfile_3a436e8539f88191a39c49f99edc31e7",
         "status": "TESTED",
         "review_scope": "Host harmony diagnostic"
+      },
+      "phoneme_harmony_refinement": {
+        "file": "Helix_Phoneme_Test_Hook_Refined_Harmony.mp4",
+        "sha256": "1b2fee7962d10a9b00df0e8fbfadba79e05aa85746ba686c4db5ac943abd8eb3",
+        "source_sha256": "19e90c273d0d747938f24b36586b50818c104cddffbefe4a4128927374301938",
+        "production_plan_sha256": "60d24df7ac0ccc4691c3b954ef939bb569248192cad7a4a9bcd7f136736fba92",
+        "source_commit": "527252098cd650323c52df110637e3d4d0b9aa06",
+        "source_start_seconds": 11,
+        "source_end_seconds": 24,
+        "duration_seconds": 13,
+        "fps": 20,
+        "decoded_frames": 260,
+        "width": 1920,
+        "height": 1080,
+        "roles": [
+          "drummer",
+          "bass",
+          "guitar",
+          "piano",
+          "lead",
+          "harmony"
+        ],
+        "audio_correlation": 0.9989703297615051,
+        "audio_lag_ms": 0.0,
+        "estimated_lead_only_frames": 69,
+        "estimated_harmony_only_frames": 45,
+        "estimated_overlap_frames": 9,
+        "estimated_both_idle_frames": 137,
+        "independent_singer_identity_verified": false,
+        "lyric_alignment_verified": false,
+        "native_xlights": false,
+        "target_app_playback": false,
+        "release_acceptance": false,
+        "library_file_id": "libfile_2d6455635d40819188e726c5f6f56ca4",
+        "status": "TESTED",
+        "render_base_commit": "4e3e854747400e6eef9c69e14e79d615976b4d6b",
+        "motion_comparison": {
+          "before": [
+            {
+              "short_openings": 2,
+              "shape_changes": 53
+            },
+            {
+              "short_openings": 5,
+              "shape_changes": 44
+            }
+          ],
+          "after": [
+            {
+              "short_openings": 0,
+              "shape_changes": 46
+            },
+            {
+              "short_openings": 3,
+              "shape_changes": 35
+            }
+          ],
+          "lead_only": {
+            "seconds": 0.1,
+            "frame": 2
+          },
+          "harmony_only": {
+            "seconds": 3.85,
+            "frame": 77
+          },
+          "overlap": {
+            "seconds": 4.7,
+            "frame": 94
+          }
+        },
+        "screening": {
+          "onset": 0.5,
+          "offset": 0.25,
+          "minimum_seconds": 0.12
+        },
+        "prior_asset": "libfile_3a436e8539f88191a39c49f99edc31e7",
+        "review_status": "Owner described the first diagnostic as passable"
       }
     },
     "acceptance_mp4_count": 0,
