@@ -212,3 +212,14 @@ Do not mark complete from unit tests alone.
 **Tests/evidence:** Source inspection confirms existing SupportLinks and InfoActivity wiring. Android build, instrumentation tests, and device screenshot have not run.
 **Limitations/deferred:** Windows UI parity and APK packaging remain outstanding. Verify navigation and background/resume behavior on emulator and real devices.
 **Regression risks:** Extra tab width on narrow phones; horizontal navigation must remain scrollable. Preserve donation URL configuration and legal wording exactly.
+
+
+### 2026-11-16 — Desktop GUI animated progress and support navigation
+**Goal:** Bring animated arches and swirling RGB mega tree to the Windows Tkinter launcher while preserving legal, donation and instructions access.
+**Changed files/modules:** gui_lightshow.py, gui_launcher.py.
+**Preserved behavior:** Existing sequence command, engine switches, layout choices, logs, and legal/third-party license links.
+**New behavior:** Dark-themed ttk appearance, animated decorative show during sequence builds with selectable Combined/Arches/Mega tree modes, Instructions viewer, Donate to Helix and Donate to xLights buttons reading existing config/support_links.json.
+**Tests/evidence:** Source-level changes committed; no Windows EXE build, UI screenshot, integration test, or runtime validation performed.
+**Limitations:** Desktop Instructions falls back to README guidance when the Android bundled instructions asset is missing. Progress animation is decorative and not synchronized to audio or measured progress.
+**Deferred work:** Fix any desktop runtime/UI issues found by smoke tests, confirm packaged assets and support links, test Windows and Android builds and their navigation; implement complete multi-panel responsive UI.
+**Regression risks:** Tkinter worker thread currently performs some UI updates, an existing issue; validate thread safety. Desktop screen space and packaging asset paths require checks.
