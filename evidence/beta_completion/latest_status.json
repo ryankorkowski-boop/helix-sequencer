@@ -1,4 +1,97 @@
 {
+  "android_band_repair": {
+    "branch": "codex/android-band-preview-repair-20261115",
+    "base_sha": "653053db05f754b5dbb85594af8de3cb9aa719e1",
+    "checkpoint": "Owner failure confirmed",
+    "evidence": {
+      "owner_zip": {
+        "filename": "Helix-show (1).zip",
+        "library_file_id": "libfile_6c792f867e18819181705f4a73d12142",
+        "sha256": "0bd69f3b3afd60262dc43f76c5aa5c23cd3caa399b5576ff42b22ce2ab0fda68"
+      },
+      "rejected_preview": {
+        "filename": "audio-quick-10s,v27.3.alt1.mp4",
+        "sha256": "c161bd9c5ba3f7d58d073ae73d106b3e5be1b0c116ba037f3e624f297c71ef19",
+        "h264": true,
+        "aac": true,
+        "width": 640,
+        "height": 360,
+        "fps": 15,
+        "duration_seconds": 10,
+        "native_xlights": false,
+        "status": "FAILED \u2014 REPAIR REQUIRED"
+      },
+      "observed": {
+        "requested": 8,
+        "xsqs": 5,
+        "mp4s": 1,
+        "layout_models": 18,
+        "canonical_members_present": [
+          "drummer"
+        ],
+        "sequencing_wall_seconds_from_manifest": 47.387574,
+        "exported_engine_commit": null
+      }
+    },
+    "tasks": [
+      {
+        "id": "ANDROID-BAND-01",
+        "description": "Diagnose supplied Android ZIP and screenshots",
+        "status": "TESTED"
+      },
+      {
+        "id": "ANDROID-BAND-02",
+        "description": "Restore six canonical model definitions and validate their assets",
+        "status": "IN PROGRESS"
+      },
+      {
+        "id": "ANDROID-BAND-03",
+        "description": "Render canonical band previews and verify visual output",
+        "status": "FAILED \u2014 REPAIR REQUIRED"
+      },
+      {
+        "id": "ANDROID-BAND-04",
+        "description": "Generate and account for eight distinct variants",
+        "status": "FAILED \u2014 REPAIR REQUIRED"
+      },
+      {
+        "id": "ANDROID-BAND-05",
+        "description": "Select, play and export individual variants and Play All",
+        "status": "NOT STARTED"
+      },
+      {
+        "id": "ANDROID-BAND-06",
+        "description": "Single-clock comparison playback and export",
+        "status": "NOT STARTED"
+      },
+      {
+        "id": "ANDROID-BAND-07",
+        "description": "Verify drummer, instruments and independent vocals",
+        "status": "FAILED \u2014 REPAIR REQUIRED"
+      },
+      {
+        "id": "ANDROID-BAND-08",
+        "description": "Profile Android API 30 and API 36 and long audio",
+        "status": "NOT STARTED"
+      },
+      {
+        "id": "ANDROID-BAND-09",
+        "description": "Render and verify ten-second acceptance MP4s and qualified full song",
+        "status": "NOT STARTED"
+      },
+      {
+        "id": "ANDROID-BAND-10",
+        "description": "Build candidate APK and repeat on a real phone",
+        "status": "NOT STARTED"
+      },
+      {
+        "id": "ANDROID-BAND-11",
+        "description": "Prepare owner approval package",
+        "status": "NOT STARTED"
+      }
+    ],
+    "approval": "held"
+  },
   "schema": "helix.beta-completion.v1",
   "updated_at": "2026-11-09T18:38:11.230705+00:00",
   "repository": "https://github.com/ryankorkowski-boop/helix-sequencer",
