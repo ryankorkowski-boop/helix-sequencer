@@ -245,3 +245,13 @@ Do not mark complete from unit tests alone.
 **Limitations:** Android compile and APK runtime remain unverified; CI may uncover further Gradle/SDK/plugin issues.
 **Deferred work:** Inspect new CI run, repair any Gradle compile errors, package APK/EXE, run emulator and Windows smoke tests.
 **Regression risks:** Runner Android SDK paths/version drift; installed Gradle compatibility.
+
+
+### 2026-11-16 — Android Gradle compatibility repair
+**Goal:** Advance Android compilation beyond toolchain initialization.
+**Changed files:** .github/workflows/gui-modernization-smoke.yml.
+**Preserved behavior:** All app code, animation, donate/legal/instructions, engine and export logic.
+**New behavior:** CI provisions Gradle 8.11.1, the minimum version required by the configured Android Gradle plugin.
+**Tests/evidence:** Workflow run 43902284172 desktop-headless SUCCESS, Android compile FAILURE at Gradle plugin version check: minimum 8.11.1 vs configured 8.10.2. New run pending.
+**Limitations/deferred:** No compiled APK yet; continue diagnosing remaining Android build failures and then device validation.
+**Regression risks:** Compatibility of Gradle 8.11.1 with the project's other build plugins.
