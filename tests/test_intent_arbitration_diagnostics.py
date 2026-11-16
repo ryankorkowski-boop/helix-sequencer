@@ -40,3 +40,9 @@ def test_distinct_families_and_nonmotion_roles_not_conflicts():
 def test_nonoverlapping_intents_not_conflicts():
     graph = IntentGraph([intent(), intent(start=2)])
     assert arbitration_diagnostics(graph)["motion_conflict_count"] == 0
+
+
+def test_director_opt_in_defaults_off():
+    from core.multi_pass_orchestration_director import MultiPassOrchestrationDirector
+    assert MultiPassOrchestrationDirector().audit_motion_conflicts is False
+    assert MultiPassOrchestrationDirector(audit_motion_conflicts=True).audit_motion_conflicts is True
