@@ -60,11 +60,27 @@ jobs:
           stem=Path('pilot/stems/htdemucs/Tinsel_Tornado/vocals.wav')
           dest=Path('pilot/vocals')
           sha=lambda p:hashlib.sha256(p.read_bytes()).hexdigest()
+          # Compare decoded PCM sample clocks, not MP3 container duration or
+          # the rounded number of 10 ms feature frames.
+          original,_=librosa.load(source,sr=16000,mono=True)
           y,_=librosa.load(stem,sr=16000,mono=True)
+          source_samples=len(original)
+          stem_samples=len(y)
+          # Demucs adds/loses a few boundary samples through resampling.
+          # Reject substantial drift; pad/crop only bounded edge mismatch.
+          drift=stem_samples-source_samples
+          if abs(drift)>16000:
+              raise SystemExit(f'Vocal stem drift exceeds one second: {drift} samples')
+          if drift<0:y=np.pad(y,(0,-drift))
+          elif drift>0:y=y[:source_samples]
           lead=vocal_clock(y)
           n=len(lead['energy'])
-          duration=sf.info(source).duration
-          if abs(n*.01-duration)>.02:raise SystemExit('Vocal source duration mismatch')
+          expected_frames=round(source_samples/160)
+          if abs(n-expected_frames)>2:
+              raise SystemExit(f'Vocal clock mismatch: {n} frames vs {expected_frames} expected')
+          print('VOCAL_ALIGNMENT',json.dumps({'decoded_source_samples':source_samples,
+              'decoded_stem_samples':stem_samples,'edge_adjustment_samples':-drift,
+              'clock_frames':n,'expected_frames':expected_frames}))
           zero=np.zeros(n,dtype='f4')
           archive=dest/'acoustic_vocal_clocks.npz'
           np.savez_compressed(archive,
