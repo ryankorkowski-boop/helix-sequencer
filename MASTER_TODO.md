@@ -77,6 +77,19 @@ Do not mark complete from unit tests alone.
 
 ## Change Ledger
 
+### 2026-11-16 — Observe-only choreography conflict diagnostics
+**Agent:** ChatGPT
+**Branch:** `codex/logical-arbitration-20261116`
+**Goal:** Establish a deterministic measurement baseline for overlapping motion effects before changing effect selection or layer priority.
+**Changed files/modules:** `core/intent_arbitration_diagnostics.py`, `tests/test_intent_arbitration_diagnostics.py`, `MASTER_TODO.md`.
+**Intentionally preserved behavior:** No change to intent timing, motion vocabulary, target selection, export, drummer mapping, or default orchestrator behavior. The diagnostic is not wired into production execution yet.
+**New behavior:** Explicitly invoked `arbitration_diagnostics(IntentGraph)` returns an observe-only report of simultaneous motion intents sharing a target family, with named distinct props exempt.
+**Tests/evidence:** Four targeted tests added for overlap detection, distinct props, separate families/nonmotion roles, and nonoverlap. Tests have NOT been executed in a Python runtime; GitHub file commits alone are not validation.
+**Limitations:** Target-family collision is a conservative heuristic, not actual xLights channel overlap; reports may include false positives and do not yet resolve conflicts. Not integrated into APK/EXE, nine-panel MP4, or real-song run.
+**Deferred work:** Run tests; compare report against real audio and XSQ, add explicit opt-in orchestration integration, evaluate layering/priority, render and visually approve before changing defaults.
+**Regression risks:** None to existing runtime while module remains unused; future integration must protect canonical drummer and independent singer behavior.
+
+
 ### 2026-11-13 — Beta 1.3 packages the palette fix for Windows and Android
 **Agent:** Cursor cloud agent
 **Branch:** `cursor/beta-1-3-release-1aae`
