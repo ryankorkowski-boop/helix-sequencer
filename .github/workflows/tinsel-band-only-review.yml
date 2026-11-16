@@ -90,9 +90,15 @@ jobs:
               estimated_backing_energy=zero,
               estimated_backing_shapes=np.zeros(n,dtype='i1'),
               estimated_backing_presence_probability=zero)
+          # The diagnostic exporter requires an explicit 10 ms clock.
+          # Validate its duration against the source before issuing a receipt.
+          duration_seconds=sf.info(source).duration
+          if abs(n*.01-duration_seconds)>.02:
+              raise SystemExit(f'Vocal clock duration mismatch: {n*.01:.3f}s vs {duration_seconds:.3f}s')
           receipt={'schema':'helix.tinsel-band-source-estimate.v1',
                    'audio_sha256':sha(source),'clock_sha256':sha(archive),
                    'verification_state':'UNVERIFIED',
+                   'clock_hop_seconds':0.01,
                    'tracks':{
                        'estimated_lead':{'sha256':sha(stem),'file':str(stem),'source':'Demucs vocals estimate'},
                        'estimated_backing':{'sha256':sha(archive),'file':None,'source':'REST; no independent backing evidence'}},
