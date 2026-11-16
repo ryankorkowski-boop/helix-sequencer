@@ -68,4 +68,36 @@ public class InfoAndBandUiTest {
         OfflineEngineTest.publishProof(context, "instructions-band-ui.json",
             "{\"instructions_scroll_and_recreation\":true,\"band_switch_persisted\":true}".getBytes("UTF-8"), "application/json");
     }
+    @Test public void variantSelectionSurvivesActivityRecreation() throws Exception {
+        Instrumentation instrumentation = InstrumentationRegistry.getInstrumentation();
+        Context context = instrumentation.getTargetContext();
+        android.content.SharedPreferences preferences = context.getSharedPreferences("MainActivity", 0);
+        String previous = preferences.getString("job", null);
+        java.io.File job = new java.io.File(context.getCacheDir(), "variant-selection");
+        job.mkdirs();
+        String state = "{\"phase\":\"complete\",\"variant_summary\":{\"requested_count\":2,"
+            + "\"generated_count\":2,\"preview_count\":0,\"outputs\":["
+            + "{\"name\":\"Signature\",\"preview_status\":\"failed\"},{\"name\":\"Hook focus\",\"preview_status\":\"failed\"}]}}";
+        java.nio.file.Files.write(new java.io.File(job, "state.json").toPath(), state.getBytes("UTF-8"));
+        preferences.edit().putBoolean("walkthrough_seen", true).putString("job", job.toString()).commit();
+        try (ActivityScenario<MainActivity> scenario = ActivityScenario.launch(new Intent(context, MainActivity.class))) {
+            instrumentation.waitForIdleSync();
+            scenario.onActivity(activity -> {
+                Spinner selector = activity.findViewById(R.id.variant_selector);
+                assertEquals(2, selector.getCount());
+                selector.setSelection(1);
+            });
+            instrumentation.waitForIdleSync();
+            scenario.recreate();
+            instrumentation.waitForIdleSync();
+            scenario.onActivity(activity -> {
+                Spinner selector = activity.findViewById(R.id.variant_selector);
+                assertEquals(1, selector.getSelectedItemPosition());
+                assertTrue(selector.getSelectedItem().toString().startsWith("Hook focus"));
+            });
+        } finally {
+            preferences.edit().putString("job", previous).commit();
+            new java.io.File(job, "state.json").delete();
+        }
+    }
 }

@@ -21,21 +21,24 @@ public class MainActivity extends Activity {
     private final Map<String,Uri> inputs=new HashMap<>();
     private final Map<String,Button> selectors=new HashMap<>();
     private final List<View> settings=new ArrayList<>();
-    private final List<String> previewPaths=new ArrayList<>();
+    private final ArrayList<String> previewPaths=new ArrayList<>();
+    private final ArrayList<String> variantLabels=new ArrayList<>();
+    private final ArrayList<String> variantPreviews=new ArrayList<>();
+    private final ArrayList<String> variantSequences=new ArrayList<>();
     private final String[] steps={"Music","Layout","Style","Advanced","Generate","Results"};
     private final LinearLayout[] pages=new LinearLayout[6];
     private LinearLayout body,expert;
-    private Spinner mode,palette,sampleLayout;
+    private Spinner mode,palette,sampleLayout,variantSelector;
     private UiOptions options;
     private EditText variants,duration;
     private CheckBox polish,matrix,birdsong,spatial,ac,preview,quickClip,includeBand;
-    private TextView status,log,stepTitle,results;
+    private TextView status,log,stepTitle,results,variantStatus;
     private ProgressBar progress;
-    private Button run,cancel,save,watch,movie,sequence,report,share,next,back;
-    private String picking,exporting,bundlePath="",previewPath="",sequencePath="",reportPath="";
+    private Button run,cancel,save,watch,movie,sequence,report,share,next,back,playAll,previousVariant,nextVariant,compare,saveComparison,saveAllPreviews;
+    private String picking,exporting,bundlePath="",previewPath="",sequencePath="",reportPath="",comparisonPath="",previewArchivePath="";
     private File currentJob;
     private boolean busy,wasBusy;
-    private int page;
+    private int page,selectedVariant;
     private String lastState="";
     private int dp(int n){return (int)(n*getResources().getDisplayMetrics().density);}
     private TextView text(String value,int size,int color){
@@ -124,12 +127,36 @@ public class MainActivity extends Activity {
         status=text("Ready · choose music and layout",17,Color.rgb(86,230,197));text("Run log",18,Color.WHITE);log=text("",12,Color.LTGRAY);log.setTextIsSelectable(true);
 
         panel(5);results=text("Your sequence, show ZIP and preview will appear here.",16,Color.WHITE);
-        sequence=button("Save sequence…",()->export(sequencePath,sequencePath.endsWith(".lms")?"application/xml":"application/octet-stream",new File(sequencePath).getName()));
-        watch=button("Play preview",()->choosePreview(path->startActivity(new Intent(this,PreviewActivity.class).putExtra("path",path))));
-        movie=button("Save MP4…",()->choosePreview(path->export(path,"video/mp4",new File(path).getName())));
+        text("Variant",14,Color.LTGRAY);
+        variantSelector=new Spinner(this);
+        variantSelector.setId(R.id.variant_selector);
+        body.addView(variantSelector,new LinearLayout.LayoutParams(-1,dp(52)));
+        variantSelector.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener(){
+            public void onItemSelected(AdapterView<?> parent,View view,int index,long id){
+                selectedVariant=index;
+                updateVariantActions();
+            }
+            public void onNothingSelected(AdapterView<?> parent){}
+        });
+        previousVariant=button("Previous variant",()->variantSelector.setSelection(selectedVariant-1));
+        nextVariant=button("Next variant",()->variantSelector.setSelection(selectedVariant+1));
+        variantStatus=text("",14,Color.LTGRAY);
+        sequence=button("Save selected sequence…",()->{
+            String path=selectedSequence();
+            export(path,path.endsWith(".lms")?"application/xml":"application/octet-stream",new File(path).getName());
+        });
+        watch=button("Play selected",()->openVariants(false));
+        playAll=button("Play all available variants",()->openVariants(true));
+        movie=button("Save selected MP4…",()->{
+            String path=variantPreviews.get(selectedVariant);
+            export(path,"video/mp4",new File(path).getName());
+        });
+        compare=button("Compare",()->startActivity(new Intent(this,PreviewActivity.class).putExtra("path",comparisonPath)));
+        saveComparison=button("Save comparison MP4…",()->export(comparisonPath,"video/mp4","Helix-Comparison.mp4"));
+        saveAllPreviews=button("Save all MP4s as ZIP…",()->export(previewArchivePath,"application/zip","Helix-Variant-MP4s.zip"));
         save=button("Save show ZIP…",()->export(bundlePath,"application/zip","Helix-show.zip"));share=button("Share show ZIP…",this::shareShow);
         report=button("Save run report…",()->export(reportPath,"text/plain","Helix-run-report.txt"));
-        for(Button v:new Button[]{sequence,watch,movie,save,share,report})v.setEnabled(false);
+        for(Button v:new Button[]{sequence,watch,playAll,previousVariant,nextVariant,movie,compare,saveComparison,saveAllPreviews,save,share,report})v.setEnabled(false);
         text("The ZIP includes generated sequences, available layout/configuration files, soundtrack, manifest and report. A synchronized preview is included when it succeeds.",14,Color.LTGRAY);
         body=root;LinearLayout controls=new LinearLayout(this);root.addView(controls);
         back=new Button(this);back.setText("Back");controls.addView(back,new LinearLayout.LayoutParams(0,-2,1));back.setOnClickListener(v->showPage(page-1));
@@ -141,7 +168,7 @@ public class MainActivity extends Activity {
         mode.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener(){
             public void onItemSelected(AdapterView<?> p,View v,int n,long id){updateMode();}public void onNothingSelected(AdapterView<?> p){}
         });ac.setOnCheckedChangeListener((b,v)->updateMode());
-        if(state!=null){picking=state.getString("picking");exporting=state.getString("exporting");page=state.getInt("page",page);}
+        if(state!=null){picking=state.getString("picking");exporting=state.getString("exporting");page=state.getInt("page",page);selectedVariant=state.getInt("selected_variant");}
         showPage(page);updateMode();if(!getPreferences(0).getBoolean("walkthrough_seen",false))walkthrough();
     }
     private void walkthrough(){
@@ -188,14 +215,15 @@ public class MainActivity extends Activity {
             int n=Integer.parseInt(variants.getText().toString()),sec=Integer.parseInt(duration.getText().toString());
             if(n<1||n>8||sec<1||sec>600)throw new IllegalArgumentException("Use 1–8 variants and a 1–600 second preview.");
             JSONObject r=new JSONObject();r.put("mode",mode.getSelectedItemPosition()==1?"lor":"xlights");r.put("variants",n);r.put("preview_seconds",sec);
-            r.put("preview",preview.isChecked());r.put("polish",polish.isChecked());r.put("palette",options.palette(palette.getSelectedItemPosition()));
+            r.put("preview",preview.isChecked());r.put("comparison",n>1);r.put("polish",polish.isChecked());r.put("palette",options.palette(palette.getSelectedItemPosition()));
             r.put("quick_clip",quickClip.isChecked());r.put("sample_layout",options.layout(sampleLayout.getSelectedItemPosition()));
             r.put("band_enabled",includeBand.isChecked());
             r.put("matrix",matrix.isChecked());r.put("birdsong",birdsong.isChecked());r.put("spatial",spatial.isChecked());r.put("ac_compatible",ac.isChecked());
             JSONObject uris=new JSONObject();for(Map.Entry<String,Uri> e:inputs.entrySet())uris.put(e.getKey(),e.getValue().toString());r.put("inputs",uris);
             currentJob=new File(getFilesDir(),"jobs/"+UUID.randomUUID());getPreferences(0).edit().putString("job",currentJob.getAbsolutePath()).apply();
-            bundlePath=previewPath=sequencePath=reportPath="";lastState="";busy=wasBusy=true;
-            for(Button v:new Button[]{sequence,watch,movie,save,share,report})v.setEnabled(false);run.setEnabled(false);cancel.setEnabled(true);status.setText("Starting local engine…");updateMode();remember();
+            bundlePath=previewPath=sequencePath=reportPath=comparisonPath=previewArchivePath="";lastState="";busy=wasBusy=true;
+            selectedVariant=0;previewPaths.clear();loadVariants(null);
+            for(Button v:new Button[]{sequence,watch,playAll,previousVariant,nextVariant,movie,compare,saveComparison,saveAllPreviews,save,share,report})v.setEnabled(false);run.setEnabled(false);cancel.setEnabled(true);status.setText("Starting local engine…");updateMode();remember();
             if(Build.VERSION.SDK_INT>=33&&!getPreferences(0).getBoolean("notifications_asked",false)){
                 getPreferences(0).edit().putBoolean("notifications_asked",true).apply();requestPermissions(new String[]{"android.permission.POST_NOTIFICATIONS"},1);
             }
@@ -216,6 +244,9 @@ public class MainActivity extends Activity {
             int percent=s.optInt("preview_percent",-1);boolean measured=busy&&"preview".equals(s.optString("active_stage"))&&percent>=0;progress.setIndeterminate(!measured);if(measured)progress.setProgress(percent);
             status.setText(s.optString("message",phase));log.setText(s.optString("log"));updateMode();
             bundlePath=s.optString("bundle");previewPath=s.optString("preview");sequencePath=s.optString("sequence");reportPath=s.optString("report");
+            comparisonPath=s.optString("comparison");previewArchivePath=s.optString("preview_archive");
+            compare.setEnabled(available(comparisonPath));saveComparison.setEnabled(compare.isEnabled());
+            saveAllPreviews.setEnabled(available(previewArchivePath));
             previewPaths.clear();
             JSONArray previews=s.optJSONArray("previews");
             if(previews!=null)for(int i=0;i<previews.length();i++){
@@ -223,9 +254,14 @@ public class MainActivity extends Activity {
                 if(available(path))previewPaths.add(path);
             }
             if(previewPaths.isEmpty()&&available(previewPath))previewPaths.add(previewPath);
-            sequence.setEnabled(available(sequencePath));save.setEnabled(available(bundlePath));share.setEnabled(save.isEnabled());watch.setEnabled(!previewPaths.isEmpty());movie.setEnabled(watch.isEnabled());report.setEnabled(available(reportPath));
+            JSONObject variantSummary=s.optJSONObject("variant_summary");
+            loadVariants(variantSummary);
+            save.setEnabled(available(bundlePath));share.setEnabled(save.isEnabled());report.setEnabled(available(reportPath));
             StringBuilder summary=new StringBuilder(s.optString("message",phase));JSONObject stages=s.optJSONObject("stages");
-            if(stages!=null)for(String key:new String[]{"sequencing","packaging","preview"}){
+            if(variantSummary!=null)summary.append("\n\nSequences: ").append(variantSummary.optInt("generated_count"))
+                .append("/").append(variantSummary.optInt("requested_count"))
+                .append(" · previews: ").append(variantSummary.optInt("preview_count"));
+            if(stages!=null)for(String key:new String[]{"sequencing","variants","layout_validation","packaging","preview","comparison","mp4_packaging"}){
                 JSONObject stage=stages.optJSONObject(key);if(stage!=null)summary.append("\n\n").append(key).append(": ").append(stage.optString("status")).append(stage.has("error")?" · "+stage.optString("error"):"");
             }results.setText(summary.toString());if(wasBusy&&!busy)showPage(5);wasBusy=busy;
         }catch(Exception ignored){/* Retry an interrupted atomic state write. */}
@@ -233,14 +269,71 @@ public class MainActivity extends Activity {
     private final Runnable ticker=new Runnable(){public void run(){poll();handler.postDelayed(this,1000);}};
     @Override protected void onResume(){super.onResume();handler.removeCallbacks(ticker);handler.post(ticker);}
     @Override protected void onPause(){remember();handler.removeCallbacks(ticker);super.onPause();}
-    @Override protected void onSaveInstanceState(Bundle s){s.putString("picking",picking);s.putString("exporting",exporting);s.putInt("page",page);remember();super.onSaveInstanceState(s);}
-    private void choosePreview(java.util.function.Consumer<String> action){
-        List<String> paths=new ArrayList<>(previewPaths);
-        if(paths.size()==1){action.accept(paths.get(0));return;}
-        if(paths.isEmpty())return;
-        String[] names=paths.stream().map(path->new File(path).getName()).toArray(String[]::new);
-        new AlertDialog.Builder(this).setTitle("Choose a preview")
-            .setItems(names,(dialog,index)->action.accept(paths.get(index))).show();
+    @Override protected void onSaveInstanceState(Bundle s){s.putString("picking",picking);s.putString("exporting",exporting);s.putInt("page",page);s.putInt("selected_variant",selectedVariant);remember();super.onSaveInstanceState(s);}
+    private void loadVariants(JSONObject summary){
+        ArrayList<String> labels=new ArrayList<>();
+        variantPreviews.clear();
+        variantSequences.clear();
+        JSONArray outputs=summary==null?null:summary.optJSONArray("outputs");
+        if(outputs!=null){
+            for(int index=0;index<summary.optInt("requested_count");index++){
+                JSONObject item=outputs.optJSONObject(index);
+                String state=item==null?"missing":item.optString("preview_status");
+                String name=item==null?"Variant "+(index+1):item.optString("name");
+                labels.add(name+" · "+("success".equals(state)?"ready":state));
+                variantPreviews.add(jobOutput(item,"preview"));
+                variantSequences.add(jobOutput(item,"sequence"));
+            }
+        }else{
+            for(String path:previewPaths){
+                labels.add(new File(path).getName());
+                variantPreviews.add(path);
+                variantSequences.add("");
+            }
+        }
+        if(!labels.equals(variantLabels)){
+            int restore=Math.max(0,Math.min(selectedVariant,labels.size()-1));
+            variantLabels.clear();variantLabels.addAll(labels);
+            variantSelector.setAdapter(new ArrayAdapter<>(this,android.R.layout.simple_spinner_dropdown_item,variantLabels));
+            if(!labels.isEmpty())variantSelector.setSelection(restore);
+            selectedVariant=restore;
+        }
+        updateVariantActions();
+    }
+    private String jobOutput(JSONObject output,String field){
+        if(output==null||currentJob==null||output.optString(field).isEmpty())return "";
+        return new File(currentJob,output.optString(field)).getAbsolutePath();
+    }
+    private String selectedSequence(){
+        if(sequencePath.endsWith(".lms")||variantSequences.isEmpty())return sequencePath;
+        String selected=variantSequences.get(selectedVariant);
+        return selected.isEmpty()&&selectedVariant==0?sequencePath:selected;
+    }
+    private void updateVariantActions(){
+        if(watch==null)return;
+        boolean ready=selectedVariant<variantPreviews.size()&&available(variantPreviews.get(selectedVariant));
+        int playable=0;
+        for(String path:variantPreviews)if(available(path))playable++;
+        variantSelector.setEnabled(!variantLabels.isEmpty());
+        previousVariant.setEnabled(selectedVariant>0);
+        nextVariant.setEnabled(selectedVariant+1<variantLabels.size());
+        watch.setEnabled(ready);movie.setEnabled(ready);playAll.setEnabled(playable>1);
+        sequence.setEnabled(available(selectedSequence()));
+        variantStatus.setText(ready?"":playable>0?"This variant has no playable preview.":"Playback and MP4 export require a completed preview.");
+    }
+    private void openVariants(boolean advance){
+        ArrayList<String> files=new ArrayList<>(),names=new ArrayList<>();
+        int initial=0;
+        for(int index=0;index<variantPreviews.size();index++){
+            String path=variantPreviews.get(index);
+            if(!available(path))continue;
+            if(!advance&&index==selectedVariant)initial=files.size();
+            files.add(path);
+            names.add(variantLabels.get(index));
+        }
+        if(files.isEmpty())return;
+        startActivity(new Intent(this,PreviewActivity.class).putStringArrayListExtra("paths",files)
+            .putStringArrayListExtra("titles",names).putExtra("index",initial).putExtra("advance",advance));
     }
     private void export(String path,String mime,String filename){
         if(!available(path)){alert("This output is not available yet.");return;}exporting=path;

@@ -64,8 +64,10 @@ public class EngineService extends Service {
             if(!Python.isStarted())Python.start(new AndroidPlatform(this));
             PyObject result=Python.getInstance().getModule("helix_mobile").callAttr("run",engine.getAbsolutePath(),job.getAbsolutePath(),raw,this);
             JSONObject output=new JSONObject(result.toString());
-            String message="Sequence complete";
+            String message="Sequencing finished";
             JSONObject stages=output.optJSONObject("stages");
+            if(stages!=null && "partial".equals(stages.getJSONObject("variants").optString("status")))
+                message+=" · fewer variants were generated than requested";
             if(stages!=null && "failed".equals(stages.getJSONObject("preview").optString("status")))
                 message+=" · preview failed; save your sequence or show ZIP";
             if(stages!=null && "failed".equals(stages.getJSONObject("packaging").optString("status")))
@@ -122,11 +124,12 @@ public class EngineService extends Service {
             JSONObject state=new JSONObject();state.put("phase",phase);state.put("message",message);state.put("log",logs.toString());state.put("updated_ms",System.currentTimeMillis());
             state.put("active_stage",activeStage);state.put("preview_percent",previewPercent);
             if(completedResult!=null){
-                for(String key:new String[]{"bundle","preview","previews","sequence","report","manifest","stages"})
+                for(String key:new String[]{"bundle","preview","previews","sequence","report","manifest","stages","variant_summary","comparison","preview_archive"})
                     if(completedResult.has(key))state.put(key,completedResult.get(key));
                 if("cancelled".equals(phase)||"failed".equals(phase)){
                     JSONObject stages=state.optJSONObject("stages");
-                    if(stages!=null)for(String key:new String[]{"sequencing","packaging","preview"}){
+                    if(stages!=null)for(java.util.Iterator<String> keys=stages.keys();keys.hasNext();){
+                        String key=keys.next();
                         JSONObject stage=stages.optJSONObject(key);
                         if(stage!=null && ("running".equals(stage.optString("status"))||"pending".equals(stage.optString("status"))))
                             stage.put("status",phase);

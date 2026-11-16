@@ -710,6 +710,12 @@ def _render_new_previews(
             collecting_audio = False
         elif collecting_audio:
             audio_inputs.append(Path(arg))
+    if not lor_mode:
+        from core.band_visibility import band_stage_preview_error, inspect_band_stage
+
+        error = band_stage_preview_error(inspect_band_stage(layout))
+        if error:
+            raise RuntimeError(f"{error} Sequence files are available in the output folder.")
     parsed = parse_models(layout)
     for source in paths:
         audio = _preview_audio_for_sequence(source, audio_inputs)

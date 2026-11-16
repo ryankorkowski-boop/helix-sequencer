@@ -19,6 +19,7 @@ def build_args(request, job):
     if request.get('quick_clip',False):args+=['--helix-quick-clip']
     lor=request.get('mode')=='lor';ac=lor or request.get('ac_compatible',False)
     if lor:args+=['--helix-lor-source-lms',str(inputs/'source.lms')]
+    else:args+=['--keep-variant-identity']
     if ac:args+=['--ac-lights-only','--no-pixel-reactive','--no-matrix-intelligence','--no-effects-orchestrator','--no-birdsong','--no-birdsong-auto']
     else:
         if request.get('palette','default')!='default':args+=['--palette-mode',request['palette']]

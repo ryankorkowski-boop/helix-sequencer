@@ -4,4 +4,5 @@
     <item name="help_scroll" type="id" />
     <item name="help_content" type="id" />
     <item name="include_band" type="id" />
+    <item name="variant_selector" type="id" />
 </resources>

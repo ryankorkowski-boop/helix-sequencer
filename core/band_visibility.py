@@ -57,3 +57,40 @@ def apply(layout, template=None, *, enabled=True):
                         report['removed_template_rows'] += 1
         sequence.write(template, encoding='utf-8', xml_declaration=True)
     return report
+
+
+def inspect_band_stage(layout):
+    """Identify stage presets that the ordinary effect-level renderer cannot depict."""
+    layout = Path(layout)
+    root = ET.parse(layout).getroot()
+    expected = ('drummer', 'bass', 'guitar', 'piano', 'lead', 'harmony')
+    models = root.findall('./models/model')
+    names = {m.get('name', '') for m in models}
+    found = [role for role in expected
+             if 'HX_SNOW_' + role.upper() in names]
+    if 'HX_SNOWMAN_DRUMMER_V3' in names and 'drummer' not in found:
+        found.insert(0, 'drummer')
+    if not root.findall("./modelGroups/modelGroup[@name='HX_ZONE_BAND']") and len(found) != len(expected):
+        return None
+    missing = [role for role in expected if role not in found]
+    missing_assets = set()
+    for model in models:
+        if not is_band_model(model):
+            continue
+        for attribute in ('CustomBkgImage', 'HelixVisualSource', 'HelixReferenceImage'):
+            resource = model.get(attribute)
+            if resource and not (layout.parent / resource).is_file():
+                missing_assets.add(resource)
+    return {'models': len(models), 'present_roles': found, 'missing_roles': missing,
+            'missing_assets': sorted(missing_assets), 'backend': 'effect-level simulation'}
+
+
+def band_stage_preview_error(report):
+    if report is None:
+        return None
+    errors = []
+    if report['missing_roles']:
+        errors.append('Band stage missing canonical models: ' + ', '.join(report['missing_roles']))
+    if report['missing_assets']:
+        errors.append('Missing band assets: ' + ', '.join(report['missing_assets']))
+    return '. '.join(errors) or 'Six-member band previews require the canonical 3D renderer.'

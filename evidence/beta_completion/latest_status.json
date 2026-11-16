@@ -1,4 +1,379 @@
 {
+  "android_band_repair": {
+    "branch": "codex/android-band-preview-repair-20261115",
+    "base_sha": "653053db05f754b5dbb85594af8de3cb9aa719e1",
+    "checkpoint": "Source-exact Windows smoke complete, Android APK compiled",
+    "evidence": {
+      "owner_zip": {
+        "filename": "Helix-show (1).zip",
+        "library_file_id": "libfile_6c792f867e18819181705f4a73d12142",
+        "sha256": "0bd69f3b3afd60262dc43f76c5aa5c23cd3caa399b5576ff42b22ce2ab0fda68"
+      },
+      "rejected_preview": {
+        "filename": "audio-quick-10s,v27.3.alt1.mp4",
+        "sha256": "c161bd9c5ba3f7d58d073ae73d106b3e5be1b0c116ba037f3e624f297c71ef19",
+        "h264": true,
+        "aac": true,
+        "width": 640,
+        "height": 360,
+        "fps": 15,
+        "duration_seconds": 10,
+        "native_xlights": false,
+        "status": "FAILED \u2014 REPAIR REQUIRED"
+      },
+      "observed": {
+        "requested": 8,
+        "xsqs": 5,
+        "mp4s": 1,
+        "layout_models": 18,
+        "canonical_members_present": [
+          "drummer"
+        ],
+        "sequencing_wall_seconds_from_manifest": 47.387574,
+        "exported_engine_commit": null
+      },
+      "host_bridge": {
+        "wall_seconds": 31.110682064999992,
+        "peak_rss_kib": 450268,
+        "sequence_hashes": {
+          "audio,v27.3.alt1.xsq": "b34bfe1c5f4907417a4f3eb4adfb23fb9420865254f7f58dd60807b30db7dee2",
+          "audio,v27.3.alt2.xsq": "d80e4716bb763c6a6f2de639b89d9d3bbf38720a265ebbf049a6234230c131cf",
+          "audio,v27.3.alt3.xsq": "8b1dd2aed5fa5a4ac37a3f3b1b1b20c9e90e71bc2b9d1522f21a4eca3dfe8ee8",
+          "audio,v27.3.alt4.xsq": "455240645240f368ebb830edcc301354664c220d8b5f0c97da0652d55e1f6dd6",
+          "audio,v27.3.alt5.xsq": "25f3452ad0af39277b46b26b6b3aae4fbc38b445e3bee6f343707c82606a0bcc",
+          "audio,v27.3.alt6.xsq": "9a9e0d4cb1fc1e2b3d01eabd739bdea9cdd9048fe0715803c852e15cb29db753",
+          "audio,v27.3.alt7.xsq": "794ddb251aac8ba1a7ed2f8f2a5f22cbbe39d4b02306d855869474d80497e7f8",
+          "audio,v27.3.xsq": "2830c06207c2611da7895cf40cd117bae3b9a803dcf76bb11a7a1fc098c5eb8b"
+        },
+        "zip_crc": "pass",
+        "mp4_count": 0,
+        "layout_status": "failed",
+        "platform": "Linux host, Android Python bridge",
+        "logs": "JOB/run.log and JOB/engine.log"
+      },
+      "host_bridge_final": {
+        "wall_seconds": 29.948055677999946,
+        "peak_rss_kib": 444872,
+        "sequence_hashes": {
+          "audio,v27.3.alt1.xsq": "b34bfe1c5f4907417a4f3eb4adfb23fb9420865254f7f58dd60807b30db7dee2",
+          "audio,v27.3.alt2.xsq": "d80e4716bb763c6a6f2de639b89d9d3bbf38720a265ebbf049a6234230c131cf",
+          "audio,v27.3.alt3.xsq": "8b1dd2aed5fa5a4ac37a3f3b1b1b20c9e90e71bc2b9d1522f21a4eca3dfe8ee8",
+          "audio,v27.3.alt4.xsq": "455240645240f368ebb830edcc301354664c220d8b5f0c97da0652d55e1f6dd6",
+          "audio,v27.3.alt5.xsq": "25f3452ad0af39277b46b26b6b3aae4fbc38b445e3bee6f343707c82606a0bcc",
+          "audio,v27.3.alt6.xsq": "9a9e0d4cb1fc1e2b3d01eabd739bdea9cdd9048fe0715803c852e15cb29db753",
+          "audio,v27.3.alt7.xsq": "794ddb251aac8ba1a7ed2f8f2a5f22cbbe39d4b02306d855869474d80497e7f8",
+          "audio,v27.3.xsq": "2830c06207c2611da7895cf40cd117bae3b9a803dcf76bb11a7a1fc098c5eb8b"
+        },
+        "evidence_zip_library_file_id": "libfile_e78de24f777c8191bd9cf00af627d9cb",
+        "evidence_zip_sha256": "96d2ac4dd5542dee4072d7e7b141c1a24c6348b081c8a9f4421e7014674068c8",
+        "result": "8 distinct XSQs, 0 band previews, ZIP CRC passed",
+        "source": "owner WAV and layout, original template hash verified"
+      },
+      "host_solid_3d": {
+        "file": "Helix_Band_Host_Diagnostic.mp4",
+        "sha256": "0634d8ef1ee3d530ac4fbd56ab425fd2f147317969619b4e579c19d33e994732",
+        "width": 1280,
+        "height": 720,
+        "seconds": 10,
+        "decoded_frames": 200,
+        "fps": 20,
+        "partly_lit_pixels_min_fraction": 0.24388888888888888,
+        "lag_ms": 0.0,
+        "audio_correlation": 0.999294102191925,
+        "native_xlights": false,
+        "target_android_playback_verified": false,
+        "target_windows_playback_verified": false,
+        "library_file_id": "libfile_1d51183a87908191be7d63bace25e0a9",
+        "visible_roles": [
+          "drummer",
+          "bass",
+          "guitar",
+          "piano",
+          "lead",
+          "harmony"
+        ],
+        "voices": {
+          "audio_sha256": "d3f25fd28bfcbb6051dba023c8ac37c313fa1fd0320115b95950b33d83bb8b70",
+          "status": "no qualified vocal clocks; both singers idle"
+        },
+        "drum_motion_rejections": [],
+        "owner_review_status": "diagnostic",
+        "sampled_snare": {
+          "event_seconds": 4.516,
+          "frames": [
+            89,
+            91,
+            93,
+            98
+          ],
+          "crop_xywh": [
+            472,
+            340,
+            52,
+            12
+          ],
+          "mean_rgb": [
+            191.646,
+            222.018,
+            203.921,
+            192.361
+          ]
+        }
+      },
+      "truths": {
+        "v3_oracle_commit": "b27e8d77a63027ed32bcf6851dcff3925472c155",
+        "drummer_art_sha256": "643e1bfb7fb0b245cb7400010a80f9f75037f8a5554adde7bde8cba7a53374fa",
+        "reference_videos": [
+          {
+            "filename": "Aaadrummergroundtruth.mp4",
+            "seconds": 20,
+            "sha256": "e324abb3e73da098ccd7253b5a154d40d4d8ada63b099fcbd6cd504c69678458"
+          },
+          {
+            "filename": "Bbb Vocalstruth.mp4",
+            "seconds": 34.9,
+            "sha256": "2485eb68a2f3dd0866bf55818212f38645d85bb391b21c56cd453ee2e4d625d4"
+          }
+        ]
+      },
+      "phoneme_harmony_preview": {
+        "file": "Helix_Phoneme_Test_Hook_Harmony_Preview.mp4",
+        "sha256": "f8727f85495fb00d50ed9f5910f29ec771cbf687322b6a795626d7e80792388e",
+        "source_sha256": "19e90c273d0d747938f24b36586b50818c104cddffbefe4a4128927374301938",
+        "production_plan_sha256": "60d24df7ac0ccc4691c3b954ef939bb569248192cad7a4a9bcd7f136736fba92",
+        "source_commit": "02ae1859d3e277c521f51eddccddbf6169ff8729",
+        "source_start_seconds": 11,
+        "source_end_seconds": 24,
+        "duration_seconds": 13,
+        "fps": 20,
+        "decoded_frames": 260,
+        "width": 1920,
+        "height": 1080,
+        "roles": [
+          "drummer",
+          "bass",
+          "guitar",
+          "piano",
+          "lead",
+          "harmony"
+        ],
+        "audio_correlation": 0.9989703297615051,
+        "audio_lag_ms": 0.0,
+        "estimated_lead_only_frames": 71,
+        "estimated_harmony_only_frames": 51,
+        "estimated_overlap_frames": 15,
+        "estimated_both_idle_frames": 123,
+        "independent_singer_identity_verified": false,
+        "lyric_alignment_verified": false,
+        "native_xlights": false,
+        "target_app_playback": false,
+        "release_acceptance": false,
+        "library_file_id": "libfile_3a436e8539f88191a39c49f99edc31e7",
+        "status": "TESTED",
+        "review_scope": "Host harmony diagnostic"
+      },
+      "phoneme_harmony_refinement": {
+        "file": "Helix_Phoneme_Test_Hook_Refined_Harmony.mp4",
+        "sha256": "1b2fee7962d10a9b00df0e8fbfadba79e05aa85746ba686c4db5ac943abd8eb3",
+        "source_sha256": "19e90c273d0d747938f24b36586b50818c104cddffbefe4a4128927374301938",
+        "production_plan_sha256": "60d24df7ac0ccc4691c3b954ef939bb569248192cad7a4a9bcd7f136736fba92",
+        "source_commit": "527252098cd650323c52df110637e3d4d0b9aa06",
+        "source_start_seconds": 11,
+        "source_end_seconds": 24,
+        "duration_seconds": 13,
+        "fps": 20,
+        "decoded_frames": 260,
+        "width": 1920,
+        "height": 1080,
+        "roles": [
+          "drummer",
+          "bass",
+          "guitar",
+          "piano",
+          "lead",
+          "harmony"
+        ],
+        "audio_correlation": 0.9989703297615051,
+        "audio_lag_ms": 0.0,
+        "estimated_lead_only_frames": 69,
+        "estimated_harmony_only_frames": 45,
+        "estimated_overlap_frames": 9,
+        "estimated_both_idle_frames": 137,
+        "independent_singer_identity_verified": false,
+        "lyric_alignment_verified": false,
+        "native_xlights": false,
+        "target_app_playback": false,
+        "release_acceptance": false,
+        "library_file_id": "libfile_2d6455635d40819188e726c5f6f56ca4",
+        "status": "FAILED \u2014 REPAIR REQUIRED",
+        "render_base_commit": "4e3e854747400e6eef9c69e14e79d615976b4d6b",
+        "motion_comparison": {
+          "before": [
+            {
+              "short_openings": 2,
+              "shape_changes": 53
+            },
+            {
+              "short_openings": 5,
+              "shape_changes": 44
+            }
+          ],
+          "after": [
+            {
+              "short_openings": 0,
+              "shape_changes": 46
+            },
+            {
+              "short_openings": 3,
+              "shape_changes": 35
+            }
+          ],
+          "lead_only": {
+            "seconds": 0.1,
+            "frame": 2
+          },
+          "harmony_only": {
+            "seconds": 3.85,
+            "frame": 77
+          },
+          "overlap": {
+            "seconds": 4.7,
+            "frame": 94
+          }
+        },
+        "screening": {
+          "onset": 0.5,
+          "offset": 0.25,
+          "minimum_seconds": 0.12
+        },
+        "prior_asset": "libfile_3a436e8539f88191a39c49f99edc31e7",
+        "review_status": "REJECTED",
+        "owner_feedback": "Fail",
+        "owner_defect_detail": null
+      },
+      "phoneme_harmony_replacement": {
+        "status": "BLOCKED",
+        "scope": "Source-verified Phoneme Test Hook band preview",
+        "source_verification_state": "REJECTED",
+        "blocking_resource": "Source-attributed lead/harmony tracks and voice_roles.json/.npz for the original recording",
+        "source_origin": "mixed stereo owner upload; two-stage MDX/VAD vocal estimates",
+        "test_passed": 13,
+        "source_commit": "ebbd83ef7ea0ef32d4441c2826ee85a5bc2ffc2f",
+        "next_action": "Bind role-labeled tracks and rerun tools.verify_native_vocal_source before rendering"
+      }
+    },
+    "tasks": [
+      {
+        "id": "ANDROID-BAND-01",
+        "description": "Diagnose supplied Android ZIP and screenshots",
+        "status": "VERIFIED COMPLETE"
+      },
+      {
+        "id": "ANDROID-BAND-02",
+        "description": "Restore six canonical model definitions and validate their assets",
+        "status": "IN PROGRESS"
+      },
+      {
+        "id": "ANDROID-BAND-03",
+        "description": "Render canonical band previews and verify visual output",
+        "status": "FAILED \u2014 REPAIR REQUIRED"
+      },
+      {
+        "id": "ANDROID-BAND-04",
+        "description": "Generate and account for eight distinct variants",
+        "status": "TESTED"
+      },
+      {
+        "id": "ANDROID-BAND-05",
+        "description": "Select, play and export individual variants and Play All",
+        "status": "IMPLEMENTED \u2014 UNVERIFIED"
+      },
+      {
+        "id": "ANDROID-BAND-06",
+        "description": "Single-clock comparison playback and export",
+        "status": "TESTED"
+      },
+      {
+        "id": "ANDROID-BAND-07",
+        "description": "Verify drummer, instruments and independent vocals",
+        "status": "FAILED \u2014 REPAIR REQUIRED"
+      },
+      {
+        "id": "ANDROID-BAND-08",
+        "description": "Profile Android API 30 and API 36 and long audio",
+        "status": "BLOCKED"
+      },
+      {
+        "id": "ANDROID-BAND-09",
+        "description": "Render and verify ten-second acceptance MP4s and qualified full song",
+        "status": "IN PROGRESS"
+      },
+      {
+        "id": "ANDROID-BAND-10",
+        "description": "Build candidate APK and repeat on a real phone",
+        "status": "IN PROGRESS"
+      },
+      {
+        "id": "ANDROID-BAND-11",
+        "description": "Prepare owner approval package",
+        "status": "NOT STARTED"
+      }
+    ],
+    "approval": "held",
+    "changed_source_files": [
+      "android/app/src/main/java/org/helixsequencer/android/EngineService.java",
+      "android/app/src/main/java/org/helixsequencer/android/MainActivity.java",
+      "android/app/src/main/java/org/helixsequencer/android/PreviewActivity.java",
+      "android/app/src/main/python/helix_mobile.py",
+      "core/band_visibility.py",
+      "core/effect_engine.py",
+      "core/sequence_builder.py",
+      "gui_launcher.py",
+      "tests/test_android_recovery.py",
+      "tests/test_build_helpers.py",
+      "tools/build_helpers/variants.py",
+      "tools/desktop_remote_worker.py"
+    ],
+    "windows": {
+      "variant_identity": "TESTED",
+      "review_controls": "IMPLEMENTED \u2014 UNVERIFIED",
+      "comparison_composer": "TESTED",
+      "canonical_preview": "FAILED \u2014 REPAIR REQUIRED",
+      "portable_exe": "TESTED"
+    },
+    "previous_published_sha": "62cfb2d8623361da030e4e5c23e7646ff5be2519",
+    "draft_pr": 231,
+    "focused_python_tests": {
+      "passed": 111,
+      "python": "3.12"
+    },
+    "blocked_validation": [
+      "Android API 30/36 measurements and physical phone run",
+      "Six-member asset loading and shared solid renderer in target apps",
+      "Independently qualified lead/harmony full-song audio",
+      "Owner approval videos and release acceptance"
+    ],
+    "source_commit": "d15b0fc630d89142718cc425df11af404df889ba",
+    "windows_build": {
+      "commit": "d15b0fc630d89142718cc425df11af404df889ba",
+      "run_id": 43808787004,
+      "status": "TESTED",
+      "portable_artifact_id": 14199976217
+    },
+    "android_build": {
+      "commit": "d15b0fc630d89142718cc425df11af404df889ba",
+      "run_id": 43808787021,
+      "status": "IN PROGRESS",
+      "api_30_compiled": true,
+      "api_36_compiled": true,
+      "physical_device": "BLOCKED"
+    },
+    "native_full_band": {
+      "status": "FAILED \u2014 REPAIR REQUIRED",
+      "run_id": 43808786850,
+      "failure": "Full-band source lacks independently resolved lead and backing vocal tracks"
+    }
+  },
   "schema": "helix.beta-completion.v1",
   "updated_at": "2026-11-09T18:38:11.230705+00:00",
   "repository": "https://github.com/ryankorkowski-boop/helix-sequencer",

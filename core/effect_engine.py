@@ -12814,6 +12814,8 @@ def parse_args(style: VariantStyle, argv: list[str] | None = None) -> argparse.N
     parser.add_argument("--no-polish", dest="polish_enabled", action="store_false", help="Skip the post-generation polish pass")
     parser.add_argument("--variants", type=int, dest="variant_count", default=1, help="Number of runtime variants to generate and score (default: 1; use --variants 3 --auto-shortlist to compare)")
     parser.add_argument("--auto-shortlist", dest="auto_shortlist", action="store_true", help="Promote the best-scoring runtime variant to the canonical output")
+    parser.add_argument("--keep-variant-identity", action="store_true",
+                        help="Rank shortlisted variants without replacing the signature XSQ")
     parser.add_argument("--vendor-bar", dest="vendor_bar", action="store_true", help="Enforce paid-vendor level quality thresholds during shortlist and reporting")
     parser.add_argument("--vendor-min-quality", type=float, dest="vendor_min_quality_score", help="Minimum quality score required for vendor-bar pass")
     parser.add_argument("--vendor-min-audit", type=float, dest="vendor_min_audit_score", help="Minimum audit score required for vendor-bar pass")
@@ -13184,13 +13186,17 @@ def main_for(version: str, argv: list[str] | None = None) -> None:
                 )
                 if best_entry is not None:
                     if bool(best_entry.get("quality_gate_passed", False)):
-                        promote_shortlisted_candidate(best_entry, out)
                         selected_label = str(best_entry.get("label", selected_label))
-                        selected_report_path = report_path(out)
-                        log(
-                            "Auto-shortlist winner: "
-                            f"{best_entry.get('label', '')} -> {Path(str(best_entry.get('output_path', out))).name}"
-                        )
+                        if args.keep_variant_identity:
+                            selected_report_path = Path(str(best_entry["report_path"]))
+                            log(f"Auto-shortlist winner (all variants retained): {selected_label}")
+                        else:
+                            promote_shortlisted_candidate(best_entry, out)
+                            selected_report_path = report_path(out)
+                            log(
+                                "Auto-shortlist winner: "
+                                f"{selected_label} -> {Path(str(best_entry.get('output_path', out))).name}"
+                            )
                     else:
                         reasons = ", ".join(str(item) for item in (best_entry.get("quality_gate_reasons") or []))
                         log(f"Auto-shortlist skipped: no candidate passed quality gates ({reasons or 'failed_quality_gates'})")
