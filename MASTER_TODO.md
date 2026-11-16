@@ -191,3 +191,14 @@ Do not mark complete from unit tests alone.
 6. Render full-song MP4 with real audio.
 7. Compare rendered component flashes to actual audible drum events and the prior known-good render.
 8. Iterate only on measured false positives/false negatives.
+
+
+### 2026-11-16 — Animated Android sequencing progress (in progress)
+**Goal:** Introduce a modern lightweight decorative light-show progress display without changing sequencing output.
+**Changed files/modules:** Android SequencingLightShowView.java and MainActivity.java.
+**Intentionally preserved behavior:** Existing six-stage Android workflow, audio processing, variant generation, exports, drummer behavior, and deterministic effect selection.
+**New behavior:** While a job is running, display chasing LED arches and a swirling RGB mega tree. The bar inside the decorative view only shows measured preview percentage; other stages are indeterminate in the existing progress bar. View animation stops when not running or detached.
+**Tests/evidence:** Source-level implementation only; Android compilation, emulator smoke test, performance measurement, and actual APK review have NOT been run.
+**Limitations:** Windows EXE GUI is unchanged. No settings UI for scene selection yet. The decorative show is not an authoritative audio-synchronized render or band preview. A pending-job state may need further lifecycle validation.
+**Deferred work:** Android and Windows design parity, scene preferences, battery/reduced-motion settings, preview/variant UX overhaul, packaging and visual tests.
+**Regression risks:** Android UI lifecycle and frame invalidation; verify cancellation, activity recreation, memory usage, and API 30/36 before release.
