@@ -1,3 +1,13 @@
+## 2026-11-15 — full vocal mode for isolated Helix Motion 16-panel
+- Goal: replace the instrumental-only pilot with a genuine vocal-enabled Helix master sequence and native xLights 16-panel review.
+- Changed files: `.github/workflows/helix-motion-16panel-isolated.yml`, `MASTER_TODO.md`.
+- Preserved: original Drive audio SHA-256, 16 panel definitions, original master engine and native renderer, independent Tinsel Tornado run, owner acceptance gate and protected branches.
+- New: Demucs source-bound vocal stem, sample-aligned acoustic lead clocks, confidence-screened estimated lead shapes, harmony at rest absent independent source evidence, and `--vocal-fixture` instead of `--instrumental`.
+- Tests/evidence: source and clock hashes, vocal diagnostic receipt, full native render, MP4 decode and 16-panel uniqueness/activity verification are required; hosted run outcome not yet confirmed.
+- Limitations: this is full vocal *estimate* mode, not validated lyric/phoneme transcription; no verified second singer. No claims of finished/approved render.
+- Deferred: independently qualified harmony, exact lyric alignment, owner acceptance, full batch, app release.
+- Regression risks: Demucs resource limits, source-clock rounding, singer geometry/export, and xLights native build.
+
 ## 2026-11-15 — isolated Helix Motion 16-panel native comparison pilot
 - Goal: run a single source-authenticated 16-panel xLights-native comparison while Tinsel Tornado six-member band pilot runs independently.
 - Changed files: `.github/workflows/helix-motion-16panel-isolated.yml`, `MASTER_TODO.md`.
