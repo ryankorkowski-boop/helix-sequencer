@@ -343,3 +343,14 @@ Do not mark complete from unit tests alone.
 **Limitations:** Python 3.12 success is targeted test evidence, not proof of full suite or native xLights output. No hardware Android or complete Windows EXE functional acceptance.
 **Deferred work:** Inspect 3.11/3.12 matrix results, Android/Windows build outcomes, investigate remaining band and export failures, compare drummer native MP4 against owner Truths.
 **Regression risks:** Python version differences may expose test or dependency compatibility issues; no production behavior modified.
+
+
+### 2026-11-16 — Beta 1.4 version regression expectation repair
+**Goal:** Keep release version assertions consistent with previously committed Beta 1.4 version metadata.
+**Changed files/modules:** tests/test_helix_version.py.
+**Preserved behavior:** No production code, engine logic, drummer motion, layouts or packaging changed.
+**New behavior:** Test names and assertions expect VERSION=1.4.0-beta, VERSION_CODE=10, DISPLAY/TITLE=Beta 1.4 and matching CLI --version output.
+**Tests/evidence:** Source inspection confirmed core/helix_version.py has the Beta 1.4 values; stale tests asserted 1.3.0-beta, code 9 and Beta 1.3. Test update commit 1836ee9aeefdebf5fac7ef599d2b197934c6574d. Test execution pending.
+**Limitations:** Updated tests do not establish that packaged EXE/APK display the same metadata, nor prove full runtime readiness.
+**Deferred work:** Execute version tests in appropriate dependency-equipped CI, verify Android package manifest and complete Windows portable build, continue issue #234.
+**Regression risks:** Other Beta 1.3 references in docs, Android resources or Windows version resources may remain and must be audited before packaging.
