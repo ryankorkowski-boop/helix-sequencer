@@ -1,6 +1,6 @@
 # OWNER APPROVAL GATE: ONE verified Helix Motion source only; never dispatch the 82-song batch.
 # Canonical V3 drummer and all four advanced finale props are required.
-name: Helix Motion 16-panel isolated OWNER review (native)
+name: Helix Motion 16-panel FULL VOCAL OWNER review (native)
 on:
   push:
     branches: [codex/helix-motion-16panel-pilot-20261115]
@@ -36,7 +36,7 @@ jobs:
           set -euo pipefail
           sudo apt-get update -qq
           sudo apt-get install -y ffmpeg xvfb xauth openbox wmctrl xdotool x11-utils x11-xserver-utils libgtk-3-0t64 libgl1 libegl1 libopengl0 libglu1-mesa libgstreamer-plugins-base1.0-0
-          python -m pip install numpy scipy librosa==0.10.2.post1 soundfile numba llvmlite scikit-learn Pillow trimesh moderngl zstandard imageio imageio-ffmpeg cmudict PyYAML requests pytest gdown==6.4.2
+          python -m pip install numpy scipy librosa==0.10.2.post1 soundfile numba llvmlite scikit-learn Pillow trimesh moderngl zstandard imageio imageio-ffmpeg cmudict PyYAML requests pytest gdown==6.4.2 demucs
       - name: Validate the hero layouts and source-event policy
         run: |
           set -euo pipefail
@@ -49,6 +49,48 @@ jobs:
           python -m gdown "$HELIX_DRIVE_SOURCE_ID" -O pilot-source/Helix_Motion_original.mp3
           echo "$HELIX_DRIVE_SOURCE_SHA256  pilot-source/Helix_Motion_original.mp3" | sha256sum -c -
           ffprobe -v error -show_entries format=duration -of default=noprint_wrappers=1 pilot-source/Helix_Motion_original.mp3
+      - name: Extract source-bound lead vocal estimates for full vocal mode
+        run: |
+          set -euo pipefail
+          mkdir -p pilot-source/vocals
+          python -m demucs.separate -n htdemucs --two-stems vocals --device cpu --shifts 0 --overlap 0.1 -j 2 --out pilot-source/stems pilot-source/Helix_Motion_original.mp3
+          python - <<'PY'
+          import hashlib,json
+          from pathlib import Path
+          import librosa,numpy as np
+          from music.review_score import vocal_clock
+          source=Path('pilot-source/Helix_Motion_original.mp3')
+          stem=Path('pilot-source/stems/htdemucs/Helix_Motion_original/vocals.wav')
+          dest=Path('pilot-source/vocals')
+          sha=lambda p:hashlib.sha256(p.read_bytes()).hexdigest()
+          original,_=librosa.load(source,sr=16000,mono=True)
+          y,_=librosa.load(stem,sr=16000,mono=True)
+          drift=len(y)-len(original)
+          if abs(drift)>16000:raise SystemExit(f'Vocal source drift too large: {drift} samples')
+          if drift<0:y=np.pad(y,(0,-drift))
+          elif drift>0:y=y[:len(original)]
+          lead=vocal_clock(y)
+          n=len(lead['energy'])
+          expected=(len(original)+159)//160
+          if abs(n-expected)>1:raise SystemExit(f'Vocal frame mismatch: {n} vs {expected}')
+          zero=np.zeros(n,dtype='f4')
+          archive=dest/'acoustic_vocal_clocks.npz'
+          np.savez_compressed(archive,estimated_lead_energy=lead['energy'],
+              estimated_lead_shapes=lead['shapes'],
+              estimated_lead_presence_probability=np.where(lead['energy']>0,.95,0).astype('f4'),
+              estimated_backing_energy=zero,estimated_backing_shapes=np.zeros(n,dtype='i1'),
+              estimated_backing_presence_probability=zero)
+          receipt={'schema':'helix.helix-motion-vocals.v1','audio_sha256':sha(source),
+              'clock_sha256':sha(archive),'verification_state':'UNVERIFIED',
+              'tracks':{'estimated_lead':{'sha256':sha(stem),'source':'Demucs isolated vocal estimate'},
+                        'estimated_backing':{'sha256':sha(archive),'source':'REST; no verified separate harmony'}},
+              'independent_backing_verified':False,'exact_phoneme_boundaries_verified':False,
+              'duration_alignment_samples':-drift,
+              'limitations':['No verified lyrics or lexical phoneme alignment',
+                             'Harmony stays silent without independent source evidence']}
+          (dest/'diagnostic.json').write_text(json.dumps(receipt,indent=2)+'\\n')
+          print('VOCAL_SOURCE_CLOCKS',n,'lead_active',int(np.count_nonzero(lead['energy'])))
+          PY
       - name: Restore pinned native xLights 2026.18 build
         id: native-cache
         uses: actions/cache/restore@v4
@@ -94,7 +136,7 @@ jobs:
               pilot-source/Helix_Motion_original.mp3 \
               pilot-work/helix-motion \
               --expected-sha256 "$HELIX_DRIVE_SOURCE_SHA256" \
-              --instrumental --xlights "$HELIX_PATCHED_XLIGHTS"
+              --vocal-fixture pilot-source/vocals --xlights "$HELIX_PATCHED_XLIGHTS"
           '
       - name: Verify 16 genuine panels and keep owner acceptance pending
         run: |
@@ -122,7 +164,7 @@ jobs:
         if: success()
         uses: actions/upload-artifact@v4
         with:
-          name: Helix-Motion-CORRECTED-16-Panel-OWNER-REVIEW
+          name: Helix-Motion-FULL-VOCAL-16-Panel-OWNER-REVIEW
           retention-days: 30
           if-no-files-found: error
           path: |
@@ -130,6 +172,7 @@ jobs:
             pilot-work/helix-motion/comparison_manifest.json
             pilot-work/helix-motion/panel_activity.json
             pilot-work/helix-motion/OWNER_APPROVAL_GATE.json
+            pilot-source/vocals/diagnostic.json
             pilot-work/helix-motion/layouts/**/run_manifest.json
             pilot-work/helix-motion/layouts/**/*.xsq
       - name: Retain only diagnostic logs on failure, never label as approval
@@ -142,5 +185,6 @@ jobs:
           path: |
             pilot-source/*.txt
             pilot-source/*.log
+            pilot-source/vocals/diagnostic.json
             pilot-work/helix-motion/**/*.log
             pilot-work/helix-motion/**/*.json
