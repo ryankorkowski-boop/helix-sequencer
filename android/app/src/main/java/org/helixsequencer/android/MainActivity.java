@@ -80,6 +80,8 @@ public class MainActivity extends Activity {
         }
         Button instructions=new Button(this);instructions.setText("Instructions");instructions.setAllCaps(false);tabs.addView(instructions);
         instructions.setOnClickListener(v->startActivity(new Intent(this,InfoActivity.class)));
+        Button legalTab=new Button(this);legalTab.setText("Legal");legalTab.setAllCaps(false);tabs.addView(legalTab);
+        legalTab.setOnClickListener(v->startActivity(new Intent(this,InfoActivity.class).putExtra("legal",true)));
         panel(0);text("Choose the song you want your lights to perform.",17,Color.WHITE);select("audio","Choose music · MP3 or WAV");
         text("Your music stays on this phone. Full song is the default; Quick clip sequences only the first ten seconds.",14,Color.LTGRAY);
         settings.add(button("Clear selected files",()->{
@@ -226,8 +228,8 @@ public class MainActivity extends Activity {
         }catch(Exception ignored){/* Retry an interrupted atomic state write. */}
     }
     private final Runnable ticker=new Runnable(){public void run(){poll();handler.postDelayed(this,1000);}};
-    @Override protected void onResume(){super.onResume();handler.removeCallbacks(ticker);handler.post(ticker);}
-    @Override protected void onPause(){remember();handler.removeCallbacks(ticker);super.onPause();}
+    @Override protected void onResume(){super.onResume();handler.removeCallbacks(ticker);handler.post(ticker);if(lightShow!=null&&busy)lightShow.setRunning(true);}
+    @Override protected void onPause(){remember();handler.removeCallbacks(ticker);if(lightShow!=null)lightShow.setRunning(false);super.onPause();}
     @Override protected void onSaveInstanceState(Bundle s){s.putString("picking",picking);s.putString("exporting",exporting);s.putInt("page",page);remember();super.onSaveInstanceState(s);}
     private void export(String path,String mime,String filename){
         if(!available(path)){alert("This output is not available yet.");return;}exporting=path;
