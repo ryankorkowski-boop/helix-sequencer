@@ -1,3 +1,14 @@
+## 15 November — vocal clock correction and retry
+
+- Goal: unblock the first isolated Tinsel Tornado band run without weakening audio identity checks.
+- Changed files: `.github/workflows/tinsel-band-only-review.yml`, `MASTER_TODO.md`.
+- Preserved behavior: SHA-256 checks of original Drive audio and canonical V3 source art, independent-backing-at-rest rule, six-member band geometry, render and MP4 verification gates, no merge or release.
+- New behavior: compare 16 kHz decoded PCM sample clocks, align bounded Demucs stem boundary drift by cropping/padding, and allow up to two 10 ms feature-frame rounding difference. Reject stem duration drift greater than one second rather than silently stretching the recording. Print source/stem sample counts and alignment receipt.
+- Tests/evidence: original GitHub Actions run #43774076883 downloaded and authenticated audio, installed dependencies, separated 210.6 seconds of vocals, then failed with `Vocal source duration mismatch`. A fresh push-triggered run is required to verify the correction. Do not call the render complete until its MP4 artifact and verification receipt exist.
+- Limitations: source audio MP3 decoder alignment and Demucs padding may still require inspection; a one-second tolerance is only for boundary alignment, not a pass on musical timing. Vocal phonemes and harmony remain unverified.
+- Deferred: native xLights FSEQ, Android/Windows parity, other recordings, owner approval.
+- Regression risks: rounded 10 ms feature frame lengths, source/stem decoder discrepancies and remaining downstream renderer issues.
+
 ## 15 November — isolated Tinsel Tornado canonical six-member 3D band render attempt
 
 - [ ] Goal: run the actual Helix master sequencer on the SHA-256-pinned owner's Google Drive Starred copy of Tinsel Tornado, render only the six-member solid FinalBandScene with dimensional three-tom V3 drummer, verify an H.264/AAC MP4, and retain an auditable downloadable Actions artifact; do not expand to the 82-song batch.
