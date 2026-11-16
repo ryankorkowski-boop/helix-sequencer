@@ -354,3 +354,14 @@ Do not mark complete from unit tests alone.
 **Limitations:** Updated tests do not establish that packaged EXE/APK display the same metadata, nor prove full runtime readiness.
 **Deferred work:** Execute version tests in appropriate dependency-equipped CI, verify Android package manifest and complete Windows portable build, continue issue #234.
 **Regression risks:** Other Beta 1.3 references in docs, Android resources or Windows version resources may remain and must be audited before packaging.
+
+
+### 2026-11-16 — Replace GUI-only Windows artifact with complete Beta 1.4 candidate build
+**Goal:** Stop treating a standalone PyInstaller GUI launcher as the complete Windows Helix app.
+**Changed files/modules:** .github/workflows/gui-modernization-smoke.yml.
+**Preserved behavior:** Android compile, Python parity and drummer tests, production engine logic and approved assets unchanged.
+**New behavior:** Windows CI installs requirements-windows-portable.txt; runs release version and palette tests; builds windows_portable.spec with Helix.exe, HelixCLI.exe and bundled engine/assets; verifies packaged worker --version reports 1.4.0-beta; runs actual packaged palette engine smoke; assembles Helix-Windows-Beta-v1.4.zip, SHA256 and smoke evidence as a 14-day candidate artifact.
+**Tests/evidence:** Commit bd3102fb5cb2917e1e3e642f05895756a29ec1ea. Workflow execution pending; no successful candidate claimed.
+**Limitations:** Packaged CLI palette smoke does not prove GUI operation, full-song audio/XSQ/xLights native FSEQ/MP4, correct drummer/harmony, or physical Windows tester behavior.
+**Deferred work:** Inspect CI logs, repair package failures, test GUI initialization and actual end-to-end song workflow, compare band owner Truths, Android API 30/36, owner approval, Drive upload.
+**Regression risks:** Larger package and dependency collection may exceed runner time or reveal missing assets; do not substitute previous HelixGuiReview.exe artifact if the full build fails.
