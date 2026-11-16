@@ -398,3 +398,14 @@ Do not mark complete from unit tests alone.
 **Limitations:** --help verifies dispatch, not actual audio-to-XSQ production or native xLights rendering.
 **Deferred work:** Await latest complete portable CI, inspect artifacts, run a real song through HelixCLI and native xLights, validate Android app playback and drummer Truths.
 **Regression risks:** Parser description/usage wording changes may require smoke expectation update; fail-closed before publishing artifact.
+
+
+### 2026-11-16 — Repair packaged Windows palette smoke CLI selector regression
+**Goal:** Fix actual CI failure preventing complete Beta 1.4 Windows candidate artifact.
+**Changed files/modules:** windows_portable_entry.py; tests/test_windows_portable_entry.py.
+**Preserved behavior:** Helix.exe GUI launch, direct HelixCLI.exe --help and --version, legacy Helix.exe --helix-cli, engine logic, drummer and layouts unchanged.
+**New behavior:** Both Helix.exe and HelixCLI.exe strip a leading --helix-cli selector before dispatching to core.sequence_builder; packaged palette_smoke.py compatibility restored. Regression test covers the exact runner argument pattern.
+**Tests/evidence:** Run 43935536773: Python 3.11/3.12 and Android compile passed, Windows failed 'Exercise packaged palette engine'. Job 133539024600 logs show 'HelixCLI.exe: error: unrecognized arguments: --helix-cli' with command HelixCLI.exe --helix-cli --profile master -- --template ... --audio .... Fix 6eed5088ab294ba8fc331f73dfb9cbd8b6dcb1f7, regression 45d72dd5e5d3d751bcbaa53bcad4b7cb45d3eb04. CI rerun pending.
+**Limitations:** Exact failure diagnosed and patched but no new successful package or real audio sequence confirmed yet.
+**Deferred work:** Inspect latest Windows palette smoke outcome, artifact, full audio-to-XSQ run, native xLights MP4 and Android device playback.
+**Regression risks:** Other consumers may pass selector in a different position; only leading legacy flag is normalized intentionally.
