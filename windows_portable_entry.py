@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import sys
+from pathlib import Path
 
 
 def main() -> int:
@@ -10,8 +11,10 @@ def main() -> int:
     if len(sys.argv) > 1 and sys.argv[1] == "--version":
         print(f"{TITLE} ({VERSION})")
         return 0
-    if len(sys.argv) > 1 and sys.argv[1] == "--helix-cli":
-        sys.argv = [sys.argv[0], *sys.argv[2:]]
+    is_cli_executable = Path(sys.argv[0]).stem.casefold() == "helixcli"
+    if is_cli_executable or (len(sys.argv) > 1 and sys.argv[1] == "--helix-cli"):
+        if not is_cli_executable:
+            sys.argv = [sys.argv[0], *sys.argv[2:]]
         from core.sequence_builder import main as cli_main
         return cli_main()
     if len(sys.argv) > 1 and sys.argv[1] == "--helix-gui-smoke":
