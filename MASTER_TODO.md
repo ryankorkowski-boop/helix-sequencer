@@ -1,3 +1,13 @@
+## 2026-11-15 — isolated Helix Motion 16-panel native comparison pilot
+- Goal: run a single source-authenticated 16-panel xLights-native comparison while Tinsel Tornado six-member band pilot runs independently.
+- Changed files: `.github/workflows/helix-motion-16panel-isolated.yml`, `MASTER_TODO.md`.
+- Preserved behavior: original Helix Motion workflow, original 16-panel layout and engine logic, deterministic hashes, owner approval gate, no merge or beta release.
+- New behavior: same existing native 16-panel workflow executes on isolated branch `codex/helix-motion-16panel-pilot-20261115` with its own concurrency group; owner Drive audio remains SHA-pinned.
+- Tests/evidence: hosted Actions job, 16 distinct layouts and native FSEQ hashes, verified full-length H.264/AAC MP4 and approval manifest required before completion claim. At commit time execution outcome is unknown.
+- Limitations: this existing workflow uses `--instrumental`, so vocal/3D band accuracy is not established; it may need a long native xLights build. It is not a substitute for the nine-panel vocal/band showcase.
+- Deferred: new nine-panel configuration, vocal fixes, per-song batch, application release.
+- Regression risks: hosted native xLights cache/build, renderer dependencies, and per-panel activity.
+
 ## 13 November — refreshed native pilot and singer close-up delivered
 
 - [x] Completed the full-length [Helix Motion 16-panel MP4](https://drive.google.com/file/d/16nqUJHo-cBHOoW2pLgFX-aRTN1MPGdlP/view?usp=drivesdk). Native xLights 2026.18 rerendered panels 1, 2, 4, 6, 7, 8, 10, 12 and 13 with facades behind their real fixture coordinates. Every decoded channel sample matched the corresponding preceding FSEQ. Seven cells came from the preceding verified native composite. The 264.800-second MP4 fully decoded at 1920×1080, H.264/AAC and 30 fps (7,944 frames), with all 16 distinct, visible and moving. Original Drive soundtrack correlation was 0.9991234 and maximum measured lag was 0.125 ms. Drive readback matched SHA-256 `e063a01df2d00c681c25ef545b1dab89238eb2a1cc8c30bfcfeb4dfb73a6217a`. [Verification, source commits and panel hashes](https://drive.google.com/file/d/1X2VperJWIbmrAgoWj0j1n5CCfLwNfRhP/view?usp=drivesdk).
