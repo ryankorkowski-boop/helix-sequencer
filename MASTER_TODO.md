@@ -30,12 +30,11 @@ The current repo priority is the beta-readiness sequence defined in `ROADMAP_BET
 9. Only then begin engine facade/extraction work.
 
 ## Drummer / band current state
-- [x] Canonical nine-component drummer contract documented.
-- [x] Runtime drummer state model changed to nine integrated hit components.
-- [x] Structure catalog changed to nine drummer sequencing components.
+- [x] Canonical three-tom / eight-component drummer contract documented (`docs/DRUMMER_THREE_TOM_GROUND_TRUTH.md`, `docs/DRUMMER_COMPONENT_CONTRACT.md`).
+- [x] Runtime and structure catalog use the eight sequenced components (Kick, Snare, Hi-hat, High/Mid/Floor Toms, Left/Right Cymbals).
 - [x] XML exporter no longer emits the legacy `line0="1-4"` placeholder for drummer components.
-- [x] Pose geometry spec now defines nine component composites with embedded contacting-stick geometry.
-- [~] xLights model exporter still needs to emit the new component composites as the nine canonical sequencing submodels.
+- [x] Sticks and arms are visual/contact geometry only; they are never independent sequencing targets.
+- [~] xLights model exporter still needs to emit the eight canonical sequencing submodels.
 - [~] Drum detector uses HPSS/percussive onset analysis plus spectral features.
 - [x] Classification now rejects high harmonic-contamination candidates when unsupported and suppresses ambiguous low-margin classifications into `drum_bus`.
 - [ ] Add per-event source/stem provenance to rendered XSQ debug metadata.
@@ -45,20 +44,19 @@ The current repo priority is the beta-readiness sequence defined in `ROADMAP_BET
 - [ ] Human visual review of rendered drummer timing.
 
 ## Canonical drummer components
-1. `HX_SNOWMAN_DRUMMER_KICK` = KICK + KICK_RIM
-2. `HX_SNOWMAN_DRUMMER_SNARE` = SNARE + SNARE_RIM + SNARE_CONTACT_STICK
-3. `HX_SNOWMAN_DRUMMER_TOM_1` = TOM_1 + TOM_1_CONTACT_STICK
-4. `HX_SNOWMAN_DRUMMER_TOM_2` = TOM_2 + TOM_2_CONTACT_STICK
-5. `HX_SNOWMAN_DRUMMER_TOM_3` = TOM_3 + TOM_3_CONTACT_STICK
-6. `HX_SNOWMAN_DRUMMER_TOM_4` = TOM_4 + TOM_4_CONTACT_STICK
-7. `HX_SNOWMAN_DRUMMER_HI_HAT` = HI_HAT + HIHAT_CONTACT_STICK
-8. `HX_SNOWMAN_DRUMMER_CYMBAL_LEFT` = CYMBAL_LEFT + CYMBAL_LEFT_CONTACT_STICK
-9. `HX_SNOWMAN_DRUMMER_CYMBAL_RIGHT` = CYMBAL_RIGHT + CYMBAL_RIGHT_CONTACT_STICK
+1. `HX_SNOWMAN_DRUMMER_KICK`
+2. `HX_SNOWMAN_DRUMMER_SNARE`
+3. `HX_SNOWMAN_DRUMMER_HI_HAT`
+4. `HX_SNOWMAN_DRUMMER_TOM_HIGH`
+5. `HX_SNOWMAN_DRUMMER_TOM_MID`
+6. `HX_SNOWMAN_DRUMMER_TOM_FLOOR`
+7. `HX_SNOWMAN_DRUMMER_CYMBAL_LEFT`
+8. `HX_SNOWMAN_DRUMMER_CYMBAL_RIGHT`
 
-**Physical rule:** the contacting stick is part of the corresponding hit component. There are no independent stick sequencing channels. Kick has no stick.
+**Physical rule:** There is no fourth tom. Contacting stick geometry is part of the hit component visually; there are no independent stick or arm sequencing channels. Kick has no stick. Left and right cymbals alternate on ordinary fills/crashes. Simultaneous events must be preserved.
 
 ## Detection architecture
-**audio → HPSS/percussive isolation → onset candidates → spectral/transient features → confidence-gated drum classification → nine-component mapper → XSQ**
+**audio → HPSS/percussive isolation → onset candidates → spectral/transient features → confidence-gated drum classification → eight-component mapper → XSQ**
 
 ## Ground-truth regression oracle
 A prior drummer render was explicitly identified by the user as having the **correct drummer logic** and must be preserved as the behavioral reference while the implementation is upgraded.
@@ -66,9 +64,9 @@ A prior drummer render was explicitly identified by the user as having the **cor
 - Known-good commit: `b27e8d77a63027ed32bcf6851dcff3925472c155`.
 - Prior successful artifact lineage: **Helix Full Current 256 + Drummer**; published workflow run `35486153096` was previously identified as the MP4-producing run.
 - The repository's dedicated ground-truth workflow at that point exercised the real V3 drummer submodels and generated deterministic audio/XSQ/preview artifacts.
-- Current nine-component geometry remains authoritative for the new implementation: four tom zones and contacting-stick geometry integrated into the hit component.
+- Authoritative physical kit is the three-tom contract: High, Mid, and Floor toms only. Historical four-tom language is superseded.
 
-**Rule:** do not discard or rewrite the behavior that made the prior render correct. New detection/mapping logic must be compared against the prior oracle before being accepted.
+**Rule:** do not discard or rewrite the behavior that made the prior render correct. New detection/mapping logic must be compared against the prior oracle before being accepted. Never emit `TOM_4` or independent stick sequencing targets.
 
 ## Verification gate
 **audio → detected events → mapped components → XSQ → full-song MP4 with real audio → compare against prior correct drummer render → human visual review**
@@ -76,6 +74,15 @@ A prior drummer render was explicitly identified by the user as having the **cor
 Do not mark complete from unit tests alone.
 
 ## Change Ledger
+
+### 2026-11-15 — Align MASTER_TODO with three-tom canonical contract
+**Agent:** Grok
+**Branch:** main
+
+**Recorded:**
+- Removed stale nine-component / four-tom language from the drummer sections.
+- Aligned the current-state checklist, component list, detection architecture, and ground-truth notes with `docs/DRUMMER_THREE_TOM_GROUND_TRUTH.md` and `docs/DRUMMER_COMPONENT_CONTRACT.md`.
+- Confirmed eight sequenced components only (Kick, Snare, Hi-hat, High/Mid/Floor Toms, Left/Right Cymbals). Sticks remain visual geometry only.
 
 ### 2026-10-02 — Beta tester feedback checklist documented
 **Agent:** GitHub Copilot
@@ -109,7 +116,7 @@ Do not mark complete from unit tests alone.
 
 **Recorded:**
 - Prior known-good drummer behavior is anchored to commit `b27e8d77a63027ed32bcf6851dcff3925472c155`.
-- The historical 8-submodel V3 workflow is retained as a behavioral regression reference while the physical model evolves to nine components.
+- The historical V3 workflow is retained as a behavioral regression reference. Physical naming must follow the three-tom contract.
 
 ### 2026-09-30 — Confidence-gated drum classification
 **Agent:** ChatGPT/GitHub
@@ -121,23 +128,21 @@ Do not mark complete from unit tests alone.
 - Added a minimum score-margin requirement between the best and runner-up drum classes.
 - Ambiguous or weak events now become `drum_bus` instead of being confidently misclassified.
 
-**Preserved:** existing kick/snare/tom/hat/cymbal feature scoring and six-stream event schema.
+**Preserved:** existing kick/snare/tom/hat/cymbal feature scoring and event schema.
 
 **Not yet verified:** real-song false-positive rate, XSQ output, and MP4 behavior.
 
-### 2026-09-30 — Nine-component drummer geometry spec
+### 2026-09-30 — Drummer geometry notes (superseded four-tom language)
 **Agent:** ChatGPT/GitHub
 **Branch:** `feature/restructure-core`
 
 **Changed:** `fixtures/band_geometry/drummer_v3_pose_spec.json`
-- Four distinct tom zones and nine canonical hit composites.
-- Contacting sticks are embedded in snare/tom/hi-hat/cymbal components.
-
-**Known limitation:** xmodel exporter still needs to make the nine composites the canonical sequencing submodels.
+- Historical note only. Four-tom / nine-component language is superseded by the three-tom ground-truth and component-contract documents.
+- Contacting sticks remain embedded visual geometry, not independent sequencing targets.
 
 ## Next actions
 1. Preserve the prior known-good drummer behavior as the regression baseline.
-2. Reconcile xLights drummer geometry with the nine canonical composites.
+2. Reconcile xLights drummer geometry with the eight canonical components (three toms only).
 3. Add event provenance/debug output.
 4. Run detector on the repository's real song and inspect event counts by class/confidence.
 5. Generate full-song XSQ.
