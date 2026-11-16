@@ -36,7 +36,7 @@ jobs:
           set -euo pipefail
           sudo apt-get update -qq
           sudo apt-get install -y ffmpeg xvfb xauth openbox wmctrl xdotool x11-utils x11-xserver-utils libgtk-3-0t64 libgl1 libegl1 libopengl0 libglu1-mesa libgstreamer-plugins-base1.0-0
-          python -m pip install numpy scipy librosa==0.10.2.post1 soundfile numba llvmlite scikit-learn Pillow trimesh moderngl zstandard imageio imageio-ffmpeg cmudict PyYAML requests pytest gdown==6.4.2 demucs
+          python -m pip install numpy scipy librosa==0.10.2.post1 soundfile numba llvmlite scikit-learn Pillow trimesh moderngl zstandard imageio imageio-ffmpeg cmudict PyYAML requests pytest gdown==6.4.2 demucs stable-ts torch
       - name: Validate the hero layouts and source-event policy
         run: |
           set -euo pipefail
@@ -90,6 +90,22 @@ jobs:
                              'Harmony stays silent without independent source evidence']}
           (dest/'diagnostic.json').write_text(json.dumps(receipt,indent=2)+'\\n')
           print('VOCAL_SOURCE_CLOCKS',n,'lead_active',int(np.count_nonzero(lead['energy'])))
+          PY
+      - name: Align source vocals word by word and verify lexical provenance
+        run: |
+          set -euo pipefail
+          python -m tools.align_full_song_vocals \
+            --audio pilot-source/Helix_Motion_original.mp3 \
+            --stem pilot-source/stems/htdemucs/Helix_Motion_original/vocals.wav \
+            --fixture pilot-source/vocals \
+            --expected-sha256 "$HELIX_DRIVE_SOURCE_SHA256"
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          d=json.loads(Path('pilot-source/vocals/diagnostic.json').read_text())
+          assert d['audio_sha256']=='fc91e3f48f709e615ba598a5d49ae63ab9652c0d16e324095f6e1b20377e082b'
+          assert d['exact_phoneme_boundaries_verified'] is False
+          print('WORD_VERIFICATION_GATE',d['word_alignment']['word_alignment_status'])
           PY
       - name: Restore pinned native xLights 2026.18 build
         id: native-cache
@@ -173,6 +189,7 @@ jobs:
             pilot-work/helix-motion/panel_activity.json
             pilot-work/helix-motion/OWNER_APPROVAL_GATE.json
             pilot-source/vocals/diagnostic.json
+            pilot-source/vocals/word_alignment.json
             pilot-work/helix-motion/layouts/**/run_manifest.json
             pilot-work/helix-motion/layouts/**/*.xsq
       - name: Retain only diagnostic logs on failure, never label as approval
