@@ -13,7 +13,9 @@ def main() -> int:
         return 0
     is_cli_executable = Path(sys.argv[0]).stem.casefold() == "helixcli"
     if is_cli_executable or (len(sys.argv) > 1 and sys.argv[1] == "--helix-cli"):
-        if not is_cli_executable:
+        # Existing GUI and palette runners pass --helix-cli even to HelixCLI.exe.
+        # Strip the selector for either binary; it is not an engine argument.
+        if len(sys.argv) > 1 and sys.argv[1] == "--helix-cli":
             sys.argv = [sys.argv[0], *sys.argv[2:]]
         from core.sequence_builder import main as cli_main
         return cli_main()
