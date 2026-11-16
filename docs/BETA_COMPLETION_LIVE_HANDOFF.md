@@ -1,3 +1,9 @@
+## 16 November — Owner rejected the refined harmony preview
+
+The owner marked `Helix_Phoneme_Test_Hook_Refined_Harmony.mp4` **Fail**. No specific defect or timestamp was supplied. Keep that exact host MP4 as rejected evidence. The source fixture contains only mixed-stereo-derived MDX/VAD estimates. Its receipt has `independent_backing_verified=false` and `exact_phoneme_boundaries_verified=false`. A fresh check of Drive and Library candidates found no independently identified source track pair for this exact song. This finding does not establish the owner's reason for rejection.
+
+From the repository root, run `python -m tools.verify_native_vocal_source fixtures/audio/Phoneme_Test_Hook.mp3 fixtures/audio/phoneme_vocal_separation --report /tmp/phoneme-source-verification.json`. The current fixture returns REJECTED because `voice_roles.json` is absent. The targeted vocal qualification, fixture, and verified-sampler suites passed all 13 tests. A verified rerender remains blocked on independently attributable lead and harmony tracks for the same recording. When received, bind them to the original MP3 with `tools.prepare_vocal_roles`, rerun the source verifier, and then use `tools.prepare_phoneme_show --vocal-analysis ANALYSIS_DIR`. Genuine word/phoneme alignment requires separate validation. Leave the drummer, target app and release gates open.
+
 ## 16 November — Refined harmony preview
 
 [Watch the refined 13-second host render](https://chatgpt.com/library?file_id=libfile_2d6455635d40819188e726c5f6f56ca4&account_id=personal). The original soundtrack and cue plan match the preceding Phoneme Test Hook checkpoint. All six performers fit in the fixed front view. Check clip seconds 0.10 (lead), 3.85 (harmony) and 4.70 (overlap). All 260 frames and AAC audio decoded with 0 ms lag and correlation 0.998970.

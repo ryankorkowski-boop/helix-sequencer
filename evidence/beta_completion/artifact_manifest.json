@@ -205,7 +205,7 @@
         "target_app_playback": false,
         "release_acceptance": false,
         "library_file_id": "libfile_2d6455635d40819188e726c5f6f56ca4",
-        "status": "TESTED",
+        "status": "FAILED \u2014 REPAIR REQUIRED",
         "render_base_commit": "4e3e854747400e6eef9c69e14e79d615976b4d6b",
         "motion_comparison": {
           "before": [
@@ -247,7 +247,19 @@
           "minimum_seconds": 0.12
         },
         "prior_asset": "libfile_3a436e8539f88191a39c49f99edc31e7",
-        "review_status": "Owner described the first diagnostic as passable"
+        "review_status": "REJECTED",
+        "owner_feedback": "Fail",
+        "owner_defect_detail": null
+      },
+      "phoneme_harmony_replacement": {
+        "status": "BLOCKED",
+        "scope": "Source-verified Phoneme Test Hook band preview",
+        "source_verification_state": "REJECTED",
+        "blocking_resource": "Source-attributed lead/harmony tracks and voice_roles.json/.npz for the original recording",
+        "source_origin": "mixed stereo owner upload; two-stage MDX/VAD vocal estimates",
+        "test_passed": 13,
+        "source_commit": "ebbd83ef7ea0ef32d4441c2826ee85a5bc2ffc2f",
+        "next_action": "Bind role-labeled tracks and rerun tools.verify_native_vocal_source before rendering"
       }
     },
     "acceptance_mp4_count": 0,

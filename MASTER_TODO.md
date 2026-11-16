@@ -1,3 +1,7 @@
+## 16 November — Refined harmony review failed
+
+Goal: record owner rejection and retest the exact recording's vocal source gate. Changed files: MASTER_TODO.md, docs/BETA_COMPLETION_LIVE_HANDOFF.md and the two completion JSON records. Source baseline: `ebbd83ef7ea0ef32d4441c2826ee85a5bc2ffc2f`. Preserved the audio, model assets, renderer, engine and release restrictions. The exact refined 13-second MP4 is rejected. The owner supplied no defect detail. The current candidate source fails qualification for lack of source-attributed `voice_roles.json`; 13 targeted qualification tests passed. Re-rendering with the current estimates would leave singer identity and alignment unverified. See the live handoff for reproduction, input needs and verification steps.
+
 ## 16 November — Phoneme Test Hook harmony review refinement
 
 Goal: make the lead-to-harmony exchange clearer after the owner described the first diagnostic as passable. Files: MASTER_TODO.md, docs/BETA_COMPLETION_LIVE_HANDOFF.md and the two completion JSON records. This uses the exact saved production cue plan and deployed diagnostic tree at `4e3e854747400e6eef9c69e14e79d615976b4d6b`. The production sequencing and app code has no diff. The fixed front view retains all six model identities, the original source audio and V3 instrument motion.
