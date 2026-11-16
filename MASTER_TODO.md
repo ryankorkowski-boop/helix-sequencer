@@ -77,6 +77,19 @@ Do not mark complete from unit tests alone.
 
 ## Change Ledger
 
+### 2026-11-16 — CLI-to-orchestrator motion audit reporting
+**Agent:** ChatGPT
+**Branch:** `codex/logical-arbitration-20261116`
+**Goal:** Make observe-only motion diagnostics accessible in standard orchestration report runs through an explicit CLI flag.
+**Changed files/modules:** `core/effects_orchestrator_bridge.py`, `core/sequence_builder.py`, `tests/test_intent_arbitration_diagnostics.py`, `MASTER_TODO.md`.
+**Intentionally preserved behavior:** The default director remains unchanged, and the flag is removed before calling the underlying sequencing engine. No existing effects, timing, model targets, or canonical drummer logic intentionally changed.
+**New behavior:** Passing `--audit-motion-conflicts` through the sequence builder enables the director's `motion_conflict_audit` pass, included in the existing effects orchestration JSON report. No separate artifact is introduced.
+**Tests/evidence:** Added test for CLI argument stripping; previously added diagnostic and opt-in tests. No tests or native xLights renders executed in this session.
+**Limitations:** Heuristic intent-level report, not proof of actual channel collisions; no automated arbitration or mobile/desktop UI toggle. The flag must be supplied through a path that invokes the orchestration bridge.
+**Deferred work:** Execute targeted regression suite and actual real-audio run; inspect reported collisions and channel-level FSEQ evidence before modifying visual output.
+**Regression risks:** Opt-in report overhead; flag handling must remain compatible with CLI argument parsing.
+
+
 ### 2026-11-16 — Opt-in orchestration conflict audit integration
 **Agent:** ChatGPT
 **Branch:** `codex/logical-arbitration-20261116`
