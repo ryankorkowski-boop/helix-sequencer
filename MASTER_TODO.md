@@ -255,3 +255,13 @@ Do not mark complete from unit tests alone.
 **Tests/evidence:** Workflow run 43902284172 desktop-headless SUCCESS, Android compile FAILURE at Gradle plugin version check: minimum 8.11.1 vs configured 8.10.2. New run pending.
 **Limitations/deferred:** No compiled APK yet; continue diagnosing remaining Android build failures and then device validation.
 **Regression risks:** Compatibility of Gradle 8.11.1 with the project's other build plugins.
+
+
+### 2026-11-16 — Android CI Python 3.10 staging prerequisite
+**Goal:** Allow Android's preBuild stageHelix task to launch its required interpreter.
+**Changed files:** .github/workflows/gui-modernization-smoke.yml.
+**Preserved behavior:** Android engine staging, Chaquopy 3.10, GUI, legal/instructions/donate, sequencing logic.
+**New behavior:** CI provisions Python 3.10 before running Gradle.
+**Tests/evidence:** GUI run 43902637436: desktop-headless SUCCESS; Android Gradle 8.11.1 starts, then :app:stageHelix fails because python3.10 is absent. Correction committed; result pending.
+**Limitations/deferred:** Android APK still not compiled; next failures may involve Python wheel build, Chaquopy dependencies or Java compilation.
+**Regression risks:** Runner PATH resolution for python3.10, dependency compatibility.
