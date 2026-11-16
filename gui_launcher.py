@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import json
 import subprocess
 import sys
 import threading
@@ -77,6 +78,7 @@ class HelixGui(tk.Tk):
 
         ttk.Label(top, text=TITLE).grid(row=0, column=0, columnspan=2, sticky="w", **pad)
         ttk.Button(top, text="About", command=self._show_about).grid(row=0, column=2, sticky="w", **pad)
+        ttk.Button(top, text="Instructions", command=self._show_instructions).grid(row=0, column=3, sticky="w", **pad)
 
         ttk.Label(top, text="Layout Preset").grid(row=1, column=0, sticky="w", **pad)
         preset_combo = ttk.Combobox(
@@ -159,6 +161,8 @@ class HelixGui(tk.Tk):
         legal = ttk.LabelFrame(frame, text="Legal / Licensing")
         legal.pack(fill=tk.X, **pad)
         ttk.Label(legal, text="Helix Sequencer: PolyForm Noncommercial 1.0.0 | Free for qualifying noncommercial use; commercial use requires a separate license.", wraplength=900).pack(anchor="w", padx=8, pady=4)
+        ttk.Button(legal, text="Donate to Helix", command=lambda: self._open_donation("helix")).pack(side=tk.LEFT, padx=8, pady=4)
+        ttk.Button(legal, text="Donate to xLights", command=lambda: self._open_donation("xlights")).pack(side=tk.LEFT, padx=8, pady=4)
         ttk.Button(legal, text="View License", command=lambda: webbrowser.open("https://polyformproject.org/licenses/noncommercial/1.0.0/")).pack(side=tk.LEFT, padx=8, pady=4)
         ttk.Button(legal, text="Third-Party Licenses", command=lambda: webbrowser.open((ROOT / "THIRD_PARTY_LICENSES.md").as_uri())).pack(side=tk.LEFT, padx=8, pady=4)
 
@@ -208,6 +212,26 @@ class HelixGui(tk.Tk):
                 self.output_var.set(str(ROOT / "allmodels" / "outputs"))
             else:
                 self.output_var.set(str(ROOT / "outputs"))
+
+    def _open_donation(self, key: str) -> None:
+        try:
+            links = json.loads((ROOT / "config" / "support_links.json").read_text(encoding="utf-8"))
+            webbrowser.open(links[key])
+        except (OSError, KeyError, ValueError) as error:
+            messagebox.showerror("Donation link unavailable", str(error))
+
+    def _show_instructions(self) -> None:
+        instructions = ROOT / "android" / "app" / "src" / "main" / "assets" / "helix_instructions.txt"
+        if not instructions.exists():
+            messagebox.showinfo("Instructions", "See the included README.md for setup and usage instructions.")
+            return
+        window = tk.Toplevel(self)
+        window.title("Helix Instructions")
+        window.geometry("720x560")
+        viewer = tk.Text(window, wrap=tk.WORD, bg="#101b30", fg="#e7f1ff")
+        viewer.pack(fill=tk.BOTH, expand=True)
+        viewer.insert("1.0", instructions.read_text(encoding="utf-8"))
+        viewer.configure(state=tk.DISABLED)
 
     def _show_about(self) -> None:
         messagebox.showinfo(
