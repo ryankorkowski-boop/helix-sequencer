@@ -387,3 +387,14 @@ Do not mark complete from unit tests alone.
 **Limitations:** Does not verify complete native render or Windows GUI device operation. CI queue backlog observed.
 **Deferred work:** Inspect test and Windows package job results, run full-song packaged CLI native xLights verification, resolve Android and band blockers.
 **Regression risks:** Binary filename renaming away from HelixCLI.exe changes dispatch; explicit --helix-cli remains fallback.
+
+
+### 2026-11-16 — Add packaged CLI parser acceptance gate
+**Goal:** Catch packaged HelixCLI.exe erroneously launching a GUI instead of exposing the real sequence builder.
+**Changed files/modules:** .github/workflows/gui-modernization-smoke.yml.
+**Preserved behavior:** All engine logic, drummer motion, package contents and Android behavior unchanged.
+**New behavior:** Windows package job invokes HelixCLI.exe --help, requires zero exit code, argparse usage text and audio sequencing description before palette smoke and artifact upload.
+**Tests/evidence:** Inspected core/sequence_builder.py build_parser, which uses argparse with description 'Automated audio-to-light sequencing'; workflow gate committed as ebcfe874161a72132ba87edf62d8647a230c9c32. Execution pending; earlier GUI CI run 43933396954 passed Python 3.11, 3.12, Windows GUI-only and Android compilation. Complete Windows candidate from run 43933745648 predates CLI repair.
+**Limitations:** --help verifies dispatch, not actual audio-to-XSQ production or native xLights rendering.
+**Deferred work:** Await latest complete portable CI, inspect artifacts, run a real song through HelixCLI and native xLights, validate Android app playback and drummer Truths.
+**Regression risks:** Parser description/usage wording changes may require smoke expectation update; fail-closed before publishing artifact.
