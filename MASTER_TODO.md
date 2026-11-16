@@ -1,3 +1,93 @@
+
+### 2026-11-16 — Nine drummer cues, alternating snare sticks and crashes
+**Goal:** Preserve approved canonical drummer with nine distinct strike actions: kick, snare left/right, hi-hat, high/mid/floor toms, left/right crashes.
+**Changed files/modules:** `animation/drummer_motion.py`, `tests/test_drummer_nine_cue_contract.py`, `.github/workflows/helix-ci.yml`, `MASTER_TODO.md`.
+**Preserved behavior:** Same source artwork, eight physical instrument components, event timestamps, mapping, humanization seed, three toms and cymbal left/right physical alternation. No independently sequenced stick channels.
+**New behavior:** Successive snare strikes alternate left/right hands regardless of elapsed time, matching existing alternating physical cymbal targets. Tests cover both and nine-action/eight-component contract.
+**Tests/evidence:** Three new regression tests added to Python 3.11/3.12 beta smoke; fresh CI pending.
+**Limitations:** Hand assignment is a motion attribute; actual xLights contact pose/illumination requires native MP4 validation.
+**Deferred work:** Ensure nine cue poses are projected correctly to actual assets and native XSQ, visually compare owner-approved drummer and confirm strike lighting.
+**Regression risks:** Deliberate change for non-rapid snare repeats from same-hand to alternating; do not modify canonical artwork or kit.
+
+
+### 2026-11-16 — Owner directive: restore approved drummer, never recreate
+**Goal:** Freeze the original V3 drummer visual and musical oracle instead of rebuilding its kit or animation.
+**Changed files/modules:** `docs/AUTONOMOUS_EXECUTION_TODO_20261116.md`, `MASTER_TODO.md`.
+**Preserved behavior:** No runtime or asset changes. Known-good behavior baseline `b27e8d77a63027ed32bcf6851dcff3925472c155`; source-derived strike/asset reference `54ded3752fa33f8b1330baf6dd38d009c2259916`.
+**New behavior:** Checklist now prohibits substitute drummer models, invented toms, unapproved geometry, and independent arm/stick sequencing. Exactly three toms and eight public musical components are the target contract.
+**Tests/evidence:** GitHub commit history inspected; `docs/DRUMMER_TARGET_STRIKES_HANDOFF.md` at `54ded375` explicitly documents source-derived poses, original artwork, eight components, 76 focused tests, and remaining native/visual acceptance gaps. Historical owner original V3 review is the acceptance oracle; later video approvals/retractions must not be conflated.
+**Limitations:** Exact approved MP4 bytes and current asset SHA comparison not yet recovered. No current drummer visual sign-off.
+**Deferred work:** Retrieve approved video, compare original assets and mapping, minimally restore drift, native render with actual music, inspect and seek owner approval.
+**Regression risks:** Later remakes may contain unrelated improvements; restore only verified drummer divergences without wholesale rollback.
+
+
+### 2026-11-16 — Confirm latest CI baseline and refresh autonomous handoff
+**Goal:** Record verified Python 3.11/3.12 tests and remote render status without claiming visual approval.
+**Changed files/modules:** `docs/AUTONOMOUS_EXECUTION_TODO_20261116.md`, `MASTER_TODO.md`.
+**Preserved behavior:** No production code or effect timing changes.
+**New behavior:** Checklist reflects verified results rather than pending tests.
+**Tests/evidence:** Head `aa544018`: workflow 43882085814, Python 3.11 162 passed and Python 3.12 162 passed; remote MP4 workflow 43882080548 successful; Helix CI 43882085974 successful. All seven tracked categories successful.
+**Limitations:** GitHub artifact presence and workflow success do not prove visual/audio quality or native xLights/Android/Windows acceptance.
+**Deferred work:** Download and inspect MP4, Truths drummer validation, singer separation, engine orchestration, nine-panel native layout and APK/EXE parity.
+**Regression risks:** Documentation-only update.
+
+
+### 2026-11-16 — Autonomous checklist and CI-enforced band regression
+**Goal:** Keep a durable executable plan and ensure band metadata regression tests run in Python 3.11/3.12 beta smoke.
+**Changed files/modules:** `.github/workflows/helix-ci.yml`, `docs/AUTONOMOUS_EXECUTION_TODO_20261116.md`, `MASTER_TODO.md`.
+**Preserved behavior:** Existing beta smoke tests, sequencing, mapping, drum timing and model targeting.
+**New behavior:** CI explicitly runs `tests/test_snowman_band_optional_composites.py`; dedicated evidence-backed checklist records completed, pending and owner-gated work.
+**Tests/evidence:** Previous head `6b9cd925` passed CI, Beta CI, Birdsong, Flow Quality, Flow Review, Compliance, and remote MP4 workflow 43880078404; artifact ID 14231739526 generated. New workflow test addition awaiting fresh CI.
+**Limitations:** MP4 is not yet visually inspected, native xLights and Android/Windows parity unverified.
+**Deferred work:** Three-tom drummer lighting/geometry, lead/harmony lexical phonemes, nine-panel native xLights, APK/EXE end-to-end.
+**Regression risks:** Extra beta smoke tests may reveal preexisting band failures; no runtime effect changes in this change set.
+
+
+### 2026-11-16 — Band composite compatibility regression tests
+**Goal:** Exercise the band planner with legacy drum marks and no drum marks.
+**Changed files/modules:** `tests/test_snowman_band_optional_composites.py`, `MASTER_TODO.md`.
+**Preserved behavior:** Existing event mapping and fallback semantics.
+**New behavior:** No runtime change; two tests assert valid cue output and optional composite lists without a KeyError.
+**Tests/evidence:** Test source committed; CI execution pending.
+**Limitations:** Does not establish visual drum illumination or native xLights behavior.
+**Deferred work:** Run targeted tests, inspect full CI and MP4, reconcile native geometry and vocal timing.
+**Regression risks:** None to production runtime.
+
+
+### 2026-11-16 — Preserve snowman drum cues when composite metadata is absent
+**Goal:** Prevent entire snowman band planning from aborting on optional composite submodel field.
+**Changed files/modules:** `core/snowman_band.py`, `MASTER_TODO.md`.
+**Preserved behavior:** Existing mapped submodel, drum type, timing, velocity, confidence, frames and source; provided composite submodels remain unchanged.
+**New behavior:** Optional composite metadata defaults to an empty list, matching the existing `models/working_drummer.py` consumer and `mapping/drum_mapper.py` schema.
+**Tests/evidence:** Inspected mapper's `map_events_to_submodels` (does not emit composite metadata) and remote preview warning `KeyError('composite_submodels')`; hosted tests and actual band render pending.
+**Limitations:** This repairs a crash, not three-tom spatial geometry, hit illumination, shoulder articulation, or independent vocals. Do not treat this as visual acceptance.
+**Deferred work:** Validate no band planning warnings in new workflow, compare native xLights drummer and vocals to owner Truths; add targeted test in subsequent focused PR.
+**Regression risks:** Consumers relying on nonempty composites must explicitly derive them from component mapping; no synthetic composite is invented here.
+
+
+### 2026-11-16 — Remote review winner tie regression
+**Goal:** Prevent preview workflow failure when ranked candidates have equal quality and validation scores.
+**Changed files/modules:** `.github/workflows/helix-remote-review-preview.yml`, `MASTER_TODO.md`.
+**Preserved behavior:** Higher quality score and fewer validation issues still win; XSQ rendering, drummer and vocal clocks unchanged.
+**New behavior:** Explicit stable version/path tie breakers avoid comparing candidate dictionaries.
+**Tests/evidence:** GitHub Actions run 43878139887 failed at inline Python line 26 with `TypeError: '<' not supported between instances of 'dict' and 'dict'`; fix committed, rerun pending.
+**Limitations:** Same run warned `KeyError('composite_submodels')` during snowman planning; this is a separate unresolved band-stage integration defect. No native owner approval.
+**Deferred work:** Check rerun MP4 decode and quality, repair missing band asset schema after source tracing, validate Android/Windows parity.
+**Regression risks:** Tie order differs only for otherwise equal-ranked variants; explicitly review winner identity.
+
+
+### 2026-11-16 — Repair arbitration branch compilation and Flow export entry points
+**Agent:** ChatGPT
+**Branch:** `codex/arbitration-ci-repair-20261116`
+**Goal:** Restore runnable CI after opt-in orchestration audit integration without changing sequencing behavior.
+**Changed files/modules:** `core/effects_orchestrator_bridge.py`, `.github/workflows/helix-birdsong-quality-artifact.yml`, `MASTER_TODO.md`.
+**Intentionally preserved behavior:** Motion-conflict audit remains opt-in and observe-only; default effects, drummer, singers, timing, model targets and XSQ output are unchanged.
+**New behavior:** Remove a literal escaped newline that caused Python SyntaxError at bridge line 309; run Flow export and preview entry points as modules so `core` imports resolve from the repository root.
+**Tests/evidence:** Failures reproduced in GitHub Actions logs for run 43857800070 (Python compile) and 43857799990 (module import). Code fixes committed; fresh hosted validation pending.
+**Limitations:** No native xLights visual proof, phone test, or performance benchmark from these CI repairs.
+**Deferred work:** Inspect new Actions results, fix any subsequent failures, run focused arbitration tests and full regression, validate native nine-panel output and cross-platform builds before owner review.
+**Regression risks:** Module invocation can reveal packaging assumptions; inspect generated artifacts and keep release held.
+
 # HELIX MASTER TODO & AGENT HANDOFF LEDGER
 
 > Canonical project roadmap and cross-agent handoff layer.
