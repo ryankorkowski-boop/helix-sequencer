@@ -39,6 +39,15 @@ def apply_full_show_enhancements(
         "layout": str(layout_path) if layout_path else None,
     }
 
+    # Sequence plan contract (Slice 1 of competitive optimization)
+    try:
+        from core.sequence_plan import build_minimal_plan
+        plan = build_minimal_plan(song_length_ms)
+        report["sequence_plan"] = plan.to_dict()
+        report["engines"].append({"engine": "sequence_plan", "status": "ok", "sections": len(plan.sections)})
+    except Exception as exc:
+        report["engines"].append({"engine": "sequence_plan", "status": "error", "error": str(exc)})
+
     # Style engine
     try:
         from core import style_engine

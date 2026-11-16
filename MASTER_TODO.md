@@ -29,6 +29,18 @@ The current repo priority is the beta-readiness sequence defined in `ROADMAP_BET
 8. Add Windows packaging smoke coverage.
 9. Only then begin engine facade/extraction work.
 
+## Competitive optimization track (started 2026-11-16)
+See `docs/HELIX_COMPETITIVE_OPTIMIZATION_ROADMAP.md` for full plan.
+
+- [x] Roadmap document created on feature/competitive-optimization-roadmap-20261116.
+- [x] Slice 1: Sequence plan contract (`core/sequence_plan.py`) added and fail-soft wired into full_show_orchestrator.
+- [ ] Slice 2: Prop role map.
+- [ ] Slice 3: Density and restraint rules.
+- [ ] Slice 4: Section identity scoring.
+- [ ] Slice 5: Palette discipline.
+- [ ] Deeper integration into sequence_builder (advisory first).
+- [ ] Tests and quality report hooks.
+
 ## Drummer / band current state
 - [x] Canonical three-tom / eight-component drummer contract documented (`docs/DRUMMER_THREE_TOM_GROUND_TRUTH.md`, `docs/DRUMMER_COMPONENT_CONTRACT.md`).
 - [x] Runtime and structure catalog use the eight sequenced components (Kick, Snare, Hi-hat, High/Mid/Floor Toms, Left/Right Cymbals).
@@ -74,6 +86,18 @@ A prior drummer render was explicitly identified by the user as having the **cor
 Do not mark complete from unit tests alone.
 
 ## Change Ledger
+
+### 2026-11-16 — Competitive optimization roadmap and Slice 1 sequence plan
+**Agent:** Grok
+**Branch:** feature/competitive-optimization-roadmap-20261116
+
+**Recorded:**
+- Added `docs/HELIX_COMPETITIVE_OPTIMIZATION_ROADMAP.md` consolidating competitive differentiators and implementation slices.
+- Added minimal `core/sequence_plan.py` (SectionPlan / SequencePlan + build_minimal_plan).
+- Fail-soft wired sequence_plan into `full_show_orchestrator.apply_full_show_enhancements` so reports include the plan.
+- Updated this ledger with the new track and checklist.
+
+**Intentionally preserved:** No change to default sequence generation output.
 
 ### 2026-11-15 — Align MASTER_TODO with three-tom canonical contract
 **Agent:** Grok
@@ -143,9 +167,10 @@ Do not mark complete from unit tests alone.
 ## Next actions
 1. Preserve the prior known-good drummer behavior as the regression baseline.
 2. Reconcile xLights drummer geometry with the eight canonical components (three toms only).
-3. Add event provenance/debug output.
-4. Run detector on the repository's real song and inspect event counts by class/confidence.
-5. Generate full-song XSQ.
-6. Render full-song MP4 with real audio.
-7. Compare rendered component flashes to actual audible drum events and the prior known-good render.
-8. Iterate only on measured false positives/false negatives.
+3. Continue competitive optimization: implement prop role map (Slice 2) and deepen sequence_plan usage.
+4. Add event provenance/debug output.
+5. Run detector on the repository's real song and inspect event counts by class/confidence.
+6. Generate full-song XSQ.
+7. Render full-song MP4 with real audio.
+8. Compare rendered component flashes to actual audible drum events and the prior known-good render.
+9. Iterate only on measured false positives/false negatives.
