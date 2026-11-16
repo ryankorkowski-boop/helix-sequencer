@@ -321,3 +321,14 @@ Do not mark complete from unit tests alone.
 **Limitations:** Other older test expectations may still fail, and production code's current alternation only applies to rapid hits within 180ms. This change does not prove real audio detection or visual drummer approval.
 **Deferred work:** Run test_drum_mapping.py and focused drummer tests in CI, inspect further failures, compare actual native output to known-good drummer oracle and owner Truths.
 **Regression risks:** Updating test expectations can hide an intentional older contract; the new assertions explicitly preserve alternating rapid snare/cymbal behavior and require subsequent owner visual review.
+
+
+### 2026-11-16 — Execute drummer mapping regression in CI
+**Goal:** Verify the repaired test module on the same branch where Beta 1.4 GUI integration is being developed.
+**Changed files/modules:** .github/workflows/gui-modernization-smoke.yml.
+**Preserved behavior:** Existing desktop GUI smoke, Windows review packaging, Android compilation, engine logic and all existing tests remain unchanged.
+**New behavior:** desktop-headless runs unittest discovery for test_drum_mapping.py on Python 3.12 after GUI smoke and syntax checks.
+**Tests/evidence:** Workflow change commit 9fd5962b22f503714f6b18f9820c4348b382bb4a; GitHub Actions result pending.
+**Limitations:** Python 3.12 alone does not prove 3.11 parity, native render quality or physical drummer motion.
+**Deferred work:** Inspect CI failures and repair smallest cause, add 3.11 coverage if dependencies permit, run native xLights and full-song approval tests.
+**Regression risks:** Existing test assumptions may still fail even after resolving stale import; report rather than skip failures.
