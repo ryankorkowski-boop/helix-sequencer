@@ -1,4 +1,15 @@
 
+### 2026-11-16 — Remote review winner tie regression
+**Goal:** Prevent preview workflow failure when ranked candidates have equal quality and validation scores.
+**Changed files/modules:** `.github/workflows/helix-remote-review-preview.yml`, `MASTER_TODO.md`.
+**Preserved behavior:** Higher quality score and fewer validation issues still win; XSQ rendering, drummer and vocal clocks unchanged.
+**New behavior:** Explicit stable version/path tie breakers avoid comparing candidate dictionaries.
+**Tests/evidence:** GitHub Actions run 43878139887 failed at inline Python line 26 with `TypeError: '<' not supported between instances of 'dict' and 'dict'`; fix committed, rerun pending.
+**Limitations:** Same run warned `KeyError('composite_submodels')` during snowman planning; this is a separate unresolved band-stage integration defect. No native owner approval.
+**Deferred work:** Check rerun MP4 decode and quality, repair missing band asset schema after source tracing, validate Android/Windows parity.
+**Regression risks:** Tie order differs only for otherwise equal-ranked variants; explicitly review winner identity.
+
+
 ### 2026-11-16 — Repair arbitration branch compilation and Flow export entry points
 **Agent:** ChatGPT
 **Branch:** `codex/arbitration-ci-repair-20261116`
