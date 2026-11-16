@@ -49,7 +49,9 @@ def build_drummer_motion(events: Iterable[DrumEvent], config: DrummerMotionConfi
         hand: str | None = None
         previous = previous_by_type.get(event.drum_type)
         if event.drum_type in {"snare", "cymbal"}:
-            if previous is not None and event.timestamp_ms - previous <= config.rapid_alternation_threshold_ms:
+            # Every successive snare strike uses the opposite stick, regardless
+            # of tempo. Cymbal hands follow the alternating physical crash.
+            if previous is not None:
                 hand_by_type[event.drum_type] = "R" if hand_by_type[event.drum_type] == "L" else "L"
             hand = hand_by_type[event.drum_type]
             previous_by_type[event.drum_type] = event.timestamp_ms
