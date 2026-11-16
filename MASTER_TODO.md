@@ -1,3 +1,13 @@
+## 2026-11-15 — repair Tinsel band diagnostic receipt and retry
+- Goal: unblock the canonical six-member Tinsel Tornado MP4 pipeline after the `KeyError: clock_hop_seconds` in `tools/vocal_diagnostic.py`.
+- Changed files: `.github/workflows/tinsel-band-only-review.yml`, `MASTER_TODO.md`.
+- Preserved behavior: exact original MP3 and drummer art hashes, source-bound Demucs lead, harmony at rest, six-member band, three toms, owner-only approval, no merge/release.
+- New behavior: vocal receipt explicitly supplies `clock_hop_seconds: 0.01` and verifies its 10ms frame duration against the original audio before invoking the sequencer.
+- Tests/evidence: GitHub Actions rerun triggered by workflow push; require Helix sequencing, solid 3D rendering, full MP4 decode/audio/cast/motion checks, and uploaded verification receipt. This ledger entry is not proof of render completion.
+- Limitations: source-separated vocals remain unverified acoustic estimates; OpenGL band render is not a native xLights video.
+- Deferred: any downstream CI failures, owner approval, native xLights export and release.
+- Regression risks: source duration edge rounding, CPU runtime, model geometry and renderer dependencies.
+
 ## 15 November — vocal clock correction and retry
 
 - Goal: unblock the first isolated Tinsel Tornado band run without weakening audio identity checks.
