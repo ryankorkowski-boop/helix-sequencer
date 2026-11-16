@@ -310,3 +310,14 @@ Do not mark complete from unit tests alone.
 **Limitations:** PR ancestry audit, not full diff conflict simulation or runtime validation. The expected docs/BETA_COMPLETION_LIVE_HANDOFF.md was not found on this branch.
 **Deferred work:** Resolve assign_hand test collection error, examine overlap, verify drummer Truths and vocals, run complete regression and native renders, check Android API 30/36 and complete Windows worker package.
 **Regression risks:** #229 includes 50 cumulative changed files; stacked PRs integrated out of order may overwrite changes. #230/#231 may conflict with #222/#233. Do not merge or release without owner approval.
+
+
+### 2026-11-16 — Issue #234 first regression collection repair
+**Goal:** Remove a stale test import that prevented the drummer mapping test module from collecting while strengthening the approved hand-alternation contract.
+**Changed files/modules:** tests/test_drum_mapping.py.
+**Preserved behavior:** No production code, timing, component mapping, pose geometry, band assets or approved drummer logic changed.
+**New behavior:** Test now calls the existing build_drummer_motion API directly and checks consecutive rapid snare hits alternate L/R on one snare component, consecutive cymbal hits alternate L/R on distinct physical cymbal components, kick/tom no invented hand, component/submodel parity, strike windows and deterministic output.
+**Tests/evidence:** Source inspection confirmed animation/drummer_motion.py exports build_drummer_motion but no assign_hand. Test repair committed as 64ace5f21051dd85dbb5f191783a8f37b6175241. CI/runtime test execution pending; do not claim pass yet.
+**Limitations:** Other older test expectations may still fail, and production code's current alternation only applies to rapid hits within 180ms. This change does not prove real audio detection or visual drummer approval.
+**Deferred work:** Run test_drum_mapping.py and focused drummer tests in CI, inspect further failures, compare actual native output to known-good drummer oracle and owner Truths.
+**Regression risks:** Updating test expectations can hide an intentional older contract; the new assertions explicitly preserve alternating rapid snare/cymbal behavior and require subsequent owner visual review.
