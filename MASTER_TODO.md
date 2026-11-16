@@ -265,3 +265,14 @@ Do not mark complete from unit tests alone.
 **Tests/evidence:** GUI run 43902637436: desktop-headless SUCCESS; Android Gradle 8.11.1 starts, then :app:stageHelix fails because python3.10 is absent. Correction committed; result pending.
 **Limitations/deferred:** Android APK still not compiled; next failures may involve Python wheel build, Chaquopy dependencies or Java compilation.
 **Regression risks:** Runner PATH resolution for python3.10, dependency compatibility.
+
+
+### 2026-11-16 — Successful Android compile and review artifact packaging
+**Goal:** Preserve a downloadable debug APK and build a Windows GUI review executable for validation.
+**Changed files/modules:** .github/workflows/gui-modernization-smoke.yml.
+**Preserved behavior:** Android and Windows source code, sequencing engines, donation links, Instructions and Legal controls unchanged.
+**New behavior:** CI uploads Android debug APK for seven days and attempts a Windows PyInstaller GUI review EXE in a separate windows-latest job.
+**Tests/evidence:** GUI modernization workflow 43913514506 completed SUCCESS, with android-compile and desktop-headless both SUCCESS. New artifact and Windows packaging jobs not yet verified.
+**Limitations:** Windows onefile GUI review executable may lack bundled data/assets and may not execute full sequencing; do not present it as release-ready. Android APK compilation is not emulator or hardware validation.
+**Deferred work:** Check Windows packaging and artifact outputs, test launch, support navigation, actual sequencing, APK installation on API 30/36, and package complete production assets.
+**Regression risks:** PyInstaller hidden imports and asset paths, missing runtime Python dependencies, Android test install/runtime differences.
