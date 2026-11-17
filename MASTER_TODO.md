@@ -77,6 +77,33 @@ Do not mark complete from unit tests alone.
 
 ## Change Ledger
 
+### 2026-11-16 — Safe choreography-promotion contract (audit follow-up)
+**Agent:** ChatGPT via connected GitHub
+**Branch:** `fix/orchestrator-promotion-contract-20261116`
+
+**Goal:** Ensure the run configuration tells the sequence builder whether orchestrated output actually replaces the production XSQ input. Close the mismatch where `RunConfig` defaulted to promoting, but `to_engine_args()` never emitted the builder's required `--promote-orchestrated-template` flag.
+
+**Changed files/modules:**
+- `core/run_spine.py`: promotion defaults off, and explicitly opted-in promotion serializes `--promote-orchestrated-template`. Sidecar-only still serializes `--no-orchestrator-template-promotion`.
+- `tests/test_orchestrator_promotion_contract.py`: six new regression cases for default sidecar, explicit opt-in, config round-trip, actual template substitution, unwritten XSQ, and orchestrator-disabled precedence.
+- `MASTER_TODO.md`: this audit/handoff ledger.
+
+**Intentionally preserved behavior:** Existing nine-pass orchestration and its reports; output selection without explicit promotion; no changes to `effect_engine.py`, drum geometry, event detection, vocals, effect placement, model targeting, or audio timing; no auto-enablement of Birdsong.
+
+**New behavior:** Programmatic `RunConfig(promote_orchestrated_template=True)` now emits the explicit opt-in accepted by `sequence_builder.py` instead of silently leaving promotion inactive. Default sidecar mode is now explicit and agrees with the builder.
+
+**Evidence / tests:** Source-path inspection of `core/sequence_builder.py`, `core/run_spine.py`, and `core/effects_orchestrator_bridge.py`; six regression tests committed. GitHub CI, local pytest, real-song XSQ comparison, native FSEQ/MP4 decode and visual acceptance must be checked separately; no passing results claimed merely because tests were written.
+
+**Limitations / deferred work:**
+- `build_seed_graph()` in `core/effects_orchestrator_bridge.py` still fabricates a five-section, 30-second show when no duration is given. It does **not** derive actual music sections or singer/drum events. Keep template promotion opt-in; do not auto-enable this graph on release paths.
+- The unused-looking duplicate `core/run_config_v2.py` still claims default promotion on. Determine all import consumers before removing/changing it (PR #207 proposed cleanup on a different branch).
+- Verify launch arguments in Windows EXE, Android APK, and CLI independently; not established by a Python config unit test.
+- Compare identical source audio and nine-panel layouts with orchestration sidecar-only vs explicit promotion; measure timeline alignment, XSQ placements, FSEQ channels, native xLights effects, visual variety, singer accuracy and drummer oracle, before enabling broadly.
+- Birdsong in `core/effect_engine.py` is directly wired but defaults off, and is not evidence that the nine-pass orchestration output reached native renders.
+
+**Regression risks:** An operator that previously constructed `RunConfig(promote_orchestrated_template=True)` but relied on its silently ignored setting will now actually promote the synthetic orchestrated XSQ; until musical alignment is proven, only opt in for isolated test runs. Keep this PR unmerged until focused tests and the no-surprises behavior are verified.
+
+
 ### 2026-11-13 — Beta 1.3 packages the palette fix for Windows and Android
 **Agent:** Cursor cloud agent
 **Branch:** `cursor/beta-1-3-release-1aae`
