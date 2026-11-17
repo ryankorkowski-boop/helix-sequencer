@@ -117,3 +117,51 @@ def test_source_sections_are_only_validated_after_successful_invocation():
     assert orch["source_sections_validated"] is True
     assert orch["synthetic_seed_only"] is False
     assert orch["orchestrated_sidecar_effects"] is None
+
+
+def test_run_audit_records_sidecar_and_final_candidate_separately(tmp_path):
+    import json
+    from core.sequence_builder import _record_engine_activation_audit
+
+    class FakeContext:
+        run_dir = tmp_path / "beta" / "run-002"
+        def __init__(self):
+            self.artifacts = []
+            self.warnings = []
+        def record_artifact(self, kind, path):
+            self.artifacts.append((kind, path))
+        def record_warning(self, warning):
+            self.warnings.append(warning)
+
+    sidecar = tmp_path / "song.orchestrated.xsq"
+    final = tmp_path / "song.xsq"
+    sidecar.write_text(
+        '<xsequence><Effect source="HelixOrchestrator" sourceVisualIntentId="a"/></xsequence>',
+        encoding="utf-8",
+    )
+    final.write_text(
+        '<xsequence><Effect source="HelixOrchestrator" sourceVisualIntentId="a"/>'
+        '<Effect name="On"/></xsequence>',
+        encoding="utf-8",
+    )
+    ctx = FakeContext()
+    report = SimpleNamespace(
+        invoked=True, xsq_written=True, orchestrated_xsq_path=str(sidecar),
+        input_intents=1, final_intents=1, placement_count=1,
+        effect_contract_placement_count=1, xsq_effect_count=1,
+        placement_source="fallback_candidates", error=None,
+    )
+    _record_engine_activation_audit(
+        ctx, SimpleNamespace(output_root=tmp_path),
+        ["--promote-orchestrated-template"], report, completed=True,
+        changed_xsq_paths=[sidecar, final],
+    )
+    assert ctx.warnings == []
+    audit = json.loads((ctx.run_dir / "engine_activation_audit.json").read_text())
+    inventory = audit["xsq_output_inventory"]
+    assert inventory["total_effect_elements"] == 3
+    reconciliation = audit["orchestration_xsq_reconciliation"]
+    assert reconciliation["sidecar_changed_this_run"] is True
+    assert reconciliation["sidecar_tagged_effects"] == 1
+    assert reconciliation["final_candidate_tagged_effects"] == 1
+    assert reconciliation["native_fseq_verified"] is False
