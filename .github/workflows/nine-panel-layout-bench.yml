@@ -24,6 +24,18 @@ jobs:
         run: python -m pip install numpy pillow pytest
       - name: Run locked nine-panel and model zoo regression tests
         run: python -m pytest -q tests/test_nine_panel_gate.py
+      - name: Generate layout bench fixtures and parse XML
+        run: python -m tools.layout_bench.generate_layouts
+      - name: Upload model zoo XML and template for inspection
+        uses: actions/upload-artifact@v4
+        with:
+          name: nine-panel-native-model-zoo-candidate
+          path: |
+            fixtures/layout_bench/native_model_zoo/xlights_rgbeffects.xml
+            fixtures/layout_bench/native_model_zoo/template.xsq
+            fixtures/layout_bench/manifest.json
+          if-no-files-found: error
+          retention-days: 14
       - name: Validate locked plan structure
         run: python tools/layout_bench/validate_nine_panel.py --structural-only
       - name: Verify approval gate refuses unfinished layouts
