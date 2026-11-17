@@ -237,3 +237,14 @@ Do not mark complete from unit tests alone.
 **Limitations:** Existing stitch outputs 1440x858 with banner, not target 1920x1080; still needs output scaling and media QA. No MP4 produced. Current fixture set does not satisfy canonical band, advanced layouts, or vocal mapping.
 **Deferred work:** Build/verify exact fixtures; run XSQ on full vocal audio; native FSEQ/MP4 render; validate audio sync, decode, brightness, framing and drummer/singer animation.
 **Regression risks:** New --nine-panel branch uses existing renderer, but legacy behavior should be regression-tested before approval.
+
+
+### 2026-11-17 — Owner-directed vocal consolidation and native model zoo
+**Goal:** Consolidate singing faces and singing trees in panel 4; replace panel 6 with broad native xLights model showcase; require maximum musical grouping across all nine panels.
+**Changed files/modules:** fixtures/layout_bench/nine_panel_lock.json; tests/test_nine_panel_gate.py.
+**Preserved behavior:** Locked 3x3 order and six-member canonical snowman band at center, other seven panel concepts, native renderer, existing 16-panel fixtures, drummer ground truth.
+**New behavior:** Panel 4 now requires Coro faces + singing trees + vocal matrices with separate lead/harmony and mouth/eye groups. Panel 6 now requires diverse native custom trees, stars, spinners, candy canes, mega trees, arches, snowflakes, matrices and more, grouped by model family, instrument role, geometry, spatial depth and independent submodels. Global grouping policy requires musical phrases, chases, builds, layering, counterpoint and rest suppression, not global beat pulsing.
+**Tests/evidence:** Added three regression assertions for panel 4, panel 6 and all-panel grouping. Commits ede3119d26f6bb594fa8055c38029ccc74ef9cc4 and 81accece7c14e6b22877be54100270f3bf3c0678. Tests not executed in this turn.
+**Limitations:** Specification and regression tests only; actual xLights models, native group routing and musical choreography remain unimplemented and unverified. Panel 4 and panel 6 remain explicitly missing.
+**Deferred work:** Generate and verify actual layouts, nested model group/channel mapping, independent vocal lanes, real full-vocal native FSEQ and nine-panel MP4; verify dynamic group coverage and visual quality.
+**Regression risks:** Downstream nine-panel layout generator must honor new model families and grouping policy; do not substitute generic singing tree fixture or generic pixel yard.
