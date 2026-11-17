@@ -77,6 +77,18 @@ Do not mark complete from unit tests alone.
 
 ## Change Ledger
 
+### 2026-11-16 — Locked nine-panel engineering pilot (not approved)
+**Goal:** Introduce a fixed-order 3x3 comparison using actual xLights FSEQ channel renders and real full-mix audio.
+**Changed files:** tools/layout_bench/nine_panel_pilot.py; MASTER_TODO.md.
+**Preserved:** Existing master sequencing, FSEQ decoder, compositing, and drummer behavior; no engine or model changes.
+**New:** Dedicated pilot CLI, explicit provisional-fixture labels, failure on missing audio/XSQ, and machine-readable per-panel handoff manifest.
+**Tests/evidence:** Source inspection of PR #208 runner and renderer; no runtime xLights render or MP4 validation performed in this connector session.
+**Limitations:** Eight of nine fixtures are stand-ins; 64-channel AC is not the requested 256-channel AC layout. Canonical snowman band, three toms, nine drummer cues, singing faces, independent lead/harmony phonemes, Birdsong spatial behavior and piano-reactive sequencing remain unverified. No final MP4 delivered.
+**Deferred:** Replace provisional fixtures with exact approved layouts and ground-truth band; source real audio; run XSQ -> FSEQ -> MP4; inspect brightness, motion, decoding, timing and audio sync; obtain owner approval before release.
+**Regression risks:** The runner imports existing bench helpers and must be invoked from repository root as a module. No production path changed.
+**Command:** `python -m tools.layout_bench.nine_panel_pilot --audio /path/to/full_mix.mp3 --output test_runs/nine_panel_pilot.mp4 --allow-provisional` after producing canonical XSQ for all nine fixtures with `tools/layout_bench/run_bench.py`.
+
+
 ### 2026-11-04 — Layout bench videos use xLights FSEQ channel data
 **Agent:** Cursor cloud agent
 **Branch:** `cursor/layout-test-bench-f36b`
