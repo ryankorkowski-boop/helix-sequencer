@@ -888,6 +888,81 @@ def build_wow_showcase() -> Layout:
     return layout
 
 
+
+def build_native_model_zoo() -> Layout:
+    """Dense, distinct native xLights model families with independent musical lanes."""
+    layout = Layout(
+        "native_model_zoo", "Native xLights Model Zoo", "wow",
+        "Native xLights trees, stars, spinners, canes, arches, matrices and spatial groupings.",
+    )
+    families: dict[str, list[str]] = {}
+    left: list[str] = []
+    right: list[str] = []
+    front: list[str] = []
+    back: list[str] = []
+    melodic: list[str] = []
+    rhythmic: list[str] = []
+
+    def add(family: str, name: str, display: str, points, pixels: int, tint: str, extra: dict[str, str], *, x: float, y: float, role: str) -> None:
+        model = _rgb(layout, name, display, points, pixels, tint, extra)
+        families.setdefault(family, []).append(model)
+        (left if x < 600 else right).append(model)
+        (front if y < 350 else back).append(model)
+        (melodic if role == "melodic" else rhythmic).append(model)
+
+    for i in range(12):
+        x = 90 + i * 92
+        add("Custom Trees", f"Custom Tree {i+1}", "Tree Flat",
+            tree_outline(x, 140, 56 + i % 3 * 12, 145 + i % 4 * 15),
+            8 * 25, RGB_TINT["mini"], {"parm1": "8", "parm2": "25"},
+            x=x, y=140, role="melodic")
+    for i in range(8):
+        x = 130 + i * 145
+        add("Mega Trees", f"Mega Tree {i+1}", "Tree 360",
+            tree_outline(x, 390, 100, 230), 12 * 40, RGB_TINT["mega"],
+            {"parm1": "12", "parm2": "40"}, x=x, y=390, role="melodic")
+    for i in range(12):
+        x = 60 + i * 100
+        add("Stars", f"Star {i+1}", "Star", star_poly(x, 675, 24 + i % 3 * 5),
+            40, RGB_TINT["star"], {"parm1": "1", "parm2": "40", "parm3": "5"},
+            x=x, y=675, role="rhythmic")
+    for i in range(10):
+        x = 90 + i * 115
+        add("Spinners", f"Spinner {i+1}", "Spinner", star_poly(x, 540, 32, tips=6),
+            6 * 12, RGB_TINT["spin"], {"parm1": "1", "parm2": "12", "ArmsPerString": "6", "NodesPerArm": "12"},
+            x=x, y=540, role="rhythmic")
+    for i in range(16):
+        x = 35 + i * 75
+        add("Candy Canes", f"Candy Cane {i+1}", "Candy Canes", cane(x, 50, 78, 22),
+            36, RGB_TINT["cane"], {"NumCanes": "1", "NodesPerCane": "36", "parm1": "1", "parm2": "36"},
+            x=x, y=50, role="rhythmic")
+    for i in range(8):
+        x = 110 + i * 140
+        add("Arches", f"Arch {i+1}", "Poly Line", arc(x, 235, 125, 80),
+            60, RGB_TINT["arch"], {"parm1": "1", "parm2": "60"},
+            x=x, y=235, role="melodic")
+    for i in range(6):
+        x = 120 + i * 195
+        add("Snowflakes", f"Snowflake {i+1}", "Poly Line", snowflake(x, 620, 25),
+            48, RGB_TINT["flake"], {"parm1": "1", "parm2": "48"},
+            x=x, y=620, role="rhythmic")
+    for i in range(4):
+        x = 190 + i * 270
+        add("Matrices", f"Matrix {i+1}", "Horiz Matrix", matrix_grid(x, 320, 130, 75, 12, 8),
+            12 * 8, RGB_TINT["matrix"], {"parm1": "12", "parm2": "8"},
+            x=x, y=320, role="melodic")
+    layout.group("Whole House", layout.names())
+    for family, members in families.items():
+        layout.group("All " + family, members)
+    for name, members in (
+        ("Zoo Left", left), ("Zoo Right", right),
+        ("Zoo Foreground", front), ("Zoo Background", back),
+        ("Zoo Melodic Instruments", melodic), ("Zoo Rhythmic Accents", rhythmic),
+    ):
+        layout.group(name, members)
+    return layout
+
+
 BUILDERS = [
     lambda: build_ac(16),
     lambda: build_ac(32),
@@ -905,6 +980,7 @@ BUILDERS = [
     build_wow_moire,
     build_wow_mirror,
     build_wow_showcase,
+    build_native_model_zoo,
 ]
 
 
