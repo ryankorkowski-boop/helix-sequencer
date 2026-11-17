@@ -77,6 +77,16 @@ Do not mark complete from unit tests alone.
 
 ## Change Ledger
 
+### 2026-11-17 — Real-run XSQ reconciliation filters out non-sequence artifacts
+**Goal:** Reconcile authoritative XSQ candidates rather than listing unrelated JSON, HTML and notes from the actual Tinsel Tornado run.
+**Changed files:** `core/orchestration_xsq_reconciliation.py`, `tests/test_orchestration_xsq_reconciliation.py`, and this ledger.
+**Preserved behavior:** Engine output, band, drummer, audio analysis and existing native preview untouched.
+**New behavior:** Only changed `.xsq` files other than the orchestration sidecar are final candidates.
+**Tests/evidence:** First real 205.8s source run exposed 8 candidate paths but only one was XSQ; unit regression added and 30 focused tests passed locally.
+**Limitations/deferred:** Filename and XML provenance alone do not prove final rendered FSEQ or nine-panel playback.
+**Regression risks:** Diagnostics only. No merge/release without explicit owner approval.
+
+
 ### 2026-11-17 — Real Tinsel Tornado run exposed skipped snowman-band planner
 **Goal:** Restore typed-drum snowman-band planning without altering canonical drummer assignments or falsifying drum detections.
 **Changed files:** `core/snowman_band.py`, `tests/test_snowman_band.py`, and this ledger.
