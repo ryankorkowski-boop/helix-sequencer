@@ -204,3 +204,14 @@ Do not mark complete from unit tests alone.
 **Limitations:** Manifest does not itself implement the missing fixtures, audio acquisition, drummer renderer or approval output.
 **Deferred work:** Build exact missing AC256, singing-face/tree, piano-driven, Birdsong/spatial and dense showcase fixtures; validate canonical drummer and independent vocals; run real-song native xLights FSEQ and visual MP4.
 **Regression risks:** None to runtime because new standalone manifest is not wired to existing 16-panel runner; future integration must reject blocked slots.
+
+
+### 2026-11-16 — Nine-panel fail-closed approval gate and regression tests
+**Goal:** Stop incomplete/synthetic fixture sets being presented as an approved nine-panel real-audio render.
+**Changed files/modules:** tools/layout_bench/validate_nine_panel.py; tests/test_nine_panel_gate.py.
+**Preserved behavior:** Existing 16-panel bench sequencing, xLights FSEQ renderer, effect engine, audio and canonical drummer are untouched.
+**New behavior:** CLI validates exact 3x3 order, snowman center requirement, distinct known fixture IDs, verified slot statuses, real vocal audio and native-render metadata; --structural-only checks the plan without claiming approval. Five unittest cases guard known gaps, reordering, unknown and duplicate fixtures.
+**Tests/evidence:** Added five regression tests; execution not yet confirmed by CI. Commits add1092023feeb4d659a5a1626ebc1e5668ff319 and b0c307aa0739de47531b7336bf877a673d03b350.
+**Limitations:** Metadata gate does not authenticate audio or FSEQ itself; real media inspection and visual acceptance remain necessary. It is not yet integrated into renderer invocation.
+**Deferred work:** Add exact missing fixtures, wire fail-closed preflight into a nine-panel runner, run actual vocal audio with native xLights and visually review drummer/voices.
+**Regression risks:** Future schema or fixture rename requires corresponding validator/test updates; current sixteen-panel workflow unaffected.
