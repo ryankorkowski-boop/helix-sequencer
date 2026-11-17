@@ -1660,6 +1660,12 @@ def analyze_audio_file(
         [[float(chroma[band, idx]) for band in range(chroma.shape[0])] for idx in sampled_indices],
         duration_s=duration_s,
     )
+    from core.music_section_recurrence import find_recurrent_regions
+    structure_recurrence = find_recurrent_regions(
+        [float(frame_times_s[idx]) for idx in sampled_indices],
+        [[float(chroma[band, idx]) for band in range(chroma.shape[0])] for idx in sampled_indices],
+        duration_s=duration_s,
+    )
     sections = _detect_song_sections(duration_ms, [float(item) for item in list(rms01)], frame_times_s, sensitivity=settings.section_change_sensitivity)
     raw_parts = provided_parts or [
         type("HeuristicPart", (), {"label": section.section_type, "start_ms": section.start_ms, "end_ms": section.end_ms, "energy": section.strength})()
@@ -1800,6 +1806,7 @@ def analyze_audio_file(
         debug_summaries={
             "raw_candidate_counts": {"onsets": len(onset_frames), "beats": len(beat_events), "pitch_candidates": len(raw_pitch), "notes": len(note_events)},
             "structure_change_candidates": structure_candidates,
+            "structure_recurrence_candidates": structure_recurrence,
             "timeline_segments": [asdict(item) for item in timeline[:32]],
             "feature_state": {"frames": len(feature_state_frames), "beat_timeline_entries": len(beat_feature_timeline)},
             "audio_reactive": audio_reactive_summary,
