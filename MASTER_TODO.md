@@ -248,3 +248,14 @@ Do not mark complete from unit tests alone.
 **Limitations:** Specification and regression tests only; actual xLights models, native group routing and musical choreography remain unimplemented and unverified. Panel 4 and panel 6 remain explicitly missing.
 **Deferred work:** Generate and verify actual layouts, nested model group/channel mapping, independent vocal lanes, real full-vocal native FSEQ and nine-panel MP4; verify dynamic group coverage and visual quality.
 **Regression risks:** Downstream nine-panel layout generator must honor new model families and grouping policy; do not substitute generic singing tree fixture or generic pixel yard.
+
+
+### 2026-11-17 — Advertising grid decision and full-HD compositor output
+**Goal:** Keep nine panels for primary advertising legibility and correct MP4 output geometry.
+**Changed files/modules:** tools/layout_bench/render_comparisons.py.
+**Preserved behavior:** Locked 3x3 panel order and band center; existing native FSEQ channel data, panel labels, audio mux and all legacy comparison plans.
+**New behavior:** Final composite filter converts any supported grid output to 1920x1080 with aspect-preserving scale/pad, square pixels and 30 fps H.264/AAC. Primary advertisement remains nine panels; 12-panel expansion deferred to separate technical demo.
+**Tests/evidence:** Commit 88015006a273e20157034c11b1f54dc835304118. Static implementation review only; no ffmpeg/xLights render or visual QA executed in this turn.
+**Limitations:** Nine-panel source fixtures remain missing/unverified; audio sync, 30fps frame cadence, visual fidelity and decode must be measured on actual MP4 before approval.
+**Deferred work:** Build exact panel 4 vocal group and panel 6 native model zoo with deep musical group routing; run real-audio nine-panel xLights FSEQ; validate MP4 and canonical band.
+**Regression risks:** Full-HD scaling changes legacy 12/16 panel composite output resolution; confirm downstream consumers and test output dimensions.
