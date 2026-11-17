@@ -77,6 +77,16 @@ Do not mark complete from unit tests alone.
 
 ## Change Ledger
 
+### 2026-11-16 — Audio-analysis provenance gate for orchestration (stage 1b of #236)
+**Goal:** Connect existing `audio_analysis.json` output to the strict source-timed orchestration adapter without treating the existing energy-third heuristic as verified music structure.
+**Changed files:** `core/audio_intelligence.py` now writes `audio_sha256` into exported analysis metadata when the original audio exists; `core/audio_section_timeline_adapter.py` converts only matching-hash, high-confidence, non-fallback `section_events` into the strict section schema; `tests/test_audio_section_timeline_adapter.py` covers accepted timings, fallback/low-confidence rejection and hash mismatch; `tests/test_song_section_choreography.py` corrected an invalid test assertion to use supported `IntentGraph` iteration; `MASTER_TODO.md` handoff.
+**Preserved:** No change to detection algorithms, generated section guesses, stem separation, drummer, vocals, Birdsong, output targeting, xLights render or Android/Windows defaults. Orchestrated XSQ promotion remains opt-in.
+**New behavior:** Analysis exports include source SHA-256; an explicit converter can produce validated choreography input from trusted section events. The present `_detect_song_sections` produces low-confidence `energy_curve_fallback`/ `tail_fill` events; the converter deliberately rejects these rather than labeling synthetic intro/verse/chorus as musical truth.
+**Evidence:** New unit tests committed but not yet independently run/passed; CI and real audio MP4 still pending.
+**Limitations/deferred:** Current automatic audio structure detector does **not** produce qualifying verified sections; a stronger novelty/repetition-based segmentation model, source confidence and verified audio-duration matching must be implemented before automated integration. Adapter currently must be invoked explicitly by a caller; no end-to-end CLI, GUI, or Android wiring. No xLights FSEQ or MP4 delivered.
+**Regression risks:** SHA-256 hashing at analysis export adds a streaming read of the audio file. If the source file is unavailable, no hash is emitted and the converter correctly refuses automatic trust. Do not merge or release without approval.
+
+
 ### 2026-11-16 — Source-timed nine-pass choreography input (stage 1 of #236)
 **Agent:** ChatGPT / connected GitHub
 **Branch:** `feature/orchestration-source-timeline-20261116`
