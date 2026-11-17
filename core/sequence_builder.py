@@ -184,7 +184,7 @@ def _record_engine_activation_audit(
     failed: str | None = None,
 ) -> None:
     """Best-effort evidence on both successful and failed engine runs."""
-    audit_path = config.output_root / "engine_activation_audit.json"
+    audit_path = ctx.run_dir / "engine_activation_audit.json"
     try:
         write_engine_activation_audit(
             audit_path,
