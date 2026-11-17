@@ -13,6 +13,23 @@ class NinePanelGateTests(unittest.TestCase):
         cls.lock = json.loads(Path(LOCK).read_text(encoding="utf-8"))
         cls.fixtures = json.loads(Path(MANIFEST).read_text(encoding="utf-8"))
 
+    def test_native_model_zoo_roundtrip_parser(self):
+        import tempfile
+        from tools.layout_bench.generate_layouts import (
+            build_native_model_zoo, write_layout_xml, write_template, parsed_stats,
+        )
+        with tempfile.TemporaryDirectory() as temp:
+            layout = build_native_model_zoo()
+            xml = Path(temp) / "xlights_rgbeffects.xml"
+            xsq = Path(temp) / "template.xsq"
+            write_layout_xml(layout, xml)
+            write_template(layout, xsq)
+            stats = parsed_stats(xml)
+            self.assertEqual(stats["models"], 76)
+            self.assertEqual(stats["groups"], len(layout.groups))
+            self.assertGreater(stats["channels"], 10000)
+            self.assertTrue(xsq.exists())
+
     def test_native_model_zoo_generator_has_broad_families_and_groups(self):
         from tools.layout_bench.generate_layouts import build_native_model_zoo
         layout = build_native_model_zoo()
