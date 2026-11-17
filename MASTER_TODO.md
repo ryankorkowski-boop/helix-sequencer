@@ -77,6 +77,19 @@ Do not mark complete from unit tests alone.
 
 ## Change Ledger
 
+### 2026-11-16 — Source-timed nine-pass choreography input (stage 1 of #236)
+**Agent:** ChatGPT / connected GitHub
+**Branch:** `feature/orchestration-source-timeline-20261116`
+
+**Goal:** Allow the existing nine-pass director to consume validated, externally verified music sections rather than only its synthetic 30-second seed.
+**Changed files:** `core/song_section_choreography.py` (new adapter); `core/effects_orchestrator_bridge.py` (optional input); `core/sequence_builder.py` (strip private timeline flag before production engine); `tests/test_song_section_choreography.py`; this ledger.
+**Preserved behavior:** Without `--orchestration-sections-json`, the old seed/sidecar behavior is unchanged; production promotion remains explicitly opt-in under #235. No changes to drummer, singer clocks, native xLights effect selection, model routing, Birdsong, or platform defaults.
+**New behavior:** When passed `--orchestration-sections-json PATH`, orchestration reads a JSON object with `source` (`audio_analysis` or `verified_manual`), positive `duration_seconds`, and contiguous `sections` with `label`, `start_seconds`, `end_seconds`, and `energy` 0–1. Invalid/missing/nonfinite/out-of-range/gapped/overlapping timelines fail closed in the bridge report rather than silently using synthetic sections. Section labels/energy drive deterministic per-section motion grammar. The private CLI option is not passed into the effect engine.
+**Tests/evidence:** Nine focused test cases committed, covering real timings, invalid boundaries, provenance, nine-pass handoff, and CLI flag filtering. Tests not yet observed passing; hosted CI and real-song native renders pending.
+**Limitations/deferred:** The adapter **does not infer** song structure or verify that a JSON artifact was actually derived from its matching audio. Caller must provide independently validated source timing. Current director still only seeds section-level intents; deeper beat, harmony, phoneme, instrument and spatial choreography is future work. No GUI option or APK integration yet. Do not advertise full song-derived choreography.
+**Regression risks:** Wrong but well-formed section JSON could mismatch the audio; future integration must compare audio hashes and durations. Legacy synthetic behavior remains when no JSON is supplied. Do not auto-promote unverified XSQs. No merge or release without owner approval.
+
+
 ### 2026-11-16 — Safe choreography-promotion contract (audit follow-up)
 **Agent:** ChatGPT via connected GitHub
 **Branch:** `fix/orchestrator-promotion-contract-20261116`
