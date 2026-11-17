@@ -77,6 +77,16 @@ Do not mark complete from unit tests alone.
 
 ## Change Ledger
 
+### 2026-11-16 — Diagnostic recurring music-region evidence (#236)
+**Goal:** Identify repeated musical texture independently from energy/chroma novelty transitions without automatically calling repeats choruses.
+**Changed files:** `core/music_section_recurrence.py` (bounded, deterministic nonoverlapping chroma-region cosine comparisons); `core/audio_intelligence.py` (exports `debug_summaries.structure_recurrence_candidates` from existing ~1 Hz chroma); `tests/test_music_section_recurrence.py`; this ledger.
+**Preserved:** Existing song section labels, effect engine targeting, nine-pass director promotion rules, drummer, vocals, Birdsong, Android and Windows behavior remain unchanged.
+**New behavior:** Recurring textured regions can be reported with timestamps, similarity, bounded pair counts and diagnostic confidence below 0.7; stationary chroma is rejected to avoid false repetition.
+**Tests/evidence:** Unit tests committed for repeated textures, static-tone rejection, deterministic output, bounds and invalid input. CI and real-song evidence still pending; no native XSQ/FSEQ/MP4 created.
+**Limitations/deferred:** Region-average chroma cannot distinguish songs sharing the same harmonic histogram; the detector may report false repeats. Future work needs beat-aligned sequences, temporal chroma trajectories, timbral recurrence and owner-reviewed real recordings. Diagnostic evidence is not a verified chorus label and is never eligible for automatic template promotion.
+**Regression risks:** O(N²) region-pair comparisons on long songs, bounded output but not pair evaluations; currently uses fixed eight-second windows and ~1 Hz sampling. Limit full-song duration or optimize candidate indexing before large batch runs. No merge or release without owner approval.
+
+
 ### 2026-11-16 — Diagnostic music-structure novelty detector (#236)
 **Goal:** Begin replacing forced equal-third song labels with evidence from actual audio features, without pretending change points are confirmed verses or choruses.
 **Changed files:** `core/music_structure_candidates.py` (pure-Python, deterministic energy/chroma novelty detector); `core/audio_intelligence.py` (1 Hz sampled features and diagnostic-only `debug_summaries.structure_change_candidates`); `tests/test_music_structure_candidates.py`; this ledger.
