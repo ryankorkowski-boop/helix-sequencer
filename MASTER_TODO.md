@@ -77,6 +77,16 @@ Do not mark complete from unit tests alone.
 
 ## Change Ledger
 
+### 2026-11-17 — Public Demucs model dependency for real-audio stem validation
+**Goal:** Avoid accepting poor fallback drum and vocal classifications after pretrained Demucs weights failed to download in an isolated runtime.
+**Changed files:** `.github/workflows/helix-demucs-public-checkpoint.yml` and this ledger.
+**Preserved behavior:** No runtime effect, vocalist, or drummer edits; no fabricated kick or lead events; existing source bytes, owner ground truth, release restrictions maintained.
+**New behavior:** On a branch-scoped workflow-file push, retrieve only the public htdemucs checkpoint on GitHub runner, validate the expected SHA256 prefix, and retain it as a two-day CI artifact with provenance receipt. No user music or Drive identifiers enter GitHub.
+**Tests/evidence:** Earlier Tinsel Tornado run had Demucs DNS failure and fallback drum stream with zero kicks and two snares; public model fetch and local reanalysis remain pending.
+**Limitations/deferred:** Model may fail remote fetch, CPU inference, or provide imperfect singer separation. Native xLights FSEQ/MP4 still unverified.
+**Regression risks:** Short CI job uses external download and storage; no runtime sequencing effect. No merge/release without owner approval.
+
+
 ### 2026-11-17 — Real-run XSQ reconciliation filters out non-sequence artifacts
 **Goal:** Reconcile authoritative XSQ candidates rather than listing unrelated JSON, HTML and notes from the actual Tinsel Tornado run.
 **Changed files:** `core/orchestration_xsq_reconciliation.py`, `tests/test_orchestration_xsq_reconciliation.py`, and this ledger.
