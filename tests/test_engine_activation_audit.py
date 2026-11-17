@@ -82,3 +82,12 @@ def test_cli_audit_is_written_under_unique_run_directory(tmp_path):
     assert not (tmp_path / "engine_activation_audit.json").exists()
     assert ctx.artifacts == [("engine_activation_audit", audit_path)]
     assert not ctx.warnings
+
+
+def test_synthetic_birdsong_hook_not_mistaken_for_real_song_output():
+    audit = build_engine_activation_audit(["--enable-birdsong"])
+    hook = audit["engines"]["birdsong_post_run_hook"]
+    assert hook["requested"] is True
+    assert hook["status"] == "synthetic_diagnostic_hook_requested"
+    assert hook["real_audio_analysis_verified"] is False
+    assert hook["exported_effects_verified"] is False

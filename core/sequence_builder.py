@@ -7,6 +7,7 @@ from pathlib import Path
 from typing import Iterable
 
 from core import engine_profiles
+from core.xsq_effect_inventory import inventory_xsq_outputs
 from core.engine_activation_audit import build_engine_activation_audit, write_engine_activation_audit
 from core.effects_orchestration_bridge import EffectsOrchestrationRunReport, run_effects_orchestration
 from core.helix_version import TITLE, VERSION
@@ -182,14 +183,15 @@ def _record_engine_activation_audit(
     *,
     completed: bool,
     failed: str | None = None,
+    changed_xsq_paths: list[Path] | None = None,
 ) -> None:
     """Best-effort evidence on both successful and failed engine runs."""
     audit_path = ctx.run_dir / "engine_activation_audit.json"
     try:
-        write_engine_activation_audit(
-            audit_path,
-            build_engine_activation_audit(engine_args or [], report, completed=completed, failed=failed),
-        )
+        audit = build_engine_activation_audit(engine_args or [], report, completed=completed, failed=failed)
+        if changed_xsq_paths is not None:
+            audit["xsq_output_inventory"] = inventory_xsq_outputs(changed_xsq_paths)
+        write_engine_activation_audit(audit_path, audit)
         ctx.record_artifact("engine_activation_audit", audit_path)
     except (OSError, ValueError, TypeError) as exc:
         ctx.record_warning(f"engine_activation_audit: could not write report: {exc}")
@@ -231,7 +233,8 @@ def _record_changed_artifacts(
     ctx: RunContext,
     roots: Iterable[Path],
     before: dict[Path, tuple[int, int]],
-) -> None:
+) -> list[Path]:
+    changed: list[Path] = []
     for artifact in _known_artifact_paths(roots):
         resolved = artifact.resolve(strict=False)
         try:
@@ -241,6 +244,8 @@ def _record_changed_artifacts(
         if before.get(resolved) == (stat.st_mtime_ns, stat.st_size):
             continue
         ctx.record_artifact(_artifact_kind(artifact), artifact)
+        changed.append(artifact)
+    return changed
 
 
 def _known_artifact_paths(roots: Iterable[Path]) -> list[Path]:
@@ -478,6 +483,7 @@ def run_profile(profile_id: str | None, engine_args: list[str] | None = None) ->
 
         artifact_roots = _artifact_search_roots(config, profile.version)
         artifact_snapshot = _snapshot_known_artifacts(artifact_roots)
+        changed_artifacts: list[Path] = []
         try:
             _effect_engine().main_for(profile.version, effective_engine_args)
             # Optional birdsong post-run hook (guarded by explicit engine flag)
@@ -486,17 +492,17 @@ def run_profile(profile_id: str | None, engine_args: list[str] | None = None) ->
             except Exception as exc:  # pragma: no cover - safe guard
                 print(f"birdsong: post-run hook failed: {exc}", file=sys.stderr)
         finally:
-            _record_changed_artifacts(ctx, artifact_roots, artifact_snapshot)
+            changed_artifacts = _record_changed_artifacts(ctx, artifact_roots, artifact_snapshot)
             ctx.record_artifact("configured_output_root", config.output_root)
 
-        _record_engine_activation_audit(ctx, config, engine_args, report, completed=True)
+        _record_engine_activation_audit(ctx, config, engine_args, report, completed=True, changed_xsq_paths=changed_artifacts)
         ctx.finalize(success=True)
         print(f"SUCCESS: Run completed. Manifest: {ctx.manifest_path}", file=sys.stderr)
 
     except KeyboardInterrupt:
         error_summary = "Run interrupted by user (Ctrl+C)"
         print(f"\nINTERRUPTED: {error_summary}", file=sys.stderr)
-        _record_engine_activation_audit(ctx, config, engine_args, locals().get("report"), completed=False, failed="interrupted")
+        _record_engine_activation_audit(ctx, config, engine_args, locals().get("report"), completed=False, failed="interrupted", changed_xsq_paths=locals().get("changed_artifacts"))
         ctx.finalize(success=False, error_summary=error_summary)
         raise SystemExit(130)
 
@@ -504,7 +510,7 @@ def run_profile(profile_id: str | None, engine_args: list[str] | None = None) ->
         error_summary = f"{type(e).__name__}: {str(e)}\n{traceback.format_exc()}"
         print(f"ERROR: {error_summary}", file=sys.stderr)
         print(f"Manifest saved to: {ctx.manifest_path}", file=sys.stderr)
-        _record_engine_activation_audit(ctx, config, engine_args, locals().get("report"), completed=False, failed=f"{type(e).__name__}: {e}")
+        _record_engine_activation_audit(ctx, config, engine_args, locals().get("report"), completed=False, failed=f"{type(e).__name__}: {e}", changed_xsq_paths=locals().get("changed_artifacts"))
         ctx.finalize(success=False, error_summary=error_summary)
         raise SystemExit(1)
 

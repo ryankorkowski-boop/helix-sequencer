@@ -77,6 +77,26 @@ Do not mark complete from unit tests alone.
 
 ## Change Ledger
 
+### 2026-11-17 — Birdsong synthetic hook truth labeling
+**Goal:** Prevent synthetic post-run Birdsong demonstration data from being mistaken for song-driven sequencing evidence.
+**Changed files:** `core/engine_activation_audit.py`, `tests/test_engine_activation_audit.py`, and this ledger.
+**Preserved behavior:** Existing optional Birdsong hook, engine effect placement, xLights export, all flags and native behavior unchanged.
+**New behavior:** Activation audit separately labels explicit Birdsong post-run hook requests as synthetic diagnostic requests and leaves real-audio analysis and exported-effect verification false.
+**Tests/evidence:** Added regression test for explicit hook flag. CI pending after new commit.
+**Limitations/deferred:** This does not determine whether the hook actually executed or whether core Birdsong generated real-song effects. Future work must trace real Birdsong placements and output.
+**Regression risks:** None to rendering; only diagnostic schema extended. No merge without owner approval.
+
+
+### 2026-11-17 — Changed-XSQ effect inventory
+**Goal:** Begin reconciling what reaches output files without inventing per-engine attribution.
+**Changed files:** `core/xsq_effect_inventory.py`, `core/sequence_builder.py`, `tests/test_xsq_effect_inventory.py`, and this ledger.
+**Preserved behavior:** Effect generation, renderer selection, orchestration promotion, drummer/singer logic, Birdsong and matrix flags, native exports, and existing run manifests.
+**New behavior:** The changed-artifact recorder returns paths. Run-scoped engine audits now include a streaming XML inventory of `Effect` elements only for changed XSQ files, including parse errors and explicit unverified engine attribution/FSEQ status.
+**Tests/evidence:** Unit tests added for effect counting, exclusion of non-XSQ inputs, malformed XML, and empty outputs. GitHub CI and native xLights rendering not yet verified.
+**Limitations/deferred:** XML counts cannot prove effects render or identify originating engine; XSQ output discovery remains limited to existing known-artifact paths. Large files incur additional parse time. Next: trace planner output IDs into accepted placements, then native FSEQ verification.
+**Regression risks:** Additional XML parsing can increase run latency, and malformed files are reported rather than raising. No merges/releases without approval.
+
+
 ### 2026-11-17 — Run-scoped engine audit evidence
 **Goal:** Prevent concurrent or repeated runs from overwriting engine activation evidence.
 **Changed files:** `core/sequence_builder.py`, `tests/test_engine_activation_audit.py`, and this ledger.
