@@ -281,3 +281,14 @@ Do not mark complete from unit tests alone.
 **Limitations:** Parser roundtrip is not proof xLights accepts all models; no generated fixture XML committed or real FSEQ/MP4 render.
 **Deferred work:** Review CI results and repair failures, regenerate/commit verified panel 6 fixture, add authentic Custom models, verify native xLights, finish other missing panels and audio.
 **Regression risks:** CI may expose parser or dependency failures; new workflow runs only on this branch.
+
+
+### 2026-11-17 — Green CI and model zoo candidate artifact
+**Goal:** Preserve an inspectable xLights XML/XSQ candidate after successful model zoo parser regression tests.
+**Changed files/modules:** .github/workflows/nine-panel-layout-bench.yml.
+**Preserved behavior:** Nine-panel order and approval blockers; existing runtime renderer, canonical drummer, and other development branches untouched.
+**New behavior:** CI now executes full fixture generation/parsing and uploads native_model_zoo xlights_rgbeffects.xml, template.xsq and manifest.json as a 14-day candidate artifact. This is not a rendered MP4 and does not imply native xLights acceptance.
+**Tests/evidence:** Previous focused GitHub Actions run 44201775381 passed all steps including regression tests and expected approval rejection. New artifact workflow committed b67abba3b00deddb5aa0193bbbfefe3453f2ad7a; result pending.
+**Limitations:** No native xLights FSEQ, no video, no actual real-vocal music run; panel 6 remains missing/unverified in lock until native import and group targeting confirmed.
+**Deferred work:** Check new CI run and artifact; inspect xLights import; complete nine-panel missing fixtures; run/visually review native MP4.
+**Regression risks:** Full fixture generation may expose parser errors outside focused model zoo tests, and CI artifact size may increase.
