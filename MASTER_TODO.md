@@ -77,6 +77,16 @@ Do not mark complete from unit tests alone.
 
 ## Change Ledger
 
+### 2026-11-17 — Preserve activation audit when sequencing fails
+**Goal:** Avoid losing engine diagnostics when the sequencing engine throws or the user interrupts.
+**Changed files:** `core/sequence_builder.py`, `tests/test_engine_activation_audit.py`, and this ledger.
+**Preserved behavior:** Existing CLI error exit codes, run manifest finalization, successful audit schema, production effect selection, drummer, vocals, Android resource opt-outs and orchestration promotion.
+**New behavior:** A shared best-effort audit writer is invoked for successful, failed, and interrupted runs; failure records include concise error type/message, not the traceback, and `run_completed=false`.
+**Tests/evidence:** Added unit tests for failed/interrupted audit payloads. CI and actual failed-run manifest evidence pending.
+**Limitations/deferred:** Run initialization failures before `RunContext` creation still have no audit; this is not per-engine effect export reconciliation. Shared output paths can be overwritten by concurrent runs. Future work: unique run-scoped audit files, native effect reconciliation, and planner instrumentation.
+**Regression risks:** Audit filesystem failures are warnings only. No changes to renderer behavior; do not merge/release without approval.
+
+
 ### 2026-11-16 — Engine activation evidence report (first integration stage)
 **Goal:** Make ignored or unverified engine paths visible without silently claiming that planned effects reached the xLights output.
 **Changed files:** `core/engine_activation_audit.py`, `core/sequence_builder.py`, `tests/test_engine_activation_audit.py`, and this ledger.
