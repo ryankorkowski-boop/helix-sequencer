@@ -77,6 +77,16 @@ Do not mark complete from unit tests alone.
 
 ## Change Ledger
 
+### 2026-11-17 — Correct public Demucs checkpoint integrity validation
+**Goal:** Check full SHA256 of downloaded public model bytes, not the eight-hex Demucs model identifier preceding the filename hash.
+**Changed files:** `.github/workflows/helix-demucs-public-checkpoint.yml` and this ledger.
+**Preserved behavior:** Existing music analysis, user audio, band and drummer; no sequence changes.
+**New behavior:** Require full expected SHA256 `8726e21a993978c7ba086d3872e7608d7d5bfca646ca4aca459ffda844faa8b4` (as published for model file `955717e8-8726e21a.th`) instead of wrong `955717e8` prefix; prevents erroneously rejecting authentic model bytes.
+**Tests/evidence:** Initial runner fetched file but rejected it under incorrect hash check; corrected workflow job and local Demucs re-analysis pending.
+**Limitations/deferred:** Public model availability and CPU inference unverified. No native FSEQ/MP4 yet.
+**Regression risks:** Public download and temporary artifact only, no runtime changes or owner approval.
+
+
 ### 2026-11-17 — Public Demucs model dependency for real-audio stem validation
 **Goal:** Avoid accepting poor fallback drum and vocal classifications after pretrained Demucs weights failed to download in an isolated runtime.
 **Changed files:** `.github/workflows/helix-demucs-public-checkpoint.yml` and this ledger.
