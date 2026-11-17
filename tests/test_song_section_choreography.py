@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import hashlib
 import json
 
 import pytest
@@ -59,8 +60,13 @@ def test_nine_pass_bridge_uses_source_sections(tmp_path):
         {"label": "Intro", "start_seconds": 0, "end_seconds": 7, "energy": 0.2},
         {"label": "Chorus", "start_seconds": 7, "end_seconds": 42, "energy": 0.8},
     ])
+    audio = tmp_path / "song.wav"
+    audio.write_bytes(b"small deterministic source fixture")
+    payload = json.loads(path.read_text(encoding="utf-8"))
+    payload["audio_sha256"] = hashlib.sha256(audio.read_bytes()).hexdigest()
+    path.write_text(json.dumps(payload), encoding="utf-8")
     report = run_effects_orchestration([
-        "--audio", "song.wav", "--orchestration-sections-json", str(path),
+        "--audio", str(audio), "--orchestration-sections-json", str(path),
     ], write_report=False)
     assert report.invoked is True, report.error
     assert report.input_intents == 2
@@ -70,3 +76,19 @@ def test_nine_pass_bridge_uses_source_sections(tmp_path):
 def test_source_flag_is_not_forwarded_to_effect_engine():
     args = ["--audio", "song.wav", "--orchestration-sections-json", "sections.json", "--polish"]
     assert _clean_engine_args(args) == ["--audio", "song.wav", "--polish"]
+
+
+def test_bridge_rejects_mismatched_audio_identity(tmp_path):
+    path = _write(tmp_path, [
+        {"label": "Intro", "start_seconds": 0, "end_seconds": 42, "energy": 0.2},
+    ])
+    audio = tmp_path / "song.wav"
+    audio.write_bytes(b"wrong audio")
+    payload = json.loads(path.read_text(encoding="utf-8"))
+    payload["audio_sha256"] = "0" * 64
+    path.write_text(json.dumps(payload), encoding="utf-8")
+    report = run_effects_orchestration([
+        "--audio", str(audio), "--orchestration-sections-json", str(path),
+    ], write_report=False)
+    assert report.invoked is False
+    assert "audio_sha256" in report.error
