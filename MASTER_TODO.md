@@ -409,3 +409,14 @@ Do not mark complete from unit tests alone.
 **Limitations:** Exact failure diagnosed and patched but no new successful package or real audio sequence confirmed yet.
 **Deferred work:** Inspect latest Windows palette smoke outcome, artifact, full audio-to-XSQ run, native xLights MP4 and Android device playback.
 **Regression risks:** Other consumers may pass selector in a different position; only leading legacy flag is normalized intentionally.
+
+
+### 2026-11-16 — Preserve real Windows package sequencing evidence
+**Goal:** Make generated editable XSQ available for independent inspection rather than relying solely on palette-smoke summary.
+**Changed files/modules:** .github/workflows/gui-modernization-smoke.yml.
+**Preserved behavior:** Same deterministic 8-second synthetic audio, existing palette test, packaging, Android build, drummer and engine behavior unchanged.
+**New behavior:** Windows CI fails closed if palette report does not pass or generated XSQ is absent/suspiciously small; uploads generated XSQ alongside ZIP, SHA256 and JSON.
+**Tests/evidence:** Previous latest run 43952306153 passed all four jobs and generated candidate artifacts. Evidence-retention workflow change committed 68a0107d9419d2ef6eaee1fcc0cfb9ba9f8855f1. New CI pending.
+**Limitations:** XSQ comes from synthetic tone, not owner real-audio master song; no native FSEQ or visually reviewed MP4 established.
+**Deferred work:** Inspect downloadable XSQ and actual effects, run real song from Drive through full Helix, native xLights render and 9-panel review, Android device runtime.
+**Regression risks:** Some sequences could be smaller than threshold despite validity; threshold is deliberately modest 1 KiB and should be reevaluated on evidence.
