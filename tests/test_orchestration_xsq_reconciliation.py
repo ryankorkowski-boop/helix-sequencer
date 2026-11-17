@@ -68,3 +68,13 @@ def test_changed_artifact_helper_is_not_shadowed():
     source = inspect.getsource(builder)
     assert source.count("def _record_changed_artifacts(") == 1
     assert source.count("def _snapshot_known_artifacts(") == 1
+
+
+def test_only_xsq_paths_appear_as_final_candidates(tmp_path):
+    xsq = tmp_path / "final.xsq"
+    report = tmp_path / "final.report.json"
+    xsq.write_text('<xsequence><Effect name="On"/></xsequence>', encoding="utf-8")
+    report.write_text('{"status":"success"}', encoding="utf-8")
+    result = reconcile_orchestration_xsq(None, [report, xsq], promotion_requested=False)
+    assert result["final_candidate_paths"] == [str(xsq)]
+    assert result["parsed_final_candidate_count"] == 1
