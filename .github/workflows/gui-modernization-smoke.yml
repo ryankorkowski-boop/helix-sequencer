@@ -1,0 +1,166 @@
+name: GUI modernization smoke
+on:
+  push:
+    branches:
+      - feature/animated-progress-ui-20261116
+  pull_request:
+    paths:
+      - 'gui_launcher.py'
+      - 'gui_lightshow.py'
+      - 'tests/test_gui_modernization_smoke.py'
+      - 'android/app/src/main/java/org/helixsequencer/android/**'
+      - '.github/workflows/gui-modernization-smoke.yml'
+jobs:
+  desktop-headless:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ['3.11', '3.12']
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+      - run: python -m pip install pytest
+      - run: python -m unittest discover -s tests -p test_gui_modernization_smoke.py -v
+      - run: python -m py_compile gui_launcher.py gui_lightshow.py gui_launcher_drummer.py
+      - name: Windows portable CLI dispatch regression
+        run: python -m pytest -q tests/test_windows_portable_entry.py
+      - name: Drummer mapping regression
+        run: python -m unittest discover -s tests -p test_drum_mapping.py -v
+  windows-package:
+    runs-on: windows-2022
+    timeout-minutes: 90
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: pip
+          cache-dependency-path: requirements-windows-portable.txt
+      - name: Install complete portable runtime
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -r requirements-windows-portable.txt
+          python -m pip install pytest
+      - name: Verify release version and palette
+        run: python -m pytest -q tests/test_helix_version.py tests/test_palette_not_white.py
+      - name: Build full GUI and CLI worker
+        run: python -m PyInstaller --noconfirm --clean windows_portable.spec
+      - name: Check packaged files and CLI version
+        shell: pwsh
+        run: |
+          $root = 'dist/Helix'
+          foreach ($name in @('Helix.exe', 'HelixCLI.exe', '_internal/template.xsq')) {
+            if (-not (Test-Path "$root/$name")) { throw "Missing $name" }
+          }
+          & "$root/HelixCLI.exe" --version | Tee-Object -Variable versionText
+          if ($LASTEXITCODE -ne 0 -or ($versionText -join ' ') -notmatch '1\.4\.0-beta') {
+            throw 'Packaged worker did not report Beta 1.4'
+          }
+          Copy-Item "$root/_internal/template.xsq" "$root/template.xsq" -Force
+          if (Test-Path "$root/_internal/xlights_rgbeffects.xml") {
+            Copy-Item "$root/_internal/xlights_rgbeffects.xml" "$root/xlights_rgbeffects.xml" -Force
+          }
+          foreach ($name in @('WINDOWS_PORTABLE_README.txt', 'THIRD_PARTY_LICENSES.md', 'NOTICE', 'LICENSE', 'CHANGELOG.md')) {
+            if (Test-Path "$root/_internal/$name") { Copy-Item "$root/_internal/$name" "$root/$name" -Force }
+          }
+          New-Item -ItemType Directory -Force -Path "$root/outputs" | Out-Null
+      - name: Verify packaged CLI reaches sequencing argument parser
+        shell: pwsh
+        run: |
+          $output = & dist/Helix/HelixCLI.exe --help 2>&1
+          if ($LASTEXITCODE -ne 0) { throw "Packaged CLI --help failed: $output" }
+          $help = $output -join ' '
+          if ($help -notmatch 'usage:' -or $help -notmatch 'audio') {
+            throw "Packaged CLI did not expose the sequencing argument parser: $help"
+          }
+      - name: Exercise packaged palette engine
+        shell: pwsh
+        run: |
+          python tools/palette_smoke.py --output palette-smoke --runner dist/Helix/HelixCLI.exe
+          if ($LASTEXITCODE -ne 0) { throw 'Packaged palette smoke failed' }
+      - name: Verify and preserve generated XSQ evidence
+        shell: pwsh
+        run: |
+          $report = Get-Content palette-smoke/palette-smoke.json -Raw | ConvertFrom-Json
+          if (-not $report.ok -or @($report.sequences).Count -lt 1) { throw 'Missing passing sequence evidence' }
+          $xsqs = @(Get-ChildItem palette-smoke/out -Filter *.xsq -Recurse -File)
+          if ($xsqs.Count -lt 1) { throw 'Palette run did not produce an editable XSQ' }
+          foreach ($xsq in $xsqs) {
+            if ($xsq.Length -lt 1024) { throw "Suspiciously small sequence: $($xsq.FullName)" }
+          }
+      - name: Assemble Beta 1.4 ZIP and checksum
+        shell: pwsh
+        run: |
+          Compress-Archive -Path dist/Helix -DestinationPath Helix-Windows-Beta-v1.4.zip -CompressionLevel Optimal
+          $hash = (Get-FileHash Helix-Windows-Beta-v1.4.zip -Algorithm SHA256).Hash.ToLowerInvariant()
+          "$hash  Helix-Windows-Beta-v1.4.zip" | Set-Content -Encoding ascii Helix-Windows-Beta-v1.4.sha256
+      - uses: actions/upload-artifact@v4
+        with:
+          name: helix-windows-beta-v1.4-candidate
+          path: |
+            Helix-Windows-Beta-v1.4.zip
+            Helix-Windows-Beta-v1.4.sha256
+            palette-smoke/palette-smoke.json
+            palette-smoke/out/**/*.xsq
+          if-no-files-found: error
+          retention-days: 14
+  android-compile:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+      - name: Use preinstalled Android SDK
+        run: echo "ANDROID_HOME=$ANDROID_HOME" && ls "$ANDROID_HOME/cmdline-tools" || true
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+      - uses: gradle/actions/setup-gradle@v4
+        with:
+          gradle-version: '8.11.1'
+      - name: Compile Android debug
+        working-directory: android
+        run: gradle :app:assembleDebug --no-daemon
+      - name: Verify APK identity and embedded engine
+        shell: bash
+        run: |
+          set -euo pipefail
+          apk=android/app/build/outputs/apk/debug/app-debug.apk
+          test -s "$apk"
+          aapt="$ANDROID_HOME/build-tools/36.0.0/aapt"
+          if [ ! -x "$aapt" ]; then
+            aapt="$(find "$ANDROID_HOME/build-tools" -name aapt -type f | sort -V | tail -1)"
+          fi
+          "$aapt" dump badging "$apk" | tee android-apk-badging.txt
+          grep -q "name='org.helixsequencer.android'" android-apk-badging.txt
+          grep -q "versionCode='10'" android-apk-badging.txt
+          grep -q "versionName='1.4.0-beta'" android-apk-badging.txt
+          python - <<'PY'
+          import zipfile
+          from pathlib import Path
+          apk = Path("android/app/build/outputs/apk/debug/app-debug.apk")
+          with zipfile.ZipFile(apk) as z:
+              entries = z.namelist()
+              import io
+              engine_assets = [n for n in entries if n.endswith("helix-engine.zip")]
+              if len(engine_assets) != 1:
+                  raise SystemExit(f"Expected one staged Helix engine archive, found: {engine_assets}")
+              with zipfile.ZipFile(io.BytesIO(z.read(engine_assets[0]))) as engine_zip:
+                  engine = set(engine_zip.namelist())
+                  required = {"core/sequence_builder.py", "core/effect_engine.py", "android-engine-manifest.json"}
+                  missing = required - engine
+                  if missing:
+                      raise SystemExit(f"Staged Helix engine missing: {sorted(missing)}")
+                  print("Verified staged engine:", engine_assets[0], "entries:", len(engine))
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: helix-gui-android-debug
+          path: android/app/build/outputs/apk/debug/*.apk
+          if-no-files-found: error
+          retention-days: 7

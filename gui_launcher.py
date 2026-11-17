@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+import json
+import queue
 import subprocess
 import sys
 import threading
@@ -10,6 +12,7 @@ from tkinter import filedialog, messagebox, ttk
 
 
 from core.helix_version import TITLE, VERSION
+from gui_lightshow import SequencingLightShow
 
 ROOT = Path(__file__).resolve().parent
 
@@ -27,6 +30,14 @@ class HelixGui(tk.Tk):
         self.title(TITLE)
         self.geometry("1060x760")
         self.minsize(960, 680)
+        self.configure(bg="#091020")
+        style = ttk.Style(self)
+        if "clam" in style.theme_names():
+            style.theme_use("clam")
+        style.configure("TFrame", background="#101b30")
+        style.configure("TLabelframe", background="#101b30", foreground="#5de5ef")
+        style.configure("TLabelframe.Label", background="#101b30", foreground="#5de5ef")
+        style.configure("TLabel", background="#101b30", foreground="#e7f1ff")
 
         self.layout_presets = {
             "GP's House": _best_layout_file(ROOT),
@@ -55,8 +66,10 @@ class HelixGui(tk.Tk):
         self.birdsong_min_conf_var = tk.DoubleVar(value=0.45)
         self.variants_var = tk.IntVar(value=4)
 
+        self._ui_events = queue.Queue()
         self._build_ui()
         self._apply_layout_preset()
+        self.after(80, self._drain_ui_events)
 
     def _build_ui(self) -> None:
         pad = {"padx": 8, "pady": 6}
@@ -68,6 +81,7 @@ class HelixGui(tk.Tk):
 
         ttk.Label(top, text=TITLE).grid(row=0, column=0, columnspan=2, sticky="w", **pad)
         ttk.Button(top, text="About", command=self._show_about).grid(row=0, column=2, sticky="w", **pad)
+        ttk.Button(top, text="Instructions", command=self._show_instructions).grid(row=0, column=3, sticky="w", **pad)
 
         ttk.Label(top, text="Layout Preset").grid(row=1, column=0, sticky="w", **pad)
         preset_combo = ttk.Combobox(
@@ -150,6 +164,8 @@ class HelixGui(tk.Tk):
         legal = ttk.LabelFrame(frame, text="Legal / Licensing")
         legal.pack(fill=tk.X, **pad)
         ttk.Label(legal, text="Helix Sequencer: PolyForm Noncommercial 1.0.0 | Free for qualifying noncommercial use; commercial use requires a separate license.", wraplength=900).pack(anchor="w", padx=8, pady=4)
+        ttk.Button(legal, text="Donate to Helix", command=lambda: self._open_donation("helix")).pack(side=tk.LEFT, padx=8, pady=4)
+        ttk.Button(legal, text="Donate to xLights", command=lambda: self._open_donation("xlights")).pack(side=tk.LEFT, padx=8, pady=4)
         ttk.Button(legal, text="View License", command=lambda: webbrowser.open("https://polyformproject.org/licenses/noncommercial/1.0.0/")).pack(side=tk.LEFT, padx=8, pady=4)
         ttk.Button(legal, text="Third-Party Licenses", command=lambda: webbrowser.open((ROOT / "THIRD_PARTY_LICENSES.md").as_uri())).pack(side=tk.LEFT, padx=8, pady=4)
 
@@ -159,6 +175,12 @@ class HelixGui(tk.Tk):
         self.run_button.pack(side=tk.LEFT, padx=8, pady=6)
         self.status_label = ttk.Label(actions, text="Ready")
         self.status_label.pack(side=tk.LEFT, padx=8, pady=6)
+        ttk.Label(actions, text="Animation").pack(side=tk.LEFT, padx=(16, 4))
+        self.animation_scene = tk.StringVar(value="Combined")
+        ttk.Combobox(actions, textvariable=self.animation_scene, values=["Combined", "Arches", "Mega tree"], state="readonly", width=12).pack(side=tk.LEFT)
+        self.light_show = SequencingLightShow(frame)
+        self.light_show.pack(fill=tk.X, padx=8, pady=(0, 6))
+        self.animation_scene.trace_add("write", lambda *_: self.light_show.set_scene(self.animation_scene.get()))
 
         log_frame = ttk.LabelFrame(frame, text="Run Log")
         log_frame.pack(fill=tk.BOTH, expand=True, **pad)
@@ -174,6 +196,20 @@ class HelixGui(tk.Tk):
         selected = filedialog.askdirectory(initialdir=str(ROOT))
         if selected:
             target_var.set(selected)
+
+    def _drain_ui_events(self) -> None:
+        try:
+            while True:
+                kind, payload = self._ui_events.get_nowait()
+                if kind == "log":
+                    self._log(payload)
+                elif kind == "done":
+                    self.status_label.configure(text=payload)
+                    self.light_show.set_running(False)
+                    self.run_button.configure(state=tk.NORMAL)
+        except queue.Empty:
+            pass
+        self.after(80, self._drain_ui_events)
 
     def _log(self, message: str) -> None:
         self.log_text.insert(tk.END, message + "\n")
@@ -193,6 +229,26 @@ class HelixGui(tk.Tk):
                 self.output_var.set(str(ROOT / "allmodels" / "outputs"))
             else:
                 self.output_var.set(str(ROOT / "outputs"))
+
+    def _open_donation(self, key: str) -> None:
+        try:
+            links = json.loads((ROOT / "config" / "support_links.json").read_text(encoding="utf-8"))
+            webbrowser.open(links[key])
+        except (OSError, KeyError, ValueError) as error:
+            messagebox.showerror("Donation link unavailable", str(error))
+
+    def _show_instructions(self) -> None:
+        instructions = ROOT / "android" / "app" / "src" / "main" / "assets" / "helix_instructions.txt"
+        if not instructions.exists():
+            messagebox.showinfo("Instructions", "See the included README.md for setup and usage instructions.")
+            return
+        window = tk.Toplevel(self)
+        window.title("Helix Instructions")
+        window.geometry("720x560")
+        viewer = tk.Text(window, wrap=tk.WORD, bg="#101b30", fg="#e7f1ff")
+        viewer.pack(fill=tk.BOTH, expand=True)
+        viewer.insert("1.0", instructions.read_text(encoding="utf-8"))
+        viewer.configure(state=tk.DISABLED)
 
     def _show_about(self) -> None:
         messagebox.showinfo(
@@ -280,6 +336,7 @@ class HelixGui(tk.Tk):
 
         self.run_button.configure(state=tk.DISABLED)
         self.status_label.configure(text="Running...")
+        self.light_show.set_running(True)
         self._log("")
         self._log("Running command:")
         self._log(" ".join(cmd))
@@ -288,25 +345,20 @@ class HelixGui(tk.Tk):
         thread.start()
 
     def _run_subprocess(self, cmd: list[str]) -> None:
-        process = subprocess.Popen(
-            cmd,
-            cwd=str(ROOT),
-            stdout=subprocess.PIPE,
-            stderr=subprocess.STDOUT,
-            text=True,
-        )
-        assert process.stdout is not None
-        for line in process.stdout:
-            self._log(line.rstrip())
-        process.wait()
-        rc = process.returncode
-        if rc == 0:
-            self._log("Run complete.")
-            self.status_label.configure(text="Completed")
-        else:
-            self._log(f"Run failed with exit code {rc}.")
-            self.status_label.configure(text="Failed")
-        self.run_button.configure(state=tk.NORMAL)
+        try:
+            process = subprocess.Popen(
+                cmd, cwd=str(ROOT), stdout=subprocess.PIPE,
+                stderr=subprocess.STDOUT, text=True,
+            )
+            assert process.stdout is not None
+            for line in process.stdout:
+                self._ui_events.put(("log", line.rstrip()))
+            rc = process.wait()
+            self._ui_events.put(("log", "Run complete." if rc == 0 else f"Run failed with exit code {rc}."))
+            self._ui_events.put(("done", "Completed" if rc == 0 else "Failed"))
+        except Exception as exc:
+            self._ui_events.put(("log", f"Sequence process failed: {exc}"))
+            self._ui_events.put(("done", "Failed"))
 
 
 def main() -> int:

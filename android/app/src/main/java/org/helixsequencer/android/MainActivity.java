@@ -30,6 +30,7 @@ public class MainActivity extends Activity {
     private CheckBox polish,matrix,birdsong,spatial,ac,preview,quickClip,includeBand;
     private TextView status,log,stepTitle,results;
     private ProgressBar progress;
+    private SequencingLightShowView lightShow;
     private Button run,cancel,save,watch,movie,sequence,report,share,next,back;
     private String picking,exporting,bundlePath="",previewPath="",sequencePath="",reportPath="";
     private File currentJob;
@@ -79,6 +80,8 @@ public class MainActivity extends Activity {
         }
         Button instructions=new Button(this);instructions.setText("Instructions");instructions.setAllCaps(false);tabs.addView(instructions);
         instructions.setOnClickListener(v->startActivity(new Intent(this,InfoActivity.class)));
+        Button legalTab=new Button(this);legalTab.setText("Legal");legalTab.setAllCaps(false);tabs.addView(legalTab);
+        legalTab.setOnClickListener(v->startActivity(new Intent(this,InfoActivity.class).putExtra("legal",true)));
         panel(0);text("Choose the song you want your lights to perform.",17,Color.WHITE);select("audio","Choose music · MP3 or WAV");
         text("Your music stays on this phone. Full song is the default; Quick clip sequences only the first ten seconds.",14,Color.LTGRAY);
         settings.add(button("Clear selected files",()->{
@@ -119,6 +122,8 @@ public class MainActivity extends Activity {
 
         panel(4);text("Generate on this phone. Keep Helix open for best performance. Cancellation affects only this job.",17,Color.WHITE);
         run=button("Generate sequence",this::startJob);cancel=button("Cancel current job",()->startService(new Intent(this,EngineService.class).setAction("cancel")));cancel.setEnabled(false);
+        lightShow=new SequencingLightShowView(this);body.addView(lightShow,new LinearLayout.LayoutParams(-1,dp(145)));
+        lightShow.setVisibility(View.GONE);
         progress=new ProgressBar(this,null,android.R.attr.progressBarStyleHorizontal);progress.setMax(100);body.addView(progress);progress.setVisibility(View.GONE);
         status=text("Ready · choose music and layout",17,Color.rgb(86,230,197));text("Run log",18,Color.WHITE);log=text("",12,Color.LTGRAY);log.setTextIsSelectable(true);
 
@@ -193,26 +198,26 @@ public class MainActivity extends Activity {
             r.put("matrix",matrix.isChecked());r.put("birdsong",birdsong.isChecked());r.put("spatial",spatial.isChecked());r.put("ac_compatible",ac.isChecked());
             JSONObject uris=new JSONObject();for(Map.Entry<String,Uri> e:inputs.entrySet())uris.put(e.getKey(),e.getValue().toString());r.put("inputs",uris);
             currentJob=new File(getFilesDir(),"jobs/"+UUID.randomUUID());getPreferences(0).edit().putString("job",currentJob.getAbsolutePath()).apply();
-            bundlePath=previewPath=sequencePath=reportPath="";lastState="";busy=wasBusy=true;
+            bundlePath=previewPath=sequencePath=reportPath="";lastState="";busy=wasBusy=true;lightShow.setVisibility(View.VISIBLE);lightShow.setRunning(true);
             for(Button v:new Button[]{sequence,watch,movie,save,share,report})v.setEnabled(false);run.setEnabled(false);cancel.setEnabled(true);status.setText("Starting local engine…");updateMode();remember();
             if(Build.VERSION.SDK_INT>=33&&!getPreferences(0).getBoolean("notifications_asked",false)){
                 getPreferences(0).edit().putBoolean("notifications_asked",true).apply();requestPermissions(new String[]{"android.permission.POST_NOTIFICATIONS"},1);
             }
             startForegroundService(new Intent(this,EngineService.class).putExtra("job",currentJob.getAbsolutePath()).putExtra("request",r.toString()));
-        }catch(Exception e){busy=false;run.setEnabled(true);cancel.setEnabled(false);updateMode();alert(e.getMessage());}
+        }catch(Exception e){busy=false;lightShow.setRunning(false);run.setEnabled(true);cancel.setEnabled(false);updateMode();alert(e.getMessage());}
     }
     private boolean available(String p){return !p.isEmpty()&&new File(p).isFile();}
     private void poll(){
         if(currentJob==null)return;File state=new File(currentJob,"state.json");if(!state.isFile())return;
         try{
             String raw=new String(java.nio.file.Files.readAllBytes(state.toPath()),StandardCharsets.UTF_8);if(raw.equals(lastState)&&!busy)return;lastState=raw;
-            JSONObject s=new JSONObject(raw);String phase=s.getString("phase");busy=phase.equals("running");
+            JSONObject s=new JSONObject(raw);String phase=s.getString("phase");busy=phase.equals("running");lightShow.setRunning(busy);lightShow.setVisibility(busy?View.VISIBLE:View.GONE);
             if(busy&&System.currentTimeMillis()-s.optLong("updated_ms",System.currentTimeMillis())>15000){
                 List<ActivityManager.RunningAppProcessInfo> running=getSystemService(ActivityManager.class).getRunningAppProcesses();
                 if(running!=null&&running.stream().noneMatch(p->p.processName.equals(getPackageName()+":engine"))){busy=false;s.put("message","Android interrupted this job. Completed files below can still be saved.");}
             }
             run.setEnabled(!busy);cancel.setEnabled(busy);progress.setVisibility(busy?View.VISIBLE:View.GONE);
-            int percent=s.optInt("preview_percent",-1);boolean measured=busy&&"preview".equals(s.optString("active_stage"))&&percent>=0;progress.setIndeterminate(!measured);if(measured)progress.setProgress(percent);
+            int percent=s.optInt("preview_percent",-1);boolean measured=busy&&"preview".equals(s.optString("active_stage"))&&percent>=0;progress.setIndeterminate(!measured);if(measured)progress.setProgress(percent);lightShow.setProgress(measured?percent/100f:0f);
             status.setText(s.optString("message",phase));log.setText(s.optString("log"));updateMode();
             bundlePath=s.optString("bundle");previewPath=s.optString("preview");sequencePath=s.optString("sequence");reportPath=s.optString("report");
             sequence.setEnabled(available(sequencePath));save.setEnabled(available(bundlePath));share.setEnabled(save.isEnabled());watch.setEnabled(available(previewPath));movie.setEnabled(watch.isEnabled());report.setEnabled(available(reportPath));
@@ -223,8 +228,8 @@ public class MainActivity extends Activity {
         }catch(Exception ignored){/* Retry an interrupted atomic state write. */}
     }
     private final Runnable ticker=new Runnable(){public void run(){poll();handler.postDelayed(this,1000);}};
-    @Override protected void onResume(){super.onResume();handler.removeCallbacks(ticker);handler.post(ticker);}
-    @Override protected void onPause(){remember();handler.removeCallbacks(ticker);super.onPause();}
+    @Override protected void onResume(){super.onResume();handler.removeCallbacks(ticker);handler.post(ticker);if(lightShow!=null&&busy)lightShow.setRunning(true);}
+    @Override protected void onPause(){remember();handler.removeCallbacks(ticker);if(lightShow!=null)lightShow.setRunning(false);super.onPause();}
     @Override protected void onSaveInstanceState(Bundle s){s.putString("picking",picking);s.putString("exporting",exporting);s.putInt("page",page);remember();super.onSaveInstanceState(s);}
     private void export(String path,String mime,String filename){
         if(!available(path)){alert("This output is not available yet.");return;}exporting=path;
