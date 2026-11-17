@@ -25,6 +25,9 @@ def build_engine_activation_audit(
         invoked and sidecar and "--promote-orchestrated-template" in flags
         and "--no-orchestrator-template-promotion" not in flags
     )
+    source_sections_requested = "--orchestration-sections-json" in flags
+    source_sections_validated = bool(invoked and source_sections_requested)
+    synthetic_seed_only = bool(invoked and not source_sections_requested)
     synthetic_birdsong_hook_requested = bool(flags.intersection({
         "--enable-birdsong", "--birdsong", "--birdsong-enabled",
     }))
@@ -36,6 +39,15 @@ def build_engine_activation_audit(
                        "failed_or_unavailable" if orchestration is not None and not invoked else
                        "invoked" if invoked else "not_observed"),
             "sidecar_xsq_written": sidecar,
+            "source_sections_requested": source_sections_requested,
+            "source_sections_validated": source_sections_validated,
+            "synthetic_seed_only": synthetic_seed_only,
+            "input_intents": getattr(orchestration, "input_intents", None) if invoked else None,
+            "final_intents": getattr(orchestration, "final_intents", None) if invoked else None,
+            "placement_candidates": getattr(orchestration, "placement_count", None) if invoked else None,
+            "effect_contract_placements": getattr(orchestration, "effect_contract_placement_count", None) if invoked else None,
+            "orchestrated_sidecar_effects": getattr(orchestration, "xsq_effect_count", None) if invoked and sidecar else None,
+            "placement_source": getattr(orchestration, "placement_source", None) if invoked else None,
             "promoted_to_renderer": promoted,
             "exported_effects_verified": False,
             "error": str(getattr(orchestration, "error", "") or ""),
@@ -78,6 +90,8 @@ def build_engine_activation_audit(
             "Flags do not prove engine invocation or successful placement.",
             "No effect-count reconciliation with final XSQ/FSEQ is available.",
             "Birdsong and matrix runtime enablement may differ from raw flags.",
+            "Without validated --orchestration-sections-json, nine-pass intents use synthetic seed sections.",
+            "Orchestration placement counts do not prove final renderer output.",
         ],
     }
 

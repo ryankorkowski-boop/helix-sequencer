@@ -77,6 +77,16 @@ Do not mark complete from unit tests alone.
 
 ## Change Ledger
 
+### 2026-11-17 — Nine-pass orchestration provenance and count chain
+**Goal:** Surface synthetic seed-section usage and distinguish intent, placement, contract and sidecar counts from verified final export.
+**Changed files:** `core/engine_activation_audit.py`, `tests/test_engine_activation_audit.py`, and this ledger.
+**Preserved behavior:** Existing orchestration seed/fallback, optional source-section validation, all placement/rendering decisions, Birdsong and matrix behavior, canonical band, Android safeguards.
+**New behavior:** Activation audit records whether source-timed sections were requested and successfully accepted by an invoked orchestrator, whether the run used synthetic seed sections only, input/final intents, placement candidates, contract placements, sidecar effects and layout/fallback placement source.
+**Tests/evidence:** Regression tests cover synthetic-only reporting, count chain, failed section invocation and successful source-section acceptance. CI and real native renders pending.
+**Limitations/deferred:** Counters are report-derived, not independent reconciliation of the final XSQ/FSEQ. Source-section validation success means the orchestration bridge returned invoked, not that music structure was independently reviewed. Placement source may still include fallback candidates.
+**Regression risks:** Diagnostic-only schema extension; no change to effect selection. Do not merge/release without approval.
+
+
 ### 2026-11-17 — Birdsong synthetic hook truth labeling
 **Goal:** Prevent synthetic post-run Birdsong demonstration data from being mistaken for song-driven sequencing evidence.
 **Changed files:** `core/engine_activation_audit.py`, `tests/test_engine_activation_audit.py`, and this ledger.
