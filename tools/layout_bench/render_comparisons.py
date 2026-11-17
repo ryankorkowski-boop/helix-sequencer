@@ -375,23 +375,36 @@ def main() -> int:
     parser.add_argument("--run-root", type=Path, default=ROOT / "test_runs" / "layout_bench")
     parser.add_argument("--output-dir", type=Path, default=Path("/opt/cursor/artifacts/layout_bench_rendered"))
     parser.add_argument("--only", nargs="*", help="Variant ids to render.")
-    parser.add_argument("--nine-panel", action="store_true", help="Validate owner-locked nine-panel prerequisites before rendering.")
+    parser.add_argument("--nine-panel", action="store_true", help="Render owner-locked nine-panel plan after verified preflight.")
+    parser.add_argument("--nine-panel-audio", type=Path, help="Exact real full-vocal song file for --nine-panel.")
     args = parser.parse_args()
     manifest = load_manifest()
     if args.nine_panel:
         from tools.layout_bench.validate_nine_panel import LOCK, validate
         lock = json.loads(LOCK.read_text(encoding="utf-8"))
         errors = validate(lock, list(manifest.values()), require_render=False)
+        media = args.nine_panel_audio
+        if media is None or not media.is_file():
+            errors.append("--nine-panel-audio must be an existing real full-vocal audio file")
+        if args.only:
+            errors.append("--only legacy variant IDs cannot be combined with --nine-panel")
         if errors:
             for error in errors:
                 print(f"NINE-PANEL BLOCKED: {error}", file=sys.stderr)
             return 2
-        raise NotImplementedError("Nine-panel renderer is not wired yet; refusing legacy panel substitution.")
-    songs = song_catalog(args.audio_dir)
-    plans = variant_plan(songs)
-    if args.only:
-        wanted = set(args.only)
-        plans = [plan for plan in plans if plan["id"] in wanted]
+        layout_ids = [slot["fixture_id"] for slot in lock["slots"]]
+        plans = [{
+            "id": "NINE-PANEL-LOCKED",
+            "description": "Owner-locked nine-panel real-audio native xLights FSEQ comparison",
+            "song": {"path": media, "stem": media.stem, "label": media.stem},
+            "layout_ids": layout_ids,
+        }]
+    else:
+        songs = song_catalog(args.audio_dir)
+        plans = variant_plan(songs)
+        if args.only:
+            wanted = set(args.only)
+            plans = [plan for plan in plans if plan["id"] in wanted]
     needed: list[tuple[str, Path]] = []
     seen: set[tuple[str, str]] = set()
     for plan in plans:
