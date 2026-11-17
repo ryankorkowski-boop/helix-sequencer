@@ -25,6 +25,9 @@ def build_engine_activation_audit(
         invoked and sidecar and "--promote-orchestrated-template" in flags
         and "--no-orchestrator-template-promotion" not in flags
     )
+    synthetic_birdsong_hook_requested = bool(flags.intersection({
+        "--enable-birdsong", "--birdsong", "--birdsong-enabled",
+    }))
     engines: dict[str, Mapping[str, Any]] = {
         "nine_pass_orchestrator": {
             "requested": orchestrator_requested,
@@ -48,6 +51,14 @@ def build_engine_activation_audit(
             "invoked": None,
             "status": "disabled_by_flag" if "--no-birdsong" in flags else "unverified_in_engine",
             "exported_effects_verified": False,
+        },
+        "birdsong_post_run_hook": {
+            "requested": synthetic_birdsong_hook_requested,
+            "invoked": None,
+            "status": "synthetic_diagnostic_hook_requested" if synthetic_birdsong_hook_requested else "not_requested",
+            "real_audio_analysis_verified": False,
+            "exported_effects_verified": False,
+            "note": "Optional hook uses synthetic feature frames; do not count as song-derived Birdsong output.",
         },
         "spatial_mapping_planner": {
             "requested": None, "invoked": None, "status": "integration_unverified",
