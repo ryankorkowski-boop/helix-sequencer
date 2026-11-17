@@ -8,6 +8,7 @@ from typing import Iterable
 
 from core import engine_profiles
 from core.xsq_effect_inventory import inventory_xsq_outputs
+from core.orchestration_xsq_reconciliation import reconcile_orchestration_xsq
 from core.engine_activation_audit import build_engine_activation_audit, write_engine_activation_audit
 from core.effects_orchestration_bridge import EffectsOrchestrationRunReport, run_effects_orchestration
 from core.helix_version import TITLE, VERSION
@@ -191,6 +192,10 @@ def _record_engine_activation_audit(
         audit = build_engine_activation_audit(engine_args or [], report, completed=completed, failed=failed)
         if changed_xsq_paths is not None:
             audit["xsq_output_inventory"] = inventory_xsq_outputs(changed_xsq_paths)
+            audit["orchestration_xsq_reconciliation"] = reconcile_orchestration_xsq(
+                report, changed_xsq_paths,
+                promotion_requested=_orchestrator_template_promotion_enabled(engine_args),
+            )
         write_engine_activation_audit(audit_path, audit)
         ctx.record_artifact("engine_activation_audit", audit_path)
     except (OSError, ValueError, TypeError) as exc:
