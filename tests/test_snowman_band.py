@@ -10,6 +10,20 @@ from audio.drum_classification import DrumEvent
 
 
 class SnowmanBandTests(unittest.TestCase):
+    def test_intelligent_typed_drum_stream_does_not_disable_band(self) -> None:
+        from core.snowman_band import _build_intelligent_drum_cues
+        streams = {"kick_events": [DrumEvent(.100, .80, .90, {"low_ratio": .9}, 1, "kick", "test")],
+                   "snare_events": [DrumEvent(.350, .82, .90, {"mid_ratio": .8}, 2, "snare", "test")]}
+        cues, kit, debug = _build_intelligent_drum_cues(
+            [], drum_event_streams=streams,
+            kicks=[], snares=[], hats=[], releases=[],
+        )
+        self.assertEqual([cue["kind"] for cue in cues], ["kick", "snare"])
+        self.assertEqual([cue["composite_submodels"] for cue in cues], [[], []])
+        self.assertEqual(set(kit), {"kick", "snare"})
+        self.assertIn("mapping", debug)
+
+
     def test_preferred_face_routing_prioritizes_helix_mascot(self) -> None:
         routing = snowman_band.preferred_face_routing(
             [
