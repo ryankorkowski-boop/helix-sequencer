@@ -146,10 +146,17 @@ jobs:
           apk = Path("android/app/build/outputs/apk/debug/app-debug.apk")
           with zipfile.ZipFile(apk) as z:
               entries = z.namelist()
-              engine = [n for n in entries if n.startswith("assets/") and ("sequence_builder.py" in n or "effect_engine.py" in n)]
-              if not engine:
-                  raise SystemExit("APK missing recognizable staged Helix engine source")
-              print("Staged engine files:", engine[:8])
+              import io
+              engine_assets = [n for n in entries if n.endswith("helix-engine.zip")]
+              if len(engine_assets) != 1:
+                  raise SystemExit(f"Expected one staged Helix engine archive, found: {engine_assets}")
+              with zipfile.ZipFile(io.BytesIO(z.read(engine_assets[0]))) as engine_zip:
+                  engine = set(engine_zip.namelist())
+                  required = {"core/sequence_builder.py", "core/effect_engine.py", "android-engine-manifest.json"}
+                  missing = required - engine
+                  if missing:
+                      raise SystemExit(f"Staged Helix engine missing: {sorted(missing)}")
+                  print("Verified staged engine:", engine_assets[0], "entries:", len(engine))
           PY
       - uses: actions/upload-artifact@v4
         with:
