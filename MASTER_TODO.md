@@ -77,6 +77,16 @@ Do not mark complete from unit tests alone.
 
 ## Change Ledger
 
+### 2026-11-17 — Concurrent-run isolation hardening
+**Goal:** Keep nine-panel intermediate FSEQ, XSQ and panel MP4 artifacts separate from the two concurrent processes.
+**Changed files:** tools/layout_bench/nine_panel_pilot.py; MASTER_TODO.md.
+**Preserved:** Existing bench pipeline and all other branch output paths.
+**New:** Default run root is test_runs/nine_panel_isolated; fixture output overwrite rejected.
+**Tests/evidence:** Static inspection and connector commit only; no workflow execution or resource telemetry available.
+**Limitations:** A separate root does not prevent shared CPU/RAM contention; user should not start additional simultaneous heavy renders on the same runner. Inputs must be generated into the isolated root.
+**Deferred:** Execute isolated pilot and validate artifacts when runner and audio are available.
+**Regression risks:** Callers relying on old default run-root must supply --run-root explicitly.
+
 ### 2026-11-16 — Locked nine-panel engineering pilot (not approved)
 **Goal:** Introduce a fixed-order 3x3 comparison using actual xLights FSEQ channel renders and real full-mix audio.
 **Changed files:** tools/layout_bench/nine_panel_pilot.py; MASTER_TODO.md.
