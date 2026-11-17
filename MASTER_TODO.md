@@ -77,6 +77,16 @@ Do not mark complete from unit tests alone.
 
 ## Change Ledger
 
+### 2026-11-16 — Engine activation evidence report (first integration stage)
+**Goal:** Make ignored or unverified engine paths visible without silently claiming that planned effects reached the xLights output.
+**Changed files:** `core/engine_activation_audit.py`, `core/sequence_builder.py`, `tests/test_engine_activation_audit.py`, and this ledger.
+**Preserved behavior:** Existing nine-pass invocation, explicit sidecar promotion, matrix/Birdsong runtime flags, band, drummer, singers, Android opt-outs, and native effect rendering remain unchanged.
+**New behavior:** Successful CLI sequencing runs emit `engine_activation_audit.json` under the configured output root and register it in the run manifest. It reports known nine-pass invocation/sidecar/promotion separately from unknown final effect export; matrix/Birdsong flags are distinguished from verified invocation, while spatial/layering remain unverified. Failed report writing records a warning without failing sequencing.
+**Tests/evidence:** Focused tests committed for Android-style opt-outs, sidecar-not-promotion, explicit promotion, failed orchestration, and JSON writing. GitHub CI and actual run artifact verification pending.
+**Limitations/deferred:** No per-engine effect counts, no final XSQ/FSEQ reconciliation, no direct instrumentation inside the monolithic effect engine, and no failed-run audit yet. The file is diagnostic, not evidence of successful integration. Next stage should reconcile proposed/accepted/exported effect IDs and instrument skipped/failed planners without changing placement.
+**Regression risks:** The output file is overwritten in shared output directories; run-specific manifests must be inspected. Audit write failures do not fail the main run. No merge or release without owner approval.
+
+
 ### 2026-11-16 — Diagnostic recurring music-region evidence (#236)
 **Goal:** Identify repeated musical texture independently from energy/chroma novelty transitions without automatically calling repeats choruses.
 **Changed files:** `core/music_section_recurrence.py` (bounded, deterministic nonoverlapping chroma-region cosine comparisons); `core/audio_intelligence.py` (exports `debug_summaries.structure_recurrence_candidates` from existing ~1 Hz chroma); `tests/test_music_section_recurrence.py`; this ledger.
