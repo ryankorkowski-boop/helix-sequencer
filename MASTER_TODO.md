@@ -77,6 +77,16 @@ Do not mark complete from unit tests alone.
 
 ## Change Ledger
 
+### 2026-11-17 — End-to-end audit integration regression
+**Goal:** Exercise run-audit JSON writing with a real temporary orchestration sidecar and downstream XSQ candidate in one test.
+**Changed files:** `tests/test_engine_activation_audit.py` and this ledger.
+**Preserved behavior:** No production code changes; existing orchestration, engine placement, export and canonical band behavior unchanged.
+**New behavior:** CI now checks that run-scoped audit includes both XML inventory and sidecar/final-candidate reconciliation, with native verification explicitly false.
+**Tests/evidence:** Added integration-style temporary-file regression; GitHub CI pending for this commit. This does not execute xLights or use real audio.
+**Limitations/deferred:** Full song/XSQ/FSEQ/MP4 acceptance run remains outstanding; no CI artifact produced from this test.
+**Regression risks:** Minimal test-only overhead; no merge without approval.
+
+
 ### 2026-11-17 — Repair shadowed artifact collector and stale sidecar evidence
 **Goal:** Make the changed-XSQ audit functional and avoid counting stale orchestration sidecars.
 **Changed files:** `core/sequence_builder.py`, `core/orchestration_xsq_reconciliation.py`, `tests/test_orchestration_xsq_reconciliation.py`, and this ledger.
