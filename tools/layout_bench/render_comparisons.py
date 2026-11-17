@@ -266,13 +266,15 @@ def stitch_panels(panel_paths: list[Path], audio_path: Path, out_path: Path, tit
         f"{stack}xstack=inputs={len(panel_paths)}:layout={layout_expr}[grid];"
         f"[0:v][grid]vstack=inputs=2[v]"
     )
+    filter_complex += ";[v]fps=30,scale=1920:1080:force_original_aspect_ratio=decrease,pad=1920:1080:(ow-iw)/2:(oh-ih)/2,setsar=1[vout]"
     cmd.extend(
         [
             "-filter_complex", filter_complex,
-            "-map", "[v]",
+            "-map", "[vout]",
             "-map", f"{audio_index}:a:0",
             "-c:v", "libx264",
             "-pix_fmt", "yuv420p",
+            "-r", "30",
             "-crf", "20",
             "-c:a", "aac",
             "-shortest",
