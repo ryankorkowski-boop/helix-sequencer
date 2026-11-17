@@ -375,8 +375,18 @@ def main() -> int:
     parser.add_argument("--run-root", type=Path, default=ROOT / "test_runs" / "layout_bench")
     parser.add_argument("--output-dir", type=Path, default=Path("/opt/cursor/artifacts/layout_bench_rendered"))
     parser.add_argument("--only", nargs="*", help="Variant ids to render.")
+    parser.add_argument("--nine-panel", action="store_true", help="Validate owner-locked nine-panel prerequisites before rendering.")
     args = parser.parse_args()
     manifest = load_manifest()
+    if args.nine_panel:
+        from tools.layout_bench.validate_nine_panel import LOCK, validate
+        lock = json.loads(LOCK.read_text(encoding="utf-8"))
+        errors = validate(lock, list(manifest.values()), require_render=False)
+        if errors:
+            for error in errors:
+                print(f"NINE-PANEL BLOCKED: {error}", file=sys.stderr)
+            return 2
+        raise NotImplementedError("Nine-panel renderer is not wired yet; refusing legacy panel substitution.")
     songs = song_catalog(args.audio_dir)
     plans = variant_plan(songs)
     if args.only:
