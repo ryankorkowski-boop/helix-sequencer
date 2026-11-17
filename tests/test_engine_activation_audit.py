@@ -39,3 +39,18 @@ def test_write_report(tmp_path):
     path = tmp_path / "output" / "engine_activation_audit.json"
     write_engine_activation_audit(path, build_engine_activation_audit([]))
     assert '"schema": "helix.engine_activation_audit.v1"' in path.read_text()
+
+
+def test_failure_audit_retains_error_without_claiming_completion():
+    audit = build_engine_activation_audit(
+        ["--no-effects-orchestrator"], completed=False, failed="RuntimeError: render failed"
+    )
+    assert audit["run_completed"] is False
+    assert audit["run_error"] == "RuntimeError: render failed"
+    assert audit["engines"]["nine_pass_orchestrator"]["status"] == "disabled"
+
+
+def test_interrupt_audit_is_not_success():
+    audit = build_engine_activation_audit([], completed=False, failed="interrupted")
+    assert audit["run_completed"] is False
+    assert audit["run_error"] == "interrupted"

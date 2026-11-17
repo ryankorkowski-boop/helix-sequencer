@@ -174,6 +174,27 @@ def _record_orchestration_artifacts(ctx: RunContext, report: EffectsOrchestratio
         ctx.record_warning(f"effects_orchestrator: {report.error}")
 
 
+def _record_engine_activation_audit(
+    ctx: RunContext,
+    config: RunConfig,
+    engine_args: list[str] | None,
+    report: EffectsOrchestrationRunReport | None,
+    *,
+    completed: bool,
+    failed: str | None = None,
+) -> None:
+    """Best-effort evidence on both successful and failed engine runs."""
+    audit_path = config.output_root / "engine_activation_audit.json"
+    try:
+        write_engine_activation_audit(
+            audit_path,
+            build_engine_activation_audit(engine_args or [], report, completed=completed, failed=failed),
+        )
+        ctx.record_artifact("engine_activation_audit", audit_path)
+    except (OSError, ValueError, TypeError) as exc:
+        ctx.record_warning(f"engine_activation_audit: could not write report: {exc}")
+
+
 def _artifact_search_roots(config: RunConfig, version: str) -> list[Path]:
     roots = [config.output_root]
     if config.output_root == Path("outputs"):
@@ -468,21 +489,14 @@ def run_profile(profile_id: str | None, engine_args: list[str] | None = None) ->
             _record_changed_artifacts(ctx, artifact_roots, artifact_snapshot)
             ctx.record_artifact("configured_output_root", config.output_root)
 
-        audit_path = config.output_root / "engine_activation_audit.json"
-        try:
-            write_engine_activation_audit(
-                audit_path,
-                build_engine_activation_audit(engine_args or [], report, completed=True),
-            )
-            ctx.record_artifact("engine_activation_audit", audit_path)
-        except (OSError, ValueError, TypeError) as exc:
-            ctx.record_warning(f"engine_activation_audit: could not write report: {exc}")
+        _record_engine_activation_audit(ctx, config, engine_args, report, completed=True)
         ctx.finalize(success=True)
         print(f"SUCCESS: Run completed. Manifest: {ctx.manifest_path}", file=sys.stderr)
 
     except KeyboardInterrupt:
         error_summary = "Run interrupted by user (Ctrl+C)"
         print(f"\nINTERRUPTED: {error_summary}", file=sys.stderr)
+        _record_engine_activation_audit(ctx, config, engine_args, locals().get("report"), completed=False, failed="interrupted")
         ctx.finalize(success=False, error_summary=error_summary)
         raise SystemExit(130)
 
@@ -490,6 +504,7 @@ def run_profile(profile_id: str | None, engine_args: list[str] | None = None) ->
         error_summary = f"{type(e).__name__}: {str(e)}\n{traceback.format_exc()}"
         print(f"ERROR: {error_summary}", file=sys.stderr)
         print(f"Manifest saved to: {ctx.manifest_path}", file=sys.stderr)
+        _record_engine_activation_audit(ctx, config, engine_args, locals().get("report"), completed=False, failed=f"{type(e).__name__}: {e}")
         ctx.finalize(success=False, error_summary=error_summary)
         raise SystemExit(1)
 
