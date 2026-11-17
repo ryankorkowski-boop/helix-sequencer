@@ -259,3 +259,14 @@ Do not mark complete from unit tests alone.
 **Limitations:** Nine-panel source fixtures remain missing/unverified; audio sync, 30fps frame cadence, visual fidelity and decode must be measured on actual MP4 before approval.
 **Deferred work:** Build exact panel 4 vocal group and panel 6 native model zoo with deep musical group routing; run real-audio nine-panel xLights FSEQ; validate MP4 and canonical band.
 **Regression risks:** Full-HD scaling changes legacy 12/16 panel composite output resolution; confirm downstream consumers and test output dimensions.
+
+
+### 2026-11-17 — Native model zoo fixture generator (panel 6)
+**Goal:** Start implementing panel 6 as a broad native xLights model showcase with meaningful musical grouping rather than another singing-tree panel.
+**Changed files/modules:** tools/layout_bench/generate_layouts.py; tests/test_nine_panel_gate.py.
+**Preserved behavior:** Original 16 fixture builders, canonical snowman band, approved drummer, panel order, sequencing engines and 16-panel renderer untouched. New builder appended only.
+**New behavior:** build_native_model_zoo() creates 76 synthetic native xLights model objects (12 custom-style flat trees, 8 mega trees, 12 stars, 10 spinners, 16 candy canes, 8 arches, 6 snowflakes, 4 matrices) and groups by model family, left/right, foreground/background and melodic/rhythmic roles. Added generator to BUILDERS and regression test for diversity and group memberships.
+**Tests/evidence:** Commits b096c6813bb250b27966dac292aa9c6a22ba8fbc and 3011994914e23c03ad8636ed1caa678385b29496. Code committed; tests, fixture generation and native xLights import/render NOT yet run.
+**Limitations:** Fixture manifest and XML are not regenerated or committed; panel 6 remains missing in nine_panel_lock.json. Models use common xLights native display types, but custom-style flat trees are not verified as xLights Custom model type. Engine routing into new groups remains unverified.
+**Deferred work:** Run generator and parser, inspect generated XML/model counts, verify xLights native import, add spiral/custom models and more complex nested groups, wire verified fixture ID into locked nine-panel manifest, test real audio and native FSEQ output.
+**Regression risks:** New builder runs during build_all; ensure xLights parser accepts all model definitions and channel mapping before enabling CI-wide fixture regeneration.
