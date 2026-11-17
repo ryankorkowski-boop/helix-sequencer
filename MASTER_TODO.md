@@ -420,3 +420,14 @@ Do not mark complete from unit tests alone.
 **Limitations:** XSQ comes from synthetic tone, not owner real-audio master song; no native FSEQ or visually reviewed MP4 established.
 **Deferred work:** Inspect downloadable XSQ and actual effects, run real song from Drive through full Helix, native xLights render and 9-panel review, Android device runtime.
 **Regression risks:** Some sequences could be smaller than threshold despite validity; threshold is deliberately modest 1 KiB and should be reevaluated on evidence.
+
+
+### 2026-11-16 — Verify Android Beta 1.4 APK identity and embedded engine
+**Goal:** Upgrade Android compile-only green status into a fail-closed packaged APK integrity gate.
+**Changed files/modules:** .github/workflows/gui-modernization-smoke.yml.
+**Preserved behavior:** APK build inputs, engine source, version settings, signing, desktop build and drummer logic unchanged.
+**New behavior:** CI inspects compiled APK with Android aapt to assert org.helixsequencer.android, versionCode 10 and versionName 1.4.0-beta, then opens APK as ZIP to require recognizable staged Helix engine files.
+**Tests/evidence:** Previous latest GUI run 43989650122 passed all four jobs including editable XSQ evidence. New integrity gate committed eaa4d8d9bccd8347b5ec669fe824fbfb577dcac7; CI execution pending.
+**Limitations:** Static APK inspection is not Android device execution, full 8-variant playback, or band-stage rendering. Engine asset path assumption must be confirmed by CI.
+**Deferred work:** Repair any packaging-path discrepancy revealed by CI; run Android on emulator/device and verify band and 8 variants, native xLights render and nine-panel real-audio MP4.
+**Regression risks:** Chaquopy asset packaging may store engine sources under non-obvious archive names; fail-closed check may need to recognize the actual archive layout.
