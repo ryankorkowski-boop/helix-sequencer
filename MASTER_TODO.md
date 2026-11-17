@@ -77,6 +77,16 @@ Do not mark complete from unit tests alone.
 
 ## Change Ledger
 
+### 2026-11-17 — Orchestration sidecar versus changed XSQ reconciliation
+**Goal:** Prevent orchestration-sidecar effects from being counted as final renderer output and detect provenance tags in changed non-sidecar XSQ candidates.
+**Changed files:** `core/orchestration_xsq_reconciliation.py`, `core/sequence_builder.py`, `tests/test_orchestration_xsq_reconciliation.py`, and this ledger.
+**Preserved behavior:** Engine selection, effect placement, orchestration promotion semantics, Android safeguards, snowman drummer, xLights rendering and export untouched.
+**New behavior:** Run audit separately inventories orchestrated sidecar tags and changed non-sidecar XSQ candidates, explicitly reporting whether candidate XML contains orchestration provenance. No native FSEQ or final-authority claim.
+**Tests/evidence:** Unit tests for sidecar-only, tagged non-sidecar output, and malformed XML. CI/native real-song evidence pending.
+**Limitations/deferred:** Changed XSQ candidates are not independently proven authoritative final outputs. XML tags may not survive canonical writer; native FSEQ decode, playback and engine-by-engine placement attribution remain outstanding.
+**Regression risks:** Additional XML parse of sidecar and candidates; diagnostic-only, best effort. No merge or release without owner approval.
+
+
 ### 2026-11-17 — XSQ orchestrator-authored provenance
 **Goal:** Distinguish explicitly tagged orchestration effects from untagged effects in changed XSQ files without falsely asserting native export or planner attribution.
 **Changed files:** `core/xsq_effect_inventory.py`, `tests/test_xsq_effect_inventory.py`, and this ledger.
