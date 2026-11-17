@@ -401,6 +401,8 @@ def run_profile(profile_id: str | None, engine_args: list[str] | None = None) ->
         raise SystemExit(1)
 
     try:
+        artifact_roots = _artifact_search_roots(config, profile.version)
+        artifact_snapshot = _snapshot_known_artifacts(artifact_roots)
         report: EffectsOrchestrationRunReport | None = None
         if _orchestration_enabled(engine_args):
             report = run_effects_orchestration(engine_args)
@@ -416,8 +418,6 @@ def run_profile(profile_id: str | None, engine_args: list[str] | None = None) ->
         if report is not None and report.invoked and report.xsq_written and effective_engine_args != _clean_engine_args(engine_args):
             print(f"effects_orchestrator: promoted template={report.orchestrated_xsq_path}")
 
-        artifact_roots = _artifact_search_roots(config, profile.version)
-        artifact_snapshot = _snapshot_known_artifacts(artifact_roots)
         changed_artifacts: list[Path] = []
         try:
             _effect_engine().main_for(profile.version, effective_engine_args)
