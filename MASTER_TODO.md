@@ -77,6 +77,16 @@ Do not mark complete from unit tests alone.
 
 ## Change Ledger
 
+### 2026-11-17 — XSQ orchestrator-authored provenance
+**Goal:** Distinguish explicitly tagged orchestration effects from untagged effects in changed XSQ files without falsely asserting native export or planner attribution.
+**Changed files:** `core/xsq_effect_inventory.py`, `tests/test_xsq_effect_inventory.py`, and this ledger.
+**Preserved behavior:** XML effect writer, placement decisions, engine flags, renderer, native export, band and drummer ground truth.
+**New behavior:** Streaming inventory counts `Effect` rows with `source=HelixOrchestrator`, unique nonempty source visual intent IDs, and other/untagged effects. Malformed XML yields null counts; native FSEQ and planner attribution remain unverified.
+**Tests/evidence:** Regression tests for tagged/untagged counts, deduplicated intent IDs, and malformed XML. CI and real native render pending.
+**Limitations/deferred:** XML provenance can be spoofed or stripped by downstream writers; tags prove only presence in parsed output, not render success or musical validity. Need source-tag continuity tests through canonical engine and FSEQ verification.
+**Regression risks:** Added constant-work per XML effect and set of distinct IDs; diagnostic-only. No merge/release without owner approval.
+
+
 ### 2026-11-17 — Nine-pass orchestration provenance and count chain
 **Goal:** Surface synthetic seed-section usage and distinguish intent, placement, contract and sidecar counts from verified final export.
 **Changed files:** `core/engine_activation_audit.py`, `tests/test_engine_activation_audit.py`, and this ledger.
