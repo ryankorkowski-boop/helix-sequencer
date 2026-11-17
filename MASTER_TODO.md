@@ -215,3 +215,14 @@ Do not mark complete from unit tests alone.
 **Limitations:** Metadata gate does not authenticate audio or FSEQ itself; real media inspection and visual acceptance remain necessary. It is not yet integrated into renderer invocation.
 **Deferred work:** Add exact missing fixtures, wire fail-closed preflight into a nine-panel runner, run actual vocal audio with native xLights and visually review drummer/voices.
 **Regression risks:** Future schema or fixture rename requires corresponding validator/test updates; current sixteen-panel workflow unaffected.
+
+
+### 2026-11-16 — Connect nine-panel preflight to native comparison CLI
+**Goal:** Ensure explicit --nine-panel never silently produces a legacy 12/16-panel video or falsely claims approval.
+**Changed files/modules:** tools/layout_bench/validate_nine_panel.py; tools/layout_bench/render_comparisons.py; tests/test_nine_panel_gate.py.
+**Preserved behavior:** Existing legacy variants and renderer unchanged without --nine-panel; canonical drummer and engine untouched.
+**New behavior:** --nine-panel invokes locked manifest verification before audio lookup/native render; requires all nine fixtures and real vocal audio marked verified; render-complete status is not required before rendering (avoids circularity). Explicit NotImplementedError prevents legacy fallback once metadata passes until nine-panel rendering is wired. Additional regression test covers render preflight vs approval.
+**Tests/evidence:** Commits f9450cbec496a4267122fad3155ad54e144c0434, f710e995f3af1b4612a71dba66dacb133f2a9a8e, 2f859214e8c889b8dd393326632e862c89365a56. Tests committed; CI not yet run.
+**Limitations:** Nine-panel renderer still needs actual nine-layout processing and a real-song MP4; current --nine-panel deliberately fails closed.
+**Deferred work:** Implement all missing exact fixtures and nine-panel native pipeline, run test suite and real full-vocal media, verify visual/drum/singer output.
+**Regression risks:** Import path of validator and preflight behavior must be tested in CI; legacy path should remain unaffected.
