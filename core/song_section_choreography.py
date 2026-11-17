@@ -5,6 +5,7 @@ verified analysis artifact and refuses fabricated or out-of-range boundaries.
 """
 from __future__ import annotations
 
+import hashlib
 import json
 import math
 from dataclasses import replace
@@ -16,12 +17,25 @@ from core.choreography_intent import (
 from core.intent_graph import IntentGraph
 
 
-def load_song_section_graph(path: str | Path, seed: IntentGraph) -> IntentGraph:
+def load_song_section_graph(path: str | Path, seed: IntentGraph, *, audio_path: str | Path | None = None) -> IntentGraph:
     payload = json.loads(Path(path).read_text(encoding="utf-8"))
     if not isinstance(payload, dict) or not isinstance(payload.get("sections"), list):
         raise ValueError("source timeline requires a sections array")
     if payload.get("source") not in {"audio_analysis", "verified_manual"}:
         raise ValueError("source timeline must declare audio_analysis or verified_manual provenance")
+    if audio_path is not None:
+        expected = payload.get("audio_sha256")
+        if not isinstance(expected, str) or len(expected) != 64:
+            raise ValueError("source timeline requires audio_sha256 when source audio is supplied")
+        source_audio = Path(audio_path)
+        if not source_audio.is_file():
+            raise ValueError("source audio file does not exist")
+        digest = hashlib.sha256()
+        with source_audio.open("rb") as stream:
+            for chunk in iter(lambda: stream.read(1024 * 1024), b""):
+                digest.update(chunk)
+        if digest.hexdigest() != expected.lower():
+            raise ValueError("source timeline audio_sha256 does not match source audio")
     duration = payload.get("duration_seconds")
     if isinstance(duration, bool) or not isinstance(duration, (int, float)) or not math.isfinite(duration) or duration <= 0:
         raise ValueError("source timeline requires a finite positive duration_seconds")
