@@ -1,3 +1,13 @@
+### 2026-11-17 — Nine-panel isolated generation and 1080p encoding
+**Goal:** Allow an isolated, single-worker XSQ generation pass and 1920×1080 30fps comparison export without touching concurrent workflows.
+**Changed files:** tools/layout_bench/nine_panel_pilot.py, MASTER_TODO.md.
+**Preserved behavior:** Existing xLights FSEQ rendering, fixture order, provisional warnings, independent feature branch and no automatic merge or publication.
+**New behavior:** Optional --generate-xsq invokes run_bench.py with --workers 1, a single selected audio file and only missing layouts in the isolated run root; final video normalized to 1920×1080 30fps.
+**Tests/evidence:** GitHub commits inspected; no actual runner, audio, xLights render, ffprobe or visual acceptance executed in this session.
+**Limitations:** Eight provisional fixtures are not final layouts; 1080p scaling is not equivalent to native full-resolution panel rendering; audio codec, sync and frame decode still require verification.
+**Deferred:** Run the actual audio, inspect nine panels, replace fixtures, verify singer/drummer and xLights outputs, perform ffprobe and decode acceptance.
+**Regression risks:** ffmpeg second pass needs disk space; on a shared host, even single-worker rendering competes for CPU/RAM. No render started.
+
 # HELIX MASTER TODO & AGENT HANDOFF LEDGER
 
 > Canonical project roadmap and cross-agent handoff layer.
