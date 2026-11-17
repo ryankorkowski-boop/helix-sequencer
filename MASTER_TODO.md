@@ -77,6 +77,16 @@ Do not mark complete from unit tests alone.
 
 ## Change Ledger
 
+### 2026-11-17 — Birdsong synthetic hook truth labeling
+**Goal:** Prevent synthetic post-run Birdsong demonstration data from being mistaken for song-driven sequencing evidence.
+**Changed files:** `core/engine_activation_audit.py`, `tests/test_engine_activation_audit.py`, and this ledger.
+**Preserved behavior:** Existing optional Birdsong hook, engine effect placement, xLights export, all flags and native behavior unchanged.
+**New behavior:** Activation audit separately labels explicit Birdsong post-run hook requests as synthetic diagnostic requests and leaves real-audio analysis and exported-effect verification false.
+**Tests/evidence:** Added regression test for explicit hook flag. CI pending after new commit.
+**Limitations/deferred:** This does not determine whether the hook actually executed or whether core Birdsong generated real-song effects. Future work must trace real Birdsong placements and output.
+**Regression risks:** None to rendering; only diagnostic schema extended. No merge without owner approval.
+
+
 ### 2026-11-17 — Changed-XSQ effect inventory
 **Goal:** Begin reconciling what reaches output files without inventing per-engine attribution.
 **Changed files:** `core/xsq_effect_inventory.py`, `core/sequence_builder.py`, `tests/test_xsq_effect_inventory.py`, and this ledger.
