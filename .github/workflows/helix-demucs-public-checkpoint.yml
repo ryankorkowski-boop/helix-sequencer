@@ -27,7 +27,7 @@ jobs:
               for block in iter(lambda:f.read(1024*1024),b''):
                   h.update(block)
           checksum=h.hexdigest()
-          if not checksum.startswith('955717e8') or destination.stat().st_size<1000000:
+          if checksum != '8726e21a993978c7ba086d3872e7608d7d5bfca646ca4aca459ffda844faa8b4' or destination.stat().st_size<1000000:
               raise SystemExit('Public checkpoint SHA256 verification failed')
           receipt={'schema':'helix.public_checkpoint.v1','model':'htdemucs',
                    'source':'dl.fbaipublicfiles.com/demucs/hybrid_transformer/',
