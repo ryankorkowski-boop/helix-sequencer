@@ -54,3 +54,31 @@ def test_interrupt_audit_is_not_success():
     audit = build_engine_activation_audit([], completed=False, failed="interrupted")
     assert audit["run_completed"] is False
     assert audit["run_error"] == "interrupted"
+
+
+def test_cli_audit_is_written_under_unique_run_directory(tmp_path):
+    from types import SimpleNamespace
+    from core.sequence_builder import _record_engine_activation_audit
+
+    run_dir = tmp_path / "beta" / "run-001"
+    run_dir.mkdir(parents=True)
+    class FakeContext:
+        def __init__(self):
+            self.run_dir = run_dir
+            self.artifacts = []
+            self.warnings = []
+        def record_artifact(self, kind, path):
+            self.artifacts.append((kind, path))
+        def record_warning(self, warning):
+            self.warnings.append(warning)
+
+    ctx = FakeContext()
+    _record_engine_activation_audit(
+        ctx, SimpleNamespace(output_root=tmp_path), [], None,
+        completed=False, failed="render failed",
+    )
+    audit_path = run_dir / "engine_activation_audit.json"
+    assert audit_path.is_file()
+    assert not (tmp_path / "engine_activation_audit.json").exists()
+    assert ctx.artifacts == [("engine_activation_audit", audit_path)]
+    assert not ctx.warnings
