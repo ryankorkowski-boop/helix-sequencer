@@ -442,7 +442,7 @@ def _build_intelligent_drum_cues(
             "kind": drum_type,
             "section": _part_label(parts, start_ms),
             "submodel": item["submodel"],
-            "composite_submodels": item["composite_submodels"],
+            "composite_submodels": item.get("composite_submodels", []),
             "velocity": item["velocity"],
             "confidence": item["confidence"],
             "frequency_band_info": item["frequency_band_info"],

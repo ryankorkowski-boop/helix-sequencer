@@ -373,76 +373,6 @@ def _run_birdsong_hook(config: RunConfig, engine_args: list[str] | None, ctx: Ru
         ctx.record_warning(f"birdsong: failed to write manifest: {exc}")
 
 
-def _artifact_search_roots(config: RunConfig, version: str) -> list[Path]:
-    roots = [config.output_root]
-    if config.output_root == Path("outputs"):
-        family = version.split(".", 1)[0]
-        if family:
-            roots.append(Path(family))
-    return _unique_paths(roots)
-
-
-def _unique_paths(paths: Iterable[Path]) -> list[Path]:
-    seen: set[Path] = set()
-    unique: list[Path] = []
-    for path in paths:
-        resolved = path.resolve(strict=False)
-        if resolved in seen:
-            continue
-        seen.add(resolved)
-        unique.append(path)
-    return unique
-
-
-def _snapshot_known_artifacts(roots: Iterable[Path]) -> dict[Path, tuple[int, int]]:
-    snapshot: dict[Path, tuple[int, int]] = {}
-    for artifact in _known_artifact_paths(roots):
-        try:
-            stat = artifact.stat()
-        except OSError:
-            continue
-        snapshot[artifact.resolve(strict=False)] = (stat.st_mtime_ns, stat.st_size)
-    return snapshot
-
-
-def _record_changed_artifacts(
-    ctx: RunContext,
-    roots: Iterable[Path],
-    before: dict[Path, tuple[int, int]],
-) -> None:
-    for artifact in _known_artifact_paths(roots):
-        resolved = artifact.resolve(strict=False)
-        try:
-            stat = artifact.stat()
-        except OSError:
-            continue
-        if before.get(resolved) == (stat.st_mtime_ns, stat.st_size):
-            continue
-        ctx.record_artifact(_artifact_kind(artifact), artifact)
-
-
-def _known_artifact_paths(roots: Iterable[Path]) -> list[Path]:
-    paths: list[Path] = []
-    for root in _unique_paths(roots):
-        if not root.exists():
-            continue
-        paths.extend(path for path in root.rglob("*") if path.is_file() and _is_known_artifact(path))
-    return sorted(paths, key=lambda path: str(path))
-
-
-def _is_known_artifact(path: Path) -> bool:
-    name = path.name
-    return any(name.endswith(suffix) for suffix in _ARTIFACT_KIND_BY_SUFFIX)
-
-
-def _artifact_kind(path: Path) -> str:
-    name = path.name
-    for suffix, kind in sorted(_ARTIFACT_KIND_BY_SUFFIX.items(), key=lambda item: len(item[0]), reverse=True):
-        if name.endswith(suffix):
-            return kind
-    return "artifact"
-
-
 def run_profile(profile_id: str | None, engine_args: list[str] | None = None) -> None:
     """Run a sequencing profile with integrated run tracking."""
     try:
@@ -471,6 +401,8 @@ def run_profile(profile_id: str | None, engine_args: list[str] | None = None) ->
         raise SystemExit(1)
 
     try:
+        artifact_roots = _artifact_search_roots(config, profile.version)
+        artifact_snapshot = _snapshot_known_artifacts(artifact_roots)
         report: EffectsOrchestrationRunReport | None = None
         if _orchestration_enabled(engine_args):
             report = run_effects_orchestration(engine_args)
@@ -486,8 +418,6 @@ def run_profile(profile_id: str | None, engine_args: list[str] | None = None) ->
         if report is not None and report.invoked and report.xsq_written and effective_engine_args != _clean_engine_args(engine_args):
             print(f"effects_orchestrator: promoted template={report.orchestrated_xsq_path}")
 
-        artifact_roots = _artifact_search_roots(config, profile.version)
-        artifact_snapshot = _snapshot_known_artifacts(artifact_roots)
         changed_artifacts: list[Path] = []
         try:
             _effect_engine().main_for(profile.version, effective_engine_args)

@@ -77,6 +77,76 @@ Do not mark complete from unit tests alone.
 
 ## Change Ledger
 
+### 2026-11-17 — Correct public Demucs checkpoint integrity validation
+**Goal:** Check full SHA256 of downloaded public model bytes, not the eight-hex Demucs model identifier preceding the filename hash.
+**Changed files:** `.github/workflows/helix-demucs-public-checkpoint.yml` and this ledger.
+**Preserved behavior:** Existing music analysis, user audio, band and drummer; no sequence changes.
+**New behavior:** Require full expected SHA256 `8726e21a993978c7ba086d3872e7608d7d5bfca646ca4aca459ffda844faa8b4` (as published for model file `955717e8-8726e21a.th`) instead of wrong `955717e8` prefix; prevents erroneously rejecting authentic model bytes.
+**Tests/evidence:** Initial runner fetched file but rejected it under incorrect hash check; corrected workflow job and local Demucs re-analysis pending.
+**Limitations/deferred:** Public model availability and CPU inference unverified. No native FSEQ/MP4 yet.
+**Regression risks:** Public download and temporary artifact only, no runtime changes or owner approval.
+
+
+### 2026-11-17 — Public Demucs model dependency for real-audio stem validation
+**Goal:** Avoid accepting poor fallback drum and vocal classifications after pretrained Demucs weights failed to download in an isolated runtime.
+**Changed files:** `.github/workflows/helix-demucs-public-checkpoint.yml` and this ledger.
+**Preserved behavior:** No runtime effect, vocalist, or drummer edits; no fabricated kick or lead events; existing source bytes, owner ground truth, release restrictions maintained.
+**New behavior:** On a branch-scoped workflow-file push, retrieve only the public htdemucs checkpoint on GitHub runner, validate the expected SHA256 prefix, and retain it as a two-day CI artifact with provenance receipt. No user music or Drive identifiers enter GitHub.
+**Tests/evidence:** Earlier Tinsel Tornado run had Demucs DNS failure and fallback drum stream with zero kicks and two snares; public model fetch and local reanalysis remain pending.
+**Limitations/deferred:** Model may fail remote fetch, CPU inference, or provide imperfect singer separation. Native xLights FSEQ/MP4 still unverified.
+**Regression risks:** Short CI job uses external download and storage; no runtime sequencing effect. No merge/release without owner approval.
+
+
+### 2026-11-17 — Real-run XSQ reconciliation filters out non-sequence artifacts
+**Goal:** Reconcile authoritative XSQ candidates rather than listing unrelated JSON, HTML and notes from the actual Tinsel Tornado run.
+**Changed files:** `core/orchestration_xsq_reconciliation.py`, `tests/test_orchestration_xsq_reconciliation.py`, and this ledger.
+**Preserved behavior:** Engine output, band, drummer, audio analysis and existing native preview untouched.
+**New behavior:** Only changed `.xsq` files other than the orchestration sidecar are final candidates.
+**Tests/evidence:** First real 205.8s source run exposed 8 candidate paths but only one was XSQ; unit regression added and 30 focused tests passed locally.
+**Limitations/deferred:** Filename and XML provenance alone do not prove final rendered FSEQ or nine-panel playback.
+**Regression risks:** Diagnostics only. No merge/release without explicit owner approval.
+
+
+### 2026-11-17 — Real Tinsel Tornado run exposed skipped snowman-band planner
+**Goal:** Restore typed-drum snowman-band planning without altering canonical drummer assignments or falsifying drum detections.
+**Changed files:** `core/snowman_band.py`, `tests/test_snowman_band.py`, and this ledger.
+**Preserved behavior:** Existing drum event classifier, mapper, nine-cue canonical drummer geometry, effect selection/timing/model targeting, source vocal data and native xLights exports; no fabricated events.
+**New behavior:** Accept missing optional `composite_submodels` metadata from `mapping.drum_mapper.map_events_to_submodels`, defaulting to an empty list rather than raising `KeyError` and disabling the entire snowman-band plan.
+**Tests/evidence:** Reproduced exact exception locally on a typed kick event. After fix, 29 tests passed across snowman-band, engine audit and XSQ reconciliation suites. First real source SHA256 `8b8caddd6c292a13995bde0e80ac66f948246bd634278ab4ade1a82163aa7086`, original Drive Tinsel Tornado (205.8s), generated 32,540 XSQ effects; original run had `[WARN] Snowman band planning skipped: KeyError('composite_submodels')`. Confirmation rerun pending.
+**Limitations/deferred:** The same real-song run fell back when Demucs separation failed, classified zero kick and two snare hits despite legacy stem marks, and did not generate native FSEQ/MP4; band cue recovery does not establish playable approval. `tests/test_drum_mapping.py` has pre-existing collection failure (removed `assign_hand` import); tracked separately, not fixed here.
+**Regression risks:** Empty optional composite metadata may omit composite-specific visual overlays but avoids total loss of all band cues. Native band and drum-strike illumination must be verified before approval. No merge/release without owner authorization.
+
+
+### 2026-11-17 — Isolated source snapshot for verified Tinsel Tornado run
+**Goal:** Obtain a bounded, reproducible source checkout for a local real-audio sequencing run; avoid treating synthetic outputs as review-ready.
+**Changed files:** `.github/workflows/helix-source-review-snapshot.yml` and this ledger.
+**Preserved behavior:** All engines, band/drummer ground truth, Android behavior, native export and existing CI; no merges or release.
+**New behavior:** On a single branch-scoped push of the new workflow file, archive small tracked text-source files (excluding audio/video, Git history and oversized artifacts) and upload as a short-lived GitHub Actions artifact for isolated inspection and validation.
+**Tests/evidence:** Commit and CI pending; source manifest includes exact commit and tar SHA256; externally sourced Tinsel Tornado audio remains outside Git.
+**Limitations/deferred:** Snapshot excludes oversized and binary assets and does not supply xLights native renderer. Real-audio sequencing, XSQ/FSEQ validation and nine-panel MP4 remain unverified.
+**Regression risks:** Actions minutes and ephemeral source artifact; no change to runtime sequencing. Do not merge/release without approval.
+
+
+### 2026-11-17 — End-to-end audit integration regression
+**Goal:** Exercise run-audit JSON writing with a real temporary orchestration sidecar and downstream XSQ candidate in one test.
+**Changed files:** `tests/test_engine_activation_audit.py` and this ledger.
+**Preserved behavior:** No production code changes; existing orchestration, engine placement, export and canonical band behavior unchanged.
+**New behavior:** CI now checks that run-scoped audit includes both XML inventory and sidecar/final-candidate reconciliation, with native verification explicitly false.
+**Tests/evidence:** Added integration-style temporary-file regression; GitHub CI pending for this commit. This does not execute xLights or use real audio.
+**Limitations/deferred:** Full song/XSQ/FSEQ/MP4 acceptance run remains outstanding; no CI artifact produced from this test.
+**Regression risks:** Minimal test-only overhead; no merge without approval.
+
+
+### 2026-11-17 — Repair shadowed artifact collector and stale sidecar evidence
+**Goal:** Make the changed-XSQ audit functional and avoid counting stale orchestration sidecars.
+**Changed files:** `core/sequence_builder.py`, `core/orchestration_xsq_reconciliation.py`, `tests/test_orchestration_xsq_reconciliation.py`, and this ledger.
+**Preserved behavior:** Existing engine invocation, effect placement, drummer, singer, Android flags and output formats.
+**New behavior:** Remove duplicate late helper definitions that shadowed the artifact collector's list return (and could make XSQ audit fail); snapshot before orchestration; count sidecar XML only when its path was changed during this run.
+**Tests/evidence:** Added stale/current sidecar tests and duplicate-definition regression check. CI and real native run pending.
+**Limitations/deferred:** Concurrent runs writing the same output filename can still race; source tagging does not prove native FSEQ. Follow-up should use run-unique artifact paths and authoritative output selection.
+**Regression risks:** Earlier snapshot includes orchestration outputs and may record additional changed artifacts; diagnostics remain best effort. No merge without approval.
+
+
 ### 2026-11-17 — Orchestration sidecar versus changed XSQ reconciliation
 **Goal:** Prevent orchestration-sidecar effects from being counted as final renderer output and detect provenance tags in changed non-sidecar XSQ candidates.
 **Changed files:** `core/orchestration_xsq_reconciliation.py`, `core/sequence_builder.py`, `tests/test_orchestration_xsq_reconciliation.py`, and this ledger.

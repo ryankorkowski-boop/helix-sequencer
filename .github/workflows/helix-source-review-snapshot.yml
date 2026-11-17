@@ -1,0 +1,58 @@
+name: Helix source snapshot for isolated real-audio validation
+on:
+  push:
+    branches: [fix/orchestration-stale-sidecar-audit-20261117]
+    paths: [.github/workflows/helix-source-review-snapshot.yml]
+permissions:
+  contents: read
+jobs:
+  source-snapshot:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          lfs: false
+          fetch-depth: 1
+      - name: Archive source text, never audio, media, credentials or git history
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import hashlib, json, pathlib, subprocess, tarfile
+          root = pathlib.Path('.').resolve()
+          allowed_suffixes = {'.py', '.json', '.xml', '.xsq', '.yml', '.yaml', '.toml', '.ini',
+                              '.cfg', '.txt', '.md', '.sh', '.csv', '.lock', '.html'}
+          tracked = subprocess.check_output(['git', 'ls-files', '-z']).split(b'\0')
+          paths = []
+          for name in tracked:
+              if not name:
+                  continue
+              relative = pathlib.Path(name.decode('utf-8'))
+              if '..' in relative.parts or relative.is_absolute() or relative.suffix.lower() not in allowed_suffixes:
+                  continue
+              source = root / relative
+              if not source.is_file() or source.is_symlink() or source.stat().st_size > 2_000_000:
+                  continue
+              paths.append((relative.as_posix(), source))
+          with tarfile.open('helix-source-review.tar.gz', 'w:gz') as bundle:
+              for relative, source in paths:
+                  bundle.add(source, arcname=relative, recursive=False)
+          output = {
+              'schema': 'helix.source_review_snapshot.v1',
+              'commit': subprocess.check_output(['git','rev-parse','HEAD'],text=True).strip(),
+              'file_count': len(paths),
+              'archive_sha256': hashlib.sha256(pathlib.Path('helix-source-review.tar.gz').read_bytes()).hexdigest(),
+              'scope': 'tracked small source-text files only; no audio, video or secrets'
+          }
+          pathlib.Path('helix-source-review.json').write_text(json.dumps(output,indent=2)+'\n')
+          print(json.dumps(output,indent=2))
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: helix-source-review-snapshot
+          path: |
+            helix-source-review.tar.gz
+            helix-source-review.json
+          retention-days: 5
+          if-no-files-found: error

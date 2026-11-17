@@ -38,3 +38,43 @@ def test_invalid_final_xsq_never_counts_as_verified(tmp_path):
     assert result["parsed_final_candidate_count"] == 0
     assert result["final_candidate_tagged_effects"] is None
     assert result["tagged_provenance_in_final_candidate"] is False
+
+
+def test_stale_sidecar_is_not_counted_as_current_run(tmp_path):
+    sidecar = tmp_path / "song.orchestrated.xsq"
+    sidecar.write_text('<xsequence><Effect source="HelixOrchestrator"/></xsequence>', encoding="utf-8")
+    result = reconcile_orchestration_xsq(
+        SimpleNamespace(orchestrated_xsq_path=str(sidecar)), [],
+        promotion_requested=False,
+    )
+    assert result["sidecar_changed_this_run"] is False
+    assert result["sidecar_tagged_effects"] is None
+
+
+def test_changed_sidecar_is_identified(tmp_path):
+    sidecar = tmp_path / "song.orchestrated.xsq"
+    sidecar.write_text('<xsequence><Effect source="HelixOrchestrator"/></xsequence>', encoding="utf-8")
+    result = reconcile_orchestration_xsq(
+        SimpleNamespace(orchestrated_xsq_path=str(sidecar)), [sidecar],
+        promotion_requested=True,
+    )
+    assert result["sidecar_changed_this_run"] is True
+    assert result["sidecar_tagged_effects"] == 1
+
+
+def test_changed_artifact_helper_is_not_shadowed():
+    import inspect
+    import core.sequence_builder as builder
+    source = inspect.getsource(builder)
+    assert source.count("def _record_changed_artifacts(") == 1
+    assert source.count("def _snapshot_known_artifacts(") == 1
+
+
+def test_only_xsq_paths_appear_as_final_candidates(tmp_path):
+    xsq = tmp_path / "final.xsq"
+    report = tmp_path / "final.report.json"
+    xsq.write_text('<xsequence><Effect name="On"/></xsequence>', encoding="utf-8")
+    report.write_text('{"status":"success"}', encoding="utf-8")
+    result = reconcile_orchestration_xsq(None, [report, xsq], promotion_requested=False)
+    assert result["final_candidate_paths"] == [str(xsq)]
+    assert result["parsed_final_candidate_count"] == 1

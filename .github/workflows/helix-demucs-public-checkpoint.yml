@@ -1,0 +1,44 @@
+name: Helix public Demucs checkpoint cache (diagnostic)
+on:
+  push:
+    branches: [fix/orchestration-stale-sidecar-audit-20261117]
+    paths: [.github/workflows/helix-demucs-public-checkpoint.yml]
+permissions:
+  contents: read
+jobs:
+  cache-open-model:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - name: Download public htdemucs weights with SHA prefix verification
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          from pathlib import Path
+          import hashlib, json, urllib.request
+          name='955717e8-8726e21a.th'
+          url='https://dl.fbaipublicfiles.com/demucs/hybrid_transformer/'+name
+          destination=Path('checkpoint')/name
+          destination.parent.mkdir(parents=True,exist_ok=True)
+          urllib.request.urlretrieve(url, destination)
+          h=hashlib.sha256()
+          with destination.open('rb') as f:
+              for block in iter(lambda:f.read(1024*1024),b''):
+                  h.update(block)
+          checksum=h.hexdigest()
+          if checksum != '8726e21a993978c7ba086d3872e7608d7d5bfca646ca4aca459ffda844faa8b4' or destination.stat().st_size<1000000:
+              raise SystemExit('Public checkpoint SHA256 verification failed')
+          receipt={'schema':'helix.public_checkpoint.v1','model':'htdemucs',
+                   'source':'dl.fbaipublicfiles.com/demucs/hybrid_transformer/',
+                   'filename':name,'sha256':checksum,'bytes':destination.stat().st_size,
+                   'contains_user_data':False,'classification':'diagnostic_dependency_only'}
+          Path('checkpoint/receipt.json').write_text(json.dumps(receipt,indent=2)+'\n')
+          print(json.dumps(receipt,indent=2))
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: public-htdemucs-model-weights
+          path: checkpoint/
+          retention-days: 2
+          if-no-files-found: error
