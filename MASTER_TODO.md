@@ -77,6 +77,16 @@ Do not mark complete from unit tests alone.
 
 ## Change Ledger
 
+### 2026-11-16 — Bind orchestrated sections to real source audio (#236)
+**Goal:** Close a provenance gap where the nine-pass bridge accepted any well-formed source timeline without verifying it matched the requested audio file.
+**Changed files:** `core/song_section_choreography.py`, `core/effects_orchestrator_bridge.py`, `tests/test_song_section_choreography.py`, and this ledger.
+**Preserved:** Existing seed graph, nine-pass logic, effect routing, drummer, vocals, Birdsong, GUI defaults, and opt-in template promotion; legacy direct graph calls without audio identity remain usable for diagnostic-only fixtures.
+**New behavior:** Bridge runs with `--orchestration-sections-json` now require an existing `--audio` file and a matching `audio_sha256` in the timeline JSON. A mismatch or missing hash fails closed and is recorded in the orchestration error report; matching hashes allow the nine passes to run. The SHA-256 check is streaming.
+**Tests/evidence:** Updated nine-pass bridge test to use a real temporary audio fixture and matching hash, added mismatch rejection test. CI not yet confirmed; no native XSQ/FSEQ/MP4 evidence.
+**Limitations/deferred:** No genuine musical-structure classifier integrated; existing energy-thirds fallback is low-confidence and rejected by the prior adapter. Audio hashing reads source bytes once more. This does not validate section semantic accuracy or automatically enable orchestration on Android.
+**Regression risks:** Older manual section JSON without audio_sha256 will now fail at the bridge rather than silently producing a misleading sidecar. Explicitly regenerate/verify the timeline; never bypass source identity for production. No merge/release without owner approval.
+
+
 ### 2026-11-16 — Audio-analysis provenance gate for orchestration (stage 1b of #236)
 **Goal:** Connect existing `audio_analysis.json` output to the strict source-timed orchestration adapter without treating the existing energy-third heuristic as verified music structure.
 **Changed files:** `core/audio_intelligence.py` now writes `audio_sha256` into exported analysis metadata when the original audio exists; `core/audio_section_timeline_adapter.py` converts only matching-hash, high-confidence, non-fallback `section_events` into the strict section schema; `tests/test_audio_section_timeline_adapter.py` covers accepted timings, fallback/low-confidence rejection and hash mismatch; `tests/test_song_section_choreography.py` corrected an invalid test assertion to use supported `IntentGraph` iteration; `MASTER_TODO.md` handoff.
