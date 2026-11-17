@@ -13,6 +13,27 @@ class NinePanelGateTests(unittest.TestCase):
         cls.lock = json.loads(Path(LOCK).read_text(encoding="utf-8"))
         cls.fixtures = json.loads(Path(MANIFEST).read_text(encoding="utf-8"))
 
+    def test_combined_vocal_models_are_panel_four(self):
+        slot = self.lock["slots"][3]
+        self.assertEqual(slot["position"], "middle_left")
+        self.assertIn("singing_trees", slot["grouping"])
+        self.assertIn("coro_faces", slot["grouping"])
+        self.assertIn("lead_vocal_only", slot["grouping"])
+        self.assertIn("harmony_vocal_only", slot["grouping"])
+
+    def test_native_model_zoo_is_panel_six(self):
+        slot = self.lock["slots"][5]
+        self.assertEqual(slot["position"], "middle_right")
+        for family in ("custom_trees", "stars", "spinners", "candy_canes", "mega_trees"):
+            self.assertIn(family, slot["model_families"])
+        self.assertIn("by_instrument_role", slot["grouping"])
+
+    def test_all_panels_require_nested_musical_grouping(self):
+        policy = self.lock["grouping_policy"]
+        self.assertEqual(policy["scope"], "all_nine_panels")
+        self.assertIn("submodel_routing", policy["required_capabilities"])
+        self.assertIn("distinct_motion_beyond_beat_pulsing", policy["verification"])
+
     def test_locked_layout_structure(self):
         self.assertEqual(validate(self.lock, self.fixtures, approval=False), [])
 
