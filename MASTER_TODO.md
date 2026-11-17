@@ -193,3 +193,14 @@ Do not mark complete from unit tests alone.
 6. Render full-song MP4 with real audio.
 7. Compare rendered component flashes to actual audible drum events and the prior known-good render.
 8. Iterate only on measured false positives/false negatives.
+
+
+### 2026-11-16 — Nine-panel locked manifest and gap audit
+**Goal:** Prevent synthetic sixteen-panel fixtures from being misrepresented as owner's requested nine-panel approval video.
+**Changed files/modules:** fixtures/layout_bench/nine_panel_lock.json.
+**Preserved behavior:** Existing 16-fixture generator, runner, renderer and deterministic effect mapping untouched; no approved drummer geometry changed.
+**New behavior:** Machine-readable locked 3×3 positions, exact owner requirements, provisional fixture candidates and explicit missing/blocked status, real full-vocal audio and native FSEQ/1920×1080 MP4 requirements.
+**Tests/evidence:** Inspected PR #208 fixture manifest (16 fixtures). 16-channel fixture exists; no 256-channel fixture; synthetic band_stage fixture cannot demonstrate canonical six-member 3D band. Manifest committed e916b0cf7474cc529b87ca5faa91e3b0c2b3cbc0. JSON is data only; no render has been executed.
+**Limitations:** Manifest does not itself implement the missing fixtures, audio acquisition, drummer renderer or approval output.
+**Deferred work:** Build exact missing AC256, singing-face/tree, piano-driven, Birdsong/spatial and dense showcase fixtures; validate canonical drummer and independent vocals; run real-song native xLights FSEQ and visual MP4.
+**Regression risks:** None to runtime because new standalone manifest is not wired to existing 16-panel runner; future integration must reject blocked slots.
