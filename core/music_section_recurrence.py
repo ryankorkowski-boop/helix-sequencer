@@ -52,8 +52,14 @@ def find_recurrent_regions(
         indices = [i for i, t in enumerate(times_s) if start <= t < start + region_s]
         if len(indices) >= 3:
             vector = [sum(chroma_vectors[i][k] for i in indices) / len(indices) for k in range(width)]
+            variation = sum(
+                sum((chroma_vectors[i][k] - vector[k]) ** 2 for k in range(width))
+                for i in indices
+            ) / (len(indices) * width)
+            # A stationary tone has high cosine similarity everywhere, but
+            # carries no evidence of a repeated musical phrase.
             norm = math.sqrt(sum(x * x for x in vector))
-            if norm > 1e-8:
+            if norm > 1e-8 and variation >= 0.0025:
                 windows.append((start, [x / norm for x in vector]))
         start += region_s
     matches: list[tuple[float, float, float]] = []
