@@ -77,6 +77,16 @@ Do not mark complete from unit tests alone.
 
 ## Change Ledger
 
+### 2026-11-17 — Isolated source snapshot for verified Tinsel Tornado run
+**Goal:** Obtain a bounded, reproducible source checkout for a local real-audio sequencing run; avoid treating synthetic outputs as review-ready.
+**Changed files:** `.github/workflows/helix-source-review-snapshot.yml` and this ledger.
+**Preserved behavior:** All engines, band/drummer ground truth, Android behavior, native export and existing CI; no merges or release.
+**New behavior:** On a single branch-scoped push of the new workflow file, archive small tracked text-source files (excluding audio/video, Git history and oversized artifacts) and upload as a short-lived GitHub Actions artifact for isolated inspection and validation.
+**Tests/evidence:** Commit and CI pending; source manifest includes exact commit and tar SHA256; externally sourced Tinsel Tornado audio remains outside Git.
+**Limitations/deferred:** Snapshot excludes oversized and binary assets and does not supply xLights native renderer. Real-audio sequencing, XSQ/FSEQ validation and nine-panel MP4 remain unverified.
+**Regression risks:** Actions minutes and ephemeral source artifact; no change to runtime sequencing. Do not merge/release without approval.
+
+
 ### 2026-11-17 — End-to-end audit integration regression
 **Goal:** Exercise run-audit JSON writing with a real temporary orchestration sidecar and downstream XSQ candidate in one test.
 **Changed files:** `tests/test_engine_activation_audit.py` and this ledger.
