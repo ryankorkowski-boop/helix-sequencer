@@ -13,6 +13,19 @@ class NinePanelGateTests(unittest.TestCase):
         cls.lock = json.loads(Path(LOCK).read_text(encoding="utf-8"))
         cls.fixtures = json.loads(Path(MANIFEST).read_text(encoding="utf-8"))
 
+    def test_native_model_zoo_generator_has_broad_families_and_groups(self):
+        from tools.layout_bench.generate_layouts import build_native_model_zoo
+        layout = build_native_model_zoo()
+        self.assertGreaterEqual(len(layout.models), 70)
+        groups = {name: members for name, members in layout.groups}
+        for family in ("Custom Trees", "Mega Trees", "Stars", "Spinners", "Candy Canes", "Arches", "Snowflakes", "Matrices"):
+            self.assertIn("All " + family, groups)
+            self.assertTrue(groups["All " + family])
+        for group in ("Zoo Left", "Zoo Right", "Zoo Foreground", "Zoo Background",
+                      "Zoo Melodic Instruments", "Zoo Rhythmic Accents"):
+            self.assertIn(group, groups)
+        self.assertEqual(len({model["name"] for model in layout.models}), len(layout.models))
+
     def test_combined_vocal_models_are_panel_four(self):
         slot = self.lock["slots"][3]
         self.assertEqual(slot["position"], "middle_left")
