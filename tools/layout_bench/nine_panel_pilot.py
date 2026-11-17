@@ -22,10 +22,12 @@ PANELS = [
 def main() -> int:
     p = argparse.ArgumentParser()
     p.add_argument("--audio", type=Path, required=True, help="Real full-mix audio with vocals")
-    p.add_argument("--run-root", type=Path, default=bench.ROOT / "test_runs/layout_bench")
+    p.add_argument("--run-root", type=Path, default=bench.ROOT / "test_runs/nine_panel_isolated")
     p.add_argument("--output", type=Path, required=True)
     p.add_argument("--allow-provisional", action="store_true", help="Allow bench fixture stand-ins for engineering preview only")
     args = p.parse_args()
+    if args.output.resolve().is_relative_to((bench.ROOT / "fixtures").resolve()):
+        p.error("Output must not overwrite repository fixtures")
     if not args.audio.is_file():
         p.error("Real audio file not found")
     if any(provisional for _, _, provisional in PANELS) and not args.allow_provisional:
