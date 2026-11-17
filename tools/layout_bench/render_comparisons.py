@@ -371,7 +371,7 @@ def ensure_fseq(run_root: Path, layout_id: str, layout_xml: Path, xsq: Path, med
 
 def main() -> int:
     parser = argparse.ArgumentParser(description="Render xLights FSEQ comparison videos for the layout bench.")
-    parser.add_argument("--audio-dir", type=Path, required=True)
+    parser.add_argument("--audio-dir", type=Path, help="Legacy song catalog directory; not needed with --nine-panel.")
     parser.add_argument("--run-root", type=Path, default=ROOT / "test_runs" / "layout_bench")
     parser.add_argument("--output-dir", type=Path, default=Path("/opt/cursor/artifacts/layout_bench_rendered"))
     parser.add_argument("--only", nargs="*", help="Variant ids to render.")
@@ -400,6 +400,8 @@ def main() -> int:
             "layout_ids": layout_ids,
         }]
     else:
+        if args.audio_dir is None or not args.audio_dir.is_dir():
+            parser.error("--audio-dir must be an existing directory for legacy variants")
         songs = song_catalog(args.audio_dir)
         plans = variant_plan(songs)
         if args.only:
