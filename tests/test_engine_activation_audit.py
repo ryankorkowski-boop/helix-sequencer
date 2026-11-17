@@ -91,3 +91,29 @@ def test_synthetic_birdsong_hook_not_mistaken_for_real_song_output():
     assert hook["status"] == "synthetic_diagnostic_hook_requested"
     assert hook["real_audio_analysis_verified"] is False
     assert hook["exported_effects_verified"] is False
+
+
+def test_seed_only_orchestration_cannot_be_claimed_as_song_structure():
+    report = SimpleNamespace(
+        invoked=True, xsq_written=True, input_intents=5, final_intents=7,
+        placement_count=10, effect_contract_placement_count=8,
+        xsq_effect_count=6, placement_source="fallback_candidates", error=None,
+    )
+    orch = build_engine_activation_audit(["--audio", "song.wav"], report)["engines"]["nine_pass_orchestrator"]
+    assert orch["synthetic_seed_only"] is True
+    assert orch["source_sections_validated"] is False
+    assert orch["placement_candidates"] == 10
+    assert orch["effect_contract_placements"] == 8
+    assert orch["orchestrated_sidecar_effects"] == 6
+    assert orch["exported_effects_verified"] is False
+
+
+def test_source_sections_are_only_validated_after_successful_invocation():
+    args = ["--orchestration-sections-json", "sections.json"]
+    failed = build_engine_activation_audit(args, SimpleNamespace(invoked=False))
+    assert failed["engines"]["nine_pass_orchestrator"]["source_sections_validated"] is False
+    success = build_engine_activation_audit(args, SimpleNamespace(invoked=True, xsq_written=False))
+    orch = success["engines"]["nine_pass_orchestrator"]
+    assert orch["source_sections_validated"] is True
+    assert orch["synthetic_seed_only"] is False
+    assert orch["orchestrated_sidecar_effects"] is None
