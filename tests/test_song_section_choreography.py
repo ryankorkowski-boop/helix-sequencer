@@ -24,7 +24,7 @@ def test_real_timed_sections_replace_fixed_seed(tmp_path):
         {"label": "Chorus", "start_seconds": 17, "end_seconds": 42, "energy": 0.95},
     ])
     graph = load_song_section_graph(path, build_seed_graph())
-    assert graph.ordered_sections() == ("intro", "build", "chorus")
+    assert tuple(i.section for i in graph) == ("intro", "build", "chorus")
     assert len(graph.intents) == 3
     assert [(i.start, i.end) for i in graph] == [(0.0, 7.0), (7.0, 17.0), (17.0, 42.0)]
     assert all(i.source == "verified_song_section_timeline" for i in graph)
