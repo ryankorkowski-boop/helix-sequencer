@@ -226,3 +226,14 @@ Do not mark complete from unit tests alone.
 **Limitations:** Nine-panel renderer still needs actual nine-layout processing and a real-song MP4; current --nine-panel deliberately fails closed.
 **Deferred work:** Implement all missing exact fixtures and nine-panel native pipeline, run test suite and real full-vocal media, verify visual/drum/singer output.
 **Regression risks:** Import path of validator and preflight behavior must be tested in CI; legacy path should remain unaffected.
+
+
+### 2026-11-17 — Native nine-panel execution path
+**Goal:** Wire the locked 3x3 nine-panel plan to existing xLights FSEQ renderer rather than stopping after preflight.
+**Changed files/modules:** tools/layout_bench/render_comparisons.py.
+**Preserved behavior:** Legacy 12/16-panel plan and existing per-panel xLights FSEQ channel painter; approved drummer logic unchanged.
+**New behavior:** --nine-panel --nine-panel-audio /path/to/full-vocal-song.mp3 validates all nine slot statuses, real-audio metadata and distinct fixture IDs, then reuses existing XSQ lookup, xLights FSEQ generation, panel painting, stitching and catalog. Legacy --only IDs forbidden with --nine-panel. Legacy --audio-dir still required only for legacy modes.
+**Tests/evidence:** Commits 84d68ffbb22a9ba38d0233764533fd22470c1497 and c0ccedff5ab30570caa06924d5349de26728f475; CI/runtime not yet run. Current locked manifest deliberately blocks due to unverified/missing fixtures and audio.
+**Limitations:** Existing stitch outputs 1440x858 with banner, not target 1920x1080; still needs output scaling and media QA. No MP4 produced. Current fixture set does not satisfy canonical band, advanced layouts, or vocal mapping.
+**Deferred work:** Build/verify exact fixtures; run XSQ on full vocal audio; native FSEQ/MP4 render; validate audio sync, decode, brightness, framing and drummer/singer animation.
+**Regression risks:** New --nine-panel branch uses existing renderer, but legacy behavior should be regression-tested before approval.
