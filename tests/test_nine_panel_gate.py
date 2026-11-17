@@ -22,6 +22,18 @@ class NinePanelGateTests(unittest.TestCase):
         self.assertTrue(any("middle_center" in error for error in errors))
         self.assertTrue(any("real vocal audio" in error for error in errors))
 
+    def test_render_preflight_does_not_require_finished_render(self):
+        lock = copy.deepcopy(self.lock)
+        for slot in lock["slots"]:
+            slot["status"] = "verified"
+            if not slot["fixture_id"]:
+                slot["fixture_id"] = "ac32_house" if slot["position"] == "top_middle" else (
+                    "pixel_starter" if slot["position"] == "middle_left" else "pixel_driveway"
+                )
+        lock["audio"]["status"] = "verified"
+        self.assertEqual(validate(lock, self.fixtures, require_render=False), [])
+        self.assertTrue(any("render" in error for error in validate(lock, self.fixtures)))
+
     def test_reordered_center_is_rejected(self):
         lock = copy.deepcopy(self.lock)
         lock["slots"][4], lock["slots"][5] = lock["slots"][5], lock["slots"][4]
