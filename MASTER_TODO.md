@@ -77,6 +77,16 @@ Do not mark complete from unit tests alone.
 
 ## Change Ledger
 
+### 2026-11-17 — Real Tinsel Tornado run exposed skipped snowman-band planner
+**Goal:** Restore typed-drum snowman-band planning without altering canonical drummer assignments or falsifying drum detections.
+**Changed files:** `core/snowman_band.py`, `tests/test_snowman_band.py`, and this ledger.
+**Preserved behavior:** Existing drum event classifier, mapper, nine-cue canonical drummer geometry, effect selection/timing/model targeting, source vocal data and native xLights exports; no fabricated events.
+**New behavior:** Accept missing optional `composite_submodels` metadata from `mapping.drum_mapper.map_events_to_submodels`, defaulting to an empty list rather than raising `KeyError` and disabling the entire snowman-band plan.
+**Tests/evidence:** Reproduced exact exception locally on a typed kick event. After fix, 29 tests passed across snowman-band, engine audit and XSQ reconciliation suites. First real source SHA256 `8b8caddd6c292a13995bde0e80ac66f948246bd634278ab4ade1a82163aa7086`, original Drive Tinsel Tornado (205.8s), generated 32,540 XSQ effects; original run had `[WARN] Snowman band planning skipped: KeyError('composite_submodels')`. Confirmation rerun pending.
+**Limitations/deferred:** The same real-song run fell back when Demucs separation failed, classified zero kick and two snare hits despite legacy stem marks, and did not generate native FSEQ/MP4; band cue recovery does not establish playable approval. `tests/test_drum_mapping.py` has pre-existing collection failure (removed `assign_hand` import); tracked separately, not fixed here.
+**Regression risks:** Empty optional composite metadata may omit composite-specific visual overlays but avoids total loss of all band cues. Native band and drum-strike illumination must be verified before approval. No merge/release without owner authorization.
+
+
 ### 2026-11-17 — Isolated source snapshot for verified Tinsel Tornado run
 **Goal:** Obtain a bounded, reproducible source checkout for a local real-audio sequencing run; avoid treating synthetic outputs as review-ready.
 **Changed files:** `.github/workflows/helix-source-review-snapshot.yml` and this ledger.
