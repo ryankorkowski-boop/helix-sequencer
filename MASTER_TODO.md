@@ -270,3 +270,14 @@ Do not mark complete from unit tests alone.
 **Limitations:** Fixture manifest and XML are not regenerated or committed; panel 6 remains missing in nine_panel_lock.json. Models use common xLights native display types, but custom-style flat trees are not verified as xLights Custom model type. Engine routing into new groups remains unverified.
 **Deferred work:** Run generator and parser, inspect generated XML/model counts, verify xLights native import, add spiral/custom models and more complex nested groups, wire verified fixture ID into locked nine-panel manifest, test real audio and native FSEQ output.
 **Regression risks:** New builder runs during build_all; ensure xLights parser accepts all model definitions and channel mapping before enabling CI-wide fixture regeneration.
+
+
+### 2026-11-17 — Model zoo parser roundtrip and focused CI
+**Goal:** Exercise new panel 6 generator through XML serialization and Helix model parsing, and run nine-panel lock tests in GitHub Actions without touching concurrent development branches.
+**Changed files/modules:** tests/test_nine_panel_gate.py; .github/workflows/nine-panel-layout-bench.yml.
+**Preserved behavior:** Existing renderer, engine, canonical drummer, original fixture generation and all other workflows unchanged.
+**New behavior:** Regression test generates native model zoo XML and template in a temporary directory, parses stats, verifies 76 models, group count, channel count and template existence. Branch-scoped focused CI runs pytest, structural gate and expected fail-closed approval gate.
+**Tests/evidence:** Commits 17b3ee2e9ff045f7d2b3ac33e77a8de4956f2318 and 97fb2b021087f0274145091469feb584f8518d15. CI trigger added; no successful CI result or native xLights import yet confirmed.
+**Limitations:** Parser roundtrip is not proof xLights accepts all models; no generated fixture XML committed or real FSEQ/MP4 render.
+**Deferred work:** Review CI results and repair failures, regenerate/commit verified panel 6 fixture, add authentic Custom models, verify native xLights, finish other missing panels and audio.
+**Regression risks:** CI may expose parser or dependency failures; new workflow runs only on this branch.
