@@ -126,6 +126,31 @@ jobs:
       - name: Compile Android debug
         working-directory: android
         run: gradle :app:assembleDebug --no-daemon
+      - name: Verify APK identity and embedded engine
+        shell: bash
+        run: |
+          set -euo pipefail
+          apk=android/app/build/outputs/apk/debug/app-debug.apk
+          test -s "$apk"
+          aapt="$ANDROID_HOME/build-tools/36.0.0/aapt"
+          if [ ! -x "$aapt" ]; then
+            aapt="$(find "$ANDROID_HOME/build-tools" -name aapt -type f | sort -V | tail -1)"
+          fi
+          "$aapt" dump badging "$apk" | tee android-apk-badging.txt
+          grep -q "name='org.helixsequencer.android'" android-apk-badging.txt
+          grep -q "versionCode='10'" android-apk-badging.txt
+          grep -q "versionName='1.4.0-beta'" android-apk-badging.txt
+          python - <<'PY'
+          import zipfile
+          from pathlib import Path
+          apk = Path("android/app/build/outputs/apk/debug/app-debug.apk")
+          with zipfile.ZipFile(apk) as z:
+              entries = z.namelist()
+              engine = [n for n in entries if n.startswith("assets/") and ("sequence_builder.py" in n or "effect_engine.py" in n)]
+              if not engine:
+                  raise SystemExit("APK missing recognizable staged Helix engine source")
+              print("Staged engine files:", engine[:8])
+          PY
       - uses: actions/upload-artifact@v4
         with:
           name: helix-gui-android-debug
