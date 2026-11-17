@@ -81,6 +81,16 @@ jobs:
         run: |
           python tools/palette_smoke.py --output palette-smoke --runner dist/Helix/HelixCLI.exe
           if ($LASTEXITCODE -ne 0) { throw 'Packaged palette smoke failed' }
+      - name: Verify and preserve generated XSQ evidence
+        shell: pwsh
+        run: |
+          $report = Get-Content palette-smoke/palette-smoke.json -Raw | ConvertFrom-Json
+          if (-not $report.ok -or @($report.sequences).Count -lt 1) { throw 'Missing passing sequence evidence' }
+          $xsqs = @(Get-ChildItem palette-smoke/out -Filter *.xsq -Recurse -File)
+          if ($xsqs.Count -lt 1) { throw 'Palette run did not produce an editable XSQ' }
+          foreach ($xsq in $xsqs) {
+            if ($xsq.Length -lt 1024) { throw "Suspiciously small sequence: $($xsq.FullName)" }
+          }
       - name: Assemble Beta 1.4 ZIP and checksum
         shell: pwsh
         run: |
@@ -94,6 +104,7 @@ jobs:
             Helix-Windows-Beta-v1.4.zip
             Helix-Windows-Beta-v1.4.sha256
             palette-smoke/palette-smoke.json
+            palette-smoke/out/**/*.xsq
           if-no-files-found: error
           retention-days: 14
   android-compile:
