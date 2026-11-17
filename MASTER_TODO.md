@@ -77,6 +77,16 @@ Do not mark complete from unit tests alone.
 
 ## Change Ledger
 
+### 2026-11-17 — Run-scoped engine audit evidence
+**Goal:** Prevent concurrent or repeated runs from overwriting engine activation evidence.
+**Changed files:** `core/sequence_builder.py`, `tests/test_engine_activation_audit.py`, and this ledger.
+**Preserved behavior:** Success/failure/interruption audit generation, run manifest registration, all engine enablement and effect selection, canonical drummer and singers, Android safety flags.
+**New behavior:** The audit now writes to `ctx.run_dir/engine_activation_audit.json` instead of the shared output root, using the RunManager's existing unique run directory.
+**Tests/evidence:** Added a fake-run-context regression test asserting unique-run placement and artifact registration. GitHub CI and real-run evidence pending.
+**Limitations/deferred:** Report still lacks proposed/accepted/exported effect counts and native xLights verification. It is not a full engine integration proof.
+**Regression risks:** External scripts expecting the old root-level audit path must instead read the artifact path from the run manifest. No merge or release without owner approval.
+
+
 ### 2026-11-17 — Preserve activation audit when sequencing fails
 **Goal:** Avoid losing engine diagnostics when the sequencing engine throws or the user interrupts.
 **Changed files:** `core/sequence_builder.py`, `tests/test_engine_activation_audit.py`, and this ledger.
