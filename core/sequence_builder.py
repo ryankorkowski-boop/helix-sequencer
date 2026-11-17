@@ -7,6 +7,7 @@ from pathlib import Path
 from typing import Iterable
 
 from core import engine_profiles
+from core.engine_activation_audit import build_engine_activation_audit, write_engine_activation_audit
 from core.effects_orchestration_bridge import EffectsOrchestrationRunReport, run_effects_orchestration
 from core.helix_version import TITLE, VERSION
 from core.prime_beat_grid import prime_beat_grid_args
@@ -467,6 +468,15 @@ def run_profile(profile_id: str | None, engine_args: list[str] | None = None) ->
             _record_changed_artifacts(ctx, artifact_roots, artifact_snapshot)
             ctx.record_artifact("configured_output_root", config.output_root)
 
+        audit_path = config.output_root / "engine_activation_audit.json"
+        try:
+            write_engine_activation_audit(
+                audit_path,
+                build_engine_activation_audit(engine_args or [], report, completed=True),
+            )
+            ctx.record_artifact("engine_activation_audit", audit_path)
+        except (OSError, ValueError, TypeError) as exc:
+            ctx.record_warning(f"engine_activation_audit: could not write report: {exc}")
         ctx.finalize(success=True)
         print(f"SUCCESS: Run completed. Manifest: {ctx.manifest_path}", file=sys.stderr)
 
