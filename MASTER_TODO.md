@@ -431,3 +431,14 @@ Do not mark complete from unit tests alone.
 **Limitations:** Static APK inspection is not Android device execution, full 8-variant playback, or band-stage rendering. Engine asset path assumption must be confirmed by CI.
 **Deferred work:** Repair any packaging-path discrepancy revealed by CI; run Android on emulator/device and verify band and 8 variants, native xLights render and nine-panel real-audio MP4.
 **Regression risks:** Chaquopy asset packaging may store engine sources under non-obvious archive names; fail-closed check may need to recognize the actual archive layout.
+
+
+### 2026-11-16 — Correct APK engine archive inspection
+**Goal:** Match APK integrity check to actual staged engine packaging.
+**Changed files/modules:** .github/workflows/gui-modernization-smoke.yml.
+**Preserved behavior:** No runtime or package input changes; same Android app identity/version checks and Windows pipeline.
+**New behavior:** Open assets/helix-engine.zip inside APK as nested ZIP; assert core/sequence_builder.py, core/effect_engine.py and android-engine-manifest.json are present.
+**Tests/evidence:** Inspected tools/stage_android_engine.py: stages tracked engine into helix-engine.zip with android-engine-manifest.json. Prior top-level .py asset assumption was incorrect. Correction committed 0717476c83ab0a3b16710df44482e72ead621a6a; new CI pending.
+**Limitations:** Checks file presence, not execution or hash reconciliation.
+**Deferred work:** Verify Android CI, instrument emulator/device, 8 variants and band stage, native xLights nine-panel.
+**Regression risks:** Archive filename or packaging location changes would fail integrity gate intentionally.
