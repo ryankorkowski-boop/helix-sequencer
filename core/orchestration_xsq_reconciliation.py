@@ -26,7 +26,7 @@ def reconcile_orchestration_xsq(
     )
     final_candidates = [
         Path(path) for path in changed_xsq_paths
-        if Path(path).resolve(strict=False) != sidecar_resolved
+        if Path(path).suffix.lower() == ".xsq" and Path(path).resolve(strict=False) != sidecar_resolved
     ]
     final_inventory = inventory_xsq_outputs(final_candidates)
     final_outputs = final_inventory["outputs"]
