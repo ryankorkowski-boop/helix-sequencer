@@ -77,6 +77,16 @@ Do not mark complete from unit tests alone.
 
 ## Change Ledger
 
+### 2026-11-16 — Diagnostic music-structure novelty detector (#236)
+**Goal:** Begin replacing forced equal-third song labels with evidence from actual audio features, without pretending change points are confirmed verses or choruses.
+**Changed files:** `core/music_structure_candidates.py` (pure-Python, deterministic energy/chroma novelty detector); `core/audio_intelligence.py` (1 Hz sampled features and diagnostic-only `debug_summaries.structure_change_candidates`); `tests/test_music_structure_candidates.py`; this ledger.
+**Preserved:** `section_events` and `_detect_song_sections` remain unchanged; no effect selection, timing, native output, drummer, vocals, Birdsong, Android/Windows behavior or orchestration promotion changes. No dependency or model downloads.
+**New behavior:** Existing analysis exposes feature-driven candidate change points based on local energy and harmonic/chroma contrasts, minimum eight-second separation, absolute and relative novelty thresholds, deterministic tie-breaking and bounded output. Confidence deliberately capped at 0.65; candidate labels are neutral, not verse/chorus. Downsampled processing avoids expensive full-frame quadratic scans.
+**Tests/evidence:** Unit tests committed for a known feature transition, stationary audio, deterministic bounded changes, malformed input and short clips. Tests not yet observed passing; real-song diagnostics and native XSQ/FSEQ/MP4 pending.
+**Limitations/deferred:** These are only candidate boundaries; no repetition-based section identity, verified semantic labels, source-level ground truth or confidence calibration yet. They do not qualify for automatic promotion by the source-timeline gate. More accurate musical segmentation must compare self-similarity, recurrence, beat-grid boundaries, stems, and real audio against ground truths before upgrading confidence. Current analysis still exposes legacy equal-thirds `section_events` separately.
+**Regression risks:** Additional CPU work proportional to downsampled song length and context size; pathological inputs are validated. Avoid interpreting candidate novelty as proven song form. No merge or release without owner approval.
+
+
 ### 2026-11-16 — Bind orchestrated sections to real source audio (#236)
 **Goal:** Close a provenance gap where the nine-pass bridge accepted any well-formed source timeline without verifying it matched the requested audio file.
 **Changed files:** `core/song_section_choreography.py`, `core/effects_orchestrator_bridge.py`, `tests/test_song_section_choreography.py`, and this ledger.
