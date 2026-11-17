@@ -77,6 +77,16 @@ Do not mark complete from unit tests alone.
 
 ## Change Ledger
 
+### 2026-11-17 — Repair shadowed artifact collector and stale sidecar evidence
+**Goal:** Make the changed-XSQ audit functional and avoid counting stale orchestration sidecars.
+**Changed files:** `core/sequence_builder.py`, `core/orchestration_xsq_reconciliation.py`, `tests/test_orchestration_xsq_reconciliation.py`, and this ledger.
+**Preserved behavior:** Existing engine invocation, effect placement, drummer, singer, Android flags and output formats.
+**New behavior:** Remove duplicate late helper definitions that shadowed the artifact collector's list return (and could make XSQ audit fail); snapshot before orchestration; count sidecar XML only when its path was changed during this run.
+**Tests/evidence:** Added stale/current sidecar tests and duplicate-definition regression check. CI and real native run pending.
+**Limitations/deferred:** Concurrent runs writing the same output filename can still race; source tagging does not prove native FSEQ. Follow-up should use run-unique artifact paths and authoritative output selection.
+**Regression risks:** Earlier snapshot includes orchestration outputs and may record additional changed artifacts; diagnostics remain best effort. No merge without approval.
+
+
 ### 2026-11-17 — Orchestration sidecar versus changed XSQ reconciliation
 **Goal:** Prevent orchestration-sidecar effects from being counted as final renderer output and detect provenance tags in changed non-sidecar XSQ candidates.
 **Changed files:** `core/orchestration_xsq_reconciliation.py`, `core/sequence_builder.py`, `tests/test_orchestration_xsq_reconciliation.py`, and this ledger.
