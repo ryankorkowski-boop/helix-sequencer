@@ -42,7 +42,7 @@ class RunConfig:
     output_root: Path = field(default_factory=lambda: Path("outputs"))
     variants: int = 1
     enable_orchestrator: bool = True
-    promote_orchestrated_template: bool = True
+    promote_orchestrated_template: bool = False
     enable_learning_memory: bool = False
     power_metadata_path: Path | None = None
     autosize_controllers: bool = False
@@ -115,7 +115,10 @@ class RunConfig:
         if self.autosize_controllers: args.append("--autosize-controllers")
         if self.controller_padding != 50: args.extend(["--controller-padding", str(self.controller_padding)])
         if not self.enable_orchestrator: args.append("--no-effects-orchestrator")
-        if not self.promote_orchestrated_template: args.append("--no-orchestrator-template-promotion")
+        if self.promote_orchestrated_template:
+            args.append("--promote-orchestrated-template")
+        else:
+            args.append("--no-orchestrator-template-promotion")
         args.extend(self.extra_engine_args)
         return args
 
