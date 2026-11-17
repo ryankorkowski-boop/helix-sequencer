@@ -305,6 +305,10 @@ def _build_orchestrated_exports(final_graph: IntentGraph, engine_args: list[str]
 def run_effects_orchestration(engine_args: list[str] | None = None, *, write_report: bool = True) -> EffectsOrchestrationRunReport:
     try:
         graph = build_seed_graph(engine_args)
+        sections_json = _arg_value(engine_args, "--orchestration-sections-json")
+        if sections_json:
+            from core.song_section_choreography import load_song_section_graph
+            graph = load_song_section_graph(sections_json, graph)
         director = MultiPassOrchestrationDirector()
         result = director.direct(graph)
         passes = tuple({"pass_name": item.pass_name, "metadata": item.metadata} for item in result.passes)
