@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import csv
+import hashlib
 import json
 import os
 import shutil
@@ -1800,7 +1801,15 @@ def analyze_audio_file(
 def export_audio_analysis_result(result: AudioAnalysisResult, output_dir: Path) -> dict[str, str]:
     output_dir.mkdir(parents=True, exist_ok=True)
     json_path = output_dir / "audio_analysis.json"
-    json_path.write_text(json.dumps(result.to_dict(), indent=2), encoding="utf-8")
+    analysis_payload = result.to_dict()
+    source_path = Path(str(analysis_payload.get("metadata", {}).get("audio_path", "")))
+    if source_path.is_file():
+        digest = hashlib.sha256()
+        with source_path.open("rb") as source:
+            for chunk in iter(lambda: source.read(1024 * 1024), b""):
+                digest.update(chunk)
+        analysis_payload["metadata"]["audio_sha256"] = digest.hexdigest()
+    json_path.write_text(json.dumps(analysis_payload, indent=2), encoding="utf-8")
     timeline_csv = output_dir / "audio_timeline.csv"
     with timeline_csv.open("w", encoding="utf-8", newline="") as handle:
         writer = csv.writer(handle)
