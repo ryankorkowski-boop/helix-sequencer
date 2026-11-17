@@ -16,6 +16,7 @@ from core.run_manager import RunContext, RunManager
 NO_EFFECTS_ORCHESTRATOR_FLAG = "--no-effects-orchestrator"
 PROMOTE_ORCHESTRATOR_TEMPLATE_FLAG = "--promote-orchestrated-template"
 NO_ORCHESTRATOR_TEMPLATE_PROMOTION_FLAG = "--no-orchestrator-template-promotion"
+ORCHESTRATION_SECTIONS_JSON_FLAG = "--orchestration-sections-json"
 BEAT_GRID_FLAGS = {
     "--snap-grid",
     "--snap-bpm",
@@ -72,7 +73,19 @@ def _orchestrator_template_promotion_enabled(engine_args: list[str] | None) -> b
 def _clean_engine_args(engine_args: list[str] | None) -> list[str] | None:
     if engine_args is None:
         return None
-    return [arg for arg in engine_args if arg not in ORCHESTRATOR_ONLY_FLAGS]
+    cleaned: list[str] = []
+    idx = 0
+    while idx < len(engine_args):
+        arg = engine_args[idx]
+        if arg == ORCHESTRATION_SECTIONS_JSON_FLAG:
+            idx += 2
+            continue
+        if arg in ORCHESTRATOR_ONLY_FLAGS:
+            idx += 1
+            continue
+        cleaned.append(arg)
+        idx += 1
+    return cleaned
 
 
 def _strip_beat_grid_args(engine_args: list[str] | None) -> list[str] | None:
