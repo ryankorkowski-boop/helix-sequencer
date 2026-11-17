@@ -16,7 +16,7 @@ POSITIONS = (
 )
 
 
-def validate(lock: dict, fixtures: list[dict], *, approval: bool = True) -> list[str]:
+def validate(lock: dict, fixtures: list[dict], *, approval: bool = True, require_render: bool = True) -> list[str]:
     errors = []
     grid = lock.get("grid", {})
     if (grid.get("columns"), grid.get("rows"), grid.get("center")) != (3, 3, "middle_center"):
@@ -44,7 +44,7 @@ def validate(lock: dict, fixtures: list[dict], *, approval: bool = True) -> list
     if approval:
         if lock.get("audio", {}).get("status") != "verified":
             errors.append("real vocal audio is not verified")
-        if lock.get("render", {}).get("status") != "verified":
+        if require_render and lock.get("render", {}).get("status") != "verified":
             errors.append("native xLights FSEQ and MP4 render are not verified")
     return errors
 
