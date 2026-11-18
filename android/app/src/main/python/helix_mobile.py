@@ -220,7 +220,7 @@ def run(engine_path, job_path, request_json, callback):
                         'Serial joblib and Python Numba kernels; large songs may run slowly'],
         'input_hashes': {x.name: file_hash(x) for x in (job/'input').iterdir() if x.is_file()}}
     result = {'bundle': '', 'preview': '', 'sequence': '', 'report': str(job/'outputs/Android-run-report.txt'),
-              'manifest': str(job/'outputs/android-run.json'), 'sequence_count': 0, 'mode': manifest['mode'],
+              'manifest': str(job/'outputs/android-run.json'), 'sequence_count': 0, 'sequence_paths': [], 'mode': manifest['mode'],
               'stages': stages}
     try:
         if manifest['mode'] == 'xlights':
@@ -269,6 +269,7 @@ def run(engine_path, job_path, request_json, callback):
             if not Path(result['sequence']).is_file():
                 raise RuntimeError('Selected sequence export is missing')
             result['sequence_count'] = len(valid)
+            result['sequence_paths'] = [str(x) for x in valid]
             stages['sequencing'] = {'status': 'success'}
             manifest['sequences'] = [str(x.relative_to(job)) for x in valid]
             manifest['lms'] = [str(x.relative_to(job)) for x in lms_files]
