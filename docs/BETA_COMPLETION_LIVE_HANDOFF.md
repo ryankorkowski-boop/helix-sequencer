@@ -180,3 +180,6 @@ CI 44277732347 passed hand-mask regression on both Python versions. e9ac531b rep
 
 ### 2026-11-18 — Bind reactive performer motions to event identity
 CI 44279605011 passed decay regression on both Python versions. a0c78197 replaces nearest humanized timestamp matching with stable originating event order in models/working_drummer.py, eliminating cross-instrument motion assignment and quadratic search. Added simultaneous cue regression; CI pending. Working member slice is not verified canonical 3D renderer. Ride and articulated geometry remain outstanding. No merge/release.
+
+### 2026-11-18 — Preserve instrument effect identity
+CI 44280439634 passed reactive motion identity regression. 33c9c14e extends event-index binding to effect cues and correctly reports typed detection with bus suppression. Added effect identity assertion. New CI pending. Ride, physical articulation and canonical render outstanding. No merge/release.
