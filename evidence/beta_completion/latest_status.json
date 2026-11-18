@@ -43,7 +43,7 @@
       "workstream": "B",
       "priority": "P0",
       "status": "IN PROGRESS",
-      "next_action": "Verify latest APK CI; inspect actual eight-variant XSQ ordering and device-test all MP4s, storage and audio; no release."
+      "next_action": "Confirm latest CI for primary-first MP4 mapping; test on Android that selected XSQ matches MP4 and all 8 requested variants render/play/export."
     },
     {
       "id": "HBC-006",
@@ -120,7 +120,7 @@
   },
   "android_compile_workflow": {
     "path": ".github/workflows/helix-android-variant-compile.yml",
-    "status": "run 44246752957 was in progress; bounded preview count fix 97d19c23 awaits new CI",
+    "status": "Primary-first preview mapping repair 53a776a8 pending CI; previous run 44246963986 was in progress before this commit",
     "commit": "a86114e21b97051e90bc11d6e458ed9188ff6c17",
     "first_run_url": "https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/44214052900",
     "java_compile_run_url": "https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/44214343888",
