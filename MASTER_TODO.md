@@ -202,3 +202,13 @@ Do not mark complete from unit tests alone.
 **Limitations/deferred:** Production engine tracing, platform builds, native xLights renders and nine-panel video remain unverified.
 **Regression risks:** Documentation-only change; reconcile historical four-tom ledger with latest owner-approved three-tom requirement before modifying drummer code.
 **Next action:** Inspect stacked PR diffs and actual engine invocation path, then implement smallest verified integration patch.
+
+### 2026-11-17 — Execution-path reconciliation matrix milestone
+**Goal:** Consolidate three beta workstreams without duplicating existing stacked audit implementations.
+**Changed files:** docs/BETA_ENGINE_EXECUTION_MATRIX.md; MASTER_TODO.md; docs/BETA_COMPLETION_LIVE_HANDOFF.md.
+**Preserved:** Runtime, original drummer oracle, legacy AC compatibility, nine-panel order, existing PRs.
+**New behavior:** Documentation-only: explicit feature-to-output evidence gaps and exact next tests.
+**Tests/evidence:** Inspected PR #235 run_spine.py, #230 drum_mapper.py, #248 reconciliation patch, and PR #231 changed-file inventory. No tests executed; no native renders.
+**Limitations/deferred:** Dynamic engine proof, platform builds, audio analysis and MP4 generation.
+**Regression risks:** None to runtime. Do not mistake PR patches for integrated code.
+**Next action:** Selectively integrate and test #235 promotion flag contract on this branch, preserving opt-in default; then verify changed XSQ behavior.
