@@ -484,6 +484,10 @@ def _review_changed_sequences(paths, engine_args, ctx):
     args = list(engine_args or [])
     layout = Path(args[args.index("--layout-file") + 1])
     audio = Path(args[args.index("--audio") + 1])
+    from core.band_visibility import band_stage_preview_error, inspect_band_stage
+    error = band_stage_preview_error(inspect_band_stage(layout))
+    if error:
+        raise RuntimeError(error)
     parsed = parse_models(layout)
     candidates = [p for p in paths if p.suffix.lower() == ".xsq"
                   and ".orchestrated." not in p.name and ".runtime_" not in p.name]
