@@ -151,6 +151,27 @@ jobs:
           if not Path(d['mp4']).exists(): raise SystemExit('FAIL: canonical drummer MP4 was not created')
           print('PASS: canonical drummer MP4 contains exactly the nine expected visual components')
           PY
+      - name: Decode-check complete synthetic A/V diagnostic
+        run: |
+          python - <<'PY'
+          import re
+          import subprocess
+          from pathlib import Path
+          import imageio_ffmpeg
+          movie=Path('test_runs/drummer_ground_truth/preview/drummer-ground-truth.mp4')
+          ff=imageio_ffmpeg.get_ffmpeg_exe()
+          probe=subprocess.run([ff, '-hide_banner', '-i', str(movie)],capture_output=True,text=True)
+          output=probe.stderr
+          if not re.search(r'Video: h264',output,re.I) or not re.search(r'Audio: aac',output,re.I):
+              raise SystemExit('FAIL: diagnostic must include H.264 video and AAC audio')
+          match=re.search(r'Duration:\s*(\d+):(\d+):(\d+(?:\.\d+)?)',output)
+          if not match: raise SystemExit('FAIL: unable to parse diagnostic duration')
+          seconds=int(match[1])*3600+int(match[2])*60+float(match[3])
+          if not 11.0 <= seconds <= 13.0: raise SystemExit(f'FAIL: 12-second ground-truth duration mismatch {seconds}')
+          result=subprocess.run([ff,'-v','error','-i',str(movie),'-map','0:v:0','-map','0:a:0','-f','null','-'],capture_output=True,text=True)
+          if result.returncode: raise SystemExit('FAIL: A/V decode failed: '+result.stderr[-2000:])
+          print(f'PASS: H.264/AAC diagnostic decoded from start to finish, duration={seconds:.2f}s')
+          PY
       - name: Upload drummer XSQ artifact
         if: always()
         uses: actions/upload-artifact@v4
@@ -175,3 +196,15 @@ jobs:
           name: drummer-ground-truth-preview-metadata
           path: test_runs/drummer_ground_truth/preview/helix_flow_preview_metadata.json
           if-no-files-found: error
+      - name: Upload regenerated nine-cue xLights model and canonical image
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: drummer-nine-cue-xmodel-and-source
+          path: |
+            fixtures/band_geometry/models/HX_SNOWMAN_DRUMMER_V3.xmodel
+            fixtures/band_geometry/source/drummerbg.png
+            fixtures/band_geometry/drummer_v3_pose_spec.json
+            fixtures/band_geometry/drummer_v3_png_layer_manifest.json
+          if-no-files-found: error
+          retention-days: 3
