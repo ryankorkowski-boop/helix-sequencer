@@ -285,3 +285,9 @@ Commit 126c9d91 adds optional source labels to timeline entries and reports surv
 
 ### 2026-11-18 — Strengthen Birdsong final reconciliation regression
 Committed test-only change `ea110e82c1082a58feb121b768af538a98d98d00` in `tests/test_birdsong_engine.py`. The existing production-block regression now asserts both the shifted surviving call and surviving sweep are counted with final XML-backed timing, while a removed echo and unrelated piano entry are excluded. No production behavior changed. The commit's combined-status endpoint has not yet returned checks; do not mark the test as passed until the Actions result is inspected. No native FSEQ, real-song MP4, or owner approval is claimed.
+
+
+### 2026-11-18 — Reconcile owner vocal and Android integration decisions
+The 2026-11-15 owner clarification in issue #216/#230 authorizes a separate **ESTIMATED-vocals experimental pilot** for a finished stereo recording with audible lead and backing performances. It does not authorize changing VERIFIED provenance or bypassing `tools/verify_native_vocal_source.py`; reject bleed/duplicate/low-confidence harmony and retain REST where unsupported. The `Bbb vocals.mp4` reference is explicitly visual-only because its original timing failed.
+
+Code inspection also confirms `android/app/src/main/python/helix_mobile.py::build_args` unconditionally includes `--no-effects-orchestrator` for both xLights and LOR modes. This is a real Android parity gap; do not simply remove the safeguard or force template promotion until memory limits and output-parity behavior are covered by tests. LOR's separate AC restrictions remain intentional. The connected Google Drive app is not available in this session, so new source-audio retrieval and real-audio native rendering cannot be performed here until Drive access is enabled or the source is supplied through an accessible workflow. Continue independent repository work; do not fabricate audio evidence.
