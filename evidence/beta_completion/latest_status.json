@@ -1,0 +1,74 @@
+{
+  "updated_at": "2026-11-17",
+  "branch": "codex/unified-beta-integration-20261117",
+  "overall_status": "PARTIALLY_COMPLETE",
+  "verified": [
+    "read repository safeguards",
+    "identified default branch and audit PR dependency chain",
+    "created dedicated integration branch"
+  ],
+  "tasks": [
+    {
+      "id": "BETA-001",
+      "workstream": "integration",
+      "priority": "P0",
+      "status": "IN PROGRESS",
+      "next_action": "compare PR dependency ancestry and production paths"
+    },
+    {
+      "id": "BETA-002",
+      "workstream": "engines",
+      "priority": "P0",
+      "status": "NOT STARTED",
+      "next_action": "trace orchestration through final XSQ"
+    },
+    {
+      "id": "BETA-003",
+      "workstream": "band",
+      "priority": "P0",
+      "status": "BLOCKED",
+      "blocker": "three-tom owner spec differs from legacy four-tom ledger",
+      "next_action": "inspect accepted drummer oracle"
+    },
+    {
+      "id": "BETA-004",
+      "workstream": "vocals",
+      "priority": "P0",
+      "status": "NOT STARTED",
+      "next_action": "trace lead and harmony timelines"
+    },
+    {
+      "id": "BETA-005",
+      "workstream": "android",
+      "priority": "P0",
+      "status": "NOT STARTED",
+      "next_action": "reproduce preview and eight-variant defect"
+    },
+    {
+      "id": "BETA-006",
+      "workstream": "windows",
+      "priority": "P0",
+      "status": "NOT STARTED",
+      "next_action": "inspect build and parity"
+    },
+    {
+      "id": "BETA-007",
+      "workstream": "video",
+      "priority": "P0",
+      "status": "NOT STARTED",
+      "next_action": "validate nine layouts and real audio"
+    },
+    {
+      "id": "BETA-008",
+      "workstream": "acceptance",
+      "priority": "P0",
+      "status": "NOT STARTED",
+      "next_action": "run native and platform acceptance gates"
+    }
+  ],
+  "native_xlights_verified": false,
+  "android_verified": false,
+  "windows_verified": false,
+  "nine_panel_verified": false,
+  "owner_approved": false
+}
