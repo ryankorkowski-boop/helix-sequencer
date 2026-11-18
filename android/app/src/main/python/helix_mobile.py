@@ -305,13 +305,12 @@ def run(engine_path, job_path, request_json, callback):
                 try:
                     if layout is None:
                         raise RuntimeError('Generated sequence is missing its packaged preview layout')
-                    # Encode variants serially to bound peak memory on Android.
-                    # Keep array indexes aligned with sequence_paths; empty means unavailable.
-                    previews = []
+                    # Prioritize the primary XSQ while preserving the exact
+                    # sequence_paths index mapping for the Android picker.
                     preview_limit = min(int(request.get('variants', 1)), 8)
-                    # The engine may also emit auxiliary XSQs. Do not encode an
-                    # unbounded number of videos on a memory-constrained phone.
-                    preview_candidates = valid[:preview_limit]
+                    preview_candidates = ([selected] +
+                                          [x for x in valid if x != selected])[:preview_limit]
+                    previews_by_sequence = {}
                     if len(valid) > preview_limit:
                         callback.log('Preview capped at %d requested variants; %d auxiliary XSQs remain exportable.' %
                                      (preview_limit, len(valid)-preview_limit))
@@ -320,24 +319,26 @@ def run(engine_path, job_path, request_json, callback):
                         if not variant_layout.is_file():
                             variant_layout = layout
                         try:
-                            callback.log('Preview variant %d/%d: %s' % (index+1, len(valid), variant.name))
+                            callback.log('Preview variant %d/%d: %s' %
+                                         (index+1, len(preview_candidates), variant.name))
                             movie = render_preview(variant, variant_layout, job/'input/audio.wav', seconds, callback)
-                            previews.append(str(movie))
+                            previews_by_sequence[variant] = str(movie)
                             manifest['previews'].append(str(movie.relative_to(job)))
                             if variant == selected:
                                 result['preview'] = str(movie)
                         except Exception as variant_exc:
-                            previews.append('')
+                            previews_by_sequence[variant] = ''
                             callback.log('Variant %d preview failed: %s' % (index+1, variant_exc))
                             callback.log(traceback.format_exc())
-                        result['preview_paths'] = previews + ['']*(len(valid)-len(previews))
+                        result['preview_paths'] = [previews_by_sequence.get(x, '') for x in valid]
                         notify(callback, 'checkpoint', json.dumps(result))
-                    completed = sum(bool(p) for p in previews)
+                    completed = sum(bool(path) for path in previews_by_sequence.values())
                     stages['preview'] = {
                         'status': 'success' if completed == len(preview_candidates) else
                                   ('partial' if completed else 'failed'),
                         'rendered': completed, 'requested': len(preview_candidates),
-                        'failed_variants': [valid[i].name for i, path in enumerate(previews) if not path],
+                        'failed_variants': [x.name for x in preview_candidates
+                                            if not previews_by_sequence.get(x)],
                     }
                     notify(callback, 'checkpoint', json.dumps(result))
                 except Exception as exc:
