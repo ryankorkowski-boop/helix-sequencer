@@ -80,4 +80,4 @@ jobs:
       - name: Generate original drummer assets and verify physical geometry
         run: |
           python tools/build_drummer_v3_assets.py
-          python -m pytest -q tests/test_drummer_v3_pose_sheet.py tests/test_drummer_v3_png_layers.py
+          python -m pytest -q tests/test_drummer_v3_pose_sheet.py tests/test_drummer_v3_png_layers.py tests/test_drummer_v3_xsq_integration.py
