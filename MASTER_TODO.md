@@ -714,3 +714,6 @@ CI 44281318177 passed effect identity regression. 6e22a9f6 independently merges 
 
 ### 2026-11-18 — Preserve distinct labeled tom strikes
 CI 44282095659 passed interleaved duplicate regression. e0af1288 deduplicates by instrument and explicit tom class; added simultaneous three-tom regression. Existing clutter cap and repeat scaling unchanged. Unlabeled toms still use fallback routing; no ride or canonical render. CI pending. No merge/release.
+
+### 2026-11-18 — Explicit ride routing (partial)
+8cb704ea adds ride stream; 16c4202e adds independent ride target and ride_hit timing; separate ride effect cue added. No classifier guesses ride, physical ride asset absent, consumers of DRUMMER_COMPONENTS must be audited for nine-target compatibility. CI and native verification pending. No merge/release.
