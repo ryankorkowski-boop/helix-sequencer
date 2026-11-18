@@ -2,7 +2,6 @@ from __future__ import annotations
 
 import argparse
 import json
-import shutil
 import subprocess
 import sys
 from pathlib import Path
@@ -30,13 +29,29 @@ def _trimmed_audio_path(output_dir: Path) -> Path:
     return output_dir / "LightsOutTheme_30s.mp3"
 
 
-def _copy_audio_as_30s_placeholder(audio: Path, output_dir: Path) -> Path:
-    # This runner records the 30-second contract in metadata and command names.
-    # If ffmpeg-based audio trimming is added later, keep this path/name stable.
+def _trim_audio_to_30s(audio: Path, output_dir: Path, *, dry_run: bool = False) -> Path:
+    """Create a genuine, bounded audio excerpt; never rename a full song as 30s."""
     target = _trimmed_audio_path(output_dir)
+    if dry_run:
+        return target
+    if not audio.is_file() or not audio.stat().st_size:
+        raise FileNotFoundError(f"Required source song missing or empty: {audio}")
+    import imageio_ffmpeg
+
     target.parent.mkdir(parents=True, exist_ok=True)
-    if audio.exists():
-        shutil.copyfile(audio, target)
+    temporary = target.with_name(target.stem + ".partial.mp3")
+    try:
+        command = [
+            imageio_ffmpeg.get_ffmpeg_exe(), "-nostdin", "-hide_banner", "-loglevel", "error",
+            "-y", "-i", str(audio), "-t", "30", "-vn",
+            "-codec:a", "libmp3lame", "-qscale:a", "2", str(temporary),
+        ]
+        result = subprocess.run(command, cwd=ROOT, capture_output=True, text=True)
+        if result.returncode or not temporary.is_file() or temporary.stat().st_size == 0:
+            raise RuntimeError(f"Failed to trim real audio to a 30-second clip: {result.stderr[-2000:]}")
+        temporary.replace(target)
+    finally:
+        temporary.unlink(missing_ok=True)
     return target
 
 
@@ -114,7 +129,7 @@ def run_full_band_lightsouttheme_30s(
 
     layout_payload = build_full_band_layout(output_dir)
     layout = output_dir / "xlights_rgbeffects.xml"
-    audio_30s = _copy_audio_as_30s_placeholder(audio.resolve(), output_dir)
+    audio_30s = _trim_audio_to_30s(audio.resolve(), output_dir, dry_run=dry_run)
     xsq = _sequence_path(output_dir, audio_30s, profile)
 
     sequence_command = build_sequence_command(
@@ -140,6 +155,7 @@ def run_full_band_lightsouttheme_30s(
     payload: dict[str, object] = {
         "schema": "helixville4.full_band_lightsouttheme_30s.v1",
         "status": "commands_completed" if not dry_run else "dry_run",
+        "audio_trim_method": "ffmpeg_30s_transcode" if not dry_run else "planned",
         "duration_seconds_target": 30,
         "audio": str(audio_30s),
         "layout": str(layout),
@@ -156,7 +172,7 @@ def run_full_band_lightsouttheme_30s(
         },
         "notes": [
             "The generated layout uses the approved Helixville4 full snowman band custom models.",
-            "The 30-second contract is recorded here; current audio handling copies LightsOutTheme to a stable 30s-named path unless future ffmpeg trimming is added.",
+            "The input is transcoded to an actual at-most-30-second MP3 segment; no full-song placeholder is accepted.",
         ],
     }
     report = output_dir / "full_band_lightsouttheme_30s.run.json"
