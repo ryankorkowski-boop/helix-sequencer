@@ -720,3 +720,6 @@ CI 44282095659 passed interleaved duplicate regression. e0af1288 deduplicates by
 
 ### 2026-11-18 — Native ride compatibility guard
 Existing canonical pose spec declares eight composites, no ride. Native XSQ injector previously derived targets from expanded logical tuple, producing an unsupported empty ride row. Explicitly exclude ride until physical asset is built. Logical ride remains staged; native nine-target support not complete. No merge/release.
+
+### 2026-11-18 — Align asset composite names with exporter
+Asset builder creates HX_SNOWMAN_DRUMMER_V3_DRUMMER_* composites while injector emits HX_SNOWMAN_DRUMMER_*. Add exporter-compatible submodel aliases with identical node ranges, preserving legacy geometry and names. Generated asset count metadata and native qualification still require verification; actual XSQ qualified-model targeting remains unverified. Ride not built. No merge/release.
