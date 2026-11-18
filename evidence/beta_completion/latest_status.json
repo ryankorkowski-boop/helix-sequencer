@@ -120,7 +120,8 @@
   },
   "android_compile_workflow": {
     "path": ".github/workflows/helix-android-variant-compile.yml",
-    "status": "committed; no workflow run observed immediately after commit",
-    "commit": "a86114e21b97051e90bc11d6e458ed9188ff6c17"
+    "status": "first run 44214052900 failed in obsolete SDK setup action before Gradle; workflow repaired at 14f3d642; rerun pending",
+    "commit": "a86114e21b97051e90bc11d6e458ed9188ff6c17",
+    "first_run_url": "https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/44214052900"
   }
 }
