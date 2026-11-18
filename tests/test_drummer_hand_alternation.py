@@ -40,3 +40,4 @@ def test_reactive_member_keeps_simultaneous_motion_instrument_identity():
     cues = payload["reactive_cues"]
     assert cues
     assert all(cue["kind"] == cue["motion"]["drum_type"] for cue in cues)
+    assert all(cue["kind"] == cue["visual_effect"]["drum_type"] for cue in cues)
