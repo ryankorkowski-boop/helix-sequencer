@@ -13,9 +13,10 @@ CANONICAL_TOMS = (
 )
 
 
-def test_canonical_drummer_has_exactly_eight_components() -> None:
-    assert len(DRUMMER_COMPONENTS) == 8
-    assert len(set(DRUMMER_COMPONENTS)) == 8
+def test_nine_logical_drummer_components_include_three_toms_and_ride() -> None:
+    assert len(DRUMMER_COMPONENTS) == 9
+    assert len(set(DRUMMER_COMPONENTS)) == 9
+    assert DRUMMER_COMPONENTS[-1] == "HX_SNOWMAN_DRUMMER_RIDE"
     assert all("STICK" not in name and "ARM" not in name for name in DRUMMER_COMPONENTS)
     assert CANONICAL_TOMS == DRUMMER_COMPONENTS[3:6]
     assert not any("TOM_4" in name for name in DRUMMER_COMPONENTS)
@@ -73,3 +74,15 @@ def test_injection_helper_creates_current_xlights_container_without_legacy_effec
     container = _find_or_create_element_effects(root)
     assert container.tag == "ElementEffects"
     assert root.find("effects") is None
+
+
+def test_generated_xmodel_matches_existing_eight_native_targets() -> None:
+    """The logical ride must not be falsely represented as a built physical asset."""
+    from pathlib import Path
+    from tools.integrate_drummer_v3_into_xsq import DRUMMER_TARGETS
+
+    xmodel = Path(__file__).resolve().parents[1] / "fixtures/band_geometry/models/HX_SNOWMAN_DRUMMER_V3.xmodel"
+    names = {node.get("name") for node in ET.parse(xmodel).getroot().findall("./subModels/subModel")}
+    assert DRUMMER_TARGETS == set(DRUMMER_COMPONENTS[:-1])
+    assert DRUMMER_TARGETS <= names
+    assert DRUMMER_COMPONENTS[-1] not in names
