@@ -102,3 +102,20 @@ def test_native_on_effect_emits_percentage_peak_and_decay() -> None:
     assert effect.get("sourceHand") == "L"
     assert effect.get("startTime") == "100"
     assert effect.get("endTime") == "250"
+
+
+def test_deterministic_truth_xsq_contains_nine_real_on_targets() -> None:
+    from tools.export_drummer_ground_truth_xsq import build_drummer_ground_truth_xsq_text
+    root = ET.fromstring(build_drummer_ground_truth_xsq_text(duration=12.0))
+    expected = set(DRUMMER_COMPONENTS)
+    assert root.get("drummerChannels") == "9"
+    assert set(root.find("timingtrack").get("channels", "").split(",")) == {
+        "KICK", "SNARE", "HI_HAT", "TOM_HIGH", "TOM_MID", "TOM_FLOOR",
+        "CYMBAL_LEFT", "CYMBAL_RIGHT", "RIDE",
+    }
+    actual = {item.get("name") for item in root.findall("./ElementEffects/Element")}
+    assert actual == {name.replace("HX_SNOWMAN_DRUMMER_", "HX_SNOWMAN_DRUMMER_V3_") for name in expected}
+    effects = root.findall("./ElementEffects/Element/EffectLayer/Effect")
+    assert effects and all(item.get("name") == "On" for item in effects)
+    assert all("E_TEXTCTRL_Eff_On_Start=" in item.get("settings", "") for item in effects)
+    assert any(item.get("sourcePoseSubmodel") == "HX_SNOWMAN_DRUMMER_V3_RIDE" for item in effects)
