@@ -17,7 +17,8 @@ DRUMMER_V3_MODEL = "HX_SNOWMAN_DRUMMER_V3"
 DRUMMER_TARGETS = set(DRUMMER_COMPONENTS)
 
 def _find_or_create_element_effects(root):
-    return root.find("ElementEffects") or ET.SubElement(root, "ElementEffects")
+    existing = root.find("ElementEffects")
+    return existing if existing is not None else ET.SubElement(root, "ElementEffects")
 
 def _element_map(container):
     return {e.get("name", ""): e for e in container.findall("Element") if e.get("name")}
@@ -33,8 +34,8 @@ def _layer_for(container, elements, name, layer_name):
 def _clear_layer(layer):
     for child in list(layer):layer.remove(child)
 
-def _add_on(layer, start_ms, end_ms, intensity, component, source_type):
-    ET.SubElement(layer, "Effect", {"name":"On","startTime":str(max(0,int(start_ms))),"endTime":str(max(int(start_ms)+50,int(end_ms))),"settings":f"E_CHECKBOX_OverlayBkg=0,E_SLIDER_Brightness={max(.08,min(1.,float(intensity))):.3f}","palette":"C_BUTTON_Palette1=#FFFFFF,C_BUTTON_Palette2=#FFFFFF,C_BUTTON_Palette3=#FFFFFF","source":"HelixDrummerV3","sourceModel":DRUMMER_V3_MODEL,"sourceComponent":component,"sourceDrumType":source_type})
+def _add_on(layer, start_ms, end_ms, intensity, component, source_type, hand=None):
+    ET.SubElement(layer, "Effect", {"name":"On","startTime":str(max(0,int(start_ms))),"endTime":str(max(int(start_ms)+50,int(end_ms))),"settings":f"E_CHECKBOX_OverlayBkg=0,E_SLIDER_Brightness={max(.08,min(1.,float(intensity))):.3f}","palette":"C_BUTTON_Palette1=#FFFFFF,C_BUTTON_Palette2=#FFFFFF,C_BUTTON_Palette3=#FFFFFF","source":"HelixDrummerV3","sourceModel":DRUMMER_V3_MODEL,"sourceComponent":component,"sourceDrumType":source_type, **({"sourceHand": hand} if hand else {})})
 
 def _band_energy(magnitude, freqs, lo, hi):
     mask=(freqs>=lo)&(freqs<hi)
@@ -76,7 +77,7 @@ def inject_drummer_v3(base_xsq,output_xsq,audio_path,*,layer_name="AUTO_Drummer_
     for event in component_events:
         component=str(event["component"])
         if component not in DRUMMER_TARGETS:raise ValueError(f"Non-canonical drummer target emitted: {component}")
-        _add_on(layers[component],event["timestamp_ms"],event["end_ms"],event["intensity"],component,event["drum_type"]);placements+=1
+        _add_on(layers[component],event["timestamp_ms"],event["end_ms"],event["intensity"],component,event["drum_type"],event.get("hand"));placements+=1
     if layer_name not in {n.get("name") for n in root.findall("timingtrack")}:ET.SubElement(root,"timingtrack",{"name":layer_name})
     ET.indent(tree,space="  ");tree.write(output_xsq,encoding="utf-8",xml_declaration=True);drum_type_counts={key.removesuffix("_events"):len(value) for key,value in streams.items()};component_counts={component:sum(1 for event in component_events if event["component"]==component) for component in sorted(DRUMMER_TARGETS)};typed_count=sum(drum_type_counts.get(k,0) for k in ("kick","snare","tom","hihat","cymbal"))
     return {"schema":"helix.drummer_v3_xsq_integration.v6","model":DRUMMER_V3_MODEL,"base_xsq":str(base_xsq),"output_xsq":str(output_xsq),"audio":str(audio_path),"layer":layer_name,"fallback_mode":"typed_detection","event_count":len(component_events),"placement_count":placements,"drum_type_counts":drum_type_counts,"typed_event_count":typed_count,"drum_bus_event_count":0,"drum_bus_ratio":0.,"component_counts":component_counts,"targets":sorted(DRUMMER_TARGETS),"target_count":len(DRUMMER_TARGETS),"analysis":diagnostics}
