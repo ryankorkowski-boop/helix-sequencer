@@ -76,16 +76,16 @@ def test_injection_helper_creates_current_xlights_container_without_legacy_effec
     assert root.find("effects") is None
 
 
-def test_generated_xmodel_matches_existing_eight_native_targets() -> None:
-    """The logical ride must not be falsely represented as a built physical asset."""
+def test_generated_xmodel_contains_all_nine_native_targets() -> None:
+    """The authored ride must exist physically, not merely in a logical cue list."""
     from pathlib import Path
     from tools.integrate_drummer_v3_into_xsq import DRUMMER_TARGETS
 
     xmodel = Path(__file__).resolve().parents[1] / "fixtures/band_geometry/models/HX_SNOWMAN_DRUMMER_V3.xmodel"
     names = {node.get("name") for node in ET.parse(xmodel).getroot().findall("./subModels/subModel")}
-    assert DRUMMER_TARGETS == set(DRUMMER_COMPONENTS[:-1])
+    assert DRUMMER_TARGETS == set(DRUMMER_COMPONENTS)
     assert DRUMMER_TARGETS <= names
-    assert DRUMMER_COMPONENTS[-1] not in names
+    assert DRUMMER_COMPONENTS[-1] in names
 
 
 def test_native_on_effect_emits_percentage_peak_and_decay() -> None:
