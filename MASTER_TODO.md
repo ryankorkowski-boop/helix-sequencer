@@ -824,3 +824,7 @@ Commit 054f798 enables explicit effects_orchestrator=true in RGB xLights mobile 
 
 ### 2026-11-18 — Mobile variant preview validation
 Commit 7ac1363 adds five Android orchestrator policy regression scenarios; CI not verified. Commit d4740fc validates each candidate's band layout before rendering its preview. Existing backend encodes up to eight variants with index-aligned preview paths and partial failure reporting. GUI playback and physical device testing remain outstanding. Simulation is not native FSEQ evidence. No merge/release.
+
+
+### 2026-11-18 — Android results-screen playback integration
+Commit 97a5c72 preserves primary MP4 fallback even when preview_paths is present but incomplete; aligned variant mappings remain authoritative. Playback checks local file availability before launching PreviewActivity. Existing spinner and eight-variant backend preserved. Compilation and device playback remain unverified; no claim of complete eight-variant acceptance. Next inspect EngineService checkpoint propagation and add device regression coverage. No merge/release.
