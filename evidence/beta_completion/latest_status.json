@@ -1,13 +1,44 @@
 {
   "schema_version": 1,
-  "updated_utc": "2026-11-17",
+  "updated_utc": "2026-11-18",
   "overall_status": "IN PROGRESS",
   "branch": "integration/unified-beta-completion-20261117",
   "base_commit": "bb41f078a92e02ccb1980785efe1c1be741a9d16",
   "source_pr": 248,
   "release_label": "Beta Version 1.4",
   "release_approved": false,
-  "tests_run_this_session": [],
+  "tests_run_this_session": [
+    {
+      "execution": "GitHub Actions",
+      "workflow_run_id": 44286584728,
+      "result": "success",
+      "python": [
+        "3.11",
+        "3.12"
+      ],
+      "coverage": "asset builder, canonical pose, orchestrator/drummer tests"
+    },
+    {
+      "execution": "GitHub Actions",
+      "workflow_run_id": 44288262162,
+      "result": "success",
+      "python": [
+        "3.11",
+        "3.12"
+      ],
+      "coverage": "XSQ On effect settings and native/logical target-contract regressions"
+    },
+    {
+      "execution": "GitHub Actions",
+      "workflow_run_id": 44288669616,
+      "result": "pending",
+      "python": [
+        "3.11",
+        "3.12"
+      ],
+      "coverage": "new real 30s audio trim test"
+    }
+  ],
   "tasks": [
     {
       "id": "HBC-001",
@@ -60,9 +91,9 @@
       "next_action": "Full acceptance and owner approval"
     }
   ],
-  "next_command": "python -m pytest -q tests/test_run_config_v2_orchestration.py tests/test_sequence_builder_orchestrator_promotion.py tests/test_engine_activation_audit.py tests/test_sequence_builder.py",
-  "last_inspected_head": "46f9f2dcc958cecda493c36e6f9f03d3929f2936",
-  "ci_status": "No PR-triggered workflow runs or combined statuses found for inspected head; test execution unverified",
+  "next_command": "Inspect run 44288669616 and repair failures; validate native XSQ/FSEQ with actual canonical layout and real audio; test Android layout picker on device",
+  "last_inspected_head": "c984bc5a1e56d0b49f357c9534ab19a2f7388840",
+  "ci_status": "44288262162 passed on Python 3.11/3.12; 44288669616 pending for true media trimming",
   "confirmed_findings": [
     "Default orchestration sidecar is not promoted without explicit flag",
     "Orchestrated XSQ requires an existing --template",
@@ -108,15 +139,17 @@
     }
   ],
   "ci_workflow": {
-    "run_id": 44213308493,
-    "run_url": "https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/44213308493",
-    "head_sha": "214d8d53951c654770de37ee2507c070a7bd3228",
+    "run_id": 44288262162,
+    "run_url": "https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/44288262162",
+    "head_sha": "ff1233a9d1a0a4d27593c71122abb795de3ee356",
     "status": "completed",
     "matrix": [
       "3.11",
       "3.12"
     ],
-    "test_results": "success: Python 3.11 and 3.12 focused integration jobs"
+    "test_results": "success: targeted orchestrator, drummer, native on effects, asset generation and pose tests",
+    "next_run_id": 44288669616,
+    "next_run_status": "pending"
   },
   "android_compile_workflow": {
     "path": ".github/workflows/helix-android-variant-compile.yml",
@@ -128,5 +161,11 @@
     "apk_assembly_run_url": "https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/44217948986",
     "apk_integrity_run_url": "https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/44218445981",
     "variant_mp4_run_url": "https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/44256203127"
-  }
+  },
+  "current_session_findings": [
+    "Drummer native On-effect previously used E_SLIDER_Brightness 0..1 rather than percent start/end intensity controls; fixed 74be0df8 and tested ff1233a9",
+    "Drummer logical nine-cue mapper and eight-physical-asset guard now explicitly tested in CI; ride physical xmodel still absent",
+    "Former six-piece runner copied full audio to a 30s-labeled MP3; replaced with ffmpeg bounded transcode and duration test, pending CI",
+    "Android debug APK exists from workflow 44269896607 artifact 14412037480 but prior owner device failures remain unresolved"
+  ]
 }
