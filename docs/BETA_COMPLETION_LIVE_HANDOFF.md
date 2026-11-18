@@ -69,3 +69,6 @@ GitHub Actions run `44213308493` **completed SUCCESS** for both Python 3.11 and 
 
 ## Android compile CI setup failure and repair
 Run `44214052900` failed **before Gradle** because `android-actions/setup-android@v3` called `sdkmanager tools` and the package no longer exists. This does not prove Java source failure. Removed obsolete setup action and now invoke hosted SDK `sdkmanager` directly in `.github/workflows/helix-android-variant-compile.yml` at commit `14f3d642`. Next inspect new workflow run and logs, repair Gradle/Chaquopy if needed. Android variant picker remains unverified.
+
+## Android compile retry 2
+Run `44214269832` failed before Gradle at `sdkmanager: command not found` (exit 127), despite Java/Gradle setup succeeding. Changed workflow to find sdkmanager under `ANDROID_HOME/cmdline-tools` and fail clearly if missing (commit `e89bec5c`). Check next run before claiming compilation.
