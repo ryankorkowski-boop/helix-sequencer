@@ -12,7 +12,7 @@
     "canonical band diagnostic MP4",
     "nine-panel 1920x1080 H.264/AAC MP4"
   ],
-  "note": "No final native FSEQ, real-audio six-member band MP4, full nine-panel comparison MP4, or owner-approved APK/EXE exists. Diagnostic artifacts are separate from acceptance assets.",
+  "note": "No final native FSEQ, real-audio six-member band MP4, full nine-panel comparison MP4, or owner-approved APK/EXE exists. Commit 9d622d67 did not produce a new APK, EXE, XSQ, FSEQ, or MP4. Diagnostic artifacts are separate from acceptance assets.",
   "candidate_artifacts": [
     {
       "kind": "Android debug APK (CI build only)",
@@ -56,9 +56,10 @@
     }
   ],
   "latest_execution_checkpoint": {
-    "commit": "ea110e82c1082a58feb121b768af538a98d98d00",
-    "change": "Expanded Birdsong reconciliation test coverage only; no new runtime or approval artifacts.",
-    "ci": "not yet reported by combined-status endpoint",
+    "commit": "9d622d67b4efc748210c0626accc8d0dd06d8a3b",
+    "change": "Source and tests only. No new packaged APK, EXE, native sequence, or approval video.",
+    "ci": "not yet inspected for this SHA",
+    "local_tests": "Python 3.11.18 and 3.12.3: 50 passed, 5 subtests passed. javac PreviewStatusChecks ok.",
     "native_fseq_verified": false,
     "owner_approval": false
   }

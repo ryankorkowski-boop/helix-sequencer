@@ -45,7 +45,7 @@
       "workstream": "A",
       "priority": "P0",
       "status": "IN PROGRESS",
-      "next_action": "Run Birdsong regression CI for ea110e82; prove orchestration template source/promotion and final XSQ/FSEQ; address Android build_args hard-disabling orchestration only with memory/parity regression coverage."
+      "next_action": "Inspect Actions for 9d622d67. Local Python 3.11.18 and 3.12.3 passed the focused orchestration, Birdsong, and Android preview tests. Production Birdsong reconciliation was already correct; the fixture had deleted the sweep XML. Orchestration remains opt-in and is not promoted. Native XSQ/FSEQ proof is still outstanding."
     },
     {
       "id": "HBC-002",
@@ -74,7 +74,7 @@
       "workstream": "B",
       "priority": "P0",
       "status": "IN PROGRESS",
-      "next_action": "Owner device test FAIL: pressing layout closes/minimizes app. Fixes c0727ebc/0504fd5d guard picker launch, resolve default by catalog key, clamp saved index, offer reset to built-in layout; 01dfd21a selects allmodels as interim diverse-prop default, not verified exact panel 6. User requests original Helix Lights Out theme bundled by default; source audio not yet located/packaged. Preserve custom imports and sequencing. CI and device retest pending; root cause not confirmed without logcat. Risks: stale URI, picker activity lifecycle, exact panel identity, audio availability/licensing. No release."
+      "next_action": "Inspect the Android compile workflow for 9d622d67, then install that debug APK. Phone previews now call HouseRenderer instead of the missing color matrix and checkpoint completed/pending/running/failed/unavailable per sequence. Device playback, eight real MP4s, API 30 memory, and the layout-picker failure are not retested. largeHeap and 30-frame intensity windows are mitigations, not an OOM pass. No release."
     },
     {
       "id": "HBC-006",
@@ -91,9 +91,9 @@
       "next_action": "Full acceptance and owner approval"
     }
   ],
-  "next_command": "Inspect Actions for commit ea110e82c1082a58feb121b768af538a98d98d00; repair any failing focused Birdsong tests, then run a real-audio XSQ export and native xLights FSEQ reconciliation. Do not claim native acceptance from the unit test.",
-  "last_inspected_head": "c2f555af62c9954be63daf4d82ba07b03b477451",
-  "ci_status": "PASS: unified integration 44291632931 (Python 3.11 and 3.12 generated 17 layouts and passed structural nine-panel gate); model zoo 44291725423 PASS; drummer 44291594505 PASS",
+  "next_command": "Inspect Actions runs for 9d622d67b4efc748210c0626accc8d0dd06d8a3b on Helix Unified Beta Integration and Helix Android Variant Compile. Repair a red job before any device or native render. Do not treat run 44346809806 as coverage for this HEAD.",
+  "last_inspected_head": "9d622d67b4efc748210c0626accc8d0dd06d8a3b",
+  "ci_status": "LOCAL ONLY for 9d622d67: Python 3.11.18 and 3.12.3 each passed 50 focused tests and 5 subtests. PreviewStatusChecks passed under javac. GitHub Actions for this SHA were not inspected. Run 44346809806 passed older Python 3.11/3.12 and does not verify this HEAD. No Gradle, device, native FSEQ, or approval MP4 in this session.",
   "confirmed_findings": [
     "Default orchestration sidecar is not promoted without explicit flag",
     "Orchestrated XSQ requires an existing --template",
@@ -185,12 +185,31 @@
     "status": "candidate; structure passed, native FSEQ and musical choreography unverified"
   },
   "latest_execution_checkpoint": {
-    "commit": "ea110e82c1082a58feb121b768af538a98d98d00",
-    "change": "Test-only Birdsong reconciliation regression now asserts surviving shifted call and sweep timing/counts while excluding removed echo and unrelated piano entry.",
-    "production_code_changed": false,
-    "combined_status": "No status checks returned yet by the connected GitHub status endpoint; Actions result still needs inspection.",
+    "commit": "9d622d67b4efc748210c0626accc8d0dd06d8a3b",
+    "change": "Phone previews use HouseRenderer in 30-frame intensity windows and checkpoint preview_states. Desktop review logs name failed previews. Birdsong production reconciliation is unchanged; its fixture no longer deletes the surviving sweep.",
+    "production_code_changed": true,
+    "local_tests": {
+      "python_3_11_18": "50 passed, 5 subtests passed",
+      "python_3_12_3": "50 passed, 5 subtests passed",
+      "javac_preview_status": "PreviewStatusChecks ok",
+      "files": [
+        "tests/test_birdsong_engine.py",
+        "tests/test_android_preview_states.py",
+        "tests/test_preview_intensity_windows.py",
+        "tests/test_android_orchestrator_policy.py",
+        "tests/test_run_config_v2_orchestration.py",
+        "tests/test_sequence_builder_orchestrator_promotion.py",
+        "tests/test_engine_activation_audit.py",
+        "tests/test_sequence_builder.py",
+        "tests/test_effects_orchestrator_bridge.py",
+        "tests/test_orchestration_xsq_reconciliation.py"
+      ]
+    },
+    "combined_status": "GitHub Actions for 9d622d67 not yet inspected.",
     "native_fseq_verified": false,
     "real_audio_approval_render": false,
+    "eight_variant_playback_verified": false,
+    "api_30_oom_verified": false,
     "owner_approval": false
   }
 }

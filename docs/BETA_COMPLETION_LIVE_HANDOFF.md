@@ -1,6 +1,6 @@
 # Unified Beta Completion — Live Handoff
 
-Updated: 2026-11-17 UTC. Status: IN PROGRESS; no release approval.
+Updated: 2026-11-18 UTC. Status: IN PROGRESS; no release approval. Current code commit: `9d622d67b4efc748210c0626accc8d0dd06d8a3b`. Read the 2026-11-18 phone-preview section at the end before the older baseline. Local focused tests passed on Python 3.11.18 and 3.12.3. GitHub Actions for that SHA are not yet inspected. No approval MP4, native FSEQ, device pass, or release.
 
 ## Baseline
 Integration branch: `integration/unified-beta-completion-20261117`, created from PR #248 head `bb41f078a92e02ccb1980785efe1c1be741a9d16`. This is a stacked audit branch, NOT the default branch. No merge or publication authorized.
@@ -303,3 +303,18 @@ Commit 7ac1363 adds five Android orchestrator policy regression scenarios; CI no
 
 ### 2026-11-18 — Android results-screen playback integration
 Commit 97a5c72 preserves primary MP4 fallback even when preview_paths is present but incomplete; aligned variant mappings remain authoritative. Playback checks local file availability before launching PreviewActivity. Existing spinner and eight-variant backend preserved. Compilation and device playback remain unverified; no claim of complete eight-variant acceptance. Next inspect EngineService checkpoint propagation and add device regression coverage. No merge/release.
+
+### 2026-11-18 — Phone preview repair and local regression pass
+Commit `9d622d67b4efc748210c0626accc8d0dd06d8a3b` on `integration/unified-beta-completion-20261117`.
+
+**What was wrong:** `helix_mobile.render_preview` called `build_leaf_color_matrix` and passed `frame_colors` to `HouseRenderer.render_frame`. Neither exists, so every phone preview failed after the sequence and ZIP were saved. The Birdsong fixture then called `layer.remove(entries[1])` after `remove_entry` had already shifted the list, so it deleted the surviving sweep XML. Production reconciliation correctly ignored that missing element. The fixture was wrong.
+
+**What changed:** Previews use `HouseRenderer` and 30-frame intensity windows. `EngineService` copies `preview_states`. `MainActivity` shows completed, running, pending, failed, or unavailable and plays only a completed file. `android:largeHeap="true"` is set. Desktop logs emit `preview_state: failed <name>`. The unified workflow pytest list includes the new tests.
+
+**Workflows that actually exist:** `.github/workflows/helix-unified-beta-integration.yml` runs on push to this integration branch when `core/**`, `tests/**`, or the workflow file changes. It is the Python 3.11/3.12 focused runner. `.github/workflows/helix-android-variant-compile.yml` runs when `android/**` changes. `.github/workflows/helix-birdsong-ci.yml` is a separate Birdsong matrix and was not the gate for this fixture.
+
+**Tests actually run:** Python 3.11.18 and 3.12.3, each `50 passed, 5 subtests passed`, for `tests/test_birdsong_engine.py`, `tests/test_android_preview_states.py`, `tests/test_preview_intensity_windows.py`, `tests/test_android_orchestrator_policy.py`, `tests/test_run_config_v2_orchestration.py`, `tests/test_sequence_builder_orchestrator_promotion.py`, `tests/test_engine_activation_audit.py`, `tests/test_sequence_builder.py`, `tests/test_effects_orchestrator_bridge.py`, and `tests/test_orchestration_xsq_reconciliation.py`. Host `javac`/`java` printed `PreviewStatusChecks ok`. No Gradle, emulator, device, native xLights, or MP4.
+
+**Not verified:** eight playable variant videos, API 30 memory, Windows EXE, layout picker, native FSEQ, approval MP4s, owner approval. Run 44346809806 predates this commit.
+
+**Exact next command:** After this commit is pushed, open the Actions run for `9d622d67` on Helix Unified Beta Integration and Helix Android Variant Compile. Repair a failing job before packaging an APK or rendering a native sequence. Do not mark eight-variant playback or Beta 1.4 approval complete from this source change.
