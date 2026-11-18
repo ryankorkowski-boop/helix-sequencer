@@ -55,10 +55,18 @@ def _emit_flux_family(signal,family,source,floor_offset,min_gap,times):
     return [Candidate(int(i),float(times[i]),family,float(strength[i]),source) for i in peaks]
 
 def _cluster_candidates(candidates,tolerance_s):
+    # Independent instrument candidates may be interleaved in time.
+    # Keep the last cluster per instrument, not the last global cluster.
     clusters=[]
+    last_by_kind={}
     for c in sorted(candidates,key=lambda z:(z.time,z.kind.value)):
-        if clusters and c.kind==clusters[-1][0].kind and c.time-clusters[-1][-1].time<=tolerance_s:clusters[-1].append(c)
-        else:clusters.append([c])
+        previous=last_by_kind.get(c.kind)
+        if previous is not None and c.time-previous[-1].time<=tolerance_s:
+            previous.append(c)
+        else:
+            cluster=[c]
+            clusters.append(cluster)
+            last_by_kind[c.kind]=cluster
     return clusters
 
 def _tom_candidates(drum_low,drum_mid,times,frame_rate):
