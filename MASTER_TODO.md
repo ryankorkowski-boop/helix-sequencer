@@ -540,3 +540,12 @@ Do not mark complete from unit tests alone.
 **Tests/evidence:** Android CI run 44214343888 fully PASSED including Java compilation. Python 3.11/3.12 regression run 44213308493 fully PASSED. New APK assembly step committed but its result not yet known.
 **Limitations/deferred:** APK installation, band preview, per-variant MP4 playback, xLights native validation and Windows EXE parity still pending.
 **Regression risks:** APK assembly may expose Chaquopy or packaging issues not encountered in compile-only job.
+
+### 2026-11-17 — Android variant selection across activity recreation
+**Goal:** Preserve selected generated XSQ through Android configuration/activity recreation.
+**Changed files:** `android/app/src/main/java/org/helixsequencer/android/MainActivity.java`, `MASTER_TODO.md`, `docs/BETA_COMPLETION_LIVE_HANDOFF.md`.
+**Preserved behavior:** No sequencing or drummer changes; selection remains job-local and falls back to available variants.
+**New behavior:** `selectedSequencePath` saved in `onSaveInstanceState` and restored before results polling, complementing existing polling-stable adapter.
+**Tests/evidence:** Java compile previously passed on run 44214343888; this new change requires a fresh compile. Full debug APK assembly run 44217648117 was in progress at last inspection, with no result.
+**Limitations/deferred:** Device rotation/process-death testing, 8 MP4 playback, native xLights verification, Windows parity.
+**Regression risks:** Selected path may be stale if files are deleted; existing polling logic rejects unavailable paths.
