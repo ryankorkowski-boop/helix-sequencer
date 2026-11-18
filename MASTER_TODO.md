@@ -612,3 +612,12 @@ Do not mark complete from unit tests alone.
 **Tests/evidence:** Python syntax gate passed in still-running CI 44246646940; new Java UI change awaits compile/assemble CI.
 **Limitations/deferred:** On-device verification of all-eight playback and native snowman geometry still required.
 **Regression risks:** Android JSON stage parsing and UI formatting must be validated in CI/device.
+
+### 2026-11-17 — Bound Android MP4 render count
+**Goal:** Avoid unexpectedly encoding more than the requested maximum eight videos when the sequencer emits auxiliary XSQs.
+**Changed files:** `android/app/src/main/python/helix_mobile.py`, `MASTER_TODO.md`, `docs/BETA_COMPLETION_LIVE_HANDOFF.md`, `evidence/beta_completion/latest_status.json`.
+**Preserved behavior:** XSQ generation/export, serial MediaCodec rendering, sequence/preview index mapping, stage reporting, canonical drummer and audio synchronization.
+**New behavior:** Preview loop encodes at most `min(requested variants, 8)` sequences; extra XSQs remain exportable; reports requested count for encoded candidates.
+**Tests/evidence:** Previous per-variant APK CI `44219873839` passed; latest UI run `44246752957` was still in progress at inspection. New cap requires fresh CI/device validation.
+**Limitations/deferred:** Auxiliary XSQ ordering may require explicit canonical variant identification; no on-device performance data; 8 preview files may still be large; no native xLights validation.
+**Regression risks:** When engine emits auxiliary XSQs before canonical variants, cap may omit desired preview; inspect actual eight-variant manifest and adjust deterministically.
