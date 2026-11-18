@@ -24,7 +24,8 @@ def test_ac_channel_counts_match_lor_sizes():
 
 def test_fixture_manifest_matches_parsed_layouts():
     manifest = json.loads((FIXTURES / "manifest.json").read_text(encoding="utf-8"))
-    assert len(manifest) == len(BUILDERS) == 16
+    assert len(manifest) == len(BUILDERS) == 17
+    assert any(row["id"] == "native_model_zoo" for row in manifest)
     ids = [row["id"] for row in manifest]
     assert ids[:3] == ["ac16_lor", "ac32_house", "ac64_yard"]
     assert "band_stage" in ids
