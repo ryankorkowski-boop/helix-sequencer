@@ -151,6 +151,14 @@ def parse_effects(xsq: Path, *, include_hands=False):
     return sorted(out)
 
 
+def strike_intensity(start_ms: int, end_ms: int, time_ms: int) -> float:
+    """Immediate contact illumination followed by a bounded quadratic decay."""
+    if not start_ms <= time_ms < end_ms:
+        return 0.0
+    progress = (time_ms - start_ms) / max(1, end_ms - start_ms)
+    return (1.0 - progress) ** 2
+
+
 def light_component(base: Image.Image, mask: Image.Image, intensity: float) -> Image.Image:
     if intensity <= 0.02:
         return base
@@ -245,7 +253,7 @@ def main() -> int:
             active = {name: 0.0 for name in masks}
             for start, end, name in effects:
                 if name in active and start <= t < end:
-                    active[name] = max(active[name], 1.0)
+                    active[name] = max(active[name], strike_intensity(start, end, t))
             writer.append_data(np.asarray(draw_frame(source, masks, active, 960, 540, t, duration_ms, font)))
     finally:
         writer.close()
