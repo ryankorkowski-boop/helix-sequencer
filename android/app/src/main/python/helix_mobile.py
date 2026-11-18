@@ -307,7 +307,7 @@ def run(engine_path, job_path, request_json, callback):
                         raise RuntimeError('Generated sequence is missing its packaged preview layout')
                     # Prioritize the primary XSQ while preserving the exact
                     # sequence_paths index mapping for the Android picker.
-                    preview_limit = min(int(request.get('variants', 1)), 8)
+                    preview_limit = max(1, min(int(request.get('variants', 1)), 8))
                     preview_candidates = ([selected] +
                                           [x for x in valid if x != selected])[:preview_limit]
                     previews_by_sequence = {}
@@ -334,9 +334,11 @@ def run(engine_path, job_path, request_json, callback):
                         notify(callback, 'checkpoint', json.dumps(result))
                     completed = sum(bool(path) for path in previews_by_sequence.values())
                     stages['preview'] = {
-                        'status': 'success' if completed == len(preview_candidates) else
+                        'status': 'success' if completed == preview_limit else
                                   ('partial' if completed else 'failed'),
-                        'rendered': completed, 'requested': len(preview_candidates),
+                        'rendered': completed, 'requested': preview_limit,
+                        'attempted': len(preview_candidates),
+                        'missing_candidates': max(0, preview_limit - len(preview_candidates)),
                         'failed_variants': [x.name for x in preview_candidates
                                             if not previews_by_sequence.get(x)],
                     }
