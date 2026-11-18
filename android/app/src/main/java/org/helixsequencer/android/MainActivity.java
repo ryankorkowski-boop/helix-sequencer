@@ -24,7 +24,7 @@ public class MainActivity extends Activity {
     private final String[] steps={"Music","Layout","Style","Advanced","Generate","Results"};
     private final LinearLayout[] pages=new LinearLayout[6];
     private LinearLayout body,expert;
-    private Spinner mode,palette,sampleLayout;
+    private Spinner mode,palette,sampleLayout,sequenceChoices;
     private UiOptions options;
     private EditText variants,duration;
     private CheckBox polish,matrix,birdsong,spatial,ac,preview,quickClip,includeBand;
@@ -123,7 +123,8 @@ public class MainActivity extends Activity {
         status=text("Ready · choose music and layout",17,Color.rgb(86,230,197));text("Run log",18,Color.WHITE);log=text("",12,Color.LTGRAY);log.setTextIsSelectable(true);
 
         panel(5);results=text("Your sequence, show ZIP and preview will appear here.",16,Color.WHITE);
-        sequence=button("Save sequence…",()->export(sequencePath,sequencePath.endsWith(".lms")?"application/xml":"application/octet-stream",new File(sequencePath).getName()));
+        sequenceChoices=new Spinner(this);body.addView(sequenceChoices);
+        sequence=button("Save selected sequence…",()->export(sequencePath,sequencePath.endsWith(".lms")?"application/xml":"application/octet-stream",new File(sequencePath).getName()));
         watch=button("Play preview",()->startActivity(new Intent(this,PreviewActivity.class).putExtra("path",previewPath)));
         movie=button("Save MP4…",()->export(previewPath,"video/mp4","Helix-preview.mp4"));
         save=button("Save show ZIP…",()->export(bundlePath,"application/zip","Helix-show.zip"));share=button("Share show ZIP…",this::shareShow);
@@ -215,6 +216,26 @@ public class MainActivity extends Activity {
             int percent=s.optInt("preview_percent",-1);boolean measured=busy&&"preview".equals(s.optString("active_stage"))&&percent>=0;progress.setIndeterminate(!measured);if(measured)progress.setProgress(percent);
             status.setText(s.optString("message",phase));log.setText(s.optString("log"));updateMode();
             bundlePath=s.optString("bundle");previewPath=s.optString("preview");sequencePath=s.optString("sequence");reportPath=s.optString("report");
+            JSONArray paths=s.optJSONArray("sequence_paths");
+            List<String> choices=new ArrayList<>();
+            if(paths!=null)for(int i=0;i<paths.length();i++){
+                String candidate=paths.optString(i);
+                if(available(candidate))choices.add(candidate);
+            }
+            if(choices.isEmpty()&&available(sequencePath))choices.add(sequencePath);
+            String prior=(String)sequenceChoices.getSelectedItem();
+            ArrayAdapter<String> adapter=new ArrayAdapter<>(this,android.R.layout.simple_spinner_dropdown_item,choices);
+            sequenceChoices.setAdapter(adapter);
+            int selection=choices.indexOf(prior);
+            if(selection>=0)sequenceChoices.setSelection(selection);
+            sequenceChoices.setOnItemSelectedListener(new android.widget.AdapterView.OnItemSelectedListener(){
+                @Override public void onItemSelected(android.widget.AdapterView<?> parent,View view,int position,long id){
+                    String selected=(String)parent.getItemAtPosition(position);
+                    sequencePath=selected;
+                    sequence.setEnabled(available(sequencePath));
+                }
+                @Override public void onNothingSelected(android.widget.AdapterView<?> parent){}
+            });
             sequence.setEnabled(available(sequencePath));save.setEnabled(available(bundlePath));share.setEnabled(save.isEnabled());watch.setEnabled(available(previewPath));movie.setEnabled(watch.isEnabled());report.setEnabled(available(reportPath));
             StringBuilder summary=new StringBuilder(s.optString("message",phase));JSONObject stages=s.optJSONObject("stages");
             if(stages!=null)for(String key:new String[]{"sequencing","packaging","preview"}){
