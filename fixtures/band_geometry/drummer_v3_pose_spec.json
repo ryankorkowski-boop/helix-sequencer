@@ -1,5 +1,5 @@
 {
-  "schema": "helix.drummer_v3_pose_spec.v3",
+  "schema": "helix.drummer_v3_pose_spec.v4",
   "asset_id": "HX_SNOWMAN_DRUMMER_V3",
   "model_name": "HX_SNOWMAN_DRUMMER_V3",
   "source_image": "fixtures/band_geometry/source/drummerbg.png",
@@ -20,6 +20,7 @@
     "tom_floor_hit",
     "left_crash",
     "right_crash",
+    "ride_hit",
     "both_crash",
     "downbeat_impact"
   ],
@@ -438,6 +439,27 @@
       ]
     },
     {
+      "id": "RIDE",
+      "commands": [
+        {
+          "shape": "ellipse_outline",
+          "box": [
+            0.7,
+            0.405,
+            0.86,
+            0.49
+          ],
+          "rgba": [
+            255,
+            245,
+            120,
+            240
+          ],
+          "width": 0.012
+        }
+      ]
+    },
+    {
       "id": "SNARE_CONTACT_STICK",
       "commands": [
         {
@@ -583,6 +605,27 @@
           "width": 0.012
         }
       ]
+    },
+    {
+      "id": "RIDE_CONTACT_STICK",
+      "commands": [
+        {
+          "shape": "line",
+          "points": [
+            0.61,
+            0.34,
+            0.78,
+            0.446
+          ],
+          "rgba": [
+            255,
+            255,
+            230,
+            245
+          ],
+          "width": 0.012
+        }
+      ]
     }
   ],
   "composites": [
@@ -641,6 +684,13 @@
       "members": [
         "CYMBAL_RIGHT",
         "CYMBAL_RIGHT_CONTACT_STICK"
+      ]
+    },
+    {
+      "id": "DRUMMER_RIDE",
+      "members": [
+        "RIDE",
+        "RIDE_CONTACT_STICK"
       ]
     }
   ],
