@@ -6,7 +6,7 @@ Audio and rendered videos stay out of git. `*.mp3` and `test_runs/` are already 
 
 ## Layouts
 
-Sixteen layouts, simple to over the top. Each folder has `xlights_rgbeffects.xml` and a paired `template.xsq`. The template only seeds On/Ramp/Faces settings. `main.py` syncs model rows from the layout and drops the seed row.
+Seventeen synthetic candidate layouts (including the native model zoo), simple to over the top. Each folder has `xlights_rgbeffects.xml` and a paired `template.xsq`. The template only seeds On/Ramp/Faces settings. `main.py` syncs model rows from the layout and drops the seed row.
 
 | ID | Tier | What it is |
 | --- | --- | --- |
@@ -26,6 +26,7 @@ Sixteen layouts, simple to over the top. Each folder has `xlights_rgbeffects.xml
 | `wow_moire` | wow | Three overlapping matrices with different grid pitches. |
 | `wow_mirror` | wow | Mirrored left/right chase arrays. |
 | `wow_showcase` | wow | Spiral, helix, rings, spinners, overlapping matrices, arches, mega tree. |
+| `native_model_zoo` | wow | Diverse native xLights-style model families and nested musical groups; provisional candidate for panel 6. |
 
 Exact prop, channel, and pixel counts are in `manifest.json`. AC layouts are 16, 32, and 64 channels. Pixel and wow layouts use `RGB Nodes`, so channel count is pixels times 3.
 
