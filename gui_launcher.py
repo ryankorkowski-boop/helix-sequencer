@@ -41,15 +41,20 @@ class HelixGui(tk.Tk):
         style.configure("TLabelframe.Label", background="#101b30", foreground="#5de5ef")
         style.configure("TLabel", background="#101b30", foreground="#e7f1ff")
 
-        self.layout_presets = {
-            "GP's House": _best_layout_file(ROOT),
-            "allmodels": _best_layout_file(ROOT / "allmodels"),
-            "helixville": _best_layout_file(ROOT / "helixville"),
-            "Custom": Path(""),
-        }
+        from core.gui_options import OPTIONS, layout_options, resolve_layout
+        self.layout_presets = {}
+        self.layout_keys = {}
+        for item in layout_options():
+            try:
+                self.layout_presets[item["title"]] = resolve_layout(ROOT, item["key"])
+                self.layout_keys[item["key"]] = item["title"]
+            except FileNotFoundError:
+                continue
+        self.layout_presets["Custom"] = Path("")
+        self.default_layout_title = self.layout_keys.get(OPTIONS.get("default_layout"), next(iter(self.layout_presets)))
 
         self.profile_var = tk.StringVar(value="master")
-        self.layout_preset_var = tk.StringVar(value="GP's House")
+        self.layout_preset_var = tk.StringVar(value=self.default_layout_title)
         self.template_var = tk.StringVar(value=str(ROOT / "template.xsq"))
         self.audio_var = tk.StringVar(value="")
         self.layout_var = tk.StringVar(value=str(self.layout_presets["GP's House"]))
@@ -92,7 +97,7 @@ class HelixGui(tk.Tk):
             textvariable=self.layout_preset_var,
             values=list(self.layout_presets.keys()),
             state="readonly",
-            width=20,
+            width=34,
         )
         preset_combo.grid(row=1, column=1, sticky="w", **pad)
         preset_combo.bind("<<ComboboxSelected>>", lambda _event: self._apply_layout_preset())
