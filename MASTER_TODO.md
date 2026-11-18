@@ -522,3 +522,12 @@ Do not mark complete from unit tests alone.
 **Tests/evidence:** GitHub run 44214052900 FAILED at setup-android; logs say `Warning: Failed to find package 'tools'`. Gradle and Java compilation were skipped. Updated workflow committed and new run pending.
 **Limitations/deferred:** Gradle dependencies/Chaquopy might still fail; APK and device behavior unverified.
 **Regression risks:** Hosted runner SDK manager environment may vary; license handling should be reviewed if installation fails.
+
+### 2026-11-17 — Android compile retry 2 SDK manager path
+**Goal:** Resolve CI infrastructure failures before asserting Android compilation.
+**Changed files:** `.github/workflows/helix-android-variant-compile.yml`, `MASTER_TODO.md`, `docs/BETA_COMPLETION_LIVE_HANDOFF.md`.
+**Preserved:** Android production code and all sequencing behavior.
+**New behavior:** Locate `sdkmanager` inside `ANDROID_HOME/cmdline-tools` rather than assuming it is on PATH; provide explicit error if missing.
+**Tests/evidence:** Run 44214269832 failed at `sdkmanager: command not found`; Gradle never executed. Earlier Python 3.11/3.12 regression run 44213308493 passed.
+**Limitations/deferred:** Await CI retry; no Android compile or native playback evidence.
+**Regression risks:** Runner SDK path may differ; if command-line tools absent, provision explicitly.
