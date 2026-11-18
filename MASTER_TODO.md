@@ -666,3 +666,6 @@ AC root XML has 256 model definitions, unique numeric start channels 1–256, 59
 
 ### 2026-11-18 — Windows packaging parity and portability audit
 725d2406 adds explicit catalog asset inclusion and missing-file gate to Windows portable spec, preserving existing package data. Allmodels XML references two absolute developer-local Image paths (hh.png, helixmascot.jpg); root mascot exists but hh.png not found in tracked tree. Fix pending; preserve original layout. Android CI 44267312796 succeeded, retained artifact 14411590439; unified integration CI 44262461545 passed (scope not independently audited). Earlier Android run 44267022917 failed; latest build does not establish runtime or native acceptance. Nine final layouts/theme pending. No merge/release.
+
+### 2026-11-18 — Windows startup and frozen worker repair
+2992f2c6 removes stale GP's House dictionary reference introduced by shared catalog migration, validates template/layout as files and dispatches frozen runs through sibling HelixCLI.exe --helix-cli. Source Python invocation preserved. Windows GUI smoke and packaged worker execution pending; CLI argument compatibility and actual previews must be verified. No merge/release.
