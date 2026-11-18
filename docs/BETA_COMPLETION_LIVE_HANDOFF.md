@@ -72,3 +72,6 @@ Run `44214052900` failed **before Gradle** because `android-actions/setup-androi
 
 ## Android compile retry 2
 Run `44214269832` failed before Gradle at `sdkmanager: command not found` (exit 127), despite Java/Gradle setup succeeding. Changed workflow to find sdkmanager under `ANDROID_HOME/cmdline-tools` and fail clearly if missing (commit `e89bec5c`). Check next run before claiming compilation.
+
+## Android compilation pass and APK assembly checkpoint
+Android CI run `44214343888` completed SUCCESS including `Compile debug Java sources`. This validates compilation of updated results UI but not runtime behavior or packaging. Added `gradle :app:assembleDebug` to branch-scoped Android workflow at commit `a4818a7a`, without publishing or releasing the APK. Next inspect resulting CI run, diagnose any packaging failures, then test on device; 8 playable MP4 variants and native xLights outputs remain unverified.
