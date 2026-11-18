@@ -726,3 +726,6 @@ Asset builder creates HX_SNOWMAN_DRUMMER_V3_DRUMMER_* composites while injector 
 
 ### 2026-11-18 — Ride routing regression and asset count
 Integration CI 44285660196 passed existing focused suite. 47f3550d corrects alias counts; added explicit ride stream-to-effect regression. CI pending for new test. Asset build itself not exercised by focused suite; physical ride geometry and qualified native target names remain unverified. No merge/release.
+
+### 2026-11-18 — Autonomous completion authorization
+Owner authorizes implementation decisions without repeat approval. Expand integration CI to generate canonical assets and exercise pose/PNG tests; include model/effect/asset changes in triggers. Prioritize native end-to-end rendering, canonical six performers, default layouts/audio and platform runtime over isolated tests. Keep final release approval gate. CI pending; no new MP4.
