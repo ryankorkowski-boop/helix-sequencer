@@ -81,3 +81,6 @@ Commit `b59aaa35` saves/restores `selectedSequencePath` via Android saved-instan
 
 ## Android APK clean runner plugin resolution
 Run `44217648117` was cancelled by concurrency when later Android commit arrived. Run `44217769589` FAILED at Gradle plugin resolution, before Java compilation: `com.chaquo.python:17.0.0` not found in configured Google/Maven Central/Plugin Portal repositories. Added Chaquopy Maven plugin repository in `android/settings.gradle` at `97aad439`. Await new run before asserting plugin or APK success. Previous Java compile run `44214343888` passed; full APK remains unverified.
+
+## Full Android debug APK assembly passed
+Run `44217948986` PASSED both Java compilation and `gradle :app:assembleDebug` on the integration branch. This is a CI debug build, not a signed production release and not a device acceptance test. Added archive CRC, AndroidManifest.xml, classes.dex, assets and SHA-256 checks in workflow at `e625e8b3`; await next run. Do not publish or release APK without owner approval. Next: test device install/variant picker/preview, then implement all-eight per-variant MP4s and native xLights band verification.
