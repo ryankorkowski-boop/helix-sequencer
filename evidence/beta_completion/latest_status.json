@@ -43,7 +43,7 @@
       "workstream": "B",
       "priority": "P0",
       "status": "IN PROGRESS",
-      "next_action": "Validate Android variant selector after poll stability fix; inspect Android Java compile workflow; then implement all-eight preview playback and compare/export parity. Android still disables orchestrator."
+      "next_action": "Check assembleDebug CI, repair packaging failures, then test install and actual variant playback on Android; Java compilation alone passed."
     },
     {
       "id": "HBC-006",
@@ -120,8 +120,9 @@
   },
   "android_compile_workflow": {
     "path": ".github/workflows/helix-android-variant-compile.yml",
-    "status": "first run 44214052900 failed in obsolete SDK setup action before Gradle; workflow repaired at 14f3d642; rerun pending",
+    "status": "Java compilation passed on run 44214343888; APK assembleDebug added at a4818a7a; new result pending",
     "commit": "a86114e21b97051e90bc11d6e458ed9188ff6c17",
-    "first_run_url": "https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/44214052900"
+    "first_run_url": "https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/44214052900",
+    "java_compile_run_url": "https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/44214343888"
   }
 }
