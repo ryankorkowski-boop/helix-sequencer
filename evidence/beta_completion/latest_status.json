@@ -29,14 +29,14 @@
       "priority": "P0",
       "status": "BLOCKED",
       "blocker": "Four-tom legacy ledger conflicts with three-tom owner directive",
-      "next_action": "Compare ground truth and nine-cue mapper"
+      "next_action": "Compare nine-cue canonical drummer logic to Drive Truths: Aaadrummertruth.mp4 and Aaadrummergroundtruth.mp4; reconcile user three-tom requirement without destroying approved original drummer."
     },
     {
       "id": "HBC-004",
       "workstream": "Vocals",
       "priority": "P0",
-      "status": "NOT STARTED",
-      "next_action": "Verify independent lead/harmony timelines"
+      "status": "IN PROGRESS",
+      "next_action": "Inspect lead/harmony against Drive Truths Bbb Vocalstruth.mp4 and Bbb vocals.mp4, Phoneme Test Hook.mp3."
     },
     {
       "id": "HBC-005",
@@ -50,7 +50,7 @@
       "workstream": "C",
       "priority": "P0",
       "status": "NOT STARTED",
-      "next_action": "Generate verified real-audio nine-panel native preview"
+      "next_action": "After verified native engine inputs, use Tinsel Tornado.mp3 in Songs with Lyrics as pilot; do not count diagnostic as review-ready."
     },
     {
       "id": "HBC-007",
@@ -68,5 +68,54 @@
     "Orchestrated XSQ requires an existing --template",
     "Android build_args unconditionally disables orchestrator",
     "V2 config promotion serialization corrected and regression tests authored"
-  ]
+  ],
+  "drive_reference_inventory": [
+    {
+      "title": "Aaadrummertruth.mp4",
+      "drive_file_id": "1qDjj8JJ3Z-rZfFUntidsnPkq5DRqOsMm",
+      "source": "Google Drive (read-only discovery)",
+      "verified_contents": false
+    },
+    {
+      "title": "Aaadrummergroundtruth.mp4",
+      "drive_file_id": "1cPHct6XEhZM_-9x9lkCP-7tN_DfIKo7b",
+      "source": "Google Drive (read-only discovery)",
+      "verified_contents": false
+    },
+    {
+      "title": "Bbb Vocalstruth.mp4",
+      "drive_file_id": "1FN29mXUxy5dDJ0VIn6Wy7K-4llFHzGAs",
+      "source": "Google Drive (read-only discovery)",
+      "verified_contents": false
+    },
+    {
+      "title": "Bbb vocals.mp4",
+      "drive_file_id": "1PPPz4TbYIS0Z9D6zRHScfnQoom38ltxX",
+      "source": "Google Drive (read-only discovery)",
+      "verified_contents": false
+    },
+    {
+      "title": "Tinsel Tornado.mp3",
+      "drive_file_id": "1Z_WvwVcp2tOytfF63SVgJf1VUCkRpfD4",
+      "source": "Google Drive (read-only discovery)",
+      "verified_contents": false
+    },
+    {
+      "title": "Phoneme Test Hook.mp3",
+      "drive_file_id": "1gKAW9-S6TJNuKudC_TCEv2uabx36Aszj",
+      "source": "Google Drive (read-only discovery)",
+      "verified_contents": false
+    }
+  ],
+  "ci_workflow": {
+    "run_id": 44213308493,
+    "run_url": "https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/44213308493",
+    "head_sha": "214d8d53951c654770de37ee2507c070a7bd3228",
+    "status": "in_progress",
+    "matrix": [
+      "3.11",
+      "3.12"
+    ],
+    "test_results": "pending"
+  }
 }
