@@ -62,6 +62,37 @@ class SequenceBuilderTests(unittest.TestCase):
                 },
             )
 
+    def test_orchestration_template_requires_explicit_promotion_and_written_path(self) -> None:
+        from types import SimpleNamespace
+
+        base = ["--audio", "song.wav", "--template", "original.xsq"]
+        sidecar = SimpleNamespace(
+            invoked=True, xsq_written=True, orchestrated_xsq_path="planned.orchestrated.xsq"
+        )
+        self.assertEqual(sequence_builder._promote_orchestrated_template(base, sidecar), base)
+        promoted = sequence_builder._promote_orchestrated_template(
+            base + ["--promote-orchestrated-template"], sidecar
+        )
+        self.assertEqual(promoted, [
+            "--audio", "song.wav", "--template", "planned.orchestrated.xsq"
+        ])
+        self.assertEqual(
+            sequence_builder._promote_orchestrated_template(
+                base + ["--promote-orchestrated-template", "--no-orchestrator-template-promotion"],
+                sidecar,
+            ),
+            base,
+        )
+        missing_path = SimpleNamespace(
+            invoked=True, xsq_written=True, orchestrated_xsq_path=None
+        )
+        self.assertEqual(
+            sequence_builder._promote_orchestrated_template(
+                base + ["--promote-orchestrated-template"], missing_path
+            ),
+            base,
+        )
+
     def test_record_changed_artifacts_ignores_unchanged_known_outputs(self) -> None:
         import tempfile
 
