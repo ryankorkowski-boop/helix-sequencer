@@ -93,3 +93,6 @@ Commits `7a7ff384`, `275effef`, `988dd56a` implement sequential per-variant Andr
 
 ## Python syntax validation gate for per-variant MP4
 Commit `7ae93315` adds host Python 3.10 syntax compilation of Android `helix_mobile.py` and `helix_mp4.py` before expensive Gradle steps. Previous per-variant CI run `44219712984` was still in progress at last inspection; follow-up CI required for this change. No actual device playback verification yet.
+
+## Multi-variant MP4 partial-success accounting
+Run `44219873839` PASSED Android Python syntax, Java compile, debug APK assembly and integrity for the new per-variant preview code. Commit `c78f9595` repairs false all-success reporting: status is `partial` if fewer than all variants render, with failed filenames and counts. Await next CI and device testing. Do not claim eight MP4s passed merely from build success.
