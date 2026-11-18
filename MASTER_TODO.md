@@ -421,3 +421,21 @@ Do not mark complete from unit tests alone.
 6. Render full-song MP4 with real audio.
 7. Compare rendered component flashes to actual audible drum events and the prior known-good render.
 8. Iterate only on measured false positives/false negatives.
+
+### 2026-11-17 — Unified beta completion handoff initialized
+**Agent:** ChatGPT GitHub integration session
+**Branch:** `integration/unified-beta-completion-20261117`
+
+**Goal:** Establish crash-resistant integration baseline for engine audit, Android/Windows parity, canonical band and nine-panel real-audio showcase.
+
+**Changed files/modules:** `MASTER_TODO.md`, `docs/BETA_COMPLETION_LIVE_HANDOFF.md`, `evidence/beta_completion/latest_status.json`, `evidence/beta_completion/artifact_manifest.json`.
+
+**Preserved behavior:** No sequencing, drummer, Android, Windows, or rendering logic modified. No PR merged. Branch forked from PR #248 head `bb41f078` for non-destructive reconciliation.
+
+**New behavior:** Persistent task IDs HBC-001 through HBC-007, explicit blockers, next actions, empty verified-artifact manifest, and Beta Version 1.4 pending label.
+
+**Tests/evidence:** Repository metadata and mandatory files inspected; no executable tests or native renders run. GitHub file commits are documentation evidence only.
+
+**Limitations / deferred work:** Engine execution-path matrix, CI, real-audio native verification, Android/Windows builds and nine-panel MP4 remain unfinished. Existing four-tom ledger conflicts with current owner-required three toms; investigate before code changes.
+
+**Regression risks:** Documentation only; future integration must not overwrite concurrent branches or claim audit instrumentation proves native output.
