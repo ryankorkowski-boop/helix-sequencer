@@ -729,3 +729,12 @@ Integration CI 44285660196 passed existing focused suite. 47f3550d corrects alia
 
 ### 2026-11-18 — Autonomous completion authorization
 Owner authorizes implementation decisions without repeat approval. Expand integration CI to generate canonical assets and exercise pose/PNG tests; include model/effect/asset changes in triggers. Prioritize native end-to-end rendering, canonical six performers, default layouts/audio and platform runtime over isolated tests. Keep final release approval gate. CI pending; no new MP4.
+
+### 2026-11-18 — Enforce native and logical drummer target consistency
+**Goal:** Prevent falsely reporting nine physical cue targets when the canonical native drummer xmodel currently contains eight; detect stale test contract.
+**Changed files:** tests/test_drummer_v3_xsq_integration.py, .github/workflows/helix-unified-beta-integration.yml, both handoff files.
+**Preserved:** Original drummer PNG and existing eight native nodes, three-tom mapping, accepted appearance and existing exported effects; no native ride invented.
+**New:** Assert nine unique logical channels and the exact eight-target native subset; enforce xmodel aliases after actual asset generation on Python 3.11 and 3.12. Expanded test selection catches contract regressions that previously escaped CI.
+**Evidence:** Prior workflow run 44286584728 passed asset build and existing tests on both Python versions; expanded XSQ matrix is newly triggered and not yet verified.
+**Limitations:** Physical ride geometry, actual xLights qualified model import, vocal harmony and review MP4 still outstanding.
+**Regression risks:** Existing xmodel and asset builder aliases may be inconsistent with newly enforced checks; repair based on failing CI before declaring pass. No merge/release.
