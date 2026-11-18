@@ -31,3 +31,9 @@ No main/default branch edits, no merges/releases/uploads without owner approval.
 - #248 includes unrelated Demucs checkpoint workflow changes in its PR diff; do not blindly cherry-pick whole diff. Review per-file ancestry and isolate audit changes.
 - #188 diff is exceptionally large (~12 MB) and #205 is based on its branch. Avoid wholesale integration; select tested narrow modules.
 - No tests or rendering were executed by this connector session. Exact next action: inspect #235 focused test and implementation files and decide whether to cherry-pick its small isolated contract repair after running tests on an available checkout.
+
+## Session continuation — 2026-11-17
+- Created `docs/BETA_ENGINE_EXECUTION_MATRIX.md` at commit `fc65639c517fe4b9dd2b30db6463f3e33663cf81` on the existing unified integration branch. Reused existing handoff rather than creating a competing branch.
+- Inspected actual patches: #235 changes `RunConfig.promote_orchestrated_template` default to false and emits explicit promotion flag when enabled; #230 preserves independent same-onset tom events using physical target keys; #248 rejects stale orchestration sidecars in XSQ reconciliation. None is verified as integrated on this branch.
+- Next action: inspect integration branch `core/run_spine.py`, compare PR #235, selectively apply the contract fix with tests; inspect #230 three-tom tests before changing geometry. Then trace end-to-end changed XSQ and native FSEQ.
+- No test, render, APK, EXE or nine-panel MP4 was produced in this continuation. All corresponding acceptance gates remain open.
