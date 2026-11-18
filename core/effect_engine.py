@@ -9079,6 +9079,7 @@ class TimelineEntry:
     priority: int
     xml_layer: ET.Element
     xml_effect: ET.Element
+    source_label: str = ""
 
 
 class EffectTimeline:
@@ -10932,6 +10933,7 @@ def run_variant(
         effect_name: str,
         template_to_use: base.EffectTemplate,
         stem_priority: int,
+        source_label: str = "",
     ) -> bool:
         nonlocal total
         duration = end_ms - start_ms
@@ -10990,6 +10992,7 @@ def run_variant(
                 priority=stem_priority,
                 xml_layer=layer_el,
                 xml_effect=xml_effect,
+                source_label=source_label,
             ),
         )
         used_targets.add(nm)
@@ -11129,6 +11132,7 @@ def run_variant(
                     effect_name=runtime_effect,
                     template_to_use=template_to_use,
                     stem_priority=stem_priority,
+                    source_label=label,
                 ):
                     stats.bump(label)
                     if cd_key and cd_ms > 0:
@@ -12366,6 +12370,17 @@ def run_variant(
         quiet_windows=list(multiband.quiet_windows) + blackout_windows,
     )
 
+    # Reconcile against surviving XML-backed placements after polish and validation.
+    birdsong_final_counts: Counter[str] = Counter()
+    birdsong_final_track: list[tuple[str, int, int]] = []
+    for timeline in timelines.values():
+        for entries in timeline.layers.values():
+            for entry in entries:
+                if entry.source_label.startswith("birdsong_") and entry.xml_effect in entry.xml_layer:
+                    birdsong_final_counts[entry.source_label] += 1
+                    birdsong_final_track.append((entry.source_label.upper(), entry.start, entry.end))
+    birdsong_track = sorted(birdsong_final_track, key=lambda item: (item[1], item[2], item[0]))
+
     log("[5/8] Writing timing tracks and report")
     if tuning.auto_timing_tracks:
         write_auto_timing_tracks(
@@ -12626,7 +12641,9 @@ def run_variant(
             "sweeps": int(birdsong_result.sweeps),
             "species_counts": birdsong_result.species_counts,
             "reason": birdsong_result.reason,
-            "timing_track_events": len(birdsong_track),
+            "timing_track_events": min(2000, len(birdsong_track)),
+            "final_effect_counts": dict(birdsong_final_counts),
+            "final_effect_total": len(birdsong_track),
         },
         "template_profile": {
             "category_scores": template_profile.category_scores,
