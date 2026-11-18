@@ -44,6 +44,8 @@ jobs:
           fi
           yes | "$SDKMANAGER" --licenses >/dev/null || true
           "$SDKMANAGER" "platforms;android-36" "build-tools;36.0.0"
+      - name: Validate Android Python entrypoint syntax
+        run: python -m py_compile android/app/src/main/python/helix_mobile.py android/app/src/main/python/helix_mp4.py
       - name: Compile debug Java sources
         working-directory: android
         env:
