@@ -32,6 +32,7 @@ public class MainActivity extends Activity {
     private ProgressBar progress;
     private Button run,cancel,save,watch,movie,sequence,report,share,next,back;
     private String picking,exporting,bundlePath="",previewPath="",sequencePath="",reportPath="",selectedSequencePath="",lastVariantChoices="";
+    private final java.util.Map<String,String> variantMovies=new java.util.HashMap<>();
     private File currentJob;
     private boolean busy,wasBusy;
     private int page;
@@ -129,7 +130,9 @@ public class MainActivity extends Activity {
                 Object selected=parent.getItemAtPosition(position);
                 selectedSequencePath=selected==null?"":selected.toString();
                 sequencePath=selectedSequencePath;
+                previewPath=variantMovies.getOrDefault(sequencePath,"");
                 sequence.setEnabled(available(sequencePath));
+                watch.setEnabled(available(previewPath));movie.setEnabled(available(previewPath));
             }
             @Override public void onNothingSelected(android.widget.AdapterView<?> parent){}
         });
@@ -203,7 +206,7 @@ public class MainActivity extends Activity {
             r.put("matrix",matrix.isChecked());r.put("birdsong",birdsong.isChecked());r.put("spatial",spatial.isChecked());r.put("ac_compatible",ac.isChecked());
             JSONObject uris=new JSONObject();for(Map.Entry<String,Uri> e:inputs.entrySet())uris.put(e.getKey(),e.getValue().toString());r.put("inputs",uris);
             currentJob=new File(getFilesDir(),"jobs/"+UUID.randomUUID());getPreferences(0).edit().putString("job",currentJob.getAbsolutePath()).apply();
-            bundlePath=previewPath=sequencePath=reportPath=selectedSequencePath=lastVariantChoices="";lastState="";busy=wasBusy=true;
+            bundlePath=previewPath=sequencePath=reportPath=selectedSequencePath=lastVariantChoices="";variantMovies.clear();lastState="";busy=wasBusy=true;
             for(Button v:new Button[]{sequence,watch,movie,save,share,report})v.setEnabled(false);run.setEnabled(false);cancel.setEnabled(true);status.setText("Starting local engine…");updateMode();remember();
             if(Build.VERSION.SDK_INT>=33&&!getPreferences(0).getBoolean("notifications_asked",false)){
                 getPreferences(0).edit().putBoolean("notifications_asked",true).apply();requestPermissions(new String[]{"android.permission.POST_NOTIFICATIONS"},1);
@@ -224,7 +227,7 @@ public class MainActivity extends Activity {
             run.setEnabled(!busy);cancel.setEnabled(busy);progress.setVisibility(busy?View.VISIBLE:View.GONE);
             int percent=s.optInt("preview_percent",-1);boolean measured=busy&&"preview".equals(s.optString("active_stage"))&&percent>=0;progress.setIndeterminate(!measured);if(measured)progress.setProgress(percent);
             status.setText(s.optString("message",phase));log.setText(s.optString("log"));updateMode();
-            bundlePath=s.optString("bundle");previewPath=s.optString("preview");reportPath=s.optString("report");
+            bundlePath=s.optString("bundle");reportPath=s.optString("report");
             String engineSequence=s.optString("sequence");
             JSONArray paths=engineSequence.endsWith(".lms")?null:s.optJSONArray("sequence_paths");
             List<String> choices=new ArrayList<>();
@@ -233,6 +236,14 @@ public class MainActivity extends Activity {
                 if(available(candidate)&&!choices.contains(candidate))choices.add(candidate);
             }
             if(choices.isEmpty()&&available(engineSequence))choices.add(engineSequence);
+            JSONArray moviePaths=s.optJSONArray("preview_paths");
+            variantMovies.clear();
+            if(paths!=null&&moviePaths!=null)for(int i=0;i<Math.min(paths.length(),moviePaths.length());i++){
+                String moviePath=moviePaths.optString(i);
+                if(available(moviePath))variantMovies.put(paths.optString(i),moviePath);
+            }
+            if(moviePaths==null&&available(s.optString("preview")))
+                variantMovies.put(engineSequence,s.optString("preview"));
             String choiceKey=android.text.TextUtils.join("\n",choices);
             if(!choiceKey.equals(lastVariantChoices)){
                 lastVariantChoices=choiceKey;
@@ -246,6 +257,7 @@ public class MainActivity extends Activity {
             if(!choices.contains(selectedSequencePath))
                 selectedSequencePath=choices.isEmpty()?"":choices.get(0);
             sequencePath=selectedSequencePath;
+            previewPath=variantMovies.getOrDefault(sequencePath,"");
             sequence.setEnabled(available(sequencePath));save.setEnabled(available(bundlePath));share.setEnabled(save.isEnabled());watch.setEnabled(available(previewPath));movie.setEnabled(watch.isEnabled());report.setEnabled(available(reportPath));
             StringBuilder summary=new StringBuilder(s.optString("message",phase));JSONObject stages=s.optJSONObject("stages");
             if(stages!=null)for(String key:new String[]{"sequencing","packaging","preview"}){
