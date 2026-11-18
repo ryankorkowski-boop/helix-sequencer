@@ -603,3 +603,12 @@ Do not mark complete from unit tests alone.
 **Tests/evidence:** Run 44219873839 PASSED Python syntax, Java compilation, debug APK assembly and integrity for prior per-variant code. New partial-status change awaits CI.
 **Limitations/deferred:** Actual device playback, preview geometry and eight-variant timing/storage remain unverified.
 **Regression risks:** Consumers of stage status should handle `partial` distinctly; UI currently prints status text.
+
+### 2026-11-17 — Surface per-variant MP4 failures in Android results
+**Goal:** Make partial rendering visible rather than silently implying all eight MP4s are available.
+**Changed files:** `android/app/src/main/java/org/helixsequencer/android/MainActivity.java`, `MASTER_TODO.md`, `docs/BETA_COMPLETION_LIVE_HANDOFF.md`, `evidence/beta_completion/latest_status.json`.
+**Preserved behavior:** Preview encoding, audio sync, existing per-variant picker and exports, canonical drummer, no merge/release.
+**New behavior:** Results summary displays `rendered/requested MP4s` and names of failed variants when supplied by the preview stage.
+**Tests/evidence:** Python syntax gate passed in still-running CI 44246646940; new Java UI change awaits compile/assemble CI.
+**Limitations/deferred:** On-device verification of all-eight playback and native snowman geometry still required.
+**Regression risks:** Android JSON stage parsing and UI formatting must be validated in CI/device.
