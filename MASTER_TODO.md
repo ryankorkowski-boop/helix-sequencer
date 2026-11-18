@@ -458,3 +458,12 @@ Do not mark complete from unit tests alone.
 **Tests/evidence:** Regression authored in commit `e6c2e4cb`; no CI workflows or combined commit statuses observed at prior head. No pytest run or native render performed.
 **Limitations/deferred:** Execute targeted tests and prove native XSQ/FSEQ consumption before declaring integration fixed.
 **Regression risks:** Test may reveal existing routing mismatch; none introduced to production code.
+
+### 2026-11-17 — Orchestration input-template prerequisite audit
+**Goal:** Identify why orchestration plans can exist without renderable orchestrated XSQ.
+**Changed files:** `MASTER_TODO.md`, `docs/BETA_COMPLETION_LIVE_HANDOFF.md` (documentation only).
+**Finding:** `core/effects_orchestrator_bridge.py::_write_orchestrated_xsq` returns `xsq_written=False` if `--template` absent or its path does not exist. `core/sequence_builder.py` promotes only when `--promote-orchestrated-template` is supplied and report says XSQ written. Hence successful planner invocation alone is insufficient for actual template-based choreography export.
+**Preserved:** Production code, default sidecar-only policy, deterministic effect choices, canonical drummer.
+**Tests/evidence:** Direct source inspection only. No CI jobs/statuses found at previous branch head; no test or native render executed.
+**Next:** Add tests for missing-template bridge results, inspect whether production launchers supply `--template`, then run real-song side-by-side native output with explicit promotion.
+**Risk:** Enabling promotion without a valid source template or song-grounded sections can produce misleading choreography; avoid changing default yet.
