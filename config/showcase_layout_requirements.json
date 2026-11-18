@@ -17,8 +17,22 @@
       "id": "ac256",
       "title": "256-channel AC with arches and mega tree",
       "candidate": "xlights_rgbeffects.xml",
-      "status": "verify_inventory",
-      "approved": false
+      "status": "inventory_inspected",
+      "approved": false,
+      "inventory": {
+        "models": 256,
+        "unique_start_channels": 256,
+        "min_start_channel": 1,
+        "max_start_channel": 256,
+        "groups": 59,
+        "types": {
+          "Single Line": 212,
+          "Poly Line": 9,
+          "Star": 32,
+          "Circle": 3
+        },
+        "limitations": "Starting channels only; RGB channel widths and physical mapping require verification."
+      }
     },
     {
       "position": 3,
@@ -49,8 +63,28 @@
       "id": "native_models",
       "title": "Native model showcase",
       "candidate": "allmodels/xlights_rgbeffects.xml",
-      "status": "verify_inventory",
-      "approved": false
+      "status": "inventory_inspected",
+      "approved": false,
+      "inventory": {
+        "models": 368,
+        "groups": 69,
+        "types": {
+          "Star": 40,
+          "Arches": 14,
+          "Tree 360": 12,
+          "Candy Canes": 9,
+          "Single Line": 223,
+          "Poly Line": 14,
+          "Circle": 6,
+          "Horiz Matrix": 22,
+          "Spinner": 15,
+          "Sphere": 4,
+          "Window Frame": 5,
+          "Image": 2,
+          "Custom": 2
+        },
+        "limitations": "External image dependencies, channel ranges, group membership and native rendering unverified."
+      }
     },
     {
       "position": 7,
