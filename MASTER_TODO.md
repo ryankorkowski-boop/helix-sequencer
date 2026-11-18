@@ -630,3 +630,6 @@ Do not mark complete from unit tests alone.
 **Tests/evidence:** Previous per-variant CI `44219873839` passed; run `44246963986` was in progress before this commit and may be cancelled by CI concurrency. Fresh syntax/Java/APK CI pending.
 **Limitations/deferred:** Engine may emit auxiliary XSQs before desired alternate variants; canonical identification beyond primary needs inspection. Android device acceptance, MP4 decode/audio sync, native xLights, Windows parity still pending.
 **Regression risks:** Need actual eight-variant run to verify preview selection and variant identity.
+
+### 2026-11-18 — Android build PASS and acceptance artifact retention
+Goal: make verified debug APK accessible for device testing. Changed: Android compile workflow, ledger, handoff, status JSON. Preserved: existing compile/integrity gates, no release or merge. New: seven-day CI artifact retention after integrity checks. Evidence: run 44247185516 passed all gates but retained zero artifacts; commit 45955934 adds retention. Pending fresh CI, download and device tests. Risk: repository artifact access follows GitHub permissions; not a public release or signed production build.
