@@ -55,3 +55,27 @@ jobs:
         env:
           HELIX_BUILD_PYTHON: python
         run: gradle :app:assembleDebug --no-daemon --stacktrace
+
+      - name: Verify debug APK payload and package metadata
+        shell: bash
+        run: |
+          set -euo pipefail
+          APK="android/app/build/outputs/apk/debug/app-debug.apk"
+          test -s "$APK"
+          python - "$APK" <<'PY'
+          import sys, zipfile
+          apk = sys.argv[1]
+          with zipfile.ZipFile(apk) as archive:
+              broken = archive.testzip()
+              if broken:
+                  raise SystemExit(f"APK has corrupt entry: {broken}")
+              names = archive.namelist()
+              required = ["AndroidManifest.xml", "classes.dex"]
+              missing = [name for name in required if name not in names]
+              if missing:
+                  raise SystemExit(f"APK missing required entries: {missing}")
+              if not any(name.startswith("assets/") for name in names):
+                  raise SystemExit("APK missing assets")
+              print(f"APK ZIP validated: {len(names)} entries, manifest, DEX and assets present")
+          PY
+          sha256sum "$APK"
