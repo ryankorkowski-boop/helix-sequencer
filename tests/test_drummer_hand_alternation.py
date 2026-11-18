@@ -55,3 +55,14 @@ def test_scheduler_preserves_three_explicit_toms():
     from mapping.drum_mapper import schedule_drum_events, tom_class_for_event
     events = [DrumEvent(timestamp=1.0, velocity=.8, confidence=.9, frequency_band_info={"tom_class": label}, cluster_id=i, drum_type="tom", source="test") for i, label in enumerate(("high", "mid", "floor"))]
     assert {tom_class_for_event(e) for e in schedule_drum_events(events)} == {"high", "mid", "floor"}
+
+
+def test_explicit_ride_has_independent_target_and_effect():
+    from audio.drum_classification import DrumEvent, empty_drum_streams
+    from mapping.drum_mapper import resolve_drum_streams
+    from effects.drum_effects import build_drum_effect_cues
+    streams = empty_drum_streams()
+    streams["ride_events"].append(DrumEvent(1., .8, .9, {}, 1, "ride", "explicit_test"))
+    result = resolve_drum_streams(streams)
+    assert result["drummer_component_events"][0]["component"] == "HX_SNOWMAN_DRUMMER_RIDE"
+    assert build_drum_effect_cues(result["events"])[0]["effect"] == "ride_ping"
