@@ -43,7 +43,7 @@
       "workstream": "B",
       "priority": "P0",
       "status": "IN PROGRESS",
-      "next_action": "Confirm latest CI for primary-first MP4 mapping; test on Android that selected XSQ matches MP4 and all 8 requested variants render/play/export."
+      "next_action": "Download retained debug APK after new CI; device-test eight variant playback/export, band geometry and sync."
     },
     {
       "id": "HBC-006",
@@ -120,13 +120,13 @@
   },
   "android_compile_workflow": {
     "path": ".github/workflows/helix-android-variant-compile.yml",
-    "status": "Primary-first preview mapping repair 53a776a8 pending CI; previous run 44246963986 was in progress before this commit",
+    "status": "PASS run 44247185516: syntax, Java, APK assembly and integrity; zero retained artifacts. Retention added in 45955934; fresh CI pending.",
     "commit": "a86114e21b97051e90bc11d6e458ed9188ff6c17",
     "first_run_url": "https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/44214052900",
     "java_compile_run_url": "https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/44214343888",
     "failure_url": "https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/44217769589",
     "apk_assembly_run_url": "https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/44217948986",
     "apk_integrity_run_url": "https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/44218445981",
-    "variant_mp4_run_url": "https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/44219873839"
+    "variant_mp4_run_url": "https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/44247185516"
   }
 }
