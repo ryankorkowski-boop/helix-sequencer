@@ -191,3 +191,14 @@ Do not mark complete from unit tests alone.
 6. Render full-song MP4 with real audio.
 7. Compare rendered component flashes to actual audible drum events and the prior known-good render.
 8. Iterate only on measured false positives/false negatives.
+
+### 2026-11-17 — Unified beta completion handoff initialized
+**Branch:** codex/unified-beta-integration-20261117
+**Goal:** Reconcile engine, platform, and nine-panel work without merging or altering approved sequencing.
+**Changed files:** MASTER_TODO.md, docs/BETA_COMPLETION_LIVE_HANDOFF.md, evidence/beta_completion/latest_status.json, evidence/beta_completion/artifact_manifest.json.
+**Preserved:** All production code, drummer behavior, existing roadmap and legacy compatibility.
+**New behavior:** Durable task status and artifact provenance files; no runtime behavior changes.
+**Tests/evidence:** GitHub repository/PR metadata inspection only; no tests or renders executed. PR #248 stacks on #247; #208 currently reports mergeable=false; #217 targets a different base.
+**Limitations/deferred:** Production engine tracing, platform builds, native xLights renders and nine-panel video remain unverified.
+**Regression risks:** Documentation-only change; reconcile historical four-tom ledger with latest owner-approved three-tom requirement before modifying drummer code.
+**Next action:** Inspect stacked PR diffs and actual engine invocation path, then implement smallest verified integration patch.
