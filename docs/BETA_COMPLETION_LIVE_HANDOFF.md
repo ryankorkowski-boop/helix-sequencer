@@ -198,3 +198,6 @@ Existing canonical pose spec declares eight composites, no ride. Native XSQ inje
 
 ### 2026-11-18 — Align asset composite names with exporter
 Asset builder creates HX_SNOWMAN_DRUMMER_V3_DRUMMER_* composites while injector emits HX_SNOWMAN_DRUMMER_*. Add exporter-compatible submodel aliases with identical node ranges, preserving legacy geometry and names. Generated asset count metadata and native qualification still require verification; actual XSQ qualified-model targeting remains unverified. Ride not built. No merge/release.
+
+### 2026-11-18 — Ride routing regression and asset count
+Integration CI 44285660196 passed existing focused suite. 47f3550d corrects alias counts; added explicit ride stream-to-effect regression. CI pending for new test. Asset build itself not exercised by focused suite; physical ride geometry and qualified native target names remain unverified. No merge/release.
