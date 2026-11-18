@@ -549,3 +549,12 @@ Do not mark complete from unit tests alone.
 **Tests/evidence:** Java compile previously passed on run 44214343888; this new change requires a fresh compile. Full debug APK assembly run 44217648117 was in progress at last inspection, with no result.
 **Limitations/deferred:** Device rotation/process-death testing, 8 MP4 playback, native xLights verification, Windows parity.
 **Regression risks:** Selected path may be stale if files are deleted; existing polling logic rejects unavailable paths.
+
+### 2026-11-17 — Clean Android Gradle Chaquopy plugin resolution
+**Goal:** Unblock APK assembly on a clean hosted runner.
+**Changed files:** `android/settings.gradle`, `MASTER_TODO.md`, `docs/BETA_COMPLETION_LIVE_HANDOFF.md`.
+**Preserved:** Android app source, Python sequencing, drummer, release signing, existing plugin versions.
+**New behavior:** Gradle plugin management includes Chaquopy's Maven repository `https://chaquo.com/maven` ahead of Google/Maven Central/Plugin Portal.
+**Tests/evidence:** CI run 44217769589 failed before Java compilation: Gradle could not resolve `com.chaquo.python:17.0.0` from configured repositories. Earlier run 44217648117 was cancelled by branch concurrency. Previous run 44214343888 passed Java compilation (cached or previously resolved dependencies); clean runner exposed missing repository. New run pending.
+**Limitations/deferred:** Need confirm new Gradle resolution and full debug APK assembly; no on-device runtime, native xLights, or eight MP4 previews yet.
+**Regression risks:** External Chaquopy Maven availability; repository trust/availability and version compatibility must be verified by CI.
