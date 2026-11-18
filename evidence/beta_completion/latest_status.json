@@ -120,9 +120,10 @@
   },
   "android_compile_workflow": {
     "path": ".github/workflows/helix-android-variant-compile.yml",
-    "status": "Java compilation passed on run 44214343888; APK assembleDebug added at a4818a7a; new result pending",
+    "status": "run 44217769589 failed at Gradle Chaquopy plugin resolution, not Java source; android/settings.gradle added https://chaquo.com/maven at 97aad439; retry pending",
     "commit": "a86114e21b97051e90bc11d6e458ed9188ff6c17",
     "first_run_url": "https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/44214052900",
-    "java_compile_run_url": "https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/44214343888"
+    "java_compile_run_url": "https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/44214343888",
+    "failure_url": "https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/44217769589"
   }
 }
