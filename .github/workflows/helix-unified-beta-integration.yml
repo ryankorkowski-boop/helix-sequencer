@@ -17,6 +17,8 @@ on:
       - 'tools/render_drummer_v3_preview.py'
       - 'tools/integrate_drummer_v3_into_xsq.py'
       - 'tests/**'
+      - 'tools/layout_bench/**'
+      - 'fixtures/layout_bench/**'
       - '.github/workflows/helix-unified-beta-integration.yml'
       - 'requirements*.txt'
   pull_request:
@@ -32,6 +34,8 @@ on:
       - 'tools/render_drummer_v3_preview.py'
       - 'tools/integrate_drummer_v3_into_xsq.py'
       - 'tests/**'
+      - 'tools/layout_bench/**'
+      - 'fixtures/layout_bench/**'
       - '.github/workflows/helix-unified-beta-integration.yml'
   workflow_dispatch:
 
@@ -82,3 +86,7 @@ jobs:
         run: |
           python tools/build_drummer_v3_assets.py
           python -m pytest -q tests/test_drummer_v3_pose_sheet.py tests/test_drummer_v3_png_layers.py tests/test_drummer_v3_xsq_integration.py tests/test_helixville4_audio_excerpt.py
+      - name: Generate clean-room xLights fixtures and check nine-panel gate
+        run: |
+          python tools/layout_bench/generate_layouts.py
+          python -m pytest -q tests/test_layout_bench.py tests/test_nine_panel_gate.py

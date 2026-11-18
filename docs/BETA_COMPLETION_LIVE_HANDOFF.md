@@ -233,3 +233,12 @@ Owner authorizes implementation decisions without repeat approval. Expand integr
 **Evidence:** Original source drummer image visually inspected and retained unchanged; CI run 44290301048 running for Python 3.11/3.12, diagnostic ground truth run 44290395867 queued with WAV/XSQ/MP4 artifact uploads. These are synthetic diagnostics only and not an approved band/nine-panel real-audio render.
 **Limitations:** Audio classifier cannot independently distinguish ride from generic cymbal in full mix; explicit ground-truth ride cue is not detection. Original backing-harmony/drummer full scene and xLights native FSEQ still unverified. Generated xmodel must be built from updated pose spec for native ride; older checked-in xmodel may be stale.
 **Regression risks:** New ride location must be visually reviewed against the original kit, PNG contact position and prior oracle; xLights model-submodel naming and scene compatibility need native proof. Tests/CI might fail and require repair. No release.
+
+
+### 2026-11-18 — Restore existing native xLights layout bench to unified branch
+**Goal:** Make buried native XSQ→xLights FSEQ→multi-panel rendering tools available on unified beta branch rather than rebuilding a simulator.
+**Changed:** tools/layout_bench six modules, fixtures/layout_bench manifest/lock/docs/variants, tests/test_layout_bench.py, tests/test_nine_panel_gate.py, integration CI, ledger and handoff.
+**Preserved:** Existing choreography engine, original source drummer and platform builds, explicitly unapproved provisional nine-panel slots, no merges/releases.
+**New:** Restore existing PR #208 clean-room generation/native FSEQ decode/render and a fail-closed 3×3 approval gate. CI regenerates 16 fixtures and checks structural tests; approval remains blocked without real audio, actual canonical band and nine native validated layouts. No 16-panel output counted as approval.
+**Evidence:** Source PR #208 head 07dbe0f4; focused CI newly triggered, native renderer not executed yet. Previous drummer ground truth run 44290395867 successfully produced diagnostic nine-cue MP4, not six-member/native FSEQ.
+**Limits/risks:** Fixtures generated in CI, not checked-in XML/XSQ; production nine-panel still missing exact 256-channel AC, vocal panel, model zoo final design, piano/3D Birdsong proofs. Native xLights binary must be available for FSEQ. Parser compatibility may require repair from CI. No release.

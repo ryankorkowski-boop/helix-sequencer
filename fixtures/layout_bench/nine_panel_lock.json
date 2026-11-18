@@ -1,0 +1,153 @@
+{
+  "schema": "helix.nine_panel.lock.v1",
+  "grid": {
+    "columns": 3,
+    "rows": 3,
+    "center": "middle_center"
+  },
+  "approval_status": "NOT_READY",
+  "audio": {
+    "source": "owner_real_audio_required",
+    "mode": "full_song_with_vocals",
+    "status": "missing"
+  },
+  "render": {
+    "native_xlights_fseq_required": true,
+    "output": "1920x1080 H.264/AAC MP4",
+    "status": "not_run"
+  },
+  "slots": [
+    {
+      "position": "top_left",
+      "fixture_id": "ac16_lor",
+      "requirement": "Simple 16-channel LOR AC",
+      "status": "candidate",
+      "reason": "Existing fixture matches basic 16-channel concept"
+    },
+    {
+      "position": "top_middle",
+      "fixture_id": null,
+      "requirement": "256-channel AC with arches, megatree and 16-strip 2D LED tree",
+      "status": "missing",
+      "reason": "No 256-channel AC fixture in current bench; do not substitute 32/64 AC"
+    },
+    {
+      "position": "top_right",
+      "fixture_id": "pixel_classic",
+      "requirement": "RGB-heavy house",
+      "status": "candidate",
+      "reason": "Pixel house is provisional; confirm density and look"
+    },
+    {
+      "position": "middle_left",
+      "fixture_id": null,
+      "requirement": "Combined Coro-style singing faces, singing pixel trees and vocal-reactive matrices in a simple-house context",
+      "status": "missing",
+      "reason": "Requires unified layout with independent lead/harmony phoneme mapping, face/tree vocal routing and silence suppression",
+      "model_families": [
+        "coro_singing_faces",
+        "pixel_singing_trees",
+        "vocal_matrices"
+      ],
+      "grouping": [
+        "all_vocal_models",
+        "lead_vocal_only",
+        "harmony_vocal_only",
+        "coro_faces",
+        "singing_trees",
+        "mouth_submodels",
+        "eyes_submodels",
+        "vocal_matrices"
+      ]
+    },
+    {
+      "position": "middle_center",
+      "fixture_id": "band_stage",
+      "requirement": "Canonical six-member 3D snowman band",
+      "status": "blocked",
+      "reason": "Existing bench fixture is synthetic; canonical approved drummer and independent vocal animation not demonstrated"
+    },
+    {
+      "position": "middle_right",
+      "fixture_id": null,
+      "requirement": "Vast native xLights model zoo with custom trees, stars, spinners, candy canes, mega trees, arches, snowflakes, matrices, and varied compatible model types",
+      "status": "missing",
+      "reason": "Must generate diverse authentic xLights models and nested musically routed groups; no existing fixture demonstrates requested breadth",
+      "model_families": [
+        "custom_trees",
+        "stars",
+        "spinners",
+        "candy_canes",
+        "mega_trees",
+        "arches",
+        "snowflakes",
+        "matrices",
+        "spiral_trees",
+        "windows",
+        "rooflines",
+        "icicles",
+        "wreaths",
+        "pinwheels",
+        "tunnels",
+        "custom_models"
+      ],
+      "grouping": [
+        "by_model_family",
+        "by_instrument_role",
+        "left_right_mirrors",
+        "front_back_depth",
+        "small_medium_large",
+        "chase_paths",
+        "harmonic_layers",
+        "accent_layers",
+        "independent_submodels",
+        "all_models"
+      ]
+    },
+    {
+      "position": "bottom_left",
+      "fixture_id": "wow_moire",
+      "requirement": "3D spatial matrix with heavy Birdsong",
+      "status": "blocked",
+      "reason": "Moire matrices are a visual starting point only; no 3D grouping or Birdsong proof"
+    },
+    {
+      "position": "bottom_middle",
+      "fixture_id": "wow_mirror",
+      "requirement": "Sequential piano-keyboard-driven instrument groups",
+      "status": "blocked",
+      "reason": "Mirror chase is not evidence of piano mapping"
+    },
+    {
+      "position": "bottom_right",
+      "fixture_id": "wow_showcase",
+      "requirement": "Ultimate dense spiral-tree and matrix showcase",
+      "status": "blocked",
+      "reason": "Existing showcase has only 16 props; needs much denser grouped layout"
+    }
+  ],
+  "grouping_policy": {
+    "scope": "all_nine_panels",
+    "principle": "Expose individual models, compatible submodels, nested model families, spatial depth, musical instrument roles and independent counterpoint layers without flattening everything into global beat pulses",
+    "required_capabilities": [
+      "automatic_prop_discovery",
+      "native_xlights_group_mapping",
+      "submodel_routing",
+      "independent_instrument_and_vocal_lanes",
+      "phrase_and_section_transitions",
+      "chases_and_sequential_grouping",
+      "brightness_builds_and_breakdowns",
+      "spatial_counterpoint",
+      "selective_effect_layering",
+      "rest_and_silence_suppression"
+    ],
+    "verification": [
+      "group_membership_and_channel_mapping",
+      "effect_coverage_per_group_and_submodel",
+      "distinct_motion_beyond_beat_pulsing",
+      "native_xlights_render",
+      "no_dark_required_props",
+      "audio_sync_and_visual_approval"
+    ]
+  }
+}
