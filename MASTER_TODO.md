@@ -477,3 +477,12 @@ Do not mark complete from unit tests alone.
 **Tests/evidence:** New tests committed but not executed; no CI workflow/status observed at prior branch head; no native MP4 evidence.
 **Limitations:** Need test suite execution, Android performance profiling before enabling orchestration, and real song native XSQ/FSEQ verification. No APK/EXE rebuilt.
 **Risk:** Callers of v2 config that assumed True must now explicitly opt in; aligns with effective pre-change renderer behavior.
+
+### 2026-11-17 — Machine-readable handoff reconciliation
+**Goal:** Correct stale task states and next commands in `evidence/beta_completion/latest_status.json` following launcher and promotion audit.
+**Changed files:** `evidence/beta_completion/latest_status.json`, `MASTER_TODO.md`.
+**Preserved:** All production sequencing, effect targeting/timing, drummer ground truth, and release gate.
+**New behavior:** HBC-005 marked IN PROGRESS (inspection only), HBC-001 updated with concrete pytest/native verification steps, CI unknown explicitly recorded, and next command now targeted pytest rather than merely switching branches.
+**Tests/evidence:** Source inspected; no runnable checkout available in this session and no workflow/status reported for inspected head; tests not run.
+**Limitations:** Android and Windows parity, real native outputs, full nine-panel preview remain unverified.
+**Regression risks:** None to runtime; documentation-only change.
