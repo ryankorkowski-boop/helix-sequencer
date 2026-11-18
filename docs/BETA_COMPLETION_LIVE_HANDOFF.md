@@ -168,3 +168,6 @@ CI 44271585785 passed Python 3.11/3.12 orchestration suite only; Android 4426989
 
 ### 2026-11-18 — Independent instrument clustering
 CI 44273455581 succeeded expanded drummer tests on Python 3.11/3.12. 0469d457 fixes interleaved candidate clustering by instrument, preventing other instruments from splitting same-instrument clusters. Added focused regression; new CI pending. Ride distinction remains unsupported; no fabricated ride hits or geometry. Native rendering outstanding. No merge/release.
+
+### 2026-11-18 — Restore original snare contact pose references
+CI 44276826411 passed clustering regression on both Python versions. 3883fd9a copies LEFT_STICK_SNARE and RIGHT_STICK_SNARE authored coordinates verbatim from b27e8d77 into separate hand_pose_zones and hand_pose_map fields. Existing zones/composites and channels unchanged. New fields are not yet consumed by renderer; no claim of animated arms. Ride and actual canonical band rendering pending. No merge/release.
