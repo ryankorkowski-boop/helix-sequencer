@@ -35,8 +35,8 @@
     {
       "workflow": "Helix Unified Beta Integration",
       "run_id": 44291632931,
-      "conclusion": "in_progress",
-      "evidence": "restored native FSEQ bench structural tests on Python 3.11/3.12"
+      "conclusion": "success",
+      "evidence": "Python 3.11/3.12 orchestrator, drummer, 17 generated candidate layouts and nine-panel structural approval gate passed"
     }
   ],
   "tasks": [
@@ -91,9 +91,9 @@
       "next_action": "Full acceptance and owner approval"
     }
   ],
-  "next_command": "Check GitHub workflow 44291632931; repair any layout bench regression, then execute real song XSQ→xLights native FSEQ→nine-panel render with approved layouts and six-member band",
+  "next_command": "Use recovered xLights FSEQ runner with installed xLights binary on real approved audio and layout; verify native FSEQ, then nine-panel real MP4. Complete remaining canonical singers/band and mobile device failures before release.",
   "last_inspected_head": "c2f555af62c9954be63daf4d82ba07b03b477451",
-  "ci_status": "Drummer ground truth 44291594505 SUCCESS, nine-panel model zoo 44291725423 SUCCESS; unified integration 44291632931 in_progress",
+  "ci_status": "PASS: unified integration 44291632931 (Python 3.11 and 3.12 generated 17 layouts and passed structural nine-panel gate); model zoo 44291725423 PASS; drummer 44291594505 PASS",
   "confirmed_findings": [
     "Default orchestration sidecar is not promoted without explicit flag",
     "Orchestrated XSQ requires an existing --template",
