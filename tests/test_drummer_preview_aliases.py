@@ -22,3 +22,11 @@ def test_preview_reads_independent_snare_hand_masks(tmp_path):
     xsq.write_text('<xsequence><ElementEffects><Element name="HX_SNOWMAN_DRUMMER_SNARE"><EffectLayer><Effect startTime="100" endTime="200" sourceHand="L"/><Effect startTime="300" endTime="400" sourceHand="R"/></EffectLayer></Element></ElementEffects></xsequence>')
     hands = [event for event in parse_effects(xsq, include_hands=True) if event[2].startswith("SNARE_HAND_")]
     assert hands == [(100, 200, "SNARE_HAND_L"), (300, 400, "SNARE_HAND_R")]
+
+
+def test_strike_light_decays_and_respects_rest():
+    from tools.render_drummer_v3_preview import strike_intensity
+    assert strike_intensity(100, 200, 99) == 0
+    assert strike_intensity(100, 200, 100) == 1
+    assert strike_intensity(100, 200, 150) == .25
+    assert strike_intensity(100, 200, 200) == 0
