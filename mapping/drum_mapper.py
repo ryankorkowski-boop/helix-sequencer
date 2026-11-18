@@ -48,10 +48,17 @@ def distribute_drum_bus_events(events: Iterable[DrumEvent]) -> list[DrumEvent]:
 def schedule_drum_events(events: Iterable[DrumEvent], config: DrumMappingConfig = DrumMappingConfig()) -> list[DrumEvent]:
     sorted_events = sorted(events, key=lambda event: (event.timestamp_ms, DRUM_PRIORITY.get(event.drum_type, 9), -event.velocity))
     merged: list[DrumEvent] = []
+    last_cluster: dict[str, int] = {}
     for event in sorted_events:
-        if merged and event.drum_type == merged[-1].drum_type and event.timestamp_ms - merged[-1].timestamp_ms <= config.merge_window_ms:
-            prev = merged[-1]; merged[-1] = event if (event.velocity, event.confidence) > (prev.velocity, prev.confidence) else prev; continue
+        idx = last_cluster.get(event.drum_type)
+        if idx is not None and event.timestamp_ms - merged[idx].timestamp_ms <= config.merge_window_ms:
+            prev = merged[idx]
+            if (event.velocity, event.confidence) > (prev.velocity, prev.confidence):
+                merged[idx] = event
+            continue
+        last_cluster[event.drum_type] = len(merged)
         merged.append(event)
+    merged.sort(key=lambda event: (event.timestamp_ms, DRUM_PRIORITY.get(event.drum_type, 9), -event.velocity))
     scheduled: list[DrumEvent] = []; last_by_type: dict[str, DrumEvent] = {}
     for event in merged:
         nearby = [item for item in scheduled if 0 <= event.timestamp_ms - item.timestamp_ms <= config.clutter_window_ms]
