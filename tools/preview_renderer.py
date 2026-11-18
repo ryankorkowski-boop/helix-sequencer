@@ -285,12 +285,26 @@ def build_leaf_intensity_matrix(
     layout: LayoutData,
     sequence: SequenceData,
     fps: int,
+    frame_start: int = 0,
+    frame_limit: int | None = None,
 ) -> tuple[list[str], np.ndarray]:
+    """Leaf intensity for the whole timeline, or one frame window of it.
+
+    The default window is the full sequence and matches the previous allocation.
+    A frame window keeps the same absolute effect timing and is concatenated by
+    callers that cannot hold a full-song matrix.
+    """
     leaf_names = sorted(layout.leaf_models)
     leaf_index = {name: idx for idx, name in enumerate(leaf_names)}
-    frame_count = max(1, int(math.ceil(sequence.duration_ms / (1000.0 / fps))))
-    frame_times_ms = (np.arange(frame_count, dtype=np.float32) * (1000.0 / fps)).astype(np.float32)
-    intensities = np.zeros((len(leaf_names), frame_count), dtype=np.float32)
+    total_frames = max(1, int(math.ceil(sequence.duration_ms / (1000.0 / fps))))
+    window_start = max(0, min(int(frame_start), total_frames))
+    if frame_limit is None:
+        window_stop = total_frames
+    else:
+        window_stop = max(window_start, min(window_start + int(frame_limit), total_frames))
+    local_count = window_stop - window_start
+    frame_times_ms = (np.arange(window_start, window_stop, dtype=np.float32) * (1000.0 / fps)).astype(np.float32)
+    intensities = np.zeros((len(leaf_names), local_count), dtype=np.float32)
 
     for target_name, effects in sequence.model_effects.items():
         leaves = layout.resolve_leaves(target_name)
@@ -302,16 +316,22 @@ def build_leaf_intensity_matrix(
         for effect in effects:
             eff_name = effect.name.strip().lower()
             start_frame = max(0, int(math.floor(effect.start_ms * fps / 1000.0)))
-            end_frame = min(frame_count, int(math.ceil(effect.end_ms * fps / 1000.0)))
+            end_frame = min(total_frames, int(math.ceil(effect.end_ms * fps / 1000.0)))
             if end_frame <= start_frame:
-                end_frame = min(frame_count, start_frame + 1)
+                end_frame = min(total_frames, start_frame + 1)
+            lo = max(start_frame, window_start)
+            hi = min(end_frame, window_stop)
+            if hi <= lo:
+                continue
+            local_lo = lo - window_start
+            local_hi = hi - window_start
             if eff_name == "ramp":
-                curve = ramp_intensity(effect, frame_times_ms[start_frame:end_frame])
+                curve = ramp_intensity(effect, frame_times_ms[local_lo:local_hi])
             else:
-                curve = np.ones((end_frame - start_frame,), dtype=np.float32)
+                curve = np.ones((local_hi - local_lo,), dtype=np.float32)
             for idx in indexes:
-                intensities[idx, start_frame:end_frame] = np.maximum(
-                    intensities[idx, start_frame:end_frame], curve
+                intensities[idx, local_lo:local_hi] = np.maximum(
+                    intensities[idx, local_lo:local_hi], curve
                 )
 
     return leaf_names, intensities

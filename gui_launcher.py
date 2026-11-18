@@ -14,6 +14,7 @@ from tkinter import filedialog, messagebox, ttk
 
 
 from core.helix_version import TITLE, VERSION
+from core.preview_status import classify_review_log
 from gui_lightshow import SequencingLightShow
 
 ROOT = Path(__file__).resolve().parent
@@ -75,6 +76,7 @@ class HelixGui(tk.Tk):
 
         self._ui_events = queue.Queue()
         self._variant_movies = []
+        self._variant_failures = []
         self._build_ui()
         self._apply_layout_preset()
         self.after(80, self._drain_ui_events)
@@ -218,6 +220,10 @@ class HelixGui(tk.Tk):
                     if path.is_file() and path not in self._variant_movies:
                         self._variant_movies.append(path)
                         self.review_button.configure(state=tk.NORMAL)
+                elif kind == "variant_failed":
+                    if payload not in self._variant_failures:
+                        self._variant_failures.append(payload)
+                        self.review_button.configure(state=tk.NORMAL)
                 elif kind == "review_created":
                     self._open_video(Path(payload))
                 elif kind == "review_error":
@@ -356,6 +362,7 @@ class HelixGui(tk.Tk):
                 cmd.append("--birdsong-auto")
 
         self._variant_movies.clear()
+        self._variant_failures.clear()
         self.review_button.configure(state=tk.DISABLED)
         self.run_button.configure(state=tk.DISABLED)
         self.status_label.configure(text="Running...")
@@ -385,15 +392,22 @@ class HelixGui(tk.Tk):
             return int(match.group(1)) if match else 0
 
         paths = sorted({path for path in self._variant_movies if path.is_file()}, key=order)
+        failed = list(self._variant_failures)
         if not paths:
-            messagebox.showinfo("Variant review", "This run has no playable preview.")
+            detail = "This run has no playable preview."
+            if failed:
+                detail += "\n\nFailed previews: " + ", ".join(failed) + "\nSequence export is unaffected. These previews are simulated, not native xLights."
+            messagebox.showinfo("Variant review", detail)
             return
         window = tk.Toplevel(self)
         window.title("Review current run")
         selected = ttk.Combobox(window, state="readonly", values=[path.stem for path in paths], width=45)
         selected.pack(fill=tk.X, padx=12, pady=10)
         selected.current(0)
-        ttk.Label(window, text=f"{len(paths)} playable preview(s)").pack(anchor=tk.W, padx=12)
+        summary = f"{len(paths)} playable preview(s). Simulated, not native xLights."
+        if failed:
+            summary += "\nFailed previews: " + ", ".join(failed)
+        ttk.Label(window, text=summary).pack(anchor=tk.W, padx=12)
 
         def move(delta):
             selected.current(max(0, min(len(paths) - 1, selected.current() + delta)))
@@ -460,8 +474,13 @@ class HelixGui(tk.Tk):
             for line in process.stdout:
                 line = line.rstrip()
                 self._ui_events.put(("log", line))
-                if line.startswith("preview_mp4: ") and line.endswith(" (simulated, not native rendering)"):
-                    self._ui_events.put(("variant_preview", line.removeprefix("preview_mp4: ").removesuffix(" (simulated, not native rendering)")))
+                classified = classify_review_log(line)
+                if classified is not None:
+                    kind, payload = classified
+                    if kind == "ready":
+                        self._ui_events.put(("variant_preview", payload))
+                    elif kind == "failed":
+                        self._ui_events.put(("variant_failed", payload))
             rc = process.wait()
             self._ui_events.put(("log", "Run complete." if rc == 0 else f"Run failed with exit code {rc}."))
             self._ui_events.put(("done", "Completed" if rc == 0 else "Failed"))

@@ -78,7 +78,10 @@ jobs:
             tests/test_sequence_builder.py \
             tests/test_effects_orchestrator_bridge.py \
             tests/test_orchestration_xsq_reconciliation.py \
-            tests/test_birdsong_engine.py
+            tests/test_birdsong_engine.py \
+            tests/test_android_orchestrator_policy.py \
+            tests/test_android_preview_states.py \
+            tests/test_preview_intensity_windows.py
       - name: Verify drummer alternation and localized illumination
         run: |
           python -m pip install pillow numpy imageio imageio-ffmpeg soundfile

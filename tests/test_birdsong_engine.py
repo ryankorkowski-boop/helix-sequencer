@@ -161,8 +161,14 @@ class BirdsongEngineTests(unittest.TestCase):
         entries = timeline.layers["motion"]
         entries[0].start = 125
         entries[0].xml_effect.set("startTime", "125")
-        timeline.remove_entry("motion", entries[1])
-        layer.remove(entries[1].xml_effect)  # stale timeline entry, absent from XML
+        # Capture the echo before removal. The live list shifts, so a later
+        # index would be the sweep and would drop a surviving effect.
+        echo = entries[1]
+        timeline.remove_entry("motion", echo)
+        stale_xml = ET.SubElement(layer, "Effect", startTime="900", endTime="980")
+        timeline.add("motion", effect_engine.TimelineEntry(
+            900, 980, "On", 1, layer, stale_xml, source_label="birdsong_trill"))
+        layer.remove(stale_xml)
         scope = {"Counter": Counter, "timelines": {"prop": timeline}}
         exec(compile(block, "<reconciliation>", "exec"), scope)
         self.assertEqual(

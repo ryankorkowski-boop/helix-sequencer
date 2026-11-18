@@ -402,6 +402,8 @@ def _review_changed_sequences(paths, engine_args, ctx):
             completed += 1
             print(f"preview_mp4: {preview.resolve()} (simulated, not native rendering)", flush=True)
         except Exception as exc:
+            from core.preview_status import failed_preview_line
+            print(failed_preview_line(source.name), flush=True)
             print(f"Preview failed for {source.name}: {exc}", file=sys.stderr)
     print(f"Preview review: {completed}/{limit} requested (simulated)", flush=True)
 

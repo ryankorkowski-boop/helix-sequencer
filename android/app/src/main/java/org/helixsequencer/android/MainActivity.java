@@ -28,12 +28,13 @@ public class MainActivity extends Activity {
     private UiOptions options;
     private EditText variants,duration;
     private CheckBox polish,matrix,birdsong,spatial,ac,preview,quickClip,includeBand;
-    private TextView status,log,stepTitle,results;
+    private TextView status,log,stepTitle,results,previewStateLabel;
     private ProgressBar progress;
     private SequencingLightShowView lightShow;
     private Button run,cancel,save,watch,movie,sequence,report,share,next,back;
     private String picking,exporting,bundlePath="",previewPath="",sequencePath="",reportPath="",selectedSequencePath="",lastVariantChoices="";
     private final java.util.Map<String,String> variantMovies=new java.util.HashMap<>();
+    private JSONArray checkpointPaths,checkpointPreviewStates;
     private File currentJob;
     private boolean busy,wasBusy;
     private int page;
@@ -127,6 +128,7 @@ public class MainActivity extends Activity {
 
         panel(5);results=text("Your sequence, show ZIP and preview will appear here.",16,Color.WHITE);
         sequenceChoices=new Spinner(this);body.addView(sequenceChoices);
+        previewStateLabel=text("Selected preview: waiting for a checkpoint",14,Color.LTGRAY);
         sequenceChoices.setOnItemSelectedListener(new android.widget.AdapterView.OnItemSelectedListener(){
             @Override public void onItemSelected(android.widget.AdapterView<?> parent,View view,int position,long id){
                 Object selected=parent.getItemAtPosition(position);
@@ -134,12 +136,12 @@ public class MainActivity extends Activity {
                 sequencePath=selectedSequencePath;
                 previewPath=variantMovies.getOrDefault(sequencePath,"");
                 sequence.setEnabled(available(sequencePath));
-                watch.setEnabled(available(previewPath));movie.setEnabled(available(previewPath));
+                applyVariantSelection();
             }
             @Override public void onNothingSelected(android.widget.AdapterView<?> parent){}
         });
         sequence=button("Save selected sequence…",()->export(sequencePath,sequencePath.endsWith(".lms")?"application/xml":"application/octet-stream",new File(sequencePath).getName()));
-        watch=button("Play preview",()->{if(available(previewPath))startActivity(new Intent(this,PreviewActivity.class).putExtra("path",previewPath));else alert("This variant has no completed preview yet.");});
+        watch=button("Play preview",()->{if(PreviewStatus.canPlay(selectedPreviewState(),available(previewPath)))startActivity(new Intent(this,PreviewActivity.class).putExtra("path",previewPath));else alert("This variant has no completed preview yet.");});
         movie=button("Save MP4…",()->export(previewPath,"video/mp4","Helix-preview.mp4"));
         save=button("Save show ZIP…",()->export(bundlePath,"application/zip","Helix-show.zip"));share=button("Share show ZIP…",this::shareShow);
         report=button("Save run report…",()->export(reportPath,"text/plain","Helix-run-report.txt"));
@@ -216,7 +218,19 @@ public class MainActivity extends Activity {
             startForegroundService(new Intent(this,EngineService.class).putExtra("job",currentJob.getAbsolutePath()).putExtra("request",r.toString()));
         }catch(Exception e){busy=false;run.setEnabled(true);cancel.setEnabled(false);updateMode();alert(e.getMessage());}
     }
-    private boolean available(String p){return !p.isEmpty()&&new File(p).isFile();}
+    private boolean available(String p){return p!=null&&!p.isEmpty()&&new File(p).isFile();}
+    private String selectedPreviewState(){
+        if(checkpointPaths==null||checkpointPreviewStates==null||sequencePath==null)return "";
+        for(int i=0;i<checkpointPaths.length()&&i<checkpointPreviewStates.length();i++)
+            if(sequencePath.equals(checkpointPaths.optString(i)))return checkpointPreviewStates.optString(i);
+        return "";
+    }
+    private void applyVariantSelection(){
+        String state=selectedPreviewState();
+        boolean playable=PreviewStatus.canPlay(state,available(previewPath));
+        watch.setEnabled(playable);movie.setEnabled(playable);
+        if(previewStateLabel!=null)previewStateLabel.setText(PreviewStatus.label(state));
+    }
     private void poll(){
         if(currentJob==null)return;File state=new File(currentJob,"state.json");if(!state.isFile())return;
         try{
@@ -261,7 +275,8 @@ public class MainActivity extends Activity {
                 selectedSequencePath=choices.isEmpty()?"":choices.get(0);
             sequencePath=selectedSequencePath;
             previewPath=variantMovies.getOrDefault(sequencePath,"");
-            sequence.setEnabled(available(sequencePath));save.setEnabled(available(bundlePath));share.setEnabled(save.isEnabled());watch.setEnabled(available(previewPath));movie.setEnabled(watch.isEnabled());report.setEnabled(available(reportPath));
+            checkpointPaths=paths;checkpointPreviewStates=s.optJSONArray("preview_states");
+            sequence.setEnabled(available(sequencePath));save.setEnabled(available(bundlePath));share.setEnabled(save.isEnabled());applyVariantSelection();report.setEnabled(available(reportPath));
             StringBuilder summary=new StringBuilder(s.optString("message",phase));JSONObject stages=s.optJSONObject("stages");
             if(stages!=null)for(String key:new String[]{"sequencing","packaging","preview"}){
                 JSONObject stage=stages.optJSONObject(key);if(stage!=null){
@@ -273,6 +288,9 @@ public class MainActivity extends Activity {
                     JSONArray failures=stage.optJSONArray("failed_variants");
                     if(failures!=null&&failures.length()>0)
                         summary.append("\nFailed variants: ").append(failures.join(", "));
+                    JSONArray waiting=stage.optJSONArray("pending_variants");
+                    if(waiting!=null&&waiting.length()>0)
+                        summary.append("\nWaiting variants: ").append(waiting.join(", "));
                 }
             }results.setText(summary.toString());if(wasBusy&&!busy)showPage(5);wasBusy=busy;
         }catch(Exception ignored){/* Retry an interrupted atomic state write. */}
