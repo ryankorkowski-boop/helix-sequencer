@@ -330,6 +330,9 @@ def run(engine_path, job_path, request_json, callback):
                         try:
                             callback.log('Preview variant %d/%d: %s' %
                                          (index+1, len(preview_candidates), variant.name))
+                            variant_band_error = band_stage_preview_error(inspect_band_stage(variant_layout))
+                            if variant_band_error:
+                                raise RuntimeError(variant_band_error)
                             movie = render_preview(variant, variant_layout, job/'input/audio.wav', seconds, callback)
                             previews_by_sequence[variant] = str(movie)
                             manifest['previews'].append(str(movie.relative_to(job)))
