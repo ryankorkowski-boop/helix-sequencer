@@ -262,3 +262,6 @@ Goal: remove quadratic full-history scans and preserve distinct labeled tom velo
 
 ### 2026-11-18 — Reuse resolved drum component mapping
 Prior bounded scheduler checks passed (runs 44296016061 and 44296016075). Reuse one component mapping for poses and component events, and count streams in one pass; preserve output schema and deterministic assignments. Added call-count and output consistency regression. New CI pending; no benchmark or native render claimed. No merge/release.
+
+### 2026-11-18 — Bound diagnostic rendering overhead
+Previous commit e906030f passed runs 44308380178 and 44308380349. Optimize tools/render_drummer_v3_preview.py with a forward-only active-interval sweep and once-per-render resized source/masks. Added overlapping-event equivalence and pixel equality regressions. Preserves timing, decay, original artwork and composition order. Scope is diagnostic renderer only; not native FSEQ or full band. CI pending; no measured speedup. No merge/release.

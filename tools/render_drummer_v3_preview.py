@@ -183,17 +183,42 @@ def light_component(base: Image.Image, mask: Image.Image, intensity: float) -> I
     return Image.alpha_composite(out, core_layer)
 
 
-def draw_frame(source, masks, active, width, height, t_ms, duration_ms, font):
-    # Keep the source aspect ratio. Previous versions resized a 96x72 xmodel mask
-    # independently of the source artwork, causing component highlights to drift.
+def active_frames(effects, times, targets):
+    """Sweep sorted event starts once; retain only currently active intervals."""
+    ordered = sorted(effects)
+    pending = 0
+    live = []
+    for t in times:
+        live = [event for event in live if event[1] > t]
+        while pending < len(ordered) and ordered[pending][0] <= t:
+            event = ordered[pending]
+            pending += 1
+            if event[1] > t:
+                live.append(event)
+        active = dict.fromkeys(targets, 0.0)
+        for start, end, name in live:
+            if name in active:
+                active[name] = max(active[name], strike_intensity(start, end, t))
+        yield t, active
+
+
+def prepare_frame_assets(source, masks, width, height):
     scale = min(width / source.width, height / source.height)
     size = (max(1, round(source.width * scale)), max(1, round(source.height * scale)))
-    base = source.resize(size, Image.Resampling.LANCZOS)
+    return source.resize(size, Image.Resampling.LANCZOS), {
+        name: mask.resize(size, Image.Resampling.BILINEAR) for name, mask in masks.items()
+    }
+
+
+def draw_frame(source, masks, active, width, height, t_ms, duration_ms, font, *, prepared=None):
+    # Keep the source aspect ratio. Previous versions resized a 96x72 xmodel mask
+    # independently of the source artwork, causing component highlights to drift.
+    base, scaled_masks = prepared if prepared is not None else prepare_frame_assets(source, masks, width, height)
 
     for target, intensity in active.items():
         if intensity <= 0.02:
             continue
-        mask = masks[target].resize(size, Image.Resampling.BILINEAR)
+        mask = scaled_masks[target]
         base = light_component(base, mask, intensity)
 
     canvas = Image.new("RGBA", (width, height), (4, 7, 12, 255))
@@ -251,13 +276,10 @@ def main() -> int:
     font = ImageFont.load_default()
     writer = imageio.get_writer(silent, fps=args.fps, codec="libx264", quality=8, macro_block_size=None)
     try:
-        for i in range(int(duration_ms / 1000 * args.fps)):
-            t = int(i * 1000 / args.fps)
-            active = {name: 0.0 for name in masks}
-            for start, end, name in effects:
-                if name in active and start <= t < end:
-                    active[name] = max(active[name], strike_intensity(start, end, t))
-            writer.append_data(np.asarray(draw_frame(source, masks, active, 960, 540, t, duration_ms, font)))
+        prepared = prepare_frame_assets(source, masks, 960, 540)
+        times = (int(i * 1000 / args.fps) for i in range(int(duration_ms / 1000 * args.fps)))
+        for t, active in active_frames(effects, times, masks):
+            writer.append_data(np.asarray(draw_frame(source, masks, active, 960, 540, t, duration_ms, font, prepared=prepared)))
     finally:
         writer.close()
 

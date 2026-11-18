@@ -30,3 +30,23 @@ def test_strike_light_decays_and_respects_rest():
     assert strike_intensity(100, 200, 100) == 1
     assert strike_intensity(100, 200, 150) == .25
     assert strike_intensity(100, 200, 200) == 0
+
+
+def test_active_frame_sweep_matches_full_history_scan():
+    from tools.render_drummer_v3_preview import active_frames, strike_intensity
+    events = [(0, 120, "a"), (25, 80, "b"), (70, 200, "a"), (300, 400, "b"), (10, 20, "unknown")]
+    times = range(0, 500, 13)
+    for time, active in active_frames(events, times, ("a", "b")):
+        expected = {name: max([0.0] + [strike_intensity(start, end, time) for start, end, target in events if target == name]) for name in ("a", "b")}
+        assert active == expected
+
+
+def test_prepared_frame_assets_preserve_pixels():
+    from PIL import Image, ImageFont
+    from tools.render_drummer_v3_preview import draw_frame, prepare_frame_assets
+    source = Image.new("RGBA", (160, 120), (20, 30, 40, 255))
+    masks = {"test": Image.new("L", source.size, 128)}
+    args = (source, masks, {"test": .7}, 480, 270, 100, 1000, ImageFont.load_default())
+    expected = draw_frame(*args)
+    actual = draw_frame(*args, prepared=prepare_frame_assets(source, masks, 480, 270))
+    assert actual.tobytes() == expected.tobytes()
