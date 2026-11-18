@@ -171,3 +171,6 @@ CI 44273455581 succeeded expanded drummer tests on Python 3.11/3.12. 0469d457 fi
 
 ### 2026-11-18 — Restore original snare contact pose references
 CI 44276826411 passed clustering regression on both Python versions. 3883fd9a copies LEFT_STICK_SNARE and RIGHT_STICK_SNARE authored coordinates verbatim from b27e8d77 into separate hand_pose_zones and hand_pose_map fields. Existing zones/composites and channels unchanged. New fields are not yet consumed by renderer; no claim of animated arms. Ride and actual canonical band rendering pending. No merge/release.
+
+### 2026-11-18 — Connect snare hand masks to diagnostic preview
+42d6b1c7 loads recovered hand pose zones and selects mask per sourceHand in XSQ; backwards-compatible parse_effects default. Added focused regression. This illuminates original contact paths only, not articulated 3D arm animation. No new MP4; CI pending; ride, six-member renderer and platforms remain open. No merge/release.
