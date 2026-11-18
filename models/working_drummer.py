@@ -150,15 +150,14 @@ def build_reactive_drummer_member(
     mapped_events = list(resolved["mapped_events"])
     motions = drummer_motion.build_drummer_motion(events)
     effect_cues = drum_effects.build_drum_effect_cues(events)
-    motion_by_strike = {(str(motion.get("drum_type")), int(motion.get("strike_ms", 0))): motion for motion in motions}
+    motion_by_event_index = dict(zip(sorted(range(len(events)), key=lambda i: events[i].timestamp_ms), motions))
     reactive_cues: list[dict[str, Any]] = []
     for index, mapped in enumerate(mapped_events):
         event = events[index]
         effect = effect_cues[index] if index < len(effect_cues) else {}
-        nearest_motion = min(
-            motions,
-            key=lambda motion: abs(int(motion.get("strike_ms", 0)) - int(mapped["timestamp_ms"])),
-        ) if motions else {}
+        # Motion generation is stable timestamp-sorted; bind by original event
+        # identity/order rather than humanized strike proximity across instruments.
+        nearest_motion = motion_by_event_index.get(index, {})
         reactive_cues.append(
             {
                 "performer": "drummer",
