@@ -183,3 +183,6 @@ CI 44279605011 passed decay regression on both Python versions. a0c78197 replace
 
 ### 2026-11-18 — Preserve instrument effect identity
 CI 44280439634 passed reactive motion identity regression. 33c9c14e extends event-index binding to effect cues and correctly reports typed detection with bus suppression. Added effect identity assertion. New CI pending. Ride, physical articulation and canonical render outstanding. No merge/release.
+
+### 2026-11-18 — Downstream duplicate strike scheduling
+CI 44281318177 passed effect identity regression. 6e22a9f6 independently merges same-type interleaved events in schedule_drum_events, then restores chronological order. Added regression; CI pending. Existing 24ms merge window retained; rapid genuine hits and distinct tom classes require further validation. No canonical MP4 or release.
