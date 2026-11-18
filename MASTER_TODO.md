@@ -495,3 +495,12 @@ Do not mark complete from unit tests alone.
 **Tests/evidence:** Workflow triggered and in progress when checked; no passed outcome yet. Drive file names/IDs and sizes confirmed through authenticated discovery; contents NOT inspected and approvals NOT inferred from filenames.
 **Limitations/deferred:** Review actual reference video frames, run real-audio engine, native XSQ/FSEQ, nine-panel MP4, Windows and Android APK. Avoid reporting CI pass until job conclusion observed.
 **Regression risks:** CI installs dev dependencies and may be resource/time-heavy on hosted runners; no production code change.
+
+### 2026-11-17 — Android generated variant selection and export
+**Goal:** Address Android results page exposing only one generated sequence despite requesting up to eight variants.
+**Changed files:** `android/app/src/main/python/helix_mobile.py`, `android/app/src/main/java/org/helixsequencer/android/EngineService.java`, `android/app/src/main/java/org/helixsequencer/android/MainActivity.java`, handoff documents.
+**Preserved:** Existing selected sequence fallback, original show ZIP, preview path, LOR LMS output, native engine flags and memory constraints; no drummer or vocal changes.
+**New behavior:** Python returns `sequence_paths` with each valid generated XSQ, service forwards paths and count, Android results page displays a selection spinner and exports selected sequence; LOR mode continues to expose its selected LMS.
+**Tests/evidence:** Source edits committed; no Android Gradle build or device instrumentation test run. Focused Python CI run 44213308493 showed 3.11 regression step success, 3.12 pending at last check; this CI does not compile Android Java.
+**Limitations/deferred:** Verify UI lifecycle, 8-variant naming/count, actual 8 playback and MP4 per variant. Existing preview still renders one selected sequence; new UI is sequence export selection, NOT all-eight MP4 playback. Android orchestration still disabled.
+**Regression risks:** Recreating spinner adapter during status polling can reset transient selection; test on device. Large number of variant files may strain phone storage.
