@@ -684,3 +684,6 @@ Restored optional desktop preview path in current sequence builder (a98f2d3b) us
 
 ### 2026-11-18 — Extend drummer alternation to XSQ export
 ba507eb3 adds hand metadata to component/pose mapping; 0b4e6146 preserves sourceHand in exported effects and fixes duplicate empty ElementEffects container bug. Added mapping regression test. Existing eight physical targets preserved; sourceHand is metadata, not proof native xLights or 3D renderer animates independent sticks. Ride and rendered hand geometry still pending. Tests not executed. No merge/release.
+
+### 2026-11-18 — Drummer component preview fixes
+132de447 reconciles exporter physical target names with V3 preview aliases, localizes brightness to hit mask, allows inactive instruments and silent song tails instead of demanding every instrument and last hit near end. Added tests for alias and localized brightness. This is standalone component-light preview, not canonical animated band; tests/render pending. Ride and stick animation remain incomplete. No merge/release.
