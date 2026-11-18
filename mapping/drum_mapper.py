@@ -48,15 +48,18 @@ def distribute_drum_bus_events(events: Iterable[DrumEvent]) -> list[DrumEvent]:
 def schedule_drum_events(events: Iterable[DrumEvent], config: DrumMappingConfig = DrumMappingConfig()) -> list[DrumEvent]:
     sorted_events = sorted(events, key=lambda event: (event.timestamp_ms, DRUM_PRIORITY.get(event.drum_type, 9), -event.velocity))
     merged: list[DrumEvent] = []
-    last_cluster: dict[str, int] = {}
+    last_cluster: dict[tuple[str, str], int] = {}
     for event in sorted_events:
-        idx = last_cluster.get(event.drum_type)
+        info = event.frequency_band_info or {}
+        tom_label = str(info.get("tom_class", info.get("tom_position", ""))).strip() if event.drum_type == "tom" else ""
+        key = (event.drum_type, tom_class_for_event(event) if tom_label else "")
+        idx = last_cluster.get(key)
         if idx is not None and event.timestamp_ms - merged[idx].timestamp_ms <= config.merge_window_ms:
             prev = merged[idx]
             if (event.velocity, event.confidence) > (prev.velocity, prev.confidence):
                 merged[idx] = event
             continue
-        last_cluster[event.drum_type] = len(merged)
+        last_cluster[key] = len(merged)
         merged.append(event)
     merged.sort(key=lambda event: (event.timestamp_ms, DRUM_PRIORITY.get(event.drum_type, 9), -event.velocity))
     scheduled: list[DrumEvent] = []; last_by_type: dict[str, DrumEvent] = {}
