@@ -22,7 +22,8 @@ def build_engine_activation_audit(
     invoked = bool(getattr(orchestration, "invoked", False))
     sidecar = bool(getattr(orchestration, "xsq_written", False))
     promoted = bool(
-        invoked and sidecar and "--promote-orchestrated-template" in flags
+        invoked and sidecar and bool(getattr(orchestration, "orchestrated_xsq_path", None))
+        and "--promote-orchestrated-template" in flags
         and "--no-orchestrator-template-promotion" not in flags
     )
     source_sections_requested = "--orchestration-sections-json" in flags
