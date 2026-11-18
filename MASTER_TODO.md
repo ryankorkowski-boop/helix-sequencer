@@ -790,3 +790,6 @@ Prior bounded scheduler checks passed (runs 44296016061 and 44296016075). Reuse 
 
 ### 2026-11-18 — Bound diagnostic rendering overhead
 Previous commit e906030f passed runs 44308380178 and 44308380349. Optimize tools/render_drummer_v3_preview.py with a forward-only active-interval sweep and once-per-render resized source/masks. Added overlapping-event equivalence and pixel equality regressions. Preserves timing, decay, original artwork and composition order. Scope is diagnostic renderer only; not native FSEQ or full band. CI pending; no measured speedup. No merge/release.
+
+### 2026-11-18 — Birdsong source integrity
+Prior renderer optimization passed 44340298697 and 44340298672. Replaced synthetic 20s energy/centroid and fixed tempo in optional Birdsong hook with streamed real audio RMS and spectral centroid; no invented targets or tempo; skip missing/silent input. Per-run manifest avoids overwrites. Audit labels sidecar request, not exported choreography. CI pending; feature extraction is additional analysis, not yet shared; full-song feature arrays and actual production XSQ integration remain outstanding. No merge/release.
