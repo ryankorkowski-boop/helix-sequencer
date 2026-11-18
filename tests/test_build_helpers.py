@@ -67,6 +67,16 @@ class BuildHelperTests(unittest.TestCase):
         self.assertEqual(graph.seed_targets("mega", limit=1), ["Mega 1"])
         self.assertEqual(expand_neighbor_targets(graph, ["Mega 1"], depth=1, limit=2), ["Mega 2"])
 
+    def test_eight_distinct_runtime_configurations_in_stable_order(self) -> None:
+        style = effect_engine.VARIANTS[effect_engine.ACTIVE_STYLE_VERSION]
+        tuning = effect_engine.RuntimeTuning()
+        all_candidates = build_runtime_candidates(style, tuning, 8)
+        self.assertEqual(len(all_candidates), 8)
+        self.assertEqual(len({candidate.label for candidate in all_candidates}), 8)
+        self.assertEqual(len({candidate.style.version for candidate in all_candidates}), 8)
+        for count in (1, 4, 5, 8):
+            self.assertEqual(build_runtime_candidates(style, tuning, count), all_candidates[:count])
+
     def test_runtime_candidates_and_shortlist_scoring(self) -> None:
         candidates = build_runtime_candidates(
             effect_engine.VARIANTS[effect_engine.ACTIVE_STYLE_VERSION],
