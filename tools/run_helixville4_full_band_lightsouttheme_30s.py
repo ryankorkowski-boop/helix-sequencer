@@ -25,13 +25,13 @@ def _sequence_path(output_dir: Path, audio: Path, profile: str) -> Path:
     return output_dir / f"{audio.stem},{profile}.xsq"
 
 
-def _trimmed_audio_path(output_dir: Path) -> Path:
-    return output_dir / "LightsOutTheme_30s.mp3"
+def _trimmed_audio_path(output_dir: Path, source_audio: Path = DEFAULT_AUDIO) -> Path:
+    return output_dir / f"{source_audio.stem}_30s.mp3"
 
 
 def _trim_audio_to_30s(audio: Path, output_dir: Path, *, dry_run: bool = False) -> Path:
     """Create a genuine, bounded audio excerpt; never rename a full song as 30s."""
-    target = _trimmed_audio_path(output_dir)
+    target = _trimmed_audio_path(output_dir, audio)
     if dry_run:
         return target
     if not audio.is_file() or not audio.stat().st_size:
