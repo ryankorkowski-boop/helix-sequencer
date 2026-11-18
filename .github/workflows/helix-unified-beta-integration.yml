@@ -11,6 +11,7 @@ on:
       - 'effects/**'
       - 'fixtures/band_geometry/**'
       - 'tools/build_drummer_v3*.py'
+      - 'tools/run_helixville4_full_band_lightsouttheme_30s.py'
       - 'mapping/**'
       - 'audio/**'
       - 'tools/render_drummer_v3_preview.py'
@@ -80,4 +81,4 @@ jobs:
       - name: Generate original drummer assets and verify physical geometry
         run: |
           python tools/build_drummer_v3_assets.py
-          python -m pytest -q tests/test_drummer_v3_pose_sheet.py tests/test_drummer_v3_png_layers.py tests/test_drummer_v3_xsq_integration.py
+          python -m pytest -q tests/test_drummer_v3_pose_sheet.py tests/test_drummer_v3_png_layers.py tests/test_drummer_v3_xsq_integration.py tests/test_helixville4_audio_excerpt.py
