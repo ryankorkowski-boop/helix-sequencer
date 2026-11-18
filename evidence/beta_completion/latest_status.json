@@ -1,0 +1,64 @@
+{
+  "schema_version": 1,
+  "updated_utc": "2026-11-17",
+  "overall_status": "IN PROGRESS",
+  "branch": "integration/unified-beta-completion-20261117",
+  "base_commit": "bb41f078a92e02ccb1980785efe1c1be741a9d16",
+  "source_pr": 248,
+  "release_label": "Beta Version 1.4",
+  "release_approved": false,
+  "tests_run_this_session": [],
+  "tasks": [
+    {
+      "id": "HBC-001",
+      "workstream": "A",
+      "priority": "P0",
+      "status": "IN PROGRESS",
+      "next_action": "Inspect production call graph and compare branch ancestry"
+    },
+    {
+      "id": "HBC-002",
+      "workstream": "A",
+      "priority": "P0",
+      "status": "NOT STARTED",
+      "next_action": "Prove emitted XSQ/native FSEQ effect participation"
+    },
+    {
+      "id": "HBC-003",
+      "workstream": "Band",
+      "priority": "P0",
+      "status": "BLOCKED",
+      "blocker": "Four-tom legacy ledger conflicts with three-tom owner directive",
+      "next_action": "Compare ground truth and nine-cue mapper"
+    },
+    {
+      "id": "HBC-004",
+      "workstream": "Vocals",
+      "priority": "P0",
+      "status": "NOT STARTED",
+      "next_action": "Verify independent lead/harmony timelines"
+    },
+    {
+      "id": "HBC-005",
+      "workstream": "B",
+      "priority": "P0",
+      "status": "NOT STARTED",
+      "next_action": "Audit Android and Windows eight-variant playback and export"
+    },
+    {
+      "id": "HBC-006",
+      "workstream": "C",
+      "priority": "P0",
+      "status": "NOT STARTED",
+      "next_action": "Generate verified real-audio nine-panel native preview"
+    },
+    {
+      "id": "HBC-007",
+      "workstream": "All",
+      "priority": "P0",
+      "status": "NOT STARTED",
+      "next_action": "Full acceptance and owner approval"
+    }
+  ],
+  "next_command": "git switch integration/unified-beta-completion-20261117 && git status --short && git log -1 --oneline"
+}
