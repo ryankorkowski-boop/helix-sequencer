@@ -449,3 +449,12 @@ Do not mark complete from unit tests alone.
 **Tests/evidence:** Test authored but NOT executed in this session. No XSQ/FSEQ or native render evidence. Existing test fixture updated to supply the required path.
 **Limitations/deferred:** Existence/content of template and actual final renderer consumption still unverified; source section validation also requires more than a flag. Run targeted pytest and real audio export next.
 **Regression risk:** Audit output changes for malformed reports; production sequencing unchanged.
+
+### 2026-11-17 — Explicit orchestration template routing regression coverage
+**Goal:** Lock the intended distinction between sidecar planning and actual renderer template selection.
+**Changed files:** `tests/test_sequence_builder.py`, `MASTER_TODO.md`, `docs/BETA_COMPLETION_LIVE_HANDOFF.md`.
+**Preserved:** Existing opt-in promotion policy, native export logic, audio analysis, all effect choice/timing/targeting, approved drummer.
+**New behavior:** Test checks default sidecar-only, explicit promotion replacing `--template`, opt-out overriding promotion, and missing path refusing promotion. No runtime behavior modified.
+**Tests/evidence:** Regression authored in commit `e6c2e4cb`; no CI workflows or combined commit statuses observed at prior head. No pytest run or native render performed.
+**Limitations/deferred:** Execute targeted tests and prove native XSQ/FSEQ consumption before declaring integration fixed.
+**Regression risks:** Test may reveal existing routing mismatch; none introduced to production code.
