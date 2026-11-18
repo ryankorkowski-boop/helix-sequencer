@@ -13,7 +13,7 @@ class RunConfig:
     output_root: Path = field(default_factory=lambda: Path("outputs"))
     variants: int = 1
     enable_orchestrator: bool = True
-    promote_orchestrated_template: bool = True
+    promote_orchestrated_template: bool = False
     enable_learning_memory: bool = False
     power_metadata_path: Path | None = None
     autosize_controllers: bool = False
