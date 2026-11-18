@@ -37,3 +37,8 @@ No main/default branch edits, no merges/releases/uploads without owner approval.
 - Inspected actual patches: #235 changes `RunConfig.promote_orchestrated_template` default to false and emits explicit promotion flag when enabled; #230 preserves independent same-onset tom events using physical target keys; #248 rejects stale orchestration sidecars in XSQ reconciliation. None is verified as integrated on this branch.
 - Next action: inspect integration branch `core/run_spine.py`, compare PR #235, selectively apply the contract fix with tests; inspect #230 three-tom tests before changing geometry. Then trace end-to-end changed XSQ and native FSEQ.
 - No test, render, APK, EXE or nine-panel MP4 was produced in this continuation. All corresponding acceptance gates remain open.
+
+## Implementation checkpoint — 2026-11-17
+- Applied focused PR #235 promotion-contract repair to `core/run_spine.py` at commit `83dc841503ed70b631df730b47969cae0c5a684a`: default promotion off; explicit positive/negative CLI flag emitted.
+- Status: IMPLEMENTED, NOT TESTED. Existing orchestration enable flag and parsing preserved. Regression risk: callers that assumed promotion by default now need explicit opt-in.
+- Next action: integrate the focused `tests/test_orchestrator_promotion_contract.py` from PR #235; run it and targeted orchestration tests in a checkout; compare real changed XSQ output. Do not claim native xLights validation.
