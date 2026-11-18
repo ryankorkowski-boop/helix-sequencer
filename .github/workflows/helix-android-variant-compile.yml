@@ -49,3 +49,9 @@ jobs:
         env:
           HELIX_BUILD_PYTHON: python
         run: gradle :app:compileDebugJavaWithJavac --no-daemon --stacktrace
+
+      - name: Package unsigned-for-release debug APK (CI verification only)
+        working-directory: android
+        env:
+          HELIX_BUILD_PYTHON: python
+        run: gradle :app:assembleDebug --no-daemon --stacktrace
