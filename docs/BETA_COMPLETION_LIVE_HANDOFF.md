@@ -75,3 +75,6 @@ Run `44214269832` failed before Gradle at `sdkmanager: command not found` (exit 
 
 ## Android compilation pass and APK assembly checkpoint
 Android CI run `44214343888` completed SUCCESS including `Compile debug Java sources`. This validates compilation of updated results UI but not runtime behavior or packaging. Added `gradle :app:assembleDebug` to branch-scoped Android workflow at commit `a4818a7a`, without publishing or releasing the APK. Next inspect resulting CI run, diagnose any packaging failures, then test on device; 8 playable MP4 variants and native xLights outputs remain unverified.
+
+## Android recreation state fix
+Commit `b59aaa35` saves/restores `selectedSequencePath` via Android saved-instance state. This complements poll-stable variant picker. No device test yet. APK packaging CI run `44217648117` was still in progress at last check; it predates the new state fix and must not be used as proof of this latest source. Next verify new CI and device rotation, plus all-eight MP4 playback remains unimplemented.
