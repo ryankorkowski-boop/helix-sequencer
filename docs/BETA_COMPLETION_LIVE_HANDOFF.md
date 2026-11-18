@@ -150,3 +150,6 @@ Restored optional desktop preview path in current sequence builder (a98f2d3b) us
 
 ### 2026-11-18 — Recover band preview protection
 8d84ae8f restores core/band_visibility.py verbatim from Android repair branch; 36aae599 invokes its canonical stage inspection before desktop simulated preview generation. Preserves original sequences and flags unsupported band rendering rather than pretending ordinary effects are a 3D preview. Recognition limited to known models/group marker; Android wiring, actual canonical renderer, independent vocals, drummer and runtime tests remain pending. No merge/release.
+
+### 2026-11-18 — Android band guard and drummer baseline comparison
+58e58e61 connects shared band guard before Android preview; existing private band visibility import now resolves. Baseline b27e8d77 pose spec v1 has two toms; current v3 has three HIGH/MID/FLOOR; pose spec, PNG manifest and XSQ integration differ. Do not wholesale revert: preserve approved geometry and reconcile latest nine cues, ride, alternate sticks/crashes against ground truth. Current composites lack explicit ride and independent snare hand targets. Native and runtime tests pending. No merge/release.
