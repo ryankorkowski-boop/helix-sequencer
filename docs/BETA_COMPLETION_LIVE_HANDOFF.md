@@ -213,3 +213,13 @@ Owner authorizes implementation decisions without repeat approval. Expand integr
 **Evidence:** Prior workflow run 44286584728 passed asset build and existing tests on both Python versions; expanded XSQ matrix is newly triggered and not yet verified.
 **Limitations:** Physical ride geometry, actual xLights qualified model import, vocal harmony and review MP4 still outstanding.
 **Regression risks:** Existing xmodel and asset builder aliases may be inconsistent with newly enforced checks; repair based on failing CI before declaring pass. No merge/release.
+
+
+### 2026-11-18 — Correct native drum On intensity and truthful real-audio excerpt
+**Goal:** Repair two concrete sources of false approval evidence: an xLights On effect populated with a generic 0..1 Brightness key, and a "30s" video runner that silently copied the full song.
+**Changed:** tools/integrate_drummer_v3_into_xsq.py, tests/test_drummer_v3_xsq_integration.py, tools/run_helixville4_full_band_lightsouttheme_30s.py, tests/test_helixville4_audio_excerpt.py, integration CI, machine status and artifact manifest.
+**Preserved:** Owner source drummer PNG, three-tom geometry, original hit timing/targets, audio input identity, preview pipeline, existing variant behavior; no release or merge.
+**New:** Native xLights On settings use percentage start/end controls and decay, enabled white palette; XSQ test asserts 72%/4% decay and sourceHand. Band runner FFmpeg-transcodes a bounded 30s MP3 using the input song stem, verifies nonempty output and fails on missing source; dry-run does not manufacture a clip. CI tests synthetic 35s WAV to 30s MP3 and physical/logical target contract.
+**Evidence:** GitHub 44286584728 passed asset-generation matrix Python 3.11/3.12. 44288262162 passed native On and target-contract tests Python 3.11/3.12. Media-excerpt run 44288669616 pending at initial check. Native xLights On documentation supports start/end intensity keys; real headless FSEQ verification still absent.
+**Limitations:** Requested LightsOutTheme.mp3 not in repo; no nine-panel approval MP4, nor Android device validation, nor full six-member motion proof. Android CI candidate artifact 14412037480 from run 44269896607; not approved.
+**Regression risks:** FFmpeg encoder availability, audio filenames, source duration and palette syntax. Next: inspect 44288669616, repair if needed; validate native XSQ/FSEQ with real audio/layout. Release not approved.
