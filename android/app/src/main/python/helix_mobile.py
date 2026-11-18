@@ -308,7 +308,14 @@ def run(engine_path, job_path, request_json, callback):
                     # Encode variants serially to bound peak memory on Android.
                     # Keep array indexes aligned with sequence_paths; empty means unavailable.
                     previews = []
-                    for index, variant in enumerate(valid):
+                    preview_limit = min(int(request.get('variants', 1)), 8)
+                    # The engine may also emit auxiliary XSQs. Do not encode an
+                    # unbounded number of videos on a memory-constrained phone.
+                    preview_candidates = valid[:preview_limit]
+                    if len(valid) > preview_limit:
+                        callback.log('Preview capped at %d requested variants; %d auxiliary XSQs remain exportable.' %
+                                     (preview_limit, len(valid)-preview_limit))
+                    for index, variant in enumerate(preview_candidates):
                         variant_layout = variant.parent/'xlights_rgbeffects.xml'
                         if not variant_layout.is_file():
                             variant_layout = layout
@@ -327,9 +334,9 @@ def run(engine_path, job_path, request_json, callback):
                         notify(callback, 'checkpoint', json.dumps(result))
                     completed = sum(bool(p) for p in previews)
                     stages['preview'] = {
-                        'status': 'success' if completed == len(valid) else
+                        'status': 'success' if completed == len(preview_candidates) else
                                   ('partial' if completed else 'failed'),
-                        'rendered': completed, 'requested': len(valid),
+                        'rendered': completed, 'requested': len(preview_candidates),
                         'failed_variants': [valid[i].name for i, path in enumerate(previews) if not path],
                     }
                     notify(callback, 'checkpoint', json.dumps(result))
