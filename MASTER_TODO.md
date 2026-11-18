@@ -504,3 +504,12 @@ Do not mark complete from unit tests alone.
 **Tests/evidence:** Source edits committed; no Android Gradle build or device instrumentation test run. Focused Python CI run 44213308493 showed 3.11 regression step success, 3.12 pending at last check; this CI does not compile Android Java.
 **Limitations/deferred:** Verify UI lifecycle, 8-variant naming/count, actual 8 playback and MP4 per variant. Existing preview still renders one selected sequence; new UI is sequence export selection, NOT all-eight MP4 playback. Android orchestration still disabled.
 **Regression risks:** Recreating spinner adapter during status polling can reset transient selection; test on device. Large number of variant files may strain phone storage.
+
+### 2026-11-17 — Android variant picker stability and compile gate
+**Goal:** Prevent the results screen from discarding a user's selected sequence on repeated state polls, and establish Android Java compilation evidence.
+**Changed files:** `android/app/src/main/java/org/helixsequencer/android/MainActivity.java`, `.github/workflows/helix-android-variant-compile.yml`, `MASTER_TODO.md`, `docs/BETA_COMPLETION_LIVE_HANDOFF.md`, `evidence/beta_completion/latest_status.json`.
+**Preserved behavior:** Engine sequence defaults, existing LOR fallback, show ZIP, one preview, eight-variant export contract, drummer and singer code.
+**New behavior:** Picker now remembers the selected path and only replaces its adapter when available paths change; new branch-scoped Android Java compile workflow targets debug source compilation using Java 17, Python 3.10, Gradle 8.11.1 and SDK 36.
+**Tests/evidence:** Python focused integration run 44213308493 fully PASSED on 3.11 and 3.12. Android compile workflow file committed but no run observed immediately after commit; Android compilation and device behavior still UNVERIFIED.
+**Limitations/deferred:** Eight distinct playable MP4s not implemented, and user selection persistence across process recreation not verified; existing Android simulated preview is not native xLights.
+**Regression risks:** Android build dependencies/Chaquopy and SDK may fail on hosted runner; picker adapter uses absolute paths as display labels; selection should be checked under service polling and activity recreation.
