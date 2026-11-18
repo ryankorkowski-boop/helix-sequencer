@@ -43,7 +43,7 @@
       "workstream": "B",
       "priority": "P0",
       "status": "IN PROGRESS",
-      "next_action": "Confirm latest Java/APK CI; device test 8 previews and visible rendered/requested counts, audio sync and band correctness."
+      "next_action": "Verify latest APK CI; inspect actual eight-variant XSQ ordering and device-test all MP4s, storage and audio; no release."
     },
     {
       "id": "HBC-006",
@@ -120,7 +120,7 @@
   },
   "android_compile_workflow": {
     "path": ".github/workflows/helix-android-variant-compile.yml",
-    "status": "run 44246646940 had passed Python syntax but Java build in progress when newer UI commit 8a6b1c5e landed; next run pending",
+    "status": "run 44246752957 was in progress; bounded preview count fix 97d19c23 awaits new CI",
     "commit": "a86114e21b97051e90bc11d6e458ed9188ff6c17",
     "first_run_url": "https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/44214052900",
     "java_compile_run_url": "https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/44214343888",
