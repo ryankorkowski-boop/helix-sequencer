@@ -148,9 +148,11 @@ def build_xmodel(spec: dict[str, Any], source_path: Path, xmodel_path: Path) -> 
             "subModel",
             {"name": _prefixed(zone_id), "layout": "ranges", "type": "ranges", "line0": _ranges(zone_nodes[zone_id])},
         )
+    alias_count = 0
     for composite_id in composite_nodes:
         # Preserve legacy composite names and expose the actual exporter target.
         if composite_id.startswith("DRUMMER_"):
+            alias_count += 1
             ET.SubElement(submodels, "subModel", {
                 "name": "HX_SNOWMAN_" + composite_id,
                 "layout": "ranges", "type": "ranges",
@@ -177,7 +179,8 @@ def build_xmodel(spec: dict[str, Any], source_path: Path, xmodel_path: Path) -> 
         "grid": {"width": width, "height": height},
         "zone_count": len(zone_nodes),
         "composite_count": len(composite_nodes),
-        "submodel_count": len(zone_nodes) + len(composite_nodes),
+        "alias_count": alias_count,
+        "submodel_count": len(zone_nodes) + len(composite_nodes) + alias_count,
     }
 
 
