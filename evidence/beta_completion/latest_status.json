@@ -45,7 +45,7 @@
       "workstream": "A",
       "priority": "P0",
       "status": "IN PROGRESS",
-      "next_action": "Run targeted pytest; verify template source and explicit promotion through real final XSQ/FSEQ. Android launcher currently disables orchestration."
+      "next_action": "Run Birdsong regression CI for ea110e82; prove orchestration template source/promotion and final XSQ/FSEQ; address Android build_args hard-disabling orchestration only with memory/parity regression coverage."
     },
     {
       "id": "HBC-002",
@@ -67,7 +67,7 @@
       "workstream": "Vocals",
       "priority": "P0",
       "status": "IN PROGRESS",
-      "next_action": "Inspect lead/harmony against Drive Truths Bbb Vocalstruth.mp4 and Bbb vocals.mp4, Phoneme Test Hook.mp3."
+      "next_action": "Implement separate ESTIMATED-vocals experimental path using a finished stereo source with audible independent lead/backing; preserve VERIFIED provenance and strict verifier; reject bleed/duplicates/low-confidence harmony and keep unsupported backing at REST. Compare against owner Truths as visual references, not timing ground truth."
     },
     {
       "id": "HBC-005",
@@ -98,7 +98,9 @@
     "Default orchestration sidecar is not promoted without explicit flag",
     "Orchestrated XSQ requires an existing --template",
     "Android build_args unconditionally disables orchestrator",
-    "V2 config promotion serialization corrected and regression tests authored"
+    "V2 config promotion serialization corrected and regression tests authored",
+    "Android helix_mobile.build_args unconditionally passes --no-effects-orchestrator in both modes; this is an explicit parity gap, but enabling it requires bounded-memory and output-parity tests.",
+    "Owner authorized ESTIMATED-vocals experimental review path on 2026-11-15; VERIFIED source provenance and strict verifier remain unchanged."
   ],
   "drive_reference_inventory": [
     {
