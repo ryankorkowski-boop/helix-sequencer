@@ -305,6 +305,10 @@ def run(engine_path, job_path, request_json, callback):
                 try:
                     if layout is None:
                         raise RuntimeError('Generated sequence is missing its packaged preview layout')
+                    from core.band_visibility import inspect_band_stage, band_stage_preview_error
+                    band_error = band_stage_preview_error(inspect_band_stage(layout))
+                    if band_error:
+                        raise RuntimeError(band_error)
                     # Prioritize the primary XSQ while preserving the exact
                     # sequence_paths index mapping for the Android picker.
                     preview_limit = max(1, min(int(request.get('variants', 1)), 8))
