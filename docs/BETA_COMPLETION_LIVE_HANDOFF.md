@@ -87,3 +87,6 @@ Run `44217948986` PASSED both Java compilation and `gradle :app:assembleDebug` o
 
 ## Android spinner listener lifecycle repair
 At commit `b5b80e10`, variant spinner listener moved from repeated `poll()` registration to one-time initialization. Restored selection is explicitly synchronized after adapter refresh, reducing selection churn and unexpected resets. Prior APK integrity run `44218445981` passed all steps, but predates this fix. Next check fresh CI and test on actual device. All-eight MP4 preview/export remains open.
+
+## Per-variant MP4 preview implementation
+Commits `7a7ff384`, `275effef`, `988dd56a` implement sequential per-variant Android MP4 rendering, `preview_paths` propagation, and selected-variant MP4 play/save binding. Failed previews leave blank entries; successful XSQ outputs remain accessible. This is NOT device-verified and does not repair simulated band geometry or guarantee 8 successes. Check latest Android compile/assemble CI and test 8 variants on phone, including playback, sound sync, storage and API30 memory. Earlier APK integrity run `44218445981` passed before these changes.
