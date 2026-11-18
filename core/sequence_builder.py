@@ -281,8 +281,7 @@ def _run_birdsong_hook(config: RunConfig, engine_args: list[str] | None, ctx: Ru
 
     This implementation is intentionally conservative: it runs only when the
     engine args include an explicit birdsong-enabling flag ("--enable-birdsong").
-    It synthesizes a short demo feature-frame sequence if real per-frame audio
-    features aren't available, builds a birdsong plan using the Issue #2
+    It measures real audio in bounded blocks and builds a sidecar plan using the Issue #2
     runtime, writes a manifest into the run output, and records the manifest
     as an artifact in the run context.
     """
@@ -314,7 +313,9 @@ def _run_birdsong_hook(config: RunConfig, engine_args: list[str] | None, ctx: Ru
             root = tree.getroot()
             # Collect any element with a name attribute (models/elements)
             seen: set[str] = set()
-            for el in root.iter():
+            for el in root.findall("./ElementEffects/Element"):
+                if el.get("type") != "model":
+                    continue
                 name = el.get("name")
                 if name:
                     key = name.strip()
@@ -325,33 +326,39 @@ def _run_birdsong_hook(config: RunConfig, engine_args: list[str] | None, ctx: Ru
             model_names = []
 
     if not model_names:
-        # Conservative default pool to allow birdsong to place some demo rows.
-        model_names = [
-            "Helix_Birdsong_Group",
-            "Mega Tree",
-            "Left Tree",
-            "Right Tree",
-            "Center Arch",
-        ]
-
-    # Build a short synthetic feature sequence (20s @ 10 fps -> 200 frames) as a demo.
-    duration_seconds = 20.0
+        ctx.record_warning("birdsong: no template targets; no plan generated")
+        return
+    if "--audio" not in args or args.index("--audio") + 1 >= len(args):
+        ctx.record_warning("birdsong: real audio input required; no plan generated")
+        return
+    audio = Path(args[args.index("--audio") + 1])
+    if not audio.is_file():
+        ctx.record_warning("birdsong: source audio unavailable; no plan generated")
+        return
+    import numpy as np
+    import soundfile as sf
+    energy, centroid = [], []
     fps = 10.0
-    steps = max(1, int(duration_seconds * fps))
-    import math
-
-    energy = [max(0.0, min(1.0, 0.25 + 0.6 * (0.5 + 0.5 * math.sin(2 * math.pi * (i / max(1, steps)) * 3)))) for i in range(steps)]
-    centroid = [4000.0 + 2000.0 * math.sin(2 * math.pi * (i / max(1, steps)) * 1.2) for i in range(steps)]
-
-    features = {
-        "energy": energy,
-        "centroid": centroid,
-        "tempo": 120.0,
-    }
+    with sf.SoundFile(str(audio)) as stream:
+        rate = stream.samplerate
+        hop = max(1, round(rate / fps))
+        fps = rate / hop
+        for block in stream.blocks(blocksize=hop, dtype="float32", always_2d=True):
+            mono = block.mean(axis=1)
+            energy.append(float(np.sqrt(np.mean(mono * mono))))
+            spectrum = np.abs(np.fft.rfft(mono * np.hanning(len(mono))))
+            frequencies = np.fft.rfftfreq(len(mono), 1.0 / rate)
+            total = float(spectrum.sum())
+            centroid.append(float(np.dot(spectrum, frequencies) / total) if total > 0 else 0.0)
+    peak = max(energy, default=0.0)
+    if peak <= 0:
+        ctx.record_warning("birdsong: silent or empty audio; no plan generated")
+        return
+    features = {"energy": [v / peak for v in energy], "centroid": centroid, "tempo": 0.0}
 
     frames = feature_state.build_feature_state_sequence(features, fps=fps)
     if not frames:
-        ctx.record_warning("birdsong: no feature frames could be built for demo")
+        ctx.record_warning("birdsong: no feature frames could be built from audio")
         return
 
     cfg = birdsong.BirdsongRuntimeConfig(enabled=True)
@@ -363,7 +370,7 @@ def _run_birdsong_hook(config: RunConfig, engine_args: list[str] | None, ctx: Ru
     except Exception:
         out_root = Path("outputs")
     out_root.mkdir(parents=True, exist_ok=True)
-    manifest_path = out_root / "birdsong_runtime_manifest.json"
+    manifest_path = ctx.run_dir / "birdsong_runtime_manifest.json"
     try:
         birdsong.write_birdsong_runtime_manifest(manifest_path, frames, model_names, config=cfg)
         ctx.record_artifact("birdsong_runtime_manifest", manifest_path)
