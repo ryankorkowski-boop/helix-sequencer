@@ -105,3 +105,6 @@ Commit `97d19c23` limits Android MP4 encoding to the requested number of variant
 
 ## Primary-first preview mapping correction
 Commit `53a776a8` corrects capped preview ordering: primary XSQ renders first, remaining candidates fill the cap, while `preview_paths` retains exact original `sequence_paths` index alignment. Failed/skipped variants remain blank. CI/device testing pending; no claim of eight successful videos.
+
+## Android acceptance artifact
+Run 44247185516 PASS (syntax, Java, assembly, integrity); zero retained artifacts prevented device installation. Commit 45955934 adds debug APK retention for seven days after verification. Fresh run pending. No device acceptance or beta release claimed.
