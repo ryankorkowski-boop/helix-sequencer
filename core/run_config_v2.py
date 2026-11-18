@@ -101,7 +101,9 @@ class RunConfig:
             args.extend(["--controller-padding", str(self.controller_padding)])
         if not self.enable_orchestrator:
             args.append("--no-effects-orchestrator")
-        if not self.promote_orchestrated_template:
+        if self.promote_orchestrated_template:
+            args.append("--promote-orchestrated-template")
+        else:
             args.append("--no-orchestrator-template-promotion")
         args.extend(self.extra_engine_args)
         return args
