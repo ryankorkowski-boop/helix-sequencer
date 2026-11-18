@@ -268,3 +268,6 @@ Previous commit e906030f passed runs 44308380178 and 44308380349. Optimize tools
 
 ### 2026-11-18 — Birdsong source integrity
 Prior renderer optimization passed 44340298697 and 44340298672. Replaced synthetic 20s energy/centroid and fixed tempo in optional Birdsong hook with streamed real audio RMS and spectral centroid; no invented targets or tempo; skip missing/silent input. Per-run manifest avoids overwrites. Audit labels sidecar request, not exported choreography. CI pending; feature extraction is additional analysis, not yet shared; full-song feature arrays and actual production XSQ integration remain outstanding. No merge/release.
+
+### 2026-11-18 — Consolidate Birdsong production dispatch
+Prior preview optimization passed runs 44340298697 and 44340298672. Source inspection confirms core/effect_engine.py calls birdsong_engine.place_birdsong_engine with real audio, note events, hats, vocal peaks and placement callback; AC hardKor disables it intentionally. Remove duplicate synthetic 20-second post-run hook from sequence_builder; normalize legacy enable aliases to supported --birdsong. Preserve standalone Issue #2 diagnostic module, default opt-in and explicit disable behavior. Add alias regression. CI pending; actual Birdsong effect survival, geometry and native FSEQ still unverified. No merge/release.

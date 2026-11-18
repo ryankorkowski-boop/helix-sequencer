@@ -87,7 +87,7 @@ def _clean_engine_args(engine_args: list[str] | None) -> list[str] | None:
         if arg in ORCHESTRATOR_ONLY_FLAGS:
             idx += 1
             continue
-        cleaned.append(arg)
+        cleaned.append('--birdsong' if arg in ('--enable-birdsong', '--birdsong-enabled') else arg)
         idx += 1
     return cleaned
 
@@ -276,111 +276,6 @@ def _artifact_kind(path: Path) -> str:
     return "artifact"
 
 
-def _run_birdsong_hook(config: RunConfig, engine_args: list[str] | None, ctx: RunContext) -> None:
-    """Guarded, minimal birdsong post-run adapter.
-
-    This implementation is intentionally conservative: it runs only when the
-    engine args include an explicit birdsong-enabling flag ("--enable-birdsong").
-    It measures real audio in bounded blocks and builds a sidecar plan using the Issue #2
-    runtime, writes a manifest into the run output, and records the manifest
-    as an artifact in the run context.
-    """
-    args = list(engine_args or [])
-    enabled = any(a in ("--enable-birdsong", "--birdsong", "--birdsong-enabled") for a in args)
-    if not enabled:
-        return
-
-    try:
-        from core import birdsong_issue2_runtime as birdsong
-        from core import feature_state
-    except Exception as exc:  # pragma: no cover - defensive
-        ctx.record_warning(f"birdsong: import failed: {exc}")
-        return
-
-    # Try to discover model names from provided template; fall back to a small default set.
-    template_path: Path | None = None
-    for idx, a in enumerate(args):
-        if a == "--template" and idx + 1 < len(args):
-            template_path = Path(args[idx + 1])
-            break
-
-    model_names: list[str] = []
-    if template_path is not None and template_path.exists():
-        try:
-            import xml.etree.ElementTree as ET
-
-            tree = ET.parse(template_path)
-            root = tree.getroot()
-            # Collect any element with a name attribute (models/elements)
-            seen: set[str] = set()
-            for el in root.findall("./ElementEffects/Element"):
-                if el.get("type") != "model":
-                    continue
-                name = el.get("name")
-                if name:
-                    key = name.strip()
-                    if key and key not in seen:
-                        seen.add(key)
-                        model_names.append(key)
-        except Exception:
-            model_names = []
-
-    if not model_names:
-        ctx.record_warning("birdsong: no template targets; no plan generated")
-        return
-    if "--audio" not in args or args.index("--audio") + 1 >= len(args):
-        ctx.record_warning("birdsong: real audio input required; no plan generated")
-        return
-    audio = Path(args[args.index("--audio") + 1])
-    if not audio.is_file():
-        ctx.record_warning("birdsong: source audio unavailable; no plan generated")
-        return
-    import numpy as np
-    import soundfile as sf
-    energy, centroid = [], []
-    fps = 10.0
-    with sf.SoundFile(str(audio)) as stream:
-        rate = stream.samplerate
-        hop = max(1, round(rate / fps))
-        fps = rate / hop
-        for block in stream.blocks(blocksize=hop, dtype="float32", always_2d=True):
-            mono = block.mean(axis=1)
-            energy.append(float(np.sqrt(np.mean(mono * mono))))
-            spectrum = np.abs(np.fft.rfft(mono * np.hanning(len(mono))))
-            frequencies = np.fft.rfftfreq(len(mono), 1.0 / rate)
-            total = float(spectrum.sum())
-            centroid.append(float(np.dot(spectrum, frequencies) / total) if total > 0 else 0.0)
-    peak = max(energy, default=0.0)
-    if peak <= 0:
-        ctx.record_warning("birdsong: silent or empty audio; no plan generated")
-        return
-    features = {"energy": [v / peak for v in energy], "centroid": centroid, "tempo": 0.0}
-
-    frames = feature_state.build_feature_state_sequence(features, fps=fps)
-    if not frames:
-        ctx.record_warning("birdsong: no feature frames could be built from audio")
-        return
-
-    cfg = birdsong.BirdsongRuntimeConfig(enabled=True)
-    plan = birdsong.plan_birdsong_runtime(frames, model_names, config=cfg)
-
-    # Write manifest in the configured output root
-    try:
-        out_root = Path(config.output_root or Path("outputs"))
-    except Exception:
-        out_root = Path("outputs")
-    out_root.mkdir(parents=True, exist_ok=True)
-    manifest_path = ctx.run_dir / "birdsong_runtime_manifest.json"
-    try:
-        birdsong.write_birdsong_runtime_manifest(manifest_path, frames, model_names, config=cfg)
-        ctx.record_artifact("birdsong_runtime_manifest", manifest_path)
-        # Record a short run note
-        motifs = list(plan.decision_report.motifs) if plan and plan.decision_report else []
-        ctx.record_warning(f"birdsong: generated rows={len(plan.rows)} phrases={len(plan.phrase_snapshots)} motifs={motifs}")
-    except Exception as exc:  # pragma: no cover - defensive
-        ctx.record_warning(f"birdsong: failed to write manifest: {exc}")
-
-
 def run_profile(profile_id: str | None, engine_args: list[str] | None = None) -> None:
     """Run a sequencing profile with integrated run tracking."""
     try:
@@ -429,11 +324,6 @@ def run_profile(profile_id: str | None, engine_args: list[str] | None = None) ->
         changed_artifacts: list[Path] = []
         try:
             _effect_engine().main_for(profile.version, effective_engine_args)
-            # Optional birdsong post-run hook (guarded by explicit engine flag)
-            try:
-                _run_birdsong_hook(config, engine_args, ctx)
-            except Exception as exc:  # pragma: no cover - safe guard
-                print(f"birdsong: post-run hook failed: {exc}", file=sys.stderr)
         finally:
             changed_artifacts = _record_changed_artifacts(ctx, artifact_roots, artifact_snapshot)
             ctx.record_artifact("configured_output_root", config.output_root)

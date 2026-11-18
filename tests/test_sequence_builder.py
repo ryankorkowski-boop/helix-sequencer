@@ -93,6 +93,11 @@ class SequenceBuilderTests(unittest.TestCase):
             base,
         )
 
+    def test_birdsong_legacy_flags_route_to_real_engine(self) -> None:
+        for flag in ("--enable-birdsong", "--birdsong-enabled", "--birdsong"):
+            self.assertEqual(sequence_builder._clean_engine_args(["--audio", "song.wav", flag]), ["--audio", "song.wav", "--birdsong"])
+        self.assertEqual(sequence_builder._clean_engine_args(["--birdsong", "--no-birdsong"]), ["--birdsong", "--no-birdsong"])
+
     def test_record_changed_artifacts_ignores_unchanged_known_outputs(self) -> None:
         import tempfile
 
