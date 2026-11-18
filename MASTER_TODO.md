@@ -467,3 +467,13 @@ Do not mark complete from unit tests alone.
 **Tests/evidence:** Direct source inspection only. No CI jobs/statuses found at previous branch head; no test or native render executed.
 **Next:** Add tests for missing-template bridge results, inspect whether production launchers supply `--template`, then run real-song side-by-side native output with explicit promotion.
 **Risk:** Enabling promotion without a valid source template or song-grounded sections can produce misleading choreography; avoid changing default yet.
+
+### 2026-11-17 — Launcher audit and v2 config promotion parity
+**Goal:** Reconcile real launcher behavior with orchestration promotion policy.
+**Changed files:** `core/run_config_v2.py`, `tests/test_run_config_v2_orchestration.py`, `MASTER_TODO.md`, `docs/BETA_COMPLETION_LIVE_HANDOFF.md`.
+**Findings:** Android `android/app/src/main/python/helix_mobile.py::build_args` unconditionally passes `--no-effects-orchestrator` despite providing template and layout. Thus Android currently bypasses the nine-pass orchestrator; whether this is a deliberate mobile resource constraint requires validation before changing. Windows `windows_portable_entry.py` forwards to sequence_builder CLI. Existing `tests/test_sequence_builder_orchestrator_promotion.py` already tests full run_profile fake-engine argument propagation. `core/run_config_v2.RunConfig` previously defaulted promotion True yet emitted no positive promotion flag, so real sequence_builder would not promote.
+**Preserved:** Android opt-out and resource safeguards, default renderer sidecar-only behavior, canonical drummer, effect timing/targeting.
+**New behavior:** v2 config defaults promotion False and emits explicit `--promote-orchestrated-template` when user opts in. Tests added for default and round trip.
+**Tests/evidence:** New tests committed but not executed; no CI workflow/status observed at prior branch head; no native MP4 evidence.
+**Limitations:** Need test suite execution, Android performance profiling before enabling orchestration, and real song native XSQ/FSEQ verification. No APK/EXE rebuilt.
+**Risk:** Callers of v2 config that assumed True must now explicitly opt in; aligns with effective pre-change renderer behavior.
