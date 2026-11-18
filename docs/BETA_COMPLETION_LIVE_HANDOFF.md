@@ -277,3 +277,7 @@ Fix production add_model callback to return True only on accepted effect inserti
 
 ### 2026-11-18 — Independent timing export gate
 Goal: preserve accepted Birdsong and Snowman band/face timing in XSQ even when Chronoflow emits zero events. Changed core/effect_engine.py to dedent three timing-track writes out of Chronoflow condition; existing Chronoflow behavior, labels, caps and inactive status preserved. Added AST regression in tests/test_birdsong_engine.py. Prior b213f869 integration CI 44346809806 passed on 3.11/3.12. New CI pending; timing-track XML/native FSEQ still needs real-audio verification. Risk: newly present tracks in runs previously missing them by mistake; no merge/release.
+
+
+### 2026-11-18 — Birdsong final timeline reconciliation
+Commit 126c9d91 adds optional source labels to timeline entries and reports surviving XML-backed Birdsong placements after validation and polish, including actual timing and separate final effect counts. Timing labels now describe effect roles rather than species. Existing accepted-placement statistics retained. Tests and native XSQ/FSEQ verification pending; no approval MP4 or release. Next: regression coverage for removed and shifted entries, CI verification and real-audio native proof.
