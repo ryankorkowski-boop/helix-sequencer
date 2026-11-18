@@ -81,3 +81,11 @@ jobs:
               print(f"APK ZIP validated: {len(names)} entries, manifest, DEX and assets present")
           PY
           sha256sum "$APK"
+
+      - name: Retain verified debug APK for private acceptance testing
+        uses: actions/upload-artifact@v4
+        with:
+          name: helix-android-debug-${{ github.sha }}
+          path: android/app/build/outputs/apk/debug/app-debug.apk
+          if-no-files-found: error
+          retention-days: 7
