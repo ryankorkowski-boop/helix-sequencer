@@ -5,17 +5,18 @@ from typing import Iterable
 
 from audio.drum_classification import DRUM_STREAM_KEYS, DrumEvent, empty_drum_streams, stream_key_for_type
 
-DRUM_SUBMODEL_BY_TYPE = {"kick": "kick", "snare": "snare", "tom": "tom", "hihat": "hi_hat", "cymbal": "cymbal", "drum_bus": "drum_bus"}
-DRUM_PRIORITY = {"kick": 0, "snare": 1, "cymbal": 2, "tom": 3, "hihat": 4, "drum_bus": 5}
+DRUM_SUBMODEL_BY_TYPE = {"kick": "kick", "snare": "snare", "tom": "tom", "hihat": "hi_hat", "cymbal": "cymbal", "ride": "ride", "drum_bus": "drum_bus"}
+DRUM_PRIORITY = {"kick": 0, "snare": 1, "cymbal": 2, "tom": 3, "hihat": 4, "ride": 4, "drum_bus": 5}
 DRUMMER_V3_MODEL = "HX_SNOWMAN_DRUMMER_V3"
 DRUMMER_COMPONENTS = (
     "HX_SNOWMAN_DRUMMER_KICK", "HX_SNOWMAN_DRUMMER_SNARE", "HX_SNOWMAN_DRUMMER_HI_HAT",
     "HX_SNOWMAN_DRUMMER_TOM_HIGH", "HX_SNOWMAN_DRUMMER_TOM_MID", "HX_SNOWMAN_DRUMMER_TOM_FLOOR",
     "HX_SNOWMAN_DRUMMER_CYMBAL_LEFT", "HX_SNOWMAN_DRUMMER_CYMBAL_RIGHT",
+    "HX_SNOWMAN_DRUMMER_RIDE",
 )
 TOM_COMPONENT_BY_CLASS = {"high": "HX_SNOWMAN_DRUMMER_TOM_HIGH", "mid": "HX_SNOWMAN_DRUMMER_TOM_MID", "floor": "HX_SNOWMAN_DRUMMER_TOM_FLOOR"}
-DRUMMER_V3_POSE_BY_TYPE = {"kick": "kick_hit", "snare": "snare_hit", "hihat": "hi_hat_pulse", "tom": "tom_hit", "cymbal": "cymbal_hit", "drum_bus": "downbeat_impact"}
-DRUMMER_V3_DURATION_BY_POSE = {"kick_hit": 150, "snare_hit": 125, "hi_hat_pulse": 80, "tom_hit": 155, "cymbal_hit": 320, "downbeat_impact": 220}
+DRUMMER_V3_POSE_BY_TYPE = {"kick": "kick_hit", "snare": "snare_hit", "hihat": "hi_hat_pulse", "tom": "tom_hit", "cymbal": "cymbal_hit", "ride": "ride_hit", "drum_bus": "downbeat_impact"}
+DRUMMER_V3_DURATION_BY_POSE = {"kick_hit": 150, "snare_hit": 125, "hi_hat_pulse": 80, "tom_hit": 155, "cymbal_hit": 320, "ride_hit": 180, "downbeat_impact": 220}
 
 @dataclass(frozen=True)
 class DrumMappingConfig:
@@ -91,6 +92,7 @@ def drummer_component_for_event(event: DrumEvent, *, event_index: int = 0) -> st
     if event.drum_type == "hihat": return DRUMMER_COMPONENTS[2]
     if event.drum_type == "tom": return TOM_COMPONENT_BY_CLASS[tom_class_for_event(event, event_index)]
     if event.drum_type == "cymbal": return DRUMMER_COMPONENTS[6 + (event_index % 2)]
+    if event.drum_type == "ride": return "HX_SNOWMAN_DRUMMER_RIDE"
     return DRUMMER_COMPONENTS[0]
 
 
