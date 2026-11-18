@@ -663,3 +663,6 @@ Recovered exact AC16 fixture XML from nine-panel branch (7fd2bab7), added shared
 
 ### 2026-11-18 — Actual layout inventory
 AC root XML has 256 model definitions, unique numeric start channels 1–256, 59 model groups, named arches and mega tree. Allmodels has 368 models, 69 groups, 13 model types including Image/Custom. Updated showcase requirements with counts and caveats. Source inventory only, no changes to original geometry or channel mapping. RGB width, external image dependencies, group references, 16 strip tree specification and native render still need validation. No approval or release.
+
+### 2026-11-18 — Windows packaging parity and portability audit
+725d2406 adds explicit catalog asset inclusion and missing-file gate to Windows portable spec, preserving existing package data. Allmodels XML references two absolute developer-local Image paths (hh.png, helixmascot.jpg); root mascot exists but hh.png not found in tracked tree. Fix pending; preserve original layout. Android CI 44267312796 succeeded, retained artifact 14411590439; unified integration CI 44262461545 passed (scope not independently audited). Earlier Android run 44267022917 failed; latest build does not establish runtime or native acceptance. Nine final layouts/theme pending. No merge/release.
