@@ -633,3 +633,6 @@ Do not mark complete from unit tests alone.
 
 ### 2026-11-18 — Android build PASS and acceptance artifact retention
 Goal: make verified debug APK accessible for device testing. Changed: Android compile workflow, ledger, handoff, status JSON. Preserved: existing compile/integrity gates, no release or merge. New: seven-day CI artifact retention after integrity checks. Evidence: run 44247185516 passed all gates but retained zero artifacts; commit 45955934 adds retention. Pending fresh CI, download and device tests. Risk: repository artifact access follows GitHub permissions; not a public release or signed production build.
+
+### 2026-11-18 — Verified debug APK retained
+Run 44256203127 PASS; artifact 14406022516 (95,917,573 bytes ZIP), expires 2026-11-25. Download: https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/44256203127/artifacts/14406022516 . Build and retention verified, no source behavior modified in this checkpoint. Device playback/export, memory, synchronization and band geometry remain unverified; no release or merge. Debug APK may require uninstalling an incompatible prior signature (preserve user data first).
