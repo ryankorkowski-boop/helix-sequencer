@@ -149,6 +149,13 @@ def build_xmodel(spec: dict[str, Any], source_path: Path, xmodel_path: Path) -> 
             {"name": _prefixed(zone_id), "layout": "ranges", "type": "ranges", "line0": _ranges(zone_nodes[zone_id])},
         )
     for composite_id in composite_nodes:
+        # Preserve legacy composite names and expose the actual exporter target.
+        if composite_id.startswith("DRUMMER_"):
+            ET.SubElement(submodels, "subModel", {
+                "name": "HX_SNOWMAN_" + composite_id,
+                "layout": "ranges", "type": "ranges",
+                "line0": _ranges(composite_nodes[composite_id]),
+            })
         ET.SubElement(
             submodels,
             "subModel",
