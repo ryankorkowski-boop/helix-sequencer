@@ -30,6 +30,7 @@ public class MainActivity extends Activity {
     private CheckBox polish,matrix,birdsong,spatial,ac,preview,quickClip,includeBand;
     private TextView status,log,stepTitle,results;
     private ProgressBar progress;
+    private SequencingLightShowView lightShow;
     private Button run,cancel,save,watch,movie,sequence,report,share,next,back;
     private String picking,exporting,bundlePath="",previewPath="",sequencePath="",reportPath="",selectedSequencePath="",lastVariantChoices="";
     private final java.util.Map<String,String> variantMovies=new java.util.HashMap<>();
@@ -121,6 +122,7 @@ public class MainActivity extends Activity {
         panel(4);text("Generate on this phone. Keep Helix open for best performance. Cancellation affects only this job.",17,Color.WHITE);
         run=button("Generate sequence",this::startJob);cancel=button("Cancel current job",()->startService(new Intent(this,EngineService.class).setAction("cancel")));cancel.setEnabled(false);
         progress=new ProgressBar(this,null,android.R.attr.progressBarStyleHorizontal);progress.setMax(100);body.addView(progress);progress.setVisibility(View.GONE);
+        lightShow=new SequencingLightShowView(this);body.addView(lightShow,new LinearLayout.LayoutParams(-1,dp(160)));lightShow.setVisibility(View.GONE);
         status=text("Ready · choose music and layout",17,Color.rgb(86,230,197));text("Run log",18,Color.WHITE);log=text("",12,Color.LTGRAY);log.setTextIsSelectable(true);
 
         panel(5);results=text("Your sequence, show ZIP and preview will appear here.",16,Color.WHITE);
@@ -224,8 +226,8 @@ public class MainActivity extends Activity {
                 List<ActivityManager.RunningAppProcessInfo> running=getSystemService(ActivityManager.class).getRunningAppProcesses();
                 if(running!=null&&running.stream().noneMatch(p->p.processName.equals(getPackageName()+":engine"))){busy=false;s.put("message","Android interrupted this job. Completed files below can still be saved.");}
             }
-            run.setEnabled(!busy);cancel.setEnabled(busy);progress.setVisibility(busy?View.VISIBLE:View.GONE);
-            int percent=s.optInt("preview_percent",-1);boolean measured=busy&&"preview".equals(s.optString("active_stage"))&&percent>=0;progress.setIndeterminate(!measured);if(measured)progress.setProgress(percent);
+            run.setEnabled(!busy);cancel.setEnabled(busy);progress.setVisibility(busy?View.VISIBLE:View.GONE);lightShow.setVisibility(busy?View.VISIBLE:View.GONE);lightShow.setRunning(busy);
+            int percent=s.optInt("preview_percent",-1);boolean measured=busy&&"preview".equals(s.optString("active_stage"))&&percent>=0;progress.setIndeterminate(!measured);if(measured)progress.setProgress(percent);lightShow.setProgress(measured?percent/100f:0f);lightShow.setScene("preview".equals(s.optString("active_stage"))?SequencingLightShowView.Scene.TREE:SequencingLightShowView.Scene.ARCHES);
             status.setText(s.optString("message",phase));log.setText(s.optString("log"));updateMode();
             bundlePath=s.optString("bundle");reportPath=s.optString("report");
             String engineSequence=s.optString("sequence");
