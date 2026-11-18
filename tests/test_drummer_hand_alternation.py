@@ -41,3 +41,10 @@ def test_reactive_member_keeps_simultaneous_motion_instrument_identity():
     assert cues
     assert all(cue["kind"] == cue["motion"]["drum_type"] for cue in cues)
     assert all(cue["kind"] == cue["visual_effect"]["drum_type"] for cue in cues)
+
+
+def test_scheduler_deduplicates_interleaved_same_instrument():
+    from mapping.drum_mapper import build_streams_from_legacy, flatten_drum_streams, schedule_drum_events
+    events = flatten_drum_streams(build_streams_from_legacy([1010], [1000, 1020], [], []))
+    scheduled = schedule_drum_events(events)
+    assert sorted(event.drum_type for event in scheduled) == ["kick", "snare"]
