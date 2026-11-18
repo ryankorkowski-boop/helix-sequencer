@@ -68,7 +68,7 @@ jobs:
           python -m pip install --upgrade pip
           python -m pip install -r requirements-dev.txt
       - name: Compile focused sources
-        run: python -m compileall -q core/sequence_builder.py core/engine_activation_audit.py core/run_config_v2.py core/effects_orchestrator_bridge.py
+        run: python -m compileall -q core/sequence_builder.py core/engine_activation_audit.py core/run_config_v2.py core/effects_orchestrator_bridge.py core/effect_engine.py core/birdsong_engine.py
       - name: Verify orchestration argument propagation and reports
         run: |
           python -m pytest -q \
@@ -77,7 +77,8 @@ jobs:
             tests/test_engine_activation_audit.py \
             tests/test_sequence_builder.py \
             tests/test_effects_orchestrator_bridge.py \
-            tests/test_orchestration_xsq_reconciliation.py
+            tests/test_orchestration_xsq_reconciliation.py \
+            tests/test_birdsong_engine.py
       - name: Verify drummer alternation and localized illumination
         run: |
           python -m pip install pillow numpy imageio imageio-ffmpeg soundfile
