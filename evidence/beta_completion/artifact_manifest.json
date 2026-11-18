@@ -54,5 +54,12 @@
       "url": "https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/44291725423/artifacts/14421831415",
       "verification": "clean-room generated; structural gate passed; unapproved layout, no FSEQ or real-audio render"
     }
-  ]
+  ],
+  "latest_execution_checkpoint": {
+    "commit": "ea110e82c1082a58feb121b768af538a98d98d00",
+    "change": "Expanded Birdsong reconciliation test coverage only; no new runtime or approval artifacts.",
+    "ci": "not yet reported by combined-status endpoint",
+    "native_fseq_verified": false,
+    "owner_approval": false
+  }
 }
