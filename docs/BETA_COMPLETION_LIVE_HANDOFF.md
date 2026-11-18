@@ -23,3 +23,11 @@ Required status and artifact manifest files absent from baseline; initialized on
 
 ## Must not change
 No main/default branch edits, no merges/releases/uploads without owner approval. Do not overwrite approved band assets. Preserve deterministic sequencing, 256-channel AC behavior, original drummer oracle, and locked 3x3 panel order. Do not treat diagnostic sidecars as native verification.
+
+## Additional PR inspection (2026-11-17)
+- #235 identifies a production promotion contract mismatch: RunConfig's promotion default did not emit sequence_builder's required flag. Its patch defaults promotion off and requires explicit opt-in. Must test before integration.
+- #241 activation audit is stacked on feature/music-section-recurrence-20261116, not directly on default. It reports flags separately from verified engine output.
+- #245 explicitly records synthetic section seed provenance and sidecar counts without claiming native render proof.
+- #248 includes unrelated Demucs checkpoint workflow changes in its PR diff; do not blindly cherry-pick whole diff. Review per-file ancestry and isolate audit changes.
+- #188 diff is exceptionally large (~12 MB) and #205 is based on its branch. Avoid wholesale integration; select tested narrow modules.
+- No tests or rendering were executed by this connector session. Exact next action: inspect #235 focused test and implementation files and decide whether to cherry-pick its small isolated contract repair after running tests on an available checkout.
