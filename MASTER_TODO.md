@@ -439,3 +439,13 @@ Do not mark complete from unit tests alone.
 **Limitations / deferred work:** Engine execution-path matrix, CI, real-audio native verification, Android/Windows builds and nine-panel MP4 remain unfinished. Existing four-tom ledger conflicts with current owner-required three toms; investigate before code changes.
 
 **Regression risks:** Documentation only; future integration must not overwrite concurrent branches or claim audit instrumentation proves native output.
+
+### 2026-11-17 — Audit promotion requires a usable orchestrated template path
+**Goal:** Avoid false-positive promotion reporting when orchestration claims a sidecar but supplies no template path.
+**Branch:** `integration/unified-beta-completion-20261117`; implementation commit `ee03ead0`, test commit `284288e0`.
+**Changed files:** `core/engine_activation_audit.py`, `tests/test_engine_activation_audit.py`, handoff documents.
+**Preserved:** Default sidecar-only behavior, explicit promotion flag, effect selection/timing/model targeting and drummer geometry unchanged.
+**New behavior:** Audit no longer claims promotion without `orchestrated_xsq_path`; focused regression test added.
+**Tests/evidence:** Test authored but NOT executed in this session. No XSQ/FSEQ or native render evidence. Existing test fixture updated to supply the required path.
+**Limitations/deferred:** Existence/content of template and actual final renderer consumption still unverified; source section validation also requires more than a flag. Run targeted pytest and real audio export next.
+**Regression risk:** Audit output changes for malformed reports; production sequencing unchanged.
