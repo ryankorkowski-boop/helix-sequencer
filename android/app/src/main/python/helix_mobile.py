@@ -325,8 +325,14 @@ def run(engine_path, job_path, request_json, callback):
                             callback.log(traceback.format_exc())
                         result['preview_paths'] = previews + ['']*(len(valid)-len(previews))
                         notify(callback, 'checkpoint', json.dumps(result))
-                    stages['preview'] = {'status': 'success' if any(previews) else 'failed',
-                                         'rendered': sum(bool(p) for p in previews), 'requested': len(valid)}
+                    completed = sum(bool(p) for p in previews)
+                    stages['preview'] = {
+                        'status': 'success' if completed == len(valid) else
+                                  ('partial' if completed else 'failed'),
+                        'rendered': completed, 'requested': len(valid),
+                        'failed_variants': [valid[i].name for i, path in enumerate(previews) if not path],
+                    }
+                    notify(callback, 'checkpoint', json.dumps(result))
                 except Exception as exc:
                     stages['preview'] = {'status': 'failed', 'error': str(exc)}
                     callback.log('Sequence succeeded. Optional MP4 preview failed: ' + str(exc))
