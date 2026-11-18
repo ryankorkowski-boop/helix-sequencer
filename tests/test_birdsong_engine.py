@@ -71,6 +71,29 @@ class BirdsongEngineTests(unittest.TestCase):
         self.assertGreater(len(placements), 0)
         self.assertTrue(any(label == "birdsong_call" for _, _, _, label, _, _ in placements))
 
+    def test_rejected_birdsong_placements_are_not_reported_as_active(self) -> None:
+        audio = SimpleNamespace(dur_s=18.0, centroid=[3300.0] * 32, pitch_hz=[650.0, 780.0] * 16)
+        notes = [SimpleNamespace(start_ms=200, end_ms=350, notes=[(74, 0.9)], part="VERSE"),
+                 SimpleNamespace(start_ms=700, end_ms=860, notes=[(77, 0.9)], part="CHORUS")]
+        pools = [SimpleNamespace(name="stars", category="stars", models=["s1", "s2", "s3"])]
+        attempted = []
+        def reject(model, start, end, label, **kwargs):
+            attempted.append(label)
+            return False
+        result = birdsong_engine.place_birdsong_engine(
+            audio=audio, note_events=notes, hats=[190, 350, 520, 700, 870, 1120],
+            vocal_peaks=[560], pools=pools, add_model=reject,
+            in_blackout=lambda _: False, rng=random.Random(13),
+            enabled=True, auto_enable=False, intensity=1.2,
+            min_confidence=0.5, profile="wild",
+        )
+        self.assertIn("birdsong_call", attempted)
+        self.assertFalse(result.enabled)
+        self.assertEqual(result.calls, 0)
+        self.assertEqual(result.echos, 0)
+        self.assertEqual(result.sweeps, 0)
+        self.assertEqual(result.timing_spans, [])
+
     def test_parse_args_accepts_birdsong_flags(self) -> None:
         args = effect_engine.parse_args(
             effect_engine.VARIANTS["v27.3"],

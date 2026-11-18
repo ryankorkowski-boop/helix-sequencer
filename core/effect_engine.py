@@ -11016,15 +11016,15 @@ def run_variant(
         cd_key: str | None = None,
         cd_ms: int = 0,
         stem: str = "other",
-    ) -> None:
+    ) -> bool:
         if nm is None or nm not in layers:
-            return
+            return False
         st_i = int(st)
         en_i = int(max(st_i + 1, en))
         min_dur = max(1, int(tuning.min_effect_ms))
         if cd_key and not cooldowns.allow(cd_key, st_i):
             reject_effect(nm, st_i, en_i, eff, "cooldown", f"cooldown active for key {cd_key}")
-            return
+            return False
         stem_key = stem if stem in priorities else "other"
         stem_priority = priorities.get(stem_key, priorities["other"])
         layer_key = stem_to_choreo_layer(stem_key, label)
@@ -11133,8 +11133,9 @@ def run_variant(
                     stats.bump(label)
                     if cd_key and cd_ms > 0:
                         cooldowns.block(cd_key, st_i, cd_ms)
-                    return
+                    return True
         reject_effect(nm, st_i, en_i, runtime_effect, layer_key, "placement skipped after conflict resolution attempts")
+        return False
 
     blackout_windows: list[tuple[int, int]] = []
     for part in parts:
