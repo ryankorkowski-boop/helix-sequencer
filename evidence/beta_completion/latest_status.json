@@ -91,7 +91,7 @@
       "next_action": "Full acceptance and owner approval"
     }
   ],
-  "next_command": "Use recovered xLights FSEQ runner with installed xLights binary on real approved audio and layout; verify native FSEQ, then nine-panel real MP4. Complete remaining canonical singers/band and mobile device failures before release.",
+  "next_command": "Inspect Actions for commit ea110e82c1082a58feb121b768af538a98d98d00; repair any failing focused Birdsong tests, then run a real-audio XSQ export and native xLights FSEQ reconciliation. Do not claim native acceptance from the unit test.",
   "last_inspected_head": "c2f555af62c9954be63daf4d82ba07b03b477451",
   "ci_status": "PASS: unified integration 44291632931 (Python 3.11 and 3.12 generated 17 layouts and passed structural nine-panel gate); model zoo 44291725423 PASS; drummer 44291594505 PASS",
   "confirmed_findings": [
@@ -181,5 +181,14 @@
     "artifact_id": 14421831415,
     "model_count": 76,
     "status": "candidate; structure passed, native FSEQ and musical choreography unverified"
+  },
+  "latest_execution_checkpoint": {
+    "commit": "ea110e82c1082a58feb121b768af538a98d98d00",
+    "change": "Test-only Birdsong reconciliation regression now asserts surviving shifted call and sweep timing/counts while excluding removed echo and unrelated piano entry.",
+    "production_code_changed": false,
+    "combined_status": "No status checks returned yet by the connected GitHub status endpoint; Actions result still needs inspection.",
+    "native_fseq_verified": false,
+    "real_audio_approval_render": false,
+    "owner_approval": false
   }
 }
