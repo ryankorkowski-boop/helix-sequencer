@@ -669,3 +669,6 @@ AC root XML has 256 model definitions, unique numeric start channels 1–256, 59
 
 ### 2026-11-18 — Windows startup and frozen worker repair
 2992f2c6 removes stale GP's House dictionary reference introduced by shared catalog migration, validates template/layout as files and dispatches frozen runs through sibling HelixCLI.exe --helix-cli. Source Python invocation preserved. Windows GUI smoke and packaged worker execution pending; CLI argument compatibility and actual previews must be verified. No merge/release.
+
+### 2026-11-18 — Desktop preview producer integration
+Restored optional desktop preview path in current sequence builder (a98f2d3b) using existing renderer signature and current changed-artifact tracking; GUI requests via --helix-review-previews. Flag stripped before effect engine, no impact on default Android/CLI. Sequential up to requested 8, soundtrack validation, per-file provenance and error logging. Full-length 12fps simulated output; not native or canonical 3D proof. Need candidate identity checks, band-specific guard, runtime and CI tests; preview failure does not invalidate sequence. No merge/release.
