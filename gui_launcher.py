@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+import os
+import shutil
 import json
 import queue
 import subprocess
@@ -67,6 +69,7 @@ class HelixGui(tk.Tk):
         self.variants_var = tk.IntVar(value=4)
 
         self._ui_events = queue.Queue()
+        self._variant_movies = []
         self._build_ui()
         self._apply_layout_preset()
         self.after(80, self._drain_ui_events)
@@ -173,6 +176,8 @@ class HelixGui(tk.Tk):
         actions.pack(fill=tk.X, **pad)
         self.run_button = ttk.Button(actions, text="Run Sequence Build", command=self._run_sequence)
         self.run_button.pack(side=tk.LEFT, padx=8, pady=6)
+        self.review_button = ttk.Button(actions, text="Review variants…", command=self._review_variants, state=tk.DISABLED)
+        self.review_button.pack(side=tk.LEFT, padx=8, pady=6)
         self.status_label = ttk.Label(actions, text="Ready")
         self.status_label.pack(side=tk.LEFT, padx=8, pady=6)
         ttk.Label(actions, text="Animation").pack(side=tk.LEFT, padx=(16, 4))
@@ -203,6 +208,15 @@ class HelixGui(tk.Tk):
                 kind, payload = self._ui_events.get_nowait()
                 if kind == "log":
                     self._log(payload)
+                elif kind == "variant_preview":
+                    path = Path(payload)
+                    if path.is_file() and path not in self._variant_movies:
+                        self._variant_movies.append(path)
+                        self.review_button.configure(state=tk.NORMAL)
+                elif kind == "review_created":
+                    self._open_video(Path(payload))
+                elif kind == "review_error":
+                    messagebox.showerror("Variant review", str(payload))
                 elif kind == "done":
                     self.status_label.configure(text=payload)
                     self.light_show.set_running(False)
@@ -334,6 +348,8 @@ class HelixGui(tk.Tk):
             if self.birdsong_auto_var.get():
                 cmd.append("--birdsong-auto")
 
+        self._variant_movies.clear()
+        self.review_button.configure(state=tk.DISABLED)
         self.run_button.configure(state=tk.DISABLED)
         self.status_label.configure(text="Running...")
         self.light_show.set_running(True)
@@ -344,6 +360,89 @@ class HelixGui(tk.Tk):
         thread = threading.Thread(target=self._run_subprocess, args=(cmd,), daemon=True)
         thread.start()
 
+    @staticmethod
+    def _open_video(path: Path) -> None:
+        try:
+            if sys.platform == "win32":
+                os.startfile(path)
+            else:
+                webbrowser.open(path.resolve().as_uri())
+        except OSError as exc:
+            messagebox.showerror("Preview playback", str(exc))
+
+    def _review_variants(self) -> None:
+        import re
+
+        def order(path):
+            match = re.search(r"\.alt(\d+)$", path.stem)
+            return int(match.group(1)) if match else 0
+
+        paths = sorted({path for path in self._variant_movies if path.is_file()}, key=order)
+        if not paths:
+            messagebox.showinfo("Variant review", "This run has no playable preview.")
+            return
+        window = tk.Toplevel(self)
+        window.title("Review current run")
+        selected = ttk.Combobox(window, state="readonly", values=[path.stem for path in paths], width=45)
+        selected.pack(fill=tk.X, padx=12, pady=10)
+        selected.current(0)
+        ttk.Label(window, text=f"{len(paths)} playable preview(s)").pack(anchor=tk.W, padx=12)
+
+        def move(delta):
+            selected.current(max(0, min(len(paths) - 1, selected.current() + delta)))
+
+        def save_selected():
+            source = paths[selected.current()]
+            target = filedialog.asksaveasfilename(parent=window, initialfile=source.name, defaultextension=".mp4")
+            if target and Path(target).resolve() != source.resolve():
+                try:
+                    shutil.copyfile(source, target)
+                except OSError as exc:
+                    messagebox.showerror("Save preview", str(exc), parent=window)
+
+        def save_all():
+            target = filedialog.askdirectory(parent=window, mustexist=True)
+            if target:
+                try:
+                    for source in paths:
+                        destination = Path(target) / source.name
+                        if destination.exists() and destination.resolve() != source.resolve():
+                            raise FileExistsError(f"Choose a folder without {source.name}.")
+                    for source in paths:
+                        destination = Path(target) / source.name
+                        if destination.resolve() != source.resolve():
+                            shutil.copyfile(source, destination)
+                except OSError as exc:
+                    messagebox.showerror("Save previews", str(exc), parent=window)
+
+        def combined(comparison):
+            title = "Comparison" if comparison else "Play-All"
+            target = filedialog.asksaveasfilename(parent=window, initialfile=f"Helix-{title}.mp4", defaultextension=".mp4")
+            if not target:
+                return
+
+            def worker():
+                from tools.variant_review_media import compose
+                try:
+                    compose(paths, target, comparison=comparison)
+                    self._ui_events.put(("review_created", target))
+                except (RuntimeError, ValueError, OSError) as exc:
+                    self._ui_events.put(("review_error", str(exc)))
+
+            threading.Thread(target=worker, daemon=True).start()
+
+        for label, action, enabled in (
+            ("Play selected", lambda: self._open_video(paths[selected.current()]), True),
+            ("Previous variant", lambda: move(-1), len(paths) > 1),
+            ("Next variant", lambda: move(1), len(paths) > 1),
+            ("Save selected MP4…", save_selected, True),
+            ("Save all MP4s…", save_all, True),
+            ("Save and play all…", lambda: combined(False), len(paths) > 1),
+            ("Save and play comparison…", lambda: combined(True), len(paths) > 1),
+        ):
+            ttk.Button(window, text=label, command=action, state=tk.NORMAL if enabled else tk.DISABLED).pack(
+                fill=tk.X, padx=12, pady=2)
+
     def _run_subprocess(self, cmd: list[str]) -> None:
         try:
             process = subprocess.Popen(
@@ -352,7 +451,10 @@ class HelixGui(tk.Tk):
             )
             assert process.stdout is not None
             for line in process.stdout:
-                self._ui_events.put(("log", line.rstrip()))
+                line = line.rstrip()
+                self._ui_events.put(("log", line))
+                if line.startswith("preview_mp4: ") and line.endswith(" (simulated, not native rendering)"):
+                    self._ui_events.put(("variant_preview", line.removeprefix("preview_mp4: ").removesuffix(" (simulated, not native rendering)")))
             rc = process.wait()
             self._ui_events.put(("log", "Run complete." if rc == 0 else f"Run failed with exit code {rc}."))
             self._ui_events.put(("done", "Completed" if rc == 0 else "Failed"))
