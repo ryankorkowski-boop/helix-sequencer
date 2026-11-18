@@ -14,8 +14,8 @@ from core.drummer_v3_analysis import DrumType, analyze_drummer_features
 from mapping.drum_mapper import DRUMMER_COMPONENTS, map_events_to_drummer_components, resolve_drum_streams
 
 DRUMMER_V3_MODEL = "HX_SNOWMAN_DRUMMER_V3"
-# Existing canonical asset has eight physical targets; do not create phantom ride rows.
-DRUMMER_TARGETS = set(DRUMMER_COMPONENTS) - {"HX_SNOWMAN_DRUMMER_RIDE"}
+# The authored V3 pose now includes a physical RIDE submodel.
+DRUMMER_TARGETS = set(DRUMMER_COMPONENTS)
 
 def _find_or_create_element_effects(root):
     existing = root.find("ElementEffects")
