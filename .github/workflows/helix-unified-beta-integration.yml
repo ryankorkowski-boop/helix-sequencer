@@ -1,0 +1,57 @@
+name: Helix Unified Beta Integration
+
+on:
+  push:
+    branches:
+      - 'integration/unified-beta-completion-20261117'
+    paths:
+      - 'core/**'
+      - 'tests/**'
+      - '.github/workflows/helix-unified-beta-integration.yml'
+      - 'requirements*.txt'
+  pull_request:
+    paths:
+      - 'core/**'
+      - 'tests/**'
+      - '.github/workflows/helix-unified-beta-integration.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: helix-unified-beta-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  focused-regressions:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ['3.11', '3.12']
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+          cache: pip
+          cache-dependency-path: |
+            requirements.txt
+            requirements-dev.txt
+      - name: Install test requirements
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -r requirements-dev.txt
+      - name: Compile focused sources
+        run: python -m compileall -q core/sequence_builder.py core/engine_activation_audit.py core/run_config_v2.py core/effects_orchestrator_bridge.py
+      - name: Verify orchestration argument propagation and reports
+        run: |
+          python -m pytest -q \
+            tests/test_run_config_v2_orchestration.py \
+            tests/test_sequence_builder_orchestrator_promotion.py \
+            tests/test_engine_activation_audit.py \
+            tests/test_sequence_builder.py \
+            tests/test_effects_orchestrator_bridge.py \
+            tests/test_orchestration_xsq_reconciliation.py
