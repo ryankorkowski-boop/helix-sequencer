@@ -174,3 +174,6 @@ CI 44276826411 passed clustering regression on both Python versions. 3883fd9a co
 
 ### 2026-11-18 — Connect snare hand masks to diagnostic preview
 42d6b1c7 loads recovered hand pose zones and selects mask per sourceHand in XSQ; backwards-compatible parse_effects default. Added focused regression. This illuminates original contact paths only, not articulated 3D arm animation. No new MP4; CI pending; ride, six-member renderer and platforms remain open. No merge/release.
+
+### 2026-11-18 — Strike illumination decay
+CI 44277732347 passed hand-mask regression on both Python versions. e9ac531b replaces flat full-brightness diagnostic hits with bounded quadratic decay within existing effect interval. Added test for onset/decay/rest. New CI pending. This does not change native XSQ effects or solve articulated limbs/ride. No new MP4 or merge/release.
