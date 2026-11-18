@@ -1,11 +1,12 @@
 name: Drummer Ground Truth Test
 
-# Ground truth for the current eight-component drummer contract. Three toms:
+# Ground truth for the current nine-component drummer contract. Three toms:
 # High, Mid, Floor. Contacting sticks are geometry inside each hit component.
 on:
   push:
     branches:
       - feature/restructure-core
+      - integration/unified-beta-completion-20261117
     paths:
       - '.github/workflows/drummer-ground-truth.yml'
       - 'animation/drummer_motion.py'
@@ -77,32 +78,33 @@ jobs:
           PY
       - name: Generate deterministic ground-truth drum audio
         run: python tools/generate_drummer_ground_truth.py --wav test_runs/drummer_ground_truth/drummer_ground_truth.wav --events test_runs/drummer_ground_truth/events.json
-      - name: Export deterministic 8-lane drummer truth XSQ using canonical xmodel zones
+      - name: Export deterministic 9-lane drummer truth XSQ using canonical xmodel zones
         env:
           PYTHONPATH: .
-          HELIX_DURATION: '20'
-        run: python tools/export_drummer_ground_truth_xsq.py --output test_runs/drummer_ground_truth/HelixDrummerGroundTruth_8lane.xsq --duration 20
-      - name: Verify XSQ has exactly eight logical components and canonical physical targets
+          HELIX_DURATION: '12'
+        run: python tools/export_drummer_ground_truth_xsq.py --output test_runs/drummer_ground_truth/HelixDrummerGroundTruth_9lane.xsq --duration 12
+      - name: Verify XSQ has exactly nine logical components and canonical physical targets
         run: |
           python - <<'PY'
           import xml.etree.ElementTree as ET
           from pathlib import Path
-          p=Path('test_runs/drummer_ground_truth/HelixDrummerGroundTruth_8lane.xsq')
+          p=Path('test_runs/drummer_ground_truth/HelixDrummerGroundTruth_9lane.xsq')
           root=ET.parse(p).getroot()
-          expected={'KICK','SNARE','HI_HAT','TOM_HIGH','TOM_MID','TOM_FLOOR','CYMBAL_LEFT','CYMBAL_RIGHT'}
+          expected={'KICK','SNARE','HI_HAT','TOM_HIGH','TOM_MID','TOM_FLOOR','CYMBAL_LEFT','CYMBAL_RIGHT','RIDE'}
           channels=set(root.find('./timingtrack').get('channels','').split(','))
           expected_models={
               'HX_SNOWMAN_DRUMMER_V3_KICK','HX_SNOWMAN_DRUMMER_V3_SNARE','HX_SNOWMAN_DRUMMER_V3_HI_HAT',
               'HX_SNOWMAN_DRUMMER_V3_TOM_HIGH','HX_SNOWMAN_DRUMMER_V3_TOM_MID','HX_SNOWMAN_DRUMMER_V3_TOM_FLOOR',
-              'HX_SNOWMAN_DRUMMER_V3_CYMBAL_LEFT','HX_SNOWMAN_DRUMMER_V3_CYMBAL_RIGHT'}
+              'HX_SNOWMAN_DRUMMER_V3_CYMBAL_LEFT','HX_SNOWMAN_DRUMMER_V3_CYMBAL_RIGHT',
+              'HX_SNOWMAN_DRUMMER_V3_RIDE'}
           models={e.get('name') for e in root.findall('./ElementEffects/Element')}
-          if root.get('drummerChannels') != '8' or channels != expected:
-              raise SystemExit(f'FAIL: expected 8 drummer components, got {sorted(channels)}')
+          if root.get('drummerChannels') != '9' or channels != expected:
+              raise SystemExit(f'FAIL: expected 9 drummer components, got {sorted(channels)}')
           if models != expected_models:
               raise SystemExit(f'FAIL: non-canonical physical targets: {sorted(models)}')
           if any('TOM_LEFT' in name or 'TOM_RIGHT' in name or 'TOM_4' in name for name in models):
               raise SystemExit(f'FAIL: legacy/extra tom target leaked into canonical XSQ: {sorted(models)}')
-          print('PASS: logical 8-lane contract maps directly to canonical High/Mid/Floor xmodel zones')
+          print('PASS: logical 9-lane contract maps directly to canonical High/Mid/Floor xmodel zones')
           PY
       - name: Run drummer unit tests
         env:
@@ -115,7 +117,7 @@ jobs:
         run: |
           mkdir -p test_runs/drummer_ground_truth/preview
           python tools/render_drummer_v3_preview.py \
-            test_runs/drummer_ground_truth/HelixDrummerGroundTruth_8lane.xsq \
+            test_runs/drummer_ground_truth/HelixDrummerGroundTruth_9lane.xsq \
             --audio test_runs/drummer_ground_truth/drummer_ground_truth.wav \
             --output test_runs/drummer_ground_truth/preview/drummer-ground-truth.mp4 \
             --fps 24
@@ -123,7 +125,7 @@ jobs:
           import json
           from pathlib import Path
           import xml.etree.ElementTree as ET
-          xsq=Path('test_runs/drummer_ground_truth/HelixDrummerGroundTruth_8lane.xsq')
+          xsq=Path('test_runs/drummer_ground_truth/HelixDrummerGroundTruth_9lane.xsq')
           mp4=Path('test_runs/drummer_ground_truth/preview/drummer-ground-truth.mp4')
           root=ET.parse(xsq).getroot()
           models=sorted(e.get('name') for e in root.findall('./ElementEffects/Element'))
@@ -132,7 +134,7 @@ jobs:
           meta.write_text(json.dumps({'mp4':str(mp4),'xsq':str(xsq),'audio_muxed':True,'audio':'test_runs/drummer_ground_truth/drummer_ground_truth.wav','visible_effect_count':effects,'visual_model_count':len(models),'visual_models':models,'renderer':'tools/render_drummer_v3_preview.py','renderer_mode':'canonical_xmodel','tom_contract':'HIGH_MID_FLOOR'},indent=2,sort_keys=True)+'\n',encoding='utf-8')
           print(f'PASS: rendered canonical drummer xmodel targets with {effects} effects across {len(models)} components')
           PY
-      - name: Verify canonical preview contains all eight visual components
+      - name: Verify canonical preview contains all nine visual components
         run: |
           python - <<'PY'
           import json
@@ -142,11 +144,12 @@ jobs:
           required={
               'HX_SNOWMAN_DRUMMER_V3_KICK','HX_SNOWMAN_DRUMMER_V3_SNARE','HX_SNOWMAN_DRUMMER_V3_HI_HAT',
               'HX_SNOWMAN_DRUMMER_V3_TOM_HIGH','HX_SNOWMAN_DRUMMER_V3_TOM_MID','HX_SNOWMAN_DRUMMER_V3_TOM_FLOOR',
-              'HX_SNOWMAN_DRUMMER_V3_CYMBAL_LEFT','HX_SNOWMAN_DRUMMER_V3_CYMBAL_RIGHT'}
+              'HX_SNOWMAN_DRUMMER_V3_CYMBAL_LEFT','HX_SNOWMAN_DRUMMER_V3_CYMBAL_RIGHT',
+              'HX_SNOWMAN_DRUMMER_V3_RIDE'}
           if d.get('visible_effect_count',0) <= 0: raise SystemExit('FAIL: no visible effects')
           if set(d.get('visual_models',[])) != required: raise SystemExit(f'FAIL: canonical component set mismatch: {d.get("visual_models",[])}')
           if not Path(d['mp4']).exists(): raise SystemExit('FAIL: canonical drummer MP4 was not created')
-          print('PASS: canonical drummer MP4 contains exactly the eight expected visual components')
+          print('PASS: canonical drummer MP4 contains exactly the nine expected visual components')
           PY
       - name: Upload drummer XSQ artifact
         if: always()
@@ -154,7 +157,7 @@ jobs:
         with:
           name: drummer-ground-truth-xsq
           path: |
-            test_runs/drummer_ground_truth/HelixDrummerGroundTruth_8lane.xsq
+            test_runs/drummer_ground_truth/HelixDrummerGroundTruth_9lane.xsq
             test_runs/drummer_ground_truth/events.json
             test_runs/drummer_ground_truth/drummer_ground_truth.wav
           if-no-files-found: error
