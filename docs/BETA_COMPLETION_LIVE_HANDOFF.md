@@ -99,3 +99,6 @@ Run `44219873839` PASSED Android Python syntax, Java compile, debug APK assembly
 
 ## Visible partial preview status
 Commit `8a6b1c5e` shows MP4 rendered/requested count and failed variant filenames on the Android results page. Combined with `c78f9595` partial-status accounting, failed previews are now visible to owner. Pending Java CI and on-device acceptance. No native band rendering verification yet.
+
+## Bounded preview count
+Commit `97d19c23` limits Android MP4 encoding to the requested number of variants (at most eight) even if the engine emits additional XSQs. Extras remain available for sequence export. The cap reduces risk of unbounded video encoding, but sequence ordering must be checked against actual eight-variant runs; no device acceptance yet.
