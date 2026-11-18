@@ -133,3 +133,23 @@ def test_detected_drum_events_map_to_canonical_drummer_components() -> None:
     assert [event["component"] for event in mapped] == [*DRUMMER_COMPONENTS[:3], *DRUMMER_COMPONENTS[3:6], DRUMMER_COMPONENTS[6]]
     assert all("TOM_4" not in str(event["component"]) for event in mapped)
     assert mapped[3]["tom_class"] == "high" and mapped[4]["tom_class"] == "mid" and mapped[5]["tom_class"] == "floor"
+
+
+def test_ninth_ride_occupies_distinct_right_side_cymbal_location() -> None:
+    spec = json.loads(SPEC.read_text(encoding="utf-8"))
+    zones = {zone["id"]: zone for zone in spec["zones"]}
+    assert "ride_hit" in spec["required_pose_frames"]
+    assert {"RIDE", "RIDE_CONTACT_STICK"} <= set(zones)
+    ride = zones["RIDE"]["commands"][0]["box"]
+    crash = zones["CYMBAL_RIGHT"]["commands"][0]["box"]
+    hihat = zones["HI_HAT"]["commands"][0]["box"]
+    assert ride[0] > 0.65 and ride[1] >= crash[3]
+    assert ride[0] > hihat[2]
+    composites = {entry["id"]: set(entry["members"]) for entry in spec["composites"]}
+    assert composites["DRUMMER_RIDE"] == {"RIDE", "RIDE_CONTACT_STICK"}
+    submodels = _submodels()
+    physical = submodels["HX_SNOWMAN_DRUMMER_V3_RIDE"]
+    combined = submodels["HX_SNOWMAN_DRUMMER_RIDE"]
+    assert physical and combined > physical
+    assert combined == submodels["HX_SNOWMAN_DRUMMER_V3_DRUMMER_RIDE"]
+    assert combined != submodels["HX_SNOWMAN_DRUMMER_CYMBAL_RIGHT"]
