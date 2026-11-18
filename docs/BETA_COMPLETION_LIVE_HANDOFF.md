@@ -108,3 +108,6 @@ Commit `53a776a8` corrects capped preview ordering: primary XSQ renders first, r
 
 ## Android acceptance artifact
 Run 44247185516 PASS (syntax, Java, assembly, integrity); zero retained artifacts prevented device installation. Commit 45955934 adds debug APK retention for seven days after verification. Fresh run pending. No device acceptance or beta release claimed.
+
+### 2026-11-18 — Verified debug APK retained
+Run 44256203127 PASS; artifact 14406022516 (95,917,573 bytes ZIP), expires 2026-11-25. Download: https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/44256203127/artifacts/14406022516 . Build and retention verified, no source behavior modified in this checkpoint. Device playback/export, memory, synchronization and band geometry remain unverified; no release or merge. Debug APK may require uninstalling an incompatible prior signature (preserve user data first).
