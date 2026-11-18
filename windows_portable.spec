@@ -1,6 +1,7 @@
 # -*- mode: python ; coding: utf-8 -*-
 """One-folder Windows portable build: Helix.exe plus HelixCLI.exe."""
 from pathlib import Path
+import json
 
 from PyInstaller.utils.hooks import collect_data_files, collect_submodules, copy_metadata
 
@@ -27,6 +28,13 @@ for relative in (
     "packaging/release_manifest.json",
     "CHANGELOG.md",
 ):
+    add_file(relative)
+
+options = json.loads((root / "config/gui_options.json").read_text(encoding="utf-8"))
+for item in options["layouts"] + options["stages"]:
+    relative = item["path"]
+    if not (root / relative).is_file():
+        raise FileNotFoundError(f"Missing advertised layout: {relative}")
     add_file(relative)
 
 for folder in (
