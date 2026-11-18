@@ -50,6 +50,11 @@ def build_args(request, job, engine):
             '--output-dir', str(job/'outputs'), '--variants', str(variants), '--no-prompt',
             '--no-save-settings', '--no-effects-orchestrator', '--no-workspace-history',
             '--no-learning-memory', '--auto-shortlist']
+    # Keep the constrained-device default; permit explicit RGB sidecar evaluation
+    # without promoting the orchestrated template or changing AC behavior.
+    if mode == 'xlights' and not request.get('ac_compatible', False) and request.get('effects_orchestrator') is True:
+        args.remove('--no-effects-orchestrator')
+        args.append('--no-orchestrator-template-promotion')
     args.append('--polish' if request.get('polish', True) else '--no-polish')
     if mode == 'xlights' and not (job/'input/xlights_rgbeffects.xml').is_file() and request.get('sample_layout', 'custom') != 'custom':
         args[args.index('--layout-file') + 1] = str(resolve_layout(engine, request['sample_layout']))
