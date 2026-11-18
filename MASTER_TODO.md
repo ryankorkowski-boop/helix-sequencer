@@ -702,3 +702,6 @@ CI 44276826411 passed clustering regression on both Python versions. 3883fd9a co
 
 ### 2026-11-18 — Strike illumination decay
 CI 44277732347 passed hand-mask regression on both Python versions. e9ac531b replaces flat full-brightness diagnostic hits with bounded quadratic decay within existing effect interval. Added test for onset/decay/rest. New CI pending. This does not change native XSQ effects or solve articulated limbs/ride. No new MP4 or merge/release.
+
+### 2026-11-18 — Bind reactive performer motions to event identity
+CI 44279605011 passed decay regression on both Python versions. a0c78197 replaces nearest humanized timestamp matching with stable originating event order in models/working_drummer.py, eliminating cross-instrument motion assignment and quadratic search. Added simultaneous cue regression; CI pending. Working member slice is not verified canonical 3D renderer. Ride and articulated geometry remain outstanding. No merge/release.
