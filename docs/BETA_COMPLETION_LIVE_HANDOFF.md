@@ -192,3 +192,6 @@ CI 44282095659 passed interleaved duplicate regression. e0af1288 deduplicates by
 
 ### 2026-11-18 — Explicit ride routing (partial)
 8cb704ea adds ride stream; 16c4202e adds independent ride target and ride_hit timing; separate ride effect cue added. No classifier guesses ride, physical ride asset absent, consumers of DRUMMER_COMPONENTS must be audited for nine-target compatibility. CI and native verification pending. No merge/release.
+
+### 2026-11-18 — Native ride compatibility guard
+Existing canonical pose spec declares eight composites, no ride. Native XSQ injector previously derived targets from expanded logical tuple, producing an unsupported empty ride row. Explicitly exclude ride until physical asset is built. Logical ride remains staged; native nine-target support not complete. No merge/release.
