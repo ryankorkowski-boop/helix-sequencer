@@ -324,6 +324,7 @@ class HelixGui(tk.Tk):
             "--variants",
             str(max(1, int(self.variants_var.get()))),
             "--no-prompt",
+            "--helix-review-previews",
         ]
 
         if self.vendor_bar_var.get():
