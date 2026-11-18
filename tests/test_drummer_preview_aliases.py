@@ -15,3 +15,10 @@ def test_component_light_does_not_brighten_remote_pixels():
     result = light_component(base, mask, 1)
     assert result.getpixel((127, 127)) == base.getpixel((127, 127))
     assert result.getpixel((15, 15))[0] > 60
+
+
+def test_preview_reads_independent_snare_hand_masks(tmp_path):
+    xsq = tmp_path / "hands.xsq"
+    xsq.write_text('<xsequence><ElementEffects><Element name="HX_SNOWMAN_DRUMMER_SNARE"><EffectLayer><Effect startTime="100" endTime="200" sourceHand="L"/><Effect startTime="300" endTime="400" sourceHand="R"/></EffectLayer></Element></ElementEffects></xsequence>')
+    hands = [event for event in parse_effects(xsq, include_hands=True) if event[2].startswith("SNARE_HAND_")]
+    assert hands == [(100, 200, "SNARE_HAND_L"), (300, 400, "SNARE_HAND_R")]
