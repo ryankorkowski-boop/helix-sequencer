@@ -261,7 +261,16 @@ public class MainActivity extends Activity {
             sequence.setEnabled(available(sequencePath));save.setEnabled(available(bundlePath));share.setEnabled(save.isEnabled());watch.setEnabled(available(previewPath));movie.setEnabled(watch.isEnabled());report.setEnabled(available(reportPath));
             StringBuilder summary=new StringBuilder(s.optString("message",phase));JSONObject stages=s.optJSONObject("stages");
             if(stages!=null)for(String key:new String[]{"sequencing","packaging","preview"}){
-                JSONObject stage=stages.optJSONObject(key);if(stage!=null)summary.append("\n\n").append(key).append(": ").append(stage.optString("status")).append(stage.has("error")?" · "+stage.optString("error"):"");
+                JSONObject stage=stages.optJSONObject(key);if(stage!=null){
+                    summary.append("\n\n").append(key).append(": ").append(stage.optString("status"));
+                    if("preview".equals(key)&&stage.has("requested"))
+                        summary.append(" (").append(stage.optInt("rendered")).append("/")
+                               .append(stage.optInt("requested")).append(" MP4s)");
+                    if(stage.has("error"))summary.append(" · ").append(stage.optString("error"));
+                    JSONArray failures=stage.optJSONArray("failed_variants");
+                    if(failures!=null&&failures.length()>0)
+                        summary.append("\nFailed variants: ").append(failures.join(", "));
+                }
             }results.setText(summary.toString());if(wasBusy&&!busy)showPage(5);wasBusy=busy;
         }catch(Exception ignored){/* Retry an interrupted atomic state write. */}
     }
