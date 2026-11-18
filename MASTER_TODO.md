@@ -621,3 +621,12 @@ Do not mark complete from unit tests alone.
 **Tests/evidence:** Previous per-variant APK CI `44219873839` passed; latest UI run `44246752957` was still in progress at inspection. New cap requires fresh CI/device validation.
 **Limitations/deferred:** Auxiliary XSQ ordering may require explicit canonical variant identification; no on-device performance data; 8 preview files may still be large; no native xLights validation.
 **Regression risks:** When engine emits auxiliary XSQs before canonical variants, cap may omit desired preview; inspect actual eight-variant manifest and adjust deterministically.
+
+### 2026-11-17 — Primary-first bounded preview and stable XSQ mapping
+**Goal:** Fix risk that a capped Android preview list omits the primary sequence or associates MP4s with the wrong spinner item.
+**Changed files:** `android/app/src/main/python/helix_mobile.py`, `MASTER_TODO.md`, `docs/BETA_COMPLETION_LIVE_HANDOFF.md`, `evidence/beta_completion/latest_status.json`.
+**Preserved:** Eight-video maximum, sequential bounded rendering, original XSQ output ordering and exports, audio alignment, drummer logic.
+**New behavior:** Primary XSQ is rendered first; remaining XSQs fill requested slots; `preview_paths` always maps to original `sequence_paths` indices; skipped/failed entries are empty; stage failures list only attempted variants.
+**Tests/evidence:** Previous per-variant CI `44219873839` passed; run `44246963986` was in progress before this commit and may be cancelled by CI concurrency. Fresh syntax/Java/APK CI pending.
+**Limitations/deferred:** Engine may emit auxiliary XSQs before desired alternate variants; canonical identification beyond primary needs inspection. Android device acceptance, MP4 decode/audio sync, native xLights, Windows parity still pending.
+**Regression risks:** Need actual eight-variant run to verify preview selection and variant identity.
