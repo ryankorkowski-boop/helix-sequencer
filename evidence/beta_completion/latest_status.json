@@ -43,7 +43,7 @@
       "workstream": "B",
       "priority": "P0",
       "status": "IN PROGRESS",
-      "next_action": "Validate one-time variant spinner listener in fresh APK CI and device rotation; then implement all-eight variant MP4 preview/export."
+      "next_action": "Verify fresh CI for per-variant MP4 implementation, then device-test 8 preview/play/export, performance, and actual band geometry."
     },
     {
       "id": "HBC-006",
@@ -120,7 +120,7 @@
   },
   "android_compile_workflow": {
     "path": ".github/workflows/helix-android-variant-compile.yml",
-    "status": "run 44218445981 PASSED Java compile, assembleDebug, APK ZIP/manifest/DEX/assets integrity; spinner lifecycle fix b5b80e10 awaits fresh CI",
+    "status": "run 44218445981 PASSED compile, APK assembly and integrity; new per-variant preview changes 7a7ff384/275effef/988dd56a await CI",
     "commit": "a86114e21b97051e90bc11d6e458ed9188ff6c17",
     "first_run_url": "https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/44214052900",
     "java_compile_run_url": "https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/44214343888",
