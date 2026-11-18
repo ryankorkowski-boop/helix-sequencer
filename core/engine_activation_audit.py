@@ -68,10 +68,10 @@ def build_engine_activation_audit(
         "birdsong_post_run_hook": {
             "requested": synthetic_birdsong_hook_requested,
             "invoked": None,
-            "status": "synthetic_diagnostic_hook_requested" if synthetic_birdsong_hook_requested else "not_requested",
+            "status": "audio_sidecar_hook_requested" if synthetic_birdsong_hook_requested else "not_requested",
             "real_audio_analysis_verified": False,
             "exported_effects_verified": False,
-            "note": "Optional hook uses synthetic feature frames; do not count as song-derived Birdsong output.",
+            "note": "Optional hook measures audio when available; invocation and exported choreography remain unverified.",
         },
         "spatial_mapping_planner": {
             "requested": None, "invoked": None, "status": "integration_unverified",
