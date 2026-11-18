@@ -216,7 +216,7 @@ public class MainActivity extends Activity {
             int percent=s.optInt("preview_percent",-1);boolean measured=busy&&"preview".equals(s.optString("active_stage"))&&percent>=0;progress.setIndeterminate(!measured);if(measured)progress.setProgress(percent);
             status.setText(s.optString("message",phase));log.setText(s.optString("log"));updateMode();
             bundlePath=s.optString("bundle");previewPath=s.optString("preview");sequencePath=s.optString("sequence");reportPath=s.optString("report");
-            JSONArray paths=s.optJSONArray("sequence_paths");
+            JSONArray paths=sequencePath.endsWith(".lms")?null:s.optJSONArray("sequence_paths");
             List<String> choices=new ArrayList<>();
             if(paths!=null)for(int i=0;i<paths.length();i++){
                 String candidate=paths.optString(i);
