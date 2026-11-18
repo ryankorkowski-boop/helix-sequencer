@@ -690,3 +690,6 @@ ba507eb3 adds hand metadata to component/pose mapping; 0b4e6146 preserves source
 
 ### 2026-11-18 — Enforce drummer regression verification
 CI 44271585785 passed Python 3.11/3.12 orchestration suite only; Android 44269896607 passed compile after band guard. 214d0b00 extends unified workflow triggers to animation/mapping/audio/export/preview and runs explicit hand-alternation and mask/alias tests on both versions. Updated CI outcome pending; no claim of visual or runtime acceptance. Ride and canonical animation outstanding. No merge/release.
+
+### 2026-11-18 — Independent instrument clustering
+CI 44273455581 succeeded expanded drummer tests on Python 3.11/3.12. 0469d457 fixes interleaved candidate clustering by instrument, preventing other instruments from splitting same-instrument clusters. Added focused regression; new CI pending. Ride distinction remains unsupported; no fabricated ride hits or geometry. Native rendering outstanding. No merge/release.
