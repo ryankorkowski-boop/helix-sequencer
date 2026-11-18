@@ -531,3 +531,12 @@ Do not mark complete from unit tests alone.
 **Tests/evidence:** Run 44214269832 failed at `sdkmanager: command not found`; Gradle never executed. Earlier Python 3.11/3.12 regression run 44213308493 passed.
 **Limitations/deferred:** Await CI retry; no Android compile or native playback evidence.
 **Regression risks:** Runner SDK path may differ; if command-line tools absent, provision explicitly.
+
+### 2026-11-17 — Android compilation passed; full APK assembly gate added
+**Goal:** Advance Android verification beyond source compilation without prematurely releasing an APK.
+**Changed files:** `.github/workflows/helix-android-variant-compile.yml`, `MASTER_TODO.md`, `docs/BETA_COMPLETION_LIVE_HANDOFF.md`, `evidence/beta_completion/latest_status.json`.
+**Preserved behavior:** No runtime code change; no merge, release, artifact publication or production signing.
+**New behavior:** Existing branch-scoped CI compiles Java and additionally executes `gradle :app:assembleDebug` to check full debug APK packaging.
+**Tests/evidence:** Android CI run 44214343888 fully PASSED including Java compilation. Python 3.11/3.12 regression run 44213308493 fully PASSED. New APK assembly step committed but its result not yet known.
+**Limitations/deferred:** APK installation, band preview, per-variant MP4 playback, xLights native validation and Windows EXE parity still pending.
+**Regression risks:** APK assembly may expose Chaquopy or packaging issues not encountered in compile-only job.
