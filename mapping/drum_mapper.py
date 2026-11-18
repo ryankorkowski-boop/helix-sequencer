@@ -147,4 +147,11 @@ def resolve_drum_streams(streams: dict[str, list[DrumEvent]] | None, *, fallback
         events = flatten_drum_streams({key: streams.get(key, []) for key in DRUM_STREAM_KEYS if key != "drum_bus_events"})
         fallback_mode = "typed_detection" if not bus_events else "typed_detection_bus_suppressed"
     scheduled = schedule_drum_events(events, config)
-    return {"fallback_mode": fallback_mode, "events": scheduled, "mapped_events": map_events_to_submodels(scheduled), "drummer_v3_pose_events": map_events_to_drummer_v3_poses(scheduled), "drummer_component_events": map_events_to_drummer_components(scheduled), "counts": {key: len([event for event in scheduled if stream_key_for_type(event.drum_type) == key]) for key in DRUM_STREAM_KEYS}}
+    components = map_events_to_drummer_components(scheduled)
+    poses = [{**item, "pose": DRUMMER_V3_POSE_BY_TYPE.get(str(item["drum_type"]), "downbeat_impact"), "submodels": [item["component"]]} for item in components]
+    counts = dict.fromkeys(DRUM_STREAM_KEYS, 0)
+    for event in scheduled:
+        key = stream_key_for_type(event.drum_type)
+        if key in counts:
+            counts[key] += 1
+    return {"fallback_mode": fallback_mode, "events": scheduled, "mapped_events": map_events_to_submodels(scheduled), "drummer_v3_pose_events": poses, "drummer_component_events": components, "counts": counts}

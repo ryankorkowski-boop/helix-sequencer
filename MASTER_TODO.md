@@ -784,3 +784,6 @@ Unified integration run 44291632931 succeeded on both Python 3.11 and 3.12: comp
 
 ### 2026-11-18 — Bounded drum scheduling
 Goal: remove quadratic full-history scans and preserve distinct labeled tom velocities. Changed mapping/drum_mapper.py and focused hand-alternation tests. Preserved stable ordering, priority, merge and clutter windows, repeat attenuation for same target, canonical geometry. New deque finalizes expired hits; explicit tom classes use separate repeat keys. Tests added for window boundary and distinct tom amplitudes; CI pending. Limits: default four-hit clutter cap and existing evicted-hit repeat-history semantics retained; no native render or measured speedup yet. Risks: boundary timing and unusual negative config values; verify focused matrix before further changes. No merge/release.
+
+### 2026-11-18 — Reuse resolved drum component mapping
+Prior bounded scheduler checks passed (runs 44296016061 and 44296016075). Reuse one component mapping for poses and component events, and count streams in one pass; preserve output schema and deterministic assignments. Added call-count and output consistency regression. New CI pending; no benchmark or native render claimed. No merge/release.

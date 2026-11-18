@@ -81,3 +81,18 @@ def test_bounded_scheduler_preserves_priority_and_window_boundary():
     events = [DrumEvent(t, .8, .9, {}, i, kind) for i, (t, kind) in enumerate([(1., "hihat"), (1.07, "kick"), (1.141, "snare")])]
     result = schedule_drum_events(events, DrumMappingConfig(max_hits_per_window=1))
     assert [e.drum_type for e in result] == ["kick", "snare"]
+
+
+def test_resolution_reuses_component_mapping(monkeypatch):
+    import mapping.drum_mapper as mapper
+    original = mapper.map_events_to_drummer_components
+    calls = []
+    def tracked(events):
+        calls.append(1)
+        return original(events)
+    monkeypatch.setattr(mapper, "map_events_to_drummer_components", tracked)
+    resolved = mapper.resolve_drum_streams(None, fallback_kicks=[100], fallback_snares=[300])
+    assert len(calls) == 1
+    assert resolved["counts"]["kick_events"] == 1
+    assert resolved["counts"]["snare_events"] == 1
+    assert [p["component"] for p in resolved["drummer_v3_pose_events"]] == [p["component"] for p in resolved["drummer_component_events"]]
