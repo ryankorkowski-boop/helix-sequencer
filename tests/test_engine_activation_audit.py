@@ -24,7 +24,7 @@ def test_invoked_sidecar_not_mistaken_for_promotion_or_export():
 
 
 def test_explicit_promotion_and_failed_orchestration():
-    report = SimpleNamespace(invoked=True, xsq_written=True, error=None)
+    report = SimpleNamespace(invoked=True, xsq_written=True, orchestrated_xsq_path="/tmp/planned.orchestrated.xsq", error=None)
     audit = build_engine_activation_audit(["--promote-orchestrated-template"], report)
     assert audit["engines"]["nine_pass_orchestrator"]["promoted_to_renderer"]
     audit = build_engine_activation_audit(
@@ -165,3 +165,9 @@ def test_run_audit_records_sidecar_and_final_candidate_separately(tmp_path):
     assert reconciliation["sidecar_tagged_effects"] == 1
     assert reconciliation["final_candidate_tagged_effects"] == 1
     assert reconciliation["native_fseq_verified"] is False
+
+
+def test_promotion_flag_without_template_path_is_not_reported_as_promoted():
+    report = SimpleNamespace(invoked=True, xsq_written=True, orchestrated_xsq_path=None, error=None)
+    audit = build_engine_activation_audit(["--promote-orchestrated-template"], report)
+    assert audit["engines"]["nine_pass_orchestrator"]["promoted_to_renderer"] is False
