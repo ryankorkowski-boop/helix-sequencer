@@ -32,8 +32,13 @@
   ],
   "layouts": [
     {
+      "key": "ac16",
+      "title": "16-channel LOR AC · showcase 1",
+      "path": "fixtures/layout_bench/ac16_lor/xlights_rgbeffects.xml"
+    },
+    {
       "key": "greg256",
-      "title": "1 · Original Greg 256 AC",
+      "title": "Original Greg 256 AC",
       "path": "xlights_rgbeffects.xml"
     },
     {
@@ -43,7 +48,7 @@
     },
     {
       "key": "allmodels",
-      "title": "3 · All Models · prop collection",
+      "title": "All Models · interim showcase 6",
       "path": "allmodels/xlights_rgbeffects.xml"
     },
     {
