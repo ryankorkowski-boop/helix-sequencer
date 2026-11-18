@@ -35,7 +35,7 @@ def _add_event(track: ET.Element, index: int, channel: str, start: float, durati
 
 def _add_effect(element: ET.Element, name: str, label: str, start: float, duration: float, intensity: int = 100, source_submodel: str | None = None) -> None:
     layer = ET.SubElement(element, "EffectLayer")
-    ET.SubElement(layer, "Effect", {"name": name, "label": label, "startTime": str(int(start * 1000)), "endTime": str(int((start + duration) * 1000)), "settings": f"E_CHECKBOX_OverlayBkg=0,E_TEXTCTRL_Eff_On_Start={intensity},E_TEXTCTRL_Eff_On_End=0", "palette": "C_BUTTON_Palette1=#FFFFFF,C_CHECKBOX_Palette1=1", "source": "HelixDrummerV3GroundTruth", "sourcePoseSubmodel": source_submodel or label})
+    ET.SubElement(layer, "Effect", {"name": "On", "label": label, "sourceCueName": name, "startTime": str(int(start * 1000)), "endTime": str(int((start + duration) * 1000)), "settings": f"E_CHECKBOX_OverlayBkg=0,E_TEXTCTRL_Eff_On_Start={intensity},E_TEXTCTRL_Eff_On_End=0", "palette": "C_BUTTON_Palette1=#FFFFFF,C_CHECKBOX_Palette1=1", "source": "HelixDrummerV3GroundTruth", "sourcePoseSubmodel": source_submodel or label})
 
 
 def _sort_timing_events(track: ET.Element) -> None:
