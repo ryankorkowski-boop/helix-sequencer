@@ -327,3 +327,6 @@ sha256 `e55fd0e1af7a1be8ab865193e76e03ba511e0bbb3df85eaab60a76d0dd9def88`, 42076
 Panels: 16ch LOR AC, repository 256ch AC, RGB house, generated singing-face house, four-snowman bench, model zoo, moire grid, sequential groups, ultimate showcase. Panel 5 is not the canonical six-member band. This is not owner approval.
 
 Next: replace the center panel with the canonical six-member geometry and re-render. Do not commit the audio.
+
+### 2026-11-18 — CI for the preview repair
+Commit `40dca014` finished with 15 successful checks. Push run `44406112861` passed Helix Unified Beta Integration on Python 3.11 and 3.12, including orchestration, Birdsong, drummer geometry, and the nine-panel structural gate. Android compile run `44406112855` passed Java compile, debug APK assembly, payload checks, and APK retention. Drummer ground truth `44406112840` also passed. These runs do not cover HEAD `61982611`. At inspection, that later push still had Unified Beta Integration `44412936937` and Drummer Ground Truth `44412936902` in progress. Nine-panel layout bench `44412936764` had already passed. No device playback and no owner approval.

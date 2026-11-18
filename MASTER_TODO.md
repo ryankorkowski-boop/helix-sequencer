@@ -847,3 +847,12 @@ Commit 97a5c72 preserves primary MP4 fallback even when preview_paths is present
 **Tests/evidence:** Source audio sha256 `8b8caddd6c292a13995bde0e80ac66f948246bd634278ab4ade1a82163aa7086`. Native MP4 sha256 `e55fd0e1af7a1be8ab865193e76e03ba511e0bbb3df85eaab60a76d0dd9def88`, 42076744 bytes, H.264 1920×1080 30fps, AAC-LC 48 kHz stereo, container 205.76s, 0 blackframe hits. xLights 2026.19 wrote nine FSEQs at a 50ms step. A simulated XSQ-timing companion is sha256 `000b87a246fe6215f2c2ee01fa24d4d5987c70fdb6b2cc5c6777c21145454a6d`. Store path `/cursor/stores/self/beta14-nine-panel/`. Frames at 40s and 140s were inspected.
 **Limitations/deferred:** Panel 5 is the generated four-snowman bench, not the canonical six. Panel 4 faces are generated NodeRange props. The store rejected a 121MB CRF 18 encode, so the stored native file is CRF 30. Container duration is 205.76s against a 205.80s source measurement. Not owner approval.
 **Regression risks:** Generated bench templates now say 600 seconds. Existing checked-in ac16 XML was not rewritten.
+
+### 2026-11-18 — CI passed for the preview repair, not for HEAD
+**Goal:** Record the Actions result that was still unknown when `40dca014` was pushed.
+**Changed files/modules:** Handoff ledger only.
+**Preserved:** Nine-panel MP4 hashes and the statement that panel 5 is not the canonical six-member band.
+**New:** `40dca014` has 15 successful checks. Unified integration run `44406112861` passed Python 3.11 and 3.12. Android run `44406112855` assembled and retained a debug APK. Drummer run `44406112840` passed. HEAD `61982611` was still running Unified integration `44412936937` and drummer `44412936902`; nine-panel bench `44412936764` had passed.
+**Evidence:** GitHub Actions job conclusions for those run ids. Not a device test and not owner approval.
+**Limitations:** The Android APK is a CI debug build of `40dca014`, not proof of eight-variant playback.
+**Deferred:** Inspect `61982611` when its remaining jobs finish. Replace panel 5 with the canonical band.

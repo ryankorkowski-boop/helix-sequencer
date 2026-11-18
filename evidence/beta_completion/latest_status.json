@@ -93,7 +93,7 @@
   ],
   "next_command": "Review /cursor/stores/self/beta14-nine-panel/nine-panel-tinsel-tornado-native-fseq.mp4. Then replace panel 5 with the canonical six-member band and re-render that panel. Do not treat this MP4 as owner approval.",
   "last_inspected_head": "9d622d67b4efc748210c0626accc8d0dd06d8a3b",
-  "ci_status": "LOCAL ONLY for 9d622d67: Python 3.11.18 and 3.12.3 each passed 50 focused tests and 5 subtests. PreviewStatusChecks passed under javac. GitHub Actions for this SHA were not inspected. Run 44346809806 passed older Python 3.11/3.12 and does not verify this HEAD. No Gradle, device, native FSEQ, or approval MP4 in this session.",
+  "ci_status": "40dca014 CI success: unified integration 44406112861 passed Python 3.11 and 3.12; Android compile 44406112855 assembled and retained a debug APK; drummer 44406112840 passed. Those runs do not verify HEAD 61982611. At last look, 61982611 still had unified integration 44412936937 and drummer 44412936902 in progress; nine-panel bench 44412936764 had passed. No device playback and no owner approval.",
   "confirmed_findings": [
     "Default orchestration sidecar is not promoted without explicit flag",
     "Orchestrated XSQ requires an existing --template",
