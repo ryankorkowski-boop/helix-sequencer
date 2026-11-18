@@ -141,7 +141,7 @@ public class MainActivity extends Activity {
         mode.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener(){
             public void onItemSelected(AdapterView<?> p,View v,int n,long id){updateMode();}public void onNothingSelected(AdapterView<?> p){}
         });ac.setOnCheckedChangeListener((b,v)->updateMode());
-        if(state!=null){picking=state.getString("picking");exporting=state.getString("exporting");page=state.getInt("page",page);}
+        if(state!=null){picking=state.getString("picking");exporting=state.getString("exporting");page=state.getInt("page",page);selectedSequencePath=state.getString("selected_sequence","");}
         showPage(page);updateMode();if(!getPreferences(0).getBoolean("walkthrough_seen",false))walkthrough();
     }
     private void walkthrough(){
@@ -255,7 +255,7 @@ public class MainActivity extends Activity {
     private final Runnable ticker=new Runnable(){public void run(){poll();handler.postDelayed(this,1000);}};
     @Override protected void onResume(){super.onResume();handler.removeCallbacks(ticker);handler.post(ticker);}
     @Override protected void onPause(){remember();handler.removeCallbacks(ticker);super.onPause();}
-    @Override protected void onSaveInstanceState(Bundle s){s.putString("picking",picking);s.putString("exporting",exporting);s.putInt("page",page);remember();super.onSaveInstanceState(s);}
+    @Override protected void onSaveInstanceState(Bundle s){s.putString("picking",picking);s.putString("exporting",exporting);s.putInt("page",page);s.putString("selected_sequence",selectedSequencePath);remember();super.onSaveInstanceState(s);}
     private void export(String path,String mime,String filename){
         if(!available(path)){alert("This output is not available yet.");return;}exporting=path;
         startActivityForResult(new Intent(Intent.ACTION_CREATE_DOCUMENT).setType(mime).addCategory(Intent.CATEGORY_OPENABLE).putExtra(Intent.EXTRA_TITLE,filename),200);
