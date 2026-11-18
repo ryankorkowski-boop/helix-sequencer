@@ -486,3 +486,12 @@ Do not mark complete from unit tests alone.
 **Tests/evidence:** Source inspected; no runnable checkout available in this session and no workflow/status reported for inspected head; tests not run.
 **Limitations:** Android and Windows parity, real native outputs, full nine-panel preview remain unverified.
 **Regression risks:** None to runtime; documentation-only change.
+
+### 2026-11-17 — Focused CI enabled on integration branch and ground-truth source discovery
+**Goal:** Exercise the untested orchestration-routing fixes and inventory owner reference footage/real audio without copying private media into GitHub.
+**Changed files:** `.github/workflows/helix-unified-beta-integration.yml`, `evidence/beta_completion/latest_status.json`, `docs/BETA_COMPLETION_LIVE_HANDOFF.md`, `MASTER_TODO.md`.
+**Preserved behavior:** Original/approved drummer; three-tom owner requirement pending reconciliation; original audio stays in Google Drive; production engine, rendering, release and merging untouched.
+**New behavior:** Branch-scoped Python 3.11/3.12 targeted CI (GitHub run 44213308493) exercises tests for config, orchestration argument routing, bridge, activation audit and native XSQ reconciliation. Source IDs recorded read-only: `Truths` drummer references `Aaadrummertruth.mp4` and `Aaadrummergroundtruth.mp4`; independent vocal references `Bbb Vocalstruth.mp4`, `Bbb vocals.mp4`; lyrics music `Tinsel Tornado.mp3`, `Phoneme Test Hook.mp3`.
+**Tests/evidence:** Workflow triggered and in progress when checked; no passed outcome yet. Drive file names/IDs and sizes confirmed through authenticated discovery; contents NOT inspected and approvals NOT inferred from filenames.
+**Limitations/deferred:** Review actual reference video frames, run real-audio engine, native XSQ/FSEQ, nine-panel MP4, Windows and Android APK. Avoid reporting CI pass until job conclusion observed.
+**Regression risks:** CI installs dev dependencies and may be resource/time-heavy on hosted runners; no production code change.
