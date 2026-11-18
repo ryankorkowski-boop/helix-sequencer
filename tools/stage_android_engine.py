@@ -30,6 +30,9 @@ def stage(output: Path) -> dict:
             selected.append(name)
         elif name.startswith('fixtures/band_geometry/') and p.suffix == '.json':
             selected.append(name)
+    missing_samples = sample_paths.difference(selected)
+    if missing_samples:
+        raise FileNotFoundError('Unpackaged layout presets: ' + ', '.join(sorted(missing_samples)))
     manifest = {'schema': 'helix.android.engine.v1', 'commit': subprocess.check_output(
         ['git', 'rev-parse', 'HEAD'], cwd=ROOT).decode().strip(), 'files': {}}
     (output / "support-links.json").write_bytes((ROOT / "config/support_links.json").read_bytes())
