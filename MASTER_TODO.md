@@ -567,3 +567,12 @@ Do not mark complete from unit tests alone.
 **Tests/evidence:** Run 44217948986 completed SUCCESS for Java compile and `gradle :app:assembleDebug`. New APK payload checks are committed but awaiting execution.
 **Limitations/deferred:** Successful assembly does not prove installability on target device, correct six-snowman preview, independent vocal animation, eight MP4 variants, or Windows parity.
 **Regression risks:** Asset layout/packaging changes may require updating the simple ZIP structure checks.
+
+### 2026-11-17 — Android variant spinner listener lifecycle repair
+**Goal:** Avoid repeated listener registration on every one-second poll and make selected variant restoration deterministic.
+**Changed files:** `android/app/src/main/java/org/helixsequencer/android/MainActivity.java`, `MASTER_TODO.md`, `docs/BETA_COMPLETION_LIVE_HANDOFF.md`.
+**Preserved:** XSQ generation, preview renderer, approved drummer, export format and layout choices.
+**New behavior:** Spinner listener registered once at UI creation, rather than every poll. When choices change, restored selection is explicitly synchronized with `selectedSequencePath` after `setSelection`.
+**Tests/evidence:** Previous APK CI run 44218445981 PASSED compile, assemble and ZIP integrity checks. This new change needs a fresh CI run and on-device rotation/poll testing.
+**Limitations/deferred:** MP4 still represents only the primary variant; all-eight preview/export is not implemented.
+**Regression risks:** Android spinner callback timing and rotation lifecycle require device testing.
