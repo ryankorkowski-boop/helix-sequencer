@@ -48,3 +48,10 @@ def test_scheduler_deduplicates_interleaved_same_instrument():
     events = flatten_drum_streams(build_streams_from_legacy([1010], [1000, 1020], [], []))
     scheduled = schedule_drum_events(events)
     assert sorted(event.drum_type for event in scheduled) == ["kick", "snare"]
+
+
+def test_scheduler_preserves_three_explicit_toms():
+    from audio.drum_classification import DrumEvent
+    from mapping.drum_mapper import schedule_drum_events, tom_class_for_event
+    events = [DrumEvent(timestamp=1.0, velocity=.8, confidence=.9, frequency_band_info={"tom_class": label}, cluster_id=i, drum_type="tom", source="test") for i, label in enumerate(("high", "mid", "floor"))]
+    assert {tom_class_for_event(e) for e in schedule_drum_events(events)} == {"high", "mid", "floor"}
