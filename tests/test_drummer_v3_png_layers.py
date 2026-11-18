@@ -22,6 +22,7 @@ REQUIRED_FRAMES = {
     "floor_tom_hit",
     "left_crash",
     "right_crash",
+    "ride_hit",
     "both_crash",
     "downbeat_impact",
 }
@@ -54,7 +55,7 @@ def test_drummer_v3_manifest_declares_png_input_and_frames() -> None:
     assert manifest["source_image"] == "fixtures/band_geometry/source/drummerbg.png"
     assert manifest["contact_sheet"] == "HX_SNOWMAN_DRUMMER_V3_pose_sheet.png"
     assert set(manifest["required_frames"]) == REQUIRED_FRAMES
-    assert len(manifest["layers"]) == 10
+    assert len(manifest["layers"]) == 11
 
     layer_ids = {layer["id"] for layer in manifest["layers"]}
     assert REQUIRED_FRAMES - {"idle_ready"} <= layer_ids
@@ -63,6 +64,13 @@ def test_drummer_v3_manifest_declares_png_input_and_frames() -> None:
     assert floor["file"] == "drummer_hit_floor_tom.png"
     assert floor["target_components"] == ["floor_tom"]
     assert floor["commands"]
+    # Original drummer artwork: FLOOR is the lower-left drum, not the extra
+    # lower-right drum. Keep existing layer filenames for compatibility.
+    assert floor["commands"][0]["box"] == [0.13, 0.57, 0.39, 0.82]
+    ride = next(layer for layer in manifest["layers"] if layer["id"] == "ride_hit")
+    assert ride["target_components"] == ["ride"]
+    assert ride["file"] == "drummer_hit_ride.png"
+    assert ride["commands"][0]["box"][0] > 0.65
 
     for layer in manifest["layers"]:
         assert layer["file"].endswith(".png")
@@ -89,8 +97,8 @@ def test_drummer_v3_builder_creates_transparent_layers_and_contact_sheet(tmp_pat
 
     assert result.returncode == 0, result.stderr + result.stdout
     payload = json.loads(result.stdout)
-    assert payload["layer_count"] == 10
-    assert payload["frame_count"] == 11
+    assert payload["layer_count"] == 11
+    assert payload["frame_count"] == 12
 
     manifest = json.loads(MANIFEST.read_text(encoding="utf-8"))
     for layer in manifest["layers"]:
