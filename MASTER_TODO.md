@@ -806,3 +806,7 @@ Goal: preserve accepted Birdsong and Snowman band/face timing in XSQ even when C
 
 ### 2026-11-18 — Birdsong final timeline reconciliation
 Commit 126c9d91 adds optional source labels to timeline entries and reports surviving XML-backed Birdsong placements after validation and polish, including actual timing and separate final effect counts. Timing labels now describe effect roles rather than species. Existing accepted-placement statistics retained. Tests and native XSQ/FSEQ verification pending; no approval MP4 or release. Next: regression coverage for removed and shifted entries, CI verification and real-audio native proof.
+
+
+### 2026-11-18 — Strengthen Birdsong final reconciliation regression
+Committed test-only change `ea110e82c1082a58feb121b768af538a98d98d00` in `tests/test_birdsong_engine.py`. The existing production-block regression now asserts both the shifted surviving call and surviving sweep are counted with final XML-backed timing, while a removed echo and unrelated piano entry are excluded. No production behavior changed. The commit's combined-status endpoint has not yet returned checks; do not mark the test as passed until the Actions result is inspected. No native FSEQ, real-song MP4, or owner approval is claimed.
