@@ -212,3 +212,13 @@ Do not mark complete from unit tests alone.
 **Limitations/deferred:** Dynamic engine proof, platform builds, audio analysis and MP4 generation.
 **Regression risks:** None to runtime. Do not mistake PR patches for integrated code.
 **Next action:** Selectively integrate and test #235 promotion flag contract on this branch, preserving opt-in default; then verify changed XSQ behavior.
+
+### 2026-11-17 — Explicit orchestrator promotion contract repair
+**Goal:** Prevent implicit template promotion and ensure explicit opt-in reaches the sequence builder.
+**Changed files:** core/run_spine.py; MASTER_TODO.md; docs/BETA_COMPLETION_LIVE_HANDOFF.md.
+**Preserved:** Existing CLI parsing, orchestrator default enabled, legacy opt-out flag, no engine algorithm changes.
+**New behavior:** RunConfig defaults promotion false; to_engine_args emits --promote-orchestrated-template when true, otherwise --no-orchestrator-template-promotion. Based on focused PR #235 patch.
+**Tests/evidence:** Source patch applied at 83dc841503ed70b631df730b47969cae0c5a684a. No executable checkout/test runner in connector session; TESTED and VERIFIED gates remain open.
+**Limitations/deferred:** Run focused contract test and a production XSQ comparison on runner.
+**Regression risks:** Callers relying on implicit promotion must opt in explicitly. Audit all callers and tests before acceptance.
+**Next action:** Run `python -m pytest -q tests/test_orchestrator_promotion_contract.py` after integrating the PR test, then run orchestration smoke with promotion off/on and compare XSQ.
