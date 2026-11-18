@@ -165,6 +165,47 @@ def build_runtime_candidates(base_style: Any, base_tuning: Any, count: int) -> l
                 "layering_mode": "smart_layer",
             },
         ),
+        (
+            "rhythm_detail",
+            "Give percussion and syncopation a faster, sparser lighting response.",
+            {
+                "version": f"{base_style.version}.alt5",
+                "title": f"{base_style.title} / Rhythm Detail",
+                "density_scale": base_style.density_scale * 0.93,
+                "speed_scale": base_style.speed_scale * 1.17,
+                "bass_scale": base_style.bass_scale * 1.12,
+                "melody_scale": base_style.melody_scale * 0.91,
+            },
+            {},
+        ),
+        (
+            "melodic_space",
+            "Use fewer cues and let melodic phrases carry the visual movement.",
+            {
+                "version": f"{base_style.version}.alt6",
+                "title": f"{base_style.title} / Melodic Space",
+                "density_scale": base_style.density_scale * 0.85,
+                "speed_scale": base_style.speed_scale * 0.87,
+                "melody_scale": base_style.melody_scale * 1.25,
+                "randomness_scale": base_style.randomness_scale * 0.84,
+            },
+            {"keyboard_mix": min(2.0, float(getattr(base_tuning, "keyboard_mix", 1.0)) * 1.12)},
+        ),
+        (
+            "section_contrast",
+            "Emphasize transitions and keep quiet sections visually restrained.",
+            {
+                "version": f"{base_style.version}.alt7",
+                "title": f"{base_style.title} / Section Contrast",
+                "density_scale": base_style.density_scale * 1.11,
+                "speed_scale": base_style.speed_scale * 1.08,
+                "darkness_scale": base_style.darkness_scale * 1.19,
+                "section_emphasis": True,
+                "call_response": True,
+                "pool_mode": "sectional",
+            },
+            {},
+        ),
     ]
     for label, description, style_overrides, tuning_overrides in presets[: max(0, requested - 1)]:
         candidates.append(
