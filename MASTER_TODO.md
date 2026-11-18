@@ -799,3 +799,6 @@ Prior preview optimization passed runs 44340298697 and 44340298672. Source inspe
 
 ### 2026-11-18 — Birdsong accepted-placement reconciliation
 Fix production add_model callback to return True only on accepted effect insertion and False for unavailable targets, cooldown rejection or exhausted conflict resolution. Birdsong records call/echo/trill/sweep timing and counts only when callback does not explicitly reject; retains compatibility with None-returning test callbacks. Added rejection regression. Prior synthetic-hook description corrected: secondary hook was real-audio sidecar analysis but redundant with production analysis. Tests/CI pending; downstream XSQ and native FSEQ proof still required. No merge/release.
+
+### 2026-11-18 — Independent timing export gate
+Goal: preserve accepted Birdsong and Snowman band/face timing in XSQ even when Chronoflow emits zero events. Changed core/effect_engine.py to dedent three timing-track writes out of Chronoflow condition; existing Chronoflow behavior, labels, caps and inactive status preserved. Added AST regression in tests/test_birdsong_engine.py. Prior b213f869 integration CI 44346809806 passed on 3.11/3.12. New CI pending; timing-track XML/native FSEQ still needs real-audio verification. Risk: newly present tracks in runs previously missing them by mistake; no merge/release.

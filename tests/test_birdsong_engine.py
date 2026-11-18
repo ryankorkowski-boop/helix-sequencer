@@ -94,6 +94,42 @@ class BirdsongEngineTests(unittest.TestCase):
         self.assertEqual(result.sweeps, 0)
         self.assertEqual(result.timing_spans, [])
 
+    def test_independent_birdsong_and_snowman_timing_track_export(self) -> None:
+        """Chronoflow must not gate unrelated production timing tracks."""
+        import ast
+        import inspect
+
+        source = inspect.getsource(effect_engine)
+        tree = ast.parse(source)
+        targets = {
+            "chronoflow_track", "snowman_band_track",
+            "snowman_sequence_face_track", "birdsong_track",
+        }
+        found = {}
+        for node in ast.walk(tree):
+            if not isinstance(node, ast.If) or not isinstance(node.test, ast.Name):
+                continue
+            if node.test.id not in targets:
+                continue
+            if not any(
+                isinstance(call, ast.Call)
+                and isinstance(call.func, ast.Attribute)
+                and call.func.attr == "write_timing_track"
+                for call in ast.walk(node)
+            ):
+                continue
+            found[node.test.id] = node
+        self.assertEqual(set(found), targets)
+        for name, node in found.items():
+            self.assertFalse(any(
+                isinstance(parent, ast.If)
+                and parent.test is not node.test
+                and node in ast.walk(parent)
+                and isinstance(parent.test, ast.Name)
+                and parent.test.id in targets
+                for parent in ast.walk(tree)
+            ), f"{name} timing export is gated by another engine")
+
     def test_parse_args_accepts_birdsong_flags(self) -> None:
         args = effect_engine.parse_args(
             effect_engine.VARIANTS["v27.3"],

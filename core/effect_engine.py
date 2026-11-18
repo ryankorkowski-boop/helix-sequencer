@@ -12409,12 +12409,12 @@ def run_variant(
         base.write_timing_track(xsq.root, f"AUTO hardKor {style.version}", hardkor_track[:2400], active=False)
     if chronoflow_track:
         base.write_timing_track(xsq.root, f"AUTO Chronoflow {style.version}", chronoflow_track[:1400], active=False)
-        if snowman_band_track:
-            base.write_timing_track(xsq.root, f"AUTO Snowman Band {style.version}", snowman_band_track[:1800], active=False)
-        if snowman_sequence_face_track:
-            base.write_timing_track(xsq.root, f"AUTO Snowman Faces {style.version}", snowman_sequence_face_track[:1800], active=False)
-        if birdsong_track:
-            base.write_timing_track(xsq.root, f"AUTO Birdsong {style.version}", birdsong_track[:2000], active=False)
+    if snowman_band_track:
+        base.write_timing_track(xsq.root, f"AUTO Snowman Band {style.version}", snowman_band_track[:1800], active=False)
+    if snowman_sequence_face_track:
+        base.write_timing_track(xsq.root, f"AUTO Snowman Faces {style.version}", snowman_sequence_face_track[:1800], active=False)
+    if birdsong_track:
+        base.write_timing_track(xsq.root, f"AUTO Birdsong {style.version}", birdsong_track[:2000], active=False)
     if spatial_track:
         base.write_timing_track(xsq.root, f"AUTO Spatial Chase {style.version}", spatial_track, active=False)
     if lyric_track:
