@@ -14,7 +14,7 @@
       "workstream": "A",
       "priority": "P0",
       "status": "IN PROGRESS",
-      "next_action": "Inspect production call graph and compare branch ancestry"
+      "next_action": "Run targeted pytest; verify template source and explicit promotion through real final XSQ/FSEQ. Android launcher currently disables orchestration."
     },
     {
       "id": "HBC-002",
@@ -42,8 +42,8 @@
       "id": "HBC-005",
       "workstream": "B",
       "priority": "P0",
-      "status": "NOT STARTED",
-      "next_action": "Audit Android and Windows eight-variant playback and export"
+      "status": "IN PROGRESS",
+      "next_action": "Audit Android 8-variant result handling and profile resource costs; Android build_args currently passes --no-effects-orchestrator; Windows entry forwards to sequence_builder."
     },
     {
       "id": "HBC-006",
@@ -60,5 +60,13 @@
       "next_action": "Full acceptance and owner approval"
     }
   ],
-  "next_command": "git switch integration/unified-beta-completion-20261117 && git status --short && git log -1 --oneline"
+  "next_command": "python -m pytest -q tests/test_run_config_v2_orchestration.py tests/test_sequence_builder_orchestrator_promotion.py tests/test_engine_activation_audit.py tests/test_sequence_builder.py",
+  "last_inspected_head": "46f9f2dcc958cecda493c36e6f9f03d3929f2936",
+  "ci_status": "No PR-triggered workflow runs or combined statuses found for inspected head; test execution unverified",
+  "confirmed_findings": [
+    "Default orchestration sidecar is not promoted without explicit flag",
+    "Orchestrated XSQ requires an existing --template",
+    "Android build_args unconditionally disables orchestrator",
+    "V2 config promotion serialization corrected and regression tests authored"
+  ]
 }
