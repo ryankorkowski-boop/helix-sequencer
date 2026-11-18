@@ -90,3 +90,6 @@ At commit `b5b80e10`, variant spinner listener moved from repeated `poll()` regi
 
 ## Per-variant MP4 preview implementation
 Commits `7a7ff384`, `275effef`, `988dd56a` implement sequential per-variant Android MP4 rendering, `preview_paths` propagation, and selected-variant MP4 play/save binding. Failed previews leave blank entries; successful XSQ outputs remain accessible. This is NOT device-verified and does not repair simulated band geometry or guarantee 8 successes. Check latest Android compile/assemble CI and test 8 variants on phone, including playback, sound sync, storage and API30 memory. Earlier APK integrity run `44218445981` passed before these changes.
+
+## Python syntax validation gate for per-variant MP4
+Commit `7ae93315` adds host Python 3.10 syntax compilation of Android `helix_mobile.py` and `helix_mp4.py` before expensive Gradle steps. Previous per-variant CI run `44219712984` was still in progress at last inspection; follow-up CI required for this change. No actual device playback verification yet.
