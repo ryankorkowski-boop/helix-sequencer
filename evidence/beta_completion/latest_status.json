@@ -43,7 +43,7 @@
       "workstream": "B",
       "priority": "P0",
       "status": "IN PROGRESS",
-      "next_action": "Verify fresh CI for per-variant MP4 implementation, then device-test 8 preview/play/export, performance, and actual band geometry."
+      "next_action": "Check new CI for partial-preview status repair; device-test 8 preview/play/export and correct band visuals; no release."
     },
     {
       "id": "HBC-006",
@@ -120,13 +120,13 @@
   },
   "android_compile_workflow": {
     "path": ".github/workflows/helix-android-variant-compile.yml",
-    "status": "per-variant Android MP4 CI run 44219712984 was still in progress at last check; Python py_compile gate added 7ae93315 and new run pending",
+    "status": "run 44219873839 PASSED syntax, Java, assembleDebug, APK integrity for per-variant preview code; partial success accounting c78f9595 awaits fresh CI",
     "commit": "a86114e21b97051e90bc11d6e458ed9188ff6c17",
     "first_run_url": "https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/44214052900",
     "java_compile_run_url": "https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/44214343888",
     "failure_url": "https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/44217769589",
     "apk_assembly_run_url": "https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/44217948986",
     "apk_integrity_run_url": "https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/44218445981",
-    "variant_mp4_run_url": "https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/44219712984"
+    "variant_mp4_run_url": "https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/44219873839"
   }
 }
