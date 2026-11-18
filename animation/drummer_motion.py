@@ -22,17 +22,15 @@ class DrummerMotionConfig:
 def build_drummer_motion(events: Iterable[DrumEvent], config: DrummerMotionConfig = DrummerMotionConfig()) -> list[dict[str, object]]:
     """Create visual hit timing and deterministic hand assignment.
 
-    Physical routing remains the canonical eight-component drummer. Hand is a
-    performance attribute used by contacting-stick composites: rapid snare
-    repeats alternate left/right hands, and rapid cymbal repeats alternate the
-    left/right physical cymbals. No independent stick channels are created.
+    Preserve physical routing. Alternate snare hands on every strike and
+    align crash hands with the actual alternating physical crash target.
+    No independent stick channels are created.
     """
     rng = random.Random(config.seed)
     motions: list[dict[str, object]] = []
     tom_index = 0
     cymbal_index = 0
-    previous_by_type: dict[str, int] = {}
-    hand_by_type: dict[str, str] = {"snare": "L", "cymbal": "L"}
+    snare_index = 0
     for event in sorted(events, key=lambda item: item.timestamp_ms):
         if event.drum_type == "tom":
             component = drummer_component_for_event(event, event_index=tom_index)
@@ -47,12 +45,11 @@ def build_drummer_motion(events: Iterable[DrumEvent], config: DrummerMotionConfi
             tom_class = None
 
         hand: str | None = None
-        previous = previous_by_type.get(event.drum_type)
-        if event.drum_type in {"snare", "cymbal"}:
-            if previous is not None and event.timestamp_ms - previous <= config.rapid_alternation_threshold_ms:
-                hand_by_type[event.drum_type] = "R" if hand_by_type[event.drum_type] == "L" else "L"
-            hand = hand_by_type[event.drum_type]
-            previous_by_type[event.drum_type] = event.timestamp_ms
+        if event.drum_type == "snare":
+            hand = "L" if snare_index % 2 == 0 else "R"
+            snare_index += 1
+        elif event.drum_type == "cymbal":
+            hand = "L" if component.endswith("_LEFT") else "R"
 
         sign = -1 if rng.random() < 0.5 else 1
         humanize = sign * rng.randint(config.humanize_min_ms, config.humanize_max_ms)
