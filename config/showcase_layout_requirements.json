@@ -1,0 +1,80 @@
+{
+  "schema": "helix.showcase.catalog.v1",
+  "default_layout": "native_models",
+  "source": "codex/nine-panel-approval-20261116@93780f30a419da1932fd0b1abf1a00af3ac1e9ac",
+  "approval": "pending",
+  "layouts": [
+    {
+      "position": 1,
+      "id": "ac16",
+      "title": "16-channel LOR AC",
+      "candidate": "fixtures/layout_bench/ac16_lor/xlights_rgbeffects.xml",
+      "status": "source_fixture",
+      "approved": false
+    },
+    {
+      "position": 2,
+      "id": "ac256",
+      "title": "256-channel AC with arches and mega tree",
+      "candidate": "xlights_rgbeffects.xml",
+      "status": "verify_inventory",
+      "approved": false
+    },
+    {
+      "position": 3,
+      "id": "rgb_house",
+      "title": "RGB-heavy house",
+      "candidate": "fixtures/layout_bench/pixel_classic/xlights_rgbeffects.xml",
+      "status": "provisional",
+      "approved": false
+    },
+    {
+      "position": 4,
+      "id": "vocals",
+      "title": "Singing faces, trees and matrices",
+      "candidate": null,
+      "status": "missing_final",
+      "approved": false
+    },
+    {
+      "position": 5,
+      "id": "band",
+      "title": "Canonical six-snowman band",
+      "candidate": "fixtures/layout_bench/band_stage/xlights_rgbeffects.xml",
+      "status": "provisional",
+      "approved": false
+    },
+    {
+      "position": 6,
+      "id": "native_models",
+      "title": "Native model showcase",
+      "candidate": "allmodels/xlights_rgbeffects.xml",
+      "status": "verify_inventory",
+      "approved": false
+    },
+    {
+      "position": 7,
+      "id": "spatial",
+      "title": "Birdsong spatial matrix",
+      "candidate": "fixtures/layout_bench/wow_moire/xlights_rgbeffects.xml",
+      "status": "provisional",
+      "approved": false
+    },
+    {
+      "position": 8,
+      "id": "piano",
+      "title": "Piano sequential groups",
+      "candidate": "fixtures/layout_bench/wow_helix/xlights_rgbeffects.xml",
+      "status": "provisional",
+      "approved": false
+    },
+    {
+      "position": 9,
+      "id": "ultimate",
+      "title": "Ultimate xLights showcase",
+      "candidate": "fixtures/layout_bench/wow_showcase/xlights_rgbeffects.xml",
+      "status": "provisional",
+      "approved": false
+    }
+  ]
+}
