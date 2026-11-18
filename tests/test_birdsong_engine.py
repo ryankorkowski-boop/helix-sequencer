@@ -165,8 +165,17 @@ class BirdsongEngineTests(unittest.TestCase):
         layer.remove(entries[1].xml_effect)  # stale timeline entry, absent from XML
         scope = {"Counter": Counter, "timelines": {"prop": timeline}}
         exec(compile(block, "<reconciliation>", "exec"), scope)
-        self.assertEqual(scope["birdsong_final_counts"], {"birdsong_call": 1})
-        self.assertEqual(scope["birdsong_track"], [("BIRDSONG_CALL", 125, 220)])
+        self.assertEqual(
+            scope["birdsong_final_counts"],
+            {"birdsong_call": 1, "birdsong_sweep": 1},
+        )
+        self.assertEqual(
+            scope["birdsong_track"],
+            [
+                ("BIRDSONG_CALL", 125, 220),
+                ("BIRDSONG_SWEEP", 400, 500),
+            ],
+        )
 
     def test_parse_args_accepts_birdsong_flags(self) -> None:
         args = effect_engine.parse_args(
