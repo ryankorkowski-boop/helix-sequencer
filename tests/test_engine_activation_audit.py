@@ -88,7 +88,7 @@ def test_synthetic_birdsong_hook_not_mistaken_for_real_song_output():
     audit = build_engine_activation_audit(["--enable-birdsong"])
     hook = audit["engines"]["birdsong_post_run_hook"]
     assert hook["requested"] is True
-    assert hook["status"] == "synthetic_diagnostic_hook_requested"
+    assert hook["status"] == "audio_sidecar_hook_requested"
     assert hook["real_audio_analysis_verified"] is False
     assert hook["exported_effects_verified"] is False
 
