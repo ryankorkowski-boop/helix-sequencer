@@ -57,7 +57,7 @@ class HelixGui(tk.Tk):
         self.layout_preset_var = tk.StringVar(value=self.default_layout_title)
         self.template_var = tk.StringVar(value=str(ROOT / "template.xsq"))
         self.audio_var = tk.StringVar(value="")
-        self.layout_var = tk.StringVar(value=str(self.layout_presets["GP's House"]))
+        self.layout_var = tk.StringVar(value=str(self.layout_presets[self.default_layout_title]))
         self.output_var = tk.StringVar(value=str(ROOT / "outputs"))
 
         self.vendor_bar_var = tk.BooleanVar(value=True)
@@ -299,16 +299,17 @@ class HelixGui(tk.Tk):
         if not self.audio_var.get().strip():
             messagebox.showwarning("Missing Audio", "Choose an audio file before running.")
             return
-        if not Path(self.layout_var.get().strip()).exists():
+        if not Path(self.layout_var.get().strip()).is_file():
             messagebox.showwarning("Missing Layout", "Layout file does not exist.")
             return
-        if not Path(self.template_var.get().strip()).exists():
+        if not Path(self.template_var.get().strip()).is_file():
             messagebox.showwarning("Missing Template", "Template XSQ file does not exist.")
             return
 
+        launcher = ([str(Path(sys.executable).with_name("HelixCLI.exe")), "--helix-cli"]
+                    if getattr(sys, "frozen", False) else [sys.executable, str(ROOT / "main.py")])
         cmd = [
-            sys.executable,
-            str(ROOT / "main.py"),
+            *launcher,
             "--profile",
             self.profile_var.get().strip() or "master",
             "--",
