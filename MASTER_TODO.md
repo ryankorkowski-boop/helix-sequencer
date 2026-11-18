@@ -576,3 +576,12 @@ Do not mark complete from unit tests alone.
 **Tests/evidence:** Previous APK CI run 44218445981 PASSED compile, assemble and ZIP integrity checks. This new change needs a fresh CI run and on-device rotation/poll testing.
 **Limitations/deferred:** MP4 still represents only the primary variant; all-eight preview/export is not implemented.
 **Regression risks:** Android spinner callback timing and rotation lifecycle require device testing.
+
+### 2026-11-17 — Per-variant Android MP4 generation and selection wiring
+**Goal:** Allow users to play/export the MP4 corresponding to each of up to eight generated XSQ variants rather than always playing the first preview.
+**Changed files:** `android/app/src/main/python/helix_mobile.py`, `android/app/src/main/java/org/helixsequencer/android/EngineService.java`, `android/app/src/main/java/org/helixsequencer/android/MainActivity.java`, ledger and handoff.
+**Preserved:** Existing Helix sequence generation, XSQ/LMS export, 640x360/15fps bounded Android preview renderer, audio synchronization, canonical drummer logic, no merge/release.
+**New behavior:** Sequentially render each variant's preview, record index-aligned `preview_paths` (empty string for failed variants), checkpoint progress; service publishes paths; results selector maps play/save MP4 to selected XSQ and disables unavailable movies. Per-variant failures do not discard successful sequence outputs.
+**Tests/evidence:** Previous APK compile/assembly/integrity run 44218445981 passed; new code awaits CI and on-device multi-variant audio/geometry validation.
+**Limitations/deferred:** Eight sequential MP4s may take substantial time/storage; no native xLights render on Android; preview still simulated and may be visually incorrect; no device validation; Windows parity pending.
+**Regression risks:** Memory/time/space pressure, encoder reuse, failed variant alignment, activity lifecycle. Require measured Android testing before beta approval.
