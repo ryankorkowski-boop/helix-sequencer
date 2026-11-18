@@ -102,3 +102,6 @@ Commit `8a6b1c5e` shows MP4 rendered/requested count and failed variant filename
 
 ## Bounded preview count
 Commit `97d19c23` limits Android MP4 encoding to the requested number of variants (at most eight) even if the engine emits additional XSQs. Extras remain available for sequence export. The cap reduces risk of unbounded video encoding, but sequence ordering must be checked against actual eight-variant runs; no device acceptance yet.
+
+## Primary-first preview mapping correction
+Commit `53a776a8` corrects capped preview ordering: primary XSQ renders first, remaining candidates fill the cap, while `preview_paths` retains exact original `sequence_paths` index alignment. Failed/skipped variants remain blank. CI/device testing pending; no claim of eight successful videos.
