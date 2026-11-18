@@ -31,7 +31,7 @@ public class MainActivity extends Activity {
     private TextView status,log,stepTitle,results;
     private ProgressBar progress;
     private Button run,cancel,save,watch,movie,sequence,report,share,next,back;
-    private String picking,exporting,bundlePath="",previewPath="",sequencePath="",reportPath="";
+    private String picking,exporting,bundlePath="",previewPath="",sequencePath="",reportPath="",selectedSequencePath="",lastVariantChoices="";
     private File currentJob;
     private boolean busy,wasBusy;
     private int page;
@@ -194,7 +194,7 @@ public class MainActivity extends Activity {
             r.put("matrix",matrix.isChecked());r.put("birdsong",birdsong.isChecked());r.put("spatial",spatial.isChecked());r.put("ac_compatible",ac.isChecked());
             JSONObject uris=new JSONObject();for(Map.Entry<String,Uri> e:inputs.entrySet())uris.put(e.getKey(),e.getValue().toString());r.put("inputs",uris);
             currentJob=new File(getFilesDir(),"jobs/"+UUID.randomUUID());getPreferences(0).edit().putString("job",currentJob.getAbsolutePath()).apply();
-            bundlePath=previewPath=sequencePath=reportPath="";lastState="";busy=wasBusy=true;
+            bundlePath=previewPath=sequencePath=reportPath=selectedSequencePath=lastVariantChoices="";lastState="";busy=wasBusy=true;
             for(Button v:new Button[]{sequence,watch,movie,save,share,report})v.setEnabled(false);run.setEnabled(false);cancel.setEnabled(true);status.setText("Starting local engine…");updateMode();remember();
             if(Build.VERSION.SDK_INT>=33&&!getPreferences(0).getBoolean("notifications_asked",false)){
                 getPreferences(0).edit().putBoolean("notifications_asked",true).apply();requestPermissions(new String[]{"android.permission.POST_NOTIFICATIONS"},1);
@@ -215,27 +215,36 @@ public class MainActivity extends Activity {
             run.setEnabled(!busy);cancel.setEnabled(busy);progress.setVisibility(busy?View.VISIBLE:View.GONE);
             int percent=s.optInt("preview_percent",-1);boolean measured=busy&&"preview".equals(s.optString("active_stage"))&&percent>=0;progress.setIndeterminate(!measured);if(measured)progress.setProgress(percent);
             status.setText(s.optString("message",phase));log.setText(s.optString("log"));updateMode();
-            bundlePath=s.optString("bundle");previewPath=s.optString("preview");sequencePath=s.optString("sequence");reportPath=s.optString("report");
-            JSONArray paths=sequencePath.endsWith(".lms")?null:s.optJSONArray("sequence_paths");
+            bundlePath=s.optString("bundle");previewPath=s.optString("preview");reportPath=s.optString("report");
+            String engineSequence=s.optString("sequence");
+            JSONArray paths=engineSequence.endsWith(".lms")?null:s.optJSONArray("sequence_paths");
             List<String> choices=new ArrayList<>();
             if(paths!=null)for(int i=0;i<paths.length();i++){
                 String candidate=paths.optString(i);
-                if(available(candidate))choices.add(candidate);
+                if(available(candidate)&&!choices.contains(candidate))choices.add(candidate);
             }
-            if(choices.isEmpty()&&available(sequencePath))choices.add(sequencePath);
-            String prior=(String)sequenceChoices.getSelectedItem();
-            ArrayAdapter<String> adapter=new ArrayAdapter<>(this,android.R.layout.simple_spinner_dropdown_item,choices);
-            sequenceChoices.setAdapter(adapter);
-            int selection=choices.indexOf(prior);
-            if(selection>=0)sequenceChoices.setSelection(selection);
+            if(choices.isEmpty()&&available(engineSequence))choices.add(engineSequence);
+            String choiceKey=android.text.TextUtils.join("\n",choices);
+            if(!choiceKey.equals(lastVariantChoices)){
+                lastVariantChoices=choiceKey;
+                String prior=selectedSequencePath;
+                ArrayAdapter<String> adapter=new ArrayAdapter<>(this,android.R.layout.simple_spinner_dropdown_item,choices);
+                sequenceChoices.setAdapter(adapter);
+                int selection=choices.indexOf(prior);
+                if(selection<0)selection=choices.indexOf(engineSequence);
+                if(selection>=0)sequenceChoices.setSelection(selection);
+            }
             sequenceChoices.setOnItemSelectedListener(new android.widget.AdapterView.OnItemSelectedListener(){
                 @Override public void onItemSelected(android.widget.AdapterView<?> parent,View view,int position,long id){
-                    String selected=(String)parent.getItemAtPosition(position);
-                    sequencePath=selected;
+                    selectedSequencePath=(String)parent.getItemAtPosition(position);
+                    sequencePath=selectedSequencePath;
                     sequence.setEnabled(available(sequencePath));
                 }
                 @Override public void onNothingSelected(android.widget.AdapterView<?> parent){}
             });
+            if(!choices.contains(selectedSequencePath))
+                selectedSequencePath=choices.isEmpty()?"":choices.get(0);
+            sequencePath=selectedSequencePath;
             sequence.setEnabled(available(sequencePath));save.setEnabled(available(bundlePath));share.setEnabled(save.isEnabled());watch.setEnabled(available(previewPath));movie.setEnabled(watch.isEnabled());report.setEnabled(available(reportPath));
             StringBuilder summary=new StringBuilder(s.optString("message",phase));JSONObject stages=s.optJSONObject("stages");
             if(stages!=null)for(String key:new String[]{"sequencing","packaging","preview"}){
