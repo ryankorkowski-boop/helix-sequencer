@@ -85,13 +85,19 @@ def drummer_component_for_event(event: DrumEvent, *, event_index: int = 0) -> st
 
 
 def map_events_to_drummer_components(events: Iterable[DrumEvent]) -> list[dict[str, object]]:
-    mapped: list[dict[str, object]] = []; tom_index = cymbal_index = 0
+    mapped: list[dict[str, object]] = []; tom_index = cymbal_index = snare_index = 0
     for event in sorted(events, key=lambda item: (item.timestamp_ms, DRUM_PRIORITY.get(item.drum_type, 9), -item.velocity)):
         if event.drum_type == "tom": component = drummer_component_for_event(event, event_index=tom_index); tom_index += 1
         elif event.drum_type == "cymbal": component = drummer_component_for_event(event, event_index=cymbal_index); cymbal_index += 1
         else: component = drummer_component_for_event(event)
+        hand = None
+        if event.drum_type == "snare":
+            hand = "L" if snare_index % 2 == 0 else "R"
+            snare_index += 1
+        elif event.drum_type == "cymbal":
+            hand = "L" if component.endswith("_LEFT") else "R"
         pose = DRUMMER_V3_POSE_BY_TYPE.get(event.drum_type, "downbeat_impact")
-        mapped.append({"timestamp_ms": event.timestamp_ms, "end_ms": event.timestamp_ms + DRUMMER_V3_DURATION_BY_POSE.get(pose, 140), "model": DRUMMER_V3_MODEL, "drum_type": event.drum_type, "component": component, "tom_class": tom_class_for_event(event, tom_index - 1) if event.drum_type == "tom" else None, "intensity": round(event.velocity, 3), "confidence": event.confidence, "source": event.source})
+        mapped.append({"timestamp_ms": event.timestamp_ms, "end_ms": event.timestamp_ms + DRUMMER_V3_DURATION_BY_POSE.get(pose, 140), "model": DRUMMER_V3_MODEL, "drum_type": event.drum_type, "component": component, "hand": hand, "tom_class": tom_class_for_event(event, tom_index - 1) if event.drum_type == "tom" else None, "intensity": round(event.velocity, 3), "confidence": event.confidence, "source": event.source})
     return mapped
 
 
