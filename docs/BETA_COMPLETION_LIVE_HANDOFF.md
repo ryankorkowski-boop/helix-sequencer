@@ -96,3 +96,6 @@ Commit `7ae93315` adds host Python 3.10 syntax compilation of Android `helix_mob
 
 ## Multi-variant MP4 partial-success accounting
 Run `44219873839` PASSED Android Python syntax, Java compile, debug APK assembly and integrity for the new per-variant preview code. Commit `c78f9595` repairs false all-success reporting: status is `partial` if fewer than all variants render, with failed filenames and counts. Await next CI and device testing. Do not claim eight MP4s passed merely from build success.
+
+## Visible partial preview status
+Commit `8a6b1c5e` shows MP4 rendered/requested count and failed variant filenames on the Android results page. Combined with `c78f9595` partial-status accounting, failed previews are now visible to owner. Pending Java CI and on-device acceptance. No native band rendering verification yet.
