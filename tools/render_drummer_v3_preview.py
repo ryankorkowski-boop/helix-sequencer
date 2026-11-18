@@ -121,10 +121,14 @@ def load_component_masks() -> tuple[Image.Image, dict[str, Image.Image]]:
         if zone_id not in zones:
             raise SystemExit(f"FAIL: canonical V3 pose zone missing: {zone_id}")
         masks[target] = _zone_mask(source.size, zones[zone_id])
+    hand_zones = {z['id']: z for z in spec.get('hand_pose_zones', [])}
+    for hand, zone_id in spec.get('hand_pose_map', {}).get('snare', {}).items():
+        if zone_id in hand_zones:
+            masks['SNARE_HAND_' + hand] = _zone_mask(source.size, hand_zones[zone_id])
     return source, masks
 
 
-def parse_effects(xsq: Path):
+def parse_effects(xsq: Path, *, include_hands=False):
     root = ET.parse(xsq).getroot()
     out = []
     for element in root.findall("./ElementEffects/Element"):
@@ -141,6 +145,9 @@ def parse_effects(xsq: Path):
                     int(float(fx.get("endTime", "0"))),
                     name,
                 ))
+                hand = fx.get("sourceHand")
+                if include_hands and name == "HX_SNOWMAN_DRUMMER_V3_SNARE" and hand in ("L", "R"):
+                    out.append((int(float(fx.get("startTime", "0"))), int(float(fx.get("endTime", "0"))), "SNARE_HAND_" + hand))
     return sorted(out)
 
 
@@ -213,10 +220,10 @@ def main() -> int:
     args = ap.parse_args()
 
     source, masks = load_component_masks()
-    effects = parse_effects(args.xsq)
+    effects = parse_effects(args.xsq, include_hands=True)
     if not effects:
         raise SystemExit("FAIL: no canonical HX_SNOWMAN_DRUMMER_V3 submodel effects found")
-    found = {e[2] for e in effects}
+    found = {e[2] for e in effects if e[2] in TARGETS}
     missing_targets = set(TARGETS) - found
     if missing_targets:
         print(f"Inactive drummer targets (not necessarily a defect): {sorted(missing_targets)}")
@@ -235,9 +242,9 @@ def main() -> int:
     try:
         for i in range(int(duration_ms / 1000 * args.fps)):
             t = int(i * 1000 / args.fps)
-            active = {name: 0.0 for name in TARGETS}
+            active = {name: 0.0 for name in masks}
             for start, end, name in effects:
-                if start <= t < end:
+                if name in active and start <= t < end:
                     active[name] = max(active[name], 1.0)
             writer.append_data(np.asarray(draw_frame(source, masks, active, 960, 540, t, duration_ms, font)))
     finally:
