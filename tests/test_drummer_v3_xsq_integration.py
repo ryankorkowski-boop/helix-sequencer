@@ -86,3 +86,19 @@ def test_generated_xmodel_matches_existing_eight_native_targets() -> None:
     assert DRUMMER_TARGETS == set(DRUMMER_COMPONENTS[:-1])
     assert DRUMMER_TARGETS <= names
     assert DRUMMER_COMPONENTS[-1] not in names
+
+
+def test_native_on_effect_emits_percentage_peak_and_decay() -> None:
+    from tools.integrate_drummer_v3_into_xsq import _add_on
+    layer = ET.Element("EffectLayer")
+    _add_on(layer, 100, 250, .72, "HX_SNOWMAN_DRUMMER_SNARE", "snare", hand="L")
+    effect = layer.find("Effect")
+    assert effect is not None
+    settings = effect.attrib["settings"]
+    assert "E_TEXTCTRL_Eff_On_Start=72" in settings
+    assert "E_TEXTCTRL_Eff_On_End=4" in settings
+    assert "E_SLIDER_Brightness" not in settings
+    assert effect.attrib["palette"].endswith("C_CHECKBOX_Palette1=1")
+    assert effect.get("sourceHand") == "L"
+    assert effect.get("startTime") == "100"
+    assert effect.get("endTime") == "250"
