@@ -585,3 +585,12 @@ Do not mark complete from unit tests alone.
 **Tests/evidence:** Previous APK compile/assembly/integrity run 44218445981 passed; new code awaits CI and on-device multi-variant audio/geometry validation.
 **Limitations/deferred:** Eight sequential MP4s may take substantial time/storage; no native xLights render on Android; preview still simulated and may be visually incorrect; no device validation; Windows parity pending.
 **Regression risks:** Memory/time/space pressure, encoder reuse, failed variant alignment, activity lifecycle. Require measured Android testing before beta approval.
+
+### 2026-11-17 — Android Python preview entrypoint syntax gate
+**Goal:** Catch Python syntax errors in the newly added per-variant MP4 loop before costly Gradle/Chaquopy assembly.
+**Changed files:** `.github/workflows/helix-android-variant-compile.yml`, `MASTER_TODO.md`, `docs/BETA_COMPLETION_LIVE_HANDOFF.md`, `evidence/beta_completion/latest_status.json`.
+**Preserved:** Runtime sequencing, preview semantics, Android UI, no merge/release.
+**New behavior:** CI invokes `python -m py_compile` on `helix_mobile.py` and `helix_mp4.py` before Java/Gradle steps.
+**Tests/evidence:** Run 44219712984 was still running at inspection (Java compilation not complete). Previous APK run 44218445981 passed, but predates per-variant MP4 implementation. New syntax gate needs fresh CI.
+**Limitations/deferred:** Syntax gate does not verify preview correctness, performance, on-device encoder behavior, native xLights, Windows parity.
+**Regression risks:** None expected from CI-only change; Python files are checked with host Python 3.10.
