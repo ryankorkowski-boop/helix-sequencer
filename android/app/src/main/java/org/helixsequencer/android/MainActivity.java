@@ -124,6 +124,15 @@ public class MainActivity extends Activity {
 
         panel(5);results=text("Your sequence, show ZIP and preview will appear here.",16,Color.WHITE);
         sequenceChoices=new Spinner(this);body.addView(sequenceChoices);
+        sequenceChoices.setOnItemSelectedListener(new android.widget.AdapterView.OnItemSelectedListener(){
+            @Override public void onItemSelected(android.widget.AdapterView<?> parent,View view,int position,long id){
+                Object selected=parent.getItemAtPosition(position);
+                selectedSequencePath=selected==null?"":selected.toString();
+                sequencePath=selectedSequencePath;
+                sequence.setEnabled(available(sequencePath));
+            }
+            @Override public void onNothingSelected(android.widget.AdapterView<?> parent){}
+        });
         sequence=button("Save selected sequence…",()->export(sequencePath,sequencePath.endsWith(".lms")?"application/xml":"application/octet-stream",new File(sequencePath).getName()));
         watch=button("Play preview",()->startActivity(new Intent(this,PreviewActivity.class).putExtra("path",previewPath)));
         movie=button("Save MP4…",()->export(previewPath,"video/mp4","Helix-preview.mp4"));
@@ -232,16 +241,8 @@ public class MainActivity extends Activity {
                 sequenceChoices.setAdapter(adapter);
                 int selection=choices.indexOf(prior);
                 if(selection<0)selection=choices.indexOf(engineSequence);
-                if(selection>=0)sequenceChoices.setSelection(selection);
+                if(selection>=0){sequenceChoices.setSelection(selection);selectedSequencePath=choices.get(selection);}
             }
-            sequenceChoices.setOnItemSelectedListener(new android.widget.AdapterView.OnItemSelectedListener(){
-                @Override public void onItemSelected(android.widget.AdapterView<?> parent,View view,int position,long id){
-                    selectedSequencePath=(String)parent.getItemAtPosition(position);
-                    sequencePath=selectedSequencePath;
-                    sequence.setEnabled(available(sequencePath));
-                }
-                @Override public void onNothingSelected(android.widget.AdapterView<?> parent){}
-            });
             if(!choices.contains(selectedSequencePath))
                 selectedSequencePath=choices.isEmpty()?"":choices.get(0);
             sequencePath=selectedSequencePath;
