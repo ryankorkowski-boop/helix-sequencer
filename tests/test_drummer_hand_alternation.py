@@ -66,3 +66,18 @@ def test_explicit_ride_has_independent_target_and_effect():
     result = resolve_drum_streams(streams)
     assert result["drummer_component_events"][0]["component"] == "HX_SNOWMAN_DRUMMER_RIDE"
     assert build_drum_effect_cues(result["events"])[0]["effect"] == "ride_ping"
+
+
+def test_distinct_toms_preserve_full_strike_velocity():
+    from mapping.drum_mapper import schedule_drum_events
+    events = [DrumEvent(1.0, .8, .9, {"tom_class": label}, i, "tom") for i, label in enumerate(("high", "mid", "floor"))]
+    result = schedule_drum_events(events)
+    assert len(result) == 3
+    assert all(e.velocity == .8 for e in result)
+
+
+def test_bounded_scheduler_preserves_priority_and_window_boundary():
+    from mapping.drum_mapper import schedule_drum_events, DrumMappingConfig
+    events = [DrumEvent(t, .8, .9, {}, i, kind) for i, (t, kind) in enumerate([(1., "hihat"), (1.07, "kick"), (1.141, "snare")])]
+    result = schedule_drum_events(events, DrumMappingConfig(max_hits_per_window=1))
+    assert [e.drum_type for e in result] == ["kick", "snare"]

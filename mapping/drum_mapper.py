@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+from collections import deque
 from dataclasses import dataclass
 from typing import Iterable
 
@@ -63,18 +64,25 @@ def schedule_drum_events(events: Iterable[DrumEvent], config: DrumMappingConfig 
         last_cluster[key] = len(merged)
         merged.append(event)
     merged.sort(key=lambda event: (event.timestamp_ms, DRUM_PRIORITY.get(event.drum_type, 9), -event.velocity))
-    scheduled: list[DrumEvent] = []; last_by_type: dict[str, DrumEvent] = {}
+    finalized: list[DrumEvent] = []
+    active: deque[DrumEvent] = deque()
+    last_by_type: dict[tuple[str, str], DrumEvent] = {}
     for event in merged:
-        nearby = [item for item in scheduled if 0 <= event.timestamp_ms - item.timestamp_ms <= config.clutter_window_ms]
+        while active and event.timestamp_ms - active[0].timestamp_ms > config.clutter_window_ms:
+            finalized.append(active.popleft())
+        nearby = active
         if len(nearby) >= config.max_hits_per_window:
             worst = max(nearby, key=lambda item: (DRUM_PRIORITY.get(item.drum_type, 9), -item.velocity))
             if (DRUM_PRIORITY.get(event.drum_type, 9), -event.velocity) >= (DRUM_PRIORITY.get(worst.drum_type, 9), -worst.velocity): continue
-            scheduled.remove(worst)
-        previous = last_by_type.get(event.drum_type)
+            active.remove(worst)
+        info = event.frequency_band_info or {}
+        label = str(info.get('tom_class', info.get('tom_position', ''))).strip() if event.drum_type == 'tom' else ''
+        key = (event.drum_type, tom_class_for_event(event) if label else '')
+        previous = last_by_type.get(key)
         if previous and event.timestamp_ms - previous.timestamp_ms <= config.rapid_repeat_window_ms:
             event = DrumEvent(timestamp=event.timestamp, velocity=round(max(.08, event.velocity * .74), 3), confidence=event.confidence, frequency_band_info={**event.frequency_band_info, "rapid_repeat_scale": .74}, cluster_id=event.cluster_id, drum_type=event.drum_type, source=event.source)
-        scheduled.append(event); last_by_type[event.drum_type] = event
-    return sorted(scheduled, key=lambda event: (event.timestamp_ms, DRUM_PRIORITY.get(event.drum_type, 9)))
+        active.append(event); last_by_type[key] = event
+    return sorted([*finalized, *active], key=lambda event: (event.timestamp_ms, DRUM_PRIORITY.get(event.drum_type, 9)))
 
 
 def tom_class_for_event(event: DrumEvent, event_index: int = 0) -> str:
