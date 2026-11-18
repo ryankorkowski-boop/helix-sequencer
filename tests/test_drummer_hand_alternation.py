@@ -21,3 +21,14 @@ def test_export_mapping_preserves_hand_assignment():
     mapped = map_events_to_drummer_components(events)
     for kind in ("snare", "cymbal"):
         assert [m["hand"] for m in mapped if m["drum_type"] == kind] == ["L", "R", "L", "R"]
+
+
+def test_interleaved_instrument_candidates_cluster_independently():
+    from core.drummer_v3_analysis import Candidate, DrumType, _cluster_candidates
+    candidates = [
+        Candidate(10, .10, DrumType.SNARE, .8, "snare_a"),
+        Candidate(11, .11, DrumType.KICK, .8, "kick"),
+        Candidate(12, .12, DrumType.SNARE, .8, "snare_b"),
+    ]
+    clusters = _cluster_candidates(candidates, .045)
+    assert [[c.source for c in cluster] for cluster in clusters] == [["snare_a", "snare_b"], ["kick"]]
