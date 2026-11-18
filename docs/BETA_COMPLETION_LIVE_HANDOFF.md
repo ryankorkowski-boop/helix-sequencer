@@ -84,3 +84,6 @@ Run `44217648117` was cancelled by concurrency when later Android commit arrived
 
 ## Full Android debug APK assembly passed
 Run `44217948986` PASSED both Java compilation and `gradle :app:assembleDebug` on the integration branch. This is a CI debug build, not a signed production release and not a device acceptance test. Added archive CRC, AndroidManifest.xml, classes.dex, assets and SHA-256 checks in workflow at `e625e8b3`; await next run. Do not publish or release APK without owner approval. Next: test device install/variant picker/preview, then implement all-eight per-variant MP4s and native xLights band verification.
+
+## Android spinner listener lifecycle repair
+At commit `b5b80e10`, variant spinner listener moved from repeated `poll()` registration to one-time initialization. Restored selection is explicitly synchronized after adapter refresh, reducing selection churn and unexpected resets. Prior APK integrity run `44218445981` passed all steps, but predates this fix. Next check fresh CI and test on actual device. All-eight MP4 preview/export remains open.
