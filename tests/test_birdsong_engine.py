@@ -130,6 +130,44 @@ class BirdsongEngineTests(unittest.TestCase):
                 for parent in ast.walk(tree)
             ), f"{name} timing export is gated by another engine")
 
+    def test_final_birdsong_reconciliation_uses_surviving_effects(self) -> None:
+        import ast
+        import inspect
+        import xml.etree.ElementTree as ET
+        from collections import Counter
+
+        # Execute the actual production reconciliation statements in isolation.
+        tree = ast.parse(inspect.getsource(effect_engine))
+        function = next(node for node in ast.walk(tree)
+                        if isinstance(node, ast.FunctionDef)
+                        and any(isinstance(stmt, ast.AnnAssign)
+                                and isinstance(stmt.target, ast.Name)
+                                and stmt.target.id == "birdsong_final_counts"
+                                for stmt in node.body))
+        start = next(i for i, stmt in enumerate(function.body)
+                     if isinstance(stmt, ast.AnnAssign)
+                     and isinstance(stmt.target, ast.Name)
+                     and stmt.target.id == "birdsong_final_counts")
+        block = ast.Module(body=function.body[start:start + 4], type_ignores=[])
+        timeline = effect_engine.EffectTimeline()
+        layer = ET.Element("EffectLayer")
+        for st, en, label in [(100, 220, "birdsong_call"),
+                              (250, 350, "birdsong_echo"),
+                              (400, 500, "birdsong_sweep"),
+                              (600, 700, "piano")]:
+            xml = ET.SubElement(layer, "Effect", startTime=str(st), endTime=str(en))
+            timeline.add("motion", effect_engine.TimelineEntry(
+                st, en, "On", 1, layer, xml, source_label=label))
+        entries = timeline.layers["motion"]
+        entries[0].start = 125
+        entries[0].xml_effect.set("startTime", "125")
+        timeline.remove_entry("motion", entries[1])
+        layer.remove(entries[1].xml_effect)  # stale timeline entry, absent from XML
+        scope = {"Counter": Counter, "timelines": {"prop": timeline}}
+        exec(compile(block, "<reconciliation>", "exec"), scope)
+        self.assertEqual(scope["birdsong_final_counts"], {"birdsong_call": 1})
+        self.assertEqual(scope["birdsong_track"], [("BIRDSONG_CALL", 125, 220)])
+
     def test_parse_args_accepts_birdsong_flags(self) -> None:
         args = effect_engine.parse_args(
             effect_engine.VARIANTS["v27.3"],
