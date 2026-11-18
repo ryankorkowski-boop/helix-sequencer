@@ -120,12 +120,13 @@
   },
   "android_compile_workflow": {
     "path": ".github/workflows/helix-android-variant-compile.yml",
-    "status": "run 44218445981 PASSED compile, APK assembly and integrity; new per-variant preview changes 7a7ff384/275effef/988dd56a await CI",
+    "status": "per-variant Android MP4 CI run 44219712984 was still in progress at last check; Python py_compile gate added 7ae93315 and new run pending",
     "commit": "a86114e21b97051e90bc11d6e458ed9188ff6c17",
     "first_run_url": "https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/44214052900",
     "java_compile_run_url": "https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/44214343888",
     "failure_url": "https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/44217769589",
     "apk_assembly_run_url": "https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/44217948986",
-    "apk_integrity_run_url": "https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/44218445981"
+    "apk_integrity_run_url": "https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/44218445981",
+    "variant_mp4_run_url": "https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/44219712984"
   }
 }
