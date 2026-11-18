@@ -594,3 +594,12 @@ Do not mark complete from unit tests alone.
 **Tests/evidence:** Run 44219712984 was still running at inspection (Java compilation not complete). Previous APK run 44218445981 passed, but predates per-variant MP4 implementation. New syntax gate needs fresh CI.
 **Limitations/deferred:** Syntax gate does not verify preview correctness, performance, on-device encoder behavior, native xLights, Windows parity.
 **Regression risks:** None expected from CI-only change; Python files are checked with host Python 3.10.
+
+### 2026-11-17 — Distinguish partial from complete Android multi-variant preview
+**Goal:** Prevent falsely reporting success when only some requested MP4 variants render.
+**Changed files:** `android/app/src/main/python/helix_mobile.py`, `MASTER_TODO.md`, `docs/BETA_COMPLETION_LIVE_HANDOFF.md`, `evidence/beta_completion/latest_status.json`.
+**Preserved behavior:** Per-variant sequential render, output paths, failure isolation, sequence/ZIP export, audio and canonical drummer logic.
+**New behavior:** Preview stage status is `success` only when all requested variants render, `partial` for a subset, and `failed` for none; includes `rendered`, `requested` and failed variant filenames, then checkpoints state.
+**Tests/evidence:** Run 44219873839 PASSED Python syntax, Java compilation, debug APK assembly and integrity for prior per-variant code. New partial-status change awaits CI.
+**Limitations/deferred:** Actual device playback, preview geometry and eight-variant timing/storage remain unverified.
+**Regression risks:** Consumers of stage status should handle `partial` distinctly; UI currently prints status text.
