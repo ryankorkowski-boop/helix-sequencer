@@ -1,0 +1,16 @@
+{
+  "schema_version": 1,
+  "updated_utc": "2026-11-17",
+  "branch": "integration/unified-beta-completion-20261117",
+  "release_label": "Beta Version 1.4",
+  "verified_artifacts": [],
+  "pending_artifacts": [
+    "Android APK",
+    "Windows portable EXE",
+    "native XSQ",
+    "native FSEQ",
+    "canonical band diagnostic MP4",
+    "nine-panel 1920x1080 H.264/AAC MP4"
+  ],
+  "note": "Historical PR descriptions are not current verified artifacts. No artifacts generated or validated this session."
+}
