@@ -9,34 +9,34 @@
   "release_approved": false,
   "tests_run_this_session": [
     {
-      "execution": "GitHub Actions",
-      "workflow_run_id": 44286584728,
-      "result": "success",
-      "python": [
-        "3.11",
-        "3.12"
-      ],
-      "coverage": "asset builder, canonical pose, orchestrator/drummer tests"
+      "workflow": "Helix Unified Beta Integration",
+      "run_id": 44290301048,
+      "conclusion": "success",
+      "evidence": "Python 3.11 and 3.12, generated nine-cue physical target and xmodel tests"
     },
     {
-      "execution": "GitHub Actions",
-      "workflow_run_id": 44288262162,
-      "result": "success",
-      "python": [
-        "3.11",
-        "3.12"
-      ],
-      "coverage": "XSQ On effect settings and native/logical target-contract regressions"
+      "workflow": "Drummer Ground Truth Test",
+      "run_id": 44290824555,
+      "conclusion": "success",
+      "evidence": "synthetic nine-cue XSQ, H.264/AAC MP4 decode, generated xmodel artifact"
     },
     {
-      "execution": "GitHub Actions",
-      "workflow_run_id": 44288669616,
-      "result": "pending",
-      "python": [
-        "3.11",
-        "3.12"
-      ],
-      "coverage": "new real 30s audio trim test"
+      "workflow": "Drummer Ground Truth Test",
+      "run_id": 44291594505,
+      "conclusion": "success",
+      "evidence": "latest diagnostic regeneration"
+    },
+    {
+      "workflow": "Nine-panel layout bench validation",
+      "run_id": 44291725423,
+      "conclusion": "success",
+      "evidence": "76-model native-model-zoo XML template artifact and fail-closed nine-panel gate"
+    },
+    {
+      "workflow": "Helix Unified Beta Integration",
+      "run_id": 44291632931,
+      "conclusion": "in_progress",
+      "evidence": "restored native FSEQ bench structural tests on Python 3.11/3.12"
     }
   ],
   "tasks": [
@@ -58,9 +58,9 @@
       "id": "HBC-003",
       "workstream": "Band",
       "priority": "P0",
-      "status": "BLOCKED",
-      "blocker": "Four-tom legacy ledger conflicts with three-tom owner directive",
-      "next_action": "Compare nine-cue canonical drummer logic to Drive Truths: Aaadrummertruth.mp4 and Aaadrummergroundtruth.mp4; reconcile user three-tom requirement without destroying approved original drummer."
+      "status": "IN PROGRESS",
+      "blocker": "Independent ride physically authored and synthetic nine-cue diagnostic passed; no owner-approved real-audio six-member native render",
+      "next_action": "Render and visually review real drummer/band under actual xLights FSEQ and compare original ground truth"
     },
     {
       "id": "HBC-004",
@@ -80,8 +80,8 @@
       "id": "HBC-006",
       "workstream": "C",
       "priority": "P0",
-      "status": "NOT STARTED",
-      "next_action": "After verified native engine inputs, use Tinsel Tornado.mp3 in Songs with Lyrics as pilot; do not count diagnostic as review-ready."
+      "status": "IN PROGRESS",
+      "next_action": "Native xLights FSEQ bench restored from PR #208; 76-model zoo candidate generated; complete missing final nine layouts, real song and native comparison MP4"
     },
     {
       "id": "HBC-007",
@@ -91,9 +91,9 @@
       "next_action": "Full acceptance and owner approval"
     }
   ],
-  "next_command": "Inspect run 44288669616 and repair failures; validate native XSQ/FSEQ with actual canonical layout and real audio; test Android layout picker on device",
-  "last_inspected_head": "c984bc5a1e56d0b49f357c9534ab19a2f7388840",
-  "ci_status": "44288262162 passed on Python 3.11/3.12; 44288669616 pending for true media trimming",
+  "next_command": "Check GitHub workflow 44291632931; repair any layout bench regression, then execute real song XSQ→xLights native FSEQ→nine-panel render with approved layouts and six-member band",
+  "last_inspected_head": "c2f555af62c9954be63daf4d82ba07b03b477451",
+  "ci_status": "Drummer ground truth 44291594505 SUCCESS, nine-panel model zoo 44291725423 SUCCESS; unified integration 44291632931 in_progress",
   "confirmed_findings": [
     "Default orchestration sidecar is not promoted without explicit flag",
     "Orchestrated XSQ requires an existing --template",
@@ -167,5 +167,19 @@
     "Drummer logical nine-cue mapper and eight-physical-asset guard now explicitly tested in CI; ride physical xmodel still absent",
     "Former six-piece runner copied full audio to a 30s-labeled MP3; replaced with ffmpeg bounded transcode and duration test, pending CI",
     "Android debug APK exists from workflow 44269896607 artifact 14412037480 but prior owner device failures remain unresolved"
-  ]
+  ],
+  "drummer_diagnostic": {
+    "run_id": 44290824555,
+    "run_url": "https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/44290824555",
+    "mp4_artifact_id": 14419964886,
+    "xsq_artifact_id": 14421676007,
+    "xmodel_artifact_id": 14421132009,
+    "kind": "synthetic diagnostic only; not native xLights verified"
+  },
+  "model_zoo_candidate": {
+    "run_id": 44291725423,
+    "artifact_id": 14421831415,
+    "model_count": 76,
+    "status": "candidate; structure passed, native FSEQ and musical choreography unverified"
+  }
 }
