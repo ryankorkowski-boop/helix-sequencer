@@ -558,3 +558,12 @@ Do not mark complete from unit tests alone.
 **Tests/evidence:** CI run 44217769589 failed before Java compilation: Gradle could not resolve `com.chaquo.python:17.0.0` from configured repositories. Earlier run 44217648117 was cancelled by branch concurrency. Previous run 44214343888 passed Java compilation (cached or previously resolved dependencies); clean runner exposed missing repository. New run pending.
 **Limitations/deferred:** Need confirm new Gradle resolution and full debug APK assembly; no on-device runtime, native xLights, or eight MP4 previews yet.
 **Regression risks:** External Chaquopy Maven availability; repository trust/availability and version compatibility must be verified by CI.
+
+### 2026-11-17 — Verified debug APK packaging and payload integrity gate
+**Goal:** Establish reproducible debug APK assembly and check archive integrity before device testing.
+**Changed files:** `.github/workflows/helix-android-variant-compile.yml`, `MASTER_TODO.md`, `docs/BETA_COMPLETION_LIVE_HANDOFF.md`, `evidence/beta_completion/latest_status.json`.
+**Preserved behavior:** Existing app, signing, user data, runtime logic, native outputs; no release, Drive upload, or GitHub artifact publication.
+**New behavior:** CI now verifies APK exists, ZIP CRC integrity, manifest, DEX and assets, and prints SHA-256 for traceability.
+**Tests/evidence:** Run 44217948986 completed SUCCESS for Java compile and `gradle :app:assembleDebug`. New APK payload checks are committed but awaiting execution.
+**Limitations/deferred:** Successful assembly does not prove installability on target device, correct six-snowman preview, independent vocal animation, eight MP4 variants, or Windows parity.
+**Regression risks:** Asset layout/packaging changes may require updating the simple ZIP structure checks.
