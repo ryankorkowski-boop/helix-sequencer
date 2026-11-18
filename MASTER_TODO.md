@@ -678,3 +678,6 @@ Restored optional desktop preview path in current sequence builder (a98f2d3b) us
 
 ### 2026-11-18 — Android band guard and drummer baseline comparison
 58e58e61 connects shared band guard before Android preview; existing private band visibility import now resolves. Baseline b27e8d77 pose spec v1 has two toms; current v3 has three HIGH/MID/FLOOR; pose spec, PNG manifest and XSQ integration differ. Do not wholesale revert: preserve approved geometry and reconcile latest nine cues, ride, alternate sticks/crashes against ground truth. Current composites lack explicit ride and independent snare hand targets. Native and runtime tests pending. No merge/release.
+
+### 2026-11-18 — Drummer hand timing correction
+19c77026 alternates every snare event independent of spacing; crash hand follows actual left/right component rather than independent rapid-repeat counter. Preserves physical channel names and deterministic seeded humanization. Added focused slow/fast alternation regression test, execution pending. Ride audio classification and ninth physical target, stick geometry consuming hand metadata, canonical rendering remain unresolved; no approval or release.
