@@ -513,3 +513,12 @@ Do not mark complete from unit tests alone.
 **Tests/evidence:** Python focused integration run 44213308493 fully PASSED on 3.11 and 3.12. Android compile workflow file committed but no run observed immediately after commit; Android compilation and device behavior still UNVERIFIED.
 **Limitations/deferred:** Eight distinct playable MP4s not implemented, and user selection persistence across process recreation not verified; existing Android simulated preview is not native xLights.
 **Regression risks:** Android build dependencies/Chaquopy and SDK may fail on hosted runner; picker adapter uses absolute paths as display labels; selection should be checked under service polling and activity recreation.
+
+### 2026-11-17 — Android compile runner setup repair
+**Goal:** Unblock Android Java compilation to verify variant picker after first hosted CI failed before Gradle.
+**Changed files:** `.github/workflows/helix-android-variant-compile.yml`, `MASTER_TODO.md`, `docs/BETA_COMPLETION_LIVE_HANDOFF.md`.
+**Preserved:** No production Android, Python, audio, drummer, UI, or renderer changes.
+**New behavior:** Use hosted runner's Android SDK directly instead of `android-actions/setup-android@v3`, which attempted to install unavailable legacy SDK `tools` package.
+**Tests/evidence:** GitHub run 44214052900 FAILED at setup-android; logs say `Warning: Failed to find package 'tools'`. Gradle and Java compilation were skipped. Updated workflow committed and new run pending.
+**Limitations/deferred:** Gradle dependencies/Chaquopy might still fail; APK and device behavior unverified.
+**Regression risks:** Hosted runner SDK manager environment may vary; license handling should be reviewed if installation fails.
