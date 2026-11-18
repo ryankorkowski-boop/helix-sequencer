@@ -78,3 +78,6 @@ Android CI run `44214343888` completed SUCCESS including `Compile debug Java sou
 
 ## Android recreation state fix
 Commit `b59aaa35` saves/restores `selectedSequencePath` via Android saved-instance state. This complements poll-stable variant picker. No device test yet. APK packaging CI run `44217648117` was still in progress at last check; it predates the new state fix and must not be used as proof of this latest source. Next verify new CI and device rotation, plus all-eight MP4 playback remains unimplemented.
+
+## Android APK clean runner plugin resolution
+Run `44217648117` was cancelled by concurrency when later Android commit arrived. Run `44217769589` FAILED at Gradle plugin resolution, before Java compilation: `com.chaquo.python:17.0.0` not found in configured Google/Maven Central/Plugin Portal repositories. Added Chaquopy Maven plugin repository in `android/settings.gradle` at `97aad439`. Await new run before asserting plugin or APK success. Previous Java compile run `44214343888` passed; full APK remains unverified.
