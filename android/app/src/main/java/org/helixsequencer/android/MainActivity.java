@@ -59,8 +59,8 @@ public class MainActivity extends Activity {
     }
     private void select(String key,String label){
         Button v=button(label,()->{
-            picking=key;startActivityForResult(new Intent(Intent.ACTION_OPEN_DOCUMENT).setType(key.equals("audio")?"audio/*":"*/*")
-                .addCategory(Intent.CATEGORY_OPENABLE).addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION|Intent.FLAG_GRANT_PERSISTABLE_URI_PERMISSION),100);
+            picking=key;remember();try{startActivityForResult(new Intent(Intent.ACTION_OPEN_DOCUMENT).setType(key.equals("audio")?"audio/*":"*/*")
+                .addCategory(Intent.CATEGORY_OPENABLE).addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION|Intent.FLAG_GRANT_PERSISTABLE_URI_PERMISSION),100);}catch(RuntimeException e){picking=null;alert("Unable to open file picker. Built-in layout remains available. "+e.getMessage());}
         });selectors.put(key,v);settings.add(v);
     }
     private void panel(int i){body=pages[i];text(steps[i],26,Color.WHITE);}
@@ -89,9 +89,9 @@ public class MainActivity extends Activity {
 
         panel(1);text("Choose the program you use for your lighting show.",17,Color.WHITE);
         mode=spinner(new String[]{"xLights · export XSQ","Light-O-Rama · export LMS"});
-        select("layout","Import xLights layout · RGB effects XML");select("lor","Import LOR channels · existing LMS");
-        text("Sample layouts · six display choices and separate stage scenery",16,Color.WHITE);
-        sampleLayout=spinner(options.layoutTitles());sampleLayout.setSelection(6);
+        select("layout","Import xLights layout · RGB effects XML");button("Use built-in layout",()->{inputs.remove("layout");getPreferences(0).edit().remove("uri_layout").apply();selectors.get("layout").setText("Import xLights layout · RGB effects XML");sampleLayout.setSelection(options.defaultLayoutIndex());remember();});select("lor","Import LOR channels · existing LMS");
+        text("Built-in sample layouts · no import required",16,Color.WHITE);
+        sampleLayout=spinner(options.layoutTitles());sampleLayout.setSelection(options.defaultLayoutIndex());
         includeBand=check("Band performers",true);includeBand.setId(R.id.include_band);
         text("Include the band when it is present in your xLights layout. Turn it off for a lights-only show.",14,Color.LTGRAY);
         text("Your imported layout takes priority. With no import, the selected sample is used. Stage scenery contains the stage props; it does not replace the band design.",14,Color.LTGRAY);
@@ -165,7 +165,7 @@ public class MainActivity extends Activity {
     private void restorePreferences(){
         android.content.SharedPreferences p=getPreferences(0);mode.setSelection(p.getInt("mode",0));palette.setSelection(p.getInt("palette",0));
         variants.setText(p.getString("variants","1"));duration.setText(p.getString("duration","30"));preview.setChecked(p.getBoolean("preview",true));
-        quickClip.setChecked(p.getBoolean("quick_clip",false));sampleLayout.setSelection(p.getInt("sample_layout",6));
+        quickClip.setChecked(p.getBoolean("quick_clip",false));sampleLayout.setSelection(options.validLayoutIndex(p.getInt("sample_layout",options.defaultLayoutIndex())));
         includeBand.setChecked(p.getBoolean("band_enabled",true));
         spatial.setChecked(p.getBoolean("spatial",true));ac.setChecked(p.getBoolean("ac",false));polish.setChecked(p.getBoolean("polish",true));
         matrix.setChecked(p.getBoolean("matrix",true));birdsong.setChecked(p.getBoolean("birdsong",true));
