@@ -9,6 +9,8 @@ on:
       - '.github/workflows/helix-android-variant-compile.yml'
       - 'tools/stage_android_engine.py'
       - 'tools/build_android_python_wheels.py'
+      - 'tools/build_helpers/variants.py'
+      - 'config/gui_options.json'
   workflow_dispatch:
 
 permissions:
