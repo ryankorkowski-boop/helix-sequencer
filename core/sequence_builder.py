@@ -30,6 +30,7 @@ BEAT_GRID_FLAGS = {
 }
 BEAT_GRID_VALUE_FLAGS = BEAT_GRID_FLAGS - {"--no-snap"}
 ORCHESTRATOR_ONLY_FLAGS = {
+    "--helix-review-previews",
     NO_EFFECTS_ORCHESTRATOR_FLAG,
     PROMOTE_ORCHESTRATOR_TEMPLATE_FLAG,
     NO_ORCHESTRATOR_TEMPLATE_PROMOTION_FLAG,
@@ -430,6 +431,11 @@ def run_profile(profile_id: str | None, engine_args: list[str] | None = None) ->
             changed_artifacts = _record_changed_artifacts(ctx, artifact_roots, artifact_snapshot)
             ctx.record_artifact("configured_output_root", config.output_root)
 
+        if "--helix-review-previews" in (engine_args or []):
+            try:
+                _review_changed_sequences(changed_artifacts, engine_args, ctx)
+            except Exception as exc:
+                print(f"Optional review previews failed: {exc}", file=sys.stderr)
         _record_engine_activation_audit(ctx, config, engine_args, report, completed=True, changed_xsq_paths=changed_artifacts)
         ctx.finalize(success=True)
         print(f"SUCCESS: Run completed. Manifest: {ctx.manifest_path}", file=sys.stderr)
@@ -448,6 +454,55 @@ def run_profile(profile_id: str | None, engine_args: list[str] | None = None) ->
         _record_engine_activation_audit(ctx, config, engine_args, locals().get("report"), completed=False, failed=f"{type(e).__name__}: {e}", changed_xsq_paths=locals().get("changed_artifacts"))
         ctx.finalize(success=False, error_summary=error_summary)
         raise SystemExit(1)
+
+
+def _preview_audio_for_sequence(source: Path, audio_inputs: list[Path]) -> Path | None:
+    """Resolve each soundtrack from its XSQ media identity before muxing."""
+    import xml.etree.ElementTree as ET
+
+    root = ET.parse(source).getroot()
+    media = (root.findtext("./head/mediaFile") or root.findtext("./head/MediaFile") or "").strip()
+    if media:
+        declared = Path(media)
+        candidate = declared if declared.is_absolute() else source.parent / declared
+        if candidate.is_file():
+            return candidate
+        basename = media.replace("\\", "/").rsplit("/", 1)[-1].casefold()
+        matches = [p for p in audio_inputs if p.name.casefold() == basename]
+        if len(matches) == 1 and matches[0].is_file():
+            return matches[0]
+        raise RuntimeError(f"Preview soundtrack could not be resolved for {source.name}: {media}")
+    if len(audio_inputs) > 1:
+        raise RuntimeError(f"Batch preview requires per-sequence media identity: {source.name}")
+    return audio_inputs[0] if audio_inputs else None
+
+
+def _review_changed_sequences(paths, engine_args, ctx):
+    """Optional desktop review; do not represent simulated previews as native."""
+    import json
+    from tools.preview_renderer import parse_models, render_sequence_to_mp4
+    args = list(engine_args or [])
+    layout = Path(args[args.index("--layout-file") + 1])
+    audio = Path(args[args.index("--audio") + 1])
+    parsed = parse_models(layout)
+    candidates = [p for p in paths if p.suffix.lower() == ".xsq"
+                  and ".orchestrated." not in p.name and ".runtime_" not in p.name]
+    limit = min(8, max(1, int(args[args.index("--variants") + 1]))) if "--variants" in args else 1
+    completed = 0
+    for source in candidates[:limit]:
+        try:
+            soundtrack = _preview_audio_for_sequence(source, [audio])
+            preview = render_sequence_to_mp4(source, parsed, soundtrack, 12, 960, 540)
+            provenance = preview.with_suffix(".preview_provenance.json")
+            provenance.write_text(json.dumps({"xsq": str(source), "native_xlights_render_verified": False,
+                "source": "simulated effect-level preview"}, indent=2), encoding="utf-8")
+            ctx.record_artifact("preview_mp4", preview)
+            ctx.record_artifact("preview_provenance", provenance)
+            completed += 1
+            print(f"preview_mp4: {preview.resolve()} (simulated, not native rendering)", flush=True)
+        except Exception as exc:
+            print(f"Preview failed for {source.name}: {exc}", file=sys.stderr)
+    print(f"Preview review: {completed}/{limit} requested (simulated)", flush=True)
 
 
 def run_version(version: str, engine_args: list[str] | None = None) -> None:
