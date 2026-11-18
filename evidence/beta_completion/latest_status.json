@@ -43,7 +43,7 @@
       "workstream": "B",
       "priority": "P0",
       "status": "IN PROGRESS",
-      "next_action": "Download retained debug APK after new CI; device-test eight variant playback/export, band geometry and sync."
+      "next_action": "Install retained APK and verify eight variants, individual playback/export, band geometry and sync; no release."
     },
     {
       "id": "HBC-006",
@@ -120,13 +120,13 @@
   },
   "android_compile_workflow": {
     "path": ".github/workflows/helix-android-variant-compile.yml",
-    "status": "PASS run 44247185516: syntax, Java, APK assembly and integrity; zero retained artifacts. Retention added in 45955934; fresh CI pending.",
+    "status": "PASS run 44256203127; verified debug APK retained as artifact 14406022516, expires 2026-11-25. Device testing pending.",
     "commit": "a86114e21b97051e90bc11d6e458ed9188ff6c17",
     "first_run_url": "https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/44214052900",
     "java_compile_run_url": "https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/44214343888",
     "failure_url": "https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/44217769589",
     "apk_assembly_run_url": "https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/44217948986",
     "apk_integrity_run_url": "https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/44218445981",
-    "variant_mp4_run_url": "https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/44247185516"
+    "variant_mp4_run_url": "https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/44256203127"
   }
 }
