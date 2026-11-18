@@ -32,3 +32,11 @@ def test_interleaved_instrument_candidates_cluster_independently():
     ]
     clusters = _cluster_candidates(candidates, .045)
     assert [[c.source for c in cluster] for cluster in clusters] == [["snare_a", "snare_b"], ["kick"]]
+
+
+def test_reactive_member_keeps_simultaneous_motion_instrument_identity():
+    from models.working_drummer import build_reactive_drummer_member
+    payload = build_reactive_drummer_member(kicks=[1000], snares=[1000], hats=[1000], cymbals=[1000])
+    cues = payload["reactive_cues"]
+    assert cues
+    assert all(cue["kind"] == cue["motion"]["drum_type"] for cue in cues)
