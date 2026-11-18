@@ -36,7 +36,25 @@ def _clear_layer(layer):
     for child in list(layer):layer.remove(child)
 
 def _add_on(layer, start_ms, end_ms, intensity, component, source_type, hand=None):
-    ET.SubElement(layer, "Effect", {"name":"On","startTime":str(max(0,int(start_ms))),"endTime":str(max(int(start_ms)+50,int(end_ms))),"settings":f"E_CHECKBOX_OverlayBkg=0,E_SLIDER_Brightness={max(.08,min(1.,float(intensity))):.3f}","palette":"C_BUTTON_Palette1=#FFFFFF,C_BUTTON_Palette2=#FFFFFF,C_BUTTON_Palette3=#FFFFFF","source":"HelixDrummerV3","sourceModel":DRUMMER_V3_MODEL,"sourceComponent":component,"sourceDrumType":source_type, **({"sourceHand": hand} if hand else {})})
+    # xLights On uses percentage start/end intensity; E_SLIDER_Brightness
+    # is not an On-effect intensity control and can be silently ignored.
+    peak = max(8, min(100, int(round(float(intensity) * 100))))
+    tail = min(peak, max(0, int(round(peak * 0.06))))
+    ET.SubElement(layer, "Effect", {
+        "name": "On",
+        "startTime": str(max(0, int(start_ms))),
+        "endTime": str(max(int(start_ms) + 50, int(end_ms))),
+        "settings": (
+            f"E_CHECKBOX_OverlayBkg=0,E_TEXTCTRL_Eff_On_Start={peak},"
+            f"E_TEXTCTRL_Eff_On_End={tail}"
+        ),
+        "palette": "C_BUTTON_Palette1=#FFFFFF,C_CHECKBOX_Palette1=1",
+        "source": "HelixDrummerV3",
+        "sourceModel": DRUMMER_V3_MODEL,
+        "sourceComponent": component,
+        "sourceDrumType": source_type,
+        **({"sourceHand": hand} if hand else {}),
+    })
 
 def _band_energy(magnitude, freqs, lo, hi):
     mask=(freqs>=lo)&(freqs<hi)
