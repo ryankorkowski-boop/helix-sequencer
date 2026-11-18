@@ -12,7 +12,7 @@
     "canonical band diagnostic MP4",
     "nine-panel 1920x1080 H.264/AAC MP4"
   ],
-  "note": "CI-only debug APK is a candidate, not a repaired or owner-approved build. Native XSQ/FSEQ, real 9-panel MP4 and band approval media are not verified. Explicit ride physical geometry absent. Media excerpt duration test pending.",
+  "note": "No final native FSEQ, real-audio six-member band MP4, full nine-panel comparison MP4, or owner-approved APK/EXE exists. Diagnostic artifacts are separate from acceptance assets.",
   "candidate_artifacts": [
     {
       "kind": "Android debug APK (CI build only)",
@@ -23,6 +23,36 @@
       "ci_status": "success",
       "device_runtime_status": "UNVERIFIED; earlier owner layout-picker/band visual tests failed",
       "approval_status": "NOT APPROVED"
+    }
+  ],
+  "diagnostic_artifacts": [
+    {
+      "kind": "nine-cue original-drummer diagnostic MP4",
+      "workflow_run_id": 44290824555,
+      "artifact_id": 14419964886,
+      "url": "https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/44290824555/artifacts/14419964886",
+      "verification": "CI successful H.264/AAC full decode; synthetic audio, static canonical image with localized hit masks; not native FSEQ or approval"
+    },
+    {
+      "kind": "synthetic drum XSQ/WAV and event labels",
+      "workflow_run_id": 44290824555,
+      "artifact_id": 14421676007,
+      "url": "https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/44290824555/artifacts/14421676007",
+      "verification": "generated and structurally tested; native xLights import not verified"
+    },
+    {
+      "kind": "regenerated nine-cue physical xmodel and original source image",
+      "workflow_run_id": 44290824555,
+      "artifact_id": 14421132009,
+      "url": "https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/44290824555/artifacts/14421132009",
+      "verification": "builder and pose tests passed; native xLights import not verified"
+    },
+    {
+      "kind": "76-model provisional panel-six xLights layout and XSQ template",
+      "workflow_run_id": 44291725423,
+      "artifact_id": 14421831415,
+      "url": "https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/44291725423/artifacts/14421831415",
+      "verification": "clean-room generated; structural gate passed; unapproved layout, no FSEQ or real-audio render"
     }
   ]
 }
