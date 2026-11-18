@@ -139,7 +139,7 @@ public class MainActivity extends Activity {
             @Override public void onNothingSelected(android.widget.AdapterView<?> parent){}
         });
         sequence=button("Save selected sequence…",()->export(sequencePath,sequencePath.endsWith(".lms")?"application/xml":"application/octet-stream",new File(sequencePath).getName()));
-        watch=button("Play preview",()->startActivity(new Intent(this,PreviewActivity.class).putExtra("path",previewPath)));
+        watch=button("Play preview",()->{if(available(previewPath))startActivity(new Intent(this,PreviewActivity.class).putExtra("path",previewPath));else alert("This variant has no completed preview yet.");});
         movie=button("Save MP4…",()->export(previewPath,"video/mp4","Helix-preview.mp4"));
         save=button("Save show ZIP…",()->export(bundlePath,"application/zip","Helix-show.zip"));share=button("Share show ZIP…",this::shareShow);
         report=button("Save run report…",()->export(reportPath,"text/plain","Helix-run-report.txt"));
@@ -244,8 +244,9 @@ public class MainActivity extends Activity {
                 String moviePath=moviePaths.optString(i);
                 if(available(moviePath))variantMovies.put(paths.optString(i),moviePath);
             }
-            if(moviePaths==null&&available(s.optString("preview")))
-                variantMovies.put(engineSequence,s.optString("preview"));
+            // Primary preview can be checkpointed before the aligned array is populated.
+            if(available(engineSequence)&&available(s.optString("preview")))
+                variantMovies.putIfAbsent(engineSequence,s.optString("preview"));
             String choiceKey=android.text.TextUtils.join("\n",choices);
             if(!choiceKey.equals(lastVariantChoices)){
                 lastVariantChoices=choiceKey;
