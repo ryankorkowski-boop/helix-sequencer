@@ -711,3 +711,6 @@ CI 44280439634 passed reactive motion identity regression. 33c9c14e extends even
 
 ### 2026-11-18 — Downstream duplicate strike scheduling
 CI 44281318177 passed effect identity regression. 6e22a9f6 independently merges same-type interleaved events in schedule_drum_events, then restores chronological order. Added regression; CI pending. Existing 24ms merge window retained; rapid genuine hits and distinct tom classes require further validation. No canonical MP4 or release.
+
+### 2026-11-18 — Preserve distinct labeled tom strikes
+CI 44282095659 passed interleaved duplicate regression. e0af1288 deduplicates by instrument and explicit tom class; added simultaneous three-tom regression. Existing clutter cap and repeat scaling unchanged. Unlabeled toms still use fallback routing; no ride or canonical render. CI pending. No merge/release.
