@@ -820,3 +820,7 @@ Code inspection also confirms `android/app/src/main/python/helix_mobile.py::buil
 
 ### 2026-11-18 — Android orchestrator opt-in groundwork
 Commit 054f798 enables explicit effects_orchestrator=true in RGB xLights mobile requests, sidecar only; AC/LOR and default mobile behavior remain unchanged. No GUI control, template promotion, memory benchmark or runtime parity claimed. Next: add request argument regression tests, verify bounded memory, then wire UI and validate actual production output before enabling by default. No merge/release.
+
+
+### 2026-11-18 — Mobile variant preview validation
+Commit 7ac1363 adds five Android orchestrator policy regression scenarios; CI not verified. Commit d4740fc validates each candidate's band layout before rendering its preview. Existing backend encodes up to eight variants with index-aligned preview paths and partial failure reporting. GUI playback and physical device testing remain outstanding. Simulation is not native FSEQ evidence. No merge/release.
