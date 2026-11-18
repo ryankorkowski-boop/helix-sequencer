@@ -1078,7 +1078,7 @@ def write_template(layout: Layout, path: Path) -> None:
         ("sequenceTiming", "50 ms"),
         ("sequenceType", "Media"),
         ("mediaFile", ""),
-        ("sequenceDuration", "35.000"),
+        ("sequenceDuration", "600.000"),
     ):
         el = ET.SubElement(head, tag)
         el.text = text

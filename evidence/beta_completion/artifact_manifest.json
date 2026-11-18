@@ -3,16 +3,23 @@
   "updated_utc": "2026-11-18",
   "branch": "integration/unified-beta-completion-20261117",
   "release_label": "Beta Version 1.4",
-  "verified_artifacts": [],
+  "verified_artifacts": [
+    {
+      "kind": "nine-panel native FSEQ MP4",
+      "path": "/cursor/stores/self/beta14-nine-panel/nine-panel-tinsel-tornado-native-fseq.mp4",
+      "sha256": "e55fd0e1af7a1be8ab865193e76e03ba511e0bbb3df85eaab60a76d0dd9def88",
+      "bytes": 42076744,
+      "checks": "1920x1080 H.264 30fps, AAC-LC 48kHz stereo, container 205.76s, 0 blackframe hits at amount=98 threshold=16. xLights 2026.19 FSEQ. CRF 30 store copy. Not owner approval.",
+      "source_audio_sha256": "8b8caddd6c292a13995bde0e80ac66f948246bd634278ab4ade1a82163aa7086"
+    }
+  ],
   "pending_artifacts": [
     "Android APK",
     "Windows portable EXE",
-    "native XSQ",
-    "native FSEQ",
-    "canonical band diagnostic MP4",
-    "nine-panel 1920x1080 H.264/AAC MP4"
+    "canonical six-member band MP4",
+    "owner approval of the nine-panel MP4"
   ],
-  "note": "No final native FSEQ, real-audio six-member band MP4, full nine-panel comparison MP4, or owner-approved APK/EXE exists. Commit 9d622d67 did not produce a new APK, EXE, XSQ, FSEQ, or MP4. Diagnostic artifacts are separate from acceptance assets.",
+  "note": "Nine-panel native and simulated MP4s, plus the nine XSQ and FSEQ files, are in the agent store under /cursor/stores/self/beta14-nine-panel/. Evidence hashes are in evidence.json there. Audio was not committed. This is not a release.",
   "candidate_artifacts": [
     {
       "kind": "Android debug APK (CI build only)",

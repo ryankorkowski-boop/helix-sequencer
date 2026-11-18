@@ -81,7 +81,7 @@
       "workstream": "C",
       "priority": "P0",
       "status": "IN PROGRESS",
-      "next_action": "Native xLights FSEQ bench restored from PR #208; 76-model zoo candidate generated; complete missing final nine layouts, real song and native comparison MP4"
+      "next_action": "Nine-panel native MP4 is in the agent store (sha256 e55fd0e1af7a1be8ab865193e76e03ba511e0bbb3df85eaab60a76d0dd9def88). It is xLights 2026.19 FSEQ at 1920x1080 30fps with the verified soundtrack. Panel 5 is still the four-snowman bench, not the canonical six. Owner visual approval is not done."
     },
     {
       "id": "HBC-007",
@@ -91,7 +91,7 @@
       "next_action": "Full acceptance and owner approval"
     }
   ],
-  "next_command": "Inspect Actions runs for 9d622d67b4efc748210c0626accc8d0dd06d8a3b on Helix Unified Beta Integration and Helix Android Variant Compile. Repair a red job before any device or native render. Do not treat run 44346809806 as coverage for this HEAD.",
+  "next_command": "Review /cursor/stores/self/beta14-nine-panel/nine-panel-tinsel-tornado-native-fseq.mp4. Then replace panel 5 with the canonical six-member band and re-render that panel. Do not treat this MP4 as owner approval.",
   "last_inspected_head": "9d622d67b4efc748210c0626accc8d0dd06d8a3b",
   "ci_status": "LOCAL ONLY for 9d622d67: Python 3.11.18 and 3.12.3 each passed 50 focused tests and 5 subtests. PreviewStatusChecks passed under javac. GitHub Actions for this SHA were not inspected. Run 44346809806 passed older Python 3.11/3.12 and does not verify this HEAD. No Gradle, device, native FSEQ, or approval MP4 in this session.",
   "confirmed_findings": [

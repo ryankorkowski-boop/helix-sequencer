@@ -318,3 +318,12 @@ Commit `9d622d67b4efc748210c0626accc8d0dd06d8a3b` on `integration/unified-beta-c
 **Not verified:** eight playable variant videos, API 30 memory, Windows EXE, layout picker, native FSEQ, approval MP4s, owner approval. Run 44346809806 predates this commit.
 
 **Exact next command:** After this commit is pushed, open the Actions run for `9d622d67` on Helix Unified Beta Integration and Helix Android Variant Compile. Repair a failing job before packaging an APK or rendering a native sequence. Do not mark eight-variant playback or Beta 1.4 approval complete from this source change.
+
+### 2026-11-18 — Nine-panel MP4
+Native file, checked: `/cursor/stores/self/beta14-nine-panel/nine-panel-tinsel-tornado-native-fseq.mp4`
+
+sha256 `e55fd0e1af7a1be8ab865193e76e03ba511e0bbb3df85eaab60a76d0dd9def88`, 42076744 bytes. H.264, 1920×1080, 30 fps, AAC-LC 48 kHz stereo, container 205.76 s, 0 blackframe hits. Soundtrack sha256 `8b8caddd6c292a13995bde0e80ac66f948246bd634278ab4ade1a82163aa7086`. Nine xLights 2026.19 FSEQs and the Helix XSQ files are beside it. A simulated XSQ-timing companion is `nine-panel-tinsel-tornado-simulated.mp4`, sha256 `000b87a246fe6215f2c2ee01fa24d4d5987c70fdb6b2cc5c6777c21145454a6d`.
+
+Panels: 16ch LOR AC, repository 256ch AC, RGB house, generated singing-face house, four-snowman bench, model zoo, moire grid, sequential groups, ultimate showcase. Panel 5 is not the canonical six-member band. This is not owner approval.
+
+Next: replace the center panel with the canonical six-member geometry and re-render. Do not commit the audio.
