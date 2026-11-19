@@ -37,6 +37,10 @@ def coordinates(family, index, count):
     # Deterministic dispersed arrangement with actual Z variation.
     angle = index * 2.399963229728653 + (sum(map(ord, family)) % 97)
     radius = 70.0 + 490.0 * math.sqrt((index + .5) / count)
+    # Give each family a coherent concentric district rather than random overlap.
+    district = next(k for k, spec in enumerate(FAMILIES) if spec[0] == family)
+    angle = 2*math.pi*(district + 0.12 + 0.76*(index % 17)/16)/len(FAMILIES)
+    radius = 90 + 460*((index//17 + .5)/max(1,math.ceil(count/17)))
     return radius * math.cos(angle), radius * math.sin(angle), 5.0 + 35.0 * (index % 7) / 6
 
 def spiral(cx, cy, cz, nodes, turns, height=54, radius=14, handed=1):
@@ -86,22 +90,22 @@ def points(family, i, count, nodes):
     return [(x+16*((j%24)/23-.5),y,z+20*((j//24)/max(1,nodes//24-1))) for j in range(nodes)]
 
 def make_layout(output, manifest, size=2048):
-    if size not in (128,512,2048): raise ValueError("size must be 128, 512 or 2048")
+    if size not in (128,512,2048,10240): raise ValueError("size must be 128, 512, 2048 or 10240")
     root=ET.Element("xrgb")
     models=ET.SubElement(root,"models")
     groups=ET.SubElement(root,"modelGroups")
     records=[]
     next_channel=1
     for family,maximum,nodes,role in FAMILIES:
-        count=maximum if size==2048 else max(1,round(maximum*size/2048))
+        count=maximum*5 if size==10240 else maximum if size==2048 else max(1,round(maximum*size/2048))
         for i in range(count):
             p=points(family,i,count,nodes)
             assert len(p)==nodes, (family,len(p),nodes)
             name=f"HX_INFINITY_{family}_{i+1:04d}"
-            x,y,z=p[0]
+            x,y,z=coordinates(family,i,count)
             attrs={"name":name,"DisplayAs":"Poly Line","StringType":"RGB Nodes",
                    "StartChannel":str(next_channel),"parm1":"1","parm2":str(nodes),"parm3":"1",
-                   "StartSide":"B","Dir":"L","Antialias":"1","PixelSize":"2",
+                   "StartSide":"B","Dir":"L","Antialias":"1","PixelSize":"4",
                    "Transparency":"0","LayoutGroup":"HELIX INFINITY",
                    "WorldPosX":f"{x:.4f}","WorldPosY":f"{y:.4f}","WorldPosZ":f"{z:.4f}",
                    "ScaleX":"1.0000","ScaleY":"1.0000","ScaleZ":"1.0000",
@@ -128,6 +132,10 @@ def make_layout(output, manifest, size=2048):
     for level in (2,4,8,16,32,64,128,256,512,1024):
         for start in range(0,len(records),level):
             group(f"HX_INFINITY_HIER_{level:04d}_{start//level:04d}",names[start:start+level])
+    for sector in range(24):
+        group(f"HX_INFINITY_SECTOR_{sector:02d}", [r["name"] for r in records if int((math.atan2(r["center"][1],r["center"][0])%(2*math.pi))*24/(2*math.pi))==sector])
+    for ring in range(8):
+        group(f"HX_INFINITY_RING_{ring:02d}", [r["name"] for r in records if min(7,int(math.hypot(*r["center"][:2])/70))==ring])
     # Validate full channel allocation and group references before emitting artifacts.
     assert len(names)==len(set(names))
     assert all(a["end_channel"]+1==b["start_channel"] for a,b in zip(records,records[1:]))
@@ -150,7 +158,7 @@ def make_layout(output, manifest, size=2048):
 
 def main():
     ap=argparse.ArgumentParser()
-    ap.add_argument("--size",type=int,choices=(128,512,2048),default=2048)
+    ap.add_argument("--size",type=int,choices=(128,512,2048,10240),default=10240)
     ap.add_argument("--output",type=Path,default=Path("test_runs/ultimate_showcase/xlights_rgbeffects_infinity.xml"))
     ap.add_argument("--manifest",type=Path,default=Path("test_runs/ultimate_showcase/infinity_manifest.json"))
     args=ap.parse_args()
