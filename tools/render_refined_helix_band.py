@@ -105,7 +105,7 @@ class DynamicDry:
     def __init__(self,player):self.player=player;self.time=0;self.proof={'opt_in_articulated_source_compositor':True}
     def frame(self,lighting,strikes,hand):
         active=[t for k,t in enumerate(TARGETS) if strikes[k]>0]
-        image=self.player.frame(self.time,active,{TARGETS[k]:float(lighting[k]) for k in (6,7)})
+        image=self.player.frame(self.time,active,{TARGETS[k]:float(lighting[k]) for k in (6,7,8) if k<len(lighting)})
         rgb=np.asarray(image.crop((99,124,494,380)).convert('RGB'))
         alpha=np.clip((rgb.max(axis=2).astype(float)-7)*22,0,255).astype('u1')
         return np.dstack((rgb,alpha))

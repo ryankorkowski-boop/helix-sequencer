@@ -32,7 +32,10 @@ class ArticulatedDrummer:
         # static source artwork/masks must remain unchanged while enabled.
         self.cache_lighting=(os.environ.get('HELIX_CACHE_STATIC_KIT')=='1') if cache_lighting is None else bool(cache_lighting)
         self._kit_cache={}
-        self.source=Image.open(SOURCE).convert('RGBA');self.spec=load_spec();self.lighting=lighting
+        self.spec=load_spec();self.lighting=lighting
+        from tools.drummer_v3_visual_masks import apply_authored_art
+        # The authored ride is painted in memory; the source file is unchanged.
+        self.source=apply_authored_art(Image.open(SOURCE).convert('RGBA'),self.spec)
         self.geometry=exact_geometry(self.source,self.spec);self.masks=self.geometry['masks']
         self.scale=np.array(self.source.size)-1
         self.zones={z['id']:z for z in self.spec['zones']};self.hits=sorted(hits,key=lambda e:e['time'])

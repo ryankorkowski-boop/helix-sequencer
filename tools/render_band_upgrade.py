@@ -24,6 +24,7 @@ from models.band_performance_scene import BandScene, matrix, line_matrix, string
 from tools.build_helpers.ultimate_showcase_preview import _font, read_fseq
 from tools.build_snowman_ensemble import soundtrack_check
 from models.drummer_review_schedule import decode_review_schedule
+from models.source_drummer_3d import apply_drum_levels
 
 ROOT=Path(__file__).resolve().parents[1]
 OLD=ROOT/'outputs/Snowman_Ensemble'
@@ -163,7 +164,7 @@ class Performance:
         out=np.zeros(128,dtype=np.float32)
         for k,kind in enumerate(('bass','guitar','piano')):out[k]=self.curves[kind+'_energy'][i]*.50
         slot=int(self.curves['vocal_route'][i]);out[3+slot]=self.curves['vocal_energy'][i]*.6
-        out[5:13]=self.drums[i]
+        apply_drum_levels(out,self.drums[i])
         for kind,first in (('bass',13),('guitar',17)):
             chosen=[]
             for note in self.curves[kind+'_notes'][i]:

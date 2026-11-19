@@ -10,6 +10,7 @@ from PIL import Image, ImageChops, ImageDraw, ImageFont
 from animation.cymbal_lighting import cymbal_level, is_cymbal, DEFAULT_FRAME_MS
 
 from tools.drummer_v3_visual_masks import (
+    apply_authored_art,
     exact_geometry,
     compose_emissive,
     load_spec,
@@ -29,6 +30,7 @@ TARGETS = (
     "HX_SNOWMAN_DRUMMER_V3_TOM_FLOOR",
     "HX_SNOWMAN_DRUMMER_V3_CYMBAL_LEFT",
     "HX_SNOWMAN_DRUMMER_V3_CYMBAL_RIGHT",
+    "HX_SNOWMAN_DRUMMER_V3_RIDE",
 )
 LABELS = {
     TARGETS[0]: "KICK",
@@ -39,6 +41,7 @@ LABELS = {
     TARGETS[5]: "TOM FLOOR",
     TARGETS[6]: "CRASH L",
     TARGETS[7]: "CRASH R",
+    TARGETS[8]: "RIDE",
 }
 
 
@@ -88,8 +91,10 @@ def load_component_masks(
     if not xmodel_path.exists():
         raise ValueError(f"canonical drummer xmodel missing: {xmodel_path}")
     validate_xmodel_targets(xmodel_path)
-    source = Image.open(source_path).convert("RGBA")
     spec = load_spec()
+    # Authored kit pieces (the ride) are painted once so the composited frame
+    # and the masks agree; the source file on disk is unchanged.
+    source = apply_authored_art(Image.open(source_path).convert("RGBA"), spec)
     masks = exact_geometry(source, spec, preview_front_overlap=True)["masks"]
     masks["__preview_body__"] = _preview_body_keepalive_mask(source, masks)
     return source, masks

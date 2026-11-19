@@ -10,7 +10,7 @@ DEFAULT_FRAME_MS = 50
 
 
 def is_cymbal(target: str) -> bool:
-    return target.endswith(("_CYMBAL_LEFT", "_CYMBAL_RIGHT"))
+    return target.endswith(("_CYMBAL_LEFT", "_CYMBAL_RIGHT", "_RIDE"))
 
 
 def peak_level(velocity: float) -> float:

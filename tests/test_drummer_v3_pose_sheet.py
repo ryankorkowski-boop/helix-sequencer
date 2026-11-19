@@ -53,11 +53,11 @@ def test_drummer_v3_source_and_pose_sheet_are_real_images() -> None:
         assert sheet.format == "PNG" and sheet.getbbox() is not None
 
 
-def test_pose_spec_is_three_tom_eight_target_source_normalized_contract() -> None:
+def test_pose_spec_is_three_tom_nine_target_source_normalized_contract() -> None:
     spec = json.loads(SPEC.read_text(encoding="utf-8"))
-    assert spec["schema"] == "helix.drummer_v3_pose_spec.v7"
+    assert spec["schema"] == "helix.drummer_v3_pose_spec.v8"
     assert spec["canonical_toms"] == ["HIGH", "MID", "FLOOR"]
-    assert len(spec["lighting_targets"]) == 8
+    assert len(spec["lighting_targets"]) == 9
     zones = {zone["id"]: zone for zone in spec["zones"]}
     assert {"TOM_HIGH_SURFACE", "TOM_MID_SURFACE", "TOM_FLOOR_SURFACE"} <= zones.keys()
     assert "TOM_4_SURFACE" not in zones
@@ -72,6 +72,12 @@ def test_pose_spec_is_three_tom_eight_target_source_normalized_contract() -> Non
     assert target_map["TOM_HIGH"]["actuators"] == ["TOM_HIGH_ARM_STICK"]
     assert target_map["TOM_MID"]["actuators"] == ["TOM_MID_ARM_STICK"]
     assert target_map["TOM_FLOOR"]["actuators"] == ["TOM_FLOOR_ARM_STICK"]
+    # The ride is authored (absent from the owner artwork) and struck by the left hand.
+    assert target_map["RIDE"]["actuators"] == ["RIDE_ARM_STICK"]
+    assert zones["RIDE_SURFACE"]["authored"]["rgb"] == [220, 164, 22]
+    assert zones["RIDE_ARM_STICK"]["strike"]["striking_arm"] == "left"
+    assert spec["canonical_cues"] == ["KICK", "SNARE", "HI_HAT", "RIDE", "CYMBAL_LEFT",
+                                      "CYMBAL_RIGHT", "TOM_HIGH", "TOM_MID", "TOM_FLOOR"]
 
 
 def test_xmodel_has_dense_grid_and_surface_orientation() -> None:

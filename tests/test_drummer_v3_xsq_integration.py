@@ -17,9 +17,10 @@ CANONICAL_TOMS = (
 )
 
 
-def test_canonical_drummer_has_exactly_eight_components() -> None:
-    assert len(DRUMMER_COMPONENTS) == 8
-    assert len(set(DRUMMER_COMPONENTS)) == 8
+def test_canonical_drummer_has_exactly_nine_components() -> None:
+    assert len(DRUMMER_COMPONENTS) == 9
+    assert len(set(DRUMMER_COMPONENTS)) == 9
+    assert DRUMMER_COMPONENTS[-1].endswith("_RIDE")
     assert all("STICK" not in name and "ARM" not in name for name in DRUMMER_COMPONENTS)
     assert CANONICAL_TOMS == DRUMMER_COMPONENTS[3:6]
     assert not any("TOM_4" in name for name in DRUMMER_COMPONENTS)

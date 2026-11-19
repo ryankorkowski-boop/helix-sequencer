@@ -14,6 +14,7 @@ import time
 from pathlib import Path
 
 import numpy as np
+from models.source_drummer_3d import apply_drum_levels
 
 ROLES = ('drummer', 'bass', 'guitar', 'piano', 'lead', 'harmony')
 
@@ -29,10 +30,16 @@ def active_cues(cues, milliseconds):
 def drum_hits(cues):
     """Snare hands advance on snares only; ambiguous toms stay unresolved."""
     from tools.render_drummer_v3_preview import TARGETS
-    hits, unresolved, snare = [], [], 0
+    hits, unresolved, snare, crashes = [], [], 0, 0
     for cue in sorted(cues, key=lambda c: c['start_ms']):
         target = {'kick': TARGETS[0], 'snare': TARGETS[1],
-                  'hihat': TARGETS[2], 'cymbal': TARGETS[7]}.get(cue['kind'])
+                  'hihat': TARGETS[2], 'ride': TARGETS[8]}.get(cue['kind'])
+        if cue['kind'] == 'cymbal':
+            # Crashes alternate sides; the production mapper's assignment wins
+            # when the cue carries it.
+            named = str(cue.get('component') or '')
+            target = named if named in TARGETS[6:8] else TARGETS[6 + crashes % 2]
+            crashes += 1
         if cue['kind'] == 'tom':
             from audio.drum_classification import DrumEvent
             from mapping.drum_mapper import tom_class_for_event
@@ -47,7 +54,7 @@ def drum_hits(cues):
         if target is None:
             unresolved.append(dict(start_ms=cue['start_ms'], kind=cue['kind']))
             continue
-        side = 'right' if target in (TARGETS[3], TARGETS[7]) else 'left'
+        side = 'right' if target in (TARGETS[3], TARGETS[7]) else 'left'  # each crash uses the hand on its own side
         if cue['kind'] == 'snare':
             side = 'right' if snare % 2 else 'left'
             snare += 1
@@ -190,13 +197,13 @@ def render(source, vocals, reference, output, expected_sha256, *, seconds=None, 
                 elbow = elbow_3d(shoulder, hand, *rig['link_lengths'], (-.8 if side == 'left' else .8, -.2, .8))
                 a, b, c = rig['ids']; scene.instances[a]['matrix'] = line_matrix(shoulder, elbow, .046)
                 scene.instances[b]['matrix'] = line_matrix(elbow, hand, .046); scene.instances[c]['matrix'] = matrix(hand, (.10, .075, .08))
-            lighting = np.zeros(8, 'f4'); strikes = np.zeros(8, 'f4')
+            lighting = np.zeros(len(TARGETS), 'f4'); strikes = np.zeros(len(TARGETS), 'f4')
             for hit in hits:
                 age = t-hit['time']
                 if 0 <= age < .30:
                     slot = TARGETS.index(hit['target']); lighting[slot] = max(lighting[slot], hit['velocity']*math.exp(-age/.10))
                     strikes[slot] = max(strikes[slot], float(age < .05))
-            levels[5:13] = lighting
+            apply_drum_levels(levels, lighting)
             # Source roles own separate stage regions; no beat-only global pulse.
             levels[2] = float(velocities[i].max())*.5
             for slot in range(64, 112): levels[slot] = float(levels[[0, 1, 2, 3, 4, 5, 6, 7][slot % 8]])*.7

@@ -19,7 +19,7 @@ PREFIX = 'HX_SNOWMAN_DRUMMER_V3_'
 def decode_review_schedule(path: Path, frames: int):
     root = ET.parse(path).getroot()
     db = [e.text or '' for e in root.findall('./EffectDB/Effect')]
-    strikes = np.zeros((frames, 8), dtype=np.float32)
+    strikes = np.zeros((frames, len(TARGETS)), dtype=np.float32)
     lighting = np.zeros_like(strikes)
     hands = np.zeros(frames, dtype=np.int8)
     unique = set()

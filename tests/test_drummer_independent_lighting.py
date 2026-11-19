@@ -47,10 +47,12 @@ def _submodels(path: Path = XMODEL) -> dict[str, set[int]]:
     return {sm.get("name", ""): _expand(sm.get("line0", "")) for sm in root.findall("./subModels/subModel")}
 
 
-def test_exact_eight_public_targets_exist_and_are_nonempty() -> None:
+def test_exact_nine_public_targets_exist_and_are_nonempty() -> None:
+    # Beta 1.4 owner contract: nine cues. The ground-truth oracle still covers
+    # the eight pieces visible in the owner's reference video, plus the ride.
     submodels = _submodels()
-    assert len(TARGETS) == 8
-    assert set(TARGETS) == {f"HX_SNOWMAN_DRUMMER_V3_{name}" for name in LOGICAL_TARGETS}
+    assert len(TARGETS) == 9
+    assert set(TARGETS) == {f"HX_SNOWMAN_DRUMMER_V3_{name}" for name in (*LOGICAL_TARGETS, "RIDE")}
     for target in TARGETS:
         assert submodels[target]
 

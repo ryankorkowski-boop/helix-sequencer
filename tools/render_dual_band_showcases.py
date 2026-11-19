@@ -18,6 +18,7 @@ from animation.articulated_source_drummer import ArticulatedDrummer
 from tools.render_drummer_v3_preview import TARGETS,parse_effects,parse_snare_hands,_active_targets_for_frame,snare_hand_for_frame
 import soundfile as sf
 from core.output_provenance import brand_frame,stamp_mp4
+from models.source_drummer_3d import apply_drum_levels
 
 OUT=ROOT/'outputs/Readable_Wire_Band_20261013'
 PAIRS=[('ember_amphitheatre','glacier_pier'),('cathedral_organ','circuit_garage'),('orbital_halo','lantern_garden'),('ember_amphitheatre','circuit_garage')]
@@ -113,7 +114,7 @@ class TwinStageView(SamplerView):
 
 def dry_curves(native):
     count=math.ceil(sf.info(ROOT/'evidence/drummer/dry_drum_test.wav').duration*20)
-    drums=np.zeros((count,8),np.float32);strikes=np.zeros_like(drums);hands=np.zeros(count,np.int8)
+    drums=np.zeros((count,len(TARGETS)),np.float32);strikes=np.zeros_like(drums);hands=np.zeros(count,np.int8)
     effects=parse_effects(native);hs=parse_snare_hands(native)
     for i in range(count):
         for target in _active_targets_for_frame(effects,i*50,20):drums[i,TARGETS.index(target)]=1
@@ -152,7 +153,7 @@ def render(plan,rows,pilot=False,width=1920,height=1080):
                 for frame in range(count):
                     source_index=offset+frame;idx=0 if seg['id']=='dry' else source_index
                     levels=np.r_[performers[0].pose(idx),performers[1].pose(idx)].astype('f4')
-                    levels[5:13]=drums[source_index];levels[197:205]=drums[source_index]
+                    apply_drum_levels(levels,drums[source_index]);levels[197:205]=drums[source_index][:8]
                     # Physical-style body outlines stay legible at rest.
                     levels[177]=levels[369]=.80+.20*float(max(levels[:13]))
                     if plan['super_layout']:

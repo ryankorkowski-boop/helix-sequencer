@@ -79,6 +79,23 @@ def closed_component(mask, image, depth, *, stride=2):
     return mesh
 
 
+# Activity slots 5-12 carry the eight kit pieces of the owner artwork. Slots
+# 13-59 belong to strings and keys, so the authored ride uses the first free
+# slot instead of shifting every other performer.
+RIDE_ACTIVITY_SLOT=60
+
+
+def activity_slot(index):
+    return 5+index if index<8 else RIDE_ACTIVITY_SLOT+index-8
+
+
+def apply_drum_levels(levels,lighting):
+    """Write one frame of kit lighting (kick..right crash, ride) into activity levels."""
+    for index,value in enumerate(lighting):
+        levels[activity_slot(index)]=value
+    return levels
+
+
 @lru_cache(maxsize=1)
 def source_components():
     with SOURCE.open('rb') as stream:
@@ -95,7 +112,7 @@ def source_components():
         mask=np.asarray(build_zone_mask(source.size,zone).crop(CROP))>0
         occupied|=mask
         depth=60 if slot==0 else 30 if slot in (1,3,4,5) else 12
-        components.append(dict(name=target,slot=5+slot,mesh=closed_component(mask,rgb,depth)))
+        components.append(dict(name=target,slot=activity_slot(slot),mesh=closed_component(mask,rgb,depth)))
     # The source body silhouette is independent of the kit, not a new snowman.
     body=Image.new('L',source.size);draw=ImageDraw.Draw(body)
     draw.polygon([(264,124),(342,124),(344,164),(339,171),(340,204),

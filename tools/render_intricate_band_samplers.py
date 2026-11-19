@@ -67,7 +67,7 @@ class ExactDryDrummer:
             for k,target in enumerate(TARGETS):
                 self.poses[k,hand]=np.asarray(compose_lighting(source,masks,[target],snare_hand=hand,
                     cymbal_levels={target:1} if k>=6 else None).crop(self.crop).convert('RGB'),dtype='f4')
-        self.ringing={k:np.asarray(compose_lighting(source,masks,[],cymbal_levels={TARGETS[k]:1}).crop(self.crop).convert('RGB'),dtype='f4') for k in (6,7)}
+        self.ringing={k:np.asarray(compose_lighting(source,masks,[],cymbal_levels={TARGETS[k]:1}).crop(self.crop).convert('RGB'),dtype='f4') for k in (6,7,8)}
         paths=['fixtures/band_geometry/source/drummerbg.png','fixtures/band_geometry/source/drummer_idle.png',
                'fixtures/band_geometry/drummer_v3_pose_spec.json','fixtures/band_geometry/models/HX_SNOWMAN_DRUMMER_V3.xmodel']
         self.proof={'source':'canonical source-art compositor; geometry version bound by asset hashes below',
@@ -77,11 +77,12 @@ class ExactDryDrummer:
 
     def frame(self,lighting,strikes,hand):
         out=self.idle.copy();name='right' if hand else 'left'
-        for k in range(8):
+        for k in range(len(strikes)):
             if strikes[k]>0:
                 np.maximum(out,self.poses[k,name],out=out)
-        for k in (6,7):
-            if lighting[k]>0:
+        for k in (6,7,8):
+            # Legacy eight-lane schedules simply have no ride lane.
+            if k<len(lighting) and lighting[k]>0:
                 np.maximum(out,self.idle+(self.ringing[k]-self.idle)*lighting[k],out=out)
         rgb=np.clip(out,0,255).astype('u1')
         # Empty stage/grid/background pixels do not hide the surrounding layout.

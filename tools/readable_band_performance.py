@@ -10,6 +10,7 @@ from models.band_instrument_logic import attack_gestures
 from tools.render_intricate_band_samplers import SamplerPerformance,SAMPLER_FRAGMENT
 from tools.render_band_upgrade import native_drummer
 from tools.build_helpers.ultimate_showcase_preview import _font
+from models.source_drummer_3d import apply_drum_levels
 
 ROOT=Path(__file__).resolve().parents[1]
 OUT=ROOT/'outputs/Band_Instrument_Review'
@@ -44,7 +45,7 @@ class ReadablePerformance(SamplerPerformance):
         self.guitar_contact_route=None
 
     def levels(self,i):
-        out=np.zeros(128,np.float32);out[5:13]=self.drums[i]
+        out=np.zeros(128,np.float32);apply_drum_levels(out,self.drums[i])
         for k,kind in enumerate(('bass','guitar','piano')):out[k]=self.curves[kind+'_energy'][i]*.5
         for kind,first in [('bass',13),('guitar',17)]:
             routes=[tuple(map(int,r)) for r in self.curves[kind+'_routes'][i] if r[0]>=0]

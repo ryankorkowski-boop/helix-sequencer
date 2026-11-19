@@ -26,6 +26,7 @@ TARGET_OUTLINE_RGB = {
     f"{MODEL_NAME}_TOM_FLOOR": (44, 178, 66),
     f"{MODEL_NAME}_CYMBAL_LEFT": (220, 164, 22),
     f"{MODEL_NAME}_CYMBAL_RIGHT": (220, 164, 22),
+    f"{MODEL_NAME}_RIDE": (220, 164, 22),
 }
 
 
@@ -164,6 +165,34 @@ def exact_actuator_art(
     return arm
 
 
+def apply_authored_art(source: Image.Image, spec: dict) -> Image.Image:
+    """Paint spec-authored kit pieces over a copy of the source artwork.
+
+    The owner's drummer image has two crashes and a hi-hat but no ride. The
+    ride cymbal and its boom are declared in the pose spec and painted here so
+    that every consumer (xmodel, PNG layers, review renders, 3D band) sees the
+    same nine-piece kit. The source image file itself is never modified.
+    """
+    painted = source.convert("RGBA").copy()
+    supports = spec.get("authored_supports")
+    if supports:
+        mask = build_zone_mask(painted.size, supports)
+        painted.paste((*supports["rgb"], 255), mask=mask)
+    for zone in spec.get("zones", []):
+        authored = zone.get("authored")
+        if not authored:
+            continue
+        mask = build_zone_mask(painted.size, zone)
+        painted.paste((*authored.get("fill_rgb", authored["rgb"]), 255), mask=mask)
+        # Bright rim and bell read as wire-frame metal like the source cymbals.
+        rim = ImageChops.subtract(mask, mask.filter(ImageFilter.MinFilter(3)))
+        painted.paste((*authored["rgb"], 255), mask=rim)
+        if authored.get("bell"):
+            bell = build_zone_mask(painted.size, {"commands": [authored["bell"]]})
+            painted.paste((*authored["rgb"], 255), mask=bell)
+    return painted
+
+
 def exact_geometry(
     source: Image.Image,
     spec: dict | None = None,
@@ -176,6 +205,7 @@ def exact_geometry(
     Instrument surfaces themselves remain independently assigned.
     """
     spec = spec or load_spec()
+    source = apply_authored_art(source, spec)
     geometry = build_geometry_masks(source.size, spec)
     surfaces = {item["surface"]: refine_surface_to_source_art(
         source, geometry["surfaces"][item["surface"]], f"{MODEL_NAME}_{item['id']}")
@@ -290,7 +320,7 @@ def refine_surface_to_source_art(
             return authored_surface.copy()
         target_hue = _rgb_hue(color)
         tolerance = 30 if "_TOM_" in target else 27
-        if "CYMBAL" in target or target.endswith("_HI_HAT"):
+        if "CYMBAL" in target or target.endswith(("_HI_HAT", "_RIDE")):
             tolerance = 25
         selected = (
             authored
@@ -432,8 +462,8 @@ def build_geometry_masks(
 
     targets: dict[str, Image.Image] = {}
     lighting_targets = spec.get("lighting_targets", [])
-    if not isinstance(lighting_targets, list) or len(lighting_targets) != 8:
-        raise ValueError("Expected exactly eight lighting targets")
+    if not isinstance(lighting_targets, list) or len(lighting_targets) != 9:
+        raise ValueError("Expected exactly nine lighting targets")
     for target in lighting_targets:
         if not isinstance(target, dict):
             raise ValueError(f"Invalid lighting target: {target!r}")

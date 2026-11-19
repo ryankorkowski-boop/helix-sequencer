@@ -21,6 +21,7 @@ from tools.phoneme_source import digest, EXPECTED_SHA256
 from tools.render_intricate_band_samplers import SamplerView,SAMPLER_VERTEX
 from tools.render_refined_helix_band import REFINED_FRAGMENT,encoder,DynamicDry
 from animation.articulated_source_drummer import ArticulatedDrummer
+from models.source_drummer_3d import apply_drum_levels
 
 
 def render(source, output):
@@ -42,12 +43,13 @@ def render(source, output):
             pitch=round(c.get('pitch_midi',40));possible=[(s,pitch-open_pitch,pitch) for s,open_pitch in enumerate(TUNINGS[role]) if 0<=pitch-open_pitch<=24]
             route=min(possible,key=lambda x:abs(x[1]-4)) if possible else None
             events[role].append((c,route))
-    hits=[];unresolved=0
+    hits=[];unresolved=0;crashes=0
     for j,c in enumerate(plan['drummer']):
-        target={'kick':'KICK','snare':'SNARE','hihat':'HI_HAT','cymbal':'CYMBAL_RIGHT'}.get(c['kind'])
+        target={'kick':'KICK','snare':'SNARE','hihat':'HI_HAT','ride':'RIDE'}.get(c['kind'])
+        if c['kind']=='cymbal':target=('CYMBAL_LEFT','CYMBAL_RIGHT')[crashes%2];crashes+=1
         if target is None:unresolved+=1;continue
         hits.append(dict(time=c['start_ms']/1000,target='HX_SNOWMAN_DRUMMER_V3_'+target,
-                         side='left' if c['kind']=='snare' and j%2 else 'right',velocity=c.get('velocity',1)))
+                         side='left' if target in ('CYMBAL_LEFT','RIDE') or (c['kind']=='snare' and j%2) else 'right',velocity=c.get('velocity',1)))
     player=ArticulatedDrummer(hits,natural_arms=True,cache_lighting=True)
     view=SamplerView(scene,1280,720,SAMPLER_VERTEX.replace('activity[128]','activity[192]'),REFINED_FRAGMENT)
     view.groups.append(view.make_vao(lip_ring_mesh(),[o for o in scene.instances if o['kind']=='lip_ring']))
@@ -88,13 +90,13 @@ def render(source, output):
             for rig in rigs.values():
                 hand=wrists[rig['side']][i];shoulder=rig['shoulder'];elbow=elbow_3d(shoulder,hand,*rig['link_lengths'],(-.8 if rig['side']=='left' else .8,-.2,.8))
                 a,b,c=rig['ids'];scene.instances[a]['matrix']=line_matrix(shoulder,elbow,.046);scene.instances[b]['matrix']=line_matrix(elbow,hand,.046);scene.instances[c]['matrix']=matrix(hand,(.10,.075,.08))
-            lighting=np.zeros(8,'f4');strikes=np.zeros(8,'f4')
+            lighting=np.zeros(9,'f4');strikes=np.zeros(9,'f4')
             for h in hits:
                 age=t-h['time']
                 if 0<=age<.30:
-                    target=h['target'].rsplit('_V3_',1)[1];index={'KICK':0,'SNARE':1,'HI_HAT':2,'CYMBAL_RIGHT':7}[target]
+                    target=h['target'].rsplit('_V3_',1)[1];index={'KICK':0,'SNARE':1,'HI_HAT':2,'CYMBAL_LEFT':6,'CYMBAL_RIGHT':7,'RIDE':8}[target]
                     lighting[index]=max(lighting[index],h['velocity']*math.exp(-age/.10));strikes[index]=float(age<.05)
-            levels[5:13]=lighting
+            apply_drum_levels(levels,lighting)
             levels[64:112]=max(float(levels[:3].max()),float(lighting.max()))*.65
             view.dry.time=t
             image=view.frame(levels,lighting,strikes,int(i%2),t,t)

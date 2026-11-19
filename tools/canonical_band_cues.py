@@ -49,8 +49,15 @@ def export_drums(root, garden, plan):
         windows.setdefault(part,[]).append((a,b))
     prefix='HX_SNOWMAN_DRUMMER_V3_'
     snare_index = 0
+    crash_index = 0
     for cue in plan.get('cues',{}).get('drummer',[]):
-        component={'kick':'KICK','snare':'SNARE','hihat':'HI_HAT','cymbal':'CYMBAL_RIGHT'}.get(cue['kind'])
+        component={'kick':'KICK','snare':'SNARE','hihat':'HI_HAT','ride':'RIDE'}.get(cue['kind'])
+        if cue['kind']=='cymbal':
+            # Crashes alternate left/right. The production mapper's assignment
+            # is kept when the retained plan carries it.
+            named=str(cue.get('component') or '').removeprefix(prefix)
+            component=named if named in ('CYMBAL_LEFT','CYMBAL_RIGHT') else ('CYMBAL_LEFT','CYMBAL_RIGHT')[crash_index%2]
+            crash_index+=1
         if cue['kind']=='tom':
             # The production plan retains the detector's physical tom class.
             # Do not discard it merely because the top-level kind is "tom",
@@ -77,10 +84,10 @@ def export_drums(root, garden, plan):
             parts += [prefix+pose+'_ARM_STICK_WOOD',prefix+pose+'_ARM_STICK_NEUTRAL']
         if component=='SNARE':snare_index+=1
         for part in parts:
-            emit(part,a,b,'#E8C883' if 'CYMBAL' in component or component=='HI_HAT' else '#BFEAFF',level,max(.03,level*.15),source=cue)
+            emit(part,a,b,'#E8C883' if 'CYMBAL' in component or component in ('HI_HAT','RIDE') else '#BFEAFF',level,max(.03,level*.15),source=cue)
         counts[component]=counts.get(component,0)+1
     # Each kit surface remains visible through genuine event complements.
-    for component in ('KICK','SNARE','HI_HAT','TOM_HIGH','TOM_MID','TOM_FLOOR','CYMBAL_LEFT','CYMBAL_RIGHT'):
+    for component in ('KICK','SNARE','HI_HAT','TOM_HIGH','TOM_MID','TOM_FLOOR','CYMBAL_LEFT','CYMBAL_RIGHT','RIDE'):
         part=prefix+component+'_SURFACE';cursor=0
         original=list(windows.get(part,[]))
         for a,b in sorted(original):
@@ -89,7 +96,7 @@ def export_drums(root, garden, plan):
         if cursor<duration:emit(part,cursor,duration,'#A8BECB',.25)
     return dict(source='retained production band plan',component_events=counts,
         unresolved_events=unresolved,hi_hat_is_foot_only=True,
-        cymbal_side='right-side staging assignment; source side unverified',
+        cymbal_side='alternating left/right staging assignment; source side unverified',
         snare_hand='alternating visualization assignment; source hand unverified',
         event_timing_preserved=True,independent_component_ground_truth_verified=False)
 

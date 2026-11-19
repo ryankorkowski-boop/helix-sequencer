@@ -27,7 +27,7 @@ def test_every_ready_and_strike_arm_uses_torso_roots_with_fixed_wrists():
             assert np.allclose(actual,np.array(transform[source_key])*[591,503])
         if strike: assert transform['contact']==strike['grip']
         count+=1
-    assert count==9
+    assert count==10  # nine strike arms plus the ride arm added for Beta 1.4
 
 
 def test_unresolved_polyphonic_hit_is_scored_without_inventing_a_tom():

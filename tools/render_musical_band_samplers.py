@@ -19,6 +19,7 @@ from animation.articulated_source_drummer import ArticulatedDrummer
 from models.drummer_review_schedule import decode_review_schedule
 from tools.render_drummer_v3_preview import TARGETS,parse_effects,parse_snare_hands,_active_targets_for_frame,snare_hand_for_frame
 from tools.readable_band_performance import ROOT
+from models.source_drummer_3d import apply_drum_levels
 
 OUT=ROOT/'outputs/Musical_Band_20261013'
 ANALYSIS=ROOT/'outputs/Band_Logic_Reassessment/analysis'
@@ -97,7 +98,7 @@ def render(plan,rows,casting,pilot=False,width=1280,height=720):
                 perf=silent_performance(perf)
                 native=ROOT/'evidence/drummer_shoulder_revision/Helix_Drummer_DRY_TEST_ONLY.xsq'
                 count=math.ceil(sf.info(ROOT/'evidence/drummer/dry_drum_test.wav').duration*20)
-                drums=np.zeros((count,8),np.float32);strikes=np.zeros_like(drums);hands=np.zeros(count,np.int8)
+                drums=np.zeros((count,len(TARGETS)),np.float32);strikes=np.zeros_like(drums);hands=np.zeros(count,np.int8)
                 effects=parse_effects(native);hand_schedule=parse_snare_hands(native)
                 for i in range(count):
                     for target in _active_targets_for_frame(effects,i*50,20):drums[i,TARGETS.index(target)]=1
@@ -110,7 +111,7 @@ def render(plan,rows,casting,pilot=False,width=1280,height=720):
             try:
                 for frame in range(n):
                     source_index=offset+frame;idx=0 if seg['id']=='dry' else source_index
-                    levels=perf.pose(idx);levels[5:13]=drums[source_index]
+                    levels=perf.pose(idx);apply_drum_levels(levels,drums[source_index])
                     if seg['id']=='dry':
                         for k in range(48):levels[64+k]=.12+.65*max(strikes[source_index])
                     view.dry.time=source_index/20

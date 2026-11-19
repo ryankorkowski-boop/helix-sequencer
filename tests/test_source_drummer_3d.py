@@ -21,8 +21,10 @@ def test_construction_depth_never_changes_front_positions_or_materials():
 
 def test_every_source_component_has_closed_positive_volume_and_no_billboard():
     parts=source_components()
-    assert len(parts)==10
-    assert {p['name'] for p in parts[:8]}==set(TARGETS)
+    assert len(parts)==11  # nine kit pieces, body, supports
+    assert {p['name'] for p in parts[:9]}==set(TARGETS)
+    slots=[p['slot'] for p in parts[:9]]
+    assert slots[:8]==list(range(5,13)) and slots[8]==60  # 13-59 belong to strings/keys
     for item in parts:
         mesh=item['mesh']
         assert mesh.is_watertight and mesh.volume>0
