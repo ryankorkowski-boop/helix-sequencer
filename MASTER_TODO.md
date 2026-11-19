@@ -869,3 +869,6 @@ Mobile checkpoint: 07d1896 resets per-variant encoding progress; device verifica
 
 
 2026-11-18: Shared instruction source expanded in 5b8f300bb62ddfbfeb44a9813363279ade62be8b with nine preset descriptions, experimental singer provenance, desktop recovery and native export guidance. Source committed; compilation, packaged manuals, checksums and device acceptance remain pending. Next: validate Android compile and desktop packaging; verify readers on devices. No merge/release.
+
+
+Android manual packaging gate implemented in 442d26c3cdae90c252fd65b8926f056bfd37f5d2: APK asset must match source bytes; SHA256 and manual retained with debug APK. CI and device verification pending; Windows parity remains open.
