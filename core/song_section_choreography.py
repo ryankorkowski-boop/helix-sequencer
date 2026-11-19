@@ -62,11 +62,11 @@ def load_song_section_graph(path: str | Path, seed: IntentGraph, *, audio_path: 
             raise ValueError("source sections must cover the audio continuously without gaps or overlaps")
         previous_end = end
         normalized = label.strip().lower()
-        if "chorus" in normalized or "drop" in normalized:
-            motion = (MotionVocabulary.BLOOM, MotionVocabulary.CHASE, MotionVocabulary.CASCADE)
-            contrast = ContrastStrategy.ESCALATING_CHORUS
-        elif "build" in normalized or "pre-chorus" in normalized:
+        if "build" in normalized or "pre-chorus" in normalized or "pre chorus" in normalized or "prechorus" in normalized:
             motion = (MotionVocabulary.CHASE, MotionVocabulary.SWEEP)
+            contrast = ContrastStrategy.ESCALATING_CHORUS
+        elif "chorus" in normalized or "drop" in normalized:
+            motion = (MotionVocabulary.BLOOM, MotionVocabulary.CHASE, MotionVocabulary.CASCADE)
             contrast = ContrastStrategy.ESCALATING_CHORUS
         elif "break" in normalized or "quiet" in normalized:
             motion = (MotionVocabulary.TEXTURE, MotionVocabulary.SHIMMER)
