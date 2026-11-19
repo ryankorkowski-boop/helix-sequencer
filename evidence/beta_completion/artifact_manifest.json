@@ -76,5 +76,10 @@
     "status": "implemented, not tested or packaged",
     "manual_checksum": null,
     "next_action": "Verify Android compile, Windows packaging and device readers"
+  },
+  "android_manual_packaging_gate": {
+    "commit": "442d26c3cdae90c252fd65b8926f056bfd37f5d2",
+    "status": "implemented; CI pending",
+    "checksum": null
   }
 }
