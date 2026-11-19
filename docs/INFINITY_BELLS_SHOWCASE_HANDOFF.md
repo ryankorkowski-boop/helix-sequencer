@@ -56,3 +56,7 @@ Duration: 156.000 seconds; MP3, 3,620,694 bytes. Source recording is fetched in 
 - Run 44449067699 failed after 49 passing Helix Flow tests because `python tools/export_birdsong_demo_manifest.py` could not import `core` (missing `PYTHONPATH`); fixed CI environment in commit `931ef181f174d92c0ab090647cffcd6447ba39ae`, pending new CI readback.
 - Run 44449067593 failed winner-preview selection with `TypeError: '<' not supported between instances of 'dict' and 'dict'`, independently of Infinity pilot. Diagnose separately; synthetic/fallback remote-preview artifacts must not be described as Infinity owner approval.
 - **Production gate**: do not spend a full 10,240-model render until runner RAM/duration/output bounds are instrumented and pilot visual quality is manually reviewed; use real input checksum and effect counts. No merge/release.
+
+
+## Owner visual rejection — 2026-11-19
+Full-song 10,240-prop preview FAIL: only nondescript dashes and dots per owner. Do not promote. Inspect native model geometry, transforms, camera/framing, point projection and effect routing. Compare static all-on and short musical clips against native xLights before full render. Require recognizable spirals, double helices, tunnels, matrices, depth and distinct choreography. Root cause remains unverified.
