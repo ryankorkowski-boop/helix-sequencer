@@ -22,7 +22,7 @@ def build_engine_activation_audit(
     invoked = bool(getattr(orchestration, "invoked", False))
     sidecar = bool(getattr(orchestration, "xsq_written", False))
     promoted = bool(
-        invoked and sidecar and bool(getattr(orchestration, "orchestrated_xsq_path", None))
+        orchestrator_requested and invoked and sidecar and bool(getattr(orchestration, "orchestrated_xsq_path", None))
         and "--promote-orchestrated-template" in flags
         and "--no-orchestrator-template-promotion" not in flags
     )
@@ -89,7 +89,7 @@ def build_engine_activation_audit(
         "engines": engines,
         "limitations": [
             "Flags do not prove engine invocation or successful placement.",
-            "No effect-count reconciliation with final XSQ/FSEQ is available.",
+            "This base audit alone does not establish final XSQ/FSEQ effect reconciliation.",
             "Birdsong and matrix runtime enablement may differ from raw flags.",
             "Without validated --orchestration-sections-json, nine-pass intents use synthetic seed sections.",
             "Orchestration placement counts do not prove final renderer output.",
