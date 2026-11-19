@@ -43,7 +43,10 @@ def test_fixture_manifest_matches_parsed_layouts():
 def test_band_stage_has_singing_faces_and_drummer_kit():
     layout = ET.parse(FIXTURES / "band_stage" / "xlights_rgbeffects.xml")
     names = {model.attrib["name"] for model in layout.findall("./models/model")}
-    assert {"Singing Face 1", "Singing Face 2", "Singing Face 3", "Snowman Singer", "Snowman Guitar", "Snowman Bass", "Snowman Drummer"} <= names
+    assert {"Singing Face 1", "Singing Face 2", "Singing Face 3", "Snowman Lead Singer", "Snowman Harmony Singer", "Snowman Guitarist", "Snowman Bassist", "Snowman Keyboardist", "Snowman Drummer"} <= names
+    assert "HX_SNOWMAN_DRUMMER_TOM_FLOOR" in names
+    assert "HX_SNOWMAN_DRUMMER_RIDE" in names
+    assert "HX_SNOWMAN_DRUMMER_TOM_4" not in names
     for piece in (
         "HX_SNOWMAN_DRUMMER_KICK",
         "HX_SNOWMAN_DRUMMER_SNARE",

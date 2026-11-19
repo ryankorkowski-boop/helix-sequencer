@@ -12812,6 +12812,16 @@ def run_variant(
     except Exception:
         pass
     xsq.tree.write(out_path, encoding="utf-8", xml_declaration=True)
+    try:
+        from core.musical_bed import apply_musical_bed
+        try:
+            energy = float(np.clip(np.mean(audio.rms01), 0.0, 1.0))
+        except Exception:
+            energy = 0.45
+        bed = apply_musical_bed(out_path, max(1000, int(audio.dur_s * 1000)), energy)
+        log(f"Musical bed: models={bed['models']} gaps={bed['beds']} level={bed.get('level')}")
+    except Exception as exc:
+        log(f"Musical bed skipped: {exc!r}")
 
     if GENERATE_SHOWCASE:
         showcase_path = out_path.with_name(f"{out_path.stem}.showcase.xsq")

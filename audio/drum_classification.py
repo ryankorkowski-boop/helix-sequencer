@@ -67,8 +67,19 @@ def _tom_class_for_features(features: dict[str, float]) -> tuple[str, float]:
 def classify_drum_hit(features: dict[str, float], thresholds: DrumClassifierThresholds = DrumClassifierThresholds()) -> tuple[str, float]:
     low=_clamp(features.get("low_ratio",0)); mid_low=_clamp(features.get("mid_low_ratio",0)); mid=_clamp(features.get("mid_ratio",0)); high=_clamp(features.get("high_ratio",0))
     centroid=float(features.get("centroid_hz",0) or 0); low_centroid=float(features.get("low_centroid_hz",centroid) or centroid)
-    spread=_clamp(features.get("spectral_spread01",0)); sharp=_clamp(features.get("transient_sharpness",0)); decay=_clamp(features.get("decay_profile",0)); percussive_ratio=_clamp(features.get("percussive_ratio",0)); flatness=_clamp(features.get("spectral_flatness",0))
-    harmonic_contamination = _clamp(features.get("harmonic_contamination", 1.0 - percussive_ratio))
+    spread=_clamp(features.get("spectral_spread01",0)); sharp=_clamp(features.get("transient_sharpness",0)); decay=_clamp(features.get("decay_profile",0))
+    # Absent measurements are unknown. A missing percussive ratio is not evidence
+    # that the hit failed to be percussive; only a supplied low ratio is.
+    has_percussive = "percussive_ratio" in features
+    percussive_ratio = _clamp(features["percussive_ratio"]) if has_percussive else 0.0
+    if "harmonic_contamination" in features:
+        harmonic_contamination = _clamp(features["harmonic_contamination"])
+    elif has_percussive:
+        harmonic_contamination = _clamp(1.0 - percussive_ratio)
+    else:
+        harmonic_contamination = None
+    has_flatness = "spectral_flatness" in features
+    flatness = _clamp(features["spectral_flatness"]) if has_flatness else 0.0
 
     candidates=[
         ("kick", (low*.58) + ((1-min(1,low_centroid/1400))*.22) + (sharp*.20)),
@@ -91,20 +102,34 @@ def classify_drum_hit(features: dict[str, float], thresholds: DrumClassifierThre
     # harmonic-dominant, spectrally tonal, and insufficiently percussive. This is
     # intentionally conservative so genuine noisy drum transients remain eligible.
     tonal_attack = (
-        harmonic_contamination > thresholds.harmonic_contamination_max
+        harmonic_contamination is not None
+        and has_flatness
+        and harmonic_contamination > thresholds.harmonic_contamination_max
         and flatness < thresholds.tonal_flatness_max
         and spread < thresholds.tonal_spread_max
     )
-    if percussive_ratio < thresholds.min_percussive_ratio or tonal_attack:
+    if (has_percussive and percussive_ratio < thresholds.min_percussive_ratio) or tonal_attack:
         return "drum_bus", round(score, 3)
 
-    # drum_bus is now a last-resort label, not the normal outcome for a mixed track.
+    # drum_bus is a last resort. A close runner-up score does not erase a hit
+    # whose defining band is strong and the runner's defining band is weak.
+    # That is how a mid-heavy snare with hat bleed was labeled drum_bus.
+    band_for = {"kick": low, "snare": mid, "tom": mid_low, "hihat": high, "cymbal": high}
+    winner_band = band_for[best]
+    runner_band = band_for[ranked[1][0]]
     discriminating_energy = max(low, mid_low, mid, high)
-    if discriminating_energy < 0.055 or score < thresholds.low_confidence_min or (score-runner) < thresholds.ambiguous_margin_min:
-        if score >= 0.22 and (score-runner) >= 0.075:
-            return best, round(score,3)
-        return "drum_bus", round(score,3)
-    return best, round(score,3)
+    close_call = discriminating_energy < 0.055 or score < thresholds.low_confidence_min or (score - runner) < thresholds.ambiguous_margin_min
+    if close_call:
+        if (
+            score >= thresholds.low_confidence_min
+            and winner_band >= 0.30
+            and winner_band >= runner_band + 0.10
+        ):
+            return best, round(score, 3)
+        if score >= 0.22 and (score - runner) >= 0.075:
+            return best, round(score, 3)
+        return "drum_bus", round(score, 3)
+    return best, round(score, 3)
 
 
 def classify_tom_class(features: dict[str, float], thresholds: DrumClassifierThresholds = DrumClassifierThresholds()) -> tuple[str, float]:

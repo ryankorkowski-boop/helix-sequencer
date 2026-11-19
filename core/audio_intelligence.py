@@ -1017,7 +1017,7 @@ def _try_whisper_lyrics(
     _log(log_fn, f"Lyrics: CANDIDATE Whisper on the vocal stem using ffmpeg at {ffmpeg_exe}")
 
     try:
-        model = whisper.load_model("tiny")
+        model = whisper.load_model("small")
         result = model.transcribe(str(audio_path), fp16=False, word_timestamps=True)
     except Exception as exc:
         message = f"Whisper transcription of the vocal stem failed: {exc}"

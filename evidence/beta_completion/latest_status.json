@@ -95,7 +95,7 @@
       "next_action": "Full acceptance and owner approval"
     }
   ],
-  "next_command": "Review /cursor/stores/self/beta14-nine-panel/nine-panel-tinsel-tornado-native-fseq.mp4. Then replace panel 5 with the canonical six-member band and re-render that panel. Do not treat this MP4 as owner approval.",
+  "next_command": "The rejected nine-panel stays rejected. Demucs and Whisper small were proven on a 12s excerpt (cache hit on the second run). Next render a replacement nine-panel only after the six-member bench and musical bed are in the sequences. Do not mark approval.",
   "last_inspected_head": "9d622d67b4efc748210c0626accc8d0dd06d8a3b",
   "ci_status": "40dca014 CI success: unified integration 44406112861 passed Python 3.11 and 3.12; Android compile 44406112855 assembled and retained a debug APK; drummer 44406112840 passed. Those runs do not verify HEAD 61982611. At last look, 61982611 still had unified integration 44412936937 and drummer 44412936902 in progress; nine-panel bench 44412936764 had passed. No device playback and no owner approval.",
   "confirmed_findings": [

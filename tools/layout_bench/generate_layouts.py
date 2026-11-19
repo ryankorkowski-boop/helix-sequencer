@@ -666,7 +666,7 @@ def build_band_stage() -> Layout:
         "band_stage",
         "Snowman Band Stage",
         "band",
-        "Stage with a snowman band, three singing-face props (phoneme NodeRange mouths and eyes), a backdrop matrix, and the nine drum-hit props.",
+        "Canonical six snowmen: drummer, guitarist, bassist, keyboardist, lead singer, and purple harmony singer. Three NodeRange faces. Three toms plus ride. No fourth tom.",
     )
     backdrop = _rgb(layout, "Matrix 1", "Horiz Matrix", matrix_grid(180, 430, 840, 200, 20, 10), 32 * 16, RGB_TINT["matrix"], {"parm1": "32", "parm2": "16"})
     truss = _rgb(layout, "Roofline", "Poly Line", line(120, 660, 1080, 660, steps=8), 80, RGB_TINT["roof"], {"parm1": "1", "parm2": "80"})
@@ -675,20 +675,22 @@ def build_band_stage() -> Layout:
         _face(layout, "Singing Face 1", 600, 520, 1.45),
         _face(layout, "Singing Face 3", 920, 500, 1.1),
     ]
-    singer = _rgb(layout, "Snowman Singer", "Poly Line", snowman(600, 180, 1.15), 64, RGB_TINT["stage"], {"parm1": "1", "parm2": "64"})
-    bass = _rgb(layout, "Snowman Bass", "Poly Line", snowman(250, 160, 1.0) + line(220, 250, 180, 420, steps=6), 64, RGB_TINT["stage"], {"parm1": "1", "parm2": "64"})
-    guitar = _rgb(layout, "Snowman Guitar", "Poly Line", snowman(900, 160, 1.0) + line(930, 240, 1040, 420, steps=6), 64, RGB_TINT["stage"], {"parm1": "1", "parm2": "64"})
-    drummer = _rgb(layout, "Snowman Drummer", "Poly Line", snowman(1120, 200, 0.9), 48, RGB_TINT["stage"], {"parm1": "1", "parm2": "48"})
+    singer = _rgb(layout, "Snowman Lead Singer", "Poly Line", snowman(520, 180, 1.15), 64, "#F4FBFF", {"parm1": "1", "parm2": "64"})
+    harmony = _rgb(layout, "Snowman Harmony Singer", "Poly Line", snowman(700, 170, 1.05), 64, "#7A3DFF", {"parm1": "1", "parm2": "64"})
+    bass = _rgb(layout, "Snowman Bassist", "Poly Line", snowman(180, 160, 1.0) + line(150, 250, 110, 420, steps=6), 64, RGB_TINT["stage"], {"parm1": "1", "parm2": "64"})
+    guitar = _rgb(layout, "Snowman Guitarist", "Poly Line", snowman(860, 160, 1.0) + line(890, 240, 1000, 420, steps=6), 64, RGB_TINT["stage"], {"parm1": "1", "parm2": "64"})
+    keys = _rgb(layout, "Snowman Keyboardist", "Poly Line", snowman(340, 150, 0.95) + line(300, 230, 420, 230, steps=6), 64, RGB_TINT["stage"], {"parm1": "1", "parm2": "64"})
+    drummer = _rgb(layout, "Snowman Drummer", "Poly Line", snowman(1080, 190, 0.9), 48, RGB_TINT["stage"], {"parm1": "1", "parm2": "48"})
     kit = [
-        _drum(layout, "HX_SNOWMAN_DRUMMER_KICK", ellipse(1080, 150, 28, 16, steps=10)),
-        _drum(layout, "HX_SNOWMAN_DRUMMER_SNARE", ellipse(1148, 210, 18, 10, steps=8)),
-        _drum(layout, "HX_SNOWMAN_DRUMMER_TOM_1", ellipse(1110, 250, 14, 10, steps=8)),
-        _drum(layout, "HX_SNOWMAN_DRUMMER_TOM_2", ellipse(1175, 255, 14, 10, steps=8)),
-        _drum(layout, "HX_SNOWMAN_DRUMMER_TOM_3", ellipse(1100, 290, 12, 8, steps=8)),
-        _drum(layout, "HX_SNOWMAN_DRUMMER_TOM_4", ellipse(1188, 290, 12, 8, steps=8)),
-        _drum(layout, "HX_SNOWMAN_DRUMMER_HI_HAT", line(1060, 300, 1100, 320, steps=4)),
-        _drum(layout, "HX_SNOWMAN_DRUMMER_CYMBAL_LEFT", ellipse(1048, 340, 22, 6, steps=8)),
-        _drum(layout, "HX_SNOWMAN_DRUMMER_CYMBAL_RIGHT", ellipse(1205, 340, 22, 6, steps=8)),
+        _drum(layout, "HX_SNOWMAN_DRUMMER_KICK", ellipse(1040, 150, 28, 16, steps=10)),
+        _drum(layout, "HX_SNOWMAN_DRUMMER_SNARE", ellipse(1108, 210, 18, 10, steps=8)),
+        _drum(layout, "HX_SNOWMAN_DRUMMER_TOM_HIGH", ellipse(1070, 250, 14, 10, steps=8)),
+        _drum(layout, "HX_SNOWMAN_DRUMMER_TOM_MID", ellipse(1135, 255, 14, 10, steps=8)),
+        _drum(layout, "HX_SNOWMAN_DRUMMER_TOM_FLOOR", ellipse(1060, 290, 16, 10, steps=8)),
+        _drum(layout, "HX_SNOWMAN_DRUMMER_HI_HAT", line(1020, 300, 1060, 320, steps=4)),
+        _drum(layout, "HX_SNOWMAN_DRUMMER_CYMBAL_LEFT", ellipse(1008, 340, 22, 6, steps=8)),
+        _drum(layout, "HX_SNOWMAN_DRUMMER_CYMBAL_RIGHT", ellipse(1165, 340, 22, 6, steps=8)),
+        _drum(layout, "HX_SNOWMAN_DRUMMER_RIDE", ellipse(1205, 300, 18, 5, steps=8)),
     ]
     floor = _rgb(layout, "Stage Floor", "Horiz Matrix", matrix_grid(160, 40, 980, 36, 20, 2), 40 * 2, RGB_TINT["stage"], {"parm1": "40", "parm2": "2"})
     floods = [
@@ -700,7 +702,9 @@ def build_band_stage() -> Layout:
         _rgb(layout, "Star 2", "Star", star_poly(1000, 690, 22), 24, RGB_TINT["star"], {"parm1": "1", "parm2": "24", "parm3": "5", "ScaleX": "2.2", "ScaleY": "2.2"}),
     ]
     layout.group("Whole House", layout.names())
-    layout.group("Snowman Band", [singer, bass, guitar, drummer])
+    layout.group("Snowman Band", [drummer, guitar, bass, keys, singer, harmony])
+    layout.group("Lead Singer", [singer])
+    layout.group("Harmony Singer", [harmony])
     layout.group("All Singing Faces", faces)
     layout.group("Drummer Kit", kit)
     layout.group("All Matrices", [backdrop, floor])
