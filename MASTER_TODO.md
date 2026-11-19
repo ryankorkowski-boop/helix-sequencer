@@ -209,3 +209,13 @@ See docs/INFINITY_BELLS_SHOWCASE_HANDOFF.md.
 - [x] Configure smart layering, wave chases and flash guard for Bells pilot.
 - [ ] Verify 10,240-model generation in CI and inspect pilot MP4 for color and shape visibility.
 - [ ] Enable and verify Birdsong and role routing; render full 10,240-model full song; verify native XSQ/FSEQ and duration. No release without owner approval.
+
+## Infinity 2026-11-19 evidence reconciliation
+- [x] Verify real Bells SHA256 against Actions and reproduce 42-second 2,048-model pilot (run 44449067662).
+- [x] Confirm deterministic 10,240-model layout generation and Birdsong participation in pilot.
+- [x] Repair Helix Flow quality CI import-path failure; new CI run validation pending.
+- [ ] Fix unrelated remote review ranking `dict` tie-break crash (run 44449067593).
+- [ ] Inspect pilot visually for saturated color, spatial shapes, depth and flash levels; previous diagnostic visuals cannot be counted as accepted.
+- [ ] Run instrumented 156-second 10,240-physical-model Helix sequencing; quantify active physical models, memory and render coverage.
+- [ ] Verify native xLights XSQ import, FSEQ export, exact A/V synchronization and full-song MP4 decode/visual acceptance.
+- [ ] Deliver actual full-song owner-approval video and obtain owner acceptance before merge/release.
