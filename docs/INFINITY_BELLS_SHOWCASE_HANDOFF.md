@@ -34,3 +34,10 @@ Duration: 156.000 seconds; MP3, 3,620,694 bytes. Source recording is fetched in 
 - 2048-prop layout generation: 2,077 groups, 158,016 pixels, 474,048 channels. Three generator tests passed in GitHub Actions.
 - GitHub run 44439984298: Bells file hash verified; master v27.3 sequenced 42 seconds and emitted 6,322 effects, 513 active Infinity model/group rows. The prior structure validator stopped only because it did not recognize native xLights timing rows. Corrected validator and regression cases are in this branch; rerun required.
 - Snowman band planner reported KeyError('composite_submodels'), not claimed fixed by showcase work. Future dedicated band review needed.
+
+## Verified 42-second real-audio render — run 44440506830
+- GitHub Actions status: success. Current master profile (v27.3) sequenced original Bells excerpt into 6,322 effects and 513 active Infinity model/group rows. Three generator tests and three timing-compatibility tests passed.
+- HQ preview H.264 1920x1080/30fps and AAC decode both passed; GitHub artifact id 14490992400, run https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/44440506830 .
+- Initial MP4 had 52.7s video vs 42.0s audio; local extracted pilot was losslessly remuxed/cut to exactly 42s video and audio for user preview (not committed to GitHub/Drive).
+- Visual quality review: FAIL owner-ready extreme standard. Many small sparse flashing white points; rendered shapes don't convincingly demonstrate double helixes, voxels, tunnels, saturated palettes or depth. Report flags excessive flash-like events 12.55/sec vs <=2.7 target, quality 94.5 below vendor threshold 96, audit 84.1 below 90, 16,993 rejected effects above 12,000 maximum. Birdsong disabled; replace layering and template palette active; no full 2,048-prop XSQ yet.
+- Next iteration must enable smart-layer, a color-forward palette, spatial chases, birdsong as applicable, eliminate over-whitening and flash density, fix geometry visualization then retest. Do not call early technical MP4 approved or a native xLights render. Native XSQ/FSEQ still missing.
