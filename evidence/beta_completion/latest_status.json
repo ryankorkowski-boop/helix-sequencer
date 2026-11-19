@@ -229,6 +229,16 @@
     "status": "implemented; CI pending",
     "checksum": null
   },
+  "infinity_showcase": {
+    "status": "layout integrated; 2s native clip accepted; full Bells song not rendered",
+    "pr": 250,
+    "merged": false,
+    "xlights_version": "2026.19",
+    "mouth_only_fseq_sha256": "aa3554e0a1f84b12ab6e9db9bb9364ba4221e6bdce8087bddcebaf4e8acf1941",
+    "mouth_max": 255,
+    "eyes_max": 0,
+    "owner_approval": false
+  },
   "nine_panel_v4_color": {
     "status": "rendered and measured; not owner approval",
     "xlights_version": "2026.19",

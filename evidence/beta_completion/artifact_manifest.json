@@ -102,6 +102,14 @@
     "status": "implemented; CI pending",
     "checksum": null
   },
+  "infinity_clip": {
+    "kind": "2 second xLights 2026.19 mouth-submodel clip",
+    "owner_approval": false,
+    "xsq_sha256": "cb7ad64c9a336541c292a6e7c6a0f5d384b42f2710978da319cfe0a1364f4be3",
+    "fseq_sha256": "aa3554e0a1f84b12ab6e9db9bb9364ba4221e6bdce8087bddcebaf4e8acf1941",
+    "mouth_max": 255,
+    "eyes_max": 0
+  },
   "nine_panel_v4": {
     "kind": "full-song nine-panel native FSEQ MP4 after the dark bed palette",
     "owner_approval": false,

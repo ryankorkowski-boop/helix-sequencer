@@ -389,5 +389,8 @@ No panel is white-washed. Lit pixels are colored. Mean luma across nine sample t
 
 Panel 8 is the brightest and is red, yellow, and cyan, not white. Contact sheets at 42, 96, and 168 s show saturated hits on a dim field. This is not owner approval.
 
+### 2026-11-19 — Infinity Showcase on this branch
+Draft PR #250 was not merged. Its layout generator is integrated here with nested `HX_INFINITY_DISTRICTS`, singing-face Mouth and Eyes submodels, spatial face order, and the 2026.19 blend keys. The draft's private audio download was not copied. xLights 2026.19 accepted a 2 second 128-prop clip. Mouth-only FSEQ sha256 `aa3554e0a1f84b12ab6e9db9bb9364ba4221e6bdce8087bddcebaf4e8acf1941`: mouth 255, eyes 0. See `docs/INFINITY_SHOWCASE_INTEGRATION.md`. Not owner approval.
+
 ## Unified native timing integration checkpoint
 Commit `3e23a0d213dbbe024f4e4331eae1b7aea1110ea7` integrates the Infinity native timing-row recognition into the unified validator, scopes legacy phoneme indexes and ordering per timing track, and rejects non-finite timing values. PR #250 remains unmerged. Tests not executed in this checkpoint; next add regression coverage for independent tracks, native rows and NaN/Infinity, then run focused CI and verify a real native export. No device, video or release approval claimed.

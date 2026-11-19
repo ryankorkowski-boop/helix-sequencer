@@ -892,6 +892,16 @@ Android manual packaging gate implemented in 442d26c3cdae90c252fd65b8926f056bfd3
 **Limitations:** The v2 16-panel layout module and its runner do not apply onto this branch. Floor-tom *detection* from a full mix is still not proven on Tinsel Tornado; explicit floor-tom labels still route to the floor tom. Android device playback and a Windows EXE were not rebuilt in this pass.
 **Risks:** The musical bed adds effects to every model gap and can look like a wash if section energy is high. Level is capped at 28 percent.
 
+### 2026-11-19 — Infinity Showcase groups, submodels, and spatial order
+**Goal:** Bring the Infinity layout onto this branch and target it with the new group, submodel, blend, and spatial graph.
+**Changed:** `tools/build_infinity_showcase_layout.py`, `tools/infinity_showcase_clip.py`, `tests/test_infinity_showcase_layout.py`, `tests/test_infinity_showcase_targeting.py`, `.github/workflows/helix-infinity-layout.yml`, `docs/INFINITY_SHOWCASE_INTEGRATION.md`, `evidence/beta_completion/infinity_clip/`.
+**Preserved:** Drummer geometry, Demucs, Whisper, and the nine-panel sequences. PR #250 was not merged. Its Drive download was not copied.
+**New:** Singing faces have Mouth and Eyes. `HX_INFINITY_DISTRICTS` lists family groups. A clip orders faces by X and emits `modelGroup`, `submodel`, Average, and Canvas.
+**Evidence:** Layout tests passed, including the 10240 tier. xLights 2026.19 rendered the mouth-only clip: mouth 255, eyes 0, rest of the face 0. FSEQ sha256 `aa3554e0a1f84b12ab6e9db9bb9364ba4221e6bdce8087bddcebaf4e8acf1941`.
+**Limitations:** Not the full Bells song and not owner approval.
+**Deferred:** Full-song Infinity sequencing.
+**Risks:** The 10240 layout test writes a large XML in CI. The new workflow only runs the unit tests.
+
 ### 2026-11-19 — Full-song nine-panel color check
 **Goal:** Re-render Tinsel Tornado at full length with the dark bed palette and see whether any panel is still washed white.
 **Changed files:** evidence contact sheets and `evidence/beta_completion/nine_panel_v4/panel_color.json`. No sequencer code change. The bed fix was already `b706a874`.

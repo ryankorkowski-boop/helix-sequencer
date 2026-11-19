@@ -1,0 +1,23 @@
+{
+  "xlights_version": "2026.19",
+  "layout_tier": 128,
+  "frames": 40,
+  "channels": 29952,
+  "group_type": "modelGroup",
+  "submodel_type": "submodel",
+  "mouth_only": {
+    "mouth_max": 255,
+    "eyes_max": 0,
+    "rest_of_face_max": 0,
+    "parent": "HX_INFINITY_SINGING_FACE_0001"
+  },
+  "ordered_faces_by_x": [
+    "HX_INFINITY_SINGING_FACE_0001",
+    "HX_INFINITY_SINGING_FACE_0002"
+  ],
+  "blend": {
+    "districts": "T_CHOICE_LayerMethod=Average",
+    "mouth": "T_CHECKBOX_Canvas=1,T_CHOICE_LayerMethod=Layered"
+  },
+  "owner_approval": false
+}

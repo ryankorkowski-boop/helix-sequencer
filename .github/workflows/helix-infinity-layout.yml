@@ -1,0 +1,25 @@
+name: Helix Infinity layout
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - integration/unified-beta-completion-20261117
+    paths:
+      - tools/build_infinity_showcase_layout.py
+      - tools/infinity_showcase_clip.py
+      - tests/test_infinity_showcase_layout.py
+      - tests/test_infinity_showcase_targeting.py
+      - .github/workflows/helix-infinity-layout.yml
+permissions:
+  contents: read
+jobs:
+  layout:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Layout and targeting tests
+        run: python -m pytest -q tests/test_infinity_showcase_layout.py tests/test_infinity_showcase_targeting.py
