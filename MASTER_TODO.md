@@ -892,6 +892,16 @@ Android manual packaging gate implemented in 442d26c3cdae90c252fd65b8926f056bfd3
 **Limitations:** The v2 16-panel layout module and its runner do not apply onto this branch. Floor-tom *detection* from a full mix is still not proven on Tinsel Tornado; explicit floor-tom labels still route to the floor tom. Android device playback and a Windows EXE were not rebuilt in this pass.
 **Risks:** The musical bed adds effects to every model gap and can look like a wash if section energy is high. Level is capped at 28 percent.
 
+### 2026-11-19 — Full-song nine-panel color check
+**Goal:** Re-render Tinsel Tornado at full length with the dark bed palette and see whether any panel is still washed white.
+**Changed files:** evidence contact sheets and `evidence/beta_completion/nine_panel_v4/panel_color.json`. No sequencer code change. The bed fix was already `b706a874`.
+**Preserved:** Demucs, Whisper, drummer geometry, hand mapping, and the sequenced effects. Only the bed palette and blend keys were rewritten before the FSEQ pass.
+**New behavior:** None in code. The render uses the dark palette index.
+**Tests/evidence:** xLights 2026.19, 4116 frames on all nine layouts. No panel's lit pixels were mostly white. Hits read above the bed on every panel except the sparse 16-channel AC panel, whose p95 is only a little above its mean because those channels stay dim. Contact sheets at 42, 96, and 168 s. MP4 sha256 `3300581f0f47dfd7eb4ec36aa3c9bc2ba8c06b1cf6adb78159744ad0e2b257ee`.
+**Limitations:** Not owner approval. Panel 1 stays sparse because it is 16 single-channel strands. Panel 8 is bright but colored.
+**Deferred:** A new full resequence from scratch. This pass kept the existing effect timing and replaced the bed.
+**Regression risks:** None in code.
+
 ### Beta 1.4 Windows packaging checkpoint
 {"spec_commit":"fe4113264617d20319df4358c34877a921e21bea","workflow_commit":"7e3339d8563d11c5c4d6bab9ff5e11d35439c3e1","workflow":".github/workflows/helix-beta14-windows-candidate.yml","status":"implemented; push build not confirmed; no packaged runtime verification","next_action":"Inspect push Actions run directly; connector commit workflow lookup covers pull-request runs only. Verify ZIP and Windows 11 runtime; no release."}
 

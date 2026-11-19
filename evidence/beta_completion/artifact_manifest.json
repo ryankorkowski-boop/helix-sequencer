@@ -102,6 +102,23 @@
     "status": "implemented; CI pending",
     "checksum": null
   },
+  "nine_panel_v4": {
+    "kind": "full-song nine-panel native FSEQ MP4 after the dark bed palette",
+    "owner_approval": false,
+    "full_sha256": "3300581f0f47dfd7eb4ec36aa3c9bc2ba8c06b1cf6adb78159744ad0e2b257ee",
+    "full_bytes": 129126519,
+    "parts": [
+      {"file": "nine-panel-v4-crf18-part-00.mp4", "sha256": "6a398588fff944e59cba48ef391c8dbcd8d8616f3e76840534b2592a45a182d9", "bytes": 35595540},
+      {"file": "nine-panel-v4-crf18-part-01.mp4", "sha256": "cfff53162457be4051edf97581b277aea24980313681a4c8a8f9a9ece180f386", "bytes": 28633822},
+      {"file": "nine-panel-v4-crf18-part-02.mp4", "sha256": "49e6928dc6381268633a45f8cb2e17da405ab5cd9899560bf2a05afa8b21d4f7", "bytes": 32496340},
+      {"file": "nine-panel-v4-crf18-part-03.mp4", "sha256": "ad6ea8ecf5536200b3521d01206b7e739485db49aa8d5c2d3a87651dc7272da5", "bytes": 32405029}
+    ],
+    "contact_sheets": {
+      "042": "64507e7882f368405baf4d5e0aac7af7cc01d8a8d033c6428626e346959b0bf3",
+      "096": "dd4a536239341ed05ab3cefc7b33567055159dede0acb80c48db24f527f3799c",
+      "168": "a8832165d9fa1b4dc2a9207961d7ca533041eb689c93f71555608ca5e22a8338"
+    }
+  },
   "native_short_clip": {
     "commit": "b706a874",
     "kind": "2 second xLights 2026.19 FSEQ of modelGroup, submodel, and blend XML",

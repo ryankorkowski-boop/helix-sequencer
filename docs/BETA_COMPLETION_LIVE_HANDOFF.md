@@ -370,5 +370,24 @@ Layout sync now writes `type="modelGroup"` and `type="submodel"` instead of forc
 
 Evidence: `tests/test_native_layer_targets.py` plus the existing bed and spatial tests, 12 passed. xLights 2026.19 headless rendered `evidence/beta_completion/layer_blend_clip/layer-blend.xsq` to a 40-frame FSEQ (sha256 `de63bf7ff5826c86aa7cdab1f40ab5fedb4f1e380f4fc30c63a112ea2608dd50`). Snowman Band (modelGroup) lit the lead singer, Singing Face 1/Mouth (submodel) lit only the mouth nodes, and the untargeted eyes stayed at 0. SDL/ALSA had no device; the FSEQ was still written. This is not a full-song render and not owner approval.
 
+### 2026-11-19 — Nine-panel color check after the bed palette fix
+The full Tinsel Tornado song was re-rendered from the existing sequences after the white bed was replaced with palette index `#1A2744` and `T_CHOICE_LayerMethod=Average`. xLights 2026.19 wrote nine FSEQ files, 4116 frames each. The composite is 1920×1080 H.264 30 fps, AAC, CRF 18, 205.76 s, 6172 video frames. Full file sha256 `3300581f0f47dfd7eb4ec36aa3c9bc2ba8c06b1cf6adb78159744ad0e2b257ee`, 129,126,519 bytes. The artifacts folder rejects that size, so the file is stored as four stream-copy parts in `/opt/cursor/artifacts/nine-panel-v4/`.
+
+No panel is white-washed. Lit pixels are colored. Mean luma across nine sample times, and whether hits sit above the bed (p95 versus mean):
+
+| Panel | Mean luma | Mean p95 | White fraction of lit | Hues |
+|---|---:|---:|---:|---|
+| 1 Simple 16ch | 32.6 | 49.4 | 0.000 | neutral, yellow |
+| 2 Original 256ch | 34.6 | 122.4 | 0.064 | neutral, yellow |
+| 3 RGB house | 94.4 | 196.6 | 0.000 | blue, cyan, neutral |
+| 4 Singing faces | 126.2 | 206.8 | 0.000 | blue, cyan, magenta, red |
+| 5 Snowman bench | 96.5 | 237.1 | 0.000 | blue, cyan, red |
+| 6 Model zoo | 85.7 | 173.4 | 0.000 | blue, cyan, neutral |
+| 7 Birdsong | 118.9 | 175.8 | 0.000 | blue, cyan, red |
+| 8 Prop groups | 162.1 | 241.2 | 0.000 | blue, cyan, magenta, red, yellow |
+| 9 Ultimate | 106.3 | 210.7 | 0.000 | blue, cyan, magenta, neutral |
+
+Panel 8 is the brightest and is red, yellow, and cyan, not white. Contact sheets at 42, 96, and 168 s show saturated hits on a dim field. This is not owner approval.
+
 ## Unified native timing integration checkpoint
 Commit `3e23a0d213dbbe024f4e4331eae1b7aea1110ea7` integrates the Infinity native timing-row recognition into the unified validator, scopes legacy phoneme indexes and ordering per timing track, and rejects non-finite timing values. PR #250 remains unmerged. Tests not executed in this checkpoint; next add regression coverage for independent tracks, native rows and NaN/Infinity, then run focused CI and verify a real native export. No device, video or release approval claimed.

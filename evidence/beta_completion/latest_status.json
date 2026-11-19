@@ -229,6 +229,17 @@
     "status": "implemented; CI pending",
     "checksum": null
   },
+  "nine_panel_v4_color": {
+    "status": "rendered and measured; not owner approval",
+    "xlights_version": "2026.19",
+    "duration_s": 205.76,
+    "video": "1920x1080 h264 30fps aac crf18",
+    "full_sha256": "3300581f0f47dfd7eb4ec36aa3c9bc2ba8c06b1cf6adb78159744ad0e2b257ee",
+    "full_bytes": 129126519,
+    "parts_dir": "/opt/cursor/artifacts/nine-panel-v4",
+    "washed_panels": [],
+    "contact_sheets_s": [42, 96, 168]
+  },
   "layer_spatial_checkpoint": {
     "commit": "b706a874",
     "status": "short clip accepted by xLights 2026.19; not a full-song render and not owner approval",
