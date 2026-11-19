@@ -60,7 +60,33 @@
       "key": "helixville4",
       "title": "5 · Helixville 4 · extravagant neighborhood",
       "path": "helixville4/xlights_rgbeffects.xml"
+    },
+    {
+      "key": "aurora",
+      "title": "Aurora · 3D showcase",
+      "path": "showcase/Helix_Aurora/xlights_rgbeffects.xml"
+    },
+    {
+      "key": "greg256_spirals",
+      "title": "Greg 256 · three-color AC spiral trees",
+      "path": "showcase/Experimental_256_AC_Spirals/xlights_rgbeffects.xml"
     }
   ],
-  "stages": []
+  "stages": [
+    {
+      "key": "arena",
+      "title": "Stage scenery · Helix Arena",
+      "path": "showcase/approved_concepts/15_Helix_Arena/xlights_rgbeffects.xml"
+    },
+    {
+      "key": "thunder",
+      "title": "Stage scenery · Thunder Vault",
+      "path": "showcase/approved_concepts/16_Thunder_Vault_Stage/xlights_rgbeffects.xml"
+    },
+    {
+      "key": "gravity",
+      "title": "Stage scenery · Gravity Inversion",
+      "path": "showcase/approved_concepts/31_Gravity_Inversion_Stage/xlights_rgbeffects.xml"
+    }
+  ]
 }

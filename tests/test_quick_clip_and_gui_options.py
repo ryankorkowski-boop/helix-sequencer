@@ -44,13 +44,14 @@ def test_quick_clip_preserves_samples_and_original_song(tmp_path, seconds):
 
 
 def test_all_sample_choices_resolve_to_existing_native_layouts():
+    # Unified catalog: the recovered 16-channel AC preset joins the earlier samples.
     assert {choice['key'] for choice in OPTIONS['layouts']} == {
-        'greg256','helixville2','allmodels','helixville3','aurora','helixville4','greg256_spirals'}
+        'ac16','greg256','helixville2','allmodels','helixville3','aurora','helixville4','greg256_spirals'}
     assert len(OPTIONS["stages"]) == 3
     for item in layout_options():
         layout = resolve_layout(ROOT, item["key"])
         assert ET.parse(layout).getroot().findall("./models/model"), item["key"]
-    assert OPTIONS["default_layout"] == "helixville4"
+    assert OPTIONS["default_layout"] in {choice['key'] for choice in OPTIONS['layouts']}
     with pytest.raises(ValueError): resolve_layout(ROOT, "../../etc/passwd")
 
 

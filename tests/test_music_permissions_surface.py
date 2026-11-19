@@ -13,7 +13,8 @@ def test_music_permissions_separate_from_software_license():
 
 
 def test_desktop_and_android_legal_disclose_music_terms():
-    desktop = (ROOT / "helix_ui_text.py").read_text()
+    # The desktop legal page is loaded from the same asset the phone packages.
+    from helix_ui_text import LEGAL as desktop
     android = (ROOT / "android/app/src/main/assets/helix_legal.txt").read_text()
     for content in (desktop, android):
         assert "Helix Music Mix by hardKor" in content

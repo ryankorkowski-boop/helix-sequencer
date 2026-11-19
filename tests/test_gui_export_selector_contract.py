@@ -77,7 +77,8 @@ def dual_app(tmp_path):
                        else gui.tk.IntVar(interpreter, value) if isinstance(value, int)
                        else gui.tk.StringVar(interpreter, value)) for name, value in values.items()}
     return SimpleNamespace(**variables, _busy=False, run_button=Mock(), status_label=Mock(),
-                           _log=Mock(), _run_subprocess=Mock())
+                           review_button=Mock(), light_show=Mock(), _variant_movies=[],
+                           _variant_failures=[], _log=Mock(), _run_subprocess=Mock())
 
 
 @pytest.mark.parametrize("frozen", [False, True])
@@ -95,6 +96,8 @@ def test_both_launches_existing_mapped_dual_export_on_desktop_and_portable(tmp_p
     assert "--no-effects-orchestrator" in command
     assert "--matrix-intelligence" not in command and "--birdsong" not in command
     assert app.sequence_mode_var.get() == "Light-O-Rama" and app._busy
+    assert "--helix-review-previews" in command
+    app.light_show.set_running.assert_called_once_with(True)
     launch.return_value.start.assert_called_once()
     if frozen:
         assert Path(command[0]).name == "HelixCLI.exe" and "--helix-cli" in command

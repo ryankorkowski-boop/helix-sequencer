@@ -27,6 +27,11 @@ for relative in (
     "LICENSE",
     "packaging/release_manifest.json",
     "CHANGELOG.md",
+    "helix_h_logo.png",
+    "COMMERCIAL_LICENSING.md",
+    "MUSIC_PERMISSIONS.md",
+    "WELCOME_TO_HELIX.md",
+    "INSTALL_AND_TROUBLESHOOT.md",
 ):
     add_file(relative)
 
@@ -52,6 +57,9 @@ for folder in (
     "helixville2",
     "helixville3",
     "helixville4",
+    "showcase/Helix_Aurora",
+    "showcase/Experimental_256_AC_Spirals",
+    "showcase/approved_concepts",
     "config",
     "data",
     "fixtures/band_geometry",
@@ -72,7 +80,8 @@ datas += collect_data_files("imageio")
 for distribution in ("imageio", "imageio-ffmpeg", "librosa", "zstandard"):
     datas += copy_metadata(distribution, recursive=True)
 
-hiddenimports = ["imageio.plugins.ffmpeg", "imageio.plugins.pillow", "zstandard"]
+# Demucs and Whisper are required production tools, not optional extras.
+hiddenimports = ["imageio.plugins.ffmpeg", "imageio.plugins.pillow", "zstandard", "whisper", "demucs"]
 for package in (
     "core", "xlights", "tools", "audio", "helix", "helix_composers",
     "helix_intent", "helix_knowledge", "helix_layout", "helix_mapping",
@@ -91,7 +100,6 @@ a = Analysis(
     hooksconfig={},
     runtime_hooks=[],
     excludes=["tensorflow"],
-    hiddenimports=["whisper", "demucs"],
     noarchive=False,
 )
 pyz = PYZ(a.pure)

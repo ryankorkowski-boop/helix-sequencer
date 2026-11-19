@@ -1,23 +1,47 @@
 from __future__ import annotations
 
 import os
-import shutil
-import json
 import queue
+import re
+import shutil
 import subprocess
 import sys
 import threading
-from pathlib import Path
 import webbrowser
+from pathlib import Path
 import tkinter as tk
 from tkinter import filedialog, messagebox, ttk
-
-
 from core.helix_version import TITLE, VERSION
+from core.layout_preferences import load_layout, save_layout
+from core.gui_options import OPTIONS, PALETTES, layout_options, palette_key, resolve_layout
 from core.preview_status import classify_review_log
 from gui_lightshow import SequencingLightShow
+from helix_ui_text import TAGLINE, INSTRUCTIONS, LEGAL
 
-ROOT = Path(__file__).resolve().parent
+
+ROOT = Path(sys.executable).resolve().parent if getattr(sys, "frozen", False) else Path(__file__).resolve().parent
+
+
+def _python_command(mode: str, script: Path) -> list[str]:
+    if getattr(sys, "frozen", False):
+        return [str(Path(sys.executable).resolve().with_name("HelixCLI.exe")), mode]
+    return [sys.executable, str(script)]
+
+
+TOOL_MODES = {
+    "tools.dual_format_export": "--helix-dual-format-export",
+    "tools.legacy_lms_export": "--helix-legacy-lms-export",
+    "tools.validate_native_xlights": "--helix-native-render",
+    "tools.fseq_pixel_preview": "--helix-fseq-preview",
+}
+
+
+def _module_command(module: str) -> list[str]:
+    if module not in TOOL_MODES:
+        raise ValueError("Unsupported GUI tool")
+    if getattr(sys, "frozen", False):
+        return [str(Path(sys.executable).resolve().with_name("HelixCLI.exe")), TOOL_MODES[module]]
+    return [sys.executable, "-m", module]
 
 
 def _best_layout_file(folder: Path) -> Path:
@@ -31,67 +55,135 @@ class HelixGui(tk.Tk):
     def __init__(self) -> None:
         super().__init__()
         self.title(TITLE)
-        self.geometry("1060x760")
-        self.minsize(960, 680)
-        self.configure(bg="#091020")
-        style = ttk.Style(self)
-        if "clam" in style.theme_names():
-            style.theme_use("clam")
-        style.configure("TFrame", background="#101b30")
-        style.configure("TLabelframe", background="#101b30", foreground="#5de5ef")
-        style.configure("TLabelframe.Label", background="#101b30", foreground="#5de5ef")
-        style.configure("TLabel", background="#101b30", foreground="#e7f1ff")
+        self.geometry("1140x850")
+        self.minsize(1040, 740)
 
-        from core.gui_options import OPTIONS, layout_options, resolve_layout
-        self.layout_presets = {}
-        self.layout_keys = {}
+        self.layout_presets = {
+            "GP's House": _best_layout_file(ROOT),
+            "allmodels": _best_layout_file(ROOT / "allmodels"),
+            "helixville": _best_layout_file(ROOT / "helixville"),
+            "Custom": Path(""),
+        }
         for item in layout_options():
             try:
                 self.layout_presets[item["title"]] = resolve_layout(ROOT, item["key"])
-                self.layout_keys[item["key"]] = item["title"]
             except FileNotFoundError:
-                continue
-        self.layout_presets["Custom"] = Path("")
-        self.default_layout_title = self.layout_keys.get(OPTIONS.get("default_layout"), next(iter(self.layout_presets)))
+                pass
 
         self.profile_var = tk.StringVar(value="master")
-        self.layout_preset_var = tk.StringVar(value=self.default_layout_title)
+        self.layout_preset_var = tk.StringVar(value="Custom")
         self.template_var = tk.StringVar(value=str(ROOT / "template.xsq"))
         self.audio_var = tk.StringVar(value="")
-        self.layout_var = tk.StringVar(value=str(self.layout_presets[self.default_layout_title]))
+        self.layout_var = tk.StringVar(value=load_layout())
+        if not self.layout_var.get():
+            default = next(item for item in OPTIONS["layouts"] if item["key"] == OPTIONS["default_layout"])
+            if default["title"] in self.layout_presets:
+                self.layout_preset_var.set(default["title"])
         self.output_var = tk.StringVar(value=str(ROOT / "outputs"))
 
-        self.vendor_bar_var = tk.BooleanVar(value=True)
+        self.vendor_bar_var = tk.BooleanVar(value=False)
         self.matrix_var = tk.BooleanVar(value=True)
         self.polish_var = tk.BooleanVar(value=True)
         self.shortlist_var = tk.BooleanVar(value=True)
         self.learn_xsq_var = tk.BooleanVar(value=True)
+        self.lor_compatible_var = tk.BooleanVar(value=False)
+        self.sequence_mode_var = tk.StringVar(value="xLights")
+        self.export_format_var = tk.StringVar(value="XSQ")
+        self.lor_source_var = tk.StringVar(value="")
+        self.model_routing_var = tk.StringVar(value="")
+        self.generate_mp4_var = tk.BooleanVar(value=True)
+        self.preview_seconds_var = tk.IntVar(value=30)
+        self.quick_clip_var = tk.BooleanVar(value=False)
 
         self.birdsong_var = tk.BooleanVar(value=True)
         self.birdsong_auto_var = tk.BooleanVar(value=True)
         self.birdsong_profile_var = tk.StringVar(value="canopy")
         self.birdsong_intensity_var = tk.DoubleVar(value=1.2)
         self.birdsong_min_conf_var = tk.DoubleVar(value=0.45)
-        self.variants_var = tk.IntVar(value=4)
+        self.variants_var = tk.IntVar(value=1)
 
-        self._ui_events = queue.Queue()
-        self._variant_movies = []
-        self._variant_failures = []
+        self._events: queue.Queue[tuple[str, object]] = queue.Queue()
+        self.palette_mode_var = tk.StringVar(value="Default colors")
+        self.showcase_gate_var = tk.BooleanVar(value=False)
+        self.spatial_accent_var = tk.BooleanVar(value=False)
+        self.ac_on_only_var = tk.BooleanVar(value=False)
+        self.pitched_props_var = tk.BooleanVar(value=True)
+        self._busy = False
+        self._building_layout = False
+        self._variant_movies: list[Path] = []
+        self._variant_failures: list[str] = []
         self._build_ui()
-        self._apply_layout_preset()
-        self.after(80, self._drain_ui_events)
+        # A saved custom layout takes precedence over the showcase default.
+        # Applying the preset unconditionally overwrote it on every startup.
+        if not self.layout_var.get():
+            self._apply_layout_preset()
+        self._update_mode_ui()
+        self.lor_compatible_var.trace_add("write", lambda *_a: self._update_mode_ui())
+        self.ac_on_only_var.trace_add("write", lambda *_a: self._update_mode_ui())
+        self.after(100, self._drain_events)
+        self.layout_var.trace_add("write", self._on_layout_changed)
+
+    def _on_layout_changed(self, *_args) -> None:
+        path = self.layout_var.get().strip()
+        if path and Path(path).is_file():
+            try:
+                save_layout(path)
+            except (OSError, ValueError):
+                pass
 
     def _build_ui(self) -> None:
-        pad = {"padx": 8, "pady": 6}
-        frame = ttk.Frame(self)
-        frame.pack(fill=tk.BOTH, expand=True, **pad)
+        pad = {"padx": 8, "pady": 4}
+        outer = ttk.Frame(self)
+        outer.pack(fill=tk.BOTH, expand=True, **pad)
+        header = ttk.Frame(outer); header.pack(fill=tk.X)
+        logo = ROOT / 'helix_h_logo.png'
+        if not logo.is_file():logo = ROOT / '_internal' / 'helix_h_logo.png'
+        if logo.is_file():
+            self._brand_icon = tk.PhotoImage(file=str(logo))
+            self.iconphoto(True, self._brand_icon)
+            self._header_icon = self._brand_icon.subsample(4, 4)
+            ttk.Label(header, image=self._header_icon).pack(side=tk.LEFT, padx=8)
+        ttk.Label(header, text='HELIX  •  '+TAGLINE, font=('Segoe UI', 18)).pack(side=tk.LEFT, padx=8)
+        self.notebook = ttk.Notebook(outer); self.notebook.pack(fill=tk.BOTH, expand=True)
+        sequence_tab = ttk.Frame(self.notebook); self.notebook.add(sequence_tab, text='Sequence')
+        canvas = tk.Canvas(sequence_tab, highlightthickness=0)
+        scrollbar = ttk.Scrollbar(sequence_tab, orient='vertical', command=canvas.yview)
+        scrollbar.pack(side=tk.RIGHT, fill=tk.Y); canvas.pack(side=tk.LEFT, fill=tk.BOTH, expand=True)
+        canvas.configure(yscrollcommand=scrollbar.set)
+        frame = ttk.Frame(canvas); window = canvas.create_window((0, 0), window=frame, anchor='nw')
+        frame.bind('<Configure>', lambda _e: canvas.configure(scrollregion=canvas.bbox('all')))
+        canvas.bind('<Configure>', lambda e: canvas.itemconfigure(window, width=e.width))
+        for title, content in [('Instructions', INSTRUCTIONS), ('Legal', LEGAL)]:
+            page = ttk.Frame(self.notebook); self.notebook.add(page, text=title)
+            text = tk.Text(page, wrap=tk.WORD, font=('Segoe UI', 12), padx=22, pady=18,
+                           bg='#101824', fg='#D8E5F2', borderwidth=0)
+            page_scroll = ttk.Scrollbar(page, orient=tk.VERTICAL, command=text.yview)
+            page_scroll.pack(side=tk.RIGHT, fill=tk.Y)
+            text.configure(yscrollcommand=page_scroll.set)
+            text.insert('1.0', content); text.configure(state='disabled'); text.pack(side=tk.LEFT, fill=tk.BOTH, expand=True)
+            if title == 'Legal':
+                self.legal_tab = page; self.notebook.hide(page)
+        footer = ttk.Frame(outer); footer.pack(fill=tk.X)
+        ttk.Label(footer, text='Free for homeowner use', foreground='#718093').pack(side=tk.LEFT, padx=8)
+        ttk.Button(footer, text='Legal', command=self._show_legal).pack(side=tk.RIGHT, padx=8)
+        ttk.Button(footer, text='About', command=self._show_about).pack(side=tk.RIGHT, padx=8)
 
         top = ttk.LabelFrame(frame, text="Show Context")
         top.pack(fill=tk.X, **pad)
 
-        ttk.Label(top, text=TITLE).grid(row=0, column=0, columnspan=2, sticky="w", **pad)
-        ttk.Button(top, text="About", command=self._show_about).grid(row=0, column=2, sticky="w", **pad)
-        ttk.Button(top, text="Instructions", command=self._show_instructions).grid(row=0, column=3, sticky="w", **pad)
+        ttk.Label(top, text="Sequencer Mode").grid(row=0, column=0, sticky="w", **pad)
+        ttk.Combobox(
+            top, textvariable=self.sequence_mode_var,
+            values=["xLights", "Light-O-Rama"],
+            state="readonly", width=20,
+        ).grid(row=0, column=1, sticky="w", **pad)
+        ttk.Label(top, text="Sequence output").grid(row=0, column=2, sticky="w", **pad)
+        ttk.Combobox(
+            top, textvariable=self.export_format_var,
+            values=["XSQ", "LMS", "Both"], state="readonly", width=12,
+        ).grid(row=0, column=3, sticky="w", **pad)
+        self.export_format_var.trace_add("write", lambda *_a: self._sync_export_format())
+        self.sequence_mode_var.trace_add("write", lambda *_a: self._sync_sequence_mode())
 
         ttk.Label(top, text="Layout Preset").grid(row=1, column=0, sticky="w", **pad)
         preset_combo = ttk.Combobox(
@@ -99,9 +191,10 @@ class HelixGui(tk.Tk):
             textvariable=self.layout_preset_var,
             values=list(self.layout_presets.keys()),
             state="readonly",
-            width=34,
+            width=20,
         )
         preset_combo.grid(row=1, column=1, sticky="w", **pad)
+        self._layout_preset_combo = preset_combo
         preset_combo.bind("<<ComboboxSelected>>", lambda _event: self._apply_layout_preset())
 
         ttk.Button(top, text="Build/Refresh Helixville", command=self._build_helixville).grid(
@@ -109,10 +202,10 @@ class HelixGui(tk.Tk):
         )
 
         ttk.Label(top, text="Template XSQ").grid(row=2, column=0, sticky="w", **pad)
-        ttk.Entry(top, textvariable=self.template_var, width=86).grid(row=2, column=1, columnspan=2, sticky="we", **pad)
-        ttk.Button(top, text="Browse", command=lambda: self._browse_file(self.template_var, [("XSQ", "*.xsq")])).grid(
-            row=2, column=3, sticky="w", **pad
-        )
+        self.template_entry = ttk.Entry(top, textvariable=self.template_var, width=86)
+        self.template_entry.grid(row=2, column=1, columnspan=2, sticky="we", **pad)
+        self.template_browse = ttk.Button(top, text="Browse", command=lambda: self._browse_file(self.template_var, [("XSQ", "*.xsq")]))
+        self.template_browse.grid(row=2, column=3, sticky="w", **pad)
 
         ttk.Label(top, text="Audio File").grid(row=3, column=0, sticky="w", **pad)
         ttk.Entry(top, textvariable=self.audio_var, width=86).grid(row=3, column=1, columnspan=2, sticky="we", **pad)
@@ -123,14 +216,31 @@ class HelixGui(tk.Tk):
         )
 
         ttk.Label(top, text="Layout File").grid(row=4, column=0, sticky="w", **pad)
-        ttk.Entry(top, textvariable=self.layout_var, width=86).grid(row=4, column=1, columnspan=2, sticky="we", **pad)
-        ttk.Button(top, text="Browse", command=lambda: self._browse_file(self.layout_var, [("xLights Layout", "*.xml *.xbkp")])).grid(
-            row=4, column=3, sticky="w", **pad
-        )
+        self.layout_entry = ttk.Entry(top, textvariable=self.layout_var, width=86)
+        self.layout_entry.grid(row=4, column=1, columnspan=2, sticky="we", **pad)
+        self.layout_browse = ttk.Button(top, text="Browse", command=lambda: self._browse_file(self.layout_var, [("xLights Layout", "*.xml *.xbkp")]))
+        self.layout_browse.grid(row=4, column=3, sticky="w", **pad)
 
         ttk.Label(top, text="Output Folder").grid(row=5, column=0, sticky="w", **pad)
         ttk.Entry(top, textvariable=self.output_var, width=86).grid(row=5, column=1, columnspan=2, sticky="we", **pad)
         ttk.Button(top, text="Browse", command=lambda: self._browse_folder(self.output_var)).grid(row=5, column=3, sticky="w", **pad)
+
+        ttk.Label(top, text="LOR Channel Layout (.lms)").grid(row=6, column=0, sticky="w", **pad)
+        self.lor_source_entry = ttk.Entry(top, textvariable=self.lor_source_var, width=86)
+        self.lor_source_entry.grid(row=6, column=1, columnspan=2, sticky="we", **pad)
+        self.lor_source_browse = ttk.Button(
+            top, text="Browse", command=lambda: self._browse_file(
+                self.lor_source_var, [("Legacy LOR sequence", "*.lms")]
+            )
+        )
+        self.lor_source_browse.grid(row=6, column=3, sticky="w", **pad)
+        ttk.Label(
+            top,
+            text="LMS and Both use channels and Unit/Circuit mapping from your existing LMS. "
+                 "Both keeps the matching editable XSQ alongside the LMS. "
+                 "Modern .loredit is not yet supported; import/upgrade the exported LMS in LOR.",
+            wraplength=840,
+        ).grid(row=7, column=0, columnspan=4, sticky="w", **pad)
 
         controls = ttk.LabelFrame(frame, text="Engine Controls")
         controls.pack(fill=tk.X, **pad)
@@ -139,17 +249,35 @@ class HelixGui(tk.Tk):
         ttk.Combobox(controls, textvariable=self.profile_var, values=["master"], width=12, state="readonly").grid(
             row=0, column=1, sticky="w", **pad
         )
-        ttk.Label(controls, text="Variants").grid(row=0, column=2, sticky="w", **pad)
+        ttk.Label(controls, text="Quality candidates").grid(row=0, column=2, sticky="w", **pad)
         ttk.Spinbox(controls, from_=1, to=8, textvariable=self.variants_var, width=6).grid(row=0, column=3, sticky="w", **pad)
 
-        ttk.Checkbutton(controls, text="Vendor Bar", variable=self.vendor_bar_var).grid(row=1, column=0, sticky="w", **pad)
-        ttk.Checkbutton(controls, text="Matrix Intelligence", variable=self.matrix_var).grid(row=1, column=1, sticky="w", **pad)
+        ttk.Checkbutton(controls, text="Vendor Bar · 3+ candidates", variable=self.vendor_bar_var).grid(row=1, column=0, sticky="w", **pad)
+        self.matrix_button=ttk.Checkbutton(controls,text="Matrix Intelligence",variable=self.matrix_var)
+        self.matrix_button.grid(row=1,column=1,sticky="w",**pad)
         ttk.Checkbutton(controls, text="Polish", variable=self.polish_var).grid(row=1, column=2, sticky="w", **pad)
         ttk.Checkbutton(controls, text="Auto Shortlist", variable=self.shortlist_var).grid(row=1, column=3, sticky="w", **pad)
         ttk.Checkbutton(controls, text="Learn From My XSQs", variable=self.learn_xsq_var).grid(row=1, column=4, sticky="w", **pad)
 
+        self.lor_compat_button = ttk.Checkbutton(
+            controls,
+            text="AC-compatible effects (xLights mode, for external LOR conversion)",
+            variable=self.lor_compatible_var,
+        )
+        self.lor_compat_button.grid(row=2, column=0, columnspan=5, sticky="w", **pad)
+        ttk.Checkbutton(
+            controls, text="Generate MP4 preview with every sequence",
+            variable=self.generate_mp4_var,
+        ).grid(row=3, column=0, columnspan=3, sticky="w", **pad)
+        ttk.Label(controls, text="Preview seconds").grid(row=3, column=3, sticky="w", **pad)
+        ttk.Spinbox(
+            controls, from_=1, to=600, increment=5,
+            textvariable=self.preview_seconds_var, width=6,
+        ).grid(row=3, column=4, sticky="w", **pad)
+
         birdsong = ttk.LabelFrame(frame, text="Birdsong Engine")
         birdsong.pack(fill=tk.X, **pad)
+        self.birdsong_frame=birdsong
         ttk.Checkbutton(birdsong, text="Enable Birdsong", variable=self.birdsong_var).grid(row=0, column=0, sticky="w", **pad)
         ttk.Checkbutton(birdsong, text="Auto Enable By Confidence", variable=self.birdsong_auto_var).grid(
             row=0, column=1, sticky="w", **pad
@@ -171,11 +299,38 @@ class HelixGui(tk.Tk):
             row=0, column=7, sticky="w", **pad
         )
 
+        render_tools = ttk.LabelFrame(frame, text="Color and playback")
+        render_tools.pack(fill=tk.X, **pad)
+        ttk.Label(render_tools, text="Colors").grid(row=0, column=0, **pad)
+        self.palette_combo = ttk.Combobox(render_tools, textvariable=self.palette_mode_var,
+            values=list(PALETTES), state="readonly", width=28)
+        self.palette_combo.grid(row=0, column=1, **pad)
+        self.spatial_button = ttk.Checkbutton(render_tools, text="RGB chorus chase", variable=self.spatial_accent_var)
+        self.spatial_button.grid(row=0, column=2, **pad)
+        self.quality_button = ttk.Checkbutton(render_tools, text="Strict quality check", variable=self.showcase_gate_var)
+        self.quality_button.grid(row=0, column=3, **pad)
+        self.ac_on_button = ttk.Checkbutton(render_tools, text="RGW AC On only", variable=self.ac_on_only_var)
+        self.ac_on_button.grid(row=0, column=4, **pad)
+        self.pitched_props_button = ttk.Checkbutton(render_tools, text="Note-aware helix and mallet props", variable=self.pitched_props_var)
+        self.pitched_props_button.grid(row=2, column=0, columnspan=3, sticky="w", **pad)
+        ttk.Checkbutton(render_tools, text="Quick clip · sequence only the first 10 seconds",
+                        variable=self.quick_clip_var).grid(row=3, column=0, columnspan=3, sticky="w", **pad)
+        ttk.Label(render_tools, text="Stage scenery presets select a stage layout; performer design is unchanged.").grid(
+            row=4, column=0, columnspan=5, sticky="w", **pad)
+        self.native_buttons = []
+        for column,(label,callback) in enumerate([("Render in xLights",self._native_render_fseq),
+            ("Preview rendered FSEQ",self._fseq_preview),("Export existing AC XSQ to LMS",self._export_legacy_lms)]):
+            button=ttk.Button(render_tools,text=label,command=callback)
+            button.grid(row=1,column=column,columnspan=1,**pad);self.native_buttons.append(button)
+
+        ttk.Label(top, text="Model routing (optional)").grid(row=8,column=0,sticky="w",**pad)
+        self.routing_entry=ttk.Entry(top,textvariable=self.model_routing_var,width=86)
+        self.routing_entry.grid(row=8,column=1,columnspan=2,sticky="we",**pad)
+        self.routing_browse=ttk.Button(top,text="Browse",command=lambda:self._browse_file(self.model_routing_var,[("Model role mapping","*.json")]))
+        self.routing_browse.grid(row=8,column=3,**pad)
         legal = ttk.LabelFrame(frame, text="Legal / Licensing")
         legal.pack(fill=tk.X, **pad)
         ttk.Label(legal, text="Helix Sequencer: PolyForm Noncommercial 1.0.0 | Free for qualifying noncommercial use; commercial use requires a separate license.", wraplength=900).pack(anchor="w", padx=8, pady=4)
-        ttk.Button(legal, text="Donate to Helix", command=lambda: self._open_donation("helix")).pack(side=tk.LEFT, padx=8, pady=4)
-        ttk.Button(legal, text="Donate to xLights", command=lambda: self._open_donation("xlights")).pack(side=tk.LEFT, padx=8, pady=4)
         ttk.Button(legal, text="View License", command=lambda: webbrowser.open("https://polyformproject.org/licenses/noncommercial/1.0.0/")).pack(side=tk.LEFT, padx=8, pady=4)
         ttk.Button(legal, text="Third-Party Licenses", command=lambda: webbrowser.open((ROOT / "THIRD_PARTY_LICENSES.md").as_uri())).pack(side=tk.LEFT, padx=8, pady=4)
 
@@ -185,19 +340,264 @@ class HelixGui(tk.Tk):
         self.run_button.pack(side=tk.LEFT, padx=8, pady=6)
         self.review_button = ttk.Button(actions, text="Review variants…", command=self._review_variants, state=tk.DISABLED)
         self.review_button.pack(side=tk.LEFT, padx=8, pady=6)
+        ttk.Button(actions, text="Export existing AC XSQ + LMS", command=self._export_existing_xsq_both).pack(side=tk.LEFT, padx=8, pady=6)
+        ttk.Button(actions, text="Phone Remote", command=self._open_phone_remote).pack(side=tk.LEFT, padx=8, pady=6)
+        from tools.support_links import links
+        support = links()
+        for label, key in (("Donate to xLights", "xlights"), ("Donate to Helix", "helix")):
+            ttk.Button(actions, text=label, command=lambda url=support[key]: webbrowser.open(url)).pack(side=tk.LEFT, padx=6, pady=6)
         self.status_label = ttk.Label(actions, text="Ready")
         self.status_label.pack(side=tk.LEFT, padx=8, pady=6)
-        ttk.Label(actions, text="Animation").pack(side=tk.LEFT, padx=(16, 4))
+
+        # Animated arches and mega tree show that work is in progress.
+        animation = ttk.Frame(frame)
+        animation.pack(fill=tk.X, **pad)
+        ttk.Label(animation, text="Animation").pack(side=tk.LEFT, padx=(8, 4))
         self.animation_scene = tk.StringVar(value="Combined")
-        ttk.Combobox(actions, textvariable=self.animation_scene, values=["Combined", "Arches", "Mega tree"], state="readonly", width=12).pack(side=tk.LEFT)
+        ttk.Combobox(animation, textvariable=self.animation_scene, values=["Combined", "Arches", "Mega tree"],
+                     state="readonly", width=12).pack(side=tk.LEFT)
         self.light_show = SequencingLightShow(frame)
         self.light_show.pack(fill=tk.X, padx=8, pady=(0, 6))
         self.animation_scene.trace_add("write", lambda *_: self.light_show.set_scene(self.animation_scene.get()))
 
         log_frame = ttk.LabelFrame(frame, text="Run Log")
         log_frame.pack(fill=tk.BOTH, expand=True, **pad)
-        self.log_text = tk.Text(log_frame, wrap=tk.WORD, height=20, bg="#0e1013", fg="#d6deeb", insertbackground="#d6deeb")
+        self.log_text = tk.Text(log_frame, wrap=tk.WORD, height=10, bg="#0e1013", fg="#d6deeb", insertbackground="#d6deeb")
         self.log_text.pack(fill=tk.BOTH, expand=True, padx=8, pady=8)
+
+    def _show_about(self) -> None:
+        messagebox.showinfo(
+            "About Helix",
+            (
+                f"{TITLE}\n\n"
+                f"Version {VERSION}.\n\n"
+                "Section colors are written into the sequence palette table. "
+                "White is reserved for strobe, twinkle, shimmer, snowflake, and sparkle."
+            ),
+        )
+
+    def _show_legal(self) -> None:
+        self.notebook.add(self.legal_tab, text='Legal')
+        self.notebook.select(self.legal_tab)
+
+    def _open_phone_remote(self) -> None:
+        from tools.desktop_remote_gui import open_phone_link
+        open_phone_link(self, ROOT)
+
+    def _sync_export_format(self) -> None:
+        """Map supported choices onto the existing sequencer modes."""
+        selected = self.export_format_var.get()
+        mode = "Light-O-Rama" if selected in {"LMS", "Both"} else "xLights"
+        if self.sequence_mode_var.get() != mode:
+            self.sequence_mode_var.set(mode)
+
+    def _sync_sequence_mode(self) -> None:
+        """Keep the output choice consistent with the user's selected mode."""
+        selected = self.export_format_var.get()
+        if self.sequence_mode_var.get() == "Light-O-Rama":
+            output = selected if selected in {"LMS", "Both"} else "LMS"
+        else:
+            output = "XSQ"
+        if selected != output:
+            self.export_format_var.set(output)
+        self._update_mode_ui()
+
+    def _update_mode_ui(self) -> None:
+        lor = self.sequence_mode_var.get() == "Light-O-Rama"
+        for item in (
+            self.template_entry, self.template_browse, self.layout_entry,
+            self.layout_browse, self._layout_preset_combo, self.lor_compat_button,
+            self.routing_entry, self.routing_browse
+        ):
+            item.configure(state="disabled" if lor else (
+                "readonly" if item is self._layout_preset_combo else "normal"
+            ))
+        rgb_disabled = lor or self.lor_compatible_var.get() or self.ac_on_only_var.get()
+        self.palette_combo.configure(state="disabled" if rgb_disabled else "readonly")
+        self.matrix_button.configure(state="disabled" if rgb_disabled else "normal")
+        for item in self.birdsong_frame.winfo_children():
+            item.configure(state="disabled" if rgb_disabled else "readonly" if isinstance(item,ttk.Combobox) else "normal")
+        for item in (self.spatial_button,self.quality_button):
+            item.configure(state="disabled" if rgb_disabled else "normal")
+        if hasattr(self,'pitched_props_button'):
+            self.pitched_props_button.configure(state="disabled" if rgb_disabled else "normal")
+        self.ac_on_button.configure(state="disabled" if lor or self.lor_compatible_var.get() else "normal")
+        for item in self.native_buttons:
+            item.configure(state="disabled" if lor else "normal")
+        for item in (self.lor_source_entry, self.lor_source_browse):
+            item.configure(state="normal" if lor else "disabled")
+
+    def _drain_events(self) -> None:
+        """Process worker results on Tk's main thread (never call Tk from a worker)."""
+        try:
+            for _ in range(100):
+                kind, payload = self._events.get_nowait()
+                if kind == "log":
+                    self._log(str(payload))
+                elif kind == "variant_preview":
+                    path = Path(str(payload))
+                    if path.is_file() and path not in self._variant_movies:
+                        self._variant_movies.append(path)
+                        self.review_button.configure(state=tk.NORMAL)
+                elif kind == "variant_failed":
+                    if payload not in self._variant_failures:
+                        self._variant_failures.append(str(payload))
+                        self.review_button.configure(state=tk.NORMAL)
+                elif kind == "review_created":
+                    self._open_video(Path(str(payload)))
+                elif kind == "review_error":
+                    messagebox.showerror("Variant review", str(payload))
+                elif kind == "run_done":
+                    self.light_show.set_running(False)
+                    if payload == 0:
+                        self._log("Run complete.")
+                        self.status_label.configure(text="Completed")
+                    else:
+                        self._log(f"Run failed with exit code {payload}.")
+                        self.status_label.configure(text="Failed")
+                    self._busy = False
+                    self.run_button.configure(state=tk.NORMAL)
+                    if self._building_layout:
+                        if payload == 0:
+                            self.layout_preset_var.set("helixville")
+                            self._apply_layout_preset()
+                        self._building_layout = False
+                elif kind == "run_error":
+                    self.light_show.set_running(False)
+                    self._log(f"Unable to launch Helix: {payload}")
+                    self.status_label.configure(text="Failed")
+                    self._busy = False
+                    self._building_layout = False
+                    self.run_button.configure(state=tk.NORMAL)
+        except queue.Empty:
+            pass
+        self.after(100, self._drain_events)
+
+    def _launch_optional_export(self, cmd: list[str]) -> None:
+        if self._busy:
+            return
+        self._busy = True
+        self.run_button.configure(state=tk.DISABLED)
+        self.status_label.configure(text="Exporting...")
+        self.light_show.set_running(True)
+        self._log("Running: " + " ".join(cmd))
+        threading.Thread(target=self._run_subprocess, args=(cmd,), daemon=True).start()
+
+    def _export_existing_xsq_both(self) -> None:
+        """Convert an already generated AC-only XSQ with explicit hardware mapping."""
+        source = filedialog.askopenfilename(
+            title="Choose completed Helix AC-only XSQ",
+            filetypes=[("xLights XSQ", "*.xsq")],
+        )
+        if not source:
+            return
+        mapping = filedialog.askopenfilename(
+            title="Choose verified LOR channel mapping CSV",
+            filetypes=[("CSV files", "*.csv")],
+        )
+        if not mapping:
+            return
+        destination = filedialog.askdirectory(title="Choose new dual-format output folder")
+        if not destination:
+            return
+        if any((Path(destination) / ("Performance." + ext)).exists() for ext in ("xsq", "lms")):
+            messagebox.showerror("Existing output", "Choose a folder without Performance.xsq or Performance.lms.")
+            return
+        if not messagebox.askyesno(
+            "Confirm AC channel mapping",
+            "This converts only constant-intensity AC On effects. "
+            "Have you verified the CSV against your LOR controller unit and circuits?",
+        ):
+            return
+        self._launch_optional_export([
+            *_module_command("tools.dual_format_export"),
+            source, destination, "--format", "both", "--channel-map", mapping,
+        ])
+
+    def _export_legacy_lms(self) -> None:
+        source = filedialog.askopenfilename(
+            title="Choose Helix AC-only On XSQ", filetypes=[("xLights XSQ", "*.xsq")]
+        )
+        if not source:
+            return
+        proposed = Path(source).with_suffix(".ac_channel_map.csv")
+        channel_map = str(proposed) if proposed.exists() else filedialog.askopenfilename(
+            title="Choose CSV with verified LOR Unit ID and Circuit mapping",
+            filetypes=[("Channel mapping CSV", "*.csv")]
+        )
+        if not channel_map:
+            return
+        destination = filedialog.asksaveasfilename(
+            title="Save legacy Light-O-Rama LMS",
+            defaultextension=".lms", filetypes=[("Legacy LOR sequence", "*.lms")],
+            initialfile=Path(source).stem + ".lms"
+        )
+        if not destination:
+            return
+        if not messagebox.askokcancel(
+            "Verify AC controller wiring",
+            "This writes legacy .lms, NOT S5/S6 .loredit. "
+            "All LOR Unit/Circuit assignments must be filled in the CSV and "
+            "verified against actual controllers before playback. Continue?"
+        ):
+            return
+        self._launch_optional_export([
+            *_module_command("tools.legacy_lms_export"), source,
+            "--channel-map", channel_map, "--output", destination
+        ])
+
+    def _native_render_fseq(self) -> None:
+        source = filedialog.askopenfilename(
+            title="Choose XSQ to render in installed xLights",
+            filetypes=[("xLights XSQ", "*.xsq")]
+        )
+        if not source:
+            return
+        executable = filedialog.askopenfilename(
+            title="Choose installed xLights executable",
+            filetypes=[("xLights program", "*.exe"), ("All files", "*")]
+        )
+        if not executable:
+            return
+        show_dir = filedialog.askdirectory(title="Choose xLights show directory")
+        if not show_dir:
+            return
+        out_dir = filedialog.askdirectory(title="Choose directory to keep rendered FSEQ")
+        if not out_dir:
+            return
+        self._launch_optional_export([
+            *_module_command("tools.validate_native_xlights"),
+            source, "--show-dir", show_dir,
+            "--xlights-exe", executable, "--output-dir", out_dir
+        ])
+
+    def _fseq_preview(self) -> None:
+        fseq = filedialog.askopenfilename(
+            title="Choose real FSEQ rendered by xLights",
+            filetypes=[("Falcon/xLights sequence", "*.fseq")]
+        )
+        if not fseq:
+            return
+        default_layout = Path(self.layout_var.get().strip())
+        if not default_layout.exists():
+            messagebox.showerror("Missing layout", "Choose your original xLights layout first")
+            return
+        destination = filedialog.asksaveasfilename(
+            title="Save real pixel preview MP4", defaultextension=".mp4",
+            filetypes=[("MP4 video", "*.mp4")], initialfile=Path(fseq).stem + ".mp4"
+        )
+        if not destination:
+            return
+        cmd = [
+            *_module_command("tools.fseq_pixel_preview"),
+            fseq, "--layout", str(default_layout),
+            "--output", destination
+        ]
+        audio = Path(self.audio_var.get().strip()) if self.audio_var.get().strip() else None
+        if audio and audio.exists():
+            cmd.extend(["--audio", str(audio)])
+        self._log("Preview shows actual FSEQ channel colors with approximate model geometry.")
+        self._launch_optional_export(cmd)
 
     def _browse_file(self, target_var: tk.StringVar, filetypes: list[tuple[str, str]]) -> None:
         selected = filedialog.askopenfilename(initialdir=str(ROOT), filetypes=filetypes)
@@ -209,37 +609,9 @@ class HelixGui(tk.Tk):
         if selected:
             target_var.set(selected)
 
-    def _drain_ui_events(self) -> None:
-        try:
-            while True:
-                kind, payload = self._ui_events.get_nowait()
-                if kind == "log":
-                    self._log(payload)
-                elif kind == "variant_preview":
-                    path = Path(payload)
-                    if path.is_file() and path not in self._variant_movies:
-                        self._variant_movies.append(path)
-                        self.review_button.configure(state=tk.NORMAL)
-                elif kind == "variant_failed":
-                    if payload not in self._variant_failures:
-                        self._variant_failures.append(payload)
-                        self.review_button.configure(state=tk.NORMAL)
-                elif kind == "review_created":
-                    self._open_video(Path(payload))
-                elif kind == "review_error":
-                    messagebox.showerror("Variant review", str(payload))
-                elif kind == "done":
-                    self.status_label.configure(text=payload)
-                    self.light_show.set_running(False)
-                    self.run_button.configure(state=tk.NORMAL)
-        except queue.Empty:
-            pass
-        self.after(80, self._drain_ui_events)
-
     def _log(self, message: str) -> None:
         self.log_text.insert(tk.END, message + "\n")
         self.log_text.see(tk.END)
-        self.update_idletasks()
 
     def _apply_layout_preset(self) -> None:
         preset = self.layout_preset_var.get()
@@ -255,70 +627,60 @@ class HelixGui(tk.Tk):
             else:
                 self.output_var.set(str(ROOT / "outputs"))
 
-    def _open_donation(self, key: str) -> None:
-        try:
-            links = json.loads((ROOT / "config" / "support_links.json").read_text(encoding="utf-8"))
-            webbrowser.open(links[key])
-        except (OSError, KeyError, ValueError) as error:
-            messagebox.showerror("Donation link unavailable", str(error))
-
-    def _show_instructions(self) -> None:
-        instructions = ROOT / "android" / "app" / "src" / "main" / "assets" / "helix_instructions.txt"
-        if not instructions.exists():
-            messagebox.showinfo("Instructions", "See the included README.md for setup and usage instructions.")
-            return
-        window = tk.Toplevel(self)
-        window.title("Helix Instructions")
-        window.geometry("720x560")
-        viewer = tk.Text(window, wrap=tk.WORD, bg="#101b30", fg="#e7f1ff")
-        scrollbar = ttk.Scrollbar(window, orient=tk.VERTICAL, command=viewer.yview)
-        scrollbar.pack(side=tk.RIGHT, fill=tk.Y)
-        viewer.configure(yscrollcommand=scrollbar.set)
-        viewer.pack(side=tk.LEFT, fill=tk.BOTH, expand=True)
-        viewer.insert("1.0", instructions.read_text(encoding="utf-8"))
-        viewer.configure(state=tk.DISABLED)
-
-    def _show_about(self) -> None:
-        messagebox.showinfo(
-            "About Helix",
-            (
-                f"{TITLE}\n\n"
-                f"Version {VERSION}.\n\n"
-                "Section colors are written into the sequence palette table. "
-                "White is reserved for strobe, twinkle, shimmer, snowflake, and sparkle."
-            ),
-        )
-
     def _build_helixville(self) -> None:
-        cmd = [sys.executable, str(ROOT / "tools" / "build_helixville_layout.py")]
-        self._log("Building/refreshing helixville layout...")
-        result = subprocess.run(cmd, cwd=str(ROOT), capture_output=True, text=True)
-        if result.stdout:
-            self._log(result.stdout.strip())
-        if result.returncode != 0:
-            if result.stderr:
-                self._log(result.stderr.strip())
-            messagebox.showerror("Helixville Build Failed", "Could not build Helixville layout. Check log output.")
+        source = ROOT / "allmodels" / "xlights_rgbeffects.xml"
+        if not source.exists():
+            source = ROOT / "xlights_rgbeffects.xml"
+        if not source.exists():
+            messagebox.showerror("Missing Layout", "No bundled source layout was found.")
             return
-        self.layout_preset_var.set("helixville")
-        self._apply_layout_preset()
-        messagebox.showinfo("Helixville Ready", "Helixville layout has been generated and selected.")
+        cmd = [
+            *_python_command("--helix-build-helixville", ROOT / "tools" / "build_helixville_layout.py"),
+            "--source-layout", str(source),
+            "--gps-layout", str(ROOT / "xlights_rgbeffects.xml"),
+            "--output-dir", str(ROOT / "helixville"),
+        ]
+        self._log("Building/refreshing helixville layout...")
+        if self._busy:
+            return
+        self._building_layout = True
+        self._launch_optional_export(cmd)
 
     def _run_sequence(self) -> None:
-        if not self.audio_var.get().strip():
+        if self._busy:
+            return
+        lor_mode = self.sequence_mode_var.get() == "Light-O-Rama"
+        rgb_enabled = not (lor_mode or self.lor_compatible_var.get() or self.ac_on_only_var.get())
+        try:
+            variants = int(self.variants_var.get())
+            intensity = float(self.birdsong_intensity_var.get()) if rgb_enabled and self.birdsong_var.get() else 1.2
+            confidence = float(self.birdsong_min_conf_var.get()) if rgb_enabled and self.birdsong_var.get() else .45
+            if not 1 <= variants <= 8 or not 0 <= intensity <= 5 or not 0 <= confidence <= 1:
+                raise ValueError("out of range")
+        except (tk.TclError, ValueError):
+            messagebox.showwarning("Invalid Settings", "Use 1–8 variants, intensity 0–5, and confidence 0–1.")
+            return
+        if not Path(self.audio_var.get().strip()).is_file():
             messagebox.showwarning("Missing Audio", "Choose an audio file before running.")
             return
-        if not Path(self.layout_var.get().strip()).is_file():
-            messagebox.showwarning("Missing Layout", "Layout file does not exist.")
-            return
-        if not Path(self.template_var.get().strip()).is_file():
-            messagebox.showwarning("Missing Template", "Template XSQ file does not exist.")
-            return
+        lor_mode = self.sequence_mode_var.get() == "Light-O-Rama"
+        if lor_mode:
+            if not Path(self.lor_source_var.get().strip()).is_file():
+                messagebox.showwarning(
+                    "Missing LOR Layout",
+                    "Choose an existing legacy .lms sequence with your real LOR channels."
+                )
+                return
+        else:
+            if not self.layout_var.get().strip() or not Path(self.layout_var.get().strip()).is_file():
+                messagebox.showwarning("Missing Layout", "Layout file does not exist.")
+                return
+            if not Path(self.template_var.get().strip()).exists():
+                messagebox.showwarning("Missing Template", "Template XSQ file does not exist.")
+                return
 
-        launcher = ([str(Path(sys.executable).with_name("HelixCLI.exe")), "--helix-cli"]
-                    if getattr(sys, "frozen", False) else [sys.executable, str(ROOT / "main.py")])
         cmd = [
-            *launcher,
+            *_python_command("--helix-cli", ROOT / "main.py"),
             "--profile",
             self.profile_var.get().strip() or "master",
             "--",
@@ -331,14 +693,64 @@ class HelixGui(tk.Tk):
             "--output-dir",
             self.output_var.get().strip(),
             "--variants",
-            str(max(1, int(self.variants_var.get()))),
+            str(variants),
             "--no-prompt",
             "--helix-review-previews",
         ]
 
+        if getattr(self, "quick_clip_var", None) is not None and self.quick_clip_var.get():
+            cmd.append("--helix-quick-clip")
+        if not lor_mode and self.model_routing_var.get().strip():
+            routing=Path(self.model_routing_var.get().strip())
+            if not routing.is_file():
+                messagebox.showwarning("Missing Model Routing", "Choose an existing model role mapping file.")
+                return
+            cmd.extend(["--model-overrides-file",str(routing)])
+        if lor_mode:
+            cmd.extend([
+                "--helix-lor-source-lms", self.lor_source_var.get().strip(),
+                "--ac-lights-only", "--no-pixel-reactive",
+                "--no-matrix-intelligence", "--no-effects-orchestrator",
+            ])
+            self._log(
+                "Light-O-Rama mode: using Unit/Circuit mapping from the supplied LMS; "
+                "writing matching editable XSQ and LMS sequences."
+            )
+        elif self.lor_compatible_var.get():
+            cmd.extend([
+                "--ac-lights-only", "--no-pixel-reactive",
+                "--no-matrix-intelligence", "--no-effects-orchestrator",
+            ])
+            self._log(
+                "xLights AC compatible: output XSQ; optionally convert to LOR in xLights."
+            )
+        if not lor_mode and not self.lor_compatible_var.get():
+            if not self.pitched_props_var.get():
+                cmd.append("--helix-no-pitched-props")
+            if not self.ac_on_only_var.get():
+                selected_palette = palette_key(self.palette_mode_var.get())
+                if selected_palette != "default":
+                    cmd.extend(["--palette-mode", selected_palette])
+            if not self.ac_on_only_var.get() and self.spatial_accent_var.get():
+                cmd.append("--helix-spatial-accent")
+            if not self.ac_on_only_var.get() and self.showcase_gate_var.get():
+                cmd.append("--helix-showcase-quality-gate")
+            if self.ac_on_only_var.get():
+                cmd.append("--helix-ac-on-only")
+
+        if self.generate_mp4_var.get():
+            try:
+                seconds = int(self.preview_seconds_var.get())
+            except (tk.TclError, ValueError):
+                messagebox.showwarning("Invalid Preview Duration", "Enter 1–600 seconds")
+                return
+            if not 1 <= seconds <= 600:
+                messagebox.showwarning("Invalid Preview Duration", "Enter 1–600 seconds")
+                return
+            cmd.extend(["--helix-preview-mp4", "--helix-preview-seconds", str(seconds)])
         if self.vendor_bar_var.get():
             cmd.append("--vendor-bar")
-        if self.matrix_var.get():
+        if self.matrix_var.get() and rgb_enabled:
             cmd.append("--matrix-intelligence")
         if self.polish_var.get():
             cmd.append("--polish")
@@ -349,16 +761,16 @@ class HelixGui(tk.Tk):
         if self.learn_xsq_var.get():
             cmd.append("--learn-from-my-xsqs")
 
-        if self.birdsong_var.get():
+        if self.birdsong_var.get() and rgb_enabled:
             cmd.extend(
                 [
                     "--birdsong",
                     "--birdsong-profile",
                     self.birdsong_profile_var.get().strip() or "wild",
                     "--birdsong-intensity",
-                    f"{float(self.birdsong_intensity_var.get()):.2f}",
+                    f"{intensity:.2f}",
                     "--birdsong-min-confidence",
-                    f"{float(self.birdsong_min_conf_var.get()):.2f}",
+                    f"{confidence:.2f}",
                 ]
             )
             if self.birdsong_auto_var.get():
@@ -368,6 +780,7 @@ class HelixGui(tk.Tk):
         self._variant_failures.clear()
         self.review_button.configure(state=tk.DISABLED)
         self.run_button.configure(state=tk.DISABLED)
+        self._busy = True
         self.status_label.configure(text="Running...")
         self.light_show.set_running(True)
         self._log("")
@@ -388,8 +801,6 @@ class HelixGui(tk.Tk):
             messagebox.showerror("Preview playback", str(exc))
 
     def _review_variants(self) -> None:
-        import re
-
         def order(path):
             match = re.search(r"\.alt(\d+)$", path.stem)
             return int(match.group(1)) if match else 0
@@ -449,9 +860,9 @@ class HelixGui(tk.Tk):
                 from tools.variant_review_media import compose
                 try:
                     compose(paths, target, comparison=comparison)
-                    self._ui_events.put(("review_created", target))
+                    self._events.put(("review_created", target))
                 except (RuntimeError, ValueError, OSError) as exc:
-                    self._ui_events.put(("review_error", str(exc)))
+                    self._events.put(("review_error", str(exc)))
 
             threading.Thread(target=worker, daemon=True).start()
 
@@ -469,27 +880,32 @@ class HelixGui(tk.Tk):
 
     def _run_subprocess(self, cmd: list[str]) -> None:
         try:
-            process = subprocess.Popen(
-                cmd, cwd=str(ROOT), stdout=subprocess.PIPE,
-                stderr=subprocess.STDOUT, text=True,
-            )
-            assert process.stdout is not None
-            for line in process.stdout:
-                line = line.rstrip()
-                self._ui_events.put(("log", line))
-                classified = classify_review_log(line)
-                if classified is not None:
-                    kind, payload = classified
-                    if kind == "ready":
-                        self._ui_events.put(("variant_preview", payload))
-                    elif kind == "failed":
-                        self._ui_events.put(("variant_failed", payload))
-            rc = process.wait()
-            self._ui_events.put(("log", "Run complete." if rc == 0 else f"Run failed with exit code {rc}."))
-            self._ui_events.put(("done", "Completed" if rc == 0 else "Failed"))
-        except Exception as exc:
-            self._ui_events.put(("log", f"Sequence process failed: {exc}"))
-            self._ui_events.put(("done", "Failed"))
+            with subprocess.Popen(
+                cmd,
+                cwd=str(ROOT),
+                stdout=subprocess.PIPE,
+                stderr=subprocess.STDOUT,
+                text=True,
+                errors="replace",
+                bufsize=1,
+                env={**os.environ, "PYTHONUNBUFFERED": "1"},
+                creationflags=getattr(subprocess, "CREATE_NO_WINDOW", 0) if getattr(sys, "frozen", False) else 0,
+            ) as process:
+                assert process.stdout is not None
+                for line in process.stdout:
+                    line = line.rstrip()
+                    self._events.put(("log", line))
+                    classified = classify_review_log(line)
+                    if classified is not None:
+                        kind, payload = classified
+                        if kind == "ready":
+                            self._events.put(("variant_preview", payload))
+                        elif kind == "failed":
+                            self._events.put(("variant_failed", payload))
+                rc = process.wait()
+            self._events.put(("run_done", rc))
+        except OSError as exc:
+            self._events.put(("run_error", str(exc)))
 
 
 def main() -> int:
