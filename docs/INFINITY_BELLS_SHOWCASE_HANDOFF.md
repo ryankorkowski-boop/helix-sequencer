@@ -48,3 +48,11 @@ Duration: 156.000 seconds; MP3, 3,620,694 bytes. Source recording is fetched in 
 - [x] Configure smart layering, wave chases and flash guard for Bells pilot.
 - [ ] Verify 10,240-model generation in CI and inspect pilot MP4 for color and shape visibility.
 - [ ] Enable and verify Birdsong and role routing; render full 10,240-model full song; verify native XSQ/FSEQ and duration. No release without owner approval.
+
+## 2026-11-19 verified continuation
+- Runs 44448740526 and 44449067662 completed successfully as **42-second diagnostic 2,048-model real-audio pilots**, not owner-approval renders. Last pilot artifact 14494289108 includes the generated 10,240-model layout; **10,240 sequenced models not yet verified**.
+- CI confirms Birdsong effects participate and FFmpeg decoding passes. Precision A/V onset alignment, full-song duration, human visual approval, and native xLights XSQ-load/FSEQ export are not proven by these checks.
+- The full 10,240-model xLights XML is a layout target only. Full 156-second original Bells of Mathmas and native FSEQ are outstanding.
+- Run 44449067699 failed after 49 passing Helix Flow tests because `python tools/export_birdsong_demo_manifest.py` could not import `core` (missing `PYTHONPATH`); fixed CI environment in commit `931ef181f174d92c0ab090647cffcd6447ba39ae`, pending new CI readback.
+- Run 44449067593 failed winner-preview selection with `TypeError: '<' not supported between instances of 'dict' and 'dict'`, independently of Infinity pilot. Diagnose separately; synthetic/fallback remote-preview artifacts must not be described as Infinity owner approval.
+- **Production gate**: do not spend a full 10,240-model render until runner RAM/duration/output bounds are instrumented and pilot visual quality is manually reviewed; use real input checksum and effect counts. No merge/release.
