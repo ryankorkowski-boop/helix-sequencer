@@ -69,5 +69,12 @@
     "local_tests": "Python 3.11.18 and 3.12.3: 50 passed, 5 subtests passed. javac PreviewStatusChecks ok.",
     "native_fseq_verified": false,
     "owner_approval": false
+  },
+  "documentation_source_checkpoint": {
+    "commit": "5b8f300bb62ddfbfeb44a9813363279ade62be8b",
+    "path": "android/app/src/main/assets/helix_instructions.txt",
+    "status": "implemented, not tested or packaged",
+    "manual_checksum": null,
+    "next_action": "Verify Android compile, Windows packaging and device readers"
   }
 }
