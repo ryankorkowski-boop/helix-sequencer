@@ -50,7 +50,7 @@ def spiral(cx, cy, cz, nodes, turns, height=54, radius=14, handed=1):
 
 def helix(cx, cy, cz, nodes):
     half = nodes//2
-    a = spiral(cx, cy, cz, half, 7.5, 76, 16)
+    a = [(cx + 16*math.cos(2*math.pi*7.5*j/(half-1)), cy + 16*math.sin(2*math.pi*7.5*j/(half-1)), cz + 76*j/(half-1)) for j in range(half)]
     b = [(cx + 16*math.cos(2*math.pi*7.5*j/(half-1)+math.pi),
           cy + 16*math.sin(2*math.pi*7.5*j/(half-1)+math.pi),
           cz + 76*j/(half-1)) for j in range(half)]
@@ -134,6 +134,9 @@ def make_layout(output, manifest, size=2048):
             group(f"HX_INFINITY_HIER_{level:04d}_{start//level:04d}",names[start:start+level])
     for sector in range(24):
         group(f"HX_INFINITY_SECTOR_{sector:02d}", [r["name"] for r in records if int((math.atan2(r["center"][1],r["center"][0])%(2*math.pi))*24/(2*math.pi))==sector])
+    # Musical travel paths overlap family, role and spatial groups.
+    for label, families in (("ENCHANTED_FOREST", ("SPIRAL_TREE","MEGA_TREE")), ("STARDUST", ("ORNAMENT","SKY_STRUCTURE")), ("PORTALS", ("DOUBLE_HELIX","TUNNEL_3D")), ("AURORA", ("MATRIX_2D","VOXEL_GRID_3D")), ("BELLS_PROCESSION", ("ARCH","PIANO_COLUMN")), ("RIVER_OF_LIGHT", ("GROUND_WAVE","SPHERE"))):
+        group("HX_INFINITY_MAGIC_"+label, [r["name"] for r in records if r["family"] in families])
     for ring in range(8):
         group(f"HX_INFINITY_RING_{ring:02d}", [r["name"] for r in records if min(7,int(math.hypot(*r["center"][:2])/70))==ring])
     # Validate full channel allocation and group references before emitting artifacts.
