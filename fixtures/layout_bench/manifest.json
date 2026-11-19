@@ -260,15 +260,17 @@
     "id": "band_stage",
     "title": "Snowman Band Stage",
     "tier": "band",
-    "summary": "Stage with a snowman band, three singing-face props (phoneme NodeRange mouths and eyes), a backdrop matrix, and the nine drum-hit props.",
+    "summary": "Canonical six snowmen: drummer, guitarist, bassist, keyboardist, lead singer, and purple harmony singer. Three NodeRange faces. Three toms plus ride. No fourth tom.",
     "layout": "fixtures/layout_bench/band_stage/xlights_rgbeffects.xml",
     "template": "fixtures/layout_bench/band_stage/template.xsq",
-    "props": 23,
+    "props": 25,
     "submodels": 6,
-    "groups": 8,
+    "groups": 10,
     "group_names": [
       "Whole House",
       "Snowman Band",
+      "Lead Singer",
+      "Harmony Singer",
       "All Singing Faces",
       "Drummer Kit",
       "All Matrices",
@@ -276,10 +278,10 @@
       "All Floods",
       "All Roofline"
     ],
-    "pixels": 1328,
-    "channels": 3984,
+    "pixels": 1456,
+    "channels": 4368,
     "types": {
-      "arch": 7,
+      "arch": 9,
       "line": 12,
       "matrix": 2,
       "star": 2
@@ -454,6 +456,45 @@
       "spinner": 2,
       "star": 1,
       "tree": 2
+    }
+  },
+  {
+    "id": "native_model_zoo",
+    "title": "Native xLights Model Zoo",
+    "tier": "wow",
+    "summary": "Native xLights trees, stars, spinners, canes, arches, matrices and spatial groupings.",
+    "layout": "fixtures/layout_bench/native_model_zoo/xlights_rgbeffects.xml",
+    "template": "fixtures/layout_bench/native_model_zoo/template.xsq",
+    "props": 76,
+    "submodels": 0,
+    "groups": 15,
+    "group_names": [
+      "Whole House",
+      "All Custom Trees",
+      "All Mega Trees",
+      "All Stars",
+      "All Spinners",
+      "All Candy Canes",
+      "All Arches",
+      "All Snowflakes",
+      "All Matrices",
+      "Zoo Left",
+      "Zoo Right",
+      "Zoo Foreground",
+      "Zoo Background",
+      "Zoo Melodic Instruments",
+      "Zoo Rhythmic Accents"
+    ],
+    "pixels": 9168,
+    "channels": 27504,
+    "types": {
+      "arch": 8,
+      "cane": 16,
+      "line": 6,
+      "matrix": 4,
+      "spinner": 10,
+      "star": 12,
+      "tree": 20
     }
   }
 ]
