@@ -22,6 +22,10 @@ on:
       - 'fixtures/layout_bench/**'
       - '.github/workflows/helix-unified-beta-integration.yml'
       - 'requirements*.txt'
+      - 'tools/**'
+      - 'gui_launcher.py'
+      - 'android/**'
+      - 'packaging/**'
   pull_request:
     paths:
       - 'core/**'
@@ -98,3 +102,31 @@ jobs:
         run: |
           python tools/layout_bench/generate_layouts.py
           python -m pytest -q tests/test_layout_bench.py tests/test_nine_panel_gate.py
+
+  full-suite:
+    # The focused job above hid full-suite failures. This runs everything with
+    # the pinned requirements on both supported interpreters.
+    name: full suite / python ${{ matrix.python-version }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ['3.11', '3.12']
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+          cache: pip
+          cache-dependency-path: |
+            requirements.txt
+            requirements-dev.txt
+      - name: Install pinned requirements and media tools
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y ffmpeg
+          python -m pip install --upgrade pip
+          python -m pip install -r requirements-dev.txt
+      - name: Run the complete test suite
+        run: python -m pytest -q -p no:cacheprovider

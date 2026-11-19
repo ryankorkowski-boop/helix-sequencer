@@ -96,7 +96,7 @@
       "next_action": "Full acceptance and owner approval"
     }
   ],
-  "next_command": "The rejected nine-panel stays rejected. Demucs and Whisper small were proven on a 12s excerpt (cache hit on the second run). Next render a replacement nine-panel only after the six-member bench and musical bed are in the sequences. Do not mark approval.",
+  "next_command": "See docs/BETA_1_4_RUNNING_CHECKLIST.md section 5",
   "last_inspected_head": "9d622d67b4efc748210c0626accc8d0dd06d8a3b",
   "ci_status": "40dca014 CI success: unified integration 44406112861 passed Python 3.11 and 3.12; Android compile 44406112855 assembled and retained a debug APK; drummer 44406112840 passed. Those runs do not verify HEAD 61982611. At last look, 61982611 still had unified integration 44412936937 and drummer 44412936902 in progress; nine-panel bench 44412936764 had passed. No device playback and no owner approval.",
   "confirmed_findings": [
@@ -243,9 +243,20 @@
   },
   "stem_metal": {
     "status": "measured on two Demucs drum stems; not a transcription",
-    "tinsel_tornado": {"floor": 40, "ride": 1, "floor_near_snare_60ms": 0},
-    "candy_cane_shockwave": {"floor": 6, "ride": 2, "ride_near_hat_40ms": 0},
-    "previous_tinsel": {"ride": 0, "tom": 2}
+    "tinsel_tornado": {
+      "floor": 40,
+      "ride": 1,
+      "floor_near_snare_60ms": 0
+    },
+    "candy_cane_shockwave": {
+      "floor": 6,
+      "ride": 2,
+      "ride_near_hat_40ms": 0
+    },
+    "previous_tinsel": {
+      "ride": 0,
+      "tom": 2
+    }
   },
   "infinity_showcase": {
     "status": "layout integrated; 2s native clip accepted; full Bells song not rendered",
@@ -266,7 +277,11 @@
     "full_bytes": 129126519,
     "parts_dir": "/opt/cursor/artifacts/nine-panel-v4",
     "washed_panels": [],
-    "contact_sheets_s": [42, 96, 168]
+    "contact_sheets_s": [
+      42,
+      96,
+      168
+    ]
   },
   "layer_spatial_checkpoint": {
     "commit": "b706a874",
@@ -288,5 +303,78 @@
     "workflow": ".github/workflows/helix-beta14-windows-candidate.yml",
     "status": "implemented; push build not confirmed; no packaged runtime verification",
     "next_action": "Inspect push Actions run directly; connector commit workflow lookup covers pull-request runs only. Verify ZIP and Windows 11 runtime; no release."
+  },
+  "unification_checkpoint": {
+    "date_utc": "2026-11-19",
+    "summary": "Merged the never-integrated 216 lineage (codex/drummer-truths-integration-20261115) into the integration branch and reconciled both product surfaces.",
+    "merge_parents": {
+      "integration": "7b333580",
+      "lineage_216": "origin/codex/drummer-truths-integration-20261115",
+      "merge_base_date": "2026-10-18",
+      "conflicts_resolved": 43
+    },
+    "full_suite": [
+      {
+        "tree": "integration before merge",
+        "python": "3.12",
+        "failed": 19,
+        "passed": 1071,
+        "errors": 1
+      },
+      {
+        "tree": "216 lineage before merge",
+        "python": "3.12",
+        "failed": 21,
+        "passed": 2243,
+        "errors": 25
+      },
+      {
+        "tree": "unified with physical ride",
+        "python": "3.12.x pinned requirements + band-preview extras",
+        "failed": 0,
+        "passed": 2573,
+        "skipped": 6,
+        "seconds": 432
+      },
+      {
+        "tree": "unified with physical ride",
+        "python": "3.11.17 requirements-dev.txt only",
+        "failed": 0,
+        "passed": 2573,
+        "skipped": 6,
+        "seconds": 451
+      }
+    ],
+    "where_run": "local sandbox (2 CPU); CI full-suite job added in helix-unified-beta-integration.yml",
+    "drummer": {
+      "cues": [
+        "KICK",
+        "SNARE",
+        "HI_HAT",
+        "RIDE",
+        "CYMBAL_LEFT",
+        "CYMBAL_RIGHT",
+        "TOM_HIGH",
+        "TOM_MID",
+        "TOM_FLOOR"
+      ],
+      "pose_spec": "helix.drummer_v3_pose_spec.v8",
+      "ride": "authored (absent from owner artwork); source PNG unchanged; owner placement approval pending",
+      "native_render_evidence": null
+    },
+    "verified": [
+      "full test suite on 3.11 and 3.12 (local)",
+      "desktop GUI start-up smoke from source under Xvfb",
+      "drummer pose sheet rendered and inspected (diagnostic compositor, not native xLights)"
+    ],
+    "not_verified": [
+      "Android APK build/run of unified tree",
+      "Windows portable EXE build/run of unified tree",
+      "native xLights render of unified tree",
+      "any MP4 deliverable",
+      "nine-layout catalog",
+      "Drive delivery"
+    ],
+    "checklist": "docs/BETA_1_4_RUNNING_CHECKLIST.md"
   }
 }

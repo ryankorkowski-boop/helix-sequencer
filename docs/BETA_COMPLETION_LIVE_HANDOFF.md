@@ -1,5 +1,7 @@
 # Unified Beta Completion — Live Handoff
 
+> 2026-11-19 unification session: the current checklist, test table and next actions are in [BETA_1_4_RUNNING_CHECKLIST.md](BETA_1_4_RUNNING_CHECKLIST.md). The sections below are earlier history.
+
 Updated: 2026-11-19 UTC. Status: IN PROGRESS; no release approval. Owner rejected the nine-panel benchmark and the local Tinsel Tornado v2 16-panel pilot. Zero panels passed. The later v3 panels also looked washed out. Do not treat those videos as approval. The newest code change emits xLights modelGroup, submodel, and layer-blend XML and proves it with a 2 second xLights 2026.19 FSEQ. Read that section at the end. No approval MP4, device pass, or release.
 
 ## Baseline

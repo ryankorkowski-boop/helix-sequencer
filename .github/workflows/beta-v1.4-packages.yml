@@ -1,4 +1,4 @@
-name: Helix Beta 1.3 packages
+name: Helix Beta 1.4 packages
 
 # The November Drive handoff was built by windows-portable.yml (one-part
 # Helix folder zip) and android-offline.yml (Chaquopy assembleDebug APK).
@@ -12,8 +12,9 @@ on:
   push:
     branches:
       - feature/restructure-core
+      - 'integration/unified-beta-completion-20261117'
     paths:
-      - .github/workflows/beta-v1.3-packages.yml
+      - .github/workflows/beta-v1.4-packages.yml
       - core/effect_engine.py
       - core/helix_version.py
       - android/**
@@ -25,7 +26,7 @@ permissions:
   contents: read
 
 concurrency:
-  group: helix-beta-1-3-${{ github.ref }}
+  group: helix-beta-1-4-${{ github.ref }}
   cancel-in-progress: false
 
 jobs:
@@ -72,17 +73,17 @@ jobs:
       - name: Create one-part zip and checksum
         shell: pwsh
         run: |
-          if (Test-Path Helix-Windows-Beta-v1.3.zip) { Remove-Item Helix-Windows-Beta-v1.3.zip -Force }
-          Compress-Archive -Path "dist/Helix" -DestinationPath "Helix-Windows-Beta-v1.3.zip" -CompressionLevel Optimal
-          $hash = (Get-FileHash "Helix-Windows-Beta-v1.3.zip" -Algorithm SHA256).Hash.ToLowerInvariant()
-          "$hash  Helix-Windows-Beta-v1.3.zip" | Set-Content -Encoding ascii Helix-Windows-Beta-v1.3.sha256
-          Get-Item Helix-Windows-Beta-v1.3.zip | Select-Object Name, Length
+          if (Test-Path Helix-Windows-Beta-v1.4.zip) { Remove-Item Helix-Windows-Beta-v1.4.zip -Force }
+          Compress-Archive -Path "dist/Helix" -DestinationPath "Helix-Windows-Beta-v1.4.zip" -CompressionLevel Optimal
+          $hash = (Get-FileHash "Helix-Windows-Beta-v1.4.zip" -Algorithm SHA256).Hash.ToLowerInvariant()
+          "$hash  Helix-Windows-Beta-v1.4.zip" | Set-Content -Encoding ascii Helix-Windows-Beta-v1.4.sha256
+          Get-Item Helix-Windows-Beta-v1.4.zip | Select-Object Name, Length
       - uses: actions/upload-artifact@v4
         with:
-          name: Helix-Windows-Beta-v1.3
+          name: Helix-Windows-Beta-v1.4
           path: |
-            Helix-Windows-Beta-v1.3.zip
-            Helix-Windows-Beta-v1.3.sha256
+            Helix-Windows-Beta-v1.4.zip
+            Helix-Windows-Beta-v1.4.sha256
             palette-smoke/palette-smoke.json
           retention-days: 14
           if-no-files-found: error
@@ -128,10 +129,10 @@ jobs:
         run: gradle --no-daemon :app:assembleDebug
       - name: Name the APK and zip it like the Drive handoff
         run: |
-          cp android/app/build/outputs/apk/debug/app-debug.apk Helix-Android-Beta-v1.3.apk
+          cp android/app/build/outputs/apk/debug/app-debug.apk Helix-Android-Beta-v1.4.apk
           python - <<'PY'
           import io, zipfile
-          apk = zipfile.ZipFile("Helix-Android-Beta-v1.3.apk")
+          apk = zipfile.ZipFile("Helix-Android-Beta-v1.4.apk")
           names = [name for name in apk.namelist() if name.endswith("helix-engine.zip")]
           if not names:
               raise SystemExit("APK is missing the staged helix-engine.zip")
@@ -140,20 +141,20 @@ jobs:
           version = engine.read("core/helix_version.py").decode("utf-8", "replace")
           if "def palette_for_output" not in source or "def register_palette_index" not in source:
               raise SystemExit("APK engine is missing the palette index fix")
-          if "1.3.0-beta" not in version:
-              raise SystemExit("APK engine version is not 1.3.0-beta")
-          print("APK contains palette_for_output and Beta 1.3")
+          if "1.4.0-beta" not in version:
+              raise SystemExit("APK engine version is not 1.4.0-beta")
+          print("APK contains palette_for_output and Beta 1.4")
           PY
-          rm -f Helix-Android-Beta-v1.3.zip
-          zip -q Helix-Android-Beta-v1.3.zip Helix-Android-Beta-v1.3.apk
-          sha256sum Helix-Android-Beta-v1.3.apk Helix-Android-Beta-v1.3.zip | tee SHA256SUMS-android.txt
-          ls -l Helix-Android-Beta-v1.3.apk Helix-Android-Beta-v1.3.zip
+          rm -f Helix-Android-Beta-v1.4.zip
+          zip -q Helix-Android-Beta-v1.4.zip Helix-Android-Beta-v1.4.apk
+          sha256sum Helix-Android-Beta-v1.4.apk Helix-Android-Beta-v1.4.zip | tee SHA256SUMS-android.txt
+          ls -l Helix-Android-Beta-v1.4.apk Helix-Android-Beta-v1.4.zip
       - uses: actions/upload-artifact@v4
         with:
-          name: Helix-Android-Beta-v1.3
+          name: Helix-Android-Beta-v1.4
           path: |
-            Helix-Android-Beta-v1.3.apk
-            Helix-Android-Beta-v1.3.zip
+            Helix-Android-Beta-v1.4.apk
+            Helix-Android-Beta-v1.4.zip
             SHA256SUMS-android.txt
           retention-days: 14
           if-no-files-found: error

@@ -1,5 +1,7 @@
 # HELIX MASTER TODO & AGENT HANDOFF LEDGER
 
+> Beta 1.4 completion status (2026-11-19): see [docs/BETA_1_4_RUNNING_CHECKLIST.md](docs/BETA_1_4_RUNNING_CHECKLIST.md). Unified both lineages; nine-cue drummer with physical ride; no release approval; MP4 deliverables, nine-layout catalog, Android/Windows acceptance and Drive delivery are still open.
+
 > Canonical project roadmap and cross-agent handoff layer.
 
 ## Current mission
