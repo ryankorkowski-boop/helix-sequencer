@@ -330,3 +330,10 @@ Next: replace the center panel with the canonical six-member geometry and re-ren
 
 ### 2026-11-18 — CI for the preview repair
 Commit `40dca014` finished with 15 successful checks. Push run `44406112861` passed Helix Unified Beta Integration on Python 3.11 and 3.12, including orchestration, Birdsong, drummer geometry, and the nine-panel structural gate. Android compile run `44406112855` passed Java compile, debug APK assembly, payload checks, and APK retention. Drummer ground truth `44406112840` also passed. These runs do not cover HEAD `61982611`. At inspection, that later push still had Unified Beta Integration `44412936937` and Drummer Ground Truth `44412936902` in progress. Nine-panel layout bench `44412936764` had already passed. No device playback and no owner approval.
+
+
+### Beta 1.4 documentation release gate — owner directive 2026-11-18
+- [ ] Update and verify Android and Windows user manuals for Beta 1.4: installation, nine bundled layout presets, audio import, AC/LOR and RGB modes, band toggle, eight-variant selection/playback/export, native XSQ/FSEQ versus simulated previews, troubleshooting, memory limits, licensing and donations.
+- [ ] Synchronize in-app instructions, distributed manuals and version labels; verify scrolling and recreation on Android and package the manuals with both installers. Document only verified capabilities; explicitly label pending or experimental features.
+- [ ] Record manual versions and checksums in the release artifact manifest before owner acceptance.
+Mobile checkpoint: 07d1896 resets per-variant encoding progress; device verification pending. EngineService propagates preview_states and aligned paths. No merge/release.
