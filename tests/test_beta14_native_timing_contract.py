@@ -32,3 +32,11 @@ def test_native_timing_requires_matching_populated_row(tmp_path, name, effect, v
     else:
         with pytest.raises(ValidationError):
             check(tmp_path, body)
+
+
+@pytest.mark.parametrize("start,end", [("nan","50"), ("0","inf"), ("-1","50"), ("50","50"), ("100","50"), ("bad","50")])
+@pytest.mark.parametrize("legacy", [False, True])
+def test_invalid_native_intervals_rejected_even_with_legacy_track(tmp_path, start, end, legacy):
+    body = f'<DisplayElements><Element type="timing" name="Lead"/></DisplayElements><ElementEffects><Element type="timing" name="Lead"><EffectLayer><Effect startTime="{start}" endTime="{end}"/></EffectLayer></Element></ElementEffects>'
+    with pytest.raises(ValidationError):
+        check(tmp_path, (track() if legacy else "") + body)
