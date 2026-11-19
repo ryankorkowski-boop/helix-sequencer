@@ -27,6 +27,11 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           python -m pip install numpy scipy librosa soundfile numba llvmlite imageio imageio-ffmpeg pillow scikit-learn pytest gdown
+      - name: Provide FFmpeg from installed imageio wheel
+        run: |
+          mkdir -p "$RUNNER_TEMP/helix-bin"
+          ln -sf "$(python -c 'import imageio_ffmpeg; print(imageio_ffmpeg.get_ffmpeg_exe())')" "$RUNNER_TEMP/helix-bin/ffmpeg"
+          echo "$RUNNER_TEMP/helix-bin" >> "$GITHUB_PATH"
       - name: Validate deterministic layout and channel isolation
         run: |
           python -m pytest -q tests/test_infinity_showcase_layout.py
