@@ -395,5 +395,8 @@ Draft PR #250 was not merged. Its layout generator is integrated here with neste
 ### 2026-11-19 — Ride and floor tom on the drum stem
 Stem co-hits now look for a floor-tom body above the kick sub and a ride ping whose centroid stays at or below 5.2 kHz. A hit the main classifier already called a hi-hat or crash is not also labeled a ride. Floor events store `tom_class` 3.0, which the mapper reads as the floor tom. On the cached Tinsel Tornado drum stem: 40 floor toms, 0 of them within 60 ms of a snare, and 1 ride. On Candy Cane Shockwave after Demucs: 6 floor toms and 2 rides, none within 40 ms of a hi-hat. The earlier full-song pass had 0 rides and 2 toms. These counts are detector output, not a transcription.
 
+### 2026-11-19 — Vivid style
+Owner feedback on v4: the designs were too simple and drab, and the AC row had to be vivid. The default sequence pass now removes the musical bed, drives AC props at full brightness with chases and alternating banks, and paints RGB from saturated section colors with a fast decay. White is an accent. Spiral groves and DNA pairs can be added behind a layout without renumbering it. `HELIX_MUSICAL_BED=1` keeps the bed. `HELIX_VIVID=0` skips the pass. Not owner approval.
+
 ## Unified native timing integration checkpoint
 Commit `3e23a0d213dbbe024f4e4331eae1b7aea1110ea7` integrates the Infinity native timing-row recognition into the unified validator, scopes legacy phoneme indexes and ordering per timing track, and rejects non-finite timing values. PR #250 remains unmerged. Tests not executed in this checkpoint; next add regression coverage for independent tracks, native rows and NaN/Infinity, then run focused CI and verify a real native export. No device, video or release approval claimed.

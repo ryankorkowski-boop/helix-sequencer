@@ -12828,6 +12828,18 @@ def run_variant(
         log(f"Musical bed: models={bed['models']} gaps={bed['beds']} level={bed.get('level')}")
     except Exception as exc:
         log(f"Musical bed skipped: {exc!r}")
+    try:
+        import os
+        from core.vivid_style import apply_vivid_style
+        if os.environ.get("HELIX_VIVID", "1") != "0":
+            vivid = apply_vivid_style(
+                out_path,
+                active_layout_file,
+                keep_bed=os.environ.get("HELIX_MUSICAL_BED", "0") == "1",
+            )
+            log(f"Vivid style: ac={vivid['ac_models']} rgb={vivid['rgb_models']} added={vivid['added']} bed_kept={vivid['bed_kept']}")
+    except Exception as exc:
+        log(f"Vivid style skipped: {exc!r}")
 
     if GENERATE_SHOWCASE:
         showcase_path = out_path.with_name(f"{out_path.stem}.showcase.xsq")

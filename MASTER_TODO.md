@@ -892,6 +892,16 @@ Android manual packaging gate implemented in 442d26c3cdae90c252fd65b8926f056bfd3
 **Limitations:** The v2 16-panel layout module and its runner do not apply onto this branch. Floor-tom *detection* from a full mix is still not proven on Tinsel Tornado; explicit floor-tom labels still route to the floor tom. Android device playback and a Windows EXE were not rebuilt in this pass.
 **Risks:** The musical bed adds effects to every model gap and can look like a wash if section energy is high. Level is capped at 28 percent.
 
+### 2026-11-19 — Vivid AC banks and saturated RGB on black
+**Goal:** Stop the nine-panel shows reading as simple and drab. The AC row has to be full-bright and colored. RGB panels use saturated section colors on black, in the manner of the Helix Prime references.
+**Changed:** `core/vivid_style.py`, `core/effect_engine.py`, `tools/layout_bench/xlights_fseq.py`, `tests/test_vivid_style.py`.
+**Preserved:** Drummer geometry, hand mapping, Demucs and Whisper. The musical bed function remains and runs only when `HELIX_MUSICAL_BED=1`. `HELIX_VIVID=0` skips the new pass. Group, submodel, and blend keys stay.
+**New:** After the optional bed, the default pass removes it. AC channels chase and alternate banks at intensity 100. RGB hits attack at 100 and decay within 140 ms. Palettes are single saturated colors, rotated per model and section. White is every 17th AC accent. Spiral trees and DNA sculptures can be appended without moving existing channels. AC bulbs that were white or gray draw as saturated color.
+**Evidence:** `tests/test_vivid_style.py`. A 30-second native preview is the visual check; the full-song render follows in the next checkpoint.
+**Limitations:** The nine-panel picture is a 2D plot of FSEQ pixels, not the reference's perspective camera. Sixteen AC channels cannot match a 36-tree grove in pixel count; they are drawn large so the row reads bright.
+**Deferred:** Replacing the real 256-channel house geometry. That file is not densified.
+**Risks:** Sequences grow by the chase effects. Set `HELIX_VIVID=0` to keep the previous look.
+
 ### 2026-11-19 — Stem ride and floor-tom detection
 **Goal:** Find ride and floor-tom hits on a Demucs drum stem without relabeling snares and hi-hats.
 **Changed:** `audio/drum_stem_cohits.py`, `mapping/drum_mapper.py`, `tests/test_stem_metal.py`.

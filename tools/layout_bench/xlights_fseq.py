@@ -195,14 +195,43 @@ def render_sequence_to_fseq(
     return version
 
 
+BULB_COLORS = (
+    (255, 0, 64),
+    (0, 240, 255),
+    (255, 230, 0),
+    (255, 43, 214),
+    (57, 255, 20),
+    (68, 102, 255),
+)
+
+
 def _hex_color(model: xmp.Model) -> tuple[int, int, int]:
     raw = (model.raw_attrs.get("CustomColor") or "").strip()
+    parsed = None
     if raw.startswith("#") and len(raw) == 7:
         try:
-            return tuple(int(raw[i : i + 2], 16) for i in (1, 3, 5))  # type: ignore[return-value]
+            parsed = tuple(int(raw[i : i + 2], 16) for i in (1, 3, 5))
         except ValueError:
-            pass
-    return (230, 230, 230)
+            parsed = None
+    if not model.is_rgb_capable() or model.total_pixels <= 1:
+        return saturated_bulb(model.name, parsed)
+    if parsed is None:
+        return saturated_bulb(model.name, None)
+    if _is_neutral(parsed):
+        return saturated_bulb(model.name, parsed)
+    return parsed  # type: ignore[return-value]
+
+
+def _is_neutral(color: tuple[int, int, int]) -> bool:
+    spread = max(color) - min(color)
+    return spread < 40 or min(color) > 210
+
+
+def saturated_bulb(name: str, custom: tuple[int, int, int] | None) -> tuple[int, int, int]:
+    """AC bulbs render as saturated color. White and gray are not the bulb color."""
+    if custom is not None and not _is_neutral(custom) and max(custom) > 160:
+        return custom
+    return BULB_COLORS[sum(ord(char) for char in name) % len(BULB_COLORS)]
 
 
 def build_node_drawlist(layout_xml: Path, width: int, height: int, header_h: int = 36) -> dict:
