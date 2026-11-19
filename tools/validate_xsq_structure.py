@@ -17,6 +17,28 @@ def _find_timing_tracks(root: ET.Element) -> list[ET.Element]:
     return [node for node in root.findall("timingtrack")]
 
 
+def _has_native_xlights_timing(root: ET.Element) -> bool:
+    """Native xLights XSQ stores timing rows in DisplayElements/ElementEffects.
+
+    Reject empty timing placeholders: a named timing row must have real effects
+    in ElementEffects and a corresponding DisplayElements entry.
+    """
+    display = root.find("DisplayElements")
+    effects = root.find("ElementEffects")
+    if display is None or effects is None:
+        return False
+    visible = {
+        e.get("name")
+        for e in display.findall("Element")
+        if (e.get("type") or "").lower() == "timing" and e.get("name")
+    }
+    return any(
+        e.get("name") in visible and bool(e.findall(".//Effect"))
+        for e in effects.findall("Element")
+        if (e.get("type") or "").lower() == "timing"
+    )
+
+
 def _find_effect_containers(root: ET.Element) -> list[ET.Element]:
     # Older synthetic XSQs used <effects>; current Helix/xLights sequences
     # use <ElementEffects>. Accept both without weakening XML validation.
@@ -41,8 +63,8 @@ def validate_xsq(path: Path) -> None:
     timingtracks = _find_timing_tracks(root)
     effect_containers = _find_effect_containers(root)
 
-    if not timingtracks:
-        raise ValidationError("Missing timingtrack")
+    if not timingtracks and not _has_native_xlights_timing(root):
+        raise ValidationError("Missing timingtrack or populated native xLights timing rows")
     if not effect_containers:
         raise ValidationError("Missing effects/ElementEffects container")
 

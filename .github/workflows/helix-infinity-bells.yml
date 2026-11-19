@@ -6,6 +6,8 @@ on:
     paths:
       - tools/build_infinity_showcase_layout.py
       - tests/test_infinity_showcase_layout.py
+      - tests/test_validate_xsq_native_timing.py
+      - tools/validate_xsq_structure.py
       - .github/workflows/helix-infinity-bells.yml
       - docs/INFINITY_BELLS_SHOWCASE_HANDOFF.md
   workflow_dispatch:
@@ -34,7 +36,7 @@ jobs:
           echo "$RUNNER_TEMP/helix-bin" >> "$GITHUB_PATH"
       - name: Validate deterministic layout and channel isolation
         run: |
-          python -m pytest -q tests/test_infinity_showcase_layout.py
+          python -m pytest -q tests/test_infinity_showcase_layout.py tests/test_validate_xsq_native_timing.py
           python tools/build_infinity_showcase_layout.py --size 2048 --output test_runs/infinity_bells/full/xlights_rgbeffects.xml --manifest test_runs/infinity_bells/full/manifest.json
           python tools/build_infinity_showcase_layout.py --size 512 --output test_runs/infinity_bells/pilot/xlights_rgbeffects.xml --manifest test_runs/infinity_bells/pilot/manifest.json
       - name: Download verified real Bells of Mathmas recording from Drive

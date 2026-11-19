@@ -29,3 +29,8 @@ Duration: 156.000 seconds; MP3, 3,620,694 bytes. Source recording is fetched in 
 - [ ] Owner approves downloaded MP4. No merge/release before approval.
 
 **Truthfulness:** The repository workflow HQ preview is not equivalent to native xLights rendering. Do not claim native validation until xLights actually loads, renders and exports this sequence. The early 512 tier is a scale-constrained real-engine pilot; it is not the full extreme-tier acceptance render.
+
+## Current evidence after first true Helix run
+- 2048-prop layout generation: 2,077 groups, 158,016 pixels, 474,048 channels. Three generator tests passed in GitHub Actions.
+- GitHub run 44439984298: Bells file hash verified; master v27.3 sequenced 42 seconds and emitted 6,322 effects, 513 active Infinity model/group rows. The prior structure validator stopped only because it did not recognize native xLights timing rows. Corrected validator and regression cases are in this branch; rerun required.
+- Snowman band planner reported KeyError('composite_submodels'), not claimed fixed by showcase work. Future dedicated band review needed.
