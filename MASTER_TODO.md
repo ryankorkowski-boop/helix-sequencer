@@ -202,3 +202,10 @@ Do not mark complete from unit tests alone.
 - [ ] Integrate extreme showcase into nine-panel benchmark and Windows/Android 1.4 preset choices/manuals.
 - [ ] Await explicit owner approval before merging or publishing.
 See docs/INFINITY_BELLS_SHOWCASE_HANDOFF.md.
+
+
+## 10,240-prop expansion
+- [x] Implement fivefold model scaling, spatial districts, sectors and rings.
+- [x] Configure smart layering, wave chases and flash guard for Bells pilot.
+- [ ] Verify 10,240-model generation in CI and inspect pilot MP4 for color and shape visibility.
+- [ ] Enable and verify Birdsong and role routing; render full 10,240-model full song; verify native XSQ/FSEQ and duration. No release without owner approval.
