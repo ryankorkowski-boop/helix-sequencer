@@ -417,3 +417,6 @@ Owner feedback on v4: the designs were too simple and drab, and the AC row had t
 
 ## Unified native timing integration checkpoint
 Commit `3e23a0d213dbbe024f4e4331eae1b7aea1110ea7` integrates the Infinity native timing-row recognition into the unified validator, scopes legacy phoneme indexes and ordering per timing track, and rejects non-finite timing values. PR #250 remains unmerged. Tests not executed in this checkpoint; next add regression coverage for independent tracks, native rows and NaN/Infinity, then run focused CI and verify a real native export. No device, video or release approval claimed.
+
+### 2026-11-19 — Native timing regression coverage
+Commit `91ce5e23cee31149131f475f793c484148f80385` adds eight pytest cases for independent legacy vocal clocks, nonfinite phonemes and matching populated native timing rows. Execution pending; no new render or acceptance. Infinity run 44448740526 completed but owner rejected the appearance; do not count as approval. Next verify CI, packaged Windows dependencies and Android runtime, then native singer and canonical band proof. No merge or release.
