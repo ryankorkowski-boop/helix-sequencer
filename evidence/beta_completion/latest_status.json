@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "updated_utc": "2026-11-18",
+  "updated_utc": "2026-11-19",
   "overall_status": "IN PROGRESS",
   "branch": "integration/unified-beta-completion-20261117",
   "base_commit": "bb41f078a92e02ccb1980785efe1c1be741a9d16",
@@ -9,7 +9,8 @@
   "release_approved": false,
   "owner_rejections": [
     "2026-11-18 nine-panel benchmark: zero panels passed",
-    "2026-11-18 Tinsel Tornado v2 16-panel pilot: rejected"
+    "2026-11-18 Tinsel Tornado v2 16-panel pilot: rejected",
+    "2026-11-19 owner note: v3 panels looked washed out nearly white; musical bed was using palette 0 (white) because the inline palette string is not an index"
   ],
   "tests_run_this_session": [
     {
@@ -227,6 +228,19 @@
     "commit": "442d26c3cdae90c252fd65b8926f056bfd37f5d2",
     "status": "implemented; CI pending",
     "checksum": null
+  },
+  "layer_spatial_checkpoint": {
+    "status": "short clip accepted by xLights 2026.19; not a full-song render and not owner approval",
+    "xlights_version": "2026.19",
+    "frames": 40,
+    "channels": 4368,
+    "fseq_sha256": "de63bf7ff5826c86aa7cdab1f40ab5fedb4f1e380f4fc30c63a112ea2608dd50",
+    "xsq_sha256": "359ca891db31ad4620a6a35186e269d5d8bd42608db0b4720021eb8a4dbba52d",
+    "path": "evidence/beta_completion/layer_blend_clip/",
+    "group_lit_lead": true,
+    "submodel_mouth_lit": true,
+    "untargeted_eyes_dark": true,
+    "tests": "12 passed: test_native_layer_targets, test_musical_bed, test_helix_flow_spatial_graph"
   },
   "windows_manual_packaging_gate": {
     "spec_commit": "fe4113264617d20319df4358c34877a921e21bea",

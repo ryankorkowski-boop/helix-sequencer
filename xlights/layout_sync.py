@@ -102,12 +102,42 @@ def map_layout_name(name: str, lookup: dict[str, str]) -> str | None:
     return None
 
 
-def new_display_model_entry(name: str) -> ET.Element:
+def native_element_types(layout_path: Path) -> dict[str, str]:
+    """Map layout names to the Element type xLights 2026.19 stores.
+
+    The 2026.19 binary keeps the type strings ``modelGroup`` and ``submodel``.
+    A group member that is itself a group stays ``modelGroup``.
+    """
+    types: dict[str, str] = {}
+    root = ET.parse(layout_path).getroot()
+    groups = root.find("modelGroups")
+    if groups is not None:
+        for child in list(groups):
+            name = (child.attrib.get("name") or "").strip()
+            if name:
+                types[name] = "modelGroup"
+    models = root.find("models")
+    if models is None:
+        return types
+    for child in list(models):
+        name = (child.attrib.get("name") or "").strip()
+        if name:
+            types.setdefault(name, "model")
+        for sub in list(child):
+            if not sub.tag.endswith("subModel"):
+                continue
+            short_name = (sub.attrib.get("name") or "").strip()
+            if short_name and name:
+                types[f"{name}/{short_name}"] = "submodel"
+    return types
+
+
+def new_display_model_entry(name: str, element_type: str = "model") -> ET.Element:
     el = ET.Element("Element")
     el.attrib.update(
         {
             "collapsed": "0",
-            "type": "model",
+            "type": element_type or "model",
             "name": name,
             "visible": "1",
         }
@@ -115,9 +145,9 @@ def new_display_model_entry(name: str) -> ET.Element:
     return el
 
 
-def new_effect_model_entry(name: str) -> ET.Element:
+def new_effect_model_entry(name: str, element_type: str = "model") -> ET.Element:
     el = ET.Element("Element")
-    el.attrib["type"] = "model"
+    el.attrib["type"] = element_type or "model"
     el.attrib["name"] = name
     el.append(ET.Element("EffectLayer"))
     return el
@@ -174,6 +204,7 @@ def sync_xsq_to_layout(xsq: "XsqIndex", layout_path: Path | None) -> dict[str, i
     ordered_names, lookup = layout_entries_and_lookup(layout_path)
     if not ordered_names:
         return {"layout_names": 0, "display_updated": 0, "effect_rows_updated": 0, "stale_removed": 0}
+    element_types = native_element_types(layout_path)
 
     root = xsq.root
     timing_tracks.ensure_last_view_index(root)
@@ -205,7 +236,7 @@ def sync_xsq_to_layout(xsq: "XsqIndex", layout_path: Path | None) -> dict[str, i
             continue
         clone = copy.deepcopy(el)
         clone.attrib["name"] = mapped
-        clone.attrib["type"] = "model"
+        clone.attrib["type"] = element_types.get(mapped, "model")
         if "Views" in clone.attrib:
             del clone.attrib["Views"]
         if "views" in clone.attrib:
@@ -217,7 +248,7 @@ def sync_xsq_to_layout(xsq: "XsqIndex", layout_path: Path | None) -> dict[str, i
     for el in active_timing_display:
         display.append(el)
     for name in ordered_names:
-        display.append(model_display_by_name.get(name, new_display_model_entry(name)))
+        display.append(model_display_by_name.get(name, new_display_model_entry(name, element_types.get(name, "model"))))
     for el in inactive_timing_display:
         display.append(el)
 
@@ -239,7 +270,7 @@ def sync_xsq_to_layout(xsq: "XsqIndex", layout_path: Path | None) -> dict[str, i
             continue
         clone = copy.deepcopy(el)
         clone.attrib["name"] = mapped
-        clone.attrib["type"] = "model"
+        clone.attrib["type"] = element_types.get(mapped, "model")
         existing = model_effects_by_name.get(mapped)
         if existing is None:
             model_effects_by_name[mapped] = clone
@@ -251,7 +282,7 @@ def sync_xsq_to_layout(xsq: "XsqIndex", layout_path: Path | None) -> dict[str, i
     for el in active_timing_effects:
         element_effects.append(el)
     for name in ordered_names:
-        element_effects.append(model_effects_by_name.get(name, new_effect_model_entry(name)))
+        element_effects.append(model_effects_by_name.get(name, new_effect_model_entry(name, element_types.get(name, "model"))))
     for el in inactive_timing_effects:
         element_effects.append(el)
 
@@ -347,7 +378,7 @@ def ensure_master_view_models(root: ET.Element) -> dict[str, int]:
         if "views" in el.attrib and (el.attrib.get("views") or "") != normalized_views:
             el.attrib["views"] = normalized_views
             updated += 1
-        if el.attrib.get("type") != "model":
+        if el.attrib.get("type") not in {"model", "modelGroup", "submodel"}:
             el.attrib["type"] = "model"
             updated += 1
         el.attrib.setdefault("collapsed", "0")
@@ -362,7 +393,7 @@ def ensure_master_view_models(root: ET.Element) -> dict[str, int]:
         if not name:
             continue
         effect_names.add(name)
-        if el.attrib.get("type") != "model":
+        if el.attrib.get("type") not in {"model", "modelGroup", "submodel"}:
             el.attrib["type"] = "model"
             updated += 1
         if not any(child.tag.endswith("EffectLayer") or child.tag.endswith("Layer") for child in list(el)):

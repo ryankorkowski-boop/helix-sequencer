@@ -73,6 +73,21 @@ class LayeredEffect:
         data["composited_sources"] = list(self.composited_sources)
         return data
 
+    def native_xsq_settings(self) -> str:
+        """Effect settings string using xLights 2026.19 blend and Canvas keys."""
+        from xlights.layer_blend import blend_settings, canvas_for
+
+        canvas = canvas_for(self.layer_role, self.effect)
+        base = str(self.parameters.get("settings") or "")
+        mix = int(round(max(0.0, min(1.0, self.mix)) * 100)) if canvas else None
+        return blend_settings(
+            base,
+            self.blend_mode,
+            canvas=canvas,
+            mix=mix,
+            layers_selected="1" if canvas else None,
+        )
+
 
 @dataclass(frozen=True)
 class LayeringPlan:

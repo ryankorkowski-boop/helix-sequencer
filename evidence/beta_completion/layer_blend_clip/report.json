@@ -1,0 +1,38 @@
+{
+  "xlights_version": "2026.19",
+  "duration_s": 2.0,
+  "frames": 40,
+  "step_ms": 50,
+  "channels": 4368,
+  "layout": "fixtures/layout_bench/band_stage/xlights_rgbeffects.xml",
+  "targets": {
+    "Snowman Band": {
+      "type": "modelGroup",
+      "blend": "T_CHOICE_LayerMethod=Average",
+      "member_lead_channel_max": 255
+    },
+    "Singing Face 1/Mouth": {
+      "type": "submodel",
+      "blend": "T_CHECKBOX_Canvas=1,T_CHOICE_LayerMethod=Layered",
+      "mouth_channel_max": 255,
+      "untargeted_eyes_channel_max": 0
+    },
+    "Snowman Drummer": {
+      "type": "model",
+      "blend": "T_CHOICE_LayerMethod=Normal",
+      "channel_max": 255
+    }
+  },
+  "audio_errors_ignored": "SDL/ALSA device missing in the headless container; FSEQ still written",
+  "files": {
+    "layer-blend.fseq": {
+      "bytes": 8060,
+      "sha256": "de63bf7ff5826c86aa7cdab1f40ab5fedb4f1e380f4fc30c63a112ea2608dd50"
+    },
+    "layer-blend.xsq": {
+      "bytes": 7320,
+      "sha256": "359ca891db31ad4620a6a35186e269d5d8bd42608db0b4720021eb8a4dbba52d"
+    }
+  },
+  "owner_approval": false
+}

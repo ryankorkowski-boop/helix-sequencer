@@ -794,6 +794,35 @@ class ParsedLayout:
         chosen = [item.name for item in ranked[: max(1, count)]]
         return chosen if chosen else [model.name]
 
+    def expand_group_members(self, name: str, _seen: frozenset[str] | None = None) -> list[str]:
+        """Return model names inside a group, walking groups that contain groups."""
+        seen = set(_seen or ())
+        key = self.aliases.get(normalize_name(name), name)
+        group = self.groups.get(key) or self.groups.get(name)
+        if group is None or key in seen:
+            model = self.model_for(name)
+            return [model.name] if model is not None else []
+        seen.add(key)
+        expanded: list[str] = []
+        for member in group.models:
+            member_key = self.aliases.get(normalize_name(member), member)
+            if member_key in self.groups or member in self.groups:
+                expanded.extend(self.expand_group_members(member, frozenset(seen)))
+                continue
+            model = self.model_for(member)
+            expanded.append(model.name if model is not None else member)
+        return expanded
+
+    def sequence_element_type(self, name: str) -> str:
+        """xLights 2026.19 Element type: model, modelGroup, or submodel."""
+        model = self.model_for(name)
+        if model is not None and model.is_submodel:
+            return "submodel"
+        key = self.aliases.get(normalize_name(name), name)
+        if key in self.groups or name in self.groups:
+            return "modelGroup"
+        return "model"
+
 
 def _model_from_xml(model_el: ET.Element) -> Model:
     attrs = dict(model_el.attrib)

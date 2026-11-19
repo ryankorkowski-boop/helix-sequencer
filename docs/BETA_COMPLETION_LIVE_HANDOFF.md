@@ -1,6 +1,6 @@
 # Unified Beta Completion — Live Handoff
 
-Updated: 2026-11-19 UTC. Status: IN PROGRESS; no release approval. Owner rejected the nine-panel benchmark and the local Tinsel Tornado v2 16-panel pilot. Zero panels passed. Do not treat those videos as approval. Current code commit: `9d622d67b4efc748210c0626accc8d0dd06d8a3b`. Read the 2026-11-18 phone-preview section at the end before the older baseline. Local focused tests passed on Python 3.11.18 and 3.12.3. GitHub Actions for that SHA are not yet inspected. No approval MP4, native FSEQ, device pass, or release.
+Updated: 2026-11-19 UTC. Status: IN PROGRESS; no release approval. Owner rejected the nine-panel benchmark and the local Tinsel Tornado v2 16-panel pilot. Zero panels passed. The later v3 panels also looked washed out. Do not treat those videos as approval. The newest code change emits xLights modelGroup, submodel, and layer-blend XML and proves it with a 2 second xLights 2026.19 FSEQ. Read that section at the end. No approval MP4, device pass, or release.
 
 ## Baseline
 Integration branch: `integration/unified-beta-completion-20261117`, created from PR #248 head `bb41f078a92e02ccb1980785efe1c1be741a9d16`. This is a stacked audit branch, NOT the default branch. No merge or publication authorized.
@@ -361,6 +361,13 @@ Owner rejected the nine-panel benchmark (zero panels passed) and the local Tinse
 ### Beta 1.4 Windows packaging checkpoint
 {"spec_commit":"fe4113264617d20319df4358c34877a921e21bea","workflow_commit":"7e3339d8563d11c5c4d6bab9ff5e11d35439c3e1","workflow":".github/workflows/helix-beta14-windows-candidate.yml","status":"implemented; push build not confirmed; no packaged runtime verification","next_action":"Inspect push Actions run directly; connector commit workflow lookup covers pull-request runs only. Verify ZIP and Windows 11 runtime; no release."}
 
+
+### 2026-11-19 — xLights groups, submodels, and layer blend
+The washed-out v3 panels match the musical bed. Its On effect stored an inline palette string. xLights resolves `palette` as an index into `ColorPalettes`, so the bed fell through to palette 0, which is white on the real templates. The bed now adds a dark `#1A2744` palette, points at that index, and sets `T_CHOICE_LayerMethod=Average` on its own bottom layer. Spatial effects get `T_CHECKBOX_Canvas=1` and `T_LayersSelected=1`. Those keys are the ones in xLights 2026.19 `Blending.json` and the BlendingPanel help text inside the 2026.19 binary. Overlay maps to Average and Screen maps to Highlight, because those Helix names are not xLights labels.
+
+Layout sync now writes `type="modelGroup"` and `type="submodel"` instead of forcing every row to `type="model"`. Nested groups expand to their member models. Submodel and group positions come from geometry centroids, and the six snowmen order left to right by that X: Bassist, Keyboardist, Lead, Harmony, Guitarist, Drummer. Drummer hand mapping, Demucs, and Whisper are unchanged. PR #250 was not merged.
+
+Evidence: `tests/test_native_layer_targets.py` plus the existing bed and spatial tests, 12 passed. xLights 2026.19 headless rendered `evidence/beta_completion/layer_blend_clip/layer-blend.xsq` to a 40-frame FSEQ (sha256 `de63bf7ff5826c86aa7cdab1f40ab5fedb4f1e380f4fc30c63a112ea2608dd50`). Snowman Band (modelGroup) lit the lead singer, Singing Face 1/Mouth (submodel) lit only the mouth nodes, and the untargeted eyes stayed at 0. SDL/ALSA had no device; the FSEQ was still written. This is not a full-song render and not owner approval.
 
 ## Unified native timing integration checkpoint
 Commit `3e23a0d213dbbe024f4e4331eae1b7aea1110ea7` integrates the Infinity native timing-row recognition into the unified validator, scopes legacy phoneme indexes and ordering per timing track, and rejects non-finite timing values. PR #250 remains unmerged. Tests not executed in this checkpoint; next add regression coverage for independent tracks, native rows and NaN/Infinity, then run focused CI and verify a real native export. No device, video or release approval claimed.
