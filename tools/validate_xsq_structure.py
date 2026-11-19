@@ -2,7 +2,6 @@ from __future__ import annotations
 
 import math
 import sys
-import math
 import xml.etree.ElementTree as ET
 from pathlib import Path
 
@@ -34,11 +33,22 @@ def _has_native_xlights_timing(root: ET.Element) -> bool:
         for e in display.findall("Element")
         if (e.get("type") or "").lower() == "timing" and e.get("name")
     }
-    return any(
-        e.get("name") in visible and bool(e.findall(".//Effect"))
-        for e in effects.findall("Element")
-        if (e.get("type") or "").lower() == "timing"
-    )
+    populated = False
+    for element in effects.findall("Element"):
+        if (element.get("type") or "").lower() != "timing":
+            continue
+        if element.get("name") not in visible:
+            continue
+        for effect in element.findall(".//Effect"):
+            try:
+                start = float(effect.get("startTime", "nan"))
+                end = float(effect.get("endTime", "nan"))
+            except ValueError as exc:
+                raise ValidationError("Non-numeric native timing interval") from exc
+            if not math.isfinite(start) or not math.isfinite(end) or start < 0 or end <= start:
+                raise ValidationError("Invalid native timing interval")
+            populated = True
+    return populated
 
 
 def _find_effect_containers(root: ET.Element) -> list[ET.Element]:
@@ -65,7 +75,8 @@ def validate_xsq(path: Path) -> None:
     timingtracks = _find_timing_tracks(root)
     effect_containers = _find_effect_containers(root)
 
-    if not timingtracks and not _has_native_xlights_timing(root):
+    native_timing = _has_native_xlights_timing(root)
+    if not timingtracks and not native_timing:
         raise ValidationError("Missing timingtrack or populated native xLights timing rows")
     if not effect_containers:
         raise ValidationError("Missing effects/ElementEffects container")
