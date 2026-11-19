@@ -295,3 +295,38 @@ def resolve_style(
     context.update_style(profile.to_dict())
     context.add_debug("style_engine", "style_resolved", decision.to_dict())
     return decision
+
+
+# A stable adapter from style profiles to supported xLights effect choices.
+# Keep style selection independent of renderer-specific XML serialization.
+XLIGHTS_STYLE_EFFECTS = {
+    "quantized_pulses": ("On", "Single Strand", "Twinkle"),
+    "hit_driven_sweeps": ("On", "Wave", "Single Strand"),
+    "clean_hook_motion": ("On", "Single Strand", "Ramp"),
+    "cinematic_phrases": ("Ramp", "Wave", "On"),
+    "slow_breathing": ("Ramp", "Twinkle", "On"),
+    "asymmetric_fragments": ("Twinkle", "Spirals", "On"),
+}
+
+
+def style_effect_contract(profile: StyleProfile, *, energy: float = 0.5) -> dict[str, Any]:
+    """Describe concrete xLights effect options without mutating a sequence.
+
+    The native exporter must explicitly consume this contract before a style
+    can be considered active in the generated XSQ.
+    """
+    intensity = clamp01(float(energy))
+    effects = XLIGHTS_STYLE_EFFECTS.get(profile.motion_style, ("On", "Ramp", "Twinkle"))
+    density = clamp01(profile.effect_density * (0.5 + intensity))
+    return {
+        "style": profile.name,
+        "base_effect": effects[0],
+        "motion_effect": effects[1],
+        "accent_effect": effects[2],
+        "palette": list(profile.color_palettes[0]) if profile.color_palettes else [],
+        "density": round(density, 4),
+        "transition_speed": profile.transition_speed,
+        "motion_style": profile.motion_style,
+        "spatial_bias": dict(profile.spatial_bias),
+        "performer_bias": dict(profile.performer_bias),
+    }

@@ -1,0 +1,323 @@
+{
+  "source_commit": "172fb0804b1b5c2b8eb12923555e70a446c8dace",
+  "source_tree": "07e678915f144558cac67d8e0f2e69aca342f841",
+  "review_pr": "https://github.com/ryankorkowski-boop/helix-sequencer/pull/151",
+  "review_branch": "codex/showcase-review-20261015",
+  "integration_baseline": "63d158f716ca638e006bdf79bd98b16c442d6b2e",
+  "status": "40 new review videos fully decoded and packaged; awaiting user video review",
+  "videos": {
+    "01_Standalone_Bands/01_E01_Whims_of_the_Machine__Remastered_x2___2_Snow.mp4": {
+      "bytes": 9528066,
+      "sha256": "973dbae8ffb45ead45aec1904d5490b0c2752b44cdb62aeab147bb6d059242e7"
+    },
+    "01_Standalone_Bands/02_E02_Signal_Bend_Rock.mp4": {
+      "bytes": 6552143,
+      "sha256": "af6ddc9508a0011f8b21cc4bfb7bbe7ac551f7b19714a49b02cb9ccbb7126212"
+    },
+    "01_Standalone_Bands/03_E03_Kaleidoscope_Engine__Remastered_Snow.mp4": {
+      "bytes": 11186079,
+      "sha256": "d072514eb10f87490dc735b920d990e6be3b3ac2bfd9b06869bcb70ddfd6e40d"
+    },
+    "01_Standalone_Bands/04_E04_Polar_Prism_Parade_Rock.mp4": {
+      "bytes": 10013499,
+      "sha256": "b95cd3aac23492753995082e91eafc1b938d9fb0b270ec0c3f263c8eb133abdb"
+    },
+    "01_Standalone_Bands/05_E05_Holly_Steel_Run__2_Snow.mp4": {
+      "bytes": 9515098,
+      "sha256": "4ecf36f8b4f815d0cacdbfb24d67a24c39c4911b12cde852c428fe9d609ccd0d"
+    },
+    "01_Standalone_Bands/06_E06_Tinsel_Sawtooth__3_Rock.mp4": {
+      "bytes": 10510831,
+      "sha256": "436b2153c896bd5b857e34f868e3ed828224841e98b4fde51b0425073dfc7280"
+    },
+    "01_Standalone_Bands/07_E07_Fractal_Crown_Snow.mp4": {
+      "bytes": 9673059,
+      "sha256": "cce011ba5cbcf76005eaa6078807217b34af637f8f7437c07a84954e3cfac2a3"
+    },
+    "01_Standalone_Bands/08_E08_Circuit_Carol_Rock.mp4": {
+      "bytes": 7514453,
+      "sha256": "2d563345b51c5f4643da283b0ba2e80046ffd4cb6f528230268456e4d5f37bd6"
+    },
+    "01_Standalone_Bands/09_E09_Candy_Cane_Maelstrom_Snow.mp4": {
+      "bytes": 11719032,
+      "sha256": "dc1b587f44ee2fa04225ff185f7b845ef5540d44a29ea9d052c33e5e28fe249f"
+    },
+    "01_Standalone_Bands/10_E10_Fractal_Neck_Sprint_Rock.mp4": {
+      "bytes": 11141236,
+      "sha256": "68231f55c71c08655c64c70d250a96983461dd64d2b6c5d289a2c0ea8c2740d6"
+    },
+    "01_Standalone_Bands/11_E11_Frostbitten_Fingerboard_Snow.mp4": {
+      "bytes": 9728082,
+      "sha256": "3c99912db42f19deba22e0d9f72c75750c561cd59e169a777c0f554d2418754e"
+    },
+    "01_Standalone_Bands/12_E12_Frosted_Axes_Rock.mp4": {
+      "bytes": 10608351,
+      "sha256": "bd86a8f089ef09d17b149c416365ff8c2a561b7e5869312dfbde907d6f15da83"
+    },
+    "02_Bands_Inside_Layouts/01_E01_Neon_Circuit_Bands.mp4": {
+      "bytes": 13162633,
+      "sha256": "53e3d6d8dcfc4c28e9328d5acc23b891bd70641a8c27fdb7108c2d494895ae01"
+    },
+    "02_Bands_Inside_Layouts/02_E03_Enchanted_Grove_Bands.mp4": {
+      "bytes": 15509816,
+      "sha256": "c60d00aff3f4d111c99a749d673fe0145030f2e6837195e82718826548a0961f"
+    },
+    "02_Bands_Inside_Layouts/03_E05_Celestial_Orrery_Bands.mp4": {
+      "bytes": 14000756,
+      "sha256": "a2e657a01de52d6bb04cbf735e88b9c49c4b88d6fe46a7d026d7a4dc2bf32601"
+    },
+    "02_Bands_Inside_Layouts/04_E07_Fire_and_Ice_Bands.mp4": {
+      "bytes": 13323191,
+      "sha256": "07e23639c3326874a6e65622fcad1292e55ffc9f10b7e3723517f475d7900c3e"
+    },
+    "02_Bands_Inside_Layouts/05_E09_Crystal_Lagoon_Bands.mp4": {
+      "bytes": 13468882,
+      "sha256": "ddc6f1a47948d0090fb872f0292d5c8b35ca200eedd9847c4f183bd601a5825d"
+    },
+    "02_Bands_Inside_Layouts/06_E13_Midnight_Masquerade_Bands.mp4": {
+      "bytes": 11643960,
+      "sha256": "eea9be3d929dda55a7c46d825a41a54a7a418d00f88680da5833c697f6100806"
+    },
+    "02_Bands_Inside_Layouts/07_E14_Neon_Circuit_Bands.mp4": {
+      "bytes": 10104189,
+      "sha256": "63908a29c7f67e7cabe8c47332506b19ea16138191819b408ade3bd2f2607951"
+    },
+    "02_Bands_Inside_Layouts/08_E17_Enchanted_Grove_Bands.mp4": {
+      "bytes": 12816658,
+      "sha256": "58e9d46b72b8f5bb3a14e80e13043ac174f97250bf1c0bf0df89c866bf61ac60"
+    },
+    "03_Six_Layout_Comparisons/01_E01_Six_Layouts.mp4": {
+      "bytes": 15459319,
+      "sha256": "6f6bb1ad2029959883ccc7f2f1f6319240f9a46760f579a7042cbe3950a00794"
+    },
+    "03_Six_Layout_Comparisons/02_E03_Six_Layouts.mp4": {
+      "bytes": 16332265,
+      "sha256": "042150c4cb4461283c1c223c4f87ed51d9245a12ef4cc8eb6285061236754b76"
+    },
+    "03_Six_Layout_Comparisons/03_E05_Six_Layouts.mp4": {
+      "bytes": 17784152,
+      "sha256": "6b0999e948ffbf39999f3cda9d9becf428ab3feff1c68accaefff4f497b4fb9c"
+    },
+    "03_Six_Layout_Comparisons/04_E07_Six_Layouts.mp4": {
+      "bytes": 15066343,
+      "sha256": "0b7a1403533621085dae9d8d90aa4f0cf63b37bac21b0bc5183a8ce2d3c64ecd"
+    },
+    "03_Six_Layout_Comparisons/05_E09_Six_Layouts.mp4": {
+      "bytes": 15146104,
+      "sha256": "d67e4733ae7c0b72cff5592f8546b967577ec9e8de3ce793b77ccc6db16e34cd"
+    },
+    "03_Six_Layout_Comparisons/06_E13_Six_Layouts.mp4": {
+      "bytes": 12703857,
+      "sha256": "87d5bf3e1b5f6d4990e0628c777a1723a4f602f92938550f95088452b1c511ec"
+    },
+    "03_Six_Layout_Comparisons/07_E14_Six_Layouts.mp4": {
+      "bytes": 10912536,
+      "sha256": "7e11b4be1bd65a78d8cbf08d98cd2c3051ca2fce11a14381e3b8190b0a97781a"
+    },
+    "03_Six_Layout_Comparisons/08_E17_Six_Layouts.mp4": {
+      "bytes": 14617513,
+      "sha256": "aeb4fb9a15c01fbdd25906b4cfc3d4ef57898eb9f0ae19236d009f6324a31189"
+    },
+    "03_Six_Layout_Comparisons/09_E19_Six_Layouts.mp4": {
+      "bytes": 11261645,
+      "sha256": "d87309b79f8ac552005c8b4bc749b8b3151ec0dd0e17916a61d72bea385c2580"
+    },
+    "03_Six_Layout_Comparisons/10_E21_Six_Layouts.mp4": {
+      "bytes": 12787478,
+      "sha256": "ab357e82bf98aca40537b547c022792d7d6cd855d23d56c5f62e5c1a3b241a39"
+    },
+    "04_Lyric_Band_Videos/01_E13_Ghost_In_The_Grid_Snow.mp4": {
+      "bytes": 8881208,
+      "sha256": "8b3908b49c692b987186556efdd3c220558d9186ee604377b9039beb4c6c27c1"
+    },
+    "04_Lyric_Band_Videos/02_E14_Helix_Audiolights_Rock.mp4": {
+      "bytes": 9263386,
+      "sha256": "1e072548764433921999ab278929f88460e84914cd586ddb99c54297fd761536"
+    },
+    "04_Lyric_Band_Videos/03_E15_Wire_Tree_Snow.mp4": {
+      "bytes": 11137656,
+      "sha256": "ebffd5d8e044abbf0573f36e4fa946d2e4ced7dc5b790ccd29ce0c9537c7b243"
+    },
+    "04_Lyric_Band_Videos/04_E16_Glass_Under_Skin_Rock.mp4": {
+      "bytes": 11892394,
+      "sha256": "bf2705527d2b06e3ae0666aaabde8192c3bc249ae43dcc7bb68e19bb5c531921"
+    },
+    "04_Lyric_Band_Videos/05_E17_Jingle_Wobble_Snow.mp4": {
+      "bytes": 8938266,
+      "sha256": "7e25a405cb3d78cc1f8a8b78320dcb82bfbb2f54ab1c685b3fa7355124f40946"
+    },
+    "04_Lyric_Band_Videos/06_E18_Who_Knew__Grinch_s_Redemption___5_Rock.mp4": {
+      "bytes": 9741239,
+      "sha256": "98af5dd9618f61f397f6970815750d989046dbb1d7079093c94bb22dda16841a"
+    },
+    "04_Lyric_Band_Videos/07_E19_Wub_Wub_Wonderland_Snow.mp4": {
+      "bytes": 8255544,
+      "sha256": "60e2a196909849ac594f9a9b2001e79b62b403a24158cc45fc495d5dfe4c0da6"
+    },
+    "04_Lyric_Band_Videos/08_E20_Tinsel_Mayhem_Rock.mp4": {
+      "bytes": 7762607,
+      "sha256": "809a92a04604ffe6d5b81119bbdc108be861f7578f24d6e158573d8d72c6611a"
+    },
+    "04_Lyric_Band_Videos/09_E21_Let_It_Glow_Snow.mp4": {
+      "bytes": 11994947,
+      "sha256": "d6f89684c8dc737a4bd7006a99901743128e300bbb268d5435d4f8d65a081e2c"
+    },
+    "04_Lyric_Band_Videos/10_E22_Candy_Cane_Chaos__1_Rock.mp4": {
+      "bytes": 11175320,
+      "sha256": "b807e6d0334135ca126f38afd7c697a0851bb17805822538222ea7d09c13e87a"
+    }
+  },
+  "video_count": 40,
+  "categories": {
+    "01_Standalone_Bands": 12,
+    "02_Bands_Inside_Layouts": 8,
+    "03_Six_Layout_Comparisons": 10,
+    "04_Lyric_Band_Videos": 10
+  },
+  "seconds_per_video": 36,
+  "fps": 20,
+  "total_seconds": 1440,
+  "minimum_soundtrack_correlation": 0.9965342416452091,
+  "maximum_soundtrack_alignment_error_ms": 0.0,
+  "unexpected_black_frames": 0,
+  "maximum_complete_scene_repeated_frames": 3,
+  "native_shows": 60,
+  "native_band_bearing_shows": 8,
+  "source_entries": 91,
+  "unique_decoded_recordings": 82,
+  "selected_recordings": 22,
+  "original_drive_files_modified": false,
+  "diagnostic_screenshots": 200,
+  "archives": [
+    {
+      "file": "Helix_Review_01_Standalone_Bands.zip",
+      "bytes": 120008375,
+      "sha256": "070c123714b69a93480de7ada9a30b5016b5e085760ee6cd92cd3291b692cc5a",
+      "entries": 101,
+      "CRC_verified": true
+    },
+    {
+      "file": "Helix_Review_02_Bands_Inside_Layouts.zip",
+      "bytes": 105161657,
+      "sha256": "5849922e6aa2bc5042f62c1c2c0d374582e78c250939bd2abf2b09318335cfca",
+      "entries": 69,
+      "CRC_verified": true
+    },
+    {
+      "file": "Helix_Review_03_Six_Layout_Comparisons.zip",
+      "bytes": 143392202,
+      "sha256": "cb88c425e5fa265acfa252b3c3c11e21fd0a7494b1096a51e08f3b196e9e03c0",
+      "entries": 85,
+      "CRC_verified": true
+    },
+    {
+      "file": "Helix_Review_04_Lyric_Band_Videos.zip",
+      "bytes": 101020199,
+      "sha256": "c72dc6d2f9aa064a09c49564a9c4d03af189a5cc8edf8b5351a954bae0a3587c",
+      "entries": 85,
+      "CRC_verified": true
+    },
+    {
+      "file": "Helix_Review_Technical_Part_1.zip",
+      "bytes": 413969149,
+      "sha256": "bbac91bdc7efea57c43688970a9d3f1da482d619a75389145aebc98e6304059d",
+      "entries": 1357,
+      "CRC_verified": true
+    },
+    {
+      "file": "Helix_Review_Technical_Part_2.zip",
+      "bytes": 331730548,
+      "sha256": "588934ee9f07c400cefa067910dcc4169e318feab13351852c895818bc0bc0f7",
+      "entries": 1342,
+      "CRC_verified": true
+    }
+  ],
+  "all_archive_CRCs_verified": true,
+  "ci_full_regressions": [
+    {
+      "source_commit": "172fb0804b1b5c2b8eb12923555e70a446c8dace",
+      "run_id": 38806290207,
+      "job_id": 116667903066,
+      "python": "3.11",
+      "passed": 1571,
+      "skipped": 5,
+      "warnings": 5,
+      "seconds": 216.14,
+      "conclusion": "success",
+      "checked_out_merge_commit": "8cc7aa4294e6a0544e0414a0508eb30f53ef5fb5",
+      "summary_lines": [
+        "2026-10-15T20:59:04.4247337Z HEAD is now at 8cc7aa4 Merge 172fb0804b1b5c2b8eb12923555e70a446c8dace into 63d158f716ca638e006bdf79bd98b16c442d6b2e",
+        "2026-10-15T21:04:36.0532503Z SKIPPED [1] tests/test_core_sandbox.py:95: 2.wav not found; sandbox regression harness requires fixed audio input",
+        "2026-10-15T21:04:36.0532954Z SKIPPED [1] tests/test_core_sandbox.py:44: 2.wav not found; sandbox regression harness requires fixed audio input",
+        "2026-10-15T21:04:36.0533425Z SKIPPED [1] tests/test_core_sandbox.py:63: 2.wav not found; sandbox regression harness requires fixed audio input",
+        "2026-10-15T21:04:36.0533913Z SKIPPED [1] tests/test_core_sandbox.py:27: 2.wav not found; sandbox regression harness requires fixed audio input",
+        "2026-10-15T21:04:36.0534340Z SKIPPED [1] tests/test_core_sandbox.py:81: 2.wav not found; sandbox regression harness requires fixed audio input",
+        "2026-10-15T21:04:36.0534687Z 1571 passed, 5 skipped, 5 warnings in 216.14s (0:03:36)"
+      ],
+      "url": "https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/38806290207"
+    },
+    {
+      "source_commit": "172fb0804b1b5c2b8eb12923555e70a446c8dace",
+      "run_id": 38806290207,
+      "job_id": 116667903469,
+      "python": "3.12",
+      "passed": 1571,
+      "skipped": 5,
+      "warnings": 36,
+      "seconds": 343.55,
+      "conclusion": "success",
+      "summary_lines": [
+        "2026-10-15T21:00:56.0959804Z HEAD is now at 8cc7aa4 Merge 172fb0804b1b5c2b8eb12923555e70a446c8dace into 63d158f716ca638e006bdf79bd98b16c442d6b2e",
+        "2026-10-15T21:08:44.0104174Z SKIPPED [1] tests/test_core_sandbox.py:95: 2.wav not found; sandbox regression harness requires fixed audio input",
+        "2026-10-15T21:08:44.0105515Z SKIPPED [1] tests/test_core_sandbox.py:44: 2.wav not found; sandbox regression harness requires fixed audio input",
+        "2026-10-15T21:08:44.0106959Z SKIPPED [1] tests/test_core_sandbox.py:63: 2.wav not found; sandbox regression harness requires fixed audio input",
+        "2026-10-15T21:08:44.0108504Z SKIPPED [1] tests/test_core_sandbox.py:27: 2.wav not found; sandbox regression harness requires fixed audio input",
+        "2026-10-15T21:08:44.0109647Z SKIPPED [1] tests/test_core_sandbox.py:81: 2.wav not found; sandbox regression harness requires fixed audio input",
+        "2026-10-15T21:08:44.0110470Z 1571 passed, 5 skipped, 36 warnings in 343.55s (0:05:43)"
+      ],
+      "url": "https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/38806290207"
+    }
+  ],
+  "local_regression": {
+    "passed": 1568,
+    "skipped": 5,
+    "warnings": 36,
+    "seconds": 368.71
+  },
+  "cache_regression": {
+    "passed": 6,
+    "seconds": 15.23
+  },
+  "static_kit_cache_benchmark": {
+    "real_source": "E01",
+    "frames": 30,
+    "all_pixels_equal": true,
+    "uncached_seconds": 2.210209845999998,
+    "cached_seconds": 1.8074392690000423,
+    "speedup": 1.2228404483115975,
+    "cache_entries": 2
+  },
+  "production_cache_enabled": false,
+  "renderer_activity": {
+    "note": "Activity and numerical contact checks are renderer diagnostics, not labelled musical ground truth or independent visual proof of every physical contact.",
+    "total_mallet_contacts": 2823,
+    "total_mallet_motion_omissions": 154,
+    "total_drummer_motion_rejections": 61
+  },
+  "artifact_relative_roots": [
+    "Helix_Showcase_Review_Final",
+    "Helix_Showcase_Downloads"
+  ],
+  "download_index": "Helix_Showcase_Downloads/Helix_Showcase_Video_Downloads.md",
+  "remaining_limits": [
+    "Musical instrument/phoneme estimates lack independently annotated ground truth.",
+    "Unresolved tom identities abstain; separate backing voices are not established from a mixed vocal bus.",
+    "Mallet chords requiring more than two hands and unreachable travel are recorded as motion omissions.",
+    "Native pixel bands are stationary addressable poses; continuous mesh performance is shown in the stage inset and standalone views.",
+    "Native stock geometry projection is approximate; user artistic/listening review is still required.",
+    "No physical controllers or Android/desktop devices were exercised."
+  ],
+  "release_approval_received": false,
+  "final_release_merge_performed": false,
+  "approved_public_exe_apk_release_performed": false
+}

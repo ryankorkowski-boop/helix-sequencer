@@ -1,0 +1,105 @@
+model,native_type,zone,nodes,start_channel,end_channel,design
+HX_NC_NATIVE_Tree_360,Tree 360,NATIVE_TREE_GALLERY,576,1,1728,"Neon Circuit — Tree 360 tree; 12 strands, 0 twists; graduated canopy"
+HX_NC_NATIVE_Tree_180,Tree 180,NATIVE_TREE_GALLERY,576,1729,3456,"Neon Circuit — Tree 180 tree; 12 strands, 0 twists; graduated canopy"
+HX_NC_NATIVE_Tree_Flat,Tree Flat,NATIVE_TREE_GALLERY,576,3457,5184,"Neon Circuit — Tree Flat tree; 12 strands, 0 twists; graduated canopy"
+HX_NC_NATIVE_Tree_Ribbon,Tree Ribbon,NATIVE_TREE_GALLERY,576,5185,6912,"Neon Circuit — Tree Ribbon tree; 12 strands, 0 twists; graduated canopy"
+HX_NC_ORRERY_MOON_-1,Sphere,NATIVE_PAVILIONS,480,6913,8352,Neon Circuit — Pixel moon above a lyric pavilion; full-depth meridians
+HX_NC_AURORA_HORIZONTAL,Horiz Matrix,NATIVE_PAVILIONS,800,8353,10752,Neon Circuit — A wide lyric cinema
+HX_NC_JEWEL_WINDOW_-1,Window Frame,NATIVE_PAVILIONS,192,10753,11328,Neon Circuit — Oversized jewel-box frame around the art canvas
+HX_NC_ORBIT_TRIPTYCH_-1,Circle,NATIVE_PAVILIONS,288,11329,12192,Neon Circuit — Nested astronomical orbit rings
+HX_NC_MOON_WREATH_-1,Wreath,NATIVE_PAVILIONS,96,12193,12480,"Neon Circuit — Halo wreath with an open, readable center"
+HX_NC_SOLAR_SPINNER_-1,Spinner,NATIVE_PAVILIONS,216,12481,13128,Neon Circuit — Twelve-arm hollow solar rosette; independent radial chase lanes
+HX_NC_ORRERY_MOON_1,Sphere,NATIVE_PAVILIONS,480,13129,14568,Neon Circuit — Pixel moon above a lyric pavilion; full-depth meridians
+HX_NC_AURORA_VERTICAL,Vert Matrix,NATIVE_PAVILIONS,640,14569,16488,Neon Circuit — Portrait generative-art canvas
+HX_NC_JEWEL_WINDOW_1,Window Frame,NATIVE_PAVILIONS,192,16489,17064,Neon Circuit — Oversized jewel-box frame around the art canvas
+HX_NC_ORBIT_TRIPTYCH_1,Circle,NATIVE_PAVILIONS,288,17065,17928,Neon Circuit — Nested astronomical orbit rings
+HX_NC_MOON_WREATH_1,Wreath,NATIVE_PAVILIONS,96,17929,18216,"Neon Circuit — Halo wreath with an open, readable center"
+HX_NC_SOLAR_SPINNER_1,Spinner,NATIVE_PAVILIONS,216,18217,18864,Neon Circuit — Twelve-arm hollow solar rosette; independent radial chase lanes
+HX_NC_RIBBON_ARCH_01,Arches,RIBBON_PROMENADE,80,18865,19104,Neon Circuit — A scalloped aurora entrance arch
+HX_NC_RIBBON_ARCH_02,Arches,RIBBON_PROMENADE,80,19105,19344,Neon Circuit — A scalloped aurora entrance arch
+HX_NC_RIBBON_ARCH_03,Arches,RIBBON_PROMENADE,80,19345,19584,Neon Circuit — A scalloped aurora entrance arch
+HX_NC_RIBBON_ARCH_04,Arches,RIBBON_PROMENADE,80,19585,19824,Neon Circuit — A scalloped aurora entrance arch
+HX_NC_RIBBON_ARCH_05,Arches,RIBBON_PROMENADE,80,19825,20064,Neon Circuit — A scalloped aurora entrance arch
+HX_NC_RIBBON_ARCH_06,Arches,RIBBON_PROMENADE,80,20065,20304,Neon Circuit — A scalloped aurora entrance arch
+HX_NC_RIBBON_ARCH_07,Arches,RIBBON_PROMENADE,80,20305,20544,Neon Circuit — A scalloped aurora entrance arch
+HX_NC_RIBBON_ARCH_08,Arches,RIBBON_PROMENADE,80,20545,20784,Neon Circuit — A scalloped aurora entrance arch
+HX_NC_CANDY_GARDEN_-1,Candy Canes,RIBBON_PROMENADE,240,20785,21504,Neon Circuit — Five slim hooked candy reeds; mirrored portal accents
+HX_NC_CANDY_GARDEN_1,Candy Canes,RIBBON_PROMENADE,240,21505,22224,Neon Circuit — Five slim hooked candy reeds; mirrored portal accents
+HX_NC_VOXEL_LANTERN_-1,Cube,CRYSTAL_GARDEN,512,22225,23760,Neon Circuit — Deep crystal voxel lantern; three-dimensional chase volume
+HX_NC_VOXEL_LANTERN_1,Cube,CRYSTAL_GARDEN,512,23761,25296,Neon Circuit — Deep crystal voxel lantern; three-dimensional chase volume
+HX_NC_FIBONACCI_ICICLES_-1,Icicles,NATIVE_PAVILIONS,136,25297,25704,Neon Circuit — Fibonacci-length ice fringe under the lyric pavilion
+HX_NC_FIBONACCI_ICICLES_1,Icicles,NATIVE_PAVILIONS,136,25705,26112,Neon Circuit — Fibonacci-length ice fringe under the lyric pavilion
+HX_NC_INFINITY_RIBBON,Poly Line,SIGNATURE_PATH,420,26113,27372,Neon Circuit signature illuminated contour
+HX_NC_FIREFLY_CONSTELLATION,MultiPoint,SKY_MOTIFS,64,27373,27564,"Neon Circuit — Seeded, independently positioned native MultiPoint fireflies"
+HX_NC_HORIZON_RAIL_-1,Single Line,RIBBON_PROMENADE,180,27565,28104,Neon Circuit — Continuous low horizon rail for clean opposing chases
+HX_NC_HORIZON_RAIL_1,Single Line,RIBBON_PROMENADE,180,28105,28644,Neon Circuit — Continuous low horizon rail for clean opposing chases
+HX_NC_FRACTAL_SNOWFLAKE_-1_0,Custom,SKY_MOTIFS,210,28645,29274,Neon Circuit — Sixfold crystalline snowflake with branching tips
+HX_NC_FRACTAL_SNOWFLAKE_-1_1,Custom,SKY_MOTIFS,210,29275,29904,Neon Circuit — Sixfold crystalline snowflake with branching tips
+HX_NC_FRACTAL_SNOWFLAKE_-1_2,Custom,SKY_MOTIFS,210,29905,30534,Neon Circuit — Sixfold crystalline snowflake with branching tips
+HX_NC_FRACTAL_SNOWFLAKE_1_0,Custom,SKY_MOTIFS,210,30535,31164,Neon Circuit — Sixfold crystalline snowflake with branching tips
+HX_NC_FRACTAL_SNOWFLAKE_1_1,Custom,SKY_MOTIFS,210,31165,31794,Neon Circuit — Sixfold crystalline snowflake with branching tips
+HX_NC_FRACTAL_SNOWFLAKE_1_2,Custom,SKY_MOTIFS,210,31795,32424,Neon Circuit — Sixfold crystalline snowflake with branching tips
+HX_NC_HELIX_CREST_IMAGE,Image,WELCOME_CREST,1,32425,32425,Neon Circuit — Original Neon Circuit luminous crest; portable image asset
+HX_NC_WELCOME_LABEL,Label,WELCOME_CREST,1,32426,32426,Neon Circuit — Native scene label: HELIX AURORA
+HX_NC_TECH_Channel_Block,Channel Block,TECHNOLOGY_ALCOVES,16,32427,32442,Neon Circuit — An amber legacy AC marquee
+HX_NC_TECH_DmxGeneral,DmxGeneral,TECHNOLOGY_ALCOVES,8,32443,32450,Neon Circuit — Eight-channel fountain/utility controller
+HX_NC_TECH_DmxMovingHead,DmxMovingHead,TECHNOLOGY_ALCOVES,16,32451,32466,Neon Circuit — Classic cyan spotlight turret
+HX_NC_TECH_DmxMovingHeadAdv,DmxMovingHeadAdv,TECHNOLOGY_ALCOVES,16,32467,32482,Neon Circuit — Full 3D magenta spotlight turret
+HX_NC_TECH_DmxFloodlight,DmxFloodlight,TECHNOLOGY_ALCOVES,3,32483,32485,Neon Circuit — RGB garden uplighter
+HX_NC_TECH_DmxFloodArea,DmxFloodArea,TECHNOLOGY_ALCOVES,3,32486,32488,Neon Circuit — Broad aurora lawn wash
+HX_NC_TECH_DmxSkull,DmxSkull,TECHNOLOGY_ALCOVES,26,32489,32514,Neon Circuit — Articulated Halloween guest in the technology alcove
+HX_NC_TECH_DmxServo,DmxServo,TECHNOLOGY_ALCOVES,2,32515,32516,Neon Circuit — 2D kinetic pinwheel ornament
+HX_NC_TECH_DmxServo3d,DmxServo3d,TECHNOLOGY_ALCOVES,6,32517,32522,Neon Circuit — Three-axis kinetic DNA wind sculpture
+HX_NC_SKYSCRAPER_0,Custom,DNA_CATHEDRAL,1200,32523,36122,"Two-strand DNA sculpture: 3 turns, full illuminated ladder rungs"
+HX_NC_SKYSCRAPER_1,Custom,DNA_CATHEDRAL,1332,36123,40118,"Two-strand DNA sculpture: 3.4 turns, full illuminated ladder rungs"
+HX_NC_SKYSCRAPER_2,Custom,DNA_CATHEDRAL,968,40119,43022,"Two-strand DNA sculpture: 3.8 turns, full illuminated ladder rungs"
+HX_NC_SKYSCRAPER_3,Custom,DNA_CATHEDRAL,1476,43023,47450,"Two-strand DNA sculpture: 4.2 turns, full illuminated ladder rungs"
+HX_NC_TRANSIT_BRIDGE,Custom,DNA_BRIDGES,1170,47451,50960,Horizontal double-helix bridge with full illuminated ladder rungs
+HX_NC_STREET_BEACON_0,Custom,DNA_CATHEDRAL,485,50961,52415,"Two-strand DNA sculpture: 2.5 turns, full illuminated ladder rungs"
+HX_NC_STREET_BEACON_1,Custom,DNA_CATHEDRAL,485,52416,53870,"Two-strand DNA sculpture: 2.5 turns, full illuminated ladder rungs"
+HX_NC_STREET_BEACON_2,Custom,DNA_CATHEDRAL,485,53871,55325,"Two-strand DNA sculpture: 2.5 turns, full illuminated ladder rungs"
+HX_NC_STREET_BEACON_3,Custom,DNA_CATHEDRAL,485,55326,56780,"Two-strand DNA sculpture: 2.5 turns, full illuminated ladder rungs"
+HX_NC_STREET_BEACON_4,Custom,DNA_CATHEDRAL,485,56781,58235,"Two-strand DNA sculpture: 2.5 turns, full illuminated ladder rungs"
+HX_NC_STREET_BEACON_5,Custom,DNA_CATHEDRAL,485,58236,59690,"Two-strand DNA sculpture: 2.5 turns, full illuminated ladder rungs"
+HX_NC_STREET_BEACON_6,Custom,DNA_CATHEDRAL,485,59691,61145,"Two-strand DNA sculpture: 2.5 turns, full illuminated ladder rungs"
+HX_NC_STREET_BEACON_7,Custom,DNA_CATHEDRAL,485,61146,62600,"Two-strand DNA sculpture: 2.5 turns, full illuminated ladder rungs"
+HX_NC_SPIRAL_00,Tree 360,SPIRAL_GROVES,224,62601,63272,"Spiral tree; 2 strands, 2.5 twists; graduated canopy"
+HX_NC_SPIRAL_01,Tree 360,SPIRAL_GROVES,384,63273,64424,"Spiral tree; 3 strands, 2.57 twists; graduated canopy"
+HX_NC_SPIRAL_02,Tree 360,SPIRAL_GROVES,288,64425,65288,"Spiral tree; 2 strands, 2.64 twists; graduated canopy"
+HX_NC_SPIRAL_03,Tree 360,SPIRAL_GROVES,336,65289,66296,"Spiral tree; 3 strands, 2.71 twists; graduated canopy"
+HX_NC_SPIRAL_04,Tree 360,SPIRAL_GROVES,256,66297,67064,"Spiral tree; 2 strands, 2.78 twists; graduated canopy"
+HX_NC_SPIRAL_05,Tree 360,SPIRAL_GROVES,432,67065,68360,"Spiral tree; 3 strands, 2.85 twists; graduated canopy"
+HX_NC_SPIRAL_06,Tree 360,SPIRAL_GROVES,224,68361,69032,"Spiral tree; 2 strands, 2.92 twists; graduated canopy"
+HX_NC_SPIRAL_07,Tree 360,SPIRAL_GROVES,384,69033,70184,"Spiral tree; 3 strands, 2.99 twists; graduated canopy"
+HX_NC_SPIRAL_08,Tree 360,SPIRAL_GROVES,288,70185,71048,"Spiral tree; 2 strands, 3.06 twists; graduated canopy"
+HX_NC_SPIRAL_09,Tree 360,SPIRAL_GROVES,336,71049,72056,"Spiral tree; 3 strands, 3.13 twists; graduated canopy"
+HX_NC_SPIRAL_10,Tree 360,SPIRAL_GROVES,256,72057,72824,"Spiral tree; 2 strands, 3.2 twists; graduated canopy"
+HX_NC_SPIRAL_11,Tree 360,SPIRAL_GROVES,432,72825,74120,"Spiral tree; 3 strands, 3.27 twists; graduated canopy"
+HX_NC_SPIRAL_12,Tree 360,SPIRAL_GROVES,224,74121,74792,"Spiral tree; 2 strands, 3.34 twists; graduated canopy"
+HX_NC_SPIRAL_13,Tree 360,SPIRAL_GROVES,384,74793,75944,"Spiral tree; 3 strands, 3.41 twists; graduated canopy"
+HX_NC_SPIRAL_14,Tree 360,SPIRAL_GROVES,288,75945,76808,"Spiral tree; 2 strands, 3.48 twists; graduated canopy"
+HX_NC_SPIRAL_15,Tree 360,SPIRAL_GROVES,336,76809,77816,"Spiral tree; 3 strands, 3.55 twists; graduated canopy"
+HX_NC_SPIRAL_16,Tree 360,SPIRAL_GROVES,256,77817,78584,"Spiral tree; 2 strands, 3.62 twists; graduated canopy"
+HX_NC_SPIRAL_17,Tree 360,SPIRAL_GROVES,432,78585,79880,"Spiral tree; 3 strands, 3.69 twists; graduated canopy"
+HX_NC_SPIRAL_18,Tree 360,SPIRAL_GROVES,224,79881,80552,"Spiral tree; 2 strands, 2.5 twists; graduated canopy"
+HX_NC_SPIRAL_19,Tree 360,SPIRAL_GROVES,384,80553,81704,"Spiral tree; 3 strands, 2.57 twists; graduated canopy"
+HX_NC_SPIRAL_20,Tree 360,SPIRAL_GROVES,288,81705,82568,"Spiral tree; 2 strands, 2.64 twists; graduated canopy"
+HX_NC_SPIRAL_21,Tree 360,SPIRAL_GROVES,336,82569,83576,"Spiral tree; 3 strands, 2.71 twists; graduated canopy"
+HX_NC_SPIRAL_22,Tree 360,SPIRAL_GROVES,256,83577,84344,"Spiral tree; 2 strands, 2.78 twists; graduated canopy"
+HX_NC_SPIRAL_23,Tree 360,SPIRAL_GROVES,432,84345,85640,"Spiral tree; 3 strands, 2.85 twists; graduated canopy"
+HX_NC_SPIRAL_24,Tree 360,SPIRAL_GROVES,224,85641,86312,"Spiral tree; 2 strands, 2.92 twists; graduated canopy"
+HX_NC_SPIRAL_25,Tree 360,SPIRAL_GROVES,384,86313,87464,"Spiral tree; 3 strands, 2.99 twists; graduated canopy"
+HX_NC_SPIRAL_26,Tree 360,SPIRAL_GROVES,288,87465,88328,"Spiral tree; 2 strands, 3.06 twists; graduated canopy"
+HX_NC_SPIRAL_27,Tree 360,SPIRAL_GROVES,336,88329,89336,"Spiral tree; 3 strands, 3.13 twists; graduated canopy"
+HX_NC_SPIRAL_28,Tree 360,SPIRAL_GROVES,256,89337,90104,"Spiral tree; 2 strands, 3.2 twists; graduated canopy"
+HX_NC_SPIRAL_29,Tree 360,SPIRAL_GROVES,432,90105,91400,"Spiral tree; 3 strands, 3.27 twists; graduated canopy"
+HX_NC_SPIRAL_30,Tree 360,SPIRAL_GROVES,224,91401,92072,"Spiral tree; 2 strands, 3.34 twists; graduated canopy"
+HX_NC_SPIRAL_31,Tree 360,SPIRAL_GROVES,384,92073,93224,"Spiral tree; 3 strands, 3.41 twists; graduated canopy"
+HX_NC_SPIRAL_32,Tree 360,SPIRAL_GROVES,288,93225,94088,"Spiral tree; 2 strands, 3.48 twists; graduated canopy"
+HX_NC_SPIRAL_33,Tree 360,SPIRAL_GROVES,336,94089,95096,"Spiral tree; 3 strands, 3.55 twists; graduated canopy"
+HX_NC_SPIRAL_34,Tree 360,SPIRAL_GROVES,256,95097,95864,"Spiral tree; 2 strands, 3.62 twists; graduated canopy"
+HX_NC_SPIRAL_35,Tree 360,SPIRAL_GROVES,432,95865,97160,"Spiral tree; 3 strands, 3.69 twists; graduated canopy"
+HX_NC_ROOFTOP_0,Star,SKY_CROWNS,120,97161,97520,5-point jewel crown; warm gold contrasts the cool spiral forest
+HX_NC_ROOFTOP_1,Star,SKY_CROWNS,120,97521,97880,5-point jewel crown; warm gold contrasts the cool spiral forest
+HX_NC_ROOFTOP_2,Star,SKY_CROWNS,120,97881,98240,5-point jewel crown; warm gold contrasts the cool spiral forest
+HX_NC_ROOFTOP_3,Star,SKY_CROWNS,120,98241,98600,5-point jewel crown; warm gold contrasts the cool spiral forest

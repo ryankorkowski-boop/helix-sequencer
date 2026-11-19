@@ -1,0 +1,430 @@
+TAIL ONLY. Full job: https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/40836353448
+53.8740884Z            0x2002b9 (has no name): ()  1x1+0+0  +986+656
+2026-10-29T07:40:53.8741187Z         0x2002ad (has no name): ()  1x1+0+0  +985+655
+2026-10-29T07:40:53.8741462Z            2 children:
+2026-10-29T07:40:53.8741856Z            0x2002af (has no name): ()  1x1+0+0  +985+655
+2026-10-29T07:40:53.8742171Z            0x2002ae (has no name): ()  1x1+0+0  +985+655
+2026-10-29T07:40:53.8742478Z         0x2002ac (has no name): ()  1x1+0+0  +985+655
+2026-10-29T07:40:53.8742750Z            1 child:
+2026-10-29T07:40:53.8742994Z            0x2002b1 (has no name): ()  1x1+0+0  +985+655
+2026-10-29T07:40:53.8743301Z         0x2002ab (has no name): ()  1x1+0+0  +985+655
+2026-10-29T07:40:53.8743598Z         0x2002aa (has no name): ()  1x1+0+0  +985+655
+2026-10-29T07:40:53.8743870Z            1 child:
+2026-10-29T07:40:53.8744114Z            0x2002b0 (has no name): ()  1x1+0+0  +985+655
+2026-10-29T07:40:53.8744425Z         0x2002a8 (has no name): ()  586x108+1+20  +986+675
+2026-10-29T07:40:53.8744701Z            1 child:
+2026-10-29T07:40:53.8744945Z            0x2002a9 (has no name): ()  586x108+0+0  +986+675
+2026-10-29T07:40:53.8745272Z      0x2001c2 (has no name): ()  2560x1440+0+0  +0+0
+2026-10-29T07:40:53.8745550Z         56 children:
+2026-10-29T07:40:53.8746284Z         0x4001bc "xLights - /home/runner/work/helix-sequencer/helix-sequencer/phoneme-work/show/native-preview-hhckxvpl/Phoneme_Test_Hook_Helix.xsq": ("xLights" "xLights")  2560x1421+0+19  +0+19
+2026-10-29T07:40:53.8747133Z            7 children:
+2026-10-29T07:40:53.8747406Z            0x401048 (has no name): ()  248x601+2+797  +2+816
+2026-10-29T07:40:53.8747733Z            0x401043 (has no name): ()  248x602+2+171  +2+190
+2026-10-29T07:40:53.8748068Z            0x400e6c (has no name): ()  158x44+442+316  +442+335
+2026-10-29T07:40:53.8748424Z            0x400e67 (has no name): ()  1944x1017+600+360  +600+379
+2026-10-29T07:40:53.8748792Z            0x400e62 (has no name): ()  1944x75+600+285  +600+304
+2026-10-29T07:40:53.8749151Z            0x4002e4 (has no name): ()  1272x1116+1281+209  +1281+228
+2026-10-29T07:40:53.8749510Z            0x4001bd (has no name): ()  1x1+-1+-1  +-1+18
+2026-10-29T07:40:53.8749823Z         0x20020e (has no name): ()  1x1+0+0  +0+0
+2026-10-29T07:40:53.8750123Z         0x20020d (has no name): ()  1x1+0+0  +0+0
+2026-10-29T07:40:53.8750413Z         0x20020c (has no name): ()  1x1+0+0  +0+0
+2026-10-29T07:40:53.8750695Z         0x20020b (has no name): ()  1x1+0+0  +0+0
+2026-10-29T07:40:53.8750975Z         0x20020a (has no name): ()  1x1+0+0  +0+0
+2026-10-29T07:40:53.8751260Z         0x200209 (has no name): ()  1x1+0+0  +0+0
+2026-10-29T07:40:53.8751535Z         0x200208 (has no name): ()  1x1+0+0  +0+0
+2026-10-29T07:40:53.8752011Z         0x200207 (has no name): ()  1x1+0+0  +0+0
+2026-10-29T07:40:53.8752373Z         0x200206 (has no name): ()  1x1+0+0  +0+0
+2026-10-29T07:40:53.8752659Z         0x200205 (has no name): ()  1x1+0+0  +0+0
+2026-10-29T07:40:53.8752938Z         0x200204 (has no name): ()  1x1+0+0  +0+0
+2026-10-29T07:40:53.8753219Z         0x200203 (has no name): ()  1x1+0+0  +0+0
+2026-10-29T07:40:53.8753505Z         0x200202 (has no name): ()  1x1+0+0  +0+0
+2026-10-29T07:40:53.8753794Z         0x200201 (has no name): ()  1x1+0+0  +0+0
+2026-10-29T07:40:53.8754077Z         0x200200 (has no name): ()  1x1+0+0  +0+0
+2026-10-29T07:40:53.8754361Z         0x2001ff (has no name): ()  1x1+0+0  +0+0
+2026-10-29T07:40:53.8754642Z         0x2001fe (has no name): ()  1x1+0+0  +0+0
+2026-10-29T07:40:53.8754928Z         0x2001fd (has no name): ()  1x1+0+0  +0+0
+2026-10-29T07:40:53.8755205Z         0x2001fc (has no name): ()  1x1+0+0  +0+0
+2026-10-29T07:40:53.8755485Z         0x2001fb (has no name): ()  1x1+0+0  +0+0
+2026-10-29T07:40:53.8755773Z         0x2001fa (has no name): ()  1x1+0+0  +0+0
+2026-10-29T07:40:53.8756064Z         0x2001f9 (has no name): ()  1x1+0+0  +0+0
+2026-10-29T07:40:53.8756348Z         0x2001f8 (has no name): ()  1x1+0+0  +0+0
+2026-10-29T07:40:53.8756632Z         0x2001f7 (has no name): ()  1x1+0+0  +0+0
+2026-10-29T07:40:53.8756914Z         0x2001f6 (has no name): ()  1x1+0+0  +0+0
+2026-10-29T07:40:53.8757203Z         0x2001f5 (has no name): ()  1x1+0+0  +0+0
+2026-10-29T07:40:53.8757483Z         0x2001f4 (has no name): ()  1x1+0+0  +0+0
+2026-10-29T07:40:53.8757773Z         0x2001f3 (has no name): ()  1x1+0+0  +0+0
+2026-10-29T07:40:53.8758068Z         0x2001f2 (has no name): ()  1x1+0+0  +0+0
+2026-10-29T07:40:53.8758362Z         0x2001f1 (has no name): ()  1x1+0+0  +0+0
+2026-10-29T07:40:53.8758651Z         0x2001f0 (has no name): ()  1x1+0+0  +0+0
+2026-10-29T07:40:53.8758937Z         0x2001ef (has no name): ()  1x1+0+0  +0+0
+2026-10-29T07:40:53.8759257Z         0x2001ee (has no name): ()  26x1+1386+1127  +1386+1127
+2026-10-29T07:40:53.8759614Z         0x2001ed (has no name): ()  26x1+1386+1123  +1386+1123
+2026-10-29T07:40:53.8759961Z         0x2001ec (has no name): ()  1x25+1412+1103  +1412+1103
+2026-10-29T07:40:53.8760297Z         0x2001eb (has no name): ()  26x1+1+1127  +1+1127
+2026-10-29T07:40:53.8760619Z         0x2001ea (has no name): ()  26x1+1+1123  +1+1123
+2026-10-29T07:40:53.8760944Z         0x2001e9 (has no name): ()  1x25+0+1103  +0+1103
+2026-10-29T07:40:53.8761263Z         0x2001e8 (has no name): ()  1359x1+27+1127  +27+1127
+2026-10-29T07:40:53.8761854Z         0x2001e7 (has no name): ()  1359x1+27+1123  +27+1123
+2026-10-29T07:40:53.8777000Z         0x2001e2 (has no name): ()  1411x3+1+1124  +1+1124
+2026-10-29T07:40:53.8777866Z            4 children:
+2026-10-29T07:40:53.8778350Z            0x2001e6 (has no name): ()  1x3+1385+0  +1386+1124
+2026-10-29T07:40:53.8778928Z            0x2001e5 (has no name): ()  1x3+25+0  +26+1124
+2026-10-29T07:40:53.8779508Z            0x2001e4 (has no name): ()  25x3+1386+0  +1387+1124
+2026-10-29T07:40:53.8780098Z            0x2001e3 (has no name): ()  25x3+0+0  +1+1124
+2026-10-29T07:40:53.8780735Z         0x2001da (has no name): ()  1x1078+1412+26  +1412+26
+2026-10-29T07:40:53.8781303Z         0x2001d9 (has no name): ()  1x1078+0+26  +0+26
+2026-10-29T07:40:53.8782000Z         0x2001d3 (has no name): ()  2560x1+0+19  +0+19
+2026-10-29T07:40:53.8782556Z         0x2001d2 (has no name): ()  1x25+1412+1  +1412+1
+2026-10-29T07:40:53.8783117Z         0x2001d1 (has no name): ()  26x1+2534+0  +2534+0
+2026-10-29T07:40:53.8783650Z         0x2001d0 (has no name): ()  26x1+0+0  +0+0
+2026-10-29T07:40:53.8784193Z         0x2001cf (has no name): ()  2510x1+26+0  +26+0
+2026-10-29T07:40:53.8784726Z         0x2001ce (has no name): ()  1x25+0+1  +0+1
+2026-10-29T07:40:53.8785273Z         0x2001cd (has no name): ()  2560x18+0+1  +0+1
+2026-10-29T07:40:53.8785740Z            12 children:
+2026-10-29T07:40:53.8786185Z            0x2001e1 (has no name): ()  12x12+2512+3  +2512+4
+2026-10-29T07:40:53.8786731Z            0x2001e0 (has no name): ()  14x14+4+2  +4+3
+2026-10-29T07:40:53.8787518Z            0x2001df (has no name): ()  12x12+0+0  +0+1
+2026-10-29T07:40:53.8788054Z            0x2001de (has no name): ()  12x12+0+0  +0+1
+2026-10-29T07:40:53.8788617Z            0x2001dd (has no name): ()  12x12+2544+3  +2544+4
+2026-10-29T07:40:53.8789224Z            0x2001dc (has no name): ()  12x12+2528+3  +2528+4
+2026-10-29T07:40:53.8789805Z            0x2001db (has no name): ()  2456x14+52+2  +52+3
+2026-10-29T07:40:53.8790384Z            0x2001d8 (has no name): ()  4x18+1407+0  +1407+1
+2026-10-29T07:40:53.8790967Z            0x2001d7 (has no name): ()  25x3+1386+0  +1386+1
+2026-10-29T07:40:53.8791508Z            0x2001d6 (has no name): ()  4x18+0+0  +0+1
+2026-10-29T07:40:53.8792199Z            0x2001d5 (has no name): ()  25x3+0+0  +0+1
+2026-10-29T07:40:53.8792746Z            0x2001d4 (has no name): ()  1361x3+25+0  +25+1
+2026-10-29T07:40:53.8793273Z         0x2001c8 (has no name): ()  1x1+0+0  +0+0
+2026-10-29T07:40:53.8793768Z            2 children:
+2026-10-29T07:40:53.8794202Z            0x2001ca (has no name): ()  1x1+0+0  +0+0
+2026-10-29T07:40:53.8794750Z            0x2001c9 (has no name): ()  1x1+0+0  +0+0
+2026-10-29T07:40:53.8795374Z         0x2001c7 (has no name): ()  1x1+0+0  +0+0
+2026-10-29T07:40:53.8801269Z            1 child:
+2026-10-29T07:40:53.8801885Z            0x2001cc (has no name): ()  1x1+0+0  +0+0
+2026-10-29T07:40:53.8802551Z         0x2001c6 (has no name): ()  1x1+0+0  +0+0
+2026-10-29T07:40:53.8803122Z         0x2001c5 (has no name): ()  1x1+0+0  +0+0
+2026-10-29T07:40:53.8803637Z            1 child:
+2026-10-29T07:40:53.8804099Z            0x2001cb (has no name): ()  1x1+0+0  +0+0
+2026-10-29T07:40:53.8804729Z         0x2001c3 (has no name): ()  2560x1421+0+19  +0+19
+2026-10-29T07:40:53.8826081Z            1 child:
+2026-10-29T07:40:53.8826403Z            0x2001c4 (has no name): ()  2560x1421+0+0  +0+19
+2026-10-29T07:40:53.8826675Z 
+2026-10-29T07:40:53.8826682Z 
+2026-10-29T07:40:53.8826687Z 
+2026-10-29T07:40:53.8826797Z HELIX_NATIVE_X11_GEOMETRY_END
+2026-10-29T07:41:37.7648673Z {
+2026-10-29T07:41:37.7650403Z   "audio_offset_ms": 0,
+2026-10-29T07:41:37.7651142Z   "audio_sha256": "19e90c273d0d747938f24b36586b50818c104cddffbefe4a4128927374301938",
+2026-10-29T07:41:37.7652127Z   "audio_source": "/home/runner/work/helix-sequencer/helix-sequencer/phoneme-work/show/media/Phoneme_Test_Hook.mp3",
+2026-10-29T07:41:37.7652798Z   "audio_stream_verified": true,
+2026-10-29T07:41:37.7653227Z   "backend": "xlights_house_preview",
+2026-10-29T07:41:37.7653727Z   "controller_channel_safety": "not_tested",
+2026-10-29T07:41:37.7654359Z   "duration_seconds": 34.88,
+2026-10-29T07:41:37.7654848Z   "evidence_dir": "/home/runner/work/helix-sequencer/helix-sequencer/phoneme-work/show/native-preview-hhckxvpl",
+2026-10-29T07:41:37.7655353Z   "ffprobe": {
+2026-10-29T07:41:37.7655576Z     "format": {
+2026-10-29T07:41:37.7655788Z       "bit_rate": "1136615",
+2026-10-29T07:41:37.7656031Z       "duration": "34.900000",
+2026-10-29T07:41:37.7656565Z       "filename": "/home/runner/work/helix-sequencer/helix-sequencer/phoneme-work/show/native-preview-hhckxvpl/preview.mp4",
+2026-10-29T07:41:37.7657126Z       "format_long_name": "QuickTime / MOV",
+2026-10-29T07:41:37.7657432Z       "format_name": "mov,mp4,m4a,3gp,3g2,mj2",
+2026-10-29T07:41:37.7657722Z       "nb_programs": 0,
+2026-10-29T07:41:37.7657956Z       "nb_streams": 2,
+2026-10-29T07:41:37.7658195Z       "probe_score": 100,
+2026-10-29T07:41:37.7658442Z       "size": "4958486",
+2026-10-29T07:41:37.7658680Z       "start_time": "0.000000",
+2026-10-29T07:41:37.7658970Z       "tags": {
+2026-10-29T07:41:37.7659229Z         "compatible_brands": "isomiso2avc1mp41",
+2026-10-29T07:41:37.7659532Z         "encoder": "Lavf60.16.100",
+2026-10-29T07:41:37.7659795Z         "major_brand": "isom",
+2026-10-29T07:41:37.7660051Z         "minor_version": "512"
+2026-10-29T07:41:37.7660284Z       }
+2026-10-29T07:41:37.7660482Z     },
+2026-10-29T07:41:37.7660676Z     "streams": [
+2026-10-29T07:41:37.7660873Z       {
+2026-10-29T07:41:37.7661093Z         "avg_frame_rate": "20/1",
+2026-10-29T07:41:37.7661453Z         "bit_rate": "999785",
+2026-10-29T07:41:37.7661935Z         "bits_per_raw_sample": "8",
+2026-10-29T07:41:37.7662203Z         "chroma_location": "left",
+2026-10-29T07:41:37.7662474Z         "closed_captions": 0,
+2026-10-29T07:41:37.7662831Z         "codec_long_name": "H.264 / AVC / MPEG-4 AVC / MPEG-4 part 10",
+2026-10-29T07:41:37.7663178Z         "codec_name": "h264",
+2026-10-29T07:41:37.7663429Z         "codec_tag": "0x31637661",
+2026-10-29T07:41:37.7663693Z         "codec_tag_string": "avc1",
+2026-10-29T07:41:37.7663956Z         "codec_type": "video",
+2026-10-29T07:41:37.7664202Z         "coded_height": 720,
+2026-10-29T07:41:37.7664454Z         "coded_width": 1280,
+2026-10-29T07:41:37.7664693Z         "color_primaries": "bt709",
+2026-10-29T07:41:37.7664956Z         "color_range": "pc",
+2026-10-29T07:41:37.7665201Z         "color_space": "bt709",
+2026-10-29T07:41:37.7665462Z         "color_transfer": "bt709",
+2026-10-29T07:41:37.7665726Z         "disposition": {
+2026-10-29T07:41:37.7665974Z           "attached_pic": 0,
+2026-10-29T07:41:37.7666211Z           "captions": 0,
+2026-10-29T07:41:37.7666449Z           "clean_effects": 0,
+2026-10-29T07:41:37.7666683Z           "comment": 0,
+2026-10-29T07:41:37.7666904Z           "default": 1,
+2026-10-29T07:41:37.7667124Z           "dependent": 0,
+2026-10-29T07:41:37.7667352Z           "descriptions": 0,
+2026-10-29T07:41:37.7667594Z           "dub": 0,
+2026-10-29T07:41:37.7667802Z           "forced": 0,
+2026-10-29T07:41:37.7668025Z           "hearing_impaired": 0,
+2026-10-29T07:41:37.7668272Z           "karaoke": 0,
+2026-10-29T07:41:37.7668496Z           "lyrics": 0,
+2026-10-29T07:41:37.7668710Z           "metadata": 0,
+2026-10-29T07:41:37.7668933Z           "non_diegetic": 0,
+2026-10-29T07:41:37.7669167Z           "original": 0,
+2026-10-29T07:41:37.7669395Z           "still_image": 0,
+2026-10-29T07:41:37.7669632Z           "timed_thumbnails": 0,
+2026-10-29T07:41:37.7669886Z           "visual_impaired": 0
+2026-10-29T07:41:37.7670118Z         },
+2026-10-29T07:41:37.7670317Z         "duration": "34.900000",
+2026-10-29T07:41:37.7670614Z         "duration_ts": 698000,
+2026-10-29T07:41:37.7670859Z         "extradata_size": 49,
+2026-10-29T07:41:37.7671113Z         "field_order": "progressive",
+2026-10-29T07:41:37.7671377Z         "film_grain": 0,
+2026-10-29T07:41:37.7671910Z         "has_b_frames": 0,
+2026-10-29T07:41:37.7672318Z         "height": 720,
+2026-10-29T07:41:37.7672635Z         "id": "0x1",
+2026-10-29T07:41:37.7672862Z         "index": 0,
+2026-10-29T07:41:37.7673372Z         "is_avc": "true",
+2026-10-29T07:41:37.7673681Z         "level": 31,
+2026-10-29T07:41:37.7674026Z         "nal_length_size": "4",
+2026-10-29T07:41:37.7674371Z         "nb_frames": "698",
+2026-10-29T07:41:37.7674708Z         "pix_fmt": "yuvj420p",
+2026-10-29T07:41:37.7675040Z         "profile": "High",
+2026-10-29T07:41:37.7675367Z         "r_frame_rate": "20/1",
+2026-10-29T07:41:37.7675682Z         "refs": 1,
+2026-10-29T07:41:37.7675980Z         "start_pts": 0,
+2026-10-29T07:41:37.7676318Z         "start_time": "0.000000",
+2026-10-29T07:41:37.7676646Z         "tags": {
+2026-10-29T07:41:37.7676944Z           "handler_name": "VideoHandler",
+2026-10-29T07:41:37.7677312Z           "language": "und",
+2026-10-29T07:41:37.7677549Z           "vendor_id": "[0][0][0][0]"
+2026-10-29T07:41:37.7677793Z         },
+2026-10-29T07:41:37.7677990Z         "time_base": "1/20000",
+2026-10-29T07:41:37.7678232Z         "width": 1280
+2026-10-29T07:41:37.7678437Z       },
+2026-10-29T07:41:37.7678616Z       {
+2026-10-29T07:41:37.7678815Z         "avg_frame_rate": "0/0",
+2026-10-29T07:41:37.7679052Z         "bit_rate": "131738",
+2026-10-29T07:41:37.7679295Z         "bits_per_sample": 0,
+2026-10-29T07:41:37.7679540Z         "channel_layout": "stereo",
+2026-10-29T07:41:37.7679793Z         "channels": 2,
+2026-10-29T07:41:37.7680056Z         "codec_long_name": "AAC (Advanced Audio Coding)",
+2026-10-29T07:41:37.7680366Z         "codec_name": "aac",
+2026-10-29T07:41:37.7680605Z         "codec_tag": "0x6134706d",
+2026-10-29T07:41:37.7681032Z         "codec_tag_string": "mp4a",
+2026-10-29T07:41:37.7681296Z         "codec_type": "audio",
+2026-10-29T07:41:37.7681541Z         "disposition": {
+2026-10-29T07:41:37.7682009Z           "attached_pic": 0,
+2026-10-29T07:41:37.7682243Z           "captions": 0,
+2026-10-29T07:41:37.7682469Z           "clean_effects": 0,
+2026-10-29T07:41:37.7682716Z           "comment": 0,
+2026-10-29T07:41:37.7682932Z           "default": 1,
+2026-10-29T07:41:37.7683153Z           "dependent": 0,
+2026-10-29T07:41:37.7683395Z           "descriptions": 0,
+2026-10-29T07:41:37.7683620Z           "dub": 0,
+2026-10-29T07:41:37.7683835Z           "forced": 0,
+2026-10-29T07:41:37.7684055Z           "hearing_impaired": 0,
+2026-10-29T07:41:37.7684298Z           "karaoke": 0,
+2026-10-29T07:41:37.7684514Z           "lyrics": 0,
+2026-10-29T07:41:37.7684736Z           "metadata": 0,
+2026-10-29T07:41:37.7684958Z           "non_diegetic": 0,
+2026-10-29T07:41:37.7685186Z           "original": 0,
+2026-10-29T07:41:37.7685411Z           "still_image": 0,
+2026-10-29T07:41:37.7685661Z           "timed_thumbnails": 0,
+2026-10-29T07:41:37.7685904Z           "visual_impaired": 0
+2026-10-29T07:41:37.7686127Z         },
+2026-10-29T07:41:37.7686320Z         "duration": "34.880000",
+2026-10-29T07:41:37.7686570Z         "duration_ts": 1674240,
+2026-10-29T07:41:37.7686812Z         "extradata_size": 5,
+2026-10-29T07:41:37.7687041Z         "id": "0x2",
+2026-10-29T07:41:37.7687245Z         "index": 1,
+2026-10-29T07:41:37.7687460Z         "initial_padding": 0,
+2026-10-29T07:41:37.7687706Z         "nb_frames": "1636",
+2026-10-29T07:41:37.7687936Z         "profile": "LC",
+2026-10-29T07:41:37.7688167Z         "r_frame_rate": "0/0",
+2026-10-29T07:41:37.7688401Z         "sample_fmt": "fltp",
+2026-10-29T07:41:37.7688647Z         "sample_rate": "48000",
+2026-10-29T07:41:37.7688879Z         "start_pts": 0,
+2026-10-29T07:41:37.7689103Z         "start_time": "0.000000",
+2026-10-29T07:41:37.7689335Z         "tags": {
+2026-10-29T07:41:37.7689561Z           "handler_name": "SoundHandler",
+2026-10-29T07:41:37.7689830Z           "language": "und",
+2026-10-29T07:41:37.7690063Z           "vendor_id": "[0][0][0][0]"
+2026-10-29T07:41:37.7690301Z         },
+2026-10-29T07:41:37.7690489Z         "time_base": "1/48000"
+2026-10-29T07:41:37.7690717Z       }
+2026-10-29T07:41:37.7690896Z     ]
+2026-10-29T07:41:37.7691074Z   },
+2026-10-29T07:41:37.7691429Z   "layout_sha256": "e3229f84fca5ba1edbd05c1c8399234b1bac3aa22e8769e95cef0f1c2dd6c86a",
+2026-10-29T07:41:37.7692295Z   "mp4": "/home/runner/work/helix-sequencer/helix-sequencer/phoneme-work/show/native-preview-hhckxvpl/preview.mp4",
+2026-10-29T07:41:37.7693083Z   "mp4_sha256": "7126512138ee2e396bde539b4a7534d7b97c8cbc27986dac79e5530f0de11fe1",
+2026-10-29T07:41:37.7693507Z   "native_export_attempts": [
+2026-10-29T07:41:37.7693746Z     {
+2026-10-29T07:41:37.7693947Z       "resolution": [
+2026-10-29T07:41:37.7694166Z         1280,
+2026-10-29T07:41:37.7694361Z         720
+2026-10-29T07:41:37.7694548Z       ],
+2026-10-29T07:41:37.7695053Z       "video": "/home/runner/work/helix-sequencer/helix-sequencer/phoneme-work/show/native-preview-hhckxvpl/native-silent.mp4"
+2026-10-29T07:41:37.7695633Z     }
+2026-10-29T07:41:37.7695813Z   ],
+2026-10-29T07:41:37.7696019Z   "native_export_resolution": [
+2026-10-29T07:41:37.7696269Z     1280,
+2026-10-29T07:41:37.7696451Z     720
+2026-10-29T07:41:37.7696632Z   ],
+2026-10-29T07:41:37.7696991Z   "native_fseq_sha256": "fa0de9d9a4060969dc3691474d3bcf8c41cd5a77fdc0f3d15c02525f89c75a06",
+2026-10-29T07:41:37.7697724Z   "native_video": "/home/runner/work/helix-sequencer/helix-sequencer/phoneme-work/show/native-preview-hhckxvpl/native-silent.mp4",
+2026-10-29T07:41:37.7698305Z   "open_response": {
+2026-10-29T07:41:37.7698521Z     "framems": 50,
+2026-10-29T07:41:37.7699056Z     "fullseq": "/home/runner/work/helix-sequencer/helix-sequencer/phoneme-work/show/native-preview-hhckxvpl/Phoneme_Test_Hook_Helix.xsq",
+2026-10-29T07:41:37.7699632Z     "len": 34880,
+2026-10-29T07:41:37.7700136Z     "media": "/home/runner/work/helix-sequencer/helix-sequencer/phoneme-work/show/media/Phoneme_Test_Hook.mp3",
+2026-10-29T07:41:37.7700617Z     "res": 200,
+2026-10-29T07:41:37.7700838Z     "seq": "Phoneme_Test_Hook_Helix"
+2026-10-29T07:41:37.7701093Z   },
+2026-10-29T07:41:37.7701290Z   "requested_resolution": [
+2026-10-29T07:41:37.7701519Z     1280,
+2026-10-29T07:41:37.7701931Z     720
+2026-10-29T07:41:37.7702108Z   ],
+2026-10-29T07:41:37.7702324Z   "schema": "helix.native_preview.v1",
+2026-10-29T07:41:37.7702594Z   "status": "success",
+2026-10-29T07:41:37.7702839Z   "visual_review_status": "not_reviewed",
+2026-10-29T07:41:37.7703110Z   "warnings": [],
+2026-10-29T07:41:37.7703343Z   "xlights_version": "2026.18",
+2026-10-29T07:41:37.7703729Z   "xsq_sha256": "389e3e02ddf6d406f1941c00e7340b89d6d9e09c6d2e9d673a2d06c2b0eee7a9"
+2026-10-29T07:41:37.7704115Z }
+2026-10-29T07:41:37.7911787Z ##[group]Run python -m tools.verify_recovery_pilot_gate phoneme-work/show
+2026-10-29T07:41:37.7912676Z [36;1mpython -m tools.verify_recovery_pilot_gate phoneme-work/show[0m
+2026-10-29T07:41:37.7932964Z shell: /usr/bin/bash -e {0}
+2026-10-29T07:41:37.7933393Z env:
+2026-10-29T07:41:37.7933852Z   HELIX_SOURCE_COMMIT: 76c0176d3c2c3776d5f9e9abd5e98c004f379021
+2026-10-29T07:41:37.7934422Z   HELIX_PHONEME_AUDIO_URL: 
+2026-10-29T07:41:37.7934824Z   HELIX_PHONEME_AUDIO_TOKEN: 
+2026-10-29T07:41:37.7935267Z   HELIX_NATIVE_PREVIEW_WIDTH: 1280
+2026-10-29T07:41:37.7935714Z   HELIX_NATIVE_PREVIEW_HEIGHT: 720
+2026-10-29T07:41:37.7936125Z   XL_NO_GPU_COMPUTE: 1
+2026-10-29T07:41:37.7936462Z   OMP_NUM_THREADS: 2
+2026-10-29T07:41:37.7936829Z   OPENBLAS_NUM_THREADS: 2
+2026-10-29T07:41:37.7937221Z   pythonLocation: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-10-29T07:41:37.7937651Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.12.15/x64/lib/pkgconfig
+2026-10-29T07:41:37.7938112Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-10-29T07:41:37.7938491Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-10-29T07:41:37.7938867Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-10-29T07:41:37.7939254Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.12.15/x64/lib
+2026-10-29T07:41:37.7939673Z   HELIX_PATCHED_XLIGHTS: /home/runner/work/_temp/xlights-src/bin/xLights
+2026-10-29T07:41:37.7940034Z ##[endgroup]
+2026-10-29T07:41:37.8484762Z Traceback (most recent call last):
+2026-10-29T07:41:37.8494804Z   File "<frozen runpy>", line 198, in _run_module_as_main
+2026-10-29T07:41:37.8495614Z   File "<frozen runpy>", line 88, in _run_code
+2026-10-29T07:41:37.8496711Z   File "/home/runner/work/helix-sequencer/helix-sequencer/tools/verify_recovery_pilot_gate.py", line 36, in <module>
+2026-10-29T07:41:37.8498036Z     a=p.parse_args();check(a.show)
+2026-10-29T07:41:37.8498478Z                      ^^^^^^^^^^^^^
+2026-10-29T07:41:37.8499383Z   File "/home/runner/work/helix-sequencer/helix-sequencer/tools/verify_recovery_pilot_gate.py", line 12, in check
+2026-10-29T07:41:37.8501010Z     if not evidence.is_file():raise ValueError('Pilot acceptance evidence missing: vocal timing and approved-reference identity gates remain open; do not scale to the full collection')
+2026-10-29T07:41:37.8502708Z                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-10-29T07:41:37.8504041Z ValueError: Pilot acceptance evidence missing: vocal timing and approved-reference identity gates remain open; do not scale to the full collection
+2026-10-29T07:41:37.8581261Z ##[error]Process completed with exit code 1.
+2026-10-29T07:41:37.8640392Z ##[group]Run if [ -f phoneme-work/show/run_manifest.json ]; then
+2026-10-29T07:41:37.8640871Z [36;1mif [ -f phoneme-work/show/run_manifest.json ]; then[0m
+2026-10-29T07:41:37.8641293Z [36;1m  python -m tools.finalize_phoneme_review phoneme-work/show[0m
+2026-10-29T07:41:37.8641832Z [36;1melse[0m
+2026-10-29T07:41:37.8642318Z [36;1m  echo '::error::Show preparation failed; see source_ingestion.json and sequencer.log in diagnostics artifact'[0m
+2026-10-29T07:41:37.8642819Z [36;1m  exit 1[0m
+2026-10-29T07:41:37.8643022Z [36;1mfi[0m
+2026-10-29T07:41:37.8655712Z shell: /usr/bin/bash -e {0}
+2026-10-29T07:41:37.8655967Z env:
+2026-10-29T07:41:37.8656251Z   HELIX_SOURCE_COMMIT: 76c0176d3c2c3776d5f9e9abd5e98c004f379021
+2026-10-29T07:41:37.8656598Z   HELIX_PHONEME_AUDIO_URL: 
+2026-10-29T07:41:37.8656842Z   HELIX_PHONEME_AUDIO_TOKEN: 
+2026-10-29T07:41:37.8657092Z   HELIX_NATIVE_PREVIEW_WIDTH: 1280
+2026-10-29T07:41:37.8657364Z   HELIX_NATIVE_PREVIEW_HEIGHT: 720
+2026-10-29T07:41:37.8657674Z   XL_NO_GPU_COMPUTE: 1
+2026-10-29T07:41:37.8657895Z   OMP_NUM_THREADS: 2
+2026-10-29T07:41:37.8658112Z   OPENBLAS_NUM_THREADS: 2
+2026-10-29T07:41:37.8658413Z   pythonLocation: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-10-29T07:41:37.8658840Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.12.15/x64/lib/pkgconfig
+2026-10-29T07:41:37.8659256Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-10-29T07:41:37.8659626Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-10-29T07:41:37.8660002Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-10-29T07:41:37.8660396Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.12.15/x64/lib
+2026-10-29T07:41:37.8660818Z   HELIX_PATCHED_XLIGHTS: /home/runner/work/_temp/xlights-src/bin/xLights
+2026-10-29T07:41:37.8661176Z ##[endgroup]
+2026-10-29T07:41:39.4018189Z Traceback (most recent call last):
+2026-10-29T07:41:39.4019537Z   File "<frozen runpy>", line 198, in _run_module_as_main
+2026-10-29T07:41:39.4020500Z   File "<frozen runpy>", line 88, in _run_code
+2026-10-29T07:41:39.4021961Z   File "/home/runner/work/helix-sequencer/helix-sequencer/tools/finalize_phoneme_review.py", line 87, in <module>
+2026-10-29T07:41:39.4023275Z     print(json.dumps(finalize(args.show), indent=2))
+2026-10-29T07:41:39.4023963Z                      ^^^^^^^^^^^^^^^^^^^
+2026-10-29T07:41:39.4025866Z   File "/home/runner/work/helix-sequencer/helix-sequencer/tools/finalize_phoneme_review.py", line 35, in finalize
+2026-10-29T07:41:39.4028325Z     raise ValueError('Native image quality failed: ' + failed + '; measurements=' +
+2026-10-29T07:41:39.4030104Z ValueError: Native image quality failed: visible_stage_motion; measurements={"median_bright_fraction": 0.08012, "median_luma": 13.466, "median_motion": 0.425, "visible_height": 0.644, "visible_width": 0.681}; retain diagnostic media without promoting it for owner approval
+2026-10-29T07:41:39.4205783Z ##[error]Process completed with exit code 1.
+2026-10-29T07:41:39.4268939Z ##[group]Run actions/upload-artifact@v4
+2026-10-29T07:41:39.4269264Z with:
+2026-10-29T07:41:39.4269678Z   name: final-native-approval-collection-6fa92acb3f91972f8953fe2b62c52b88c8e0ad77
+2026-10-29T07:41:39.4270628Z   path: phoneme-work/
+approval-delivery/
+approval-layouts/Layout_Manifest.json
+collection-openbox.log
+xlights-native-build.log
+native-runtime-libraries.log
+
+2026-10-29T07:41:39.4271397Z   if-no-files-found: error
+2026-10-29T07:41:39.4271852Z   compression-level: 6
+2026-10-29T07:41:39.4272079Z   overwrite: false
+2026-10-29T07:41:39.4272301Z   include-hidden-files: false
+2026-10-29T07:41:39.4272551Z env:
+2026-10-29T07:41:39.4272817Z   HELIX_SOURCE_COMMIT: 76c0176d3c2c3776d5f9e9abd5e98c004f379021
+2026-10-29T07:41:39.4273158Z   HELIX_PHONEME_AUDIO_URL: 
+2026-10-29T07:41:39.4273404Z   HELIX_PHONEME_AUDIO_TOKEN: 
+2026-10-29T07:41:39.4273678Z   HELIX_NATIVE_PREVIEW_WIDTH: 1280
+2026-10-29T07:41:39.4273944Z   HELIX_NATIVE_PREVIEW_HEIGHT: 720
+2026-10-29T07:41:39.4274248Z   XL_NO_GPU_COMPUTE: 1
+2026-10-29T07:41:39.4274474Z   OMP_NUM_THREADS: 2
+2026-10-29T07:41:39.4274686Z   OPENBLAS_NUM_THREADS: 2
+2026-10-29T07:41:39.4275011Z   pythonLocation: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-10-29T07:41:39.4275437Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.12.15/x64/lib/pkgconfig
+2026-10-29T07:41:39.4275853Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-10-29T07:41:39.4276221Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-10-29T07:41:39.4276597Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-10-29T07:41:39.4276969Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.12.15/x64/lib
+2026-10-29T07:41:39.4277398Z   HELIX_PATCHED_XLIGHTS: /home/runner/work/_temp/xlights-src/bin/xLights
+2026-10-29T07:41:39.4277755Z ##[endgroup]
+2026-10-29T07:41:39.5973383Z (node:8919) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+2026-10-29T07:41:39.5975027Z (Use `node --trace-deprecation ...` to show where the warning was created)
+2026-10-29T07:41:39.6263449Z Multiple search paths detected. Calculating the least common ancestor of all paths
+2026-10-29T07:41:39.6266916Z The least common ancestor is /home/runner/work/helix-sequencer/helix-sequencer. This will be the root directory of the artifact
+2026-10-29T07:41:39.6268242Z With the provided path, there will be 103 files uploaded
+2026-10-29T07:41:39.6269406Z Artifact name is valid!
+2026-10-29T07:41:39.6269919Z Root directory input is valid!
+2026-10-29T07:41:40.0581182Z Beginning upload of artifact content to blob storage
+2026-10-29T07:41:40.9352356Z (node:8919) [DEP0169] DeprecationWarning: `url.parse()` behavior is not standardized and prone to errors that have security implications. Use the WHATWG URL API instead. CVEs are not issued for `url.parse()` vulnerabilities.
+2026-10-29T07:41:41.6008397Z Uploaded bytes 8388608
+2026-10-29T07:41:41.9107362Z Uploaded bytes 16777216
+2026-10-29T07:41:41.9998121Z Uploaded bytes 25165824
+2026-10-29T07:41:42.1020794Z Uploaded bytes 33554432
+2026-10-29T07:41:42.5406170Z Uploaded bytes 41943040
+2026-10-29T07:41:42.6056582Z Uploaded bytes 43221618
+2026-10-29T07:41:42.6619599Z Finished uploading artifact content to blob storage!
+2026-10-29T07:41:42.6624058Z SHA256 digest of uploaded artifact zip is eff8cee32aff03c8423fc23366d5ef5e83e8d6224d635234a8cd1c17cc4dadb3
+2026-10-29T07:41:42.6626895Z Finalizing artifact upload
+2026-10-29T07:41:43.1530779Z Artifact final-native-approval-collection-6fa92acb3f91972f8953fe2b62c52b88c8e0ad77.zip successfully finalized. Artifact ID 12880493810
+2026-10-29T07:41:43.1533390Z Artifact final-native-approval-collection-6fa92acb3f91972f8953fe2b62c52b88c8e0ad77 has been successfully uploaded! Final size is 43221618 bytes. Artifact ID is 12880493810
+2026-10-29T07:41:43.1541163Z Artifact download URL: https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/40836353448/artifacts/12880493810
+2026-10-29T07:41:43.1759717Z Post job cleanup.
+2026-10-29T07:41:43.2599040Z [command]/usr/bin/git version
+2026-10-29T07:41:43.2643514Z git version 2.56.0
+2026-10-29T07:41:43.2680117Z Temporarily overriding HOME='/home/runner/work/_temp/77ab5043-34dd-4d08-a22d-35b60ea2e8e3' before making global git config changes
+2026-10-29T07:41:43.2682420Z Adding repository directory to the temporary git global config as a safe directory
+2026-10-29T07:41:43.2686797Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/helix-sequencer/helix-sequencer
+2026-10-29T07:41:43.2729048Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-10-29T07:41:43.2767182Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-10-29T07:41:43.2995773Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-10-29T07:41:43.3021872Z http.https://github.com/.extraheader
+2026-10-29T07:41:43.3034736Z [command]/usr/bin/git config --local --unset-all http.https://github.com/.extraheader
+2026-10-29T07:41:43.3075362Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-10-29T07:41:43.3332683Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-10-29T07:41:43.3375889Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-10-29T07:41:43.3716846Z Cleaning up orphan processes
+2026-10-29T07:41:43.4060031Z ##[warning]Node.js 20 is deprecated. The following actions target Node.js 20 but are being forced to run on Node.js 24: actions/cache/restore@v4, actions/checkout@v4, actions/setup-python@v5, actions/upload-artifact@v4. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/

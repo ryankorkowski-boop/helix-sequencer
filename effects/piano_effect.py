@@ -4,6 +4,7 @@ from dataclasses import asdict
 from pathlib import Path
 from typing import Any, Iterable
 
+from music.magic_keyboard import is_other_performer_source
 from music.midi_import import import_midi
 from music.note_events import NoteEvent, filter_note_range, midi_note_name, note_events_from_helix_events
 from render.keyboard_geometry import generate_keyboard_geometry
@@ -11,6 +12,19 @@ from render.piano_renderer import PianoRenderConfig, render_frame
 
 
 PianoEffectConfig = PianoRenderConfig
+
+
+def route_universal_keyboard_notes(events: Iterable[NoteEvent]) -> list[NoteEvent]:
+    """Keep original MIDI/Helix timing and chords, reject assigned other performers.
+
+    Unknown imports remain eligible for backward compatibility, but known
+    guitar/bass/drum/vocal pitches may not illuminate the keyboard. This does
+    not reclassify an unlabelled pitch as an instrument.
+    """
+    return sorted(
+        (event for event in events if not is_other_performer_source(str(event.source or "unknown"))),
+        key=lambda event: (event.start, event.pitch, event.end),
+    )
 
 
 def load_note_events(
@@ -82,7 +96,10 @@ def build_piano_effect_plan(
     bucket_count: int = 16,
     target_models: Iterable[Any] = (),
 ) -> dict[str, Any]:
-    filtered = filter_note_range(events, config.note_range_start, config.note_range_end)
+    filtered = filter_note_range(
+        route_universal_keyboard_notes(events),
+        config.note_range_start, config.note_range_end
+    )
     if frame_times is None:
         starts = [event.start for event in filtered]
         frame_times = sorted(set(starts[:240]))

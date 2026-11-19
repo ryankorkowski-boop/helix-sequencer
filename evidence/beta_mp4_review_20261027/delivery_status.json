@@ -1,0 +1,179 @@
+{
+  "schema": "helix.beta-review-delivery.v1",
+  "render_code_commit": "a72559517610347afb911a081ab5ca1746da22bb",
+  "branch": "codex/eight-hour-recovery-20261019",
+  "mp4_count": 6,
+  "zip": {
+    "filename": "Helix_MP4_Review_Collection.zip",
+    "sha256": "d59041894dad2a6c99656b8baacfe53997dbdee5c67e668e3f82f38ba1a7a842",
+    "bytes": 95037617,
+    "entries": [
+      "01_Snowman_Band_Review.mp4",
+      "02_Lead_and_Harmony_Vocals.mp4",
+      "03_Drummer_V3_Performance.mp4",
+      "04_Six_Layout_Comparison.mp4",
+      "05_Advanced_Technical_Layouts.mp4",
+      "06_Full_Helix_Showcase.mp4"
+    ],
+    "crc_and_hashes_verified": true
+  },
+  "links": [
+    {
+      "local_path": "/workspace/scratch/ec314907d82d/Helix_MP4_Review_Collection.zip",
+      "purpose": "create_library_file",
+      "status": "succeeded",
+      "file_id": "file_00000000bb9c81fd886eb838ae2a2725",
+      "library_file_id": "libfile_83d8b2495ac4819196ed6c50187bf48a",
+      "file_name": "Helix_MP4_Review_Collection.zip",
+      "local_metadata_applied": true,
+      "path": "/Helix_MP4_Review_Collection.zip",
+      "current_version_number": 0
+    },
+    {
+      "local_path": "/workspace/scratch/ec314907d82d/HELIX_MP4_REVIEW/01_Snowman_Band_Review.mp4",
+      "purpose": "create_library_file",
+      "status": "succeeded",
+      "file_id": "file_000000002940820caf5492d86eb680e5",
+      "library_file_id": "libfile_91599714b00481918463d590e07feba3",
+      "file_name": "01_Snowman_Band_Review.mp4",
+      "local_metadata_applied": true,
+      "path": "/01_Snowman_Band_Review.mp4",
+      "current_version_number": 0
+    },
+    {
+      "local_path": "/workspace/scratch/ec314907d82d/HELIX_MP4_REVIEW/02_Lead_and_Harmony_Vocals.mp4",
+      "purpose": "create_library_file",
+      "status": "succeeded",
+      "file_id": "file_00000000839c8230b3e1679309363e60",
+      "library_file_id": "libfile_493ca1cb45688191a6187267b7860f12",
+      "file_name": "02_Lead_and_Harmony_Vocals.mp4",
+      "local_metadata_applied": true,
+      "path": "/02_Lead_and_Harmony_Vocals.mp4",
+      "current_version_number": 0
+    },
+    {
+      "local_path": "/workspace/scratch/ec314907d82d/HELIX_MP4_REVIEW/03_Drummer_V3_Performance.mp4",
+      "purpose": "create_library_file",
+      "status": "succeeded",
+      "file_id": "file_000000005c8481fda4592d92c5a9387e",
+      "library_file_id": "libfile_97720a2e037081918c264aadc2c2ed7e",
+      "file_name": "03_Drummer_V3_Performance.mp4",
+      "local_metadata_applied": true,
+      "path": "/03_Drummer_V3_Performance.mp4",
+      "current_version_number": 0
+    },
+    {
+      "local_path": "/workspace/scratch/ec314907d82d/HELIX_MP4_REVIEW/04_Six_Layout_Comparison.mp4",
+      "purpose": "create_library_file",
+      "status": "succeeded",
+      "file_id": "file_00000000b13c81fda7f5d0ba9021a055",
+      "library_file_id": "libfile_de78c77c85548191911beba269f42366",
+      "file_name": "04_Six_Layout_Comparison.mp4",
+      "local_metadata_applied": true,
+      "path": "/04_Six_Layout_Comparison.mp4",
+      "current_version_number": 0
+    },
+    {
+      "local_path": "/workspace/scratch/ec314907d82d/HELIX_MP4_REVIEW/05_Advanced_Technical_Layouts.mp4",
+      "purpose": "create_library_file",
+      "status": "succeeded",
+      "file_id": "file_0000000023a081f4be5f8354ed0a9e69",
+      "library_file_id": "libfile_8d9e1e3968e881919f60a44cba758329",
+      "file_name": "05_Advanced_Technical_Layouts.mp4",
+      "local_metadata_applied": true,
+      "path": "/05_Advanced_Technical_Layouts.mp4",
+      "current_version_number": 0
+    },
+    {
+      "local_path": "/workspace/scratch/ec314907d82d/HELIX_MP4_REVIEW/06_Full_Helix_Showcase.mp4",
+      "purpose": "create_library_file",
+      "status": "succeeded",
+      "file_id": "file_00000000a6f88230a7f056e1659c8f36",
+      "library_file_id": "libfile_5e69f904913c81918c08148071e94fa6",
+      "file_name": "06_Full_Helix_Showcase.mp4",
+      "local_metadata_applied": true,
+      "path": "/06_Full_Helix_Showcase.mp4",
+      "current_version_number": 0
+    }
+  ],
+  "automated_media_checks_passed": true,
+  "actual_playback_watched": false,
+  "canonical_approved_3d_drummers_verified": false,
+  "independent_acoustic_singer_identity_verified": false,
+  "lexical_phoneme_timing_verified": false,
+  "beta_acceptance": false,
+  "no_merge": true,
+  "no_public_beta_release": true,
+  "blank_sections": "Only05 has observed100-200ms dark samples matching native source rests; no1s blank or2sfreeze found",
+  "full_regression": {
+    "commit": "a72559517610347afb911a081ab5ca1746da22bb",
+    "run": 40437835606,
+    "python311": "2193 passed,6 skipped,24 subtests",
+    "python312": "2193 passed,6 skipped,24 subtests"
+  },
+  "source_qualification_failures": [
+    {
+      "run": 40437835355,
+      "job": 121971765433,
+      "reason": "Retained E14 full-band source has unqualified independent two-singer ownership"
+    },
+    {
+      "run": 40437835175,
+      "job": 121970707648,
+      "reason": "Missing supported canonical/vocal pilot acceptance; old pilot motion.425<.65"
+    },
+    {
+      "run": 40437835293,
+      "job": 121970708513,
+      "reason": "Old pilot native motion.425<.65"
+    }
+  ],
+  "complete_failed_log_hashes": {
+    "121971765433.log": "d93fceda862c2e2e66e56d430aa381a6b5cd5a5d9f35f7ab19f441daa5858edf",
+    "121970707648.log": "2bb32e6edfaa5439406ae919f8cfc7b095607ad49365193dd227da3ea521ed4f",
+    "121970708513.log": "b84b44ffbebd5d87418f905918bf48b5291ab44b729f95149165e3e6ce3f07f4"
+  },
+  "limitations": [
+    "Original V3 is planar source artwork, not the required approved fully modeled 3D drummer. Exact identifying approved asset/reference is still needed.",
+    "UVR/KARA produces distinct source-hashed candidates with source-clock rests; acoustic lead/backing identity and lexical phoneme timing remain unverified.",
+    "Traditional256AC keeps exact source circuit addresses; virtual geometry is not surveyed/native footprint equivalence.",
+    "Only representative still frames were visually inspected; no actual playback viewing claimed.",
+    "Android instructions/device export acceptance remains open; current API30/36 jobs are in progress."
+  ],
+  "delivery_code_commit": "4809d5764cf21226e526c7424e66ee2197eedff8",
+  "durable_internal_checkpoints": [
+    {
+      "local_path": "/workspace/scratch/ec314907d82d/HELIX_INTERNAL_NATIVE_RENDERS_20261027_PART1.zip",
+      "purpose": "create_library_file",
+      "status": "succeeded",
+      "file_id": "file_00000000335c82309ce66daa04f5f8e1",
+      "library_file_id": "libfile_73fde54d75a081919628e809d70de259",
+      "file_name": "HELIX_INTERNAL_NATIVE_RENDERS_20261027_PART1.zip",
+      "local_metadata_applied": true,
+      "path": "/HELIX_INTERNAL_NATIVE_RENDERS_20261027_PART1.zip",
+      "current_version_number": 0
+    },
+    {
+      "local_path": "/workspace/scratch/ec314907d82d/HELIX_INTERNAL_NATIVE_RENDERS_20261027_PART2.zip",
+      "purpose": "create_library_file",
+      "status": "succeeded",
+      "file_id": "file_00000000cca881f5844b6f46fb31bdce",
+      "library_file_id": "libfile_e2b9f56e24a48191a1cb9fd7879cdcd1",
+      "file_name": "HELIX_INTERNAL_NATIVE_RENDERS_20261027_PART2.zip",
+      "local_metadata_applied": true,
+      "path": "/HELIX_INTERNAL_NATIVE_RENDERS_20261027_PART2.zip",
+      "current_version_number": 0
+    },
+    {
+      "local_path": "/workspace/scratch/ec314907d82d/HELIX_INTERNAL_SOURCE_DELTA_20261027.zip",
+      "purpose": "create_library_file",
+      "status": "succeeded",
+      "file_id": "file_00000000f3b081f5a3acd19a208a4197",
+      "library_file_id": "libfile_19c7818f9f408191a9fb6ad2dddea1a6",
+      "file_name": "HELIX_INTERNAL_SOURCE_DELTA_20261027.zip",
+      "local_metadata_applied": true,
+      "path": "/HELIX_INTERNAL_SOURCE_DELTA_20261027.zip",
+      "current_version_number": 0
+    }
+  ]
+}

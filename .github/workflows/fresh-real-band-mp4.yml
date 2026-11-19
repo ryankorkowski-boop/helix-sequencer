@@ -1,0 +1,336 @@
+name: Fresh native universal-keyboard snowman band MP4 from real audio
+on:
+  push:
+    branches: [codex/fresh-real-band-mp4-20261017]
+    paths: [.github/workflows/fresh-real-band-mp4.yml, tools/native_preview.py, tools/native_source_pose_band.py, models/native_review_band.py, tools/verify_native_band_artifact.py, tests/test_native_source_pose_band.py, tests/test_native_preview_resolution.py, tests/test_native_band_artifact.py]
+  pull_request:
+    paths: ['models/**','core/**','audio/**','music/**','tools/**','validation/**','tests/**','requirements*.txt','.github/workflows/beta-completion-native.yml','.github/workflows/fresh-real-band-mp4.yml']
+  workflow_dispatch:
+    inputs:
+      archive_file_id:
+        description: Public Drive file ID of the source-only Helix E14 ZIP (audio, drum XSQ, and retained analysis)
+        required: true
+        type: string
+      archive_sha256:
+        description: Exact SHA256 of the original review ZIP
+        required: true
+        type: string
+      audio_sha256:
+        description: Exact SHA256 of the selected 36-second source WAV
+        required: true
+        type: string
+permissions:
+  contents: read
+  actions: write
+
+# Prevent multiple 60-minute native builds from accumulating on the same branch.
+# A newer source/workflow revision supersedes an older in-flight preview.
+concurrency:
+  group: helix-native-preview-${{ github.workflow }}-${{ github.head_ref || github.ref_name }}
+  cancel-in-progress: true
+
+jobs:
+  preflight:
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Cancel superseded native runs from previous concurrency groups
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const branch = context.payload.pull_request?.head.ref || context.ref.replace('refs/heads/', '');
+            const { data } = await github.rest.actions.listWorkflowRuns({
+              ...context.repo, workflow_id: 'fresh-real-band-mp4.yml', branch, per_page: 100});
+            for (const run of data.workflow_runs) {
+              if (run.id !== context.runId && run.run_number < context.runNumber &&
+                  run.status !== 'completed' && run.head_branch === branch) {
+                core.info(`Cancelling superseded native run ${run.id}`);
+                try {
+                  await github.rest.actions.cancelWorkflowRun({...context.repo, run_id: run.id});
+                } catch (error) {
+                  // A run can finish or cancel between listing and this call.
+                  core.warning(`Could not cancel ${run.id}: ${error.message}`);
+                }
+              }
+            }
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install focused artifact-verification test runtime
+        run: python -m pip install numpy scipy zstandard pytest trimesh moderngl librosa==0.10.2.post1 Pillow imageio imageio-ffmpeg cmudict
+      - name: Check true native renderer paths
+        run: |
+          python -m compileall -q tools/recover_showcase_source_cache.py tools/native_source_pose_band.py tools/native_preview.py tools/verify_showcase_audio_identity.py
+          python -m unittest discover -s tests -p test_native_preview_resolution.py -v
+          python -m pytest tests/test_native_band_artifact.py tests/test_native_band_stage_and_vocals.py tests/test_native_source_pose_band.py -q
+          python -m pytest tests/test_native_vocal_source.py -q
+          python -m compileall -q tools/patch_xlights_native_export.py
+          python -m unittest discover -s tests -p test_select_starred_music.py -v
+          python -m tools.select_starred_music --rotation 0
+  render:
+    needs: preflight
+    runs-on: ubuntu-24.04
+    timeout-minutes: 60
+    env:
+      HELIX_SOURCE_COMMIT: ${{ github.event.pull_request.head.sha || github.sha }}
+      ARCHIVE_ID: ${{ inputs.archive_file_id || vars.HELIX_REVIEW_PACKAGE_DRIVE_ID || '1XZTghW96Adc27iL4b_7Vi8kBJQzLCM1j' }}
+      ARCHIVE_SHA256: ${{ inputs.archive_sha256 || vars.HELIX_REVIEW_PACKAGE_SHA256 || '604107acea8e57e8e5436b6bcbcb6f584806a4bed3a85679f72295d340c37b10' }}
+      AUDIO_SHA256: ${{ inputs.audio_sha256 || vars.HELIX_REVIEW_AUDIO_SHA256 || '8905fcaf105faf5016608517cf2d8a798d1809d8e615f1d4f5bca58e0c0b1171' }}
+      XL_NO_GPU_COMPUTE: '1'
+      HELIX_NATIVE_PREVIEW_WIDTH: '1920'
+      HELIX_NATIVE_PREVIEW_HEIGHT: '1080'
+      OMP_NUM_THREADS: '2'
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Validate source identity and install real renderer
+        run: |
+          python - <<'PY'
+          import os,re,subprocess
+          actual = subprocess.check_output(['git','rev-parse','HEAD'], text=True).strip()
+          if actual != os.environ['HELIX_SOURCE_COMMIT']:
+              raise SystemExit('Checkout is not the requested native source commit')
+          if not re.fullmatch('[A-Za-z0-9_-]{15,128}',os.environ['ARCHIVE_ID']):
+              raise SystemExit('A real public Drive ZIP file ID is required')
+          for key in ('ARCHIVE_SHA256','AUDIO_SHA256'):
+              if not re.fullmatch('[a-f0-9]{64}',os.environ[key]):
+                  raise SystemExit('Exact original SHA256 required: '+key)
+          PY
+          sudo apt-get update -qq
+          sudo apt-get install -y xvfb xauth openbox x11-utils x11-xserver-utils wmctrl xdotool ffmpeg libgtk-3-0t64 libgl1 libegl1 libegl-mesa0 libopengl0 libglu1-mesa libgstreamer-plugins-base1.0-0
+          python -m pip install numpy scipy librosa==0.10.2.post1 soundfile numba llvmlite Pillow trimesh moderngl zstandard imageio imageio-ffmpeg gdown==6.4.2
+      - name: Fetch authentic hardKor E14 source + retained analysis (no fabricated events)
+        run: |
+          mkdir -p "$RUNNER_TEMP/real-source"
+          # Transient Drive download throttling must not silently block a render.
+          # Never substitute another audio file: the exact SHA256 is mandatory.
+          source_ok=0
+          for attempt in 1 2 3; do
+            rm -f "$RUNNER_TEMP/original.zip"
+            if python -m gdown "$ARCHIVE_ID" -O "$RUNNER_TEMP/original.zip" && \
+               echo "$ARCHIVE_SHA256  $RUNNER_TEMP/original.zip" | sha256sum -c -; then
+              source_ok=1
+              break
+            fi
+            echo "::warning::Original source archive download/identity check failed (attempt $attempt/3)"
+            if [ "$attempt" -lt 3 ]; then sleep $((attempt * 15)); fi
+          done
+          if [ "$source_ok" -ne 1 ]; then
+            echo "::error::Exact original archive is inaccessible or SHA256 mismatched. Check Drive sharing/quota; refusing substitute media."
+            exit 1
+          fi
+          python - <<'PY'
+          import os,json,zipfile,hashlib
+          from pathlib import Path
+          temp=Path(os.environ['RUNNER_TEMP'])
+          with zipfile.ZipFile(temp/'original.zip') as z:
+              for info in z.infolist():
+                  parts=Path(info.filename)
+                  if parts.is_absolute() or '..' in parts.parts or info.file_size > 2*1024**3:
+                      raise SystemExit('Source archive contains an unsafe member')
+              z.extractall(temp/'real-source')
+          manifests=list((temp/'real-source').rglob('sources/selected_excerpts.json'))
+          if len(manifests)!=1:
+              raise SystemExit('Exactly one sources/selected_excerpts.json required')
+          root=manifests[0].parent.parent
+          rows=json.loads(manifests[0].read_text())
+          if not any(x.get('excerpt_id')=='E14' for x in rows):
+              raise SystemExit('E14 absent from original source manifest')
+          audio=root/'sources/E14/audio.wav'
+          expected=os.environ['AUDIO_SHA256']
+          if not audio.is_file() or hashlib.sha256(audio.read_bytes()).hexdigest()!=expected:
+              raise SystemExit('Original E14 WAV absent or digest mismatch')
+          proof=json.loads((root/'analysis/E14/verification.json').read_text())
+          if proof.get('source_sha256')!=expected:
+              raise SystemExit('Retained instrument analysis does not belong to original WAV')
+          vocals=json.loads((root/'analysis/E14/vocals.json').read_text())
+          if vocals.get('audio_sha256')!=expected:
+              raise SystemExit('Retained vocal analysis does not belong to original WAV')
+          for relative in ('sources/E14/drummer.xsq','analysis/E14/performance_curves.npz',
+                           'analysis/E14/pitched_roles.json','analysis/E14/voice_roles.npz'):
+              if not (root/relative).is_file():
+                  raise SystemExit('Original analysis package incomplete: '+relative)
+          with open(os.environ['GITHUB_ENV'],'a') as out:
+              out.write('SOURCE_ROOT='+str(root)+'\n')
+          print('Verified E14 original audio and retained source analysis:',expected)
+          PY
+      - name: Qualify both original vocal lanes before compiling or rendering
+        run: |
+          python -m tools.verify_native_vocal_source "$SOURCE_ROOT/sources/E14/audio.wav" "$SOURCE_ROOT/analysis/E14" --report review/SOURCE_VOCAL_PREFLIGHT.json
+      - name: Restore compiled pinned native renderer
+        id: native-cache
+        uses: actions/cache/restore@v4
+        with:
+          path: ${{ runner.temp }}/xlights-src
+          key: xlights-native-ubuntu24-2026.18-${{ hashFiles('tools/patch_xlights_native_export.py') }}
+          restore-keys: xlights-native-ubuntu24-2026.18-
+      - name: Install checksum pinned native xLights
+        run: |
+          mkdir -p "$RUNNER_TEMP/xlights"
+          cd "$RUNNER_TEMP/xlights"
+          curl -fLsS --retry 3 -o xLights.AppImage https://github.com/xLightsSequencer/xLights/releases/download/2026.18/xLights-2026.18-x86_64.AppImage
+          echo '62affb88b9a9b03cf5164974ac69bcefe35c559719d157b3364e4d4a5ab4214b  xLights.AppImage' | sha256sum -c -
+          chmod +x xLights.AppImage
+          ./xLights.AppImage --appimage-extract >/dev/null
+          # Compile the source-level native export fix; never claim that the
+          # unmodified release AppImage honors requested export dimensions.
+          sudo apt-get install -y build-essential cmake ninja-build pkg-config \
+            libgtk-3-dev libgstreamer1.0-dev libgstreamer-plugins-base1.0-dev \
+            freeglut3-dev libavcodec-dev libavformat-dev libavfilter-dev \
+            libswscale-dev libsdl2-dev libzstd-dev libcurl4-openssl-dev \
+            liblua5.3-dev libwebp-dev libsecret-1-dev libegl-dev \
+            libfreetype-dev libharfbuzz-dev libfontconfig-dev \
+            libavahi-compat-libdnssd-dev libminizip-dev libxlsxwriter-dev \
+            cbp2make glslc glslang-dev
+          if [ ! -d "$RUNNER_TEMP/xlights-src/.git" ]; then
+            git clone --depth 1 --branch 2026.18 --recurse-submodules \
+              https://github.com/xLightsSequencer/xLights.git "$RUNNER_TEMP/xlights-src"
+          fi
+          cd "$RUNNER_TEMP/xlights-src"
+          test "$(git rev-parse HEAD)" = 839c0f590dc454bb7adb8a16c4dd92a70b46156e
+          # make installs wxWidgets under /usr, outside the cached source tree.
+          # A cache hit on a fresh runner must restore that installation too;
+          # an executable xLights file alone does not prove a usable runtime.
+          if [ -f wxWidgets-xlights_2026.17c/lib/libwx_gtk3u-3.3.so.4.0.0 ]; then
+            sudo make -C wxWidgets-xlights_2026.17c install
+            sudo ldconfig
+          fi
+          if [ "${{ steps.native-cache.outputs.cache-hit }}" = true ] && [ -x bin/xLights ]; then
+            echo "HELIX_PATCHED_XLIGHTS=$RUNNER_TEMP/xlights-src/bin/xLights" >> "$GITHUB_ENV"
+            exit 0
+          fi
+          # Reuse previous object files, but restore only our two pinned source
+          # sites before applying this revision's verified native patch.
+          git checkout -- src-ui-wx/xLightsMain.cpp src-ui-wx/app-shell/TabSequence.cpp src-ui-wx/graphics/opengl/xlGLCanvas.cpp src-ui-wx/graphics/opengl/xlGLCanvas.h src-ui-wx/graphics/vulkan/xlVulkanCanvas.cpp
+          python "$GITHUB_WORKSPACE/tools/patch_xlights_native_export.py" "$RUNNER_TEMP/xlights-src"
+          # Capture actionable compiler errors even when GitHub's live job logs
+          # are unavailable, and cap a stalled compile before job timeout.
+          set -o pipefail
+          # Allow the pinned native build to finish within the job's 60-minute limit.
+          # The previous 35-minute cap terminated compilation before rendering began.
+          timeout --signal=TERM --kill-after=30s 48m make -j 4 2>&1 | tee "$GITHUB_WORKSPACE/xlights-native-build.log"
+          test -x bin/xLights
+          echo "HELIX_PATCHED_XLIGHTS=$RUNNER_TEMP/xlights-src/bin/xLights" >> "$GITHUB_ENV"
+      - name: Validate restored native runtime dependencies
+        run: |
+          ldd "$HELIX_PATCHED_XLIGHTS" | tee native-runtime-libraries.log
+          python - <<'PY'
+          from pathlib import Path
+          report = Path('native-runtime-libraries.log').read_text()
+          if 'not found' in report:
+              raise SystemExit('Native renderer has unresolved shared libraries; see native-runtime-libraries.log')
+          PY
+      - name: Preserve completed native build before export acceptance
+        if: steps.native-cache.outputs.cache-hit != 'true'
+        uses: actions/cache/save@v4
+        with:
+          path: ${{ runner.temp }}/xlights-src
+          key: xlights-native-ubuntu24-2026.18-${{ hashFiles('tools/patch_xlights_native_export.py') }}
+      - name: Regenerate actual six-musician editable sequence from retained source musical analysis
+        run: |
+          mkdir -p review
+          python -m tools.native_source_pose_band "$SOURCE_ROOT" "$GITHUB_WORKSPACE/review/show" --id E14 --frame-ms 50
+          # Keep the exporter-authored 3D coordinates, sizes and viewpoints.
+          # Historical preview code magnified every custom model 7x and moved
+          # them far outside the native camera; that can make otherwise valid
+          # source channel data appear black. Never patch the native layout
+          # after the source-pose exporter has already bound its geometry.
+          python - <<'PY'
+          import xml.etree.ElementTree as ET
+          from pathlib import Path
+          path=Path('review/show/xlights_rgbeffects.xml')
+          root=ET.parse(path).getroot()
+          roles={'HX_SNOW_'+name for name in ('DRUMMER','BASS','GUITAR','PIANO','LEAD','HARMONY')}
+          actual={m.get('name') for m in root.findall('./models/model')}
+          if actual!=roles or not root.findall('./Viewpoints/*'):
+              raise SystemExit('Native source layout missing six characters or camera')
+          print('Preserving generated six-character geometry and camera without 7x enlargement')
+          PY
+          python - <<'PY'
+          import hashlib,os
+          from pathlib import Path
+          audio=Path('review/show/media/audio.wav')
+          if hashlib.sha256(audio.read_bytes()).hexdigest()!=os.environ['AUDIO_SHA256']:
+              raise SystemExit('Recovered audio SHA256 mismatch')
+          PY
+          python - <<'PY'
+          import json,os
+          from pathlib import Path
+          p=Path('review/show')
+          proof=json.loads((p/'pose_provenance.json').read_text())
+          if proof.get('audio_sha256')!=os.environ['AUDIO_SHA256'] or proof.get('source_score')!='ReviewBandPerformance.pose':
+              raise SystemExit('No verified source performance')
+          expected={'drummer','bass','guitar','piano','lead','harmony'}
+          if set(proof.get('visible_performer_roles',[]))!=expected or proof.get('legacy_xylophone_enabled') is not False:
+              raise SystemExit('Native band must have one universal keyboardist and no separate xylophonist')
+          (p/'run_manifest.json').write_text(json.dumps({'schema':'helix.run_manifest.v1','source_commit':os.environ['HELIX_SOURCE_COMMIT'],'warnings':[],'status':'pending','visual_review_status':'not_reviewed'},indent=2))
+          PY
+      - name: Render actual xLights native FSEQ and original-audio MP4
+        run: |
+          xvfb-run -a -s "-screen 0 2560x1440x24" sh -c 'openbox >/tmp/helix-openbox.log 2>&1 & sleep 2; exec python -m tools.native_preview "$GITHUB_WORKSPACE/review/show" --xsq "$GITHUB_WORKSPACE/review/show/Performance.xsq" --audio "$GITHUB_WORKSPACE/review/show/media/audio.wav" --xlights "$HELIX_PATCHED_XLIGHTS"'
+      - name: Verify six native performers, fresh media, and decode
+        run: |
+          python - <<'PY'
+          import json,xml.etree.ElementTree as ET,hashlib,os
+          from pathlib import Path
+          p=Path('review/show')
+          report=json.loads((p/'run_manifest.json').read_text())['native_preview']
+          roles={'HX_SNOW_'+r for r in ('DRUMMER','BASS','GUITAR','PIANO','LEAD','HARMONY')}
+          names={m.get('name') for m in ET.parse(p/'xlights_rgbeffects.xml').findall('./models/model')}
+          mp4=Path(report.get('mp4') or '/nonexistent')
+          if names!=roles or report['status']!='success' or report['audio_stream_verified'] is not True or not mp4.is_file() or not list(p.rglob('*.fseq')):
+              raise SystemExit('Real six-performer universal-keyboard native output gate FAILED; no diagnostic substitutes')
+          from subprocess import run, PIPE
+          info=report.get('ffprobe',{})
+          streams=[s for s in info.get('streams',[]) if s.get('codec_type')=='video']
+          if len(streams)!=1 or streams[0].get('width')!=1920 or streams[0].get('height')!=1080:
+              raise SystemExit(f"xLights native MP4 not 1920x1080; actual dimensions: {[(s.get('width'),s.get('height')) for s in streams]}; native export options requested 1920x1080; GUI pane capture rejected")
+          samples=run(['ffmpeg','-v','error','-i',str(mp4),'-vf','fps=1,scale=48:27',
+                       '-f','rawvideo','-pix_fmt','gray','-'],stdout=PIPE,stderr=PIPE,check=True).stdout
+          stride=48*27
+          counts=[sum(x>20 for x in samples[i:i+stride]) for i in range(0,len(samples),stride)]
+          if len(counts)!=36 or min(counts)<2:
+              raise SystemExit(f'Native MP4 has blank/invisible sampled frames: {counts}')
+          print('Native universal keyboard video: 1920x1080, 36 visible sampled seconds')
+          (Path('review')/'PROVENANCE.json').write_text(json.dumps({'source_commit':os.environ['HELIX_SOURCE_COMMIT'],'audio_sha256':os.environ['AUDIO_SHA256'],'mp4_sha256':hashlib.sha256(mp4.read_bytes()).hexdigest(),'source':'original hardKor analyzed audio','native_xlights':True,'visual_review_status':'not_reviewed','performers':sorted(names)},indent=2))
+          PY
+          ffmpeg -v error -xerror -i "$(find review/show -name preview.mp4 -print -quit)" -map 0:v:0 -map 0:a:0 -f null -
+      - name: Reject nearly black or frozen native showcases
+        run: |
+          python -m tools.verify_showcase_luma "$(find review/show -name preview.mp4 -print -quit)" --report review/SHOWCASE_READABILITY.json
+      - name: Upload MP4 and source provenance (never a placeholder)
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: helix-fresh-original-audio-six-snowmen-keyboard
+          path: |
+            xlights-native-build.log
+            native-runtime-libraries.log
+            review/**/preview.mp4
+            review/**/Performance.fseq
+            review/SHOWCASE_READABILITY.json
+            review/show/media/audio.wav
+            review/**/native_headless.log
+            review/**/native_gui.log
+            review/**/native_startup_windows.json
+            review/**/native_startup_health.json
+            review/**/native_startup_profile.json
+            review/**/native_window_geometry.txt
+            review/**/native_canvas_resize.json
+            review/**/native_channels.json
+            review/show/Performance.xsq
+            review/show/xlights_rgbeffects.xml
+            review/show/pose_provenance.json
+            review/show/run_manifest.json
+            review/source-identity.json
+            review/SOURCE_VOCAL_PREFLIGHT.json
+            review/PROVENANCE.json
+          if-no-files-found: warn
+          retention-days: 14
+

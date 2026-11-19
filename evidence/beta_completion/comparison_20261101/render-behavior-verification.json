@@ -1,0 +1,104 @@
+{
+  "six_roles": [
+    "drummer",
+    "bass",
+    "guitar",
+    "piano",
+    "lead",
+    "harmony"
+  ],
+  "xylophonist": false,
+  "source_front_drummer": {
+    "source_sha256": "643e1bfb7fb0b245cb7400010a80f9f75037f8a5554adde7bde8cba7a53374fa",
+    "projection": "same source XY / orthographic front",
+    "source_crop": [
+      99,
+      124,
+      494,
+      380
+    ],
+    "closed_components": [
+      {
+        "name": "HX_SNOWMAN_DRUMMER_V3_KICK",
+        "watertight": true,
+        "depth": 0.6835185841971287,
+        "vertices": 5116
+      },
+      {
+        "name": "HX_SNOWMAN_DRUMMER_V3_SNARE",
+        "watertight": true,
+        "depth": 0.3415717734471633,
+        "vertices": 1314
+      },
+      {
+        "name": "HX_SNOWMAN_DRUMMER_V3_HI_HAT",
+        "watertight": true,
+        "depth": 0.13651107469854606,
+        "vertices": 314
+      },
+      {
+        "name": "HX_SNOWMAN_DRUMMER_V3_TOM_HIGH",
+        "watertight": true,
+        "depth": 0.3417291305698553,
+        "vertices": 1598
+      },
+      {
+        "name": "HX_SNOWMAN_DRUMMER_V3_TOM_MID",
+        "watertight": true,
+        "depth": 0.3417399278614397,
+        "vertices": 1618
+      },
+      {
+        "name": "HX_SNOWMAN_DRUMMER_V3_TOM_FLOOR",
+        "watertight": true,
+        "depth": 0.34174711325320173,
+        "vertices": 2358
+      },
+      {
+        "name": "HX_SNOWMAN_DRUMMER_V3_CYMBAL_LEFT",
+        "watertight": true,
+        "depth": 0.13670137833851959,
+        "vertices": 1292
+      },
+      {
+        "name": "HX_SNOWMAN_DRUMMER_V3_CYMBAL_RIGHT",
+        "watertight": true,
+        "depth": 0.13665161589663466,
+        "vertices": 1016
+      },
+      {
+        "name": "V3_BODY",
+        "watertight": true,
+        "depth": 0.4784700206961161,
+        "vertices": 5508
+      },
+      {
+        "name": "V3_SUPPORTS",
+        "watertight": true,
+        "depth": 0.078971366552405,
+        "vertices": 10228
+      }
+    ],
+    "source_clock_skeleton": true,
+    "planar_billboard": false,
+    "detector_or_mapping_changed": false
+  },
+  "unresolved_drums": [],
+  "drum_motion_rejections": [],
+  "silent_clock_frames_all_mouths_rest": true,
+  "distinct_voice_frames": 373,
+  "voice_active_frames": [
+    322,
+    74
+  ],
+  "independent_acoustic_singer_identity_verified": false,
+  "exact_lexical_phonemes_verified": false,
+  "production_effects": 5447,
+  "production_instrument_cues": {
+    "drummer": 166,
+    "guitarist": 288,
+    "bassist": 47,
+    "keyboardist": 659
+  },
+  "musical_structure": "Fresh shared analysis supplies two band focus windows, transition at25.88s; event-driven drums, strings, bounded keyboard, source-separated voice clocks and section/palette changes. Does not prove every source instrument or word acoustically."
+}

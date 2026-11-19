@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="6" skipped="0" tests="15" time="2.572" timestamp="2026-11-01T00:27:41.192126+00:00" hostname="73ff9b3f695a"><testcase classname="tests.test_sampler_comparison_duration" name="test_full_sampler_comparison_uses_256_seconds_one_audio_and_all_panels" time="0.001" /><testcase classname="tests.test_sampler_comparison_duration" name="test_twelve_panel_grid_rejects_wrong_orientation_or_missing_labels[3-4-labels0]" time="0.001" /><testcase classname="tests.test_sampler_comparison_duration" name="test_twelve_panel_grid_rejects_wrong_orientation_or_missing_labels[4-3-labels1]" time="0.001" /><testcase classname="tests.test_sampler_comparison_duration" name="test_twelve_panel_grid_rejects_wrong_orientation_or_missing_labels[4-3-labels2]" time="0.000" /><testcase classname="tests.test_sampler_comparison_duration" name="test_actual_twelve_panel_encode_has_correct_order_dimensions_clock_and_audio" time="1.399" /><testcase classname="tests.test_approval_label_atomic" name="test_incomplete_caption_export_does_not_replace_existing_review_video" time="0.054" /><testcase classname="tests.test_approval_collection" name="test_twelve_layouts_have_unique_models_and_exact_ac_budgets" time="0.551"><failure message="ModuleNotFoundError: No module named 'imageio'">def test_twelve_layouts_have_unique_models_and_exact_ac_budgets():
+        assert len(NAMES)==len(set(NAMES))==12
+        for number in range(1,13):
+&gt;           garden=build_layout(number)
+                   ^^^^^^^^^^^^^^^^^^^^
+
+tests/test_approval_collection.py:11: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+models/approval_layouts.py:185: in build_layout
+    from tools.native_source_pose_band import stage_native_cast
+tools/native_source_pose_band.py:15: in &lt;module&gt;
+    from tools.render_approval_revision import setup
+tools/render_approval_revision.py:10: in &lt;module&gt;
+    from tools.render_refined_helix_band import encoder,physical_hits,DynamicDry,REFINED_FRAGMENT
+tools/render_refined_helix_band.py:13: in &lt;module&gt;
+    from tools.render_drummer_shoulder_preview import score_schedule,source_attacks
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+    """Dry-source shoulder review with explicit coverage of unresolved attacks.
+    
+    The accepted XSQ controls the original physical poses. Source-bound detections
+    without a physical position get a white torso pulse, not an invented tom stroke.
+    """
+    from __future__ import annotations
+    
+    import argparse
+    from collections import Counter
+    import hashlib
+    import json
+    from pathlib import Path
+    import subprocess
+    
+&gt;   import imageio.v2 as imageio
+E   ModuleNotFoundError: No module named 'imageio'
+
+tools/render_drummer_shoulder_preview.py:15: ModuleNotFoundError</failure></testcase><testcase classname="tests.test_approval_collection" name="test_native_musician_adapter_preserves_source_clock_and_reports_omissions" time="0.002"><failure message="ModuleNotFoundError: No module named 'imageio'">def test_native_musician_adapter_preserves_source_clock_and_reports_omissions():
+&gt;       garden=build_layout(7)
+               ^^^^^^^^^^^^^^^
+
+tests/test_approval_collection.py:28: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+models/approval_layouts.py:185: in build_layout
+    from tools.native_source_pose_band import stage_native_cast
+tools/native_source_pose_band.py:15: in &lt;module&gt;
+    from tools.render_approval_revision import setup
+tools/render_approval_revision.py:10: in &lt;module&gt;
+    from tools.render_refined_helix_band import encoder,physical_hits,DynamicDry,REFINED_FRAGMENT
+tools/render_refined_helix_band.py:13: in &lt;module&gt;
+    from tools.render_drummer_shoulder_preview import score_schedule,source_attacks
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+    """Dry-source shoulder review with explicit coverage of unresolved attacks.
+    
+    The accepted XSQ controls the original physical poses. Source-bound detections
+    without a physical position get a white torso pulse, not an invented tom stroke.
+    """
+    from __future__ import annotations
+    
+    import argparse
+    from collections import Counter
+    import hashlib
+    import json
+    from pathlib import Path
+    import subprocess
+    
+&gt;   import imageio.v2 as imageio
+E   ModuleNotFoundError: No module named 'imageio'
+
+tools/render_drummer_shoulder_preview.py:15: ModuleNotFoundError</failure></testcase><testcase classname="tests.test_approval_collection" name="test_real_drum_classes_do_not_collapse_to_one_tom_or_hihat_sticks" time="0.002"><failure message="ModuleNotFoundError: No module named 'imageio'">def test_real_drum_classes_do_not_collapse_to_one_tom_or_hihat_sticks():
+&gt;       garden=build_layout(7);sequence=NativeSequence(garden,1,'','test')
+               ^^^^^^^^^^^^^^^
+
+tests/test_approval_collection.py:52: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+models/approval_layouts.py:185: in build_layout
+    from tools.native_source_pose_band import stage_native_cast
+tools/native_source_pose_band.py:15: in &lt;module&gt;
+    from tools.render_approval_revision import setup
+tools/render_approval_revision.py:10: in &lt;module&gt;
+    from tools.render_refined_helix_band import encoder,physical_hits,DynamicDry,REFINED_FRAGMENT
+tools/render_refined_helix_band.py:13: in &lt;module&gt;
+    from tools.render_drummer_shoulder_preview import score_schedule,source_attacks
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+    """Dry-source shoulder review with explicit coverage of unresolved attacks.
+    
+    The accepted XSQ controls the original physical poses. Source-bound detections
+    without a physical position get a white torso pulse, not an invented tom stroke.
+    """
+    from __future__ import annotations
+    
+    import argparse
+    from collections import Counter
+    import hashlib
+    import json
+    from pathlib import Path
+    import subprocess
+    
+&gt;   import imageio.v2 as imageio
+E   ModuleNotFoundError: No module named 'imageio'
+
+tools/render_drummer_shoulder_preview.py:15: ModuleNotFoundError</failure></testcase><testcase classname="tests.test_approval_collection" name="test_comparison_optional_labels_keep_all_streams_and_one_soundtrack" time="0.001" /><testcase classname="tests.test_approval_collection" name="test_failed_comparison_preserves_existing_movie_and_removes_partial" time="0.001" /><testcase classname="tests.test_approval_collection" name="test_native_toms_retain_detected_physical_class_and_source_timestamps" time="0.002"><failure message="ModuleNotFoundError: No module named 'imageio'">def test_native_toms_retain_detected_physical_class_and_source_timestamps():
+&gt;       garden=build_layout(7);sequence=NativeSequence(garden,2,'','detected toms')
+               ^^^^^^^^^^^^^^^
+
+tests/test_approval_collection.py:102: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+models/approval_layouts.py:185: in build_layout
+    from tools.native_source_pose_band import stage_native_cast
+tools/native_source_pose_band.py:15: in &lt;module&gt;
+    from tools.render_approval_revision import setup
+tools/render_approval_revision.py:10: in &lt;module&gt;
+    from tools.render_refined_helix_band import encoder,physical_hits,DynamicDry,REFINED_FRAGMENT
+tools/render_refined_helix_band.py:13: in &lt;module&gt;
+    from tools.render_drummer_shoulder_preview import score_schedule,source_attacks
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+    """Dry-source shoulder review with explicit coverage of unresolved attacks.
+    
+    The accepted XSQ controls the original physical poses. Source-bound detections
+    without a physical position get a white torso pulse, not an invented tom stroke.
+    """
+    from __future__ import annotations
+    
+    import argparse
+    from collections import Counter
+    import hashlib
+    import json
+    from pathlib import Path
+    import subprocess
+    
+&gt;   import imageio.v2 as imageio
+E   ModuleNotFoundError: No module named 'imageio'
+
+tools/render_drummer_shoulder_preview.py:15: ModuleNotFoundError</failure></testcase><testcase classname="tests.test_approval_collection" name="test_snare_hand_alternation_counts_snares_independently_of_other_hits" time="0.002"><failure message="ModuleNotFoundError: No module named 'imageio'">def test_snare_hand_alternation_counts_snares_independently_of_other_hits():
+&gt;       garden=build_layout(7);sequence=NativeSequence(garden,2,'','snare independence')
+               ^^^^^^^^^^^^^^^
+
+tests/test_approval_collection.py:120: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+models/approval_layouts.py:185: in build_layout
+    from tools.native_source_pose_band import stage_native_cast
+tools/native_source_pose_band.py:15: in &lt;module&gt;
+    from tools.render_approval_revision import setup
+tools/render_approval_revision.py:10: in &lt;module&gt;
+    from tools.render_refined_helix_band import encoder,physical_hits,DynamicDry,REFINED_FRAGMENT
+tools/render_refined_helix_band.py:13: in &lt;module&gt;
+    from tools.render_drummer_shoulder_preview import score_schedule,source_attacks
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+    """Dry-source shoulder review with explicit coverage of unresolved attacks.
+    
+    The accepted XSQ controls the original physical poses. Source-bound detections
+    without a physical position get a white torso pulse, not an invented tom stroke.
+    """
+    from __future__ import annotations
+    
+    import argparse
+    from collections import Counter
+    import hashlib
+    import json
+    from pathlib import Path
+    import subprocess
+    
+&gt;   import imageio.v2 as imageio
+E   ModuleNotFoundError: No module named 'imageio'
+
+tools/render_drummer_shoulder_preview.py:15: ModuleNotFoundError</failure></testcase><testcase classname="tests.test_approval_collection" name="test_pilot_layout_selection_rejects_ambiguous_or_out_of_range_requests" time="0.005" /><testcase classname="tests.test_approval_collection" name="test_quiet_real_note_starts_brighter_than_nonmusical_idle_visibility" time="0.001"><failure message="ModuleNotFoundError: No module named 'imageio'">def test_quiet_real_note_starts_brighter_than_nonmusical_idle_visibility():
+&gt;       garden=build_layout(7);sequence=NativeSequence(garden,1,'','quiet key')
+               ^^^^^^^^^^^^^^^
+
+tests/test_approval_collection.py:143: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+models/approval_layouts.py:185: in build_layout
+    from tools.native_source_pose_band import stage_native_cast
+tools/native_source_pose_band.py:15: in &lt;module&gt;
+    from tools.render_approval_revision import setup
+tools/render_approval_revision.py:10: in &lt;module&gt;
+    from tools.render_refined_helix_band import encoder,physical_hits,DynamicDry,REFINED_FRAGMENT
+tools/render_refined_helix_band.py:13: in &lt;module&gt;
+    from tools.render_drummer_shoulder_preview import score_schedule,source_attacks
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+    """Dry-source shoulder review with explicit coverage of unresolved attacks.
+    
+    The accepted XSQ controls the original physical poses. Source-bound detections
+    without a physical position get a white torso pulse, not an invented tom stroke.
+    """
+    from __future__ import annotations
+    
+    import argparse
+    from collections import Counter
+    import hashlib
+    import json
+    from pathlib import Path
+    import subprocess
+    
+&gt;   import imageio.v2 as imageio
+E   ModuleNotFoundError: No module named 'imageio'
+
+tools/render_drummer_shoulder_preview.py:15: ModuleNotFoundError</failure></testcase></testsuite></testsuites>

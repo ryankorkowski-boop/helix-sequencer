@@ -1,0 +1,14 @@
+{
+  "renderer": "xlights_house_preview",
+  "geometry_source": "models.final_band_scene.FinalBandScene",
+  "canonical_solid_3d_band": false,
+  "canonical_surface_geometry": true,
+  "owner_vocal_animation_review": "rejected_timing_reopened_20261023",
+  "owner_canonical_visual_review": "rejected_identity_reopened_20261023",
+  "limitations": [
+    "Native surface samples and stationary light poses are not continuous solid meshes",
+    "Canonical source drummer is planar artwork, as in the solid scene compositor"
+  ],
+  "performer_count": 6,
+  "optional_xylophonist": false
+}

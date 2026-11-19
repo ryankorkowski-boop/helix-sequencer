@@ -1,0 +1,80 @@
+name: Recover exact sampler review downloads
+on:
+  push:
+    branches: [codex/gui-complete-integration-20261012]
+    paths: [.github/workflows/recover-sampler-review.yml]
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: recover-exact-sampler
+  cancel-in-progress: false
+jobs:
+  rebuild:
+    runs-on: ubuntu-latest
+    timeout-minutes: 100
+    env:
+      GH_TOKEN: ${{ github.token }}
+      LIBGL_ALWAYS_SOFTWARE: '1'
+      EGL_PLATFORM: surfaceless
+      LP_NUM_THREADS: '2'
+      OPENBLAS_NUM_THREADS: '2'
+      OMP_NUM_THREADS: '2'
+      MKL_NUM_THREADS: '2'
+      REVIEW_TAG: helix-same-sampler-review-20261012
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Prepare encrypted source transfer
+        run: |
+          python -m pip install cryptography requests
+          python tools/sampler_build_transfer.py prepare
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add evidence/sampler_recovery/public_key.json
+          git commit -m 'chore(review): publish ephemeral sampler transfer key [skip ci]'
+          git push origin "HEAD:$GITHUB_REF_NAME"
+      - name: Receive only encrypted temporary source capabilities
+        run: python tools/sampler_build_transfer.py receive
+      - name: Install source-analysis and native-rendering runtime
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq ffmpeg xvfb xauth libgtk-3-0t64 libgl1 libegl1 libegl-mesa0 libopengl0 libglu1-mesa libgstreamer-plugins-base1.0-0 fonts-dejavu-core
+          python -m pip install torch==2.5.1 torchaudio==2.5.1 --index-url https://download.pytorch.org/whl/cpu
+          python -m pip install numpy scipy librosa soundfile numba Pillow PyYAML imageio imageio-ffmpeg zstandard pytest trimesh==5.1.1 moderngl==5.13.0 demucs stable-ts cmudict pretty_midi
+          git clone https://github.com/xavriley/ADTOF-pytorch.git "$RUNNER_TEMP/adtof"
+          git -C "$RUNNER_TEMP/adtof" checkout 85c192e78f716ea0b111cc8a5ee4a8f6a3a4f8a9
+          python -m pip install --no-deps "$RUNNER_TEMP/adtof"
+          mkdir -p "$RUNNER_TEMP/xlights-native"
+          curl --fail --location --retry 3 --output "$RUNNER_TEMP/xlights-native/xlights.AppImage" https://github.com/xLightsSequencer/xLights/releases/download/2026.18/xLights-2026.18-x86_64.AppImage
+          test "$(sha256sum "$RUNNER_TEMP/xlights-native/xlights.AppImage" | cut -d' ' -f1)" = 62affb88b9a9b03cf5164974ac69bcefe35c559719d157b3364e4d4a5ab4214b
+          chmod +x "$RUNNER_TEMP/xlights-native/xlights.AppImage"
+          cd "$RUNNER_TEMP/xlights-native"
+          ./xlights.AppImage --appimage-extract > /dev/null
+      - name: Relevant regressions
+        run: python -m pytest -q tests/test_gui_integration.py tests/test_windows_portable_entry.py tests/test_dual_mode_lor.py tests/test_xsq_palette_repair.py tests/test_fseq_pixel_preview.py tests/test_band_motion_refinement.py tests/test_readable_band_instruments.py
+      - name: Render, natively verify and package actual source performances
+        run: xvfb-run -a python -m tools.resume_sampler_review
+      - name: Preserve completed review artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: helix-same-sampler-review
+          path: |
+            outputs/Prior_Sampler_Review/*.mp4
+            outputs/Prior_Sampler_Review/*.zip
+            outputs/Prior_Sampler_Review/*_Decoded_Review.jpg
+            outputs/Prior_Sampler_Review/*.json
+            outputs/Prior_Sampler_Review/*.md
+          compression-level: 0
+          retention-days: 30
+          if-no-files-found: ignore
+      - name: Publish verified direct Android downloads
+        run: |
+          OUT=outputs/Prior_Sampler_Review
+          gh release create "$REVIEW_TAG" --repo "$GITHUB_REPOSITORY" --target "$GITHUB_SHA" --prerelease --title 'Helix band and six layouts — exact previous sampler' --notes-file "$OUT/Helix_Sampler_Recovery_Report.md"
+          gh release upload "$REVIEW_TAG" --repo "$GITHUB_REPOSITORY" "$OUT/Helix_Band_With_Singers_Same_Sampler.mp4" "$OUT/Helix_Six_Layouts_Same_Real_Sampler.mp4" "$OUT/Helix_Same_Sampler_XSQ_Layouts_And_Reports.zip" "$OUT/Helix_Band_With_Singers_Same_Sampler_Decoded_Review.jpg" "$OUT/Helix_Six_Layouts_Same_Real_Sampler_Decoded_Review.jpg" "$OUT/Helix_Original_256_Montage.mp4" "$OUT/Helix_Experimental_256_Plus_RGB_Montage.mp4" "$OUT/Helix_256_Before_After_Comparison.mp4" "$OUT/Helix_Sampler_Recovery_Report.md" "$OUT/archive_verification.json" "$OUT/soundtrack_audit.json" "$OUT/issue132_verification.json"

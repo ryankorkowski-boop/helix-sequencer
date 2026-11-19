@@ -1,0 +1,2106 @@
+{
+  "source": "retained production snowman_band plan",
+  "detected_instrument_identity_verified": false,
+  "transposed_notes": 0,
+  "models": {
+    "HX_SNOW_BASS": {
+      "source_events": 47,
+      "mapped_events": 47,
+      "unmapped_pitch_events": 0,
+      "unmapped_events": [],
+      "source_lane": "bassist",
+      "arm_contact_omissions": []
+    },
+    "HX_SNOW_GUITAR": {
+      "source_events": 288,
+      "mapped_events": 145,
+      "unmapped_pitch_events": 1,
+      "unmapped_events": [
+        {
+          "start_ms": 27005,
+          "end_ms": 27115,
+          "pitch_midi": 36.0,
+          "string_index": null,
+          "reason": "Pitch outside physical guitar string/fret range"
+        }
+      ],
+      "source_lane": "guitarist",
+      "arm_contact_omissions": []
+    },
+    "HX_SNOW_PIANO": {
+      "source_events": 659,
+      "mapped_events": 367,
+      "unmapped_pitch_events": 292,
+      "unmapped_events": [
+        {
+          "start_ms": 32,
+          "end_ms": 235,
+          "pitch_midi": 87.0,
+          "string_index": null,
+          "reason": "Authored instrument has no matching native note/string submodel"
+        },
+        {
+          "start_ms": 32,
+          "end_ms": 235,
+          "pitch_midi": 90.0,
+          "string_index": null,
+          "reason": "Authored instrument has no matching native note/string submodel"
+        },
+        {
+          "start_ms": 32,
+          "end_ms": 235,
+          "pitch_midi": 94.0,
+          "string_index": null,
+          "reason": "Authored instrument has no matching native note/string submodel"
+        },
+        {
+          "start_ms": 331,
+          "end_ms": 534,
+          "pitch_midi": 43.0,
+          "string_index": null,
+          "reason": "Authored instrument has no matching native note/string submodel"
+        },
+        {
+          "start_ms": 587,
+          "end_ms": 790,
+          "pitch_midi": 41.0,
+          "string_index": null,
+          "reason": "Authored instrument has no matching native note/string submodel"
+        },
+        {
+          "start_ms": 832,
+          "end_ms": 1035,
+          "pitch_midi": 36.0,
+          "string_index": null,
+          "reason": "Authored instrument has no matching native note/string submodel"
+        },
+        {
+          "start_ms": 832,
+          "end_ms": 1035,
+          "pitch_midi": 43.0,
+          "string_index": null,
+          "reason": "Authored instrument has no matching native note/string submodel"
+        },
+        {
+          "start_ms": 832,
+          "end_ms": 1035,
+          "pitch_midi": 45.0,
+          "string_index": null,
+          "reason": "Authored instrument has no matching native note/string submodel"
+        },
+        {
+          "start_ms": 1333,
+          "end_ms": 1536,
+          "pitch_midi": 37.0,
+          "string_index": null,
+          "reason": "Authored instrument has no matching native note/string submodel"
+        },
+        {
+          "start_ms": 1333,
+          "end_ms": 1536,
+          "pitch_midi": 41.0,
+          "string_index": null,
+          "reason": "Authored instrument has no matching native note/string submodel"
+        },
+        {
+          "start_ms": 1333,
+          "end_ms": 1536,
+          "pitch_midi": 43.0,
+          "string_index": null,
+          "reason": "Authored instrument has no matching native note/string submodel"
+        },
+        {
+          "start_ms": 1333,
+          "end_ms": 1536,
+          "pitch_midi": 45.0,
+          "string_index": null,
+          "reason": "Authored instrument has no matching native note/string submodel"
+        },
+        {
+          "start_ms": 1835,
+          "end_ms": 2038,
+          "pitch_midi": 47.0,
+          "string_index": null,
+          "reason": "Authored instrument has no matching native note/string submodel"
+        },
+        {
+          "start_ms": 2091,
+          "end_ms": 2294,
+          "pitch_midi": 27.0,
+          "string_index": null,
+          "reason": "Authored instrument has no matching native note/string submodel"
+        },
+        {
+          "start_ms": 2091,
+          "end_ms": 2294,
+          "pitch_midi": 37.0,
+          "string_index": null,
+          "reason": "Authored instrument has no matching native note/string submodel"
+        },
+        {
+          "start_ms": 2091,
+          "end_ms": 2294,
+          "pitch_midi": 39.0,
+          "string_index": null,
+          "reason": "Authored instrument has no matching native note/string submodel"
+        },
+        {
+          "start_ms": 2091,
+          "end_ms": 2294,
+          "pitch_midi": 41.0,
+          "string_index": null,
+          "reason": "Authored instrument has no matching native note/string submodel"
+        },
+        {
+          "start_ms": 2091,
+          "end_ms": 2294,
+          "pitch_midi": 44.0,
+          "string_index": null,
+          "reason": "Authored instrument has no matching native note/string submodel"
+        },
+        {
+          "start_ms": 2336,
+          "end_ms": 2539,
+          "pitch_midi": 36.0,
+          "string_index": null,
+          "reason": "Authored instrument has no matching native note/string submodel"
+        },
+        {
+          "start_ms": 2336,
+          "end_ms": 2539,
+          "pitch_midi": 38.0,
+          "string_index": null,
+          "reason": "Authored instrument has no matching native note/string submodel"
+        },
+        {
+          "start_ms": 2581,
+          "end_ms": 2784,
+          "pitch_midi": 38.0,
+          "string_index": null,
+          "reason": "Authored instrument has no matching native note/string submodel"
+        },
+        {
+          "start_ms": 2581,
+          "end_ms": 2784,
+          "pitch_midi": 40.0,
+          "string_index": null,
+          "reason": "Authored instrument has no matching native note/string submodel"
+        },
+        {
+          "start_ms": 2827,
+          "end_ms": 3030,
+          "pitch_midi": 95.0,
+          "string_index": null,
+          "reason": "Authored instrument has no matching native note/string submodel"
+        },
+        {
+          "start_ms": 3115,
+          "end_ms": 3318,
+          "pitch_midi": 87.0,
+          "string_index": null,
+          "reason": "Authored instrument has no matching native note/string submodel"
+        },
+        {
+          "start_ms": 3115,
+          "end_ms": 3318,
+          "pitch_midi": 90.0,
+          "string_index": null,
+          "reason": "Authored instrument has no matching native note/string submodel"
+        },
+        {
+          "start_ms": 3115,
+          "end_ms": 3318,
+          "pitch_midi": 92.0,
+          "string_index": null,
+          "reason": "Authored instrument has no matching native note/string submodel"
+        },
+        {
+          "start_ms": 3115,
+          "end_ms": 3318,
+          "pitch_midi": 95.0,
+          "string_index": null,
+          "reason": "Authored instrument has no matching native note/string submodel"
+        },
+        {
+          "start_ms": 4277,
+          "end_ms": 4352,
+          "pitch_midi": 37.0,
+          "string_index": null,
+          "reason": "Authored instrument has no matching native note/string submodel"
+        },
+        {
+          "start_ms": 4587,
+          "end_ms": 4790,
+          "pitch_midi": 97.0,
+          "string_index": null,
+          "reason": "Authored instrument has no matching native note/string submodel"
+        },
+        {
+          "start_ms": 4981,
+          "end_ms": 5109,
+          "pitch_midi": 91.0,
+          "string_index": null,
+          "reason": "Authored instrument has no matching native note/string submodel"
+        },
+        {
+          "start_ms": 5109,
+          "end_ms": 5312,
+          "pitch_midi": 86.0,
+          "string_index": null,
+          "reason": "Authored instrument has no matching native note/string submodel"
+        },
+        {
+          "start_ms": 5109,
+          "end_ms": 5312,
+          "pitch_midi": 88.0,
+          "string_index": null,
+          "reason": "Authored instrument has no matching native note/string submodel"
+        },
+        {
+          "start_ms": 5109,
+          "end_ms": 5312,
+          "pitch_midi": 91.0,
+          "string_index": null,
+          "reason": "Authored instrument has no matching native note/string submodel"
+        },
+        {
+          "start_ms": 5109,
+          "end_ms": 5312,
+          "pitch_midi": 94.0,
+          "string_index": null,
+          "reason": "Authored instrument has no matching native note/string submodel"
+        },
+        {
+          "start_ms": 5333,
+          "end_ms": 5536,
+          "pitch_midi": 36.0,
+          "string_index": null,
+          "reason": "Authored instrument has no matching native note/string submodel"
+        },
+        {
+          "start_ms": 5333,
+          "end_ms": 5536,
+          "pitch_midi": 41.0,
+          "string_index": null,
+          "reason": "Authored instrument has no matching native note/string submodel"
+        },
+        {
+          "start_ms": 5568,
+          "end_ms": 5771,
+          "pitch_midi": 41.0,
+          "string_index": null,
+          "reason": "Authored instrument has no matching native note/string submodel"
+        },
+        {
+          "start_ms": 5568,
+          "end_ms": 5771,
+          "pitch_midi": 43.0,
+          "string_index": null,
+          "reason": "Authored instrument has no matching native note/string submodel"
+        },
+        {
+          "start_ms": 5568,
+          "end_ms": 5771,
+          "pitch_midi": 95.0,
+          "string_index": null,
+          "reason": "Authored instrument has no matching native note/string submodel"
+        },
+        {
+          "start_ms": 5835,
+          "end_ms": 6038,
+          "pitch_midi": 42.0,
+          "string_index": null,
+          "reason": "Authored instrument has no matching native note/string submodel"
+        },
+        {
+          "start_ms": 5835,
+          "end_ms": 6038,
+          "pitch_midi": 44.0,
+          "string_index": null,
+          "reason": "Authored instrument has no matching native note/string submodel"
+        },
+        {
+          "start_ms": 6091,
+          "end_ms": 6294,
+          "pitch_midi": 32.0,
+          "string_index": null,
+          "reason": "Authored instrument has no matching native note/string submodel"
+        },
+        {
+          "start_ms": 6091,
+          "end_ms": 6294,
+          "pitch_midi": 36.0,
+          "string_index": null,
+          "reason": "Authored instrument has no matching native note/string submodel"
+        },
+        {
+          "start_ms": 6091,
+          "end_ms": 6294,
+          "pitch_midi": 38.0,
+          "string_index": null,
+          "reason": "Authored instrument has no matching native note/string submodel"
+        },
+        {
+          "start_ms": 6091,
+          "end_ms": 6294,
+          "pitch_midi": 41.0,
+          "string_index": null,
+          "reason": "Authored instrument has no matching native note/string submodel"
+        },
+        {
+          "start_ms": 6091,
+          "end_ms": 6294,
+          "pitch_midi": 44.0,
+          "string_index": null,
+          "reason": "Authored instrument has no matching native note/string submodel"
+        },
+        {
+          "start_ms": 7595,
+          "end_ms": 7798,
+          "pitch_midi": 47.0,
+          "string_index": null,
+          "reason": "Authored instrument has no matching native note/string submodel"
+        },
+        {
+          "start_ms": 7595,
+          "end_ms": 7798,
+          "pitch_midi": 89.0,
+          "string_index": null,
+          "reason": "Authored instrument has no matching native note/string submodel"
+        },
+        {
+          "start_ms": 7595,
+          "end_ms": 7798,
+          "pitch_midi": 91.0,
+          "string_index": null,
+          "reason": "Authored instrument has no matching native note/string submodel"
+        },
+        {
+          "start_ms": 8128,
+          "end_ms": 8331,
+          "pitch_midi": 89.0,
+          "string_index": null,
+          "reason": "Authored instrument has no matching native note/string submodel"
+        },
+        {
+          "start_ms": 8341,
+          "end_ms": 8544,
+          "pitch_midi": 47.0,
+          "string_index": null,
+          "reason": "Authored instrument has no matching native note/string submodel"
+        },
+        {
+          "start_ms": 8661,
+          "end_ms": 8853,
+          "pitch_midi": 89.0,
+          "string_index": null,
+          "reason": "Authored instrument has no matching native note/string submodel"
+        },
+        {
+          "start_ms": 8853,
+          "end_ms": 9056,
+          "pitch_midi": 45.0,
+          "string_index": null,
+          "reason": "Authored instrument has no matching native note/string submodel"
+        },
+        {
+          "start_ms": 9835,
+          "end_ms": 9963,
+          "pitch_midi": 37.0,
+          "string_index": null,
+          "reason": "Authored instrument has no matching native note/string submodel"
+        },
+        {
+          "start_ms": 9963,
+          "end_ms": 10080,
+          "pitch_midi": 37.0,
+          "string_index": null,
+          "reason": "Authored instrument has no matching native note/string submodel"
+        },
+        {
+          "start_ms": 9963,
+          "end_ms": 10080,
+          "pitch_midi": 43.0,
+          "string_index": null,
+          "reason": "Authored instrument has no matching native note/string submodel"
+        },
+        {
+          "start_ms": 10080,
+          "end_ms": 10283,
+          "pitch_midi": 27.0,
+          "string_index": null,
+          "reason": "Authored instrument has no matching native note/string submodel"
+        },
+        {
+          "start_ms": 10080,
+          "end_ms": 10283,
+          "pitch_midi": 36.0,
+          "string_index": null,
+          "reason": "Authored instrument has no matching native note/string submodel"
+        },
+        {
+          "start_ms": 10080,
+          "end_ms": 10283,
+          "pitch_midi": 38.0,
+          "string_index": null,
+          "reason": "Authored instrument has no matching native note/string submodel"
+        },
+        {
+          "start_ms": 10080,
+          "end_ms": 10283,
+          "pitch_midi": 40.0,
+          "string_index": null,
+          "reason": "Authored instrument has no matching native note/string submodel"
+        },
+        {
+          "start_ms": 10080,
+          "end_ms": 10283,
+          "pitch_midi": 43.0,
+          "string_index": null,
+          "reason": "Authored instrument has no matching native note/string submodel"
+        },
+        {
+          "start_ms": 10080,
+          "end_ms": 10283,
+          "pitch_midi": 45.0,
+          "string_index": null,
+          "reason": "Authored instrument has no matching native note/string submodel"
+        },
+        {
+          "start_ms": 10560,
+          "end_ms": 10763,
+          "pitch_midi": 36.0,
+          "string_index": null,
+          "reason": "Authored instrument has no matching native note/string submodel"
+        },
+        {
+          "start_ms": 10560,
+          "end_ms": 10763,
+          "pitch_midi": 88.0,
+          "string_index": null,
+          "reason": "Authored instrument has no matching native note/string submodel"
+        },
+        {
+          "start_ms": 10837,
+          "end_ms": 11040,
+          "pitch_midi": 36.0,
+          "string_index": null,
+          "reason": "Authored instrument has no matching native note/string submodel"
+        },
+        {
+          "start_ms": 10837,
+          "end_ms": 11040,
+          "pitch_midi": 39.0,
+          "string_index": null,
+          "reason": "Authored instrument has no matching native note/string submodel"
+        },
+        {
+          "start_ms": 10837,
+          "end_ms": 11040,
+          "pitch_midi": 40.0,
+          "string_index": null,
+          "reason": "Authored instrument has no matching native note/string submodel"
+        },
+        {
+          "start_ms": 11083,
+          "end_ms": 11286,
+          "pitch_midi": 31.0,
+          "string_index": null,
+          "reason": "Authored instrument has no matching native note/string submodel"
+        },
+        {
+          "start_ms": 11083,
+          "end_ms": 11286,
+          "pitch_midi": 36.0,
+          "string_index": null,
+          "reason": "Authored instrument has no matching native note/string submodel"
+        },
+        {
+          "start_ms": 11083,
+          "end_ms": 11286,
+          "pitch_midi": 38.0,
+          "string_index": null,
+          "reason": "Authored instrument has no matching native note/string submodel"
+        },
+        {
+          "start_ms": 11083,
+          "end_ms": 11286,
+          "pitch_midi": 40.0,
+          "string_index": null,
+          "reason": "Authored instrument has no matching native note/string submodel"
+        },
+        {
+          "start_ms": 11829,
+          "end_ms": 11968,
+          "pitch_midi": 44.0,
+          "string_index": null,
+          "reason": "Authored instrument has no matching native note/string submodel"
+        },
+        {
+          "start_ms": 12085,
+          "end_ms": 12288,
+          "pitch_midi": 36.0,
+          "string_index": null,
+          "reason": "Authored instrument has no matching native note/string submodel"
+        },
+        {
+          "start_ms": 12085,
+          "end_ms": 12288,
+          "pitch_midi": 38.0,
+          "string_index": null,
+          "reason": "Authored instrument has no matching native note/string submodel"
+        },
+        {
+          "start_ms": 12331,
+          "end_ms": 12534,
+          "pitch_midi": 40.0,
+          "string_index": null,
+          "reason": "Authored instrument has no matching native note/string submodel"
+        },
+        {
+          "start_ms": 12587,
+          "end_ms": 12715,
+          "pitch_midi": 86.0,
+          "string_index": null,
+          "reason": "Authored instrument has no matching native note/string submodel"
+        },
+        {
+          "start_ms": 13088,
+          "end_ms": 13291,
+          "pitch_midi": 86.0,
+          "string_index": null,
+          "reason": "Authored instrument has no matching native note/string submodel"
+        },
+        {
+          "start_ms": 13813,
+          "end_ms": 14016,
+          "pitch_midi": 38.0,
+          "string_index": null,
+          "reason": "Authored instrument has no matching native note/string submodel"
+        },
+        {
+          "start_ms": 14048,
+          "end_ms": 14251,
+          "pitch_midi": 37.0,
+          "string_index": null,
+          "reason": "Authored instrument has no matching native note/string submodel"
+        },
+        {
+          "start_ms": 14048,
+          "end_ms": 14251,
+          "pitch_midi": 39.0,
+          "string_index": null,
+          "reason": "Authored instrument has no matching native note/string submodel"
+        },
+        {
+          "start_ms": 14048,
+          "end_ms": 14251,
+          "pitch_midi": 41.0,
+          "string_index": null,
+          "reason": "Authored instrument has no matching native note/string submodel"
+        },
+        {
+          "start_ms": 14048,
+          "end_ms": 14251,
+          "pitch_midi": 43.0,
+          "string_index": null,
+          "reason": "Authored instrument has no matching native note/string submodel"
+        },
+        {
+          "start_ms": 14048,
+          "end_ms": 14251,
+          "pitch_midi": 46.0,
+          "string_index": null,
+          "reason": "Authored instrument has no matching native note/string submodel"
+        },
+        {
+          "start_ms": 14464,
+          "end_ms": 14581,
+          "pitch_midi": 36.0,
+          "string_index": null,
+          "reason": "Authored instrument has no matching native note/string submodel"
+        },
+        {
+          "start_ms": 14464,
+          "end_ms": 14581,
+          "pitch_midi": 39.0,
+          "string_index": null,
+          "reason": "Authored instrument has no matching native note/string submodel"
+        },
+        {
+          "start_ms": 14581,
+          "end_ms": 14784,
+          "pitch_midi": 36.0,
+          "string_index": null,
+          "reason": "Authored instrument has no matching native note/string submodel"
+        },
+        {
+          "start_ms": 14581,
+          "end_ms": 14784,
+          "pitch_midi": 45.0,
+          "string_index": null,
+          "reason": "Authored instrument has no matching native note/string submodel"
+        },
+        {
+          "start_ms": 14837,
+          "end_ms": 15040,
+          "pitch_midi": 26.0,
+          "string_index": null,
+          "reason": "Authored instrument has no matching native note/string submodel"
+        },
+        {
+          "start_ms": 14837,
+          "end_ms": 15040,
+          "pitch_midi": 36.0,
+          "string_index": null,
+          "reason": "Authored instrument has no matching native note/string submodel"
+        },
+        {
+          "start_ms": 14837,
+          "end_ms": 15040,
+          "pitch_midi": 38.0,
+          "string_index": null,
+          "reason": "Authored instrument has no matching native note/string submodel"
+        },
+        {
+          "start_ms": 14837,
+          "end_ms": 15040,
+          "pitch_midi": 41.0,
+          "string_index": null,
+          "reason": "Authored instrument has no matching native note/string submodel"
+        },
+        {
+          "start_ms": 14837,
+          "end_ms": 15040,
+          "pitch_midi": 43.0,
+          "string_index": null,
+          "reason": "Authored instrument has no matching native note/string submodel"
+        },
+        {
+          "start_ms": 14837,
+          "end_ms": 15040,
+          "pitch_midi": 45.0,
+          "string_index": null,
+          "reason": "Authored instrument has no matching native note/string submodel"
+        },
+        {
+          "start_ms": 15083,
+          "end_ms": 15221,
+          "pitch_midi": 35.0,
+          "string_index": null,
+          "reason": "Authored instrument has no matching native note/string submodel"
+        },
+        {
+          "start_ms": 15083,
+          "end_ms": 15221,
+          "pitch_midi": 41.0,
+          "string_index": null,
+          "reason": "Authored instrument has no matching native note/string submodel"
+        },
+        {
+          "start_ms": 15221,
+          "end_ms": 15339,
+          "pitch_midi": 41.0,
+          "string_index": null,
+          "reason": "Authored instrument has no matching native note/string submodel"
+        },
+        {
+          "start_ms": 16085,
+          "end_ms": 16288,
+          "pitch_midi": 36.0,
+          "string_index": null,
+          "reason": "Authored instrument has no matching native note/string submodel"
+        },
+        {
+          "start_ms": 16085,
+          "end_ms": 16288,
+          "pitch_midi": 38.0,
+          "string_index": null,
+          "reason": "Authored instrument has no matching native note/string submodel"
+        },
+        {
+          "start_ms": 16085,
+          "end_ms": 16288,
+          "pitch_midi": 40.0,
+          "string_index": null,
+          "reason": "Authored instrument has no matching native note/string submodel"
+        },
+        {
+          "start_ms": 16565,
+          "end_ms": 16725,
+          "pitch_midi": 88.0,
+          "string_index": null,
+          "reason": "Authored instrument has no matching native note/string submodel"
+        },
+        {
+          "start_ms": 16565,
+          "end_ms": 16725,
+          "pitch_midi": 91.0,
+          "string_index": null,
+          "reason": "Authored instrument has no matching native note/string submodel"
+        },
+        {
+          "start_ms": 16832,
+          "end_ms": 17035,
+          "pitch_midi": 36.0,
+          "string_index": null,
+          "reason": "Authored instrument has no matching native note/string submodel"
+        },
+        {
+          "start_ms": 16832,
+          "end_ms": 17035,
+          "pitch_midi": 38.0,
+          "string_index": null,
+          "reason": "Authored instrument has no matching native note/string submodel"
+        },
+        {
+          "start_ms": 16832,
+          "end_ms": 17035,
+          "pitch_midi": 40.0,
+          "string_index": null,
+          "reason": "Authored instrument has no matching native note/string submodel"
+        },
+        {
+          "start_ms": 17333,
+          "end_ms": 17536,
+          "pitch_midi": 36.0,
+          "string_index": null,
+          "reason": "Authored instrument has no matching native note/string submodel"
+        },
+        {
+          "start_ms": 17333,
+          "end_ms": 17536,
+          "pitch_midi": 43.0,
+          "string_index": null,
+          "reason": "Authored instrument has no matching native note/string submodel"
+        },
+        {
+          "start_ms": 17568,
+          "end_ms": 17771,
+          "pitch_midi": 33.0,
+          "string_index": null,
+          "reason": "Authored instrument has no matching native note/string submodel"
+        },
+        {
+          "start_ms": 17568,
+          "end_ms": 17771,
+          "pitch_midi": 36.0,
+          "string_index": null,
+          "reason": "Authored instrument has no matching native note/string submodel"
+        },
+        {
+          "start_ms": 17835,
+          "end_ms": 18038,
+          "pitch_midi": 38.0,
+          "string_index": null,
+          "reason": "Authored instrument has no matching native note/string submodel"
+        },
+        {
+          "start_ms": 17835,
+          "end_ms": 18038,
+          "pitch_midi": 40.0,
+          "string_index": null,
+          "reason": "Authored instrument has no matching native note/string submodel"
+        },
+        {
+          "start_ms": 18080,
+          "end_ms": 18283,
+          "pitch_midi": 25.0,
+          "string_index": null,
+          "reason": "Authored instrument has no matching native note/string submodel"
+        },
+        {
+          "start_ms": 18080,
+          "end_ms": 18283,
+          "pitch_midi": 37.0,
+          "string_index": null,
+          "reason": "Authored instrument has no matching native note/string submodel"
+        },
+        {
+          "start_ms": 18080,
+          "end_ms": 18283,
+          "pitch_midi": 39.0,
+          "string_index": null,
+          "reason": "Authored instrument has no matching native note/string submodel"
+        },
+        {
+          "start_ms": 18080,
+          "end_ms": 18283,
+          "pitch_midi": 41.0,
+          "string_index": null,
+          "reason": "Authored instrument has no matching native note/string submodel"
+        },
+        {
+          "start_ms": 18080,
+          "end_ms": 18283,
+          "pitch_midi": 43.0,
+          "string_index": null,
+          "reason": "Authored instrument has no matching native note/string submodel"
+        },
+        {
+          "start_ms": 18581,
+          "end_ms": 18784,
+          "pitch_midi": 36.0,
+          "string_index": null,
+          "reason": "Authored instrument has no matching native note/string submodel"
+        },
+        {
+          "start_ms": 18581,
+          "end_ms": 18784,
+          "pitch_midi": 44.0,
+          "string_index": null,
+          "reason": "Authored instrument has no matching native note/string submodel"
+        },
+        {
+          "start_ms": 18837,
+          "end_ms": 19040,
+          "pitch_midi": 25.0,
+          "string_index": null,
+          "reason": "Authored instrument has no matching native note/string submodel"
+        },
+        {
+          "start_ms": 18837,
+          "end_ms": 19040,
+          "pitch_midi": 36.0,
+          "string_index": null,
+          "reason": "Authored instrument has no matching native note/string submodel"
+        },
+        {
+          "start_ms": 18837,
+          "end_ms": 19040,
+          "pitch_midi": 38.0,
+          "string_index": null,
+          "reason": "Authored instrument has no matching native note/string submodel"
+        },
+        {
+          "start_ms": 18837,
+          "end_ms": 19040,
+          "pitch_midi": 40.0,
+          "string_index": null,
+          "reason": "Authored instrument has no matching native note/string submodel"
+        },
+        {
+          "start_ms": 18837,
+          "end_ms": 19040,
+          "pitch_midi": 42.0,
+          "string_index": null,
+          "reason": "Authored instrument has no matching native note/string submodel"
+        },
+        {
+          "start_ms": 18837,
+          "end_ms": 19040,
+          "pitch_midi": 44.0,
+          "string_index": null,
+          "reason": "Authored instrument has no matching native note/string submodel"
+        },
+        {
+          "start_ms": 19083,
+          "end_ms": 19211,
+          "pitch_midi": 35.0,
+          "string_index": null,
+          "reason": "Authored instrument has no matching native note/string submodel"
+        },
+        {
+          "start_ms": 19083,
+          "end_ms": 19211,
+          "pitch_midi": 41.0,
+          "string_index": null,
+          "reason": "Authored instrument has no matching native note/string submodel"
+        },
+        {
+          "start_ms": 19083,
+          "end_ms": 19211,
+          "pitch_midi": 47.0,
+          "string_index": null,
+          "reason": "Authored instrument has no matching native note/string submodel"
+        },
+        {
+          "start_ms": 19211,
+          "end_ms": 19339,
+          "pitch_midi": 41.0,
+          "string_index": null,
+          "reason": "Authored instrument has no matching native note/string submodel"
+        },
+        {
+          "start_ms": 19339,
+          "end_ms": 19542,
+          "pitch_midi": 41.0,
+          "string_index": null,
+          "reason": "Authored instrument has no matching native note/string submodel"
+        },
+        {
+          "start_ms": 20075,
+          "end_ms": 20278,
+          "pitch_midi": 36.0,
+          "string_index": null,
+          "reason": "Authored instrument has no matching native note/string submodel"
+        },
+        {
+          "start_ms": 20075,
+          "end_ms": 20278,
+          "pitch_midi": 38.0,
+          "string_index": null,
+          "reason": "Authored instrument has no matching native note/string submodel"
+        },
+        {
+          "start_ms": 20075,
+          "end_ms": 20278,
+          "pitch_midi": 40.0,
+          "string_index": null,
+          "reason": "Authored instrument has no matching native note/string submodel"
+        },
+        {
+          "start_ms": 20075,
+          "end_ms": 20278,
+          "pitch_midi": 42.0,
+          "string_index": null,
+          "reason": "Authored instrument has no matching native note/string submodel"
+        },
+        {
+          "start_ms": 21056,
+          "end_ms": 21109,
+          "pitch_midi": 87.0,
+          "string_index": null,
+          "reason": "Authored instrument has no matching native note/string submodel"
+        },
+        {
+          "start_ms": 21056,
+          "end_ms": 21109,
+          "pitch_midi": 92.0,
+          "string_index": null,
+          "reason": "Authored instrument has no matching native note/string submodel"
+        },
+        {
+          "start_ms": 21056,
+          "end_ms": 21109,
+          "pitch_midi": 94.0,
+          "string_index": null,
+          "reason": "Authored instrument has no matching native note/string submodel"
+        },
+        {
+          "start_ms": 21333,
+          "end_ms": 21461,
+          "pitch_midi": 40.0,
+          "string_index": null,
+          "reason": "Authored instrument has no matching native note/string submodel"
+        },
+        {
+          "start_ms": 21333,
+          "end_ms": 21461,
+          "pitch_midi": 42.0,
+          "string_index": null,
+          "reason": "Authored instrument has no matching native note/string submodel"
+        },
+        {
+          "start_ms": 21333,
+          "end_ms": 21461,
+          "pitch_midi": 44.0,
+          "string_index": null,
+          "reason": "Authored instrument has no matching native note/string submodel"
+        },
+        {
+          "start_ms": 21461,
+          "end_ms": 21568,
+          "pitch_midi": 44.0,
+          "string_index": null,
+          "reason": "Authored instrument has no matching native note/string submodel"
+        },
+        {
+          "start_ms": 21461,
+          "end_ms": 21568,
+          "pitch_midi": 46.0,
+          "string_index": null,
+          "reason": "Authored instrument has no matching native note/string submodel"
+        },
+        {
+          "start_ms": 21568,
+          "end_ms": 21771,
+          "pitch_midi": 36.0,
+          "string_index": null,
+          "reason": "Authored instrument has no matching native note/string submodel"
+        },
+        {
+          "start_ms": 21568,
+          "end_ms": 21771,
+          "pitch_midi": 45.0,
+          "string_index": null,
+          "reason": "Authored instrument has no matching native note/string submodel"
+        },
+        {
+          "start_ms": 21835,
+          "end_ms": 22038,
+          "pitch_midi": 24.0,
+          "string_index": null,
+          "reason": "Authored instrument has no matching native note/string submodel"
+        },
+        {
+          "start_ms": 21835,
+          "end_ms": 22038,
+          "pitch_midi": 40.0,
+          "string_index": null,
+          "reason": "Authored instrument has no matching native note/string submodel"
+        },
+        {
+          "start_ms": 22080,
+          "end_ms": 22283,
+          "pitch_midi": 26.0,
+          "string_index": null,
+          "reason": "Authored instrument has no matching native note/string submodel"
+        },
+        {
+          "start_ms": 22080,
+          "end_ms": 22283,
+          "pitch_midi": 36.0,
+          "string_index": null,
+          "reason": "Authored instrument has no matching native note/string submodel"
+        },
+        {
+          "start_ms": 22080,
+          "end_ms": 22283,
+          "pitch_midi": 39.0,
+          "string_index": null,
+          "reason": "Authored instrument has no matching native note/string submodel"
+        },
+        {
+          "start_ms": 22080,
+          "end_ms": 22283,
+          "pitch_midi": 41.0,
+          "string_index": null,
+          "reason": "Authored instrument has no matching native note/string submodel"
+        },
+        {
+          "start_ms": 22080,
+          "end_ms": 22283,
+          "pitch_midi": 43.0,
+          "string_index": null,
+          "reason": "Authored instrument has no matching native note/string submodel"
+        },
+        {
+          "start_ms": 22080,
+          "end_ms": 22283,
+          "pitch_midi": 45.0,
+          "string_index": null,
+          "reason": "Authored instrument has no matching native note/string submodel"
+        },
+        {
+          "start_ms": 22581,
+          "end_ms": 22784,
+          "pitch_midi": 30.0,
+          "string_index": null,
+          "reason": "Authored instrument has no matching native note/string submodel"
+        },
+        {
+          "start_ms": 22581,
+          "end_ms": 22784,
+          "pitch_midi": 36.0,
+          "string_index": null,
+          "reason": "Authored instrument has no matching native note/string submodel"
+        },
+        {
+          "start_ms": 22837,
+          "end_ms": 23040,
+          "pitch_midi": 36.0,
+          "string_index": null,
+          "reason": "Authored instrument has no matching native note/string submodel"
+        },
+        {
+          "start_ms": 22837,
+          "end_ms": 23040,
+          "pitch_midi": 38.0,
+          "string_index": null,
+          "reason": "Authored instrument has no matching native note/string submodel"
+        },
+        {
+          "start_ms": 22837,
+          "end_ms": 23040,
+          "pitch_midi": 40.0,
+          "string_index": null,
+          "reason": "Authored instrument has no matching native note/string submodel"
+        },
+        {
+          "start_ms": 22837,
+          "end_ms": 23040,
+          "pitch_midi": 42.0,
+          "string_index": null,
+          "reason": "Authored instrument has no matching native note/string submodel"
+        },
+        {
+          "start_ms": 23083,
+          "end_ms": 23286,
+          "pitch_midi": 30.0,
+          "string_index": null,
+          "reason": "Authored instrument has no matching native note/string submodel"
+        },
+        {
+          "start_ms": 23083,
+          "end_ms": 23286,
+          "pitch_midi": 36.0,
+          "string_index": null,
+          "reason": "Authored instrument has no matching native note/string submodel"
+        },
+        {
+          "start_ms": 23083,
+          "end_ms": 23286,
+          "pitch_midi": 40.0,
+          "string_index": null,
+          "reason": "Authored instrument has no matching native note/string submodel"
+        },
+        {
+          "start_ms": 23083,
+          "end_ms": 23286,
+          "pitch_midi": 47.0,
+          "string_index": null,
+          "reason": "Authored instrument has no matching native note/string submodel"
+        },
+        {
+          "start_ms": 23339,
+          "end_ms": 23467,
+          "pitch_midi": 40.0,
+          "string_index": null,
+          "reason": "Authored instrument has no matching native note/string submodel"
+        },
+        {
+          "start_ms": 23467,
+          "end_ms": 23563,
+          "pitch_midi": 30.0,
+          "string_index": null,
+          "reason": "Authored instrument has no matching native note/string submodel"
+        },
+        {
+          "start_ms": 23467,
+          "end_ms": 23563,
+          "pitch_midi": 39.0,
+          "string_index": null,
+          "reason": "Authored instrument has no matching native note/string submodel"
+        },
+        {
+          "start_ms": 23467,
+          "end_ms": 23563,
+          "pitch_midi": 41.0,
+          "string_index": null,
+          "reason": "Authored instrument has no matching native note/string submodel"
+        },
+        {
+          "start_ms": 23467,
+          "end_ms": 23563,
+          "pitch_midi": 86.0,
+          "string_index": null,
+          "reason": "Authored instrument has no matching native note/string submodel"
+        },
+        {
+          "start_ms": 23563,
+          "end_ms": 23766,
+          "pitch_midi": 40.0,
+          "string_index": null,
+          "reason": "Authored instrument has no matching native note/string submodel"
+        },
+        {
+          "start_ms": 23840,
+          "end_ms": 24043,
+          "pitch_midi": 41.0,
+          "string_index": null,
+          "reason": "Authored instrument has no matching native note/string submodel"
+        },
+        {
+          "start_ms": 24085,
+          "end_ms": 24288,
+          "pitch_midi": 25.0,
+          "string_index": null,
+          "reason": "Authored instrument has no matching native note/string submodel"
+        },
+        {
+          "start_ms": 24085,
+          "end_ms": 24288,
+          "pitch_midi": 28.0,
+          "string_index": null,
+          "reason": "Authored instrument has no matching native note/string submodel"
+        },
+        {
+          "start_ms": 24085,
+          "end_ms": 24288,
+          "pitch_midi": 36.0,
+          "string_index": null,
+          "reason": "Authored instrument has no matching native note/string submodel"
+        },
+        {
+          "start_ms": 24085,
+          "end_ms": 24288,
+          "pitch_midi": 39.0,
+          "string_index": null,
+          "reason": "Authored instrument has no matching native note/string submodel"
+        },
+        {
+          "start_ms": 24085,
+          "end_ms": 24288,
+          "pitch_midi": 42.0,
+          "string_index": null,
+          "reason": "Authored instrument has no matching native note/string submodel"
+        },
+        {
+          "start_ms": 24085,
+          "end_ms": 24288,
+          "pitch_midi": 44.0,
+          "string_index": null,
+          "reason": "Authored instrument has no matching native note/string submodel"
+        },
+        {
+          "start_ms": 24331,
+          "end_ms": 24534,
+          "pitch_midi": 34.0,
+          "string_index": null,
+          "reason": "Authored instrument has no matching native note/string submodel"
+        },
+        {
+          "start_ms": 24331,
+          "end_ms": 24534,
+          "pitch_midi": 41.0,
+          "string_index": null,
+          "reason": "Authored instrument has no matching native note/string submodel"
+        },
+        {
+          "start_ms": 24576,
+          "end_ms": 24779,
+          "pitch_midi": 45.0,
+          "string_index": null,
+          "reason": "Authored instrument has no matching native note/string submodel"
+        },
+        {
+          "start_ms": 24576,
+          "end_ms": 24779,
+          "pitch_midi": 88.0,
+          "string_index": null,
+          "reason": "Authored instrument has no matching native note/string submodel"
+        },
+        {
+          "start_ms": 24576,
+          "end_ms": 24779,
+          "pitch_midi": 93.0,
+          "string_index": null,
+          "reason": "Authored instrument has no matching native note/string submodel"
+        },
+        {
+          "start_ms": 24832,
+          "end_ms": 25035,
+          "pitch_midi": 36.0,
+          "string_index": null,
+          "reason": "Authored instrument has no matching native note/string submodel"
+        },
+        {
+          "start_ms": 24832,
+          "end_ms": 25035,
+          "pitch_midi": 38.0,
+          "string_index": null,
+          "reason": "Authored instrument has no matching native note/string submodel"
+        },
+        {
+          "start_ms": 24832,
+          "end_ms": 25035,
+          "pitch_midi": 40.0,
+          "string_index": null,
+          "reason": "Authored instrument has no matching native note/string submodel"
+        },
+        {
+          "start_ms": 24832,
+          "end_ms": 25035,
+          "pitch_midi": 88.0,
+          "string_index": null,
+          "reason": "Authored instrument has no matching native note/string submodel"
+        },
+        {
+          "start_ms": 25088,
+          "end_ms": 25291,
+          "pitch_midi": 41.0,
+          "string_index": null,
+          "reason": "Authored instrument has no matching native note/string submodel"
+        },
+        {
+          "start_ms": 25333,
+          "end_ms": 25536,
+          "pitch_midi": 41.0,
+          "string_index": null,
+          "reason": "Authored instrument has no matching native note/string submodel"
+        },
+        {
+          "start_ms": 25333,
+          "end_ms": 25536,
+          "pitch_midi": 43.0,
+          "string_index": null,
+          "reason": "Authored instrument has no matching native note/string submodel"
+        },
+        {
+          "start_ms": 25579,
+          "end_ms": 25782,
+          "pitch_midi": 40.0,
+          "string_index": null,
+          "reason": "Authored instrument has no matching native note/string submodel"
+        },
+        {
+          "start_ms": 25835,
+          "end_ms": 26038,
+          "pitch_midi": 37.0,
+          "string_index": null,
+          "reason": "Authored instrument has no matching native note/string submodel"
+        },
+        {
+          "start_ms": 25835,
+          "end_ms": 26038,
+          "pitch_midi": 39.0,
+          "string_index": null,
+          "reason": "Authored instrument has no matching native note/string submodel"
+        },
+        {
+          "start_ms": 26080,
+          "end_ms": 26283,
+          "pitch_midi": 27.0,
+          "string_index": null,
+          "reason": "Authored instrument has no matching native note/string submodel"
+        },
+        {
+          "start_ms": 26080,
+          "end_ms": 26283,
+          "pitch_midi": 36.0,
+          "string_index": null,
+          "reason": "Authored instrument has no matching native note/string submodel"
+        },
+        {
+          "start_ms": 26080,
+          "end_ms": 26283,
+          "pitch_midi": 39.0,
+          "string_index": null,
+          "reason": "Authored instrument has no matching native note/string submodel"
+        },
+        {
+          "start_ms": 26080,
+          "end_ms": 26283,
+          "pitch_midi": 41.0,
+          "string_index": null,
+          "reason": "Authored instrument has no matching native note/string submodel"
+        },
+        {
+          "start_ms": 26080,
+          "end_ms": 26283,
+          "pitch_midi": 43.0,
+          "string_index": null,
+          "reason": "Authored instrument has no matching native note/string submodel"
+        },
+        {
+          "start_ms": 26080,
+          "end_ms": 26283,
+          "pitch_midi": 45.0,
+          "string_index": null,
+          "reason": "Authored instrument has no matching native note/string submodel"
+        },
+        {
+          "start_ms": 26336,
+          "end_ms": 26464,
+          "pitch_midi": 28.0,
+          "string_index": null,
+          "reason": "Authored instrument has no matching native note/string submodel"
+        },
+        {
+          "start_ms": 26336,
+          "end_ms": 26464,
+          "pitch_midi": 36.0,
+          "string_index": null,
+          "reason": "Authored instrument has no matching native note/string submodel"
+        },
+        {
+          "start_ms": 26336,
+          "end_ms": 26464,
+          "pitch_midi": 41.0,
+          "string_index": null,
+          "reason": "Authored instrument has no matching native note/string submodel"
+        },
+        {
+          "start_ms": 26464,
+          "end_ms": 26560,
+          "pitch_midi": 36.0,
+          "string_index": null,
+          "reason": "Authored instrument has no matching native note/string submodel"
+        },
+        {
+          "start_ms": 26560,
+          "end_ms": 26763,
+          "pitch_midi": 46.0,
+          "string_index": null,
+          "reason": "Authored instrument has no matching native note/string submodel"
+        },
+        {
+          "start_ms": 26837,
+          "end_ms": 26965,
+          "pitch_midi": 24.0,
+          "string_index": null,
+          "reason": "Authored instrument has no matching native note/string submodel"
+        },
+        {
+          "start_ms": 26837,
+          "end_ms": 26965,
+          "pitch_midi": 27.0,
+          "string_index": null,
+          "reason": "Authored instrument has no matching native note/string submodel"
+        },
+        {
+          "start_ms": 26837,
+          "end_ms": 26965,
+          "pitch_midi": 36.0,
+          "string_index": null,
+          "reason": "Authored instrument has no matching native note/string submodel"
+        },
+        {
+          "start_ms": 26837,
+          "end_ms": 26965,
+          "pitch_midi": 39.0,
+          "string_index": null,
+          "reason": "Authored instrument has no matching native note/string submodel"
+        },
+        {
+          "start_ms": 26837,
+          "end_ms": 26965,
+          "pitch_midi": 42.0,
+          "string_index": null,
+          "reason": "Authored instrument has no matching native note/string submodel"
+        },
+        {
+          "start_ms": 26837,
+          "end_ms": 26965,
+          "pitch_midi": 44.0,
+          "string_index": null,
+          "reason": "Authored instrument has no matching native note/string submodel"
+        },
+        {
+          "start_ms": 26965,
+          "end_ms": 27072,
+          "pitch_midi": 36.0,
+          "string_index": null,
+          "reason": "Authored instrument has no matching native note/string submodel"
+        },
+        {
+          "start_ms": 27072,
+          "end_ms": 27275,
+          "pitch_midi": 36.0,
+          "string_index": null,
+          "reason": "Authored instrument has no matching native note/string submodel"
+        },
+        {
+          "start_ms": 27072,
+          "end_ms": 27275,
+          "pitch_midi": 39.0,
+          "string_index": null,
+          "reason": "Authored instrument has no matching native note/string submodel"
+        },
+        {
+          "start_ms": 27072,
+          "end_ms": 27275,
+          "pitch_midi": 41.0,
+          "string_index": null,
+          "reason": "Authored instrument has no matching native note/string submodel"
+        },
+        {
+          "start_ms": 27072,
+          "end_ms": 27275,
+          "pitch_midi": 43.0,
+          "string_index": null,
+          "reason": "Authored instrument has no matching native note/string submodel"
+        },
+        {
+          "start_ms": 27339,
+          "end_ms": 27467,
+          "pitch_midi": 35.0,
+          "string_index": null,
+          "reason": "Authored instrument has no matching native note/string submodel"
+        },
+        {
+          "start_ms": 27339,
+          "end_ms": 27467,
+          "pitch_midi": 41.0,
+          "string_index": null,
+          "reason": "Authored instrument has no matching native note/string submodel"
+        },
+        {
+          "start_ms": 27467,
+          "end_ms": 27563,
+          "pitch_midi": 40.0,
+          "string_index": null,
+          "reason": "Authored instrument has no matching native note/string submodel"
+        },
+        {
+          "start_ms": 27467,
+          "end_ms": 27563,
+          "pitch_midi": 42.0,
+          "string_index": null,
+          "reason": "Authored instrument has no matching native note/string submodel"
+        },
+        {
+          "start_ms": 27563,
+          "end_ms": 27766,
+          "pitch_midi": 41.0,
+          "string_index": null,
+          "reason": "Authored instrument has no matching native note/string submodel"
+        },
+        {
+          "start_ms": 27563,
+          "end_ms": 27766,
+          "pitch_midi": 45.0,
+          "string_index": null,
+          "reason": "Authored instrument has no matching native note/string submodel"
+        },
+        {
+          "start_ms": 27829,
+          "end_ms": 28032,
+          "pitch_midi": 36.0,
+          "string_index": null,
+          "reason": "Authored instrument has no matching native note/string submodel"
+        },
+        {
+          "start_ms": 27829,
+          "end_ms": 28032,
+          "pitch_midi": 41.0,
+          "string_index": null,
+          "reason": "Authored instrument has no matching native note/string submodel"
+        },
+        {
+          "start_ms": 27829,
+          "end_ms": 28032,
+          "pitch_midi": 43.0,
+          "string_index": null,
+          "reason": "Authored instrument has no matching native note/string submodel"
+        },
+        {
+          "start_ms": 28085,
+          "end_ms": 28224,
+          "pitch_midi": 35.0,
+          "string_index": null,
+          "reason": "Authored instrument has no matching native note/string submodel"
+        },
+        {
+          "start_ms": 28085,
+          "end_ms": 28224,
+          "pitch_midi": 43.0,
+          "string_index": null,
+          "reason": "Authored instrument has no matching native note/string submodel"
+        },
+        {
+          "start_ms": 28949,
+          "end_ms": 29088,
+          "pitch_midi": 42.0,
+          "string_index": null,
+          "reason": "Authored instrument has no matching native note/string submodel"
+        },
+        {
+          "start_ms": 29323,
+          "end_ms": 29461,
+          "pitch_midi": 36.0,
+          "string_index": null,
+          "reason": "Authored instrument has no matching native note/string submodel"
+        },
+        {
+          "start_ms": 29323,
+          "end_ms": 29461,
+          "pitch_midi": 43.0,
+          "string_index": null,
+          "reason": "Authored instrument has no matching native note/string submodel"
+        },
+        {
+          "start_ms": 29323,
+          "end_ms": 29461,
+          "pitch_midi": 45.0,
+          "string_index": null,
+          "reason": "Authored instrument has no matching native note/string submodel"
+        },
+        {
+          "start_ms": 29461,
+          "end_ms": 29579,
+          "pitch_midi": 35.0,
+          "string_index": null,
+          "reason": "Authored instrument has no matching native note/string submodel"
+        },
+        {
+          "start_ms": 29461,
+          "end_ms": 29579,
+          "pitch_midi": 41.0,
+          "string_index": null,
+          "reason": "Authored instrument has no matching native note/string submodel"
+        },
+        {
+          "start_ms": 29461,
+          "end_ms": 29579,
+          "pitch_midi": 44.0,
+          "string_index": null,
+          "reason": "Authored instrument has no matching native note/string submodel"
+        },
+        {
+          "start_ms": 29461,
+          "end_ms": 29579,
+          "pitch_midi": 46.0,
+          "string_index": null,
+          "reason": "Authored instrument has no matching native note/string submodel"
+        },
+        {
+          "start_ms": 29579,
+          "end_ms": 29782,
+          "pitch_midi": 30.0,
+          "string_index": null,
+          "reason": "Authored instrument has no matching native note/string submodel"
+        },
+        {
+          "start_ms": 29579,
+          "end_ms": 29782,
+          "pitch_midi": 41.0,
+          "string_index": null,
+          "reason": "Authored instrument has no matching native note/string submodel"
+        },
+        {
+          "start_ms": 29824,
+          "end_ms": 30027,
+          "pitch_midi": 27.0,
+          "string_index": null,
+          "reason": "Authored instrument has no matching native note/string submodel"
+        },
+        {
+          "start_ms": 29824,
+          "end_ms": 30027,
+          "pitch_midi": 36.0,
+          "string_index": null,
+          "reason": "Authored instrument has no matching native note/string submodel"
+        },
+        {
+          "start_ms": 29824,
+          "end_ms": 30027,
+          "pitch_midi": 42.0,
+          "string_index": null,
+          "reason": "Authored instrument has no matching native note/string submodel"
+        },
+        {
+          "start_ms": 29824,
+          "end_ms": 30027,
+          "pitch_midi": 46.0,
+          "string_index": null,
+          "reason": "Authored instrument has no matching native note/string submodel"
+        },
+        {
+          "start_ms": 30080,
+          "end_ms": 30283,
+          "pitch_midi": 26.0,
+          "string_index": null,
+          "reason": "Authored instrument has no matching native note/string submodel"
+        },
+        {
+          "start_ms": 30080,
+          "end_ms": 30283,
+          "pitch_midi": 37.0,
+          "string_index": null,
+          "reason": "Authored instrument has no matching native note/string submodel"
+        },
+        {
+          "start_ms": 30080,
+          "end_ms": 30283,
+          "pitch_midi": 40.0,
+          "string_index": null,
+          "reason": "Authored instrument has no matching native note/string submodel"
+        },
+        {
+          "start_ms": 30080,
+          "end_ms": 30283,
+          "pitch_midi": 43.0,
+          "string_index": null,
+          "reason": "Authored instrument has no matching native note/string submodel"
+        },
+        {
+          "start_ms": 30080,
+          "end_ms": 30283,
+          "pitch_midi": 44.0,
+          "string_index": null,
+          "reason": "Authored instrument has no matching native note/string submodel"
+        },
+        {
+          "start_ms": 30336,
+          "end_ms": 30464,
+          "pitch_midi": 36.0,
+          "string_index": null,
+          "reason": "Authored instrument has no matching native note/string submodel"
+        },
+        {
+          "start_ms": 30336,
+          "end_ms": 30464,
+          "pitch_midi": 41.0,
+          "string_index": null,
+          "reason": "Authored instrument has no matching native note/string submodel"
+        },
+        {
+          "start_ms": 30464,
+          "end_ms": 30571,
+          "pitch_midi": 36.0,
+          "string_index": null,
+          "reason": "Authored instrument has no matching native note/string submodel"
+        },
+        {
+          "start_ms": 30571,
+          "end_ms": 30774,
+          "pitch_midi": 36.0,
+          "string_index": null,
+          "reason": "Authored instrument has no matching native note/string submodel"
+        },
+        {
+          "start_ms": 30571,
+          "end_ms": 30774,
+          "pitch_midi": 38.0,
+          "string_index": null,
+          "reason": "Authored instrument has no matching native note/string submodel"
+        },
+        {
+          "start_ms": 30827,
+          "end_ms": 31030,
+          "pitch_midi": 26.0,
+          "string_index": null,
+          "reason": "Authored instrument has no matching native note/string submodel"
+        },
+        {
+          "start_ms": 30827,
+          "end_ms": 31030,
+          "pitch_midi": 36.0,
+          "string_index": null,
+          "reason": "Authored instrument has no matching native note/string submodel"
+        },
+        {
+          "start_ms": 30827,
+          "end_ms": 31030,
+          "pitch_midi": 38.0,
+          "string_index": null,
+          "reason": "Authored instrument has no matching native note/string submodel"
+        },
+        {
+          "start_ms": 30827,
+          "end_ms": 31030,
+          "pitch_midi": 40.0,
+          "string_index": null,
+          "reason": "Authored instrument has no matching native note/string submodel"
+        },
+        {
+          "start_ms": 30827,
+          "end_ms": 31030,
+          "pitch_midi": 42.0,
+          "string_index": null,
+          "reason": "Authored instrument has no matching native note/string submodel"
+        },
+        {
+          "start_ms": 30827,
+          "end_ms": 31030,
+          "pitch_midi": 44.0,
+          "string_index": null,
+          "reason": "Authored instrument has no matching native note/string submodel"
+        },
+        {
+          "start_ms": 31083,
+          "end_ms": 31286,
+          "pitch_midi": 31.0,
+          "string_index": null,
+          "reason": "Authored instrument has no matching native note/string submodel"
+        },
+        {
+          "start_ms": 31083,
+          "end_ms": 31286,
+          "pitch_midi": 36.0,
+          "string_index": null,
+          "reason": "Authored instrument has no matching native note/string submodel"
+        },
+        {
+          "start_ms": 31083,
+          "end_ms": 31286,
+          "pitch_midi": 38.0,
+          "string_index": null,
+          "reason": "Authored instrument has no matching native note/string submodel"
+        },
+        {
+          "start_ms": 31083,
+          "end_ms": 31286,
+          "pitch_midi": 40.0,
+          "string_index": null,
+          "reason": "Authored instrument has no matching native note/string submodel"
+        },
+        {
+          "start_ms": 31083,
+          "end_ms": 31286,
+          "pitch_midi": 42.0,
+          "string_index": null,
+          "reason": "Authored instrument has no matching native note/string submodel"
+        },
+        {
+          "start_ms": 31328,
+          "end_ms": 31531,
+          "pitch_midi": 36.0,
+          "string_index": null,
+          "reason": "Authored instrument has no matching native note/string submodel"
+        },
+        {
+          "start_ms": 31328,
+          "end_ms": 31531,
+          "pitch_midi": 38.0,
+          "string_index": null,
+          "reason": "Authored instrument has no matching native note/string submodel"
+        },
+        {
+          "start_ms": 31328,
+          "end_ms": 31531,
+          "pitch_midi": 40.0,
+          "string_index": null,
+          "reason": "Authored instrument has no matching native note/string submodel"
+        },
+        {
+          "start_ms": 31328,
+          "end_ms": 31531,
+          "pitch_midi": 42.0,
+          "string_index": null,
+          "reason": "Authored instrument has no matching native note/string submodel"
+        },
+        {
+          "start_ms": 31328,
+          "end_ms": 31531,
+          "pitch_midi": 47.0,
+          "string_index": null,
+          "reason": "Authored instrument has no matching native note/string submodel"
+        },
+        {
+          "start_ms": 31573,
+          "end_ms": 31776,
+          "pitch_midi": 47.0,
+          "string_index": null,
+          "reason": "Authored instrument has no matching native note/string submodel"
+        },
+        {
+          "start_ms": 31829,
+          "end_ms": 32032,
+          "pitch_midi": 40.0,
+          "string_index": null,
+          "reason": "Authored instrument has no matching native note/string submodel"
+        },
+        {
+          "start_ms": 31829,
+          "end_ms": 32032,
+          "pitch_midi": 86.0,
+          "string_index": null,
+          "reason": "Authored instrument has no matching native note/string submodel"
+        },
+        {
+          "start_ms": 32075,
+          "end_ms": 32278,
+          "pitch_midi": 37.0,
+          "string_index": null,
+          "reason": "Authored instrument has no matching native note/string submodel"
+        },
+        {
+          "start_ms": 32075,
+          "end_ms": 32278,
+          "pitch_midi": 40.0,
+          "string_index": null,
+          "reason": "Authored instrument has no matching native note/string submodel"
+        },
+        {
+          "start_ms": 32075,
+          "end_ms": 32278,
+          "pitch_midi": 42.0,
+          "string_index": null,
+          "reason": "Authored instrument has no matching native note/string submodel"
+        },
+        {
+          "start_ms": 32331,
+          "end_ms": 32534,
+          "pitch_midi": 39.0,
+          "string_index": null,
+          "reason": "Authored instrument has no matching native note/string submodel"
+        },
+        {
+          "start_ms": 32331,
+          "end_ms": 32534,
+          "pitch_midi": 41.0,
+          "string_index": null,
+          "reason": "Authored instrument has no matching native note/string submodel"
+        },
+        {
+          "start_ms": 32576,
+          "end_ms": 32715,
+          "pitch_midi": 41.0,
+          "string_index": null,
+          "reason": "Authored instrument has no matching native note/string submodel"
+        },
+        {
+          "start_ms": 32576,
+          "end_ms": 32715,
+          "pitch_midi": 45.0,
+          "string_index": null,
+          "reason": "Authored instrument has no matching native note/string submodel"
+        },
+        {
+          "start_ms": 32715,
+          "end_ms": 32832,
+          "pitch_midi": 41.0,
+          "string_index": null,
+          "reason": "Authored instrument has no matching native note/string submodel"
+        },
+        {
+          "start_ms": 32715,
+          "end_ms": 32832,
+          "pitch_midi": 43.0,
+          "string_index": null,
+          "reason": "Authored instrument has no matching native note/string submodel"
+        },
+        {
+          "start_ms": 32832,
+          "end_ms": 33035,
+          "pitch_midi": 30.0,
+          "string_index": null,
+          "reason": "Authored instrument has no matching native note/string submodel"
+        },
+        {
+          "start_ms": 32832,
+          "end_ms": 33035,
+          "pitch_midi": 36.0,
+          "string_index": null,
+          "reason": "Authored instrument has no matching native note/string submodel"
+        },
+        {
+          "start_ms": 32832,
+          "end_ms": 33035,
+          "pitch_midi": 39.0,
+          "string_index": null,
+          "reason": "Authored instrument has no matching native note/string submodel"
+        },
+        {
+          "start_ms": 32832,
+          "end_ms": 33035,
+          "pitch_midi": 42.0,
+          "string_index": null,
+          "reason": "Authored instrument has no matching native note/string submodel"
+        },
+        {
+          "start_ms": 32832,
+          "end_ms": 33035,
+          "pitch_midi": 44.0,
+          "string_index": null,
+          "reason": "Authored instrument has no matching native note/string submodel"
+        },
+        {
+          "start_ms": 33077,
+          "end_ms": 33280,
+          "pitch_midi": 26.0,
+          "string_index": null,
+          "reason": "Authored instrument has no matching native note/string submodel"
+        },
+        {
+          "start_ms": 33077,
+          "end_ms": 33280,
+          "pitch_midi": 31.0,
+          "string_index": null,
+          "reason": "Authored instrument has no matching native note/string submodel"
+        },
+        {
+          "start_ms": 33077,
+          "end_ms": 33280,
+          "pitch_midi": 36.0,
+          "string_index": null,
+          "reason": "Authored instrument has no matching native note/string submodel"
+        },
+        {
+          "start_ms": 33077,
+          "end_ms": 33280,
+          "pitch_midi": 38.0,
+          "string_index": null,
+          "reason": "Authored instrument has no matching native note/string submodel"
+        },
+        {
+          "start_ms": 33077,
+          "end_ms": 33280,
+          "pitch_midi": 40.0,
+          "string_index": null,
+          "reason": "Authored instrument has no matching native note/string submodel"
+        },
+        {
+          "start_ms": 33077,
+          "end_ms": 33280,
+          "pitch_midi": 42.0,
+          "string_index": null,
+          "reason": "Authored instrument has no matching native note/string submodel"
+        },
+        {
+          "start_ms": 33333,
+          "end_ms": 33536,
+          "pitch_midi": 35.0,
+          "string_index": null,
+          "reason": "Authored instrument has no matching native note/string submodel"
+        },
+        {
+          "start_ms": 33333,
+          "end_ms": 33536,
+          "pitch_midi": 41.0,
+          "string_index": null,
+          "reason": "Authored instrument has no matching native note/string submodel"
+        },
+        {
+          "start_ms": 33333,
+          "end_ms": 33536,
+          "pitch_midi": 43.0,
+          "string_index": null,
+          "reason": "Authored instrument has no matching native note/string submodel"
+        },
+        {
+          "start_ms": 33333,
+          "end_ms": 33536,
+          "pitch_midi": 90.0,
+          "string_index": null,
+          "reason": "Authored instrument has no matching native note/string submodel"
+        },
+        {
+          "start_ms": 33568,
+          "end_ms": 33771,
+          "pitch_midi": 43.0,
+          "string_index": null,
+          "reason": "Authored instrument has no matching native note/string submodel"
+        },
+        {
+          "start_ms": 33568,
+          "end_ms": 33771,
+          "pitch_midi": 45.0,
+          "string_index": null,
+          "reason": "Authored instrument has no matching native note/string submodel"
+        },
+        {
+          "start_ms": 33835,
+          "end_ms": 34038,
+          "pitch_midi": 36.0,
+          "string_index": null,
+          "reason": "Authored instrument has no matching native note/string submodel"
+        },
+        {
+          "start_ms": 33835,
+          "end_ms": 34038,
+          "pitch_midi": 41.0,
+          "string_index": null,
+          "reason": "Authored instrument has no matching native note/string submodel"
+        }
+      ],
+      "source_lane": "keyboardist",
+      "arm_contact_omissions": []
+    }
+  },
+  "limitations": [
+    "Pitch outside each authored instrument range is reported and omitted, never octave-folded",
+    "Native two-pose arm banks use fixed shoulders; continuous contact motion unverified",
+    "Mixed-bus production instrument labels are estimates, not isolated-stem ground truth"
+  ],
+  "drummer": {
+    "source": "retained production band plan",
+    "component_events": {
+      "CYMBAL_RIGHT": 94,
+      "KICK": 9,
+      "HI_HAT": 54,
+      "SNARE": 6,
+      "TOM_HIGH": 1,
+      "TOM_MID": 2
+    },
+    "unresolved_events": [],
+    "hi_hat_is_foot_only": true,
+    "cymbal_side": "right-side staging assignment; source side unverified",
+    "snare_hand": "alternating visualization assignment; source hand unverified",
+    "event_timing_preserved": true,
+    "independent_component_ground_truth_verified": false
+  }
+}

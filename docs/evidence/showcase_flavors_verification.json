@@ -1,0 +1,130 @@
+{
+  "ci_run": 37794173215,
+  "ci_result": "SUCCESS",
+  "all_six_native_timelines_identical": true,
+  "layouts": [
+    {
+      "slug": "Helix_Neon_Circuit",
+      "hashes_verified": 35,
+      "native_frames": 480,
+      "frame_ms": 50,
+      "native_decoded_channels_identical": true,
+      "xml_xsq_manifest_inventory_identical": true
+    },
+    {
+      "slug": "Helix_Enchanted_Grove",
+      "hashes_verified": 34,
+      "native_frames": 480,
+      "frame_ms": 50,
+      "native_decoded_channels_identical": true,
+      "xml_xsq_manifest_inventory_identical": true
+    },
+    {
+      "slug": "Helix_Celestial_Orrery",
+      "hashes_verified": 35,
+      "native_frames": 480,
+      "frame_ms": 50,
+      "native_decoded_channels_identical": true,
+      "xml_xsq_manifest_inventory_identical": true
+    },
+    {
+      "slug": "Helix_Fire_and_Ice",
+      "hashes_verified": 38,
+      "native_frames": 480,
+      "frame_ms": 50,
+      "native_decoded_channels_identical": true,
+      "xml_xsq_manifest_inventory_identical": true
+    },
+    {
+      "slug": "Helix_Crystal_Lagoon",
+      "hashes_verified": 34,
+      "native_frames": 480,
+      "frame_ms": 50,
+      "native_decoded_channels_identical": true,
+      "xml_xsq_manifest_inventory_identical": true
+    },
+    {
+      "slug": "Helix_Midnight_Masquerade",
+      "hashes_verified": 34,
+      "native_frames": 480,
+      "frame_ms": 50,
+      "native_decoded_channels_identical": true,
+      "xml_xsq_manifest_inventory_identical": true
+    }
+  ],
+  "file_hashes_verified": 210,
+  "all_gallery_links_resolve": true,
+  "collection_zip_sha256": "f7fed219f594ef86ba80a058a0d1c4d6e1fa4baf964982ca7b5b3a39c1fadd36",
+  "tour": {
+    "programs": [],
+    "stream_groups": [],
+    "streams": [
+      {
+        "width": 1280,
+        "height": 720,
+        "r_frame_rate": "20/1",
+        "nb_frames": "720"
+      }
+    ],
+    "format": {
+      "duration": "36.000000"
+    }
+  },
+  "downloaded_artifacts": [
+    11557618824,
+    11557958280
+  ],
+  "implementation_sha": "536dcca52e5f686643f396bd9e9758efacfc4cd0",
+  "tests_passed": 64,
+  "user_artistic_review": "pending",
+  "artifacts": [
+    {
+      "id": 11557998029,
+      "name": "helix-fire-and-ice",
+      "size_in_bytes": 26483226,
+      "url": "https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/37794173215/artifacts/11557998029"
+    },
+    {
+      "id": 11557958280,
+      "name": "helix-six-flavors-review",
+      "size_in_bytes": 15505893,
+      "url": "https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/37794173215/artifacts/11557958280"
+    },
+    {
+      "id": 11557953390,
+      "name": "helix-neon-circuit",
+      "size_in_bytes": 25567433,
+      "url": "https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/37794173215/artifacts/11557953390"
+    },
+    {
+      "id": 11557803680,
+      "name": "helix-crystal-lagoon",
+      "size_in_bytes": 20379890,
+      "url": "https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/37794173215/artifacts/11557803680"
+    },
+    {
+      "id": 11557673718,
+      "name": "helix-enchanted-grove",
+      "size_in_bytes": 24080674,
+      "url": "https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/37794173215/artifacts/11557673718"
+    },
+    {
+      "id": 11557618824,
+      "name": "helix-six-flavors-layouts",
+      "size_in_bytes": 32333607,
+      "url": "https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/37794173215/artifacts/11557618824"
+    },
+    {
+      "id": 11557593938,
+      "name": "helix-midnight-masquerade",
+      "size_in_bytes": 24677515,
+      "url": "https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/37794173215/artifacts/11557593938"
+    },
+    {
+      "id": 11557499059,
+      "name": "helix-celestial-orrery",
+      "size_in_bytes": 22725432,
+      "url": "https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/37794173215/artifacts/11557499059"
+    }
+  ]
+}

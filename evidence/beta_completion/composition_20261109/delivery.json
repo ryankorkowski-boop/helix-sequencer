@@ -1,0 +1,107 @@
+{
+  "schema": "helix.repair-delivery.v1",
+  "updated_at": "2026-11-09T03:19:03.045592+00:00",
+  "implementation_commit": "c80cbbda36aa8c6ed0bd91b8a74f5a9937f21985",
+  "branch": "codex/eight-hour-recovery-20261019",
+  "mp4_files": [
+    {
+      "layout": "RGB",
+      "url": "https://drive.google.com/file/d/1whRSdSwDlT3kJVqNy9yFHWv1JMcsXKB6/view",
+      "sha256": "e3fb61d74a174a16e6cd3afac4d460339c5021cc0b192d122ba2882cbb9ab3c1",
+      "bytes": 24915291,
+      "automated_status": "PASS",
+      "musical_and_owner_acceptance": "UNVERIFIED",
+      "qualified_for_frozen_nine": false,
+      "source_commit": "1900958577898a1764ce317a3c63666c86b3a853",
+      "compatible_scoped_implementation": "c80cbbda36aa8c6ed0bd91b8a74f5a9937f21985",
+      "source_identity_receipt": "scoped_export_identity.json",
+      "source_audio": "Phoneme_Test_Hook.mp3",
+      "source_audio_sha256": "19e90c273d0d747938f24b36586b50818c104cddffbefe4a4128927374301938",
+      "native_xlights": "2026.18",
+      "dimensions": [
+        1920,
+        1080
+      ],
+      "fps": "20/1",
+      "report": "evidence/beta_completion/composition_20261109/rgb_transparent_candidate.json"
+    },
+    {
+      "layout": "Original AC256",
+      "url": "https://drive.google.com/file/d/1uK1RjEKYBC_W38-WCv5gfAmfQtutYTZJ/view",
+      "sha256": "5ad029d27208d60f06378192e1f7f928c5f2eecebf23cca6996d74ab5b978526",
+      "bytes": 14392089,
+      "automated_status": "FAIL",
+      "musical_and_owner_acceptance": "UNVERIFIED",
+      "qualified_for_frozen_nine": false,
+      "source_commit": "1900958577898a1764ce317a3c63666c86b3a853",
+      "compatible_scoped_implementation": "c80cbbda36aa8c6ed0bd91b8a74f5a9937f21985",
+      "source_identity_receipt": "scoped_export_identity.json",
+      "source_audio": "Phoneme_Test_Hook.mp3",
+      "source_audio_sha256": "19e90c273d0d747938f24b36586b50818c104cddffbefe4a4128927374301938",
+      "native_xlights": "2026.18",
+      "dimensions": [
+        1920,
+        1080
+      ],
+      "fps": "20/1",
+      "report": "evidence/beta_completion/composition_20261109/ac256_transparent_candidate.json"
+    }
+  ],
+  "source_archive": {
+    "id": "16oS9PYd0vKDjkqvsOW8wz4lROeC-fpdg",
+    "url": "https://drive.google.com/file/d/16oS9PYd0vKDjkqvsOW8wz4lROeC-fpdg/view?usp=drivesdk",
+    "name": "HELIX_NATIVE_SOURCE_AND_VERIFICATION_20261109.zip",
+    "bytes": 4736837,
+    "sha256": "23292391ce8dc4df303ceec5d7ab71664c4be0b6edfb640bc78b426d3fde7d36",
+    "download_readback_hash_matches": true,
+    "shared": false,
+    "final_nine_package": false
+  },
+  "private_folder": "https://drive.google.com/drive/folders/1uV3Y5PB24iaqi7kJd0Oo3jq11Nxkvqt8",
+  "tests": {
+    "311": {
+      "passed": 2353,
+      "subtests_passed": 24,
+      "skipped": 6,
+      "failures": 0,
+      "errors": 0,
+      "junit": "evidence/beta_completion/composition_20261109/repaired_python311.xml",
+      "root_preview_passed": 3,
+      "source_commit": "c80cbbda36aa8c6ed0bd91b8a74f5a9937f21985",
+      "backend": "default",
+      "status": "PASS"
+    },
+    "312": {
+      "passed": 2353,
+      "subtests_passed": 24,
+      "skipped": 6,
+      "failures": 0,
+      "errors": 0,
+      "junit": "evidence/beta_completion/composition_20261109/repaired_python312.xml",
+      "root_preview_passed": 3,
+      "source_commit": "c80cbbda36aa8c6ed0bd91b8a74f5a9937f21985",
+      "backend": "default",
+      "status": "PASS"
+    }
+  },
+  "haswell312": {
+    "passed": 8,
+    "failed": 4,
+    "status": "FAIL",
+    "tolerance_unchanged": true,
+    "junit": "evidence/beta_completion/composition_20261109/haswell312.xml"
+  },
+  "site_attachment": "Genericupload401Signintouploadclips;actualDriveURLslinkedinsupportedrepairrecord;notclaimedattachedtoreviewMedia",
+  "owner_approved": false,
+  "qualified_frozen_nine_count": 0,
+  "final_approval_zip": null,
+  "resume_command": "cd /workspace/helix-sequencer && OPENBLAS_NUM_THREADS=2 /workspace/helix-venv/bin/python -m evidence.beta_completion.composition_20261109.verify_candidates",
+  "blockers": [
+    "ACvisibilitygatesFAIL",
+    "Independentsingerownershipandlexicalphonemetruthunqualified",
+    "Canonicalsolid3Ddrummer/referenceequivalenceunqualified",
+    "PublishedHaswellnumericalfailurepersists;separatelyreportedfixbranchabsentremotely",
+    "Frozenninecurrent-sourcequalifiedMP4sincomplete",
+    "Final-sourceWindows/Androidnotrerun;latesthostedpassesarea9beaa7"
+  ]
+}

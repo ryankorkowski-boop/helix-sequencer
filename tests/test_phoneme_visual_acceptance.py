@@ -1,0 +1,22 @@
+"""An owner rejection reopens timing and identity despite historical receipts."""
+import json
+from pathlib import Path
+
+
+def test_visual_receipt_is_valid_json_and_blocks_legacy_cast():
+    source = Path(__file__).resolve().parents[1] / "tools" / "prepare_phoneme_show.py"
+    text = source.read_text()
+    from models.canonical_native_band import visual_identity
+    identity = visual_identity()
+    assert identity['canonical_solid_3d_band'] is False
+    assert identity['canonical_surface_geometry'] is True
+    assert identity['owner_vocal_animation_review'] == 'rejected_timing_reopened_20261023'
+    assert identity['owner_canonical_visual_review'] == 'rejected_identity_reopened_20261023'
+    assert 'from models.native_review_band import add_band' not in text
+    assert "json.dumps(manifest['visual_identity'], indent=2)" in text
+
+
+def test_finalizer_does_not_accept_native_review_cast_as_canonical():
+    source = (Path(__file__).resolve().parents[1] / "tools" / "finalize_phoneme_review.py").read_text()
+    assert "canonical_solid_3d_band" in source
+    assert "owner-approved solid 3D snowman band" in source

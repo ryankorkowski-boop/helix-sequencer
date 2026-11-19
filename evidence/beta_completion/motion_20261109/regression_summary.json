@@ -1,0 +1,24 @@
+{
+  "implementation_commit": "2d4c505e442292f3cba9eb909aeabcc76acb33cf",
+  "actual_engine_local_commit": "4f3b4eaaf5936cbe5bf77a9237eef59a4f0c6384",
+  "equivalent_git_tree": "a37c53cd90ba0168f696ed4466871f63d3e3c046",
+  "affected_regressions": {
+    "passed": 86,
+    "failures": 0,
+    "junit": "affected_regressions.xml"
+  },
+  "historical_full_default": {
+    "source": "c8c01e1",
+    "passed": 2371,
+    "subtests_passed": 24,
+    "skipped": 6,
+    "not_a_current_full_suite": true
+  },
+  "haswell": {
+    "status": "FAIL_UNCHANGED",
+    "selected_tests_failed": 4,
+    "new_stage_thread_overlap_probes": "did not repair unchanged1e-7; no DSP modification adopted"
+  },
+  "native_quality": "MOTION_FAILED",
+  "owner_approved": false
+}

@@ -1,0 +1,195 @@
+{
+  "file": "03_Drummer_V3_Performance.mp4",
+  "sha256": "977611c069d0197869c42d7609b66279a885d40b6cf332ba1d8a856b33783991",
+  "bytes": 3564811,
+  "source_audio": "Tinsel_Tornado_Articulation_30s.wav",
+  "source_audio_sha256": "8a227a8f1392847bd508c80e7f53769649e896b1c7a9e665b90dc9924ebd5925",
+  "source_duration_seconds": 30.0,
+  "codecs": [
+    "h264",
+    "aac"
+  ],
+  "dimensions": [
+    1280,
+    720
+  ],
+  "actual_frame_rate": "20/1",
+  "actual_frame_count": "600",
+  "video_duration_seconds": 30.0,
+  "audio_duration_seconds": 30.0,
+  "stream_start_seconds": [
+    0.0,
+    0.0
+  ],
+  "full_decode": true,
+  "soundtrack_correlation": 0.9993690830072413,
+  "window_alignment": [
+    {
+      "source_start_seconds": 3.0,
+      "decoded_lag_seconds": 0.0
+    },
+    {
+      "source_start_seconds": 15.0,
+      "decoded_lag_seconds": 0.0
+    },
+    {
+      "source_start_seconds": 25.5,
+      "decoded_lag_seconds": 0.0
+    },
+    {
+      "source_start_seconds": 27.95,
+      "decoded_lag_seconds": 0.0
+    }
+  ],
+  "musical_or_visual_acceptance": false,
+  "readability": {
+    "schema": "helix.showcase_readability.v1",
+    "frames": 60,
+    "sample_fps": 2,
+    "thresholds": {
+      "median_luma": 12.0,
+      "median_bright_fraction": 0.012,
+      "median_motion": 0.65,
+      "min_visible_width": 0.4,
+      "min_visible_height": 0.35
+    },
+    "measurements": {
+      "median_luma": 24.436,
+      "median_bright_fraction": 0.20541,
+      "median_motion": 1.814,
+      "visible_width": 0.688,
+      "visible_height": 0.689
+    },
+    "checks": {
+      "visible_stage_width": true,
+      "visible_stage_height": true,
+      "median_stage_luminance": true,
+      "bright_stage_area": true,
+      "visible_stage_motion": true
+    },
+    "passed": true,
+    "note": "Quantitative visibility gate only; no artistic, musical or source classification approval"
+  },
+  "blank_intervals_seconds": [],
+  "frozen_intervals_over_two_seconds": [],
+  "all_static_intervals_seconds": [
+    [
+      0.2,
+      0.3
+    ],
+    [
+      0.9,
+      1.1
+    ],
+    [
+      1.7,
+      1.8
+    ],
+    [
+      2.2,
+      2.3
+    ],
+    [
+      2.5,
+      2.6
+    ],
+    [
+      3.5,
+      3.6
+    ],
+    [
+      5.0,
+      5.2
+    ],
+    [
+      5.4,
+      5.5
+    ],
+    [
+      5.6,
+      5.9
+    ],
+    [
+      6.2,
+      7.5
+    ],
+    [
+      8.0,
+      8.1
+    ],
+    [
+      8.3,
+      8.4
+    ],
+    [
+      9.1,
+      9.2
+    ],
+    [
+      11.6,
+      11.8
+    ],
+    [
+      13.2,
+      13.3
+    ],
+    [
+      14.0,
+      14.1
+    ],
+    [
+      14.8,
+      15.1
+    ],
+    [
+      15.3,
+      15.7
+    ],
+    [
+      16.9,
+      17.1
+    ],
+    [
+      18.9,
+      20.1
+    ],
+    [
+      20.3,
+      20.8
+    ],
+    [
+      21.4,
+      21.5
+    ],
+    [
+      22.2,
+      22.3
+    ],
+    [
+      23.0,
+      23.1
+    ],
+    [
+      25.5,
+      25.7
+    ],
+    [
+      25.9,
+      26.0
+    ],
+    [
+      27.7,
+      27.8
+    ],
+    [
+      28.8,
+      28.9
+    ],
+    [
+      29.6,
+      29.7
+    ]
+  ],
+  "actual_playback_watched": false,
+  "visual_acceptance": false
+}

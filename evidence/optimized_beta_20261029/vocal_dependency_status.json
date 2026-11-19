@@ -1,0 +1,20 @@
+{
+  "models": {
+    "UVR-MDX-NET-Inst_HQ_3.onnx": [
+      "317554b07fe1ea5279a77f2b1520a41ea4b93432560c4ffd08792c30fddf9adc",
+      6144,
+      3072,
+      1.022
+    ],
+    "UVR_MDXNET_KARA_2.onnx": [
+      "bf32e15105a09c0f7dddd2b67346146334d6f3ecb399ed7638eba2ab07cbf5f4",
+      5120,
+      2048,
+      1.065
+    ]
+  },
+  "independent_backing_verified": false,
+  "exact_phoneme_boundaries_verified": false,
+  "analysis_estimates_not_ground_truth": true,
+  "limitation": "Per-source MDX candidates screened by speech VAD reduce instrumental/reverb openings. Singing may be missed; individual singer identity and lexical phonemes remain unverified. No source audio or instrumental event timing changed."
+}

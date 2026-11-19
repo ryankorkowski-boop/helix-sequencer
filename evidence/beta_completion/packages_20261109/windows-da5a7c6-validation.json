@@ -1,0 +1,38 @@
+{
+  "build": {
+    "schema": "helix.windows.build.v1",
+    "commit": "da5a7c6de722e6070db4a1e5d2e21c155aa0f6e9",
+    "files": {
+      "Helix.exe": "a164d9a4ed076a627b93af9e33efb7d3cb468bc3de6a5b0b5c8ec35bea2f9ce0",
+      "HelixCLI.exe": "a6d54b31d9bd14981c54da85bba362dea5adeca46e78a1773779eae83b7a8dcc",
+      "WELCOME_TO_HELIX.md": "fee76825c339356217314656a86ffc8262f12fd95c9c1e6c57e8f4c43a5326fb",
+      "INSTALL_AND_TROUBLESHOOT.md": "eac226a3239928d621faa217f7ee477cf0d718de3a4e20db9c05bfbe600bb338",
+      "LICENSE": "5394b99239b49451056951121d92357612da5dd2cc10b5bb12ed6798ba31f4d8",
+      "NOTICE": "58535b4d5731d8e8d0974812699fbbbdb9a91a70ad3775ee2cdafe18e09745c0",
+      "THIRD_PARTY_LICENSES.md": "23421e0ed22bce268a0a2f3462d91fe127d32e242363b4f07e4848422faccab4",
+      "COMMERCIAL_LICENSING.md": "e300cea0325a9bb5099eb5c1151171e010f3a58193b041bba4020e9785de73f2",
+      "MUSIC_PERMISSIONS.md": "555b3fccd961a880d80aaca560afd01db9c1886548060a986a03332e327608c7"
+    },
+    "github_run_id": "42645117790",
+    "github_repository": "ryankorkowski-boop/helix-sequencer"
+  },
+  "smoke": {
+    "steps": [
+      {
+        "step": "native_fseq",
+        "returncode": 0
+      },
+      {
+        "step": "lor_engine",
+        "returncode": 0
+      },
+      {
+        "step": "xlights_engine",
+        "returncode": 0
+      }
+    ],
+    "real_audio_source": "Tinsel Sawtooth (1).mp3",
+    "source_lms_preserved": true,
+    "legacy_lor_import_in_vendor_app_verified": false
+  }
+}

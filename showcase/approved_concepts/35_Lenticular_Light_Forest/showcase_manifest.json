@@ -1,0 +1,3893 @@
+{
+  "schema": "helix.approved_concept.v1",
+  "name": "Lenticular Light Forest",
+  "coordinate_system": "x-right, y-up, z-depth; design feet",
+  "xlights_source_ref": "6ceddc6b25a24d82754d4f9af28e18ee70b51f81",
+  "coverage": {
+    "Custom": 98
+  },
+  "native_families": [
+    "Custom"
+  ],
+  "native_coverage_complete": false,
+  "model_count": 98,
+  "rgb_pixels": 6640,
+  "channel_count": 19920,
+  "spiral_trees": 0,
+  "double_helices": 0,
+  "preview_contract": "Custom sparse-grid coordinates exactly match exported XML; native-family preview coordinates illustrate the authored geometry. Native xLights render/load evidence is recorded separately.",
+  "models": [
+    {
+      "name": "HX_001_FIN_FRAME",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "FIN_FRAMES",
+      "design": "FIN FRAME",
+      "kind": "pixel",
+      "nodes": 130,
+      "start_channel": 1,
+      "end_channel": 390,
+      "bounds_ft": [
+        [
+          -118.0,
+          0.0,
+          0.0
+        ],
+        [
+          -102.0,
+          95.0,
+          8.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.26117288301785574
+    },
+    {
+      "name": "HX_002_FIN_TREE_TRUNK",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "TREE_FACES",
+      "design": "FIN TREE TRUNK",
+      "kind": "pixel",
+      "nodes": 90,
+      "start_channel": 391,
+      "end_channel": 660,
+      "bounds_ft": [
+        [
+          -110.0,
+          0.0,
+          0.0
+        ],
+        [
+          -110.0,
+          88.0,
+          0.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.24719101123595522
+    },
+    {
+      "name": "HX_003_FIN_TREE_BRANCH",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "TREE_FACES",
+      "design": "FIN TREE BRANCH",
+      "kind": "pixel",
+      "nodes": 35,
+      "start_channel": 661,
+      "end_channel": 765,
+      "bounds_ft": [
+        [
+          -117.0,
+          22.0,
+          0.0
+        ],
+        [
+          -103.0,
+          31.0,
+          0.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.31265134743336975
+    },
+    {
+      "name": "HX_004_FIN_TREE_BRANCH",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "TREE_FACES",
+      "design": "FIN TREE BRANCH",
+      "kind": "pixel",
+      "nodes": 35,
+      "start_channel": 766,
+      "end_channel": 870,
+      "bounds_ft": [
+        [
+          -117.0,
+          42.0,
+          0.0
+        ],
+        [
+          -103.0,
+          51.0,
+          0.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.31265134743336975
+    },
+    {
+      "name": "HX_005_FIN_TREE_BRANCH",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "TREE_FACES",
+      "design": "FIN TREE BRANCH",
+      "kind": "pixel",
+      "nodes": 35,
+      "start_channel": 871,
+      "end_channel": 975,
+      "bounds_ft": [
+        [
+          -117.0,
+          62.0,
+          0.0
+        ],
+        [
+          -103.0,
+          71.0,
+          0.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.31265134743336975
+    },
+    {
+      "name": "HX_006_FIN_TREE_BRANCH",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "TREE_FACES",
+      "design": "FIN TREE BRANCH",
+      "kind": "pixel",
+      "nodes": 35,
+      "start_channel": 976,
+      "end_channel": 1080,
+      "bounds_ft": [
+        [
+          -117.0,
+          78.0,
+          0.0
+        ],
+        [
+          -103.0,
+          87.0,
+          0.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.31265134743336975
+    },
+    {
+      "name": "HX_007_FIN_HELIX_FACE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "HELIX_FACES",
+      "design": "FIN HELIX FACE",
+      "kind": "pixel",
+      "nodes": 90,
+      "start_channel": 1081,
+      "end_channel": 1350,
+      "bounds_ft": [
+        [
+          -117.0,
+          0.0,
+          8.0
+        ],
+        [
+          -103.0,
+          95.0,
+          8.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.33745175406673755
+    },
+    {
+      "name": "HX_008_FIN_HELIX_FACE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "HELIX_FACES",
+      "design": "FIN HELIX FACE",
+      "kind": "pixel",
+      "nodes": 90,
+      "start_channel": 1351,
+      "end_channel": 1620,
+      "bounds_ft": [
+        [
+          -117.0,
+          0.0,
+          8.0
+        ],
+        [
+          -103.0,
+          95.0,
+          8.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.33745175406673755
+    },
+    {
+      "name": "HX_009_FIN_FRAME",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "FIN_FRAMES",
+      "design": "FIN FRAME",
+      "kind": "pixel",
+      "nodes": 130,
+      "start_channel": 1621,
+      "end_channel": 2010,
+      "bounds_ft": [
+        [
+          -98.0,
+          0.0,
+          0.0
+        ],
+        [
+          -82.0,
+          95.0,
+          8.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.26117288301785574
+    },
+    {
+      "name": "HX_010_FIN_TREE_TRUNK",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "TREE_FACES",
+      "design": "FIN TREE TRUNK",
+      "kind": "pixel",
+      "nodes": 90,
+      "start_channel": 2011,
+      "end_channel": 2280,
+      "bounds_ft": [
+        [
+          -90.0,
+          0.0,
+          0.0
+        ],
+        [
+          -90.0,
+          88.0,
+          0.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.24719101123595522
+    },
+    {
+      "name": "HX_011_FIN_TREE_BRANCH",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "TREE_FACES",
+      "design": "FIN TREE BRANCH",
+      "kind": "pixel",
+      "nodes": 35,
+      "start_channel": 2281,
+      "end_channel": 2385,
+      "bounds_ft": [
+        [
+          -97.0,
+          22.0,
+          0.0
+        ],
+        [
+          -83.0,
+          31.0,
+          0.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.31265134743336975
+    },
+    {
+      "name": "HX_012_FIN_TREE_BRANCH",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "TREE_FACES",
+      "design": "FIN TREE BRANCH",
+      "kind": "pixel",
+      "nodes": 35,
+      "start_channel": 2386,
+      "end_channel": 2490,
+      "bounds_ft": [
+        [
+          -97.0,
+          42.0,
+          0.0
+        ],
+        [
+          -83.0,
+          51.0,
+          0.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.31265134743336975
+    },
+    {
+      "name": "HX_013_FIN_TREE_BRANCH",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "TREE_FACES",
+      "design": "FIN TREE BRANCH",
+      "kind": "pixel",
+      "nodes": 35,
+      "start_channel": 2491,
+      "end_channel": 2595,
+      "bounds_ft": [
+        [
+          -97.0,
+          62.0,
+          0.0
+        ],
+        [
+          -83.0,
+          71.0,
+          0.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.31265134743336975
+    },
+    {
+      "name": "HX_014_FIN_TREE_BRANCH",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "TREE_FACES",
+      "design": "FIN TREE BRANCH",
+      "kind": "pixel",
+      "nodes": 35,
+      "start_channel": 2596,
+      "end_channel": 2700,
+      "bounds_ft": [
+        [
+          -97.0,
+          78.0,
+          0.0
+        ],
+        [
+          -83.0,
+          87.0,
+          0.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.31265134743336975
+    },
+    {
+      "name": "HX_015_FIN_HELIX_FACE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "HELIX_FACES",
+      "design": "FIN HELIX FACE",
+      "kind": "pixel",
+      "nodes": 90,
+      "start_channel": 2701,
+      "end_channel": 2970,
+      "bounds_ft": [
+        [
+          -97.0,
+          0.0,
+          8.0
+        ],
+        [
+          -83.0,
+          95.0,
+          8.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.33745175406673755
+    },
+    {
+      "name": "HX_016_FIN_HELIX_FACE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "HELIX_FACES",
+      "design": "FIN HELIX FACE",
+      "kind": "pixel",
+      "nodes": 90,
+      "start_channel": 2971,
+      "end_channel": 3240,
+      "bounds_ft": [
+        [
+          -97.0,
+          0.0,
+          8.0
+        ],
+        [
+          -83.0,
+          95.0,
+          8.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.33745175406673755
+    },
+    {
+      "name": "HX_017_FIN_FRAME",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "FIN_FRAMES",
+      "design": "FIN FRAME",
+      "kind": "pixel",
+      "nodes": 130,
+      "start_channel": 3241,
+      "end_channel": 3630,
+      "bounds_ft": [
+        [
+          -78.0,
+          0.0,
+          0.0
+        ],
+        [
+          -62.0,
+          95.0,
+          8.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.26117288301785574
+    },
+    {
+      "name": "HX_018_FIN_TREE_TRUNK",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "TREE_FACES",
+      "design": "FIN TREE TRUNK",
+      "kind": "pixel",
+      "nodes": 90,
+      "start_channel": 3631,
+      "end_channel": 3900,
+      "bounds_ft": [
+        [
+          -70.0,
+          0.0,
+          0.0
+        ],
+        [
+          -70.0,
+          88.0,
+          0.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.24719101123595522
+    },
+    {
+      "name": "HX_019_FIN_TREE_BRANCH",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "TREE_FACES",
+      "design": "FIN TREE BRANCH",
+      "kind": "pixel",
+      "nodes": 35,
+      "start_channel": 3901,
+      "end_channel": 4005,
+      "bounds_ft": [
+        [
+          -77.0,
+          22.0,
+          0.0
+        ],
+        [
+          -63.0,
+          31.0,
+          0.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.31265134743336975
+    },
+    {
+      "name": "HX_020_FIN_TREE_BRANCH",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "TREE_FACES",
+      "design": "FIN TREE BRANCH",
+      "kind": "pixel",
+      "nodes": 35,
+      "start_channel": 4006,
+      "end_channel": 4110,
+      "bounds_ft": [
+        [
+          -77.0,
+          42.0,
+          0.0
+        ],
+        [
+          -63.0,
+          51.0,
+          0.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.31265134743336975
+    },
+    {
+      "name": "HX_021_FIN_TREE_BRANCH",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "TREE_FACES",
+      "design": "FIN TREE BRANCH",
+      "kind": "pixel",
+      "nodes": 35,
+      "start_channel": 4111,
+      "end_channel": 4215,
+      "bounds_ft": [
+        [
+          -77.0,
+          62.0,
+          0.0
+        ],
+        [
+          -63.0,
+          71.0,
+          0.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.31265134743336975
+    },
+    {
+      "name": "HX_022_FIN_TREE_BRANCH",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "TREE_FACES",
+      "design": "FIN TREE BRANCH",
+      "kind": "pixel",
+      "nodes": 35,
+      "start_channel": 4216,
+      "end_channel": 4320,
+      "bounds_ft": [
+        [
+          -77.0,
+          78.0,
+          0.0
+        ],
+        [
+          -63.0,
+          87.0,
+          0.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.31265134743336975
+    },
+    {
+      "name": "HX_023_FIN_HELIX_FACE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "HELIX_FACES",
+      "design": "FIN HELIX FACE",
+      "kind": "pixel",
+      "nodes": 90,
+      "start_channel": 4321,
+      "end_channel": 4590,
+      "bounds_ft": [
+        [
+          -77.0,
+          0.0,
+          8.0
+        ],
+        [
+          -63.0,
+          95.0,
+          8.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.33745175406673755
+    },
+    {
+      "name": "HX_024_FIN_HELIX_FACE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "HELIX_FACES",
+      "design": "FIN HELIX FACE",
+      "kind": "pixel",
+      "nodes": 90,
+      "start_channel": 4591,
+      "end_channel": 4860,
+      "bounds_ft": [
+        [
+          -77.0,
+          0.0,
+          8.0
+        ],
+        [
+          -63.0,
+          95.0,
+          8.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.33745175406673755
+    },
+    {
+      "name": "HX_025_FIN_FRAME",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "FIN_FRAMES",
+      "design": "FIN FRAME",
+      "kind": "pixel",
+      "nodes": 130,
+      "start_channel": 4861,
+      "end_channel": 5250,
+      "bounds_ft": [
+        [
+          -58.0,
+          0.0,
+          0.0
+        ],
+        [
+          -42.0,
+          95.0,
+          8.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.26117288301786173
+    },
+    {
+      "name": "HX_026_FIN_TREE_TRUNK",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "TREE_FACES",
+      "design": "FIN TREE TRUNK",
+      "kind": "pixel",
+      "nodes": 90,
+      "start_channel": 5251,
+      "end_channel": 5520,
+      "bounds_ft": [
+        [
+          -50.0,
+          0.0,
+          0.0
+        ],
+        [
+          -50.0,
+          88.0,
+          0.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.24719101123595522
+    },
+    {
+      "name": "HX_027_FIN_TREE_BRANCH",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "TREE_FACES",
+      "design": "FIN TREE BRANCH",
+      "kind": "pixel",
+      "nodes": 35,
+      "start_channel": 5521,
+      "end_channel": 5625,
+      "bounds_ft": [
+        [
+          -57.0,
+          22.0,
+          0.0
+        ],
+        [
+          -43.0,
+          31.0,
+          0.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.31265134743336975
+    },
+    {
+      "name": "HX_028_FIN_TREE_BRANCH",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "TREE_FACES",
+      "design": "FIN TREE BRANCH",
+      "kind": "pixel",
+      "nodes": 35,
+      "start_channel": 5626,
+      "end_channel": 5730,
+      "bounds_ft": [
+        [
+          -57.0,
+          42.0,
+          0.0
+        ],
+        [
+          -43.0,
+          51.0,
+          0.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.31265134743336975
+    },
+    {
+      "name": "HX_029_FIN_TREE_BRANCH",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "TREE_FACES",
+      "design": "FIN TREE BRANCH",
+      "kind": "pixel",
+      "nodes": 35,
+      "start_channel": 5731,
+      "end_channel": 5835,
+      "bounds_ft": [
+        [
+          -57.0,
+          62.0,
+          0.0
+        ],
+        [
+          -43.0,
+          71.0,
+          0.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.31265134743336975
+    },
+    {
+      "name": "HX_030_FIN_TREE_BRANCH",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "TREE_FACES",
+      "design": "FIN TREE BRANCH",
+      "kind": "pixel",
+      "nodes": 35,
+      "start_channel": 5836,
+      "end_channel": 5940,
+      "bounds_ft": [
+        [
+          -57.0,
+          78.0,
+          0.0
+        ],
+        [
+          -43.0,
+          87.0,
+          0.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.31265134743336975
+    },
+    {
+      "name": "HX_031_FIN_HELIX_FACE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "HELIX_FACES",
+      "design": "FIN HELIX FACE",
+      "kind": "pixel",
+      "nodes": 90,
+      "start_channel": 5941,
+      "end_channel": 6210,
+      "bounds_ft": [
+        [
+          -57.0,
+          0.0,
+          8.0
+        ],
+        [
+          -43.0,
+          95.0,
+          8.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.33745175406673755
+    },
+    {
+      "name": "HX_032_FIN_HELIX_FACE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "HELIX_FACES",
+      "design": "FIN HELIX FACE",
+      "kind": "pixel",
+      "nodes": 90,
+      "start_channel": 6211,
+      "end_channel": 6480,
+      "bounds_ft": [
+        [
+          -57.0,
+          0.0,
+          8.0
+        ],
+        [
+          -43.0,
+          95.0,
+          8.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.33745175406673755
+    },
+    {
+      "name": "HX_033_FIN_FRAME",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "FIN_FRAMES",
+      "design": "FIN FRAME",
+      "kind": "pixel",
+      "nodes": 130,
+      "start_channel": 6481,
+      "end_channel": 6870,
+      "bounds_ft": [
+        [
+          -38.0,
+          0.0,
+          0.0
+        ],
+        [
+          -22.0,
+          95.0,
+          8.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.26117288301786173
+    },
+    {
+      "name": "HX_034_FIN_TREE_TRUNK",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "TREE_FACES",
+      "design": "FIN TREE TRUNK",
+      "kind": "pixel",
+      "nodes": 90,
+      "start_channel": 6871,
+      "end_channel": 7140,
+      "bounds_ft": [
+        [
+          -30.0,
+          0.0,
+          0.0
+        ],
+        [
+          -30.0,
+          88.0,
+          0.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.24719101123595522
+    },
+    {
+      "name": "HX_035_FIN_TREE_BRANCH",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "TREE_FACES",
+      "design": "FIN TREE BRANCH",
+      "kind": "pixel",
+      "nodes": 35,
+      "start_channel": 7141,
+      "end_channel": 7245,
+      "bounds_ft": [
+        [
+          -37.0,
+          22.0,
+          0.0
+        ],
+        [
+          -23.0,
+          31.0,
+          0.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3126513474333721
+    },
+    {
+      "name": "HX_036_FIN_TREE_BRANCH",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "TREE_FACES",
+      "design": "FIN TREE BRANCH",
+      "kind": "pixel",
+      "nodes": 35,
+      "start_channel": 7246,
+      "end_channel": 7350,
+      "bounds_ft": [
+        [
+          -37.0,
+          42.0,
+          0.0
+        ],
+        [
+          -23.0,
+          51.0,
+          0.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3126513474333721
+    },
+    {
+      "name": "HX_037_FIN_TREE_BRANCH",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "TREE_FACES",
+      "design": "FIN TREE BRANCH",
+      "kind": "pixel",
+      "nodes": 35,
+      "start_channel": 7351,
+      "end_channel": 7455,
+      "bounds_ft": [
+        [
+          -37.0,
+          62.0,
+          0.0
+        ],
+        [
+          -23.0,
+          71.0,
+          0.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3126513474333721
+    },
+    {
+      "name": "HX_038_FIN_TREE_BRANCH",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "TREE_FACES",
+      "design": "FIN TREE BRANCH",
+      "kind": "pixel",
+      "nodes": 35,
+      "start_channel": 7456,
+      "end_channel": 7560,
+      "bounds_ft": [
+        [
+          -37.0,
+          78.0,
+          0.0
+        ],
+        [
+          -23.0,
+          87.0,
+          0.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3126513474333721
+    },
+    {
+      "name": "HX_039_FIN_HELIX_FACE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "HELIX_FACES",
+      "design": "FIN HELIX FACE",
+      "kind": "pixel",
+      "nodes": 90,
+      "start_channel": 7561,
+      "end_channel": 7830,
+      "bounds_ft": [
+        [
+          -37.0,
+          0.0,
+          8.0
+        ],
+        [
+          -23.0,
+          95.0,
+          8.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.33745175406673755
+    },
+    {
+      "name": "HX_040_FIN_HELIX_FACE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "HELIX_FACES",
+      "design": "FIN HELIX FACE",
+      "kind": "pixel",
+      "nodes": 90,
+      "start_channel": 7831,
+      "end_channel": 8100,
+      "bounds_ft": [
+        [
+          -37.0,
+          0.0,
+          8.0
+        ],
+        [
+          -23.0,
+          95.0,
+          8.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.33745175406673755
+    },
+    {
+      "name": "HX_041_FIN_FRAME",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "FIN_FRAMES",
+      "design": "FIN FRAME",
+      "kind": "pixel",
+      "nodes": 130,
+      "start_channel": 8101,
+      "end_channel": 8490,
+      "bounds_ft": [
+        [
+          -18.0,
+          0.0,
+          0.0
+        ],
+        [
+          -2.0,
+          95.0,
+          8.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.26117288301786024
+    },
+    {
+      "name": "HX_042_FIN_TREE_TRUNK",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "TREE_FACES",
+      "design": "FIN TREE TRUNK",
+      "kind": "pixel",
+      "nodes": 90,
+      "start_channel": 8491,
+      "end_channel": 8760,
+      "bounds_ft": [
+        [
+          -10.0,
+          0.0,
+          0.0
+        ],
+        [
+          -10.0,
+          88.0,
+          0.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.24719101123595522
+    },
+    {
+      "name": "HX_043_FIN_TREE_BRANCH",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "TREE_FACES",
+      "design": "FIN TREE BRANCH",
+      "kind": "pixel",
+      "nodes": 35,
+      "start_channel": 8761,
+      "end_channel": 8865,
+      "bounds_ft": [
+        [
+          -17.0,
+          22.0,
+          0.0
+        ],
+        [
+          -3.0,
+          31.0,
+          0.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3126513474333721
+    },
+    {
+      "name": "HX_044_FIN_TREE_BRANCH",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "TREE_FACES",
+      "design": "FIN TREE BRANCH",
+      "kind": "pixel",
+      "nodes": 35,
+      "start_channel": 8866,
+      "end_channel": 8970,
+      "bounds_ft": [
+        [
+          -17.0,
+          42.0,
+          0.0
+        ],
+        [
+          -3.0,
+          51.0,
+          0.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3126513474333721
+    },
+    {
+      "name": "HX_045_FIN_TREE_BRANCH",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "TREE_FACES",
+      "design": "FIN TREE BRANCH",
+      "kind": "pixel",
+      "nodes": 35,
+      "start_channel": 8971,
+      "end_channel": 9075,
+      "bounds_ft": [
+        [
+          -17.0,
+          62.0,
+          0.0
+        ],
+        [
+          -3.0,
+          71.0,
+          0.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3126513474333721
+    },
+    {
+      "name": "HX_046_FIN_TREE_BRANCH",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "TREE_FACES",
+      "design": "FIN TREE BRANCH",
+      "kind": "pixel",
+      "nodes": 35,
+      "start_channel": 9076,
+      "end_channel": 9180,
+      "bounds_ft": [
+        [
+          -17.0,
+          78.0,
+          0.0
+        ],
+        [
+          -3.0,
+          87.0,
+          0.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3126513474333721
+    },
+    {
+      "name": "HX_047_FIN_HELIX_FACE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "HELIX_FACES",
+      "design": "FIN HELIX FACE",
+      "kind": "pixel",
+      "nodes": 90,
+      "start_channel": 9181,
+      "end_channel": 9450,
+      "bounds_ft": [
+        [
+          -17.0,
+          0.0,
+          8.0
+        ],
+        [
+          -3.0,
+          95.0,
+          8.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3374517540667363
+    },
+    {
+      "name": "HX_048_FIN_HELIX_FACE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "HELIX_FACES",
+      "design": "FIN HELIX FACE",
+      "kind": "pixel",
+      "nodes": 90,
+      "start_channel": 9451,
+      "end_channel": 9720,
+      "bounds_ft": [
+        [
+          -17.0,
+          0.0,
+          8.0
+        ],
+        [
+          -3.0,
+          95.0,
+          8.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3374517540667369
+    },
+    {
+      "name": "HX_049_FIN_FRAME",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "FIN_FRAMES",
+      "design": "FIN FRAME",
+      "kind": "pixel",
+      "nodes": 130,
+      "start_channel": 9721,
+      "end_channel": 10110,
+      "bounds_ft": [
+        [
+          2.0,
+          0.0,
+          0.0
+        ],
+        [
+          18.0,
+          95.0,
+          8.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.26117288301786024
+    },
+    {
+      "name": "HX_050_FIN_TREE_TRUNK",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "TREE_FACES",
+      "design": "FIN TREE TRUNK",
+      "kind": "pixel",
+      "nodes": 90,
+      "start_channel": 10111,
+      "end_channel": 10380,
+      "bounds_ft": [
+        [
+          10.0,
+          0.0,
+          0.0
+        ],
+        [
+          10.0,
+          88.0,
+          0.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.24719101123595522
+    },
+    {
+      "name": "HX_051_FIN_TREE_BRANCH",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "TREE_FACES",
+      "design": "FIN TREE BRANCH",
+      "kind": "pixel",
+      "nodes": 35,
+      "start_channel": 10381,
+      "end_channel": 10485,
+      "bounds_ft": [
+        [
+          3.0,
+          22.0,
+          0.0
+        ],
+        [
+          17.0,
+          31.0,
+          0.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3126513474333721
+    },
+    {
+      "name": "HX_052_FIN_TREE_BRANCH",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "TREE_FACES",
+      "design": "FIN TREE BRANCH",
+      "kind": "pixel",
+      "nodes": 35,
+      "start_channel": 10486,
+      "end_channel": 10590,
+      "bounds_ft": [
+        [
+          3.0,
+          42.0,
+          0.0
+        ],
+        [
+          17.0,
+          51.0,
+          0.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3126513474333721
+    },
+    {
+      "name": "HX_053_FIN_TREE_BRANCH",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "TREE_FACES",
+      "design": "FIN TREE BRANCH",
+      "kind": "pixel",
+      "nodes": 35,
+      "start_channel": 10591,
+      "end_channel": 10695,
+      "bounds_ft": [
+        [
+          3.0,
+          62.0,
+          0.0
+        ],
+        [
+          17.0,
+          71.0,
+          0.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3126513474333721
+    },
+    {
+      "name": "HX_054_FIN_TREE_BRANCH",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "TREE_FACES",
+      "design": "FIN TREE BRANCH",
+      "kind": "pixel",
+      "nodes": 35,
+      "start_channel": 10696,
+      "end_channel": 10800,
+      "bounds_ft": [
+        [
+          3.0,
+          78.0,
+          0.0
+        ],
+        [
+          17.0,
+          87.0,
+          0.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3126513474333721
+    },
+    {
+      "name": "HX_055_FIN_HELIX_FACE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "HELIX_FACES",
+      "design": "FIN HELIX FACE",
+      "kind": "pixel",
+      "nodes": 90,
+      "start_channel": 10801,
+      "end_channel": 11070,
+      "bounds_ft": [
+        [
+          3.0,
+          0.0,
+          8.0
+        ],
+        [
+          17.0,
+          95.0,
+          8.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3374517540667363
+    },
+    {
+      "name": "HX_056_FIN_HELIX_FACE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "HELIX_FACES",
+      "design": "FIN HELIX FACE",
+      "kind": "pixel",
+      "nodes": 90,
+      "start_channel": 11071,
+      "end_channel": 11340,
+      "bounds_ft": [
+        [
+          3.0,
+          0.0,
+          8.0
+        ],
+        [
+          17.0,
+          95.0,
+          8.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.33745175406673755
+    },
+    {
+      "name": "HX_057_FIN_FRAME",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "FIN_FRAMES",
+      "design": "FIN FRAME",
+      "kind": "pixel",
+      "nodes": 130,
+      "start_channel": 11341,
+      "end_channel": 11730,
+      "bounds_ft": [
+        [
+          22.0,
+          0.0,
+          0.0
+        ],
+        [
+          38.0,
+          95.0,
+          8.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.26117288301786173
+    },
+    {
+      "name": "HX_058_FIN_TREE_TRUNK",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "TREE_FACES",
+      "design": "FIN TREE TRUNK",
+      "kind": "pixel",
+      "nodes": 90,
+      "start_channel": 11731,
+      "end_channel": 12000,
+      "bounds_ft": [
+        [
+          30.0,
+          0.0,
+          0.0
+        ],
+        [
+          30.0,
+          88.0,
+          0.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.24719101123595522
+    },
+    {
+      "name": "HX_059_FIN_TREE_BRANCH",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "TREE_FACES",
+      "design": "FIN TREE BRANCH",
+      "kind": "pixel",
+      "nodes": 35,
+      "start_channel": 12001,
+      "end_channel": 12105,
+      "bounds_ft": [
+        [
+          23.0,
+          22.0,
+          0.0
+        ],
+        [
+          37.0,
+          31.0,
+          0.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3126513474333721
+    },
+    {
+      "name": "HX_060_FIN_TREE_BRANCH",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "TREE_FACES",
+      "design": "FIN TREE BRANCH",
+      "kind": "pixel",
+      "nodes": 35,
+      "start_channel": 12106,
+      "end_channel": 12210,
+      "bounds_ft": [
+        [
+          23.0,
+          42.0,
+          0.0
+        ],
+        [
+          37.0,
+          51.0,
+          0.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3126513474333721
+    },
+    {
+      "name": "HX_061_FIN_TREE_BRANCH",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "TREE_FACES",
+      "design": "FIN TREE BRANCH",
+      "kind": "pixel",
+      "nodes": 35,
+      "start_channel": 12211,
+      "end_channel": 12315,
+      "bounds_ft": [
+        [
+          23.0,
+          62.0,
+          0.0
+        ],
+        [
+          37.0,
+          71.0,
+          0.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3126513474333721
+    },
+    {
+      "name": "HX_062_FIN_TREE_BRANCH",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "TREE_FACES",
+      "design": "FIN TREE BRANCH",
+      "kind": "pixel",
+      "nodes": 35,
+      "start_channel": 12316,
+      "end_channel": 12420,
+      "bounds_ft": [
+        [
+          23.0,
+          78.0,
+          0.0
+        ],
+        [
+          37.0,
+          87.0,
+          0.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3126513474333721
+    },
+    {
+      "name": "HX_063_FIN_HELIX_FACE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "HELIX_FACES",
+      "design": "FIN HELIX FACE",
+      "kind": "pixel",
+      "nodes": 90,
+      "start_channel": 12421,
+      "end_channel": 12690,
+      "bounds_ft": [
+        [
+          23.0,
+          0.0,
+          8.0
+        ],
+        [
+          37.0,
+          95.0,
+          8.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.33745175406673755
+    },
+    {
+      "name": "HX_064_FIN_HELIX_FACE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "HELIX_FACES",
+      "design": "FIN HELIX FACE",
+      "kind": "pixel",
+      "nodes": 90,
+      "start_channel": 12691,
+      "end_channel": 12960,
+      "bounds_ft": [
+        [
+          23.0,
+          0.0,
+          8.0
+        ],
+        [
+          37.0,
+          95.0,
+          8.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.33745175406673755
+    },
+    {
+      "name": "HX_065_FIN_FRAME",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "FIN_FRAMES",
+      "design": "FIN FRAME",
+      "kind": "pixel",
+      "nodes": 130,
+      "start_channel": 12961,
+      "end_channel": 13350,
+      "bounds_ft": [
+        [
+          42.0,
+          0.0,
+          0.0
+        ],
+        [
+          58.0,
+          95.0,
+          8.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.26117288301786173
+    },
+    {
+      "name": "HX_066_FIN_TREE_TRUNK",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "TREE_FACES",
+      "design": "FIN TREE TRUNK",
+      "kind": "pixel",
+      "nodes": 90,
+      "start_channel": 13351,
+      "end_channel": 13620,
+      "bounds_ft": [
+        [
+          50.0,
+          0.0,
+          0.0
+        ],
+        [
+          50.0,
+          88.0,
+          0.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.24719101123595522
+    },
+    {
+      "name": "HX_067_FIN_TREE_BRANCH",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "TREE_FACES",
+      "design": "FIN TREE BRANCH",
+      "kind": "pixel",
+      "nodes": 35,
+      "start_channel": 13621,
+      "end_channel": 13725,
+      "bounds_ft": [
+        [
+          43.0,
+          22.0,
+          0.0
+        ],
+        [
+          57.0,
+          31.0,
+          0.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.31265134743336975
+    },
+    {
+      "name": "HX_068_FIN_TREE_BRANCH",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "TREE_FACES",
+      "design": "FIN TREE BRANCH",
+      "kind": "pixel",
+      "nodes": 35,
+      "start_channel": 13726,
+      "end_channel": 13830,
+      "bounds_ft": [
+        [
+          43.0,
+          42.0,
+          0.0
+        ],
+        [
+          57.0,
+          51.0,
+          0.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.31265134743336975
+    },
+    {
+      "name": "HX_069_FIN_TREE_BRANCH",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "TREE_FACES",
+      "design": "FIN TREE BRANCH",
+      "kind": "pixel",
+      "nodes": 35,
+      "start_channel": 13831,
+      "end_channel": 13935,
+      "bounds_ft": [
+        [
+          43.0,
+          62.0,
+          0.0
+        ],
+        [
+          57.0,
+          71.0,
+          0.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.31265134743336975
+    },
+    {
+      "name": "HX_070_FIN_TREE_BRANCH",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "TREE_FACES",
+      "design": "FIN TREE BRANCH",
+      "kind": "pixel",
+      "nodes": 35,
+      "start_channel": 13936,
+      "end_channel": 14040,
+      "bounds_ft": [
+        [
+          43.0,
+          78.0,
+          0.0
+        ],
+        [
+          57.0,
+          87.0,
+          0.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.31265134743336975
+    },
+    {
+      "name": "HX_071_FIN_HELIX_FACE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "HELIX_FACES",
+      "design": "FIN HELIX FACE",
+      "kind": "pixel",
+      "nodes": 90,
+      "start_channel": 14041,
+      "end_channel": 14310,
+      "bounds_ft": [
+        [
+          43.0,
+          0.0,
+          8.0
+        ],
+        [
+          57.0,
+          95.0,
+          8.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.33745175406673755
+    },
+    {
+      "name": "HX_072_FIN_HELIX_FACE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "HELIX_FACES",
+      "design": "FIN HELIX FACE",
+      "kind": "pixel",
+      "nodes": 90,
+      "start_channel": 14311,
+      "end_channel": 14580,
+      "bounds_ft": [
+        [
+          43.0,
+          0.0,
+          8.0
+        ],
+        [
+          57.0,
+          95.0,
+          8.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.33745175406673755
+    },
+    {
+      "name": "HX_073_FIN_FRAME",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "FIN_FRAMES",
+      "design": "FIN FRAME",
+      "kind": "pixel",
+      "nodes": 130,
+      "start_channel": 14581,
+      "end_channel": 14970,
+      "bounds_ft": [
+        [
+          62.0,
+          0.0,
+          0.0
+        ],
+        [
+          78.0,
+          95.0,
+          8.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.26117288301785574
+    },
+    {
+      "name": "HX_074_FIN_TREE_TRUNK",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "TREE_FACES",
+      "design": "FIN TREE TRUNK",
+      "kind": "pixel",
+      "nodes": 90,
+      "start_channel": 14971,
+      "end_channel": 15240,
+      "bounds_ft": [
+        [
+          70.0,
+          0.0,
+          0.0
+        ],
+        [
+          70.0,
+          88.0,
+          0.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.24719101123595522
+    },
+    {
+      "name": "HX_075_FIN_TREE_BRANCH",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "TREE_FACES",
+      "design": "FIN TREE BRANCH",
+      "kind": "pixel",
+      "nodes": 35,
+      "start_channel": 15241,
+      "end_channel": 15345,
+      "bounds_ft": [
+        [
+          63.0,
+          22.0,
+          0.0
+        ],
+        [
+          77.0,
+          31.0,
+          0.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.31265134743336975
+    },
+    {
+      "name": "HX_076_FIN_TREE_BRANCH",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "TREE_FACES",
+      "design": "FIN TREE BRANCH",
+      "kind": "pixel",
+      "nodes": 35,
+      "start_channel": 15346,
+      "end_channel": 15450,
+      "bounds_ft": [
+        [
+          63.0,
+          42.0,
+          0.0
+        ],
+        [
+          77.0,
+          51.0,
+          0.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.31265134743336975
+    },
+    {
+      "name": "HX_077_FIN_TREE_BRANCH",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "TREE_FACES",
+      "design": "FIN TREE BRANCH",
+      "kind": "pixel",
+      "nodes": 35,
+      "start_channel": 15451,
+      "end_channel": 15555,
+      "bounds_ft": [
+        [
+          63.0,
+          62.0,
+          0.0
+        ],
+        [
+          77.0,
+          71.0,
+          0.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.31265134743336975
+    },
+    {
+      "name": "HX_078_FIN_TREE_BRANCH",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "TREE_FACES",
+      "design": "FIN TREE BRANCH",
+      "kind": "pixel",
+      "nodes": 35,
+      "start_channel": 15556,
+      "end_channel": 15660,
+      "bounds_ft": [
+        [
+          63.0,
+          78.0,
+          0.0
+        ],
+        [
+          77.0,
+          87.0,
+          0.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.31265134743336975
+    },
+    {
+      "name": "HX_079_FIN_HELIX_FACE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "HELIX_FACES",
+      "design": "FIN HELIX FACE",
+      "kind": "pixel",
+      "nodes": 90,
+      "start_channel": 15661,
+      "end_channel": 15930,
+      "bounds_ft": [
+        [
+          63.0,
+          0.0,
+          8.0
+        ],
+        [
+          77.0,
+          95.0,
+          8.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.33745175406673755
+    },
+    {
+      "name": "HX_080_FIN_HELIX_FACE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "HELIX_FACES",
+      "design": "FIN HELIX FACE",
+      "kind": "pixel",
+      "nodes": 90,
+      "start_channel": 15931,
+      "end_channel": 16200,
+      "bounds_ft": [
+        [
+          63.0,
+          0.0,
+          8.0
+        ],
+        [
+          77.0,
+          95.0,
+          8.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.33745175406673755
+    },
+    {
+      "name": "HX_081_FIN_FRAME",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "FIN_FRAMES",
+      "design": "FIN FRAME",
+      "kind": "pixel",
+      "nodes": 130,
+      "start_channel": 16201,
+      "end_channel": 16590,
+      "bounds_ft": [
+        [
+          82.0,
+          0.0,
+          0.0
+        ],
+        [
+          98.0,
+          95.0,
+          8.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.26117288301785574
+    },
+    {
+      "name": "HX_082_FIN_TREE_TRUNK",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "TREE_FACES",
+      "design": "FIN TREE TRUNK",
+      "kind": "pixel",
+      "nodes": 90,
+      "start_channel": 16591,
+      "end_channel": 16860,
+      "bounds_ft": [
+        [
+          90.0,
+          0.0,
+          0.0
+        ],
+        [
+          90.0,
+          88.0,
+          0.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.24719101123595522
+    },
+    {
+      "name": "HX_083_FIN_TREE_BRANCH",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "TREE_FACES",
+      "design": "FIN TREE BRANCH",
+      "kind": "pixel",
+      "nodes": 35,
+      "start_channel": 16861,
+      "end_channel": 16965,
+      "bounds_ft": [
+        [
+          83.0,
+          22.0,
+          0.0
+        ],
+        [
+          97.0,
+          31.0,
+          0.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.31265134743336975
+    },
+    {
+      "name": "HX_084_FIN_TREE_BRANCH",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "TREE_FACES",
+      "design": "FIN TREE BRANCH",
+      "kind": "pixel",
+      "nodes": 35,
+      "start_channel": 16966,
+      "end_channel": 17070,
+      "bounds_ft": [
+        [
+          83.0,
+          42.0,
+          0.0
+        ],
+        [
+          97.0,
+          51.0,
+          0.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.31265134743336975
+    },
+    {
+      "name": "HX_085_FIN_TREE_BRANCH",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "TREE_FACES",
+      "design": "FIN TREE BRANCH",
+      "kind": "pixel",
+      "nodes": 35,
+      "start_channel": 17071,
+      "end_channel": 17175,
+      "bounds_ft": [
+        [
+          83.0,
+          62.0,
+          0.0
+        ],
+        [
+          97.0,
+          71.0,
+          0.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.31265134743336975
+    },
+    {
+      "name": "HX_086_FIN_TREE_BRANCH",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "TREE_FACES",
+      "design": "FIN TREE BRANCH",
+      "kind": "pixel",
+      "nodes": 35,
+      "start_channel": 17176,
+      "end_channel": 17280,
+      "bounds_ft": [
+        [
+          83.0,
+          78.0,
+          0.0
+        ],
+        [
+          97.0,
+          87.0,
+          0.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.31265134743336975
+    },
+    {
+      "name": "HX_087_FIN_HELIX_FACE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "HELIX_FACES",
+      "design": "FIN HELIX FACE",
+      "kind": "pixel",
+      "nodes": 90,
+      "start_channel": 17281,
+      "end_channel": 17550,
+      "bounds_ft": [
+        [
+          83.0,
+          0.0,
+          8.0
+        ],
+        [
+          97.0,
+          95.0,
+          8.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.33745175406673755
+    },
+    {
+      "name": "HX_088_FIN_HELIX_FACE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "HELIX_FACES",
+      "design": "FIN HELIX FACE",
+      "kind": "pixel",
+      "nodes": 90,
+      "start_channel": 17551,
+      "end_channel": 17820,
+      "bounds_ft": [
+        [
+          83.0,
+          0.0,
+          8.0
+        ],
+        [
+          97.0,
+          95.0,
+          8.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.33745175406673755
+    },
+    {
+      "name": "HX_089_FIN_FRAME",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "FIN_FRAMES",
+      "design": "FIN FRAME",
+      "kind": "pixel",
+      "nodes": 130,
+      "start_channel": 17821,
+      "end_channel": 18210,
+      "bounds_ft": [
+        [
+          102.0,
+          0.0,
+          0.0
+        ],
+        [
+          118.0,
+          95.0,
+          8.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.26117288301785574
+    },
+    {
+      "name": "HX_090_FIN_TREE_TRUNK",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "TREE_FACES",
+      "design": "FIN TREE TRUNK",
+      "kind": "pixel",
+      "nodes": 90,
+      "start_channel": 18211,
+      "end_channel": 18480,
+      "bounds_ft": [
+        [
+          110.0,
+          0.0,
+          0.0
+        ],
+        [
+          110.0,
+          88.0,
+          0.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.24719101123595522
+    },
+    {
+      "name": "HX_091_FIN_TREE_BRANCH",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "TREE_FACES",
+      "design": "FIN TREE BRANCH",
+      "kind": "pixel",
+      "nodes": 35,
+      "start_channel": 18481,
+      "end_channel": 18585,
+      "bounds_ft": [
+        [
+          103.0,
+          22.0,
+          0.0
+        ],
+        [
+          117.0,
+          31.0,
+          0.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.31265134743336975
+    },
+    {
+      "name": "HX_092_FIN_TREE_BRANCH",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "TREE_FACES",
+      "design": "FIN TREE BRANCH",
+      "kind": "pixel",
+      "nodes": 35,
+      "start_channel": 18586,
+      "end_channel": 18690,
+      "bounds_ft": [
+        [
+          103.0,
+          42.0,
+          0.0
+        ],
+        [
+          117.0,
+          51.0,
+          0.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.31265134743336975
+    },
+    {
+      "name": "HX_093_FIN_TREE_BRANCH",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "TREE_FACES",
+      "design": "FIN TREE BRANCH",
+      "kind": "pixel",
+      "nodes": 35,
+      "start_channel": 18691,
+      "end_channel": 18795,
+      "bounds_ft": [
+        [
+          103.0,
+          62.0,
+          0.0
+        ],
+        [
+          117.0,
+          71.0,
+          0.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.31265134743336975
+    },
+    {
+      "name": "HX_094_FIN_TREE_BRANCH",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "TREE_FACES",
+      "design": "FIN TREE BRANCH",
+      "kind": "pixel",
+      "nodes": 35,
+      "start_channel": 18796,
+      "end_channel": 18900,
+      "bounds_ft": [
+        [
+          103.0,
+          78.0,
+          0.0
+        ],
+        [
+          117.0,
+          87.0,
+          0.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.31265134743336975
+    },
+    {
+      "name": "HX_095_FIN_HELIX_FACE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "HELIX_FACES",
+      "design": "FIN HELIX FACE",
+      "kind": "pixel",
+      "nodes": 90,
+      "start_channel": 18901,
+      "end_channel": 19170,
+      "bounds_ft": [
+        [
+          103.0,
+          0.0,
+          8.0
+        ],
+        [
+          117.0,
+          95.0,
+          8.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.33745175406673755
+    },
+    {
+      "name": "HX_096_FIN_HELIX_FACE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "HELIX_FACES",
+      "design": "FIN HELIX FACE",
+      "kind": "pixel",
+      "nodes": 90,
+      "start_channel": 19171,
+      "end_channel": 19440,
+      "bounds_ft": [
+        [
+          103.0,
+          0.0,
+          8.0
+        ],
+        [
+          117.0,
+          95.0,
+          8.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.33745175406673755
+    },
+    {
+      "name": "HX_097_VIEW_PATH",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "GROUND",
+      "design": "VIEW PATH",
+      "kind": "pixel",
+      "nodes": 80,
+      "start_channel": 19441,
+      "end_channel": 19680,
+      "bounds_ft": [
+        [
+          -130.0,
+          0.0,
+          -15.0
+        ],
+        [
+          -130.0,
+          0.0,
+          65.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.24683544303798044
+    },
+    {
+      "name": "HX_098_VIEW_PATH",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "GROUND",
+      "design": "VIEW PATH",
+      "kind": "pixel",
+      "nodes": 80,
+      "start_channel": 19681,
+      "end_channel": 19920,
+      "bounds_ft": [
+        [
+          130.0,
+          0.0,
+          -15.0
+        ],
+        [
+          130.0,
+          0.0,
+          65.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.24683544303798044
+    }
+  ],
+  "file_prefix": "Lenticular_Light_Forest",
+  "description": "Angled, baffled fins suggest two different compositions depending on where the audience stands.",
+  "palette": [
+    "#69EFFF",
+    "#B599FF",
+    "#FFD98A"
+  ],
+  "groups": {
+    "HX_ALL_PIXELS": [
+      "HX_001_FIN_FRAME",
+      "HX_002_FIN_TREE_TRUNK",
+      "HX_003_FIN_TREE_BRANCH",
+      "HX_004_FIN_TREE_BRANCH",
+      "HX_005_FIN_TREE_BRANCH",
+      "HX_006_FIN_TREE_BRANCH",
+      "HX_007_FIN_HELIX_FACE",
+      "HX_008_FIN_HELIX_FACE",
+      "HX_009_FIN_FRAME",
+      "HX_010_FIN_TREE_TRUNK",
+      "HX_011_FIN_TREE_BRANCH",
+      "HX_012_FIN_TREE_BRANCH",
+      "HX_013_FIN_TREE_BRANCH",
+      "HX_014_FIN_TREE_BRANCH",
+      "HX_015_FIN_HELIX_FACE",
+      "HX_016_FIN_HELIX_FACE",
+      "HX_017_FIN_FRAME",
+      "HX_018_FIN_TREE_TRUNK",
+      "HX_019_FIN_TREE_BRANCH",
+      "HX_020_FIN_TREE_BRANCH",
+      "HX_021_FIN_TREE_BRANCH",
+      "HX_022_FIN_TREE_BRANCH",
+      "HX_023_FIN_HELIX_FACE",
+      "HX_024_FIN_HELIX_FACE",
+      "HX_025_FIN_FRAME",
+      "HX_026_FIN_TREE_TRUNK",
+      "HX_027_FIN_TREE_BRANCH",
+      "HX_028_FIN_TREE_BRANCH",
+      "HX_029_FIN_TREE_BRANCH",
+      "HX_030_FIN_TREE_BRANCH",
+      "HX_031_FIN_HELIX_FACE",
+      "HX_032_FIN_HELIX_FACE",
+      "HX_033_FIN_FRAME",
+      "HX_034_FIN_TREE_TRUNK",
+      "HX_035_FIN_TREE_BRANCH",
+      "HX_036_FIN_TREE_BRANCH",
+      "HX_037_FIN_TREE_BRANCH",
+      "HX_038_FIN_TREE_BRANCH",
+      "HX_039_FIN_HELIX_FACE",
+      "HX_040_FIN_HELIX_FACE",
+      "HX_041_FIN_FRAME",
+      "HX_042_FIN_TREE_TRUNK",
+      "HX_043_FIN_TREE_BRANCH",
+      "HX_044_FIN_TREE_BRANCH",
+      "HX_045_FIN_TREE_BRANCH",
+      "HX_046_FIN_TREE_BRANCH",
+      "HX_047_FIN_HELIX_FACE",
+      "HX_048_FIN_HELIX_FACE",
+      "HX_049_FIN_FRAME",
+      "HX_050_FIN_TREE_TRUNK",
+      "HX_051_FIN_TREE_BRANCH",
+      "HX_052_FIN_TREE_BRANCH",
+      "HX_053_FIN_TREE_BRANCH",
+      "HX_054_FIN_TREE_BRANCH",
+      "HX_055_FIN_HELIX_FACE",
+      "HX_056_FIN_HELIX_FACE",
+      "HX_057_FIN_FRAME",
+      "HX_058_FIN_TREE_TRUNK",
+      "HX_059_FIN_TREE_BRANCH",
+      "HX_060_FIN_TREE_BRANCH",
+      "HX_061_FIN_TREE_BRANCH",
+      "HX_062_FIN_TREE_BRANCH",
+      "HX_063_FIN_HELIX_FACE",
+      "HX_064_FIN_HELIX_FACE",
+      "HX_065_FIN_FRAME",
+      "HX_066_FIN_TREE_TRUNK",
+      "HX_067_FIN_TREE_BRANCH",
+      "HX_068_FIN_TREE_BRANCH",
+      "HX_069_FIN_TREE_BRANCH",
+      "HX_070_FIN_TREE_BRANCH",
+      "HX_071_FIN_HELIX_FACE",
+      "HX_072_FIN_HELIX_FACE",
+      "HX_073_FIN_FRAME",
+      "HX_074_FIN_TREE_TRUNK",
+      "HX_075_FIN_TREE_BRANCH",
+      "HX_076_FIN_TREE_BRANCH",
+      "HX_077_FIN_TREE_BRANCH",
+      "HX_078_FIN_TREE_BRANCH",
+      "HX_079_FIN_HELIX_FACE",
+      "HX_080_FIN_HELIX_FACE",
+      "HX_081_FIN_FRAME",
+      "HX_082_FIN_TREE_TRUNK",
+      "HX_083_FIN_TREE_BRANCH",
+      "HX_084_FIN_TREE_BRANCH",
+      "HX_085_FIN_TREE_BRANCH",
+      "HX_086_FIN_TREE_BRANCH",
+      "HX_087_FIN_HELIX_FACE",
+      "HX_088_FIN_HELIX_FACE",
+      "HX_089_FIN_FRAME",
+      "HX_090_FIN_TREE_TRUNK",
+      "HX_091_FIN_TREE_BRANCH",
+      "HX_092_FIN_TREE_BRANCH",
+      "HX_093_FIN_TREE_BRANCH",
+      "HX_094_FIN_TREE_BRANCH",
+      "HX_095_FIN_HELIX_FACE",
+      "HX_096_FIN_HELIX_FACE",
+      "HX_097_VIEW_PATH",
+      "HX_098_VIEW_PATH"
+    ],
+    "HX_NATIVE_CUSTOM": [
+      "HX_001_FIN_FRAME",
+      "HX_002_FIN_TREE_TRUNK",
+      "HX_003_FIN_TREE_BRANCH",
+      "HX_004_FIN_TREE_BRANCH",
+      "HX_005_FIN_TREE_BRANCH",
+      "HX_006_FIN_TREE_BRANCH",
+      "HX_007_FIN_HELIX_FACE",
+      "HX_008_FIN_HELIX_FACE",
+      "HX_009_FIN_FRAME",
+      "HX_010_FIN_TREE_TRUNK",
+      "HX_011_FIN_TREE_BRANCH",
+      "HX_012_FIN_TREE_BRANCH",
+      "HX_013_FIN_TREE_BRANCH",
+      "HX_014_FIN_TREE_BRANCH",
+      "HX_015_FIN_HELIX_FACE",
+      "HX_016_FIN_HELIX_FACE",
+      "HX_017_FIN_FRAME",
+      "HX_018_FIN_TREE_TRUNK",
+      "HX_019_FIN_TREE_BRANCH",
+      "HX_020_FIN_TREE_BRANCH",
+      "HX_021_FIN_TREE_BRANCH",
+      "HX_022_FIN_TREE_BRANCH",
+      "HX_023_FIN_HELIX_FACE",
+      "HX_024_FIN_HELIX_FACE",
+      "HX_025_FIN_FRAME",
+      "HX_026_FIN_TREE_TRUNK",
+      "HX_027_FIN_TREE_BRANCH",
+      "HX_028_FIN_TREE_BRANCH",
+      "HX_029_FIN_TREE_BRANCH",
+      "HX_030_FIN_TREE_BRANCH",
+      "HX_031_FIN_HELIX_FACE",
+      "HX_032_FIN_HELIX_FACE",
+      "HX_033_FIN_FRAME",
+      "HX_034_FIN_TREE_TRUNK",
+      "HX_035_FIN_TREE_BRANCH",
+      "HX_036_FIN_TREE_BRANCH",
+      "HX_037_FIN_TREE_BRANCH",
+      "HX_038_FIN_TREE_BRANCH",
+      "HX_039_FIN_HELIX_FACE",
+      "HX_040_FIN_HELIX_FACE",
+      "HX_041_FIN_FRAME",
+      "HX_042_FIN_TREE_TRUNK",
+      "HX_043_FIN_TREE_BRANCH",
+      "HX_044_FIN_TREE_BRANCH",
+      "HX_045_FIN_TREE_BRANCH",
+      "HX_046_FIN_TREE_BRANCH",
+      "HX_047_FIN_HELIX_FACE",
+      "HX_048_FIN_HELIX_FACE",
+      "HX_049_FIN_FRAME",
+      "HX_050_FIN_TREE_TRUNK",
+      "HX_051_FIN_TREE_BRANCH",
+      "HX_052_FIN_TREE_BRANCH",
+      "HX_053_FIN_TREE_BRANCH",
+      "HX_054_FIN_TREE_BRANCH",
+      "HX_055_FIN_HELIX_FACE",
+      "HX_056_FIN_HELIX_FACE",
+      "HX_057_FIN_FRAME",
+      "HX_058_FIN_TREE_TRUNK",
+      "HX_059_FIN_TREE_BRANCH",
+      "HX_060_FIN_TREE_BRANCH",
+      "HX_061_FIN_TREE_BRANCH",
+      "HX_062_FIN_TREE_BRANCH",
+      "HX_063_FIN_HELIX_FACE",
+      "HX_064_FIN_HELIX_FACE",
+      "HX_065_FIN_FRAME",
+      "HX_066_FIN_TREE_TRUNK",
+      "HX_067_FIN_TREE_BRANCH",
+      "HX_068_FIN_TREE_BRANCH",
+      "HX_069_FIN_TREE_BRANCH",
+      "HX_070_FIN_TREE_BRANCH",
+      "HX_071_FIN_HELIX_FACE",
+      "HX_072_FIN_HELIX_FACE",
+      "HX_073_FIN_FRAME",
+      "HX_074_FIN_TREE_TRUNK",
+      "HX_075_FIN_TREE_BRANCH",
+      "HX_076_FIN_TREE_BRANCH",
+      "HX_077_FIN_TREE_BRANCH",
+      "HX_078_FIN_TREE_BRANCH",
+      "HX_079_FIN_HELIX_FACE",
+      "HX_080_FIN_HELIX_FACE",
+      "HX_081_FIN_FRAME",
+      "HX_082_FIN_TREE_TRUNK",
+      "HX_083_FIN_TREE_BRANCH",
+      "HX_084_FIN_TREE_BRANCH",
+      "HX_085_FIN_TREE_BRANCH",
+      "HX_086_FIN_TREE_BRANCH",
+      "HX_087_FIN_HELIX_FACE",
+      "HX_088_FIN_HELIX_FACE",
+      "HX_089_FIN_FRAME",
+      "HX_090_FIN_TREE_TRUNK",
+      "HX_091_FIN_TREE_BRANCH",
+      "HX_092_FIN_TREE_BRANCH",
+      "HX_093_FIN_TREE_BRANCH",
+      "HX_094_FIN_TREE_BRANCH",
+      "HX_095_FIN_HELIX_FACE",
+      "HX_096_FIN_HELIX_FACE",
+      "HX_097_VIEW_PATH",
+      "HX_098_VIEW_PATH"
+    ],
+    "HX_WHOLE_SHOW": [
+      "HX_001_FIN_FRAME",
+      "HX_002_FIN_TREE_TRUNK",
+      "HX_003_FIN_TREE_BRANCH",
+      "HX_004_FIN_TREE_BRANCH",
+      "HX_005_FIN_TREE_BRANCH",
+      "HX_006_FIN_TREE_BRANCH",
+      "HX_007_FIN_HELIX_FACE",
+      "HX_008_FIN_HELIX_FACE",
+      "HX_009_FIN_FRAME",
+      "HX_010_FIN_TREE_TRUNK",
+      "HX_011_FIN_TREE_BRANCH",
+      "HX_012_FIN_TREE_BRANCH",
+      "HX_013_FIN_TREE_BRANCH",
+      "HX_014_FIN_TREE_BRANCH",
+      "HX_015_FIN_HELIX_FACE",
+      "HX_016_FIN_HELIX_FACE",
+      "HX_017_FIN_FRAME",
+      "HX_018_FIN_TREE_TRUNK",
+      "HX_019_FIN_TREE_BRANCH",
+      "HX_020_FIN_TREE_BRANCH",
+      "HX_021_FIN_TREE_BRANCH",
+      "HX_022_FIN_TREE_BRANCH",
+      "HX_023_FIN_HELIX_FACE",
+      "HX_024_FIN_HELIX_FACE",
+      "HX_025_FIN_FRAME",
+      "HX_026_FIN_TREE_TRUNK",
+      "HX_027_FIN_TREE_BRANCH",
+      "HX_028_FIN_TREE_BRANCH",
+      "HX_029_FIN_TREE_BRANCH",
+      "HX_030_FIN_TREE_BRANCH",
+      "HX_031_FIN_HELIX_FACE",
+      "HX_032_FIN_HELIX_FACE",
+      "HX_033_FIN_FRAME",
+      "HX_034_FIN_TREE_TRUNK",
+      "HX_035_FIN_TREE_BRANCH",
+      "HX_036_FIN_TREE_BRANCH",
+      "HX_037_FIN_TREE_BRANCH",
+      "HX_038_FIN_TREE_BRANCH",
+      "HX_039_FIN_HELIX_FACE",
+      "HX_040_FIN_HELIX_FACE",
+      "HX_041_FIN_FRAME",
+      "HX_042_FIN_TREE_TRUNK",
+      "HX_043_FIN_TREE_BRANCH",
+      "HX_044_FIN_TREE_BRANCH",
+      "HX_045_FIN_TREE_BRANCH",
+      "HX_046_FIN_TREE_BRANCH",
+      "HX_047_FIN_HELIX_FACE",
+      "HX_048_FIN_HELIX_FACE",
+      "HX_049_FIN_FRAME",
+      "HX_050_FIN_TREE_TRUNK",
+      "HX_051_FIN_TREE_BRANCH",
+      "HX_052_FIN_TREE_BRANCH",
+      "HX_053_FIN_TREE_BRANCH",
+      "HX_054_FIN_TREE_BRANCH",
+      "HX_055_FIN_HELIX_FACE",
+      "HX_056_FIN_HELIX_FACE",
+      "HX_057_FIN_FRAME",
+      "HX_058_FIN_TREE_TRUNK",
+      "HX_059_FIN_TREE_BRANCH",
+      "HX_060_FIN_TREE_BRANCH",
+      "HX_061_FIN_TREE_BRANCH",
+      "HX_062_FIN_TREE_BRANCH",
+      "HX_063_FIN_HELIX_FACE",
+      "HX_064_FIN_HELIX_FACE",
+      "HX_065_FIN_FRAME",
+      "HX_066_FIN_TREE_TRUNK",
+      "HX_067_FIN_TREE_BRANCH",
+      "HX_068_FIN_TREE_BRANCH",
+      "HX_069_FIN_TREE_BRANCH",
+      "HX_070_FIN_TREE_BRANCH",
+      "HX_071_FIN_HELIX_FACE",
+      "HX_072_FIN_HELIX_FACE",
+      "HX_073_FIN_FRAME",
+      "HX_074_FIN_TREE_TRUNK",
+      "HX_075_FIN_TREE_BRANCH",
+      "HX_076_FIN_TREE_BRANCH",
+      "HX_077_FIN_TREE_BRANCH",
+      "HX_078_FIN_TREE_BRANCH",
+      "HX_079_FIN_HELIX_FACE",
+      "HX_080_FIN_HELIX_FACE",
+      "HX_081_FIN_FRAME",
+      "HX_082_FIN_TREE_TRUNK",
+      "HX_083_FIN_TREE_BRANCH",
+      "HX_084_FIN_TREE_BRANCH",
+      "HX_085_FIN_TREE_BRANCH",
+      "HX_086_FIN_TREE_BRANCH",
+      "HX_087_FIN_HELIX_FACE",
+      "HX_088_FIN_HELIX_FACE",
+      "HX_089_FIN_FRAME",
+      "HX_090_FIN_TREE_TRUNK",
+      "HX_091_FIN_TREE_BRANCH",
+      "HX_092_FIN_TREE_BRANCH",
+      "HX_093_FIN_TREE_BRANCH",
+      "HX_094_FIN_TREE_BRANCH",
+      "HX_095_FIN_HELIX_FACE",
+      "HX_096_FIN_HELIX_FACE",
+      "HX_097_VIEW_PATH",
+      "HX_098_VIEW_PATH"
+    ],
+    "HX_ZONE_FIN_FRAMES": [
+      "HX_001_FIN_FRAME",
+      "HX_009_FIN_FRAME",
+      "HX_017_FIN_FRAME",
+      "HX_025_FIN_FRAME",
+      "HX_033_FIN_FRAME",
+      "HX_041_FIN_FRAME",
+      "HX_049_FIN_FRAME",
+      "HX_057_FIN_FRAME",
+      "HX_065_FIN_FRAME",
+      "HX_073_FIN_FRAME",
+      "HX_081_FIN_FRAME",
+      "HX_089_FIN_FRAME"
+    ],
+    "HX_ZONE_GROUND": [
+      "HX_097_VIEW_PATH",
+      "HX_098_VIEW_PATH"
+    ],
+    "HX_ZONE_HELIX_FACES": [
+      "HX_007_FIN_HELIX_FACE",
+      "HX_008_FIN_HELIX_FACE",
+      "HX_015_FIN_HELIX_FACE",
+      "HX_016_FIN_HELIX_FACE",
+      "HX_023_FIN_HELIX_FACE",
+      "HX_024_FIN_HELIX_FACE",
+      "HX_031_FIN_HELIX_FACE",
+      "HX_032_FIN_HELIX_FACE",
+      "HX_039_FIN_HELIX_FACE",
+      "HX_040_FIN_HELIX_FACE",
+      "HX_047_FIN_HELIX_FACE",
+      "HX_048_FIN_HELIX_FACE",
+      "HX_055_FIN_HELIX_FACE",
+      "HX_056_FIN_HELIX_FACE",
+      "HX_063_FIN_HELIX_FACE",
+      "HX_064_FIN_HELIX_FACE",
+      "HX_071_FIN_HELIX_FACE",
+      "HX_072_FIN_HELIX_FACE",
+      "HX_079_FIN_HELIX_FACE",
+      "HX_080_FIN_HELIX_FACE",
+      "HX_087_FIN_HELIX_FACE",
+      "HX_088_FIN_HELIX_FACE",
+      "HX_095_FIN_HELIX_FACE",
+      "HX_096_FIN_HELIX_FACE"
+    ],
+    "HX_ZONE_TREE_FACES": [
+      "HX_002_FIN_TREE_TRUNK",
+      "HX_003_FIN_TREE_BRANCH",
+      "HX_004_FIN_TREE_BRANCH",
+      "HX_005_FIN_TREE_BRANCH",
+      "HX_006_FIN_TREE_BRANCH",
+      "HX_010_FIN_TREE_TRUNK",
+      "HX_011_FIN_TREE_BRANCH",
+      "HX_012_FIN_TREE_BRANCH",
+      "HX_013_FIN_TREE_BRANCH",
+      "HX_014_FIN_TREE_BRANCH",
+      "HX_018_FIN_TREE_TRUNK",
+      "HX_019_FIN_TREE_BRANCH",
+      "HX_020_FIN_TREE_BRANCH",
+      "HX_021_FIN_TREE_BRANCH",
+      "HX_022_FIN_TREE_BRANCH",
+      "HX_026_FIN_TREE_TRUNK",
+      "HX_027_FIN_TREE_BRANCH",
+      "HX_028_FIN_TREE_BRANCH",
+      "HX_029_FIN_TREE_BRANCH",
+      "HX_030_FIN_TREE_BRANCH",
+      "HX_034_FIN_TREE_TRUNK",
+      "HX_035_FIN_TREE_BRANCH",
+      "HX_036_FIN_TREE_BRANCH",
+      "HX_037_FIN_TREE_BRANCH",
+      "HX_038_FIN_TREE_BRANCH",
+      "HX_042_FIN_TREE_TRUNK",
+      "HX_043_FIN_TREE_BRANCH",
+      "HX_044_FIN_TREE_BRANCH",
+      "HX_045_FIN_TREE_BRANCH",
+      "HX_046_FIN_TREE_BRANCH",
+      "HX_050_FIN_TREE_TRUNK",
+      "HX_051_FIN_TREE_BRANCH",
+      "HX_052_FIN_TREE_BRANCH",
+      "HX_053_FIN_TREE_BRANCH",
+      "HX_054_FIN_TREE_BRANCH",
+      "HX_058_FIN_TREE_TRUNK",
+      "HX_059_FIN_TREE_BRANCH",
+      "HX_060_FIN_TREE_BRANCH",
+      "HX_061_FIN_TREE_BRANCH",
+      "HX_062_FIN_TREE_BRANCH",
+      "HX_066_FIN_TREE_TRUNK",
+      "HX_067_FIN_TREE_BRANCH",
+      "HX_068_FIN_TREE_BRANCH",
+      "HX_069_FIN_TREE_BRANCH",
+      "HX_070_FIN_TREE_BRANCH",
+      "HX_074_FIN_TREE_TRUNK",
+      "HX_075_FIN_TREE_BRANCH",
+      "HX_076_FIN_TREE_BRANCH",
+      "HX_077_FIN_TREE_BRANCH",
+      "HX_078_FIN_TREE_BRANCH",
+      "HX_082_FIN_TREE_TRUNK",
+      "HX_083_FIN_TREE_BRANCH",
+      "HX_084_FIN_TREE_BRANCH",
+      "HX_085_FIN_TREE_BRANCH",
+      "HX_086_FIN_TREE_BRANCH",
+      "HX_090_FIN_TREE_TRUNK",
+      "HX_091_FIN_TREE_BRANCH",
+      "HX_092_FIN_TREE_BRANCH",
+      "HX_093_FIN_TREE_BRANCH",
+      "HX_094_FIN_TREE_BRANCH"
+    ]
+  },
+  "group_count": 7,
+  "concept_id": "35",
+  "source_art": "images/35_36.png",
+  "source_art_side": "left",
+  "build_status": "native planning layout",
+  "source_brief": {
+    "id": "35",
+    "name": "Lenticular Light Forest",
+    "standout": "Angled, baffled fins suggest two different compositions depending on where the audience stands.",
+    "scene": "A physical garden of many vertical ANGLED two-faced fin panels in finite rows, with real dark backing/baffles between luminous faces. Main LEFT-side vantage reveals cyan tree-like contours across the fins; a small lower inset at the alternate RIGHT-side vantage reveals a magenta helix motif assembled from the other faces. Clearly separate angular view zones and dark panel edges; no magical unshielded pixels changing visibility. Minimal gold viewing paths.",
+    "board": 7,
+    "side": "left",
+    "image": "images/35_36.png",
+    "status": "awaiting approval",
+    "scope": "Concept art; no xmodel/XML/XSQ/MP4 build.",
+    "source_catalog": "showcase/concepts/2026_10_09_advanced/concepts.json",
+    "description": "Angled, baffled fins suggest two different compositions depending on where the audience stands.",
+    "constraint": "Finite artwork-guided planning geometry; no physical actuation or surveyed construction dimensions.",
+    "round": "advanced"
+  },
+  "sequence_type": "24-second silent Animation study",
+  "physical_output_networks": 0,
+  "limits": [
+    "Finite artwork-guided planning geometry; no physical actuation or surveyed construction dimensions.",
+    "Artwork-guided finite geometry, not a scanned/surveyed reconstruction.",
+    "No complete music sequence or musical drummer acceptance claimed."
+  ]
+}

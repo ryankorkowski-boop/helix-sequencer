@@ -1,0 +1,154 @@
+[
+  {
+    "file": "Helix_Two_Stages_1.mp4",
+    "bytes": 26795966,
+    "sha256": "d62414813ee5079a71766e9b8c8232f84678e2edde34010f629e9055e0c2f372",
+    "seconds": 78.2,
+    "frames": 1564,
+    "full_decode_passed": true,
+    "codec": "H264/AAC",
+    "waveform_correlation": 0.9987253528433357,
+    "decoded_samples": [
+      {
+        "time": 4.692,
+        "path": "Helix_Two_Stages_1_decoded_0.jpg",
+        "lit_fraction": 0.1453515625
+      },
+      {
+        "time": 17.204,
+        "path": "Helix_Two_Stages_1_decoded_1.jpg",
+        "lit_fraction": 0.1489404899691358
+      },
+      {
+        "time": 33.626,
+        "path": "Helix_Two_Stages_1_decoded_2.jpg",
+        "lit_fraction": 0.1470973186728395
+      },
+      {
+        "time": 49.266000000000005,
+        "path": "Helix_Two_Stages_1_decoded_3.jpg",
+        "lit_fraction": 0.1463261959876543
+      },
+      {
+        "time": 66.47,
+        "path": "Helix_Two_Stages_1_decoded_4.jpg",
+        "lit_fraction": 0.147680362654321
+      }
+    ],
+    "max_contact_error": 0
+  },
+  {
+    "file": "Helix_Two_Stages_2.mp4",
+    "bytes": 19902218,
+    "sha256": "ea1fe01d7b3c03c7550a4fc4edca52509cecf6535423c953e5b4c6ceb4649913",
+    "seconds": 68.2,
+    "frames": 1364,
+    "full_decode_passed": true,
+    "codec": "H264/AAC",
+    "waveform_correlation": 0.9984528680949298,
+    "decoded_samples": [
+      {
+        "time": 4.092,
+        "path": "Helix_Two_Stages_2_decoded_0.jpg",
+        "lit_fraction": 0.11791618441358025
+      },
+      {
+        "time": 15.004000000000001,
+        "path": "Helix_Two_Stages_2_decoded_1.jpg",
+        "lit_fraction": 0.1182079475308642
+      },
+      {
+        "time": 29.326,
+        "path": "Helix_Two_Stages_2_decoded_2.jpg",
+        "lit_fraction": 0.1179296875
+      },
+      {
+        "time": 42.966,
+        "path": "Helix_Two_Stages_2_decoded_3.jpg",
+        "lit_fraction": 0.11779947916666667
+      },
+      {
+        "time": 57.97,
+        "path": "Helix_Two_Stages_2_decoded_4.jpg",
+        "lit_fraction": 0.11873697916666667
+      }
+    ],
+    "max_contact_error": 0
+  },
+  {
+    "file": "Helix_Two_Stages_3.mp4",
+    "bytes": 25914619,
+    "sha256": "bd8b8f4e743c82e89d49933ef372805eed5227c36d8862dc416a43204aa3c98b",
+    "seconds": 80.2,
+    "frames": 1604,
+    "full_decode_passed": true,
+    "codec": "H264/AAC",
+    "waveform_correlation": 0.9988174767548302,
+    "decoded_samples": [
+      {
+        "time": 4.812,
+        "path": "Helix_Two_Stages_3_decoded_0.jpg",
+        "lit_fraction": 0.16405381944444444
+      },
+      {
+        "time": 17.644000000000002,
+        "path": "Helix_Two_Stages_3_decoded_1.jpg",
+        "lit_fraction": 0.16419801311728396
+      },
+      {
+        "time": 34.486000000000004,
+        "path": "Helix_Two_Stages_3_decoded_2.jpg",
+        "lit_fraction": 0.1660720486111111
+      },
+      {
+        "time": 50.526,
+        "path": "Helix_Two_Stages_3_decoded_3.jpg",
+        "lit_fraction": 0.16387345679012347
+      },
+      {
+        "time": 68.17,
+        "path": "Helix_Two_Stages_3_decoded_4.jpg",
+        "lit_fraction": 0.16472077546296296
+      }
+    ],
+    "max_contact_error": 0
+  },
+  {
+    "file": "Helix_Super_Layout_Two_Bands.mp4",
+    "bytes": 54929446,
+    "sha256": "9a4825b2c99cfddae66eeef3050e1a0a589c8a9fbe25fb8667e3814db078fb9c",
+    "seconds": 92.2,
+    "frames": 1844,
+    "full_decode_passed": true,
+    "codec": "H264/AAC",
+    "waveform_correlation": 0.9987240457084511,
+    "decoded_samples": [
+      {
+        "time": 5.532,
+        "path": "Helix_Super_Layout_Two_Bands_decoded_0.jpg",
+        "lit_fraction": 0.08576726466049382
+      },
+      {
+        "time": 20.284000000000002,
+        "path": "Helix_Super_Layout_Two_Bands_decoded_1.jpg",
+        "lit_fraction": 0.08582802854938272
+      },
+      {
+        "time": 39.646,
+        "path": "Helix_Super_Layout_Two_Bands_decoded_2.jpg",
+        "lit_fraction": 0.08848476080246914
+      },
+      {
+        "time": 58.086000000000006,
+        "path": "Helix_Super_Layout_Two_Bands_decoded_3.jpg",
+        "lit_fraction": 0.08918788580246914
+      },
+      {
+        "time": 78.37,
+        "path": "Helix_Super_Layout_Two_Bands_decoded_4.jpg",
+        "lit_fraction": 0.08937837577160494
+      }
+    ],
+    "max_contact_error": 0
+  }
+]

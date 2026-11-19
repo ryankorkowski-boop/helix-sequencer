@@ -1,0 +1,88 @@
+name: All repository songs advanced native samplers
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  native-samplers:
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    env:
+      LIBGL_ALWAYS_SOFTWARE: '1'
+      OPENBLAS_NUM_THREADS: '2'
+      OMP_NUM_THREADS: '2'
+      LP_NUM_THREADS: '2'
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          sparse-checkout-cone-mode: false
+          sparse-checkout: |
+            /*
+            !/*.zip
+            !/*.mp4
+            /core/
+            /audio/
+            /animation/
+            /effects/
+            /music/
+            /mapping/
+            /models/
+            /xlights/
+            /tools/
+            /export/
+            /config/
+            /data/
+            /learning/
+            /helix_*/
+            /helix/
+            /ai/
+            /legacy_ac/
+            /fixtures/band_geometry/
+            /evidence/showcase_audio/source/
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install renderer dependencies
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq ffmpeg xvfb xauth libgtk-3-0t64 libgl1 libegl1 libegl-mesa0 libopengl0 libglu1-mesa fonts-dejavu-core
+          python -m pip install numpy==1.26.4 scipy==1.13.1 numba==0.61.2 librosa==0.10.2.post1 soundfile Pillow PyYAML imageio imageio-ffmpeg zstandard scikit-learn
+      - name: Install hash-pinned official xLights
+        run: |
+          mkdir -p "$RUNNER_TEMP/xlights-native"
+          curl --fail --location --retry 3 --output "$RUNNER_TEMP/xlights-native/xlights.AppImage" https://github.com/xLightsSequencer/xLights/releases/download/2026.18/xLights-2026.18-x86_64.AppImage
+          echo "62affb88b9a9b03cf5164974ac69bcefe35c559719d157b3364e4d4a5ab4214b  $RUNNER_TEMP/xlights-native/xlights.AppImage" | sha256sum --check
+          chmod +x "$RUNNER_TEMP/xlights-native/xlights.AppImage"
+          cd "$RUNNER_TEMP/xlights-native"
+          ./xlights.AppImage --appimage-extract > /dev/null
+      - name: Build three all-song native sampler batches
+        run: PYTHONPATH=. python -m tools.build_all_song_samplers --output outputs/All_Song_Samplers --xlights "$RUNNER_TEMP/xlights-native/squashfs-root/AppRun"
+      - name: Independently decode soundtrack and frames
+        run: PYTHONPATH=. python -m tools.verify_all_song_samplers outputs/All_Song_Samplers
+      - name: Package shows without duplicating the movie delivery
+        if: success()
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import zipfile
+          root=Path('outputs/All_Song_Samplers')
+          with zipfile.ZipFile('Helix-All-Song-Sampler-Shows.zip','w',zipfile.ZIP_DEFLATED) as z:
+              for p in sorted(root.rglob('*')):
+                  if p.is_file() and p.suffix not in ('.mp4','.fseq','.mp3') and not p.name.endswith('.prime_raw.xsq'):z.write(p,p.relative_to(root))
+          assert Path('Helix-All-Song-Sampler-Shows.zip').stat().st_size<500*1024*1024
+          PY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: Helix-All-Song-Movies
+          compression-level: 0
+          path: |
+            outputs/All_Song_Samplers/manifest.json
+            outputs/All_Song_Samplers/verification.json
+            outputs/All_Song_Samplers/**/*.mp4
+      - uses: actions/upload-artifact@v4
+        if: success()
+        with:
+          name: Helix-All-Song-Shows
+          compression-level: 0
+          path: Helix-All-Song-Sampler-Shows.zip

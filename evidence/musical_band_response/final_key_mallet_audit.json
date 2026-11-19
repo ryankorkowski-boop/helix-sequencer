@@ -1,0 +1,96 @@
+{
+  "songs": [
+    {
+      "id": "00",
+      "keyboard_change_contacts": 58,
+      "max_actual_key_surface_error": 8.821487429422348e-08,
+      "mallet_candidates": {
+        "accepted": 66,
+        "previous_strict_count": 23,
+        "rejected": 0,
+        "register": [
+          48,
+          96
+        ],
+        "octave_folding": false,
+        "provenance": "retained source-bound ringing attacks; bells/marimba/xylophone-like candidates",
+        "instrument_identity_verified": false,
+        "piano_events_excluded": true
+      }
+    },
+    {
+      "id": "01",
+      "keyboard_change_contacts": 18,
+      "max_actual_key_surface_error": 7.629394538355427e-08,
+      "mallet_candidates": {
+        "accepted": 58,
+        "previous_strict_count": 33,
+        "rejected": 0,
+        "register": [
+          48,
+          96
+        ],
+        "octave_folding": false,
+        "provenance": "retained source-bound ringing attacks; bells/marimba/xylophone-like candidates",
+        "instrument_identity_verified": false,
+        "piano_events_excluded": true
+      }
+    },
+    {
+      "id": "02",
+      "keyboard_change_contacts": 77,
+      "max_actual_key_surface_error": 9.179115290081086e-08,
+      "mallet_candidates": {
+        "accepted": 52,
+        "previous_strict_count": 23,
+        "rejected": 0,
+        "register": [
+          48,
+          96
+        ],
+        "octave_folding": false,
+        "provenance": "retained source-bound ringing attacks; bells/marimba/xylophone-like candidates",
+        "instrument_identity_verified": false,
+        "piano_events_excluded": true
+      }
+    },
+    {
+      "id": "03",
+      "keyboard_change_contacts": 0,
+      "max_actual_key_surface_error": 0,
+      "mallet_candidates": {
+        "accepted": 31,
+        "previous_strict_count": 18,
+        "rejected": 0,
+        "register": [
+          48,
+          96
+        ],
+        "octave_folding": false,
+        "provenance": "retained source-bound ringing attacks; bells/marimba/xylophone-like candidates",
+        "instrument_identity_verified": false,
+        "piano_events_excluded": true
+      }
+    },
+    {
+      "id": "05",
+      "keyboard_change_contacts": 24,
+      "max_actual_key_surface_error": 9.05990600319484e-08,
+      "mallet_candidates": {
+        "accepted": 82,
+        "previous_strict_count": 35,
+        "rejected": 1,
+        "register": [
+          48,
+          96
+        ],
+        "octave_folding": false,
+        "provenance": "retained source-bound ringing attacks; bells/marimba/xylophone-like candidates",
+        "instrument_identity_verified": false,
+        "piano_events_excluded": true
+      }
+    }
+  ],
+  "additional_guitar_pose_frames": 471,
+  "key_contact_audit_uses_actual_key_mesh": true
+}

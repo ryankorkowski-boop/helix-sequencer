@@ -1,0 +1,128 @@
+{
+  "schema": "helix.starred_music.v1",
+  "folder_id": "1TM4Yo763FnHIOkmy8V72xzLCGy5IHLxg",
+  "folder_url": "https://drive.google.com/drive/folders/1TM4Yo763FnHIOkmy8V72xzLCGy5IHLxg",
+  "notes": "Owner-curated priority sources. File IDs identify sources; names alone do not establish duplicate content. Verify audio SHA256 after download.",
+  "files": [
+    {
+      "id": "1Rv1TcJWrHbWBckMTW_AtIFI20Q-exD8-",
+      "title": "Audio in. Lights out. Welcome to Helix"
+    },
+    {
+      "id": "1V9gtz6QKSC6aajdI_qGRrfUAhblPgGEC",
+      "title": "Audio In Lights Out.mp3"
+    },
+    {
+      "id": "1YPLI3zpDeCHBR4ny8uR8qVZPNu_MHKdv",
+      "title": "Copy of Ghost In The Grid.mp3"
+    },
+    {
+      "id": "1v_FGbplYRqt2YRsJ6qkiWFs_PNkp6Ams",
+      "title": "Copy of Glass Under Skin.mp3"
+    },
+    {
+      "id": "1hMWAWXG6VbGCmpA60UGG-pANiS9IGonn",
+      "title": "Copy of Helix Audiolights.mp3"
+    },
+    {
+      "id": "122TorF9OVn6xPiI_WiQRMKNNtAZRWDNN",
+      "title": "Copy of Let It Glow.mp3"
+    },
+    {
+      "id": "1jaU_upvZIyPtYhsym6mHE5QQE9usLo8Q",
+      "title": "Copy of Lethal Christmas Logic (Remastered).mp3"
+    },
+    {
+      "id": "1u98tA5yXm-Md0Ns9mE7ci7D_rA5KXysm",
+      "title": "Copy of North Pole Overdrive.mp3"
+    },
+    {
+      "id": "1kCx2YSb3X2aqyLv1QPZ1Jef5Jsn2iciu",
+      "title": "Copy of Code Red Garlands.mp3"
+    },
+    {
+      "id": "16-x5KtK4Al6L5zF3AGZFqgWD9ABomj_O",
+      "title": "Copy of Festivus (Remastered).mp3"
+    },
+    {
+      "id": "1KIz-LAgeD30ZrB4Dkys2b7IrDZ1S65pH",
+      "title": "Copy of Lights Go Crazy"
+    },
+    {
+      "id": "1I-X4VlzQ2fbm_CciiiHVVbwtGiSLT3k4",
+      "title": "Copy of Candy Cane Chaos (1).mp3"
+    },
+    {
+      "id": "1XXhxlBlBIYpWKYCWQcubINDb9WIq73qN",
+      "title": "Copy of Christmas in the Ether"
+    },
+    {
+      "id": "1x37fP6kRpV5wFgSunVY84u1hwttG3Amb",
+      "title": "Copy of Christmas in the Ether 2"
+    },
+    {
+      "id": "1In7qY3NEpvvahsRIO2WpxZ9Wz22eP_ti",
+      "title": "Copy of Jingle Wobble"
+    },
+    {
+      "id": "1cQU0UOcIATT6h7Ys3MNWBjzfRP-zX27Z",
+      "title": "Copy of Christmas in the Ether 3 "
+    },
+    {
+      "id": "1X0C7MhqjE7OtNsQmqQYKM6mZiAaSoJ1g",
+      "title": "Lights Go Crazy"
+    },
+    {
+      "id": "1IliKTcXFDmanKIAOd2C_WH3ncWsQ7Cm9",
+      "title": "Jingle Wobble"
+    },
+    {
+      "id": "1SFrxfPDBwvTtorISx2Tx-F8DRZpEBLOp",
+      "title": "Christmas in the Ether 3 "
+    },
+    {
+      "id": "1yZnRlxvY84uddXSjM6AshZu0F9Tz9ZR8",
+      "title": "Christmas in the Ether 2"
+    },
+    {
+      "id": "1EcTfLPRNAoQJdzXSidiIsfv0p15AQ0ot",
+      "title": "Christmas in the Ether"
+    },
+    {
+      "id": "1KyuJp3K9oP8k1YjCp7ot_4FJRg31sS2K",
+      "title": "North Pole Overdrive.mp3"
+    },
+    {
+      "id": "166ZkFvuGQYocyNrG0V9lyi8ExWpBCvY6",
+      "title": "Lethal Christmas Logic (Remastered).mp3"
+    },
+    {
+      "id": "1xygmcQ9M6c3xeZO6XSnycW2eeQCqnMYi",
+      "title": "Let It Glow.mp3"
+    },
+    {
+      "id": "1y8i1AH-kaYJvEW_4u7enEuXq-oBUsCzy",
+      "title": "Helix Audiolights.mp3"
+    },
+    {
+      "id": "1PjQ4REDQw3XxrsGuMdnD6uq436qpU17h",
+      "title": "Glass Under Skin.mp3"
+    },
+    {
+      "id": "1YtuMHP_qXuDvHDqYeDQ-uLRN3qVwdcTN",
+      "title": "Ghost In The Grid.mp3"
+    },
+    {
+      "id": "1zKc_dUCqoGiu7knHLnn9rhLbH-1XgG-h",
+      "title": "Festivus (Remastered).mp3"
+    },
+    {
+      "id": "1XhadOacCt8bHdxhQ5LxbGuQgF_ktTCV5",
+      "title": "Code Red Garlands.mp3"
+    },
+    {
+      "id": "1AzjjRqqZv9hZhM_LGokG8AmkKI-YT1Oa",
+      "title": "Candy Cane Chaos (1).mp3"
+    }
+  ]
+}

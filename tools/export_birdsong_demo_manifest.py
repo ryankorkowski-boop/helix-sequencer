@@ -5,6 +5,11 @@ import json
 from pathlib import Path
 from typing import Sequence
 
+import sys
+
+if __package__ in (None, ""):
+    sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+
 from core.birdsong_behavior_planner import EffectIntent, plan_effect_intent
 from core.birdsong_feature_state import FeatureState
 from core.birdsong_intent_manifest import write_intent_manifest

@@ -1,0 +1,18 @@
+{
+  "LEAD": {
+    "open_frames": 455,
+    "guarded_source_rest_frames": 165,
+    "opens_on_guarded_source_rests": 0,
+    "last_two_seconds_open_frames": 6
+  },
+  "HARMONY": {
+    "open_frames": 87,
+    "guarded_source_rest_frames": 590,
+    "opens_on_guarded_source_rests": 0,
+    "last_two_seconds_open_frames": 0
+  },
+  "distinct_native_frames": 442,
+  "source_clock_guard_seconds": 0.05,
+  "independent_acoustic_singer_identity_verified": false,
+  "lexical_phoneme_timing_verified": false
+}

@@ -1,0 +1,281 @@
+[
+  {
+    "schema": "helix.showcase_readability.v1",
+    "frames": 240,
+    "sample_fps": 2,
+    "thresholds": {
+      "median_luma": 12.0,
+      "median_bright_fraction": 0.012,
+      "median_motion": 0.65,
+      "min_visible_width": 0.4,
+      "min_visible_height": 0.35
+    },
+    "measurements": {
+      "median_luma": 17.367,
+      "median_bright_fraction": 0.08808,
+      "median_motion": 12.469,
+      "visible_width": 0.706,
+      "visible_height": 0.711
+    },
+    "checks": {
+      "visible_stage_width": true,
+      "visible_stage_height": true,
+      "median_stage_luminance": true,
+      "bright_stage_area": true,
+      "visible_stage_motion": true
+    },
+    "passed": true,
+    "note": "Quantitative visibility gate only; no artistic, musical or source classification approval",
+    "title": "Traditional 256 AC",
+    "panel_sha256": "0e334ee92e951ebaabfa426ed902d54345a7efd3dbf325ba3ae4438fd6866735",
+    "source_native_video_sha256": "0c0f4568eecd8d0dc149ac6b819dab40d6bb6d6922ef2d45571944133748cf11"
+  },
+  {
+    "schema": "helix.showcase_readability.v1",
+    "frames": 240,
+    "sample_fps": 2,
+    "thresholds": {
+      "median_luma": 12.0,
+      "median_bright_fraction": 0.012,
+      "median_motion": 0.65,
+      "min_visible_width": 0.4,
+      "min_visible_height": 0.35
+    },
+    "measurements": {
+      "median_luma": 12.416,
+      "median_bright_fraction": 0.06264,
+      "median_motion": 8.259,
+      "visible_width": 0.719,
+      "visible_height": 0.722
+    },
+    "checks": {
+      "visible_stage_width": true,
+      "visible_stage_height": true,
+      "median_stage_luminance": true,
+      "bright_stage_area": true,
+      "visible_stage_motion": true
+    },
+    "passed": true,
+    "note": "Quantitative visibility gate only; no artistic, musical or source classification approval",
+    "title": "256 AC and RGB",
+    "panel_sha256": "1e5058a54c408fcf95c2cd6c0560400824449f76a33865e4a468f87e360eac3a",
+    "source_native_video_sha256": "16f5b1d08849ab560f1cfa601817d1a849e07988cea86a958a362355b7a86cd0"
+  },
+  {
+    "schema": "helix.showcase_readability.v1",
+    "frames": 240,
+    "sample_fps": 2,
+    "thresholds": {
+      "median_luma": 12.0,
+      "median_bright_fraction": 0.012,
+      "median_motion": 0.65,
+      "min_visible_width": 0.4,
+      "min_visible_height": 0.35
+    },
+    "measurements": {
+      "median_luma": 15.875,
+      "median_bright_fraction": 0.08369,
+      "median_motion": 13.488,
+      "visible_width": 0.856,
+      "visible_height": 0.7
+    },
+    "checks": {
+      "visible_stage_width": true,
+      "visible_stage_height": true,
+      "median_stage_luminance": true,
+      "bright_stage_area": true,
+      "visible_stage_motion": true
+    },
+    "passed": true,
+    "note": "Quantitative visibility gate only; no artistic, musical or source classification approval",
+    "title": "Residential RGB",
+    "panel_sha256": "e99c537fafe59a0b416c21ee0f7868d28fac12f74ed3df4a000f8722488ed830",
+    "source_native_video_sha256": "dc6cd8ac2c32e5af303dc5ac3164743e5b8cd81c68aa8e79bdf935ec4a8c62dc"
+  },
+  {
+    "schema": "helix.showcase_readability.v1",
+    "frames": 240,
+    "sample_fps": 2,
+    "thresholds": {
+      "median_luma": 12.0,
+      "median_bright_fraction": 0.012,
+      "median_motion": 0.65,
+      "min_visible_width": 0.4,
+      "min_visible_height": 0.35
+    },
+    "measurements": {
+      "median_luma": 16.231,
+      "median_bright_fraction": 0.07727,
+      "median_motion": 14.249,
+      "visible_width": 0.863,
+      "visible_height": 0.744
+    },
+    "checks": {
+      "visible_stage_width": true,
+      "visible_stage_height": true,
+      "median_stage_luminance": true,
+      "bright_stage_area": true,
+      "visible_stage_motion": true
+    },
+    "passed": true,
+    "note": "Quantitative visibility gate only; no artistic, musical or source classification approval",
+    "title": "Starter RGB Pixels",
+    "panel_sha256": "5082cd29da71ca67e0bb6ba8517e30fe48b77a5a42efd4f5002362ed534c3468",
+    "source_native_video_sha256": "b8e1511d727d658e06a9254635974f705a2edfccc780340d34e89d0907922ed9"
+  },
+  {
+    "schema": "helix.showcase_readability.v1",
+    "frames": 240,
+    "sample_fps": 2,
+    "thresholds": {
+      "median_luma": 12.0,
+      "median_bright_fraction": 0.012,
+      "median_motion": 0.65,
+      "min_visible_width": 0.4,
+      "min_visible_height": 0.35
+    },
+    "measurements": {
+      "median_luma": 66.907,
+      "median_bright_fraction": 0.32587,
+      "median_motion": 7.05,
+      "visible_width": 0.775,
+      "visible_height": 0.767
+    },
+    "checks": {
+      "visible_stage_width": true,
+      "visible_stage_height": true,
+      "median_stage_luminance": true,
+      "bright_stage_area": true,
+      "visible_stage_motion": true
+    },
+    "passed": true,
+    "note": "Quantitative visibility gate only; no artistic, musical or source classification approval",
+    "title": "Traditional Trees and Singing Faces",
+    "panel_sha256": "31afc51fc90b8dea348adc2b4f6b4fdd7b2e88a412a925245642169a9b41d515",
+    "source_native_video_sha256": "3a01aca57e36b613b15bd4e9f2f3b16f52be206aab8b7e53d0715375b8daecc3"
+  },
+  {
+    "schema": "helix.showcase_readability.v1",
+    "frames": 240,
+    "sample_fps": 2,
+    "thresholds": {
+      "median_luma": 12.0,
+      "median_bright_fraction": 0.012,
+      "median_motion": 0.65,
+      "min_visible_width": 0.4,
+      "min_visible_height": 0.35
+    },
+    "measurements": {
+      "median_luma": 19.214,
+      "median_bright_fraction": 0.12013,
+      "median_motion": 11.529,
+      "visible_width": 0.594,
+      "visible_height": 0.744
+    },
+    "checks": {
+      "visible_stage_width": true,
+      "visible_stage_height": true,
+      "median_stage_luminance": true,
+      "bright_stage_area": true,
+      "visible_stage_motion": true
+    },
+    "passed": true,
+    "note": "Quantitative visibility gate only; no artistic, musical or source classification approval",
+    "title": "Literal Pitch Double Helix",
+    "panel_sha256": "92aab7f5d516e1bce986e6e351972c1af743cfcc5e0ed98d0a4d7373e8c8b7d3",
+    "source_native_video_sha256": "aa7b8d98f466044bb589c6310c234a09638ebed174934e6bbede3ab9a4c33bf0"
+  },
+  {
+    "schema": "helix.showcase_readability.v1",
+    "frames": 240,
+    "sample_fps": 2,
+    "thresholds": {
+      "median_luma": 12.0,
+      "median_bright_fraction": 0.012,
+      "median_motion": 0.65,
+      "min_visible_width": 0.4,
+      "min_visible_height": 0.35
+    },
+    "measurements": {
+      "median_luma": 18.97,
+      "median_bright_fraction": 0.11182,
+      "median_motion": 19.112,
+      "visible_width": 0.675,
+      "visible_height": 0.656
+    },
+    "checks": {
+      "visible_stage_width": true,
+      "visible_stage_height": true,
+      "median_stage_luminance": true,
+      "bright_stage_area": true,
+      "visible_stage_motion": true
+    },
+    "passed": true,
+    "note": "Quantitative visibility gate only; no artistic, musical or source classification approval",
+    "title": "Moire and Optical Geometry",
+    "panel_sha256": "e43715183d1e2295ccebf395a9f22111eb96ee7c82c3901eb2abf504f734bce7",
+    "source_native_video_sha256": "f91188278117d0fa03199ffdaabab22514f133d90e03a12a9a1eae191ee54d35"
+  },
+  {
+    "schema": "helix.showcase_readability.v1",
+    "frames": 240,
+    "sample_fps": 2,
+    "thresholds": {
+      "median_luma": 12.0,
+      "median_bright_fraction": 0.012,
+      "median_motion": 0.65,
+      "min_visible_width": 0.4,
+      "min_visible_height": 0.35
+    },
+    "measurements": {
+      "median_luma": 23.802,
+      "median_bright_fraction": 0.14488,
+      "median_motion": 21.173,
+      "visible_width": 0.856,
+      "visible_height": 0.722
+    },
+    "checks": {
+      "visible_stage_width": true,
+      "visible_stage_height": true,
+      "median_stage_luminance": true,
+      "bright_stage_area": true,
+      "visible_stage_motion": true
+    },
+    "passed": true,
+    "note": "Quantitative visibility gate only; no artistic, musical or source classification approval",
+    "title": "Forced Perspective",
+    "panel_sha256": "9115c3adf7e0213ae2705e7baae8fe02b9f344edf0ecfa4e238d6fd6aad48fb4",
+    "source_native_video_sha256": "1ab8182a4d8b5ad83b5a91060e6e517d13aa6d88d45e950103994ffce0eb1a0e"
+  },
+  {
+    "schema": "helix.showcase_readability.v1",
+    "frames": 240,
+    "sample_fps": 2,
+    "thresholds": {
+      "median_luma": 12.0,
+      "median_bright_fraction": 0.012,
+      "median_motion": 0.65,
+      "min_visible_width": 0.4,
+      "min_visible_height": 0.35
+    },
+    "measurements": {
+      "median_luma": 21.486,
+      "median_bright_fraction": 0.13813,
+      "median_motion": 14.384,
+      "visible_width": 0.8,
+      "visible_height": 0.472
+    },
+    "checks": {
+      "visible_stage_width": true,
+      "visible_stage_height": true,
+      "median_stage_luminance": true,
+      "bright_stage_area": true,
+      "visible_stage_motion": true
+    },
+    "passed": true,
+    "note": "Quantitative visibility gate only; no artistic, musical or source classification approval",
+    "title": "Ultimate Helix and Snowman Band",
+    "panel_sha256": "94f51b5175ce357e780f7d53b0c80f4c0ca78dc56afb1b1d6710e57da0d54199",
+    "source_native_video_sha256": "a14b018322e031a46684b31798a86a330500bbbb3dfe004a78f5492bcf182a38"
+  }
+]

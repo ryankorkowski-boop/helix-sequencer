@@ -1,0 +1,45 @@
+{
+  "file": "preview.mp4",
+  "sha256": "a6f391070e124e8628878545597f3e48a9705a89eeb10fcb90331769d1eb9aec",
+  "bytes": 3582365,
+  "source_audio": "Helix_Motion_40s.mp3",
+  "source_audio_sha256": "8ad3b13cc03bcb91147c5bbe029efc1b378aa8c6e2ef16b1de6d4e0f99bc0750",
+  "source_duration_seconds": 40.0,
+  "codecs": [
+    "h264",
+    "aac"
+  ],
+  "dimensions": [
+    1920,
+    1080
+  ],
+  "actual_frame_rate": "20/1",
+  "actual_frame_count": "800",
+  "video_duration_seconds": 40.0,
+  "audio_duration_seconds": 40.0,
+  "stream_start_seconds": [
+    0.0,
+    0.0
+  ],
+  "full_decode": true,
+  "soundtrack_correlation": 0.9971202559241225,
+  "window_alignment": [
+    {
+      "source_start_seconds": 4.0,
+      "decoded_lag_seconds": 0.0
+    },
+    {
+      "source_start_seconds": 20.0,
+      "decoded_lag_seconds": 0.0
+    },
+    {
+      "source_start_seconds": 34.0,
+      "decoded_lag_seconds": 0.0
+    },
+    {
+      "source_start_seconds": 37.95,
+      "decoded_lag_seconds": 0.0
+    }
+  ],
+  "musical_or_visual_acceptance": false
+}

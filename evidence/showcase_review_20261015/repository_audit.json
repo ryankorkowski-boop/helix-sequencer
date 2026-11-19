@@ -1,0 +1,202 @@
+{
+  "observed_at": "2026-10-15",
+  "repository": "ryankorkowski-boop/helix-sequencer",
+  "default_branch": "feature/restructure-core",
+  "default_head": "1f66f5dfa09b3173f5cdfd33d28ab1b4421e11ad",
+  "baseline": "63d158f716ca638e006bdf79bd98b16c442d6b2e",
+  "pull_requests": [
+    {
+      "number": 147,
+      "title": "Complete final bands, native pitched props and verified beta software integration",
+      "head": "codex/beta-final-completion-20261014",
+      "sha": "7a1ffa75388b9c331e4e9e807f0f280886f36cfa",
+      "base": "codex/beta-final-integration-20261014",
+      "state": "open",
+      "merged": false,
+      "draft": true,
+      "body": "The finalization adds two six-member solid bands with one unified pitched/mallet player per stage, preserves the approved guitar rig and canonical drummer contracts, integrates note-aware native props through CLI/GUI/Android, and extends the 18-house giant layout to 1,153 models with both band stages. Real source analysis repairs the measured opening rapid-kick coverage and export coalescing; harmonic residual screening covers previously missed pitched passages.\n\nFull actual-sampler native playback exposed two concrete integration defects: copied drummer names did not match their stage XSQ names, and passing arm nodes could illuminate an unrelated key. The final source 7a1ffa75388b9c331e4e9e807f0f280886f36cfa fixes both while preserving channel allocation. The unchanged full-native gate now passes 353,094 key-state checks over 3,603 frames and all 16 opening kick responses on both stages (run38615738779). Final source native layout/six-layout/connectivity checks pass (run38615622977); fresh Windows packaged GUI/engine/native preview checks pass (run38615623201). Fresh Android and Python3.11/3.12 full CI receipts are pending completion. Earlier f38 general CI passed 1,483 tests with5missing-2.wav skips per Python version and API30/36, but its binaries are explicitly superseded for native key output.\n\nThree actual original-sampler movies are privately rendered and fully decoded: two final bands, six native layouts, and the synchronized comparison with both bands. Each has 3,603 frames/180.15seconds and zero measured source offset across10soundtrack windows; minimum correlation0.99735. Soundtrack redistribution is not cleared, so no real-song media is committed or publicly released. Native light cues contain no soundtrack. CI public artifacts now exclude uncleared real test media while preserving verification metrics.\n\nThe full mission is not declared green. Remaining gates: independent listening/instrument labels (137unresolved toms), source-separated simultaneous singers, absent complete LightsOutTheme, track-specific redistribution authority/full-song showcase ZIP, physical Samsung/ARM64/controllers/native LOR validation, full-length Android preview stability, production signing/Play requirements, contributor relicensing authority and artistic acceptance. Official PolyForm text and historical MIT/third-party records are preserved. Default and unfinished branches remain unchanged; this draft stays stacked on PR146.",
+      "comments": []
+    },
+    {
+      "number": 148,
+      "title": "Harden recording-calibrated kick recovery against degenerate inputs",
+      "head": "codex/beta-final-hardening-20261014",
+      "sha": "183057f59a7afd6ad9542017e45179e31f4be279",
+      "base": "codex/beta-final-completion-20261014",
+      "state": "open",
+      "merged": false,
+      "draft": true,
+      "body": "Stacked on #147. Guards too-short analysis windows against scipy zero-phase filter padding failures and abstains on silent accepted references instead of deriving a zero-energy template. Four focused recovery regressions pass locally. Exact-source full Python 3.11/3.12, Windows and compliance CI passed on 183057f (Helix CI runs 38687268892/38687262647; Windows 38687268816); Android 38687268743 was running when rechecked during the October 15 audit.\n\nContinued in #150: full combined local suite passed 1,515 tests with five missing-fixed-2.wav skips, physical contract integration and actual CTB16PC export were added, and the native workflow trigger now covers audio/engine hardening. #150 remains stacked on this PR. Broader Beta v1.0 listening, rights, original input, hardware and release gates remain open; no merge/release completion is claimed.",
+      "comments": []
+    },
+    {
+      "number": 149,
+      "title": "Define physical band circuits, CTB16PC chorus and shared front projections",
+      "head": "codex/snowman-band-physical-channel-audit-20261014",
+      "sha": "92b3a4701dfae9a192bdd73c4505ed24861efb4b",
+      "base": "codex/beta-final-integration-20261014",
+      "state": "open",
+      "merged": false,
+      "draft": true,
+      "body": "Adds explicit ten-output drummer contact-pose contracts, seven singer states, a wiring CSV helper, the CTB16PC ten-drum/six-mouth plan, measured-tail cymbal shimmer and shared flat/dimensional front-view contracts for five outline performers plus one mallet player. Code and tests are present at 92b3a47; the earlier documentation-only summary was stale. Existing outline maps and the historical twelve-circuit drummer are preserved.\n\nThe 15 files are now integrated into #150 with the latest engine/hardening source. #150 also connects them to an opt-in real-addressed XSQ/legacy-LMS exporter, adds full roundtrip/native diagnostics and rejects invalid Unit IDs/shimmer rates. Combined local verification: 1,515 passed, five fixed-2.wav skips; 49 focused checks passed. Current-source native/platform CI is pending on #150.\n\nStill unverified: actual fabrication/channel geometry, physical controller and licensed LOR playback, priced BOM and surveyed 2D/3D construction parity. Shared front projection data alone is not hardware or rendered proof. Do not merge this older stack independently of the consolidated implementation.",
+      "comments": []
+    },
+    {
+      "number": 150,
+      "title": "Complete physical exports, full-song Android previews and verified installer bundles",
+      "head": "codex/72h-completion-20261015",
+      "sha": "63d158f716ca638e006bdf79bd98b16c442d6b2e",
+      "base": "codex/beta-final-hardening-20261014",
+      "state": "open",
+      "merged": false,
+      "draft": false,
+      "body": "Physical CTB16PC helpers had no sequence exporter, generated LOR layouts doubled native dimmer values, Android’s full-song test rendered only three seconds, and the platform builds had no combined installer delivery.\n\n- Add an opt-in classified-cue exporter to addressed XSQ/legacy LMS, retaining original channel identities and wiring. Integrate #149’s physical/front-projection contracts while preserving the separate historical twelve-string mode.\n- Use neutral generated-LOR brightness to preserve dimmer levels and cymbal decay. Address review4279789859/4279789864: enforce release gaps before tailed cymbal retriggers and keep accepted quiet hits at the minimum 1% intensity.\n- Extend Android local/remote previews to 600 seconds, capped at source duration. Independently decode complete device movies with bounded retained image memory.\n- Embed Windows source/run/executable/guide provenance. Assemble the combined installer ZIP only after successful same-source Windows, Android API30/API36, native and full-regression push runs; verify GitHub archive digests, nested checksums, all Android engine files and the final inventory. Include guides, notices, validation receipts and explicit open release gates.\n\nVerified application/workflow/build source: d3a3d377e64b0d95b54e553e89dce34dc0f93194. Head95d509f2 only records documentation/evidence; application and workflow bytes are unchanged.\n\nValidation:\n- 58 focused local checks, including actual LMS export/reimport and packaging rejection/preservation cases.\n- Python3.11/3.12 full CI: 1,560 passed, five missing-2.wav skips each; [run38697129434](https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/38697129434). No tests excluded or weakened.\n- [Native xLights38697129459](https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/38697129459): 4,800 kit values, maximum error0.45/255; explicit retrigger/quiet-hit assertions, six layouts and preserved band/key/opening-kick gates. Downloaded artifact source/hash/CRC independently checked.\n- [Windows38697129450](https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/38697129450): real packaged GUI/engine/native output on Server2022; embedded provenance and nested ZIP checks verified.\n- [Android38697129307](https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/38697129307): both x86_64 API30/API36 emulator jobs passed instrumentation, recovery, playback, install/reinstall and independent complete decode. Full-song movies: 3,562 frames /237.466708 seconds,0ms audio offset, correlation>=0.99571445 on both.\n- [Installer workflow38697129438](https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/38697129438) passed. Downloaded final archive independently verified: all CRCs/checksums, Windows binary/guide hashes, source receipts and all 968 API30 engine files. Both input APK archives/engines were verified by the CI assembler.\n\n[Download actual installer bundle](https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/38697129438/artifacts/11954249825). Actions download287,440,630bytes; SHA25677c6256f056e8755a1eea2819b19c9163510be2a2f41be6a3db79f0bdad127d0. Inside: Helix_Beta_v1.0_Installers.zip334,173,665bytes; SHA2561d93a9cc02d32dcf60f80ba69a279ccb5b8fc10c01a8a4be1991be66578e1eef.\n\nThe inner ZIP contains the Windows portable ZIP189,988,485bytes (SHA2569bb35e19047ac4eb950a33b790446bec8fc5da7f5c91a10650a18fbe830b1cfa), API30 debug APK144,086,749bytes (SHA25603751dac350b6db64394d64bbf71e3b5479b3a8516d2216a7026ba47bbffecca), welcome/install/license guides, checksums and validation/release-status files. API36 evidence is recorded; its independently built APK is not duplicated. No soundtrack or test movies are shipped.\n\nStacked on #148; integrates #149 at92b3a47. Other branches, original audio/layouts, musical detectors, preview defaults and historical licenses are preserved. No existing release assets replaced or PR/default branch merged. This is a software-verified beta review delivery. Issues #143/#144 remain open for listening/tom/duet acceptance, missing original audio/track rights, clean physical Windows11/Samsung/ARM64/controllers/vendor LOR, production signing/16KB/store readiness, relicensing authority, reviewed integration and the authorized full-song showcase.\n\nCurrent handoff: MASTER_TODO.md. Full machine receipt: evidence/72h_completion/installer_delivery_receipt.json. Usage: docs/BETA_INSTALLER_BUNDLE.md; export contract: docs/CTB16PC_SEQUENCE_EXPORT.md; audit: docs/REPO_AUDIT_20261015.md.",
+      "comments": [
+        {
+          "url": "https://github.com/ryankorkowski-boop/helix-sequencer/pull/150#issuecomment-6185871026",
+          "path": null,
+          "body": "<!-- codex-pull-request-review-summary -->\n\n## Codex Review Summary\n\nThis comment shows the latest Codex review activity on this pull request.\n\n| Review | Status | Commit | Review trigger |\n| --- | --- | --- | --- |\n| 📝 **Code Review** | ✅ **Completed** <relative-time datetime=\"2026-10-15T06:28:54.768540Z\">2026-10-15T06:28:54.768540Z</relative-time> | `cf2a51a` | Draft marked ready |\n\n\n\n<details> <summary>ℹ️ About Codex in GitHub</summary>\n<br/>\n\n[Your team has set up Codex to review pull requests in this repo](https://chatgpt.com/codex/cloud/settings/general). Reviews are triggered when you\n- Open a pull request for review\n- Mark a draft as ready\n- Comment \"@codex review\" or \"@codex security review\".\n\nCodex reacts with 👀 while any review is running, comments if it has suggestions, and reacts with 👍 once all reviews finish with no findings.\n\n</details>"
+        },
+        {
+          "url": "https://github.com/ryankorkowski-boop/helix-sequencer/pull/150#pullrequestreview-5529052656",
+          "path": null,
+          "body": "\n### 💡 Codex Review\n\nHere are some automated review suggestions for this pull request.\n\n**Reviewed commit:** `cf2a51a225`\n    \n\n<details> <summary>ℹ️ About Codex in GitHub</summary>\n<br/>\n\n[Your team has set up Codex to review pull requests in this repo](https://chatgpt.com/codex/cloud/settings/general). Reviews are triggered when you\n- Open a pull request for review\n- Mark a draft as ready\n- Comment \"@codex review\".\n\nIf Codex has suggestions, it will comment; otherwise it will react with 👍.\n\n\n\n\nCodex can also answer questions or update the PR. Try commenting \"@codex address that feedback\".\n            \n</details>"
+        },
+        {
+          "url": "https://github.com/ryankorkowski-boop/helix-sequencer/pull/150#discussion_r4279789859",
+          "path": "core/ctb16pc_sequence.py",
+          "body": "**<sub><sub>![P2 Badge](https://img.shields.io/badge/P2-yellow?style=flat)</sub></sub>  Enforce gaps before tailed cymbal retriggers**\n\nWhen a cymbal cue supplies `tail_amplitudes`, another hit on the same cymbal bypasses the `next_start` spacing check because that logic exists only in the `else` branch. Two measured-tail hits less than 20 ms apart are therefore accepted and combined with `max`, potentially hiding the second attack, even though `docs/CTB16PC_SEQUENCE_EXPORT.md` states that repeated contacts below 20 ms must fail and that rapid hits retain a release gap. Apply the repeat-spacing check to tailed cues as well and truncate their envelope before the retrigger.\n\nUseful? React with 👍 / 👎."
+        },
+        {
+          "url": "https://github.com/ryankorkowski-boop/helix-sequencer/pull/150#discussion_r4279789864",
+          "path": "core/ctb16pc_sequence.py",
+          "body": "**<sub><sub>![P2 Badge](https://img.shields.io/badge/P2-yellow?style=flat)</sub></sub>  Preserve accepted low-velocity drum hits**\n\nFor any non-tailed hit with a positive velocity at or below roughly `0.005`, validation accepts the cue but `round(velocity * 100)` produces zero, so the assignment emits no light and silently drops an observed hit. The JSON contract allows normalized positive velocities without a minimum representable value; either reject velocities that cannot survive percent quantization or clamp every accepted positive hit to at least intensity 1.\n\nUseful? React with 👍 / 👎."
+        }
+      ]
+    }
+  ],
+  "workflow_runs": [
+    {
+      "id": 38705502262,
+      "name": "Helix final band and native output verification",
+      "sha": "63d158f716ca638e006bdf79bd98b16c442d6b2e",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/38705502262"
+    },
+    {
+      "id": 38705502007,
+      "name": "Helix Android offline beta",
+      "sha": "63d158f716ca638e006bdf79bd98b16c442d6b2e",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/38705502007"
+    },
+    {
+      "id": 38705501760,
+      "name": "Windows Portable GUI",
+      "sha": "63d158f716ca638e006bdf79bd98b16c442d6b2e",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/38705501760"
+    },
+    {
+      "id": 38705501807,
+      "name": "Compliance and License Bundle",
+      "sha": "63d158f716ca638e006bdf79bd98b16c442d6b2e",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/38705501807"
+    },
+    {
+      "id": 38705501987,
+      "name": "Helix Beta CI",
+      "sha": "63d158f716ca638e006bdf79bd98b16c442d6b2e",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/38705501987"
+    },
+    {
+      "id": 38705502024,
+      "name": "Helix Birdsong CI",
+      "sha": "63d158f716ca638e006bdf79bd98b16c442d6b2e",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/38705502024"
+    },
+    {
+      "id": 38705501908,
+      "name": "Helix CI",
+      "sha": "63d158f716ca638e006bdf79bd98b16c442d6b2e",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/38705501908"
+    },
+    {
+      "id": 38705494315,
+      "name": "Helix final band and native output verification",
+      "sha": "63d158f716ca638e006bdf79bd98b16c442d6b2e",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/38705494315"
+    },
+    {
+      "id": 38705494484,
+      "name": "Helix Beta CI",
+      "sha": "63d158f716ca638e006bdf79bd98b16c442d6b2e",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/38705494484"
+    },
+    {
+      "id": 38705494506,
+      "name": "Helix Flow Review Artifacts",
+      "sha": "63d158f716ca638e006bdf79bd98b16c442d6b2e",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/38705494506"
+    },
+    {
+      "id": 38705494453,
+      "name": "Helix Flow Quality Artifact",
+      "sha": "63d158f716ca638e006bdf79bd98b16c442d6b2e",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/38705494453"
+    },
+    {
+      "id": 38705494402,
+      "name": "Helix Birdsong CI",
+      "sha": "63d158f716ca638e006bdf79bd98b16c442d6b2e",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/38705494402"
+    },
+    {
+      "id": 38705494434,
+      "name": "Helix CI",
+      "sha": "63d158f716ca638e006bdf79bd98b16c442d6b2e",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/38705494434"
+    },
+    {
+      "id": 38705494369,
+      "name": "Helix Remote Review Preview MP4",
+      "sha": "63d158f716ca638e006bdf79bd98b16c442d6b2e",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/38705494369"
+    },
+    {
+      "id": 38705484566,
+      "name": "Helix final band and native output verification",
+      "sha": "706d457a2ff863a9f5e9c6593f7eb000973879e8",
+      "status": "completed",
+      "conclusion": "cancelled",
+      "url": "https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/38705484566"
+    }
+  ],
+  "release_hold": "Explicit user video review approval required before final release integration or public EXE/APK rebuild",
+  "audio_permission": "﻿HELIXHELPS MUSIC — FREE CHRISTMAS MUSIC\r\nREADME & PERMISSION TO USE\r\n\r\n\r\nWelcome to HelixHelps Music! We've recently uploaded nearly 100 Christmas songs for everyone to enjoy. Explore our collection of festive songs with lyrics and Christmas instrumentals, with more music to come.\r\n\r\n\r\nDOWNLOAD THE MUSIC FREE:\r\nhttps://drive.google.com/drive/folders/1W-LJhoClmICX1dCaEAYBO38UTavXycEo\r\n\r\n\r\nMUSIC OWNERSHIP & FREE-USE PERMISSION\r\nI own the exclusive rights to the music shared in this collection. I give everyone permission to download and use these songs for FREE in Christmas light shows, personal and community displays, videos, social media, and other creative projects. No payment or separate permission from me is required to use this music. You may share the collection link with others.\r\n\r\n\r\nThe music remains my property; this permission allows you to use the songs, not to claim that you created them or own the exclusive rights.\r\n\r\n\r\nDONATIONS — OPTIONAL, NEVER REQUIRED\r\nAll songs are offered completely FREE. Donations are not required, but they are greatly appreciated and help support the time and effort involved in making and sharing more music.\r\nIf you'd like to show your support: https://PayPal.me/ryankorkowski\r\n\r\n\r\nAttribution is appreciated but not required: HelixHelps Music / hardKor / HelixXMix.\r\n\r\n\r\nFind out more about Helix Sequencer:\r\nhttps://facebook.com/helixsequencer\r\n\r\n\r\nThank you for listening, sharing, and lighting up the holidays!"
+}

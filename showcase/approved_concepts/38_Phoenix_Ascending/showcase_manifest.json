@@ -1,0 +1,1413 @@
+{
+  "schema": "helix.approved_concept.v1",
+  "name": "Phoenix Ascending",
+  "coordinate_system": "x-right, y-up, z-depth; design feet",
+  "xlights_source_ref": "6ceddc6b25a24d82754d4f9af28e18ee70b51f81",
+  "coverage": {
+    "Custom": 34
+  },
+  "native_families": [
+    "Custom"
+  ],
+  "native_coverage_complete": false,
+  "model_count": 34,
+  "rgb_pixels": 6017,
+  "channel_count": 18051,
+  "spiral_trees": 0,
+  "double_helices": 1,
+  "preview_contract": "Custom sparse-grid coordinates exactly match exported XML; native-family preview coordinates illustrate the authored geometry. Native xLights render/load evidence is recorded separately.",
+  "models": [
+    {
+      "name": "HX_001_PHOENIX_BODY",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "BODY",
+      "design": "PHOENIX BODY",
+      "kind": "pixel",
+      "nodes": 395,
+      "start_channel": 1,
+      "end_channel": 1185,
+      "bounds_ft": [
+        [
+          -7.0,
+          15.0,
+          -7.0
+        ],
+        [
+          7.0,
+          100.0,
+          7.0
+        ]
+      ],
+      "submodels": [
+        "STRAND_A",
+        "STRAND_B",
+        "RUNGS",
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.38536698806047914,
+      "double_helix": true
+    },
+    {
+      "name": "HX_002_BIRD_HEAD",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "HEAD",
+      "design": "BIRD HEAD",
+      "kind": "pixel",
+      "nodes": 70,
+      "start_channel": 1186,
+      "end_channel": 1395,
+      "bounds_ft": [
+        [
+          -8.0,
+          100.0,
+          0.0
+        ],
+        [
+          18.0,
+          128.0,
+          0.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3252958986415733
+    },
+    {
+      "name": "HX_003_FEATHER",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "WINGS",
+      "design": "FEATHER",
+      "kind": "pixel",
+      "nodes": 198,
+      "start_channel": 1396,
+      "end_channel": 1989,
+      "bounds_ft": [
+        [
+          -57.0,
+          82.375,
+          0.0
+        ],
+        [
+          -9.0,
+          113.0,
+          0.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.125,
+      "max_snap_error_ft": 0.08364786991063271
+    },
+    {
+      "name": "HX_004_FEATHER",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "WINGS",
+      "design": "FEATHER",
+      "kind": "pixel",
+      "nodes": 198,
+      "start_channel": 1990,
+      "end_channel": 2583,
+      "bounds_ft": [
+        [
+          -64.0,
+          79.5,
+          6.0
+        ],
+        [
+          -9.0,
+          115.0,
+          6.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.125,
+      "max_snap_error_ft": 0.08354650980948213
+    },
+    {
+      "name": "HX_005_FEATHER",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "WINGS",
+      "design": "FEATHER",
+      "kind": "pixel",
+      "nodes": 198,
+      "start_channel": 2584,
+      "end_channel": 3177,
+      "bounds_ft": [
+        [
+          -71.0,
+          76.625,
+          12.0
+        ],
+        [
+          -9.0,
+          117.0,
+          12.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.125,
+      "max_snap_error_ft": 0.08290230018237413
+    },
+    {
+      "name": "HX_006_FEATHER",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "WINGS",
+      "design": "FEATHER",
+      "kind": "pixel",
+      "nodes": 198,
+      "start_channel": 3178,
+      "end_channel": 3771,
+      "bounds_ft": [
+        [
+          -78.0,
+          73.75,
+          0.0
+        ],
+        [
+          -9.0,
+          119.0,
+          0.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.125,
+      "max_snap_error_ft": 0.08461376571192397
+    },
+    {
+      "name": "HX_007_FEATHER",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "WINGS",
+      "design": "FEATHER",
+      "kind": "pixel",
+      "nodes": 198,
+      "start_channel": 3772,
+      "end_channel": 4365,
+      "bounds_ft": [
+        [
+          -85.0,
+          70.75,
+          6.0
+        ],
+        [
+          -9.0,
+          121.0,
+          6.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.125,
+      "max_snap_error_ft": 0.08549997029499753
+    },
+    {
+      "name": "HX_008_FEATHER",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "WINGS",
+      "design": "FEATHER",
+      "kind": "pixel",
+      "nodes": 198,
+      "start_channel": 4366,
+      "end_channel": 4959,
+      "bounds_ft": [
+        [
+          -92.0,
+          67.875,
+          12.0
+        ],
+        [
+          -9.0,
+          123.0,
+          12.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.125,
+      "max_snap_error_ft": 0.08489537521633923
+    },
+    {
+      "name": "HX_009_FEATHER",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "WINGS",
+      "design": "FEATHER",
+      "kind": "pixel",
+      "nodes": 198,
+      "start_channel": 4960,
+      "end_channel": 5553,
+      "bounds_ft": [
+        [
+          -99.0,
+          64.875,
+          0.0
+        ],
+        [
+          -9.0,
+          125.0,
+          0.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.125,
+      "max_snap_error_ft": 0.08402063355483982
+    },
+    {
+      "name": "HX_010_FEATHER",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "WINGS",
+      "design": "FEATHER",
+      "kind": "pixel",
+      "nodes": 198,
+      "start_channel": 5554,
+      "end_channel": 6147,
+      "bounds_ft": [
+        [
+          -106.0,
+          61.875,
+          6.0
+        ],
+        [
+          -9.0,
+          127.0,
+          6.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.125,
+      "max_snap_error_ft": 0.08323214517352881
+    },
+    {
+      "name": "HX_011_FEATHER",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "WINGS",
+      "design": "FEATHER",
+      "kind": "pixel",
+      "nodes": 198,
+      "start_channel": 6148,
+      "end_channel": 6741,
+      "bounds_ft": [
+        [
+          -113.0,
+          58.875,
+          12.0
+        ],
+        [
+          -9.0,
+          129.0,
+          12.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.125,
+      "max_snap_error_ft": 0.08463357725795037
+    },
+    {
+      "name": "HX_012_FEATHER",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "WINGS",
+      "design": "FEATHER",
+      "kind": "pixel",
+      "nodes": 198,
+      "start_channel": 6742,
+      "end_channel": 7335,
+      "bounds_ft": [
+        [
+          -120.0,
+          55.875,
+          0.0
+        ],
+        [
+          -9.0,
+          131.0,
+          0.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.125,
+      "max_snap_error_ft": 0.08393792351194927
+    },
+    {
+      "name": "HX_013_FEATHER",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "WINGS",
+      "design": "FEATHER",
+      "kind": "pixel",
+      "nodes": 198,
+      "start_channel": 7336,
+      "end_channel": 7929,
+      "bounds_ft": [
+        [
+          -127.0,
+          52.875,
+          6.0
+        ],
+        [
+          -9.0,
+          133.0,
+          6.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.125,
+      "max_snap_error_ft": 0.08464295695804973
+    },
+    {
+      "name": "HX_014_FEATHER",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "WINGS",
+      "design": "FEATHER",
+      "kind": "pixel",
+      "nodes": 198,
+      "start_channel": 7930,
+      "end_channel": 8523,
+      "bounds_ft": [
+        [
+          -134.0,
+          49.875,
+          12.0
+        ],
+        [
+          -9.0,
+          135.0,
+          12.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.125,
+      "max_snap_error_ft": 0.08401420366772196
+    },
+    {
+      "name": "HX_015_TAIL",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "TAIL",
+      "design": "TAIL",
+      "kind": "pixel",
+      "nodes": 100,
+      "start_channel": 8524,
+      "end_channel": 8823,
+      "bounds_ft": [
+        [
+          -15.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          55.0,
+          10.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.4270472997855411
+    },
+    {
+      "name": "HX_016_TAIL",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "TAIL",
+      "design": "TAIL",
+      "kind": "pixel",
+      "nodes": 100,
+      "start_channel": 8824,
+      "end_channel": 9123,
+      "bounds_ft": [
+        [
+          -27.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          55.0,
+          10.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.39095154088345213
+    },
+    {
+      "name": "HX_017_TAIL",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "TAIL",
+      "design": "TAIL",
+      "kind": "pixel",
+      "nodes": 100,
+      "start_channel": 9124,
+      "end_channel": 9423,
+      "bounds_ft": [
+        [
+          -39.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          55.0,
+          10.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.40629482156068025
+    },
+    {
+      "name": "HX_018_TAIL",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "TAIL",
+      "design": "TAIL",
+      "kind": "pixel",
+      "nodes": 100,
+      "start_channel": 9424,
+      "end_channel": 9723,
+      "bounds_ft": [
+        [
+          -51.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          55.0,
+          10.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.39217086793821787
+    },
+    {
+      "name": "HX_019_FEATHER",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "WINGS",
+      "design": "FEATHER",
+      "kind": "pixel",
+      "nodes": 198,
+      "start_channel": 9724,
+      "end_channel": 10317,
+      "bounds_ft": [
+        [
+          9.0,
+          82.375,
+          0.0
+        ],
+        [
+          57.0,
+          113.0,
+          0.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.125,
+      "max_snap_error_ft": 0.08364786991063271
+    },
+    {
+      "name": "HX_020_FEATHER",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "WINGS",
+      "design": "FEATHER",
+      "kind": "pixel",
+      "nodes": 198,
+      "start_channel": 10318,
+      "end_channel": 10911,
+      "bounds_ft": [
+        [
+          9.0,
+          79.5,
+          6.0
+        ],
+        [
+          64.0,
+          115.0,
+          6.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.125,
+      "max_snap_error_ft": 0.08354650980948213
+    },
+    {
+      "name": "HX_021_FEATHER",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "WINGS",
+      "design": "FEATHER",
+      "kind": "pixel",
+      "nodes": 198,
+      "start_channel": 10912,
+      "end_channel": 11505,
+      "bounds_ft": [
+        [
+          9.0,
+          76.625,
+          12.0
+        ],
+        [
+          71.0,
+          117.0,
+          12.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.125,
+      "max_snap_error_ft": 0.08290230018237413
+    },
+    {
+      "name": "HX_022_FEATHER",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "WINGS",
+      "design": "FEATHER",
+      "kind": "pixel",
+      "nodes": 198,
+      "start_channel": 11506,
+      "end_channel": 12099,
+      "bounds_ft": [
+        [
+          9.0,
+          73.75,
+          0.0
+        ],
+        [
+          78.0,
+          119.0,
+          0.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.125,
+      "max_snap_error_ft": 0.08461376571192397
+    },
+    {
+      "name": "HX_023_FEATHER",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "WINGS",
+      "design": "FEATHER",
+      "kind": "pixel",
+      "nodes": 198,
+      "start_channel": 12100,
+      "end_channel": 12693,
+      "bounds_ft": [
+        [
+          9.0,
+          70.75,
+          6.0
+        ],
+        [
+          85.0,
+          121.0,
+          6.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.125,
+      "max_snap_error_ft": 0.08549997029499753
+    },
+    {
+      "name": "HX_024_FEATHER",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "WINGS",
+      "design": "FEATHER",
+      "kind": "pixel",
+      "nodes": 198,
+      "start_channel": 12694,
+      "end_channel": 13287,
+      "bounds_ft": [
+        [
+          9.0,
+          67.875,
+          12.0
+        ],
+        [
+          92.0,
+          123.0,
+          12.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.125,
+      "max_snap_error_ft": 0.08489537521633923
+    },
+    {
+      "name": "HX_025_FEATHER",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "WINGS",
+      "design": "FEATHER",
+      "kind": "pixel",
+      "nodes": 198,
+      "start_channel": 13288,
+      "end_channel": 13881,
+      "bounds_ft": [
+        [
+          9.0,
+          64.875,
+          0.0
+        ],
+        [
+          99.0,
+          125.0,
+          0.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.125,
+      "max_snap_error_ft": 0.08402063355483982
+    },
+    {
+      "name": "HX_026_FEATHER",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "WINGS",
+      "design": "FEATHER",
+      "kind": "pixel",
+      "nodes": 198,
+      "start_channel": 13882,
+      "end_channel": 14475,
+      "bounds_ft": [
+        [
+          9.0,
+          61.875,
+          6.0
+        ],
+        [
+          106.0,
+          127.0,
+          6.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.125,
+      "max_snap_error_ft": 0.08323214517352881
+    },
+    {
+      "name": "HX_027_FEATHER",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "WINGS",
+      "design": "FEATHER",
+      "kind": "pixel",
+      "nodes": 198,
+      "start_channel": 14476,
+      "end_channel": 15069,
+      "bounds_ft": [
+        [
+          9.0,
+          58.875,
+          12.0
+        ],
+        [
+          113.0,
+          129.0,
+          12.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.125,
+      "max_snap_error_ft": 0.08463357725795037
+    },
+    {
+      "name": "HX_028_FEATHER",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "WINGS",
+      "design": "FEATHER",
+      "kind": "pixel",
+      "nodes": 198,
+      "start_channel": 15070,
+      "end_channel": 15663,
+      "bounds_ft": [
+        [
+          9.0,
+          55.875,
+          0.0
+        ],
+        [
+          120.0,
+          131.0,
+          0.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.125,
+      "max_snap_error_ft": 0.08393792351194927
+    },
+    {
+      "name": "HX_029_FEATHER",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "WINGS",
+      "design": "FEATHER",
+      "kind": "pixel",
+      "nodes": 198,
+      "start_channel": 15664,
+      "end_channel": 16257,
+      "bounds_ft": [
+        [
+          9.0,
+          52.875,
+          6.0
+        ],
+        [
+          127.0,
+          133.0,
+          6.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.125,
+      "max_snap_error_ft": 0.08464295695804973
+    },
+    {
+      "name": "HX_030_FEATHER",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "WINGS",
+      "design": "FEATHER",
+      "kind": "pixel",
+      "nodes": 198,
+      "start_channel": 16258,
+      "end_channel": 16851,
+      "bounds_ft": [
+        [
+          9.0,
+          49.875,
+          12.0
+        ],
+        [
+          134.0,
+          135.0,
+          12.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.125,
+      "max_snap_error_ft": 0.08401420366772196
+    },
+    {
+      "name": "HX_031_TAIL",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "TAIL",
+      "design": "TAIL",
+      "kind": "pixel",
+      "nodes": 100,
+      "start_channel": 16852,
+      "end_channel": 17151,
+      "bounds_ft": [
+        [
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          15.0,
+          55.0,
+          10.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.4270472997855411
+    },
+    {
+      "name": "HX_032_TAIL",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "TAIL",
+      "design": "TAIL",
+      "kind": "pixel",
+      "nodes": 100,
+      "start_channel": 17152,
+      "end_channel": 17451,
+      "bounds_ft": [
+        [
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          27.0,
+          55.0,
+          10.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.39095154088345213
+    },
+    {
+      "name": "HX_033_TAIL",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "TAIL",
+      "design": "TAIL",
+      "kind": "pixel",
+      "nodes": 100,
+      "start_channel": 17452,
+      "end_channel": 17751,
+      "bounds_ft": [
+        [
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          39.0,
+          55.0,
+          10.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.40629482156068025
+    },
+    {
+      "name": "HX_034_TAIL",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "TAIL",
+      "design": "TAIL",
+      "kind": "pixel",
+      "nodes": 100,
+      "start_channel": 17752,
+      "end_channel": 18051,
+      "bounds_ft": [
+        [
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          51.0,
+          55.0,
+          10.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.39217086793821787
+    }
+  ],
+  "file_prefix": "Phoenix_Ascending",
+  "description": "Staggered feather fans form an unmistakable bird whose wings can light outward in successive layers.",
+  "palette": [
+    "#FFD277",
+    "#C9A1FF",
+    "#FFF0CF"
+  ],
+  "groups": {
+    "HX_ALL_PIXELS": [
+      "HX_001_PHOENIX_BODY",
+      "HX_002_BIRD_HEAD",
+      "HX_003_FEATHER",
+      "HX_004_FEATHER",
+      "HX_005_FEATHER",
+      "HX_006_FEATHER",
+      "HX_007_FEATHER",
+      "HX_008_FEATHER",
+      "HX_009_FEATHER",
+      "HX_010_FEATHER",
+      "HX_011_FEATHER",
+      "HX_012_FEATHER",
+      "HX_013_FEATHER",
+      "HX_014_FEATHER",
+      "HX_015_TAIL",
+      "HX_016_TAIL",
+      "HX_017_TAIL",
+      "HX_018_TAIL",
+      "HX_019_FEATHER",
+      "HX_020_FEATHER",
+      "HX_021_FEATHER",
+      "HX_022_FEATHER",
+      "HX_023_FEATHER",
+      "HX_024_FEATHER",
+      "HX_025_FEATHER",
+      "HX_026_FEATHER",
+      "HX_027_FEATHER",
+      "HX_028_FEATHER",
+      "HX_029_FEATHER",
+      "HX_030_FEATHER",
+      "HX_031_TAIL",
+      "HX_032_TAIL",
+      "HX_033_TAIL",
+      "HX_034_TAIL"
+    ],
+    "HX_DNA_ALL": [
+      "HX_001_PHOENIX_BODY"
+    ],
+    "HX_DNA_RUNGS": [
+      "HX_001_PHOENIX_BODY/RUNGS"
+    ],
+    "HX_DNA_STRAND_A": [
+      "HX_001_PHOENIX_BODY/STRAND_A"
+    ],
+    "HX_DNA_STRAND_B": [
+      "HX_001_PHOENIX_BODY/STRAND_B"
+    ],
+    "HX_NATIVE_CUSTOM": [
+      "HX_001_PHOENIX_BODY",
+      "HX_002_BIRD_HEAD",
+      "HX_003_FEATHER",
+      "HX_004_FEATHER",
+      "HX_005_FEATHER",
+      "HX_006_FEATHER",
+      "HX_007_FEATHER",
+      "HX_008_FEATHER",
+      "HX_009_FEATHER",
+      "HX_010_FEATHER",
+      "HX_011_FEATHER",
+      "HX_012_FEATHER",
+      "HX_013_FEATHER",
+      "HX_014_FEATHER",
+      "HX_015_TAIL",
+      "HX_016_TAIL",
+      "HX_017_TAIL",
+      "HX_018_TAIL",
+      "HX_019_FEATHER",
+      "HX_020_FEATHER",
+      "HX_021_FEATHER",
+      "HX_022_FEATHER",
+      "HX_023_FEATHER",
+      "HX_024_FEATHER",
+      "HX_025_FEATHER",
+      "HX_026_FEATHER",
+      "HX_027_FEATHER",
+      "HX_028_FEATHER",
+      "HX_029_FEATHER",
+      "HX_030_FEATHER",
+      "HX_031_TAIL",
+      "HX_032_TAIL",
+      "HX_033_TAIL",
+      "HX_034_TAIL"
+    ],
+    "HX_WHOLE_SHOW": [
+      "HX_001_PHOENIX_BODY",
+      "HX_002_BIRD_HEAD",
+      "HX_003_FEATHER",
+      "HX_004_FEATHER",
+      "HX_005_FEATHER",
+      "HX_006_FEATHER",
+      "HX_007_FEATHER",
+      "HX_008_FEATHER",
+      "HX_009_FEATHER",
+      "HX_010_FEATHER",
+      "HX_011_FEATHER",
+      "HX_012_FEATHER",
+      "HX_013_FEATHER",
+      "HX_014_FEATHER",
+      "HX_015_TAIL",
+      "HX_016_TAIL",
+      "HX_017_TAIL",
+      "HX_018_TAIL",
+      "HX_019_FEATHER",
+      "HX_020_FEATHER",
+      "HX_021_FEATHER",
+      "HX_022_FEATHER",
+      "HX_023_FEATHER",
+      "HX_024_FEATHER",
+      "HX_025_FEATHER",
+      "HX_026_FEATHER",
+      "HX_027_FEATHER",
+      "HX_028_FEATHER",
+      "HX_029_FEATHER",
+      "HX_030_FEATHER",
+      "HX_031_TAIL",
+      "HX_032_TAIL",
+      "HX_033_TAIL",
+      "HX_034_TAIL"
+    ],
+    "HX_ZONE_BODY": [
+      "HX_001_PHOENIX_BODY"
+    ],
+    "HX_ZONE_HEAD": [
+      "HX_002_BIRD_HEAD"
+    ],
+    "HX_ZONE_TAIL": [
+      "HX_015_TAIL",
+      "HX_016_TAIL",
+      "HX_017_TAIL",
+      "HX_018_TAIL",
+      "HX_031_TAIL",
+      "HX_032_TAIL",
+      "HX_033_TAIL",
+      "HX_034_TAIL"
+    ],
+    "HX_ZONE_WINGS": [
+      "HX_003_FEATHER",
+      "HX_004_FEATHER",
+      "HX_005_FEATHER",
+      "HX_006_FEATHER",
+      "HX_007_FEATHER",
+      "HX_008_FEATHER",
+      "HX_009_FEATHER",
+      "HX_010_FEATHER",
+      "HX_011_FEATHER",
+      "HX_012_FEATHER",
+      "HX_013_FEATHER",
+      "HX_014_FEATHER",
+      "HX_019_FEATHER",
+      "HX_020_FEATHER",
+      "HX_021_FEATHER",
+      "HX_022_FEATHER",
+      "HX_023_FEATHER",
+      "HX_024_FEATHER",
+      "HX_025_FEATHER",
+      "HX_026_FEATHER",
+      "HX_027_FEATHER",
+      "HX_028_FEATHER",
+      "HX_029_FEATHER",
+      "HX_030_FEATHER"
+    ]
+  },
+  "group_count": 11,
+  "concept_id": "38",
+  "source_art": "images/37_38.png",
+  "source_art_side": "right",
+  "build_status": "native planning layout",
+  "source_brief": {
+    "id": "38",
+    "name": "Phoenix Ascending",
+    "standout": "Staggered feather fans form an unmistakable bird whose wings can light outward in successive layers.",
+    "scene": "A monumental ascending phoenix light sculpture, wide symmetrical wings built from layered finite slender feather fan frames at staggered depths, amber-to-coral-to-warm-white feather outlines, a narrow bright helix body and long violet feather tails descending toward grounded supports. Clear bird head, distinct negative gaps between feather ribs, static dark support framework, no solid bird or magical flames.",
+    "board": 8,
+    "side": "right",
+    "image": "images/37_38.png",
+    "status": "awaiting approval",
+    "scope": "Concept art; no xmodel/XML/XSQ/MP4 build.",
+    "source_catalog": "showcase/concepts/2026_10_09_advanced/concepts.json",
+    "description": "Staggered feather fans form an unmistakable bird whose wings can light outward in successive layers.",
+    "constraint": "Finite artwork-guided planning geometry; no physical actuation or surveyed construction dimensions.",
+    "round": "advanced"
+  },
+  "sequence_type": "24-second silent Animation study",
+  "physical_output_networks": 0,
+  "limits": [
+    "Finite artwork-guided planning geometry; no physical actuation or surveyed construction dimensions.",
+    "Artwork-guided finite geometry, not a scanned/surveyed reconstruction.",
+    "No complete music sequence or musical drummer acceptance claimed."
+  ]
+}

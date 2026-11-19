@@ -1,0 +1,152 @@
+{
+  "schema": "helix.optimized-layout-review.v1",
+  "source_commit": "76c0176d3c2c3776d5f9e9abd5e98c004f379021",
+  "sequencing_commit": "c39028db34a6e76b58908bf1c6f0e20a59634f27",
+  "owner_request_count": 9,
+  "delivered_mp4_count": 5,
+  "missing_videos": [
+    "01_Canonical_Snowman_Band.mp4",
+    "02_Lead_and_Harmony_Vocals.mp4",
+    "03_Drummer_and_Instruments.mp4",
+    "08_Full_Helix_Showcase.mp4"
+  ],
+  "package": {
+    "filename": "HELIX_OPTIMIZED_LAYOUT_REVIEW_MP4S.zip",
+    "sha256": "8f12c88b1cdb3703ddb5d75993bbb32a1de9a8345d9a410850a66ac42416b6e8",
+    "bytes": 275032669,
+    "entries": [
+      "04_Residential_AC_RGB_Comparison.mp4",
+      "05_Six_Layout_Synchronized_Comparison.mp4",
+      "06_Advanced_Technical_Showcase.mp4",
+      "07_Double_Helix_and_Musical_Direction.mp4",
+      "09_Starred_Music_Sampler.mp4"
+    ],
+    "crc_and_hashes_verified": true
+  },
+  "owner_files": [
+    {
+      "local_path": "/workspace/scratch/c4612c1e89d7/HELIX_OPTIMIZED_LAYOUT_REVIEW_MP4S.zip",
+      "purpose": "create_library_file",
+      "status": "succeeded",
+      "file_id": "file_00000000420481f58fa22ca42ba0efc8",
+      "library_file_id": "libfile_3082a9295984819189352b8b63ddb5ec",
+      "file_name": "HELIX_OPTIMIZED_LAYOUT_REVIEW_MP4S.zip",
+      "local_metadata_applied": true,
+      "path": "/HELIX_OPTIMIZED_LAYOUT_REVIEW_MP4S.zip",
+      "current_version_number": 0
+    },
+    {
+      "local_path": "/workspace/scratch/c4612c1e89d7/optimized-review-movies/04_Residential_AC_RGB_Comparison.mp4",
+      "purpose": "create_library_file",
+      "status": "succeeded",
+      "file_id": "file_00000000681481f59dbbfe753087a56f",
+      "library_file_id": "libfile_3a1bf5ca007c81919fe63a0fd9500284",
+      "file_name": "04_Residential_AC_RGB_Comparison.mp4",
+      "local_metadata_applied": true,
+      "path": "/04_Residential_AC_RGB_Comparison.mp4",
+      "current_version_number": 0
+    },
+    {
+      "local_path": "/workspace/scratch/c4612c1e89d7/optimized-review-movies/05_Six_Layout_Synchronized_Comparison.mp4",
+      "purpose": "create_library_file",
+      "status": "succeeded",
+      "file_id": "file_00000000efac81f5a5f1f75daa898e43",
+      "library_file_id": "libfile_ee16c166488c8191bcc4e2235c384e67",
+      "file_name": "05_Six_Layout_Synchronized_Comparison.mp4",
+      "local_metadata_applied": true,
+      "path": "/05_Six_Layout_Synchronized_Comparison.mp4",
+      "current_version_number": 0
+    },
+    {
+      "local_path": "/workspace/scratch/c4612c1e89d7/optimized-review-movies/06_Advanced_Technical_Showcase.mp4",
+      "purpose": "create_library_file",
+      "status": "succeeded",
+      "file_id": "file_0000000037ec81f5996a19978aabfbcf",
+      "library_file_id": "libfile_78f3c8c5c63c8191a04cef9080eb3fda",
+      "file_name": "06_Advanced_Technical_Showcase.mp4",
+      "local_metadata_applied": true,
+      "path": "/06_Advanced_Technical_Showcase.mp4",
+      "current_version_number": 0
+    },
+    {
+      "local_path": "/workspace/scratch/c4612c1e89d7/optimized-review-movies/07_Double_Helix_and_Musical_Direction.mp4",
+      "purpose": "create_library_file",
+      "status": "succeeded",
+      "file_id": "file_0000000087f481f5860048cd35e34e26",
+      "library_file_id": "libfile_a47c3b032e688191bec7eb35f8d6c585",
+      "file_name": "07_Double_Helix_and_Musical_Direction.mp4",
+      "local_metadata_applied": true,
+      "path": "/07_Double_Helix_and_Musical_Direction.mp4",
+      "current_version_number": 0
+    },
+    {
+      "local_path": "/workspace/scratch/c4612c1e89d7/optimized-review-movies/09_Starred_Music_Sampler.mp4",
+      "purpose": "create_library_file",
+      "status": "succeeded",
+      "file_id": "file_0000000049c081f58839b90d923456d2",
+      "library_file_id": "libfile_c8a2dea840a881918e403b0e242d4e8d",
+      "file_name": "09_Starred_Music_Sampler.mp4",
+      "local_metadata_applied": true,
+      "path": "/09_Starred_Music_Sampler.mp4",
+      "current_version_number": 0
+    }
+  ],
+  "internal_checkpoints": [
+    {
+      "local_path": "/workspace/scratch/c4612c1e89d7/internal-checkpoints/HELIX_INTERNAL_OPTIMIZED_NATIVE_20261029_PART1.zip",
+      "purpose": "create_library_file",
+      "status": "succeeded",
+      "file_id": "file_000000006ee481f580e17d969dd1d0d5",
+      "library_file_id": "libfile_047ff812c6888191baa9a2d6cbc95dfa",
+      "file_name": "HELIX_INTERNAL_OPTIMIZED_NATIVE_20261029_PART1.zip",
+      "local_metadata_applied": true,
+      "path": "/HELIX_INTERNAL_OPTIMIZED_NATIVE_20261029_PART1.zip",
+      "current_version_number": 0
+    },
+    {
+      "local_path": "/workspace/scratch/c4612c1e89d7/internal-checkpoints/HELIX_INTERNAL_OPTIMIZED_NATIVE_20261029_PART2.zip",
+      "purpose": "create_library_file",
+      "status": "succeeded",
+      "file_id": "file_000000003bdc81f58d35d4d8524641a1",
+      "library_file_id": "libfile_e3a0d03004888191a477e14bf2188285",
+      "file_name": "HELIX_INTERNAL_OPTIMIZED_NATIVE_20261029_PART2.zip",
+      "local_metadata_applied": true,
+      "path": "/HELIX_INTERNAL_OPTIMIZED_NATIVE_20261029_PART2.zip",
+      "current_version_number": 0
+    }
+  ],
+  "media_checks_passed": true,
+  "independent_singer_identity_verified": false,
+  "lexical_phoneme_timing_verified": false,
+  "beta_acceptance": false,
+  "owner_approval": false,
+  "merged": false,
+  "published": false,
+  "actual_playback_watched": false,
+  "representative_final_frames_inspected": true,
+  "python_full_ci_run": 40836343857,
+  "python311": {
+    "passed": 2199,
+    "subtests_passed": 24,
+    "skipped": 6
+  },
+  "python312": {
+    "passed": 2199,
+    "subtests_passed": 24,
+    "skipped": 6
+  },
+  "windows_ci_run": 40836353435,
+  "windows_ci": "success",
+  "android_ci_run": 40836353439,
+  "android_ci": "failure",
+  "strict_native_failures": [
+    40836353360,
+    40836353456,
+    40836353448,
+    40836353485
+  ],
+  "canonical_approved_3d_drummer_verified": false,
+  "android_api36": "success",
+  "android_api30": "failed_low_memory",
+  "android_failure_evidence": "android_final_status.json"
+}

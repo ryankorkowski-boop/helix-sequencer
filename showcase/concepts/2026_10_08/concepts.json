@@ -1,0 +1,500 @@
+{
+  "created_at": "2026-10-08",
+  "status": "concepts only; awaiting user selection",
+  "baseline_commit": "15a7e5450d2798eacc57b821267d6a526428884a",
+  "purpose": "Choose artistic directions before building any new native layouts.",
+  "new_native_layouts_created": 0,
+  "rendered_or_sequenced": false,
+  "rounds": [
+    {
+      "id": "spatial",
+      "title": "Round A: spatial / true 3D",
+      "concepts": [
+        "01",
+        "02",
+        "03",
+        "04",
+        "05",
+        "06"
+      ]
+    },
+    {
+      "id": "abstract",
+      "title": "Round B: abstract / layered",
+      "concepts": [
+        "07",
+        "08",
+        "09",
+        "10",
+        "11",
+        "12"
+      ]
+    },
+    {
+      "id": "traditional",
+      "title": "Round C: extreme traditional",
+      "concepts": [
+        "13",
+        "14"
+      ]
+    },
+    {
+      "id": "stage",
+      "title": "Round D: arena stages",
+      "concepts": [
+        "15",
+        "16"
+      ]
+    },
+    {
+      "id": "vehicle",
+      "title": "Round E: 1964 Impala shows",
+      "concepts": [
+        "17",
+        "18"
+      ]
+    },
+    {
+      "id": "church",
+      "title": "Round F: Gothic churches",
+      "concepts": [
+        "19",
+        "20"
+      ]
+    },
+    {
+      "id": "boat",
+      "title": "Round G: pontoon boats",
+      "concepts": [
+        "21",
+        "22"
+      ]
+    }
+  ],
+  "favorites": [
+    "Helix Aurora",
+    "Fire & Ice",
+    "Enchanted Grove"
+  ],
+  "concepts": [
+    {
+      "id": "01",
+      "name": "Emberfrost Canyon",
+      "round": "spatial",
+      "board": 1,
+      "side": "left",
+      "description": "Warm and icy spiral forests occupy opposing stepped terraces; a diagonal double-helix bridge crosses a low central valley.",
+      "spatial": "Opposing banks, multiple elevations, diagonal cross-depth bridge and a recessed center.",
+      "choreography": "A low valley pulse climbs the terraces, crosses the bridge and answers on the opposite bank.",
+      "constraint": "Raised terraces and bridge require engineered supports; imagery does not certify loads.",
+      "image": "images/01_02_Emberfrost_Canopy.png",
+      "panel_ratio": 1.2503152585119799,
+      "status": "awaiting user selection"
+    },
+    {
+      "id": "02",
+      "name": "Canopy Cathedral",
+      "round": "spatial",
+      "board": 1,
+      "side": "right",
+      "description": "A green-and-lilac grove surrounds a walk-through nave beneath arched DNA ribs and a suspended leaflike light canopy.",
+      "spatial": "Tall perimeter columns, open central corridor and a distinct overhead layer.",
+      "choreography": "Ground roots answer canopy ripples, with depth waves traveling along the nave.",
+      "constraint": "Overhead installation needs rigging and clearance review.",
+      "image": "images/01_02_Emberfrost_Canopy.png",
+      "panel_ratio": 1.2503152585119799,
+      "status": "awaiting user selection"
+    },
+    {
+      "id": "03",
+      "name": "Aurora Switchback",
+      "round": "spatial",
+      "board": 2,
+      "side": "left",
+      "description": "A winding hillside of violet, mint and pink spiral groves linked by sloping helix bridges and switchback paths.",
+      "spatial": "Four height bands with a winding path through front, middle and rear positions.",
+      "choreography": "Chases climb the switchback while diagonally separated groves trade musical phrases.",
+      "constraint": "Sloped platforms and safe paths require a site-specific build.",
+      "image": "images/03_04_Aurora_Tidal.png",
+      "panel_ratio": 1.0,
+      "status": "awaiting user selection"
+    },
+    {
+      "id": "04",
+      "name": "Tidal Observatory",
+      "round": "spatial",
+      "board": 2,
+      "side": "right",
+      "description": "An indigo-and-gold sunken amphitheater encloses a helix beacon, rising spiral islands and tilted orbit hoops.",
+      "spatial": "Recessed center, terraced viewing rings, staggered islands and supported elevated hoops.",
+      "choreography": "Concentric ground waves rise through islands and into the orbit layer.",
+      "constraint": "The basin is a dry stage illusion; no real water or unsupported hoops are implied.",
+      "image": "images/03_04_Aurora_Tidal.png",
+      "panel_ratio": 1.0,
+      "status": "awaiting user selection"
+    },
+    {
+      "id": "05",
+      "name": "Bioluminescent Mangrove",
+      "round": "spatial",
+      "board": 3,
+      "side": "left",
+      "description": "Teal helix trunks, luminous roots and coral-pink crown rings form a deep wetland grove around a raised winding path.",
+      "spatial": "Root layer, trunk layer, overhead canopy and a route that bends through the grove.",
+      "choreography": "Root pulses migrate between trunks and burst into separate canopy blooms.",
+      "constraint": "Canopies and path structures need load and access review; glowing wetlands are lighting scenery.",
+      "image": "images/05_06_Mangrove_Solstice.png",
+      "panel_ratio": 1.1668696711327649,
+      "status": "awaiting user selection"
+    },
+    {
+      "id": "06",
+      "name": "Solstice Spiral",
+      "round": "spatial",
+      "board": 3,
+      "side": "right",
+      "description": "Amber and white spiral trees form a terraced circular garden beneath a large sloping double-helix canopy.",
+      "spatial": "Radial ground rings, increasing tree heights and a diagonally rising canopy.",
+      "choreography": "Angular chases travel around the garden while vertical sweeps climb the canopy.",
+      "constraint": "The large canopy needs grounded columns or engineered rigging.",
+      "image": "images/05_06_Mangrove_Solstice.png",
+      "panel_ratio": 1.1668696711327649,
+      "status": "awaiting user selection"
+    },
+    {
+      "id": "07",
+      "name": "Moire Mirage",
+      "round": "abstract",
+      "board": 4,
+      "side": "left",
+      "description": "Several slightly rotated sparse pixel lattices overlap concentric rings and helix silhouettes, creating rippling optical moire.",
+      "spatial": "Separated lattice planes in front of a deeper spiral forest.",
+      "choreography": "Alternating planes and phase-shifted ring patterns suggest bending waves; viewpoint movement changes overlap.",
+      "constraint": "Moir\u00e9 is viewpoint- and spacing-dependent; low-resolution image patterns are illustrative.",
+      "image": "images/07_08_Moire_Mycelium.png",
+      "panel_ratio": 1.2503152585119799,
+      "status": "awaiting user selection"
+    },
+    {
+      "id": "08",
+      "name": "Mycelium Dream",
+      "round": "abstract",
+      "board": 4,
+      "side": "right",
+      "description": "Braided helix tunnels thread layered spiral groves and overlapping warm mushroomlike ring crowns.",
+      "spatial": "Interwoven root, tunnel, mid-tree and crown bands on discrete supports.",
+      "choreography": "Branching pulses form organic growth illusions as successive layers light.",
+      "constraint": "The growth is a lighting illusion on static frames; dense overlap must preserve readable silhouettes.",
+      "image": "images/07_08_Moire_Mycelium.png",
+      "panel_ratio": 1.2503152585119799,
+      "status": "awaiting user selection"
+    },
+    {
+      "id": "09",
+      "name": "Gravity Garden",
+      "round": "abstract",
+      "board": 5,
+      "side": "left",
+      "description": "Supported tilted and inverted spiral trees hang at different heights around a twisting diagonal DNA spine.",
+      "spatial": "Rotated tree axes, staggered suspended tiers and a grounded outer ring.",
+      "choreography": "Cascades reverse direction between tiers, creating the impression of a rotating forest.",
+      "constraint": "No levitation: support columns, tension wires and clearance are essential.",
+      "image": "images/09_10_Gravity_Vortex.png",
+      "panel_ratio": 1.0,
+      "status": "awaiting user selection"
+    },
+    {
+      "id": "10",
+      "name": "Prismatic Vortex",
+      "round": "abstract",
+      "board": 5,
+      "side": "right",
+      "description": "Offset tilted hoops, crossed spoke planes and counterwound helix rails create a deep kaleidoscopic light tunnel.",
+      "spatial": "Sequential ring planes with changing orientation and real depth gaps.",
+      "choreography": "Phase-shifted ring chases produce a vortex illusion and alternating expansion/contraction.",
+      "constraint": "No moving rings or infinite tunnel are implied; viewpoint controls the illusion.",
+      "image": "images/09_10_Gravity_Vortex.png",
+      "panel_ratio": 1.0,
+      "status": "awaiting user selection"
+    },
+    {
+      "id": "11",
+      "name": "Mandelbrot Meadow",
+      "round": "abstract",
+      "board": 6,
+      "side": "left",
+      "description": "Three finite scales of nested spiral trees and fernlike helix curls repeat across a luminous meadow.",
+      "spatial": "Large, medium and small repeating structures interleave across terraced depth bands.",
+      "choreography": "The same motif propagates between scales, suggesting recursive organic growth.",
+      "constraint": "Finite repeated frames only; packed small models may become visually cluttered.",
+      "image": "images/11_12_Mandelbrot_Reef.png",
+      "panel_ratio": 1.0,
+      "status": "awaiting user selection"
+    },
+    {
+      "id": "12",
+      "name": "Interference Reef",
+      "round": "abstract",
+      "board": 6,
+      "side": "right",
+      "description": "Offset translucent LED wave meshes, coral-like spiral clusters and crossed DNA ribbons create refractive-looking ripples.",
+      "spatial": "Three wave planes overlap foreground coral spirals and a rear helix ridge.",
+      "choreography": "Counterpropagating waves on separate layers create apparent interference and depth breathing.",
+      "constraint": "Refraction is a lighting/overlap illusion; mesh density, sightlines and flicker need review.",
+      "image": "images/11_12_Mandelbrot_Reef.png",
+      "panel_ratio": 1.0,
+      "status": "awaiting user selection"
+    },
+    {
+      "id": "13",
+      "name": "Christmas Overdrive",
+      "round": "traditional",
+      "board": 7,
+      "side": "left",
+      "description": "A traditional Christmas estate pushed to absurd density: rooflines, candy canes, arches, snowflakes and ranks of mega and mini trees.",
+      "spatial": "Layered front lawn rows, two tall rear trees and separate house facade bands.",
+      "choreography": "Massed traditional chases sweep from lawn rows to roof peaks, with quieter sections preserving contrast.",
+      "constraint": "High prop density and repeated patterns need visual separation and realistic power/channel planning.",
+      "image": "images/13_14_Traditional_Extreme.png",
+      "panel_ratio": 1.0,
+      "status": "awaiting user selection"
+    },
+    {
+      "id": "14",
+      "name": "Peppermint Boulevard",
+      "round": "traditional",
+      "board": 7,
+      "side": "right",
+      "description": "An entire glowing Christmas streetscape with a long candy-cane arch tunnel, repeated houses and alternating tree banks.",
+      "spatial": "A long receding street axis, side gardens and overhead arches at repeated intervals.",
+      "choreography": "Front-to-back waves travel down the boulevard while alternate sides answer.",
+      "constraint": "Road access, permissions and a distributed installation would need a site-specific plan.",
+      "image": "images/13_14_Traditional_Extreme.png",
+      "panel_ratio": 1.0,
+      "status": "awaiting user selection"
+    },
+    {
+      "id": "15",
+      "name": "Helix Arena",
+      "round": "stage",
+      "board": 8,
+      "side": "left",
+      "description": "A live band plays inside an arena bowl wrapped in spiral light towers, tilted hoop trusses and a curved LED stage backdrop.",
+      "spatial": "Performance platform, rear LED layer, elevated trusses and perimeter spectator-ring lights.",
+      "choreography": "Lighting phrases spread from the stage through successive arena rings and up tower layers.",
+      "constraint": "Video surfaces and moving-head fixtures require separate model/control treatment; band positions are concept staging.",
+      "image": "images/15_16_Arena_Stages.png",
+      "panel_ratio": 1.3437908496732027,
+      "status": "awaiting user selection"
+    },
+    {
+      "id": "16",
+      "name": "Thunder Vault Stage",
+      "round": "stage",
+      "board": 8,
+      "side": "right",
+      "description": "A dramatic black-steel concert stage with faceted pixel wings, interlocking helix ribs and a deep multilevel truss ceiling.",
+      "spatial": "Front stage edge, band risers, rear geometric planes and multiple overhead truss layers.",
+      "choreography": "Faceted planes answer in sequence while overhead depth chases frame the performers.",
+      "constraint": "DMX behavior, sightlines and show control require dedicated design beyond RGB pixel placement.",
+      "image": "images/15_16_Arena_Stages.png",
+      "panel_ratio": 1.3437908496732027,
+      "status": "awaiting user selection"
+    },
+    {
+      "id": "17",
+      "name": "Impala Neon Royalty",
+      "round": "vehicle",
+      "board": 9,
+      "side": "left",
+      "description": "A heavily customized 1964 Chevrolet Impala coupe wears magenta/cyan pixel trim, illuminated spokes and underglow beside an extravagant trunk audio installation.",
+      "spatial": "Contour-following hood, grille, cabin, sides, wheels and trunk zones around a low-slung car.",
+      "choreography": "Side-to-side contour chases answer separate trunk/speaker-ring pulses.",
+      "constraint": "An accurate car mesh/reference is needed; static wheel lights are concept-only and moving wheel wiring is unresolved.",
+      "image": "images/17_18_Impala_Show_Cars.png",
+      "panel_ratio": 1.2383939774153074,
+      "status": "awaiting user selection"
+    },
+    {
+      "id": "18",
+      "name": "Impala Golden Frequency",
+      "round": "vehicle",
+      "board": 9,
+      "side": "right",
+      "description": "A candy-gold 1964 Impala show car surrounded by warm-white pixel contour lights, gold speaker halos and a freestanding audio-show fan.",
+      "spatial": "Vehicle contour layers, trunk audio zones and a separate rear fan of supported arches and helices.",
+      "choreography": "Contour highlights rise from underbody to cabin while rear props answer musical phrases.",
+      "constraint": "The design assumes a parked exhibition vehicle; power, mounting and road-legal operation are unassessed.",
+      "image": "images/17_18_Impala_Show_Cars.png",
+      "panel_ratio": 1.2383939774153074,
+      "status": "awaiting user selection"
+    },
+    {
+      "id": "19",
+      "name": "Gothic Ember Cathedral",
+      "round": "church",
+      "board": 10,
+      "side": "left",
+      "description": "An amber-and-crimson Gothic church traced along pointed arches, buttresses, twin towers and a radial rose window.",
+      "spatial": "Facade contours, side aisles, tower heights and a foreground court with spiral trees.",
+      "choreography": "Courtyard waves climb buttresses and meet at the rose window and tower peaks.",
+      "constraint": "Accurate architecture/reference dimensions and removable mounting permission are required.",
+      "image": "images/19_20_Gothic_Churches.png",
+      "panel_ratio": 0.75,
+      "status": "awaiting user selection"
+    },
+    {
+      "id": "20",
+      "name": "Moonlit Gothic Cloister",
+      "round": "church",
+      "board": 10,
+      "side": "right",
+      "description": "A cyan, violet and silver Gothic courtyard with layered pointed arcades, rose-window rings and a deep helix grove.",
+      "spatial": "Near arcade, central cloister path, rear church facade and high roof/spire layers.",
+      "choreography": "Depth waves travel through successive arches, then rise along roof and spire contours.",
+      "constraint": "Heritage/site restrictions, facade geometry and public access remain unresolved.",
+      "image": "images/19_20_Gothic_Churches.png",
+      "panel_ratio": 0.75,
+      "status": "awaiting user selection"
+    },
+    {
+      "id": "21",
+      "name": "Pontoon Aurora",
+      "round": "boat",
+      "board": 11,
+      "side": "left",
+      "description": "A stationary party pontoon becomes a cyan-and-violet floating-looking light stage with rail contours, Bimini canopy ribs and short spiral props.",
+      "spatial": "Twin hull outlines, deck edges, cabin/audio zones and elevated canopy ribs.",
+      "choreography": "Port/starboard rail chases answer overhead canopy and stern audio rings.",
+      "constraint": "Marine-rated power, corrosion, stability and navigation compliance need expert review; no deployed boat is claimed.",
+      "image": "images/21_22_Pontoon_Boats.png",
+      "panel_ratio": 1.0,
+      "status": "awaiting user selection"
+    },
+    {
+      "id": "22",
+      "name": "Riverboat Carnival",
+      "round": "boat",
+      "board": 11,
+      "side": "right",
+      "description": "An extravagant warm-gold and coral pontoon show platform with striped canopy arches, luminous speaker rings and a restrained rear helix fan.",
+      "spatial": "Deck perimeter, bow arches, central audio station and supported aft canopy tier.",
+      "choreography": "Bow-to-stern waves travel through deck and canopy layers, punctuated by speaker-ring lighting.",
+      "constraint": "Illustrative dockside display only; topweight, supports and electrical isolation are unverified.",
+      "image": "images/21_22_Pontoon_Boats.png",
+      "panel_ratio": 1.0,
+      "status": "awaiting user selection"
+    }
+  ],
+  "plates": [
+    {
+      "board": 1,
+      "image": "images/01_02_Emberfrost_Canopy.png",
+      "width": 1983,
+      "height": 793,
+      "sha256": "344b78925703db2358fd0aca7d194146f9597c3483cf92a5871104cf4250d0d6",
+      "bytes": 3292238
+    },
+    {
+      "board": 2,
+      "image": "images/03_04_Aurora_Tidal.png",
+      "width": 1774,
+      "height": 887,
+      "sha256": "20fd611d9638b3620344809bd14572845ce8fff2a53a8a9fa42aa978682939e7",
+      "bytes": 3419252
+    },
+    {
+      "board": 3,
+      "image": "images/05_06_Mangrove_Solstice.png",
+      "width": 1916,
+      "height": 821,
+      "sha256": "cf0dfe0c671d0ba6893753db44cf1fab557eeccede2b347d7bf488e5e65e405f",
+      "bytes": 3191883
+    },
+    {
+      "board": 4,
+      "image": "images/07_08_Moire_Mycelium.png",
+      "width": 1983,
+      "height": 793,
+      "sha256": "0a13a374440de5b66fccc26b0edc192e95eea92c927c4ca8b445617713b90fe1",
+      "bytes": 3486842
+    },
+    {
+      "board": 5,
+      "image": "images/09_10_Gravity_Vortex.png",
+      "width": 1774,
+      "height": 887,
+      "sha256": "041f517750a0ebf082f5f1c2790c349ef93348669a987cda9d5775104d8e9ce2",
+      "bytes": 3406959
+    },
+    {
+      "board": 6,
+      "image": "images/11_12_Mandelbrot_Reef.png",
+      "width": 1774,
+      "height": 887,
+      "sha256": "519a4ed962db2cc0c004755d319f7a4b1a77629c8434d78d16ddbb29e9c2b453",
+      "bytes": 3468231
+    },
+    {
+      "board": 7,
+      "image": "images/13_14_Traditional_Extreme.png",
+      "width": 1774,
+      "height": 887,
+      "sha256": "954ab1fe0cdb4f55031bef7a402d8c525c782f3558d40f565d7bccdac46dafc3",
+      "bytes": 3518664
+    },
+    {
+      "board": 8,
+      "image": "images/15_16_Arena_Stages.png",
+      "width": 2056,
+      "height": 765,
+      "sha256": "a33788be9fa5bce4f79eff47ae5b87a94c343dd6e68b80a250e111a5cda62dda",
+      "bytes": 3166819
+    },
+    {
+      "board": 9,
+      "image": "images/17_18_Impala_Show_Cars.png",
+      "width": 1974,
+      "height": 797,
+      "sha256": "b2939983c9db4d79938c277666803b9882df80d6374063f2a647222869da8f6b",
+      "bytes": 2912227
+    },
+    {
+      "board": 10,
+      "image": "images/19_20_Gothic_Churches.png",
+      "width": 1536,
+      "height": 1024,
+      "sha256": "8b97af4fa43d16fb5a0964f5d9a93a262905e59681ccebde92eeadfcc05ec8b0",
+      "bytes": 3135611
+    },
+    {
+      "board": 11,
+      "image": "images/21_22_Pontoon_Boats.png",
+      "width": 1774,
+      "height": 887,
+      "sha256": "3b7127242abc6cc104a75b59347bfa879cd317f3f0e959aa08acfa12172b5583",
+      "bytes": 2902363
+    }
+  ],
+  "limits": "Illustrated depth and supports are artistic intent. Native model mapping, actual XYZ coordinates, rigging, pixel budgets, electrical design and spatial sequencing remain to be developed only after selection. Optical illusions are viewpoint- and spacing-dependent. No holograms or moving structures are required by the briefs.",
+  "favorite_references": [
+    {
+      "name": "Helix Aurora \u2014 original first showcase",
+      "image": "images/Saved_Helix_Aurora.png",
+      "sha256": "329663fb972c500fa553e5c7f89db5f79a0a5997edc62c6388f0897d9d58284d",
+      "status": "saved original favorite; unchanged baseline"
+    },
+    {
+      "name": "Fire & Ice",
+      "image": "images/Saved_Helix_Fire_and_Ice.png",
+      "sha256": "ce287e5f9f72c7e322044ad4238b95ee487aefe0b6c2fe8b754ea232b50e3d9a",
+      "status": "saved existing favorite; unchanged baseline"
+    },
+    {
+      "name": "Enchanted Grove",
+      "image": "images/Saved_Helix_Enchanted_Grove.png",
+      "sha256": "6d3d4bbb7754e2791fa7c1a8858dd264fc1db6341b58b65469055201299169d2",
+      "status": "saved existing favorite; unchanged baseline"
+    }
+  ]
+}

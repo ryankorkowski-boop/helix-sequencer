@@ -41,6 +41,11 @@ def _entry_len(entry: Any) -> int:
     return max(0, int(getattr(entry, "end", 0)) - int(getattr(entry, "start", 0)))
 
 
+def _entry_minimum(entry: Any, default: int) -> int:
+    override = getattr(entry, "minimum_duration_ms", None)
+    return max(1, int(default if override is None else override))
+
+
 def _set_entry_window(entry: Any, start_ms: int, end_ms: int) -> None:
     start_ms = int(start_ms)
     end_ms = int(max(start_ms + 1, end_ms))
@@ -91,7 +96,7 @@ def _resolve_conflict_window(trim_entry: Any, keep_entry: Any, min_effect_ms: in
     options = [
         option
         for option in (left_option, right_option)
-        if option[1] - option[0] >= max(1, int(min_effect_ms))
+        if option[1] - option[0] >= _entry_minimum(trim_entry, min_effect_ms)
     ]
     if not options:
         return None
@@ -229,7 +234,7 @@ def run_super_audit(
                 flattened: list[tuple[str, Any]] = []
                 for layer_name, entries in getattr(timeline, "layers", {}).items():
                     for entry in list(entries):
-                        if _entry_len(entry) >= min_effect_ms:
+                        if _entry_len(entry) >= _entry_minimum(entry, min_effect_ms):
                             flattened.append((layer_name, entry))
                     entries.sort(key=lambda item: (item.start, item.end))
                 flattened.sort(key=lambda item: (int(getattr(item[1], "start", 0)), -int(getattr(item[1], "priority", 0))))

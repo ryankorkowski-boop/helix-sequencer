@@ -1,0 +1,30 @@
+{
+  "schema": "helix.fseq_channel_evidence.v1",
+  "basis": "decoded_rendered_channel_bytes",
+  "sha256": "54f1c7ba809a40230558504e897670baebc21090cf308080982558c489d914ae",
+  "channels": 273918,
+  "frames": 720,
+  "frame_ms": 50,
+  "duration_ms": 36000,
+  "nonzero_samples": 159157281,
+  "nonzero_frames": 720,
+  "peak_lit_channels": 238578,
+  "mean_lit_fraction": 0.807,
+  "dark_windows": [],
+  "visual_review": "pending",
+  "controller_validation": "not_tested",
+  "vocal_routes": {
+    "lead": {
+      "native_open_frames": 455,
+      "guarded_estimated_rest_frames": 230,
+      "open_frames_on_guarded_estimated_rests": 0
+    },
+    "harmony": {
+      "native_open_frames": 87,
+      "guarded_estimated_rest_frames": 616,
+      "open_frames_on_guarded_estimated_rests": 0
+    }
+  },
+  "independent_acoustic_singer_identity_verified": false,
+  "note": "Decoded distinct native lanes compared to source-separated estimated clocks; not independent singer truth."
+}

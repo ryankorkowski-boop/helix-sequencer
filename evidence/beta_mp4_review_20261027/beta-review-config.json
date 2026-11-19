@@ -1,0 +1,218 @@
+{
+  "source_commit": "a72559517610347afb911a081ab5ca1746da22bb",
+  "movies": [
+    {
+      "filename": "01_Snowman_Band_Review.mp4",
+      "title": "Helix - Snowman Band - Native Performance",
+      "audio": "/workspace/scratch/ec314907d82d/review-vocal-qualified-sampler/Helix_Starred_New_Review.wav",
+      "audio_sha256": "9ff4606afbefe536120335088f5865da1581e75f113f9f2fa62acd8fd9a44ef4",
+      "duration": 30,
+      "sources": [
+        {
+          "video": "/workspace/scratch/ec314907d82d/resume-band-show/native-preview-awgckhi4/preview.mp4",
+          "video_sha256": "3b0e77e3e01f9b290fa7eb2c8940541afcf54c94ac30db98d8ff0b89ba5d22b4",
+          "gamma": 1.6,
+          "title": ""
+        }
+      ],
+      "kind": "single"
+    },
+    {
+      "filename": "02_Lead_and_Harmony_Vocals.mp4",
+      "title": "Helix - Lead and Harmony - Vocal Candidates",
+      "audio": "/workspace/scratch/ec314907d82d/review-vocal-qualified-sampler/Helix_Starred_New_Review.wav",
+      "audio_sha256": "9ff4606afbefe536120335088f5865da1581e75f113f9f2fa62acd8fd9a44ef4",
+      "duration": 30,
+      "sources": [
+        {
+          "video": "/workspace/scratch/ec314907d82d/resume-features/02_Vocal_Closeup/native-preview-i05oemgu/preview.mp4",
+          "video_sha256": "f03bdb33edb618f48954125b0ccd38a1c44c6c71681da2465450fdd85dfb30b1",
+          "gamma": 1.8,
+          "title": ""
+        }
+      ],
+      "kind": "vocal_duo",
+      "face_crops": [
+        [
+          580,
+          580,
+          200,
+          240
+        ],
+        [
+          580,
+          580,
+          1230,
+          240
+        ]
+      ]
+    },
+    {
+      "filename": "03_Drummer_V3_Performance.mp4",
+      "title": "Helix - Original V3 Source Art - Tinsel Tornado",
+      "audio": "/workspace/scratch/ec314907d82d/resume-features/03_Drummer_Articulation/media/Tinsel_Tornado_Articulation_30s.wav",
+      "audio_sha256": "8a227a8f1392847bd508c80e7f53769649e896b1c7a9e665b90dc9924ebd5925",
+      "duration": 30,
+      "sources": [
+        {
+          "video": "/workspace/scratch/ec314907d82d/resume-features/03_Drummer_Articulation/native-preview-_8twaejc/preview.mp4",
+          "video_sha256": "2aa39298627cc7dfd7696a1cbda6d4c277e48fc8958a90ae0c0fff6a2475dc32",
+          "gamma": 3,
+          "title": "",
+          "crop": [
+            1344,
+            756,
+            288,
+            100
+          ]
+        }
+      ],
+      "kind": "single"
+    },
+    {
+      "filename": "04_Six_Layout_Comparison.mp4",
+      "title": "Helix - Six Synchronized Musical Layouts",
+      "audio": "/workspace/scratch/ec314907d82d/new-sampler-final/Helix_Starred_New_Review.wav",
+      "audio_sha256": "50857fef6ac17197821bb6a9ce27f7ebd1c23b7eb8c82521345296bd22087677",
+      "duration": 120,
+      "sources": [
+        {
+          "video": "/workspace/scratch/ec314907d82d/resume-native-layouts/01_Traditional_256_AC/native-preview-1vu8mrfr/preview.mp4",
+          "video_sha256": "a70e07d98f57fc3551bcd88610004ef40b9173b687e8c86da415f893d1cf8c78",
+          "gamma": 3,
+          "title": "Traditional 256 AC",
+          "crop": [
+            1472,
+            828,
+            224,
+            126
+          ],
+          "gain": 1.45
+        },
+        {
+          "video": "/workspace/scratch/ec314907d82d/resume-native-layouts/02_Experimental_256_AC_RGB/native-preview-qgza3275/preview.mp4",
+          "video_sha256": "f4aaa33d96a9870fe7fd24807a1bd20572e145748f746bc41c14b1945fcff704",
+          "gamma": 3,
+          "title": "256 AC + RGB",
+          "crop": [
+            1472,
+            828,
+            224,
+            126
+          ],
+          "gain": 1.45
+        },
+        {
+          "video": "/workspace/scratch/ec314907d82d/resume-native-layouts/06_Modern_Pixel_House/native-preview-pdcye6vp/preview.mp4",
+          "video_sha256": "4187fd74d3bc1d782615a31508d6b987eff8d76033c56afb07afc8335500f64b",
+          "gamma": 2.2,
+          "title": "Residential RGB",
+          "gain": 1.45
+        },
+        {
+          "video": "/workspace/scratch/ec314907d82d/resume-directed-layouts/09_Double_Helix_Cathedral/native-preview-ybjh5s2q/preview.mp4",
+          "video_sha256": "2709ea27135af2dddf978c17ab78bad1fd361ef5393131777c1d06961605a664",
+          "gamma": 2.4,
+          "title": "Pitch-mapped double helix",
+          "gain": 1.45
+        },
+        {
+          "video": "/workspace/scratch/ec314907d82d/resume-directed-layouts/11_Forced_Perspective/native-preview-8ugufj0m/preview.mp4",
+          "video_sha256": "ee1ffa9d45ad6e9bed135dd2bde01947224dd9121706fefdc6e712e7b510883a",
+          "gamma": 2.2,
+          "title": "Forced perspective",
+          "gain": 1.45
+        },
+        {
+          "video": "/workspace/scratch/ec314907d82d/resume-directed-layouts/10_Moire_Optical_Illusion/native-preview-pialy9ph/preview.mp4",
+          "video_sha256": "45cff64632364a7384eee20659867c309f694ed5078628f440e0cee8ee05c3dd",
+          "gamma": 2.2,
+          "title": "Moire and geometry",
+          "gain": 1.45
+        }
+      ],
+      "kind": "comparison"
+    },
+    {
+      "filename": "05_Advanced_Technical_Layouts.mp4",
+      "title": "Helix - Advanced Technical Layouts",
+      "audio": "/workspace/scratch/ec314907d82d/review-technical-60s.wav",
+      "audio_sha256": "852696ab332502296389ec326a1e782c4ab30706ced811921eec26c8efa6e522",
+      "duration": 60,
+      "sources": [
+        {
+          "video": "/workspace/scratch/ec314907d82d/resume-directed-layouts/10_Moire_Optical_Illusion/native-preview-pialy9ph/preview.mp4",
+          "video_sha256": "45cff64632364a7384eee20659867c309f694ed5078628f440e0cee8ee05c3dd",
+          "gamma": 2.2,
+          "title": "Moire and geometry",
+          "gain": 1.45
+        },
+        {
+          "video": "/workspace/scratch/ec314907d82d/resume-directed-layouts/09_Double_Helix_Cathedral/native-preview-ybjh5s2q/preview.mp4",
+          "video_sha256": "2709ea27135af2dddf978c17ab78bad1fd361ef5393131777c1d06961605a664",
+          "gamma": 2.4,
+          "title": "Pitch-mapped double helix",
+          "gain": 1.45
+        },
+        {
+          "video": "/workspace/scratch/ec314907d82d/resume-directed-layouts/11_Forced_Perspective/native-preview-8ugufj0m/preview.mp4",
+          "video_sha256": "ee1ffa9d45ad6e9bed135dd2bde01947224dd9121706fefdc6e712e7b510883a",
+          "gamma": 2.2,
+          "title": "Forced perspective",
+          "gain": 1.45
+        }
+      ],
+      "kind": "montage",
+      "segments": [
+        {
+          "source": 0,
+          "start": 0,
+          "end": 16
+        },
+        {
+          "source": 1,
+          "start": 16,
+          "end": 30
+        },
+        {
+          "source": 2,
+          "start": 30,
+          "end": 48
+        },
+        {
+          "source": 0,
+          "start": 48,
+          "end": 60
+        }
+      ]
+    },
+    {
+      "filename": "06_Full_Helix_Showcase.mp4",
+      "title": "Helix - Band and Lighting - Native Performance",
+      "audio": "/workspace/scratch/ec314907d82d/review-vocal-qualified-sampler/Helix_Starred_New_Review.wav",
+      "audio_sha256": "9ff4606afbefe536120335088f5865da1581e75f113f9f2fa62acd8fd9a44ef4",
+      "duration": 30,
+      "sources": [
+        {
+          "video": "/workspace/scratch/ec314907d82d/resume-vocal-layouts/08_Band_and_House/native-preview-yez15fbg/preview.mp4",
+          "video_sha256": "ab43715bc41135cbb5bc1cb4e84e4ad14dcfe60cb6e73c7d4d881341c9abf63c",
+          "gamma": 2.2,
+          "title": "",
+          "crop": [
+            1280,
+            720,
+            320,
+            200
+          ]
+        }
+      ],
+      "kind": "single"
+    }
+  ],
+  "limitations": [
+    "Original V3 drummer is retained planar pixel artwork, not a recovered fully modeled approved 3D mesh.",
+    "Lead/backing are independently activated UVR/KARA source estimates; singer identity and lexical phoneme timing remain unverified.",
+    "AC geometry is the existing Helix virtual interpretation of original 256 circuit addresses, not surveyed native source-layout equivalence.",
+    "No owner visual acceptance, merge, or public beta release."
+  ]
+}

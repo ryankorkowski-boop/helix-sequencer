@@ -1,0 +1,11 @@
+{
+  "reviewed": "Actual decoded 15-frame contact sheet plus mid-tom full frame at10.017s",
+  "checked": [
+    "Arm roots below scarf on outward torso shoulder contours",
+    "Left/right snare and all three toms/crashes",
+    "Endpoint contact sparks and counters",
+    "Unresolved-hit torso response at31.11and33.93\u201335.34s",
+    "Kit art and dry audio preserved"
+  ],
+  "scope": "Encoded frame inspection and source/score timing; physical tom identity for unresolved attacks remains unassigned."
+}

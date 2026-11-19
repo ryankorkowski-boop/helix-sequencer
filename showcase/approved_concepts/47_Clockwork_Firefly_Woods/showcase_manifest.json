@@ -1,0 +1,867 @@
+{
+  "schema": "helix.approved_concept.v1",
+  "name": "Clockwork Firefly Woods",
+  "coordinate_system": "x-right, y-up, z-depth; design feet",
+  "xlights_source_ref": "6ceddc6b25a24d82754d4f9af28e18ee70b51f81",
+  "coverage": {
+    "Custom": 16
+  },
+  "native_families": [
+    "Custom"
+  ],
+  "native_coverage_complete": false,
+  "model_count": 16,
+  "rgb_pixels": 1760,
+  "channel_count": 5280,
+  "spiral_trees": 4,
+  "double_helices": 0,
+  "preview_contract": "Custom sparse-grid coordinates exactly match exported XML; native-family preview coordinates illustrate the authored geometry. Native xLights render/load evidence is recorded separately.",
+  "models": [
+    {
+      "name": "HX_001_SPIRAL_TREE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "GROVE",
+      "design": "SPIRAL TREE",
+      "kind": "pixel",
+      "nodes": 320,
+      "start_channel": 1,
+      "end_channel": 960,
+      "bounds_ft": [
+        [
+          -124.5,
+          0.0,
+          -39.5
+        ],
+        [
+          -95.5,
+          65.0,
+          -10.5
+        ]
+      ],
+      "submodels": [
+        "STRAND_1",
+        "STRAND_2",
+        "STRAND_3",
+        "STRAND_4",
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.36145730983107366,
+      "spiral_tree": true,
+      "custom_exact": true
+    },
+    {
+      "name": "HX_002_SPIRAL_TREE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "GROVE",
+      "design": "SPIRAL TREE",
+      "kind": "pixel",
+      "nodes": 320,
+      "start_channel": 961,
+      "end_channel": 1920,
+      "bounds_ft": [
+        [
+          -59.5,
+          0.0,
+          -39.5
+        ],
+        [
+          -30.5,
+          65.0,
+          -10.5
+        ]
+      ],
+      "submodels": [
+        "STRAND_1",
+        "STRAND_2",
+        "STRAND_3",
+        "STRAND_4",
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.36145730983107094,
+      "spiral_tree": true,
+      "custom_exact": true
+    },
+    {
+      "name": "HX_003_SPIRAL_TREE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "GROVE",
+      "design": "SPIRAL TREE",
+      "kind": "pixel",
+      "nodes": 320,
+      "start_channel": 1921,
+      "end_channel": 2880,
+      "bounds_ft": [
+        [
+          25.5,
+          0.0,
+          -39.5
+        ],
+        [
+          54.5,
+          65.0,
+          -10.5
+        ]
+      ],
+      "submodels": [
+        "STRAND_1",
+        "STRAND_2",
+        "STRAND_3",
+        "STRAND_4",
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.36145730983107094,
+      "spiral_tree": true,
+      "custom_exact": true
+    },
+    {
+      "name": "HX_004_SPIRAL_TREE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "GROVE",
+      "design": "SPIRAL TREE",
+      "kind": "pixel",
+      "nodes": 320,
+      "start_channel": 2881,
+      "end_channel": 3840,
+      "bounds_ft": [
+        [
+          90.5,
+          0.0,
+          -39.5
+        ],
+        [
+          119.5,
+          65.0,
+          -10.5
+        ]
+      ],
+      "submodels": [
+        "STRAND_1",
+        "STRAND_2",
+        "STRAND_3",
+        "STRAND_4",
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.36145730983107366,
+      "spiral_tree": true,
+      "custom_exact": true
+    },
+    {
+      "name": "HX_005_FIREFLY_BODY",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_00",
+      "design": "FIREFLY BODY",
+      "kind": "pixel",
+      "nodes": 40,
+      "start_channel": 3841,
+      "end_channel": 3960,
+      "bounds_ft": [
+        [
+          -69.0,
+          28.0,
+          10.0
+        ],
+        [
+          -61.0,
+          42.0,
+          10.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.30010104160125467,
+      "pose_index": 0,
+      "pose_count": 4,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        0,
+        1,
+        2,
+        3,
+        3
+      ]
+    },
+    {
+      "name": "HX_006_FIREFLY_WING",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_00",
+      "design": "FIREFLY WING",
+      "kind": "pixel",
+      "nodes": 40,
+      "start_channel": 3961,
+      "end_channel": 4080,
+      "bounds_ft": [
+        [
+          -81.0,
+          31.0,
+          10.0
+        ],
+        [
+          -65.0,
+          39.0,
+          10.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.310879566624214,
+      "pose_index": 0,
+      "pose_count": 4,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        0,
+        1,
+        2,
+        3,
+        3
+      ]
+    },
+    {
+      "name": "HX_007_FIREFLY_WING",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_00",
+      "design": "FIREFLY WING",
+      "kind": "pixel",
+      "nodes": 40,
+      "start_channel": 4081,
+      "end_channel": 4200,
+      "bounds_ft": [
+        [
+          -65.0,
+          31.0,
+          10.0
+        ],
+        [
+          -49.0,
+          39.0,
+          10.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.310879566624214,
+      "pose_index": 0,
+      "pose_count": 4,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        0,
+        1,
+        2,
+        3,
+        3
+      ]
+    },
+    {
+      "name": "HX_008_FIREFLY_BODY",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_01",
+      "design": "FIREFLY BODY",
+      "kind": "pixel",
+      "nodes": 40,
+      "start_channel": 4201,
+      "end_channel": 4320,
+      "bounds_ft": [
+        [
+          -59.0,
+          35.0,
+          10.0
+        ],
+        [
+          -51.0,
+          49.0,
+          10.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.30010104160125467,
+      "pose_index": 1,
+      "pose_count": 4,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        0,
+        1,
+        2,
+        3,
+        3
+      ]
+    },
+    {
+      "name": "HX_009_FIREFLY_WING",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_01",
+      "design": "FIREFLY WING",
+      "kind": "pixel",
+      "nodes": 40,
+      "start_channel": 4321,
+      "end_channel": 4440,
+      "bounds_ft": [
+        [
+          -71.0,
+          38.0,
+          10.0
+        ],
+        [
+          -55.0,
+          46.0,
+          10.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.31087956662421673,
+      "pose_index": 1,
+      "pose_count": 4,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        0,
+        1,
+        2,
+        3,
+        3
+      ]
+    },
+    {
+      "name": "HX_010_FIREFLY_WING",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_01",
+      "design": "FIREFLY WING",
+      "kind": "pixel",
+      "nodes": 40,
+      "start_channel": 4441,
+      "end_channel": 4560,
+      "bounds_ft": [
+        [
+          -55.0,
+          38.0,
+          10.0
+        ],
+        [
+          -39.0,
+          46.0,
+          10.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.31087956662421673,
+      "pose_index": 1,
+      "pose_count": 4,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        0,
+        1,
+        2,
+        3,
+        3
+      ]
+    },
+    {
+      "name": "HX_011_FIREFLY_BODY",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_02",
+      "design": "FIREFLY BODY",
+      "kind": "pixel",
+      "nodes": 40,
+      "start_channel": 4561,
+      "end_channel": 4680,
+      "bounds_ft": [
+        [
+          31.0,
+          78.0,
+          10.0
+        ],
+        [
+          39.0,
+          92.0,
+          10.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.30010104160125467,
+      "pose_index": 2,
+      "pose_count": 4,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        0,
+        1,
+        2,
+        3,
+        3
+      ]
+    },
+    {
+      "name": "HX_012_FIREFLY_WING",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_02",
+      "design": "FIREFLY WING",
+      "kind": "pixel",
+      "nodes": 40,
+      "start_channel": 4681,
+      "end_channel": 4800,
+      "bounds_ft": [
+        [
+          19.0,
+          81.0,
+          10.0
+        ],
+        [
+          35.0,
+          89.0,
+          10.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.31087956662421135,
+      "pose_index": 2,
+      "pose_count": 4,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        0,
+        1,
+        2,
+        3,
+        3
+      ]
+    },
+    {
+      "name": "HX_013_FIREFLY_WING",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_02",
+      "design": "FIREFLY WING",
+      "kind": "pixel",
+      "nodes": 40,
+      "start_channel": 4801,
+      "end_channel": 4920,
+      "bounds_ft": [
+        [
+          35.0,
+          81.0,
+          10.0
+        ],
+        [
+          51.0,
+          89.0,
+          10.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.31087956662421135,
+      "pose_index": 2,
+      "pose_count": 4,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        0,
+        1,
+        2,
+        3,
+        3
+      ]
+    },
+    {
+      "name": "HX_014_FIREFLY_BODY",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_03",
+      "design": "FIREFLY BODY",
+      "kind": "pixel",
+      "nodes": 40,
+      "start_channel": 4921,
+      "end_channel": 5040,
+      "bounds_ft": [
+        [
+          36.0,
+          82.0,
+          10.0
+        ],
+        [
+          44.0,
+          96.0,
+          10.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.30010104160125467,
+      "pose_index": 3,
+      "pose_count": 4,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        0,
+        1,
+        2,
+        3,
+        3
+      ]
+    },
+    {
+      "name": "HX_015_FIREFLY_WING",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_03",
+      "design": "FIREFLY WING",
+      "kind": "pixel",
+      "nodes": 40,
+      "start_channel": 5041,
+      "end_channel": 5160,
+      "bounds_ft": [
+        [
+          24.0,
+          85.0,
+          10.0
+        ],
+        [
+          40.0,
+          93.0,
+          10.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.31087956662421135,
+      "pose_index": 3,
+      "pose_count": 4,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        0,
+        1,
+        2,
+        3,
+        3
+      ]
+    },
+    {
+      "name": "HX_016_FIREFLY_WING",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_03",
+      "design": "FIREFLY WING",
+      "kind": "pixel",
+      "nodes": 40,
+      "start_channel": 5161,
+      "end_channel": 5280,
+      "bounds_ft": [
+        [
+          40.0,
+          85.0,
+          10.0
+        ],
+        [
+          56.0,
+          93.0,
+          10.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.31087956662421135,
+      "pose_index": 3,
+      "pose_count": 4,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        0,
+        1,
+        2,
+        3,
+        3
+      ]
+    }
+  ],
+  "file_prefix": "Clockwork_Firefly_Woods",
+  "description": "Unevenly spaced light positions and brief pauses suggest insects hovering, darting and resting.",
+  "palette": [
+    "#69EFFF",
+    "#B599FF",
+    "#FFD98A"
+  ],
+  "groups": {
+    "HX_ALL_PIXELS": [
+      "HX_001_SPIRAL_TREE",
+      "HX_002_SPIRAL_TREE",
+      "HX_003_SPIRAL_TREE",
+      "HX_004_SPIRAL_TREE",
+      "HX_005_FIREFLY_BODY",
+      "HX_006_FIREFLY_WING",
+      "HX_007_FIREFLY_WING",
+      "HX_008_FIREFLY_BODY",
+      "HX_009_FIREFLY_WING",
+      "HX_010_FIREFLY_WING",
+      "HX_011_FIREFLY_BODY",
+      "HX_012_FIREFLY_WING",
+      "HX_013_FIREFLY_WING",
+      "HX_014_FIREFLY_BODY",
+      "HX_015_FIREFLY_WING",
+      "HX_016_FIREFLY_WING"
+    ],
+    "HX_NATIVE_CUSTOM": [
+      "HX_001_SPIRAL_TREE",
+      "HX_002_SPIRAL_TREE",
+      "HX_003_SPIRAL_TREE",
+      "HX_004_SPIRAL_TREE",
+      "HX_005_FIREFLY_BODY",
+      "HX_006_FIREFLY_WING",
+      "HX_007_FIREFLY_WING",
+      "HX_008_FIREFLY_BODY",
+      "HX_009_FIREFLY_WING",
+      "HX_010_FIREFLY_WING",
+      "HX_011_FIREFLY_BODY",
+      "HX_012_FIREFLY_WING",
+      "HX_013_FIREFLY_WING",
+      "HX_014_FIREFLY_BODY",
+      "HX_015_FIREFLY_WING",
+      "HX_016_FIREFLY_WING"
+    ],
+    "HX_SPIRALS_EAST": [
+      "HX_003_SPIRAL_TREE",
+      "HX_004_SPIRAL_TREE"
+    ],
+    "HX_SPIRALS_WEST": [
+      "HX_001_SPIRAL_TREE",
+      "HX_002_SPIRAL_TREE"
+    ],
+    "HX_SPIRAL_TREES": [
+      "HX_001_SPIRAL_TREE",
+      "HX_002_SPIRAL_TREE",
+      "HX_003_SPIRAL_TREE",
+      "HX_004_SPIRAL_TREE"
+    ],
+    "HX_WHOLE_SHOW": [
+      "HX_001_SPIRAL_TREE",
+      "HX_002_SPIRAL_TREE",
+      "HX_003_SPIRAL_TREE",
+      "HX_004_SPIRAL_TREE",
+      "HX_005_FIREFLY_BODY",
+      "HX_006_FIREFLY_WING",
+      "HX_007_FIREFLY_WING",
+      "HX_008_FIREFLY_BODY",
+      "HX_009_FIREFLY_WING",
+      "HX_010_FIREFLY_WING",
+      "HX_011_FIREFLY_BODY",
+      "HX_012_FIREFLY_WING",
+      "HX_013_FIREFLY_WING",
+      "HX_014_FIREFLY_BODY",
+      "HX_015_FIREFLY_WING",
+      "HX_016_FIREFLY_WING"
+    ],
+    "HX_ZONE_GROVE": [
+      "HX_001_SPIRAL_TREE",
+      "HX_002_SPIRAL_TREE",
+      "HX_003_SPIRAL_TREE",
+      "HX_004_SPIRAL_TREE"
+    ],
+    "HX_ZONE_POSE_BODY_00": [
+      "HX_005_FIREFLY_BODY",
+      "HX_006_FIREFLY_WING",
+      "HX_007_FIREFLY_WING"
+    ],
+    "HX_ZONE_POSE_BODY_01": [
+      "HX_008_FIREFLY_BODY",
+      "HX_009_FIREFLY_WING",
+      "HX_010_FIREFLY_WING"
+    ],
+    "HX_ZONE_POSE_BODY_02": [
+      "HX_011_FIREFLY_BODY",
+      "HX_012_FIREFLY_WING",
+      "HX_013_FIREFLY_WING"
+    ],
+    "HX_ZONE_POSE_BODY_03": [
+      "HX_014_FIREFLY_BODY",
+      "HX_015_FIREFLY_WING",
+      "HX_016_FIREFLY_WING"
+    ]
+  },
+  "group_count": 11,
+  "concept_id": "47",
+  "source_art": "images/47_48.png",
+  "source_art_side": "left",
+  "build_status": "native planning layout",
+  "source_brief": {
+    "id": "47",
+    "name": "Clockwork Firefly Woods",
+    "principle": "Timing, spacing and holds",
+    "standout": "Unevenly spaced light positions and brief pauses suggest insects hovering, darting and resting.",
+    "scene": "A whimsical miniature forest of violet spiral trunks and warm-white branching contour shrubs, golden original firefly light sprites at a series of grounded slim pole positions. One bright hovering firefly, other waypoint orbs barely visible. Four bottom storyboard frames show firefly holding low, moving slightly, making a larger dart and holding higher. Discrete lit positions with clear difference in travel spacing, no motion blur or physical flying robot.",
+    "board": 3,
+    "side": "left",
+    "image": "images/47_48.png",
+    "status": "awaiting approval",
+    "source_catalog": "showcase/concepts/2026_10_09_stop_motion/concepts.json",
+    "description": "Unevenly spaced light positions and brief pauses suggest insects hovering, darting and resting.",
+    "constraint": "Finite artwork-guided planning geometry; no physical actuation or surveyed construction dimensions.",
+    "round": "stop_motion"
+  },
+  "sequence_type": "24-second silent Animation study",
+  "physical_output_networks": 0,
+  "limits": [
+    "Finite artwork-guided planning geometry; no physical actuation or surveyed construction dimensions.",
+    "Artwork-guided finite geometry, not a scanned/surveyed reconstruction.",
+    "No complete music sequence or musical drummer acceptance claimed."
+  ]
+}

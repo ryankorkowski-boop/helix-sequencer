@@ -1,0 +1,80 @@
+{
+  "file": "07_Double_Helix_and_Musical_Direction.mp4",
+  "sha256": "88c1a206fc2a8c6d0b1b8a7e85e0c23c5b89cc42316c83845d6b28c826619745",
+  "bytes": 56281292,
+  "source_audio": "Helix_Starred_New_Review.wav",
+  "source_audio_sha256": "50857fef6ac17197821bb6a9ce27f7ebd1c23b7eb8c82521345296bd22087677",
+  "source_duration_seconds": 120.0,
+  "codecs": [
+    "h264",
+    "aac"
+  ],
+  "dimensions": [
+    1920,
+    1080
+  ],
+  "actual_frame_rate": "20/1",
+  "actual_frame_count": "2400",
+  "video_duration_seconds": 120.0,
+  "audio_duration_seconds": 120.0,
+  "stream_start_seconds": [
+    0.0,
+    0.0
+  ],
+  "full_decode": true,
+  "soundtrack_correlation": 0.9992698920533605,
+  "window_alignment": [
+    {
+      "source_start_seconds": 12.0,
+      "decoded_lag_seconds": 0.0
+    },
+    {
+      "source_start_seconds": 60.0,
+      "decoded_lag_seconds": 0.0
+    },
+    {
+      "source_start_seconds": 102.0,
+      "decoded_lag_seconds": 0.0
+    },
+    {
+      "source_start_seconds": 117.95,
+      "decoded_lag_seconds": 0.0
+    }
+  ],
+  "musical_or_visual_acceptance": false,
+  "readability": {
+    "schema": "helix.showcase_readability.v1",
+    "frames": 240,
+    "sample_fps": 2,
+    "thresholds": {
+      "median_luma": 12.0,
+      "median_bright_fraction": 0.012,
+      "median_motion": 0.65,
+      "min_visible_width": 0.4,
+      "min_visible_height": 0.35
+    },
+    "measurements": {
+      "median_luma": 19.28,
+      "median_bright_fraction": 0.111,
+      "median_motion": 10.502,
+      "visible_width": 0.588,
+      "visible_height": 0.744
+    },
+    "checks": {
+      "visible_stage_width": true,
+      "visible_stage_height": true,
+      "median_stage_luminance": true,
+      "bright_stage_area": true,
+      "visible_stage_motion": true
+    },
+    "passed": true,
+    "note": "Quantitative visibility gate only; no artistic, musical or source classification approval"
+  },
+  "blank_intervals_seconds": [],
+  "prolonged_blank_intervals": [],
+  "prolonged_frozen_intervals": [],
+  "technical_media_checks_passed": true,
+  "beta_acceptance": false,
+  "owner_approval": false,
+  "actual_playback_watched": false
+}

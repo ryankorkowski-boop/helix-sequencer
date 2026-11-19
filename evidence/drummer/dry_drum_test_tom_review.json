@@ -1,0 +1,47 @@
+{
+  "schema": "helix.drum_review.v1",
+  "audio_sha256": "4cd9ee35b65d359aa44ac4c9e01a256bbcaf3297458340fc512084bae1463913",
+  "review": "User identifies a high-to-mid-to-floor tom passage at roughly 9–11 seconds in Dry Drum Test.wav. Individual attack times are refined from the original waveform, not adopted as detector-generated ground truth.",
+  "timing_method": "1 ms original-source RMS, four-frame smoothing, positive attack-rise peaks; model timestamps remain unchanged",
+  "source_body_method": "Original mono source, +12 to +112 ms from candidate_timestamp, Hann-windowed 32768 FFT; dominant 60–600 Hz power peak",
+  "global_tom_calibration": null,
+  "annotations": [
+    {
+      "timestamp": 9.6995,
+      "candidate_timestamp": 9.69,
+      "tolerance_ms": 40,
+      "drum_family": "tom",
+      "tom_class": "high",
+      "label_source": "user_reviewed_descending_fill_order",
+      "source_body_peak_hz": 181.64
+    },
+    {
+      "timestamp": 10.0115,
+      "candidate_timestamp": 10.01,
+      "tolerance_ms": 40,
+      "drum_family": "tom",
+      "tom_class": "mid",
+      "label_source": "user_reviewed_descending_fill_order",
+      "source_body_peak_hz": 177.25
+    },
+    {
+      "timestamp": 10.3235,
+      "candidate_timestamp": 10.32,
+      "tolerance_ms": 40,
+      "drum_family": "tom",
+      "tom_class": "floor",
+      "label_source": "user_reviewed_descending_fill_order",
+      "source_body_peak_hz": 146.48
+    },
+    {
+      "timestamp": 10.4815,
+      "candidate_timestamp": 10.47,
+      "tolerance_ms": 40,
+      "drum_family": "tom",
+      "tom_class": "floor",
+      "label_source": "source_resonance_matches_user_reviewed_floor",
+      "source_body_peak_hz": 147.95,
+      "note": "Repeat floor inferred from the same source resonance and waveform; user did not separately label this timestamp."
+    }
+  ]
+}

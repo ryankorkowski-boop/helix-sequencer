@@ -28,7 +28,7 @@ def _report(*, invoked: bool = True, xsq_written: bool = True, path: str | None 
     )
 
 
-def test_run_profile_keeps_orchestrated_xsq_as_sidecar_by_default(monkeypatch) -> None:
+def test_run_profile_keeps_explicit_orchestrated_xsq_as_sidecar(monkeypatch) -> None:
     fake_engine = _FakeEngine()
     monkeypatch.setattr(sequence_builder.engine_profiles, "resolve_profile", lambda profile_id: _profile())
     monkeypatch.setattr(sequence_builder, "_effect_engine", lambda: fake_engine)
@@ -36,7 +36,7 @@ def test_run_profile_keeps_orchestrated_xsq_as_sidecar_by_default(monkeypatch) -
 
     sequence_builder.run_profile(
         "master",
-        ["--template", "template.xsq", "--audio", "song.mp3", "--output-dir", "out"],
+        ["--template", "template.xsq", "--audio", "song.mp3", "--output-dir", "out", "--effects-orchestrator"],
     )
 
     assert fake_engine.calls == [
@@ -118,3 +118,21 @@ def test_run_profile_no_effects_orchestrator_skips_orchestration_and_strips_flag
     assert fake_engine.calls == [
         ("v27.3", ["--template", "template.xsq", "--audio", "song.mp3"]),
     ]
+
+
+def test_default_build_skips_unused_pass_with_identical_engine_inputs(monkeypatch):
+    fake_engine = _FakeEngine()
+    monkeypatch.setattr(sequence_builder.engine_profiles, "resolve_profile", lambda _: _profile())
+    monkeypatch.setattr(sequence_builder, "_effect_engine", lambda: fake_engine)
+    def unwanted(_):
+        raise AssertionError("Default sequence must not pay for unused sidecar analysis")
+    monkeypatch.setattr(sequence_builder, "run_effects_orchestration", unwanted)
+    args = ["--template", "template.xsq", "--audio", "song.mp3", "--output-dir", "out"]
+    sequence_builder.run_profile("master", args)
+    assert fake_engine.calls == [("v27.3", args)]
+    assert args == ["--template", "template.xsq", "--audio", "song.mp3", "--output-dir", "out"]
+
+
+def test_explicit_disable_wins_over_sidecar_and_promotion():
+    assert not sequence_builder._orchestration_enabled([
+        "--effects-orchestrator", "--promote-orchestrated-template", "--no-effects-orchestrator"])

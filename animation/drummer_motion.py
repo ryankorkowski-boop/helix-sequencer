@@ -19,6 +19,23 @@ class DrummerMotionConfig:
     rapid_alternation_threshold_ms: int = 180
 
 
+def assign_hand(event: DrumEvent, previous_hand: str | None = None) -> str:
+    """Readable limb assignment for a single strike.
+
+    This is performance metadata only. Physical illumination still routes
+    through the canonical drummer components, never independent stick channels.
+    """
+    if event.drum_type == "kick":
+        return "foot"
+    if event.drum_type == "snare":
+        return "left"
+    if event.drum_type in {"hihat", "ride"}:
+        return "left" if previous_hand == "right" else "right"
+    if event.drum_type == "cymbal":
+        return "right"
+    return "both"
+
+
 def build_drummer_motion(events: Iterable[DrumEvent], config: DrummerMotionConfig = DrummerMotionConfig()) -> list[dict[str, object]]:
     """Create visual hit timing and deterministic hand assignment.
 
@@ -31,6 +48,7 @@ def build_drummer_motion(events: Iterable[DrumEvent], config: DrummerMotionConfi
     tom_index = 0
     cymbal_index = 0
     snare_index = 0
+    previous_limb: str | None = None
     for event in sorted(events, key=lambda item: item.timestamp_ms):
         if event.drum_type == "tom":
             component = drummer_component_for_event(event, event_index=tom_index)
@@ -50,6 +68,14 @@ def build_drummer_motion(events: Iterable[DrumEvent], config: DrummerMotionConfi
             snare_index += 1
         elif event.drum_type == "cymbal":
             hand = "L" if component.endswith("_LEFT") else "R"
+        # ``limb`` is the readable contract shared with assign_hand: alternating
+        # stick hits report the hand actually used, the kick reports the foot,
+        # and every other strike keeps the historical assignment.
+        if hand is not None:
+            limb = "left" if hand == "L" else "right"
+        else:
+            limb = assign_hand(event, previous_limb)
+        previous_limb = limb
 
         sign = -1 if rng.random() < 0.5 else 1
         humanize = sign * rng.randint(config.humanize_min_ms, config.humanize_max_ms)
@@ -61,6 +87,7 @@ def build_drummer_motion(events: Iterable[DrumEvent], config: DrummerMotionConfi
             "component": component,
             "tom_class": tom_class,
             "hand": hand,
+            "limb": limb,
             "start_ms": start,
             "anticipation_ms": strike - config.anticipation_ms,
             "strike_ms": strike,

@@ -1,0 +1,1756 @@
+{
+  "schema": "helix.approved_concept.v1",
+  "name": "Gothic Ember Cathedral",
+  "coordinate_system": "x-right, y-up, z-depth; design feet",
+  "xlights_source_ref": "6ceddc6b25a24d82754d4f9af28e18ee70b51f81",
+  "coverage": {
+    "Custom": 42
+  },
+  "native_families": [
+    "Custom"
+  ],
+  "native_coverage_complete": false,
+  "model_count": 42,
+  "rgb_pixels": 6396,
+  "channel_count": 19188,
+  "spiral_trees": 4,
+  "double_helices": 0,
+  "preview_contract": "Custom sparse-grid coordinates exactly match exported XML; native-family preview coordinates illustrate the authored geometry. Native xLights render/load evidence is recorded separately.",
+  "models": [
+    {
+      "name": "HX_001_HOUSE_FACADE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "FACADES",
+      "design": "HOUSE FACADE",
+      "kind": "pixel",
+      "nodes": 250,
+      "start_channel": 1,
+      "end_channel": 750,
+      "bounds_ft": [
+        [
+          -72.5,
+          0.0,
+          -50.0
+        ],
+        [
+          72.5,
+          117.0,
+          -50.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.31199407460243644
+    },
+    {
+      "name": "HX_002_WINDOW",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "WINDOWS",
+      "design": "WINDOW",
+      "kind": "pixel",
+      "nodes": 60,
+      "start_channel": 751,
+      "end_channel": 930,
+      "bounds_ft": [
+        [
+          -43.0,
+          18.0,
+          -50.0
+        ],
+        [
+          -29.0,
+          35.0,
+          -50.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.34197140881138716
+    },
+    {
+      "name": "HX_003_WINDOW",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "WINDOWS",
+      "design": "WINDOW",
+      "kind": "pixel",
+      "nodes": 60,
+      "start_channel": 931,
+      "end_channel": 1110,
+      "bounds_ft": [
+        [
+          29.0,
+          18.0,
+          -50.0
+        ],
+        [
+          43.0,
+          35.0,
+          -50.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.34197140881138716
+    },
+    {
+      "name": "HX_004_POINTED_ARCH",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "DOOR",
+      "design": "POINTED ARCH",
+      "kind": "pixel",
+      "nodes": 160,
+      "start_channel": 1111,
+      "end_channel": 1590,
+      "bounds_ft": [
+        [
+          -22.5,
+          0.0,
+          -49.0
+        ],
+        [
+          22.5,
+          64.5,
+          -49.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3038160712595443
+    },
+    {
+      "name": "HX_005_ROSE_WINDOW",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "ROSE",
+      "design": "ROSE WINDOW",
+      "kind": "pixel",
+      "nodes": 150,
+      "start_channel": 1591,
+      "end_channel": 2040,
+      "bounds_ft": [
+        [
+          -13.0,
+          87.0,
+          -48.0
+        ],
+        [
+          13.0,
+          113.0,
+          -48.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.31667334021735993
+    },
+    {
+      "name": "HX_006_ROSE_WINDOW",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "ROSE",
+      "design": "ROSE WINDOW",
+      "kind": "pixel",
+      "nodes": 150,
+      "start_channel": 2041,
+      "end_channel": 2490,
+      "bounds_ft": [
+        [
+          -18.0,
+          82.0,
+          -47.0
+        ],
+        [
+          18.0,
+          118.0,
+          -47.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3157506660082347
+    },
+    {
+      "name": "HX_007_ROSE_WINDOW",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "ROSE",
+      "design": "ROSE WINDOW",
+      "kind": "pixel",
+      "nodes": 150,
+      "start_channel": 2491,
+      "end_channel": 2940,
+      "bounds_ft": [
+        [
+          -23.0,
+          77.0,
+          -46.0
+        ],
+        [
+          23.0,
+          123.0,
+          -46.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.338299910288446
+    },
+    {
+      "name": "HX_008_STAR_RAY",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "ROSE",
+      "design": "STAR RAY",
+      "kind": "pixel",
+      "nodes": 12,
+      "start_channel": 2941,
+      "end_channel": 2976,
+      "bounds_ft": [
+        [
+          1.0,
+          100.0,
+          -45.0
+        ],
+        [
+          24.0,
+          100.0,
+          -45.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.22727272727272751
+    },
+    {
+      "name": "HX_009_STAR_RAY",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "ROSE",
+      "design": "STAR RAY",
+      "kind": "pixel",
+      "nodes": 12,
+      "start_channel": 2977,
+      "end_channel": 3012,
+      "bounds_ft": [
+        [
+          0.5,
+          100.5,
+          -45.0
+        ],
+        [
+          17.0,
+          117.0,
+          -45.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.29289321881345654
+    },
+    {
+      "name": "HX_010_STAR_RAY",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "ROSE",
+      "design": "STAR RAY",
+      "kind": "pixel",
+      "nodes": 12,
+      "start_channel": 3013,
+      "end_channel": 3048,
+      "bounds_ft": [
+        [
+          0.0,
+          101.0,
+          -45.0
+        ],
+        [
+          0.0,
+          124.0,
+          -45.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.22727272727273373
+    },
+    {
+      "name": "HX_011_STAR_RAY",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "ROSE",
+      "design": "STAR RAY",
+      "kind": "pixel",
+      "nodes": 12,
+      "start_channel": 3049,
+      "end_channel": 3084,
+      "bounds_ft": [
+        [
+          -17.0,
+          100.5,
+          -45.0
+        ],
+        [
+          -0.5,
+          117.0,
+          -45.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.2928932188134565
+    },
+    {
+      "name": "HX_012_STAR_RAY",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "ROSE",
+      "design": "STAR RAY",
+      "kind": "pixel",
+      "nodes": 12,
+      "start_channel": 3085,
+      "end_channel": 3120,
+      "bounds_ft": [
+        [
+          -24.0,
+          100.0,
+          -45.0
+        ],
+        [
+          -1.0,
+          100.0,
+          -45.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.22727272727272751
+    },
+    {
+      "name": "HX_013_STAR_RAY",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "ROSE",
+      "design": "STAR RAY",
+      "kind": "pixel",
+      "nodes": 12,
+      "start_channel": 3121,
+      "end_channel": 3156,
+      "bounds_ft": [
+        [
+          -17.0,
+          83.0,
+          -45.0
+        ],
+        [
+          -0.5,
+          99.5,
+          -45.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.29289321881345665
+    },
+    {
+      "name": "HX_014_STAR_RAY",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "ROSE",
+      "design": "STAR RAY",
+      "kind": "pixel",
+      "nodes": 12,
+      "start_channel": 3157,
+      "end_channel": 3192,
+      "bounds_ft": [
+        [
+          0.0,
+          76.0,
+          -45.0
+        ],
+        [
+          0.0,
+          99.0,
+          -45.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.22727272727273373
+    },
+    {
+      "name": "HX_015_STAR_RAY",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "ROSE",
+      "design": "STAR RAY",
+      "kind": "pixel",
+      "nodes": 12,
+      "start_channel": 3193,
+      "end_channel": 3228,
+      "bounds_ft": [
+        [
+          0.5,
+          83.0,
+          -45.0
+        ],
+        [
+          17.0,
+          99.5,
+          -45.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.29289321881345637
+    },
+    {
+      "name": "HX_016_TOWER",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "TOWERS",
+      "design": "TOWER",
+      "kind": "pixel",
+      "nodes": 400,
+      "start_channel": 3229,
+      "end_channel": 4428,
+      "bounds_ft": [
+        [
+          -112.0,
+          0.0,
+          -55.0
+        ],
+        [
+          -72.0,
+          179.5,
+          -55.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.25,
+      "max_snap_error_ft": 0.13219714827231385
+    },
+    {
+      "name": "HX_017_POINTED_ARCH",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "WINDOWS",
+      "design": "POINTED ARCH",
+      "kind": "pixel",
+      "nodes": 160,
+      "start_channel": 4429,
+      "end_channel": 4908,
+      "bounds_ft": [
+        [
+          -104.0,
+          62.0,
+          -53.0
+        ],
+        [
+          -80.0,
+          111.75,
+          -53.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.25,
+      "max_snap_error_ft": 0.1551217939734403
+    },
+    {
+      "name": "HX_018_BUTTRESS",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "BUTTRESSES",
+      "design": "BUTTRESS",
+      "kind": "pixel",
+      "nodes": 130,
+      "start_channel": 4909,
+      "end_channel": 5298,
+      "bounds_ft": [
+        [
+          -125.0,
+          0.0,
+          -100.0
+        ],
+        [
+          -80.0,
+          94.0,
+          -100.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3298514461399621
+    },
+    {
+      "name": "HX_019_POINTED_ARCH",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "AISLES",
+      "design": "POINTED ARCH",
+      "kind": "pixel",
+      "nodes": 160,
+      "start_channel": 5299,
+      "end_channel": 5778,
+      "bounds_ft": [
+        [
+          -87.0,
+          0.0,
+          -100.0
+        ],
+        [
+          -59.0,
+          53.75,
+          -100.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.25,
+      "max_snap_error_ft": 0.15383119473017326
+    },
+    {
+      "name": "HX_020_BUTTRESS",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "BUTTRESSES",
+      "design": "BUTTRESS",
+      "kind": "pixel",
+      "nodes": 130,
+      "start_channel": 5779,
+      "end_channel": 6168,
+      "bounds_ft": [
+        [
+          -125.0,
+          0.0,
+          -55.0
+        ],
+        [
+          -80.0,
+          94.0,
+          -55.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3298514461399621
+    },
+    {
+      "name": "HX_021_POINTED_ARCH",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "AISLES",
+      "design": "POINTED ARCH",
+      "kind": "pixel",
+      "nodes": 160,
+      "start_channel": 6169,
+      "end_channel": 6648,
+      "bounds_ft": [
+        [
+          -87.0,
+          0.0,
+          -55.0
+        ],
+        [
+          -59.0,
+          53.75,
+          -55.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.25,
+      "max_snap_error_ft": 0.15383119473017326
+    },
+    {
+      "name": "HX_022_BUTTRESS",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "BUTTRESSES",
+      "design": "BUTTRESS",
+      "kind": "pixel",
+      "nodes": 130,
+      "start_channel": 6649,
+      "end_channel": 7038,
+      "bounds_ft": [
+        [
+          -125.0,
+          0.0,
+          -10.0
+        ],
+        [
+          -80.0,
+          94.0,
+          -10.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3298514461399621
+    },
+    {
+      "name": "HX_023_POINTED_ARCH",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "AISLES",
+      "design": "POINTED ARCH",
+      "kind": "pixel",
+      "nodes": 160,
+      "start_channel": 7039,
+      "end_channel": 7518,
+      "bounds_ft": [
+        [
+          -87.0,
+          0.0,
+          -10.0
+        ],
+        [
+          -59.0,
+          53.75,
+          -10.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.25,
+      "max_snap_error_ft": 0.15383119473017326
+    },
+    {
+      "name": "HX_024_BUTTRESS",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "BUTTRESSES",
+      "design": "BUTTRESS",
+      "kind": "pixel",
+      "nodes": 130,
+      "start_channel": 7519,
+      "end_channel": 7908,
+      "bounds_ft": [
+        [
+          -125.0,
+          0.0,
+          35.0
+        ],
+        [
+          -80.0,
+          94.0,
+          35.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3298514461399621
+    },
+    {
+      "name": "HX_025_POINTED_ARCH",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "AISLES",
+      "design": "POINTED ARCH",
+      "kind": "pixel",
+      "nodes": 160,
+      "start_channel": 7909,
+      "end_channel": 8388,
+      "bounds_ft": [
+        [
+          -87.0,
+          0.0,
+          35.0
+        ],
+        [
+          -59.0,
+          53.75,
+          35.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.25,
+      "max_snap_error_ft": 0.15383119473017326
+    },
+    {
+      "name": "HX_026_TOWER",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "TOWERS",
+      "design": "TOWER",
+      "kind": "pixel",
+      "nodes": 400,
+      "start_channel": 8389,
+      "end_channel": 9588,
+      "bounds_ft": [
+        [
+          72.0,
+          0.0,
+          -55.0
+        ],
+        [
+          112.0,
+          179.5,
+          -55.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.25,
+      "max_snap_error_ft": 0.13219714827231385
+    },
+    {
+      "name": "HX_027_POINTED_ARCH",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "WINDOWS",
+      "design": "POINTED ARCH",
+      "kind": "pixel",
+      "nodes": 160,
+      "start_channel": 9589,
+      "end_channel": 10068,
+      "bounds_ft": [
+        [
+          80.0,
+          62.0,
+          -53.0
+        ],
+        [
+          104.0,
+          111.75,
+          -53.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.25,
+      "max_snap_error_ft": 0.1551217939734403
+    },
+    {
+      "name": "HX_028_BUTTRESS",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "BUTTRESSES",
+      "design": "BUTTRESS",
+      "kind": "pixel",
+      "nodes": 130,
+      "start_channel": 10069,
+      "end_channel": 10458,
+      "bounds_ft": [
+        [
+          80.0,
+          0.0,
+          -100.0
+        ],
+        [
+          125.0,
+          94.0,
+          -100.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3298514461399621
+    },
+    {
+      "name": "HX_029_POINTED_ARCH",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "AISLES",
+      "design": "POINTED ARCH",
+      "kind": "pixel",
+      "nodes": 160,
+      "start_channel": 10459,
+      "end_channel": 10938,
+      "bounds_ft": [
+        [
+          59.0,
+          0.0,
+          -100.0
+        ],
+        [
+          87.0,
+          53.75,
+          -100.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.25,
+      "max_snap_error_ft": 0.15383119473017326
+    },
+    {
+      "name": "HX_030_BUTTRESS",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "BUTTRESSES",
+      "design": "BUTTRESS",
+      "kind": "pixel",
+      "nodes": 130,
+      "start_channel": 10939,
+      "end_channel": 11328,
+      "bounds_ft": [
+        [
+          80.0,
+          0.0,
+          -55.0
+        ],
+        [
+          125.0,
+          94.0,
+          -55.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3298514461399621
+    },
+    {
+      "name": "HX_031_POINTED_ARCH",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "AISLES",
+      "design": "POINTED ARCH",
+      "kind": "pixel",
+      "nodes": 160,
+      "start_channel": 11329,
+      "end_channel": 11808,
+      "bounds_ft": [
+        [
+          59.0,
+          0.0,
+          -55.0
+        ],
+        [
+          87.0,
+          53.75,
+          -55.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.25,
+      "max_snap_error_ft": 0.15383119473017326
+    },
+    {
+      "name": "HX_032_BUTTRESS",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "BUTTRESSES",
+      "design": "BUTTRESS",
+      "kind": "pixel",
+      "nodes": 130,
+      "start_channel": 11809,
+      "end_channel": 12198,
+      "bounds_ft": [
+        [
+          80.0,
+          0.0,
+          -10.0
+        ],
+        [
+          125.0,
+          94.0,
+          -10.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3298514461399621
+    },
+    {
+      "name": "HX_033_POINTED_ARCH",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "AISLES",
+      "design": "POINTED ARCH",
+      "kind": "pixel",
+      "nodes": 160,
+      "start_channel": 12199,
+      "end_channel": 12678,
+      "bounds_ft": [
+        [
+          59.0,
+          0.0,
+          -10.0
+        ],
+        [
+          87.0,
+          53.75,
+          -10.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.25,
+      "max_snap_error_ft": 0.15383119473017326
+    },
+    {
+      "name": "HX_034_BUTTRESS",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "BUTTRESSES",
+      "design": "BUTTRESS",
+      "kind": "pixel",
+      "nodes": 130,
+      "start_channel": 12679,
+      "end_channel": 13068,
+      "bounds_ft": [
+        [
+          80.0,
+          0.0,
+          35.0
+        ],
+        [
+          125.0,
+          94.0,
+          35.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3298514461399621
+    },
+    {
+      "name": "HX_035_POINTED_ARCH",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "AISLES",
+      "design": "POINTED ARCH",
+      "kind": "pixel",
+      "nodes": 160,
+      "start_channel": 13069,
+      "end_channel": 13548,
+      "bounds_ft": [
+        [
+          59.0,
+          0.0,
+          35.0
+        ],
+        [
+          87.0,
+          53.75,
+          35.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.25,
+      "max_snap_error_ft": 0.15383119473017326
+    },
+    {
+      "name": "HX_036_SPIRAL_TREE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "GROVE",
+      "design": "SPIRAL TREE",
+      "kind": "pixel",
+      "nodes": 320,
+      "start_channel": 13549,
+      "end_channel": 14508,
+      "bounds_ft": [
+        [
+          -155.5,
+          0.0,
+          4.5
+        ],
+        [
+          -134.5,
+          35.0,
+          25.5
+        ]
+      ],
+      "submodels": [
+        "STRAND_1",
+        "STRAND_2",
+        "STRAND_3",
+        "STRAND_4",
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3787073528821556,
+      "spiral_tree": true,
+      "custom_exact": true
+    },
+    {
+      "name": "HX_037_SPIRAL_TREE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "GROVE",
+      "design": "SPIRAL TREE",
+      "kind": "pixel",
+      "nodes": 320,
+      "start_channel": 14509,
+      "end_channel": 15468,
+      "bounds_ft": [
+        [
+          -155.5,
+          0.0,
+          54.5
+        ],
+        [
+          -134.5,
+          35.0,
+          75.5
+        ]
+      ],
+      "submodels": [
+        "STRAND_1",
+        "STRAND_2",
+        "STRAND_3",
+        "STRAND_4",
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3787073528821556,
+      "spiral_tree": true,
+      "custom_exact": true
+    },
+    {
+      "name": "HX_038_SPIRAL_TREE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "GROVE",
+      "design": "SPIRAL TREE",
+      "kind": "pixel",
+      "nodes": 320,
+      "start_channel": 15469,
+      "end_channel": 16428,
+      "bounds_ft": [
+        [
+          134.5,
+          0.0,
+          4.5
+        ],
+        [
+          155.5,
+          35.0,
+          25.5
+        ]
+      ],
+      "submodels": [
+        "STRAND_1",
+        "STRAND_2",
+        "STRAND_3",
+        "STRAND_4",
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3787073528821556,
+      "spiral_tree": true,
+      "custom_exact": true
+    },
+    {
+      "name": "HX_039_SPIRAL_TREE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "GROVE",
+      "design": "SPIRAL TREE",
+      "kind": "pixel",
+      "nodes": 320,
+      "start_channel": 16429,
+      "end_channel": 17388,
+      "bounds_ft": [
+        [
+          134.5,
+          0.0,
+          54.5
+        ],
+        [
+          155.5,
+          35.0,
+          75.5
+        ]
+      ],
+      "submodels": [
+        "STRAND_1",
+        "STRAND_2",
+        "STRAND_3",
+        "STRAND_4",
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3787073528821556,
+      "spiral_tree": true,
+      "custom_exact": true
+    },
+    {
+      "name": "HX_040_COURT",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "GROUND",
+      "design": "COURT",
+      "kind": "pixel",
+      "nodes": 200,
+      "start_channel": 17389,
+      "end_channel": 17988,
+      "bounds_ft": [
+        [
+          -130.0,
+          0.0,
+          -50.0
+        ],
+        [
+          130.0,
+          0.0,
+          100.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.20000000000004547
+    },
+    {
+      "name": "HX_041_COURT",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "GROUND",
+      "design": "COURT",
+      "kind": "pixel",
+      "nodes": 200,
+      "start_channel": 17989,
+      "end_channel": 18588,
+      "bounds_ft": [
+        [
+          -117.5,
+          2.0,
+          -40.0
+        ],
+        [
+          117.5,
+          2.0,
+          90.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.25
+    },
+    {
+      "name": "HX_042_COURT",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "GROUND",
+      "design": "COURT",
+      "kind": "pixel",
+      "nodes": 200,
+      "start_channel": 18589,
+      "end_channel": 19188,
+      "bounds_ft": [
+        [
+          -105.0,
+          4.0,
+          -30.0
+        ],
+        [
+          105.0,
+          4.0,
+          80.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.20000000000004547
+    }
+  ],
+  "file_prefix": "Gothic_Ember_Cathedral",
+  "description": "An amber-and-crimson Gothic church traced along pointed arches, buttresses, twin towers and a radial rose window.",
+  "palette": [
+    "#FFC573",
+    "#FF6470",
+    "#FFE3AA"
+  ],
+  "groups": {
+    "HX_ALL_PIXELS": [
+      "HX_001_HOUSE_FACADE",
+      "HX_002_WINDOW",
+      "HX_003_WINDOW",
+      "HX_004_POINTED_ARCH",
+      "HX_005_ROSE_WINDOW",
+      "HX_006_ROSE_WINDOW",
+      "HX_007_ROSE_WINDOW",
+      "HX_008_STAR_RAY",
+      "HX_009_STAR_RAY",
+      "HX_010_STAR_RAY",
+      "HX_011_STAR_RAY",
+      "HX_012_STAR_RAY",
+      "HX_013_STAR_RAY",
+      "HX_014_STAR_RAY",
+      "HX_015_STAR_RAY",
+      "HX_016_TOWER",
+      "HX_017_POINTED_ARCH",
+      "HX_018_BUTTRESS",
+      "HX_019_POINTED_ARCH",
+      "HX_020_BUTTRESS",
+      "HX_021_POINTED_ARCH",
+      "HX_022_BUTTRESS",
+      "HX_023_POINTED_ARCH",
+      "HX_024_BUTTRESS",
+      "HX_025_POINTED_ARCH",
+      "HX_026_TOWER",
+      "HX_027_POINTED_ARCH",
+      "HX_028_BUTTRESS",
+      "HX_029_POINTED_ARCH",
+      "HX_030_BUTTRESS",
+      "HX_031_POINTED_ARCH",
+      "HX_032_BUTTRESS",
+      "HX_033_POINTED_ARCH",
+      "HX_034_BUTTRESS",
+      "HX_035_POINTED_ARCH",
+      "HX_036_SPIRAL_TREE",
+      "HX_037_SPIRAL_TREE",
+      "HX_038_SPIRAL_TREE",
+      "HX_039_SPIRAL_TREE",
+      "HX_040_COURT",
+      "HX_041_COURT",
+      "HX_042_COURT"
+    ],
+    "HX_NATIVE_CUSTOM": [
+      "HX_001_HOUSE_FACADE",
+      "HX_002_WINDOW",
+      "HX_003_WINDOW",
+      "HX_004_POINTED_ARCH",
+      "HX_005_ROSE_WINDOW",
+      "HX_006_ROSE_WINDOW",
+      "HX_007_ROSE_WINDOW",
+      "HX_008_STAR_RAY",
+      "HX_009_STAR_RAY",
+      "HX_010_STAR_RAY",
+      "HX_011_STAR_RAY",
+      "HX_012_STAR_RAY",
+      "HX_013_STAR_RAY",
+      "HX_014_STAR_RAY",
+      "HX_015_STAR_RAY",
+      "HX_016_TOWER",
+      "HX_017_POINTED_ARCH",
+      "HX_018_BUTTRESS",
+      "HX_019_POINTED_ARCH",
+      "HX_020_BUTTRESS",
+      "HX_021_POINTED_ARCH",
+      "HX_022_BUTTRESS",
+      "HX_023_POINTED_ARCH",
+      "HX_024_BUTTRESS",
+      "HX_025_POINTED_ARCH",
+      "HX_026_TOWER",
+      "HX_027_POINTED_ARCH",
+      "HX_028_BUTTRESS",
+      "HX_029_POINTED_ARCH",
+      "HX_030_BUTTRESS",
+      "HX_031_POINTED_ARCH",
+      "HX_032_BUTTRESS",
+      "HX_033_POINTED_ARCH",
+      "HX_034_BUTTRESS",
+      "HX_035_POINTED_ARCH",
+      "HX_036_SPIRAL_TREE",
+      "HX_037_SPIRAL_TREE",
+      "HX_038_SPIRAL_TREE",
+      "HX_039_SPIRAL_TREE",
+      "HX_040_COURT",
+      "HX_041_COURT",
+      "HX_042_COURT"
+    ],
+    "HX_SPIRALS_EAST": [
+      "HX_038_SPIRAL_TREE",
+      "HX_039_SPIRAL_TREE"
+    ],
+    "HX_SPIRALS_WEST": [
+      "HX_036_SPIRAL_TREE",
+      "HX_037_SPIRAL_TREE"
+    ],
+    "HX_SPIRAL_TREES": [
+      "HX_036_SPIRAL_TREE",
+      "HX_037_SPIRAL_TREE",
+      "HX_038_SPIRAL_TREE",
+      "HX_039_SPIRAL_TREE"
+    ],
+    "HX_WHOLE_SHOW": [
+      "HX_001_HOUSE_FACADE",
+      "HX_002_WINDOW",
+      "HX_003_WINDOW",
+      "HX_004_POINTED_ARCH",
+      "HX_005_ROSE_WINDOW",
+      "HX_006_ROSE_WINDOW",
+      "HX_007_ROSE_WINDOW",
+      "HX_008_STAR_RAY",
+      "HX_009_STAR_RAY",
+      "HX_010_STAR_RAY",
+      "HX_011_STAR_RAY",
+      "HX_012_STAR_RAY",
+      "HX_013_STAR_RAY",
+      "HX_014_STAR_RAY",
+      "HX_015_STAR_RAY",
+      "HX_016_TOWER",
+      "HX_017_POINTED_ARCH",
+      "HX_018_BUTTRESS",
+      "HX_019_POINTED_ARCH",
+      "HX_020_BUTTRESS",
+      "HX_021_POINTED_ARCH",
+      "HX_022_BUTTRESS",
+      "HX_023_POINTED_ARCH",
+      "HX_024_BUTTRESS",
+      "HX_025_POINTED_ARCH",
+      "HX_026_TOWER",
+      "HX_027_POINTED_ARCH",
+      "HX_028_BUTTRESS",
+      "HX_029_POINTED_ARCH",
+      "HX_030_BUTTRESS",
+      "HX_031_POINTED_ARCH",
+      "HX_032_BUTTRESS",
+      "HX_033_POINTED_ARCH",
+      "HX_034_BUTTRESS",
+      "HX_035_POINTED_ARCH",
+      "HX_036_SPIRAL_TREE",
+      "HX_037_SPIRAL_TREE",
+      "HX_038_SPIRAL_TREE",
+      "HX_039_SPIRAL_TREE",
+      "HX_040_COURT",
+      "HX_041_COURT",
+      "HX_042_COURT"
+    ],
+    "HX_ZONE_AISLES": [
+      "HX_019_POINTED_ARCH",
+      "HX_021_POINTED_ARCH",
+      "HX_023_POINTED_ARCH",
+      "HX_025_POINTED_ARCH",
+      "HX_029_POINTED_ARCH",
+      "HX_031_POINTED_ARCH",
+      "HX_033_POINTED_ARCH",
+      "HX_035_POINTED_ARCH"
+    ],
+    "HX_ZONE_BUTTRESSES": [
+      "HX_018_BUTTRESS",
+      "HX_020_BUTTRESS",
+      "HX_022_BUTTRESS",
+      "HX_024_BUTTRESS",
+      "HX_028_BUTTRESS",
+      "HX_030_BUTTRESS",
+      "HX_032_BUTTRESS",
+      "HX_034_BUTTRESS"
+    ],
+    "HX_ZONE_DOOR": [
+      "HX_004_POINTED_ARCH"
+    ],
+    "HX_ZONE_FACADES": [
+      "HX_001_HOUSE_FACADE"
+    ],
+    "HX_ZONE_GROUND": [
+      "HX_040_COURT",
+      "HX_041_COURT",
+      "HX_042_COURT"
+    ],
+    "HX_ZONE_GROVE": [
+      "HX_036_SPIRAL_TREE",
+      "HX_037_SPIRAL_TREE",
+      "HX_038_SPIRAL_TREE",
+      "HX_039_SPIRAL_TREE"
+    ],
+    "HX_ZONE_ROSE": [
+      "HX_005_ROSE_WINDOW",
+      "HX_006_ROSE_WINDOW",
+      "HX_007_ROSE_WINDOW",
+      "HX_008_STAR_RAY",
+      "HX_009_STAR_RAY",
+      "HX_010_STAR_RAY",
+      "HX_011_STAR_RAY",
+      "HX_012_STAR_RAY",
+      "HX_013_STAR_RAY",
+      "HX_014_STAR_RAY",
+      "HX_015_STAR_RAY"
+    ],
+    "HX_ZONE_TOWERS": [
+      "HX_016_TOWER",
+      "HX_026_TOWER"
+    ],
+    "HX_ZONE_WINDOWS": [
+      "HX_002_WINDOW",
+      "HX_003_WINDOW",
+      "HX_017_POINTED_ARCH",
+      "HX_027_POINTED_ARCH"
+    ]
+  },
+  "group_count": 15,
+  "concept_id": "19",
+  "source_art": "images/19_20_Gothic_Churches.png",
+  "source_art_side": "left",
+  "build_status": "native planning layout",
+  "source_brief": {
+    "id": "19",
+    "name": "Gothic Ember Cathedral",
+    "round": "church",
+    "board": 10,
+    "side": "left",
+    "description": "An amber-and-crimson Gothic church traced along pointed arches, buttresses, twin towers and a radial rose window.",
+    "spatial": "Facade contours, side aisles, tower heights and a foreground court with spiral trees.",
+    "choreography": "Courtyard waves climb buttresses and meet at the rose window and tower peaks.",
+    "constraint": "Accurate architecture/reference dimensions and removable mounting permission are required.",
+    "image": "images/19_20_Gothic_Churches.png",
+    "panel_ratio": 0.75,
+    "status": "awaiting user selection"
+  },
+  "sequence_type": "24-second silent Animation study",
+  "physical_output_networks": 0,
+  "limits": [
+    "Accurate architecture/reference dimensions and removable mounting permission are required.",
+    "Artwork-guided finite geometry, not a scanned/surveyed reconstruction.",
+    "No complete music sequence or musical drummer acceptance claimed."
+  ]
+}

@@ -1,0 +1,40 @@
+[
+  {
+    "file": "Helix_Two_Stages_3.mp4",
+    "bytes": 25700415,
+    "sha256": "2fa98a7893b444cd072c2054ee548f8b2f6a47580794f7030ff3e75fca890333",
+    "seconds": 80.2,
+    "frames": 1604,
+    "full_decode_passed": true,
+    "codec": "H264/AAC",
+    "waveform_correlation": 0.9988174767548302,
+    "decoded_samples": [
+      {
+        "time": 4.812,
+        "path": "Helix_Two_Stages_3_decoded_0.jpg",
+        "lit_fraction": 0.1639549575617284
+      },
+      {
+        "time": 17.644000000000002,
+        "path": "Helix_Two_Stages_3_decoded_1.jpg",
+        "lit_fraction": 0.16415461033950618
+      },
+      {
+        "time": 34.486000000000004,
+        "path": "Helix_Two_Stages_3_decoded_2.jpg",
+        "lit_fraction": 0.16590470679012345
+      },
+      {
+        "time": 50.526,
+        "path": "Helix_Two_Stages_3_decoded_3.jpg",
+        "lit_fraction": 0.16374614197530865
+      },
+      {
+        "time": 68.17,
+        "path": "Helix_Two_Stages_3_decoded_4.jpg",
+        "lit_fraction": 0.16464699074074074
+      }
+    ],
+    "max_contact_error": 0
+  }
+]

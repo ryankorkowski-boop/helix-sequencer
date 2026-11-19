@@ -1,0 +1,28 @@
+{
+  "schema": "helix.android.review-coinstall.v1",
+  "apk": {
+    "filename": "app-review.apk",
+    "sha256": "b430b1b6136cb86318c1362d4ef101c0c755d15478e9f61b45eca97ee834ee10",
+    "package_id": "org.helixsequencer.android.review",
+    "versionCode": 8,
+    "versionName": "1.1-beta-review",
+    "min_sdk": 26,
+    "abis": [
+      "arm64-v8a",
+      "x86_64"
+    ],
+    "signature_verified": true,
+    "signer_sha256": [
+      "83bf82eef6c8aea1108a855bc76e35e198b8774c776081e9b5c7d1214c170e02"
+    ],
+    "has_embedded_splits": false
+  },
+  "fresh_review_install": true,
+  "launch_verified": true,
+  "baseline_marker_preserved": true,
+  "separate_package": true,
+  "historical_in_place_update": false,
+  "owner_phone_installation_verified": false,
+  "launch_output": "Starting: Intent { cmp=org.helixsequencer.android.review/org.helixsequencer.android.MainActivity }\nStatus: ok\nLaunchState: COLD\nActivity: org.helixsequencer.android.review/org.helixsequencer.android.MainActivity\nTotalTime: 654\nWaitTime: 659\nComplete",
+  "limitation": "Disposable-emulator co-installation; private jobs/settings are not transferred between apps"
+}

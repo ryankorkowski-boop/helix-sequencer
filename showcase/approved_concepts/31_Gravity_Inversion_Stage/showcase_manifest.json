@@ -1,0 +1,894 @@
+{
+  "schema": "helix.approved_concept.v1",
+  "name": "Gravity Inversion Stage",
+  "coordinate_system": "x-right, y-up, z-depth; design feet",
+  "xlights_source_ref": "6ceddc6b25a24d82754d4f9af28e18ee70b51f81",
+  "coverage": {
+    "Custom": 18
+  },
+  "native_families": [
+    "Custom"
+  ],
+  "native_coverage_complete": false,
+  "model_count": 18,
+  "rgb_pixels": 11352,
+  "channel_count": 34056,
+  "spiral_trees": 10,
+  "double_helices": 0,
+  "preview_contract": "Custom sparse-grid coordinates exactly match exported XML; native-family preview coordinates illustrate the authored geometry. Native xLights render/load evidence is recorded separately.",
+  "models": [
+    {
+      "name": "HX_001_STAGE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "STAGE",
+      "design": "STAGE",
+      "kind": "pixel",
+      "nodes": 200,
+      "start_channel": 1,
+      "end_channel": 600,
+      "bounds_ft": [
+        [
+          -90.0,
+          7.0,
+          -45.0
+        ],
+        [
+          90.0,
+          7.0,
+          45.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.20000000000004547
+    },
+    {
+      "name": "HX_002_FRONT_STEP",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "STEPS",
+      "design": "FRONT STEP",
+      "kind": "pixel",
+      "nodes": 160,
+      "start_channel": 601,
+      "end_channel": 1080,
+      "bounds_ft": [
+        [
+          -90.0,
+          0.0,
+          50.0
+        ],
+        [
+          90.0,
+          0.0,
+          50.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.24528301886792292
+    },
+    {
+      "name": "HX_003_FRONT_STEP",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "STEPS",
+      "design": "FRONT STEP",
+      "kind": "pixel",
+      "nodes": 160,
+      "start_channel": 1081,
+      "end_channel": 1560,
+      "bounds_ft": [
+        [
+          -90.0,
+          3.0,
+          50.0
+        ],
+        [
+          90.0,
+          3.0,
+          50.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.24528301886792292
+    },
+    {
+      "name": "HX_004_FRONT_STEP",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "STEPS",
+      "design": "FRONT STEP",
+      "kind": "pixel",
+      "nodes": 160,
+      "start_channel": 1561,
+      "end_channel": 2040,
+      "bounds_ft": [
+        [
+          -90.0,
+          6.0,
+          50.0
+        ],
+        [
+          90.0,
+          6.0,
+          50.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.24528301886792292
+    },
+    {
+      "name": "HX_SNOWMAN_DRUMMER_V3",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "BAND",
+      "design": "Unchanged canonical drummer placed on center riser",
+      "kind": "pixel",
+      "nodes": 6912,
+      "start_channel": 2041,
+      "end_channel": 22776,
+      "bounds_ft": [
+        [
+          -29.45,
+          13.99,
+          8.0
+        ],
+        [
+          29.45,
+          58.01,
+          8.0
+        ]
+      ],
+      "submodels": [
+        "HX_SNOWMAN_DRUMMER_V3_KICK_SURFACE",
+        "HX_SNOWMAN_DRUMMER_V3_SNARE_SURFACE",
+        "HX_SNOWMAN_DRUMMER_V3_HI_HAT_SURFACE",
+        "HX_SNOWMAN_DRUMMER_V3_TOM_HIGH_SURFACE",
+        "HX_SNOWMAN_DRUMMER_V3_TOM_MID_SURFACE",
+        "HX_SNOWMAN_DRUMMER_V3_TOM_FLOOR_SURFACE",
+        "HX_SNOWMAN_DRUMMER_V3_CYMBAL_LEFT_SURFACE",
+        "HX_SNOWMAN_DRUMMER_V3_CYMBAL_RIGHT_SURFACE",
+        "HX_SNOWMAN_DRUMMER_V3_LEFT_ARM_STICK",
+        "HX_SNOWMAN_DRUMMER_V3_RIGHT_ARM_STICK",
+        "HX_SNOWMAN_DRUMMER_V3_HI_HAT_FOOT",
+        "HX_SNOWMAN_DRUMMER_V3_SNARE_ARM_STICK",
+        "HX_SNOWMAN_DRUMMER_V3_SNARE_ARM_STICK_WOOD",
+        "HX_SNOWMAN_DRUMMER_V3_SNARE_ARM_STICK_NEUTRAL",
+        "HX_SNOWMAN_DRUMMER_V3_TOM_MID_ARM_STICK",
+        "HX_SNOWMAN_DRUMMER_V3_TOM_MID_ARM_STICK_WOOD",
+        "HX_SNOWMAN_DRUMMER_V3_TOM_MID_ARM_STICK_NEUTRAL",
+        "HX_SNOWMAN_DRUMMER_V3_TOM_FLOOR_ARM_STICK",
+        "HX_SNOWMAN_DRUMMER_V3_TOM_FLOOR_ARM_STICK_WOOD",
+        "HX_SNOWMAN_DRUMMER_V3_TOM_FLOOR_ARM_STICK_NEUTRAL",
+        "HX_SNOWMAN_DRUMMER_V3_CYMBAL_LEFT_ARM_STICK",
+        "HX_SNOWMAN_DRUMMER_V3_CYMBAL_LEFT_ARM_STICK_WOOD",
+        "HX_SNOWMAN_DRUMMER_V3_CYMBAL_LEFT_ARM_STICK_NEUTRAL",
+        "HX_SNOWMAN_DRUMMER_V3_TOM_HIGH_ARM_STICK",
+        "HX_SNOWMAN_DRUMMER_V3_TOM_HIGH_ARM_STICK_WOOD",
+        "HX_SNOWMAN_DRUMMER_V3_TOM_HIGH_ARM_STICK_NEUTRAL",
+        "HX_SNOWMAN_DRUMMER_V3_CYMBAL_RIGHT_ARM_STICK",
+        "HX_SNOWMAN_DRUMMER_V3_CYMBAL_RIGHT_ARM_STICK_WOOD",
+        "HX_SNOWMAN_DRUMMER_V3_CYMBAL_RIGHT_ARM_STICK_NEUTRAL",
+        "HX_SNOWMAN_DRUMMER_V3_SNARE_RIGHT_ARM_STICK",
+        "HX_SNOWMAN_DRUMMER_V3_SNARE_RIGHT_ARM_STICK_WOOD",
+        "HX_SNOWMAN_DRUMMER_V3_SNARE_RIGHT_ARM_STICK_NEUTRAL",
+        "HX_SNOWMAN_DRUMMER_V3_KICK",
+        "HX_SNOWMAN_DRUMMER_V3_SNARE",
+        "HX_SNOWMAN_DRUMMER_V3_HI_HAT",
+        "HX_SNOWMAN_DRUMMER_V3_TOM_HIGH",
+        "HX_SNOWMAN_DRUMMER_V3_TOM_MID",
+        "HX_SNOWMAN_DRUMMER_V3_TOM_FLOOR",
+        "HX_SNOWMAN_DRUMMER_V3_CYMBAL_LEFT",
+        "HX_SNOWMAN_DRUMMER_V3_CYMBAL_RIGHT",
+        "BODY_KEEPALIVE"
+      ],
+      "canonical_drummer": true,
+      "source_grid_preserved": true
+    },
+    {
+      "name": "HX_005_SPIRAL_TREE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "GROVE",
+      "design": "SPIRAL TREE",
+      "kind": "pixel",
+      "nodes": 320,
+      "start_channel": 22777,
+      "end_channel": 23736,
+      "bounds_ft": [
+        [
+          -93.5,
+          100.0,
+          -48.5
+        ],
+        [
+          -66.5,
+          145.0,
+          -21.5
+        ]
+      ],
+      "submodels": [
+        "STRAND_1",
+        "STRAND_2",
+        "STRAND_3",
+        "STRAND_4",
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.37805205346782605,
+      "spiral_tree": true,
+      "custom_exact": true
+    },
+    {
+      "name": "HX_006_SPIRAL_TREE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "GROVE",
+      "design": "SPIRAL TREE",
+      "kind": "pixel",
+      "nodes": 320,
+      "start_channel": 23737,
+      "end_channel": 24696,
+      "bounds_ft": [
+        [
+          -93.5,
+          100.0,
+          -13.5
+        ],
+        [
+          -66.5,
+          145.0,
+          13.5
+        ]
+      ],
+      "submodels": [
+        "STRAND_1",
+        "STRAND_2",
+        "STRAND_3",
+        "STRAND_4",
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.37805205346782433,
+      "spiral_tree": true,
+      "custom_exact": true
+    },
+    {
+      "name": "HX_007_SPIRAL_TREE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "GROVE",
+      "design": "SPIRAL TREE",
+      "kind": "pixel",
+      "nodes": 320,
+      "start_channel": 24697,
+      "end_channel": 25656,
+      "bounds_ft": [
+        [
+          -53.5,
+          100.0,
+          -48.5
+        ],
+        [
+          -26.5,
+          145.0,
+          -21.5
+        ]
+      ],
+      "submodels": [
+        "STRAND_1",
+        "STRAND_2",
+        "STRAND_3",
+        "STRAND_4",
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3780520534678216,
+      "spiral_tree": true,
+      "custom_exact": true
+    },
+    {
+      "name": "HX_008_SPIRAL_TREE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "GROVE",
+      "design": "SPIRAL TREE",
+      "kind": "pixel",
+      "nodes": 320,
+      "start_channel": 25657,
+      "end_channel": 26616,
+      "bounds_ft": [
+        [
+          -53.5,
+          100.0,
+          -13.5
+        ],
+        [
+          -26.5,
+          145.0,
+          13.5
+        ]
+      ],
+      "submodels": [
+        "STRAND_1",
+        "STRAND_2",
+        "STRAND_3",
+        "STRAND_4",
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.37805205346782184,
+      "spiral_tree": true,
+      "custom_exact": true
+    },
+    {
+      "name": "HX_009_SPIRAL_TREE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "GROVE",
+      "design": "SPIRAL TREE",
+      "kind": "pixel",
+      "nodes": 320,
+      "start_channel": 26617,
+      "end_channel": 27576,
+      "bounds_ft": [
+        [
+          -13.5,
+          100.0,
+          -48.5
+        ],
+        [
+          13.5,
+          145.0,
+          -21.5
+        ]
+      ],
+      "submodels": [
+        "STRAND_1",
+        "STRAND_2",
+        "STRAND_3",
+        "STRAND_4",
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.37805205346782184,
+      "spiral_tree": true,
+      "custom_exact": true
+    },
+    {
+      "name": "HX_010_SPIRAL_TREE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "GROVE",
+      "design": "SPIRAL TREE",
+      "kind": "pixel",
+      "nodes": 320,
+      "start_channel": 27577,
+      "end_channel": 28536,
+      "bounds_ft": [
+        [
+          -13.5,
+          100.0,
+          -13.5
+        ],
+        [
+          13.5,
+          145.0,
+          13.5
+        ]
+      ],
+      "submodels": [
+        "STRAND_1",
+        "STRAND_2",
+        "STRAND_3",
+        "STRAND_4",
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.37805205346782045,
+      "spiral_tree": true,
+      "custom_exact": true
+    },
+    {
+      "name": "HX_011_SPIRAL_TREE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "GROVE",
+      "design": "SPIRAL TREE",
+      "kind": "pixel",
+      "nodes": 320,
+      "start_channel": 28537,
+      "end_channel": 29496,
+      "bounds_ft": [
+        [
+          26.5,
+          100.0,
+          -48.5
+        ],
+        [
+          53.5,
+          145.0,
+          -21.5
+        ]
+      ],
+      "submodels": [
+        "STRAND_1",
+        "STRAND_2",
+        "STRAND_3",
+        "STRAND_4",
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3780520534678216,
+      "spiral_tree": true,
+      "custom_exact": true
+    },
+    {
+      "name": "HX_012_SPIRAL_TREE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "GROVE",
+      "design": "SPIRAL TREE",
+      "kind": "pixel",
+      "nodes": 320,
+      "start_channel": 29497,
+      "end_channel": 30456,
+      "bounds_ft": [
+        [
+          26.5,
+          100.0,
+          -13.5
+        ],
+        [
+          53.5,
+          145.0,
+          13.5
+        ]
+      ],
+      "submodels": [
+        "STRAND_1",
+        "STRAND_2",
+        "STRAND_3",
+        "STRAND_4",
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.37805205346782184,
+      "spiral_tree": true,
+      "custom_exact": true
+    },
+    {
+      "name": "HX_013_SPIRAL_TREE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "GROVE",
+      "design": "SPIRAL TREE",
+      "kind": "pixel",
+      "nodes": 320,
+      "start_channel": 30457,
+      "end_channel": 31416,
+      "bounds_ft": [
+        [
+          66.5,
+          100.0,
+          -48.5
+        ],
+        [
+          93.5,
+          145.0,
+          -21.5
+        ]
+      ],
+      "submodels": [
+        "STRAND_1",
+        "STRAND_2",
+        "STRAND_3",
+        "STRAND_4",
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.37805205346782605,
+      "spiral_tree": true,
+      "custom_exact": true
+    },
+    {
+      "name": "HX_014_SPIRAL_TREE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "GROVE",
+      "design": "SPIRAL TREE",
+      "kind": "pixel",
+      "nodes": 320,
+      "start_channel": 31417,
+      "end_channel": 32376,
+      "bounds_ft": [
+        [
+          66.5,
+          100.0,
+          -13.5
+        ],
+        [
+          93.5,
+          145.0,
+          13.5
+        ]
+      ],
+      "submodels": [
+        "STRAND_1",
+        "STRAND_2",
+        "STRAND_3",
+        "STRAND_4",
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.37805205346782433,
+      "spiral_tree": true,
+      "custom_exact": true
+    },
+    {
+      "name": "HX_015_CEILING_TRUSS",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "TRUSS",
+      "design": "CEILING TRUSS",
+      "kind": "pixel",
+      "nodes": 200,
+      "start_channel": 32377,
+      "end_channel": 32976,
+      "bounds_ft": [
+        [
+          -105.0,
+          150.0,
+          -55.0
+        ],
+        [
+          105.0,
+          150.0,
+          55.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.20000000000004547
+    },
+    {
+      "name": "HX_016_TRUSS_POST",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "TRUSS",
+      "design": "TRUSS POST",
+      "kind": "pixel",
+      "nodes": 180,
+      "start_channel": 32977,
+      "end_channel": 33516,
+      "bounds_ft": [
+        [
+          -105.0,
+          0.0,
+          -50.0
+        ],
+        [
+          -105.0,
+          150.0,
+          -50.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.24860335195531036
+    },
+    {
+      "name": "HX_017_TRUSS_POST",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "TRUSS",
+      "design": "TRUSS POST",
+      "kind": "pixel",
+      "nodes": 180,
+      "start_channel": 33517,
+      "end_channel": 34056,
+      "bounds_ft": [
+        [
+          105.0,
+          0.0,
+          -50.0
+        ],
+        [
+          105.0,
+          150.0,
+          -50.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.24860335195531036
+    }
+  ],
+  "file_prefix": "Gravity_Inversion_Stage",
+  "description": "A grounded band sits beneath an inverted spiral forest, creating a strong visual tension between the performers and ceiling.",
+  "palette": [
+    "#69EFFF",
+    "#B599FF",
+    "#FFD98A"
+  ],
+  "groups": {
+    "HX_ALL_PIXELS": [
+      "HX_001_STAGE",
+      "HX_002_FRONT_STEP",
+      "HX_003_FRONT_STEP",
+      "HX_004_FRONT_STEP",
+      "HX_SNOWMAN_DRUMMER_V3",
+      "HX_005_SPIRAL_TREE",
+      "HX_006_SPIRAL_TREE",
+      "HX_007_SPIRAL_TREE",
+      "HX_008_SPIRAL_TREE",
+      "HX_009_SPIRAL_TREE",
+      "HX_010_SPIRAL_TREE",
+      "HX_011_SPIRAL_TREE",
+      "HX_012_SPIRAL_TREE",
+      "HX_013_SPIRAL_TREE",
+      "HX_014_SPIRAL_TREE",
+      "HX_015_CEILING_TRUSS",
+      "HX_016_TRUSS_POST",
+      "HX_017_TRUSS_POST"
+    ],
+    "HX_NATIVE_CUSTOM": [
+      "HX_001_STAGE",
+      "HX_002_FRONT_STEP",
+      "HX_003_FRONT_STEP",
+      "HX_004_FRONT_STEP",
+      "HX_SNOWMAN_DRUMMER_V3",
+      "HX_005_SPIRAL_TREE",
+      "HX_006_SPIRAL_TREE",
+      "HX_007_SPIRAL_TREE",
+      "HX_008_SPIRAL_TREE",
+      "HX_009_SPIRAL_TREE",
+      "HX_010_SPIRAL_TREE",
+      "HX_011_SPIRAL_TREE",
+      "HX_012_SPIRAL_TREE",
+      "HX_013_SPIRAL_TREE",
+      "HX_014_SPIRAL_TREE",
+      "HX_015_CEILING_TRUSS",
+      "HX_016_TRUSS_POST",
+      "HX_017_TRUSS_POST"
+    ],
+    "HX_SPIRALS_EAST": [
+      "HX_009_SPIRAL_TREE",
+      "HX_010_SPIRAL_TREE",
+      "HX_011_SPIRAL_TREE",
+      "HX_012_SPIRAL_TREE",
+      "HX_013_SPIRAL_TREE",
+      "HX_014_SPIRAL_TREE"
+    ],
+    "HX_SPIRALS_WEST": [
+      "HX_005_SPIRAL_TREE",
+      "HX_006_SPIRAL_TREE",
+      "HX_007_SPIRAL_TREE",
+      "HX_008_SPIRAL_TREE"
+    ],
+    "HX_SPIRAL_TREES": [
+      "HX_005_SPIRAL_TREE",
+      "HX_006_SPIRAL_TREE",
+      "HX_007_SPIRAL_TREE",
+      "HX_008_SPIRAL_TREE",
+      "HX_009_SPIRAL_TREE",
+      "HX_010_SPIRAL_TREE",
+      "HX_011_SPIRAL_TREE",
+      "HX_012_SPIRAL_TREE",
+      "HX_013_SPIRAL_TREE",
+      "HX_014_SPIRAL_TREE"
+    ],
+    "HX_WHOLE_SHOW": [
+      "HX_001_STAGE",
+      "HX_002_FRONT_STEP",
+      "HX_003_FRONT_STEP",
+      "HX_004_FRONT_STEP",
+      "HX_SNOWMAN_DRUMMER_V3",
+      "HX_005_SPIRAL_TREE",
+      "HX_006_SPIRAL_TREE",
+      "HX_007_SPIRAL_TREE",
+      "HX_008_SPIRAL_TREE",
+      "HX_009_SPIRAL_TREE",
+      "HX_010_SPIRAL_TREE",
+      "HX_011_SPIRAL_TREE",
+      "HX_012_SPIRAL_TREE",
+      "HX_013_SPIRAL_TREE",
+      "HX_014_SPIRAL_TREE",
+      "HX_015_CEILING_TRUSS",
+      "HX_016_TRUSS_POST",
+      "HX_017_TRUSS_POST"
+    ],
+    "HX_ZONE_BAND": [
+      "HX_SNOWMAN_DRUMMER_V3"
+    ],
+    "HX_ZONE_GROVE": [
+      "HX_005_SPIRAL_TREE",
+      "HX_006_SPIRAL_TREE",
+      "HX_007_SPIRAL_TREE",
+      "HX_008_SPIRAL_TREE",
+      "HX_009_SPIRAL_TREE",
+      "HX_010_SPIRAL_TREE",
+      "HX_011_SPIRAL_TREE",
+      "HX_012_SPIRAL_TREE",
+      "HX_013_SPIRAL_TREE",
+      "HX_014_SPIRAL_TREE"
+    ],
+    "HX_ZONE_STAGE": [
+      "HX_001_STAGE"
+    ],
+    "HX_ZONE_STEPS": [
+      "HX_002_FRONT_STEP",
+      "HX_003_FRONT_STEP",
+      "HX_004_FRONT_STEP"
+    ],
+    "HX_ZONE_TRUSS": [
+      "HX_015_CEILING_TRUSS",
+      "HX_016_TRUSS_POST",
+      "HX_017_TRUSS_POST"
+    ]
+  },
+  "group_count": 11,
+  "concept_id": "31",
+  "source_art": "images/31_32.png",
+  "source_art_side": "left",
+  "build_status": "native planning layout",
+  "source_brief": {
+    "id": "31",
+    "name": "Gravity Inversion Stage",
+    "standout": "A grounded band sits beneath an inverted spiral forest, creating a strong visual tension between the performers and ceiling.",
+    "scene": "A live-band concert stage in mint, violet and silver: ordinary grounded performance deck with a central clearly visible snowman-style LED drummer silhouette on its own riser, shadowed guitar positions on both sides. Above it, an upside-down forest of illuminated spiral conical frames hangs from a clearly supported rectangular truss ceiling, tips point downward with ample clearance. Finite staggered heights and dark ceiling truss, strong negative space around performers, no floating musicians.",
+    "board": 5,
+    "side": "left",
+    "image": "images/31_32.png",
+    "status": "awaiting approval",
+    "scope": "Concept art; no xmodel/XML/XSQ/MP4 build.",
+    "source_catalog": "showcase/concepts/2026_10_09_advanced/concepts.json",
+    "description": "A grounded band sits beneath an inverted spiral forest, creating a strong visual tension between the performers and ceiling.",
+    "constraint": "Finite artwork-guided planning geometry; no physical actuation or surveyed construction dimensions.",
+    "round": "advanced"
+  },
+  "sequence_type": "24-second silent Animation study",
+  "physical_output_networks": 0,
+  "limits": [
+    "Finite artwork-guided planning geometry; no physical actuation or surveyed construction dimensions.",
+    "Artwork-guided finite geometry, not a scanned/surveyed reconstruction.",
+    "No complete music sequence or musical drummer acceptance claimed."
+  ]
+}

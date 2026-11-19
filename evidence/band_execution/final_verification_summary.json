@@ -1,0 +1,31 @@
+{
+  "implementation_commit": "d9d0cc1e1b579ce53d57ea322b9b99e01b9fbeb3",
+  "branch": "codex/band-performance-refinement-20261012",
+  "primary_merged": false,
+  "focused_tests": 52,
+  "wider_regression_tests": 67,
+  "overlapping_tests": 5,
+  "unique_tests": 114,
+  "protected_inputs": 40,
+  "decoded_frames": 7747,
+  "native_frames": 6981,
+  "native_mean_pixel_errors": {
+    "C_Bass_49": 2.7247557365790755,
+    "C_Guitar_Who_Knew": 2.8285337206540064,
+    "D_Pitched_Percussion_Candidates_Festivus": 2.1856261230245484,
+    "E_Band_Candy_Cane_Chaos": 2.5864371677812072,
+    "E_Band_Festivus": 2.546812764792667,
+    "E_Band_Wire_Tree": 2.5752190121134833,
+    "Video_A_Drummer_Geometry_Comparison": 2.180136801221356,
+    "Video_B_Original_Dry_Drum_Test": 2.242272486365295,
+    "Video_C_Bass_and_Guitar": 2.7487058258405495,
+    "Video_E_Full_Band_Showcase": 2.4264637968644043
+  },
+  "independent_sparse_drum_anchors": 10,
+  "maximum_anchor_error_ms": 14.5,
+  "minimum_montage_audio_correlation": 0.9981683675424462,
+  "virtual_matrix_export": true,
+  "physical_performer_native_parity": false,
+  "exhaustive_detection_accuracy_verified": false,
+  "mallet_identity_verified": false
+}

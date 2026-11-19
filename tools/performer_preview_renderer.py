@@ -1,9 +1,15 @@
 from __future__ import annotations
 
 import argparse
+import json
 import math
+import sys
 import subprocess
 from pathlib import Path
+
+_REPO_ROOT = Path(__file__).resolve().parents[1]
+if str(_REPO_ROOT) not in sys.path:
+    sys.path.insert(0, str(_REPO_ROOT))
 
 from core.lazy_imports import LazyModule
 from tools.preview_renderer import parse_models, parse_sequence, build_leaf_intensity_matrix, choose_track, active_label, format_time
@@ -29,7 +35,7 @@ COLORS = {
     "HX_SNOWMAN_BASSIST": (100, 220, 255),
     "HX_SNOWMAN_GUITARIST": (255, 190, 75),
     "HX_SNOWMAN_SINGER": (255, 245, 220),
-    "HX_SNOWMAN_SINGER_FEMALE": (255, 125, 210),
+    "HX_SNOWMAN_SINGER_FEMALE": (155, 85, 235),
     "HX_FLOOR_PIANO": (150, 190, 255),
 }
 
@@ -81,7 +87,7 @@ class BandRenderer:
         if role == "HX_SNOWMAN_DRUMMER": self.drums(d, cx, cy, scale, bright, phase)
         elif role == "HX_SNOWMAN_BASSIST": self.instrument(d, cx + 10 * scale, cy - 5 * scale, scale, bright, True)
         elif role == "HX_SNOWMAN_GUITARIST": self.instrument(d, cx + 10 * scale, cy - 8 * scale, scale, bright, False)
-        elif role in ("HX_SNOWMAN_SINGER", "HX_SNOWMAN_SINGER_FEMALE"): self.mic(d, cx, cy, scale, bright)
+        elif role in ("HX_SNOWMAN_SINGER", "HX_SNOWMAN_SINGER_FEMALE"): self.mic(d, cx, cy, scale, bright, role)
         self._frame_glow = glow.filter(ImageFilter.GaussianBlur(radius=10))
 
     def drums(self, d, cx, cy, s, b, p):
@@ -107,18 +113,36 @@ class BandRenderer:
         count = 4 if bass else 6
         for i in range(count):
             xx = cx + 31 * s + i * 2 * s
-            d.line((xx, cy - 54 * s, xx, cy + 14 * s), fill=(220, 225, 235, 255), width=max(1, int(1.5 * s)))
+            # Solid strings remain legible when idle; brightness and thickness
+            # increase during a strike without hiding the instrument body.
+            strength = max(0.0, min(1.0, float(b)))
+            string_color = tuple(min(255, int(v * (0.65 + .35 * strength))) for v in col)
+            d.line((xx, cy - 54 * s, xx, cy + 14 * s),
+                   fill=string_color + (255,),
+                   width=max(2, int((1.8 + 1.6 * strength) * s)))
         d.ellipse((cx - 3 * s, cy + 2 * s, cx + 7 * s, cy + 12 * s), fill=col + (255,))
 
-    def mic(self, d, cx, cy, s, b):
-        col = (255, 125, 210) if cx > 650 else (245, 245, 250)
+    def mic(self, d, cx, cy, s, b, role="HX_SNOWMAN_SINGER"):
+        col = COLORS.get(role, (245, 245, 250))
         d.line((cx + 18 * s, cy - 8 * s, cx + 18 * s, cy + 55 * s), fill=(180, 185, 195, 255), width=max(2, int(3 * s)))
         d.line((cx + 18 * s, cy + 55 * s, cx - 18 * s, cy + 55 * s), fill=(180, 185, 195, 255), width=max(2, int(3 * s)))
         d.ellipse((cx + 5 * s, cy - 25 * s, cx + 27 * s, cy - 4 * s), fill=col + (255,), outline=(255, 255, 255, 255), width=1)
+        # Make the singer's own mouth visible, independent of the microphone.
+        # Use the same activation for either vocalist, never a fixed lead-only gate.
+        mouth_open = max(0.0, min(1.0, float(b)))
+        mouth_w = (5 + 9 * mouth_open) * s
+        mouth_h = (2 + 10 * mouth_open) * s
+        mx, my = cx, cy - 24 * s
+        d.ellipse((mx - mouth_w, my - mouth_h, mx + mouth_w, my + mouth_h),
+                  fill=(40, 8, 28, 255), outline=col + (255,), width=max(2, int(3 * s)))
+        if mouth_open > .3:
+            d.ellipse((mx - mouth_w * .55, my + mouth_h * .12,
+                       mx + mouth_w * .55, my + mouth_h * .75),
+                      fill=(240, 82, 126, 255))
         if b > .45:
             d.ellipse((cx + 10 * s, cy - 20 * s, cx + 22 * s, cy - 8 * s), fill=(255, 255, 255, 180))
 
-    def piano(self, d, x, y, s, b):
+    def piano(self, d, x, y, s, b, active_pitches=()):
         d.rounded_rectangle((x - 100 * s, y - 20 * s, x + 100 * s, y + 30 * s), radius=8, fill=(25, 30, 42, 255), outline=COLORS["HX_FLOOR_PIANO"] + (255,), width=max(2, int(3 * s)))
         for i in range(17):
             xx = x - 90 * s + i * 11 * s
@@ -126,14 +150,26 @@ class BandRenderer:
         for i in range(11):
             xx = x - 84 * s + i * 16 * s
             d.rectangle((xx, y - 17 * s, xx + 8 * s, y + 2 * s), fill=(15, 18, 25, 255))
-        if b > .1:
+        # Map the 88-key MIDI span onto the preview keyboard, keeping
+        # simultaneous notes visible instead of pulsing the entire instrument.
+        for pitch in active_pitches:
+            try:
+                midi = int(round(float(pitch)))
+            except (TypeError, ValueError):
+                continue
+            if not 21 <= midi <= 108:
+                continue
+            xx = x - 90 * s + ((midi - 21) / 87.0) * 180 * s
+            d.rounded_rectangle((xx - 3 * s, y - 16 * s, xx + 3 * s, y + 23 * s),
+                                radius=2, fill=(105, 225, 255, 245))
+        if b > .1 or active_pitches:
             for hand_x in (x - 55 * s, x + 45 * s):
                 d.ellipse((hand_x - 7 * s, y - 45 * s, hand_x + 7 * s, y - 31 * s), fill=(245, 245, 250, 255))
                 d.line((hand_x, y - 31 * s, hand_x + 10 * math.sin(b * 8) * s, y - 12 * s), fill=(245, 245, 250, 255), width=max(2, int(3 * s)))
 
-    def render(self, active, t_ms, duration, overlays, title):
+    def render(self, active, t_ms, duration, overlays, title, active_pitches=()):
         base = self._base.copy()
-        self.piano(ImageDraw.Draw(base), 450, 455, 1.0, float(active.get("HX_FLOOR_PIANO", 0)))
+        self.piano(ImageDraw.Draw(base), 450, 455, 1.0, float(active.get("HX_FLOOR_PIANO", 0)), active_pitches)
         for name, (x, y, role) in BAND.items():
             if role == "piano":
                 continue
@@ -163,6 +199,7 @@ def main():
     ap.add_argument("xsq")
     ap.add_argument("--layout", required=True)
     ap.add_argument("--audio", required=False)
+    ap.add_argument("--keyboard-cues", type=Path, help="JSON list of pitched-note cues from the band plan")
     ap.add_argument("--fps", type=int, default=10)
     ap.add_argument("--width", type=int, default=960)
     ap.add_argument("--height", type=int, default=540)
@@ -175,13 +212,20 @@ def main():
     out = Path(args.xsq).with_name(Path(args.xsq).stem + ".mp4")
     tmp = out.with_suffix(".silent.mp4")
     renderer = BandRenderer(args.width, args.height)
+    keyboard_payload = json.loads(args.keyboard_cues.read_text(encoding="utf-8")) if args.keyboard_cues else []
+    keyboard_cues = (keyboard_payload.get("cues", {}).get("keyboardist", [])
+                     if isinstance(keyboard_payload, dict) else keyboard_payload)
+    if not isinstance(keyboard_cues, list):
+        raise ValueError("keyboard cues must be a JSON list or a band plan containing cues.keyboardist")
     writer = imageio.get_writer(tmp, fps=args.fps, codec="libx264", quality=7, ffmpeg_log_level="error", pixelformat="yuv420p", macro_block_size=None)
     try:
         for fi in range(intensity.shape[1]):
             t = int(round(fi * 1000 / args.fps))
             active = {name: float(intensity[idx[name], fi]) for name in BAND if name in idx}
             overlays = {k: active_label(v, t) for k, v in tracks.items()}
-            frame = renderer.render(active, t, seq.duration_ms, overlays, Path(args.xsq).name)
+            pitches = [cue["pitch_midi"] for cue in keyboard_cues
+                       if int(cue["start_ms"]) <= t < int(cue["end_ms"]) and "pitch_midi" in cue]
+            frame = renderer.render(active, t, seq.duration_ms, overlays, Path(args.xsq).name, pitches)
             writer.append_data(np.asarray(frame.convert("RGB"), dtype=np.uint8))
     finally:
         writer.close()

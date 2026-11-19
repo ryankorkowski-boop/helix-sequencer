@@ -1,0 +1,53 @@
+{
+  "starting_commit": "35bf41ae27dc3fc7278c3af100401cf63fecf3e0",
+  "source_drive_id": "12gRu8SUf-8GVCQdJnrIROnTY6XumOUzZ",
+  "original_audio_sha256": "fc91e3f48f709e615ba598a5d49ae63ab9652c0d16e324095f6e1b20377e082b",
+  "local_excerpt_sha256": "489b161bb48b986d355fbf28d4b8f58578ce0bb4deb01f6d8aa6274c0c49fb63",
+  "engine_exit_code": 0,
+  "engine_effect_nodes": 12016,
+  "engine_xsq_sha256": "f54da9175671083238203faaaee005509d422ec90c2c684a5618ead97a260f1f",
+  "prior_native_run": 42027740755,
+  "prior_native_artifact": 13417243372,
+  "prior_native_readability": {
+    "schema": "helix.showcase_readability.v1",
+    "frames": 80,
+    "sample_fps": 2,
+    "thresholds": {
+      "median_luma": 12.0,
+      "median_bright_fraction": 0.012,
+      "median_motion": 0.65,
+      "min_visible_width": 0.4,
+      "min_visible_height": 0.35
+    },
+    "measurements": {
+      "median_luma": 3.043,
+      "median_bright_fraction": 0.0,
+      "median_motion": 0.156,
+      "visible_width": 0.0,
+      "visible_height": 0.0
+    },
+    "checks": {
+      "visible_stage_width": false,
+      "visible_stage_height": false,
+      "median_stage_luminance": false,
+      "bright_stage_area": false,
+      "visible_stage_motion": false
+    },
+    "passed": false,
+    "note": "Quantitative visibility gate only; no artistic, musical or source classification approval"
+  },
+  "current_source_ci": {
+    "python_3_11_and_3_12": 42054533014,
+    "windows": 42054532961,
+    "android_api30_api36": 42054533183
+  },
+  "checks": [
+    "21 bounded-audio/AC tests passed",
+    "11 preview mapping/AC tests passed; 256 addresses, fixed colors, original groups, exact musical XSQ retained"
+  ],
+  "local_native_limitation": "Pinned Ubuntu24 binary cannot run on this Debian executor: required system libraries absent; apt install unavailable without root. Reuse GitHub cached renderer.",
+  "blocking_source_qualification": "Retained E14 analysis lacks independently resolved lead and harmony tracks; do not fabricate qualified source or pilot acceptance.",
+  "next_command": "gh workflow run native-drive-audio-ac256.yml --ref codex/eight-hour-recovery-20261019",
+  "approval_zip_created": false,
+  "comparison16_created": false
+}

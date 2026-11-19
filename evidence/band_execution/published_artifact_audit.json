@@ -1,0 +1,38 @@
+{
+  "archive_crc_passed": true,
+  "all_manifest_hashes_passed": true,
+  "portable_xsq_count": 10,
+  "movies": [
+    {
+      "file": "Video_C_Bass_and_Guitar.mp4",
+      "full_decode_passed": true,
+      "sha256": "0acd7c4091b0e7167195ef1111887afe59c4678105f3fefede47a9db22c5e985"
+    },
+    {
+      "file": "Video_E_Full_Band_Showcase.mp4",
+      "full_decode_passed": true,
+      "sha256": "976ce859aebb477078d587b8fe3e3bb821838f43bacbe42a5a0b58c7db1849e1"
+    },
+    {
+      "file": "Video_B_Original_Dry_Drum_Test.mp4",
+      "full_decode_passed": true,
+      "sha256": "07c9466f7f2163169f79704ac57f25ddb4fabba63ee5582a27ba3cd45411e5ca"
+    },
+    {
+      "file": "D_Pitched_Percussion_Candidates_Festivus.mp4",
+      "full_decode_passed": true,
+      "sha256": "0635fc92e3079e7c84f2d9fd82ec94b6e22b3af6a08e490391a8bad6c2dc8d01"
+    },
+    {
+      "file": "Video_A_Drummer_Geometry_Comparison.mp4",
+      "full_decode_passed": true,
+      "sha256": "501a69acb3c9bdf0b820dec331bf1f0f8382f14b0e0bd3cf6e72fd6fc1926001"
+    }
+  ],
+  "remote_focused_tests": 43,
+  "native_frames": 6981,
+  "total_remote_movie_frames": 7747,
+  "minimum_remote_audio_correlation": 0.9981683675424462,
+  "published_decoded_contact_sheet_inspected": true,
+  "actual_listening_performed": false
+}

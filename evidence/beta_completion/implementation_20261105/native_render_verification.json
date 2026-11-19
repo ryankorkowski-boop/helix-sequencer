@@ -1,0 +1,38 @@
+{
+  "schema": "helix.phoneme-review.v1",
+  "native_video_verified": false,
+  "owner_approved": false,
+  "release_ready": false,
+  "blockers": [
+    "Native image quality failed: visible_stage_motion; measurements={\"median_bright_fraction\": 0.07336, \"median_luma\": 12.457, \"median_motion\": 0.372, \"visible_height\": 0.622, \"visible_width\": 0.669}; retain diagnostic media without promoting it for owner approval"
+  ],
+  "readability": {
+    "schema": "helix.showcase_readability.v1",
+    "frames": 70,
+    "sample_fps": 2,
+    "thresholds": {
+      "median_luma": 12.0,
+      "median_bright_fraction": 0.012,
+      "median_motion": 0.65,
+      "min_visible_width": 0.4,
+      "min_visible_height": 0.35
+    },
+    "measurements": {
+      "median_luma": 12.457,
+      "median_bright_fraction": 0.07336,
+      "median_motion": 0.372,
+      "visible_width": 0.669,
+      "visible_height": 0.622
+    },
+    "checks": {
+      "visible_stage_width": true,
+      "visible_stage_height": true,
+      "median_stage_luminance": true,
+      "bright_stage_area": true,
+      "visible_stage_motion": false,
+      "opening_static_cast_framing": true
+    },
+    "passed": false,
+    "note": "Quantitative visibility gate only; no artistic, musical or source classification approval"
+  }
+}

@@ -1,0 +1,28 @@
+{
+  "schema": "helix.showcase_readability.v1",
+  "frames": 80,
+  "sample_fps": 2,
+  "thresholds": {
+    "median_luma": 12.0,
+    "median_bright_fraction": 0.012,
+    "median_motion": 0.65,
+    "min_visible_width": 0.4,
+    "min_visible_height": 0.35
+  },
+  "measurements": {
+    "median_luma": 3.043,
+    "median_bright_fraction": 0.0,
+    "median_motion": 0.156,
+    "visible_width": 0.0,
+    "visible_height": 0.0
+  },
+  "checks": {
+    "visible_stage_width": false,
+    "visible_stage_height": false,
+    "median_stage_luminance": false,
+    "bright_stage_area": false,
+    "visible_stage_motion": false
+  },
+  "passed": false,
+  "note": "Quantitative visibility gate only; no artistic, musical or source classification approval"
+}

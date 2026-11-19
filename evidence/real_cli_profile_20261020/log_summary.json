@@ -1,0 +1,78 @@
+{
+  "schema": "helix.real_cli_profile_log_summary.v1",
+  "source_commit": "d8709f507b617a4d8ff5b14a67bd775e103b5b60",
+  "workflow_run": 39478636237,
+  "job_id": 118821087960,
+  "artifact_id": 12291227053,
+  "artifact_sha256": "2253b6a751f79ccba3c5bae958aac5fb0d8d996e604e93f68956e029a32d9b7d",
+  "audio_sha256": "8905fcaf105faf5016608517cf2d8a798d1809d8e615f1d4f5bca58e0c0b1171",
+  "source": "Verbatim JSON measurements parsed from completed GitHub Actions job log; full report/pstats/XSQs in named artifact.",
+  "records": [
+    {
+      "mode": "former",
+      "returncode": 0,
+      "wall_seconds": 88.60749454500001,
+      "time_wall_seconds": 88.56,
+      "peak_rss_kib": 859048,
+      "sequence_sha256": "855fe065396ef807c93ad2fcbf04d0d4a7cb9813977a0e779542bceca17558ac",
+      "musical_signature": "beed07b721ae2c98c4edac183c1282be3c6b1811e275472120622c694719698e",
+      "model_effects": 8038,
+      "all_xsq_count": 4,
+      "orchestration_reports": 1
+    },
+    {
+      "mode": "current",
+      "returncode": 0,
+      "wall_seconds": 28.974504744,
+      "time_wall_seconds": 28.94,
+      "peak_rss_kib": 621592,
+      "sequence_sha256": "855fe065396ef807c93ad2fcbf04d0d4a7cb9813977a0e779542bceca17558ac",
+      "musical_signature": "beed07b721ae2c98c4edac183c1282be3c6b1811e275472120622c694719698e",
+      "model_effects": 8038,
+      "all_xsq_count": 1,
+      "orchestration_reports": 0
+    },
+    {
+      "mode": "current",
+      "returncode": 0,
+      "wall_seconds": 29.07660668599999,
+      "time_wall_seconds": 29.03,
+      "peak_rss_kib": 621364,
+      "sequence_sha256": "855fe065396ef807c93ad2fcbf04d0d4a7cb9813977a0e779542bceca17558ac",
+      "musical_signature": "beed07b721ae2c98c4edac183c1282be3c6b1811e275472120622c694719698e",
+      "model_effects": 8038,
+      "all_xsq_count": 1,
+      "orchestration_reports": 0
+    },
+    {
+      "mode": "former",
+      "returncode": 0,
+      "wall_seconds": 55.68745783600002,
+      "time_wall_seconds": 55.66,
+      "peak_rss_kib": 684632,
+      "sequence_sha256": "855fe065396ef807c93ad2fcbf04d0d4a7cb9813977a0e779542bceca17558ac",
+      "musical_signature": "beed07b721ae2c98c4edac183c1282be3c6b1811e275472120622c694719698e",
+      "model_effects": 8038,
+      "all_xsq_count": 4,
+      "orchestration_reports": 1
+    },
+    {
+      "musical_parity": true,
+      "summary": {
+        "former": {
+          "mean_wall_seconds": 72.14747619050002,
+          "peak_rss_kib": 859048
+        },
+        "current": {
+          "mean_wall_seconds": 29.025555714999996,
+          "peak_rss_kib": 621592
+        }
+      }
+    }
+  ],
+  "limitations": [
+    "Single36s original excerpt; current code with reconstructed prior options, not historical executable versions.",
+    "cProfile overhead and cold-JIT/OS-cache order effects; ABBA order.",
+    "No native rendering, musical ground truth or physical hardware implied by profiling parity."
+  ]
+}

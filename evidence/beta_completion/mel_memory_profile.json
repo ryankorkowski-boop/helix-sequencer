@@ -1,0 +1,15 @@
+{
+  "before": {
+    "mode": "before",
+    "seconds": 1.8935967919999257,
+    "peak_rss_bytes": 1346871296
+  },
+  "after": {
+    "mode": "after",
+    "seconds": 1.866378973999872,
+    "peak_rss_bytes": 305745920
+  },
+  "exact_feature_and_bank_summary_equivalence": true,
+  "peak_memory_reduction_percent": 77.29954443991656,
+  "scope": "Helixualizer mel banks only; Linux Android bridge, not complete pipeline or device"
+}

@@ -1,0 +1,15 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<testsuite name="org.helixsequencer.android.InfoAndBandUiTest" tests="3" failures="1" errors="0" skipped="0" time="252.775" timestamp="2026-10-29T07:49:20" hostname="localhost">
+  <properties>
+    <property name="device" value="emulator-5554 - 11" />
+    <property name="flavor" value="" />
+    <property name="project" value=":app" />
+  </properties>
+  <testcase name="bandSwitchSurvivesActivityRecreation" classname="org.helixsequencer.android.InfoAndBandUiTest" time="1.023" />
+  <testcase name="instructionsSwitchAndRotationKeepTheRightPageAndScroll" classname="org.helixsequencer.android.InfoAndBandUiTest" time="0.793" />
+  <testcase name="runsBothModesLocallyAndEncodesRealAudio" classname="org.helixsequencer.android.OfflineEngineTest" time="239.371">
+    <failure></failure>
+  </testcase>
+  <system-err>Test run failed to complete. Instrumentation run failed due to Process crashed.
+</system-err>
+</testsuite>

@@ -1,0 +1,54 @@
+{
+  "schema": "helix.desktop_dual_export_smoke.v1",
+  "engine_base_commit": "07402a431e69526e009e9cdda8512944adee14f3",
+  "source_audio": "evidence/drummer/dry_drum_test.wav",
+  "source_audio_sha256": "4cd9ee35b65d359aa44ac4c9e01a256bbcaf3297458340fc512084bae1463913",
+  "source_audio_preserved": true,
+  "packaged_audio_matches_source": true,
+  "audio_seconds": 38.32,
+  "baseline_xsq_header_seconds": 1.0,
+  "fixed_xsq_header_seconds": 38.32,
+  "fixed_lms_channel_centiseconds": 3832,
+  "input_mapping": "explicit three-channel test fixture; not owner hardware wiring",
+  "mapping_preserved": true,
+  "channel_addresses": [
+    [
+      "1",
+      "1",
+      "12"
+    ],
+    [
+      "1",
+      "2",
+      "14"
+    ],
+    [
+      "2",
+      "1",
+      "19"
+    ]
+  ],
+  "variants": 1,
+  "vendor_bar": false,
+  "actual_cli_exit_code": 0,
+  "generated_xsq_count": 1,
+  "xsq_model_rows": 4,
+  "xsq_model_effects": 583,
+  "musical_sections_unchanged": true,
+  "musical_sections_sha256": "968e358e4ad960d304d024d0edd6b6c21ff8999e38864fca13ca9b78e4ba1e55",
+  "xsq_sha256": "7dc2acbc349799e8b2b5ff7a1efa51d28b0f8cb32b36fc50b8b0ff10aafefcb7",
+  "baseline_lms_effects": 18,
+  "fixed_lms_effects": 864,
+  "lms_sha256": "6c7304cfc238802a7dba26f6574f4ff6b9ea38feee5b391ffdf7bda183bcd80e",
+  "lms_intervals_valid_and_nonoverlapping": true,
+  "native_xlights_import_verified": false,
+  "compiled_windows_exe_verified": false,
+  "physical_controller_verified": false,
+  "musical_ground_truth_verified": false,
+  "limits": [
+    "Existing real CLI backend, retained real dry-drum test audio, explicit test channel mapping. GUI/portable command routing tested separately.",
+    "No native render, artist approval, source separation accuracy, or physical Windows/Android/CTB16PC claims.",
+    "Legacy LMS uses imported test addresses; arbitrary RGB-to-LMS and modern LOREDIT remain unsupported."
+  ]
+}
+

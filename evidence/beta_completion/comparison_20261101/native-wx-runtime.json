@@ -1,0 +1,9 @@
+{
+  "schema": "helix.native-wx-runtime.v1",
+  "upstream_commit": "839c0f590dc454bb7adb8a16c4dd92a70b46156e",
+  "retained_archive_sha256": "a6d3cdac4bddb607a771a8d0664d4f852bc121dce9dc9f201d665bf4d89efb92",
+  "libraries": {
+    "libwx_gtk3u-3.3.so.4": "969c20d19f084af066bde54e9d96801ab2202274efb009afef1e6b8c4eab48ae",
+    "libwx_gtk3u_gl-3.3.so.4": "25ead12801ded6e0a4f4d430a48b0f43353a7734fba17b2772ab2bd471f2d7bf"
+  }
+}

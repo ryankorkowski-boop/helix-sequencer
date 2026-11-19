@@ -1,0 +1,77 @@
+name: Helix Starred Sampler Demucs Separation
+
+on:
+  workflow_dispatch:
+    inputs:
+      audio_url:
+        description: 'HTTPS direct download URL for the authenticated 4:16 sampler (SHA256 verified)'
+        required: true
+        type: string
+
+permissions:
+  contents: read
+
+jobs:
+  separate-sampler:
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install Demucs and ffmpeg
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y ffmpeg
+          python -m pip install --upgrade pip
+          python -m pip install 'demucs==4.0.1'
+      - name: Download and authenticate sampler
+        env:
+          AUDIO_URL: ${{ inputs.audio_url }}
+        run: |
+          python - <<'PY'
+          import hashlib, os, urllib.parse, urllib.request
+          from pathlib import Path
+          url=os.environ['AUDIO_URL']
+          p=urllib.parse.urlsplit(url)
+          if p.scheme!='https' or not p.hostname or p.username or p.password:
+              raise SystemExit('Require direct HTTPS URL without embedded credentials')
+          class NoRedirect(urllib.request.HTTPRedirectHandler):
+              def redirect_request(self,*args,**kwargs):
+                  raise ValueError('Redirect refused: use final direct HTTPS file URL')
+          with urllib.request.build_opener(NoRedirect()).open(url,timeout=120) as response:
+              data=response.read(100_000_001)
+          if len(data)>100_000_000:raise SystemExit('Audio exceeds 100MB')
+          expected='ffeaba9b9f8fc253a0356505c2b4147b7576b772db42a1c8ea63094b42545acf'
+          if hashlib.sha256(data).hexdigest()!=expected:
+              raise SystemExit('Authenticated sampler SHA256 mismatch')
+          Path('Helix_Starred_All_Songs.mp3').write_bytes(data)
+          print('SAMPLER_AUTHENTICATED',len(data))
+          PY
+      - name: Run authenticated vocal separation
+        run: |
+          python -m tools.separate_sampler_vocals Helix_Starred_All_Songs.mp3 sampler_stems
+      - name: Validate WAVs and original duration
+        run: |
+          python - <<'PY'
+          import json,subprocess
+          from pathlib import Path
+          m=json.loads(Path('sampler_stems/sampler_stem_candidates.json').read_text())
+          assert m['verification_status']=='candidate_unverified'
+          for role,entry in m['stems'].items():
+              p=Path(entry['path'])
+              assert p.is_file() and p.stat().st_size>1000
+              r=subprocess.run(['ffprobe','-v','error','-show_entries','format=duration','-of','default=noprint_wrappers=1:nokey=1',str(p)],capture_output=True,text=True,check=True)
+              duration=float(r.stdout.strip())
+              assert abs(duration-256)<2, (role,duration)
+              print(role,duration,p.stat().st_size)
+          PY
+      - name: Upload separated stems and candidate manifest
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: helix-starred-sampler-demucs-candidates
+          path: sampler_stems/
+          if-no-files-found: warn
+          retention-days: 14

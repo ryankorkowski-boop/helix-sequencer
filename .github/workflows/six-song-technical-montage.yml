@@ -1,0 +1,49 @@
+name: Six Song Technical Montage
+
+on:
+  push:
+    branches:
+      - codex/band-sampler-timed-corrections-20261013
+    paths:
+      - tools/render_six_song_technical_montage.py
+      - .github/workflows/six-song-technical-montage.yml
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  render:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install signal analysis and video dependencies
+        run: |
+          python -m pip install numpy scipy
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq ffmpeg
+      - name: Select high-complexity windows and render all six songs
+        run: python -m tools.render_six_song_technical_montage
+      - name: Verify output contains video and audio
+        run: |
+          ffprobe -v error -show_entries stream=codec_type -of csv=p=0 outputs/six_song_technical_montage/Helix_Six_Song_Technical_180s.mp4 | sort -u | grep -q audio
+          ffprobe -v error -show_entries stream=codec_type -of csv=p=0 outputs/six_song_technical_montage/Helix_Six_Song_Technical_180s.mp4 | sort -u | grep -q video
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          p=Path('outputs/six_song_technical_montage/selection_manifest.json')
+          m=json.loads(p.read_text())
+          assert len(m['segments']) == 6
+          assert 177 <= m['rendered_duration_seconds'] <= 183, m['rendered_duration_seconds']
+          assert len({s['source'] for s in m['segments']}) == 6
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: Helix-Six-Song-Technical-180s
+          path: outputs/six_song_technical_montage/
+          if-no-files-found: error
+          retention-days: 14

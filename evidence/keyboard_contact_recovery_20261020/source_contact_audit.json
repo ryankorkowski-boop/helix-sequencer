@@ -1,0 +1,69 @@
+{
+  "schema": "helix.keyboard_source_contact_audit.v1",
+  "passed": true,
+  "musical_cues_unchanged": true,
+  "musical_cue_lanes": 76,
+  "baseline_cue_sha256": "6c94a6a186ea3aca78719a0ec7ba11eb4ea220a4a90911f239a3cc2fe557c8e2",
+  "candidate_cue_sha256": "6c94a6a186ea3aca78719a0ec7ba11eb4ea220a4a90911f239a3cc2fe557c8e2",
+  "source_identity_preserved": true,
+  "source_active_frames_preserved": true,
+  "total_contacts_before": 190,
+  "total_contacts_after": 260,
+  "source_contact_improved": true,
+  "runs": {
+    "baseline": {
+      "seconds": 24.174087169999993,
+      "audio_sha256": "8905fcaf105faf5016608517cf2d8a798d1809d8e615f1d4f5bca58e0c0b1171",
+      "contact": {
+        "left": {
+          "source_active_frames": 474,
+          "frames_without_contact": 306,
+          "contact_frames": 168,
+          "anticipated_idle_frames": 0
+        },
+        "right": {
+          "source_active_frames": 144,
+          "frames_without_contact": 122,
+          "contact_frames": 22,
+          "anticipated_idle_frames": 0
+        },
+        "anticipation_frames": 0,
+        "max_contacts_per_frame": 2,
+        "contact_tolerance": 0.025,
+        "musical_ground_truth_verified": false,
+        "detected_events": 367,
+        "accepted_events": 367,
+        "rejected_events": []
+      }
+    },
+    "candidate": {
+      "seconds": 24.266456559999995,
+      "audio_sha256": "8905fcaf105faf5016608517cf2d8a798d1809d8e615f1d4f5bca58e0c0b1171",
+      "contact": {
+        "left": {
+          "source_active_frames": 474,
+          "frames_without_contact": 267,
+          "contact_frames": 207,
+          "anticipated_idle_frames": 178
+        },
+        "right": {
+          "source_active_frames": 144,
+          "frames_without_contact": 91,
+          "contact_frames": 53,
+          "anticipated_idle_frames": 235
+        },
+        "anticipation_frames": 12,
+        "max_contacts_per_frame": 2,
+        "contact_tolerance": 0.025,
+        "musical_ground_truth_verified": false,
+        "detected_events": 367,
+        "accepted_events": 367,
+        "rejected_events": []
+      }
+    }
+  },
+  "native_xlights_video_verified": false,
+  "physical_hardware_tested": false,
+  "musical_ground_truth_verified": false,
+  "limitation": "Source pose contacts only; medoid native rendering and owner review remain pending."
+}

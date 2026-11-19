@@ -1,0 +1,78 @@
+{
+  "file": "01_Snowman_Band_Review.mp4",
+  "sha256": "0f1644bd2757085b2672e9968d3f7fe0ac9dfb2378e3de9925e6e2e8aa81e925",
+  "bytes": 1698381,
+  "source_audio": "Helix_Starred_New_Review.wav",
+  "source_audio_sha256": "9ff4606afbefe536120335088f5865da1581e75f113f9f2fa62acd8fd9a44ef4",
+  "source_duration_seconds": 30.0,
+  "codecs": [
+    "h264",
+    "aac"
+  ],
+  "dimensions": [
+    1280,
+    720
+  ],
+  "actual_frame_rate": "20/1",
+  "actual_frame_count": "600",
+  "video_duration_seconds": 30.0,
+  "audio_duration_seconds": 30.0,
+  "stream_start_seconds": [
+    0.0,
+    0.0
+  ],
+  "full_decode": true,
+  "soundtrack_correlation": 0.9980315569418509,
+  "window_alignment": [
+    {
+      "source_start_seconds": 3.0,
+      "decoded_lag_seconds": 0.0
+    },
+    {
+      "source_start_seconds": 15.0,
+      "decoded_lag_seconds": 0.0
+    },
+    {
+      "source_start_seconds": 25.5,
+      "decoded_lag_seconds": 0.0
+    },
+    {
+      "source_start_seconds": 27.95,
+      "decoded_lag_seconds": 0.0
+    }
+  ],
+  "musical_or_visual_acceptance": false,
+  "readability": {
+    "schema": "helix.showcase_readability.v1",
+    "frames": 60,
+    "sample_fps": 2,
+    "thresholds": {
+      "median_luma": 12.0,
+      "median_bright_fraction": 0.012,
+      "median_motion": 0.65,
+      "min_visible_width": 0.4,
+      "min_visible_height": 0.35
+    },
+    "measurements": {
+      "median_luma": 19.233,
+      "median_bright_fraction": 0.12809,
+      "median_motion": 0.731,
+      "visible_width": 0.762,
+      "visible_height": 0.733
+    },
+    "checks": {
+      "visible_stage_width": true,
+      "visible_stage_height": true,
+      "median_stage_luminance": true,
+      "bright_stage_area": true,
+      "visible_stage_motion": true
+    },
+    "passed": true,
+    "note": "Quantitative visibility gate only; no artistic, musical or source classification approval"
+  },
+  "blank_intervals_seconds": [],
+  "frozen_intervals_over_two_seconds": [],
+  "all_static_intervals_seconds": [],
+  "actual_playback_watched": false,
+  "visual_acceptance": false
+}

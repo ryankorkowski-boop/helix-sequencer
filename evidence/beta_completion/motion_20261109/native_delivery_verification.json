@@ -1,0 +1,179 @@
+{
+  "media": {
+    "file": "preview.mp4",
+    "sha256": "274ec7caac73cc3d1b23c0381e5c409d36dd188955f5bd5a311a73d50385621c",
+    "bytes": 9129337,
+    "source_audio": "Phoneme_Test_Hook.mp3",
+    "source_audio_sha256": "19e90c273d0d747938f24b36586b50818c104cddffbefe4a4128927374301938",
+    "source_duration_seconds": 34.88,
+    "codecs": [
+      "h264",
+      "aac"
+    ],
+    "dimensions": [
+      1920,
+      1080
+    ],
+    "actual_frame_rate": "20/1",
+    "actual_frame_count": "698",
+    "video_duration_seconds": 34.9,
+    "audio_duration_seconds": 34.88,
+    "stream_start_seconds": [
+      0.0,
+      0.0
+    ],
+    "full_decode": true,
+    "soundtrack_correlation": 0.9968081439606467,
+    "window_alignment": [
+      {
+        "source_start_seconds": 3.488,
+        "decoded_lag_seconds": 0.0
+      },
+      {
+        "source_start_seconds": 17.44,
+        "decoded_lag_seconds": 0.0
+      },
+      {
+        "source_start_seconds": 29.648,
+        "decoded_lag_seconds": 0.0
+      },
+      {
+        "source_start_seconds": 32.83,
+        "decoded_lag_seconds": 0.0
+      }
+    ],
+    "musical_or_visual_acceptance": false
+  },
+  "readability": {
+    "schema": "helix.showcase_readability.v1",
+    "frames": 70,
+    "sample_fps": 2,
+    "thresholds": {
+      "median_luma": 12.0,
+      "median_bright_fraction": 0.012,
+      "median_motion": 0.65,
+      "min_visible_width": 0.4,
+      "min_visible_height": 0.35
+    },
+    "measurements": {
+      "median_luma": 12.486,
+      "median_bright_fraction": 0.07254,
+      "median_motion": 0.274,
+      "visible_width": 0.669,
+      "visible_height": 0.622
+    },
+    "checks": {
+      "visible_stage_width": true,
+      "visible_stage_height": true,
+      "median_stage_luminance": true,
+      "bright_stage_area": true,
+      "visible_stage_motion": false,
+      "opening_static_cast_framing": true
+    },
+    "passed": false,
+    "note": "Quantitative visibility gate only; no artistic, musical or source classification approval"
+  },
+  "native_channel_evidence": {
+    "schema": "helix.fseq_channel_evidence.v1",
+    "basis": "decoded_rendered_channel_bytes",
+    "sha256": "d287b25cbee2faedbffef2a5399b7e578356475b35e273b5a754e55497d4fd14",
+    "channels": 380772,
+    "frames": 697,
+    "frame_ms": 50,
+    "duration_ms": 34850,
+    "nonzero_samples": 165148101,
+    "nonzero_frames": 697,
+    "peak_lit_channels": 238218,
+    "mean_lit_fraction": 0.622266,
+    "dark_windows": [],
+    "visual_review": "pending",
+    "controller_validation": "not_tested"
+  },
+  "vocal_routes": {
+    "LEAD": {
+      "native_open_frames": 265,
+      "guarded_estimated_rest_frames": 372,
+      "openings_on_guarded_estimated_rests": 0
+    },
+    "HARMONY": {
+      "native_open_frames": 47,
+      "guarded_estimated_rest_frames": 639,
+      "openings_on_guarded_estimated_rests": 0
+    }
+  },
+  "native_lead_only_frames": 265,
+  "native_harmony_only_frames": 47,
+  "confidence_screening": {
+    "state": "ESTIMATED",
+    "independent_backing_verified": false,
+    "identity_confidence": null,
+    "policy": {
+      "onset": 0.65,
+      "offset": 0.35,
+      "minimum_seconds": 0.15,
+      "fps": 100
+    },
+    "metrics_before_duplicate_suppression": {
+      "non_rest_frames": [
+        1322,
+        232
+      ],
+      "unique_active_frames": [
+        1322,
+        232
+      ],
+      "activity_jaccard": 0.0,
+      "shared_active_envelope_correlation": null,
+      "gain_normalized_residual": 1.0,
+      "duplicate_clock": false
+    },
+    "removed_non_rest_frames": [
+      287,
+      155
+    ],
+    "limitation": "Presence scores reject uncertain activity; singer identity and lexical phonemes remain unverified."
+  },
+  "cast": [
+    "HX_SNOW_BASS",
+    "HX_SNOW_DRUMMER",
+    "HX_SNOW_GUITAR",
+    "HX_SNOW_HARMONY",
+    "HX_SNOW_LEAD",
+    "HX_SNOW_PIANO"
+  ],
+  "actual_engine_source_commit": "4f3b4eaaf5936cbe5bf77a9237eef59a4f0c6384",
+  "published_equivalent_commit": "2d4c505e442292f3cba9eb909aeabcc76acb33cf",
+  "exact_published_tree": "a37c53cd90ba0168f696ed4466871f63d3e3c046",
+  "source_module_sha256": {
+    "core/effect_engine.py": "0323996cb45fe7cd22d38a49f9eca54b80e18c4722d746530d48ba88aeccb932",
+    "core/native_face_instructions.py": "26bce88ce1cdf7644a008a753f59db66f06be511da61d5b988995bd8baf99af5",
+    "core/snowman_band.py": "6da30400d33c697e18f1e007b64a9940dd8d4ff4a51b81d381677dcc33c1f06d",
+    "models/canonical_native_band.py": "146e81df3992252d1074b4780f0afdb22825ccb80bef6be967a27ccce2cf5803",
+    "models/final_band_native.py": "74c20d16007e4b86b2f13bd10c465cd8507af42be6d7a248d45a970ef86ed0d0",
+    "models/final_band_scene.py": "cd7120596f8058b324c3363f115154120ada7dbb8568ea1e3d68af15a99ae96c",
+    "models/native_keyboard_contacts.py": "5ba68494e22240d15f78f4ddb2ca6c6361d8fb97bebc4847bd9d9c288dcef00b",
+    "music/vocal_qualification.py": "cb63e78d1fdcd46fb78458c184060c2f90a7c93ddc72f53973fb1ae9081e4b4e",
+    "tools/canonical_band_cues.py": "d519388668f2ed7497d69d256a50c776ea19834480047011880dc2ea17715f70",
+    "tools/native_preview.py": "89628126db7266528df8ee4786729783ff6f0324c4fc0af19e131db8a1de7b3c",
+    "tools/native_source_pose_band.py": "8a511a003031f593ed9957491a87e841df516f0489ccb5629dfe8d5ad7612b3a",
+    "tools/phoneme_vocal_export.py": "dfbbb3bfae4380831037d071f3b6e42c789d8efe9a1b95f8dbd43bbf633db24e",
+    "tools/prepare_phoneme_show.py": "36e977920236bd5f4f2a7e333f244c1937a015ef97145f59198dc81a2d2ceb18",
+    "tools/vocal_analysis_fixture.py": "de1ae0e718ef448a5ac884bd6aa40d8e9eaba6fee407c5184e8bce5bde6a7615",
+    "tools/vocal_diagnostic.py": "5a2b21b66cb7e2f86af627401522bd8165ef6b1ae953ecf5551a25d65ccc8e19",
+    "xlights/xml_io.py": "e9084acbc1a2df0ae458f1d45c5b7cf9254c867a8a2e9637d50eeb1fa87082c3",
+    "xlights/xsq_writer.py": "42e325cf54ddbc8c842b1050c0b80d5fb58b1c1762ebcb277dccc65010fd8cc9"
+  },
+  "native_xsq_sha256": "4f3cf94c3c4d3eabe54dbeb7b3ab5991edf4452e552b0a8d07cfceee3590f7a6",
+  "native_fseq_sha256": "d287b25cbee2faedbffef2a5399b7e578356475b35e273b5a754e55497d4fd14",
+  "layout_sha256": "28b830c69b77bab1794390f4d98bef53076c6047383ad6515db6bc96d29ec135",
+  "independent_acoustic_singer_identity_verified": false,
+  "lexical_phoneme_boundaries_verified": false,
+  "owner_approved": false,
+  "qualified_for_final_nine": false,
+  "limitations": [
+    "Retained source-art drummer is planar; solid-3D canonical acceptance remains open",
+    "Speech-VAD-screened source separation is estimated, not authenticated singer identity",
+    "Seven acoustic mouth families do not prove ten independently aligned lexical shapes"
+  ],
+  "native_vocal_rest_check_passed": true
+}

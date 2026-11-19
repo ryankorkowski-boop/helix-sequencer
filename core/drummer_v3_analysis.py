@@ -1,8 +1,7 @@
-"""Multi-detector Drummer V3 analysis for the Helix performer.
+"""Archived feature-only V3 experiment, retained for legacy callers/tests.
 
-The detector is intentionally conservative on mixed music: instrument-only transients are
-not drummer events. Typed events require evidence from the isolated percussive/drum signal;
-full-mix features may only confirm an already-supported drum event.
+Production consumers must use audio.drummer_v3. This adapter does not classify
+production audio and must not grow independent thresholds.
 """
 from __future__ import annotations
 from dataclasses import dataclass, field

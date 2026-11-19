@@ -1,0 +1,1806 @@
+{
+  "observed_at": "2026-11-04T21:31:25.033Z",
+  "pr188": {
+    "url": "https://github.com/ryankorkowski-boop/helix-sequencer/pull/188",
+    "number": 188,
+    "state": "open",
+    "merged": false,
+    "mergeable": true,
+    "draft": false,
+    "body": "## Frozen acceptance scope — owner decision 2026-10-31\n\n**Required to close PR #188:** deliver exactly nine verified real-audio MP4 approval videos covering the canonical six-member snowman band (original drummer; no xylophonist), the original 256-channel AC layout, and the required advanced RGB layouts, including singing faces where specified. Confirm independent lead/harmony vocals, musically meaningful sections/phrases, synchronized real audio, and native xLights XSQ/FSEQ compatibility. Resolve release-blocking CI failures only.\n\n**Not a blocker:** the proposed twelve-panel comparison MP4; track separately if desired. No new feature scope, broad rewrite, or speculative optimization may delay this PR.\n\n**Approval gate:** owner must visually approve the nine MP4s before merge or beta release. Do not interpret approval of this scope as approval to merge. Keep issue #199 open until its release criteria are independently satisfied.\n\n**Current status:** approval videos and full native verification are not yet confirmed complete; CI outcomes must be verified against the latest run. Do not relabel diagnostics as accepted videos.",
+    "title": "Deliver six-member real-audio MP4 review and nine native lighting layouts",
+    "base": "feature/restructure-core",
+    "base_sha": "59f32408469e68651b853994a40f97e4745bf9b4",
+    "head": "codex/eight-hour-recovery-20261019",
+    "head_sha": "05c1de55d2e4d747652452ade0d9752d370b55d9",
+    "head_repo_id": 1210701306,
+    "head_repo_full_name": "ryankorkowski-boop/helix-sequencer",
+    "merge_commit_sha": "366adff828872aa25215768df84002187dfa8666",
+    "user": {
+      "login": "ryankorkowski-boop",
+      "name": "ryankorkowski-boop",
+      "email": null,
+      "avatar_url": "https://avatars.githubusercontent.com/u/262587639?v=4",
+      "id": 262587639
+    },
+    "requested_reviewers": null,
+    "requested_team_reviewers": null,
+    "diff": null,
+    "comments": null,
+    "created_at": "2026-10-19T09:12:36Z",
+    "updated_at": "2026-11-02T06:11:15Z",
+    "closed_at": null,
+    "merged_at": null,
+    "commits": 799,
+    "changed_files": 1765,
+    "additions": 785353,
+    "deletions": 1964,
+    "display_url": "https://github.com/ryankorkowski-boop/helix-sequencer/pull/188",
+    "display_title": "Deliver six-member real-audio MP4 review and nine native lighting layouts"
+  },
+  "pr205": {
+    "url": "https://github.com/ryankorkowski-boop/helix-sequencer/pull/205",
+    "number": 205,
+    "state": "open",
+    "merged": false,
+    "mergeable": true,
+    "draft": true,
+    "body": "The master run repeats expensive audio feature work across separate runs. This PR adds a typed lazy facade for the existing CLI/GUI and native sampler callers, extracts shared audio features and canonical percussion assembly, and offers opt-in content/version/code-bound NPZ reuse through `HELIX_AUDIO_CACHE_DIR`. `HELIX_PROFILE_OUTPUT` records inclusive stage timings and process peak RSS. It also fixes tied-score preview selection and adds real frozen-worker/native verification.\n\n**Decision: HOLD release-path signoff.** The feature branch incorporates recovery `05c1de5` and is conflict-free. Output preservation and Windows frozen caching are verified, but hosted numerical portability and native visual acceptance still fail. PR188 remains unmerged; beta publication and owner acceptance remain held.\n\n### Completed proof\n\n- Exact original **237.44-second MP3**, SHA256 `8ced92ba...`: recovery control and candidate cache-off/miss/hit all produce **42,305 effects**, historical XSQ SHA256 `258f03ef...` and identical band SHA256 `0d1c9c21...`. Declared-target and bounded-time contracts pass. Additional 237.44-second PCM and 34.88-second real MP3 comparisons also retain exact outputs.\n- **68-event/eight-target drummer oracle:** ordered cue/motion/debug payloads match byte-for-byte; zero event/time/target drift. Protected detector, mapper, motion, geometry, original AC wiring/colors and thresholds are unchanged.\n- **Windows packaged execution succeeds**, including cache-off/miss/hit equality of XSQ/band hashes and unchanged NPZ bytes/mtime on the hit. Existing packaged GUI, FSEQ and LOR checks pass. [Windows run](https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/41874095171); authenticated diagnostic artifact13345378551 was downloaded and verified.\n- Local `tests/` suites on Python3.11/3.12 each pass 2,349 tests plus24 subtests with six existing skips; three additional root-collected preview tests pass per runtime. These local results do not override the hosted failures below.\n- Preview winner selection now ranks numeric fields without comparing dictionaries; existing priorities and source-order ties are preserved. Seven local cases pass and [the actual preview workflow succeeds](https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/41874083876).\n- Three real native shows—AC256, canonical dimensional band and RGB singing faces—successfully export FSEQ and 1920×1080 H.264/AAC at20fps. Each698-frame movie fully decodes, soundtrack correlation is0.9968248 and all four alignment windows show0ms lag. Recovery/candidate source plans and all three derived XSQs are byte-identical to the actual CI-rendered inputs.\n\n### Failed gates that remain open\n\n1. **Hosted Python3.11/3.12 both fail four bounded-chroma cases** at unchanged `atol=1e-7, rtol=0`; maximum entropy difference2.66020723e-7. Each hosted push job has2,348 passing tests,24 passing subtests and six skips. [Push CI](https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/41874083597) and [PR CI](https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/41874095074) both fail. Selecting Haswell/Zen BLAS kernels reproduces four failures locally; default SkylakeX/Sandybridge passes. Recovery control also fails four cases under Haswell, and the bounded function AST is identical. No CPU pin, tolerance relaxation or speculative DSP rewrite was applied.\n2. **Native visual gates fail on all three movies**: AC luminance9.466<12; band luminance8.963<12 and motion0.625<0.65; face bright fraction0.01110<0.012. [Native regression run](https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/41874095353). Export/decode/audio success is not visual approval. Failed media remains diagnostic.\n3. Independent singer/acoustic/lexical qualification, physical qualification and the owner's nine-video approval scope remain separate beta gates.\n\n[Verification report and minimum next checks](https://github.com/ryankorkowski-boop/helix-sequencer/blob/9f247bf54c5322dc888a43b8f30d205b55075de0/docs/PR205_VERIFICATION_20261104.md). Source-bound receipts, original-input reproduction scripts and backend failure evidence are under `evidence/beta_completion/pr205_verification_20261104/`. MASTER_TODO.md, live handoff, status and artifact inventory are updated.\n\nVerified implementation: `37fb716`; subsequent `9f247bf` is an evidence-only receipt with identical implementation module hashes and skips redundant CI. Original MP3 CLI measurements are218.75s cold control,191.86s cache-off,184.27s miss and151.20s hit; the first control includes initial stem computation, so no controlled overall speedup is claimed. No merge, release approval or broad universal-intelligence integration is included.",
+    "title": "Extract the engine facade and reuse verified audio features",
+    "base": "codex/eight-hour-recovery-20261019",
+    "base_sha": "05c1de55d2e4d747652452ade0d9752d370b55d9",
+    "head": "codex/core-facade-optimization-20261031",
+    "head_sha": "9f247bf54c5322dc888a43b8f30d205b55075de0",
+    "head_repo_id": 1210701306,
+    "head_repo_full_name": "ryankorkowski-boop/helix-sequencer",
+    "merge_commit_sha": "a5314146c9847619230618b213bcdddfa26091da",
+    "user": {
+      "login": "ryankorkowski-boop",
+      "name": "ryankorkowski-boop",
+      "email": null,
+      "avatar_url": "https://avatars.githubusercontent.com/u/262587639?v=4",
+      "id": 262587639
+    },
+    "requested_reviewers": null,
+    "requested_team_reviewers": null,
+    "diff": null,
+    "comments": null,
+    "created_at": "2026-10-31T07:43:01Z",
+    "updated_at": "2026-11-04T17:37:45Z",
+    "closed_at": null,
+    "merged_at": null,
+    "commits": 12,
+    "changed_files": 68,
+    "additions": 4166,
+    "deletions": 556,
+    "display_url": "https://github.com/ryankorkowski-boop/helix-sequencer/pull/205",
+    "display_title": "Extract the engine facade and reuse verified audio features"
+  },
+  "pr188_comments": {
+    "comments": [
+      {
+        "url": "https://github.com/ryankorkowski-boop/helix-sequencer/pull/188#issuecomment-6316193697",
+        "body": "## 2026-10-21 continuation checkpoint (GitHub connector)\n\nVerified current PR head `ef8a345677bb29461f8c4fbeb5a16093cc12a9f0`. All 12 most recent branch workflow results returned for this SHA completed **successfully**, including Helix CI, GUI evidence, producer polling, Starred audio verification, drum benchmark, showcase guards, Birdsong, keyboard focused gate, seven-snowman animated band, Windows Portable GUI, Beta CI, and compliance/license bundle. This confirms reported CI conclusions, **not** owner visual acceptance or physical device validation.\n\nKeep release **INCOMPLETE**. Native source `b9f1ca0` producer 39473385296 and artifact 12290387567 remain a distinct earlier source, not an ef8a345 native render. Matched consumer 39473385254 rejected missing non-rest `HX_SNOW_HARMONY`; do not fabricate backing activity or rerun identical source expecting a different result.\n\nPriority execution gates: (1) inspect freshly generated GUI/showcase artifacts with their source hashes and record any failures, (2) obtain real independently resolved backing source before strict full-band rerender, (3) validate native keyboard and drummer appearance against musical cue timing, (4) exercise full layout persistence plus default dual XSQ/LMS export/import and AC16 isolation, (5) finish source-matched six-layout/high-energy sampler video and editable models, (6) physical Windows/Android/CTB16PC tests and owner approval. Maintain `docs/FINAL_ROADMAP_HANDOFF.md` and `MASTER_TODO.md` with evidence; no regression gate relaxation, default merge, release or music publication without owner approval.\n\nThis checkpoint records verified evidence and next actions only; it does not claim implementations or tests not performed.",
+        "user": {
+          "login": "ryankorkowski-boop",
+          "name": "ryankorkowski-boop",
+          "email": null,
+          "avatar_url": "https://avatars.githubusercontent.com/u/262587639?v=4",
+          "id": 262587639
+        },
+        "id": 6316193697,
+        "pull_request_review_id": null,
+        "in_reply_to_id": null,
+        "created_at": "2026-10-21T12:43:02Z",
+        "updated_at": "2026-10-21T12:43:02Z",
+        "review": null,
+        "side": null,
+        "line": null,
+        "start_line": null,
+        "path": null,
+        "body_html": "<h2 dir=\"auto\">2026-10-21 continuation checkpoint (GitHub connector)</h2>\n<p dir=\"auto\">Verified current PR head <code class=\"notranslate\">ef8a345677bb29461f8c4fbeb5a16093cc12a9f0</code>. All 12 most recent branch workflow results returned for this SHA completed <strong>successfully</strong>, including Helix CI, GUI evidence, producer polling, Starred audio verification, drum benchmark, showcase guards, Birdsong, keyboard focused gate, seven-snowman animated band, Windows Portable GUI, Beta CI, and compliance/license bundle. This confirms reported CI conclusions, <strong>not</strong> owner visual acceptance or physical device validation.</p>\n<p dir=\"auto\">Keep release <strong>INCOMPLETE</strong>. Native source <code class=\"notranslate\">b9f1ca0</code> producer 39473385296 and artifact 12290387567 remain a distinct earlier source, not an <a class=\"commit-link\" data-hovercard-type=\"commit\" data-hovercard-url=\"https://github.com/ryankorkowski-boop/helix-sequencer/commit/ef8a345677bb29461f8c4fbeb5a16093cc12a9f0/hovercard\" href=\"https://github.com/ryankorkowski-boop/helix-sequencer/commit/ef8a345677bb29461f8c4fbeb5a16093cc12a9f0\"><tt>ef8a345</tt></a> native render. Matched consumer 39473385254 rejected missing non-rest <code class=\"notranslate\">HX_SNOW_HARMONY</code>; do not fabricate backing activity or rerun identical source expecting a different result.</p>\n<p dir=\"auto\">Priority execution gates: (1) inspect freshly generated GUI/showcase artifacts with their source hashes and record any failures, (2) obtain real independently resolved backing source before strict full-band rerender, (3) validate native keyboard and drummer appearance against musical cue timing, (4) exercise full layout persistence plus default dual XSQ/LMS export/import and AC16 isolation, (5) finish source-matched six-layout/high-energy sampler video and editable models, (6) physical Windows/Android/CTB16PC tests and owner approval. Maintain <code class=\"notranslate\">docs/FINAL_ROADMAP_HANDOFF.md</code> and <code class=\"notranslate\">MASTER_TODO.md</code> with evidence; no regression gate relaxation, default merge, release or music publication without owner approval.</p>\n<p dir=\"auto\">This checkpoint records verified evidence and next actions only; it does not claim implementations or tests not performed.</p>"
+      },
+      {
+        "url": "https://github.com/ryankorkowski-boop/helix-sequencer/pull/188#issuecomment-6317612057",
+        "body": "Integrated verified runtime source546fcd454c4dd37ba357d05c9928f3e45e696d26 through recovery checkpoint5cafeb4b0bd7cd18307cc2ee70a212a46a5505b4. No default/release merge or publication. PR197 recovered PR194 GUI Both/frozen-worker/default choices plus PR195 license-doc corrections and added strict source-wired LMS validation, real-audio sequence-duration/tail fixes and exact-head Windows/Android checkout assertions.\n\nValidation: full CI39608785140 passed2034 tests/6 skips/16 subtests on BOTH Python3.11/3.12; both lint jobs passed. Local full suite same counts. Real exact high-energy sampler production run at546fcd4:260.200s,72539 intervals entirely within0..260200ms, unchanged audiof76e4146… . This full sampler has no newly rendered native MP4/FSEQ yet.\n\nNative band sourcecc736b1 producer39605876463/artifact12347664834 succeeded: authentic36s1080p original-audio MP4, full decode, five local soundtrack-window comparisons, actual frame inspection. Keyboard case/stands, purple accent and instrument materials restored;1320 musical/pose arrays unchanged. MP4SHA154f045f3e8ba7bb9a1475dcfb7982a5cb68b59e1a3fb5ac10f3d9296e5048bb. Keyboard top remains foreshortened and owner appearance/musical approval is open. Its strict full-band consumer39605876881 truthfully rejects missing non-rest harmony. Candidate546fcd4 consumer39608785433 separately rejected absence of a matching producer; cc footage is not relabeled.\n\nExact-source Windows39608785241/artifact12349097869 passes independent embedded546fcd4, EXE/guide hashes and packaged FSEQ/LOR/xLights checks. Portable folder still needs worker/_internal; single-file EXE and owner hardware remain open. Android39608785388 API30/36 emulator jobs are healthy/running; do not duplicate or restart them. Direct APK will be offered only after embedded-source/signing/full-song/audio/image proof checks.\n\nCurrent durable evidence, statuses, live run IDs and exact next actions: docs/FINAL_ROADMAP_HANDOFF.md, MASTER_TODO.md and evidence/release_recovery_20261021/. Release remains INCOMPLETE: source-backed vocals/intelligence and band musical/visual review, six-to-nine genuine native layouts/full-song comparisons, native LOR/controller/device acceptance and final owner approval.",
+        "user": {
+          "login": "ryankorkowski-boop",
+          "name": "ryankorkowski-boop",
+          "email": null,
+          "avatar_url": "https://avatars.githubusercontent.com/u/262587639?v=4",
+          "id": 262587639
+        },
+        "id": 6317612057,
+        "pull_request_review_id": null,
+        "in_reply_to_id": null,
+        "created_at": "2026-10-21T13:44:06Z",
+        "updated_at": "2026-10-21T13:44:06Z",
+        "review": null,
+        "side": null,
+        "line": null,
+        "start_line": null,
+        "path": null,
+        "body_html": "<p dir=\"auto\">Integrated verified runtime source546fcd454c4dd37ba357d05c9928f3e45e696d26 through recovery checkpoint5cafeb4b0bd7cd18307cc2ee70a212a46a5505b4. No default/release merge or publication. PR197 recovered PR194 GUI Both/frozen-worker/default choices plus PR195 license-doc corrections and added strict source-wired LMS validation, real-audio sequence-duration/tail fixes and exact-head Windows/Android checkout assertions.</p>\n<p dir=\"auto\">Validation: full CI39608785140 passed2034 tests/6 skips/16 subtests on BOTH Python3.11/3.12; both lint jobs passed. Local full suite same counts. Real exact high-energy sampler production run at546fcd4:260.200s,72539 intervals entirely within0..260200ms, unchanged audiof76e4146… . This full sampler has no newly rendered native MP4/FSEQ yet.</p>\n<p dir=\"auto\">Native band sourcecc736b1 producer39605876463/artifact12347664834 succeeded: authentic36s1080p original-audio MP4, full decode, five local soundtrack-window comparisons, actual frame inspection. Keyboard case/stands, purple accent and instrument materials restored;1320 musical/pose arrays unchanged. MP4SHA154f045f3e8ba7bb9a1475dcfb7982a5cb68b59e1a3fb5ac10f3d9296e5048bb. Keyboard top remains foreshortened and owner appearance/musical approval is open. Its strict full-band consumer39605876881 truthfully rejects missing non-rest harmony. Candidate546fcd4 consumer39608785433 separately rejected absence of a matching producer; cc footage is not relabeled.</p>\n<p dir=\"auto\">Exact-source Windows39608785241/artifact12349097869 passes independent embedded546fcd4, EXE/guide hashes and packaged FSEQ/LOR/xLights checks. Portable folder still needs worker/_internal; single-file EXE and owner hardware remain open. Android39608785388 API30/36 emulator jobs are healthy/running; do not duplicate or restart them. Direct APK will be offered only after embedded-source/signing/full-song/audio/image proof checks.</p>\n<p dir=\"auto\">Current durable evidence, statuses, live run IDs and exact next actions: docs/FINAL_ROADMAP_HANDOFF.md, MASTER_TODO.md and evidence/release_recovery_20261021/. Release remains INCOMPLETE: source-backed vocals/intelligence and band musical/visual review, six-to-nine genuine native layouts/full-song comparisons, native LOR/controller/device acceptance and final owner approval.</p>"
+      },
+      {
+        "url": "https://github.com/ryankorkowski-boop/helix-sequencer/pull/188#issuecomment-6537583989",
+        "body": "<!-- codex-pull-request-review-summary -->\n<!-- codex-review-state:v1 {\"code_review\":{\"commit_sha\":\"54f2b118ba319e663bfcf940c726b940296a050c\",\"has_any_findings\":true,\"has_unresolved_findings\":true,\"status\":\"completed\"},\"security_review\":{\"commit_sha\":null,\"has_any_findings\":null,\"has_unresolved_findings\":null,\"status\":null}} -->\n\n## Codex Review Summary\n\nThis comment shows the latest Codex review activity on this pull request.\n\n| Review | Status | Commit | Review trigger |\n| --- | --- | --- | --- |\n| 📝 **Code Review** | ✅ **Completed** <relative-time datetime=\"2026-10-31T02:18:10.946239Z\">2026-10-31T02:18:10.946239Z</relative-time> | `54f2b11` | Draft marked ready |\n\n\n\n<details> <summary>ℹ️ About Codex in GitHub</summary>\n<br/>\n\n[Your team has set up Codex to review pull requests in this repo](https://chatgpt.com/codex/cloud/settings/general). Reviews are triggered when you\n- Open a pull request for review\n- Mark a draft as ready\n- Comment \"@codex review\" or \"@codex security review\".\n\nCodex reacts with 👀 while any review is running, comments if it has suggestions, and reacts with 👍 once all reviews finish with no findings.\n\n</details>",
+        "user": {
+          "login": "chatgpt-codex-connector[bot]",
+          "name": "chatgpt-codex-connector[bot]",
+          "email": null,
+          "avatar_url": "https://avatars.githubusercontent.com/in/1144995?v=4",
+          "id": 199175422
+        },
+        "id": 6537583989,
+        "pull_request_review_id": null,
+        "in_reply_to_id": null,
+        "created_at": "2026-10-31T02:07:24Z",
+        "updated_at": "2026-10-31T02:18:11Z",
+        "review": null,
+        "side": null,
+        "line": null,
+        "start_line": null,
+        "path": null,
+        "body_html": "\n\n<h2 dir=\"auto\">Codex Review Summary</h2>\n<p dir=\"auto\">This comment shows the latest Codex review activity on this pull request.</p>\n<markdown-accessiblity-table><table role=\"table\">\n<thead>\n<tr>\n<th>Review</th>\n<th>Status</th>\n<th>Commit</th>\n<th>Review trigger</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td>📝 <strong>Code Review</strong></td>\n<td>✅ <strong>Completed</strong> <relative-time datetime=\"2026-10-31T02:18:10.946239Z\">2026-10-31T02:18:10.946239Z</relative-time></td>\n<td><code class=\"notranslate\">54f2b11</code></td>\n<td>Draft marked ready</td>\n</tr>\n</tbody>\n</table></markdown-accessiblity-table>\n<details> <summary>ℹ️ About Codex in GitHub</summary>\n<br>\n<p dir=\"auto\"><a href=\"https://chatgpt.com/codex/cloud/settings/general\" rel=\"nofollow\">Your team has set up Codex to review pull requests in this repo</a>. Reviews are triggered when you</p>\n<ul dir=\"auto\">\n<li>Open a pull request for review</li>\n<li>Mark a draft as ready</li>\n<li>Comment \"<a class=\"user-mention notranslate\" data-hovercard-type=\"user\" data-hovercard-url=\"/users/codex/hovercard\" data-octo-click=\"hovercard-link-click\" data-octo-dimensions=\"link_type:self\" href=\"https://github.com/codex\">@codex</a> review\" or \"<a class=\"user-mention notranslate\" data-hovercard-type=\"user\" data-hovercard-url=\"/users/codex/hovercard\" data-octo-click=\"hovercard-link-click\" data-octo-dimensions=\"link_type:self\" href=\"https://github.com/codex\">@codex</a> security review\".</li>\n</ul>\n<p dir=\"auto\">Codex reacts with 👀 while any review is running, comments if it has suggestions, and reacts with 👍 once all reviews finish with no findings.</p>\n</details>"
+      },
+      {
+        "url": "https://github.com/ryankorkowski-boop/helix-sequencer/pull/188#pullrequestreview-5720548625",
+        "body": "<!-- codex-review-receipt:v1 -->\n\n\n### 💡 Codex Review\n\nHere are some automated review suggestions for this pull request.\n\n**Reviewed commit:** `54f2b118ba`\n    \n\n<details> <summary>ℹ️ About Codex in GitHub</summary>\n<br/>\n\n[Your team has set up Codex to review pull requests in this repo](https://chatgpt.com/codex/cloud/settings/general). Reviews are triggered when you\n- Open a pull request for review\n- Mark a draft as ready\n- Comment \"@codex review\".\n\nIf Codex has suggestions, it will comment; otherwise it will react with 👍.\n\n\n\n\nCodex can also answer questions or update the PR. Try commenting \"@codex address that feedback\".\n            \n</details>",
+        "user": {
+          "login": "chatgpt-codex-connector[bot]",
+          "name": "chatgpt-codex-connector[bot]",
+          "email": null,
+          "avatar_url": "https://avatars.githubusercontent.com/in/1144995?v=4",
+          "id": 199175422
+        },
+        "id": 5720548625,
+        "pull_request_review_id": null,
+        "in_reply_to_id": null,
+        "created_at": "2026-10-31T02:18:04Z",
+        "updated_at": null,
+        "review": "COMMENTED",
+        "side": null,
+        "line": null,
+        "start_line": null,
+        "path": null,
+        "body_html": "\n<h3 dir=\"auto\">💡 Codex Review</h3>\n<p dir=\"auto\">Here are some automated review suggestions for this pull request.</p>\n<p dir=\"auto\"><strong>Reviewed commit:</strong> <code class=\"notranslate\">54f2b118ba</code></p>\n<details> <summary>ℹ️ About Codex in GitHub</summary>\n<br>\n<p dir=\"auto\"><a href=\"https://chatgpt.com/codex/cloud/settings/general\" rel=\"nofollow\">Your team has set up Codex to review pull requests in this repo</a>. Reviews are triggered when you</p>\n<ul dir=\"auto\">\n<li>Open a pull request for review</li>\n<li>Mark a draft as ready</li>\n<li>Comment \"<a class=\"user-mention notranslate\" data-hovercard-type=\"user\" data-hovercard-url=\"/users/codex/hovercard\" data-octo-click=\"hovercard-link-click\" data-octo-dimensions=\"link_type:self\" href=\"https://github.com/codex\">@codex</a> review\".</li>\n</ul>\n<p dir=\"auto\">If Codex has suggestions, it will comment; otherwise it will react with 👍.</p>\n<p dir=\"auto\">Codex can also answer questions or update the PR. Try commenting \"<a class=\"user-mention notranslate\" data-hovercard-type=\"user\" data-hovercard-url=\"/users/codex/hovercard\" data-octo-click=\"hovercard-link-click\" data-octo-dimensions=\"link_type:self\" href=\"https://github.com/codex\">@codex</a> address that feedback\".</p>\n</details>"
+      },
+      {
+        "url": "https://github.com/ryankorkowski-boop/helix-sequencer/pull/188#discussion_r4429951672",
+        "body": "**<sub><sub>![P2 Badge](https://img.shields.io/badge/P2-yellow?style=flat)</sub></sub>  Preserve short native phonemes through final validation**\n\nFor native phoneme cues shorter than 50 ms (or the configured `min_effect_ms`), the new placement override accepts the cue, but `run_variant` subsequently calls `validate_sequence_timelines` twice with the global minimum, removing the corresponding XML effect. For example, a Faces cue at 113–137 ms is accepted here and then deleted, although its timing-track entry remains. The previous path extended these cues rather than dropping them entirely. Carry the phoneme-specific minimum through validation and audit so valid short mouth movements survive export.\n\nUseful? React with 👍 / 👎.\n\n<!-- codex-code-review-finding:v1 -->",
+        "user": {
+          "login": "chatgpt-codex-connector[bot]",
+          "name": "chatgpt-codex-connector[bot]",
+          "email": null,
+          "avatar_url": "https://avatars.githubusercontent.com/in/1144995?v=4",
+          "id": 199175422
+        },
+        "id": 4429951672,
+        "pull_request_review_id": 5720548625,
+        "in_reply_to_id": null,
+        "created_at": "2026-10-31T02:18:05Z",
+        "updated_at": "2026-10-31T02:18:05Z",
+        "review": null,
+        "side": "RIGHT",
+        "line": 11957,
+        "start_line": 11954,
+        "path": "core/effect_engine.py",
+        "body_html": "<p dir=\"auto\"><strong><sub><sub><a target=\"_blank\" rel=\"noopener noreferrer nofollow\" href=\"https://camo.githubusercontent.com/f2c1aacb361ddd3a0e9f9cacdb84fab050de434017f6747bb916e31e29bdf03d/68747470733a2f2f696d672e736869656c64732e696f2f62616467652f50322d79656c6c6f773f7374796c653d666c6174\"><img src=\"https://camo.githubusercontent.com/f2c1aacb361ddd3a0e9f9cacdb84fab050de434017f6747bb916e31e29bdf03d/68747470733a2f2f696d672e736869656c64732e696f2f62616467652f50322d79656c6c6f773f7374796c653d666c6174\" alt=\"P2 Badge\" data-canonical-src=\"https://img.shields.io/badge/P2-yellow?style=flat\" style=\"max-width: 100%;\"></a></sub></sub>  Preserve short native phonemes through final validation</strong></p>\n<p dir=\"auto\">For native phoneme cues shorter than 50 ms (or the configured <code class=\"notranslate\">min_effect_ms</code>), the new placement override accepts the cue, but <code class=\"notranslate\">run_variant</code> subsequently calls <code class=\"notranslate\">validate_sequence_timelines</code> twice with the global minimum, removing the corresponding XML effect. For example, a Faces cue at 113–137 ms is accepted here and then deleted, although its timing-track entry remains. The previous path extended these cues rather than dropping them entirely. Carry the phoneme-specific minimum through validation and audit so valid short mouth movements survive export.</p>\n<p dir=\"auto\">Useful? React with 👍 / 👎.</p>\n"
+      },
+      {
+        "url": "https://github.com/ryankorkowski-boop/helix-sequencer/pull/188#discussion_r4429951678",
+        "body": "**<sub><sub>![P2 Badge](https://img.shields.io/badge/P2-yellow?style=flat)</sub></sub>  Retain explicit note ends when building keyboard cues**\n\nFor detected notes shorter than 120 ms, `_event_end_ms` treats `fallback_ms` as a minimum duration even when an explicit `end_ms` exists, so this changes the source note timing before native pitched-prop export. Two same-pitch notes at 100–140 ms and 180–220 ms become 100–220 ms and 180–300 ms; `schedule_keyboard_rungs` then merges them into one continuous 100–300 ms activation, losing the intervening rest and repeated attack. The harmonic detector can emit notes as short as 40 ms, so use the explicit valid end time and reserve the fallback for missing timestamps.\n\nUseful? React with 👍 / 👎.\n\n<!-- codex-code-review-finding:v1 -->",
+        "user": {
+          "login": "chatgpt-codex-connector[bot]",
+          "name": "chatgpt-codex-connector[bot]",
+          "email": null,
+          "avatar_url": "https://avatars.githubusercontent.com/in/1144995?v=4",
+          "id": 199175422
+        },
+        "id": 4429951678,
+        "pull_request_review_id": 5720548625,
+        "in_reply_to_id": null,
+        "created_at": "2026-10-31T02:18:05Z",
+        "updated_at": "2026-10-31T02:18:05Z",
+        "review": null,
+        "side": "RIGHT",
+        "line": 164,
+        "start_line": 163,
+        "path": "core/snowman_band.py",
+        "body_html": "<p dir=\"auto\"><strong><sub><sub><a target=\"_blank\" rel=\"noopener noreferrer nofollow\" href=\"https://camo.githubusercontent.com/f2c1aacb361ddd3a0e9f9cacdb84fab050de434017f6747bb916e31e29bdf03d/68747470733a2f2f696d672e736869656c64732e696f2f62616467652f50322d79656c6c6f773f7374796c653d666c6174\"><img src=\"https://camo.githubusercontent.com/f2c1aacb361ddd3a0e9f9cacdb84fab050de434017f6747bb916e31e29bdf03d/68747470733a2f2f696d672e736869656c64732e696f2f62616467652f50322d79656c6c6f773f7374796c653d666c6174\" alt=\"P2 Badge\" data-canonical-src=\"https://img.shields.io/badge/P2-yellow?style=flat\" style=\"max-width: 100%;\"></a></sub></sub>  Retain explicit note ends when building keyboard cues</strong></p>\n<p dir=\"auto\">For detected notes shorter than 120 ms, <code class=\"notranslate\">_event_end_ms</code> treats <code class=\"notranslate\">fallback_ms</code> as a minimum duration even when an explicit <code class=\"notranslate\">end_ms</code> exists, so this changes the source note timing before native pitched-prop export. Two same-pitch notes at 100–140 ms and 180–220 ms become 100–220 ms and 180–300 ms; <code class=\"notranslate\">schedule_keyboard_rungs</code> then merges them into one continuous 100–300 ms activation, losing the intervening rest and repeated attack. The harmonic detector can emit notes as short as 40 ms, so use the explicit valid end time and reserve the fallback for missing timestamps.</p>\n<p dir=\"auto\">Useful? React with 👍 / 👎.</p>\n"
+      },
+      {
+        "url": "https://github.com/ryankorkowski-boop/helix-sequencer/pull/188#discussion_r4429951683",
+        "body": "**<sub><sub>![P2 Badge](https://img.shields.io/badge/P2-yellow?style=flat)</sub></sub>  Synchronize the format when users change sequencer mode**\n\nIf a user selects Light-O-Rama in the visible Sequencer Mode selector while Sequence output retains its default XSQ value, the UI enables the LMS input and disables the xLights inputs, but clicking Run silently switches back to xLights here. The reverse also occurs after selecting LMS/Both and then choosing xLights mode. The mode selector's callback only updates widget states, so these contradictory selections are reachable through ordinary interaction and can run the wrong pipeline or reject valid inputs. Synchronize both selectors when either changes, rather than overriding the user's mode selection at launch.\n\nUseful? React with 👍 / 👎.\n\n<!-- codex-code-review-finding:v1 -->",
+        "user": {
+          "login": "chatgpt-codex-connector[bot]",
+          "name": "chatgpt-codex-connector[bot]",
+          "email": null,
+          "avatar_url": "https://avatars.githubusercontent.com/in/1144995?v=4",
+          "id": 199175422
+        },
+        "id": 4429951683,
+        "pull_request_review_id": 5720548625,
+        "in_reply_to_id": null,
+        "created_at": "2026-10-31T02:18:05Z",
+        "updated_at": "2026-10-31T02:18:05Z",
+        "review": null,
+        "side": "RIGHT",
+        "line": 592,
+        "start_line": 589,
+        "path": "gui_launcher.py",
+        "body_html": "<p dir=\"auto\"><strong><sub><sub><a target=\"_blank\" rel=\"noopener noreferrer nofollow\" href=\"https://camo.githubusercontent.com/f2c1aacb361ddd3a0e9f9cacdb84fab050de434017f6747bb916e31e29bdf03d/68747470733a2f2f696d672e736869656c64732e696f2f62616467652f50322d79656c6c6f773f7374796c653d666c6174\"><img src=\"https://camo.githubusercontent.com/f2c1aacb361ddd3a0e9f9cacdb84fab050de434017f6747bb916e31e29bdf03d/68747470733a2f2f696d672e736869656c64732e696f2f62616467652f50322d79656c6c6f773f7374796c653d666c6174\" alt=\"P2 Badge\" data-canonical-src=\"https://img.shields.io/badge/P2-yellow?style=flat\" style=\"max-width: 100%;\"></a></sub></sub>  Synchronize the format when users change sequencer mode</strong></p>\n<p dir=\"auto\">If a user selects Light-O-Rama in the visible Sequencer Mode selector while Sequence output retains its default XSQ value, the UI enables the LMS input and disables the xLights inputs, but clicking Run silently switches back to xLights here. The reverse also occurs after selecting LMS/Both and then choosing xLights mode. The mode selector's callback only updates widget states, so these contradictory selections are reachable through ordinary interaction and can run the wrong pipeline or reject valid inputs. Synchronize both selectors when either changes, rather than overriding the user's mode selection at launch.</p>\n<p dir=\"auto\">Useful? React with 👍 / 👎.</p>\n"
+      },
+      {
+        "url": "https://github.com/ryankorkowski-boop/helix-sequencer/pull/188#discussion_r4429951687",
+        "body": "**<sub><sub>![P2 Badge](https://img.shields.io/badge/P2-yellow?style=flat)</sub></sub>  Respect submodel effects before adding whole-model accents**\n\nWhen `--helix-spatial-accent` is enabled for an addressable pitched-prop layout, `run_profile` runs this pass after `apply_native_pitched_props`, which deliberately removes broad effects and writes note-specific `SubModelEffectLayer` effects. This overlap check examines only `EffectLayer`, so it considers the playing instrument empty and adds a whole-model On effect over its notes. Reproducing the two passes with `HX_CENTER_KEYBOARD_HELIX` playing MIDI 60 at a chorus adds a whole-keyboard flash from 1000–1170 ms, lighting every rung instead of only the selected key. Exclude note-owned props from broad accents or include their submodel activity in the overlap protection.\n\nUseful? React with 👍 / 👎.\n\n<!-- codex-code-review-finding:v1 -->",
+        "user": {
+          "login": "chatgpt-codex-connector[bot]",
+          "name": "chatgpt-codex-connector[bot]",
+          "email": null,
+          "avatar_url": "https://avatars.githubusercontent.com/in/1144995?v=4",
+          "id": 199175422
+        },
+        "id": 4429951687,
+        "pull_request_review_id": 5720548625,
+        "in_reply_to_id": null,
+        "created_at": "2026-10-31T02:18:05Z",
+        "updated_at": "2026-10-31T02:18:05Z",
+        "review": null,
+        "side": "RIGHT",
+        "line": 110,
+        "start_line": 106,
+        "path": "tools/spatial_choreography.py",
+        "body_html": "<p dir=\"auto\"><strong><sub><sub><a target=\"_blank\" rel=\"noopener noreferrer nofollow\" href=\"https://camo.githubusercontent.com/f2c1aacb361ddd3a0e9f9cacdb84fab050de434017f6747bb916e31e29bdf03d/68747470733a2f2f696d672e736869656c64732e696f2f62616467652f50322d79656c6c6f773f7374796c653d666c6174\"><img src=\"https://camo.githubusercontent.com/f2c1aacb361ddd3a0e9f9cacdb84fab050de434017f6747bb916e31e29bdf03d/68747470733a2f2f696d672e736869656c64732e696f2f62616467652f50322d79656c6c6f773f7374796c653d666c6174\" alt=\"P2 Badge\" data-canonical-src=\"https://img.shields.io/badge/P2-yellow?style=flat\" style=\"max-width: 100%;\"></a></sub></sub>  Respect submodel effects before adding whole-model accents</strong></p>\n<p dir=\"auto\">When <code class=\"notranslate\">--helix-spatial-accent</code> is enabled for an addressable pitched-prop layout, <code class=\"notranslate\">run_profile</code> runs this pass after <code class=\"notranslate\">apply_native_pitched_props</code>, which deliberately removes broad effects and writes note-specific <code class=\"notranslate\">SubModelEffectLayer</code> effects. This overlap check examines only <code class=\"notranslate\">EffectLayer</code>, so it considers the playing instrument empty and adds a whole-model On effect over its notes. Reproducing the two passes with <code class=\"notranslate\">HX_CENTER_KEYBOARD_HELIX</code> playing MIDI 60 at a chorus adds a whole-keyboard flash from 1000–1170 ms, lighting every rung instead of only the selected key. Exclude note-owned props from broad accents or include their submodel activity in the overlap protection.</p>\n<p dir=\"auto\">Useful? React with 👍 / 👎.</p>\n"
+      },
+      {
+        "url": "https://github.com/ryankorkowski-boop/helix-sequencer/pull/188#discussion_r4429951688",
+        "body": "**<sub><sub>![P2 Badge](https://img.shields.io/badge/P2-yellow?style=flat)</sub></sub>  Include native pitched-prop layers in simulated previews**\n\nFor layouts containing the reserved keyboard or xylophone models, this newly automatic pass removes their ordinary `EffectLayer` effects and replaces them with `SubModelEffectLayer` effects. However, the subsequent MP4 preview path uses `tools/preview_renderer.py::parse_sequence`, which reads only `EffectLayer` at lines 240–263, so those instruments disappear from the preview despite having valid exported notes. Reproducing a single keyboard note produces one native note effect but an empty preview `model_effects` map after routing. Extend the preview reader and rendering path to consume native submodel effects so the automatic conversion does not hide the generated performance.\n\nUseful? React with 👍 / 👎.\n\n<!-- codex-code-review-finding:v1 -->",
+        "user": {
+          "login": "chatgpt-codex-connector[bot]",
+          "name": "chatgpt-codex-connector[bot]",
+          "email": null,
+          "avatar_url": "https://avatars.githubusercontent.com/in/1144995?v=4",
+          "id": 199175422
+        },
+        "id": 4429951688,
+        "pull_request_review_id": 5720548625,
+        "in_reply_to_id": null,
+        "created_at": "2026-10-31T02:18:05Z",
+        "updated_at": "2026-10-31T02:18:05Z",
+        "review": null,
+        "side": "RIGHT",
+        "line": 1009,
+        "start_line": 1007,
+        "path": "core/sequence_builder.py",
+        "body_html": "<p dir=\"auto\"><strong><sub><sub><a target=\"_blank\" rel=\"noopener noreferrer nofollow\" href=\"https://camo.githubusercontent.com/f2c1aacb361ddd3a0e9f9cacdb84fab050de434017f6747bb916e31e29bdf03d/68747470733a2f2f696d672e736869656c64732e696f2f62616467652f50322d79656c6c6f773f7374796c653d666c6174\"><img src=\"https://camo.githubusercontent.com/f2c1aacb361ddd3a0e9f9cacdb84fab050de434017f6747bb916e31e29bdf03d/68747470733a2f2f696d672e736869656c64732e696f2f62616467652f50322d79656c6c6f773f7374796c653d666c6174\" alt=\"P2 Badge\" data-canonical-src=\"https://img.shields.io/badge/P2-yellow?style=flat\" style=\"max-width: 100%;\"></a></sub></sub>  Include native pitched-prop layers in simulated previews</strong></p>\n<p dir=\"auto\">For layouts containing the reserved keyboard or xylophone models, this newly automatic pass removes their ordinary <code class=\"notranslate\">EffectLayer</code> effects and replaces them with <code class=\"notranslate\">SubModelEffectLayer</code> effects. However, the subsequent MP4 preview path uses <code class=\"notranslate\">tools/preview_renderer.py::parse_sequence</code>, which reads only <code class=\"notranslate\">EffectLayer</code> at lines 240–263, so those instruments disappear from the preview despite having valid exported notes. Reproducing a single keyboard note produces one native note effect but an empty preview <code class=\"notranslate\">model_effects</code> map after routing. Extend the preview reader and rendering path to consume native submodel effects so the automatic conversion does not hide the generated performance.</p>\n<p dir=\"auto\">Useful? React with 👍 / 👎.</p>\n"
+      },
+      {
+        "url": "https://github.com/ryankorkowski-boop/helix-sequencer/pull/188#discussion_r4429951691",
+        "body": "**<sub><sub>![P2 Badge](https://img.shields.io/badge/P2-yellow?style=flat)</sub></sub>  Exclude explicit Off intervals from AC On pulses**\n\nWhen an incoming AC model contains an explicit Off effect, this loop collects its interval without inspecting the effect name, and the exporter subsequently rewrites it as a full-intensity On pulse. For example, an On effect at 0–100 ms followed by Off at 100–1000 ms becomes one continuous 0–1000 ms On effect after interval merging, reversing the intended blackout. Filter explicit Off effects before collecting activation intervals so AC On-only conversion preserves unlit periods rather than energizing them.\n\nUseful? React with 👍 / 👎.\n\n<!-- codex-code-review-finding:v1 -->",
+        "user": {
+          "login": "chatgpt-codex-connector[bot]",
+          "name": "chatgpt-codex-connector[bot]",
+          "email": null,
+          "avatar_url": "https://avatars.githubusercontent.com/in/1144995?v=4",
+          "id": 199175422
+        },
+        "id": 4429951691,
+        "pull_request_review_id": 5720548625,
+        "in_reply_to_id": null,
+        "created_at": "2026-10-31T02:18:05Z",
+        "updated_at": "2026-10-31T02:18:05Z",
+        "review": null,
+        "side": "RIGHT",
+        "line": 173,
+        "start_line": 172,
+        "path": "tools/ac_on_export.py",
+        "body_html": "<p dir=\"auto\"><strong><sub><sub><a target=\"_blank\" rel=\"noopener noreferrer nofollow\" href=\"https://camo.githubusercontent.com/f2c1aacb361ddd3a0e9f9cacdb84fab050de434017f6747bb916e31e29bdf03d/68747470733a2f2f696d672e736869656c64732e696f2f62616467652f50322d79656c6c6f773f7374796c653d666c6174\"><img src=\"https://camo.githubusercontent.com/f2c1aacb361ddd3a0e9f9cacdb84fab050de434017f6747bb916e31e29bdf03d/68747470733a2f2f696d672e736869656c64732e696f2f62616467652f50322d79656c6c6f773f7374796c653d666c6174\" alt=\"P2 Badge\" data-canonical-src=\"https://img.shields.io/badge/P2-yellow?style=flat\" style=\"max-width: 100%;\"></a></sub></sub>  Exclude explicit Off intervals from AC On pulses</strong></p>\n<p dir=\"auto\">When an incoming AC model contains an explicit Off effect, this loop collects its interval without inspecting the effect name, and the exporter subsequently rewrites it as a full-intensity On pulse. For example, an On effect at 0–100 ms followed by Off at 100–1000 ms becomes one continuous 0–1000 ms On effect after interval merging, reversing the intended blackout. Filter explicit Off effects before collecting activation intervals so AC On-only conversion preserves unlit periods rather than energizing them.</p>\n<p dir=\"auto\">Useful? React with 👍 / 👎.</p>\n"
+      },
+      {
+        "url": "https://github.com/ryankorkowski-boop/helix-sequencer/pull/188#discussion_r4429951694",
+        "body": "**<sub><sub>![P2 Badge](https://img.shields.io/badge/P2-yellow?style=flat)</sub></sub>  Bind each batch preview to its corresponding audio file**\n\nWhen processing multiple audio inputs with MP4 previews enabled, this selects the first audio argument once and passes it to every generated sequence. The engine's verified `--help` documents `--audio [AUDIO ...]` as “Optional audio file(s) to process,” and its parser retains all supplied files. Reproducing this helper with `--audio a.wav b.wav` binds both `a.xsq` and `b.xsq` previews to `a.wav`, so later songs receive the wrong soundtrack and their provenance records the wrong audio. Resolve the matching audio separately for each sequence, using its media metadata or the generation mapping.\n\nUseful? React with 👍 / 👎.\n\n<!-- codex-code-review-finding:v1 -->",
+        "user": {
+          "login": "chatgpt-codex-connector[bot]",
+          "name": "chatgpt-codex-connector[bot]",
+          "email": null,
+          "avatar_url": "https://avatars.githubusercontent.com/in/1144995?v=4",
+          "id": 199175422
+        },
+        "id": 4429951694,
+        "pull_request_review_id": 5720548625,
+        "in_reply_to_id": null,
+        "created_at": "2026-10-31T02:18:05Z",
+        "updated_at": "2026-10-31T02:18:05Z",
+        "review": null,
+        "side": "RIGHT",
+        "line": 686,
+        "start_line": 683,
+        "path": "core/sequence_builder.py",
+        "body_html": "<p dir=\"auto\"><strong><sub><sub><a target=\"_blank\" rel=\"noopener noreferrer nofollow\" href=\"https://camo.githubusercontent.com/f2c1aacb361ddd3a0e9f9cacdb84fab050de434017f6747bb916e31e29bdf03d/68747470733a2f2f696d672e736869656c64732e696f2f62616467652f50322d79656c6c6f773f7374796c653d666c6174\"><img src=\"https://camo.githubusercontent.com/f2c1aacb361ddd3a0e9f9cacdb84fab050de434017f6747bb916e31e29bdf03d/68747470733a2f2f696d672e736869656c64732e696f2f62616467652f50322d79656c6c6f773f7374796c653d666c6174\" alt=\"P2 Badge\" data-canonical-src=\"https://img.shields.io/badge/P2-yellow?style=flat\" style=\"max-width: 100%;\"></a></sub></sub>  Bind each batch preview to its corresponding audio file</strong></p>\n<p dir=\"auto\">When processing multiple audio inputs with MP4 previews enabled, this selects the first audio argument once and passes it to every generated sequence. The engine's verified <code class=\"notranslate\">--help</code> documents <code class=\"notranslate\">--audio [AUDIO ...]</code> as “Optional audio file(s) to process,” and its parser retains all supplied files. Reproducing this helper with <code class=\"notranslate\">--audio a.wav b.wav</code> binds both <code class=\"notranslate\">a.xsq</code> and <code class=\"notranslate\">b.xsq</code> previews to <code class=\"notranslate\">a.wav</code>, so later songs receive the wrong soundtrack and their provenance records the wrong audio. Resolve the matching audio separately for each sequence, using its media metadata or the generation mapping.</p>\n<p dir=\"auto\">Useful? React with 👍 / 👎.</p>\n"
+      }
+    ],
+    "url": "https://github.com/ryankorkowski-boop/helix-sequencer/pull/188",
+    "title": "ryankorkowski-boop/helix-sequencer PR #188 comments",
+    "display_url": "https://github.com/ryankorkowski-boop/helix-sequencer/pull/188",
+    "display_title": "ryankorkowski-boop/helix-sequencer PR #188 comments"
+  },
+  "pr205_comments": {
+    "comments": [],
+    "url": "https://github.com/ryankorkowski-boop/helix-sequencer/pull/205",
+    "title": "ryankorkowski-boop/helix-sequencer PR #205 comments",
+    "display_url": "https://github.com/ryankorkowski-boop/helix-sequencer/pull/205",
+    "display_title": "ryankorkowski-boop/helix-sequencer PR #205 comments"
+  },
+  "workflows": {
+    "workflow_runs": [
+      {
+        "id": 41398350951,
+        "name": "Compliance and License Bundle",
+        "status": "completed",
+        "conclusion": "success",
+        "run_number": 1426,
+        "jobs_url": "https://api.github.com/repos/ryankorkowski-boop/helix-sequencer/actions/runs/41398350951/jobs",
+        "logs_url": "https://api.github.com/repos/ryankorkowski-boop/helix-sequencer/actions/runs/41398350951/logs",
+        "workflow_id": 281226173
+      },
+      {
+        "id": 41398350926,
+        "name": "Recover retained pinned native wx libraries",
+        "status": "completed",
+        "conclusion": "success",
+        "run_number": 5,
+        "jobs_url": "https://api.github.com/repos/ryankorkowski-boop/helix-sequencer/actions/runs/41398350926/jobs",
+        "logs_url": "https://api.github.com/repos/ryankorkowski-boop/helix-sequencer/actions/runs/41398350926/logs",
+        "workflow_id": 403277727
+      },
+      {
+        "id": 41398350959,
+        "name": "Showcase recovery guards",
+        "status": "completed",
+        "conclusion": "success",
+        "run_number": 446,
+        "jobs_url": "https://api.github.com/repos/ryankorkowski-boop/helix-sequencer/actions/runs/41398350959/jobs",
+        "logs_url": "https://api.github.com/repos/ryankorkowski-boop/helix-sequencer/actions/runs/41398350959/logs",
+        "workflow_id": 387350004
+      },
+      {
+        "id": 41398350985,
+        "name": "Helix ORIGINAL V3 drummer real-audio snowman-band review",
+        "status": "completed",
+        "conclusion": "success",
+        "run_number": 336,
+        "jobs_url": "https://api.github.com/repos/ryankorkowski-boop/helix-sequencer/actions/runs/41398350985/jobs",
+        "logs_url": "https://api.github.com/repos/ryankorkowski-boop/helix-sequencer/actions/runs/41398350985/logs",
+        "workflow_id": 388265750
+      },
+      {
+        "id": 41398350968,
+        "name": "Windows Portable GUI",
+        "status": "completed",
+        "conclusion": "success",
+        "run_number": 648,
+        "jobs_url": "https://api.github.com/repos/ryankorkowski-boop/helix-sequencer/actions/runs/41398350968/jobs",
+        "logs_url": "https://api.github.com/repos/ryankorkowski-boop/helix-sequencer/actions/runs/41398350968/logs",
+        "workflow_id": 380996429
+      },
+      {
+        "id": 41398350880,
+        "name": "Keyboard integration focused regression gate",
+        "status": "completed",
+        "conclusion": "success",
+        "run_number": 289,
+        "jobs_url": "https://api.github.com/repos/ryankorkowski-boop/helix-sequencer/actions/runs/41398350880/jobs",
+        "logs_url": "https://api.github.com/repos/ryankorkowski-boop/helix-sequencer/actions/runs/41398350880/logs",
+        "workflow_id": 388986904
+      },
+      {
+        "id": 41398350911,
+        "name": "Desktop GUI evidence capture",
+        "status": "completed",
+        "conclusion": "success",
+        "run_number": 293,
+        "jobs_url": "https://api.github.com/repos/ryankorkowski-boop/helix-sequencer/actions/runs/41398350911/jobs",
+        "logs_url": "https://api.github.com/repos/ryankorkowski-boop/helix-sequencer/actions/runs/41398350911/logs",
+        "workflow_id": 389179221
+      },
+      {
+        "id": 41398351029,
+        "name": "Native producer polling contract",
+        "status": "completed",
+        "conclusion": "success",
+        "run_number": 177,
+        "jobs_url": "https://api.github.com/repos/ryankorkowski-boop/helix-sequencer/actions/runs/41398351029/jobs",
+        "logs_url": "https://api.github.com/repos/ryankorkowski-boop/helix-sequencer/actions/runs/41398351029/logs",
+        "workflow_id": 390909746
+      },
+      {
+        "id": 41398351001,
+        "name": "Helix Beta CI",
+        "status": "completed",
+        "conclusion": "success",
+        "run_number": 2900,
+        "jobs_url": "https://api.github.com/repos/ryankorkowski-boop/helix-sequencer/actions/runs/41398351001/jobs",
+        "logs_url": "https://api.github.com/repos/ryankorkowski-boop/helix-sequencer/actions/runs/41398351001/logs",
+        "workflow_id": 279140254
+      },
+      {
+        "id": 41398350886,
+        "name": "Fresh native universal-keyboard snowman band MP4 from real audio",
+        "status": "completed",
+        "conclusion": "failure",
+        "run_number": 383,
+        "jobs_url": "https://api.github.com/repos/ryankorkowski-boop/helix-sequencer/actions/runs/41398350886/jobs",
+        "logs_url": "https://api.github.com/repos/ryankorkowski-boop/helix-sequencer/actions/runs/41398350886/logs",
+        "workflow_id": 388117978
+      },
+      {
+        "id": 41398351067,
+        "name": "Verify owner Starred audio sources",
+        "status": "completed",
+        "conclusion": "success",
+        "run_number": 233,
+        "jobs_url": "https://api.github.com/repos/ryankorkowski-boop/helix-sequencer/actions/runs/41398351067/jobs",
+        "logs_url": "https://api.github.com/repos/ryankorkowski-boop/helix-sequencer/actions/runs/41398351067/logs",
+        "workflow_id": 389961153
+      },
+      {
+        "id": 41398350933,
+        "name": "Drum ground-truth benchmark",
+        "status": "completed",
+        "conclusion": "success",
+        "run_number": 369,
+        "jobs_url": "https://api.github.com/repos/ryankorkowski-boop/helix-sequencer/actions/runs/41398350933/jobs",
+        "logs_url": "https://api.github.com/repos/ryankorkowski-boop/helix-sequencer/actions/runs/41398350933/logs",
+        "workflow_id": 374926034
+      },
+      {
+        "id": 41398351061,
+        "name": "Helix REAL animated 3D seven-snowman band",
+        "status": "completed",
+        "conclusion": "success",
+        "run_number": 331,
+        "jobs_url": "https://api.github.com/repos/ryankorkowski-boop/helix-sequencer/actions/runs/41398351061/jobs",
+        "logs_url": "https://api.github.com/repos/ryankorkowski-boop/helix-sequencer/actions/runs/41398351061/logs",
+        "workflow_id": 388187359
+      },
+      {
+        "id": 41398351051,
+        "name": "Real source CLI performance and musical parity",
+        "status": "completed",
+        "conclusion": "success",
+        "run_number": 175,
+        "jobs_url": "https://api.github.com/repos/ryankorkowski-boop/helix-sequencer/actions/runs/41398351051/jobs",
+        "logs_url": "https://api.github.com/repos/ryankorkowski-boop/helix-sequencer/actions/runs/41398351051/logs",
+        "workflow_id": 390903708
+      },
+      {
+        "id": 41398351083,
+        "name": "Helix final band and native output verification",
+        "status": "completed",
+        "conclusion": "failure",
+        "run_number": 599,
+        "jobs_url": "https://api.github.com/repos/ryankorkowski-boop/helix-sequencer/actions/runs/41398351083/jobs",
+        "logs_url": "https://api.github.com/repos/ryankorkowski-boop/helix-sequencer/actions/runs/41398351083/logs",
+        "workflow_id": 384615353
+      },
+      {
+        "id": 41398350920,
+        "name": "Helix Birdsong CI",
+        "status": "completed",
+        "conclusion": "success",
+        "run_number": 2822,
+        "jobs_url": "https://api.github.com/repos/ryankorkowski-boop/helix-sequencer/actions/runs/41398350920/jobs",
+        "logs_url": "https://api.github.com/repos/ryankorkowski-boop/helix-sequencer/actions/runs/41398350920/logs",
+        "workflow_id": 279957668
+      },
+      {
+        "id": 41398350966,
+        "name": "Helix Android offline beta",
+        "status": "completed",
+        "conclusion": "success",
+        "run_number": 648,
+        "jobs_url": "https://api.github.com/repos/ryankorkowski-boop/helix-sequencer/actions/runs/41398350966/jobs",
+        "logs_url": "https://api.github.com/repos/ryankorkowski-boop/helix-sequencer/actions/runs/41398350966/logs",
+        "workflow_id": 382835408
+      },
+      {
+        "id": 41398351091,
+        "name": "Helix CI",
+        "status": "completed",
+        "conclusion": "failure",
+        "run_number": 3940,
+        "jobs_url": "https://api.github.com/repos/ryankorkowski-boop/helix-sequencer/actions/runs/41398351091/jobs",
+        "logs_url": "https://api.github.com/repos/ryankorkowski-boop/helix-sequencer/actions/runs/41398351091/logs",
+        "workflow_id": 264846358
+      },
+      {
+        "id": 41398351165,
+        "name": "Pinned native renderer build and integrity",
+        "status": "completed",
+        "conclusion": "success",
+        "run_number": 106,
+        "jobs_url": "https://api.github.com/repos/ryankorkowski-boop/helix-sequencer/actions/runs/41398351165/jobs",
+        "logs_url": "https://api.github.com/repos/ryankorkowski-boop/helix-sequencer/actions/runs/41398351165/logs",
+        "workflow_id": 396382731
+      },
+      {
+        "id": 41398350954,
+        "name": "Phoneme Test Hook native MP4 verification",
+        "status": "completed",
+        "conclusion": "failure",
+        "run_number": 143,
+        "jobs_url": "https://api.github.com/repos/ryankorkowski-boop/helix-sequencer/actions/runs/41398350954/jobs",
+        "logs_url": "https://api.github.com/repos/ryankorkowski-boop/helix-sequencer/actions/runs/41398350954/logs",
+        "workflow_id": 393807540
+      },
+      {
+        "id": 41398351192,
+        "name": "Final native twelve-layout approval collection",
+        "status": "completed",
+        "conclusion": "failure",
+        "run_number": 130,
+        "jobs_url": "https://api.github.com/repos/ryankorkowski-boop/helix-sequencer/actions/runs/41398351192/jobs",
+        "logs_url": "https://api.github.com/repos/ryankorkowski-boop/helix-sequencer/actions/runs/41398351192/logs",
+        "workflow_id": 394449219
+      }
+    ]
+  },
+  "jobs": {
+    "41398351091": {
+      "jobs": [
+        {
+          "id": 125124503555,
+          "name": "lint / python 3.12",
+          "status": "completed",
+          "conclusion": "success",
+          "run_id": 41398351091,
+          "logs_url": null,
+          "steps": [
+            {
+              "name": "Set up job",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 1
+            },
+            {
+              "name": "Check out repository",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 2
+            },
+            {
+              "name": "Set up Python",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 3
+            },
+            {
+              "name": "Install declared dependencies",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 4
+            },
+            {
+              "name": "Gate core sandbox and Prime default regression",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 5
+            },
+            {
+              "name": "Run flake8 baseline audit",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 6
+            },
+            {
+              "name": "Run mypy type checking",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 7
+            },
+            {
+              "name": "Run bandit security checks",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 8
+            },
+            {
+              "name": "Post Set up Python",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 15
+            },
+            {
+              "name": "Post Check out repository",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 16
+            },
+            {
+              "name": "Complete job",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 17
+            }
+          ]
+        },
+        {
+          "id": 125124503937,
+          "name": "lint / python 3.11",
+          "status": "completed",
+          "conclusion": "success",
+          "run_id": 41398351091,
+          "logs_url": null,
+          "steps": [
+            {
+              "name": "Set up job",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 1
+            },
+            {
+              "name": "Check out repository",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 2
+            },
+            {
+              "name": "Set up Python",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 3
+            },
+            {
+              "name": "Install declared dependencies",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 4
+            },
+            {
+              "name": "Gate core sandbox and Prime default regression",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 5
+            },
+            {
+              "name": "Run flake8 baseline audit",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 6
+            },
+            {
+              "name": "Run mypy type checking",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 7
+            },
+            {
+              "name": "Run bandit security checks",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 8
+            },
+            {
+              "name": "Post Set up Python",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 15
+            },
+            {
+              "name": "Post Check out repository",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 16
+            },
+            {
+              "name": "Complete job",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 17
+            }
+          ]
+        },
+        {
+          "id": 125124503952,
+          "name": "full regression audit / python 3.11",
+          "status": "completed",
+          "conclusion": "success",
+          "run_id": 41398351091,
+          "logs_url": null,
+          "steps": [
+            {
+              "name": "Set up job",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 1
+            },
+            {
+              "name": "Check out repository",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 2
+            },
+            {
+              "name": "Set up Python",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 3
+            },
+            {
+              "name": "Install declared dependencies",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 4
+            },
+            {
+              "name": "Install native media test tools",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 5
+            },
+            {
+              "name": "Compile Python sources",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 6
+            },
+            {
+              "name": "List sequencing profiles",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 7
+            },
+            {
+              "name": "Run full regression audit",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 8
+            },
+            {
+              "name": "Post Set up Python",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 15
+            },
+            {
+              "name": "Post Check out repository",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 16
+            },
+            {
+              "name": "Complete job",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 17
+            }
+          ]
+        },
+        {
+          "id": 125124503962,
+          "name": "full regression audit / python 3.12",
+          "status": "completed",
+          "conclusion": "failure",
+          "run_id": 41398351091,
+          "logs_url": null,
+          "steps": [
+            {
+              "name": "Set up job",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 1
+            },
+            {
+              "name": "Check out repository",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 2
+            },
+            {
+              "name": "Set up Python",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 3
+            },
+            {
+              "name": "Install declared dependencies",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 4
+            },
+            {
+              "name": "Install native media test tools",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 5
+            },
+            {
+              "name": "Compile Python sources",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 6
+            },
+            {
+              "name": "List sequencing profiles",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 7
+            },
+            {
+              "name": "Run full regression audit",
+              "status": "completed",
+              "conclusion": "failure",
+              "number": 8
+            },
+            {
+              "name": "Post Set up Python",
+              "status": "completed",
+              "conclusion": "skipped",
+              "number": 15
+            },
+            {
+              "name": "Post Check out repository",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 16
+            },
+            {
+              "name": "Complete job",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 17
+            }
+          ]
+        }
+      ]
+    },
+    "41398350886": {
+      "jobs": [
+        {
+          "id": 125124503096,
+          "name": "preflight",
+          "status": "completed",
+          "conclusion": "success",
+          "run_id": 41398350886,
+          "logs_url": null,
+          "steps": [
+            {
+              "name": "Set up job",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 1
+            },
+            {
+              "name": "Cancel superseded native runs from previous concurrency groups",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 2
+            },
+            {
+              "name": "Run actions/checkout@v4",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 3
+            },
+            {
+              "name": "Run actions/setup-python@v5",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 4
+            },
+            {
+              "name": "Install focused artifact-verification test runtime",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 5
+            },
+            {
+              "name": "Check true native renderer paths",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 6
+            },
+            {
+              "name": "Post Run actions/setup-python@v5",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 11
+            },
+            {
+              "name": "Post Run actions/checkout@v4",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 12
+            },
+            {
+              "name": "Complete job",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 13
+            }
+          ]
+        },
+        {
+          "id": 125125302718,
+          "name": "render",
+          "status": "completed",
+          "conclusion": "failure",
+          "run_id": 41398350886,
+          "logs_url": null,
+          "steps": [
+            {
+              "name": "Set up job",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 1
+            },
+            {
+              "name": "Run actions/checkout@v4",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 2
+            },
+            {
+              "name": "Run actions/setup-python@v5",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 3
+            },
+            {
+              "name": "Validate source identity and install real renderer",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 4
+            },
+            {
+              "name": "Fetch authentic hardKor E14 source + retained analysis (no fabricated events)",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 5
+            },
+            {
+              "name": "Qualify both original vocal lanes before compiling or rendering",
+              "status": "completed",
+              "conclusion": "failure",
+              "number": 6
+            },
+            {
+              "name": "Restore compiled pinned native renderer",
+              "status": "completed",
+              "conclusion": "skipped",
+              "number": 7
+            },
+            {
+              "name": "Install checksum pinned native xLights",
+              "status": "completed",
+              "conclusion": "skipped",
+              "number": 8
+            },
+            {
+              "name": "Validate restored native runtime dependencies",
+              "status": "completed",
+              "conclusion": "skipped",
+              "number": 9
+            },
+            {
+              "name": "Preserve completed native build before export acceptance",
+              "status": "completed",
+              "conclusion": "skipped",
+              "number": 10
+            },
+            {
+              "name": "Regenerate actual six-musician editable sequence from retained source musical analysis",
+              "status": "completed",
+              "conclusion": "skipped",
+              "number": 11
+            },
+            {
+              "name": "Render actual xLights native FSEQ and original-audio MP4",
+              "status": "completed",
+              "conclusion": "skipped",
+              "number": 12
+            },
+            {
+              "name": "Verify six native performers, fresh media, and decode",
+              "status": "completed",
+              "conclusion": "skipped",
+              "number": 13
+            },
+            {
+              "name": "Reject nearly black or frozen native showcases",
+              "status": "completed",
+              "conclusion": "skipped",
+              "number": 14
+            },
+            {
+              "name": "Upload MP4 and source provenance (never a placeholder)",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 15
+            },
+            {
+              "name": "Post Run actions/setup-python@v5",
+              "status": "completed",
+              "conclusion": "skipped",
+              "number": 29
+            },
+            {
+              "name": "Post Run actions/checkout@v4",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 30
+            },
+            {
+              "name": "Complete job",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 31
+            }
+          ]
+        }
+      ]
+    },
+    "41398351083": {
+      "jobs": [
+        {
+          "id": 125124504301,
+          "name": "native-proof",
+          "status": "completed",
+          "conclusion": "success",
+          "run_id": 41398351083,
+          "logs_url": null,
+          "steps": [
+            {
+              "name": "Set up job",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 1
+            },
+            {
+              "name": "Run actions/checkout@v4",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 2
+            },
+            {
+              "name": "Run actions/setup-python@v5",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 3
+            },
+            {
+              "name": "Install native verification runtime",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 4
+            },
+            {
+              "name": "Verify giant, pitched keys, both physical drummer modes, chorus and two pixel bands",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 5
+            },
+            {
+              "name": "Preserve diagnostic fixture inventory (not musical acceptance)",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 6
+            },
+            {
+              "name": "Run actions/upload-artifact@v4",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 7
+            },
+            {
+              "name": "Post Run actions/setup-python@v5",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 13
+            },
+            {
+              "name": "Post Run actions/checkout@v4",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 14
+            },
+            {
+              "name": "Complete job",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 15
+            }
+          ]
+        },
+        {
+          "id": 125126795710,
+          "name": "accepted-native-band",
+          "status": "completed",
+          "conclusion": "failure",
+          "run_id": 41398351083,
+          "logs_url": null,
+          "steps": [
+            {
+              "name": "Set up job",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 1
+            },
+            {
+              "name": "Run actions/checkout@v4",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 2
+            },
+            {
+              "name": "Run actions/setup-python@v5",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 3
+            },
+            {
+              "name": "Await successful native producer at this exact commit",
+              "status": "completed",
+              "conclusion": "failure",
+              "number": 4
+            },
+            {
+              "name": "Download only the matched native artifact",
+              "status": "completed",
+              "conclusion": "skipped",
+              "number": 5
+            },
+            {
+              "name": "Independently verify source bytes, editable tracks, FSEQ, decoded video and soundtrack",
+              "status": "completed",
+              "conclusion": "skipped",
+              "number": 6
+            },
+            {
+              "name": "Preserve acceptance report and exact producer identity",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 7
+            },
+            {
+              "name": "Post Run actions/setup-python@v5",
+              "status": "completed",
+              "conclusion": "skipped",
+              "number": 13
+            },
+            {
+              "name": "Post Run actions/checkout@v4",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 14
+            },
+            {
+              "name": "Complete job",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 15
+            }
+          ]
+        }
+      ]
+    },
+    "41398350954": {
+      "jobs": [
+        {
+          "id": 125124503195,
+          "name": "render",
+          "status": "completed",
+          "conclusion": "failure",
+          "run_id": 41398350954,
+          "logs_url": null,
+          "steps": [
+            {
+              "name": "Set up job",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 1
+            },
+            {
+              "name": "Run actions/checkout@v4",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 2
+            },
+            {
+              "name": "Run actions/setup-python@v5",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 3
+            },
+            {
+              "name": "Resolve and verify original source before dependency installation",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 4
+            },
+            {
+              "name": "Install DSP and native GUI dependencies",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 5
+            },
+            {
+              "name": "Validate source ingestion, DSP equivalence and strict native faces",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 6
+            },
+            {
+              "name": "Prepare complete show from current Helix source",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 7
+            },
+            {
+              "name": "Restore compiled pinned native renderer",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 8
+            },
+            {
+              "name": "Restore proven renderer bundle after a cache miss",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 9
+            },
+            {
+              "name": "Verify retained upstream, source patch and executable before use",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 10
+            },
+            {
+              "name": "Install checksum pinned native xLights",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 11
+            },
+            {
+              "name": "Validate restored native runtime dependencies",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 12
+            },
+            {
+              "name": "Preserve completed native build before export acceptance",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 13
+            },
+            {
+              "name": "Preserve the exact compiled renderer for local source renders",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 14
+            },
+            {
+              "name": "Native xLights FSEQ and original-soundtrack MP4",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 15
+            },
+            {
+              "name": "Fully decode and collect actual native movie from render receipt",
+              "status": "completed",
+              "conclusion": "failure",
+              "number": 16
+            },
+            {
+              "name": "Preserve editable sequence, native media and actionable diagnostics",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 17
+            },
+            {
+              "name": "Post Run actions/setup-python@v5",
+              "status": "completed",
+              "conclusion": "skipped",
+              "number": 33
+            },
+            {
+              "name": "Post Run actions/checkout@v4",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 34
+            },
+            {
+              "name": "Complete job",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 35
+            }
+          ]
+        }
+      ]
+    },
+    "41398351192": {
+      "jobs": [
+        {
+          "id": 125124504770,
+          "name": "render",
+          "status": "completed",
+          "conclusion": "failure",
+          "run_id": 41398351192,
+          "logs_url": null,
+          "steps": [
+            {
+              "name": "Set up job",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 1
+            },
+            {
+              "name": "Run actions/checkout@v4",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 2
+            },
+            {
+              "name": "Run actions/setup-python@v5",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 3
+            },
+            {
+              "name": "Resolve and verify original source before dependency installation",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 4
+            },
+            {
+              "name": "Install DSP and native GUI dependencies",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 5
+            },
+            {
+              "name": "Validate source ingestion, DSP equivalence and strict native faces",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 6
+            },
+            {
+              "name": "Prepare complete show from current Helix source",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 7
+            },
+            {
+              "name": "Restore compiled pinned native renderer",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 8
+            },
+            {
+              "name": "Restore proven renderer bundle after a cache miss",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 9
+            },
+            {
+              "name": "Verify retained upstream, source patch and executable before use",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 10
+            },
+            {
+              "name": "Install checksum pinned native xLights",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 11
+            },
+            {
+              "name": "Validate restored native runtime dependencies",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 12
+            },
+            {
+              "name": "Preserve completed native build before export acceptance",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 13
+            },
+            {
+              "name": "Native xLights FSEQ and original-soundtrack MP4",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 14
+            },
+            {
+              "name": "Require resolved timing and reference evidence before scaling rejected pilot",
+              "status": "completed",
+              "conclusion": "failure",
+              "number": 15
+            },
+            {
+              "name": "Build twelve layouts from the one retained production analysis",
+              "status": "completed",
+              "conclusion": "skipped",
+              "number": 16
+            },
+            {
+              "name": "Render synchronized native collection, verify files and package diagnostic candidate",
+              "status": "completed",
+              "conclusion": "skipped",
+              "number": 17
+            },
+            {
+              "name": "Render separately labeled canonical solid visualization",
+              "status": "completed",
+              "conclusion": "skipped",
+              "number": 18
+            },
+            {
+              "name": "Finish explicit display tone curve and verify every final file",
+              "status": "completed",
+              "conclusion": "skipped",
+              "number": 19
+            },
+            {
+              "name": "Fully decode and collect actual native movie from render receipt",
+              "status": "completed",
+              "conclusion": "failure",
+              "number": 20
+            },
+            {
+              "name": "Preserve editable sequence, native media and actionable diagnostics",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 21
+            },
+            {
+              "name": "Post Run actions/setup-python@v5",
+              "status": "completed",
+              "conclusion": "skipped",
+              "number": 41
+            },
+            {
+              "name": "Post Run actions/checkout@v4",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 42
+            },
+            {
+              "name": "Complete job",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 43
+            }
+          ]
+        }
+      ]
+    },
+    "41398350966": {
+      "jobs": [
+        {
+          "id": 125124502698,
+          "name": "build-and-offline-smoke (30, default)",
+          "status": "completed",
+          "conclusion": "success",
+          "run_id": 41398350966,
+          "logs_url": null,
+          "steps": [
+            {
+              "name": "Set up job",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 1
+            },
+            {
+              "name": "Run actions/checkout@v4",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 2
+            },
+            {
+              "name": "Run actions/setup-java@v4",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 3
+            },
+            {
+              "name": "Run actions/setup-python@v5",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 4
+            },
+            {
+              "name": "Verify exact Android build source",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 5
+            },
+            {
+              "name": "Run python -m pip install --upgrade pip setuptools wheel",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 6
+            },
+            {
+              "name": "Run gradle/actions/setup-gradle@v4",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 7
+            },
+            {
+              "name": "Run android-actions/setup-android@v3",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 8
+            },
+            {
+              "name": "Run sdkmanager 'platforms;android-36' 'build-tools;36.0.0'",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 9
+            },
+            {
+              "name": "Prepare real MP3 and RGB layout test assets without changing sources",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 10
+            },
+            {
+              "name": "Host parser and output recovery regressions",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 11
+            },
+            {
+              "name": "Build APK and test APK",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 12
+            },
+            {
+              "name": "Enable KVM access",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 13
+            },
+            {
+              "name": "Start synthetic desktop transport fixture",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 14
+            },
+            {
+              "name": "Run reactivecircus/android-emulator-runner@v2",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 15
+            },
+            {
+              "name": "Stop transport fixture",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 16
+            },
+            {
+              "name": "Independently decode native video and soundtrack",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 17
+            },
+            {
+              "name": "Verify APK installation compatibility and launch",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 18
+            },
+            {
+              "name": "Record artifact integrity and beta signing identity",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 19
+            },
+            {
+              "name": "Run actions/upload-artifact@v4",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 20
+            },
+            {
+              "name": "Post Run gradle/actions/setup-gradle@v4",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 37
+            },
+            {
+              "name": "Post Run actions/setup-python@v5",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 38
+            },
+            {
+              "name": "Post Run actions/setup-java@v4",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 39
+            },
+            {
+              "name": "Post Run actions/checkout@v4",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 40
+            },
+            {
+              "name": "Complete job",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 41
+            }
+          ]
+        },
+        {
+          "id": 125124503041,
+          "name": "build-and-offline-smoke (36, google_apis)",
+          "status": "completed",
+          "conclusion": "success",
+          "run_id": 41398350966,
+          "logs_url": null,
+          "steps": [
+            {
+              "name": "Set up job",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 1
+            },
+            {
+              "name": "Run actions/checkout@v4",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 2
+            },
+            {
+              "name": "Run actions/setup-java@v4",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 3
+            },
+            {
+              "name": "Run actions/setup-python@v5",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 4
+            },
+            {
+              "name": "Verify exact Android build source",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 5
+            },
+            {
+              "name": "Run python -m pip install --upgrade pip setuptools wheel",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 6
+            },
+            {
+              "name": "Run gradle/actions/setup-gradle@v4",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 7
+            },
+            {
+              "name": "Run android-actions/setup-android@v3",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 8
+            },
+            {
+              "name": "Run sdkmanager 'platforms;android-36' 'build-tools;36.0.0'",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 9
+            },
+            {
+              "name": "Prepare real MP3 and RGB layout test assets without changing sources",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 10
+            },
+            {
+              "name": "Host parser and output recovery regressions",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 11
+            },
+            {
+              "name": "Build APK and test APK",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 12
+            },
+            {
+              "name": "Enable KVM access",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 13
+            },
+            {
+              "name": "Start synthetic desktop transport fixture",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 14
+            },
+            {
+              "name": "Run reactivecircus/android-emulator-runner@v2",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 15
+            },
+            {
+              "name": "Stop transport fixture",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 16
+            },
+            {
+              "name": "Independently decode native video and soundtrack",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 17
+            },
+            {
+              "name": "Verify APK installation compatibility and launch",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 18
+            },
+            {
+              "name": "Record artifact integrity and beta signing identity",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 19
+            },
+            {
+              "name": "Run actions/upload-artifact@v4",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 20
+            },
+            {
+              "name": "Post Run gradle/actions/setup-gradle@v4",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 37
+            },
+            {
+              "name": "Post Run actions/setup-python@v5",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 38
+            },
+            {
+              "name": "Post Run actions/setup-java@v4",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 39
+            },
+            {
+              "name": "Post Run actions/checkout@v4",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 40
+            },
+            {
+              "name": "Complete job",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 41
+            }
+          ]
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,111 @@
+{
+  "apk_sha256": "8aa43fc12e9f4c2d446fabe628b04f09c171ed68d9621c766c39e3c61030512c",
+  "engine_commit": "712b7ba45409f92f704d322440a76f4243090d2e",
+  "engine_files_verified": 1113,
+  "decoded": [
+    {
+      "mode": "xlights",
+      "frames": 45,
+      "video_codec": "h264",
+      "audio_codec": "aac",
+      "duration": "3.000000",
+      "source_duration_seconds": 8.0,
+      "full_song_preview_verified": false,
+      "max_mean_pixel_error": 2.451377314814815,
+      "minimum_expected_lit_pixels_visible": 0.9821706768218799,
+      "audio_correlation": 0.9999563842574755,
+      "audio_offset_ms": 0.0
+    },
+    {
+      "mode": "lor",
+      "frames": 45,
+      "video_codec": "h264",
+      "audio_codec": "aac",
+      "duration": "3.000000",
+      "source_duration_seconds": 8.0,
+      "full_song_preview_verified": false,
+      "max_mean_pixel_error": 2.1894835069444443,
+      "minimum_expected_lit_pixels_visible": 0.9634881247784474,
+      "audio_correlation": 0.9999563842574755,
+      "audio_offset_ms": 0.0
+    },
+    {
+      "mode": "real-rgb",
+      "frames": 120,
+      "video_codec": "h264",
+      "audio_codec": "aac",
+      "duration": "8.000000",
+      "source_duration_seconds": 8.0,
+      "full_song_preview_verified": false,
+      "max_mean_pixel_error": 2.1484765625,
+      "minimum_expected_lit_pixels_visible": 0.9737937790840069,
+      "audio_correlation": 0.9977437981465194,
+      "audio_offset_ms": 0.0
+    },
+    {
+      "mode": "full-song",
+      "frames": 3562,
+      "video_codec": "h264",
+      "audio_codec": "aac",
+      "duration": "237.466708",
+      "source_duration_seconds": 237.43997916666666,
+      "full_song_preview_verified": true,
+      "max_mean_pixel_error": 2.2302025462962964,
+      "minimum_expected_lit_pixels_visible": 0.9649313087490962,
+      "audio_correlation": 0.9957144538319779,
+      "audio_offset_ms": 0.0
+    },
+    {
+      "mode": "band-off",
+      "frames": 45,
+      "video_codec": "h264",
+      "audio_codec": "aac",
+      "duration": "3.000000",
+      "source_duration_seconds": 8.0,
+      "full_song_preview_verified": false,
+      "max_mean_pixel_error": 2.1359346064814817,
+      "minimum_expected_lit_pixels_visible": 0.9747796278158668,
+      "audio_correlation": 0.9990602343817028,
+      "audio_offset_ms": 0.0
+    }
+  ],
+  "signing_certificate": "Signer #1 certificate DN: C=US, O=Android, CN=Android Debug\nSigner #1 certificate SHA-256 digest: 7b36cf39e212e22d229666197085ccc26b09f7cf3b0a0c16794f806340d152c6\nSigner #1 certificate SHA-1 digest: ab10e1ba537974b524ac4124a0bd51c8540a4a4e\nSigner #1 certificate MD5 digest: b6ecd3a1d7d4b4b5aa413f6ae49056bb\n",
+  "signing_status": "debug beta; production upgrade not verified",
+  "current_tracked_engine_files": 1113,
+  "compatibility": {
+    "package_id": "org.helixsequencer.android",
+    "variants": [
+      {
+        "variant": "debug",
+        "filename": "app-debug.apk",
+        "exists": true,
+        "apk_sha256": "8aa43fc12e9f4c2d446fabe628b04f09c171ed68d9621c766c39e3c61030512c",
+        "signature_verified": true,
+        "certificate_details": "Signer #1 certificate DN: C=US, O=Android, CN=Android Debug\nSigner #1 certificate SHA-256 digest: 7b36cf39e212e22d229666197085ccc26b09f7cf3b0a0c16794f806340d152c6\nSigner #1 certificate SHA-1 digest: ab10e1ba537974b524ac4124a0bd51c8540a4a4e\nSigner #1 certificate MD5 digest: b6ecd3a1d7d4b4b5aa413f6ae49056bb",
+        "error": "",
+        "installation_verified": true,
+        "installable": true
+      },
+      {
+        "variant": "release",
+        "filename": "app-release-unsigned.apk",
+        "exists": true,
+        "apk_sha256": "6aa1f15940ddf211cdbd99cb78a742dbe4f524223ab8f46ee33532b1107d0db4",
+        "signature_verified": false,
+        "certificate_details": "",
+        "error": "DOES NOT VERIFY\nERROR: Missing META-INF/MANIFEST.MF",
+        "installation_verified": false,
+        "installable": false
+      }
+    ],
+    "debug_to_release_certificate_match": false,
+    "debug_to_release_update_compatible": false,
+    "old_beta_upgrade_verified": false,
+    "limitation": "Only the exact installed and launched APK is verified. Cross-build/old-beta upgrades require the original installed signing key and an actual update test; unsigned APKs cannot install."
+  },
+  "artifact_id": 13699776977,
+  "source": "712b7ba45409f92f704d322440a76f4243090d2e",
+  "release_ready": false,
+  "source_matches_staged_commit_inventory": true,
+  "inventory_source_commit": "712b7ba45409f92f704d322440a76f4243090d2e"
+}

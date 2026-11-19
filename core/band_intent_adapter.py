@@ -45,7 +45,12 @@ class BandIntentAdapter:
     DEFAULT_PERFORMERS = tuple(performer.performer_id for performer in HELIXVILLE4_PERFORMERS)
 
     def __init__(self, performers: tuple[str, ...] | None = None):
-        self.performers = performers or self.DEFAULT_PERFORMERS
+        self.performers = self.DEFAULT_PERFORMERS if performers is None else tuple(performers)
+        unknown = sorted(set(self.performers) - set(self.DEFAULT_PERFORMERS))
+        if unknown:
+            raise ValueError(f"Unknown band performer IDs: {unknown}")
+        if len(set(self.performers)) != len(self.performers):
+            raise ValueError("Band performer IDs must be unique")
 
     def adapt_event(self, event: SequentialLayerEvent) -> tuple[BandExecutionEvent, ...]:
         performer_state = self.MOTION_TO_STATE.get(event.motion, "idle_texture")

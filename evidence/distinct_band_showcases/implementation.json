@@ -1,0 +1,269 @@
+{
+  "plans": [
+    {
+      "version": 1,
+      "stage_pair": [
+        "ember_amphitheatre",
+        "glacier_pier"
+      ],
+      "style_pair": [
+        "sculpted snow band",
+        "wire contour band"
+      ],
+      "segments": [
+        {
+          "id": "dry",
+          "title": "Dry Drum Test",
+          "start": 0.0,
+          "seconds": 6.0,
+          "purpose": "musical sampler passage"
+        },
+        {
+          "id": "01",
+          "title": "Who Knew (Grinch's Redemption) (Remastered)",
+          "start": 105.0,
+          "seconds": 14.0,
+          "purpose": "musical sampler passage"
+        },
+        {
+          "id": "02",
+          "title": "49 (Remastered)",
+          "start": 10.2,
+          "seconds": 16.0,
+          "purpose": "musical sampler passage"
+        },
+        {
+          "id": "05",
+          "title": "Festivus (Remastered)",
+          "start": 0.0,
+          "seconds": 14.0,
+          "purpose": "musical sampler passage"
+        },
+        {
+          "id": "00",
+          "title": "Wire Tree",
+          "start": 196.0,
+          "seconds": 28.2,
+          "purpose": "musical sampler passage"
+        }
+      ],
+      "super_layout": false
+    },
+    {
+      "version": 2,
+      "stage_pair": [
+        "cathedral_organ",
+        "circuit_garage"
+      ],
+      "style_pair": [
+        "sculpted snow band",
+        "wire contour band"
+      ],
+      "segments": [
+        {
+          "id": "dry",
+          "title": "Dry Drum Test",
+          "start": 12.0,
+          "seconds": 6.0,
+          "purpose": "musical sampler passage"
+        },
+        {
+          "id": "02",
+          "title": "49 (Remastered)",
+          "start": 24.15,
+          "seconds": 18.0,
+          "purpose": "musical sampler passage"
+        },
+        {
+          "id": "03",
+          "title": "Candy Cane Chaos",
+          "start": 160.25,
+          "seconds": 16.0,
+          "purpose": "musical sampler passage"
+        },
+        {
+          "id": "05",
+          "title": "Festivus (Remastered)",
+          "start": 96.0,
+          "seconds": 14.0,
+          "purpose": "musical sampler passage"
+        },
+        {
+          "id": "00",
+          "title": "Wire Tree",
+          "start": 210.0,
+          "seconds": 14.2,
+          "purpose": "musical sampler passage"
+        }
+      ],
+      "super_layout": false
+    },
+    {
+      "version": 3,
+      "stage_pair": [
+        "orbital_halo",
+        "lantern_garden"
+      ],
+      "style_pair": [
+        "sculpted snow band",
+        "wire contour band"
+      ],
+      "segments": [
+        {
+          "id": "dry",
+          "title": "Dry Drum Test",
+          "start": 24.0,
+          "seconds": 6.0,
+          "purpose": "musical sampler passage"
+        },
+        {
+          "id": "05",
+          "title": "Festivus (Remastered)",
+          "start": 0.0,
+          "seconds": 14.0,
+          "purpose": "musical sampler passage"
+        },
+        {
+          "id": "01",
+          "title": "Who Knew (Grinch's Redemption) (Remastered)",
+          "start": 100.0,
+          "seconds": 18.0,
+          "purpose": "musical sampler passage"
+        },
+        {
+          "id": "02",
+          "title": "49 (Remastered)",
+          "start": 211.65,
+          "seconds": 14.0,
+          "purpose": "musical sampler passage"
+        },
+        {
+          "id": "00",
+          "title": "Wire Tree",
+          "start": 196.0,
+          "seconds": 28.2,
+          "purpose": "musical sampler passage"
+        }
+      ],
+      "super_layout": false
+    },
+    {
+      "version": 4,
+      "stage_pair": [
+        "ember_amphitheatre",
+        "circuit_garage"
+      ],
+      "style_pair": [
+        "sculpted snow band",
+        "wire contour band"
+      ],
+      "segments": [
+        {
+          "id": "dry",
+          "title": "Dry Drum Test",
+          "start": 0.0,
+          "seconds": 8.0,
+          "purpose": "musical sampler passage"
+        },
+        {
+          "id": "05",
+          "title": "Festivus (Remastered)",
+          "start": 0.0,
+          "seconds": 14.0,
+          "purpose": "musical sampler passage"
+        },
+        {
+          "id": "02",
+          "title": "49 (Remastered)",
+          "start": 10.2,
+          "seconds": 14.0,
+          "purpose": "musical sampler passage"
+        },
+        {
+          "id": "01",
+          "title": "Who Knew (Grinch's Redemption) (Remastered)",
+          "start": 105.0,
+          "seconds": 14.0,
+          "purpose": "musical sampler passage"
+        },
+        {
+          "id": "03",
+          "title": "Candy Cane Chaos",
+          "start": 160.25,
+          "seconds": 14.0,
+          "purpose": "musical sampler passage"
+        },
+        {
+          "id": "00",
+          "title": "Wire Tree",
+          "start": 196.0,
+          "seconds": 28.2,
+          "purpose": "musical sampler passage"
+        }
+      ],
+      "super_layout": true
+    }
+  ],
+  "stage_inventory": {
+    "ember_amphitheatre": "Ember Amphitheatre",
+    "glacier_pier": "Glacier Pier",
+    "cathedral_organ": "Cathedral Organ",
+    "circuit_garage": "Circuit Garage",
+    "orbital_halo": "Orbital Halo",
+    "lantern_garden": "Living Lantern Garden"
+  },
+  "inherited_layouts": [
+    "knot_cathedral",
+    "prismatic_orrery",
+    "woven_aurora",
+    "cymatic_geode",
+    "infinity_observatory",
+    "quasicrystal_theatre"
+  ],
+  "technical_models": [
+    "ARCHES",
+    "Arches",
+    "CUBES",
+    "Candy Canes",
+    "Circle",
+    "Cube",
+    "DNA",
+    "DmxFloodArea",
+    "DmxFloodlight",
+    "DmxGeneral",
+    "DmxMovingHead",
+    "DmxMovingHeadAdv",
+    "DmxServo",
+    "DmxServo3d",
+    "DmxSkull",
+    "GROVE",
+    "Horiz Matrix",
+    "Icicles",
+    "MANTA",
+    "MATRIX",
+    "MultiPoint",
+    "Poly Line",
+    "STAR",
+    "Single Line",
+    "Sphere",
+    "Spinner",
+    "Star",
+    "Tree 180",
+    "Tree 360",
+    "Tree Flat",
+    "Tree Ribbon",
+    "Vert Matrix",
+    "WHALE",
+    "Window Frame",
+    "Wreath"
+  ],
+  "neutral_singers": true,
+  "neutral_mallet_player": true,
+  "original_batch_completed_before_second": true,
+  "tests": {
+    "command": "python -m pytest -q tests/test_distinct_band_stages.py tests/test_musical_band_response.py tests/test_band_motion_refinement.py tests/test_refined_band_native_export.py tests/test_readable_band_instruments.py tests/test_band_logic_reassessment.py tests/test_drummer_shoulder_revision.py",
+    "passed": 62,
+    "seconds": 45.6
+  },
+  "wire_style_is_physical_export": false
+}

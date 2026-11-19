@@ -1,0 +1,25 @@
+{
+  "implementation_commit": "ed581cd440a673bd69f40b97f071a03b109a3085",
+  "apps_source_commit": "35bf41ae27dc3fc7278c3af100401cf63fecf3e0",
+  "haswell_result": "4 failed, 8 passed; same unchanged 1e-7 entropy assertions. Current1536-frame/padded implementation does not repair all backends. No DSP/tolerance modification in this task.",
+  "diagnosis": "Actual bounded/unbounded STFT magnitude arrays match exactly. Shape-dependent Haswell float32 GEMM in librosa chroma_stft gives normalized chroma differences up to1.55e-6 and entropy differences up to2.66e-7. Removing padding alone only repairs the short one-block probe, not long cases. Wider bounded tile probes also fail. Do not use CPU pinning or pick a passing width as a repair.",
+  "source_guards": "22 passed; current-source drummer volume, band, vocal source, pilot and AC mapping guards",
+  "drive_source_searches": {
+    "vocal": 0,
+    "harmony": 0,
+    "stem": 0
+  },
+  "native_rerender_run": 42060667368,
+  "app_candidates": [
+    {
+      "file": "HELIX_WINDOWS_BETA_CANDIDATE_35bf41a.zip",
+      "sha256": "c902eecddf47b414bc5dfc8a538c3101cc7492cbc06d40be11d52405b78dc118",
+      "bytes": 188243228
+    },
+    {
+      "file": "HELIX_ANDROID_BETA_REVIEW_35bf41a.apk",
+      "sha256": "e29f3d9acb401ad5cfb2c4c71db253460d6fe44f3b104a0ef53117499e4f64f3",
+      "bytes": 112526435
+    }
+  ]
+}

@@ -1,0 +1,72 @@
+{
+  "schema": "helix.owner-review-sampler.v1",
+  "audio": "Helix_Starred_New_Review.wav",
+  "audio_sha256": "50857fef6ac17197821bb6a9ce27f7ebd1c23b7eb8c82521345296bd22087677",
+  "duration_seconds": 120.0,
+  "source_selection": "Owner Starred catalog; distinct Drive IDs; SHA256 verified before decoding",
+  "excerpt_selection": "Maximum 30-second mean of normalized RMS (70%) and positive spectral flux (30%); half-second candidate grid",
+  "original_source_files_modified": false,
+  "gain_normalization": false,
+  "peak_before_encoding": 0.8791801333427429,
+  "output_gain": 1.0,
+  "attenuation_only": true,
+  "duplicates_omitted": [],
+  "clips": [
+    {
+      "id": "1Gv6hAzValSe2zRqTCfyrJVYGlfl8LLsp",
+      "title": "Copy of Tinsel Tornado.mp3",
+      "drive_url": "https://drive.google.com/file/d/1Gv6hAzValSe2zRqTCfyrJVYGlfl8LLsp/view?usp=drivesdk",
+      "sha256": "8b8caddd6c292a13995bde0e80ac66f948246bd634278ab4ade1a82163aa7086",
+      "local_path": "/workspace/scratch/ec314907d82d/audio-sources/Tinsel_Tornado_original.mp3",
+      "source_sample_rate": 48000,
+      "source_start_sample": 7872000,
+      "source_end_sample": 9312000,
+      "source_start_seconds": 164.0,
+      "duration_seconds": 30,
+      "sampler_start_seconds": 0.0,
+      "edge_fade_seconds": 0.02
+    },
+    {
+      "id": "1EcTfLPRNAoQJdzXSidiIsfv0p15AQ0ot",
+      "title": "Christmas in the Ether",
+      "drive_url": "https://drive.google.com/file/d/1EcTfLPRNAoQJdzXSidiIsfv0p15AQ0ot/view?usp=drivesdk",
+      "sha256": "440b8ceca771c27686fe6c4f09bea36c07962894c8f818478702b9b2c78aefa1",
+      "local_path": "/workspace/scratch/ec314907d82d/audio-sources/02.mp3",
+      "source_sample_rate": 48000,
+      "source_start_sample": 3672000,
+      "source_end_sample": 5112000,
+      "source_start_seconds": 76.5,
+      "duration_seconds": 30,
+      "sampler_start_seconds": 30.0,
+      "edge_fade_seconds": 0.02
+    },
+    {
+      "id": "1KyuJp3K9oP8k1YjCp7ot_4FJRg31sS2K",
+      "title": "North Pole Overdrive.mp3",
+      "drive_url": "https://drive.google.com/file/d/1KyuJp3K9oP8k1YjCp7ot_4FJRg31sS2K/view?usp=drivesdk",
+      "sha256": "d4a22b3b8982ea0e71aebc2ee0c7235cae2e77965b73764274cfbd89f64e54e5",
+      "local_path": "/workspace/scratch/ec314907d82d/audio-sources/03.mp3",
+      "source_sample_rate": 48000,
+      "source_start_sample": 8448000,
+      "source_end_sample": 9888000,
+      "source_start_seconds": 176.0,
+      "duration_seconds": 30,
+      "sampler_start_seconds": 60.0,
+      "edge_fade_seconds": 0.02
+    },
+    {
+      "id": "1YtuMHP_qXuDvHDqYeDQ-uLRN3qVwdcTN",
+      "title": "Ghost In The Grid.mp3",
+      "drive_url": "https://drive.google.com/file/d/1YtuMHP_qXuDvHDqYeDQ-uLRN3qVwdcTN/view?usp=drivesdk",
+      "sha256": "201418cf9e011af8c1c8a8d517df7769d89383dee9b6a0c106c246c1d86ce2d2",
+      "local_path": "/workspace/scratch/ec314907d82d/audio-sources/04.mp3",
+      "source_sample_rate": 48000,
+      "source_start_sample": 10344000,
+      "source_end_sample": 11784000,
+      "source_start_seconds": 215.5,
+      "duration_seconds": 30,
+      "sampler_start_seconds": 90.0,
+      "edge_fade_seconds": 0.02
+    }
+  ]
+}

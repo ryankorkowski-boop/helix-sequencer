@@ -1,0 +1,633 @@
+<?xml version='1.0' encoding='utf-8'?>
+<xrgb>
+  <models>
+    <model name="HX_001_CATERPILLAR_SEGMENT" DisplayAs="Custom" StringType="RGB Nodes" StartChannel="1" Controller="" LayoutGroup="Default" StartSide="B" Dir="L" PixelSize="2" Antialias="1" Transparency="0" versionNumber="7" parm1="1" parm2="53" parm3="1" Depth="53" CustomWidth="1" CustomHeight="53" CustomStrings="1" String1="1" CustomModelCompressed="1,26,0,0;2,24,0,0;3,21,0,0;4,19,0,1;5,17,0,2;6,15,0,3;7,13,0,4;8,11,0,5;9,9,0,6;10,7,0,8;11,6,0,10;12,4,0,12;13,3,0,14;14,2,0,16;15,1,0,18;16,1,0,20;17,0,0,23;18,0,0,25;19,0,0,27;20,0,0,29;21,1,0,32;22,1,0,34;23,2,0,36;24,3,0,38;25,4,0,40;26,6,0,42;27,7,0,44;28,9,0,46;29,11,0,47;30,13,0,48;31,15,0,49;32,17,0,50;33,19,0,51;34,21,0,52;35,24,0,52;36,26,0,52;37,28,0,52;38,31,0,52;39,33,0,51;40,35,0,50;41,37,0,49;42,39,0,48;43,41,0,47;44,43,0,46;45,45,0,44;46,46,0,42;47,48,0,40;48,49,0,38;49,50,0,36;50,51,0,34;51,51,0,32;52,52,0,29;53,52,0,27;54,52,0,25;55,52,0,23;56,51,0,20;57,51,0,18;58,50,0,16;59,49,0,14;60,48,0,12;61,46,0,10;62,45,0,8;63,43,0,6;64,41,0,5;65,39,0,4;66,37,0,3;67,35,0,2;68,33,0,1;69,31,0,0;70,28,0,0" WorldPosX="-80.000000" WorldPosY="13.000000" WorldPosZ="0.000000" ScaleX="0.5" ScaleY="0.5" ScaleZ="0.5">
+      <subModel name="SECTOR_00" layout="horizontal" type="ranges" line0="1-9" />
+      <subModel name="SECTOR_01" layout="horizontal" type="ranges" line0="10-18" />
+      <subModel name="SECTOR_02" layout="horizontal" type="ranges" line0="19-27" />
+      <subModel name="SECTOR_03" layout="horizontal" type="ranges" line0="28-36" />
+      <subModel name="SECTOR_04" layout="horizontal" type="ranges" line0="37-45" />
+      <subModel name="SECTOR_05" layout="horizontal" type="ranges" line0="46-54" />
+      <subModel name="SECTOR_06" layout="horizontal" type="ranges" line0="55-62" />
+      <subModel name="SECTOR_07" layout="horizontal" type="ranges" line0="63-70" />
+    </model>
+    <model name="HX_002_CATERPILLAR_SEGMENT" DisplayAs="Custom" StringType="RGB Nodes" StartChannel="211" Controller="" LayoutGroup="Default" StartSide="B" Dir="L" PixelSize="2" Antialias="1" Transparency="0" versionNumber="7" parm1="1" parm2="53" parm3="1" Depth="53" CustomWidth="1" CustomHeight="53" CustomStrings="1" String1="1" CustomModelCompressed="1,26,0,0;2,24,0,0;3,22,0,0;4,19,0,1;5,17,0,2;6,15,0,3;7,13,0,4;8,11,0,5;9,9,0,6;10,8,0,8;11,6,0,10;12,5,0,12;13,3,0,14;14,2,0,16;15,2,0,18;16,1,0,20;17,1,0,23;18,0,0,25;19,0,0,27;20,1,0,29;21,1,0,32;22,2,0,34;23,2,0,36;24,3,0,38;25,5,0,40;26,6,0,42;27,8,0,44;28,9,0,46;29,11,0,47;30,13,0,48;31,15,0,49;32,17,0,50;33,19,0,51;34,22,0,52;35,24,0,52;36,26,0,52;37,29,0,52;38,31,0,52;39,33,0,51;40,35,0,50;41,38,0,49;42,40,0,48;43,42,0,47;44,43,0,46;45,45,0,44;46,47,0,42;47,48,0,40;48,49,0,38;49,50,0,36;50,51,0,34;51,52,0,32;52,52,0,29;53,52,0,27;54,52,0,25;55,52,0,23;56,52,0,20;57,51,0,18;58,50,0,16;59,49,0,14;60,48,0,12;61,47,0,10;62,45,0,8;63,43,0,6;64,42,0,5;65,40,0,4;66,38,0,3;67,35,0,2;68,33,0,1;69,31,0,0;70,29,0,0" WorldPosX="-65.500000" WorldPosY="14.000000" WorldPosZ="0.000000" ScaleX="0.5" ScaleY="0.5" ScaleZ="0.5">
+      <subModel name="SECTOR_00" layout="horizontal" type="ranges" line0="1-9" />
+      <subModel name="SECTOR_01" layout="horizontal" type="ranges" line0="10-18" />
+      <subModel name="SECTOR_02" layout="horizontal" type="ranges" line0="19-27" />
+      <subModel name="SECTOR_03" layout="horizontal" type="ranges" line0="28-36" />
+      <subModel name="SECTOR_04" layout="horizontal" type="ranges" line0="37-45" />
+      <subModel name="SECTOR_05" layout="horizontal" type="ranges" line0="46-54" />
+      <subModel name="SECTOR_06" layout="horizontal" type="ranges" line0="55-62" />
+      <subModel name="SECTOR_07" layout="horizontal" type="ranges" line0="63-70" />
+    </model>
+    <model name="HX_003_CATERPILLAR_SEGMENT" DisplayAs="Custom" StringType="RGB Nodes" StartChannel="421" Controller="" LayoutGroup="Default" StartSide="B" Dir="L" PixelSize="2" Antialias="1" Transparency="0" versionNumber="7" parm1="1" parm2="53" parm3="1" Depth="53" CustomWidth="1" CustomHeight="53" CustomStrings="1" String1="1" CustomModelCompressed="1,26,0,0;2,23,0,0;3,21,0,0;4,19,0,1;5,17,0,2;6,14,0,3;7,12,0,4;8,10,0,5;9,9,0,6;10,7,0,8;11,5,0,10;12,4,0,12;13,3,0,14;14,2,0,16;15,1,0,18;16,0,0,20;17,0,0,23;18,0,0,25;19,0,0,27;20,0,0,29;21,0,0,32;22,1,0,34;23,2,0,36;24,3,0,38;25,4,0,40;26,5,0,42;27,7,0,44;28,9,0,46;29,10,0,47;30,12,0,48;31,14,0,49;32,17,0,50;33,19,0,51;34,21,0,52;35,23,0,52;36,26,0,52;37,28,0,52;38,30,0,52;39,33,0,51;40,35,0,50;41,37,0,49;42,39,0,48;43,41,0,47;44,43,0,46;45,45,0,44;46,46,0,42;47,47,0,40;48,49,0,38;49,50,0,36;50,50,0,34;51,51,0,32;52,52,0,29;53,52,0,27;54,52,0,25;55,52,0,23;56,51,0,20;57,50,0,18;58,50,0,16;59,49,0,14;60,47,0,12;61,46,0,10;62,45,0,8;63,43,0,6;64,41,0,5;65,39,0,4;66,37,0,3;67,35,0,2;68,33,0,1;69,30,0,0;70,28,0,0" WorldPosX="-51.000000" WorldPosY="14.500000" WorldPosZ="0.000000" ScaleX="0.5" ScaleY="0.5" ScaleZ="0.5">
+      <subModel name="SECTOR_00" layout="horizontal" type="ranges" line0="1-9" />
+      <subModel name="SECTOR_01" layout="horizontal" type="ranges" line0="10-18" />
+      <subModel name="SECTOR_02" layout="horizontal" type="ranges" line0="19-27" />
+      <subModel name="SECTOR_03" layout="horizontal" type="ranges" line0="28-36" />
+      <subModel name="SECTOR_04" layout="horizontal" type="ranges" line0="37-45" />
+      <subModel name="SECTOR_05" layout="horizontal" type="ranges" line0="46-54" />
+      <subModel name="SECTOR_06" layout="horizontal" type="ranges" line0="55-62" />
+      <subModel name="SECTOR_07" layout="horizontal" type="ranges" line0="63-70" />
+    </model>
+    <model name="HX_004_CATERPILLAR_SEGMENT" DisplayAs="Custom" StringType="RGB Nodes" StartChannel="631" Controller="" LayoutGroup="Default" StartSide="B" Dir="L" PixelSize="2" Antialias="1" Transparency="0" versionNumber="7" parm1="1" parm2="53" parm3="1" Depth="53" CustomWidth="1" CustomHeight="53" CustomStrings="1" String1="1" CustomModelCompressed="1,26,0,0;2,24,0,0;3,22,0,0;4,20,0,1;5,17,0,2;6,15,0,3;7,13,0,4;8,11,0,5;9,9,0,6;10,8,0,8;11,6,0,10;12,5,0,12;13,4,0,14;14,3,0,16;15,2,0,18;16,1,0,20;17,1,0,23;18,0,0,25;19,0,0,27;20,1,0,29;21,1,0,32;22,2,0,34;23,3,0,36;24,4,0,38;25,5,0,40;26,6,0,42;27,8,0,44;28,9,0,46;29,11,0,47;30,13,0,48;31,15,0,49;32,17,0,50;33,20,0,51;34,22,0,52;35,24,0,52;36,26,0,52;37,29,0,52;38,31,0,52;39,33,0,51;40,36,0,50;41,38,0,49;42,40,0,48;43,42,0,47;44,44,0,46;45,45,0,44;46,47,0,42;47,48,0,40;48,49,0,38;49,50,0,36;50,51,0,34;51,52,0,32;52,52,0,29;53,52,0,27;54,52,0,25;55,52,0,23;56,52,0,20;57,51,0,18;58,50,0,16;59,49,0,14;60,48,0,12;61,47,0,10;62,45,0,8;63,44,0,6;64,42,0,5;65,40,0,4;66,38,0,3;67,36,0,2;68,33,0,1;69,31,0,0;70,29,0,0" WorldPosX="-36.500000" WorldPosY="15.500000" WorldPosZ="0.000000" ScaleX="0.5" ScaleY="0.5" ScaleZ="0.5">
+      <subModel name="SECTOR_00" layout="horizontal" type="ranges" line0="1-9" />
+      <subModel name="SECTOR_01" layout="horizontal" type="ranges" line0="10-18" />
+      <subModel name="SECTOR_02" layout="horizontal" type="ranges" line0="19-27" />
+      <subModel name="SECTOR_03" layout="horizontal" type="ranges" line0="28-36" />
+      <subModel name="SECTOR_04" layout="horizontal" type="ranges" line0="37-45" />
+      <subModel name="SECTOR_05" layout="horizontal" type="ranges" line0="46-54" />
+      <subModel name="SECTOR_06" layout="horizontal" type="ranges" line0="55-62" />
+      <subModel name="SECTOR_07" layout="horizontal" type="ranges" line0="63-70" />
+    </model>
+    <model name="HX_005_CATERPILLAR_SEGMENT" DisplayAs="Custom" StringType="RGB Nodes" StartChannel="841" Controller="" LayoutGroup="Default" StartSide="B" Dir="L" PixelSize="2" Antialias="1" Transparency="0" versionNumber="7" parm1="1" parm2="53" parm3="1" Depth="53" CustomWidth="1" CustomHeight="53" CustomStrings="1" String1="1" CustomModelCompressed="1,26,0,0;2,23,0,0;3,21,0,0;4,19,0,1;5,16,0,2;6,14,0,3;7,12,0,4;8,10,0,5;9,8,0,6;10,7,0,8;11,5,0,10;12,4,0,12;13,3,0,14;14,2,0,16;15,1,0,18;16,0,0,20;17,0,0,23;18,0,0,25;19,0,0,27;20,0,0,29;21,0,0,32;22,1,0,34;23,2,0,36;24,3,0,38;25,4,0,40;26,5,0,42;27,7,0,44;28,8,0,46;29,10,0,47;30,12,0,48;31,14,0,49;32,16,0,50;33,19,0,51;34,21,0,52;35,23,0,52;36,26,0,52;37,28,0,52;38,30,0,52;39,32,0,51;40,35,0,50;41,37,0,49;42,39,0,48;43,41,0,47;44,43,0,46;45,44,0,44;46,46,0,42;47,47,0,40;48,48,0,38;49,49,0,36;50,50,0,34;51,51,0,32;52,51,0,29;53,52,0,27;54,52,0,25;55,51,0,23;56,51,0,20;57,50,0,18;58,49,0,16;59,48,0,14;60,47,0,12;61,46,0,10;62,44,0,8;63,43,0,6;64,41,0,5;65,39,0,4;66,37,0,3;67,35,0,2;68,32,0,1;69,30,0,0;70,28,0,0" WorldPosX="-22.000000" WorldPosY="15.500000" WorldPosZ="0.000000" ScaleX="0.5" ScaleY="0.5" ScaleZ="0.5">
+      <subModel name="SECTOR_00" layout="horizontal" type="ranges" line0="1-9" />
+      <subModel name="SECTOR_01" layout="horizontal" type="ranges" line0="10-18" />
+      <subModel name="SECTOR_02" layout="horizontal" type="ranges" line0="19-27" />
+      <subModel name="SECTOR_03" layout="horizontal" type="ranges" line0="28-36" />
+      <subModel name="SECTOR_04" layout="horizontal" type="ranges" line0="37-45" />
+      <subModel name="SECTOR_05" layout="horizontal" type="ranges" line0="46-54" />
+      <subModel name="SECTOR_06" layout="horizontal" type="ranges" line0="55-62" />
+      <subModel name="SECTOR_07" layout="horizontal" type="ranges" line0="63-70" />
+    </model>
+    <model name="HX_006_CATERPILLAR_SEGMENT" DisplayAs="Custom" StringType="RGB Nodes" StartChannel="1051" Controller="" LayoutGroup="Default" StartSide="B" Dir="L" PixelSize="2" Antialias="1" Transparency="0" versionNumber="7" parm1="1" parm2="53" parm3="1" Depth="53" CustomWidth="1" CustomHeight="53" CustomStrings="1" String1="1" CustomModelCompressed="1,26,0,0;2,24,0,0;3,21,0,0;4,19,0,1;5,17,0,2;6,15,0,3;7,13,0,4;8,11,0,5;9,9,0,6;10,7,0,8;11,6,0,10;12,4,0,12;13,3,0,14;14,2,0,16;15,1,0,18;16,1,0,20;17,0,0,23;18,0,0,25;19,0,0,27;20,0,0,29;21,1,0,32;22,1,0,34;23,2,0,36;24,3,0,38;25,4,0,40;26,6,0,42;27,7,0,44;28,9,0,46;29,11,0,47;30,13,0,48;31,15,0,49;32,17,0,50;33,19,0,51;34,21,0,52;35,24,0,52;36,26,0,52;37,28,0,52;38,31,0,52;39,33,0,51;40,35,0,50;41,37,0,49;42,39,0,48;43,41,0,47;44,43,0,46;45,45,0,44;46,46,0,42;47,48,0,40;48,49,0,38;49,50,0,36;50,51,0,34;51,51,0,32;52,52,0,29;53,52,0,27;54,52,0,25;55,52,0,23;56,51,0,20;57,51,0,18;58,50,0,16;59,49,0,14;60,48,0,12;61,46,0,10;62,45,0,8;63,43,0,6;64,41,0,5;65,39,0,4;66,37,0,3;67,35,0,2;68,33,0,1;69,31,0,0;70,28,0,0" WorldPosX="-7.500000" WorldPosY="16.000000" WorldPosZ="0.000000" ScaleX="0.5" ScaleY="0.5" ScaleZ="0.5">
+      <subModel name="SECTOR_00" layout="horizontal" type="ranges" line0="1-9" />
+      <subModel name="SECTOR_01" layout="horizontal" type="ranges" line0="10-18" />
+      <subModel name="SECTOR_02" layout="horizontal" type="ranges" line0="19-27" />
+      <subModel name="SECTOR_03" layout="horizontal" type="ranges" line0="28-36" />
+      <subModel name="SECTOR_04" layout="horizontal" type="ranges" line0="37-45" />
+      <subModel name="SECTOR_05" layout="horizontal" type="ranges" line0="46-54" />
+      <subModel name="SECTOR_06" layout="horizontal" type="ranges" line0="55-62" />
+      <subModel name="SECTOR_07" layout="horizontal" type="ranges" line0="63-70" />
+    </model>
+    <model name="HX_007_CATERPILLAR_SEGMENT" DisplayAs="Custom" StringType="RGB Nodes" StartChannel="1261" Controller="" LayoutGroup="Default" StartSide="B" Dir="L" PixelSize="2" Antialias="1" Transparency="0" versionNumber="7" parm1="1" parm2="53" parm3="1" Depth="53" CustomWidth="1" CustomHeight="53" CustomStrings="1" String1="1" CustomModelCompressed="1,26,0,0;2,24,0,0;3,21,0,0;4,19,0,1;5,17,0,2;6,15,0,3;7,13,0,4;8,11,0,5;9,9,0,6;10,7,0,8;11,6,0,10;12,4,0,12;13,3,0,14;14,2,0,16;15,1,0,18;16,1,0,20;17,0,0,23;18,0,0,25;19,0,0,27;20,0,0,29;21,1,0,32;22,1,0,34;23,2,0,36;24,3,0,38;25,4,0,40;26,6,0,42;27,7,0,44;28,9,0,46;29,11,0,47;30,13,0,48;31,15,0,49;32,17,0,50;33,19,0,51;34,21,0,52;35,24,0,52;36,26,0,52;37,28,0,52;38,31,0,52;39,33,0,51;40,35,0,50;41,37,0,49;42,39,0,48;43,41,0,47;44,43,0,46;45,45,0,44;46,46,0,42;47,48,0,40;48,49,0,38;49,50,0,36;50,51,0,34;51,51,0,32;52,52,0,29;53,52,0,27;54,52,0,25;55,52,0,23;56,51,0,20;57,51,0,18;58,50,0,16;59,49,0,14;60,48,0,12;61,46,0,10;62,45,0,8;63,43,0,6;64,41,0,5;65,39,0,4;66,37,0,3;67,35,0,2;68,33,0,1;69,31,0,0;70,28,0,0" WorldPosX="7.500000" WorldPosY="16.000000" WorldPosZ="0.000000" ScaleX="0.5" ScaleY="0.5" ScaleZ="0.5">
+      <subModel name="SECTOR_00" layout="horizontal" type="ranges" line0="1-9" />
+      <subModel name="SECTOR_01" layout="horizontal" type="ranges" line0="10-18" />
+      <subModel name="SECTOR_02" layout="horizontal" type="ranges" line0="19-27" />
+      <subModel name="SECTOR_03" layout="horizontal" type="ranges" line0="28-36" />
+      <subModel name="SECTOR_04" layout="horizontal" type="ranges" line0="37-45" />
+      <subModel name="SECTOR_05" layout="horizontal" type="ranges" line0="46-54" />
+      <subModel name="SECTOR_06" layout="horizontal" type="ranges" line0="55-62" />
+      <subModel name="SECTOR_07" layout="horizontal" type="ranges" line0="63-70" />
+    </model>
+    <model name="HX_008_CATERPILLAR_SEGMENT" DisplayAs="Custom" StringType="RGB Nodes" StartChannel="1471" Controller="" LayoutGroup="Default" StartSide="B" Dir="L" PixelSize="2" Antialias="1" Transparency="0" versionNumber="7" parm1="1" parm2="53" parm3="1" Depth="53" CustomWidth="1" CustomHeight="53" CustomStrings="1" String1="1" CustomModelCompressed="1,26,0,0;2,23,0,0;3,21,0,0;4,19,0,1;5,16,0,2;6,14,0,3;7,12,0,4;8,10,0,5;9,8,0,6;10,7,0,8;11,5,0,10;12,4,0,12;13,3,0,14;14,2,0,16;15,1,0,18;16,0,0,20;17,0,0,23;18,0,0,25;19,0,0,27;20,0,0,29;21,0,0,32;22,1,0,34;23,2,0,36;24,3,0,38;25,4,0,40;26,5,0,42;27,7,0,44;28,8,0,46;29,10,0,47;30,12,0,48;31,14,0,49;32,16,0,50;33,19,0,51;34,21,0,52;35,23,0,52;36,26,0,52;37,28,0,52;38,30,0,52;39,32,0,51;40,35,0,50;41,37,0,49;42,39,0,48;43,41,0,47;44,43,0,46;45,44,0,44;46,46,0,42;47,47,0,40;48,48,0,38;49,49,0,36;50,50,0,34;51,51,0,32;52,51,0,29;53,52,0,27;54,52,0,25;55,51,0,23;56,51,0,20;57,50,0,18;58,49,0,16;59,48,0,14;60,47,0,12;61,46,0,10;62,44,0,8;63,43,0,6;64,41,0,5;65,39,0,4;66,37,0,3;67,35,0,2;68,32,0,1;69,30,0,0;70,28,0,0" WorldPosX="22.000000" WorldPosY="15.500000" WorldPosZ="0.000000" ScaleX="0.5" ScaleY="0.5" ScaleZ="0.5">
+      <subModel name="SECTOR_00" layout="horizontal" type="ranges" line0="1-9" />
+      <subModel name="SECTOR_01" layout="horizontal" type="ranges" line0="10-18" />
+      <subModel name="SECTOR_02" layout="horizontal" type="ranges" line0="19-27" />
+      <subModel name="SECTOR_03" layout="horizontal" type="ranges" line0="28-36" />
+      <subModel name="SECTOR_04" layout="horizontal" type="ranges" line0="37-45" />
+      <subModel name="SECTOR_05" layout="horizontal" type="ranges" line0="46-54" />
+      <subModel name="SECTOR_06" layout="horizontal" type="ranges" line0="55-62" />
+      <subModel name="SECTOR_07" layout="horizontal" type="ranges" line0="63-70" />
+    </model>
+    <model name="HX_009_CATERPILLAR_SEGMENT" DisplayAs="Custom" StringType="RGB Nodes" StartChannel="1681" Controller="" LayoutGroup="Default" StartSide="B" Dir="L" PixelSize="2" Antialias="1" Transparency="0" versionNumber="7" parm1="1" parm2="53" parm3="1" Depth="53" CustomWidth="1" CustomHeight="53" CustomStrings="1" String1="1" CustomModelCompressed="1,26,0,0;2,24,0,0;3,22,0,0;4,20,0,1;5,17,0,2;6,15,0,3;7,13,0,4;8,11,0,5;9,9,0,6;10,8,0,8;11,6,0,10;12,5,0,12;13,4,0,14;14,3,0,16;15,2,0,18;16,1,0,20;17,1,0,23;18,0,0,25;19,0,0,27;20,1,0,29;21,1,0,32;22,2,0,34;23,3,0,36;24,4,0,38;25,5,0,40;26,6,0,42;27,8,0,44;28,9,0,46;29,11,0,47;30,13,0,48;31,15,0,49;32,17,0,50;33,20,0,51;34,22,0,52;35,24,0,52;36,26,0,52;37,29,0,52;38,31,0,52;39,33,0,51;40,36,0,50;41,38,0,49;42,40,0,48;43,42,0,47;44,44,0,46;45,45,0,44;46,47,0,42;47,48,0,40;48,49,0,38;49,50,0,36;50,51,0,34;51,52,0,32;52,52,0,29;53,52,0,27;54,52,0,25;55,52,0,23;56,52,0,20;57,51,0,18;58,50,0,16;59,49,0,14;60,48,0,12;61,47,0,10;62,45,0,8;63,44,0,6;64,42,0,5;65,40,0,4;66,38,0,3;67,36,0,2;68,33,0,1;69,31,0,0;70,29,0,0" WorldPosX="36.500000" WorldPosY="15.500000" WorldPosZ="0.000000" ScaleX="0.5" ScaleY="0.5" ScaleZ="0.5">
+      <subModel name="SECTOR_00" layout="horizontal" type="ranges" line0="1-9" />
+      <subModel name="SECTOR_01" layout="horizontal" type="ranges" line0="10-18" />
+      <subModel name="SECTOR_02" layout="horizontal" type="ranges" line0="19-27" />
+      <subModel name="SECTOR_03" layout="horizontal" type="ranges" line0="28-36" />
+      <subModel name="SECTOR_04" layout="horizontal" type="ranges" line0="37-45" />
+      <subModel name="SECTOR_05" layout="horizontal" type="ranges" line0="46-54" />
+      <subModel name="SECTOR_06" layout="horizontal" type="ranges" line0="55-62" />
+      <subModel name="SECTOR_07" layout="horizontal" type="ranges" line0="63-70" />
+    </model>
+    <model name="HX_010_CATERPILLAR_SEGMENT" DisplayAs="Custom" StringType="RGB Nodes" StartChannel="1891" Controller="" LayoutGroup="Default" StartSide="B" Dir="L" PixelSize="2" Antialias="1" Transparency="0" versionNumber="7" parm1="1" parm2="53" parm3="1" Depth="53" CustomWidth="1" CustomHeight="53" CustomStrings="1" String1="1" CustomModelCompressed="1,26,0,0;2,23,0,0;3,21,0,0;4,19,0,1;5,17,0,2;6,14,0,3;7,12,0,4;8,10,0,5;9,9,0,6;10,7,0,8;11,5,0,10;12,4,0,12;13,3,0,14;14,2,0,16;15,1,0,18;16,0,0,20;17,0,0,23;18,0,0,25;19,0,0,27;20,0,0,29;21,0,0,32;22,1,0,34;23,2,0,36;24,3,0,38;25,4,0,40;26,5,0,42;27,7,0,44;28,9,0,46;29,10,0,47;30,12,0,48;31,14,0,49;32,17,0,50;33,19,0,51;34,21,0,52;35,23,0,52;36,26,0,52;37,28,0,52;38,30,0,52;39,33,0,51;40,35,0,50;41,37,0,49;42,39,0,48;43,41,0,47;44,43,0,46;45,45,0,44;46,46,0,42;47,47,0,40;48,49,0,38;49,50,0,36;50,50,0,34;51,51,0,32;52,52,0,29;53,52,0,27;54,52,0,25;55,52,0,23;56,51,0,20;57,50,0,18;58,50,0,16;59,49,0,14;60,47,0,12;61,46,0,10;62,45,0,8;63,43,0,6;64,41,0,5;65,39,0,4;66,37,0,3;67,35,0,2;68,33,0,1;69,30,0,0;70,28,0,0" WorldPosX="51.000000" WorldPosY="14.500000" WorldPosZ="0.000000" ScaleX="0.5" ScaleY="0.5" ScaleZ="0.5">
+      <subModel name="SECTOR_00" layout="horizontal" type="ranges" line0="1-9" />
+      <subModel name="SECTOR_01" layout="horizontal" type="ranges" line0="10-18" />
+      <subModel name="SECTOR_02" layout="horizontal" type="ranges" line0="19-27" />
+      <subModel name="SECTOR_03" layout="horizontal" type="ranges" line0="28-36" />
+      <subModel name="SECTOR_04" layout="horizontal" type="ranges" line0="37-45" />
+      <subModel name="SECTOR_05" layout="horizontal" type="ranges" line0="46-54" />
+      <subModel name="SECTOR_06" layout="horizontal" type="ranges" line0="55-62" />
+      <subModel name="SECTOR_07" layout="horizontal" type="ranges" line0="63-70" />
+    </model>
+    <model name="HX_011_CATERPILLAR_SEGMENT" DisplayAs="Custom" StringType="RGB Nodes" StartChannel="2101" Controller="" LayoutGroup="Default" StartSide="B" Dir="L" PixelSize="2" Antialias="1" Transparency="0" versionNumber="7" parm1="1" parm2="53" parm3="1" Depth="53" CustomWidth="1" CustomHeight="53" CustomStrings="1" String1="1" CustomModelCompressed="1,26,0,0;2,24,0,0;3,22,0,0;4,19,0,1;5,17,0,2;6,15,0,3;7,13,0,4;8,11,0,5;9,9,0,6;10,8,0,8;11,6,0,10;12,5,0,12;13,3,0,14;14,2,0,16;15,2,0,18;16,1,0,20;17,1,0,23;18,0,0,25;19,0,0,27;20,1,0,29;21,1,0,32;22,2,0,34;23,2,0,36;24,3,0,38;25,5,0,40;26,6,0,42;27,8,0,44;28,9,0,46;29,11,0,47;30,13,0,48;31,15,0,49;32,17,0,50;33,19,0,51;34,22,0,52;35,24,0,52;36,26,0,52;37,29,0,52;38,31,0,52;39,33,0,51;40,35,0,50;41,38,0,49;42,40,0,48;43,42,0,47;44,43,0,46;45,45,0,44;46,47,0,42;47,48,0,40;48,49,0,38;49,50,0,36;50,51,0,34;51,52,0,32;52,52,0,29;53,52,0,27;54,52,0,25;55,52,0,23;56,52,0,20;57,51,0,18;58,50,0,16;59,49,0,14;60,48,0,12;61,47,0,10;62,45,0,8;63,43,0,6;64,42,0,5;65,40,0,4;66,38,0,3;67,35,0,2;68,33,0,1;69,31,0,0;70,29,0,0" WorldPosX="65.500000" WorldPosY="14.000000" WorldPosZ="0.000000" ScaleX="0.5" ScaleY="0.5" ScaleZ="0.5">
+      <subModel name="SECTOR_00" layout="horizontal" type="ranges" line0="1-9" />
+      <subModel name="SECTOR_01" layout="horizontal" type="ranges" line0="10-18" />
+      <subModel name="SECTOR_02" layout="horizontal" type="ranges" line0="19-27" />
+      <subModel name="SECTOR_03" layout="horizontal" type="ranges" line0="28-36" />
+      <subModel name="SECTOR_04" layout="horizontal" type="ranges" line0="37-45" />
+      <subModel name="SECTOR_05" layout="horizontal" type="ranges" line0="46-54" />
+      <subModel name="SECTOR_06" layout="horizontal" type="ranges" line0="55-62" />
+      <subModel name="SECTOR_07" layout="horizontal" type="ranges" line0="63-70" />
+    </model>
+    <model name="HX_012_CATERPILLAR_SEGMENT" DisplayAs="Custom" StringType="RGB Nodes" StartChannel="2311" Controller="" LayoutGroup="Default" StartSide="B" Dir="L" PixelSize="2" Antialias="1" Transparency="0" versionNumber="7" parm1="1" parm2="53" parm3="1" Depth="53" CustomWidth="1" CustomHeight="53" CustomStrings="1" String1="1" CustomModelCompressed="1,26,0,0;2,24,0,0;3,21,0,0;4,19,0,1;5,17,0,2;6,15,0,3;7,13,0,4;8,11,0,5;9,9,0,6;10,7,0,8;11,6,0,10;12,4,0,12;13,3,0,14;14,2,0,16;15,1,0,18;16,1,0,20;17,0,0,23;18,0,0,25;19,0,0,27;20,0,0,29;21,1,0,32;22,1,0,34;23,2,0,36;24,3,0,38;25,4,0,40;26,6,0,42;27,7,0,44;28,9,0,46;29,11,0,47;30,13,0,48;31,15,0,49;32,17,0,50;33,19,0,51;34,21,0,52;35,24,0,52;36,26,0,52;37,28,0,52;38,31,0,52;39,33,0,51;40,35,0,50;41,37,0,49;42,39,0,48;43,41,0,47;44,43,0,46;45,45,0,44;46,46,0,42;47,48,0,40;48,49,0,38;49,50,0,36;50,51,0,34;51,51,0,32;52,52,0,29;53,52,0,27;54,52,0,25;55,52,0,23;56,51,0,20;57,51,0,18;58,50,0,16;59,49,0,14;60,48,0,12;61,46,0,10;62,45,0,8;63,43,0,6;64,41,0,5;65,39,0,4;66,37,0,3;67,35,0,2;68,33,0,1;69,31,0,0;70,28,0,0" WorldPosX="80.000000" WorldPosY="13.000000" WorldPosZ="0.000000" ScaleX="0.5" ScaleY="0.5" ScaleZ="0.5">
+      <subModel name="SECTOR_00" layout="horizontal" type="ranges" line0="1-9" />
+      <subModel name="SECTOR_01" layout="horizontal" type="ranges" line0="10-18" />
+      <subModel name="SECTOR_02" layout="horizontal" type="ranges" line0="19-27" />
+      <subModel name="SECTOR_03" layout="horizontal" type="ranges" line0="28-36" />
+      <subModel name="SECTOR_04" layout="horizontal" type="ranges" line0="37-45" />
+      <subModel name="SECTOR_05" layout="horizontal" type="ranges" line0="46-54" />
+      <subModel name="SECTOR_06" layout="horizontal" type="ranges" line0="55-62" />
+      <subModel name="SECTOR_07" layout="horizontal" type="ranges" line0="63-70" />
+    </model>
+    <model name="HX_013_CATERPILLAR_HEAD" DisplayAs="Custom" StringType="RGB Nodes" StartChannel="2521" Controller="" LayoutGroup="Default" StartSide="B" Dir="L" PixelSize="2" Antialias="1" Transparency="0" versionNumber="7" parm1="1" parm2="61" parm3="1" Depth="61" CustomWidth="1" CustomHeight="61" CustomStrings="1" String1="1" CustomModelCompressed="1,30,0,0;2,29,0,0;3,27,0,0;4,26,0,0;5,25,0,0;6,24,0,1;7,23,0,1;8,21,0,1;9,20,0,2;10,19,0,2;11,18,0,3;12,17,0,3;13,16,0,4;14,14,0,4;15,13,0,5;16,12,0,6;17,11,0,6;18,10,0,7;19,9,0,8;20,9,0,9;21,8,0,10;22,7,0,11;23,6,0,12;24,5,0,13;25,5,0,14;26,4,0,15;27,3,0,16;28,3,0,17;29,2,0,18;30,2,0,20;31,1,0,21;32,1,0,22;33,1,0,23;34,1,0,24;35,0,0,26;36,0,0,27;37,0,0,28;38,0,0,29;39,0,0,31;40,0,0,32;41,0,0,33;42,0,0,34;43,1,0,36;44,1,0,37;45,1,0,38;46,1,0,39;47,2,0,40;48,2,0,42;49,3,0,43;50,3,0,44;51,4,0,45;52,5,0,46;53,5,0,47;54,6,0,48;55,7,0,49;56,8,0,50;57,9,0,51;58,9,0,52;59,10,0,53;60,11,0,54;61,12,0,54;62,13,0,55;63,14,0,56;64,16,0,56;65,17,0,57;66,18,0,57;67,19,0,58;68,20,0,58;69,21,0,59;70,23,0,59;71,24,0,59;72,25,0,60;73,26,0,60;74,27,0,60;75,29,0,60;76,30,0,60;77,31,0,60;78,33,0,60;79,34,0,60;80,35,0,60;81,36,0,59;82,37,0,59;83,39,0,59;84,40,0,58;85,41,0,58;86,42,0,57;87,43,0,57;88,44,0,56;89,46,0,56;90,47,0,55;91,48,0,54;92,49,0,54;93,50,0,53;94,51,0,52;95,51,0,51;96,52,0,50;97,53,0,49;98,54,0,48;99,55,0,47;100,55,0,46;101,56,0,45;102,57,0,44;103,57,0,43;104,58,0,42;105,58,0,40;106,59,0,39;107,59,0,38;108,59,0,37;109,59,0,36;110,60,0,34;111,60,0,33;112,60,0,32;113,60,0,31;114,60,0,29;115,60,0,28;116,60,0,27;117,60,0,26;118,59,0,24;119,59,0,23;120,59,0,22;121,59,0,21;122,58,0,20;123,58,0,18;124,57,0,17;125,57,0,16;126,56,0,15;127,55,0,14;128,55,0,13;129,54,0,12;130,53,0,11;131,52,0,10;132,51,0,9;133,51,0,8;134,50,0,7;135,49,0,6;136,48,0,6;137,47,0,5;138,46,0,4;139,44,0,4;140,43,0,3;141,42,0,3;142,41,0,2;143,40,0,2;144,39,0,1;145,37,0,1;146,36,0,1;147,35,0,0;148,34,0,0;149,33,0,0;150,31,0,0" WorldPosX="80.000000" WorldPosY="17.000000" WorldPosZ="0.000000" ScaleX="0.5" ScaleY="0.5" ScaleZ="0.5">
+      <subModel name="SECTOR_00" layout="horizontal" type="ranges" line0="1-19" />
+      <subModel name="SECTOR_01" layout="horizontal" type="ranges" line0="20-38" />
+      <subModel name="SECTOR_02" layout="horizontal" type="ranges" line0="39-57" />
+      <subModel name="SECTOR_03" layout="horizontal" type="ranges" line0="58-76" />
+      <subModel name="SECTOR_04" layout="horizontal" type="ranges" line0="77-95" />
+      <subModel name="SECTOR_05" layout="horizontal" type="ranges" line0="96-114" />
+      <subModel name="SECTOR_06" layout="horizontal" type="ranges" line0="115-132" />
+      <subModel name="SECTOR_07" layout="horizontal" type="ranges" line0="133-150" />
+    </model>
+    <model name="HX_014_ANTENNA" DisplayAs="Custom" StringType="RGB Nodes" StartChannel="2971" Controller="" LayoutGroup="Default" StartSide="B" Dir="L" PixelSize="2" Antialias="1" Transparency="0" versionNumber="7" parm1="21" parm2="35" parm3="1" Depth="17" CustomWidth="21" CustomHeight="35" CustomStrings="1" String1="1" CustomModelCompressed="1,34,0,0;2,33,1,1;3,32,1,1;4,30,2,2;5,29,3,2;6,28,3,3;7,27,4,3;8,26,5,4;9,25,6,4;10,23,6,5;11,22,7,6;12,21,8,6;13,20,8,7;14,19,9,7;15,18,10,8;16,16,10,8;17,15,11,9;18,14,12,9;19,13,12,10;20,12,13,10;21,11,14,11;22,9,14,12;23,8,15,12;24,7,16,13;25,6,17,13;26,5,17,14;27,4,18,14;28,2,19,15;29,1,19,15;30,0,20,16" WorldPosX="85.000000" WorldPosY="33.500000" WorldPosZ="-11.000000" ScaleX="0.5" ScaleY="0.5" ScaleZ="0.5">
+      <subModel name="SECTOR_00" layout="horizontal" type="ranges" line0="1-4" />
+      <subModel name="SECTOR_01" layout="horizontal" type="ranges" line0="5-8" />
+      <subModel name="SECTOR_02" layout="horizontal" type="ranges" line0="9-12" />
+      <subModel name="SECTOR_03" layout="horizontal" type="ranges" line0="13-16" />
+      <subModel name="SECTOR_04" layout="horizontal" type="ranges" line0="17-20" />
+      <subModel name="SECTOR_05" layout="horizontal" type="ranges" line0="21-24" />
+      <subModel name="SECTOR_06" layout="horizontal" type="ranges" line0="25-27" />
+      <subModel name="SECTOR_07" layout="horizontal" type="ranges" line0="28-30" />
+    </model>
+    <model name="HX_015_ANTENNA" DisplayAs="Custom" StringType="RGB Nodes" StartChannel="3061" Controller="" LayoutGroup="Default" StartSide="B" Dir="L" PixelSize="2" Antialias="1" Transparency="0" versionNumber="7" parm1="21" parm2="35" parm3="1" Depth="17" CustomWidth="21" CustomHeight="35" CustomStrings="1" String1="1" CustomModelCompressed="1,34,0,16;2,33,1,15;3,32,1,15;4,30,2,14;5,29,3,14;6,28,3,13;7,27,4,13;8,26,5,12;9,25,6,12;10,23,6,11;11,22,7,10;12,21,8,10;13,20,8,9;14,19,9,9;15,18,10,8;16,16,10,8;17,15,11,7;18,14,12,7;19,13,12,6;20,12,13,6;21,11,14,5;22,9,14,4;23,8,15,4;24,7,16,3;25,6,17,3;26,5,17,2;27,4,18,2;28,2,19,1;29,1,19,1;30,0,20,0" WorldPosX="85.000000" WorldPosY="33.500000" WorldPosZ="11.000000" ScaleX="0.5" ScaleY="0.5" ScaleZ="0.5">
+      <subModel name="SECTOR_00" layout="horizontal" type="ranges" line0="1-4" />
+      <subModel name="SECTOR_01" layout="horizontal" type="ranges" line0="5-8" />
+      <subModel name="SECTOR_02" layout="horizontal" type="ranges" line0="9-12" />
+      <subModel name="SECTOR_03" layout="horizontal" type="ranges" line0="13-16" />
+      <subModel name="SECTOR_04" layout="horizontal" type="ranges" line0="17-20" />
+      <subModel name="SECTOR_05" layout="horizontal" type="ranges" line0="21-24" />
+      <subModel name="SECTOR_06" layout="horizontal" type="ranges" line0="25-27" />
+      <subModel name="SECTOR_07" layout="horizontal" type="ranges" line0="28-30" />
+    </model>
+    <model name="HX_016_CATERPILLAR_SEGMENT" DisplayAs="Custom" StringType="RGB Nodes" StartChannel="3151" Controller="" LayoutGroup="Default" StartSide="B" Dir="L" PixelSize="2" Antialias="1" Transparency="0" versionNumber="7" parm1="1" parm2="53" parm3="1" Depth="53" CustomWidth="1" CustomHeight="53" CustomStrings="1" String1="1" CustomModelCompressed="1,26,0,0;2,24,0,0;3,21,0,0;4,19,0,1;5,17,0,2;6,15,0,3;7,13,0,4;8,11,0,5;9,9,0,6;10,7,0,8;11,6,0,10;12,4,0,12;13,3,0,14;14,2,0,16;15,1,0,18;16,1,0,20;17,0,0,23;18,0,0,25;19,0,0,27;20,0,0,29;21,1,0,32;22,1,0,34;23,2,0,36;24,3,0,38;25,4,0,40;26,6,0,42;27,7,0,44;28,9,0,46;29,11,0,47;30,13,0,48;31,15,0,49;32,17,0,50;33,19,0,51;34,21,0,52;35,24,0,52;36,26,0,52;37,28,0,52;38,31,0,52;39,33,0,51;40,35,0,50;41,37,0,49;42,39,0,48;43,41,0,47;44,43,0,46;45,45,0,44;46,46,0,42;47,48,0,40;48,49,0,38;49,50,0,36;50,51,0,34;51,51,0,32;52,52,0,29;53,52,0,27;54,52,0,25;55,52,0,23;56,51,0,20;57,51,0,18;58,50,0,16;59,49,0,14;60,48,0,12;61,46,0,10;62,45,0,8;63,43,0,6;64,41,0,5;65,39,0,4;66,37,0,3;67,35,0,2;68,33,0,1;69,31,0,0;70,28,0,0" WorldPosX="-55.000000" WorldPosY="13.000000" WorldPosZ="3.000000" ScaleX="0.5" ScaleY="0.5" ScaleZ="0.5">
+      <subModel name="SECTOR_00" layout="horizontal" type="ranges" line0="1-9" />
+      <subModel name="SECTOR_01" layout="horizontal" type="ranges" line0="10-18" />
+      <subModel name="SECTOR_02" layout="horizontal" type="ranges" line0="19-27" />
+      <subModel name="SECTOR_03" layout="horizontal" type="ranges" line0="28-36" />
+      <subModel name="SECTOR_04" layout="horizontal" type="ranges" line0="37-45" />
+      <subModel name="SECTOR_05" layout="horizontal" type="ranges" line0="46-54" />
+      <subModel name="SECTOR_06" layout="horizontal" type="ranges" line0="55-62" />
+      <subModel name="SECTOR_07" layout="horizontal" type="ranges" line0="63-70" />
+    </model>
+    <model name="HX_017_CATERPILLAR_SEGMENT" DisplayAs="Custom" StringType="RGB Nodes" StartChannel="3361" Controller="" LayoutGroup="Default" StartSide="B" Dir="L" PixelSize="2" Antialias="1" Transparency="0" versionNumber="7" parm1="1" parm2="53" parm3="1" Depth="53" CustomWidth="1" CustomHeight="53" CustomStrings="1" String1="1" CustomModelCompressed="1,26,0,0;2,24,0,0;3,21,0,0;4,19,0,1;5,17,0,2;6,15,0,3;7,13,0,4;8,11,0,5;9,9,0,6;10,7,0,8;11,6,0,10;12,4,0,12;13,3,0,14;14,2,0,16;15,1,0,18;16,1,0,20;17,0,0,23;18,0,0,25;19,0,0,27;20,0,0,29;21,1,0,32;22,1,0,34;23,2,0,36;24,3,0,38;25,4,0,40;26,6,0,42;27,7,0,44;28,9,0,46;29,11,0,47;30,13,0,48;31,15,0,49;32,17,0,50;33,19,0,51;34,21,0,52;35,24,0,52;36,26,0,52;37,28,0,52;38,31,0,52;39,33,0,51;40,35,0,50;41,37,0,49;42,39,0,48;43,41,0,47;44,43,0,46;45,45,0,44;46,46,0,42;47,48,0,40;48,49,0,38;49,50,0,36;50,51,0,34;51,51,0,32;52,52,0,29;53,52,0,27;54,52,0,25;55,52,0,23;56,51,0,20;57,51,0,18;58,50,0,16;59,49,0,14;60,48,0,12;61,46,0,10;62,45,0,8;63,43,0,6;64,41,0,5;65,39,0,4;66,37,0,3;67,35,0,2;68,33,0,1;69,31,0,0;70,28,0,0" WorldPosX="-45.000000" WorldPosY="18.000000" WorldPosZ="3.000000" ScaleX="0.5" ScaleY="0.5" ScaleZ="0.5">
+      <subModel name="SECTOR_00" layout="horizontal" type="ranges" line0="1-9" />
+      <subModel name="SECTOR_01" layout="horizontal" type="ranges" line0="10-18" />
+      <subModel name="SECTOR_02" layout="horizontal" type="ranges" line0="19-27" />
+      <subModel name="SECTOR_03" layout="horizontal" type="ranges" line0="28-36" />
+      <subModel name="SECTOR_04" layout="horizontal" type="ranges" line0="37-45" />
+      <subModel name="SECTOR_05" layout="horizontal" type="ranges" line0="46-54" />
+      <subModel name="SECTOR_06" layout="horizontal" type="ranges" line0="55-62" />
+      <subModel name="SECTOR_07" layout="horizontal" type="ranges" line0="63-70" />
+    </model>
+    <model name="HX_018_CATERPILLAR_SEGMENT" DisplayAs="Custom" StringType="RGB Nodes" StartChannel="3571" Controller="" LayoutGroup="Default" StartSide="B" Dir="L" PixelSize="2" Antialias="1" Transparency="0" versionNumber="7" parm1="1" parm2="53" parm3="1" Depth="53" CustomWidth="1" CustomHeight="53" CustomStrings="1" String1="1" CustomModelCompressed="1,26,0,0;2,23,0,0;3,21,0,0;4,19,0,1;5,16,0,2;6,14,0,3;7,12,0,4;8,10,0,5;9,8,0,6;10,7,0,8;11,5,0,10;12,4,0,12;13,3,0,14;14,2,0,16;15,1,0,18;16,0,0,20;17,0,0,23;18,0,0,25;19,0,0,27;20,0,0,29;21,0,0,32;22,1,0,34;23,2,0,36;24,3,0,38;25,4,0,40;26,5,0,42;27,7,0,44;28,8,0,46;29,10,0,47;30,12,0,48;31,14,0,49;32,16,0,50;33,19,0,51;34,21,0,52;35,23,0,52;36,26,0,52;37,28,0,52;38,30,0,52;39,32,0,51;40,35,0,50;41,37,0,49;42,39,0,48;43,41,0,47;44,43,0,46;45,44,0,44;46,46,0,42;47,47,0,40;48,48,0,38;49,49,0,36;50,50,0,34;51,51,0,32;52,51,0,29;53,52,0,27;54,52,0,25;55,51,0,23;56,51,0,20;57,50,0,18;58,49,0,16;59,48,0,14;60,47,0,12;61,46,0,10;62,44,0,8;63,43,0,6;64,41,0,5;65,39,0,4;66,37,0,3;67,35,0,2;68,32,0,1;69,30,0,0;70,28,0,0" WorldPosX="-35.000000" WorldPosY="22.500000" WorldPosZ="3.000000" ScaleX="0.5" ScaleY="0.5" ScaleZ="0.5">
+      <subModel name="SECTOR_00" layout="horizontal" type="ranges" line0="1-9" />
+      <subModel name="SECTOR_01" layout="horizontal" type="ranges" line0="10-18" />
+      <subModel name="SECTOR_02" layout="horizontal" type="ranges" line0="19-27" />
+      <subModel name="SECTOR_03" layout="horizontal" type="ranges" line0="28-36" />
+      <subModel name="SECTOR_04" layout="horizontal" type="ranges" line0="37-45" />
+      <subModel name="SECTOR_05" layout="horizontal" type="ranges" line0="46-54" />
+      <subModel name="SECTOR_06" layout="horizontal" type="ranges" line0="55-62" />
+      <subModel name="SECTOR_07" layout="horizontal" type="ranges" line0="63-70" />
+    </model>
+    <model name="HX_019_CATERPILLAR_SEGMENT" DisplayAs="Custom" StringType="RGB Nodes" StartChannel="3781" Controller="" LayoutGroup="Default" StartSide="B" Dir="L" PixelSize="2" Antialias="1" Transparency="0" versionNumber="7" parm1="1" parm2="53" parm3="1" Depth="53" CustomWidth="1" CustomHeight="53" CustomStrings="1" String1="1" CustomModelCompressed="1,26,0,0;2,23,0,0;3,21,0,0;4,19,0,1;5,17,0,2;6,15,0,3;7,12,0,4;8,11,0,5;9,9,0,6;10,7,0,8;11,5,0,10;12,4,0,12;13,3,0,14;14,2,0,16;15,1,0,18;16,0,0,20;17,0,0,23;18,0,0,25;19,0,0,27;20,0,0,29;21,0,0,32;22,1,0,34;23,2,0,36;24,3,0,38;25,4,0,40;26,5,0,42;27,7,0,44;28,9,0,46;29,11,0,47;30,12,0,48;31,15,0,49;32,17,0,50;33,19,0,51;34,21,0,52;35,23,0,52;36,26,0,52;37,28,0,52;38,30,0,52;39,33,0,51;40,35,0,50;41,37,0,49;42,39,0,48;43,41,0,47;44,43,0,46;45,45,0,44;46,46,0,42;47,47,0,40;48,49,0,38;49,50,0,36;50,51,0,34;51,51,0,32;52,52,0,29;53,52,0,27;54,52,0,25;55,52,0,23;56,51,0,20;57,51,0,18;58,50,0,16;59,49,0,14;60,47,0,12;61,46,0,10;62,45,0,8;63,43,0,6;64,41,0,5;65,39,0,4;66,37,0,3;67,35,0,2;68,33,0,1;69,30,0,0;70,28,0,0" WorldPosX="-25.000000" WorldPosY="26.500000" WorldPosZ="3.000000" ScaleX="0.5" ScaleY="0.5" ScaleZ="0.5">
+      <subModel name="SECTOR_00" layout="horizontal" type="ranges" line0="1-9" />
+      <subModel name="SECTOR_01" layout="horizontal" type="ranges" line0="10-18" />
+      <subModel name="SECTOR_02" layout="horizontal" type="ranges" line0="19-27" />
+      <subModel name="SECTOR_03" layout="horizontal" type="ranges" line0="28-36" />
+      <subModel name="SECTOR_04" layout="horizontal" type="ranges" line0="37-45" />
+      <subModel name="SECTOR_05" layout="horizontal" type="ranges" line0="46-54" />
+      <subModel name="SECTOR_06" layout="horizontal" type="ranges" line0="55-62" />
+      <subModel name="SECTOR_07" layout="horizontal" type="ranges" line0="63-70" />
+    </model>
+    <model name="HX_020_CATERPILLAR_SEGMENT" DisplayAs="Custom" StringType="RGB Nodes" StartChannel="3991" Controller="" LayoutGroup="Default" StartSide="B" Dir="L" PixelSize="2" Antialias="1" Transparency="0" versionNumber="7" parm1="1" parm2="53" parm3="1" Depth="53" CustomWidth="1" CustomHeight="53" CustomStrings="1" String1="1" CustomModelCompressed="1,26,0,0;2,24,0,0;3,22,0,0;4,19,0,1;5,17,0,2;6,15,0,3;7,13,0,4;8,11,0,5;9,9,0,6;10,7,0,8;11,6,0,10;12,5,0,12;13,3,0,14;14,2,0,16;15,2,0,18;16,1,0,20;17,0,0,23;18,0,0,25;19,0,0,27;20,0,0,29;21,1,0,32;22,2,0,34;23,2,0,36;24,3,0,38;25,5,0,40;26,6,0,42;27,7,0,44;28,9,0,46;29,11,0,47;30,13,0,48;31,15,0,49;32,17,0,50;33,19,0,51;34,22,0,52;35,24,0,52;36,26,0,52;37,29,0,52;38,31,0,52;39,33,0,51;40,35,0,50;41,38,0,49;42,40,0,48;43,42,0,47;44,43,0,46;45,45,0,44;46,47,0,42;47,48,0,40;48,49,0,38;49,50,0,36;50,51,0,34;51,52,0,32;52,52,0,29;53,52,0,27;54,52,0,25;55,52,0,23;56,52,0,20;57,51,0,18;58,50,0,16;59,49,0,14;60,48,0,12;61,47,0,10;62,45,0,8;63,43,0,6;64,42,0,5;65,40,0,4;66,38,0,3;67,35,0,2;68,33,0,1;69,31,0,0;70,29,0,0" WorldPosX="-15.000000" WorldPosY="29.500000" WorldPosZ="3.000000" ScaleX="0.5" ScaleY="0.5" ScaleZ="0.5">
+      <subModel name="SECTOR_00" layout="horizontal" type="ranges" line0="1-9" />
+      <subModel name="SECTOR_01" layout="horizontal" type="ranges" line0="10-18" />
+      <subModel name="SECTOR_02" layout="horizontal" type="ranges" line0="19-27" />
+      <subModel name="SECTOR_03" layout="horizontal" type="ranges" line0="28-36" />
+      <subModel name="SECTOR_04" layout="horizontal" type="ranges" line0="37-45" />
+      <subModel name="SECTOR_05" layout="horizontal" type="ranges" line0="46-54" />
+      <subModel name="SECTOR_06" layout="horizontal" type="ranges" line0="55-62" />
+      <subModel name="SECTOR_07" layout="horizontal" type="ranges" line0="63-70" />
+    </model>
+    <model name="HX_021_CATERPILLAR_SEGMENT" DisplayAs="Custom" StringType="RGB Nodes" StartChannel="4201" Controller="" LayoutGroup="Default" StartSide="B" Dir="L" PixelSize="2" Antialias="1" Transparency="0" versionNumber="7" parm1="1" parm2="53" parm3="1" Depth="53" CustomWidth="1" CustomHeight="53" CustomStrings="1" String1="1" CustomModelCompressed="1,26,0,0;2,24,0,0;3,22,0,0;4,19,0,1;5,17,0,2;6,15,0,3;7,13,0,4;8,11,0,5;9,9,0,6;10,8,0,8;11,6,0,10;12,5,0,12;13,3,0,14;14,2,0,16;15,2,0,18;16,1,0,20;17,1,0,23;18,0,0,25;19,0,0,27;20,1,0,29;21,1,0,32;22,2,0,34;23,2,0,36;24,3,0,38;25,5,0,40;26,6,0,42;27,8,0,44;28,9,0,46;29,11,0,47;30,13,0,48;31,15,0,49;32,17,0,50;33,19,0,51;34,22,0,52;35,24,0,52;36,26,0,52;37,29,0,52;38,31,0,52;39,33,0,51;40,36,0,50;41,38,0,49;42,40,0,48;43,42,0,47;44,43,0,46;45,45,0,44;46,47,0,42;47,48,0,40;48,49,0,38;49,50,0,36;50,51,0,34;51,52,0,32;52,52,0,29;53,52,0,27;54,52,0,25;55,52,0,23;56,52,0,20;57,51,0,18;58,50,0,16;59,49,0,14;60,48,0,12;61,47,0,10;62,45,0,8;63,43,0,6;64,42,0,5;65,40,0,4;66,38,0,3;67,36,0,2;68,33,0,1;69,31,0,0;70,29,0,0" WorldPosX="-5.000000" WorldPosY="31.000000" WorldPosZ="3.000000" ScaleX="0.5" ScaleY="0.5" ScaleZ="0.5">
+      <subModel name="SECTOR_00" layout="horizontal" type="ranges" line0="1-9" />
+      <subModel name="SECTOR_01" layout="horizontal" type="ranges" line0="10-18" />
+      <subModel name="SECTOR_02" layout="horizontal" type="ranges" line0="19-27" />
+      <subModel name="SECTOR_03" layout="horizontal" type="ranges" line0="28-36" />
+      <subModel name="SECTOR_04" layout="horizontal" type="ranges" line0="37-45" />
+      <subModel name="SECTOR_05" layout="horizontal" type="ranges" line0="46-54" />
+      <subModel name="SECTOR_06" layout="horizontal" type="ranges" line0="55-62" />
+      <subModel name="SECTOR_07" layout="horizontal" type="ranges" line0="63-70" />
+    </model>
+    <model name="HX_022_CATERPILLAR_SEGMENT" DisplayAs="Custom" StringType="RGB Nodes" StartChannel="4411" Controller="" LayoutGroup="Default" StartSide="B" Dir="L" PixelSize="2" Antialias="1" Transparency="0" versionNumber="7" parm1="1" parm2="53" parm3="1" Depth="53" CustomWidth="1" CustomHeight="53" CustomStrings="1" String1="1" CustomModelCompressed="1,26,0,0;2,24,0,0;3,22,0,0;4,19,0,1;5,17,0,2;6,15,0,3;7,13,0,4;8,11,0,5;9,9,0,6;10,8,0,8;11,6,0,10;12,5,0,12;13,3,0,14;14,2,0,16;15,2,0,18;16,1,0,20;17,1,0,23;18,0,0,25;19,0,0,27;20,1,0,29;21,1,0,32;22,2,0,34;23,2,0,36;24,3,0,38;25,5,0,40;26,6,0,42;27,8,0,44;28,9,0,46;29,11,0,47;30,13,0,48;31,15,0,49;32,17,0,50;33,19,0,51;34,22,0,52;35,24,0,52;36,26,0,52;37,29,0,52;38,31,0,52;39,33,0,51;40,36,0,50;41,38,0,49;42,40,0,48;43,42,0,47;44,43,0,46;45,45,0,44;46,47,0,42;47,48,0,40;48,49,0,38;49,50,0,36;50,51,0,34;51,52,0,32;52,52,0,29;53,52,0,27;54,52,0,25;55,52,0,23;56,52,0,20;57,51,0,18;58,50,0,16;59,49,0,14;60,48,0,12;61,47,0,10;62,45,0,8;63,43,0,6;64,42,0,5;65,40,0,4;66,38,0,3;67,36,0,2;68,33,0,1;69,31,0,0;70,29,0,0" WorldPosX="5.000000" WorldPosY="31.000000" WorldPosZ="3.000000" ScaleX="0.5" ScaleY="0.5" ScaleZ="0.5">
+      <subModel name="SECTOR_00" layout="horizontal" type="ranges" line0="1-9" />
+      <subModel name="SECTOR_01" layout="horizontal" type="ranges" line0="10-18" />
+      <subModel name="SECTOR_02" layout="horizontal" type="ranges" line0="19-27" />
+      <subModel name="SECTOR_03" layout="horizontal" type="ranges" line0="28-36" />
+      <subModel name="SECTOR_04" layout="horizontal" type="ranges" line0="37-45" />
+      <subModel name="SECTOR_05" layout="horizontal" type="ranges" line0="46-54" />
+      <subModel name="SECTOR_06" layout="horizontal" type="ranges" line0="55-62" />
+      <subModel name="SECTOR_07" layout="horizontal" type="ranges" line0="63-70" />
+    </model>
+    <model name="HX_023_CATERPILLAR_SEGMENT" DisplayAs="Custom" StringType="RGB Nodes" StartChannel="4621" Controller="" LayoutGroup="Default" StartSide="B" Dir="L" PixelSize="2" Antialias="1" Transparency="0" versionNumber="7" parm1="1" parm2="53" parm3="1" Depth="53" CustomWidth="1" CustomHeight="53" CustomStrings="1" String1="1" CustomModelCompressed="1,26,0,0;2,24,0,0;3,22,0,0;4,19,0,1;5,17,0,2;6,15,0,3;7,13,0,4;8,11,0,5;9,9,0,6;10,7,0,8;11,6,0,10;12,5,0,12;13,3,0,14;14,2,0,16;15,2,0,18;16,1,0,20;17,0,0,23;18,0,0,25;19,0,0,27;20,0,0,29;21,1,0,32;22,2,0,34;23,2,0,36;24,3,0,38;25,5,0,40;26,6,0,42;27,7,0,44;28,9,0,46;29,11,0,47;30,13,0,48;31,15,0,49;32,17,0,50;33,19,0,51;34,22,0,52;35,24,0,52;36,26,0,52;37,29,0,52;38,31,0,52;39,33,0,51;40,35,0,50;41,38,0,49;42,40,0,48;43,42,0,47;44,43,0,46;45,45,0,44;46,47,0,42;47,48,0,40;48,49,0,38;49,50,0,36;50,51,0,34;51,52,0,32;52,52,0,29;53,52,0,27;54,52,0,25;55,52,0,23;56,52,0,20;57,51,0,18;58,50,0,16;59,49,0,14;60,48,0,12;61,47,0,10;62,45,0,8;63,43,0,6;64,42,0,5;65,40,0,4;66,38,0,3;67,35,0,2;68,33,0,1;69,31,0,0;70,29,0,0" WorldPosX="15.000000" WorldPosY="29.500000" WorldPosZ="3.000000" ScaleX="0.5" ScaleY="0.5" ScaleZ="0.5">
+      <subModel name="SECTOR_00" layout="horizontal" type="ranges" line0="1-9" />
+      <subModel name="SECTOR_01" layout="horizontal" type="ranges" line0="10-18" />
+      <subModel name="SECTOR_02" layout="horizontal" type="ranges" line0="19-27" />
+      <subModel name="SECTOR_03" layout="horizontal" type="ranges" line0="28-36" />
+      <subModel name="SECTOR_04" layout="horizontal" type="ranges" line0="37-45" />
+      <subModel name="SECTOR_05" layout="horizontal" type="ranges" line0="46-54" />
+      <subModel name="SECTOR_06" layout="horizontal" type="ranges" line0="55-62" />
+      <subModel name="SECTOR_07" layout="horizontal" type="ranges" line0="63-70" />
+    </model>
+    <model name="HX_024_CATERPILLAR_SEGMENT" DisplayAs="Custom" StringType="RGB Nodes" StartChannel="4831" Controller="" LayoutGroup="Default" StartSide="B" Dir="L" PixelSize="2" Antialias="1" Transparency="0" versionNumber="7" parm1="1" parm2="53" parm3="1" Depth="53" CustomWidth="1" CustomHeight="53" CustomStrings="1" String1="1" CustomModelCompressed="1,26,0,0;2,23,0,0;3,21,0,0;4,19,0,1;5,17,0,2;6,15,0,3;7,12,0,4;8,11,0,5;9,9,0,6;10,7,0,8;11,5,0,10;12,4,0,12;13,3,0,14;14,2,0,16;15,1,0,18;16,0,0,20;17,0,0,23;18,0,0,25;19,0,0,27;20,0,0,29;21,0,0,32;22,1,0,34;23,2,0,36;24,3,0,38;25,4,0,40;26,5,0,42;27,7,0,44;28,9,0,46;29,11,0,47;30,12,0,48;31,15,0,49;32,17,0,50;33,19,0,51;34,21,0,52;35,23,0,52;36,26,0,52;37,28,0,52;38,30,0,52;39,33,0,51;40,35,0,50;41,37,0,49;42,39,0,48;43,41,0,47;44,43,0,46;45,45,0,44;46,46,0,42;47,47,0,40;48,49,0,38;49,50,0,36;50,51,0,34;51,51,0,32;52,52,0,29;53,52,0,27;54,52,0,25;55,52,0,23;56,51,0,20;57,51,0,18;58,50,0,16;59,49,0,14;60,47,0,12;61,46,0,10;62,45,0,8;63,43,0,6;64,41,0,5;65,39,0,4;66,37,0,3;67,35,0,2;68,33,0,1;69,30,0,0;70,28,0,0" WorldPosX="25.000000" WorldPosY="26.500000" WorldPosZ="3.000000" ScaleX="0.5" ScaleY="0.5" ScaleZ="0.5">
+      <subModel name="SECTOR_00" layout="horizontal" type="ranges" line0="1-9" />
+      <subModel name="SECTOR_01" layout="horizontal" type="ranges" line0="10-18" />
+      <subModel name="SECTOR_02" layout="horizontal" type="ranges" line0="19-27" />
+      <subModel name="SECTOR_03" layout="horizontal" type="ranges" line0="28-36" />
+      <subModel name="SECTOR_04" layout="horizontal" type="ranges" line0="37-45" />
+      <subModel name="SECTOR_05" layout="horizontal" type="ranges" line0="46-54" />
+      <subModel name="SECTOR_06" layout="horizontal" type="ranges" line0="55-62" />
+      <subModel name="SECTOR_07" layout="horizontal" type="ranges" line0="63-70" />
+    </model>
+    <model name="HX_025_CATERPILLAR_SEGMENT" DisplayAs="Custom" StringType="RGB Nodes" StartChannel="5041" Controller="" LayoutGroup="Default" StartSide="B" Dir="L" PixelSize="2" Antialias="1" Transparency="0" versionNumber="7" parm1="1" parm2="53" parm3="1" Depth="53" CustomWidth="1" CustomHeight="53" CustomStrings="1" String1="1" CustomModelCompressed="1,26,0,0;2,23,0,0;3,21,0,0;4,19,0,1;5,16,0,2;6,14,0,3;7,12,0,4;8,10,0,5;9,8,0,6;10,7,0,8;11,5,0,10;12,4,0,12;13,3,0,14;14,2,0,16;15,1,0,18;16,0,0,20;17,0,0,23;18,0,0,25;19,0,0,27;20,0,0,29;21,0,0,32;22,1,0,34;23,2,0,36;24,3,0,38;25,4,0,40;26,5,0,42;27,7,0,44;28,8,0,46;29,10,0,47;30,12,0,48;31,14,0,49;32,16,0,50;33,19,0,51;34,21,0,52;35,23,0,52;36,26,0,52;37,28,0,52;38,30,0,52;39,32,0,51;40,35,0,50;41,37,0,49;42,39,0,48;43,41,0,47;44,43,0,46;45,44,0,44;46,46,0,42;47,47,0,40;48,48,0,38;49,49,0,36;50,50,0,34;51,51,0,32;52,51,0,29;53,52,0,27;54,52,0,25;55,51,0,23;56,51,0,20;57,50,0,18;58,49,0,16;59,48,0,14;60,47,0,12;61,46,0,10;62,44,0,8;63,43,0,6;64,41,0,5;65,39,0,4;66,37,0,3;67,35,0,2;68,32,0,1;69,30,0,0;70,28,0,0" WorldPosX="35.000000" WorldPosY="22.500000" WorldPosZ="3.000000" ScaleX="0.5" ScaleY="0.5" ScaleZ="0.5">
+      <subModel name="SECTOR_00" layout="horizontal" type="ranges" line0="1-9" />
+      <subModel name="SECTOR_01" layout="horizontal" type="ranges" line0="10-18" />
+      <subModel name="SECTOR_02" layout="horizontal" type="ranges" line0="19-27" />
+      <subModel name="SECTOR_03" layout="horizontal" type="ranges" line0="28-36" />
+      <subModel name="SECTOR_04" layout="horizontal" type="ranges" line0="37-45" />
+      <subModel name="SECTOR_05" layout="horizontal" type="ranges" line0="46-54" />
+      <subModel name="SECTOR_06" layout="horizontal" type="ranges" line0="55-62" />
+      <subModel name="SECTOR_07" layout="horizontal" type="ranges" line0="63-70" />
+    </model>
+    <model name="HX_026_CATERPILLAR_SEGMENT" DisplayAs="Custom" StringType="RGB Nodes" StartChannel="5251" Controller="" LayoutGroup="Default" StartSide="B" Dir="L" PixelSize="2" Antialias="1" Transparency="0" versionNumber="7" parm1="1" parm2="53" parm3="1" Depth="53" CustomWidth="1" CustomHeight="53" CustomStrings="1" String1="1" CustomModelCompressed="1,26,0,0;2,24,0,0;3,21,0,0;4,19,0,1;5,17,0,2;6,15,0,3;7,13,0,4;8,11,0,5;9,9,0,6;10,7,0,8;11,6,0,10;12,4,0,12;13,3,0,14;14,2,0,16;15,1,0,18;16,1,0,20;17,0,0,23;18,0,0,25;19,0,0,27;20,0,0,29;21,1,0,32;22,1,0,34;23,2,0,36;24,3,0,38;25,4,0,40;26,6,0,42;27,7,0,44;28,9,0,46;29,11,0,47;30,13,0,48;31,15,0,49;32,17,0,50;33,19,0,51;34,21,0,52;35,24,0,52;36,26,0,52;37,28,0,52;38,31,0,52;39,33,0,51;40,35,0,50;41,37,0,49;42,39,0,48;43,41,0,47;44,43,0,46;45,45,0,44;46,46,0,42;47,48,0,40;48,49,0,38;49,50,0,36;50,51,0,34;51,51,0,32;52,52,0,29;53,52,0,27;54,52,0,25;55,52,0,23;56,51,0,20;57,51,0,18;58,50,0,16;59,49,0,14;60,48,0,12;61,46,0,10;62,45,0,8;63,43,0,6;64,41,0,5;65,39,0,4;66,37,0,3;67,35,0,2;68,33,0,1;69,31,0,0;70,28,0,0" WorldPosX="45.000000" WorldPosY="18.000000" WorldPosZ="3.000000" ScaleX="0.5" ScaleY="0.5" ScaleZ="0.5">
+      <subModel name="SECTOR_00" layout="horizontal" type="ranges" line0="1-9" />
+      <subModel name="SECTOR_01" layout="horizontal" type="ranges" line0="10-18" />
+      <subModel name="SECTOR_02" layout="horizontal" type="ranges" line0="19-27" />
+      <subModel name="SECTOR_03" layout="horizontal" type="ranges" line0="28-36" />
+      <subModel name="SECTOR_04" layout="horizontal" type="ranges" line0="37-45" />
+      <subModel name="SECTOR_05" layout="horizontal" type="ranges" line0="46-54" />
+      <subModel name="SECTOR_06" layout="horizontal" type="ranges" line0="55-62" />
+      <subModel name="SECTOR_07" layout="horizontal" type="ranges" line0="63-70" />
+    </model>
+    <model name="HX_027_CATERPILLAR_SEGMENT" DisplayAs="Custom" StringType="RGB Nodes" StartChannel="5461" Controller="" LayoutGroup="Default" StartSide="B" Dir="L" PixelSize="2" Antialias="1" Transparency="0" versionNumber="7" parm1="1" parm2="53" parm3="1" Depth="53" CustomWidth="1" CustomHeight="53" CustomStrings="1" String1="1" CustomModelCompressed="1,26,0,0;2,24,0,0;3,21,0,0;4,19,0,1;5,17,0,2;6,15,0,3;7,13,0,4;8,11,0,5;9,9,0,6;10,7,0,8;11,6,0,10;12,4,0,12;13,3,0,14;14,2,0,16;15,1,0,18;16,1,0,20;17,0,0,23;18,0,0,25;19,0,0,27;20,0,0,29;21,1,0,32;22,1,0,34;23,2,0,36;24,3,0,38;25,4,0,40;26,6,0,42;27,7,0,44;28,9,0,46;29,11,0,47;30,13,0,48;31,15,0,49;32,17,0,50;33,19,0,51;34,21,0,52;35,24,0,52;36,26,0,52;37,28,0,52;38,31,0,52;39,33,0,51;40,35,0,50;41,37,0,49;42,39,0,48;43,41,0,47;44,43,0,46;45,45,0,44;46,46,0,42;47,48,0,40;48,49,0,38;49,50,0,36;50,51,0,34;51,51,0,32;52,52,0,29;53,52,0,27;54,52,0,25;55,52,0,23;56,51,0,20;57,51,0,18;58,50,0,16;59,49,0,14;60,48,0,12;61,46,0,10;62,45,0,8;63,43,0,6;64,41,0,5;65,39,0,4;66,37,0,3;67,35,0,2;68,33,0,1;69,31,0,0;70,28,0,0" WorldPosX="55.000000" WorldPosY="13.000000" WorldPosZ="3.000000" ScaleX="0.5" ScaleY="0.5" ScaleZ="0.5">
+      <subModel name="SECTOR_00" layout="horizontal" type="ranges" line0="1-9" />
+      <subModel name="SECTOR_01" layout="horizontal" type="ranges" line0="10-18" />
+      <subModel name="SECTOR_02" layout="horizontal" type="ranges" line0="19-27" />
+      <subModel name="SECTOR_03" layout="horizontal" type="ranges" line0="28-36" />
+      <subModel name="SECTOR_04" layout="horizontal" type="ranges" line0="37-45" />
+      <subModel name="SECTOR_05" layout="horizontal" type="ranges" line0="46-54" />
+      <subModel name="SECTOR_06" layout="horizontal" type="ranges" line0="55-62" />
+      <subModel name="SECTOR_07" layout="horizontal" type="ranges" line0="63-70" />
+    </model>
+    <model name="HX_028_CATERPILLAR_HEAD" DisplayAs="Custom" StringType="RGB Nodes" StartChannel="5671" Controller="" LayoutGroup="Default" StartSide="B" Dir="L" PixelSize="2" Antialias="1" Transparency="0" versionNumber="7" parm1="1" parm2="61" parm3="1" Depth="61" CustomWidth="1" CustomHeight="61" CustomStrings="1" String1="1" CustomModelCompressed="1,30,0,0;2,29,0,0;3,27,0,0;4,26,0,0;5,25,0,0;6,24,0,1;7,23,0,1;8,21,0,1;9,20,0,2;10,19,0,2;11,18,0,3;12,17,0,3;13,16,0,4;14,14,0,4;15,13,0,5;16,12,0,6;17,11,0,6;18,10,0,7;19,9,0,8;20,9,0,9;21,8,0,10;22,7,0,11;23,6,0,12;24,5,0,13;25,5,0,14;26,4,0,15;27,3,0,16;28,3,0,17;29,2,0,18;30,2,0,20;31,1,0,21;32,1,0,22;33,1,0,23;34,1,0,24;35,0,0,26;36,0,0,27;37,0,0,28;38,0,0,29;39,0,0,31;40,0,0,32;41,0,0,33;42,0,0,34;43,1,0,36;44,1,0,37;45,1,0,38;46,1,0,39;47,2,0,40;48,2,0,42;49,3,0,43;50,3,0,44;51,4,0,45;52,5,0,46;53,5,0,47;54,6,0,48;55,7,0,49;56,8,0,50;57,9,0,51;58,9,0,52;59,10,0,53;60,11,0,54;61,12,0,54;62,13,0,55;63,14,0,56;64,16,0,56;65,17,0,57;66,18,0,57;67,19,0,58;68,20,0,58;69,21,0,59;70,23,0,59;71,24,0,59;72,25,0,60;73,26,0,60;74,27,0,60;75,29,0,60;76,30,0,60;77,31,0,60;78,33,0,60;79,34,0,60;80,35,0,60;81,36,0,59;82,37,0,59;83,39,0,59;84,40,0,58;85,41,0,58;86,42,0,57;87,43,0,57;88,44,0,56;89,46,0,56;90,47,0,55;91,48,0,54;92,49,0,54;93,50,0,53;94,51,0,52;95,51,0,51;96,52,0,50;97,53,0,49;98,54,0,48;99,55,0,47;100,55,0,46;101,56,0,45;102,57,0,44;103,57,0,43;104,58,0,42;105,58,0,40;106,59,0,39;107,59,0,38;108,59,0,37;109,59,0,36;110,60,0,34;111,60,0,33;112,60,0,32;113,60,0,31;114,60,0,29;115,60,0,28;116,60,0,27;117,60,0,26;118,59,0,24;119,59,0,23;120,59,0,22;121,59,0,21;122,58,0,20;123,58,0,18;124,57,0,17;125,57,0,16;126,56,0,15;127,55,0,14;128,55,0,13;129,54,0,12;130,53,0,11;131,52,0,10;132,51,0,9;133,51,0,8;134,50,0,7;135,49,0,6;136,48,0,6;137,47,0,5;138,46,0,4;139,44,0,4;140,43,0,3;141,42,0,3;142,41,0,2;143,40,0,2;144,39,0,1;145,37,0,1;146,36,0,1;147,35,0,0;148,34,0,0;149,33,0,0;150,31,0,0" WorldPosX="55.000000" WorldPosY="17.000000" WorldPosZ="3.000000" ScaleX="0.5" ScaleY="0.5" ScaleZ="0.5">
+      <subModel name="SECTOR_00" layout="horizontal" type="ranges" line0="1-19" />
+      <subModel name="SECTOR_01" layout="horizontal" type="ranges" line0="20-38" />
+      <subModel name="SECTOR_02" layout="horizontal" type="ranges" line0="39-57" />
+      <subModel name="SECTOR_03" layout="horizontal" type="ranges" line0="58-76" />
+      <subModel name="SECTOR_04" layout="horizontal" type="ranges" line0="77-95" />
+      <subModel name="SECTOR_05" layout="horizontal" type="ranges" line0="96-114" />
+      <subModel name="SECTOR_06" layout="horizontal" type="ranges" line0="115-132" />
+      <subModel name="SECTOR_07" layout="horizontal" type="ranges" line0="133-150" />
+    </model>
+    <model name="HX_029_ANTENNA" DisplayAs="Custom" StringType="RGB Nodes" StartChannel="6121" Controller="" LayoutGroup="Default" StartSide="B" Dir="L" PixelSize="2" Antialias="1" Transparency="0" versionNumber="7" parm1="21" parm2="35" parm3="1" Depth="17" CustomWidth="21" CustomHeight="35" CustomStrings="1" String1="1" CustomModelCompressed="1,34,0,0;2,33,1,1;3,32,1,1;4,30,2,2;5,29,3,2;6,28,3,3;7,27,4,3;8,26,5,4;9,25,6,4;10,23,6,5;11,22,7,6;12,21,8,6;13,20,8,7;14,19,9,7;15,18,10,8;16,16,10,8;17,15,11,9;18,14,12,9;19,13,12,10;20,12,13,10;21,11,14,11;22,9,14,12;23,8,15,12;24,7,16,13;25,6,17,13;26,5,17,14;27,4,18,14;28,2,19,15;29,1,19,15;30,0,20,16" WorldPosX="60.000000" WorldPosY="33.500000" WorldPosZ="-8.000000" ScaleX="0.5" ScaleY="0.5" ScaleZ="0.5">
+      <subModel name="SECTOR_00" layout="horizontal" type="ranges" line0="1-4" />
+      <subModel name="SECTOR_01" layout="horizontal" type="ranges" line0="5-8" />
+      <subModel name="SECTOR_02" layout="horizontal" type="ranges" line0="9-12" />
+      <subModel name="SECTOR_03" layout="horizontal" type="ranges" line0="13-16" />
+      <subModel name="SECTOR_04" layout="horizontal" type="ranges" line0="17-20" />
+      <subModel name="SECTOR_05" layout="horizontal" type="ranges" line0="21-24" />
+      <subModel name="SECTOR_06" layout="horizontal" type="ranges" line0="25-27" />
+      <subModel name="SECTOR_07" layout="horizontal" type="ranges" line0="28-30" />
+    </model>
+    <model name="HX_030_ANTENNA" DisplayAs="Custom" StringType="RGB Nodes" StartChannel="6211" Controller="" LayoutGroup="Default" StartSide="B" Dir="L" PixelSize="2" Antialias="1" Transparency="0" versionNumber="7" parm1="21" parm2="35" parm3="1" Depth="17" CustomWidth="21" CustomHeight="35" CustomStrings="1" String1="1" CustomModelCompressed="1,34,0,16;2,33,1,15;3,32,1,15;4,30,2,14;5,29,3,14;6,28,3,13;7,27,4,13;8,26,5,12;9,25,6,12;10,23,6,11;11,22,7,10;12,21,8,10;13,20,8,9;14,19,9,9;15,18,10,8;16,16,10,8;17,15,11,7;18,14,12,7;19,13,12,6;20,12,13,6;21,11,14,5;22,9,14,4;23,8,15,4;24,7,16,3;25,6,17,3;26,5,17,2;27,4,18,2;28,2,19,1;29,1,19,1;30,0,20,0" WorldPosX="60.000000" WorldPosY="33.500000" WorldPosZ="14.000000" ScaleX="0.5" ScaleY="0.5" ScaleZ="0.5">
+      <subModel name="SECTOR_00" layout="horizontal" type="ranges" line0="1-4" />
+      <subModel name="SECTOR_01" layout="horizontal" type="ranges" line0="5-8" />
+      <subModel name="SECTOR_02" layout="horizontal" type="ranges" line0="9-12" />
+      <subModel name="SECTOR_03" layout="horizontal" type="ranges" line0="13-16" />
+      <subModel name="SECTOR_04" layout="horizontal" type="ranges" line0="17-20" />
+      <subModel name="SECTOR_05" layout="horizontal" type="ranges" line0="21-24" />
+      <subModel name="SECTOR_06" layout="horizontal" type="ranges" line0="25-27" />
+      <subModel name="SECTOR_07" layout="horizontal" type="ranges" line0="28-30" />
+    </model>
+    <model name="HX_031_CATERPILLAR_SEGMENT" DisplayAs="Custom" StringType="RGB Nodes" StartChannel="6301" Controller="" LayoutGroup="Default" StartSide="B" Dir="L" PixelSize="2" Antialias="1" Transparency="0" versionNumber="7" parm1="1" parm2="53" parm3="1" Depth="53" CustomWidth="1" CustomHeight="53" CustomStrings="1" String1="1" CustomModelCompressed="1,26,0,0;2,24,0,0;3,21,0,0;4,19,0,1;5,17,0,2;6,15,0,3;7,13,0,4;8,11,0,5;9,9,0,6;10,7,0,8;11,6,0,10;12,4,0,12;13,3,0,14;14,2,0,16;15,1,0,18;16,1,0,20;17,0,0,23;18,0,0,25;19,0,0,27;20,0,0,29;21,1,0,32;22,1,0,34;23,2,0,36;24,3,0,38;25,4,0,40;26,6,0,42;27,7,0,44;28,9,0,46;29,11,0,47;30,13,0,48;31,15,0,49;32,17,0,50;33,19,0,51;34,21,0,52;35,24,0,52;36,26,0,52;37,28,0,52;38,31,0,52;39,33,0,51;40,35,0,50;41,37,0,49;42,39,0,48;43,41,0,47;44,43,0,46;45,45,0,44;46,46,0,42;47,48,0,40;48,49,0,38;49,50,0,36;50,51,0,34;51,51,0,32;52,52,0,29;53,52,0,27;54,52,0,25;55,52,0,23;56,51,0,20;57,51,0,18;58,50,0,16;59,49,0,14;60,48,0,12;61,46,0,10;62,45,0,8;63,43,0,6;64,41,0,5;65,39,0,4;66,37,0,3;67,35,0,2;68,33,0,1;69,31,0,0;70,28,0,0" WorldPosX="-42.500000" WorldPosY="13.000000" WorldPosZ="6.000000" ScaleX="0.5" ScaleY="0.5" ScaleZ="0.5">
+      <subModel name="SECTOR_00" layout="horizontal" type="ranges" line0="1-9" />
+      <subModel name="SECTOR_01" layout="horizontal" type="ranges" line0="10-18" />
+      <subModel name="SECTOR_02" layout="horizontal" type="ranges" line0="19-27" />
+      <subModel name="SECTOR_03" layout="horizontal" type="ranges" line0="28-36" />
+      <subModel name="SECTOR_04" layout="horizontal" type="ranges" line0="37-45" />
+      <subModel name="SECTOR_05" layout="horizontal" type="ranges" line0="46-54" />
+      <subModel name="SECTOR_06" layout="horizontal" type="ranges" line0="55-62" />
+      <subModel name="SECTOR_07" layout="horizontal" type="ranges" line0="63-70" />
+    </model>
+    <model name="HX_032_CATERPILLAR_SEGMENT" DisplayAs="Custom" StringType="RGB Nodes" StartChannel="6511" Controller="" LayoutGroup="Default" StartSide="B" Dir="L" PixelSize="2" Antialias="1" Transparency="0" versionNumber="7" parm1="1" parm2="53" parm3="1" Depth="53" CustomWidth="1" CustomHeight="53" CustomStrings="1" String1="1" CustomModelCompressed="1,26,0,0;2,24,0,0;3,22,0,0;4,19,0,1;5,17,0,2;6,15,0,3;7,13,0,4;8,11,0,5;9,9,0,6;10,8,0,8;11,6,0,10;12,5,0,12;13,3,0,14;14,2,0,16;15,2,0,18;16,1,0,20;17,1,0,23;18,0,0,25;19,0,0,27;20,1,0,29;21,1,0,32;22,2,0,34;23,2,0,36;24,3,0,38;25,5,0,40;26,6,0,42;27,8,0,44;28,9,0,46;29,11,0,47;30,13,0,48;31,15,0,49;32,17,0,50;33,19,0,51;34,22,0,52;35,24,0,52;36,26,0,52;37,29,0,52;38,31,0,52;39,33,0,51;40,35,0,50;41,38,0,49;42,40,0,48;43,42,0,47;44,43,0,46;45,45,0,44;46,47,0,42;47,48,0,40;48,49,0,38;49,50,0,36;50,51,0,34;51,52,0,32;52,52,0,29;53,52,0,27;54,52,0,25;55,52,0,23;56,52,0,20;57,51,0,18;58,50,0,16;59,49,0,14;60,48,0,12;61,47,0,10;62,45,0,8;63,43,0,6;64,42,0,5;65,40,0,4;66,38,0,3;67,35,0,2;68,33,0,1;69,31,0,0;70,29,0,0" WorldPosX="-31.000000" WorldPosY="14.000000" WorldPosZ="6.000000" ScaleX="0.5" ScaleY="0.5" ScaleZ="0.5">
+      <subModel name="SECTOR_00" layout="horizontal" type="ranges" line0="1-9" />
+      <subModel name="SECTOR_01" layout="horizontal" type="ranges" line0="10-18" />
+      <subModel name="SECTOR_02" layout="horizontal" type="ranges" line0="19-27" />
+      <subModel name="SECTOR_03" layout="horizontal" type="ranges" line0="28-36" />
+      <subModel name="SECTOR_04" layout="horizontal" type="ranges" line0="37-45" />
+      <subModel name="SECTOR_05" layout="horizontal" type="ranges" line0="46-54" />
+      <subModel name="SECTOR_06" layout="horizontal" type="ranges" line0="55-62" />
+      <subModel name="SECTOR_07" layout="horizontal" type="ranges" line0="63-70" />
+    </model>
+    <model name="HX_033_CATERPILLAR_SEGMENT" DisplayAs="Custom" StringType="RGB Nodes" StartChannel="6721" Controller="" LayoutGroup="Default" StartSide="B" Dir="L" PixelSize="2" Antialias="1" Transparency="0" versionNumber="7" parm1="1" parm2="53" parm3="1" Depth="53" CustomWidth="1" CustomHeight="53" CustomStrings="1" String1="1" CustomModelCompressed="1,26,0,0;2,23,0,0;3,21,0,0;4,19,0,1;5,17,0,2;6,14,0,3;7,12,0,4;8,10,0,5;9,9,0,6;10,7,0,8;11,5,0,10;12,4,0,12;13,3,0,14;14,2,0,16;15,1,0,18;16,0,0,20;17,0,0,23;18,0,0,25;19,0,0,27;20,0,0,29;21,0,0,32;22,1,0,34;23,2,0,36;24,3,0,38;25,4,0,40;26,5,0,42;27,7,0,44;28,9,0,46;29,10,0,47;30,12,0,48;31,14,0,49;32,17,0,50;33,19,0,51;34,21,0,52;35,23,0,52;36,26,0,52;37,28,0,52;38,30,0,52;39,33,0,51;40,35,0,50;41,37,0,49;42,39,0,48;43,41,0,47;44,43,0,46;45,45,0,44;46,46,0,42;47,47,0,40;48,49,0,38;49,50,0,36;50,50,0,34;51,51,0,32;52,52,0,29;53,52,0,27;54,52,0,25;55,52,0,23;56,51,0,20;57,50,0,18;58,50,0,16;59,49,0,14;60,47,0,12;61,46,0,10;62,45,0,8;63,43,0,6;64,41,0,5;65,39,0,4;66,37,0,3;67,35,0,2;68,33,0,1;69,30,0,0;70,28,0,0" WorldPosX="-20.000000" WorldPosY="14.500000" WorldPosZ="6.000000" ScaleX="0.5" ScaleY="0.5" ScaleZ="0.5">
+      <subModel name="SECTOR_00" layout="horizontal" type="ranges" line0="1-9" />
+      <subModel name="SECTOR_01" layout="horizontal" type="ranges" line0="10-18" />
+      <subModel name="SECTOR_02" layout="horizontal" type="ranges" line0="19-27" />
+      <subModel name="SECTOR_03" layout="horizontal" type="ranges" line0="28-36" />
+      <subModel name="SECTOR_04" layout="horizontal" type="ranges" line0="37-45" />
+      <subModel name="SECTOR_05" layout="horizontal" type="ranges" line0="46-54" />
+      <subModel name="SECTOR_06" layout="horizontal" type="ranges" line0="55-62" />
+      <subModel name="SECTOR_07" layout="horizontal" type="ranges" line0="63-70" />
+    </model>
+    <model name="HX_034_CATERPILLAR_SEGMENT" DisplayAs="Custom" StringType="RGB Nodes" StartChannel="6931" Controller="" LayoutGroup="Default" StartSide="B" Dir="L" PixelSize="2" Antialias="1" Transparency="0" versionNumber="7" parm1="1" parm2="53" parm3="1" Depth="53" CustomWidth="1" CustomHeight="53" CustomStrings="1" String1="1" CustomModelCompressed="1,26,0,0;2,24,0,0;3,22,0,0;4,20,0,1;5,17,0,2;6,15,0,3;7,13,0,4;8,11,0,5;9,9,0,6;10,8,0,8;11,6,0,10;12,5,0,12;13,4,0,14;14,3,0,16;15,2,0,18;16,1,0,20;17,1,0,23;18,0,0,25;19,0,0,27;20,1,0,29;21,1,0,32;22,2,0,34;23,3,0,36;24,4,0,38;25,5,0,40;26,6,0,42;27,8,0,44;28,9,0,46;29,11,0,47;30,13,0,48;31,15,0,49;32,17,0,50;33,20,0,51;34,22,0,52;35,24,0,52;36,26,0,52;37,29,0,52;38,31,0,52;39,33,0,51;40,36,0,50;41,38,0,49;42,40,0,48;43,42,0,47;44,44,0,46;45,45,0,44;46,47,0,42;47,48,0,40;48,49,0,38;49,50,0,36;50,51,0,34;51,52,0,32;52,52,0,29;53,52,0,27;54,52,0,25;55,52,0,23;56,52,0,20;57,51,0,18;58,50,0,16;59,49,0,14;60,48,0,12;61,47,0,10;62,45,0,8;63,44,0,6;64,42,0,5;65,40,0,4;66,38,0,3;67,36,0,2;68,33,0,1;69,31,0,0;70,29,0,0" WorldPosX="-8.500000" WorldPosY="15.500000" WorldPosZ="6.000000" ScaleX="0.5" ScaleY="0.5" ScaleZ="0.5">
+      <subModel name="SECTOR_00" layout="horizontal" type="ranges" line0="1-9" />
+      <subModel name="SECTOR_01" layout="horizontal" type="ranges" line0="10-18" />
+      <subModel name="SECTOR_02" layout="horizontal" type="ranges" line0="19-27" />
+      <subModel name="SECTOR_03" layout="horizontal" type="ranges" line0="28-36" />
+      <subModel name="SECTOR_04" layout="horizontal" type="ranges" line0="37-45" />
+      <subModel name="SECTOR_05" layout="horizontal" type="ranges" line0="46-54" />
+      <subModel name="SECTOR_06" layout="horizontal" type="ranges" line0="55-62" />
+      <subModel name="SECTOR_07" layout="horizontal" type="ranges" line0="63-70" />
+    </model>
+    <model name="HX_035_CATERPILLAR_SEGMENT" DisplayAs="Custom" StringType="RGB Nodes" StartChannel="7141" Controller="" LayoutGroup="Default" StartSide="B" Dir="L" PixelSize="2" Antialias="1" Transparency="0" versionNumber="7" parm1="1" parm2="53" parm3="1" Depth="53" CustomWidth="1" CustomHeight="53" CustomStrings="1" String1="1" CustomModelCompressed="1,26,0,0;2,23,0,0;3,21,0,0;4,19,0,1;5,16,0,2;6,14,0,3;7,12,0,4;8,10,0,5;9,8,0,6;10,7,0,8;11,5,0,10;12,4,0,12;13,3,0,14;14,2,0,16;15,1,0,18;16,0,0,20;17,0,0,23;18,0,0,25;19,0,0,27;20,0,0,29;21,0,0,32;22,1,0,34;23,2,0,36;24,3,0,38;25,4,0,40;26,5,0,42;27,7,0,44;28,8,0,46;29,10,0,47;30,12,0,48;31,14,0,49;32,16,0,50;33,19,0,51;34,21,0,52;35,23,0,52;36,26,0,52;37,28,0,52;38,30,0,52;39,32,0,51;40,35,0,50;41,37,0,49;42,39,0,48;43,41,0,47;44,43,0,46;45,44,0,44;46,46,0,42;47,47,0,40;48,48,0,38;49,49,0,36;50,50,0,34;51,51,0,32;52,51,0,29;53,52,0,27;54,52,0,25;55,51,0,23;56,51,0,20;57,50,0,18;58,49,0,16;59,48,0,14;60,47,0,12;61,46,0,10;62,44,0,8;63,43,0,6;64,41,0,5;65,39,0,4;66,37,0,3;67,35,0,2;68,32,0,1;69,30,0,0;70,28,0,0" WorldPosX="3.000000" WorldPosY="15.500000" WorldPosZ="6.000000" ScaleX="0.5" ScaleY="0.5" ScaleZ="0.5">
+      <subModel name="SECTOR_00" layout="horizontal" type="ranges" line0="1-9" />
+      <subModel name="SECTOR_01" layout="horizontal" type="ranges" line0="10-18" />
+      <subModel name="SECTOR_02" layout="horizontal" type="ranges" line0="19-27" />
+      <subModel name="SECTOR_03" layout="horizontal" type="ranges" line0="28-36" />
+      <subModel name="SECTOR_04" layout="horizontal" type="ranges" line0="37-45" />
+      <subModel name="SECTOR_05" layout="horizontal" type="ranges" line0="46-54" />
+      <subModel name="SECTOR_06" layout="horizontal" type="ranges" line0="55-62" />
+      <subModel name="SECTOR_07" layout="horizontal" type="ranges" line0="63-70" />
+    </model>
+    <model name="HX_036_CATERPILLAR_SEGMENT" DisplayAs="Custom" StringType="RGB Nodes" StartChannel="7351" Controller="" LayoutGroup="Default" StartSide="B" Dir="L" PixelSize="2" Antialias="1" Transparency="0" versionNumber="7" parm1="1" parm2="53" parm3="1" Depth="53" CustomWidth="1" CustomHeight="53" CustomStrings="1" String1="1" CustomModelCompressed="1,26,0,0;2,24,0,0;3,21,0,0;4,19,0,1;5,17,0,2;6,15,0,3;7,13,0,4;8,11,0,5;9,9,0,6;10,7,0,8;11,6,0,10;12,4,0,12;13,3,0,14;14,2,0,16;15,1,0,18;16,1,0,20;17,0,0,23;18,0,0,25;19,0,0,27;20,0,0,29;21,1,0,32;22,1,0,34;23,2,0,36;24,3,0,38;25,4,0,40;26,6,0,42;27,7,0,44;28,9,0,46;29,11,0,47;30,13,0,48;31,15,0,49;32,17,0,50;33,19,0,51;34,21,0,52;35,24,0,52;36,26,0,52;37,28,0,52;38,31,0,52;39,33,0,51;40,35,0,50;41,37,0,49;42,39,0,48;43,41,0,47;44,43,0,46;45,45,0,44;46,46,0,42;47,48,0,40;48,49,0,38;49,50,0,36;50,51,0,34;51,51,0,32;52,52,0,29;53,52,0,27;54,52,0,25;55,52,0,23;56,51,0,20;57,51,0,18;58,50,0,16;59,49,0,14;60,48,0,12;61,46,0,10;62,45,0,8;63,43,0,6;64,41,0,5;65,39,0,4;66,37,0,3;67,35,0,2;68,33,0,1;69,31,0,0;70,28,0,0" WorldPosX="14.500000" WorldPosY="16.000000" WorldPosZ="6.000000" ScaleX="0.5" ScaleY="0.5" ScaleZ="0.5">
+      <subModel name="SECTOR_00" layout="horizontal" type="ranges" line0="1-9" />
+      <subModel name="SECTOR_01" layout="horizontal" type="ranges" line0="10-18" />
+      <subModel name="SECTOR_02" layout="horizontal" type="ranges" line0="19-27" />
+      <subModel name="SECTOR_03" layout="horizontal" type="ranges" line0="28-36" />
+      <subModel name="SECTOR_04" layout="horizontal" type="ranges" line0="37-45" />
+      <subModel name="SECTOR_05" layout="horizontal" type="ranges" line0="46-54" />
+      <subModel name="SECTOR_06" layout="horizontal" type="ranges" line0="55-62" />
+      <subModel name="SECTOR_07" layout="horizontal" type="ranges" line0="63-70" />
+    </model>
+    <model name="HX_037_CATERPILLAR_SEGMENT" DisplayAs="Custom" StringType="RGB Nodes" StartChannel="7561" Controller="" LayoutGroup="Default" StartSide="B" Dir="L" PixelSize="2" Antialias="1" Transparency="0" versionNumber="7" parm1="1" parm2="53" parm3="1" Depth="53" CustomWidth="1" CustomHeight="53" CustomStrings="1" String1="1" CustomModelCompressed="1,26,0,0;2,24,0,0;3,21,0,0;4,19,0,1;5,17,0,2;6,15,0,3;7,13,0,4;8,11,0,5;9,9,0,6;10,7,0,8;11,6,0,10;12,4,0,12;13,3,0,14;14,2,0,16;15,1,0,18;16,1,0,20;17,0,0,23;18,0,0,25;19,0,0,27;20,0,0,29;21,1,0,32;22,1,0,34;23,2,0,36;24,3,0,38;25,4,0,40;26,6,0,42;27,7,0,44;28,9,0,46;29,11,0,47;30,13,0,48;31,15,0,49;32,17,0,50;33,19,0,51;34,21,0,52;35,24,0,52;36,26,0,52;37,28,0,52;38,31,0,52;39,33,0,51;40,35,0,50;41,37,0,49;42,39,0,48;43,41,0,47;44,43,0,46;45,45,0,44;46,46,0,42;47,48,0,40;48,49,0,38;49,50,0,36;50,51,0,34;51,51,0,32;52,52,0,29;53,52,0,27;54,52,0,25;55,52,0,23;56,51,0,20;57,51,0,18;58,50,0,16;59,49,0,14;60,48,0,12;61,46,0,10;62,45,0,8;63,43,0,6;64,41,0,5;65,39,0,4;66,37,0,3;67,35,0,2;68,33,0,1;69,31,0,0;70,28,0,0" WorldPosX="25.500000" WorldPosY="16.000000" WorldPosZ="6.000000" ScaleX="0.5" ScaleY="0.5" ScaleZ="0.5">
+      <subModel name="SECTOR_00" layout="horizontal" type="ranges" line0="1-9" />
+      <subModel name="SECTOR_01" layout="horizontal" type="ranges" line0="10-18" />
+      <subModel name="SECTOR_02" layout="horizontal" type="ranges" line0="19-27" />
+      <subModel name="SECTOR_03" layout="horizontal" type="ranges" line0="28-36" />
+      <subModel name="SECTOR_04" layout="horizontal" type="ranges" line0="37-45" />
+      <subModel name="SECTOR_05" layout="horizontal" type="ranges" line0="46-54" />
+      <subModel name="SECTOR_06" layout="horizontal" type="ranges" line0="55-62" />
+      <subModel name="SECTOR_07" layout="horizontal" type="ranges" line0="63-70" />
+    </model>
+    <model name="HX_038_CATERPILLAR_SEGMENT" DisplayAs="Custom" StringType="RGB Nodes" StartChannel="7771" Controller="" LayoutGroup="Default" StartSide="B" Dir="L" PixelSize="2" Antialias="1" Transparency="0" versionNumber="7" parm1="1" parm2="53" parm3="1" Depth="53" CustomWidth="1" CustomHeight="53" CustomStrings="1" String1="1" CustomModelCompressed="1,26,0,0;2,23,0,0;3,21,0,0;4,19,0,1;5,16,0,2;6,14,0,3;7,12,0,4;8,10,0,5;9,8,0,6;10,7,0,8;11,5,0,10;12,4,0,12;13,3,0,14;14,2,0,16;15,1,0,18;16,0,0,20;17,0,0,23;18,0,0,25;19,0,0,27;20,0,0,29;21,0,0,32;22,1,0,34;23,2,0,36;24,3,0,38;25,4,0,40;26,5,0,42;27,7,0,44;28,8,0,46;29,10,0,47;30,12,0,48;31,14,0,49;32,16,0,50;33,19,0,51;34,21,0,52;35,23,0,52;36,26,0,52;37,28,0,52;38,30,0,52;39,32,0,51;40,35,0,50;41,37,0,49;42,39,0,48;43,41,0,47;44,43,0,46;45,44,0,44;46,46,0,42;47,47,0,40;48,48,0,38;49,49,0,36;50,50,0,34;51,51,0,32;52,51,0,29;53,52,0,27;54,52,0,25;55,51,0,23;56,51,0,20;57,50,0,18;58,49,0,16;59,48,0,14;60,47,0,12;61,46,0,10;62,44,0,8;63,43,0,6;64,41,0,5;65,39,0,4;66,37,0,3;67,35,0,2;68,32,0,1;69,30,0,0;70,28,0,0" WorldPosX="37.000000" WorldPosY="15.500000" WorldPosZ="6.000000" ScaleX="0.5" ScaleY="0.5" ScaleZ="0.5">
+      <subModel name="SECTOR_00" layout="horizontal" type="ranges" line0="1-9" />
+      <subModel name="SECTOR_01" layout="horizontal" type="ranges" line0="10-18" />
+      <subModel name="SECTOR_02" layout="horizontal" type="ranges" line0="19-27" />
+      <subModel name="SECTOR_03" layout="horizontal" type="ranges" line0="28-36" />
+      <subModel name="SECTOR_04" layout="horizontal" type="ranges" line0="37-45" />
+      <subModel name="SECTOR_05" layout="horizontal" type="ranges" line0="46-54" />
+      <subModel name="SECTOR_06" layout="horizontal" type="ranges" line0="55-62" />
+      <subModel name="SECTOR_07" layout="horizontal" type="ranges" line0="63-70" />
+    </model>
+    <model name="HX_039_CATERPILLAR_SEGMENT" DisplayAs="Custom" StringType="RGB Nodes" StartChannel="7981" Controller="" LayoutGroup="Default" StartSide="B" Dir="L" PixelSize="2" Antialias="1" Transparency="0" versionNumber="7" parm1="1" parm2="53" parm3="1" Depth="53" CustomWidth="1" CustomHeight="53" CustomStrings="1" String1="1" CustomModelCompressed="1,26,0,0;2,24,0,0;3,22,0,0;4,20,0,1;5,17,0,2;6,15,0,3;7,13,0,4;8,11,0,5;9,9,0,6;10,8,0,8;11,6,0,10;12,5,0,12;13,4,0,14;14,3,0,16;15,2,0,18;16,1,0,20;17,1,0,23;18,0,0,25;19,0,0,27;20,1,0,29;21,1,0,32;22,2,0,34;23,3,0,36;24,4,0,38;25,5,0,40;26,6,0,42;27,8,0,44;28,9,0,46;29,11,0,47;30,13,0,48;31,15,0,49;32,17,0,50;33,20,0,51;34,22,0,52;35,24,0,52;36,26,0,52;37,29,0,52;38,31,0,52;39,33,0,51;40,36,0,50;41,38,0,49;42,40,0,48;43,42,0,47;44,44,0,46;45,45,0,44;46,47,0,42;47,48,0,40;48,49,0,38;49,50,0,36;50,51,0,34;51,52,0,32;52,52,0,29;53,52,0,27;54,52,0,25;55,52,0,23;56,52,0,20;57,51,0,18;58,50,0,16;59,49,0,14;60,48,0,12;61,47,0,10;62,45,0,8;63,44,0,6;64,42,0,5;65,40,0,4;66,38,0,3;67,36,0,2;68,33,0,1;69,31,0,0;70,29,0,0" WorldPosX="48.500000" WorldPosY="15.500000" WorldPosZ="6.000000" ScaleX="0.5" ScaleY="0.5" ScaleZ="0.5">
+      <subModel name="SECTOR_00" layout="horizontal" type="ranges" line0="1-9" />
+      <subModel name="SECTOR_01" layout="horizontal" type="ranges" line0="10-18" />
+      <subModel name="SECTOR_02" layout="horizontal" type="ranges" line0="19-27" />
+      <subModel name="SECTOR_03" layout="horizontal" type="ranges" line0="28-36" />
+      <subModel name="SECTOR_04" layout="horizontal" type="ranges" line0="37-45" />
+      <subModel name="SECTOR_05" layout="horizontal" type="ranges" line0="46-54" />
+      <subModel name="SECTOR_06" layout="horizontal" type="ranges" line0="55-62" />
+      <subModel name="SECTOR_07" layout="horizontal" type="ranges" line0="63-70" />
+    </model>
+    <model name="HX_040_CATERPILLAR_SEGMENT" DisplayAs="Custom" StringType="RGB Nodes" StartChannel="8191" Controller="" LayoutGroup="Default" StartSide="B" Dir="L" PixelSize="2" Antialias="1" Transparency="0" versionNumber="7" parm1="1" parm2="53" parm3="1" Depth="53" CustomWidth="1" CustomHeight="53" CustomStrings="1" String1="1" CustomModelCompressed="1,26,0,0;2,23,0,0;3,21,0,0;4,19,0,1;5,17,0,2;6,14,0,3;7,12,0,4;8,10,0,5;9,9,0,6;10,7,0,8;11,5,0,10;12,4,0,12;13,3,0,14;14,2,0,16;15,1,0,18;16,0,0,20;17,0,0,23;18,0,0,25;19,0,0,27;20,0,0,29;21,0,0,32;22,1,0,34;23,2,0,36;24,3,0,38;25,4,0,40;26,5,0,42;27,7,0,44;28,9,0,46;29,10,0,47;30,12,0,48;31,14,0,49;32,17,0,50;33,19,0,51;34,21,0,52;35,23,0,52;36,26,0,52;37,28,0,52;38,30,0,52;39,33,0,51;40,35,0,50;41,37,0,49;42,39,0,48;43,41,0,47;44,43,0,46;45,45,0,44;46,46,0,42;47,47,0,40;48,49,0,38;49,50,0,36;50,50,0,34;51,51,0,32;52,52,0,29;53,52,0,27;54,52,0,25;55,52,0,23;56,51,0,20;57,50,0,18;58,50,0,16;59,49,0,14;60,47,0,12;61,46,0,10;62,45,0,8;63,43,0,6;64,41,0,5;65,39,0,4;66,37,0,3;67,35,0,2;68,33,0,1;69,30,0,0;70,28,0,0" WorldPosX="60.000000" WorldPosY="14.500000" WorldPosZ="6.000000" ScaleX="0.5" ScaleY="0.5" ScaleZ="0.5">
+      <subModel name="SECTOR_00" layout="horizontal" type="ranges" line0="1-9" />
+      <subModel name="SECTOR_01" layout="horizontal" type="ranges" line0="10-18" />
+      <subModel name="SECTOR_02" layout="horizontal" type="ranges" line0="19-27" />
+      <subModel name="SECTOR_03" layout="horizontal" type="ranges" line0="28-36" />
+      <subModel name="SECTOR_04" layout="horizontal" type="ranges" line0="37-45" />
+      <subModel name="SECTOR_05" layout="horizontal" type="ranges" line0="46-54" />
+      <subModel name="SECTOR_06" layout="horizontal" type="ranges" line0="55-62" />
+      <subModel name="SECTOR_07" layout="horizontal" type="ranges" line0="63-70" />
+    </model>
+    <model name="HX_041_CATERPILLAR_SEGMENT" DisplayAs="Custom" StringType="RGB Nodes" StartChannel="8401" Controller="" LayoutGroup="Default" StartSide="B" Dir="L" PixelSize="2" Antialias="1" Transparency="0" versionNumber="7" parm1="1" parm2="53" parm3="1" Depth="53" CustomWidth="1" CustomHeight="53" CustomStrings="1" String1="1" CustomModelCompressed="1,26,0,0;2,24,0,0;3,22,0,0;4,19,0,1;5,17,0,2;6,15,0,3;7,13,0,4;8,11,0,5;9,9,0,6;10,8,0,8;11,6,0,10;12,5,0,12;13,3,0,14;14,2,0,16;15,2,0,18;16,1,0,20;17,1,0,23;18,0,0,25;19,0,0,27;20,1,0,29;21,1,0,32;22,2,0,34;23,2,0,36;24,3,0,38;25,5,0,40;26,6,0,42;27,8,0,44;28,9,0,46;29,11,0,47;30,13,0,48;31,15,0,49;32,17,0,50;33,19,0,51;34,22,0,52;35,24,0,52;36,26,0,52;37,29,0,52;38,31,0,52;39,33,0,51;40,35,0,50;41,38,0,49;42,40,0,48;43,42,0,47;44,43,0,46;45,45,0,44;46,47,0,42;47,48,0,40;48,49,0,38;49,50,0,36;50,51,0,34;51,52,0,32;52,52,0,29;53,52,0,27;54,52,0,25;55,52,0,23;56,52,0,20;57,51,0,18;58,50,0,16;59,49,0,14;60,48,0,12;61,47,0,10;62,45,0,8;63,43,0,6;64,42,0,5;65,40,0,4;66,38,0,3;67,35,0,2;68,33,0,1;69,31,0,0;70,29,0,0" WorldPosX="71.000000" WorldPosY="14.000000" WorldPosZ="6.000000" ScaleX="0.5" ScaleY="0.5" ScaleZ="0.5">
+      <subModel name="SECTOR_00" layout="horizontal" type="ranges" line0="1-9" />
+      <subModel name="SECTOR_01" layout="horizontal" type="ranges" line0="10-18" />
+      <subModel name="SECTOR_02" layout="horizontal" type="ranges" line0="19-27" />
+      <subModel name="SECTOR_03" layout="horizontal" type="ranges" line0="28-36" />
+      <subModel name="SECTOR_04" layout="horizontal" type="ranges" line0="37-45" />
+      <subModel name="SECTOR_05" layout="horizontal" type="ranges" line0="46-54" />
+      <subModel name="SECTOR_06" layout="horizontal" type="ranges" line0="55-62" />
+      <subModel name="SECTOR_07" layout="horizontal" type="ranges" line0="63-70" />
+    </model>
+    <model name="HX_042_CATERPILLAR_SEGMENT" DisplayAs="Custom" StringType="RGB Nodes" StartChannel="8611" Controller="" LayoutGroup="Default" StartSide="B" Dir="L" PixelSize="2" Antialias="1" Transparency="0" versionNumber="7" parm1="1" parm2="53" parm3="1" Depth="53" CustomWidth="1" CustomHeight="53" CustomStrings="1" String1="1" CustomModelCompressed="1,26,0,0;2,24,0,0;3,21,0,0;4,19,0,1;5,17,0,2;6,15,0,3;7,13,0,4;8,11,0,5;9,9,0,6;10,7,0,8;11,6,0,10;12,4,0,12;13,3,0,14;14,2,0,16;15,1,0,18;16,1,0,20;17,0,0,23;18,0,0,25;19,0,0,27;20,0,0,29;21,1,0,32;22,1,0,34;23,2,0,36;24,3,0,38;25,4,0,40;26,6,0,42;27,7,0,44;28,9,0,46;29,11,0,47;30,13,0,48;31,15,0,49;32,17,0,50;33,19,0,51;34,21,0,52;35,24,0,52;36,26,0,52;37,28,0,52;38,31,0,52;39,33,0,51;40,35,0,50;41,37,0,49;42,39,0,48;43,41,0,47;44,43,0,46;45,45,0,44;46,46,0,42;47,48,0,40;48,49,0,38;49,50,0,36;50,51,0,34;51,51,0,32;52,52,0,29;53,52,0,27;54,52,0,25;55,52,0,23;56,51,0,20;57,51,0,18;58,50,0,16;59,49,0,14;60,48,0,12;61,46,0,10;62,45,0,8;63,43,0,6;64,41,0,5;65,39,0,4;66,37,0,3;67,35,0,2;68,33,0,1;69,31,0,0;70,28,0,0" WorldPosX="82.500000" WorldPosY="13.000000" WorldPosZ="6.000000" ScaleX="0.5" ScaleY="0.5" ScaleZ="0.5">
+      <subModel name="SECTOR_00" layout="horizontal" type="ranges" line0="1-9" />
+      <subModel name="SECTOR_01" layout="horizontal" type="ranges" line0="10-18" />
+      <subModel name="SECTOR_02" layout="horizontal" type="ranges" line0="19-27" />
+      <subModel name="SECTOR_03" layout="horizontal" type="ranges" line0="28-36" />
+      <subModel name="SECTOR_04" layout="horizontal" type="ranges" line0="37-45" />
+      <subModel name="SECTOR_05" layout="horizontal" type="ranges" line0="46-54" />
+      <subModel name="SECTOR_06" layout="horizontal" type="ranges" line0="55-62" />
+      <subModel name="SECTOR_07" layout="horizontal" type="ranges" line0="63-70" />
+    </model>
+    <model name="HX_043_CATERPILLAR_HEAD" DisplayAs="Custom" StringType="RGB Nodes" StartChannel="8821" Controller="" LayoutGroup="Default" StartSide="B" Dir="L" PixelSize="2" Antialias="1" Transparency="0" versionNumber="7" parm1="1" parm2="61" parm3="1" Depth="61" CustomWidth="1" CustomHeight="61" CustomStrings="1" String1="1" CustomModelCompressed="1,30,0,0;2,29,0,0;3,27,0,0;4,26,0,0;5,25,0,0;6,24,0,1;7,23,0,1;8,21,0,1;9,20,0,2;10,19,0,2;11,18,0,3;12,17,0,3;13,16,0,4;14,14,0,4;15,13,0,5;16,12,0,6;17,11,0,6;18,10,0,7;19,9,0,8;20,9,0,9;21,8,0,10;22,7,0,11;23,6,0,12;24,5,0,13;25,5,0,14;26,4,0,15;27,3,0,16;28,3,0,17;29,2,0,18;30,2,0,20;31,1,0,21;32,1,0,22;33,1,0,23;34,1,0,24;35,0,0,26;36,0,0,27;37,0,0,28;38,0,0,29;39,0,0,31;40,0,0,32;41,0,0,33;42,0,0,34;43,1,0,36;44,1,0,37;45,1,0,38;46,1,0,39;47,2,0,40;48,2,0,42;49,3,0,43;50,3,0,44;51,4,0,45;52,5,0,46;53,5,0,47;54,6,0,48;55,7,0,49;56,8,0,50;57,9,0,51;58,9,0,52;59,10,0,53;60,11,0,54;61,12,0,54;62,13,0,55;63,14,0,56;64,16,0,56;65,17,0,57;66,18,0,57;67,19,0,58;68,20,0,58;69,21,0,59;70,23,0,59;71,24,0,59;72,25,0,60;73,26,0,60;74,27,0,60;75,29,0,60;76,30,0,60;77,31,0,60;78,33,0,60;79,34,0,60;80,35,0,60;81,36,0,59;82,37,0,59;83,39,0,59;84,40,0,58;85,41,0,58;86,42,0,57;87,43,0,57;88,44,0,56;89,46,0,56;90,47,0,55;91,48,0,54;92,49,0,54;93,50,0,53;94,51,0,52;95,51,0,51;96,52,0,50;97,53,0,49;98,54,0,48;99,55,0,47;100,55,0,46;101,56,0,45;102,57,0,44;103,57,0,43;104,58,0,42;105,58,0,40;106,59,0,39;107,59,0,38;108,59,0,37;109,59,0,36;110,60,0,34;111,60,0,33;112,60,0,32;113,60,0,31;114,60,0,29;115,60,0,28;116,60,0,27;117,60,0,26;118,59,0,24;119,59,0,23;120,59,0,22;121,59,0,21;122,58,0,20;123,58,0,18;124,57,0,17;125,57,0,16;126,56,0,15;127,55,0,14;128,55,0,13;129,54,0,12;130,53,0,11;131,52,0,10;132,51,0,9;133,51,0,8;134,50,0,7;135,49,0,6;136,48,0,6;137,47,0,5;138,46,0,4;139,44,0,4;140,43,0,3;141,42,0,3;142,41,0,2;143,40,0,2;144,39,0,1;145,37,0,1;146,36,0,1;147,35,0,0;148,34,0,0;149,33,0,0;150,31,0,0" WorldPosX="82.500000" WorldPosY="17.000000" WorldPosZ="6.000000" ScaleX="0.5" ScaleY="0.5" ScaleZ="0.5">
+      <subModel name="SECTOR_00" layout="horizontal" type="ranges" line0="1-19" />
+      <subModel name="SECTOR_01" layout="horizontal" type="ranges" line0="20-38" />
+      <subModel name="SECTOR_02" layout="horizontal" type="ranges" line0="39-57" />
+      <subModel name="SECTOR_03" layout="horizontal" type="ranges" line0="58-76" />
+      <subModel name="SECTOR_04" layout="horizontal" type="ranges" line0="77-95" />
+      <subModel name="SECTOR_05" layout="horizontal" type="ranges" line0="96-114" />
+      <subModel name="SECTOR_06" layout="horizontal" type="ranges" line0="115-132" />
+      <subModel name="SECTOR_07" layout="horizontal" type="ranges" line0="133-150" />
+    </model>
+    <model name="HX_044_ANTENNA" DisplayAs="Custom" StringType="RGB Nodes" StartChannel="9271" Controller="" LayoutGroup="Default" StartSide="B" Dir="L" PixelSize="2" Antialias="1" Transparency="0" versionNumber="7" parm1="21" parm2="35" parm3="1" Depth="17" CustomWidth="21" CustomHeight="35" CustomStrings="1" String1="1" CustomModelCompressed="1,34,0,0;2,33,1,1;3,32,1,1;4,30,2,2;5,29,3,2;6,28,3,3;7,27,4,3;8,26,5,4;9,25,6,4;10,23,6,5;11,22,7,6;12,21,8,6;13,20,8,7;14,19,9,7;15,18,10,8;16,16,10,8;17,15,11,9;18,14,12,9;19,13,12,10;20,12,13,10;21,11,14,11;22,9,14,12;23,8,15,12;24,7,16,13;25,6,17,13;26,5,17,14;27,4,18,14;28,2,19,15;29,1,19,15;30,0,20,16" WorldPosX="87.500000" WorldPosY="33.500000" WorldPosZ="-5.000000" ScaleX="0.5" ScaleY="0.5" ScaleZ="0.5">
+      <subModel name="SECTOR_00" layout="horizontal" type="ranges" line0="1-4" />
+      <subModel name="SECTOR_01" layout="horizontal" type="ranges" line0="5-8" />
+      <subModel name="SECTOR_02" layout="horizontal" type="ranges" line0="9-12" />
+      <subModel name="SECTOR_03" layout="horizontal" type="ranges" line0="13-16" />
+      <subModel name="SECTOR_04" layout="horizontal" type="ranges" line0="17-20" />
+      <subModel name="SECTOR_05" layout="horizontal" type="ranges" line0="21-24" />
+      <subModel name="SECTOR_06" layout="horizontal" type="ranges" line0="25-27" />
+      <subModel name="SECTOR_07" layout="horizontal" type="ranges" line0="28-30" />
+    </model>
+    <model name="HX_045_ANTENNA" DisplayAs="Custom" StringType="RGB Nodes" StartChannel="9361" Controller="" LayoutGroup="Default" StartSide="B" Dir="L" PixelSize="2" Antialias="1" Transparency="0" versionNumber="7" parm1="21" parm2="35" parm3="1" Depth="17" CustomWidth="21" CustomHeight="35" CustomStrings="1" String1="1" CustomModelCompressed="1,34,0,16;2,33,1,15;3,32,1,15;4,30,2,14;5,29,3,14;6,28,3,13;7,27,4,13;8,26,5,12;9,25,6,12;10,23,6,11;11,22,7,10;12,21,8,10;13,20,8,9;14,19,9,9;15,18,10,8;16,16,10,8;17,15,11,7;18,14,12,7;19,13,12,6;20,12,13,6;21,11,14,5;22,9,14,4;23,8,15,4;24,7,16,3;25,6,17,3;26,5,17,2;27,4,18,2;28,2,19,1;29,1,19,1;30,0,20,0" WorldPosX="87.500000" WorldPosY="33.500000" WorldPosZ="17.000000" ScaleX="0.5" ScaleY="0.5" ScaleZ="0.5">
+      <subModel name="SECTOR_00" layout="horizontal" type="ranges" line0="1-4" />
+      <subModel name="SECTOR_01" layout="horizontal" type="ranges" line0="5-8" />
+      <subModel name="SECTOR_02" layout="horizontal" type="ranges" line0="9-12" />
+      <subModel name="SECTOR_03" layout="horizontal" type="ranges" line0="13-16" />
+      <subModel name="SECTOR_04" layout="horizontal" type="ranges" line0="17-20" />
+      <subModel name="SECTOR_05" layout="horizontal" type="ranges" line0="21-24" />
+      <subModel name="SECTOR_06" layout="horizontal" type="ranges" line0="25-27" />
+      <subModel name="SECTOR_07" layout="horizontal" type="ranges" line0="28-30" />
+    </model>
+    <model name="HX_046_CATERPILLAR_SEGMENT" DisplayAs="Custom" StringType="RGB Nodes" StartChannel="9451" Controller="" LayoutGroup="Default" StartSide="B" Dir="L" PixelSize="2" Antialias="1" Transparency="0" versionNumber="7" parm1="1" parm2="53" parm3="1" Depth="53" CustomWidth="1" CustomHeight="53" CustomStrings="1" String1="1" CustomModelCompressed="1,26,0,0;2,24,0,0;3,21,0,0;4,19,0,1;5,17,0,2;6,15,0,3;7,13,0,4;8,11,0,5;9,9,0,6;10,7,0,8;11,6,0,10;12,4,0,12;13,3,0,14;14,2,0,16;15,1,0,18;16,1,0,20;17,0,0,23;18,0,0,25;19,0,0,27;20,0,0,29;21,1,0,32;22,1,0,34;23,2,0,36;24,3,0,38;25,4,0,40;26,6,0,42;27,7,0,44;28,9,0,46;29,11,0,47;30,13,0,48;31,15,0,49;32,17,0,50;33,19,0,51;34,21,0,52;35,24,0,52;36,26,0,52;37,28,0,52;38,31,0,52;39,33,0,51;40,35,0,50;41,37,0,49;42,39,0,48;43,41,0,47;44,43,0,46;45,45,0,44;46,46,0,42;47,48,0,40;48,49,0,38;49,50,0,36;50,51,0,34;51,51,0,32;52,52,0,29;53,52,0,27;54,52,0,25;55,52,0,23;56,51,0,20;57,51,0,18;58,50,0,16;59,49,0,14;60,48,0,12;61,46,0,10;62,45,0,8;63,43,0,6;64,41,0,5;65,39,0,4;66,37,0,3;67,35,0,2;68,33,0,1;69,31,0,0;70,28,0,0" WorldPosX="-62.500000" WorldPosY="13.000000" WorldPosZ="9.000000" ScaleX="0.5" ScaleY="0.5" ScaleZ="0.5">
+      <subModel name="SECTOR_00" layout="horizontal" type="ranges" line0="1-9" />
+      <subModel name="SECTOR_01" layout="horizontal" type="ranges" line0="10-18" />
+      <subModel name="SECTOR_02" layout="horizontal" type="ranges" line0="19-27" />
+      <subModel name="SECTOR_03" layout="horizontal" type="ranges" line0="28-36" />
+      <subModel name="SECTOR_04" layout="horizontal" type="ranges" line0="37-45" />
+      <subModel name="SECTOR_05" layout="horizontal" type="ranges" line0="46-54" />
+      <subModel name="SECTOR_06" layout="horizontal" type="ranges" line0="55-62" />
+      <subModel name="SECTOR_07" layout="horizontal" type="ranges" line0="63-70" />
+    </model>
+    <model name="HX_047_CATERPILLAR_SEGMENT" DisplayAs="Custom" StringType="RGB Nodes" StartChannel="9661" Controller="" LayoutGroup="Default" StartSide="B" Dir="L" PixelSize="2" Antialias="1" Transparency="0" versionNumber="7" parm1="1" parm2="53" parm3="1" Depth="53" CustomWidth="1" CustomHeight="53" CustomStrings="1" String1="1" CustomModelCompressed="1,26,0,0;2,24,0,0;3,22,0,0;4,19,0,1;5,17,0,2;6,15,0,3;7,13,0,4;8,11,0,5;9,9,0,6;10,8,0,8;11,6,0,10;12,5,0,12;13,3,0,14;14,2,0,16;15,2,0,18;16,1,0,20;17,1,0,23;18,0,0,25;19,0,0,27;20,1,0,29;21,1,0,32;22,2,0,34;23,2,0,36;24,3,0,38;25,5,0,40;26,6,0,42;27,8,0,44;28,9,0,46;29,11,0,47;30,13,0,48;31,15,0,49;32,17,0,50;33,19,0,51;34,22,0,52;35,24,0,52;36,26,0,52;37,29,0,52;38,31,0,52;39,33,0,51;40,35,0,50;41,38,0,49;42,40,0,48;43,42,0,47;44,43,0,46;45,45,0,44;46,47,0,42;47,48,0,40;48,49,0,38;49,50,0,36;50,51,0,34;51,52,0,32;52,52,0,29;53,52,0,27;54,52,0,25;55,52,0,23;56,52,0,20;57,51,0,18;58,50,0,16;59,49,0,14;60,48,0,12;61,47,0,10;62,45,0,8;63,43,0,6;64,42,0,5;65,40,0,4;66,38,0,3;67,35,0,2;68,33,0,1;69,31,0,0;70,29,0,0" WorldPosX="-47.500000" WorldPosY="14.000000" WorldPosZ="9.000000" ScaleX="0.5" ScaleY="0.5" ScaleZ="0.5">
+      <subModel name="SECTOR_00" layout="horizontal" type="ranges" line0="1-9" />
+      <subModel name="SECTOR_01" layout="horizontal" type="ranges" line0="10-18" />
+      <subModel name="SECTOR_02" layout="horizontal" type="ranges" line0="19-27" />
+      <subModel name="SECTOR_03" layout="horizontal" type="ranges" line0="28-36" />
+      <subModel name="SECTOR_04" layout="horizontal" type="ranges" line0="37-45" />
+      <subModel name="SECTOR_05" layout="horizontal" type="ranges" line0="46-54" />
+      <subModel name="SECTOR_06" layout="horizontal" type="ranges" line0="55-62" />
+      <subModel name="SECTOR_07" layout="horizontal" type="ranges" line0="63-70" />
+    </model>
+    <model name="HX_048_CATERPILLAR_SEGMENT" DisplayAs="Custom" StringType="RGB Nodes" StartChannel="9871" Controller="" LayoutGroup="Default" StartSide="B" Dir="L" PixelSize="2" Antialias="1" Transparency="0" versionNumber="7" parm1="1" parm2="53" parm3="1" Depth="53" CustomWidth="1" CustomHeight="53" CustomStrings="1" String1="1" CustomModelCompressed="1,26,0,0;2,23,0,0;3,21,0,0;4,19,0,1;5,17,0,2;6,14,0,3;7,12,0,4;8,10,0,5;9,9,0,6;10,7,0,8;11,5,0,10;12,4,0,12;13,3,0,14;14,2,0,16;15,1,0,18;16,0,0,20;17,0,0,23;18,0,0,25;19,0,0,27;20,0,0,29;21,0,0,32;22,1,0,34;23,2,0,36;24,3,0,38;25,4,0,40;26,5,0,42;27,7,0,44;28,9,0,46;29,10,0,47;30,12,0,48;31,14,0,49;32,17,0,50;33,19,0,51;34,21,0,52;35,23,0,52;36,26,0,52;37,28,0,52;38,30,0,52;39,33,0,51;40,35,0,50;41,37,0,49;42,39,0,48;43,41,0,47;44,43,0,46;45,45,0,44;46,46,0,42;47,47,0,40;48,49,0,38;49,50,0,36;50,50,0,34;51,51,0,32;52,52,0,29;53,52,0,27;54,52,0,25;55,52,0,23;56,51,0,20;57,50,0,18;58,50,0,16;59,49,0,14;60,47,0,12;61,46,0,10;62,45,0,8;63,43,0,6;64,41,0,5;65,39,0,4;66,37,0,3;67,35,0,2;68,33,0,1;69,30,0,0;70,28,0,0" WorldPosX="-32.500000" WorldPosY="14.500000" WorldPosZ="9.000000" ScaleX="0.5" ScaleY="0.5" ScaleZ="0.5">
+      <subModel name="SECTOR_00" layout="horizontal" type="ranges" line0="1-9" />
+      <subModel name="SECTOR_01" layout="horizontal" type="ranges" line0="10-18" />
+      <subModel name="SECTOR_02" layout="horizontal" type="ranges" line0="19-27" />
+      <subModel name="SECTOR_03" layout="horizontal" type="ranges" line0="28-36" />
+      <subModel name="SECTOR_04" layout="horizontal" type="ranges" line0="37-45" />
+      <subModel name="SECTOR_05" layout="horizontal" type="ranges" line0="46-54" />
+      <subModel name="SECTOR_06" layout="horizontal" type="ranges" line0="55-62" />
+      <subModel name="SECTOR_07" layout="horizontal" type="ranges" line0="63-70" />
+    </model>
+    <model name="HX_049_CATERPILLAR_SEGMENT" DisplayAs="Custom" StringType="RGB Nodes" StartChannel="10081" Controller="" LayoutGroup="Default" StartSide="B" Dir="L" PixelSize="2" Antialias="1" Transparency="0" versionNumber="7" parm1="1" parm2="53" parm3="1" Depth="53" CustomWidth="1" CustomHeight="53" CustomStrings="1" String1="1" CustomModelCompressed="1,26,0,0;2,24,0,0;3,22,0,0;4,20,0,1;5,17,0,2;6,15,0,3;7,13,0,4;8,11,0,5;9,9,0,6;10,8,0,8;11,6,0,10;12,5,0,12;13,4,0,14;14,3,0,16;15,2,0,18;16,1,0,20;17,1,0,23;18,0,0,25;19,0,0,27;20,1,0,29;21,1,0,32;22,2,0,34;23,3,0,36;24,4,0,38;25,5,0,40;26,6,0,42;27,8,0,44;28,9,0,46;29,11,0,47;30,13,0,48;31,15,0,49;32,17,0,50;33,20,0,51;34,22,0,52;35,24,0,52;36,26,0,52;37,29,0,52;38,31,0,52;39,33,0,51;40,36,0,50;41,38,0,49;42,40,0,48;43,42,0,47;44,44,0,46;45,45,0,44;46,47,0,42;47,48,0,40;48,49,0,38;49,50,0,36;50,51,0,34;51,52,0,32;52,52,0,29;53,52,0,27;54,52,0,25;55,52,0,23;56,52,0,20;57,51,0,18;58,50,0,16;59,49,0,14;60,48,0,12;61,47,0,10;62,45,0,8;63,44,0,6;64,42,0,5;65,40,0,4;66,38,0,3;67,36,0,2;68,33,0,1;69,31,0,0;70,29,0,0" WorldPosX="-17.500000" WorldPosY="15.500000" WorldPosZ="9.000000" ScaleX="0.5" ScaleY="0.5" ScaleZ="0.5">
+      <subModel name="SECTOR_00" layout="horizontal" type="ranges" line0="1-9" />
+      <subModel name="SECTOR_01" layout="horizontal" type="ranges" line0="10-18" />
+      <subModel name="SECTOR_02" layout="horizontal" type="ranges" line0="19-27" />
+      <subModel name="SECTOR_03" layout="horizontal" type="ranges" line0="28-36" />
+      <subModel name="SECTOR_04" layout="horizontal" type="ranges" line0="37-45" />
+      <subModel name="SECTOR_05" layout="horizontal" type="ranges" line0="46-54" />
+      <subModel name="SECTOR_06" layout="horizontal" type="ranges" line0="55-62" />
+      <subModel name="SECTOR_07" layout="horizontal" type="ranges" line0="63-70" />
+    </model>
+    <model name="HX_050_CATERPILLAR_SEGMENT" DisplayAs="Custom" StringType="RGB Nodes" StartChannel="10291" Controller="" LayoutGroup="Default" StartSide="B" Dir="L" PixelSize="2" Antialias="1" Transparency="0" versionNumber="7" parm1="1" parm2="53" parm3="1" Depth="53" CustomWidth="1" CustomHeight="53" CustomStrings="1" String1="1" CustomModelCompressed="1,26,0,0;2,23,0,0;3,21,0,0;4,19,0,1;5,16,0,2;6,14,0,3;7,12,0,4;8,10,0,5;9,8,0,6;10,7,0,8;11,5,0,10;12,4,0,12;13,3,0,14;14,2,0,16;15,1,0,18;16,0,0,20;17,0,0,23;18,0,0,25;19,0,0,27;20,0,0,29;21,0,0,32;22,1,0,34;23,2,0,36;24,3,0,38;25,4,0,40;26,5,0,42;27,7,0,44;28,8,0,46;29,10,0,47;30,12,0,48;31,14,0,49;32,16,0,50;33,19,0,51;34,21,0,52;35,23,0,52;36,26,0,52;37,28,0,52;38,30,0,52;39,32,0,51;40,35,0,50;41,37,0,49;42,39,0,48;43,41,0,47;44,43,0,46;45,44,0,44;46,46,0,42;47,47,0,40;48,48,0,38;49,49,0,36;50,50,0,34;51,51,0,32;52,51,0,29;53,52,0,27;54,52,0,25;55,51,0,23;56,51,0,20;57,50,0,18;58,49,0,16;59,48,0,14;60,47,0,12;61,46,0,10;62,44,0,8;63,43,0,6;64,41,0,5;65,39,0,4;66,37,0,3;67,35,0,2;68,32,0,1;69,30,0,0;70,28,0,0" WorldPosX="-2.500000" WorldPosY="15.500000" WorldPosZ="9.000000" ScaleX="0.5" ScaleY="0.5" ScaleZ="0.5">
+      <subModel name="SECTOR_00" layout="horizontal" type="ranges" line0="1-9" />
+      <subModel name="SECTOR_01" layout="horizontal" type="ranges" line0="10-18" />
+      <subModel name="SECTOR_02" layout="horizontal" type="ranges" line0="19-27" />
+      <subModel name="SECTOR_03" layout="horizontal" type="ranges" line0="28-36" />
+      <subModel name="SECTOR_04" layout="horizontal" type="ranges" line0="37-45" />
+      <subModel name="SECTOR_05" layout="horizontal" type="ranges" line0="46-54" />
+      <subModel name="SECTOR_06" layout="horizontal" type="ranges" line0="55-62" />
+      <subModel name="SECTOR_07" layout="horizontal" type="ranges" line0="63-70" />
+    </model>
+    <model name="HX_051_CATERPILLAR_SEGMENT" DisplayAs="Custom" StringType="RGB Nodes" StartChannel="10501" Controller="" LayoutGroup="Default" StartSide="B" Dir="L" PixelSize="2" Antialias="1" Transparency="0" versionNumber="7" parm1="1" parm2="53" parm3="1" Depth="53" CustomWidth="1" CustomHeight="53" CustomStrings="1" String1="1" CustomModelCompressed="1,26,0,0;2,24,0,0;3,21,0,0;4,19,0,1;5,17,0,2;6,15,0,3;7,13,0,4;8,11,0,5;9,9,0,6;10,7,0,8;11,6,0,10;12,4,0,12;13,3,0,14;14,2,0,16;15,1,0,18;16,1,0,20;17,0,0,23;18,0,0,25;19,0,0,27;20,0,0,29;21,1,0,32;22,1,0,34;23,2,0,36;24,3,0,38;25,4,0,40;26,6,0,42;27,7,0,44;28,9,0,46;29,11,0,47;30,13,0,48;31,15,0,49;32,17,0,50;33,19,0,51;34,21,0,52;35,24,0,52;36,26,0,52;37,28,0,52;38,31,0,52;39,33,0,51;40,35,0,50;41,37,0,49;42,39,0,48;43,41,0,47;44,43,0,46;45,45,0,44;46,46,0,42;47,48,0,40;48,49,0,38;49,50,0,36;50,51,0,34;51,51,0,32;52,52,0,29;53,52,0,27;54,52,0,25;55,52,0,23;56,51,0,20;57,51,0,18;58,50,0,16;59,49,0,14;60,48,0,12;61,46,0,10;62,45,0,8;63,43,0,6;64,41,0,5;65,39,0,4;66,37,0,3;67,35,0,2;68,33,0,1;69,31,0,0;70,28,0,0" WorldPosX="12.500000" WorldPosY="16.000000" WorldPosZ="9.000000" ScaleX="0.5" ScaleY="0.5" ScaleZ="0.5">
+      <subModel name="SECTOR_00" layout="horizontal" type="ranges" line0="1-9" />
+      <subModel name="SECTOR_01" layout="horizontal" type="ranges" line0="10-18" />
+      <subModel name="SECTOR_02" layout="horizontal" type="ranges" line0="19-27" />
+      <subModel name="SECTOR_03" layout="horizontal" type="ranges" line0="28-36" />
+      <subModel name="SECTOR_04" layout="horizontal" type="ranges" line0="37-45" />
+      <subModel name="SECTOR_05" layout="horizontal" type="ranges" line0="46-54" />
+      <subModel name="SECTOR_06" layout="horizontal" type="ranges" line0="55-62" />
+      <subModel name="SECTOR_07" layout="horizontal" type="ranges" line0="63-70" />
+    </model>
+    <model name="HX_052_CATERPILLAR_SEGMENT" DisplayAs="Custom" StringType="RGB Nodes" StartChannel="10711" Controller="" LayoutGroup="Default" StartSide="B" Dir="L" PixelSize="2" Antialias="1" Transparency="0" versionNumber="7" parm1="1" parm2="53" parm3="1" Depth="53" CustomWidth="1" CustomHeight="53" CustomStrings="1" String1="1" CustomModelCompressed="1,26,0,0;2,24,0,0;3,21,0,0;4,19,0,1;5,17,0,2;6,15,0,3;7,13,0,4;8,11,0,5;9,9,0,6;10,7,0,8;11,6,0,10;12,4,0,12;13,3,0,14;14,2,0,16;15,1,0,18;16,1,0,20;17,0,0,23;18,0,0,25;19,0,0,27;20,0,0,29;21,1,0,32;22,1,0,34;23,2,0,36;24,3,0,38;25,4,0,40;26,6,0,42;27,7,0,44;28,9,0,46;29,11,0,47;30,13,0,48;31,15,0,49;32,17,0,50;33,19,0,51;34,21,0,52;35,24,0,52;36,26,0,52;37,28,0,52;38,31,0,52;39,33,0,51;40,35,0,50;41,37,0,49;42,39,0,48;43,41,0,47;44,43,0,46;45,45,0,44;46,46,0,42;47,48,0,40;48,49,0,38;49,50,0,36;50,51,0,34;51,51,0,32;52,52,0,29;53,52,0,27;54,52,0,25;55,52,0,23;56,51,0,20;57,51,0,18;58,50,0,16;59,49,0,14;60,48,0,12;61,46,0,10;62,45,0,8;63,43,0,6;64,41,0,5;65,39,0,4;66,37,0,3;67,35,0,2;68,33,0,1;69,31,0,0;70,28,0,0" WorldPosX="27.500000" WorldPosY="16.000000" WorldPosZ="9.000000" ScaleX="0.5" ScaleY="0.5" ScaleZ="0.5">
+      <subModel name="SECTOR_00" layout="horizontal" type="ranges" line0="1-9" />
+      <subModel name="SECTOR_01" layout="horizontal" type="ranges" line0="10-18" />
+      <subModel name="SECTOR_02" layout="horizontal" type="ranges" line0="19-27" />
+      <subModel name="SECTOR_03" layout="horizontal" type="ranges" line0="28-36" />
+      <subModel name="SECTOR_04" layout="horizontal" type="ranges" line0="37-45" />
+      <subModel name="SECTOR_05" layout="horizontal" type="ranges" line0="46-54" />
+      <subModel name="SECTOR_06" layout="horizontal" type="ranges" line0="55-62" />
+      <subModel name="SECTOR_07" layout="horizontal" type="ranges" line0="63-70" />
+    </model>
+    <model name="HX_053_CATERPILLAR_SEGMENT" DisplayAs="Custom" StringType="RGB Nodes" StartChannel="10921" Controller="" LayoutGroup="Default" StartSide="B" Dir="L" PixelSize="2" Antialias="1" Transparency="0" versionNumber="7" parm1="1" parm2="53" parm3="1" Depth="53" CustomWidth="1" CustomHeight="53" CustomStrings="1" String1="1" CustomModelCompressed="1,26,0,0;2,23,0,0;3,21,0,0;4,19,0,1;5,16,0,2;6,14,0,3;7,12,0,4;8,10,0,5;9,8,0,6;10,7,0,8;11,5,0,10;12,4,0,12;13,3,0,14;14,2,0,16;15,1,0,18;16,0,0,20;17,0,0,23;18,0,0,25;19,0,0,27;20,0,0,29;21,0,0,32;22,1,0,34;23,2,0,36;24,3,0,38;25,4,0,40;26,5,0,42;27,7,0,44;28,8,0,46;29,10,0,47;30,12,0,48;31,14,0,49;32,16,0,50;33,19,0,51;34,21,0,52;35,23,0,52;36,26,0,52;37,28,0,52;38,30,0,52;39,32,0,51;40,35,0,50;41,37,0,49;42,39,0,48;43,41,0,47;44,43,0,46;45,44,0,44;46,46,0,42;47,47,0,40;48,48,0,38;49,49,0,36;50,50,0,34;51,51,0,32;52,51,0,29;53,52,0,27;54,52,0,25;55,51,0,23;56,51,0,20;57,50,0,18;58,49,0,16;59,48,0,14;60,47,0,12;61,46,0,10;62,44,0,8;63,43,0,6;64,41,0,5;65,39,0,4;66,37,0,3;67,35,0,2;68,32,0,1;69,30,0,0;70,28,0,0" WorldPosX="42.500000" WorldPosY="15.500000" WorldPosZ="9.000000" ScaleX="0.5" ScaleY="0.5" ScaleZ="0.5">
+      <subModel name="SECTOR_00" layout="horizontal" type="ranges" line0="1-9" />
+      <subModel name="SECTOR_01" layout="horizontal" type="ranges" line0="10-18" />
+      <subModel name="SECTOR_02" layout="horizontal" type="ranges" line0="19-27" />
+      <subModel name="SECTOR_03" layout="horizontal" type="ranges" line0="28-36" />
+      <subModel name="SECTOR_04" layout="horizontal" type="ranges" line0="37-45" />
+      <subModel name="SECTOR_05" layout="horizontal" type="ranges" line0="46-54" />
+      <subModel name="SECTOR_06" layout="horizontal" type="ranges" line0="55-62" />
+      <subModel name="SECTOR_07" layout="horizontal" type="ranges" line0="63-70" />
+    </model>
+    <model name="HX_054_CATERPILLAR_SEGMENT" DisplayAs="Custom" StringType="RGB Nodes" StartChannel="11131" Controller="" LayoutGroup="Default" StartSide="B" Dir="L" PixelSize="2" Antialias="1" Transparency="0" versionNumber="7" parm1="1" parm2="53" parm3="1" Depth="53" CustomWidth="1" CustomHeight="53" CustomStrings="1" String1="1" CustomModelCompressed="1,26,0,0;2,24,0,0;3,22,0,0;4,20,0,1;5,17,0,2;6,15,0,3;7,13,0,4;8,11,0,5;9,9,0,6;10,8,0,8;11,6,0,10;12,5,0,12;13,4,0,14;14,3,0,16;15,2,0,18;16,1,0,20;17,1,0,23;18,0,0,25;19,0,0,27;20,1,0,29;21,1,0,32;22,2,0,34;23,3,0,36;24,4,0,38;25,5,0,40;26,6,0,42;27,8,0,44;28,9,0,46;29,11,0,47;30,13,0,48;31,15,0,49;32,17,0,50;33,20,0,51;34,22,0,52;35,24,0,52;36,26,0,52;37,29,0,52;38,31,0,52;39,33,0,51;40,36,0,50;41,38,0,49;42,40,0,48;43,42,0,47;44,44,0,46;45,45,0,44;46,47,0,42;47,48,0,40;48,49,0,38;49,50,0,36;50,51,0,34;51,52,0,32;52,52,0,29;53,52,0,27;54,52,0,25;55,52,0,23;56,52,0,20;57,51,0,18;58,50,0,16;59,49,0,14;60,48,0,12;61,47,0,10;62,45,0,8;63,44,0,6;64,42,0,5;65,40,0,4;66,38,0,3;67,36,0,2;68,33,0,1;69,31,0,0;70,29,0,0" WorldPosX="57.500000" WorldPosY="15.500000" WorldPosZ="9.000000" ScaleX="0.5" ScaleY="0.5" ScaleZ="0.5">
+      <subModel name="SECTOR_00" layout="horizontal" type="ranges" line0="1-9" />
+      <subModel name="SECTOR_01" layout="horizontal" type="ranges" line0="10-18" />
+      <subModel name="SECTOR_02" layout="horizontal" type="ranges" line0="19-27" />
+      <subModel name="SECTOR_03" layout="horizontal" type="ranges" line0="28-36" />
+      <subModel name="SECTOR_04" layout="horizontal" type="ranges" line0="37-45" />
+      <subModel name="SECTOR_05" layout="horizontal" type="ranges" line0="46-54" />
+      <subModel name="SECTOR_06" layout="horizontal" type="ranges" line0="55-62" />
+      <subModel name="SECTOR_07" layout="horizontal" type="ranges" line0="63-70" />
+    </model>
+    <model name="HX_055_CATERPILLAR_SEGMENT" DisplayAs="Custom" StringType="RGB Nodes" StartChannel="11341" Controller="" LayoutGroup="Default" StartSide="B" Dir="L" PixelSize="2" Antialias="1" Transparency="0" versionNumber="7" parm1="1" parm2="53" parm3="1" Depth="53" CustomWidth="1" CustomHeight="53" CustomStrings="1" String1="1" CustomModelCompressed="1,26,0,0;2,23,0,0;3,21,0,0;4,19,0,1;5,17,0,2;6,14,0,3;7,12,0,4;8,10,0,5;9,9,0,6;10,7,0,8;11,5,0,10;12,4,0,12;13,3,0,14;14,2,0,16;15,1,0,18;16,0,0,20;17,0,0,23;18,0,0,25;19,0,0,27;20,0,0,29;21,0,0,32;22,1,0,34;23,2,0,36;24,3,0,38;25,4,0,40;26,5,0,42;27,7,0,44;28,9,0,46;29,10,0,47;30,12,0,48;31,14,0,49;32,17,0,50;33,19,0,51;34,21,0,52;35,23,0,52;36,26,0,52;37,28,0,52;38,30,0,52;39,33,0,51;40,35,0,50;41,37,0,49;42,39,0,48;43,41,0,47;44,43,0,46;45,45,0,44;46,46,0,42;47,47,0,40;48,49,0,38;49,50,0,36;50,50,0,34;51,51,0,32;52,52,0,29;53,52,0,27;54,52,0,25;55,52,0,23;56,51,0,20;57,50,0,18;58,50,0,16;59,49,0,14;60,47,0,12;61,46,0,10;62,45,0,8;63,43,0,6;64,41,0,5;65,39,0,4;66,37,0,3;67,35,0,2;68,33,0,1;69,30,0,0;70,28,0,0" WorldPosX="72.500000" WorldPosY="14.500000" WorldPosZ="9.000000" ScaleX="0.5" ScaleY="0.5" ScaleZ="0.5">
+      <subModel name="SECTOR_00" layout="horizontal" type="ranges" line0="1-9" />
+      <subModel name="SECTOR_01" layout="horizontal" type="ranges" line0="10-18" />
+      <subModel name="SECTOR_02" layout="horizontal" type="ranges" line0="19-27" />
+      <subModel name="SECTOR_03" layout="horizontal" type="ranges" line0="28-36" />
+      <subModel name="SECTOR_04" layout="horizontal" type="ranges" line0="37-45" />
+      <subModel name="SECTOR_05" layout="horizontal" type="ranges" line0="46-54" />
+      <subModel name="SECTOR_06" layout="horizontal" type="ranges" line0="55-62" />
+      <subModel name="SECTOR_07" layout="horizontal" type="ranges" line0="63-70" />
+    </model>
+    <model name="HX_056_CATERPILLAR_SEGMENT" DisplayAs="Custom" StringType="RGB Nodes" StartChannel="11551" Controller="" LayoutGroup="Default" StartSide="B" Dir="L" PixelSize="2" Antialias="1" Transparency="0" versionNumber="7" parm1="1" parm2="53" parm3="1" Depth="53" CustomWidth="1" CustomHeight="53" CustomStrings="1" String1="1" CustomModelCompressed="1,26,0,0;2,24,0,0;3,22,0,0;4,19,0,1;5,17,0,2;6,15,0,3;7,13,0,4;8,11,0,5;9,9,0,6;10,8,0,8;11,6,0,10;12,5,0,12;13,3,0,14;14,2,0,16;15,2,0,18;16,1,0,20;17,1,0,23;18,0,0,25;19,0,0,27;20,1,0,29;21,1,0,32;22,2,0,34;23,2,0,36;24,3,0,38;25,5,0,40;26,6,0,42;27,8,0,44;28,9,0,46;29,11,0,47;30,13,0,48;31,15,0,49;32,17,0,50;33,19,0,51;34,22,0,52;35,24,0,52;36,26,0,52;37,29,0,52;38,31,0,52;39,33,0,51;40,35,0,50;41,38,0,49;42,40,0,48;43,42,0,47;44,43,0,46;45,45,0,44;46,47,0,42;47,48,0,40;48,49,0,38;49,50,0,36;50,51,0,34;51,52,0,32;52,52,0,29;53,52,0,27;54,52,0,25;55,52,0,23;56,52,0,20;57,51,0,18;58,50,0,16;59,49,0,14;60,48,0,12;61,47,0,10;62,45,0,8;63,43,0,6;64,42,0,5;65,40,0,4;66,38,0,3;67,35,0,2;68,33,0,1;69,31,0,0;70,29,0,0" WorldPosX="87.500000" WorldPosY="14.000000" WorldPosZ="9.000000" ScaleX="0.5" ScaleY="0.5" ScaleZ="0.5">
+      <subModel name="SECTOR_00" layout="horizontal" type="ranges" line0="1-9" />
+      <subModel name="SECTOR_01" layout="horizontal" type="ranges" line0="10-18" />
+      <subModel name="SECTOR_02" layout="horizontal" type="ranges" line0="19-27" />
+      <subModel name="SECTOR_03" layout="horizontal" type="ranges" line0="28-36" />
+      <subModel name="SECTOR_04" layout="horizontal" type="ranges" line0="37-45" />
+      <subModel name="SECTOR_05" layout="horizontal" type="ranges" line0="46-54" />
+      <subModel name="SECTOR_06" layout="horizontal" type="ranges" line0="55-62" />
+      <subModel name="SECTOR_07" layout="horizontal" type="ranges" line0="63-70" />
+    </model>
+    <model name="HX_057_CATERPILLAR_SEGMENT" DisplayAs="Custom" StringType="RGB Nodes" StartChannel="11761" Controller="" LayoutGroup="Default" StartSide="B" Dir="L" PixelSize="2" Antialias="1" Transparency="0" versionNumber="7" parm1="1" parm2="53" parm3="1" Depth="53" CustomWidth="1" CustomHeight="53" CustomStrings="1" String1="1" CustomModelCompressed="1,26,0,0;2,24,0,0;3,21,0,0;4,19,0,1;5,17,0,2;6,15,0,3;7,13,0,4;8,11,0,5;9,9,0,6;10,7,0,8;11,6,0,10;12,4,0,12;13,3,0,14;14,2,0,16;15,1,0,18;16,1,0,20;17,0,0,23;18,0,0,25;19,0,0,27;20,0,0,29;21,1,0,32;22,1,0,34;23,2,0,36;24,3,0,38;25,4,0,40;26,6,0,42;27,7,0,44;28,9,0,46;29,11,0,47;30,13,0,48;31,15,0,49;32,17,0,50;33,19,0,51;34,21,0,52;35,24,0,52;36,26,0,52;37,28,0,52;38,31,0,52;39,33,0,51;40,35,0,50;41,37,0,49;42,39,0,48;43,41,0,47;44,43,0,46;45,45,0,44;46,46,0,42;47,48,0,40;48,49,0,38;49,50,0,36;50,51,0,34;51,51,0,32;52,52,0,29;53,52,0,27;54,52,0,25;55,52,0,23;56,51,0,20;57,51,0,18;58,50,0,16;59,49,0,14;60,48,0,12;61,46,0,10;62,45,0,8;63,43,0,6;64,41,0,5;65,39,0,4;66,37,0,3;67,35,0,2;68,33,0,1;69,31,0,0;70,28,0,0" WorldPosX="102.500000" WorldPosY="13.000000" WorldPosZ="9.000000" ScaleX="0.5" ScaleY="0.5" ScaleZ="0.5">
+      <subModel name="SECTOR_00" layout="horizontal" type="ranges" line0="1-9" />
+      <subModel name="SECTOR_01" layout="horizontal" type="ranges" line0="10-18" />
+      <subModel name="SECTOR_02" layout="horizontal" type="ranges" line0="19-27" />
+      <subModel name="SECTOR_03" layout="horizontal" type="ranges" line0="28-36" />
+      <subModel name="SECTOR_04" layout="horizontal" type="ranges" line0="37-45" />
+      <subModel name="SECTOR_05" layout="horizontal" type="ranges" line0="46-54" />
+      <subModel name="SECTOR_06" layout="horizontal" type="ranges" line0="55-62" />
+      <subModel name="SECTOR_07" layout="horizontal" type="ranges" line0="63-70" />
+    </model>
+    <model name="HX_058_CATERPILLAR_HEAD" DisplayAs="Custom" StringType="RGB Nodes" StartChannel="11971" Controller="" LayoutGroup="Default" StartSide="B" Dir="L" PixelSize="2" Antialias="1" Transparency="0" versionNumber="7" parm1="1" parm2="61" parm3="1" Depth="61" CustomWidth="1" CustomHeight="61" CustomStrings="1" String1="1" CustomModelCompressed="1,30,0,0;2,29,0,0;3,27,0,0;4,26,0,0;5,25,0,0;6,24,0,1;7,23,0,1;8,21,0,1;9,20,0,2;10,19,0,2;11,18,0,3;12,17,0,3;13,16,0,4;14,14,0,4;15,13,0,5;16,12,0,6;17,11,0,6;18,10,0,7;19,9,0,8;20,9,0,9;21,8,0,10;22,7,0,11;23,6,0,12;24,5,0,13;25,5,0,14;26,4,0,15;27,3,0,16;28,3,0,17;29,2,0,18;30,2,0,20;31,1,0,21;32,1,0,22;33,1,0,23;34,1,0,24;35,0,0,26;36,0,0,27;37,0,0,28;38,0,0,29;39,0,0,31;40,0,0,32;41,0,0,33;42,0,0,34;43,1,0,36;44,1,0,37;45,1,0,38;46,1,0,39;47,2,0,40;48,2,0,42;49,3,0,43;50,3,0,44;51,4,0,45;52,5,0,46;53,5,0,47;54,6,0,48;55,7,0,49;56,8,0,50;57,9,0,51;58,9,0,52;59,10,0,53;60,11,0,54;61,12,0,54;62,13,0,55;63,14,0,56;64,16,0,56;65,17,0,57;66,18,0,57;67,19,0,58;68,20,0,58;69,21,0,59;70,23,0,59;71,24,0,59;72,25,0,60;73,26,0,60;74,27,0,60;75,29,0,60;76,30,0,60;77,31,0,60;78,33,0,60;79,34,0,60;80,35,0,60;81,36,0,59;82,37,0,59;83,39,0,59;84,40,0,58;85,41,0,58;86,42,0,57;87,43,0,57;88,44,0,56;89,46,0,56;90,47,0,55;91,48,0,54;92,49,0,54;93,50,0,53;94,51,0,52;95,51,0,51;96,52,0,50;97,53,0,49;98,54,0,48;99,55,0,47;100,55,0,46;101,56,0,45;102,57,0,44;103,57,0,43;104,58,0,42;105,58,0,40;106,59,0,39;107,59,0,38;108,59,0,37;109,59,0,36;110,60,0,34;111,60,0,33;112,60,0,32;113,60,0,31;114,60,0,29;115,60,0,28;116,60,0,27;117,60,0,26;118,59,0,24;119,59,0,23;120,59,0,22;121,59,0,21;122,58,0,20;123,58,0,18;124,57,0,17;125,57,0,16;126,56,0,15;127,55,0,14;128,55,0,13;129,54,0,12;130,53,0,11;131,52,0,10;132,51,0,9;133,51,0,8;134,50,0,7;135,49,0,6;136,48,0,6;137,47,0,5;138,46,0,4;139,44,0,4;140,43,0,3;141,42,0,3;142,41,0,2;143,40,0,2;144,39,0,1;145,37,0,1;146,36,0,1;147,35,0,0;148,34,0,0;149,33,0,0;150,31,0,0" WorldPosX="102.500000" WorldPosY="17.000000" WorldPosZ="9.000000" ScaleX="0.5" ScaleY="0.5" ScaleZ="0.5">
+      <subModel name="SECTOR_00" layout="horizontal" type="ranges" line0="1-19" />
+      <subModel name="SECTOR_01" layout="horizontal" type="ranges" line0="20-38" />
+      <subModel name="SECTOR_02" layout="horizontal" type="ranges" line0="39-57" />
+      <subModel name="SECTOR_03" layout="horizontal" type="ranges" line0="58-76" />
+      <subModel name="SECTOR_04" layout="horizontal" type="ranges" line0="77-95" />
+      <subModel name="SECTOR_05" layout="horizontal" type="ranges" line0="96-114" />
+      <subModel name="SECTOR_06" layout="horizontal" type="ranges" line0="115-132" />
+      <subModel name="SECTOR_07" layout="horizontal" type="ranges" line0="133-150" />
+    </model>
+    <model name="HX_059_ANTENNA" DisplayAs="Custom" StringType="RGB Nodes" StartChannel="12421" Controller="" LayoutGroup="Default" StartSide="B" Dir="L" PixelSize="2" Antialias="1" Transparency="0" versionNumber="7" parm1="21" parm2="35" parm3="1" Depth="17" CustomWidth="21" CustomHeight="35" CustomStrings="1" String1="1" CustomModelCompressed="1,34,0,0;2,33,1,1;3,32,1,1;4,30,2,2;5,29,3,2;6,28,3,3;7,27,4,3;8,26,5,4;9,25,6,4;10,23,6,5;11,22,7,6;12,21,8,6;13,20,8,7;14,19,9,7;15,18,10,8;16,16,10,8;17,15,11,9;18,14,12,9;19,13,12,10;20,12,13,10;21,11,14,11;22,9,14,12;23,8,15,12;24,7,16,13;25,6,17,13;26,5,17,14;27,4,18,14;28,2,19,15;29,1,19,15;30,0,20,16" WorldPosX="107.500000" WorldPosY="33.500000" WorldPosZ="-2.000000" ScaleX="0.5" ScaleY="0.5" ScaleZ="0.5">
+      <subModel name="SECTOR_00" layout="horizontal" type="ranges" line0="1-4" />
+      <subModel name="SECTOR_01" layout="horizontal" type="ranges" line0="5-8" />
+      <subModel name="SECTOR_02" layout="horizontal" type="ranges" line0="9-12" />
+      <subModel name="SECTOR_03" layout="horizontal" type="ranges" line0="13-16" />
+      <subModel name="SECTOR_04" layout="horizontal" type="ranges" line0="17-20" />
+      <subModel name="SECTOR_05" layout="horizontal" type="ranges" line0="21-24" />
+      <subModel name="SECTOR_06" layout="horizontal" type="ranges" line0="25-27" />
+      <subModel name="SECTOR_07" layout="horizontal" type="ranges" line0="28-30" />
+    </model>
+    <model name="HX_060_ANTENNA" DisplayAs="Custom" StringType="RGB Nodes" StartChannel="12511" Controller="" LayoutGroup="Default" StartSide="B" Dir="L" PixelSize="2" Antialias="1" Transparency="0" versionNumber="7" parm1="21" parm2="35" parm3="1" Depth="17" CustomWidth="21" CustomHeight="35" CustomStrings="1" String1="1" CustomModelCompressed="1,34,0,16;2,33,1,15;3,32,1,15;4,30,2,14;5,29,3,14;6,28,3,13;7,27,4,13;8,26,5,12;9,25,6,12;10,23,6,11;11,22,7,10;12,21,8,10;13,20,8,9;14,19,9,9;15,18,10,8;16,16,10,8;17,15,11,7;18,14,12,7;19,13,12,6;20,12,13,6;21,11,14,5;22,9,14,4;23,8,15,4;24,7,16,3;25,6,17,3;26,5,17,2;27,4,18,2;28,2,19,1;29,1,19,1;30,0,20,0" WorldPosX="107.500000" WorldPosY="33.500000" WorldPosZ="20.000000" ScaleX="0.5" ScaleY="0.5" ScaleZ="0.5">
+      <subModel name="SECTOR_00" layout="horizontal" type="ranges" line0="1-4" />
+      <subModel name="SECTOR_01" layout="horizontal" type="ranges" line0="5-8" />
+      <subModel name="SECTOR_02" layout="horizontal" type="ranges" line0="9-12" />
+      <subModel name="SECTOR_03" layout="horizontal" type="ranges" line0="13-16" />
+      <subModel name="SECTOR_04" layout="horizontal" type="ranges" line0="17-20" />
+      <subModel name="SECTOR_05" layout="horizontal" type="ranges" line0="21-24" />
+      <subModel name="SECTOR_06" layout="horizontal" type="ranges" line0="25-27" />
+      <subModel name="SECTOR_07" layout="horizontal" type="ranges" line0="28-30" />
+    </model>
+  </models>
+  <modelGroups>
+    <modelGroup name="HX_ALL_PIXELS" models="HX_001_CATERPILLAR_SEGMENT,HX_002_CATERPILLAR_SEGMENT,HX_003_CATERPILLAR_SEGMENT,HX_004_CATERPILLAR_SEGMENT,HX_005_CATERPILLAR_SEGMENT,HX_006_CATERPILLAR_SEGMENT,HX_007_CATERPILLAR_SEGMENT,HX_008_CATERPILLAR_SEGMENT,HX_009_CATERPILLAR_SEGMENT,HX_010_CATERPILLAR_SEGMENT,HX_011_CATERPILLAR_SEGMENT,HX_012_CATERPILLAR_SEGMENT,HX_013_CATERPILLAR_HEAD,HX_014_ANTENNA,HX_015_ANTENNA,HX_016_CATERPILLAR_SEGMENT,HX_017_CATERPILLAR_SEGMENT,HX_018_CATERPILLAR_SEGMENT,HX_019_CATERPILLAR_SEGMENT,HX_020_CATERPILLAR_SEGMENT,HX_021_CATERPILLAR_SEGMENT,HX_022_CATERPILLAR_SEGMENT,HX_023_CATERPILLAR_SEGMENT,HX_024_CATERPILLAR_SEGMENT,HX_025_CATERPILLAR_SEGMENT,HX_026_CATERPILLAR_SEGMENT,HX_027_CATERPILLAR_SEGMENT,HX_028_CATERPILLAR_HEAD,HX_029_ANTENNA,HX_030_ANTENNA,HX_031_CATERPILLAR_SEGMENT,HX_032_CATERPILLAR_SEGMENT,HX_033_CATERPILLAR_SEGMENT,HX_034_CATERPILLAR_SEGMENT,HX_035_CATERPILLAR_SEGMENT,HX_036_CATERPILLAR_SEGMENT,HX_037_CATERPILLAR_SEGMENT,HX_038_CATERPILLAR_SEGMENT,HX_039_CATERPILLAR_SEGMENT,HX_040_CATERPILLAR_SEGMENT,HX_041_CATERPILLAR_SEGMENT,HX_042_CATERPILLAR_SEGMENT,HX_043_CATERPILLAR_HEAD,HX_044_ANTENNA,HX_045_ANTENNA,HX_046_CATERPILLAR_SEGMENT,HX_047_CATERPILLAR_SEGMENT,HX_048_CATERPILLAR_SEGMENT,HX_049_CATERPILLAR_SEGMENT,HX_050_CATERPILLAR_SEGMENT,HX_051_CATERPILLAR_SEGMENT,HX_052_CATERPILLAR_SEGMENT,HX_053_CATERPILLAR_SEGMENT,HX_054_CATERPILLAR_SEGMENT,HX_055_CATERPILLAR_SEGMENT,HX_056_CATERPILLAR_SEGMENT,HX_057_CATERPILLAR_SEGMENT,HX_058_CATERPILLAR_HEAD,HX_059_ANTENNA,HX_060_ANTENNA" layout="minimalGrid" LayoutGroup="Default" GridSize="600" />
+    <modelGroup name="HX_NATIVE_CUSTOM" models="HX_001_CATERPILLAR_SEGMENT,HX_002_CATERPILLAR_SEGMENT,HX_003_CATERPILLAR_SEGMENT,HX_004_CATERPILLAR_SEGMENT,HX_005_CATERPILLAR_SEGMENT,HX_006_CATERPILLAR_SEGMENT,HX_007_CATERPILLAR_SEGMENT,HX_008_CATERPILLAR_SEGMENT,HX_009_CATERPILLAR_SEGMENT,HX_010_CATERPILLAR_SEGMENT,HX_011_CATERPILLAR_SEGMENT,HX_012_CATERPILLAR_SEGMENT,HX_013_CATERPILLAR_HEAD,HX_014_ANTENNA,HX_015_ANTENNA,HX_016_CATERPILLAR_SEGMENT,HX_017_CATERPILLAR_SEGMENT,HX_018_CATERPILLAR_SEGMENT,HX_019_CATERPILLAR_SEGMENT,HX_020_CATERPILLAR_SEGMENT,HX_021_CATERPILLAR_SEGMENT,HX_022_CATERPILLAR_SEGMENT,HX_023_CATERPILLAR_SEGMENT,HX_024_CATERPILLAR_SEGMENT,HX_025_CATERPILLAR_SEGMENT,HX_026_CATERPILLAR_SEGMENT,HX_027_CATERPILLAR_SEGMENT,HX_028_CATERPILLAR_HEAD,HX_029_ANTENNA,HX_030_ANTENNA,HX_031_CATERPILLAR_SEGMENT,HX_032_CATERPILLAR_SEGMENT,HX_033_CATERPILLAR_SEGMENT,HX_034_CATERPILLAR_SEGMENT,HX_035_CATERPILLAR_SEGMENT,HX_036_CATERPILLAR_SEGMENT,HX_037_CATERPILLAR_SEGMENT,HX_038_CATERPILLAR_SEGMENT,HX_039_CATERPILLAR_SEGMENT,HX_040_CATERPILLAR_SEGMENT,HX_041_CATERPILLAR_SEGMENT,HX_042_CATERPILLAR_SEGMENT,HX_043_CATERPILLAR_HEAD,HX_044_ANTENNA,HX_045_ANTENNA,HX_046_CATERPILLAR_SEGMENT,HX_047_CATERPILLAR_SEGMENT,HX_048_CATERPILLAR_SEGMENT,HX_049_CATERPILLAR_SEGMENT,HX_050_CATERPILLAR_SEGMENT,HX_051_CATERPILLAR_SEGMENT,HX_052_CATERPILLAR_SEGMENT,HX_053_CATERPILLAR_SEGMENT,HX_054_CATERPILLAR_SEGMENT,HX_055_CATERPILLAR_SEGMENT,HX_056_CATERPILLAR_SEGMENT,HX_057_CATERPILLAR_SEGMENT,HX_058_CATERPILLAR_HEAD,HX_059_ANTENNA,HX_060_ANTENNA" layout="minimalGrid" LayoutGroup="Default" GridSize="600" />
+    <modelGroup name="HX_WHOLE_SHOW" models="HX_001_CATERPILLAR_SEGMENT,HX_002_CATERPILLAR_SEGMENT,HX_003_CATERPILLAR_SEGMENT,HX_004_CATERPILLAR_SEGMENT,HX_005_CATERPILLAR_SEGMENT,HX_006_CATERPILLAR_SEGMENT,HX_007_CATERPILLAR_SEGMENT,HX_008_CATERPILLAR_SEGMENT,HX_009_CATERPILLAR_SEGMENT,HX_010_CATERPILLAR_SEGMENT,HX_011_CATERPILLAR_SEGMENT,HX_012_CATERPILLAR_SEGMENT,HX_013_CATERPILLAR_HEAD,HX_014_ANTENNA,HX_015_ANTENNA,HX_016_CATERPILLAR_SEGMENT,HX_017_CATERPILLAR_SEGMENT,HX_018_CATERPILLAR_SEGMENT,HX_019_CATERPILLAR_SEGMENT,HX_020_CATERPILLAR_SEGMENT,HX_021_CATERPILLAR_SEGMENT,HX_022_CATERPILLAR_SEGMENT,HX_023_CATERPILLAR_SEGMENT,HX_024_CATERPILLAR_SEGMENT,HX_025_CATERPILLAR_SEGMENT,HX_026_CATERPILLAR_SEGMENT,HX_027_CATERPILLAR_SEGMENT,HX_028_CATERPILLAR_HEAD,HX_029_ANTENNA,HX_030_ANTENNA,HX_031_CATERPILLAR_SEGMENT,HX_032_CATERPILLAR_SEGMENT,HX_033_CATERPILLAR_SEGMENT,HX_034_CATERPILLAR_SEGMENT,HX_035_CATERPILLAR_SEGMENT,HX_036_CATERPILLAR_SEGMENT,HX_037_CATERPILLAR_SEGMENT,HX_038_CATERPILLAR_SEGMENT,HX_039_CATERPILLAR_SEGMENT,HX_040_CATERPILLAR_SEGMENT,HX_041_CATERPILLAR_SEGMENT,HX_042_CATERPILLAR_SEGMENT,HX_043_CATERPILLAR_HEAD,HX_044_ANTENNA,HX_045_ANTENNA,HX_046_CATERPILLAR_SEGMENT,HX_047_CATERPILLAR_SEGMENT,HX_048_CATERPILLAR_SEGMENT,HX_049_CATERPILLAR_SEGMENT,HX_050_CATERPILLAR_SEGMENT,HX_051_CATERPILLAR_SEGMENT,HX_052_CATERPILLAR_SEGMENT,HX_053_CATERPILLAR_SEGMENT,HX_054_CATERPILLAR_SEGMENT,HX_055_CATERPILLAR_SEGMENT,HX_056_CATERPILLAR_SEGMENT,HX_057_CATERPILLAR_SEGMENT,HX_058_CATERPILLAR_HEAD,HX_059_ANTENNA,HX_060_ANTENNA" layout="minimalGrid" LayoutGroup="Default" GridSize="600" />
+    <modelGroup name="HX_ZONE_POSE_BODY_00" models="HX_001_CATERPILLAR_SEGMENT,HX_002_CATERPILLAR_SEGMENT,HX_003_CATERPILLAR_SEGMENT,HX_004_CATERPILLAR_SEGMENT,HX_005_CATERPILLAR_SEGMENT,HX_006_CATERPILLAR_SEGMENT,HX_007_CATERPILLAR_SEGMENT,HX_008_CATERPILLAR_SEGMENT,HX_009_CATERPILLAR_SEGMENT,HX_010_CATERPILLAR_SEGMENT,HX_011_CATERPILLAR_SEGMENT,HX_012_CATERPILLAR_SEGMENT,HX_013_CATERPILLAR_HEAD,HX_014_ANTENNA,HX_015_ANTENNA" layout="minimalGrid" LayoutGroup="Default" GridSize="600" />
+    <modelGroup name="HX_ZONE_POSE_BODY_01" models="HX_016_CATERPILLAR_SEGMENT,HX_017_CATERPILLAR_SEGMENT,HX_018_CATERPILLAR_SEGMENT,HX_019_CATERPILLAR_SEGMENT,HX_020_CATERPILLAR_SEGMENT,HX_021_CATERPILLAR_SEGMENT,HX_022_CATERPILLAR_SEGMENT,HX_023_CATERPILLAR_SEGMENT,HX_024_CATERPILLAR_SEGMENT,HX_025_CATERPILLAR_SEGMENT,HX_026_CATERPILLAR_SEGMENT,HX_027_CATERPILLAR_SEGMENT,HX_028_CATERPILLAR_HEAD,HX_029_ANTENNA,HX_030_ANTENNA" layout="minimalGrid" LayoutGroup="Default" GridSize="600" />
+    <modelGroup name="HX_ZONE_POSE_BODY_02" models="HX_031_CATERPILLAR_SEGMENT,HX_032_CATERPILLAR_SEGMENT,HX_033_CATERPILLAR_SEGMENT,HX_034_CATERPILLAR_SEGMENT,HX_035_CATERPILLAR_SEGMENT,HX_036_CATERPILLAR_SEGMENT,HX_037_CATERPILLAR_SEGMENT,HX_038_CATERPILLAR_SEGMENT,HX_039_CATERPILLAR_SEGMENT,HX_040_CATERPILLAR_SEGMENT,HX_041_CATERPILLAR_SEGMENT,HX_042_CATERPILLAR_SEGMENT,HX_043_CATERPILLAR_HEAD,HX_044_ANTENNA,HX_045_ANTENNA" layout="minimalGrid" LayoutGroup="Default" GridSize="600" />
+    <modelGroup name="HX_ZONE_POSE_BODY_03" models="HX_046_CATERPILLAR_SEGMENT,HX_047_CATERPILLAR_SEGMENT,HX_048_CATERPILLAR_SEGMENT,HX_049_CATERPILLAR_SEGMENT,HX_050_CATERPILLAR_SEGMENT,HX_051_CATERPILLAR_SEGMENT,HX_052_CATERPILLAR_SEGMENT,HX_053_CATERPILLAR_SEGMENT,HX_054_CATERPILLAR_SEGMENT,HX_055_CATERPILLAR_SEGMENT,HX_056_CATERPILLAR_SEGMENT,HX_057_CATERPILLAR_SEGMENT,HX_058_CATERPILLAR_HEAD,HX_059_ANTENNA,HX_060_ANTENNA" layout="minimalGrid" LayoutGroup="Default" GridSize="600" />
+  </modelGroups>
+  <view_objects />
+  <effects version="0007" />
+  <views />
+  <palettes />
+  <layoutGroups />
+  <perspectives />
+  <colors />
+  <Viewpoints>
+    <DefaultCamera3D name="DEFAULT3D" is_3d="1" posX="0" posY="0" posZ="0" angleX="19" angleY="22" angleZ="0" distance="-365.75" zoom="1" panx="0" pany="-22.0" panz="25" zoom_corrx="0" zoom_corry="0" />
+    <Camera name="Caterpillar overview" is_3d="1" posX="0" posY="0" posZ="0" angleX="19" angleY="22" angleZ="0" distance="-365.75" zoom="1" panx="0" pany="-22.0" panz="25" zoom_corrx="0" zoom_corry="0" />
+  </Viewpoints>
+  <settings>
+    <backgroundBrightness value="0" />
+    <storedLayoutGroup value="All Models" />
+    <LayoutMode3D value="1" />
+    <Display2DCenter0 value="1" />
+    <previewWidth value="480" />
+    <previewHeight value="260" />
+  </settings>
+</xrgb>

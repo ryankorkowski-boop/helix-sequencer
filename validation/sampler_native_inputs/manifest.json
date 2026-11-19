@@ -1,0 +1,72 @@
+{
+  "schema": "helix.private_audio_native_cue_validation.v1",
+  "source": "Actual Helix generated six-layout sampler sequences; audio is deliberately absent",
+  "audio_redistribution_cleared": false,
+  "changed_fields": [
+    "head/sequenceType",
+    "head/mediaFile"
+  ],
+  "engine_parent": "cb6cff6bcf0227386a244b4bf2ea369ee9bab228",
+  "runs": [
+    {
+      "flavor": "neon_circuit",
+      "folder": "Helix_Neon_Circuit",
+      "input": "Helix_Neon_Circuit.xsq.gz",
+      "original_xsq_sha256": "da8d1ff4426b0b016b81b7d38f64f561812ae56785278b420eb1f05d1c46bd1c",
+      "native_render_copy_sha256": "d243e4e2b1e0a8516331de6c20d0301d635add6a986e1c523c8746af65c44c1e",
+      "real_sampler_sha256": "0fc2ab5dfee87d4af3e2ab326f76c7ee9cb3a5a893644487d2e7350a48cefafb",
+      "duration_seconds": 180.14931972789117,
+      "exported_effects": 17236
+    },
+    {
+      "flavor": "enchanted_grove",
+      "folder": "Helix_Enchanted_Grove",
+      "input": "Helix_Enchanted_Grove.xsq.gz",
+      "original_xsq_sha256": "8000e3a7e85b88ac8ad7a4bb1b74ac82765aa5891f43dfc37327664a033e3bd8",
+      "native_render_copy_sha256": "ce04a5e13a9a6447ead4cff3e3c5ecaedc8482bd80037572553fc7726407de35",
+      "real_sampler_sha256": "0fc2ab5dfee87d4af3e2ab326f76c7ee9cb3a5a893644487d2e7350a48cefafb",
+      "duration_seconds": 180.14931972789117,
+      "exported_effects": 17244
+    },
+    {
+      "flavor": "celestial_orrery",
+      "folder": "Helix_Celestial_Orrery",
+      "input": "Helix_Celestial_Orrery.xsq.gz",
+      "original_xsq_sha256": "252fe06b08f893a3d0c3407a5cfc1b3fec1172f6ea70a4d30d71501d6275496f",
+      "native_render_copy_sha256": "f303e5fb450461897fe94077ca09eab82e67371e20adf2abd56e14be4f83cfdc",
+      "real_sampler_sha256": "0fc2ab5dfee87d4af3e2ab326f76c7ee9cb3a5a893644487d2e7350a48cefafb",
+      "duration_seconds": 180.14931972789117,
+      "exported_effects": 17458
+    },
+    {
+      "flavor": "fire_and_ice",
+      "folder": "Helix_Fire_and_Ice",
+      "input": "Helix_Fire_and_Ice.xsq.gz",
+      "original_xsq_sha256": "c3ec8f9b6b716facab2fe8a054173fc8c202cec45cb6f4e9fe647629237364c9",
+      "native_render_copy_sha256": "6b4315626f69c29801cb255a528d56ef38ac23a312c1121cab66b98264bb5c33",
+      "real_sampler_sha256": "0fc2ab5dfee87d4af3e2ab326f76c7ee9cb3a5a893644487d2e7350a48cefafb",
+      "duration_seconds": 180.14931972789117,
+      "exported_effects": 17605
+    },
+    {
+      "flavor": "crystal_lagoon",
+      "folder": "Helix_Crystal_Lagoon",
+      "input": "Helix_Crystal_Lagoon.xsq.gz",
+      "original_xsq_sha256": "4da37e2e042a74b0d4b45e038a0bbf51f5f5aa1aa385304f98e326552ad3f972",
+      "native_render_copy_sha256": "91e2fc08a4c253a9ffdcb477bf5fded6f8401dacc4bb80bc1feda25c4de7e9f8",
+      "real_sampler_sha256": "0fc2ab5dfee87d4af3e2ab326f76c7ee9cb3a5a893644487d2e7350a48cefafb",
+      "duration_seconds": 180.14931972789117,
+      "exported_effects": 17434
+    },
+    {
+      "flavor": "midnight_masquerade",
+      "folder": "Helix_Midnight_Masquerade",
+      "input": "Helix_Midnight_Masquerade.xsq.gz",
+      "original_xsq_sha256": "a74fbd720c08cde007cb041bc1678621feaafe51a1e00efe192f755a7cb63d28",
+      "native_render_copy_sha256": "4ebd3f4408ed148414a77bcb812ff1f45ec550a9a2188f5adf23efb9f9a5e384",
+      "real_sampler_sha256": "0fc2ab5dfee87d4af3e2ab326f76c7ee9cb3a5a893644487d2e7350a48cefafb",
+      "duration_seconds": 180.14931972789117,
+      "exported_effects": 17613
+    }
+  ]
+}

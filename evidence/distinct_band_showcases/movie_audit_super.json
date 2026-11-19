@@ -1,0 +1,40 @@
+[
+  {
+    "file": "Helix_Super_Layout_Two_Bands.mp4",
+    "bytes": 55477616,
+    "sha256": "2f9b0637a9cc701da8a666aed0a5a31b05ed2ced2517805d9ff7124a70b0e4b6",
+    "seconds": 92.2,
+    "frames": 1844,
+    "full_decode_passed": true,
+    "codec": "H264/AAC",
+    "waveform_correlation": 0.9987240457084511,
+    "decoded_samples": [
+      {
+        "time": 5.532,
+        "path": "Helix_Super_Layout_Two_Bands_decoded_0.jpg",
+        "lit_fraction": 0.08546585648148149
+      },
+      {
+        "time": 20.284000000000002,
+        "path": "Helix_Super_Layout_Two_Bands_decoded_1.jpg",
+        "lit_fraction": 0.08535349151234568
+      },
+      {
+        "time": 39.646,
+        "path": "Helix_Super_Layout_Two_Bands_decoded_2.jpg",
+        "lit_fraction": 0.08805844907407408
+      },
+      {
+        "time": 58.086000000000006,
+        "path": "Helix_Super_Layout_Two_Bands_decoded_3.jpg",
+        "lit_fraction": 0.08860194830246913
+      },
+      {
+        "time": 78.37,
+        "path": "Helix_Super_Layout_Two_Bands_decoded_4.jpg",
+        "lit_fraction": 0.08896026234567901
+      }
+    ],
+    "max_contact_error": 0
+  }
+]

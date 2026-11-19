@@ -1,0 +1,494 @@
+{
+  "schema": "helix.approved_concept.v1",
+  "name": "Event Horizon Arena",
+  "coordinate_system": "x-right, y-up, z-depth; design feet",
+  "xlights_source_ref": "6ceddc6b25a24d82754d4f9af28e18ee70b51f81",
+  "coverage": {
+    "Custom": 10
+  },
+  "native_families": [
+    "Custom"
+  ],
+  "native_coverage_complete": false,
+  "model_count": 10,
+  "rgb_pixels": 9092,
+  "channel_count": 27276,
+  "spiral_trees": 0,
+  "double_helices": 0,
+  "preview_contract": "Custom sparse-grid coordinates exactly match exported XML; native-family preview coordinates illustrate the authored geometry. Native xLights render/load evidence is recorded separately.",
+  "models": [
+    {
+      "name": "HX_001_STAGE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "STAGE",
+      "design": "STAGE",
+      "kind": "pixel",
+      "nodes": 200,
+      "start_channel": 1,
+      "end_channel": 600,
+      "bounds_ft": [
+        [
+          -90.0,
+          7.0,
+          -45.0
+        ],
+        [
+          90.0,
+          7.0,
+          45.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.20000000000004547
+    },
+    {
+      "name": "HX_002_FRONT_STEP",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "STEPS",
+      "design": "FRONT STEP",
+      "kind": "pixel",
+      "nodes": 160,
+      "start_channel": 601,
+      "end_channel": 1080,
+      "bounds_ft": [
+        [
+          -90.0,
+          0.0,
+          50.0
+        ],
+        [
+          90.0,
+          0.0,
+          50.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.24528301886792292
+    },
+    {
+      "name": "HX_003_FRONT_STEP",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "STEPS",
+      "design": "FRONT STEP",
+      "kind": "pixel",
+      "nodes": 160,
+      "start_channel": 1081,
+      "end_channel": 1560,
+      "bounds_ft": [
+        [
+          -90.0,
+          3.0,
+          50.0
+        ],
+        [
+          90.0,
+          3.0,
+          50.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.24528301886792292
+    },
+    {
+      "name": "HX_004_FRONT_STEP",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "STEPS",
+      "design": "FRONT STEP",
+      "kind": "pixel",
+      "nodes": 160,
+      "start_channel": 1561,
+      "end_channel": 2040,
+      "bounds_ft": [
+        [
+          -90.0,
+          6.0,
+          50.0
+        ],
+        [
+          90.0,
+          6.0,
+          50.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.24528301886792292
+    },
+    {
+      "name": "HX_SNOWMAN_DRUMMER_V3",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "BAND",
+      "design": "Unchanged canonical drummer placed on center riser",
+      "kind": "pixel",
+      "nodes": 6912,
+      "start_channel": 2041,
+      "end_channel": 22776,
+      "bounds_ft": [
+        [
+          -29.45,
+          13.99,
+          8.0
+        ],
+        [
+          29.45,
+          58.01,
+          8.0
+        ]
+      ],
+      "submodels": [
+        "HX_SNOWMAN_DRUMMER_V3_KICK_SURFACE",
+        "HX_SNOWMAN_DRUMMER_V3_SNARE_SURFACE",
+        "HX_SNOWMAN_DRUMMER_V3_HI_HAT_SURFACE",
+        "HX_SNOWMAN_DRUMMER_V3_TOM_HIGH_SURFACE",
+        "HX_SNOWMAN_DRUMMER_V3_TOM_MID_SURFACE",
+        "HX_SNOWMAN_DRUMMER_V3_TOM_FLOOR_SURFACE",
+        "HX_SNOWMAN_DRUMMER_V3_CYMBAL_LEFT_SURFACE",
+        "HX_SNOWMAN_DRUMMER_V3_CYMBAL_RIGHT_SURFACE",
+        "HX_SNOWMAN_DRUMMER_V3_LEFT_ARM_STICK",
+        "HX_SNOWMAN_DRUMMER_V3_RIGHT_ARM_STICK",
+        "HX_SNOWMAN_DRUMMER_V3_HI_HAT_FOOT",
+        "HX_SNOWMAN_DRUMMER_V3_SNARE_ARM_STICK",
+        "HX_SNOWMAN_DRUMMER_V3_SNARE_ARM_STICK_WOOD",
+        "HX_SNOWMAN_DRUMMER_V3_SNARE_ARM_STICK_NEUTRAL",
+        "HX_SNOWMAN_DRUMMER_V3_TOM_MID_ARM_STICK",
+        "HX_SNOWMAN_DRUMMER_V3_TOM_MID_ARM_STICK_WOOD",
+        "HX_SNOWMAN_DRUMMER_V3_TOM_MID_ARM_STICK_NEUTRAL",
+        "HX_SNOWMAN_DRUMMER_V3_TOM_FLOOR_ARM_STICK",
+        "HX_SNOWMAN_DRUMMER_V3_TOM_FLOOR_ARM_STICK_WOOD",
+        "HX_SNOWMAN_DRUMMER_V3_TOM_FLOOR_ARM_STICK_NEUTRAL",
+        "HX_SNOWMAN_DRUMMER_V3_CYMBAL_LEFT_ARM_STICK",
+        "HX_SNOWMAN_DRUMMER_V3_CYMBAL_LEFT_ARM_STICK_WOOD",
+        "HX_SNOWMAN_DRUMMER_V3_CYMBAL_LEFT_ARM_STICK_NEUTRAL",
+        "HX_SNOWMAN_DRUMMER_V3_TOM_HIGH_ARM_STICK",
+        "HX_SNOWMAN_DRUMMER_V3_TOM_HIGH_ARM_STICK_WOOD",
+        "HX_SNOWMAN_DRUMMER_V3_TOM_HIGH_ARM_STICK_NEUTRAL",
+        "HX_SNOWMAN_DRUMMER_V3_CYMBAL_RIGHT_ARM_STICK",
+        "HX_SNOWMAN_DRUMMER_V3_CYMBAL_RIGHT_ARM_STICK_WOOD",
+        "HX_SNOWMAN_DRUMMER_V3_CYMBAL_RIGHT_ARM_STICK_NEUTRAL",
+        "HX_SNOWMAN_DRUMMER_V3_SNARE_RIGHT_ARM_STICK",
+        "HX_SNOWMAN_DRUMMER_V3_SNARE_RIGHT_ARM_STICK_WOOD",
+        "HX_SNOWMAN_DRUMMER_V3_SNARE_RIGHT_ARM_STICK_NEUTRAL",
+        "HX_SNOWMAN_DRUMMER_V3_KICK",
+        "HX_SNOWMAN_DRUMMER_V3_SNARE",
+        "HX_SNOWMAN_DRUMMER_V3_HI_HAT",
+        "HX_SNOWMAN_DRUMMER_V3_TOM_HIGH",
+        "HX_SNOWMAN_DRUMMER_V3_TOM_MID",
+        "HX_SNOWMAN_DRUMMER_V3_TOM_FLOOR",
+        "HX_SNOWMAN_DRUMMER_V3_CYMBAL_LEFT",
+        "HX_SNOWMAN_DRUMMER_V3_CYMBAL_RIGHT",
+        "BODY_KEEPALIVE"
+      ],
+      "canonical_drummer": true,
+      "source_grid_preserved": true
+    },
+    {
+      "name": "HX_005_EVENT_RING",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "RINGS",
+      "design": "EVENT RING",
+      "kind": "pixel",
+      "nodes": 300,
+      "start_channel": 22777,
+      "end_channel": 23676,
+      "bounds_ft": [
+        [
+          -85.0,
+          4.0,
+          -42.0
+        ],
+        [
+          85.0,
+          172.0,
+          -18.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.38698295843266756
+    },
+    {
+      "name": "HX_006_EVENT_RING",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "RINGS",
+      "design": "EVENT RING",
+      "kind": "pixel",
+      "nodes": 300,
+      "start_channel": 23677,
+      "end_channel": 24576,
+      "bounds_ft": [
+        [
+          -74.0,
+          14.0,
+          -57.0
+        ],
+        [
+          74.0,
+          162.0,
+          -47.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.38692943877492714
+    },
+    {
+      "name": "HX_007_EVENT_RING",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "RINGS",
+      "design": "EVENT RING",
+      "kind": "pixel",
+      "nodes": 300,
+      "start_channel": 24577,
+      "end_channel": 25476,
+      "bounds_ft": [
+        [
+          -63.0,
+          25.0,
+          -74.0
+        ],
+        [
+          63.0,
+          151.0,
+          -74.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3177071735733314
+    },
+    {
+      "name": "HX_008_EVENT_RING",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "RINGS",
+      "design": "EVENT RING",
+      "kind": "pixel",
+      "nodes": 300,
+      "start_channel": 25477,
+      "end_channel": 26376,
+      "bounds_ft": [
+        [
+          -52.0,
+          36.0,
+          -99.5
+        ],
+        [
+          52.0,
+          140.0,
+          -92.5
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.4138488001591969
+    },
+    {
+      "name": "HX_009_EVENT_RING",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "RINGS",
+      "design": "EVENT RING",
+      "kind": "pixel",
+      "nodes": 300,
+      "start_channel": 26377,
+      "end_channel": 27276,
+      "bounds_ft": [
+        [
+          -41.0,
+          47.5,
+          -123.5
+        ],
+        [
+          41.0,
+          128.5,
+          -112.5
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.37495805037105845
+    }
+  ],
+  "file_prefix": "Event_Horizon_Arena",
+  "description": "Offset rings funnel attention toward a dark center, framing the band with a visual gravity well.",
+  "palette": [
+    "#69EFFF",
+    "#B599FF",
+    "#FFD98A"
+  ],
+  "groups": {
+    "HX_ALL_PIXELS": [
+      "HX_001_STAGE",
+      "HX_002_FRONT_STEP",
+      "HX_003_FRONT_STEP",
+      "HX_004_FRONT_STEP",
+      "HX_SNOWMAN_DRUMMER_V3",
+      "HX_005_EVENT_RING",
+      "HX_006_EVENT_RING",
+      "HX_007_EVENT_RING",
+      "HX_008_EVENT_RING",
+      "HX_009_EVENT_RING"
+    ],
+    "HX_NATIVE_CUSTOM": [
+      "HX_001_STAGE",
+      "HX_002_FRONT_STEP",
+      "HX_003_FRONT_STEP",
+      "HX_004_FRONT_STEP",
+      "HX_SNOWMAN_DRUMMER_V3",
+      "HX_005_EVENT_RING",
+      "HX_006_EVENT_RING",
+      "HX_007_EVENT_RING",
+      "HX_008_EVENT_RING",
+      "HX_009_EVENT_RING"
+    ],
+    "HX_WHOLE_SHOW": [
+      "HX_001_STAGE",
+      "HX_002_FRONT_STEP",
+      "HX_003_FRONT_STEP",
+      "HX_004_FRONT_STEP",
+      "HX_SNOWMAN_DRUMMER_V3",
+      "HX_005_EVENT_RING",
+      "HX_006_EVENT_RING",
+      "HX_007_EVENT_RING",
+      "HX_008_EVENT_RING",
+      "HX_009_EVENT_RING"
+    ],
+    "HX_ZONE_BAND": [
+      "HX_SNOWMAN_DRUMMER_V3"
+    ],
+    "HX_ZONE_RINGS": [
+      "HX_005_EVENT_RING",
+      "HX_006_EVENT_RING",
+      "HX_007_EVENT_RING",
+      "HX_008_EVENT_RING",
+      "HX_009_EVENT_RING"
+    ],
+    "HX_ZONE_STAGE": [
+      "HX_001_STAGE"
+    ],
+    "HX_ZONE_STEPS": [
+      "HX_002_FRONT_STEP",
+      "HX_003_FRONT_STEP",
+      "HX_004_FRONT_STEP"
+    ]
+  },
+  "group_count": 7,
+  "concept_id": "32",
+  "source_art": "images/31_32.png",
+  "source_art_side": "right",
+  "build_status": "native planning layout",
+  "source_brief": {
+    "id": "32",
+    "name": "Event Horizon Arena",
+    "standout": "Offset rings funnel attention toward a dark center, framing the band with a visual gravity well.",
+    "scene": "A dramatic black-center concert arena. Five physically separate large tilted concentric-looking pixel ring trusses in deep cyan, violet and white, offset in depth and size to align into an apparent event-horizon tunnel above/behind the stage. Central opaque DARK disk/backdrop has no fake light beams. Grounded band deck, clear small snowman-style LED drummer center front, ring footings/truss support, low spectator-ring lights. A dramatic readable black void.",
+    "board": 5,
+    "side": "right",
+    "image": "images/31_32.png",
+    "status": "awaiting approval",
+    "scope": "Concept art; no xmodel/XML/XSQ/MP4 build.",
+    "source_catalog": "showcase/concepts/2026_10_09_advanced/concepts.json",
+    "description": "Offset rings funnel attention toward a dark center, framing the band with a visual gravity well.",
+    "constraint": "Finite artwork-guided planning geometry; no physical actuation or surveyed construction dimensions.",
+    "round": "advanced"
+  },
+  "sequence_type": "24-second silent Animation study",
+  "physical_output_networks": 0,
+  "limits": [
+    "Finite artwork-guided planning geometry; no physical actuation or surveyed construction dimensions.",
+    "Artwork-guided finite geometry, not a scanned/surveyed reconstruction.",
+    "No complete music sequence or musical drummer acceptance claimed."
+  ]
+}

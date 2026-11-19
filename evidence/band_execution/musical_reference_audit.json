@@ -1,0 +1,78 @@
+{
+  "independent_reference_status": "previous passage-level user review plus independent original-waveform attack timing; sparse, not an exhaustive score",
+  "anchors": [
+    {
+      "reference": "dry_user_tom_anchors.json",
+      "source_timestamp": 9.6995,
+      "target": "TOM_HIGH",
+      "error_ms": 9.500000000000952
+    },
+    {
+      "reference": "dry_user_tom_anchors.json",
+      "source_timestamp": 10.0115,
+      "target": "TOM_MID",
+      "error_ms": 1.5000000000000568
+    },
+    {
+      "reference": "dry_user_tom_anchors.json",
+      "source_timestamp": 10.3235,
+      "target": "TOM_FLOOR",
+      "error_ms": 3.4999999999989484
+    },
+    {
+      "reference": "dry_ending_signal_anchors.json",
+      "source_timestamp": 32.5285,
+      "target": "TOM_HIGH",
+      "error_ms": 8.499999999997954
+    },
+    {
+      "reference": "dry_ending_signal_anchors.json",
+      "source_timestamp": 32.8425,
+      "target": "TOM_HIGH",
+      "error_ms": 12.500000000002842
+    },
+    {
+      "reference": "dry_ending_signal_anchors.json",
+      "source_timestamp": 33.0005,
+      "target": "TOM_HIGH",
+      "error_ms": 10.500000000000398
+    },
+    {
+      "reference": "dry_ending_signal_anchors.json",
+      "source_timestamp": 33.3135,
+      "target": "TOM_HIGH",
+      "error_ms": 13.500000000000512
+    },
+    {
+      "reference": "dry_ending_signal_anchors.json",
+      "source_timestamp": 33.4705,
+      "target": "TOM_HIGH",
+      "error_ms": 10.500000000000398
+    },
+    {
+      "reference": "dry_ending_signal_anchors.json",
+      "source_timestamp": 33.6235,
+      "target": "TOM_HIGH",
+      "error_ms": 13.500000000000512
+    },
+    {
+      "reference": "dry_ending_signal_anchors.json",
+      "source_timestamp": 33.7845,
+      "target": "TOM_HIGH",
+      "error_ms": 14.499999999998181
+    }
+  ],
+  "all_sparse_anchors_preserved": true,
+  "accepted_counts": {
+    "HX_SNOWMAN_DRUMMER_V3_CYMBAL_LEFT": 9,
+    "HX_SNOWMAN_DRUMMER_V3_CYMBAL_RIGHT": 8,
+    "HX_SNOWMAN_DRUMMER_V3_HI_HAT": 138,
+    "HX_SNOWMAN_DRUMMER_V3_KICK": 67,
+    "HX_SNOWMAN_DRUMMER_V3_SNARE": 53,
+    "HX_SNOWMAN_DRUMMER_V3_TOM_FLOOR": 2,
+    "HX_SNOWMAN_DRUMMER_V3_TOM_HIGH": 11,
+    "HX_SNOWMAN_DRUMMER_V3_TOM_MID": 1
+  },
+  "new_drum_detection_accuracy_claimed": false,
+  "raw_stems_available": false
+}

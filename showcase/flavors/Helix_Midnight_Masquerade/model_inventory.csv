@@ -1,0 +1,107 @@
+model,native_type,zone,nodes,start_channel,end_channel,design
+HX_MM_NATIVE_Tree_360,Tree 360,NATIVE_TREE_GALLERY,576,1,1728,"Midnight Masquerade — Tree 360 tree; 12 strands, 0 twists; graduated canopy"
+HX_MM_NATIVE_Tree_180,Tree 180,NATIVE_TREE_GALLERY,576,1729,3456,"Midnight Masquerade — Tree 180 tree; 12 strands, 0 twists; graduated canopy"
+HX_MM_NATIVE_Tree_Flat,Tree Flat,NATIVE_TREE_GALLERY,576,3457,5184,"Midnight Masquerade — Tree Flat tree; 12 strands, 0 twists; graduated canopy"
+HX_MM_NATIVE_Tree_Ribbon,Tree Ribbon,NATIVE_TREE_GALLERY,576,5185,6912,"Midnight Masquerade — Tree Ribbon tree; 12 strands, 0 twists; graduated canopy"
+HX_MM_ORRERY_MOON_-1,Sphere,NATIVE_PAVILIONS,480,6913,8352,Midnight Masquerade — Pixel moon above a lyric pavilion; full-depth meridians
+HX_MM_AURORA_HORIZONTAL,Horiz Matrix,NATIVE_PAVILIONS,800,8353,10752,Midnight Masquerade — A wide lyric cinema
+HX_MM_JEWEL_WINDOW_-1,Window Frame,NATIVE_PAVILIONS,192,10753,11328,Midnight Masquerade — Oversized jewel-box frame around the art canvas
+HX_MM_ORBIT_TRIPTYCH_-1,Circle,NATIVE_PAVILIONS,288,11329,12192,Midnight Masquerade — Nested astronomical orbit rings
+HX_MM_MOON_WREATH_-1,Wreath,NATIVE_PAVILIONS,96,12193,12480,"Midnight Masquerade — Halo wreath with an open, readable center"
+HX_MM_SOLAR_SPINNER_-1,Spinner,NATIVE_PAVILIONS,216,12481,13128,Midnight Masquerade — Twelve-arm hollow solar rosette; independent radial chase lanes
+HX_MM_ORRERY_MOON_1,Sphere,NATIVE_PAVILIONS,480,13129,14568,Midnight Masquerade — Pixel moon above a lyric pavilion; full-depth meridians
+HX_MM_AURORA_VERTICAL,Vert Matrix,NATIVE_PAVILIONS,640,14569,16488,Midnight Masquerade — Portrait generative-art canvas
+HX_MM_JEWEL_WINDOW_1,Window Frame,NATIVE_PAVILIONS,192,16489,17064,Midnight Masquerade — Oversized jewel-box frame around the art canvas
+HX_MM_ORBIT_TRIPTYCH_1,Circle,NATIVE_PAVILIONS,288,17065,17928,Midnight Masquerade — Nested astronomical orbit rings
+HX_MM_MOON_WREATH_1,Wreath,NATIVE_PAVILIONS,96,17929,18216,"Midnight Masquerade — Halo wreath with an open, readable center"
+HX_MM_SOLAR_SPINNER_1,Spinner,NATIVE_PAVILIONS,216,18217,18864,Midnight Masquerade — Twelve-arm hollow solar rosette; independent radial chase lanes
+HX_MM_RIBBON_ARCH_01,Arches,RIBBON_PROMENADE,80,18865,19104,Midnight Masquerade — A scalloped aurora entrance arch
+HX_MM_RIBBON_ARCH_02,Arches,RIBBON_PROMENADE,80,19105,19344,Midnight Masquerade — A scalloped aurora entrance arch
+HX_MM_RIBBON_ARCH_03,Arches,RIBBON_PROMENADE,80,19345,19584,Midnight Masquerade — A scalloped aurora entrance arch
+HX_MM_RIBBON_ARCH_04,Arches,RIBBON_PROMENADE,80,19585,19824,Midnight Masquerade — A scalloped aurora entrance arch
+HX_MM_RIBBON_ARCH_05,Arches,RIBBON_PROMENADE,80,19825,20064,Midnight Masquerade — A scalloped aurora entrance arch
+HX_MM_RIBBON_ARCH_06,Arches,RIBBON_PROMENADE,80,20065,20304,Midnight Masquerade — A scalloped aurora entrance arch
+HX_MM_RIBBON_ARCH_07,Arches,RIBBON_PROMENADE,80,20305,20544,Midnight Masquerade — A scalloped aurora entrance arch
+HX_MM_RIBBON_ARCH_08,Arches,RIBBON_PROMENADE,80,20545,20784,Midnight Masquerade — A scalloped aurora entrance arch
+HX_MM_CANDY_GARDEN_-1,Candy Canes,RIBBON_PROMENADE,240,20785,21504,Midnight Masquerade — Five slim hooked candy reeds; mirrored portal accents
+HX_MM_CANDY_GARDEN_1,Candy Canes,RIBBON_PROMENADE,240,21505,22224,Midnight Masquerade — Five slim hooked candy reeds; mirrored portal accents
+HX_MM_VOXEL_LANTERN_-1,Cube,CRYSTAL_GARDEN,512,22225,23760,Midnight Masquerade — Deep crystal voxel lantern; three-dimensional chase volume
+HX_MM_VOXEL_LANTERN_1,Cube,CRYSTAL_GARDEN,512,23761,25296,Midnight Masquerade — Deep crystal voxel lantern; three-dimensional chase volume
+HX_MM_FIBONACCI_ICICLES_-1,Icicles,NATIVE_PAVILIONS,136,25297,25704,Midnight Masquerade — Fibonacci-length ice fringe under the lyric pavilion
+HX_MM_FIBONACCI_ICICLES_1,Icicles,NATIVE_PAVILIONS,136,25705,26112,Midnight Masquerade — Fibonacci-length ice fringe under the lyric pavilion
+HX_MM_INFINITY_RIBBON,Poly Line,SIGNATURE_PATH,420,26113,27372,Midnight Masquerade signature illuminated contour
+HX_MM_FIREFLY_CONSTELLATION,MultiPoint,SKY_MOTIFS,64,27373,27564,"Midnight Masquerade — Seeded, independently positioned native MultiPoint fireflies"
+HX_MM_HORIZON_RAIL_-1,Single Line,RIBBON_PROMENADE,180,27565,28104,Midnight Masquerade — Continuous low horizon rail for clean opposing chases
+HX_MM_HORIZON_RAIL_1,Single Line,RIBBON_PROMENADE,180,28105,28644,Midnight Masquerade — Continuous low horizon rail for clean opposing chases
+HX_MM_FRACTAL_SNOWFLAKE_-1_0,Custom,SKY_MOTIFS,210,28645,29274,Midnight Masquerade — Sixfold crystalline snowflake with branching tips
+HX_MM_FRACTAL_SNOWFLAKE_-1_1,Custom,SKY_MOTIFS,210,29275,29904,Midnight Masquerade — Sixfold crystalline snowflake with branching tips
+HX_MM_FRACTAL_SNOWFLAKE_-1_2,Custom,SKY_MOTIFS,210,29905,30534,Midnight Masquerade — Sixfold crystalline snowflake with branching tips
+HX_MM_FRACTAL_SNOWFLAKE_1_0,Custom,SKY_MOTIFS,210,30535,31164,Midnight Masquerade — Sixfold crystalline snowflake with branching tips
+HX_MM_FRACTAL_SNOWFLAKE_1_1,Custom,SKY_MOTIFS,210,31165,31794,Midnight Masquerade — Sixfold crystalline snowflake with branching tips
+HX_MM_FRACTAL_SNOWFLAKE_1_2,Custom,SKY_MOTIFS,210,31795,32424,Midnight Masquerade — Sixfold crystalline snowflake with branching tips
+HX_MM_HELIX_CREST_IMAGE,Image,WELCOME_CREST,1,32425,32425,Midnight Masquerade — Original Midnight Masquerade luminous crest; portable image asset
+HX_MM_WELCOME_LABEL,Label,WELCOME_CREST,1,32426,32426,Midnight Masquerade — Native scene label: HELIX AURORA
+HX_MM_TECH_Channel_Block,Channel Block,TECHNOLOGY_ALCOVES,16,32427,32442,Midnight Masquerade — An amber legacy AC marquee
+HX_MM_TECH_DmxGeneral,DmxGeneral,TECHNOLOGY_ALCOVES,8,32443,32450,Midnight Masquerade — Eight-channel fountain/utility controller
+HX_MM_TECH_DmxMovingHead,DmxMovingHead,TECHNOLOGY_ALCOVES,16,32451,32466,Midnight Masquerade — Classic cyan spotlight turret
+HX_MM_TECH_DmxMovingHeadAdv,DmxMovingHeadAdv,TECHNOLOGY_ALCOVES,16,32467,32482,Midnight Masquerade — Full 3D magenta spotlight turret
+HX_MM_TECH_DmxFloodlight,DmxFloodlight,TECHNOLOGY_ALCOVES,3,32483,32485,Midnight Masquerade — RGB garden uplighter
+HX_MM_TECH_DmxFloodArea,DmxFloodArea,TECHNOLOGY_ALCOVES,3,32486,32488,Midnight Masquerade — Broad aurora lawn wash
+HX_MM_TECH_DmxSkull,DmxSkull,TECHNOLOGY_ALCOVES,26,32489,32514,Midnight Masquerade — Articulated Halloween guest in the technology alcove
+HX_MM_TECH_DmxServo,DmxServo,TECHNOLOGY_ALCOVES,2,32515,32516,Midnight Masquerade — 2D kinetic pinwheel ornament
+HX_MM_TECH_DmxServo3d,DmxServo3d,TECHNOLOGY_ALCOVES,6,32517,32522,Midnight Masquerade — Three-axis kinetic DNA wind sculpture
+HX_MM_ROYAL_THRONE,Custom,DNA_CATHEDRAL,1644,32523,37454,"Two-strand DNA sculpture: 4.2 turns, full illuminated ladder rungs"
+HX_MM_GILDED_BALCONY,Custom,DNA_BRIDGES,1170,37455,40964,Horizontal double-helix bridge with full illuminated ladder rungs
+HX_MM_BALUSTRADE_-1_0,Custom,DNA_CATHEDRAL,660,40965,42944,"Two-strand DNA sculpture: 3 turns, full illuminated ladder rungs"
+HX_MM_BALUSTRADE_-1_1,Custom,DNA_CATHEDRAL,660,42945,44924,"Two-strand DNA sculpture: 3 turns, full illuminated ladder rungs"
+HX_MM_BALUSTRADE_-1_2,Custom,DNA_CATHEDRAL,660,44925,46904,"Two-strand DNA sculpture: 3 turns, full illuminated ladder rungs"
+HX_MM_BALUSTRADE_-1_3,Custom,DNA_CATHEDRAL,660,46905,48884,"Two-strand DNA sculpture: 3 turns, full illuminated ladder rungs"
+HX_MM_BALUSTRADE_-1_4,Custom,DNA_CATHEDRAL,660,48885,50864,"Two-strand DNA sculpture: 3 turns, full illuminated ladder rungs"
+HX_MM_BALUSTRADE_1_0,Custom,DNA_CATHEDRAL,660,50865,52844,"Two-strand DNA sculpture: 3 turns, full illuminated ladder rungs"
+HX_MM_BALUSTRADE_1_1,Custom,DNA_CATHEDRAL,660,52845,54824,"Two-strand DNA sculpture: 3 turns, full illuminated ladder rungs"
+HX_MM_BALUSTRADE_1_2,Custom,DNA_CATHEDRAL,660,54825,56804,"Two-strand DNA sculpture: 3 turns, full illuminated ladder rungs"
+HX_MM_BALUSTRADE_1_3,Custom,DNA_CATHEDRAL,660,56805,58784,"Two-strand DNA sculpture: 3 turns, full illuminated ladder rungs"
+HX_MM_BALUSTRADE_1_4,Custom,DNA_CATHEDRAL,660,58785,60764,"Two-strand DNA sculpture: 3 turns, full illuminated ladder rungs"
+HX_MM_SPIRAL_00,Tree 360,SPIRAL_GROVES,224,60765,61436,"Spiral tree; 2 strands, 2.5 twists; graduated canopy"
+HX_MM_SPIRAL_01,Tree 360,SPIRAL_GROVES,384,61437,62588,"Spiral tree; 3 strands, 2.68 twists; graduated canopy"
+HX_MM_SPIRAL_02,Tree 360,SPIRAL_GROVES,288,62589,63452,"Spiral tree; 2 strands, 2.86 twists; graduated canopy"
+HX_MM_SPIRAL_03,Tree 360,SPIRAL_GROVES,336,63453,64460,"Spiral tree; 3 strands, 3.04 twists; graduated canopy"
+HX_MM_SPIRAL_04,Tree 360,SPIRAL_GROVES,256,64461,65228,"Spiral tree; 2 strands, 3.22 twists; graduated canopy"
+HX_MM_SPIRAL_05,Tree 360,SPIRAL_GROVES,432,65229,66524,"Spiral tree; 3 strands, 3.4 twists; graduated canopy"
+HX_MM_SPIRAL_06,Tree 360,SPIRAL_GROVES,224,66525,67196,"Spiral tree; 2 strands, 3.2 twists; graduated canopy"
+HX_MM_SPIRAL_07,Tree 360,SPIRAL_GROVES,384,67197,68348,"Spiral tree; 3 strands, 3.38 twists; graduated canopy"
+HX_MM_SPIRAL_08,Tree 360,SPIRAL_GROVES,288,68349,69212,"Spiral tree; 2 strands, 3.56 twists; graduated canopy"
+HX_MM_SPIRAL_09,Tree 360,SPIRAL_GROVES,336,69213,70220,"Spiral tree; 3 strands, 3.74 twists; graduated canopy"
+HX_MM_SPIRAL_10,Tree 360,SPIRAL_GROVES,256,70221,70988,"Spiral tree; 2 strands, 3.92 twists; graduated canopy"
+HX_MM_SPIRAL_11,Tree 360,SPIRAL_GROVES,432,70989,72284,"Spiral tree; 3 strands, 4.1 twists; graduated canopy"
+HX_MM_SPIRAL_12,Tree 360,SPIRAL_GROVES,224,72285,72956,"Spiral tree; 2 strands, 3.9 twists; graduated canopy"
+HX_MM_SPIRAL_13,Tree 360,SPIRAL_GROVES,384,72957,74108,"Spiral tree; 3 strands, 4.08 twists; graduated canopy"
+HX_MM_SPIRAL_14,Tree 360,SPIRAL_GROVES,288,74109,74972,"Spiral tree; 2 strands, 4.26 twists; graduated canopy"
+HX_MM_SPIRAL_15,Tree 360,SPIRAL_GROVES,336,74973,75980,"Spiral tree; 3 strands, 4.44 twists; graduated canopy"
+HX_MM_SPIRAL_16,Tree 360,SPIRAL_GROVES,256,75981,76748,"Spiral tree; 2 strands, 4.62 twists; graduated canopy"
+HX_MM_SPIRAL_17,Tree 360,SPIRAL_GROVES,432,76749,78044,"Spiral tree; 3 strands, 4.8 twists; graduated canopy"
+HX_MM_SPIRAL_18,Tree 360,SPIRAL_GROVES,224,78045,78716,"Spiral tree; 2 strands, 2.5 twists; graduated canopy"
+HX_MM_SPIRAL_19,Tree 360,SPIRAL_GROVES,384,78717,79868,"Spiral tree; 3 strands, 2.68 twists; graduated canopy"
+HX_MM_SPIRAL_20,Tree 360,SPIRAL_GROVES,288,79869,80732,"Spiral tree; 2 strands, 2.86 twists; graduated canopy"
+HX_MM_SPIRAL_21,Tree 360,SPIRAL_GROVES,336,80733,81740,"Spiral tree; 3 strands, 3.04 twists; graduated canopy"
+HX_MM_SPIRAL_22,Tree 360,SPIRAL_GROVES,256,81741,82508,"Spiral tree; 2 strands, 3.22 twists; graduated canopy"
+HX_MM_SPIRAL_23,Tree 360,SPIRAL_GROVES,432,82509,83804,"Spiral tree; 3 strands, 3.4 twists; graduated canopy"
+HX_MM_SPIRAL_24,Tree 360,SPIRAL_GROVES,224,83805,84476,"Spiral tree; 2 strands, 3.2 twists; graduated canopy"
+HX_MM_SPIRAL_25,Tree 360,SPIRAL_GROVES,384,84477,85628,"Spiral tree; 3 strands, 3.38 twists; graduated canopy"
+HX_MM_SPIRAL_26,Tree 360,SPIRAL_GROVES,288,85629,86492,"Spiral tree; 2 strands, 3.56 twists; graduated canopy"
+HX_MM_SPIRAL_27,Tree 360,SPIRAL_GROVES,336,86493,87500,"Spiral tree; 3 strands, 3.74 twists; graduated canopy"
+HX_MM_SPIRAL_28,Tree 360,SPIRAL_GROVES,256,87501,88268,"Spiral tree; 2 strands, 3.92 twists; graduated canopy"
+HX_MM_SPIRAL_29,Tree 360,SPIRAL_GROVES,432,88269,89564,"Spiral tree; 3 strands, 4.1 twists; graduated canopy"
+HX_MM_SPIRAL_30,Tree 360,SPIRAL_GROVES,224,89565,90236,"Spiral tree; 2 strands, 3.9 twists; graduated canopy"
+HX_MM_SPIRAL_31,Tree 360,SPIRAL_GROVES,384,90237,91388,"Spiral tree; 3 strands, 4.08 twists; graduated canopy"
+HX_MM_SPIRAL_32,Tree 360,SPIRAL_GROVES,288,91389,92252,"Spiral tree; 2 strands, 4.26 twists; graduated canopy"
+HX_MM_SPIRAL_33,Tree 360,SPIRAL_GROVES,336,92253,93260,"Spiral tree; 3 strands, 4.44 twists; graduated canopy"
+HX_MM_SPIRAL_34,Tree 360,SPIRAL_GROVES,256,93261,94028,"Spiral tree; 2 strands, 4.62 twists; graduated canopy"
+HX_MM_SPIRAL_35,Tree 360,SPIRAL_GROVES,432,94029,95324,"Spiral tree; 3 strands, 4.8 twists; graduated canopy"
+HX_MM_CROWN_0,Star,SKY_CROWNS,120,95325,95684,5-point jewel crown; warm gold contrasts the cool spiral forest
+HX_MM_CROWN_1,Star,SKY_CROWNS,145,95685,96119,6-point jewel crown; warm gold contrasts the cool spiral forest
+HX_MM_CROWN_2,Star,SKY_CROWNS,168,96120,96623,7-point jewel crown; warm gold contrasts the cool spiral forest
+HX_MM_CROWN_3,Star,SKY_CROWNS,120,96624,96983,5-point jewel crown; warm gold contrasts the cool spiral forest
+HX_MM_CROWN_4,Star,SKY_CROWNS,145,96984,97418,6-point jewel crown; warm gold contrasts the cool spiral forest
+HX_MM_CROWN_5,Star,SKY_CROWNS,168,97419,97922,7-point jewel crown; warm gold contrasts the cool spiral forest
+HX_MM_CROWN_6,Star,SKY_CROWNS,120,97923,98282,5-point jewel crown; warm gold contrasts the cool spiral forest

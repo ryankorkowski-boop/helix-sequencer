@@ -1,0 +1,682 @@
+{
+  "artifacts_checked": 92,
+  "nonexpired_artifacts_downloaded": 92,
+  "zip_crc_checked": true,
+  "mp4_copies_recovered": 84,
+  "artifacts_with_mp4": 57,
+  "recursive_inner_zip_tar_scanned": true,
+  "sources": [
+    {
+      "path": "/workspace/runtime/recovered_recent_ci_mp4s/11650945138/d24f022d_Bell_Circuit_Carol_Six_Layouts_30s.mp4",
+      "artifact_id": 11650945138,
+      "artifact_name": "helix-six-up-Bell_Circuit_Carol",
+      "artifact_created_at": "2026-10-09T23:20:51Z",
+      "original_archive_path": "Bell_Circuit_Carol_Six_Layouts_30s.mp4",
+      "bytes": 5190900
+    },
+    {
+      "path": "/workspace/runtime/recovered_recent_ci_mp4s/11650881084/59a14fb5_Helix_Audiolights_Six_Layouts_30s.mp4",
+      "artifact_id": 11650881084,
+      "artifact_name": "helix-six-up-Helix_Audiolights",
+      "artifact_created_at": "2026-10-09T23:29:08Z",
+      "original_archive_path": "Helix_Audiolights_Six_Layouts_30s.mp4",
+      "bytes": 4218458
+    },
+    {
+      "path": "/workspace/runtime/recovered_recent_ci_mp4s/11650616316/a23c58de_Helix_Comparison_A_3_Songs_6_Layouts_90s.mp4",
+      "artifact_id": 11650616316,
+      "artifact_name": "helix-two-six-layout-30s-comparison-videos",
+      "artifact_created_at": "2026-10-09T23:21:29Z",
+      "original_archive_path": "Helix_Comparison_A_3_Songs_6_Layouts_90s.mp4",
+      "bytes": 16724969
+    },
+    {
+      "path": "/workspace/runtime/recovered_recent_ci_mp4s/11650616316/9e0eb24c_Helix_Comparison_B_2_Songs_6_Layouts_60s.mp4",
+      "artifact_id": 11650616316,
+      "artifact_name": "helix-two-six-layout-30s-comparison-videos",
+      "artifact_created_at": "2026-10-09T23:21:29Z",
+      "original_archive_path": "Helix_Comparison_B_2_Songs_6_Layouts_60s.mp4",
+      "bytes": 10994699
+    },
+    {
+      "path": "/workspace/runtime/recovered_recent_ci_mp4s/11650441491/bb8be22a_Wire_Tree_Six_Layouts_30s.mp4",
+      "artifact_id": 11650441491,
+      "artifact_name": "helix-six-up-Wire_Tree",
+      "artifact_created_at": "2026-10-09T23:20:34Z",
+      "original_archive_path": "Wire_Tree_Six_Layouts_30s.mp4",
+      "bytes": 4241455
+    },
+    {
+      "path": "/workspace/runtime/recovered_recent_ci_mp4s/11650311900/deb2061b_Holly_Steel_Run_Six_Layouts_30s.mp4",
+      "artifact_id": 11650311900,
+      "artifact_name": "helix-six-up-Holly_Steel_Run",
+      "artifact_created_at": "2026-10-09T23:19:50Z",
+      "original_archive_path": "Holly_Steel_Run_Six_Layouts_30s.mp4",
+      "bytes": 5804958
+    },
+    {
+      "path": "/workspace/runtime/recovered_recent_ci_mp4s/11649404966/66147da1_Frostbitten_Fingerboard_Six_Layouts_30s.mp4",
+      "artifact_id": 11649404966,
+      "artifact_name": "helix-six-up-Frostbitten_Fingerboard",
+      "artifact_created_at": "2026-10-09T23:19:59Z",
+      "original_archive_path": "Frostbitten_Fingerboard_Six_Layouts_30s.mp4",
+      "bytes": 6401089
+    },
+    {
+      "path": "/workspace/runtime/recovered_recent_ci_mp4s/11649344825/fc12c2d3_Tinsel_Sawtooth_Six_Layouts_30s.mp4",
+      "artifact_id": 11649344825,
+      "artifact_name": "helix-six-up-Tinsel_Sawtooth",
+      "artifact_created_at": "2026-10-09T23:19:46Z",
+      "original_archive_path": "Tinsel_Sawtooth_Six_Layouts_30s.mp4",
+      "bytes": 6084885
+    },
+    {
+      "path": "/workspace/runtime/recovered_recent_ci_mp4s/11648685620/940dcf2f_REMOTE_REVIEW_v28.9_LightsOutTheme.first_20s,v28.9.mp4",
+      "artifact_id": 11648685620,
+      "artifact_name": "helix-remote-review-preview-mp4",
+      "artifact_created_at": "2026-10-09T22:17:55Z",
+      "original_archive_path": "test_runs/remote_review_preview/REMOTE_REVIEW_v28.9_LightsOutTheme.first_20s,v28.9.mp4",
+      "bytes": 2028146
+    },
+    {
+      "path": "/workspace/runtime/recovered_recent_ci_mp4s/11648685620/fb03e2a0_LightsOutTheme.first_20s,v28.9.mp4",
+      "artifact_id": 11648685620,
+      "artifact_name": "helix-remote-review-preview-mp4",
+      "artifact_created_at": "2026-10-09T22:17:55Z",
+      "original_archive_path": "test_runs/remote_review_preview/v28.9/LightsOutTheme.first_20s,v28.9.mp4",
+      "bytes": 2028146
+    },
+    {
+      "path": "/workspace/runtime/recovered_recent_ci_mp4s/11648456453/f079ac55_LightsOutTheme.first_20sv28.9.mp4",
+      "artifact_id": 11648456453,
+      "artifact_name": "github-pages",
+      "artifact_created_at": "2026-10-09T22:20:19Z",
+      "original_archive_path": "artifact.tar::./previews/37997861892/LightsOutTheme.first_20sv28.9.mp4",
+      "bytes": 1692880
+    },
+    {
+      "path": "/workspace/runtime/recovered_recent_ci_mp4s/11648456453/08b757d9_REMOTE_REVIEW_v28.9_LightsOutTheme.first_20sv28.9.mp4",
+      "artifact_id": 11648456453,
+      "artifact_name": "github-pages",
+      "artifact_created_at": "2026-10-09T22:20:19Z",
+      "original_archive_path": "artifact.tar::./previews/37997861892/REMOTE_REVIEW_v28.9_LightsOutTheme.first_20sv28.9.mp4",
+      "bytes": 1692880
+    },
+    {
+      "path": "/workspace/runtime/recovered_recent_ci_mp4s/11648230516/940dcf2f_REMOTE_REVIEW_v28.9_LightsOutTheme.first_20s,v28.9.mp4",
+      "artifact_id": 11648230516,
+      "artifact_name": "helix-remote-review-preview-mp4",
+      "artifact_created_at": "2026-10-09T22:07:20Z",
+      "original_archive_path": "test_runs/remote_review_preview/REMOTE_REVIEW_v28.9_LightsOutTheme.first_20s,v28.9.mp4",
+      "bytes": 2175943
+    },
+    {
+      "path": "/workspace/runtime/recovered_recent_ci_mp4s/11648230516/fb03e2a0_LightsOutTheme.first_20s,v28.9.mp4",
+      "artifact_id": 11648230516,
+      "artifact_name": "helix-remote-review-preview-mp4",
+      "artifact_created_at": "2026-10-09T22:07:20Z",
+      "original_archive_path": "test_runs/remote_review_preview/v28.9/LightsOutTheme.first_20s,v28.9.mp4",
+      "bytes": 2175943
+    },
+    {
+      "path": "/workspace/runtime/recovered_recent_ci_mp4s/11648216601/e12402ce_helix_flow_demo.mp4",
+      "artifact_id": 11648216601,
+      "artifact_name": "helix-flow-review-artifacts",
+      "artifact_created_at": "2026-10-09T22:13:37Z",
+      "original_archive_path": "helix_flow_demo.mp4",
+      "bytes": 700182
+    },
+    {
+      "path": "/workspace/runtime/recovered_recent_ci_mp4s/11648197686/940dcf2f_REMOTE_REVIEW_v28.9_LightsOutTheme.first_20s,v28.9.mp4",
+      "artifact_id": 11648197686,
+      "artifact_name": "helix-remote-review-preview-mp4",
+      "artifact_created_at": "2026-10-09T22:20:04Z",
+      "original_archive_path": "test_runs/remote_review_preview/REMOTE_REVIEW_v28.9_LightsOutTheme.first_20s,v28.9.mp4",
+      "bytes": 1692880
+    },
+    {
+      "path": "/workspace/runtime/recovered_recent_ci_mp4s/11648197686/fb03e2a0_LightsOutTheme.first_20s,v28.9.mp4",
+      "artifact_id": 11648197686,
+      "artifact_name": "helix-remote-review-preview-mp4",
+      "artifact_created_at": "2026-10-09T22:20:04Z",
+      "original_archive_path": "test_runs/remote_review_preview/v28.9/LightsOutTheme.first_20s,v28.9.mp4",
+      "bytes": 1692880
+    },
+    {
+      "path": "/workspace/runtime/recovered_recent_ci_mp4s/11648105036/e12402ce_helix_flow_demo.mp4",
+      "artifact_id": 11648105036,
+      "artifact_name": "helix-flow-review-artifacts",
+      "artifact_created_at": "2026-10-09T22:00:51Z",
+      "original_archive_path": "helix_flow_demo.mp4",
+      "bytes": 700182
+    },
+    {
+      "path": "/workspace/runtime/recovered_recent_ci_mp4s/11648016642/e12402ce_helix_flow_demo.mp4",
+      "artifact_id": 11648016642,
+      "artifact_name": "helix-flow-review-artifacts",
+      "artifact_created_at": "2026-10-09T22:14:26Z",
+      "original_archive_path": "helix_flow_demo.mp4",
+      "bytes": 700182
+    },
+    {
+      "path": "/workspace/runtime/recovered_recent_ci_mp4s/11647811014/06fa58fe_LightsOutTheme.first_20sv28.9.mp4",
+      "artifact_id": 11647811014,
+      "artifact_name": "github-pages",
+      "artifact_created_at": "2026-10-09T22:07:44Z",
+      "original_archive_path": "artifact.tar::./previews/37996613353/LightsOutTheme.first_20sv28.9.mp4",
+      "bytes": 2175943
+    },
+    {
+      "path": "/workspace/runtime/recovered_recent_ci_mp4s/11647811014/56203b00_REMOTE_REVIEW_v28.9_LightsOutTheme.first_20sv28.9.mp4",
+      "artifact_id": 11647811014,
+      "artifact_name": "github-pages",
+      "artifact_created_at": "2026-10-09T22:07:44Z",
+      "original_archive_path": "artifact.tar::./previews/37996613353/REMOTE_REVIEW_v28.9_LightsOutTheme.first_20sv28.9.mp4",
+      "bytes": 2175943
+    },
+    {
+      "path": "/workspace/runtime/recovered_recent_ci_mp4s/11647567721/aa771326_LightsOutTheme.first_20sv28.9.mp4",
+      "artifact_id": 11647567721,
+      "artifact_name": "github-pages",
+      "artifact_created_at": "2026-10-09T22:18:12Z",
+      "original_archive_path": "artifact.tar::./previews/37997918743/LightsOutTheme.first_20sv28.9.mp4",
+      "bytes": 2028146
+    },
+    {
+      "path": "/workspace/runtime/recovered_recent_ci_mp4s/11647567721/cf0c657f_REMOTE_REVIEW_v28.9_LightsOutTheme.first_20sv28.9.mp4",
+      "artifact_id": 11647567721,
+      "artifact_name": "github-pages",
+      "artifact_created_at": "2026-10-09T22:18:12Z",
+      "original_archive_path": "artifact.tar::./previews/37997918743/REMOTE_REVIEW_v28.9_LightsOutTheme.first_20sv28.9.mp4",
+      "bytes": 2028146
+    },
+    {
+      "path": "/workspace/runtime/recovered_recent_ci_mp4s/11647073657/940dcf2f_REMOTE_REVIEW_v28.9_LightsOutTheme.first_20s,v28.9.mp4",
+      "artifact_id": 11647073657,
+      "artifact_name": "helix-remote-review-preview-mp4",
+      "artifact_created_at": "2026-10-09T22:01:36Z",
+      "original_archive_path": "test_runs/remote_review_preview/REMOTE_REVIEW_v28.9_LightsOutTheme.first_20s,v28.9.mp4",
+      "bytes": 1979344
+    },
+    {
+      "path": "/workspace/runtime/recovered_recent_ci_mp4s/11647073657/fb03e2a0_LightsOutTheme.first_20s,v28.9.mp4",
+      "artifact_id": 11647073657,
+      "artifact_name": "helix-remote-review-preview-mp4",
+      "artifact_created_at": "2026-10-09T22:01:36Z",
+      "original_archive_path": "test_runs/remote_review_preview/v28.9/LightsOutTheme.first_20s,v28.9.mp4",
+      "bytes": 1979344
+    },
+    {
+      "path": "/workspace/runtime/recovered_recent_ci_mp4s/11646964584/52ecc6e6_LightsOutTheme.first_20sv28.9.mp4",
+      "artifact_id": 11646964584,
+      "artifact_name": "github-pages",
+      "artifact_created_at": "2026-10-09T22:01:56Z",
+      "original_archive_path": "artifact.tar::./previews/37996198064/LightsOutTheme.first_20sv28.9.mp4",
+      "bytes": 1979344
+    },
+    {
+      "path": "/workspace/runtime/recovered_recent_ci_mp4s/11646964584/e6add5a5_REMOTE_REVIEW_v28.9_LightsOutTheme.first_20sv28.9.mp4",
+      "artifact_id": 11646964584,
+      "artifact_name": "github-pages",
+      "artifact_created_at": "2026-10-09T22:01:56Z",
+      "original_archive_path": "artifact.tar::./previews/37996198064/REMOTE_REVIEW_v28.9_LightsOutTheme.first_20sv28.9.mp4",
+      "bytes": 1979344
+    },
+    {
+      "path": "/workspace/runtime/recovered_recent_ci_mp4s/11646913607/e12402ce_helix_flow_demo.mp4",
+      "artifact_id": 11646913607,
+      "artifact_name": "helix-flow-review-artifacts",
+      "artifact_created_at": "2026-10-09T21:56:06Z",
+      "original_archive_path": "helix_flow_demo.mp4",
+      "bytes": 700182
+    },
+    {
+      "path": "/workspace/runtime/recovered_recent_ci_mp4s/11591806119/940dcf2f_REMOTE_REVIEW_v28.9_LightsOutTheme.first_20s,v28.9.mp4",
+      "artifact_id": 11591806119,
+      "artifact_name": "helix-remote-review-preview-mp4",
+      "artifact_created_at": "2026-10-09T02:16:38Z",
+      "original_archive_path": "test_runs/remote_review_preview/REMOTE_REVIEW_v28.9_LightsOutTheme.first_20s,v28.9.mp4",
+      "bytes": 2123517
+    },
+    {
+      "path": "/workspace/runtime/recovered_recent_ci_mp4s/11591806119/fb03e2a0_LightsOutTheme.first_20s,v28.9.mp4",
+      "artifact_id": 11591806119,
+      "artifact_name": "helix-remote-review-preview-mp4",
+      "artifact_created_at": "2026-10-09T02:16:38Z",
+      "original_archive_path": "test_runs/remote_review_preview/v28.9/LightsOutTheme.first_20s,v28.9.mp4",
+      "bytes": 2123517
+    },
+    {
+      "path": "/workspace/runtime/recovered_recent_ci_mp4s/11591152553/940dcf2f_REMOTE_REVIEW_v28.9_LightsOutTheme.first_20s,v28.9.mp4",
+      "artifact_id": 11591152553,
+      "artifact_name": "helix-remote-review-preview-mp4",
+      "artifact_created_at": "2026-10-09T02:17:25Z",
+      "original_archive_path": "test_runs/remote_review_preview/REMOTE_REVIEW_v28.9_LightsOutTheme.first_20s,v28.9.mp4",
+      "bytes": 2220781
+    },
+    {
+      "path": "/workspace/runtime/recovered_recent_ci_mp4s/11591152553/fb03e2a0_LightsOutTheme.first_20s,v28.9.mp4",
+      "artifact_id": 11591152553,
+      "artifact_name": "helix-remote-review-preview-mp4",
+      "artifact_created_at": "2026-10-09T02:17:25Z",
+      "original_archive_path": "test_runs/remote_review_preview/v28.9/LightsOutTheme.first_20s,v28.9.mp4",
+      "bytes": 2220781
+    },
+    {
+      "path": "/workspace/runtime/recovered_recent_ci_mp4s/11591141951/940dcf2f_REMOTE_REVIEW_v28.9_LightsOutTheme.first_20s,v28.9.mp4",
+      "artifact_id": 11591141951,
+      "artifact_name": "helix-remote-review-preview-mp4",
+      "artifact_created_at": "2026-10-09T02:12:59Z",
+      "original_archive_path": "test_runs/remote_review_preview/REMOTE_REVIEW_v28.9_LightsOutTheme.first_20s,v28.9.mp4",
+      "bytes": 1883353
+    },
+    {
+      "path": "/workspace/runtime/recovered_recent_ci_mp4s/11591141951/fb03e2a0_LightsOutTheme.first_20s,v28.9.mp4",
+      "artifact_id": 11591141951,
+      "artifact_name": "helix-remote-review-preview-mp4",
+      "artifact_created_at": "2026-10-09T02:12:59Z",
+      "original_archive_path": "test_runs/remote_review_preview/v28.9/LightsOutTheme.first_20s,v28.9.mp4",
+      "bytes": 1883353
+    },
+    {
+      "path": "/workspace/runtime/recovered_recent_ci_mp4s/11590508982/e12402ce_helix_flow_demo.mp4",
+      "artifact_id": 11590508982,
+      "artifact_name": "helix-flow-review-artifacts",
+      "artifact_created_at": "2026-10-09T02:09:52Z",
+      "original_archive_path": "helix_flow_demo.mp4",
+      "bytes": 700182
+    },
+    {
+      "path": "/workspace/runtime/recovered_recent_ci_mp4s/11590493575/e12402ce_helix_flow_demo.mp4",
+      "artifact_id": 11590493575,
+      "artifact_name": "helix-flow-review-artifacts",
+      "artifact_created_at": "2026-10-09T02:06:23Z",
+      "original_archive_path": "helix_flow_demo.mp4",
+      "bytes": 700182
+    },
+    {
+      "path": "/workspace/runtime/recovered_recent_ci_mp4s/11590354382/e12402ce_helix_flow_demo.mp4",
+      "artifact_id": 11590354382,
+      "artifact_name": "helix-flow-review-artifacts",
+      "artifact_created_at": "2026-10-09T02:10:45Z",
+      "original_archive_path": "helix_flow_demo.mp4",
+      "bytes": 700182
+    },
+    {
+      "path": "/workspace/runtime/recovered_recent_ci_mp4s/11569095042/cdbce179_Frostbitten_Fingerboard__Helix_Neon_Circuit.mp4",
+      "artifact_id": 11569095042,
+      "artifact_name": "helix-uploaded-audio-native-pilot",
+      "artifact_created_at": "2026-10-08T17:44:36Z",
+      "original_archive_path": "shows/Frostbitten_Fingerboard/Helix_Neon_Circuit/Frostbitten_Fingerboard__Helix_Neon_Circuit.mp4",
+      "bytes": 6319578
+    },
+    {
+      "path": "/workspace/runtime/recovered_recent_ci_mp4s/11568855395/e12402ce_helix_flow_demo.mp4",
+      "artifact_id": 11568855395,
+      "artifact_name": "helix-flow-review-artifacts",
+      "artifact_created_at": "2026-10-08T17:44:10Z",
+      "original_archive_path": "helix_flow_demo.mp4",
+      "bytes": 700182
+    },
+    {
+      "path": "/workspace/runtime/recovered_recent_ci_mp4s/11567276832/e12402ce_helix_flow_demo.mp4",
+      "artifact_id": 11567276832,
+      "artifact_name": "helix-flow-review-artifacts",
+      "artifact_created_at": "2026-10-08T17:25:25Z",
+      "original_archive_path": "helix_flow_demo.mp4",
+      "bytes": 700182
+    },
+    {
+      "path": "/workspace/runtime/recovered_recent_ci_mp4s/11567262116/cdbce179_Frostbitten_Fingerboard__Helix_Neon_Circuit.mp4",
+      "artifact_id": 11567262116,
+      "artifact_name": "helix-uploaded-audio-native-pilot",
+      "artifact_created_at": "2026-10-08T17:25:41Z",
+      "original_archive_path": "shows/Frostbitten_Fingerboard/Helix_Neon_Circuit/Frostbitten_Fingerboard__Helix_Neon_Circuit.mp4",
+      "bytes": 4432165
+    },
+    {
+      "path": "/workspace/runtime/recovered_recent_ci_mp4s/11566916216/cdbce179_Frostbitten_Fingerboard__Helix_Neon_Circuit.mp4",
+      "artifact_id": 11566916216,
+      "artifact_name": "helix-uploaded-audio-native-pilot",
+      "artifact_created_at": "2026-10-08T17:09:47Z",
+      "original_archive_path": "shows/Frostbitten_Fingerboard/Helix_Neon_Circuit/Frostbitten_Fingerboard__Helix_Neon_Circuit.mp4",
+      "bytes": 4432165
+    },
+    {
+      "path": "/workspace/runtime/recovered_recent_ci_mp4s/11557998029/05ea9c8d_Helix_Fire_and_Ice_Showcase.mp4",
+      "artifact_id": 11557998029,
+      "artifact_name": "helix-fire-and-ice",
+      "artifact_created_at": "2026-10-08T14:46:49Z",
+      "original_archive_path": "Helix_Fire_and_Ice_Ultimate_Showcase.zip::Helix_Fire_and_Ice/Helix_Fire_and_Ice_Showcase.mp4",
+      "bytes": 20770081
+    },
+    {
+      "path": "/workspace/runtime/recovered_recent_ci_mp4s/11557958280/1101deb6_Helix_Six_Flavors_Tour.mp4",
+      "artifact_id": 11557958280,
+      "artifact_name": "helix-six-flavors-review",
+      "artifact_created_at": "2026-10-08T14:46:40Z",
+      "original_archive_path": "Helix_Six_Flavors_Tour.mp4",
+      "bytes": 14641229
+    },
+    {
+      "path": "/workspace/runtime/recovered_recent_ci_mp4s/11557953390/2089709f_Helix_Neon_Circuit_Showcase.mp4",
+      "artifact_id": 11557953390,
+      "artifact_name": "helix-neon-circuit",
+      "artifact_created_at": "2026-10-08T14:46:42Z",
+      "original_archive_path": "Helix_Neon_Circuit_Ultimate_Showcase.zip::Helix_Neon_Circuit/Helix_Neon_Circuit_Showcase.mp4",
+      "bytes": 20176465
+    },
+    {
+      "path": "/workspace/runtime/recovered_recent_ci_mp4s/11557803680/9276c8c2_Helix_Crystal_Lagoon_Showcase.mp4",
+      "artifact_id": 11557803680,
+      "artifact_name": "helix-crystal-lagoon",
+      "artifact_created_at": "2026-10-08T14:46:51Z",
+      "original_archive_path": "Helix_Crystal_Lagoon_Ultimate_Showcase.zip::Helix_Crystal_Lagoon/Helix_Crystal_Lagoon_Showcase.mp4",
+      "bytes": 15919890
+    },
+    {
+      "path": "/workspace/runtime/recovered_recent_ci_mp4s/11557673718/22e32cae_Helix_Enchanted_Grove_Showcase.mp4",
+      "artifact_id": 11557673718,
+      "artifact_name": "helix-enchanted-grove",
+      "artifact_created_at": "2026-10-08T14:46:44Z",
+      "original_archive_path": "Helix_Enchanted_Grove_Ultimate_Showcase.zip::Helix_Enchanted_Grove/Helix_Enchanted_Grove_Showcase.mp4",
+      "bytes": 18813887
+    },
+    {
+      "path": "/workspace/runtime/recovered_recent_ci_mp4s/11557593938/4bfcdc3e_Helix_Midnight_Masquerade_Showcase.mp4",
+      "artifact_id": 11557593938,
+      "artifact_name": "helix-midnight-masquerade",
+      "artifact_created_at": "2026-10-08T14:46:53Z",
+      "original_archive_path": "Helix_Midnight_Masquerade_Ultimate_Showcase.zip::Helix_Midnight_Masquerade/Helix_Midnight_Masquerade_Showcase.mp4",
+      "bytes": 19131960
+    },
+    {
+      "path": "/workspace/runtime/recovered_recent_ci_mp4s/11557499059/f6a74169_Helix_Celestial_Orrery_Showcase.mp4",
+      "artifact_id": 11557499059,
+      "artifact_name": "helix-celestial-orrery",
+      "artifact_created_at": "2026-10-08T14:46:47Z",
+      "original_archive_path": "Helix_Celestial_Orrery_Ultimate_Showcase.zip::Helix_Celestial_Orrery/Helix_Celestial_Orrery_Showcase.mp4",
+      "bytes": 17593141
+    },
+    {
+      "path": "/workspace/runtime/recovered_recent_ci_mp4s/11530225902/585ee213_Helix_Aurora_Showcase.mp4",
+      "artifact_id": 11530225902,
+      "artifact_name": "helix-aurora-ultimate-showcase",
+      "artifact_created_at": "2026-10-08T05:15:26Z",
+      "original_archive_path": "Helix_Aurora_Ultimate_Showcase.zip::Helix_Aurora/Helix_Aurora_Showcase.mp4",
+      "bytes": 20617295
+    },
+    {
+      "path": "/workspace/runtime/recovered_recent_ci_mp4s/11529237516/387483ad_InAGadda_Drummer_Preview.mp4",
+      "artifact_id": 11529237516,
+      "artifact_name": "inagadda-drummer-smoke",
+      "artifact_created_at": "2026-10-08T04:52:40Z",
+      "original_archive_path": "InAGadda_Drummer_Preview.mp4",
+      "bytes": 2157222
+    },
+    {
+      "path": "/workspace/runtime/recovered_recent_ci_mp4s/11527580859/5ecf8b0b_Helix_Drummer_DRY_TEST.mp4",
+      "artifact_id": 11527580859,
+      "artifact_name": "drummer-dry-audio-test",
+      "artifact_created_at": "2026-10-08T03:50:34Z",
+      "original_archive_path": "test_runs/drummer_dry_test/Helix_Drummer_DRY_TEST.mp4",
+      "bytes": 4586312
+    },
+    {
+      "path": "/workspace/runtime/recovered_recent_ci_mp4s/11527580859/03f9b53f_Helix_Drummer_ENDING.mp4",
+      "artifact_id": 11527580859,
+      "artifact_name": "drummer-dry-audio-test",
+      "artifact_created_at": "2026-10-08T03:50:34Z",
+      "original_archive_path": "test_runs/drummer_dry_test/Helix_Drummer_ENDING.mp4",
+      "bytes": 670436
+    },
+    {
+      "path": "/workspace/runtime/recovered_recent_ci_mp4s/11527426148/5d075c5a_drummer-ground-truth.mp4",
+      "artifact_id": 11527426148,
+      "artifact_name": "drummer-ground-truth-mp4",
+      "artifact_created_at": "2026-10-08T03:50:39Z",
+      "original_archive_path": "drummer-ground-truth.mp4",
+      "bytes": 1849478
+    },
+    {
+      "path": "/workspace/runtime/recovered_recent_ci_mp4s/11527286491/91017955_Helix_Drummer_REAL_AUDIO_25s.mp4",
+      "artifact_id": 11527286491,
+      "artifact_name": "drummer-real-audio-proof",
+      "artifact_created_at": "2026-10-08T03:50:37Z",
+      "original_archive_path": "test_runs/drummer_real_audio/Helix_Drummer_REAL_AUDIO_25s.mp4",
+      "bytes": 2458058
+    },
+    {
+      "path": "/workspace/runtime/recovered_recent_ci_mp4s/11527286491/092693c4_Helix_Drummer_RECOVERY_FULL.mp4",
+      "artifact_id": 11527286491,
+      "artifact_name": "drummer-real-audio-proof",
+      "artifact_created_at": "2026-10-08T03:50:37Z",
+      "original_archive_path": "test_runs/drummer_real_audio/Helix_Drummer_RECOVERY_FULL.mp4",
+      "bytes": 22575529
+    },
+    {
+      "path": "/workspace/runtime/recovered_recent_ci_mp4s/11527286491/e7befdf1_Drummer_Pose_Review.mp4",
+      "artifact_id": 11527286491,
+      "artifact_name": "drummer-real-audio-proof",
+      "artifact_created_at": "2026-10-08T03:50:37Z",
+      "original_archive_path": "test_runs/drummer_poses/Drummer_Pose_Review.mp4",
+      "bytes": 638038
+    },
+    {
+      "path": "/workspace/runtime/recovered_recent_ci_mp4s/11520470956/91017955_Helix_Drummer_REAL_AUDIO_25s.mp4",
+      "artifact_id": 11520470956,
+      "artifact_name": "drummer-real-audio-proof",
+      "artifact_created_at": "2026-10-08T00:19:17Z",
+      "original_archive_path": "test_runs/drummer_real_audio/Helix_Drummer_REAL_AUDIO_25s.mp4",
+      "bytes": 2458058
+    },
+    {
+      "path": "/workspace/runtime/recovered_recent_ci_mp4s/11520470956/092693c4_Helix_Drummer_RECOVERY_FULL.mp4",
+      "artifact_id": 11520470956,
+      "artifact_name": "drummer-real-audio-proof",
+      "artifact_created_at": "2026-10-08T00:19:17Z",
+      "original_archive_path": "test_runs/drummer_real_audio/Helix_Drummer_RECOVERY_FULL.mp4",
+      "bytes": 22570077
+    },
+    {
+      "path": "/workspace/runtime/recovered_recent_ci_mp4s/11520470956/e7befdf1_Drummer_Pose_Review.mp4",
+      "artifact_id": 11520470956,
+      "artifact_name": "drummer-real-audio-proof",
+      "artifact_created_at": "2026-10-08T00:19:17Z",
+      "original_archive_path": "test_runs/drummer_poses/Drummer_Pose_Review.mp4",
+      "bytes": 638038
+    },
+    {
+      "path": "/workspace/runtime/recovered_recent_ci_mp4s/11520137984/5d075c5a_drummer-ground-truth.mp4",
+      "artifact_id": 11520137984,
+      "artifact_name": "drummer-ground-truth-mp4",
+      "artifact_created_at": "2026-10-08T00:19:18Z",
+      "original_archive_path": "drummer-ground-truth.mp4",
+      "bytes": 1849478
+    },
+    {
+      "path": "/workspace/runtime/recovered_recent_ci_mp4s/11520003337/5ecf8b0b_Helix_Drummer_DRY_TEST.mp4",
+      "artifact_id": 11520003337,
+      "artifact_name": "drummer-dry-audio-test",
+      "artifact_created_at": "2026-10-08T00:19:14Z",
+      "original_archive_path": "test_runs/drummer_dry_test/Helix_Drummer_DRY_TEST.mp4",
+      "bytes": 4547427
+    },
+    {
+      "path": "/workspace/runtime/recovered_recent_ci_mp4s/11514242150/5d075c5a_drummer-ground-truth.mp4",
+      "artifact_id": 11514242150,
+      "artifact_name": "drummer-ground-truth-mp4",
+      "artifact_created_at": "2026-10-07T21:59:54Z",
+      "original_archive_path": "drummer-ground-truth.mp4",
+      "bytes": 1849478
+    },
+    {
+      "path": "/workspace/runtime/recovered_recent_ci_mp4s/11513883566/5ecf8b0b_Helix_Drummer_DRY_TEST.mp4",
+      "artifact_id": 11513883566,
+      "artifact_name": "drummer-dry-audio-test",
+      "artifact_created_at": "2026-10-07T21:59:46Z",
+      "original_archive_path": "test_runs/drummer_dry_test/Helix_Drummer_DRY_TEST.mp4",
+      "bytes": 4507352
+    },
+    {
+      "path": "/workspace/runtime/recovered_recent_ci_mp4s/11513757318/5d075c5a_drummer-ground-truth.mp4",
+      "artifact_id": 11513757318,
+      "artifact_name": "drummer-ground-truth-mp4",
+      "artifact_created_at": "2026-10-07T21:46:56Z",
+      "original_archive_path": "drummer-ground-truth.mp4",
+      "bytes": 1846689
+    },
+    {
+      "path": "/workspace/runtime/recovered_recent_ci_mp4s/11513693916/91017955_Helix_Drummer_REAL_AUDIO_25s.mp4",
+      "artifact_id": 11513693916,
+      "artifact_name": "drummer-real-audio-proof",
+      "artifact_created_at": "2026-10-07T21:59:51Z",
+      "original_archive_path": "test_runs/drummer_real_audio/Helix_Drummer_REAL_AUDIO_25s.mp4",
+      "bytes": 2458058
+    },
+    {
+      "path": "/workspace/runtime/recovered_recent_ci_mp4s/11513693916/092693c4_Helix_Drummer_RECOVERY_FULL.mp4",
+      "artifact_id": 11513693916,
+      "artifact_name": "drummer-real-audio-proof",
+      "artifact_created_at": "2026-10-07T21:59:51Z",
+      "original_archive_path": "test_runs/drummer_real_audio/Helix_Drummer_RECOVERY_FULL.mp4",
+      "bytes": 22570077
+    },
+    {
+      "path": "/workspace/runtime/recovered_recent_ci_mp4s/11513693916/e7befdf1_Drummer_Pose_Review.mp4",
+      "artifact_id": 11513693916,
+      "artifact_name": "drummer-real-audio-proof",
+      "artifact_created_at": "2026-10-07T21:59:51Z",
+      "original_archive_path": "test_runs/drummer_poses/Drummer_Pose_Review.mp4",
+      "bytes": 638038
+    },
+    {
+      "path": "/workspace/runtime/recovered_recent_ci_mp4s/11513442728/91017955_Helix_Drummer_REAL_AUDIO_25s.mp4",
+      "artifact_id": 11513442728,
+      "artifact_name": "drummer-real-audio-proof",
+      "artifact_created_at": "2026-10-07T21:46:54Z",
+      "original_archive_path": "test_runs/drummer_real_audio/Helix_Drummer_REAL_AUDIO_25s.mp4",
+      "bytes": 2453528
+    },
+    {
+      "path": "/workspace/runtime/recovered_recent_ci_mp4s/11513442728/092693c4_Helix_Drummer_RECOVERY_FULL.mp4",
+      "artifact_id": 11513442728,
+      "artifact_name": "drummer-real-audio-proof",
+      "artifact_created_at": "2026-10-07T21:46:54Z",
+      "original_archive_path": "test_runs/drummer_real_audio/Helix_Drummer_RECOVERY_FULL.mp4",
+      "bytes": 22557880
+    },
+    {
+      "path": "/workspace/runtime/recovered_recent_ci_mp4s/11513442728/e7befdf1_Drummer_Pose_Review.mp4",
+      "artifact_id": 11513442728,
+      "artifact_name": "drummer-real-audio-proof",
+      "artifact_created_at": "2026-10-07T21:46:54Z",
+      "original_archive_path": "test_runs/drummer_poses/Drummer_Pose_Review.mp4",
+      "bytes": 638038
+    },
+    {
+      "path": "/workspace/runtime/recovered_recent_ci_mp4s/11512779705/5ecf8b0b_Helix_Drummer_DRY_TEST.mp4",
+      "artifact_id": 11512779705,
+      "artifact_name": "drummer-dry-audio-test",
+      "artifact_created_at": "2026-10-07T21:46:51Z",
+      "original_archive_path": "test_runs/drummer_dry_test/Helix_Drummer_DRY_TEST.mp4",
+      "bytes": 4500146
+    },
+    {
+      "path": "/workspace/runtime/recovered_recent_ci_mp4s/11508456352/91017955_Helix_Drummer_REAL_AUDIO_25s.mp4",
+      "artifact_id": 11508456352,
+      "artifact_name": "drummer-real-audio-proof",
+      "artifact_created_at": "2026-10-07T20:01:20Z",
+      "original_archive_path": "test_runs/drummer_real_audio/Helix_Drummer_REAL_AUDIO_25s.mp4",
+      "bytes": 2376504
+    },
+    {
+      "path": "/workspace/runtime/recovered_recent_ci_mp4s/11508456352/092693c4_Helix_Drummer_RECOVERY_FULL.mp4",
+      "artifact_id": 11508456352,
+      "artifact_name": "drummer-real-audio-proof",
+      "artifact_created_at": "2026-10-07T20:01:20Z",
+      "original_archive_path": "test_runs/drummer_real_audio/Helix_Drummer_RECOVERY_FULL.mp4",
+      "bytes": 22239437
+    },
+    {
+      "path": "/workspace/runtime/recovered_recent_ci_mp4s/11508456352/e7befdf1_Drummer_Pose_Review.mp4",
+      "artifact_id": 11508456352,
+      "artifact_name": "drummer-real-audio-proof",
+      "artifact_created_at": "2026-10-07T20:01:20Z",
+      "original_archive_path": "test_runs/drummer_poses/Drummer_Pose_Review.mp4",
+      "bytes": 638038
+    },
+    {
+      "path": "/workspace/runtime/recovered_recent_ci_mp4s/11508196454/5d075c5a_drummer-ground-truth.mp4",
+      "artifact_id": 11508196454,
+      "artifact_name": "drummer-ground-truth-mp4",
+      "artifact_created_at": "2026-10-07T20:01:22Z",
+      "original_archive_path": "drummer-ground-truth.mp4",
+      "bytes": 1726327
+    },
+    {
+      "path": "/workspace/runtime/recovered_recent_ci_mp4s/11503437364/61e88e31_Helix_Drummer_REAL_AUDIO_25s.mp4",
+      "artifact_id": 11503437364,
+      "artifact_name": "drummer-real-audio-proof",
+      "artifact_created_at": "2026-10-07T18:29:33Z",
+      "original_archive_path": "drummer_real_audio/Helix_Drummer_REAL_AUDIO_25s.mp4",
+      "bytes": 2340314
+    },
+    {
+      "path": "/workspace/runtime/recovered_recent_ci_mp4s/11503437364/8899fc44_Helix_Drummer_RECOVERY_FULL.mp4",
+      "artifact_id": 11503437364,
+      "artifact_name": "drummer-real-audio-proof",
+      "artifact_created_at": "2026-10-07T18:29:33Z",
+      "original_archive_path": "drummer_real_audio/Helix_Drummer_RECOVERY_FULL.mp4",
+      "bytes": 21942858
+    },
+    {
+      "path": "/workspace/runtime/recovered_recent_ci_mp4s/11503437364/8dddbf4b_Drummer_Pose_Review.mp4",
+      "artifact_id": 11503437364,
+      "artifact_name": "drummer-real-audio-proof",
+      "artifact_created_at": "2026-10-07T18:29:33Z",
+      "original_archive_path": "drummer_poses/Drummer_Pose_Review.mp4",
+      "bytes": 617642
+    },
+    {
+      "path": "/workspace/runtime/recovered_recent_ci_mp4s/11502588208/5d075c5a_drummer-ground-truth.mp4",
+      "artifact_id": 11502588208,
+      "artifact_name": "drummer-ground-truth-mp4",
+      "artifact_created_at": "2026-10-07T18:29:36Z",
+      "original_archive_path": "drummer-ground-truth.mp4",
+      "bytes": 1716042
+    },
+    {
+      "path": "/workspace/runtime/recovered_recent_ci_mp4s/11487020159/8899fc44_Helix_Drummer_RECOVERY_FULL.mp4",
+      "artifact_id": 11487020159,
+      "artifact_name": "drummer-real-audio-proof",
+      "artifact_created_at": "2026-10-07T13:46:08Z",
+      "original_archive_path": "drummer_real_audio/Helix_Drummer_RECOVERY_FULL.mp4",
+      "bytes": 22738327
+    },
+    {
+      "path": "/workspace/runtime/recovered_recent_ci_mp4s/11487020159/61e88e31_Helix_Drummer_REAL_AUDIO_25s.mp4",
+      "artifact_id": 11487020159,
+      "artifact_name": "drummer-real-audio-proof",
+      "artifact_created_at": "2026-10-07T13:46:08Z",
+      "original_archive_path": "drummer_real_audio/Helix_Drummer_REAL_AUDIO_25s.mp4",
+      "bytes": 2505571
+    },
+    {
+      "path": "/workspace/runtime/recovered_recent_ci_mp4s/11487020159/8dddbf4b_Drummer_Pose_Review.mp4",
+      "artifact_id": 11487020159,
+      "artifact_name": "drummer-real-audio-proof",
+      "artifact_created_at": "2026-10-07T13:46:08Z",
+      "original_archive_path": "drummer_poses/Drummer_Pose_Review.mp4",
+      "bytes": 617642
+    },
+    {
+      "path": "/workspace/runtime/recovered_recent_ci_mp4s/11486620537/5d075c5a_drummer-ground-truth.mp4",
+      "artifact_id": 11486620537,
+      "artifact_name": "drummer-ground-truth-mp4",
+      "artifact_created_at": "2026-10-07T13:46:11Z",
+      "original_archive_path": "drummer-ground-truth.mp4",
+      "bytes": 1716042
+    }
+  ]
+}

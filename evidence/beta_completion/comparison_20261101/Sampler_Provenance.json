@@ -1,0 +1,46 @@
+{
+  "schema": "helix.owner-review-sampler.v1",
+  "audio": "Helix_Starred_New_Review.wav",
+  "audio_sha256": "b889df23d4960b393bfa5b6f84f2f72de245bdd176032bf16346d8680e960a3d",
+  "duration_seconds": 36.0,
+  "source_selection": "Owner Starred catalog; distinct Drive IDs; SHA256 verified before decoding",
+  "excerpt_selection": "Maximum 18-second mean of normalized RMS (70%) and positive spectral flux (30%); half-second candidate grid",
+  "original_source_files_modified": false,
+  "gain_normalization": false,
+  "peak_before_encoding": 0.8791801333427429,
+  "output_gain": 1.0,
+  "attenuation_only": true,
+  "duplicates_omitted": [],
+  "clips": [
+    {
+      "id": "1Gv6hAzValSe2zRqTCfyrJVYGlfl8LLsp",
+      "title": "Tinsel Tornado",
+      "local_path": "/workspace/attachments/155aec63-c2bf-4e3e-97d0-be670e019174/Copy of Tinsel Tornado.mp3",
+      "sha256": "8b8caddd6c292a13995bde0e80ac66f948246bd634278ab4ade1a82163aa7086",
+      "start_seconds": 164.0,
+      "source_sample_rate": 48000,
+      "source_start_sample": 7872000,
+      "source_end_sample": 8736000,
+      "source_start_seconds": 164.0,
+      "duration_seconds": 18,
+      "selection_method": "Explicit source-clock interval; selection evidence retained in source configuration",
+      "sampler_start_seconds": 0.0,
+      "edge_fade_seconds": 0.02
+    },
+    {
+      "id": "1EcTfLPRNAoQJdzXSidiIsfv0p15AQ0ot",
+      "title": "Christmas in the Ether",
+      "local_path": "/workspace/attachments/af728d2f-e90e-4d6b-9d01-e277080f60a5/Christmas in the Ether.mp3",
+      "sha256": "440b8ceca771c27686fe6c4f09bea36c07962894c8f818478702b9b2c78aefa1",
+      "start_seconds": 76.5,
+      "source_sample_rate": 48000,
+      "source_start_sample": 3672000,
+      "source_end_sample": 4536000,
+      "source_start_seconds": 76.5,
+      "duration_seconds": 18,
+      "selection_method": "Explicit source-clock interval; selection evidence retained in source configuration",
+      "sampler_start_seconds": 18.0,
+      "edge_fade_seconds": 0.02
+    }
+  ]
+}

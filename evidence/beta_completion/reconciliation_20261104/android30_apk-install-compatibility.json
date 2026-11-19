@@ -1,0 +1,31 @@
+{
+  "package_id": "org.helixsequencer.android",
+  "variants": [
+    {
+      "variant": "debug",
+      "filename": "app-debug.apk",
+      "exists": true,
+      "apk_sha256": "360d5946401ea9db863ae532354f9ff5a78543e4967e5c4464160b54f0321c84",
+      "signature_verified": true,
+      "certificate_details": "Signer #1 certificate DN: C=US, O=Android, CN=Android Debug\nSigner #1 certificate SHA-256 digest: 83bf82eef6c8aea1108a855bc76e35e198b8774c776081e9b5c7d1214c170e02\nSigner #1 certificate SHA-1 digest: fb162da846f84b01e3e482cabe8b585b4ad57dfb\nSigner #1 certificate MD5 digest: b27a117e344a3c55a90332ce1a3dda0a",
+      "error": "",
+      "installation_verified": true,
+      "installable": true
+    },
+    {
+      "variant": "release",
+      "filename": "app-release-unsigned.apk",
+      "exists": true,
+      "apk_sha256": "3b69eac000eee0d30792a6f3fedadd63c556e714d8acdb5e4a46daab42a8c2e2",
+      "signature_verified": false,
+      "certificate_details": "",
+      "error": "DOES NOT VERIFY\nERROR: Missing META-INF/MANIFEST.MF",
+      "installation_verified": false,
+      "installable": false
+    }
+  ],
+  "debug_to_release_certificate_match": false,
+  "debug_to_release_update_compatible": false,
+  "old_beta_upgrade_verified": false,
+  "limitation": "Only the exact installed and launched APK is verified. Cross-build/old-beta upgrades require the original installed signing key and an actual update test; unsigned APKs cannot install."
+}

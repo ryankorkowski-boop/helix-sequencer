@@ -1,0 +1,29 @@
+{
+  "before": {
+    "frames": 1150,
+    "minimum_head_mean": 26.07057471264368,
+    "median_head_mean": 26.090344827586208,
+    "maximum_head_mean": 27.82117816091954
+  },
+  "after": {
+    "frames": 1150,
+    "minimum_head_mean": 77.31761494252873,
+    "median_head_mean": 77.4764367816092,
+    "maximum_head_mean": 82.81318965517241
+  },
+  "minimum_head_brightness_ratio": 2.9657042775137334,
+  "decoded_video_roi": {
+    "before": [
+      270,
+      216,
+      116,
+      100
+    ],
+    "after": [
+      910,
+      216,
+      116,
+      100
+    ]
+  }
+}

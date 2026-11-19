@@ -1,0 +1,132 @@
+{
+  "schema": "helix.actual-twelve-comparison-playback.v1",
+  "movie": "/workspace/deliverables/HELIX_REAL_AUDIO_12_LAYOUT_COMPARISON_APPROVAL.mp4",
+  "sha256": "0a2a0763b4952984b1d5a0d8481b08348ab212e702c3d64a4af29b6c5b1bb198",
+  "bytes": 18530685,
+  "video_codec": "h264",
+  "audio_codec": "aac",
+  "dimensions": [
+    1920,
+    1080
+  ],
+  "fps": 30,
+  "seconds": 34.866667,
+  "video_frames": 1046,
+  "full_decode": true,
+  "source_audio": "fixtures/audio/Phoneme_Test_Hook.mp3",
+  "source_audio_sha256": "19e90c273d0d747938f24b36586b50818c104cddffbefe4a4128927374301938",
+  "audio_rms": 0.19784744083881378,
+  "soundtrack_correlation": 0.999018237103682,
+  "audio_window_alignment": [
+    {
+      "source_start_seconds": 0.0,
+      "lag_seconds": 0.0
+    },
+    {
+      "source_start_seconds": 11.5104,
+      "lag_seconds": 0.0
+    },
+    {
+      "source_start_seconds": 23.0208,
+      "lag_seconds": 0.0
+    },
+    {
+      "source_start_seconds": 32.830000000000005,
+      "lag_seconds": 0.0
+    }
+  ],
+  "panels": [
+    {
+      "number": 1,
+      "content_sha256": "31fab96ab19324d780037c74735b3f14064e4cd4c8eda04c3ea784e7c0c6dd4b",
+      "longest_blank_seconds": 0.3,
+      "longest_frozen_seconds": 0.2,
+      "median_motion": 9.336625576019287
+    },
+    {
+      "number": 2,
+      "content_sha256": "5e29ee2aaec266b394109ccef4e633cdcc6168534e3af8d9cb212c2c1f6faa06",
+      "longest_blank_seconds": 0.0,
+      "longest_frozen_seconds": 0.2,
+      "median_motion": 0.5580258667469025
+    },
+    {
+      "number": 3,
+      "content_sha256": "8ce266ed27130ff435511a14b6f7d692ecc2d67223c53f8e45b96153405a3ab8",
+      "longest_blank_seconds": 0.0,
+      "longest_frozen_seconds": 0.1,
+      "median_motion": 3.250561833381653
+    },
+    {
+      "number": 4,
+      "content_sha256": "b1d340e48979cad4fade988aa277f26c1a6c09a491eb36f3a85a8875da049a25",
+      "longest_blank_seconds": 0.0,
+      "longest_frozen_seconds": 0.2,
+      "median_motion": 1.606186330318451
+    },
+    {
+      "number": 5,
+      "content_sha256": "3b685a1e3fe1428981a69adb16839863628a74c39581e309b0ef182ec2d412c5",
+      "longest_blank_seconds": 0.2,
+      "longest_frozen_seconds": 0.1,
+      "median_motion": 15.708661556243896
+    },
+    {
+      "number": 6,
+      "content_sha256": "2655e3d16cbc511b76948aa39b5cc44b5dc958b0ea50540d208f6a4373e910b5",
+      "longest_blank_seconds": 0.0,
+      "longest_frozen_seconds": 0.1,
+      "median_motion": 2.8800255060195923
+    },
+    {
+      "number": 7,
+      "content_sha256": "304b8ae64dee7b90054d9f1138c31eccffdf6b75b45188659e254f402461c433",
+      "longest_blank_seconds": 0.0,
+      "longest_frozen_seconds": 0.0,
+      "median_motion": 0.8519083559513092
+    },
+    {
+      "number": 8,
+      "content_sha256": "6ca97e1285d687dd0a57840623360cc075f01005b7bb8c38d81a2b577bc86087",
+      "longest_blank_seconds": 0.7,
+      "longest_frozen_seconds": 0.6,
+      "median_motion": 8.77469253540039
+    },
+    {
+      "number": 9,
+      "content_sha256": "b029acbb9831210b603b26766c85ed6ca55163e865677bf37db1ed823099bb3d",
+      "longest_blank_seconds": 0.0,
+      "longest_frozen_seconds": 0.1,
+      "median_motion": 5.12522292137146
+    },
+    {
+      "number": 10,
+      "content_sha256": "04044918a02807d9e931a6f1a5669b969e9460ba167c8821a753fcbab5978743",
+      "longest_blank_seconds": 0.0,
+      "longest_frozen_seconds": 0.0,
+      "median_motion": 4.525190830230713
+    },
+    {
+      "number": 11,
+      "content_sha256": "615a03d664ff17f430f04d39eb9877ef2f1d90ac6d0274b4a151caf042888c73",
+      "longest_blank_seconds": 0.4,
+      "longest_frozen_seconds": 0.3,
+      "median_motion": 13.315161228179932
+    },
+    {
+      "number": 12,
+      "content_sha256": "ccfe668d7a0a8b851f82a01b272cad9dafdedb2a131df2eb854732233f8abf13",
+      "longest_blank_seconds": 0.7,
+      "longest_frozen_seconds": 0.6,
+      "median_motion": 18.000975608825684
+    }
+  ],
+  "inspected_motion_frames": 349,
+  "sample_fps": 10,
+  "owner_approved": false,
+  "limitation": "Playback/mux/panel evidence does not independently establish singer identity or lexical phonemes",
+  "final_filename": "HELIX_REAL_AUDIO_12_LAYOUT_COMPARISON_APPROVAL.mp4",
+  "final_full_decode": true,
+  "stream_packet_identity_to_verified_candidate": true,
+  "stream_hashes": "0,v,SHA256=581a8432bcdb231535135c834281a0136d6d44526cb691602b43e9eeb1c12cb4\n1,a,SHA256=8e3a0c897763535f15ed154e15ca0c4050f0f0153661e86d9c38cab93661da2d\n"
+}

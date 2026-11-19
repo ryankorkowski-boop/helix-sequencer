@@ -1,0 +1,10 @@
+{
+  "audio_sha256": "4cd9ee35b65d359aa44ac4c9e01a256bbcaf3297458340fc512084bae1463913",
+  "annotation_status": "user_reviewed_family_order_signal_refined_timing",
+  "annotation_source": "User heard high, mid, floor toms around 9–11 s. Timing comes from independent original-source attack-rise inspection. The second floor attack is inferred separately, not included in these user anchors.",
+  "anchors": [
+    {"timestamp": 9.6995, "tolerance_ms": 40, "drum_family": "tom", "tom_class": "high", "physical_target": "TOM_HIGH"},
+    {"timestamp": 10.0115, "tolerance_ms": 40, "drum_family": "tom", "tom_class": "mid", "physical_target": "TOM_MID"},
+    {"timestamp": 10.3235, "tolerance_ms": 40, "drum_family": "tom", "tom_class": "floor", "physical_target": "TOM_FLOOR"}
+  ]
+}

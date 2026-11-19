@@ -1,0 +1,25 @@
+{
+  "schema": "helix.full_sampler_duration_regression.v1",
+  "baseline_template_duration": "132.039",
+  "decoded_audio_duration": 260.2,
+  "new_xsq_head_duration": "260.200",
+  "latest_effect_end_ms": 260200,
+  "effect_count": 72539,
+  "xsq_sha256": "187c38c66895fed82cba96f4fca04773f78673481c180238318736a7586d34f3",
+  "audio_sha256": "f76e41469c5e844442da18d1716de8fbec8c4ab2bfee84128a0a6f9515924c9f",
+  "source_audio_bytes_unchanged": true,
+  "native_fseq_render_verified": false,
+  "native_mp4_verified": false,
+  "known_limitations": [
+    "Original Greg256 layout; not a six-to-nine-layout showcase",
+    "Fallback local source analysis; musical ownership and independent backing vocals unverified"
+  ],
+  "source_file_sha256": {
+    "core/effect_engine.py": "7d4211ee1a1b26ddbd9fbd74eb76df49dea958ee1c1896b83fa3417c8f8553e8",
+    "xlights/xml_io.py": "6bedc8ff46121415577e829179acd62e8ec88352c3d1ed1e8006137492bdf82c"
+  },
+  "all_effect_intervals_bounded": true,
+  "boundary_finalizer_execution": true,
+  "canonical_helper_reconciliation": "Recovered PR194 set_sequence_duration interface and nearest-ms rounding; additional audio-bound tail finalizer retained",
+  "source_commit": "546fcd454c4dd37ba357d05c9928f3e45e696d26"
+}

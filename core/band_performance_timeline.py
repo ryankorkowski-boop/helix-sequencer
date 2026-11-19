@@ -95,11 +95,21 @@ class BandPerformanceTimelineCompiler:
 
     def __init__(self, performers: Iterable[PerformerRuntimeSpec] = HELIXVILLE4_PERFORMERS):
         self.performers = {performer.performer_id: performer for performer in performers}
+        # Resolve approved runtime states once per performer, not once per event.
+        self._states = {
+            performer_id: {state.name: state for state in performer.states}
+            for performer_id, performer in self.performers.items()
+        }
 
     def compile_event(self, event: BandExecutionEvent) -> BandPerformanceEvent:
-        performer = self.performers[event.performer]
+        performer = self.performers.get(event.performer)
+        if performer is None:
+            raise ValueError(
+                f"Unknown band performer {event.performer!r}; "
+                f"known performers: {sorted(self.performers)}"
+            )
         state_name = self._resolve_state(event, performer)
-        state = self._state_by_name(performer, state_name)
+        state = self._states[performer.performer_id][state_name]
 
         return BandPerformanceEvent(
             performer=performer.performer_id,
@@ -130,7 +140,12 @@ class BandPerformanceTimelineCompiler:
         }
 
     def _resolve_state(self, event: BandExecutionEvent, performer: PerformerRuntimeSpec) -> str:
-        available = {state.name for state in performer.states}
+        if not performer.states:
+            raise ValueError(
+                f"{performer.performer_id} has no approved runtime states; "
+                "use the source-driven review path"
+            )
+        available = self._states[performer.performer_id]
         candidate = event.performer_state
         if candidate in available:
             return candidate
@@ -145,9 +160,3 @@ class BandPerformanceTimelineCompiler:
 
         return performer.states[0].name
 
-    @staticmethod
-    def _state_by_name(performer: PerformerRuntimeSpec, state_name: str):
-        for state in performer.states:
-            if state.name == state_name:
-                return state
-        raise KeyError(f"{performer.performer_id} does not define state {state_name!r}")

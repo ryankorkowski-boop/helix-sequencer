@@ -1,0 +1,603 @@
+{
+  "schema": "helix.ac_band_channel_map.v1",
+  "start_channel": 1,
+  "end_channel": 66,
+  "channel_count": 66,
+  "channels": [
+    {
+      "member_id": "snowman_singer",
+      "display_name": "Lead Vocal Snowman",
+      "model_prefix": "HX_SNOWMAN_SINGER",
+      "submodel": "HX_SNOWMAN_SINGER_HAT",
+      "channel_name": "HX_SNOWMAN_SINGER_HX_SNOWMAN_SINGER_HAT",
+      "channel_index": 1,
+      "controller_type": "ac"
+    },
+    {
+      "member_id": "snowman_singer",
+      "display_name": "Lead Vocal Snowman",
+      "model_prefix": "HX_SNOWMAN_SINGER",
+      "submodel": "HX_SNOWMAN_SINGER_HEAD",
+      "channel_name": "HX_SNOWMAN_SINGER_HX_SNOWMAN_SINGER_HEAD",
+      "channel_index": 2,
+      "controller_type": "ac"
+    },
+    {
+      "member_id": "snowman_singer",
+      "display_name": "Lead Vocal Snowman",
+      "model_prefix": "HX_SNOWMAN_SINGER",
+      "submodel": "HX_SNOWMAN_SINGER_FACE",
+      "channel_name": "HX_SNOWMAN_SINGER_HX_SNOWMAN_SINGER_FACE",
+      "channel_index": 3,
+      "controller_type": "ac"
+    },
+    {
+      "member_id": "snowman_singer",
+      "display_name": "Lead Vocal Snowman",
+      "model_prefix": "HX_SNOWMAN_SINGER",
+      "submodel": "HX_SNOWMAN_SINGER_TORSO",
+      "channel_name": "HX_SNOWMAN_SINGER_HX_SNOWMAN_SINGER_TORSO",
+      "channel_index": 4,
+      "controller_type": "ac"
+    },
+    {
+      "member_id": "snowman_singer",
+      "display_name": "Lead Vocal Snowman",
+      "model_prefix": "HX_SNOWMAN_SINGER",
+      "submodel": "HX_SNOWMAN_SINGER_BUTTONS",
+      "channel_name": "HX_SNOWMAN_SINGER_HX_SNOWMAN_SINGER_BUTTONS",
+      "channel_index": 5,
+      "controller_type": "ac"
+    },
+    {
+      "member_id": "snowman_singer",
+      "display_name": "Lead Vocal Snowman",
+      "model_prefix": "HX_SNOWMAN_SINGER",
+      "submodel": "HX_SNOWMAN_SINGER_HAIR",
+      "channel_name": "HX_SNOWMAN_SINGER_HX_SNOWMAN_SINGER_HAIR",
+      "channel_index": 6,
+      "controller_type": "ac"
+    },
+    {
+      "member_id": "snowman_singer",
+      "display_name": "Lead Vocal Snowman",
+      "model_prefix": "HX_SNOWMAN_SINGER",
+      "submodel": "HX_SNOWMAN_SINGER_LEFT_ARM",
+      "channel_name": "HX_SNOWMAN_SINGER_HX_SNOWMAN_SINGER_LEFT_ARM",
+      "channel_index": 7,
+      "controller_type": "ac"
+    },
+    {
+      "member_id": "snowman_singer",
+      "display_name": "Lead Vocal Snowman",
+      "model_prefix": "HX_SNOWMAN_SINGER",
+      "submodel": "HX_SNOWMAN_SINGER_RIGHT_ARM",
+      "channel_name": "HX_SNOWMAN_SINGER_HX_SNOWMAN_SINGER_RIGHT_ARM",
+      "channel_index": 8,
+      "controller_type": "ac"
+    },
+    {
+      "member_id": "snowman_singer",
+      "display_name": "Lead Vocal Snowman",
+      "model_prefix": "HX_SNOWMAN_SINGER",
+      "submodel": "HX_SNOWMAN_SINGER_MICROPHONE",
+      "channel_name": "HX_SNOWMAN_SINGER_HX_SNOWMAN_SINGER_MICROPHONE",
+      "channel_index": 9,
+      "controller_type": "ac"
+    },
+    {
+      "member_id": "snowman_singer",
+      "display_name": "Lead Vocal Snowman",
+      "model_prefix": "HX_SNOWMAN_SINGER",
+      "submodel": "HX_SNOWMAN_SINGER_MIC_STAND",
+      "channel_name": "HX_SNOWMAN_SINGER_HX_SNOWMAN_SINGER_MIC_STAND",
+      "channel_index": 10,
+      "controller_type": "ac"
+    },
+    {
+      "member_id": "snowman_singer",
+      "display_name": "Lead Vocal Snowman",
+      "model_prefix": "HX_SNOWMAN_SINGER",
+      "submodel": "HX_SNOWMAN_SINGER_SCARF",
+      "channel_name": "HX_SNOWMAN_SINGER_HX_SNOWMAN_SINGER_SCARF",
+      "channel_index": 11,
+      "controller_type": "ac"
+    },
+    {
+      "member_id": "snowman_singer",
+      "display_name": "Lead Vocal Snowman",
+      "model_prefix": "HX_SNOWMAN_SINGER",
+      "submodel": "HX_SNOWMAN_SINGER_MOUTH_PHONEME",
+      "channel_name": "HX_SNOWMAN_SINGER_HX_SNOWMAN_SINGER_MOUTH_PHONEME",
+      "channel_index": 12,
+      "controller_type": "ac"
+    },
+    {
+      "member_id": "snowman_singer_female",
+      "display_name": "Harmony Vocal Snowman",
+      "model_prefix": "HX_SNOWMAN_SINGER_FEMALE",
+      "submodel": "HX_SNOWMAN_SINGER_FEMALE_HAT",
+      "channel_name": "HX_SNOWMAN_SINGER_FEMALE_HX_SNOWMAN_SINGER_FEMALE_HAT",
+      "channel_index": 13,
+      "controller_type": "ac"
+    },
+    {
+      "member_id": "snowman_singer_female",
+      "display_name": "Harmony Vocal Snowman",
+      "model_prefix": "HX_SNOWMAN_SINGER_FEMALE",
+      "submodel": "HX_SNOWMAN_SINGER_FEMALE_HEAD",
+      "channel_name": "HX_SNOWMAN_SINGER_FEMALE_HX_SNOWMAN_SINGER_FEMALE_HEAD",
+      "channel_index": 14,
+      "controller_type": "ac"
+    },
+    {
+      "member_id": "snowman_singer_female",
+      "display_name": "Harmony Vocal Snowman",
+      "model_prefix": "HX_SNOWMAN_SINGER_FEMALE",
+      "submodel": "HX_SNOWMAN_SINGER_FEMALE_FACE",
+      "channel_name": "HX_SNOWMAN_SINGER_FEMALE_HX_SNOWMAN_SINGER_FEMALE_FACE",
+      "channel_index": 15,
+      "controller_type": "ac"
+    },
+    {
+      "member_id": "snowman_singer_female",
+      "display_name": "Harmony Vocal Snowman",
+      "model_prefix": "HX_SNOWMAN_SINGER_FEMALE",
+      "submodel": "HX_SNOWMAN_SINGER_FEMALE_TORSO",
+      "channel_name": "HX_SNOWMAN_SINGER_FEMALE_HX_SNOWMAN_SINGER_FEMALE_TORSO",
+      "channel_index": 16,
+      "controller_type": "ac"
+    },
+    {
+      "member_id": "snowman_singer_female",
+      "display_name": "Harmony Vocal Snowman",
+      "model_prefix": "HX_SNOWMAN_SINGER_FEMALE",
+      "submodel": "HX_SNOWMAN_SINGER_FEMALE_BUTTONS",
+      "channel_name": "HX_SNOWMAN_SINGER_FEMALE_HX_SNOWMAN_SINGER_FEMALE_BUTTONS",
+      "channel_index": 17,
+      "controller_type": "ac"
+    },
+    {
+      "member_id": "snowman_singer_female",
+      "display_name": "Harmony Vocal Snowman",
+      "model_prefix": "HX_SNOWMAN_SINGER_FEMALE",
+      "submodel": "HX_SNOWMAN_SINGER_FEMALE_HAIR",
+      "channel_name": "HX_SNOWMAN_SINGER_FEMALE_HX_SNOWMAN_SINGER_FEMALE_HAIR",
+      "channel_index": 18,
+      "controller_type": "ac"
+    },
+    {
+      "member_id": "snowman_singer_female",
+      "display_name": "Harmony Vocal Snowman",
+      "model_prefix": "HX_SNOWMAN_SINGER_FEMALE",
+      "submodel": "HX_SNOWMAN_SINGER_FEMALE_LEFT_ARM",
+      "channel_name": "HX_SNOWMAN_SINGER_FEMALE_HX_SNOWMAN_SINGER_FEMALE_LEFT_ARM",
+      "channel_index": 19,
+      "controller_type": "ac"
+    },
+    {
+      "member_id": "snowman_singer_female",
+      "display_name": "Harmony Vocal Snowman",
+      "model_prefix": "HX_SNOWMAN_SINGER_FEMALE",
+      "submodel": "HX_SNOWMAN_SINGER_FEMALE_RIGHT_ARM",
+      "channel_name": "HX_SNOWMAN_SINGER_FEMALE_HX_SNOWMAN_SINGER_FEMALE_RIGHT_ARM",
+      "channel_index": 20,
+      "controller_type": "ac"
+    },
+    {
+      "member_id": "snowman_singer_female",
+      "display_name": "Harmony Vocal Snowman",
+      "model_prefix": "HX_SNOWMAN_SINGER_FEMALE",
+      "submodel": "HX_SNOWMAN_SINGER_FEMALE_MICROPHONE",
+      "channel_name": "HX_SNOWMAN_SINGER_FEMALE_HX_SNOWMAN_SINGER_FEMALE_MICROPHONE",
+      "channel_index": 21,
+      "controller_type": "ac"
+    },
+    {
+      "member_id": "snowman_singer_female",
+      "display_name": "Harmony Vocal Snowman",
+      "model_prefix": "HX_SNOWMAN_SINGER_FEMALE",
+      "submodel": "HX_SNOWMAN_SINGER_FEMALE_MIC_STAND",
+      "channel_name": "HX_SNOWMAN_SINGER_FEMALE_HX_SNOWMAN_SINGER_FEMALE_MIC_STAND",
+      "channel_index": 22,
+      "controller_type": "ac"
+    },
+    {
+      "member_id": "snowman_singer_female",
+      "display_name": "Harmony Vocal Snowman",
+      "model_prefix": "HX_SNOWMAN_SINGER_FEMALE",
+      "submodel": "HX_SNOWMAN_SINGER_FEMALE_SCARF",
+      "channel_name": "HX_SNOWMAN_SINGER_FEMALE_HX_SNOWMAN_SINGER_FEMALE_SCARF",
+      "channel_index": 23,
+      "controller_type": "ac"
+    },
+    {
+      "member_id": "snowman_singer_female",
+      "display_name": "Harmony Vocal Snowman",
+      "model_prefix": "HX_SNOWMAN_SINGER_FEMALE",
+      "submodel": "HX_SNOWMAN_SINGER_FEMALE_MOUTH_PHONEME",
+      "channel_name": "HX_SNOWMAN_SINGER_FEMALE_HX_SNOWMAN_SINGER_FEMALE_MOUTH_PHONEME",
+      "channel_index": 24,
+      "controller_type": "ac"
+    },
+    {
+      "member_id": "snowman_singer_female",
+      "display_name": "Harmony Vocal Snowman",
+      "model_prefix": "HX_SNOWMAN_SINGER_FEMALE",
+      "submodel": "HX_SNOWMAN_SINGER_FEMALE_CALL_RESPONSE",
+      "channel_name": "HX_SNOWMAN_SINGER_FEMALE_HX_SNOWMAN_SINGER_FEMALE_CALL_RESPONSE",
+      "channel_index": 25,
+      "controller_type": "ac"
+    },
+    {
+      "member_id": "snowman_guitarist",
+      "display_name": "Rock Guitar Snowman",
+      "model_prefix": "HX_SNOWMAN_GUITARIST",
+      "submodel": "HX_SNOWMAN_GUITARIST_HAT",
+      "channel_name": "HX_SNOWMAN_GUITARIST_HX_SNOWMAN_GUITARIST_HAT",
+      "channel_index": 26,
+      "controller_type": "ac"
+    },
+    {
+      "member_id": "snowman_guitarist",
+      "display_name": "Rock Guitar Snowman",
+      "model_prefix": "HX_SNOWMAN_GUITARIST",
+      "submodel": "HX_SNOWMAN_GUITARIST_HEAD",
+      "channel_name": "HX_SNOWMAN_GUITARIST_HX_SNOWMAN_GUITARIST_HEAD",
+      "channel_index": 27,
+      "controller_type": "ac"
+    },
+    {
+      "member_id": "snowman_guitarist",
+      "display_name": "Rock Guitar Snowman",
+      "model_prefix": "HX_SNOWMAN_GUITARIST",
+      "submodel": "HX_SNOWMAN_GUITARIST_FACE",
+      "channel_name": "HX_SNOWMAN_GUITARIST_HX_SNOWMAN_GUITARIST_FACE",
+      "channel_index": 28,
+      "controller_type": "ac"
+    },
+    {
+      "member_id": "snowman_guitarist",
+      "display_name": "Rock Guitar Snowman",
+      "model_prefix": "HX_SNOWMAN_GUITARIST",
+      "submodel": "HX_SNOWMAN_GUITARIST_TORSO",
+      "channel_name": "HX_SNOWMAN_GUITARIST_HX_SNOWMAN_GUITARIST_TORSO",
+      "channel_index": 29,
+      "controller_type": "ac"
+    },
+    {
+      "member_id": "snowman_guitarist",
+      "display_name": "Rock Guitar Snowman",
+      "model_prefix": "HX_SNOWMAN_GUITARIST",
+      "submodel": "HX_SNOWMAN_GUITARIST_BUTTONS",
+      "channel_name": "HX_SNOWMAN_GUITARIST_HX_SNOWMAN_GUITARIST_BUTTONS",
+      "channel_index": 30,
+      "controller_type": "ac"
+    },
+    {
+      "member_id": "snowman_guitarist",
+      "display_name": "Rock Guitar Snowman",
+      "model_prefix": "HX_SNOWMAN_GUITARIST",
+      "submodel": "HX_SNOWMAN_GUITARIST_HAIR",
+      "channel_name": "HX_SNOWMAN_GUITARIST_HX_SNOWMAN_GUITARIST_HAIR",
+      "channel_index": 31,
+      "controller_type": "ac"
+    },
+    {
+      "member_id": "snowman_guitarist",
+      "display_name": "Rock Guitar Snowman",
+      "model_prefix": "HX_SNOWMAN_GUITARIST",
+      "submodel": "HX_SNOWMAN_GUITARIST_GLASSES",
+      "channel_name": "HX_SNOWMAN_GUITARIST_HX_SNOWMAN_GUITARIST_GLASSES",
+      "channel_index": 32,
+      "controller_type": "ac"
+    },
+    {
+      "member_id": "snowman_guitarist",
+      "display_name": "Rock Guitar Snowman",
+      "model_prefix": "HX_SNOWMAN_GUITARIST",
+      "submodel": "HX_SNOWMAN_GUITARIST_LEFT_ARM",
+      "channel_name": "HX_SNOWMAN_GUITARIST_HX_SNOWMAN_GUITARIST_LEFT_ARM",
+      "channel_index": 33,
+      "controller_type": "ac"
+    },
+    {
+      "member_id": "snowman_guitarist",
+      "display_name": "Rock Guitar Snowman",
+      "model_prefix": "HX_SNOWMAN_GUITARIST",
+      "submodel": "HX_SNOWMAN_GUITARIST_RIGHT_ARM",
+      "channel_name": "HX_SNOWMAN_GUITARIST_HX_SNOWMAN_GUITARIST_RIGHT_ARM",
+      "channel_index": 34,
+      "controller_type": "ac"
+    },
+    {
+      "member_id": "snowman_guitarist",
+      "display_name": "Rock Guitar Snowman",
+      "model_prefix": "HX_SNOWMAN_GUITARIST",
+      "submodel": "HX_SNOWMAN_GUITARIST_GUITAR_BODY",
+      "channel_name": "HX_SNOWMAN_GUITARIST_HX_SNOWMAN_GUITARIST_GUITAR_BODY",
+      "channel_index": 35,
+      "controller_type": "ac"
+    },
+    {
+      "member_id": "snowman_guitarist",
+      "display_name": "Rock Guitar Snowman",
+      "model_prefix": "HX_SNOWMAN_GUITARIST",
+      "submodel": "HX_SNOWMAN_GUITARIST_GUITAR_NECK",
+      "channel_name": "HX_SNOWMAN_GUITARIST_HX_SNOWMAN_GUITARIST_GUITAR_NECK",
+      "channel_index": 36,
+      "controller_type": "ac"
+    },
+    {
+      "member_id": "snowman_guitarist",
+      "display_name": "Rock Guitar Snowman",
+      "model_prefix": "HX_SNOWMAN_GUITARIST",
+      "submodel": "HX_SNOWMAN_GUITARIST_GUITAR_STRINGS",
+      "channel_name": "HX_SNOWMAN_GUITARIST_HX_SNOWMAN_GUITARIST_GUITAR_STRINGS",
+      "channel_index": 37,
+      "controller_type": "ac"
+    },
+    {
+      "member_id": "snowman_guitarist",
+      "display_name": "Rock Guitar Snowman",
+      "model_prefix": "HX_SNOWMAN_GUITARIST",
+      "submodel": "HX_SNOWMAN_GUITARIST_STRUM_ZONE",
+      "channel_name": "HX_SNOWMAN_GUITARIST_HX_SNOWMAN_GUITARIST_STRUM_ZONE",
+      "channel_index": 38,
+      "controller_type": "ac"
+    },
+    {
+      "member_id": "snowman_guitarist",
+      "display_name": "Rock Guitar Snowman",
+      "model_prefix": "HX_SNOWMAN_GUITARIST",
+      "submodel": "HX_SNOWMAN_GUITARIST_FRET_HAND",
+      "channel_name": "HX_SNOWMAN_GUITARIST_HX_SNOWMAN_GUITARIST_FRET_HAND",
+      "channel_index": 39,
+      "controller_type": "ac"
+    },
+    {
+      "member_id": "snowman_bassist",
+      "display_name": "Bass Snowman",
+      "model_prefix": "HX_SNOWMAN_BASSIST",
+      "submodel": "HX_SNOWMAN_BASSIST_HAT",
+      "channel_name": "HX_SNOWMAN_BASSIST_HX_SNOWMAN_BASSIST_HAT",
+      "channel_index": 40,
+      "controller_type": "ac"
+    },
+    {
+      "member_id": "snowman_bassist",
+      "display_name": "Bass Snowman",
+      "model_prefix": "HX_SNOWMAN_BASSIST",
+      "submodel": "HX_SNOWMAN_BASSIST_HEAD",
+      "channel_name": "HX_SNOWMAN_BASSIST_HX_SNOWMAN_BASSIST_HEAD",
+      "channel_index": 41,
+      "controller_type": "ac"
+    },
+    {
+      "member_id": "snowman_bassist",
+      "display_name": "Bass Snowman",
+      "model_prefix": "HX_SNOWMAN_BASSIST",
+      "submodel": "HX_SNOWMAN_BASSIST_FACE",
+      "channel_name": "HX_SNOWMAN_BASSIST_HX_SNOWMAN_BASSIST_FACE",
+      "channel_index": 42,
+      "controller_type": "ac"
+    },
+    {
+      "member_id": "snowman_bassist",
+      "display_name": "Bass Snowman",
+      "model_prefix": "HX_SNOWMAN_BASSIST",
+      "submodel": "HX_SNOWMAN_BASSIST_TORSO",
+      "channel_name": "HX_SNOWMAN_BASSIST_HX_SNOWMAN_BASSIST_TORSO",
+      "channel_index": 43,
+      "controller_type": "ac"
+    },
+    {
+      "member_id": "snowman_bassist",
+      "display_name": "Bass Snowman",
+      "model_prefix": "HX_SNOWMAN_BASSIST",
+      "submodel": "HX_SNOWMAN_BASSIST_BUTTONS",
+      "channel_name": "HX_SNOWMAN_BASSIST_HX_SNOWMAN_BASSIST_BUTTONS",
+      "channel_index": 44,
+      "controller_type": "ac"
+    },
+    {
+      "member_id": "snowman_bassist",
+      "display_name": "Bass Snowman",
+      "model_prefix": "HX_SNOWMAN_BASSIST",
+      "submodel": "HX_SNOWMAN_BASSIST_HAIR",
+      "channel_name": "HX_SNOWMAN_BASSIST_HX_SNOWMAN_BASSIST_HAIR",
+      "channel_index": 45,
+      "controller_type": "ac"
+    },
+    {
+      "member_id": "snowman_bassist",
+      "display_name": "Bass Snowman",
+      "model_prefix": "HX_SNOWMAN_BASSIST",
+      "submodel": "HX_SNOWMAN_BASSIST_GLASSES",
+      "channel_name": "HX_SNOWMAN_BASSIST_HX_SNOWMAN_BASSIST_GLASSES",
+      "channel_index": 46,
+      "controller_type": "ac"
+    },
+    {
+      "member_id": "snowman_bassist",
+      "display_name": "Bass Snowman",
+      "model_prefix": "HX_SNOWMAN_BASSIST",
+      "submodel": "HX_SNOWMAN_BASSIST_LEFT_ARM",
+      "channel_name": "HX_SNOWMAN_BASSIST_HX_SNOWMAN_BASSIST_LEFT_ARM",
+      "channel_index": 47,
+      "controller_type": "ac"
+    },
+    {
+      "member_id": "snowman_bassist",
+      "display_name": "Bass Snowman",
+      "model_prefix": "HX_SNOWMAN_BASSIST",
+      "submodel": "HX_SNOWMAN_BASSIST_RIGHT_ARM",
+      "channel_name": "HX_SNOWMAN_BASSIST_HX_SNOWMAN_BASSIST_RIGHT_ARM",
+      "channel_index": 48,
+      "controller_type": "ac"
+    },
+    {
+      "member_id": "snowman_bassist",
+      "display_name": "Bass Snowman",
+      "model_prefix": "HX_SNOWMAN_BASSIST",
+      "submodel": "HX_SNOWMAN_BASSIST_BASS_BODY",
+      "channel_name": "HX_SNOWMAN_BASSIST_HX_SNOWMAN_BASSIST_BASS_BODY",
+      "channel_index": 49,
+      "controller_type": "ac"
+    },
+    {
+      "member_id": "snowman_bassist",
+      "display_name": "Bass Snowman",
+      "model_prefix": "HX_SNOWMAN_BASSIST",
+      "submodel": "HX_SNOWMAN_BASSIST_BASS_NECK",
+      "channel_name": "HX_SNOWMAN_BASSIST_HX_SNOWMAN_BASSIST_BASS_NECK",
+      "channel_index": 50,
+      "controller_type": "ac"
+    },
+    {
+      "member_id": "snowman_bassist",
+      "display_name": "Bass Snowman",
+      "model_prefix": "HX_SNOWMAN_BASSIST",
+      "submodel": "HX_SNOWMAN_BASSIST_BASS_STRINGS",
+      "channel_name": "HX_SNOWMAN_BASSIST_HX_SNOWMAN_BASSIST_BASS_STRINGS",
+      "channel_index": 51,
+      "controller_type": "ac"
+    },
+    {
+      "member_id": "snowman_bassist",
+      "display_name": "Bass Snowman",
+      "model_prefix": "HX_SNOWMAN_BASSIST",
+      "submodel": "HX_SNOWMAN_BASSIST_PLUCK_ZONE",
+      "channel_name": "HX_SNOWMAN_BASSIST_HX_SNOWMAN_BASSIST_PLUCK_ZONE",
+      "channel_index": 52,
+      "controller_type": "ac"
+    },
+    {
+      "member_id": "snowman_bassist",
+      "display_name": "Bass Snowman",
+      "model_prefix": "HX_SNOWMAN_BASSIST",
+      "submodel": "HX_SNOWMAN_BASSIST_FRET_HAND",
+      "channel_name": "HX_SNOWMAN_BASSIST_HX_SNOWMAN_BASSIST_FRET_HAND",
+      "channel_index": 53,
+      "controller_type": "ac"
+    },
+    {
+      "member_id": "snowman_drummer",
+      "display_name": "Mad Drummer Snowman",
+      "model_prefix": "HX_SNOWMAN_DRUMMER",
+      "submodel": "HX_SNOWMAN_DRUMMER_HAT",
+      "channel_name": "HX_SNOWMAN_DRUMMER_HX_SNOWMAN_DRUMMER_HAT",
+      "channel_index": 54,
+      "controller_type": "ac"
+    },
+    {
+      "member_id": "snowman_drummer",
+      "display_name": "Mad Drummer Snowman",
+      "model_prefix": "HX_SNOWMAN_DRUMMER",
+      "submodel": "HX_SNOWMAN_DRUMMER_HEAD",
+      "channel_name": "HX_SNOWMAN_DRUMMER_HX_SNOWMAN_DRUMMER_HEAD",
+      "channel_index": 55,
+      "controller_type": "ac"
+    },
+    {
+      "member_id": "snowman_drummer",
+      "display_name": "Mad Drummer Snowman",
+      "model_prefix": "HX_SNOWMAN_DRUMMER",
+      "submodel": "HX_SNOWMAN_DRUMMER_FACE",
+      "channel_name": "HX_SNOWMAN_DRUMMER_HX_SNOWMAN_DRUMMER_FACE",
+      "channel_index": 56,
+      "controller_type": "ac"
+    },
+    {
+      "member_id": "snowman_drummer",
+      "display_name": "Mad Drummer Snowman",
+      "model_prefix": "HX_SNOWMAN_DRUMMER",
+      "submodel": "HX_SNOWMAN_DRUMMER_TORSO",
+      "channel_name": "HX_SNOWMAN_DRUMMER_HX_SNOWMAN_DRUMMER_TORSO",
+      "channel_index": 57,
+      "controller_type": "ac"
+    },
+    {
+      "member_id": "snowman_drummer",
+      "display_name": "Mad Drummer Snowman",
+      "model_prefix": "HX_SNOWMAN_DRUMMER",
+      "submodel": "HX_SNOWMAN_DRUMMER_BUTTONS",
+      "channel_name": "HX_SNOWMAN_DRUMMER_HX_SNOWMAN_DRUMMER_BUTTONS",
+      "channel_index": 58,
+      "controller_type": "ac"
+    },
+    {
+      "member_id": "snowman_drummer",
+      "display_name": "Mad Drummer Snowman",
+      "model_prefix": "HX_SNOWMAN_DRUMMER",
+      "submodel": "HX_SNOWMAN_DRUMMER_LEFT_ARM",
+      "channel_name": "HX_SNOWMAN_DRUMMER_HX_SNOWMAN_DRUMMER_LEFT_ARM",
+      "channel_index": 59,
+      "controller_type": "ac"
+    },
+    {
+      "member_id": "snowman_drummer",
+      "display_name": "Mad Drummer Snowman",
+      "model_prefix": "HX_SNOWMAN_DRUMMER",
+      "submodel": "HX_SNOWMAN_DRUMMER_RIGHT_ARM",
+      "channel_name": "HX_SNOWMAN_DRUMMER_HX_SNOWMAN_DRUMMER_RIGHT_ARM",
+      "channel_index": 60,
+      "controller_type": "ac"
+    },
+    {
+      "member_id": "snowman_drummer",
+      "display_name": "Mad Drummer Snowman",
+      "model_prefix": "HX_SNOWMAN_DRUMMER",
+      "submodel": "HX_SNOWMAN_DRUMMER_STICKS",
+      "channel_name": "HX_SNOWMAN_DRUMMER_HX_SNOWMAN_DRUMMER_STICKS",
+      "channel_index": 61,
+      "controller_type": "ac"
+    },
+    {
+      "member_id": "snowman_drummer",
+      "display_name": "Mad Drummer Snowman",
+      "model_prefix": "HX_SNOWMAN_DRUMMER",
+      "submodel": "HX_SNOWMAN_DRUMMER_KICK",
+      "channel_name": "HX_SNOWMAN_DRUMMER_HX_SNOWMAN_DRUMMER_KICK",
+      "channel_index": 62,
+      "controller_type": "ac"
+    },
+    {
+      "member_id": "snowman_drummer",
+      "display_name": "Mad Drummer Snowman",
+      "model_prefix": "HX_SNOWMAN_DRUMMER",
+      "submodel": "HX_SNOWMAN_DRUMMER_SNARE",
+      "channel_name": "HX_SNOWMAN_DRUMMER_HX_SNOWMAN_DRUMMER_SNARE",
+      "channel_index": 63,
+      "controller_type": "ac"
+    },
+    {
+      "member_id": "snowman_drummer",
+      "display_name": "Mad Drummer Snowman",
+      "model_prefix": "HX_SNOWMAN_DRUMMER",
+      "submodel": "HX_SNOWMAN_DRUMMER_TOM",
+      "channel_name": "HX_SNOWMAN_DRUMMER_HX_SNOWMAN_DRUMMER_TOM",
+      "channel_index": 64,
+      "controller_type": "ac"
+    },
+    {
+      "member_id": "snowman_drummer",
+      "display_name": "Mad Drummer Snowman",
+      "model_prefix": "HX_SNOWMAN_DRUMMER",
+      "submodel": "HX_SNOWMAN_DRUMMER_HI_HAT",
+      "channel_name": "HX_SNOWMAN_DRUMMER_HX_SNOWMAN_DRUMMER_HI_HAT",
+      "channel_index": 65,
+      "controller_type": "ac"
+    },
+    {
+      "member_id": "snowman_drummer",
+      "display_name": "Mad Drummer Snowman",
+      "model_prefix": "HX_SNOWMAN_DRUMMER",
+      "submodel": "HX_SNOWMAN_DRUMMER_CYMBALS",
+      "channel_name": "HX_SNOWMAN_DRUMMER_HX_SNOWMAN_DRUMMER_CYMBALS",
+      "channel_index": 66,
+      "controller_type": "ac"
+    }
+  ],
+  "scope": "Existing five-member discrete pose plan only; keyboard and xylophone are absent. New continuous 3D character motion is not a 66-channel prop export."
+}

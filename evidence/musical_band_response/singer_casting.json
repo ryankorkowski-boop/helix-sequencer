@@ -1,0 +1,47 @@
+{
+  "00": {
+    "lead": "female",
+    "source": "stable character casting from isolated recording-register estimate; unverified by listening",
+    "median_pitch_hz": 405.6339175269542,
+    "voiced_frames": 97,
+    "automatic_gender_verified": false,
+    "overrides": [],
+    "manual_override_supported": true
+  },
+  "01": {
+    "lead": "male",
+    "source": "stable character casting from isolated recording-register estimate; unverified by listening",
+    "median_pitch_hz": 184.6571726777014,
+    "voiced_frames": 46,
+    "automatic_gender_verified": false,
+    "overrides": [],
+    "manual_override_supported": true
+  },
+  "02": {
+    "lead": "female",
+    "source": "stable character casting from isolated recording-register estimate; unverified by listening",
+    "median_pitch_hz": 303.8820846259238,
+    "voiced_frames": 81,
+    "automatic_gender_verified": false,
+    "overrides": [],
+    "manual_override_supported": true
+  },
+  "03": {
+    "lead": "male",
+    "source": "stable character casting from isolated recording-register estimate; unverified by listening",
+    "median_pitch_hz": 261.5061646776419,
+    "voiced_frames": 24,
+    "automatic_gender_verified": false,
+    "overrides": [],
+    "manual_override_supported": true
+  },
+  "05": {
+    "lead": "male",
+    "source": "stable character casting from isolated recording-register estimate; unverified by listening",
+    "median_pitch_hz": 207.55758045272898,
+    "voiced_frames": 56,
+    "automatic_gender_verified": false,
+    "overrides": [],
+    "manual_override_supported": true
+  }
+}

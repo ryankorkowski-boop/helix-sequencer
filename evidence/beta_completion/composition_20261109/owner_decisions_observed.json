@@ -1,0 +1,137 @@
+{
+  "observed_at": "2026-11-09T02:53:31.787450+00:00",
+  "private_site": "https://helix-beta-approval.cherishedanchovy.chatgpt.site",
+  "media": [
+    {
+      "id": "cd2f0b47-439d-4c89-8ef9-95aeef9e8864",
+      "title": "Canonical Snowman Band",
+      "sha": "9072fe1e06ced2404ea5c8c260d56f142ef68ac3ea51c3e21c671bb1a550168b",
+      "classification": "historical",
+      "ownerDecision": {
+        "status": "rejected",
+        "sha": "9072fe1e06ced2404ea5c8c260d56f142ef68ac3ea51c3e21c671bb1a550168b",
+        "at": "2026-11-09T00:30:19.990Z",
+        "by": "Helix Helper",
+        "note": "Vocals off"
+      }
+    },
+    {
+      "id": "b59da984-c329-4dac-8d06-f4da61c4ad8d",
+      "title": "Lead and Harmony Vocals",
+      "sha": "a3e7c20e1cb214d559f90606d9d3b7a8090ee78c709002dd53e76dc1fe40a816",
+      "classification": "historical",
+      "ownerDecision": {
+        "status": "rejected",
+        "sha": "a3e7c20e1cb214d559f90606d9d3b7a8090ee78c709002dd53e76dc1fe40a816",
+        "at": "2026-11-09T00:31:22.080Z",
+        "by": "Helix Helper",
+        "note": "Vocals way off"
+      }
+    },
+    {
+      "id": "83d40bc7-c85b-4be9-b88d-42ba87e02876",
+      "title": "Drummer and Instruments",
+      "sha": "b4ebbe060e8378c914f1b933f241b1a627dab27e5ac176e6bb0965bbd6567ef6",
+      "classification": "historical",
+      "ownerDecision": {
+        "status": "rejected",
+        "sha": "b4ebbe060e8378c914f1b933f241b1a627dab27e5ac176e6bb0965bbd6567ef6",
+        "at": "2026-11-09T00:32:30.818Z",
+        "by": "Helix Helper",
+        "note": "Vocals way off. Bass way off"
+      }
+    },
+    {
+      "id": "d25d0859-47da-47be-ace1-19fca46fb37c",
+      "title": "Residential AC RGB Comparison",
+      "sha": "5aceca545c801b293ac7e4f8340915d81d074091a326c825877e43fbd4134a90",
+      "classification": "historical",
+      "ownerDecision": {
+        "status": "rejected",
+        "sha": "5aceca545c801b293ac7e4f8340915d81d074091a326c825877e43fbd4134a90",
+        "at": "2026-11-09T00:37:11.586Z",
+        "by": "Helix Helper",
+        "note": "No chases or buildups just flashing all at once"
+      }
+    },
+    {
+      "id": "8a3b17c7-d8eb-4d95-ae3c-21cf0710cb5b",
+      "title": "Nine Layout Synchronized Comparison",
+      "sha": "cdaba8ad6dce94f467682b24b3dc6b2759d97336a7f0380e12e0c6fb7277c4d8",
+      "classification": "historical",
+      "ownerDecision": {
+        "status": "approved",
+        "sha": "cdaba8ad6dce94f467682b24b3dc6b2759d97336a7f0380e12e0c6fb7277c4d8",
+        "at": "2026-11-09T00:38:15.848Z",
+        "by": "Helix Helper",
+        "note": "Not great. Not horrible"
+      }
+    },
+    {
+      "id": "fd37418a-f4b4-4364-ba91-1fe044ae6e6d",
+      "title": "Native xLights pilot \u00b7 motion gate failed",
+      "sha": "48451c892cfd57df97643149338df8d81c73b3eedb4743a3f937d068d524516b",
+      "classification": "failed",
+      "ownerDecision": {
+        "status": "rejected",
+        "sha": "48451c892cfd57df97643149338df8d81c73b3eedb4743a3f937d068d524516b",
+        "at": "2026-11-09T00:35:48.482Z",
+        "by": "Helix Helper",
+        "note": "The first ten seconds of vocals were the only thing right besides the guitar"
+      }
+    },
+    {
+      "id": "afcb4cc7-d867-4674-adc6-542fa9c2df0d",
+      "title": "Advanced Technical Showcase",
+      "sha": "a0f834b929d8e3fe3a44b26a1f7f267af47d788f6c44b44c27a3a16af57bde00",
+      "classification": "historical",
+      "ownerDecision": {
+        "status": "rejected",
+        "sha": "a0f834b929d8e3fe3a44b26a1f7f267af47d788f6c44b44c27a3a16af57bde00",
+        "at": "2026-11-09T00:38:54.112Z",
+        "by": "Helix Helper",
+        "note": "Not great"
+      }
+    },
+    {
+      "id": "8364c4a4-b29c-4389-8399-cdfb95a576b0",
+      "title": "Double Helix and Musical Direction",
+      "sha": "88c1a206fc2a8c6d0b1b8a7e85e0c23c5b89cc42316c83845d6b28c826619745",
+      "classification": "historical",
+      "ownerDecision": {
+        "status": "approved",
+        "sha": "88c1a206fc2a8c6d0b1b8a7e85e0c23c5b89cc42316c83845d6b28c826619745",
+        "at": "2026-11-09T00:44:15.924Z",
+        "by": "Helix Helper",
+        "note": "Owner selected Approve."
+      }
+    },
+    {
+      "id": "2f99b298-e123-4853-8a9e-f7af760c7f3a",
+      "title": "Full Helix Showcase",
+      "sha": "1880620241ec03b5dcb1128c1df0287f37f7ba820122535356c990b46c88bf01",
+      "classification": "historical",
+      "ownerDecision": {
+        "status": "rejected",
+        "sha": "1880620241ec03b5dcb1128c1df0287f37f7ba820122535356c990b46c88bf01",
+        "at": "2026-11-09T00:43:18.331Z",
+        "by": "Helix Helper",
+        "note": "Almost all wrong"
+      }
+    },
+    {
+      "id": "e28b6dc4-6ba6-4066-bc24-4f8f04aaef79",
+      "title": "Starred Music Sampler",
+      "sha": "f238f06e5fedcb0e4a18dfde60992979344b8ff559561331360a33ca033d924f",
+      "classification": "historical",
+      "ownerDecision": {
+        "status": "approved",
+        "sha": "f238f06e5fedcb0e4a18dfde60992979344b8ff559561331360a33ca033d924f",
+        "at": "2026-11-09T00:41:54.588Z",
+        "by": "Helix Helper",
+        "note": "Owner selected Approve."
+      }
+    }
+  ],
+  "preservation": "Exact approved historical files and all existing decisions preserved; no new approval recorded."
+}

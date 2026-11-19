@@ -1,0 +1,47 @@
+[
+  {
+    "id": "00",
+    "guitar_events": 127,
+    "guitar_curves_unchanged": true,
+    "compared_pose_frames": 514,
+    "guitar_matrices_match": true,
+    "mallet_old": 23,
+    "mallet_new": 66
+  },
+  {
+    "id": "01",
+    "guitar_events": 125,
+    "guitar_curves_unchanged": true,
+    "compared_pose_frames": 241,
+    "guitar_matrices_match": true,
+    "mallet_old": 33,
+    "mallet_new": 58
+  },
+  {
+    "id": "02",
+    "guitar_events": 179,
+    "guitar_curves_unchanged": true,
+    "compared_pose_frames": 464,
+    "guitar_matrices_match": true,
+    "mallet_old": 23,
+    "mallet_new": 52
+  },
+  {
+    "id": "03",
+    "guitar_events": 99,
+    "guitar_curves_unchanged": true,
+    "compared_pose_frames": 433,
+    "guitar_matrices_match": true,
+    "mallet_old": 18,
+    "mallet_new": 31
+  },
+  {
+    "id": "05",
+    "guitar_events": 205,
+    "guitar_curves_unchanged": true,
+    "compared_pose_frames": 224,
+    "guitar_matrices_match": true,
+    "mallet_old": 35,
+    "mallet_new": 82
+  }
+]

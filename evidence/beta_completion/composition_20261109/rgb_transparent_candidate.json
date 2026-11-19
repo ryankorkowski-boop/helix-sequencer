@@ -1,0 +1,104 @@
+{
+  "file": "preview.mp4",
+  "sha256": "e3fb61d74a174a16e6cd3afac4d460339c5021cc0b192d122ba2882cbb9ab3c1",
+  "bytes": 24915291,
+  "native_xlights": true,
+  "dimensions": [
+    1920,
+    1080
+  ],
+  "fps": "20/1",
+  "frames": "698",
+  "video_duration": 34.9,
+  "audio_duration": 34.88,
+  "full_decode": true,
+  "original_soundtrack_correlation": 0.9968081439606467,
+  "audio_start_time": 0.0,
+  "video_start_time": 0.0,
+  "readability": {
+    "schema": "helix.showcase_readability.v1",
+    "frames": 70,
+    "sample_fps": 2,
+    "thresholds": {
+      "median_luma": 12.0,
+      "median_bright_fraction": 0.012,
+      "median_motion": 0.65,
+      "min_visible_width": 0.4,
+      "min_visible_height": 0.35
+    },
+    "measurements": {
+      "median_luma": 15.487,
+      "median_bright_fraction": 0.10097,
+      "median_motion": 9.305,
+      "visible_width": 0.869,
+      "visible_height": 0.633
+    },
+    "checks": {
+      "visible_stage_width": true,
+      "visible_stage_height": true,
+      "median_stage_luminance": true,
+      "bright_stage_area": true,
+      "visible_stage_motion": true
+    },
+    "passed": true,
+    "note": "Quantitative visibility gate only; no artistic, musical or source classification approval"
+  },
+  "source_audio": {
+    "filename": "Phoneme_Test_Hook.mp3",
+    "sha256": "19e90c273d0d747938f24b36586b50818c104cddffbefe4a4128927374301938",
+    "kind": "retained_owner_upload"
+  },
+  "source_commit": "1900958577898a1764ce317a3c63666c86b3a853",
+  "analysis_source_commit": "a9beaa7c9be89fffc21a856e033bf75a3136c29b",
+  "analysis_identity": "cached_analysis_identity.json",
+  "native": {
+    "version": "2026.18",
+    "movie": "/workspace/helix-output/rgb-transparent/06_Modern_Pixel_House/native-preview-gg58caa9/preview.mp4",
+    "xsq_sha256": "da77aa337d0cc72d5539000158c29705112baa517015c1801411fa33353814f4",
+    "fseq": "/workspace/helix-output/rgb-transparent/06_Modern_Pixel_House/native-preview-gg58caa9/Modern_Pixel_House.fseq",
+    "fseq_sha256": "afd94d509f35272fde5eba9e4dc0cf9e15f26d29effcbef9467d1f77151086ab",
+    "layout_sha256": "2d284041035d1950d8814872662a211f9824ee02380088c68068a5cb1a6d5278",
+    "workflow_url": null,
+    "execution": "local native xLights2026.18",
+    "log": "/workspace/transparent-native.log"
+  },
+  "soundtrack_windows": [
+    {
+      "start_seconds": 0,
+      "lag_ms": 0.0
+    },
+    {
+      "start_seconds": 10,
+      "lag_ms": 0.0
+    },
+    {
+      "start_seconds": 20,
+      "lag_ms": 0.0
+    },
+    {
+      "start_seconds": 30,
+      "lag_ms": 0.0
+    }
+  ],
+  "channel_evidence": {
+    "channels": 19374,
+    "frames": 697,
+    "step_ms": 50,
+    "raw_frame_sha256": "a510e0e09428359a9724e94139a97e72f255c758d443c74f229d26e8c718f3cb",
+    "identical_to_opaque_preview": true,
+    "unique_channel_timelines": 1675,
+    "peak_lit_channels": 8488,
+    "all_channels_on_frames": 0
+  },
+  "status": "PASS",
+  "musical_and_owner_acceptance": "UNVERIFIED",
+  "owner_approved": false,
+  "qualified_for_final_nine": false,
+  "limitations": [
+    "20fps native source clock;30fps not exercised",
+    "Cached mixed-source instrument estimates are not acoustic ground truth",
+    "34.88s verse/prechorus hook does not prove complete-song structure",
+    "Virtual geometry is not a surveyed installation",
+    "RGB singer acoustic ownership and exact lexical/phoneme timing remain unqualified"
+  ]
+}

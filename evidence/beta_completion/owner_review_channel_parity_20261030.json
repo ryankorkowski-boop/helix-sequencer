@@ -1,0 +1,27 @@
+{
+  "original_ac_before": {
+    "sha256": "f25e3e875b24d16da1c096fc48e00229a33b32324ddfd31240b0a2187c78a2b5",
+    "frames": 2400
+  },
+  "original_ac_after": {
+    "sha256": "f25e3e875b24d16da1c096fc48e00229a33b32324ddfd31240b0a2187c78a2b5",
+    "frames": 2400
+  },
+  "exact_native_channel_frames_unchanged": true,
+  "starter_before": {
+    "sha256": "7e2ec47fab5239295edf768ae21112017e6217f29cc25722b56c994fe291cfae",
+    "frames": 2400
+  },
+  "starter_after": {
+    "sha256": "7e2ec47fab5239295edf768ae21112017e6217f29cc25722b56c994fe291cfae",
+    "frames": 2400
+  },
+  "starter_final_before": {
+    "sha256": "7e2ec47fab5239295edf768ae21112017e6217f29cc25722b56c994fe291cfae",
+    "frames": 2400
+  },
+  "starter_final_after": {
+    "sha256": "7e2ec47fab5239295edf768ae21112017e6217f29cc25722b56c994fe291cfae",
+    "frames": 2400
+  }
+}

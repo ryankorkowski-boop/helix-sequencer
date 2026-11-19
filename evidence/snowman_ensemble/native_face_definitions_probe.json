@@ -1,0 +1,65 @@
+[
+  {
+    "model": "HX_SNOWMAN_BASSIST",
+    "standard_native_visemes": 10,
+    "physical_mouth_shapes": 7,
+    "all_visemes_exact_native_nodes": true,
+    "native_three_layer_track_drives_faces": true
+  },
+  {
+    "model": "HX_SNOWMAN_GUITARIST",
+    "standard_native_visemes": 10,
+    "physical_mouth_shapes": 7,
+    "all_visemes_exact_native_nodes": true,
+    "native_three_layer_track_drives_faces": true
+  },
+  {
+    "model": "HX_SNOWMAN_SINGER",
+    "standard_native_visemes": 10,
+    "physical_mouth_shapes": 7,
+    "all_visemes_exact_native_nodes": true,
+    "native_three_layer_track_drives_faces": true
+  },
+  {
+    "model": "HX_SNOWMAN_SINGER_FEMALE",
+    "standard_native_visemes": 10,
+    "physical_mouth_shapes": 7,
+    "all_visemes_exact_native_nodes": true,
+    "native_three_layer_track_drives_faces": true
+  },
+  {
+    "model": "HX_SNOWMAN_KEYBOARDIST",
+    "standard_native_visemes": 10,
+    "physical_mouth_shapes": 7,
+    "all_visemes_exact_native_nodes": true,
+    "native_three_layer_track_drives_faces": true
+  },
+  {
+    "model": "HX_HELIX_FACE_TREE",
+    "standard_native_visemes": 10,
+    "physical_mouth_shapes": 7,
+    "all_visemes_exact_native_nodes": true,
+    "native_three_layer_track_drives_faces": true
+  },
+  {
+    "model": "HX_HELIX_FACE_BULB",
+    "standard_native_visemes": 10,
+    "physical_mouth_shapes": 7,
+    "all_visemes_exact_native_nodes": true,
+    "native_three_layer_track_drives_faces": true
+  },
+  {
+    "model": "HX_HELIX_FACE_PUMPKIN",
+    "standard_native_visemes": 10,
+    "physical_mouth_shapes": 7,
+    "all_visemes_exact_native_nodes": true,
+    "native_three_layer_track_drives_faces": true
+  },
+  {
+    "model": "HX_HELIX_FACE_SNOWMAN",
+    "standard_native_visemes": 10,
+    "physical_mouth_shapes": 7,
+    "all_visemes_exact_native_nodes": true,
+    "native_three_layer_track_drives_faces": true
+  }
+]

@@ -1,0 +1,1051 @@
+{
+  "schema": "helix.snowman_ensemble_delivery.v1",
+  "performances": [
+    {
+      "id": "00",
+      "title": "Wire Tree",
+      "variant": "band",
+      "show_folder": "/workspace/helix-sequencer/outputs/Snowman_Ensemble/shows/00_band",
+      "movie": "/workspace/helix-sequencer/outputs/Snowman_Ensemble/shows/00_band/00_band.mp4",
+      "source_sha256": "60c78154189231db21791de1a7ad64f063af2eaaf18bb7f318b151620f41cca5",
+      "native_frames": 5132,
+      "frame_ms": 50,
+      "native_models": [
+        {
+          "model": "HX_SNOWMAN_DRUMMER_V3",
+          "lit_frames": 5132,
+          "peak": 255
+        },
+        {
+          "model": "HX_SNOWMAN_BASSIST",
+          "lit_frames": 5132,
+          "peak": 255
+        },
+        {
+          "model": "HX_SNOWMAN_GUITARIST",
+          "lit_frames": 5132,
+          "peak": 255
+        },
+        {
+          "model": "HX_SNOWMAN_SINGER",
+          "lit_frames": 5132,
+          "peak": 204
+        },
+        {
+          "model": "HX_SNOWMAN_SINGER_FEMALE",
+          "lit_frames": 5132,
+          "peak": 204
+        },
+        {
+          "model": "HX_SNOWMAN_KEYBOARDIST",
+          "lit_frames": 5132,
+          "peak": 204
+        },
+        {
+          "model": "HX_001_STAGE_EDGE",
+          "lit_frames": 5132,
+          "peak": 64
+        },
+        {
+          "model": "HX_002_RISER",
+          "lit_frames": 5132,
+          "peak": 64
+        },
+        {
+          "model": "HX_003_STAGE_DNA",
+          "lit_frames": 5132,
+          "peak": 64
+        },
+        {
+          "model": "HX_004_STAGE_DNA",
+          "lit_frames": 5132,
+          "peak": 64
+        }
+      ],
+      "native_mouth_nodes_match": true,
+      "source_drummer_sha256": "d6fc7472cfb11efba812d5147cc8f9cc247aafffbebce3c5a2e825c1bfaa6be1",
+      "native_arm_pose_holds_match": true,
+      "duration_s": 256.6,
+      "video": {
+        "codec": "h264",
+        "pixel_format": "yuv420p",
+        "fps": 20,
+        "width": 1280,
+        "height": 720,
+        "full_decode": "pass",
+        "audio_codec": "aac"
+      },
+      "hashes": {
+        "Snowman_Band.xsq": "92b3755ecbb8b8b9f55c3a65d5e7c8d7df6fb9382b9deb21f84004bc6c347ca0",
+        "Snowman_Band.fseq": "bff60de28187b0b6051bad1aa7051406adbc6ab80de76e69a5fc854c8dd409c8",
+        "00_band.mp4": "f4cff525455a7efb776aeaa2a050506a681ca7049a58559f95025f6e7b0ee1bc",
+        "xlights_rgbeffects.xml": "a3820e964c6b585f1cdaa5f5ed229b76d4eace0b7cfb32831e90a70aa4bff851"
+      },
+      "soundtrack": {
+        "sample_rate": 8000,
+        "original_samples": 2052160,
+        "movie_samples": 2052267,
+        "zero_offset_correlation": 0.9996831486505485,
+        "full_song_duration_matches": true
+      },
+      "musical_acceptance": "inferred_performance_pending_user_listening",
+      "native_faces_definition_reusable": true,
+      "native_faces_metadata_preserves_every_fseq_frame": true,
+      "native_faces_three_layer_track": true,
+      "download_file": "00_Wire_Tree_Band.mp4",
+      "portable_media_original_sha256": "60c78154189231db21791de1a7ad64f063af2eaaf18bb7f318b151620f41cca5"
+    },
+    {
+      "id": "01",
+      "title": "Who Knew (Grinch's Redemption) (Remastered)",
+      "variant": "band",
+      "show_folder": "/workspace/helix-sequencer/outputs/Snowman_Ensemble/shows/01_band",
+      "movie": "/workspace/helix-sequencer/outputs/Snowman_Ensemble/shows/01_band/01_band.mp4",
+      "source_sha256": "e8063b8e2826f8c60aec7b72f4b7a07fef69161e8537789cf6a2193e7f060abd",
+      "native_frames": 2406,
+      "frame_ms": 50,
+      "native_models": [
+        {
+          "model": "HX_SNOWMAN_DRUMMER_V3",
+          "lit_frames": 2406,
+          "peak": 255
+        },
+        {
+          "model": "HX_SNOWMAN_BASSIST",
+          "lit_frames": 2406,
+          "peak": 255
+        },
+        {
+          "model": "HX_SNOWMAN_GUITARIST",
+          "lit_frames": 2406,
+          "peak": 255
+        },
+        {
+          "model": "HX_SNOWMAN_SINGER",
+          "lit_frames": 2406,
+          "peak": 204
+        },
+        {
+          "model": "HX_SNOWMAN_SINGER_FEMALE",
+          "lit_frames": 2406,
+          "peak": 204
+        },
+        {
+          "model": "HX_SNOWMAN_KEYBOARDIST",
+          "lit_frames": 2406,
+          "peak": 204
+        },
+        {
+          "model": "HX_001_STAGE_EDGE",
+          "lit_frames": 2406,
+          "peak": 64
+        },
+        {
+          "model": "HX_002_RISER",
+          "lit_frames": 2406,
+          "peak": 64
+        },
+        {
+          "model": "HX_003_STAGE_DNA",
+          "lit_frames": 2406,
+          "peak": 64
+        },
+        {
+          "model": "HX_004_STAGE_DNA",
+          "lit_frames": 2406,
+          "peak": 64
+        }
+      ],
+      "native_mouth_nodes_match": true,
+      "source_drummer_sha256": "d6fc7472cfb11efba812d5147cc8f9cc247aafffbebce3c5a2e825c1bfaa6be1",
+      "native_arm_pose_holds_match": true,
+      "duration_s": 120.3,
+      "video": {
+        "codec": "h264",
+        "pixel_format": "yuv420p",
+        "fps": 20,
+        "width": 1280,
+        "height": 720,
+        "full_decode": "pass",
+        "audio_codec": "aac"
+      },
+      "hashes": {
+        "Snowman_Band.xsq": "943bcd787936fa8978dee36b9767f66688dd7b038b4c972f120e9bac507ced24",
+        "Snowman_Band.fseq": "dea83e257428299262370ac320f4ab24f41007c9ef8516b492444e080a62560f",
+        "01_band.mp4": "95e7ba9a2d39997f684f16898e53f128278c3f4435c4e214a5b9a4fd86316d2b",
+        "xlights_rgbeffects.xml": "a3820e964c6b585f1cdaa5f5ed229b76d4eace0b7cfb32831e90a70aa4bff851"
+      },
+      "soundtrack": {
+        "sample_rate": 8000,
+        "original_samples": 961920,
+        "movie_samples": 962048,
+        "zero_offset_correlation": 0.9997177551120399,
+        "full_song_duration_matches": true
+      },
+      "musical_acceptance": "inferred_performance_pending_user_listening",
+      "native_faces_definition_reusable": true,
+      "native_faces_metadata_preserves_every_fseq_frame": true,
+      "native_faces_three_layer_track": true,
+      "download_file": "01_Who_Knew_Band.mp4",
+      "portable_media_original_sha256": "e8063b8e2826f8c60aec7b72f4b7a07fef69161e8537789cf6a2193e7f060abd"
+    },
+    {
+      "id": "01",
+      "title": "Who Knew (Grinch's Redemption) (Remastered)",
+      "variant": "faces",
+      "show_folder": "/workspace/helix-sequencer/outputs/Snowman_Ensemble/shows/01_faces",
+      "movie": "/workspace/helix-sequencer/outputs/Snowman_Ensemble/shows/01_faces/01_faces.mp4",
+      "source_sha256": "e8063b8e2826f8c60aec7b72f4b7a07fef69161e8537789cf6a2193e7f060abd",
+      "native_frames": 2406,
+      "frame_ms": 50,
+      "native_models": [
+        {
+          "model": "HX_SNOWMAN_DRUMMER_V3",
+          "lit_frames": 2406,
+          "peak": 255
+        },
+        {
+          "model": "HX_HELIX_FACE_TREE",
+          "lit_frames": 2406,
+          "peak": 204
+        },
+        {
+          "model": "HX_HELIX_FACE_BULB",
+          "lit_frames": 2406,
+          "peak": 204
+        },
+        {
+          "model": "HX_HELIX_FACE_PUMPKIN",
+          "lit_frames": 2406,
+          "peak": 204
+        },
+        {
+          "model": "HX_HELIX_FACE_SNOWMAN",
+          "lit_frames": 2406,
+          "peak": 204
+        },
+        {
+          "model": "HX_001_STAGE_EDGE",
+          "lit_frames": 2406,
+          "peak": 64
+        },
+        {
+          "model": "HX_002_RISER",
+          "lit_frames": 2406,
+          "peak": 64
+        },
+        {
+          "model": "HX_003_STAGE_DNA",
+          "lit_frames": 2406,
+          "peak": 64
+        },
+        {
+          "model": "HX_004_STAGE_DNA",
+          "lit_frames": 2406,
+          "peak": 64
+        }
+      ],
+      "native_mouth_nodes_match": true,
+      "source_drummer_sha256": "d6fc7472cfb11efba812d5147cc8f9cc247aafffbebce3c5a2e825c1bfaa6be1",
+      "native_arm_pose_holds_match": true,
+      "duration_s": 120.3,
+      "video": {
+        "codec": "h264",
+        "pixel_format": "yuv420p",
+        "fps": 20,
+        "width": 1280,
+        "height": 720,
+        "full_decode": "pass",
+        "audio_codec": "aac"
+      },
+      "hashes": {
+        "Helix_Singing_Faces.xsq": "d66dbae7b469a7dc6e6a09814bb4a4166e5c92f340864f6e9588ab5c0314bf7e",
+        "Helix_Singing_Faces.fseq": "718d08e33a5f1bda1f99d617f7362049ce5436b1c7428e85eca7d7ff16bade37",
+        "01_faces.mp4": "3c3b0e567dcfdf7fddba68a23773001daf91964b9735e2f1d8f7adb2da0775a2",
+        "xlights_rgbeffects.xml": "d08187ce1157e6b319a415845ce5c4fe3601081e2ae319a5447275e761db8e9c"
+      },
+      "soundtrack": {
+        "sample_rate": 8000,
+        "original_samples": 961920,
+        "movie_samples": 962048,
+        "zero_offset_correlation": 0.9997177551120399,
+        "full_song_duration_matches": true
+      },
+      "musical_acceptance": "inferred_performance_pending_user_listening",
+      "native_faces_definition_reusable": true,
+      "native_faces_metadata_preserves_every_fseq_frame": true,
+      "native_faces_three_layer_track": true,
+      "download_file": "01_Who_Knew_Helix_Faces.mp4",
+      "portable_media_original_sha256": "e8063b8e2826f8c60aec7b72f4b7a07fef69161e8537789cf6a2193e7f060abd"
+    },
+    {
+      "id": "02",
+      "title": "49 (Remastered)",
+      "variant": "band",
+      "show_folder": "/workspace/helix-sequencer/outputs/Snowman_Ensemble/shows/02_band",
+      "movie": "/workspace/helix-sequencer/outputs/Snowman_Ensemble/shows/02_band/02_band.mp4",
+      "source_sha256": "547eba840df327746b4552f0a4c19178dd276c469828c3c963f67c1b9ceda45e",
+      "native_frames": 4633,
+      "frame_ms": 50,
+      "native_models": [
+        {
+          "model": "HX_SNOWMAN_DRUMMER_V3",
+          "lit_frames": 4633,
+          "peak": 255
+        },
+        {
+          "model": "HX_SNOWMAN_BASSIST",
+          "lit_frames": 4633,
+          "peak": 255
+        },
+        {
+          "model": "HX_SNOWMAN_GUITARIST",
+          "lit_frames": 4633,
+          "peak": 255
+        },
+        {
+          "model": "HX_SNOWMAN_SINGER",
+          "lit_frames": 4633,
+          "peak": 204
+        },
+        {
+          "model": "HX_SNOWMAN_SINGER_FEMALE",
+          "lit_frames": 4633,
+          "peak": 204
+        },
+        {
+          "model": "HX_SNOWMAN_KEYBOARDIST",
+          "lit_frames": 4633,
+          "peak": 204
+        },
+        {
+          "model": "HX_001_STAGE_EDGE",
+          "lit_frames": 4633,
+          "peak": 64
+        },
+        {
+          "model": "HX_002_RISER",
+          "lit_frames": 4633,
+          "peak": 64
+        },
+        {
+          "model": "HX_003_STAGE_DNA",
+          "lit_frames": 4633,
+          "peak": 64
+        },
+        {
+          "model": "HX_004_STAGE_DNA",
+          "lit_frames": 4633,
+          "peak": 64
+        }
+      ],
+      "native_mouth_nodes_match": true,
+      "source_drummer_sha256": "d6fc7472cfb11efba812d5147cc8f9cc247aafffbebce3c5a2e825c1bfaa6be1",
+      "native_arm_pose_holds_match": true,
+      "duration_s": 231.65,
+      "video": {
+        "codec": "h264",
+        "pixel_format": "yuv420p",
+        "fps": 20,
+        "width": 1280,
+        "height": 720,
+        "full_decode": "pass",
+        "audio_codec": "aac"
+      },
+      "hashes": {
+        "Snowman_Band.xsq": "4e56a6db2faeb6be8872485ecf6dc1ecde0b0e021f9fb1484efc4ffbb528ac77",
+        "Snowman_Band.fseq": "a41192cac247366f9ccadbb9c9411bd7d36e6d60fcf53ab6e5e42d72af3debfc",
+        "02_band.mp4": "fc952465af355b3b1a99f5997b1e03be305bd217f7ff5e11f9f8e50b6a74ad5c",
+        "xlights_rgbeffects.xml": "a3820e964c6b585f1cdaa5f5ed229b76d4eace0b7cfb32831e90a70aa4bff851"
+      },
+      "soundtrack": {
+        "sample_rate": 8000,
+        "original_samples": 1852800,
+        "movie_samples": 1852928,
+        "zero_offset_correlation": 0.9994652156854753,
+        "full_song_duration_matches": true
+      },
+      "musical_acceptance": "inferred_performance_pending_user_listening",
+      "native_faces_definition_reusable": true,
+      "native_faces_metadata_preserves_every_fseq_frame": true,
+      "native_faces_three_layer_track": true,
+      "download_file": "02_49_Band.mp4",
+      "portable_media_original_sha256": "547eba840df327746b4552f0a4c19178dd276c469828c3c963f67c1b9ceda45e"
+    },
+    {
+      "id": "02",
+      "title": "49 (Remastered)",
+      "variant": "faces",
+      "show_folder": "/workspace/helix-sequencer/outputs/Snowman_Ensemble/shows/02_faces",
+      "movie": "/workspace/helix-sequencer/outputs/Snowman_Ensemble/shows/02_faces/02_faces.mp4",
+      "source_sha256": "547eba840df327746b4552f0a4c19178dd276c469828c3c963f67c1b9ceda45e",
+      "native_frames": 4633,
+      "frame_ms": 50,
+      "native_models": [
+        {
+          "model": "HX_SNOWMAN_DRUMMER_V3",
+          "lit_frames": 4633,
+          "peak": 255
+        },
+        {
+          "model": "HX_HELIX_FACE_TREE",
+          "lit_frames": 4633,
+          "peak": 204
+        },
+        {
+          "model": "HX_HELIX_FACE_BULB",
+          "lit_frames": 4633,
+          "peak": 204
+        },
+        {
+          "model": "HX_HELIX_FACE_PUMPKIN",
+          "lit_frames": 4633,
+          "peak": 204
+        },
+        {
+          "model": "HX_HELIX_FACE_SNOWMAN",
+          "lit_frames": 4633,
+          "peak": 204
+        },
+        {
+          "model": "HX_001_STAGE_EDGE",
+          "lit_frames": 4633,
+          "peak": 64
+        },
+        {
+          "model": "HX_002_RISER",
+          "lit_frames": 4633,
+          "peak": 64
+        },
+        {
+          "model": "HX_003_STAGE_DNA",
+          "lit_frames": 4633,
+          "peak": 64
+        },
+        {
+          "model": "HX_004_STAGE_DNA",
+          "lit_frames": 4633,
+          "peak": 64
+        }
+      ],
+      "native_mouth_nodes_match": true,
+      "source_drummer_sha256": "d6fc7472cfb11efba812d5147cc8f9cc247aafffbebce3c5a2e825c1bfaa6be1",
+      "native_arm_pose_holds_match": true,
+      "duration_s": 231.65,
+      "video": {
+        "codec": "h264",
+        "pixel_format": "yuv420p",
+        "fps": 20,
+        "width": 1280,
+        "height": 720,
+        "full_decode": "pass",
+        "audio_codec": "aac"
+      },
+      "hashes": {
+        "Helix_Singing_Faces.xsq": "27686cd9c0e112ce01652846651642bd395ef29ddc795ecbf440f24405a67d8d",
+        "Helix_Singing_Faces.fseq": "d7a30e42e223dc2f09c65070cd48b9f71812a6bfa6f72c03629abdf073e78429",
+        "02_faces.mp4": "de4d026f49a0f93ebe97bdc7acfc9c827902cef18bc94cbd9c5c73a58df00c6e",
+        "xlights_rgbeffects.xml": "d08187ce1157e6b319a415845ce5c4fe3601081e2ae319a5447275e761db8e9c"
+      },
+      "soundtrack": {
+        "sample_rate": 8000,
+        "original_samples": 1852800,
+        "movie_samples": 1852928,
+        "zero_offset_correlation": 0.9994652156854753,
+        "full_song_duration_matches": true
+      },
+      "musical_acceptance": "inferred_performance_pending_user_listening",
+      "native_faces_definition_reusable": true,
+      "native_faces_metadata_preserves_every_fseq_frame": true,
+      "native_faces_three_layer_track": true,
+      "download_file": "02_49_Helix_Faces.mp4",
+      "portable_media_original_sha256": "547eba840df327746b4552f0a4c19178dd276c469828c3c963f67c1b9ceda45e"
+    },
+    {
+      "id": "03",
+      "title": "Candy Cane Chaos",
+      "variant": "band",
+      "show_folder": "/workspace/helix-sequencer/outputs/Snowman_Ensemble/shows/03_band",
+      "movie": "/workspace/helix-sequencer/outputs/Snowman_Ensemble/shows/03_band/03_band.mp4",
+      "source_sha256": "1da0375054c21124d020f9daf4312e9c2d2e2453b48bbc0bf1c2389a9df36f25",
+      "native_frames": 4328,
+      "frame_ms": 50,
+      "native_models": [
+        {
+          "model": "HX_SNOWMAN_DRUMMER_V3",
+          "lit_frames": 4328,
+          "peak": 255
+        },
+        {
+          "model": "HX_SNOWMAN_BASSIST",
+          "lit_frames": 4328,
+          "peak": 255
+        },
+        {
+          "model": "HX_SNOWMAN_GUITARIST",
+          "lit_frames": 4328,
+          "peak": 255
+        },
+        {
+          "model": "HX_SNOWMAN_SINGER",
+          "lit_frames": 4328,
+          "peak": 204
+        },
+        {
+          "model": "HX_SNOWMAN_SINGER_FEMALE",
+          "lit_frames": 4328,
+          "peak": 204
+        },
+        {
+          "model": "HX_SNOWMAN_KEYBOARDIST",
+          "lit_frames": 4328,
+          "peak": 204
+        },
+        {
+          "model": "HX_001_STAGE_EDGE",
+          "lit_frames": 4328,
+          "peak": 64
+        },
+        {
+          "model": "HX_002_RISER",
+          "lit_frames": 4328,
+          "peak": 64
+        },
+        {
+          "model": "HX_003_STAGE_DNA",
+          "lit_frames": 4328,
+          "peak": 64
+        },
+        {
+          "model": "HX_004_STAGE_DNA",
+          "lit_frames": 4328,
+          "peak": 64
+        }
+      ],
+      "native_mouth_nodes_match": true,
+      "source_drummer_sha256": "d6fc7472cfb11efba812d5147cc8f9cc247aafffbebce3c5a2e825c1bfaa6be1",
+      "native_arm_pose_holds_match": true,
+      "duration_s": 216.4,
+      "video": {
+        "codec": "h264",
+        "pixel_format": "yuv420p",
+        "fps": 20,
+        "width": 1280,
+        "height": 720,
+        "full_decode": "pass",
+        "audio_codec": "aac"
+      },
+      "hashes": {
+        "Snowman_Band.xsq": "54e4eab48a451d1c0c16584c9b8d44adeeadd4dc84627a90013a7d721748a620",
+        "Snowman_Band.fseq": "3e235a628e2fd8a3270fde3c4d2b8f4ea331db085e357a67a8ac7facd24050a7",
+        "03_band.mp4": "ca71bb186473a777558c5b52f58cfd9fa8201b66262f7039133d41c968e2d3f0",
+        "xlights_rgbeffects.xml": "a3820e964c6b585f1cdaa5f5ed229b76d4eace0b7cfb32831e90a70aa4bff851"
+      },
+      "soundtrack": {
+        "sample_rate": 8000,
+        "original_samples": 1730560,
+        "movie_samples": 1730560,
+        "zero_offset_correlation": 0.9994166505111343,
+        "full_song_duration_matches": true
+      },
+      "musical_acceptance": "inferred_performance_pending_user_listening",
+      "native_faces_definition_reusable": true,
+      "native_faces_metadata_preserves_every_fseq_frame": true,
+      "native_faces_three_layer_track": true,
+      "download_file": "03_Candy_Cane_Chaos_Band.mp4",
+      "portable_media_original_sha256": "1da0375054c21124d020f9daf4312e9c2d2e2453b48bbc0bf1c2389a9df36f25"
+    },
+    {
+      "id": "03",
+      "title": "Candy Cane Chaos",
+      "variant": "faces",
+      "show_folder": "/workspace/helix-sequencer/outputs/Snowman_Ensemble/shows/03_faces",
+      "movie": "/workspace/helix-sequencer/outputs/Snowman_Ensemble/shows/03_faces/03_faces.mp4",
+      "source_sha256": "1da0375054c21124d020f9daf4312e9c2d2e2453b48bbc0bf1c2389a9df36f25",
+      "native_frames": 4328,
+      "frame_ms": 50,
+      "native_models": [
+        {
+          "model": "HX_SNOWMAN_DRUMMER_V3",
+          "lit_frames": 4328,
+          "peak": 255
+        },
+        {
+          "model": "HX_HELIX_FACE_TREE",
+          "lit_frames": 4328,
+          "peak": 204
+        },
+        {
+          "model": "HX_HELIX_FACE_BULB",
+          "lit_frames": 4328,
+          "peak": 204
+        },
+        {
+          "model": "HX_HELIX_FACE_PUMPKIN",
+          "lit_frames": 4328,
+          "peak": 204
+        },
+        {
+          "model": "HX_HELIX_FACE_SNOWMAN",
+          "lit_frames": 4328,
+          "peak": 204
+        },
+        {
+          "model": "HX_001_STAGE_EDGE",
+          "lit_frames": 4328,
+          "peak": 64
+        },
+        {
+          "model": "HX_002_RISER",
+          "lit_frames": 4328,
+          "peak": 64
+        },
+        {
+          "model": "HX_003_STAGE_DNA",
+          "lit_frames": 4328,
+          "peak": 64
+        },
+        {
+          "model": "HX_004_STAGE_DNA",
+          "lit_frames": 4328,
+          "peak": 64
+        }
+      ],
+      "native_mouth_nodes_match": true,
+      "source_drummer_sha256": "d6fc7472cfb11efba812d5147cc8f9cc247aafffbebce3c5a2e825c1bfaa6be1",
+      "native_arm_pose_holds_match": true,
+      "duration_s": 216.4,
+      "video": {
+        "codec": "h264",
+        "pixel_format": "yuv420p",
+        "fps": 20,
+        "width": 1280,
+        "height": 720,
+        "full_decode": "pass",
+        "audio_codec": "aac"
+      },
+      "hashes": {
+        "Helix_Singing_Faces.xsq": "9dbc9420be90f6cbfcd5a8ce5d638e1fcce553a79a6e0feab4568c3166e532e4",
+        "Helix_Singing_Faces.fseq": "ffff91589eae7ba7c9e5e9fcbae1b18a1af29f6d4f3a3561e056aa7577cc4cad",
+        "03_faces.mp4": "c1a3aca79ed33f14602ebd18c0ed76307bc98530e735d61dd76fbf0e86367a3d",
+        "xlights_rgbeffects.xml": "d08187ce1157e6b319a415845ce5c4fe3601081e2ae319a5447275e761db8e9c"
+      },
+      "soundtrack": {
+        "sample_rate": 8000,
+        "original_samples": 1730560,
+        "movie_samples": 1730560,
+        "zero_offset_correlation": 0.9994166505111343,
+        "full_song_duration_matches": true
+      },
+      "musical_acceptance": "inferred_performance_pending_user_listening",
+      "native_faces_definition_reusable": true,
+      "native_faces_metadata_preserves_every_fseq_frame": true,
+      "native_faces_three_layer_track": true,
+      "download_file": "03_Candy_Cane_Chaos_Helix_Faces.mp4",
+      "portable_media_original_sha256": "1da0375054c21124d020f9daf4312e9c2d2e2453b48bbc0bf1c2389a9df36f25"
+    },
+    {
+      "id": "04",
+      "title": "Phoneme Test Hook",
+      "variant": "band",
+      "show_folder": "/workspace/helix-sequencer/outputs/Snowman_Ensemble/shows/04_band",
+      "movie": "/workspace/helix-sequencer/outputs/Snowman_Ensemble/shows/04_band/04_band.mp4",
+      "source_sha256": "19e90c273d0d747938f24b36586b50818c104cddffbefe4a4128927374301938",
+      "native_frames": 699,
+      "frame_ms": 50,
+      "native_models": [
+        {
+          "model": "HX_SNOWMAN_DRUMMER_V3",
+          "lit_frames": 699,
+          "peak": 255
+        },
+        {
+          "model": "HX_SNOWMAN_BASSIST",
+          "lit_frames": 699,
+          "peak": 255
+        },
+        {
+          "model": "HX_SNOWMAN_GUITARIST",
+          "lit_frames": 699,
+          "peak": 255
+        },
+        {
+          "model": "HX_SNOWMAN_SINGER",
+          "lit_frames": 699,
+          "peak": 204
+        },
+        {
+          "model": "HX_SNOWMAN_SINGER_FEMALE",
+          "lit_frames": 699,
+          "peak": 204
+        },
+        {
+          "model": "HX_SNOWMAN_KEYBOARDIST",
+          "lit_frames": 699,
+          "peak": 204
+        },
+        {
+          "model": "HX_001_STAGE_EDGE",
+          "lit_frames": 699,
+          "peak": 64
+        },
+        {
+          "model": "HX_002_RISER",
+          "lit_frames": 699,
+          "peak": 64
+        },
+        {
+          "model": "HX_003_STAGE_DNA",
+          "lit_frames": 699,
+          "peak": 64
+        },
+        {
+          "model": "HX_004_STAGE_DNA",
+          "lit_frames": 699,
+          "peak": 64
+        }
+      ],
+      "native_mouth_nodes_match": true,
+      "source_drummer_sha256": "d6fc7472cfb11efba812d5147cc8f9cc247aafffbebce3c5a2e825c1bfaa6be1",
+      "native_arm_pose_holds_match": true,
+      "duration_s": 34.95,
+      "video": {
+        "codec": "h264",
+        "pixel_format": "yuv420p",
+        "fps": 20,
+        "width": 1280,
+        "height": 720,
+        "full_decode": "pass",
+        "audio_codec": "aac"
+      },
+      "hashes": {
+        "Snowman_Band.xsq": "64271778cdeda1774035e9d5644fe2a385ed06f4f0e5112850d43c97d1710038",
+        "Snowman_Band.fseq": "6352cb412921fbeed5e7da3eee0d45775de6101093f363c266107f20dc3377ed",
+        "04_band.mp4": "744ce940303fa9cd64e2dcad640906f05ad84a13dda43019767e932d0499c2c1",
+        "xlights_rgbeffects.xml": "a3820e964c6b585f1cdaa5f5ed229b76d4eace0b7cfb32831e90a70aa4bff851"
+      },
+      "soundtrack": {
+        "sample_rate": 8000,
+        "original_samples": 279040,
+        "movie_samples": 279040,
+        "zero_offset_correlation": 0.9992792334569269,
+        "full_song_duration_matches": true
+      },
+      "musical_acceptance": "inferred_performance_pending_user_listening",
+      "native_faces_definition_reusable": true,
+      "native_faces_metadata_preserves_every_fseq_frame": true,
+      "native_faces_three_layer_track": true,
+      "download_file": "04_Phoneme_Test_Hook_Band.mp4",
+      "portable_media_original_sha256": "19e90c273d0d747938f24b36586b50818c104cddffbefe4a4128927374301938"
+    },
+    {
+      "id": "04",
+      "title": "Phoneme Test Hook",
+      "variant": "faces",
+      "show_folder": "/workspace/helix-sequencer/outputs/Snowman_Ensemble/shows/04_faces",
+      "movie": "/workspace/helix-sequencer/outputs/Snowman_Ensemble/shows/04_faces/04_faces.mp4",
+      "source_sha256": "19e90c273d0d747938f24b36586b50818c104cddffbefe4a4128927374301938",
+      "native_frames": 699,
+      "frame_ms": 50,
+      "native_models": [
+        {
+          "model": "HX_SNOWMAN_DRUMMER_V3",
+          "lit_frames": 699,
+          "peak": 255
+        },
+        {
+          "model": "HX_HELIX_FACE_TREE",
+          "lit_frames": 699,
+          "peak": 204
+        },
+        {
+          "model": "HX_HELIX_FACE_BULB",
+          "lit_frames": 699,
+          "peak": 204
+        },
+        {
+          "model": "HX_HELIX_FACE_PUMPKIN",
+          "lit_frames": 699,
+          "peak": 204
+        },
+        {
+          "model": "HX_HELIX_FACE_SNOWMAN",
+          "lit_frames": 699,
+          "peak": 204
+        },
+        {
+          "model": "HX_001_STAGE_EDGE",
+          "lit_frames": 699,
+          "peak": 64
+        },
+        {
+          "model": "HX_002_RISER",
+          "lit_frames": 699,
+          "peak": 64
+        },
+        {
+          "model": "HX_003_STAGE_DNA",
+          "lit_frames": 699,
+          "peak": 64
+        },
+        {
+          "model": "HX_004_STAGE_DNA",
+          "lit_frames": 699,
+          "peak": 64
+        }
+      ],
+      "native_mouth_nodes_match": true,
+      "source_drummer_sha256": "d6fc7472cfb11efba812d5147cc8f9cc247aafffbebce3c5a2e825c1bfaa6be1",
+      "native_arm_pose_holds_match": true,
+      "duration_s": 34.95,
+      "video": {
+        "codec": "h264",
+        "pixel_format": "yuv420p",
+        "fps": 20,
+        "width": 1280,
+        "height": 720,
+        "full_decode": "pass",
+        "audio_codec": "aac"
+      },
+      "hashes": {
+        "Helix_Singing_Faces.xsq": "a3cee1386914c7a68dcd3947c96c7a86c3a74b319c6483b48408910d668048dc",
+        "Helix_Singing_Faces.fseq": "faa0a6668cc8a8a60c1d3bd7b1a0e9f98d2a2dfdc66a635d189dddb9969ce86f",
+        "04_faces.mp4": "6b691724ad1283af8f23586ca0d0724b46a80500dfb0f292628774eb9fd3b157",
+        "xlights_rgbeffects.xml": "d08187ce1157e6b319a415845ce5c4fe3601081e2ae319a5447275e761db8e9c"
+      },
+      "soundtrack": {
+        "sample_rate": 8000,
+        "original_samples": 279040,
+        "movie_samples": 279040,
+        "zero_offset_correlation": 0.9992792334569269,
+        "full_song_duration_matches": true
+      },
+      "musical_acceptance": "inferred_performance_pending_user_listening",
+      "native_faces_definition_reusable": true,
+      "native_faces_metadata_preserves_every_fseq_frame": true,
+      "native_faces_three_layer_track": true,
+      "download_file": "04_Phoneme_Test_Hook_Helix_Faces.mp4",
+      "portable_media_original_sha256": "19e90c273d0d747938f24b36586b50818c104cddffbefe4a4128927374301938"
+    },
+    {
+      "id": "05",
+      "title": "Festivus (Remastered)",
+      "variant": "band",
+      "show_folder": "/workspace/helix-sequencer/outputs/Snowman_Ensemble/shows/05_band",
+      "movie": "/workspace/helix-sequencer/outputs/Snowman_Ensemble/shows/05_band/05_band.mp4",
+      "source_sha256": "df30a1b52523ecc41efb06751f64a576744b06e49b594d016c2793bab90836f6",
+      "native_frames": 2231,
+      "frame_ms": 50,
+      "native_models": [
+        {
+          "model": "HX_SNOWMAN_DRUMMER_V3",
+          "lit_frames": 2231,
+          "peak": 255
+        },
+        {
+          "model": "HX_SNOWMAN_BASSIST",
+          "lit_frames": 2231,
+          "peak": 255
+        },
+        {
+          "model": "HX_SNOWMAN_GUITARIST",
+          "lit_frames": 2231,
+          "peak": 255
+        },
+        {
+          "model": "HX_SNOWMAN_SINGER",
+          "lit_frames": 2231,
+          "peak": 204
+        },
+        {
+          "model": "HX_SNOWMAN_SINGER_FEMALE",
+          "lit_frames": 2231,
+          "peak": 204
+        },
+        {
+          "model": "HX_SNOWMAN_KEYBOARDIST",
+          "lit_frames": 2231,
+          "peak": 204
+        },
+        {
+          "model": "HX_001_STAGE_EDGE",
+          "lit_frames": 2231,
+          "peak": 64
+        },
+        {
+          "model": "HX_002_RISER",
+          "lit_frames": 2231,
+          "peak": 64
+        },
+        {
+          "model": "HX_003_STAGE_DNA",
+          "lit_frames": 2231,
+          "peak": 64
+        },
+        {
+          "model": "HX_004_STAGE_DNA",
+          "lit_frames": 2231,
+          "peak": 64
+        }
+      ],
+      "native_mouth_nodes_match": true,
+      "source_drummer_sha256": "d6fc7472cfb11efba812d5147cc8f9cc247aafffbebce3c5a2e825c1bfaa6be1",
+      "native_arm_pose_holds_match": true,
+      "duration_s": 111.55,
+      "video": {
+        "codec": "h264",
+        "pixel_format": "yuv420p",
+        "fps": 20,
+        "width": 1280,
+        "height": 720,
+        "full_decode": "pass",
+        "audio_codec": "aac"
+      },
+      "hashes": {
+        "Snowman_Band.xsq": "d36c9433827015dda4dbada6223ed674104ca41dcec45b901b9c0b1f1fdab38c",
+        "Snowman_Band.fseq": "04b03cb9527afba2acde5690d7febb36bee4ff54429699b07b980e3d5413a03d",
+        "05_band.mp4": "7357479c178a7177b52256cd7f070bf4333bbd65ad7c306331a24b81c47cb637",
+        "xlights_rgbeffects.xml": "a3820e964c6b585f1cdaa5f5ed229b76d4eace0b7cfb32831e90a70aa4bff851"
+      },
+      "soundtrack": {
+        "sample_rate": 8000,
+        "original_samples": 891840,
+        "movie_samples": 891904,
+        "zero_offset_correlation": 0.9992747791828082,
+        "full_song_duration_matches": true
+      },
+      "musical_acceptance": "inferred_performance_pending_user_listening",
+      "native_faces_definition_reusable": true,
+      "native_faces_metadata_preserves_every_fseq_frame": true,
+      "native_faces_three_layer_track": true,
+      "download_file": "05_Festivus_Band.mp4",
+      "portable_media_original_sha256": "df30a1b52523ecc41efb06751f64a576744b06e49b594d016c2793bab90836f6"
+    },
+    {
+      "id": "05",
+      "title": "Festivus (Remastered)",
+      "variant": "faces",
+      "show_folder": "/workspace/helix-sequencer/outputs/Snowman_Ensemble/shows/05_faces",
+      "movie": "/workspace/helix-sequencer/outputs/Snowman_Ensemble/shows/05_faces/05_faces.mp4",
+      "source_sha256": "df30a1b52523ecc41efb06751f64a576744b06e49b594d016c2793bab90836f6",
+      "native_frames": 2231,
+      "frame_ms": 50,
+      "native_models": [
+        {
+          "model": "HX_SNOWMAN_DRUMMER_V3",
+          "lit_frames": 2231,
+          "peak": 255
+        },
+        {
+          "model": "HX_HELIX_FACE_TREE",
+          "lit_frames": 2231,
+          "peak": 204
+        },
+        {
+          "model": "HX_HELIX_FACE_BULB",
+          "lit_frames": 2231,
+          "peak": 204
+        },
+        {
+          "model": "HX_HELIX_FACE_PUMPKIN",
+          "lit_frames": 2231,
+          "peak": 204
+        },
+        {
+          "model": "HX_HELIX_FACE_SNOWMAN",
+          "lit_frames": 2231,
+          "peak": 204
+        },
+        {
+          "model": "HX_001_STAGE_EDGE",
+          "lit_frames": 2231,
+          "peak": 64
+        },
+        {
+          "model": "HX_002_RISER",
+          "lit_frames": 2231,
+          "peak": 64
+        },
+        {
+          "model": "HX_003_STAGE_DNA",
+          "lit_frames": 2231,
+          "peak": 64
+        },
+        {
+          "model": "HX_004_STAGE_DNA",
+          "lit_frames": 2231,
+          "peak": 64
+        }
+      ],
+      "native_mouth_nodes_match": true,
+      "source_drummer_sha256": "d6fc7472cfb11efba812d5147cc8f9cc247aafffbebce3c5a2e825c1bfaa6be1",
+      "native_arm_pose_holds_match": true,
+      "duration_s": 111.55,
+      "video": {
+        "codec": "h264",
+        "pixel_format": "yuv420p",
+        "fps": 20,
+        "width": 1280,
+        "height": 720,
+        "full_decode": "pass",
+        "audio_codec": "aac"
+      },
+      "hashes": {
+        "Helix_Singing_Faces.xsq": "6da9dc6ea91df6c56e8030c75edf9b76212389d8e9f8c0048c712215cc97ed3e",
+        "Helix_Singing_Faces.fseq": "27acafdd339759e579da643c81a7f7303201af8f54cf0d3bcb46cb7b7e06355a",
+        "05_faces.mp4": "b003c6a0fd58125134342b677618a2004b7c66390bd8e03dcfa394f5a5aa8c63",
+        "xlights_rgbeffects.xml": "d08187ce1157e6b319a415845ce5c4fe3601081e2ae319a5447275e761db8e9c"
+      },
+      "soundtrack": {
+        "sample_rate": 8000,
+        "original_samples": 891840,
+        "movie_samples": 891904,
+        "zero_offset_correlation": 0.9992747791828082,
+        "full_song_duration_matches": true
+      },
+      "musical_acceptance": "inferred_performance_pending_user_listening",
+      "native_faces_definition_reusable": true,
+      "native_faces_metadata_preserves_every_fseq_frame": true,
+      "native_faces_three_layer_track": true,
+      "download_file": "05_Festivus_Helix_Faces.mp4",
+      "portable_media_original_sha256": "df30a1b52523ecc41efb06751f64a576744b06e49b594d016c2793bab90836f6"
+    }
+  ],
+  "identical_native_drummer": [
+    {
+      "id": "01",
+      "native_drummer_channels_identical_all_frames": true,
+      "channels": 20736,
+      "frames": 2406
+    },
+    {
+      "id": "02",
+      "native_drummer_channels_identical_all_frames": true,
+      "channels": 20736,
+      "frames": 4633
+    },
+    {
+      "id": "03",
+      "native_drummer_channels_identical_all_frames": true,
+      "channels": 20736,
+      "frames": 4328
+    },
+    {
+      "id": "04",
+      "native_drummer_channels_identical_all_frames": true,
+      "channels": 20736,
+      "frames": 699
+    },
+    {
+      "id": "05",
+      "native_drummer_channels_identical_all_frames": true,
+      "channels": 20736,
+      "frames": 2231
+    }
+  ],
+  "native_zip_crc": "pass",
+  "movie_zip_crc": "pass",
+  "native_show_count": 11,
+  "full_song_movie_count": 11,
+  "musical_review_status": "inferred_first_performances_pending_user_listening"
+}

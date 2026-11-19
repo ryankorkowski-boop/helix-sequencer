@@ -1,0 +1,47 @@
+{
+  "source_commit": "dd73e36777d0a02c6d403245d03421d093bda0fd",
+  "full_ci_run": 40989578137,
+  "python312": {
+    "job": 123848458525,
+    "passed": 2208,
+    "subtests_passed": 24,
+    "skipped": 6,
+    "warnings": 36,
+    "seconds": 281.26,
+    "conclusion": "success"
+  },
+  "python311": {
+    "job": 123848459002,
+    "passed": 2208,
+    "subtests_passed": 24,
+    "skipped": 6,
+    "warnings": 5,
+    "seconds": 274.67,
+    "conclusion": "success"
+  },
+  "windows": {
+    "run": 40989591050,
+    "job": 123848499586,
+    "conclusion": "success"
+  },
+  "android": {
+    "run": 40989578333,
+    "api30": "success",
+    "api36": "success",
+    "receipt": "evidence/beta_completion/android_final_status.json",
+    "pr_repeat": {
+      "run": 40989590969,
+      "source_commit": "dd73e36777d0a02c6d403245d03421d093bda0fd",
+      "api30": {
+        "job": 123848630286,
+        "conclusion": "success"
+      },
+      "api36": {
+        "job": 123848630566,
+        "conclusion": "success"
+      }
+    }
+  },
+  "owner_approval": false,
+  "beta_acceptance": false
+}

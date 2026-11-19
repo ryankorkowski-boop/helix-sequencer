@@ -1,0 +1,113 @@
+[
+  {
+    "model": "HX_SNOWMAN_BASSIST",
+    "standard_native_visemes": 10,
+    "physical_mouth_shapes": 7,
+    "all_visemes_exact_native_nodes": true,
+    "native_three_layer_track_drives_faces": true
+  },
+  {
+    "model": "HX_SNOWMAN_GUITARIST",
+    "standard_native_visemes": 10,
+    "physical_mouth_shapes": 7,
+    "all_visemes_exact_native_nodes": true,
+    "native_three_layer_track_drives_faces": true
+  },
+  {
+    "model": "HX_SNOWMAN_SINGER",
+    "standard_native_visemes": 10,
+    "physical_mouth_shapes": 7,
+    "all_visemes_exact_native_nodes": true,
+    "native_three_layer_track_drives_faces": true
+  },
+  {
+    "model": "HX_SNOWMAN_SINGER_FEMALE",
+    "standard_native_visemes": 10,
+    "physical_mouth_shapes": 7,
+    "all_visemes_exact_native_nodes": true,
+    "native_three_layer_track_drives_faces": true
+  },
+  {
+    "model": "HX_SNOWMAN_KEYBOARDIST",
+    "standard_native_visemes": 10,
+    "physical_mouth_shapes": 7,
+    "all_visemes_exact_native_nodes": true,
+    "native_three_layer_track_drives_faces": true
+  },
+  {
+    "model": "HX_HELIX_FACE_TREE",
+    "standard_native_visemes": 10,
+    "physical_mouth_shapes": 7,
+    "all_visemes_exact_native_nodes": true,
+    "native_three_layer_track_drives_faces": true
+  },
+  {
+    "model": "HX_HELIX_FACE_BULB",
+    "standard_native_visemes": 10,
+    "physical_mouth_shapes": 7,
+    "all_visemes_exact_native_nodes": true,
+    "native_three_layer_track_drives_faces": true
+  },
+  {
+    "model": "HX_HELIX_FACE_PUMPKIN",
+    "standard_native_visemes": 10,
+    "physical_mouth_shapes": 7,
+    "all_visemes_exact_native_nodes": true,
+    "native_three_layer_track_drives_faces": true
+  },
+  {
+    "model": "HX_HELIX_FACE_SNOWMAN",
+    "standard_native_visemes": 10,
+    "physical_mouth_shapes": 7,
+    "all_visemes_exact_native_nodes": true,
+    "native_three_layer_track_drives_faces": true
+  },
+  {
+    "show": "00_band",
+    "already_verified": true
+  },
+  {
+    "show": "01_band",
+    "already_verified": true
+  },
+  {
+    "show": "01_faces",
+    "already_verified": true
+  },
+  {
+    "show": "02_band",
+    "already_verified": true
+  },
+  {
+    "show": "02_faces",
+    "already_verified": true
+  },
+  {
+    "show": "03_band",
+    "frames_identical": 4328,
+    "face_definitions": 5
+  },
+  {
+    "show": "03_faces",
+    "frames_identical": 4328,
+    "face_definitions": 4
+  },
+  {
+    "show": "04_band",
+    "already_verified": true
+  },
+  {
+    "show": "04_faces",
+    "already_verified": true
+  },
+  {
+    "show": "05_band",
+    "frames_identical": 2231,
+    "face_definitions": 5
+  },
+  {
+    "show": "05_faces",
+    "frames_identical": 2231,
+    "face_definitions": 4
+  }
+]

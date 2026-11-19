@@ -1,0 +1,100 @@
+{
+  "implementation": {
+    "source_commit": "5a4aab1fac7688b66189ccb584438c961ec42e36",
+    "source_tree": "141d4b821ed469765ac1b091cf130e8a10f0fd58",
+    "review_pr": "https://github.com/ryankorkowski-boop/helix-sequencer/pull/152",
+    "release_integration_approved": false,
+    "approved_exe_apk_built": false,
+    "hardware_tested": false
+  },
+  "regression": {
+    "source_local_commit": "fbfbdf4cfb98e313e71d15f9ff647ade0e3b0889",
+    "tests": 1581,
+    "passed": 1576,
+    "skipped": 5,
+    "failures": 0,
+    "errors": 0,
+    "seconds": 194.385,
+    "skip_reason": "missing original fixed 2.wav fixture",
+    "focused_before_final_melodic_fallback": {
+      "passed": 38,
+      "seconds": 18.66
+    },
+    "final_score_focused": {
+      "passed": 5,
+      "seconds": 1.11
+    }
+  },
+  "movie_count": 4,
+  "categories": {
+    "snowman_band": 2,
+    "six_layout_comparison": 2
+  },
+  "movies": {
+    "videos/01_E03_Snowman_Band.mp4": {
+      "sha256": "a039a8182cbfee1ae253933e5fc8e5ce5ac551f0db19e9064d8321e6190781ee",
+      "bytes": 9581906
+    },
+    "videos/02_E14_Snowman_Band.mp4": {
+      "sha256": "4ef416c52748c27691f35616bc8ad9c257011ae6fae52946c675c4a27f7c9d2c",
+      "bytes": 15548871
+    },
+    "videos/03_E03_Six_Layout_Comparison.mp4": {
+      "sha256": "b0323f853a56adacf1a387faeffea99af685d6dd12bbc90d1bbd6271fd0c0aa5",
+      "bytes": 14421695
+    },
+    "videos/04_E14_Six_Layout_Comparison.mp4": {
+      "sha256": "f572545a630d7e911984001f9bef860d8994596807adeb78d1ca13cf6671038a",
+      "bytes": 19622967
+    }
+  },
+  "seconds_per_movie": 36,
+  "fps": 20,
+  "all_movies_fully_decoded": true,
+  "minimum_soundtrack_correlation": 0.9979582713008143,
+  "maximum_soundtrack_lag_ms": 0.0,
+  "unexpected_black_frames": 0,
+  "max_mallet_contact_error": 0.0,
+  "max_key_contact_error_on_change": 6.020069109879955e-08,
+  "channel_shows_verified": 10,
+  "all_channel_samples_checked": true,
+  "current_source_score_parity_verified": true,
+  "archive": {
+    "archive": "Helix_Four_Revised_Previews.zip",
+    "bytes": 80678518,
+    "sha256": "08571f018534e970af3ec64e7194e527cb8455451d8f8ba69a92ae2d4cac1b82",
+    "crc_checked": true,
+    "mp4_count": 4,
+    "entries": 328
+  },
+  "source_excerpts": [
+    {
+      "id": "E03",
+      "filename": "Kaleidoscope Engine (Remastered).mp3",
+      "original_sha256": "211a5aa243b4ae0df70fca05a183f534f422e91b4780cf2abf9e6bf79f8c3ac6",
+      "start": 116.0,
+      "end": 152.0
+    },
+    {
+      "id": "E14",
+      "filename": "Helix Audiolights.mp3",
+      "original_sha256": "8ced92ba179c931a2c7f29f834df1c8fd6a399d78074de0de030bc952bb5f0ec",
+      "start": 40.0,
+      "end": 76.0
+    }
+  ],
+  "remaining_limits": [
+    "Vowel and pitch identities remain estimates without independent musical labels.",
+    "Secondary singer not activated without independent source support.",
+    "Helix-generated FSEQ is decoded directly; new native xLights import/render not exercised.",
+    "No physical devices tested; final release approval remains held."
+  ],
+  "primary_references": [
+    "https://www.lightorama.com/downloads/6.6.8/help/auto_sequence_effects.htm",
+    "https://www.lightorama.com/downloads/6.6.8/help/instant_sequences.htm",
+    "https://manual.xlights.org/xlights/chapters/chapter-four-sequencer/singing-faces",
+    "https://manual.xlights.org/xlights/chapters/chapter-four-sequencer/layers/layer-blending",
+    "https://www.vixenlights.com/docs/usage/sequencer/layers/layer-mixing/",
+    "https://help.madrix.com/m5/html/madrix/hidd_effects_s2l_link.html"
+  ]
+}

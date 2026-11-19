@@ -1,0 +1,2419 @@
+{
+  "schema": "helix.approved_concept.v1",
+  "name": "Comet Smear Tunnel",
+  "coordinate_system": "x-right, y-up, z-depth; design feet",
+  "xlights_source_ref": "6ceddc6b25a24d82754d4f9af28e18ee70b51f81",
+  "coverage": {
+    "Custom": 50
+  },
+  "native_families": [
+    "Custom"
+  ],
+  "native_coverage_complete": false,
+  "model_count": 50,
+  "rgb_pixels": 2244,
+  "channel_count": 6732,
+  "spiral_trees": 0,
+  "double_helices": 0,
+  "preview_contract": "Custom sparse-grid coordinates exactly match exported XML; native-family preview coordinates illustrate the authored geometry. Native xLights render/load evidence is recorded separately.",
+  "models": [
+    {
+      "name": "HX_001_TUNNEL_RING",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "TUNNEL",
+      "design": "TUNNEL RING",
+      "kind": "pixel",
+      "nodes": 150,
+      "start_channel": 1,
+      "end_channel": 450,
+      "bounds_ft": [
+        [
+          -85.0,
+          0.0,
+          -100.0
+        ],
+        [
+          85.0,
+          130.0,
+          -100.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3114501877838632
+    },
+    {
+      "name": "HX_002_TUNNEL_RING",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "TUNNEL",
+      "design": "TUNNEL RING",
+      "kind": "pixel",
+      "nodes": 150,
+      "start_channel": 451,
+      "end_channel": 900,
+      "bounds_ft": [
+        [
+          -85.0,
+          0.0,
+          -60.0
+        ],
+        [
+          85.0,
+          130.0,
+          -60.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3114501877838632
+    },
+    {
+      "name": "HX_003_TUNNEL_RING",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "TUNNEL",
+      "design": "TUNNEL RING",
+      "kind": "pixel",
+      "nodes": 150,
+      "start_channel": 901,
+      "end_channel": 1350,
+      "bounds_ft": [
+        [
+          -85.0,
+          0.0,
+          -20.0
+        ],
+        [
+          85.0,
+          130.0,
+          -20.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3114501877838632
+    },
+    {
+      "name": "HX_004_TUNNEL_RING",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "TUNNEL",
+      "design": "TUNNEL RING",
+      "kind": "pixel",
+      "nodes": 150,
+      "start_channel": 1351,
+      "end_channel": 1800,
+      "bounds_ft": [
+        [
+          -85.0,
+          0.0,
+          20.0
+        ],
+        [
+          85.0,
+          130.0,
+          20.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3114501877838632
+    },
+    {
+      "name": "HX_005_TUNNEL_RING",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "TUNNEL",
+      "design": "TUNNEL RING",
+      "kind": "pixel",
+      "nodes": 150,
+      "start_channel": 1801,
+      "end_channel": 2250,
+      "bounds_ft": [
+        [
+          -85.0,
+          0.0,
+          60.0
+        ],
+        [
+          85.0,
+          130.0,
+          60.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3114501877838632
+    },
+    {
+      "name": "HX_006_TUNNEL_RING",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "TUNNEL",
+      "design": "TUNNEL RING",
+      "kind": "pixel",
+      "nodes": 150,
+      "start_channel": 2251,
+      "end_channel": 2700,
+      "bounds_ft": [
+        [
+          -85.0,
+          0.0,
+          100.0
+        ],
+        [
+          85.0,
+          130.0,
+          100.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3114501877838632
+    },
+    {
+      "name": "HX_007_STAR_RAY",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_00",
+      "design": "STAR RAY",
+      "kind": "pixel",
+      "nodes": 12,
+      "start_channel": 2701,
+      "end_channel": 2736,
+      "bounds_ft": [
+        [
+          -74.0,
+          65.0,
+          0.0
+        ],
+        [
+          -61.0,
+          65.0,
+          0.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.22727272727273373,
+      "pose_index": 0,
+      "pose_count": 4,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "name": "HX_008_STAR_RAY",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_00",
+      "design": "STAR RAY",
+      "kind": "pixel",
+      "nodes": 12,
+      "start_channel": 2737,
+      "end_channel": 2772,
+      "bounds_ft": [
+        [
+          -74.5,
+          65.5,
+          0.0
+        ],
+        [
+          -65.0,
+          75.0,
+          0.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.32265513737887674,
+      "pose_index": 0,
+      "pose_count": 4,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "name": "HX_009_STAR_RAY",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_00",
+      "design": "STAR RAY",
+      "kind": "pixel",
+      "nodes": 12,
+      "start_channel": 2773,
+      "end_channel": 2808,
+      "bounds_ft": [
+        [
+          -75.0,
+          66.0,
+          0.0
+        ],
+        [
+          -75.0,
+          79.0,
+          0.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.22727272727273373,
+      "pose_index": 0,
+      "pose_count": 4,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "name": "HX_010_STAR_RAY",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_00",
+      "design": "STAR RAY",
+      "kind": "pixel",
+      "nodes": 12,
+      "start_channel": 2809,
+      "end_channel": 2844,
+      "bounds_ft": [
+        [
+          -85.0,
+          65.5,
+          0.0
+        ],
+        [
+          -75.5,
+          75.0,
+          0.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.32265513737887674,
+      "pose_index": 0,
+      "pose_count": 4,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "name": "HX_011_STAR_RAY",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_00",
+      "design": "STAR RAY",
+      "kind": "pixel",
+      "nodes": 12,
+      "start_channel": 2845,
+      "end_channel": 2880,
+      "bounds_ft": [
+        [
+          -89.0,
+          65.0,
+          0.0
+        ],
+        [
+          -76.0,
+          65.0,
+          0.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.22727272727273373,
+      "pose_index": 0,
+      "pose_count": 4,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "name": "HX_012_STAR_RAY",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_00",
+      "design": "STAR RAY",
+      "kind": "pixel",
+      "nodes": 12,
+      "start_channel": 2881,
+      "end_channel": 2916,
+      "bounds_ft": [
+        [
+          -85.0,
+          55.0,
+          0.0
+        ],
+        [
+          -75.5,
+          64.5,
+          0.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.32265513737887175,
+      "pose_index": 0,
+      "pose_count": 4,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "name": "HX_013_STAR_RAY",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_00",
+      "design": "STAR RAY",
+      "kind": "pixel",
+      "nodes": 12,
+      "start_channel": 2917,
+      "end_channel": 2952,
+      "bounds_ft": [
+        [
+          -75.0,
+          51.0,
+          0.0
+        ],
+        [
+          -75.0,
+          64.0,
+          0.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.22727272727272663,
+      "pose_index": 0,
+      "pose_count": 4,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "name": "HX_014_STAR_RAY",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_00",
+      "design": "STAR RAY",
+      "kind": "pixel",
+      "nodes": 12,
+      "start_channel": 2953,
+      "end_channel": 2988,
+      "bounds_ft": [
+        [
+          -74.5,
+          55.0,
+          0.0
+        ],
+        [
+          -65.0,
+          64.5,
+          0.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.32265513737887674,
+      "pose_index": 0,
+      "pose_count": 4,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "name": "HX_015_TRAIL",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_00",
+      "design": "TRAIL",
+      "kind": "pixel",
+      "nodes": 80,
+      "start_channel": 2989,
+      "end_channel": 3228,
+      "bounds_ft": [
+        [
+          -97.0,
+          59.0,
+          0.0
+        ],
+        [
+          -81.0,
+          65.0,
+          0.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.125,
+      "max_snap_error_ft": 0.08068068850621925,
+      "pose_index": 0,
+      "pose_count": 4,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "name": "HX_016_TRAIL",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_00",
+      "design": "TRAIL",
+      "kind": "pixel",
+      "nodes": 80,
+      "start_channel": 3229,
+      "end_channel": 3468,
+      "bounds_ft": [
+        [
+          -97.0,
+          65.0,
+          0.0
+        ],
+        [
+          -81.0,
+          65.0,
+          0.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.125,
+      "max_snap_error_ft": 0.06170886075949511,
+      "pose_index": 0,
+      "pose_count": 4,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "name": "HX_017_TRAIL",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_00",
+      "design": "TRAIL",
+      "kind": "pixel",
+      "nodes": 80,
+      "start_channel": 3469,
+      "end_channel": 3708,
+      "bounds_ft": [
+        [
+          -97.0,
+          65.0,
+          0.0
+        ],
+        [
+          -81.0,
+          71.0,
+          0.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.125,
+      "max_snap_error_ft": 0.08068068850621925,
+      "pose_index": 0,
+      "pose_count": 4,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "name": "HX_018_STAR_RAY",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_01",
+      "design": "STAR RAY",
+      "kind": "pixel",
+      "nodes": 12,
+      "start_channel": 3709,
+      "end_channel": 3744,
+      "bounds_ft": [
+        [
+          -44.0,
+          65.0,
+          5.0
+        ],
+        [
+          -31.0,
+          65.0,
+          5.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.22727272727272663,
+      "pose_index": 1,
+      "pose_count": 4,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "name": "HX_019_STAR_RAY",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_01",
+      "design": "STAR RAY",
+      "kind": "pixel",
+      "nodes": 12,
+      "start_channel": 3745,
+      "end_channel": 3780,
+      "bounds_ft": [
+        [
+          -44.5,
+          65.5,
+          5.0
+        ],
+        [
+          -35.0,
+          75.0,
+          5.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.32265513737887674,
+      "pose_index": 1,
+      "pose_count": 4,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "name": "HX_020_STAR_RAY",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_01",
+      "design": "STAR RAY",
+      "kind": "pixel",
+      "nodes": 12,
+      "start_channel": 3781,
+      "end_channel": 3816,
+      "bounds_ft": [
+        [
+          -45.0,
+          66.0,
+          5.0
+        ],
+        [
+          -45.0,
+          79.0,
+          5.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.22727272727273373,
+      "pose_index": 1,
+      "pose_count": 4,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "name": "HX_021_STAR_RAY",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_01",
+      "design": "STAR RAY",
+      "kind": "pixel",
+      "nodes": 12,
+      "start_channel": 3817,
+      "end_channel": 3852,
+      "bounds_ft": [
+        [
+          -55.0,
+          65.5,
+          5.0
+        ],
+        [
+          -45.5,
+          75.0,
+          5.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.32265513737887175,
+      "pose_index": 1,
+      "pose_count": 4,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "name": "HX_022_STAR_RAY",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_01",
+      "design": "STAR RAY",
+      "kind": "pixel",
+      "nodes": 12,
+      "start_channel": 3853,
+      "end_channel": 3888,
+      "bounds_ft": [
+        [
+          -59.0,
+          65.0,
+          5.0
+        ],
+        [
+          -46.0,
+          65.0,
+          5.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.22727272727272663,
+      "pose_index": 1,
+      "pose_count": 4,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "name": "HX_023_STAR_RAY",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_01",
+      "design": "STAR RAY",
+      "kind": "pixel",
+      "nodes": 12,
+      "start_channel": 3889,
+      "end_channel": 3924,
+      "bounds_ft": [
+        [
+          -55.0,
+          55.0,
+          5.0
+        ],
+        [
+          -45.5,
+          64.5,
+          5.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.32265513737887674,
+      "pose_index": 1,
+      "pose_count": 4,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "name": "HX_024_STAR_RAY",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_01",
+      "design": "STAR RAY",
+      "kind": "pixel",
+      "nodes": 12,
+      "start_channel": 3925,
+      "end_channel": 3960,
+      "bounds_ft": [
+        [
+          -45.0,
+          51.0,
+          5.0
+        ],
+        [
+          -45.0,
+          64.0,
+          5.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.22727272727272663,
+      "pose_index": 1,
+      "pose_count": 4,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "name": "HX_025_STAR_RAY",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_01",
+      "design": "STAR RAY",
+      "kind": "pixel",
+      "nodes": 12,
+      "start_channel": 3961,
+      "end_channel": 3996,
+      "bounds_ft": [
+        [
+          -44.5,
+          55.0,
+          5.0
+        ],
+        [
+          -35.0,
+          64.5,
+          5.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.32265513737887175,
+      "pose_index": 1,
+      "pose_count": 4,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "name": "HX_026_TRAIL",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_01",
+      "design": "TRAIL",
+      "kind": "pixel",
+      "nodes": 80,
+      "start_channel": 3997,
+      "end_channel": 4236,
+      "bounds_ft": [
+        [
+          -67.0,
+          59.0,
+          5.0
+        ],
+        [
+          -51.0,
+          65.0,
+          5.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.125,
+      "max_snap_error_ft": 0.08068068850621925,
+      "pose_index": 1,
+      "pose_count": 4,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "name": "HX_027_TRAIL",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_01",
+      "design": "TRAIL",
+      "kind": "pixel",
+      "nodes": 80,
+      "start_channel": 4237,
+      "end_channel": 4476,
+      "bounds_ft": [
+        [
+          -67.0,
+          65.0,
+          5.0
+        ],
+        [
+          -51.0,
+          65.0,
+          5.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.125,
+      "max_snap_error_ft": 0.06170886075949511,
+      "pose_index": 1,
+      "pose_count": 4,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "name": "HX_028_TRAIL",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_01",
+      "design": "TRAIL",
+      "kind": "pixel",
+      "nodes": 80,
+      "start_channel": 4477,
+      "end_channel": 4716,
+      "bounds_ft": [
+        [
+          -67.0,
+          65.0,
+          5.0
+        ],
+        [
+          -51.0,
+          71.0,
+          5.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.125,
+      "max_snap_error_ft": 0.08068068850621925,
+      "pose_index": 1,
+      "pose_count": 4,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "name": "HX_029_STAR_RAY",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_02",
+      "design": "STAR RAY",
+      "kind": "pixel",
+      "nodes": 12,
+      "start_channel": 4717,
+      "end_channel": 4752,
+      "bounds_ft": [
+        [
+          6.0,
+          65.0,
+          10.0
+        ],
+        [
+          19.0,
+          65.0,
+          10.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.22727272727272663,
+      "pose_index": 2,
+      "pose_count": 4,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "name": "HX_030_STAR_RAY",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_02",
+      "design": "STAR RAY",
+      "kind": "pixel",
+      "nodes": 12,
+      "start_channel": 4753,
+      "end_channel": 4788,
+      "bounds_ft": [
+        [
+          5.5,
+          65.5,
+          10.0
+        ],
+        [
+          15.0,
+          75.0,
+          10.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.32265513737887674,
+      "pose_index": 2,
+      "pose_count": 4,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "name": "HX_031_STAR_RAY",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_02",
+      "design": "STAR RAY",
+      "kind": "pixel",
+      "nodes": 12,
+      "start_channel": 4789,
+      "end_channel": 4824,
+      "bounds_ft": [
+        [
+          5.0,
+          66.0,
+          10.0
+        ],
+        [
+          5.0,
+          79.0,
+          10.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.22727272727273373,
+      "pose_index": 2,
+      "pose_count": 4,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "name": "HX_032_STAR_RAY",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_02",
+      "design": "STAR RAY",
+      "kind": "pixel",
+      "nodes": 12,
+      "start_channel": 4825,
+      "end_channel": 4860,
+      "bounds_ft": [
+        [
+          -5.0,
+          65.5,
+          10.0
+        ],
+        [
+          4.5,
+          75.0,
+          10.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3226551373788755,
+      "pose_index": 2,
+      "pose_count": 4,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "name": "HX_033_STAR_RAY",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_02",
+      "design": "STAR RAY",
+      "kind": "pixel",
+      "nodes": 12,
+      "start_channel": 4861,
+      "end_channel": 4896,
+      "bounds_ft": [
+        [
+          -9.0,
+          65.0,
+          10.0
+        ],
+        [
+          4.0,
+          65.0,
+          10.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.22727272727272751,
+      "pose_index": 2,
+      "pose_count": 4,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "name": "HX_034_STAR_RAY",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_02",
+      "design": "STAR RAY",
+      "kind": "pixel",
+      "nodes": 12,
+      "start_channel": 4897,
+      "end_channel": 4932,
+      "bounds_ft": [
+        [
+          -5.0,
+          55.0,
+          10.0
+        ],
+        [
+          4.5,
+          64.5,
+          10.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.322655137378878,
+      "pose_index": 2,
+      "pose_count": 4,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "name": "HX_035_STAR_RAY",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_02",
+      "design": "STAR RAY",
+      "kind": "pixel",
+      "nodes": 12,
+      "start_channel": 4933,
+      "end_channel": 4968,
+      "bounds_ft": [
+        [
+          5.0,
+          51.0,
+          10.0
+        ],
+        [
+          5.0,
+          64.0,
+          10.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.22727272727272663,
+      "pose_index": 2,
+      "pose_count": 4,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "name": "HX_036_STAR_RAY",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_02",
+      "design": "STAR RAY",
+      "kind": "pixel",
+      "nodes": 12,
+      "start_channel": 4969,
+      "end_channel": 5004,
+      "bounds_ft": [
+        [
+          5.5,
+          55.0,
+          10.0
+        ],
+        [
+          15.0,
+          64.5,
+          10.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3226551373788755,
+      "pose_index": 2,
+      "pose_count": 4,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "name": "HX_037_SMEAR",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_02",
+      "design": "SMEAR",
+      "kind": "pixel",
+      "nodes": 80,
+      "start_channel": 5005,
+      "end_channel": 5244,
+      "bounds_ft": [
+        [
+          -75.0,
+          59.0,
+          10.0
+        ],
+        [
+          -1.0,
+          65.0,
+          10.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.32235016653789644,
+      "pose_index": 2,
+      "pose_count": 4,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "name": "HX_038_SMEAR",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_02",
+      "design": "SMEAR",
+      "kind": "pixel",
+      "nodes": 80,
+      "start_channel": 5245,
+      "end_channel": 5484,
+      "bounds_ft": [
+        [
+          -75.0,
+          65.0,
+          10.0
+        ],
+        [
+          -1.0,
+          65.0,
+          10.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.24683544303798044,
+      "pose_index": 2,
+      "pose_count": 4,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "name": "HX_039_SMEAR",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_02",
+      "design": "SMEAR",
+      "kind": "pixel",
+      "nodes": 80,
+      "start_channel": 5485,
+      "end_channel": 5724,
+      "bounds_ft": [
+        [
+          -75.0,
+          65.0,
+          10.0
+        ],
+        [
+          -1.0,
+          71.0,
+          10.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.32235016653789644,
+      "pose_index": 2,
+      "pose_count": 4,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "name": "HX_040_STAR_RAY",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_03",
+      "design": "STAR RAY",
+      "kind": "pixel",
+      "nodes": 12,
+      "start_channel": 5725,
+      "end_channel": 5760,
+      "bounds_ft": [
+        [
+          66.0,
+          65.0,
+          15.0
+        ],
+        [
+          79.0,
+          65.0,
+          15.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.22727272727273373,
+      "pose_index": 3,
+      "pose_count": 4,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "name": "HX_041_STAR_RAY",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_03",
+      "design": "STAR RAY",
+      "kind": "pixel",
+      "nodes": 12,
+      "start_channel": 5761,
+      "end_channel": 5796,
+      "bounds_ft": [
+        [
+          65.5,
+          65.5,
+          15.0
+        ],
+        [
+          75.0,
+          75.0,
+          15.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.32265513737887674,
+      "pose_index": 3,
+      "pose_count": 4,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "name": "HX_042_STAR_RAY",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_03",
+      "design": "STAR RAY",
+      "kind": "pixel",
+      "nodes": 12,
+      "start_channel": 5797,
+      "end_channel": 5832,
+      "bounds_ft": [
+        [
+          65.0,
+          66.0,
+          15.0
+        ],
+        [
+          65.0,
+          79.0,
+          15.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.22727272727273373,
+      "pose_index": 3,
+      "pose_count": 4,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "name": "HX_043_STAR_RAY",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_03",
+      "design": "STAR RAY",
+      "kind": "pixel",
+      "nodes": 12,
+      "start_channel": 5833,
+      "end_channel": 5868,
+      "bounds_ft": [
+        [
+          55.0,
+          65.5,
+          15.0
+        ],
+        [
+          64.5,
+          75.0,
+          15.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.32265513737887175,
+      "pose_index": 3,
+      "pose_count": 4,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "name": "HX_044_STAR_RAY",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_03",
+      "design": "STAR RAY",
+      "kind": "pixel",
+      "nodes": 12,
+      "start_channel": 5869,
+      "end_channel": 5904,
+      "bounds_ft": [
+        [
+          51.0,
+          65.0,
+          15.0
+        ],
+        [
+          64.0,
+          65.0,
+          15.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.22727272727272663,
+      "pose_index": 3,
+      "pose_count": 4,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "name": "HX_045_STAR_RAY",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_03",
+      "design": "STAR RAY",
+      "kind": "pixel",
+      "nodes": 12,
+      "start_channel": 5905,
+      "end_channel": 5940,
+      "bounds_ft": [
+        [
+          55.0,
+          55.0,
+          15.0
+        ],
+        [
+          64.5,
+          64.5,
+          15.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.32265513737887175,
+      "pose_index": 3,
+      "pose_count": 4,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "name": "HX_046_STAR_RAY",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_03",
+      "design": "STAR RAY",
+      "kind": "pixel",
+      "nodes": 12,
+      "start_channel": 5941,
+      "end_channel": 5976,
+      "bounds_ft": [
+        [
+          65.0,
+          51.0,
+          15.0
+        ],
+        [
+          65.0,
+          64.0,
+          15.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.22727272727272663,
+      "pose_index": 3,
+      "pose_count": 4,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "name": "HX_047_STAR_RAY",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_03",
+      "design": "STAR RAY",
+      "kind": "pixel",
+      "nodes": 12,
+      "start_channel": 5977,
+      "end_channel": 6012,
+      "bounds_ft": [
+        [
+          65.5,
+          55.0,
+          15.0
+        ],
+        [
+          75.0,
+          64.5,
+          15.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.32265513737887674,
+      "pose_index": 3,
+      "pose_count": 4,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "name": "HX_048_TRAIL",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_03",
+      "design": "TRAIL",
+      "kind": "pixel",
+      "nodes": 80,
+      "start_channel": 6013,
+      "end_channel": 6252,
+      "bounds_ft": [
+        [
+          43.0,
+          59.0,
+          15.0
+        ],
+        [
+          59.0,
+          65.0,
+          15.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.125,
+      "max_snap_error_ft": 0.08068068850621925,
+      "pose_index": 3,
+      "pose_count": 4,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "name": "HX_049_TRAIL",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_03",
+      "design": "TRAIL",
+      "kind": "pixel",
+      "nodes": 80,
+      "start_channel": 6253,
+      "end_channel": 6492,
+      "bounds_ft": [
+        [
+          43.0,
+          65.0,
+          15.0
+        ],
+        [
+          59.0,
+          65.0,
+          15.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.125,
+      "max_snap_error_ft": 0.06170886075949511,
+      "pose_index": 3,
+      "pose_count": 4,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "name": "HX_050_TRAIL",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_03",
+      "design": "TRAIL",
+      "kind": "pixel",
+      "nodes": 80,
+      "start_channel": 6493,
+      "end_channel": 6732,
+      "bounds_ft": [
+        [
+          43.0,
+          65.0,
+          15.0
+        ],
+        [
+          59.0,
+          71.0,
+          15.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.125,
+      "max_snap_error_ft": 0.08068068850621925,
+      "pose_index": 3,
+      "pose_count": 4,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3
+      ]
+    }
+  ],
+  "file_prefix": "Comet_Smear_Tunnel",
+  "description": "An elongated intermediate shape bridges discrete positions, giving the comet a sudden burst of speed.",
+  "palette": [
+    "#69EFFF",
+    "#B599FF",
+    "#FFD98A"
+  ],
+  "groups": {
+    "HX_ALL_PIXELS": [
+      "HX_001_TUNNEL_RING",
+      "HX_002_TUNNEL_RING",
+      "HX_003_TUNNEL_RING",
+      "HX_004_TUNNEL_RING",
+      "HX_005_TUNNEL_RING",
+      "HX_006_TUNNEL_RING",
+      "HX_007_STAR_RAY",
+      "HX_008_STAR_RAY",
+      "HX_009_STAR_RAY",
+      "HX_010_STAR_RAY",
+      "HX_011_STAR_RAY",
+      "HX_012_STAR_RAY",
+      "HX_013_STAR_RAY",
+      "HX_014_STAR_RAY",
+      "HX_015_TRAIL",
+      "HX_016_TRAIL",
+      "HX_017_TRAIL",
+      "HX_018_STAR_RAY",
+      "HX_019_STAR_RAY",
+      "HX_020_STAR_RAY",
+      "HX_021_STAR_RAY",
+      "HX_022_STAR_RAY",
+      "HX_023_STAR_RAY",
+      "HX_024_STAR_RAY",
+      "HX_025_STAR_RAY",
+      "HX_026_TRAIL",
+      "HX_027_TRAIL",
+      "HX_028_TRAIL",
+      "HX_029_STAR_RAY",
+      "HX_030_STAR_RAY",
+      "HX_031_STAR_RAY",
+      "HX_032_STAR_RAY",
+      "HX_033_STAR_RAY",
+      "HX_034_STAR_RAY",
+      "HX_035_STAR_RAY",
+      "HX_036_STAR_RAY",
+      "HX_037_SMEAR",
+      "HX_038_SMEAR",
+      "HX_039_SMEAR",
+      "HX_040_STAR_RAY",
+      "HX_041_STAR_RAY",
+      "HX_042_STAR_RAY",
+      "HX_043_STAR_RAY",
+      "HX_044_STAR_RAY",
+      "HX_045_STAR_RAY",
+      "HX_046_STAR_RAY",
+      "HX_047_STAR_RAY",
+      "HX_048_TRAIL",
+      "HX_049_TRAIL",
+      "HX_050_TRAIL"
+    ],
+    "HX_NATIVE_CUSTOM": [
+      "HX_001_TUNNEL_RING",
+      "HX_002_TUNNEL_RING",
+      "HX_003_TUNNEL_RING",
+      "HX_004_TUNNEL_RING",
+      "HX_005_TUNNEL_RING",
+      "HX_006_TUNNEL_RING",
+      "HX_007_STAR_RAY",
+      "HX_008_STAR_RAY",
+      "HX_009_STAR_RAY",
+      "HX_010_STAR_RAY",
+      "HX_011_STAR_RAY",
+      "HX_012_STAR_RAY",
+      "HX_013_STAR_RAY",
+      "HX_014_STAR_RAY",
+      "HX_015_TRAIL",
+      "HX_016_TRAIL",
+      "HX_017_TRAIL",
+      "HX_018_STAR_RAY",
+      "HX_019_STAR_RAY",
+      "HX_020_STAR_RAY",
+      "HX_021_STAR_RAY",
+      "HX_022_STAR_RAY",
+      "HX_023_STAR_RAY",
+      "HX_024_STAR_RAY",
+      "HX_025_STAR_RAY",
+      "HX_026_TRAIL",
+      "HX_027_TRAIL",
+      "HX_028_TRAIL",
+      "HX_029_STAR_RAY",
+      "HX_030_STAR_RAY",
+      "HX_031_STAR_RAY",
+      "HX_032_STAR_RAY",
+      "HX_033_STAR_RAY",
+      "HX_034_STAR_RAY",
+      "HX_035_STAR_RAY",
+      "HX_036_STAR_RAY",
+      "HX_037_SMEAR",
+      "HX_038_SMEAR",
+      "HX_039_SMEAR",
+      "HX_040_STAR_RAY",
+      "HX_041_STAR_RAY",
+      "HX_042_STAR_RAY",
+      "HX_043_STAR_RAY",
+      "HX_044_STAR_RAY",
+      "HX_045_STAR_RAY",
+      "HX_046_STAR_RAY",
+      "HX_047_STAR_RAY",
+      "HX_048_TRAIL",
+      "HX_049_TRAIL",
+      "HX_050_TRAIL"
+    ],
+    "HX_WHOLE_SHOW": [
+      "HX_001_TUNNEL_RING",
+      "HX_002_TUNNEL_RING",
+      "HX_003_TUNNEL_RING",
+      "HX_004_TUNNEL_RING",
+      "HX_005_TUNNEL_RING",
+      "HX_006_TUNNEL_RING",
+      "HX_007_STAR_RAY",
+      "HX_008_STAR_RAY",
+      "HX_009_STAR_RAY",
+      "HX_010_STAR_RAY",
+      "HX_011_STAR_RAY",
+      "HX_012_STAR_RAY",
+      "HX_013_STAR_RAY",
+      "HX_014_STAR_RAY",
+      "HX_015_TRAIL",
+      "HX_016_TRAIL",
+      "HX_017_TRAIL",
+      "HX_018_STAR_RAY",
+      "HX_019_STAR_RAY",
+      "HX_020_STAR_RAY",
+      "HX_021_STAR_RAY",
+      "HX_022_STAR_RAY",
+      "HX_023_STAR_RAY",
+      "HX_024_STAR_RAY",
+      "HX_025_STAR_RAY",
+      "HX_026_TRAIL",
+      "HX_027_TRAIL",
+      "HX_028_TRAIL",
+      "HX_029_STAR_RAY",
+      "HX_030_STAR_RAY",
+      "HX_031_STAR_RAY",
+      "HX_032_STAR_RAY",
+      "HX_033_STAR_RAY",
+      "HX_034_STAR_RAY",
+      "HX_035_STAR_RAY",
+      "HX_036_STAR_RAY",
+      "HX_037_SMEAR",
+      "HX_038_SMEAR",
+      "HX_039_SMEAR",
+      "HX_040_STAR_RAY",
+      "HX_041_STAR_RAY",
+      "HX_042_STAR_RAY",
+      "HX_043_STAR_RAY",
+      "HX_044_STAR_RAY",
+      "HX_045_STAR_RAY",
+      "HX_046_STAR_RAY",
+      "HX_047_STAR_RAY",
+      "HX_048_TRAIL",
+      "HX_049_TRAIL",
+      "HX_050_TRAIL"
+    ],
+    "HX_ZONE_POSE_BODY_00": [
+      "HX_007_STAR_RAY",
+      "HX_008_STAR_RAY",
+      "HX_009_STAR_RAY",
+      "HX_010_STAR_RAY",
+      "HX_011_STAR_RAY",
+      "HX_012_STAR_RAY",
+      "HX_013_STAR_RAY",
+      "HX_014_STAR_RAY",
+      "HX_015_TRAIL",
+      "HX_016_TRAIL",
+      "HX_017_TRAIL"
+    ],
+    "HX_ZONE_POSE_BODY_01": [
+      "HX_018_STAR_RAY",
+      "HX_019_STAR_RAY",
+      "HX_020_STAR_RAY",
+      "HX_021_STAR_RAY",
+      "HX_022_STAR_RAY",
+      "HX_023_STAR_RAY",
+      "HX_024_STAR_RAY",
+      "HX_025_STAR_RAY",
+      "HX_026_TRAIL",
+      "HX_027_TRAIL",
+      "HX_028_TRAIL"
+    ],
+    "HX_ZONE_POSE_BODY_02": [
+      "HX_029_STAR_RAY",
+      "HX_030_STAR_RAY",
+      "HX_031_STAR_RAY",
+      "HX_032_STAR_RAY",
+      "HX_033_STAR_RAY",
+      "HX_034_STAR_RAY",
+      "HX_035_STAR_RAY",
+      "HX_036_STAR_RAY",
+      "HX_037_SMEAR",
+      "HX_038_SMEAR",
+      "HX_039_SMEAR"
+    ],
+    "HX_ZONE_POSE_BODY_03": [
+      "HX_040_STAR_RAY",
+      "HX_041_STAR_RAY",
+      "HX_042_STAR_RAY",
+      "HX_043_STAR_RAY",
+      "HX_044_STAR_RAY",
+      "HX_045_STAR_RAY",
+      "HX_046_STAR_RAY",
+      "HX_047_STAR_RAY",
+      "HX_048_TRAIL",
+      "HX_049_TRAIL",
+      "HX_050_TRAIL"
+    ],
+    "HX_ZONE_TUNNEL": [
+      "HX_001_TUNNEL_RING",
+      "HX_002_TUNNEL_RING",
+      "HX_003_TUNNEL_RING",
+      "HX_004_TUNNEL_RING",
+      "HX_005_TUNNEL_RING",
+      "HX_006_TUNNEL_RING"
+    ]
+  },
+  "group_count": 8,
+  "concept_id": "61",
+  "source_art": "images/61_62.png",
+  "source_art_side": "left",
+  "build_status": "native planning layout",
+  "source_brief": {
+    "id": "61",
+    "name": "Comet Smear Tunnel",
+    "principle": "Smear frames",
+    "standout": "An elongated intermediate shape bridges discrete positions, giving the comet a sudden burst of speed.",
+    "scene": "A supported tunnel of silver/violet open ring frames with a cyan-and-gold comet made of finite star-head contours and long tapering light-strip replacement smear forms. Hero bright star-head with a dramatic elongated streak behind it, surrounding tunnel dark. Four bottom storyboard cells show compact comet at left, slightly moved comet, long elongated transitional smear, compact comet farther right. Explicit pose strip, no photographic motion blur, physical comet props static.",
+    "board": 10,
+    "side": "left",
+    "image": "images/61_62.png",
+    "status": "awaiting approval",
+    "source_catalog": "showcase/concepts/2026_10_09_stop_motion/concepts.json",
+    "description": "An elongated intermediate shape bridges discrete positions, giving the comet a sudden burst of speed.",
+    "constraint": "Finite artwork-guided planning geometry; no physical actuation or surveyed construction dimensions.",
+    "round": "stop_motion"
+  },
+  "sequence_type": "24-second silent Animation study",
+  "physical_output_networks": 0,
+  "limits": [
+    "Finite artwork-guided planning geometry; no physical actuation or surveyed construction dimensions.",
+    "Artwork-guided finite geometry, not a scanned/surveyed reconstruction.",
+    "No complete music sequence or musical drummer acceptance claimed."
+  ]
+}

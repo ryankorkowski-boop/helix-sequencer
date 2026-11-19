@@ -1,0 +1,1388 @@
+{
+  "audio_sha256": "4cd9ee35b65d359aa44ac4c9e01a256bbcaf3297458340fc512084bae1463913",
+  "method": "Hann-windowed hat-stem FFT power fractions, -10 to +50ms from model peak; no filtering or expected labels",
+  "events": [
+    {
+      "timestamp": 0.94,
+      "confidence": 0.3453758656978607,
+      "velocity": 0.4907,
+      "hat_stem_power_below_1khz": 0.2174515968063853,
+      "hat_stem_power_1_to_5khz": 0.6391610883253017,
+      "hat_stem_power_above_5khz": 0.1433873148683131,
+      "body_candidate_within_40ms": "kick",
+      "review_status": "unlabelled_signal_evidence"
+    },
+    {
+      "timestamp": 1.56,
+      "confidence": 0.3688647150993347,
+      "velocity": 0.2924,
+      "hat_stem_power_below_1khz": 0.04390198028501526,
+      "hat_stem_power_1_to_5khz": 0.02342839636151273,
+      "hat_stem_power_above_5khz": 0.9326696233534719,
+      "body_candidate_within_40ms": "snare",
+      "review_status": "unlabelled_signal_evidence"
+    },
+    {
+      "timestamp": 1.72,
+      "confidence": 0.6466024518013,
+      "velocity": 0.251,
+      "hat_stem_power_below_1khz": 0.0035489366642992774,
+      "hat_stem_power_1_to_5khz": 0.012690046216831879,
+      "hat_stem_power_above_5khz": 0.9837610171188691,
+      "body_candidate_within_40ms": "kick",
+      "review_status": "unlabelled_signal_evidence"
+    },
+    {
+      "timestamp": 1.89,
+      "confidence": 0.3497404158115387,
+      "velocity": 0.2067,
+      "hat_stem_power_below_1khz": 0.023345494993618765,
+      "hat_stem_power_1_to_5khz": 0.002360848711007615,
+      "hat_stem_power_above_5khz": 0.9742936562953735,
+      "body_candidate_within_40ms": "",
+      "review_status": "unlabelled_signal_evidence"
+    },
+    {
+      "timestamp": 2.04,
+      "confidence": 0.5511071681976318,
+      "velocity": 1.0,
+      "hat_stem_power_below_1khz": 0.9390097287013793,
+      "hat_stem_power_1_to_5khz": 0.055130911317684494,
+      "hat_stem_power_above_5khz": 0.005859359980936278,
+      "body_candidate_within_40ms": "snare",
+      "review_status": "unlabelled_signal_evidence"
+    },
+    {
+      "timestamp": 2.35,
+      "confidence": 0.31939342617988586,
+      "velocity": 0.355,
+      "hat_stem_power_below_1khz": 0.31570026368126464,
+      "hat_stem_power_1_to_5khz": 0.03184324693917455,
+      "hat_stem_power_above_5khz": 0.6524564893795609,
+      "body_candidate_within_40ms": "",
+      "review_status": "unlabelled_signal_evidence"
+    },
+    {
+      "timestamp": 2.51,
+      "confidence": 0.5504124164581299,
+      "velocity": 0.2744,
+      "hat_stem_power_below_1khz": 0.18840979905340605,
+      "hat_stem_power_1_to_5khz": 0.3099889846898024,
+      "hat_stem_power_above_5khz": 0.5016012162567915,
+      "body_candidate_within_40ms": "kick",
+      "review_status": "unlabelled_signal_evidence"
+    },
+    {
+      "timestamp": 2.66,
+      "confidence": 0.3998468518257141,
+      "velocity": 0.4374,
+      "hat_stem_power_below_1khz": 0.09552918409196748,
+      "hat_stem_power_1_to_5khz": 0.05754335052102745,
+      "hat_stem_power_above_5khz": 0.8469274653870051,
+      "body_candidate_within_40ms": "snare",
+      "review_status": "unlabelled_signal_evidence"
+    },
+    {
+      "timestamp": 2.98,
+      "confidence": 0.414872944355011,
+      "velocity": 0.4883,
+      "hat_stem_power_below_1khz": 0.5736908399029264,
+      "hat_stem_power_1_to_5khz": 0.14248813368580335,
+      "hat_stem_power_above_5khz": 0.2838210264112701,
+      "body_candidate_within_40ms": "snare",
+      "review_status": "unlabelled_signal_evidence"
+    },
+    {
+      "timestamp": 3.14,
+      "confidence": 0.37883955240249634,
+      "velocity": 0.2927,
+      "hat_stem_power_below_1khz": 0.30114094692995036,
+      "hat_stem_power_1_to_5khz": 0.03087582814444732,
+      "hat_stem_power_above_5khz": 0.6679832249256024,
+      "body_candidate_within_40ms": "",
+      "review_status": "unlabelled_signal_evidence"
+    },
+    {
+      "timestamp": 3.29,
+      "confidence": 0.4893210530281067,
+      "velocity": 1.0,
+      "hat_stem_power_below_1khz": 0.9620363951548453,
+      "hat_stem_power_1_to_5khz": 0.03197662512072452,
+      "hat_stem_power_above_5khz": 0.005986979724430297,
+      "body_candidate_within_40ms": "snare",
+      "review_status": "unlabelled_signal_evidence"
+    },
+    {
+      "timestamp": 3.61,
+      "confidence": 0.40137040615081787,
+      "velocity": 0.5511,
+      "hat_stem_power_below_1khz": 0.49642577241254165,
+      "hat_stem_power_1_to_5khz": 0.07701513021316046,
+      "hat_stem_power_above_5khz": 0.42655909737429787,
+      "body_candidate_within_40ms": "",
+      "review_status": "unlabelled_signal_evidence"
+    },
+    {
+      "timestamp": 3.77,
+      "confidence": 0.2766146957874298,
+      "velocity": 0.4516,
+      "hat_stem_power_below_1khz": 0.6358821579235479,
+      "hat_stem_power_1_to_5khz": 0.2096677651697679,
+      "hat_stem_power_above_5khz": 0.15445007690668422,
+      "body_candidate_within_40ms": "snare",
+      "review_status": "unlabelled_signal_evidence"
+    },
+    {
+      "timestamp": 3.92,
+      "confidence": 0.35038885474205017,
+      "velocity": 0.54,
+      "hat_stem_power_below_1khz": 0.4974573094356466,
+      "hat_stem_power_1_to_5khz": 0.18416889283719445,
+      "hat_stem_power_above_5khz": 0.318373797727159,
+      "body_candidate_within_40ms": "",
+      "review_status": "unlabelled_signal_evidence"
+    },
+    {
+      "timestamp": 4.07,
+      "confidence": 0.5641806721687317,
+      "velocity": 0.3299,
+      "hat_stem_power_below_1khz": 0.2811578435898049,
+      "hat_stem_power_1_to_5khz": 0.3689219397502348,
+      "hat_stem_power_above_5khz": 0.3499202166599604,
+      "body_candidate_within_40ms": "kick",
+      "review_status": "unlabelled_signal_evidence"
+    },
+    {
+      "timestamp": 4.23,
+      "confidence": 0.7721579074859619,
+      "velocity": 0.3188,
+      "hat_stem_power_below_1khz": 0.09741508766874671,
+      "hat_stem_power_1_to_5khz": 0.06452311226431938,
+      "hat_stem_power_above_5khz": 0.838061800066934,
+      "body_candidate_within_40ms": "kick",
+      "review_status": "unlabelled_signal_evidence"
+    },
+    {
+      "timestamp": 4.39,
+      "confidence": 0.6430871486663818,
+      "velocity": 0.2995,
+      "hat_stem_power_below_1khz": 0.06783660948800521,
+      "hat_stem_power_1_to_5khz": 0.04807110620757013,
+      "hat_stem_power_above_5khz": 0.884092284304425,
+      "body_candidate_within_40ms": "",
+      "review_status": "unlabelled_signal_evidence"
+    },
+    {
+      "timestamp": 4.55,
+      "confidence": 0.600943386554718,
+      "velocity": 0.8628,
+      "hat_stem_power_below_1khz": 0.9468702923714806,
+      "hat_stem_power_1_to_5khz": 0.03775536873140691,
+      "hat_stem_power_above_5khz": 0.015374338897112691,
+      "body_candidate_within_40ms": "snare",
+      "review_status": "unlabelled_signal_evidence"
+    },
+    {
+      "timestamp": 4.7,
+      "confidence": 0.3027190566062927,
+      "velocity": 0.445,
+      "hat_stem_power_below_1khz": 0.4630733360741275,
+      "hat_stem_power_1_to_5khz": 0.23218315654561852,
+      "hat_stem_power_above_5khz": 0.304743507380254,
+      "body_candidate_within_40ms": "snare",
+      "review_status": "unlabelled_signal_evidence"
+    },
+    {
+      "timestamp": 4.86,
+      "confidence": 0.4330514371395111,
+      "velocity": 0.4264,
+      "hat_stem_power_below_1khz": 0.5959655305431207,
+      "hat_stem_power_1_to_5khz": 0.09657072301884534,
+      "hat_stem_power_above_5khz": 0.3074637464380342,
+      "body_candidate_within_40ms": "",
+      "review_status": "unlabelled_signal_evidence"
+    },
+    {
+      "timestamp": 5.01,
+      "confidence": 0.7016616463661194,
+      "velocity": 0.2858,
+      "hat_stem_power_below_1khz": 0.08165509049481852,
+      "hat_stem_power_1_to_5khz": 0.008909231927783959,
+      "hat_stem_power_above_5khz": 0.9094356775773973,
+      "body_candidate_within_40ms": "kick",
+      "review_status": "unlabelled_signal_evidence"
+    },
+    {
+      "timestamp": 5.16,
+      "confidence": 0.5777357220649719,
+      "velocity": 0.4441,
+      "hat_stem_power_below_1khz": 0.3992724276653363,
+      "hat_stem_power_1_to_5khz": 0.34265798230399314,
+      "hat_stem_power_above_5khz": 0.25806959003067037,
+      "body_candidate_within_40ms": "",
+      "review_status": "unlabelled_signal_evidence"
+    },
+    {
+      "timestamp": 5.32,
+      "confidence": 0.6479155421257019,
+      "velocity": 0.3076,
+      "hat_stem_power_below_1khz": 0.006942949163081547,
+      "hat_stem_power_1_to_5khz": 0.000556801715158988,
+      "hat_stem_power_above_5khz": 0.9925002491217595,
+      "body_candidate_within_40ms": "kick",
+      "review_status": "unlabelled_signal_evidence"
+    },
+    {
+      "timestamp": 5.48,
+      "confidence": 0.36090585589408875,
+      "velocity": 0.3745,
+      "hat_stem_power_below_1khz": 0.03402335908290679,
+      "hat_stem_power_1_to_5khz": 0.24810264931387857,
+      "hat_stem_power_above_5khz": 0.7178739916032147,
+      "body_candidate_within_40ms": "kick",
+      "review_status": "unlabelled_signal_evidence"
+    },
+    {
+      "timestamp": 5.79,
+      "confidence": 0.6551122069358826,
+      "velocity": 1.0,
+      "hat_stem_power_below_1khz": 0.8156565443342074,
+      "hat_stem_power_1_to_5khz": 0.1776232771562868,
+      "hat_stem_power_above_5khz": 0.0067201785095057165,
+      "body_candidate_within_40ms": "snare",
+      "review_status": "unlabelled_signal_evidence"
+    },
+    {
+      "timestamp": 5.95,
+      "confidence": 0.43686339259147644,
+      "velocity": 0.3684,
+      "hat_stem_power_below_1khz": 0.19923533758154066,
+      "hat_stem_power_1_to_5khz": 0.25963199409366544,
+      "hat_stem_power_above_5khz": 0.5411326683247939,
+      "body_candidate_within_40ms": "snare",
+      "review_status": "unlabelled_signal_evidence"
+    },
+    {
+      "timestamp": 6.1,
+      "confidence": 0.49219053983688354,
+      "velocity": 0.4174,
+      "hat_stem_power_below_1khz": 0.17592079667438565,
+      "hat_stem_power_1_to_5khz": 0.22714156582275008,
+      "hat_stem_power_above_5khz": 0.5969376375028643,
+      "body_candidate_within_40ms": "",
+      "review_status": "unlabelled_signal_evidence"
+    },
+    {
+      "timestamp": 6.25,
+      "confidence": 0.6303437352180481,
+      "velocity": 0.3003,
+      "hat_stem_power_below_1khz": 0.013172697330374131,
+      "hat_stem_power_1_to_5khz": 0.07415669213554928,
+      "hat_stem_power_above_5khz": 0.9126706105340764,
+      "body_candidate_within_40ms": "kick",
+      "review_status": "unlabelled_signal_evidence"
+    },
+    {
+      "timestamp": 6.41,
+      "confidence": 0.5287883877754211,
+      "velocity": 0.3852,
+      "hat_stem_power_below_1khz": 0.11525977710421191,
+      "hat_stem_power_1_to_5khz": 0.20540813492998863,
+      "hat_stem_power_above_5khz": 0.6793320879657995,
+      "body_candidate_within_40ms": "",
+      "review_status": "unlabelled_signal_evidence"
+    },
+    {
+      "timestamp": 6.57,
+      "confidence": 0.4739626348018646,
+      "velocity": 0.414,
+      "hat_stem_power_below_1khz": 0.0610952249749065,
+      "hat_stem_power_1_to_5khz": 0.08722578065324574,
+      "hat_stem_power_above_5khz": 0.8516789943718478,
+      "body_candidate_within_40ms": "snare",
+      "review_status": "unlabelled_signal_evidence"
+    },
+    {
+      "timestamp": 6.72,
+      "confidence": 0.8096361756324768,
+      "velocity": 0.2973,
+      "hat_stem_power_below_1khz": 0.1971319195812625,
+      "hat_stem_power_1_to_5khz": 0.3512838595231466,
+      "hat_stem_power_above_5khz": 0.4515842208955909,
+      "body_candidate_within_40ms": "kick",
+      "review_status": "unlabelled_signal_evidence"
+    },
+    {
+      "timestamp": 6.88,
+      "confidence": 0.6844480633735657,
+      "velocity": 0.2717,
+      "hat_stem_power_below_1khz": 0.017051874048069966,
+      "hat_stem_power_1_to_5khz": 0.11766744994268646,
+      "hat_stem_power_above_5khz": 0.8652806760092436,
+      "body_candidate_within_40ms": "",
+      "review_status": "unlabelled_signal_evidence"
+    },
+    {
+      "timestamp": 7.04,
+      "confidence": 0.670120120048523,
+      "velocity": 0.9054,
+      "hat_stem_power_below_1khz": 0.9922953543666807,
+      "hat_stem_power_1_to_5khz": 0.0049139477129701474,
+      "hat_stem_power_above_5khz": 0.002790697920349042,
+      "body_candidate_within_40ms": "snare",
+      "review_status": "unlabelled_signal_evidence"
+    },
+    {
+      "timestamp": 7.2,
+      "confidence": 0.514881432056427,
+      "velocity": 0.3054,
+      "hat_stem_power_below_1khz": 0.28335573078797494,
+      "hat_stem_power_1_to_5khz": 0.10800658792477259,
+      "hat_stem_power_above_5khz": 0.6086376812872524,
+      "body_candidate_within_40ms": "kick",
+      "review_status": "unlabelled_signal_evidence"
+    },
+    {
+      "timestamp": 7.35,
+      "confidence": 0.5707544684410095,
+      "velocity": 0.3967,
+      "hat_stem_power_below_1khz": 0.4206847414844227,
+      "hat_stem_power_1_to_5khz": 0.3154711622070226,
+      "hat_stem_power_above_5khz": 0.26384409630855465,
+      "body_candidate_within_40ms": "",
+      "review_status": "unlabelled_signal_evidence"
+    },
+    {
+      "timestamp": 7.51,
+      "confidence": 0.6985076665878296,
+      "velocity": 0.4651,
+      "hat_stem_power_below_1khz": 0.36370594700248504,
+      "hat_stem_power_1_to_5khz": 0.44472598525287954,
+      "hat_stem_power_above_5khz": 0.19156806774463547,
+      "body_candidate_within_40ms": "kick",
+      "review_status": "unlabelled_signal_evidence"
+    },
+    {
+      "timestamp": 7.66,
+      "confidence": 0.506571888923645,
+      "velocity": 0.4259,
+      "hat_stem_power_below_1khz": 0.3604084928896994,
+      "hat_stem_power_1_to_5khz": 0.4037018980557347,
+      "hat_stem_power_above_5khz": 0.2358896090545659,
+      "body_candidate_within_40ms": "",
+      "review_status": "unlabelled_signal_evidence"
+    },
+    {
+      "timestamp": 7.82,
+      "confidence": 0.3431926965713501,
+      "velocity": 0.4526,
+      "hat_stem_power_below_1khz": 0.27807779747369504,
+      "hat_stem_power_1_to_5khz": 0.4111206411165626,
+      "hat_stem_power_above_5khz": 0.31080156140974236,
+      "body_candidate_within_40ms": "snare",
+      "review_status": "unlabelled_signal_evidence"
+    },
+    {
+      "timestamp": 7.97,
+      "confidence": 0.4085448980331421,
+      "velocity": 0.3938,
+      "hat_stem_power_below_1khz": 0.6721910563929216,
+      "hat_stem_power_1_to_5khz": 0.0854733822344293,
+      "hat_stem_power_above_5khz": 0.24233556137264906,
+      "body_candidate_within_40ms": "",
+      "review_status": "unlabelled_signal_evidence"
+    },
+    {
+      "timestamp": 8.13,
+      "confidence": 0.376144677400589,
+      "velocity": 0.4849,
+      "hat_stem_power_below_1khz": 0.19065443758703027,
+      "hat_stem_power_1_to_5khz": 0.7441566664754903,
+      "hat_stem_power_above_5khz": 0.06518889593747934,
+      "body_candidate_within_40ms": "kick",
+      "review_status": "unlabelled_signal_evidence"
+    },
+    {
+      "timestamp": 8.29,
+      "confidence": 0.5487270951271057,
+      "velocity": 1.0,
+      "hat_stem_power_below_1khz": 0.9517339447103083,
+      "hat_stem_power_1_to_5khz": 0.040764410441670826,
+      "hat_stem_power_above_5khz": 0.00750164484802108,
+      "body_candidate_within_40ms": "snare",
+      "review_status": "unlabelled_signal_evidence"
+    },
+    {
+      "timestamp": 8.44,
+      "confidence": 0.4006500840187073,
+      "velocity": 0.532,
+      "hat_stem_power_below_1khz": 0.6012230984929565,
+      "hat_stem_power_1_to_5khz": 0.35487528212997893,
+      "hat_stem_power_above_5khz": 0.04390161937706475,
+      "body_candidate_within_40ms": "kick",
+      "review_status": "unlabelled_signal_evidence"
+    },
+    {
+      "timestamp": 8.6,
+      "confidence": 0.5353712439537048,
+      "velocity": 0.4008,
+      "hat_stem_power_below_1khz": 0.3177938449646982,
+      "hat_stem_power_1_to_5khz": 0.46347310617277193,
+      "hat_stem_power_above_5khz": 0.21873304886252995,
+      "body_candidate_within_40ms": "",
+      "review_status": "unlabelled_signal_evidence"
+    },
+    {
+      "timestamp": 8.91,
+      "confidence": 0.33970320224761963,
+      "velocity": 0.4397,
+      "hat_stem_power_below_1khz": 0.42679184520551605,
+      "hat_stem_power_1_to_5khz": 0.4220875001826132,
+      "hat_stem_power_above_5khz": 0.15112065461187074,
+      "body_candidate_within_40ms": "",
+      "review_status": "unlabelled_signal_evidence"
+    },
+    {
+      "timestamp": 12.04,
+      "confidence": 0.3893570005893707,
+      "velocity": 0.3011,
+      "hat_stem_power_below_1khz": 0.0015219641468094472,
+      "hat_stem_power_1_to_5khz": 0.0022938913412866016,
+      "hat_stem_power_above_5khz": 0.9961841445119038,
+      "body_candidate_within_40ms": "",
+      "review_status": "unlabelled_signal_evidence"
+    },
+    {
+      "timestamp": 12.34,
+      "confidence": 0.4984228312969208,
+      "velocity": 0.4222,
+      "hat_stem_power_below_1khz": 0.0007898260386379179,
+      "hat_stem_power_1_to_5khz": 0.12891383413355925,
+      "hat_stem_power_above_5khz": 0.8702963398278026,
+      "body_candidate_within_40ms": "",
+      "review_status": "unlabelled_signal_evidence"
+    },
+    {
+      "timestamp": 12.66,
+      "confidence": 0.6291645169258118,
+      "velocity": 0.3053,
+      "hat_stem_power_below_1khz": 0.0028136110027473576,
+      "hat_stem_power_1_to_5khz": 0.1122206044348093,
+      "hat_stem_power_above_5khz": 0.8849657845624436,
+      "body_candidate_within_40ms": "",
+      "review_status": "unlabelled_signal_evidence"
+    },
+    {
+      "timestamp": 12.82,
+      "confidence": 0.44836997985839844,
+      "velocity": 0.187,
+      "hat_stem_power_below_1khz": 9.300040974084225e-05,
+      "hat_stem_power_1_to_5khz": 0.005951994535683058,
+      "hat_stem_power_above_5khz": 0.9939550050545761,
+      "body_candidate_within_40ms": "",
+      "review_status": "unlabelled_signal_evidence"
+    },
+    {
+      "timestamp": 12.97,
+      "confidence": 0.5931096076965332,
+      "velocity": 0.4213,
+      "hat_stem_power_below_1khz": 0.009316117845763335,
+      "hat_stem_power_1_to_5khz": 0.19006036368467372,
+      "hat_stem_power_above_5khz": 0.800623518469563,
+      "body_candidate_within_40ms": "",
+      "review_status": "unlabelled_signal_evidence"
+    },
+    {
+      "timestamp": 13.13,
+      "confidence": 0.4546550214290619,
+      "velocity": 0.162,
+      "hat_stem_power_below_1khz": 0.0004137037628305738,
+      "hat_stem_power_1_to_5khz": 0.006984013439707573,
+      "hat_stem_power_above_5khz": 0.9926022827974617,
+      "body_candidate_within_40ms": "",
+      "review_status": "unlabelled_signal_evidence"
+    },
+    {
+      "timestamp": 13.28,
+      "confidence": 0.5886324644088745,
+      "velocity": 0.4095,
+      "hat_stem_power_below_1khz": 0.02355610316376944,
+      "hat_stem_power_1_to_5khz": 0.20403234472821596,
+      "hat_stem_power_above_5khz": 0.7724115521080146,
+      "body_candidate_within_40ms": "",
+      "review_status": "unlabelled_signal_evidence"
+    },
+    {
+      "timestamp": 13.44,
+      "confidence": 0.48108136653900146,
+      "velocity": 0.1358,
+      "hat_stem_power_below_1khz": 0.00046619889618167913,
+      "hat_stem_power_1_to_5khz": 0.003861989675513076,
+      "hat_stem_power_above_5khz": 0.9956718114283053,
+      "body_candidate_within_40ms": "",
+      "review_status": "unlabelled_signal_evidence"
+    },
+    {
+      "timestamp": 13.59,
+      "confidence": 0.5897276401519775,
+      "velocity": 0.4009,
+      "hat_stem_power_below_1khz": 0.00040935357074885236,
+      "hat_stem_power_1_to_5khz": 0.16886806785927233,
+      "hat_stem_power_above_5khz": 0.830722578569979,
+      "body_candidate_within_40ms": "",
+      "review_status": "unlabelled_signal_evidence"
+    },
+    {
+      "timestamp": 13.75,
+      "confidence": 0.5556076169013977,
+      "velocity": 0.1944,
+      "hat_stem_power_below_1khz": 0.00016722142670691075,
+      "hat_stem_power_1_to_5khz": 0.02129646225913449,
+      "hat_stem_power_above_5khz": 0.9785363163141586,
+      "body_candidate_within_40ms": "",
+      "review_status": "unlabelled_signal_evidence"
+    },
+    {
+      "timestamp": 13.91,
+      "confidence": 0.6186811923980713,
+      "velocity": 0.351,
+      "hat_stem_power_below_1khz": 0.0032096337841590644,
+      "hat_stem_power_1_to_5khz": 0.17760065594978375,
+      "hat_stem_power_above_5khz": 0.8191897102660574,
+      "body_candidate_within_40ms": "",
+      "review_status": "unlabelled_signal_evidence"
+    },
+    {
+      "timestamp": 14.07,
+      "confidence": 0.617743968963623,
+      "velocity": 0.2046,
+      "hat_stem_power_below_1khz": 8.85304100031475e-05,
+      "hat_stem_power_1_to_5khz": 0.08678168080068681,
+      "hat_stem_power_above_5khz": 0.9131297887893102,
+      "body_candidate_within_40ms": "",
+      "review_status": "unlabelled_signal_evidence"
+    },
+    {
+      "timestamp": 14.23,
+      "confidence": 0.5894303917884827,
+      "velocity": 0.4438,
+      "hat_stem_power_below_1khz": 0.0006980260155816122,
+      "hat_stem_power_1_to_5khz": 0.1976241163631327,
+      "hat_stem_power_above_5khz": 0.8016778576212857,
+      "body_candidate_within_40ms": "",
+      "review_status": "unlabelled_signal_evidence"
+    },
+    {
+      "timestamp": 14.38,
+      "confidence": 0.4663873016834259,
+      "velocity": 0.1762,
+      "hat_stem_power_below_1khz": 0.00012346858300138193,
+      "hat_stem_power_1_to_5khz": 0.00334306633144294,
+      "hat_stem_power_above_5khz": 0.9965334650855557,
+      "body_candidate_within_40ms": "",
+      "review_status": "unlabelled_signal_evidence"
+    },
+    {
+      "timestamp": 14.54,
+      "confidence": 0.5649285912513733,
+      "velocity": 0.3993,
+      "hat_stem_power_below_1khz": 0.04260507251086656,
+      "hat_stem_power_1_to_5khz": 0.08547166101552782,
+      "hat_stem_power_above_5khz": 0.8719232664736057,
+      "body_candidate_within_40ms": "",
+      "review_status": "unlabelled_signal_evidence"
+    },
+    {
+      "timestamp": 14.7,
+      "confidence": 0.6280567049980164,
+      "velocity": 0.1993,
+      "hat_stem_power_below_1khz": 0.0007880879090321028,
+      "hat_stem_power_1_to_5khz": 0.0029405307508363777,
+      "hat_stem_power_above_5khz": 0.9962713813401317,
+      "body_candidate_within_40ms": "",
+      "review_status": "unlabelled_signal_evidence"
+    },
+    {
+      "timestamp": 14.85,
+      "confidence": 0.5411072373390198,
+      "velocity": 0.4312,
+      "hat_stem_power_below_1khz": 0.08459000523516498,
+      "hat_stem_power_1_to_5khz": 0.16990869414488138,
+      "hat_stem_power_above_5khz": 0.7455013006199536,
+      "body_candidate_within_40ms": "snare",
+      "review_status": "unlabelled_signal_evidence"
+    },
+    {
+      "timestamp": 15.01,
+      "confidence": 0.7366646528244019,
+      "velocity": 0.2514,
+      "hat_stem_power_below_1khz": 0.002127845891765206,
+      "hat_stem_power_1_to_5khz": 0.05230570823223841,
+      "hat_stem_power_above_5khz": 0.9455664458759964,
+      "body_candidate_within_40ms": "",
+      "review_status": "unlabelled_signal_evidence"
+    },
+    {
+      "timestamp": 15.16,
+      "confidence": 0.6132245659828186,
+      "velocity": 0.4683,
+      "hat_stem_power_below_1khz": 0.00624195904955488,
+      "hat_stem_power_1_to_5khz": 0.1402511824761944,
+      "hat_stem_power_above_5khz": 0.8535068584742507,
+      "body_candidate_within_40ms": "",
+      "review_status": "unlabelled_signal_evidence"
+    },
+    {
+      "timestamp": 15.32,
+      "confidence": 0.6670721173286438,
+      "velocity": 0.2367,
+      "hat_stem_power_below_1khz": 0.002963252560156502,
+      "hat_stem_power_1_to_5khz": 0.23965877703913227,
+      "hat_stem_power_above_5khz": 0.7573779704007113,
+      "body_candidate_within_40ms": "",
+      "review_status": "unlabelled_signal_evidence"
+    },
+    {
+      "timestamp": 15.4,
+      "confidence": 0.5362344980239868,
+      "velocity": 0.1881,
+      "hat_stem_power_below_1khz": 0.001510900397436373,
+      "hat_stem_power_1_to_5khz": 0.24935855212174218,
+      "hat_stem_power_above_5khz": 0.7491305474808215,
+      "body_candidate_within_40ms": "",
+      "review_status": "unlabelled_signal_evidence"
+    },
+    {
+      "timestamp": 15.48,
+      "confidence": 0.60443115234375,
+      "velocity": 0.4889,
+      "hat_stem_power_below_1khz": 0.013812120166588143,
+      "hat_stem_power_1_to_5khz": 0.1953722550088357,
+      "hat_stem_power_above_5khz": 0.7908156248245759,
+      "body_candidate_within_40ms": "",
+      "review_status": "unlabelled_signal_evidence"
+    },
+    {
+      "timestamp": 15.63,
+      "confidence": 0.6115688681602478,
+      "velocity": 0.2572,
+      "hat_stem_power_below_1khz": 0.01173267327906243,
+      "hat_stem_power_1_to_5khz": 0.12811275823219992,
+      "hat_stem_power_above_5khz": 0.8601545684887377,
+      "body_candidate_within_40ms": "",
+      "review_status": "unlabelled_signal_evidence"
+    },
+    {
+      "timestamp": 15.79,
+      "confidence": 0.49615800380706787,
+      "velocity": 0.4732,
+      "hat_stem_power_below_1khz": 0.0490613004280636,
+      "hat_stem_power_1_to_5khz": 0.39785573384064665,
+      "hat_stem_power_above_5khz": 0.5530829657312899,
+      "body_candidate_within_40ms": "",
+      "review_status": "unlabelled_signal_evidence"
+    },
+    {
+      "timestamp": 15.94,
+      "confidence": 0.5859615802764893,
+      "velocity": 0.3527,
+      "hat_stem_power_below_1khz": 0.2719983261052138,
+      "hat_stem_power_1_to_5khz": 0.18706286653176632,
+      "hat_stem_power_above_5khz": 0.5409388073630199,
+      "body_candidate_within_40ms": "",
+      "review_status": "unlabelled_signal_evidence"
+    },
+    {
+      "timestamp": 16.1,
+      "confidence": 0.5981385111808777,
+      "velocity": 0.3819,
+      "hat_stem_power_below_1khz": 0.034182207833500206,
+      "hat_stem_power_1_to_5khz": 0.19548939430010207,
+      "hat_stem_power_above_5khz": 0.7703283978663976,
+      "body_candidate_within_40ms": "",
+      "review_status": "unlabelled_signal_evidence"
+    },
+    {
+      "timestamp": 16.73,
+      "confidence": 0.48426517844200134,
+      "velocity": 0.2988,
+      "hat_stem_power_below_1khz": 0.18442077139554489,
+      "hat_stem_power_1_to_5khz": 0.015036310583281044,
+      "hat_stem_power_above_5khz": 0.8005429180211739,
+      "body_candidate_within_40ms": "snare",
+      "review_status": "unlabelled_signal_evidence"
+    },
+    {
+      "timestamp": 17.04,
+      "confidence": 0.5237564444541931,
+      "velocity": 0.329,
+      "hat_stem_power_below_1khz": 0.0006143004211082903,
+      "hat_stem_power_1_to_5khz": 0.01550000703301458,
+      "hat_stem_power_above_5khz": 0.9838856925458771,
+      "body_candidate_within_40ms": "",
+      "review_status": "unlabelled_signal_evidence"
+    },
+    {
+      "timestamp": 17.2,
+      "confidence": 0.6049404144287109,
+      "velocity": 0.2179,
+      "hat_stem_power_below_1khz": 0.001651917461309873,
+      "hat_stem_power_1_to_5khz": 0.006862922294409398,
+      "hat_stem_power_above_5khz": 0.9914851602442807,
+      "body_candidate_within_40ms": "",
+      "review_status": "unlabelled_signal_evidence"
+    },
+    {
+      "timestamp": 17.35,
+      "confidence": 0.6032090187072754,
+      "velocity": 0.4625,
+      "hat_stem_power_below_1khz": 0.001458232169684967,
+      "hat_stem_power_1_to_5khz": 0.14431393404956144,
+      "hat_stem_power_above_5khz": 0.8542278337807536,
+      "body_candidate_within_40ms": "",
+      "review_status": "unlabelled_signal_evidence"
+    },
+    {
+      "timestamp": 17.51,
+      "confidence": 0.5318388938903809,
+      "velocity": 0.2681,
+      "hat_stem_power_below_1khz": 0.00019868525831766244,
+      "hat_stem_power_1_to_5khz": 0.0039417195302713275,
+      "hat_stem_power_above_5khz": 0.995859595211411,
+      "body_candidate_within_40ms": "",
+      "review_status": "unlabelled_signal_evidence"
+    },
+    {
+      "timestamp": 17.67,
+      "confidence": 0.6199238300323486,
+      "velocity": 0.3899,
+      "hat_stem_power_below_1khz": 0.023080478826516978,
+      "hat_stem_power_1_to_5khz": 0.1961081830620593,
+      "hat_stem_power_above_5khz": 0.7808113381114237,
+      "body_candidate_within_40ms": "",
+      "review_status": "unlabelled_signal_evidence"
+    },
+    {
+      "timestamp": 17.82,
+      "confidence": 0.5067453384399414,
+      "velocity": 0.2338,
+      "hat_stem_power_below_1khz": 7.404616213834556e-05,
+      "hat_stem_power_1_to_5khz": 0.013505522693026259,
+      "hat_stem_power_above_5khz": 0.9864204311448352,
+      "body_candidate_within_40ms": "",
+      "review_status": "unlabelled_signal_evidence"
+    },
+    {
+      "timestamp": 17.98,
+      "confidence": 0.5851112604141235,
+      "velocity": 0.5182,
+      "hat_stem_power_below_1khz": 0.034000655349292384,
+      "hat_stem_power_1_to_5khz": 0.2113813848490106,
+      "hat_stem_power_above_5khz": 0.7546179598016971,
+      "body_candidate_within_40ms": "",
+      "review_status": "unlabelled_signal_evidence"
+    },
+    {
+      "timestamp": 18.13,
+      "confidence": 0.6231638789176941,
+      "velocity": 0.2851,
+      "hat_stem_power_below_1khz": 5.3589969840803625e-05,
+      "hat_stem_power_1_to_5khz": 0.011453118796872525,
+      "hat_stem_power_above_5khz": 0.9884932912332869,
+      "body_candidate_within_40ms": "",
+      "review_status": "unlabelled_signal_evidence"
+    },
+    {
+      "timestamp": 18.29,
+      "confidence": 0.5848079919815063,
+      "velocity": 0.5281,
+      "hat_stem_power_below_1khz": 0.006488673088386186,
+      "hat_stem_power_1_to_5khz": 0.1759724452178505,
+      "hat_stem_power_above_5khz": 0.8175388816937635,
+      "body_candidate_within_40ms": "",
+      "review_status": "unlabelled_signal_evidence"
+    },
+    {
+      "timestamp": 18.45,
+      "confidence": 0.6611003279685974,
+      "velocity": 0.3277,
+      "hat_stem_power_below_1khz": 2.708591932721459e-05,
+      "hat_stem_power_1_to_5khz": 0.023678424119128967,
+      "hat_stem_power_above_5khz": 0.9762944899615437,
+      "body_candidate_within_40ms": "",
+      "review_status": "unlabelled_signal_evidence"
+    },
+    {
+      "timestamp": 18.6,
+      "confidence": 0.5000076293945312,
+      "velocity": 0.4776,
+      "hat_stem_power_below_1khz": 0.0007788195207794986,
+      "hat_stem_power_1_to_5khz": 0.2795188009547674,
+      "hat_stem_power_above_5khz": 0.719702379524453,
+      "body_candidate_within_40ms": "",
+      "review_status": "unlabelled_signal_evidence"
+    },
+    {
+      "timestamp": 18.91,
+      "confidence": 0.4395175874233246,
+      "velocity": 0.2255,
+      "hat_stem_power_below_1khz": 0.08576025756594605,
+      "hat_stem_power_1_to_5khz": 0.00028918430939888363,
+      "hat_stem_power_above_5khz": 0.9139505581246552,
+      "body_candidate_within_40ms": "snare",
+      "review_status": "unlabelled_signal_evidence"
+    },
+    {
+      "timestamp": 19.23,
+      "confidence": 0.7514987587928772,
+      "velocity": 0.2744,
+      "hat_stem_power_below_1khz": 0.0005900180802686556,
+      "hat_stem_power_1_to_5khz": 0.022483153889060303,
+      "hat_stem_power_above_5khz": 0.976926828030671,
+      "body_candidate_within_40ms": "kick",
+      "review_status": "unlabelled_signal_evidence"
+    },
+    {
+      "timestamp": 19.39,
+      "confidence": 0.3268800675868988,
+      "velocity": 0.23,
+      "hat_stem_power_below_1khz": 0.07062492440142491,
+      "hat_stem_power_1_to_5khz": 0.0004456273003984692,
+      "hat_stem_power_above_5khz": 0.9289294482981766,
+      "body_candidate_within_40ms": "snare",
+      "review_status": "unlabelled_signal_evidence"
+    },
+    {
+      "timestamp": 19.54,
+      "confidence": 0.4017123281955719,
+      "velocity": 0.3048,
+      "hat_stem_power_below_1khz": 0.001173366452590741,
+      "hat_stem_power_1_to_5khz": 0.010147192432207056,
+      "hat_stem_power_above_5khz": 0.9886794411152022,
+      "body_candidate_within_40ms": "kick",
+      "review_status": "unlabelled_signal_evidence"
+    },
+    {
+      "timestamp": 19.7,
+      "confidence": 0.32802340388298035,
+      "velocity": 0.2929,
+      "hat_stem_power_below_1khz": 0.0001800729936871262,
+      "hat_stem_power_1_to_5khz": 0.006408550798595595,
+      "hat_stem_power_above_5khz": 0.9934113762077172,
+      "body_candidate_within_40ms": "kick",
+      "review_status": "unlabelled_signal_evidence"
+    },
+    {
+      "timestamp": 22.04,
+      "confidence": 0.49823692440986633,
+      "velocity": 1.0,
+      "hat_stem_power_below_1khz": 0.9107472773492525,
+      "hat_stem_power_1_to_5khz": 0.06403287031837893,
+      "hat_stem_power_above_5khz": 0.025219852332368342,
+      "body_candidate_within_40ms": "snare",
+      "review_status": "unlabelled_signal_evidence"
+    },
+    {
+      "timestamp": 22.36,
+      "confidence": 0.5128882527351379,
+      "velocity": 0.4549,
+      "hat_stem_power_below_1khz": 0.15427230064764869,
+      "hat_stem_power_1_to_5khz": 0.4393406486848962,
+      "hat_stem_power_above_5khz": 0.4063870506674552,
+      "body_candidate_within_40ms": "",
+      "review_status": "unlabelled_signal_evidence"
+    },
+    {
+      "timestamp": 22.51,
+      "confidence": 0.7158780097961426,
+      "velocity": 0.4243,
+      "hat_stem_power_below_1khz": 0.009114873616063286,
+      "hat_stem_power_1_to_5khz": 0.3795843096158874,
+      "hat_stem_power_above_5khz": 0.6113008167680494,
+      "body_candidate_within_40ms": "kick",
+      "review_status": "unlabelled_signal_evidence"
+    },
+    {
+      "timestamp": 22.67,
+      "confidence": 0.6886723637580872,
+      "velocity": 0.4837,
+      "hat_stem_power_below_1khz": 0.00808660175592004,
+      "hat_stem_power_1_to_5khz": 0.11316575877349158,
+      "hat_stem_power_above_5khz": 0.8787476394705883,
+      "body_candidate_within_40ms": "",
+      "review_status": "unlabelled_signal_evidence"
+    },
+    {
+      "timestamp": 22.83,
+      "confidence": 0.6153743863105774,
+      "velocity": 0.3922,
+      "hat_stem_power_below_1khz": 0.0035061363872087524,
+      "hat_stem_power_1_to_5khz": 0.15846316922564874,
+      "hat_stem_power_above_5khz": 0.8380306943871425,
+      "body_candidate_within_40ms": "",
+      "review_status": "unlabelled_signal_evidence"
+    },
+    {
+      "timestamp": 22.98,
+      "confidence": 0.7636182904243469,
+      "velocity": 0.4447,
+      "hat_stem_power_below_1khz": 0.010115843834535225,
+      "hat_stem_power_1_to_5khz": 0.2355648877302178,
+      "hat_stem_power_above_5khz": 0.7543192684352469,
+      "body_candidate_within_40ms": "kick",
+      "review_status": "unlabelled_signal_evidence"
+    },
+    {
+      "timestamp": 23.14,
+      "confidence": 0.554422914981842,
+      "velocity": 0.3851,
+      "hat_stem_power_below_1khz": 0.023207160046890943,
+      "hat_stem_power_1_to_5khz": 0.18243846364952696,
+      "hat_stem_power_above_5khz": 0.7943543763035821,
+      "body_candidate_within_40ms": "",
+      "review_status": "unlabelled_signal_evidence"
+    },
+    {
+      "timestamp": 23.29,
+      "confidence": 0.5281367897987366,
+      "velocity": 1.0,
+      "hat_stem_power_below_1khz": 0.9928958214459858,
+      "hat_stem_power_1_to_5khz": 0.0003968674944451915,
+      "hat_stem_power_above_5khz": 0.0067073110595688035,
+      "body_candidate_within_40ms": "snare",
+      "review_status": "unlabelled_signal_evidence"
+    },
+    {
+      "timestamp": 23.45,
+      "confidence": 0.5808194875717163,
+      "velocity": 0.4962,
+      "hat_stem_power_below_1khz": 0.39779127674782316,
+      "hat_stem_power_1_to_5khz": 0.3218646833942413,
+      "hat_stem_power_above_5khz": 0.28034403985793543,
+      "body_candidate_within_40ms": "",
+      "review_status": "unlabelled_signal_evidence"
+    },
+    {
+      "timestamp": 23.61,
+      "confidence": 0.5578049421310425,
+      "velocity": 0.5608,
+      "hat_stem_power_below_1khz": 0.0337793408518562,
+      "hat_stem_power_1_to_5khz": 0.191324027359795,
+      "hat_stem_power_above_5khz": 0.7748966317883487,
+      "body_candidate_within_40ms": "",
+      "review_status": "unlabelled_signal_evidence"
+    },
+    {
+      "timestamp": 23.76,
+      "confidence": 0.7465270757675171,
+      "velocity": 0.2596,
+      "hat_stem_power_below_1khz": 0.2332091058680876,
+      "hat_stem_power_1_to_5khz": 0.28902441646295146,
+      "hat_stem_power_above_5khz": 0.47776647766896096,
+      "body_candidate_within_40ms": "kick",
+      "review_status": "unlabelled_signal_evidence"
+    },
+    {
+      "timestamp": 23.92,
+      "confidence": 0.6491191983222961,
+      "velocity": 0.4142,
+      "hat_stem_power_below_1khz": 0.03535773112969526,
+      "hat_stem_power_1_to_5khz": 0.23270998551878636,
+      "hat_stem_power_above_5khz": 0.7319322833515184,
+      "body_candidate_within_40ms": "",
+      "review_status": "unlabelled_signal_evidence"
+    },
+    {
+      "timestamp": 24.08,
+      "confidence": 0.6295837759971619,
+      "velocity": 0.3481,
+      "hat_stem_power_below_1khz": 0.000581725213803267,
+      "hat_stem_power_1_to_5khz": 0.09570440073644958,
+      "hat_stem_power_above_5khz": 0.9037138740497471,
+      "body_candidate_within_40ms": "",
+      "review_status": "unlabelled_signal_evidence"
+    },
+    {
+      "timestamp": 24.23,
+      "confidence": 0.7536278963088989,
+      "velocity": 0.2608,
+      "hat_stem_power_below_1khz": 7.216858146832404e-05,
+      "hat_stem_power_1_to_5khz": 0.0002812439269533905,
+      "hat_stem_power_above_5khz": 0.9996465874915784,
+      "body_candidate_within_40ms": "kick",
+      "review_status": "unlabelled_signal_evidence"
+    },
+    {
+      "timestamp": 24.39,
+      "confidence": 0.5621980428695679,
+      "velocity": 0.2776,
+      "hat_stem_power_below_1khz": 0.0836847035230652,
+      "hat_stem_power_1_to_5khz": 0.12048875249107609,
+      "hat_stem_power_above_5khz": 0.7958265439858588,
+      "body_candidate_within_40ms": "",
+      "review_status": "unlabelled_signal_evidence"
+    },
+    {
+      "timestamp": 24.54,
+      "confidence": 0.6447191834449768,
+      "velocity": 0.5881,
+      "hat_stem_power_below_1khz": 0.9027887173356761,
+      "hat_stem_power_1_to_5khz": 0.04860522508939807,
+      "hat_stem_power_above_5khz": 0.04860605757492554,
+      "body_candidate_within_40ms": "snare",
+      "review_status": "unlabelled_signal_evidence"
+    },
+    {
+      "timestamp": 24.7,
+      "confidence": 0.5868495106697083,
+      "velocity": 0.3777,
+      "hat_stem_power_below_1khz": 0.4044363210507418,
+      "hat_stem_power_1_to_5khz": 0.3179900352178669,
+      "hat_stem_power_above_5khz": 0.27757364373139126,
+      "body_candidate_within_40ms": "",
+      "review_status": "unlabelled_signal_evidence"
+    },
+    {
+      "timestamp": 24.86,
+      "confidence": 0.5389885306358337,
+      "velocity": 0.3636,
+      "hat_stem_power_below_1khz": 0.30188649024786474,
+      "hat_stem_power_1_to_5khz": 0.3670695331122946,
+      "hat_stem_power_above_5khz": 0.3310439766398407,
+      "body_candidate_within_40ms": "",
+      "review_status": "unlabelled_signal_evidence"
+    },
+    {
+      "timestamp": 25.01,
+      "confidence": 0.766453742980957,
+      "velocity": 0.2312,
+      "hat_stem_power_below_1khz": 0.042234596951933226,
+      "hat_stem_power_1_to_5khz": 0.019716459707591175,
+      "hat_stem_power_above_5khz": 0.9380489433404756,
+      "body_candidate_within_40ms": "kick",
+      "review_status": "unlabelled_signal_evidence"
+    },
+    {
+      "timestamp": 25.17,
+      "confidence": 0.666663408279419,
+      "velocity": 0.3592,
+      "hat_stem_power_below_1khz": 0.012501668277180985,
+      "hat_stem_power_1_to_5khz": 0.5593062517019363,
+      "hat_stem_power_above_5khz": 0.4281920800208828,
+      "body_candidate_within_40ms": "",
+      "review_status": "unlabelled_signal_evidence"
+    },
+    {
+      "timestamp": 25.33,
+      "confidence": 0.5891900658607483,
+      "velocity": 0.3815,
+      "hat_stem_power_below_1khz": 0.014290148394450274,
+      "hat_stem_power_1_to_5khz": 0.49245406290418386,
+      "hat_stem_power_above_5khz": 0.4932557887013658,
+      "body_candidate_within_40ms": "",
+      "review_status": "unlabelled_signal_evidence"
+    },
+    {
+      "timestamp": 25.48,
+      "confidence": 0.7183467745780945,
+      "velocity": 0.2982,
+      "hat_stem_power_below_1khz": 0.14450758889668755,
+      "hat_stem_power_1_to_5khz": 0.37259484305440815,
+      "hat_stem_power_above_5khz": 0.48289756804890427,
+      "body_candidate_within_40ms": "kick",
+      "review_status": "unlabelled_signal_evidence"
+    },
+    {
+      "timestamp": 25.64,
+      "confidence": 0.7256666421890259,
+      "velocity": 0.2371,
+      "hat_stem_power_below_1khz": 0.036221009627537624,
+      "hat_stem_power_1_to_5khz": 0.00816023671153189,
+      "hat_stem_power_above_5khz": 0.9556187536609305,
+      "body_candidate_within_40ms": "kick",
+      "review_status": "unlabelled_signal_evidence"
+    },
+    {
+      "timestamp": 25.8,
+      "confidence": 0.5482569336891174,
+      "velocity": 0.6597,
+      "hat_stem_power_below_1khz": 0.9463411301978679,
+      "hat_stem_power_1_to_5khz": 7.420698324924284e-05,
+      "hat_stem_power_above_5khz": 0.05358466281888305,
+      "body_candidate_within_40ms": "snare",
+      "review_status": "unlabelled_signal_evidence"
+    },
+    {
+      "timestamp": 25.95,
+      "confidence": 0.6419157981872559,
+      "velocity": 0.3108,
+      "hat_stem_power_below_1khz": 0.15026399441539348,
+      "hat_stem_power_1_to_5khz": 0.322640800180097,
+      "hat_stem_power_above_5khz": 0.5270952054045095,
+      "body_candidate_within_40ms": "kick",
+      "review_status": "unlabelled_signal_evidence"
+    },
+    {
+      "timestamp": 26.1,
+      "confidence": 0.5549131035804749,
+      "velocity": 0.381,
+      "hat_stem_power_below_1khz": 0.12695226880772983,
+      "hat_stem_power_1_to_5khz": 0.5511494674141443,
+      "hat_stem_power_above_5khz": 0.32189826377812597,
+      "body_candidate_within_40ms": "",
+      "review_status": "unlabelled_signal_evidence"
+    },
+    {
+      "timestamp": 26.26,
+      "confidence": 0.348238468170166,
+      "velocity": 0.3418,
+      "hat_stem_power_below_1khz": 0.02303323417328708,
+      "hat_stem_power_1_to_5khz": 0.5714628440159546,
+      "hat_stem_power_above_5khz": 0.4055039218107582,
+      "body_candidate_within_40ms": "kick",
+      "review_status": "unlabelled_signal_evidence"
+    },
+    {
+      "timestamp": 26.41,
+      "confidence": 0.2952183485031128,
+      "velocity": 0.3326,
+      "hat_stem_power_below_1khz": 0.011245900900048414,
+      "hat_stem_power_1_to_5khz": 0.30740830213903536,
+      "hat_stem_power_above_5khz": 0.6813457969609162,
+      "body_candidate_within_40ms": "",
+      "review_status": "unlabelled_signal_evidence"
+    },
+    {
+      "timestamp": 26.57,
+      "confidence": 0.7126047015190125,
+      "velocity": 0.2236,
+      "hat_stem_power_below_1khz": 0.006779515738315494,
+      "hat_stem_power_1_to_5khz": 0.14501652985446714,
+      "hat_stem_power_above_5khz": 0.8482039544072174,
+      "body_candidate_within_40ms": "kick",
+      "review_status": "unlabelled_signal_evidence"
+    },
+    {
+      "timestamp": 26.73,
+      "confidence": 0.4917723834514618,
+      "velocity": 0.3863,
+      "hat_stem_power_below_1khz": 0.060584745315135365,
+      "hat_stem_power_1_to_5khz": 0.6386696377147906,
+      "hat_stem_power_above_5khz": 0.30074561697007407,
+      "body_candidate_within_40ms": "kick",
+      "review_status": "unlabelled_signal_evidence"
+    },
+    {
+      "timestamp": 27.05,
+      "confidence": 0.5332446694374084,
+      "velocity": 0.9968,
+      "hat_stem_power_below_1khz": 0.9867460726414661,
+      "hat_stem_power_1_to_5khz": 0.0024513911037057135,
+      "hat_stem_power_above_5khz": 0.010802536254828266,
+      "body_candidate_within_40ms": "snare",
+      "review_status": "unlabelled_signal_evidence"
+    },
+    {
+      "timestamp": 27.21,
+      "confidence": 0.6448798179626465,
+      "velocity": 0.3787,
+      "hat_stem_power_below_1khz": 0.14092096148556388,
+      "hat_stem_power_1_to_5khz": 0.1805065127081707,
+      "hat_stem_power_above_5khz": 0.6785725258062654,
+      "body_candidate_within_40ms": "",
+      "review_status": "unlabelled_signal_evidence"
+    },
+    {
+      "timestamp": 27.36,
+      "confidence": 0.7176616787910461,
+      "velocity": 0.3535,
+      "hat_stem_power_below_1khz": 0.006053575723393195,
+      "hat_stem_power_1_to_5khz": 0.054159346168967205,
+      "hat_stem_power_above_5khz": 0.9397870781076398,
+      "body_candidate_within_40ms": "",
+      "review_status": "unlabelled_signal_evidence"
+    },
+    {
+      "timestamp": 27.51,
+      "confidence": 0.8581663966178894,
+      "velocity": 0.2242,
+      "hat_stem_power_below_1khz": 0.021178416887924167,
+      "hat_stem_power_1_to_5khz": 0.020341891127229988,
+      "hat_stem_power_above_5khz": 0.958479691984846,
+      "body_candidate_within_40ms": "kick",
+      "review_status": "unlabelled_signal_evidence"
+    },
+    {
+      "timestamp": 27.67,
+      "confidence": 0.703586995601654,
+      "velocity": 0.4412,
+      "hat_stem_power_below_1khz": 0.00047158569928821236,
+      "hat_stem_power_1_to_5khz": 0.13351640334835688,
+      "hat_stem_power_above_5khz": 0.8660120109523549,
+      "body_candidate_within_40ms": "",
+      "review_status": "unlabelled_signal_evidence"
+    },
+    {
+      "timestamp": 27.83,
+      "confidence": 0.8032306432723999,
+      "velocity": 0.2922,
+      "hat_stem_power_below_1khz": 0.0007363242246221131,
+      "hat_stem_power_1_to_5khz": 0.0007880575811615183,
+      "hat_stem_power_above_5khz": 0.9984756181942164,
+      "body_candidate_within_40ms": "kick",
+      "review_status": "unlabelled_signal_evidence"
+    },
+    {
+      "timestamp": 27.99,
+      "confidence": 0.8395710587501526,
+      "velocity": 0.2619,
+      "hat_stem_power_below_1khz": 0.00016489975702507181,
+      "hat_stem_power_1_to_5khz": 0.03312020884603964,
+      "hat_stem_power_above_5khz": 0.9667148913969352,
+      "body_candidate_within_40ms": "kick",
+      "review_status": "unlabelled_signal_evidence"
+    },
+    {
+      "timestamp": 28.14,
+      "confidence": 0.7028576731681824,
+      "velocity": 0.3052,
+      "hat_stem_power_below_1khz": 6.294150386885606e-05,
+      "hat_stem_power_1_to_5khz": 0.06360530275822222,
+      "hat_stem_power_above_5khz": 0.9363317557379088,
+      "body_candidate_within_40ms": "",
+      "review_status": "unlabelled_signal_evidence"
+    },
+    {
+      "timestamp": 28.3,
+      "confidence": 0.7524968981742859,
+      "velocity": 0.4774,
+      "hat_stem_power_below_1khz": 0.807238678375704,
+      "hat_stem_power_1_to_5khz": 0.03631198475505633,
+      "hat_stem_power_above_5khz": 0.15644933686923979,
+      "body_candidate_within_40ms": "snare",
+      "review_status": "unlabelled_signal_evidence"
+    },
+    {
+      "timestamp": 28.46,
+      "confidence": 0.7056900858879089,
+      "velocity": 0.3687,
+      "hat_stem_power_below_1khz": 0.0014525310306945363,
+      "hat_stem_power_1_to_5khz": 0.0779989933427041,
+      "hat_stem_power_above_5khz": 0.920548475626601,
+      "body_candidate_within_40ms": "",
+      "review_status": "unlabelled_signal_evidence"
+    },
+    {
+      "timestamp": 28.61,
+      "confidence": 0.69272381067276,
+      "velocity": 0.4821,
+      "hat_stem_power_below_1khz": 2.7373843163408878e-05,
+      "hat_stem_power_1_to_5khz": 0.14227060877947434,
+      "hat_stem_power_above_5khz": 0.8577020173773624,
+      "body_candidate_within_40ms": "",
+      "review_status": "unlabelled_signal_evidence"
+    },
+    {
+      "timestamp": 28.77,
+      "confidence": 0.6151848435401917,
+      "velocity": 0.2693,
+      "hat_stem_power_below_1khz": 3.7983470851731837e-05,
+      "hat_stem_power_1_to_5khz": 0.14174860178052875,
+      "hat_stem_power_above_5khz": 0.8582134147486195,
+      "body_candidate_within_40ms": "",
+      "review_status": "unlabelled_signal_evidence"
+    },
+    {
+      "timestamp": 28.85,
+      "confidence": 0.674201488494873,
+      "velocity": 0.2345,
+      "hat_stem_power_below_1khz": 4.260077751207498e-05,
+      "hat_stem_power_1_to_5khz": 0.18893483682789902,
+      "hat_stem_power_above_5khz": 0.8110225623945887,
+      "body_candidate_within_40ms": "",
+      "review_status": "unlabelled_signal_evidence"
+    },
+    {
+      "timestamp": 28.92,
+      "confidence": 0.8081225156784058,
+      "velocity": 0.3816,
+      "hat_stem_power_below_1khz": 0.00018085973188117286,
+      "hat_stem_power_1_to_5khz": 0.08534619105829289,
+      "hat_stem_power_above_5khz": 0.9144729492098262,
+      "body_candidate_within_40ms": "kick",
+      "review_status": "unlabelled_signal_evidence"
+    },
+    {
+      "timestamp": 29.08,
+      "confidence": 0.5847435593605042,
+      "velocity": 0.3373,
+      "hat_stem_power_below_1khz": 0.0001052042057474083,
+      "hat_stem_power_1_to_5khz": 0.17043685531009273,
+      "hat_stem_power_above_5khz": 0.8294579404841599,
+      "body_candidate_within_40ms": "",
+      "review_status": "unlabelled_signal_evidence"
+    },
+    {
+      "timestamp": 29.24,
+      "confidence": 0.604716956615448,
+      "velocity": 0.4186,
+      "hat_stem_power_below_1khz": 0.00045172339477987514,
+      "hat_stem_power_1_to_5khz": 0.11523955432755682,
+      "hat_stem_power_above_5khz": 0.8843087222776631,
+      "body_candidate_within_40ms": "",
+      "review_status": "unlabelled_signal_evidence"
+    },
+    {
+      "timestamp": 29.4,
+      "confidence": 0.6997201442718506,
+      "velocity": 0.301,
+      "hat_stem_power_below_1khz": 0.2042334120668135,
+      "hat_stem_power_1_to_5khz": 0.005064622456111883,
+      "hat_stem_power_above_5khz": 0.7907019654770747,
+      "body_candidate_within_40ms": "kick",
+      "review_status": "unlabelled_signal_evidence"
+    },
+    {
+      "timestamp": 29.55,
+      "confidence": 0.5504522323608398,
+      "velocity": 1.0,
+      "hat_stem_power_below_1khz": 0.9938743703401721,
+      "hat_stem_power_1_to_5khz": 6.10728693233775e-05,
+      "hat_stem_power_above_5khz": 0.006064556790504612,
+      "body_candidate_within_40ms": "snare",
+      "review_status": "unlabelled_signal_evidence"
+    },
+    {
+      "timestamp": 29.71,
+      "confidence": 0.7444407343864441,
+      "velocity": 0.2849,
+      "hat_stem_power_below_1khz": 0.07024141540155412,
+      "hat_stem_power_1_to_5khz": 0.012278126259973904,
+      "hat_stem_power_above_5khz": 0.9174804583384718,
+      "body_candidate_within_40ms": "kick",
+      "review_status": "unlabelled_signal_evidence"
+    },
+    {
+      "timestamp": 29.86,
+      "confidence": 0.5835662484169006,
+      "velocity": 0.3235,
+      "hat_stem_power_below_1khz": 0.039863455363262135,
+      "hat_stem_power_1_to_5khz": 0.2788782337008709,
+      "hat_stem_power_above_5khz": 0.6812583109358671,
+      "body_candidate_within_40ms": "",
+      "review_status": "unlabelled_signal_evidence"
+    },
+    {
+      "timestamp": 30.02,
+      "confidence": 0.3419136106967926,
+      "velocity": 0.5275,
+      "hat_stem_power_below_1khz": 0.4526472352518454,
+      "hat_stem_power_1_to_5khz": 0.42441945501880524,
+      "hat_stem_power_above_5khz": 0.12293330972934924,
+      "body_candidate_within_40ms": "kick",
+      "review_status": "unlabelled_signal_evidence"
+    }
+  ],
+  "hat_stem_sha256": "ff865c428fafccbbc807b9348b48a5a8770e005b60ce52ddcd590b43126e5c4d",
+  "note": "No human labels or detector filtering. Band fractions describe separator output, which can contain kick/snare leakage."
+}

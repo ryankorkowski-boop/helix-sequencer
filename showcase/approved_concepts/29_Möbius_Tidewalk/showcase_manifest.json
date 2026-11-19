@@ -1,0 +1,1744 @@
+{
+  "schema": "helix.approved_concept.v1",
+  "name": "M\u00f6bius Tidewalk",
+  "coordinate_system": "x-right, y-up, z-depth; design feet",
+  "xlights_source_ref": "6ceddc6b25a24d82754d4f9af28e18ee70b51f81",
+  "coverage": {
+    "Custom": 43
+  },
+  "native_families": [
+    "Custom"
+  ],
+  "native_coverage_complete": false,
+  "model_count": 43,
+  "rgb_pixels": 1700,
+  "channel_count": 5100,
+  "spiral_trees": 0,
+  "double_helices": 0,
+  "preview_contract": "Custom sparse-grid coordinates exactly match exported XML; native-family preview coordinates illustrate the authored geometry. Native xLights render/load evidence is recorded separately.",
+  "models": [
+    {
+      "name": "HX_001_MOBIUS_EDGE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "RIBBON",
+      "design": "MOBIUS EDGE",
+      "kind": "pixel",
+      "nodes": 300,
+      "start_channel": 1,
+      "end_channel": 900,
+      "bounds_ft": [
+        [
+          -75.5,
+          14.5,
+          -85.0
+        ],
+        [
+          89.0,
+          46.0,
+          65.5
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.40944804207363766
+    },
+    {
+      "name": "HX_002_MOBIUS_EDGE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "RIBBON",
+      "design": "MOBIUS EDGE",
+      "kind": "pixel",
+      "nodes": 300,
+      "start_channel": 901,
+      "end_channel": 1800,
+      "bounds_ft": [
+        [
+          -75.0,
+          25.0,
+          -75.0
+        ],
+        [
+          75.0,
+          55.0,
+          75.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.40785232302321117
+    },
+    {
+      "name": "HX_003_MOBIUS_EDGE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "RIBBON",
+      "design": "MOBIUS EDGE",
+      "kind": "pixel",
+      "nodes": 300,
+      "start_channel": 1801,
+      "end_channel": 2700,
+      "bounds_ft": [
+        [
+          -75.5,
+          34.0,
+          -65.5
+        ],
+        [
+          89.0,
+          65.5,
+          85.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.40944804207364477
+    },
+    {
+      "name": "HX_004_RIBBON_RUNG",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "RUNGS",
+      "design": "RIBBON RUNG",
+      "kind": "pixel",
+      "nodes": 20,
+      "start_channel": 2701,
+      "end_channel": 2760,
+      "bounds_ft": [
+        [
+          61.0,
+          40.0,
+          0.0
+        ],
+        [
+          89.0,
+          40.0,
+          0.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.23684210526316463
+    },
+    {
+      "name": "HX_005_RIBBON_RUNG",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "RUNGS",
+      "design": "RIBBON RUNG",
+      "kind": "pixel",
+      "nodes": 20,
+      "start_channel": 2761,
+      "end_channel": 2820,
+      "bounds_ft": [
+        [
+          60.5,
+          41.0,
+          9.5
+        ],
+        [
+          88.0,
+          43.5,
+          14.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3553428467852581
+    },
+    {
+      "name": "HX_006_RIBBON_RUNG",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "RUNGS",
+      "design": "RIBBON RUNG",
+      "kind": "pixel",
+      "nodes": 20,
+      "start_channel": 2821,
+      "end_channel": 2880,
+      "bounds_ft": [
+        [
+          58.0,
+          42.5,
+          19.0
+        ],
+        [
+          84.5,
+          47.0,
+          27.5
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3585783562938008
+    },
+    {
+      "name": "HX_007_RIBBON_RUNG",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "RUNGS",
+      "design": "RIBBON RUNG",
+      "kind": "pixel",
+      "nodes": 20,
+      "start_channel": 2881,
+      "end_channel": 2940,
+      "bounds_ft": [
+        [
+          54.5,
+          43.5,
+          28.0
+        ],
+        [
+          79.0,
+          50.0,
+          40.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3794840172824562
+    },
+    {
+      "name": "HX_008_RIBBON_RUNG",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "RUNGS",
+      "design": "RIBBON RUNG",
+      "kind": "pixel",
+      "nodes": 20,
+      "start_channel": 2941,
+      "end_channel": 3000,
+      "bounds_ft": [
+        [
+          50.0,
+          44.5,
+          36.5
+        ],
+        [
+          71.5,
+          53.0,
+          52.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.37799443904814417
+    },
+    {
+      "name": "HX_009_RIBBON_RUNG",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "RUNGS",
+      "design": "RIBBON RUNG",
+      "kind": "pixel",
+      "nodes": 20,
+      "start_channel": 3001,
+      "end_channel": 3060,
+      "bounds_ft": [
+        [
+          44.0,
+          45.0,
+          44.0
+        ],
+        [
+          62.0,
+          56.0,
+          62.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.38515809538096907
+    },
+    {
+      "name": "HX_010_RIBBON_RUNG",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "RUNGS",
+      "design": "RIBBON RUNG",
+      "kind": "pixel",
+      "nodes": 20,
+      "start_channel": 3061,
+      "end_channel": 3120,
+      "bounds_ft": [
+        [
+          37.0,
+          46.0,
+          50.5
+        ],
+        [
+          51.5,
+          58.5,
+          71.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.361482422075305
+    },
+    {
+      "name": "HX_011_RIBBON_RUNG",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "RUNGS",
+      "design": "RIBBON RUNG",
+      "kind": "pixel",
+      "nodes": 20,
+      "start_channel": 3121,
+      "end_channel": 3180,
+      "bounds_ft": [
+        [
+          28.5,
+          46.0,
+          56.0
+        ],
+        [
+          39.5,
+          60.5,
+          77.5
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.33310172055724746
+    },
+    {
+      "name": "HX_012_RIBBON_RUNG",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "RUNGS",
+      "design": "RIBBON RUNG",
+      "kind": "pixel",
+      "nodes": 20,
+      "start_channel": 3181,
+      "end_channel": 3240,
+      "bounds_ft": [
+        [
+          19.5,
+          46.0,
+          60.5
+        ],
+        [
+          26.5,
+          62.5,
+          82.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3022724757538132
+    },
+    {
+      "name": "HX_013_RIBBON_RUNG",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "RUNGS",
+      "design": "RIBBON RUNG",
+      "kind": "pixel",
+      "nodes": 20,
+      "start_channel": 3241,
+      "end_channel": 3300,
+      "bounds_ft": [
+        [
+          10.0,
+          45.5,
+          63.5
+        ],
+        [
+          13.5,
+          64.0,
+          84.5
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.34607418034594667
+    },
+    {
+      "name": "HX_014_RIBBON_RUNG",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "RUNGS",
+      "design": "RIBBON RUNG",
+      "kind": "pixel",
+      "nodes": 20,
+      "start_channel": 3301,
+      "end_channel": 3360,
+      "bounds_ft": [
+        [
+          0.0,
+          45.0,
+          65.0
+        ],
+        [
+          0.0,
+          65.0,
+          85.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3270885648427055
+    },
+    {
+      "name": "HX_015_RIBBON_RUNG",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "RUNGS",
+      "design": "RIBBON RUNG",
+      "kind": "pixel",
+      "nodes": 20,
+      "start_channel": 3361,
+      "end_channel": 3420,
+      "bounds_ft": [
+        [
+          -13.0,
+          44.0,
+          65.0
+        ],
+        [
+          -10.5,
+          65.5,
+          83.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.35887926141035087
+    },
+    {
+      "name": "HX_016_RIBBON_RUNG",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "RUNGS",
+      "design": "RIBBON RUNG",
+      "kind": "pixel",
+      "nodes": 20,
+      "start_channel": 3421,
+      "end_channel": 3480,
+      "bounds_ft": [
+        [
+          -25.5,
+          43.0,
+          63.5
+        ],
+        [
+          -20.5,
+          65.5,
+          79.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3547365510860038
+    },
+    {
+      "name": "HX_017_RIBBON_RUNG",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "RUNGS",
+      "design": "RIBBON RUNG",
+      "kind": "pixel",
+      "nodes": 20,
+      "start_channel": 3481,
+      "end_channel": 3540,
+      "bounds_ft": [
+        [
+          -37.5,
+          41.5,
+          60.5
+        ],
+        [
+          -30.5,
+          65.5,
+          73.5
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3990520438538923
+    },
+    {
+      "name": "HX_018_RIBBON_RUNG",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "RUNGS",
+      "design": "RIBBON RUNG",
+      "kind": "pixel",
+      "nodes": 20,
+      "start_channel": 3541,
+      "end_channel": 3600,
+      "bounds_ft": [
+        [
+          -48.0,
+          39.5,
+          55.5
+        ],
+        [
+          -40.5,
+          64.5,
+          66.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3790400115688956
+    },
+    {
+      "name": "HX_019_RIBBON_RUNG",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "RUNGS",
+      "design": "RIBBON RUNG",
+      "kind": "pixel",
+      "nodes": 20,
+      "start_channel": 3601,
+      "end_channel": 3660,
+      "bounds_ft": [
+        [
+          -57.0,
+          37.5,
+          49.0
+        ],
+        [
+          -49.0,
+          63.5,
+          57.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.391451472087838
+    },
+    {
+      "name": "HX_020_RIBBON_RUNG",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "RUNGS",
+      "design": "RIBBON RUNG",
+      "kind": "pixel",
+      "nodes": 20,
+      "start_channel": 3661,
+      "end_channel": 3720,
+      "bounds_ft": [
+        [
+          -64.0,
+          35.5,
+          41.5
+        ],
+        [
+          -57.0,
+          62.0,
+          46.5
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3387691934633878
+    },
+    {
+      "name": "HX_021_RIBBON_RUNG",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "RUNGS",
+      "design": "RIBBON RUNG",
+      "kind": "pixel",
+      "nodes": 20,
+      "start_channel": 3721,
+      "end_channel": 3780,
+      "bounds_ft": [
+        [
+          -69.5,
+          33.0,
+          32.5
+        ],
+        [
+          -64.0,
+          60.5,
+          35.5
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.40234535140547767
+    },
+    {
+      "name": "HX_022_RIBBON_RUNG",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "RUNGS",
+      "design": "RIBBON RUNG",
+      "kind": "pixel",
+      "nodes": 20,
+      "start_channel": 3781,
+      "end_channel": 3840,
+      "bounds_ft": [
+        [
+          -73.5,
+          31.0,
+          22.5
+        ],
+        [
+          -69.0,
+          58.5,
+          24.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3239602170906004
+    },
+    {
+      "name": "HX_023_RIBBON_RUNG",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "RUNGS",
+      "design": "RIBBON RUNG",
+      "kind": "pixel",
+      "nodes": 20,
+      "start_channel": 3841,
+      "end_channel": 3900,
+      "bounds_ft": [
+        [
+          -75.0,
+          28.5,
+          11.5
+        ],
+        [
+          -73.0,
+          56.5,
+          12.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3488934215651108
+    },
+    {
+      "name": "HX_024_RIBBON_RUNG",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "RUNGS",
+      "design": "RIBBON RUNG",
+      "kind": "pixel",
+      "nodes": 20,
+      "start_channel": 3901,
+      "end_channel": 3960,
+      "bounds_ft": [
+        [
+          -75.0,
+          26.0,
+          0.0
+        ],
+        [
+          -75.0,
+          54.0,
+          0.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.23684210526316463
+    },
+    {
+      "name": "HX_025_RIBBON_RUNG",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "RUNGS",
+      "design": "RIBBON RUNG",
+      "kind": "pixel",
+      "nodes": 20,
+      "start_channel": 3961,
+      "end_channel": 4020,
+      "bounds_ft": [
+        [
+          -75.0,
+          23.5,
+          -12.0
+        ],
+        [
+          -73.0,
+          51.5,
+          -11.5
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3488934215651242
+    },
+    {
+      "name": "HX_026_RIBBON_RUNG",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "RUNGS",
+      "design": "RIBBON RUNG",
+      "kind": "pixel",
+      "nodes": 20,
+      "start_channel": 4021,
+      "end_channel": 4080,
+      "bounds_ft": [
+        [
+          -73.5,
+          21.5,
+          -24.0
+        ],
+        [
+          -69.0,
+          49.0,
+          -22.5
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.32396021709062267
+    },
+    {
+      "name": "HX_027_RIBBON_RUNG",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "RUNGS",
+      "design": "RIBBON RUNG",
+      "kind": "pixel",
+      "nodes": 20,
+      "start_channel": 4081,
+      "end_channel": 4140,
+      "bounds_ft": [
+        [
+          -69.5,
+          19.5,
+          -35.5
+        ],
+        [
+          -64.0,
+          47.0,
+          -32.5
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.40234535140548855
+    },
+    {
+      "name": "HX_028_RIBBON_RUNG",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "RUNGS",
+      "design": "RIBBON RUNG",
+      "kind": "pixel",
+      "nodes": 20,
+      "start_channel": 4141,
+      "end_channel": 4200,
+      "bounds_ft": [
+        [
+          -64.0,
+          18.0,
+          -46.5
+        ],
+        [
+          -57.0,
+          44.5,
+          -41.5
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.33876919346338513
+    },
+    {
+      "name": "HX_029_RIBBON_RUNG",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "RUNGS",
+      "design": "RIBBON RUNG",
+      "kind": "pixel",
+      "nodes": 20,
+      "start_channel": 4201,
+      "end_channel": 4260,
+      "bounds_ft": [
+        [
+          -57.0,
+          16.5,
+          -57.0
+        ],
+        [
+          -49.0,
+          42.5,
+          -49.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3914514720878422
+    },
+    {
+      "name": "HX_030_RIBBON_RUNG",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "RUNGS",
+      "design": "RIBBON RUNG",
+      "kind": "pixel",
+      "nodes": 20,
+      "start_channel": 4261,
+      "end_channel": 4320,
+      "bounds_ft": [
+        [
+          -48.0,
+          15.5,
+          -66.0
+        ],
+        [
+          -40.5,
+          40.5,
+          -55.5
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.37904001156887995
+    },
+    {
+      "name": "HX_031_RIBBON_RUNG",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "RUNGS",
+      "design": "RIBBON RUNG",
+      "kind": "pixel",
+      "nodes": 20,
+      "start_channel": 4321,
+      "end_channel": 4380,
+      "bounds_ft": [
+        [
+          -37.5,
+          14.5,
+          -73.5
+        ],
+        [
+          -30.5,
+          38.5,
+          -60.5
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3990520438538742
+    },
+    {
+      "name": "HX_032_RIBBON_RUNG",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "RUNGS",
+      "design": "RIBBON RUNG",
+      "kind": "pixel",
+      "nodes": 20,
+      "start_channel": 4381,
+      "end_channel": 4440,
+      "bounds_ft": [
+        [
+          -25.5,
+          14.5,
+          -79.0
+        ],
+        [
+          -20.5,
+          37.0,
+          -63.5
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.35473655108602004
+    },
+    {
+      "name": "HX_033_RIBBON_RUNG",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "RUNGS",
+      "design": "RIBBON RUNG",
+      "kind": "pixel",
+      "nodes": 20,
+      "start_channel": 4441,
+      "end_channel": 4500,
+      "bounds_ft": [
+        [
+          -13.0,
+          14.5,
+          -83.0
+        ],
+        [
+          -10.5,
+          36.0,
+          -65.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.35887926141033644
+    },
+    {
+      "name": "HX_034_RIBBON_RUNG",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "RUNGS",
+      "design": "RIBBON RUNG",
+      "kind": "pixel",
+      "nodes": 20,
+      "start_channel": 4501,
+      "end_channel": 4560,
+      "bounds_ft": [
+        [
+          0.0,
+          15.0,
+          -85.0
+        ],
+        [
+          0.0,
+          35.0,
+          -65.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.32708856484271304
+    },
+    {
+      "name": "HX_035_RIBBON_RUNG",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "RUNGS",
+      "design": "RIBBON RUNG",
+      "kind": "pixel",
+      "nodes": 20,
+      "start_channel": 4561,
+      "end_channel": 4620,
+      "bounds_ft": [
+        [
+          10.0,
+          16.0,
+          -84.5
+        ],
+        [
+          13.5,
+          34.5,
+          -63.5
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.34607418034593423
+    },
+    {
+      "name": "HX_036_RIBBON_RUNG",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "RUNGS",
+      "design": "RIBBON RUNG",
+      "kind": "pixel",
+      "nodes": 20,
+      "start_channel": 4621,
+      "end_channel": 4680,
+      "bounds_ft": [
+        [
+          19.5,
+          17.5,
+          -82.0
+        ],
+        [
+          26.5,
+          34.0,
+          -60.5
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.30227247575381216
+    },
+    {
+      "name": "HX_037_RIBBON_RUNG",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "RUNGS",
+      "design": "RIBBON RUNG",
+      "kind": "pixel",
+      "nodes": 20,
+      "start_channel": 4681,
+      "end_channel": 4740,
+      "bounds_ft": [
+        [
+          28.5,
+          19.5,
+          -77.5
+        ],
+        [
+          39.5,
+          34.0,
+          -56.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3331017205572321
+    },
+    {
+      "name": "HX_038_RIBBON_RUNG",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "RUNGS",
+      "design": "RIBBON RUNG",
+      "kind": "pixel",
+      "nodes": 20,
+      "start_channel": 4741,
+      "end_channel": 4800,
+      "bounds_ft": [
+        [
+          37.0,
+          21.5,
+          -71.0
+        ],
+        [
+          51.5,
+          34.0,
+          -50.5
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3614824220752896
+    },
+    {
+      "name": "HX_039_RIBBON_RUNG",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "RUNGS",
+      "design": "RIBBON RUNG",
+      "kind": "pixel",
+      "nodes": 20,
+      "start_channel": 4801,
+      "end_channel": 4860,
+      "bounds_ft": [
+        [
+          44.0,
+          24.0,
+          -62.0
+        ],
+        [
+          62.0,
+          35.0,
+          -44.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3851580953809675
+    },
+    {
+      "name": "HX_040_RIBBON_RUNG",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "RUNGS",
+      "design": "RIBBON RUNG",
+      "kind": "pixel",
+      "nodes": 20,
+      "start_channel": 4861,
+      "end_channel": 4920,
+      "bounds_ft": [
+        [
+          50.0,
+          27.0,
+          -52.0
+        ],
+        [
+          71.5,
+          35.5,
+          -36.5
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3779944390481352
+    },
+    {
+      "name": "HX_041_RIBBON_RUNG",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "RUNGS",
+      "design": "RIBBON RUNG",
+      "kind": "pixel",
+      "nodes": 20,
+      "start_channel": 4921,
+      "end_channel": 4980,
+      "bounds_ft": [
+        [
+          54.5,
+          30.0,
+          -40.0
+        ],
+        [
+          79.0,
+          36.5,
+          -28.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.37948401728245784
+    },
+    {
+      "name": "HX_042_RIBBON_RUNG",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "RUNGS",
+      "design": "RIBBON RUNG",
+      "kind": "pixel",
+      "nodes": 20,
+      "start_channel": 4981,
+      "end_channel": 5040,
+      "bounds_ft": [
+        [
+          58.0,
+          33.0,
+          -27.5
+        ],
+        [
+          84.5,
+          37.5,
+          -19.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.35857835629380347
+    },
+    {
+      "name": "HX_043_RIBBON_RUNG",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "RUNGS",
+      "design": "RIBBON RUNG",
+      "kind": "pixel",
+      "nodes": 20,
+      "start_channel": 5041,
+      "end_channel": 5100,
+      "bounds_ft": [
+        [
+          60.5,
+          36.5,
+          -14.0
+        ],
+        [
+          88.0,
+          39.0,
+          -9.5
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.35534284678524336
+    }
+  ],
+  "file_prefix": "M\u00f6bius_Tidewalk",
+  "description": "A continuous half-twist ribbon creates an inside/outside illusion that changes as viewers walk around it.",
+  "palette": [
+    "#69EFFF",
+    "#B599FF",
+    "#FFD98A"
+  ],
+  "groups": {
+    "HX_ALL_PIXELS": [
+      "HX_001_MOBIUS_EDGE",
+      "HX_002_MOBIUS_EDGE",
+      "HX_003_MOBIUS_EDGE",
+      "HX_004_RIBBON_RUNG",
+      "HX_005_RIBBON_RUNG",
+      "HX_006_RIBBON_RUNG",
+      "HX_007_RIBBON_RUNG",
+      "HX_008_RIBBON_RUNG",
+      "HX_009_RIBBON_RUNG",
+      "HX_010_RIBBON_RUNG",
+      "HX_011_RIBBON_RUNG",
+      "HX_012_RIBBON_RUNG",
+      "HX_013_RIBBON_RUNG",
+      "HX_014_RIBBON_RUNG",
+      "HX_015_RIBBON_RUNG",
+      "HX_016_RIBBON_RUNG",
+      "HX_017_RIBBON_RUNG",
+      "HX_018_RIBBON_RUNG",
+      "HX_019_RIBBON_RUNG",
+      "HX_020_RIBBON_RUNG",
+      "HX_021_RIBBON_RUNG",
+      "HX_022_RIBBON_RUNG",
+      "HX_023_RIBBON_RUNG",
+      "HX_024_RIBBON_RUNG",
+      "HX_025_RIBBON_RUNG",
+      "HX_026_RIBBON_RUNG",
+      "HX_027_RIBBON_RUNG",
+      "HX_028_RIBBON_RUNG",
+      "HX_029_RIBBON_RUNG",
+      "HX_030_RIBBON_RUNG",
+      "HX_031_RIBBON_RUNG",
+      "HX_032_RIBBON_RUNG",
+      "HX_033_RIBBON_RUNG",
+      "HX_034_RIBBON_RUNG",
+      "HX_035_RIBBON_RUNG",
+      "HX_036_RIBBON_RUNG",
+      "HX_037_RIBBON_RUNG",
+      "HX_038_RIBBON_RUNG",
+      "HX_039_RIBBON_RUNG",
+      "HX_040_RIBBON_RUNG",
+      "HX_041_RIBBON_RUNG",
+      "HX_042_RIBBON_RUNG",
+      "HX_043_RIBBON_RUNG"
+    ],
+    "HX_NATIVE_CUSTOM": [
+      "HX_001_MOBIUS_EDGE",
+      "HX_002_MOBIUS_EDGE",
+      "HX_003_MOBIUS_EDGE",
+      "HX_004_RIBBON_RUNG",
+      "HX_005_RIBBON_RUNG",
+      "HX_006_RIBBON_RUNG",
+      "HX_007_RIBBON_RUNG",
+      "HX_008_RIBBON_RUNG",
+      "HX_009_RIBBON_RUNG",
+      "HX_010_RIBBON_RUNG",
+      "HX_011_RIBBON_RUNG",
+      "HX_012_RIBBON_RUNG",
+      "HX_013_RIBBON_RUNG",
+      "HX_014_RIBBON_RUNG",
+      "HX_015_RIBBON_RUNG",
+      "HX_016_RIBBON_RUNG",
+      "HX_017_RIBBON_RUNG",
+      "HX_018_RIBBON_RUNG",
+      "HX_019_RIBBON_RUNG",
+      "HX_020_RIBBON_RUNG",
+      "HX_021_RIBBON_RUNG",
+      "HX_022_RIBBON_RUNG",
+      "HX_023_RIBBON_RUNG",
+      "HX_024_RIBBON_RUNG",
+      "HX_025_RIBBON_RUNG",
+      "HX_026_RIBBON_RUNG",
+      "HX_027_RIBBON_RUNG",
+      "HX_028_RIBBON_RUNG",
+      "HX_029_RIBBON_RUNG",
+      "HX_030_RIBBON_RUNG",
+      "HX_031_RIBBON_RUNG",
+      "HX_032_RIBBON_RUNG",
+      "HX_033_RIBBON_RUNG",
+      "HX_034_RIBBON_RUNG",
+      "HX_035_RIBBON_RUNG",
+      "HX_036_RIBBON_RUNG",
+      "HX_037_RIBBON_RUNG",
+      "HX_038_RIBBON_RUNG",
+      "HX_039_RIBBON_RUNG",
+      "HX_040_RIBBON_RUNG",
+      "HX_041_RIBBON_RUNG",
+      "HX_042_RIBBON_RUNG",
+      "HX_043_RIBBON_RUNG"
+    ],
+    "HX_WHOLE_SHOW": [
+      "HX_001_MOBIUS_EDGE",
+      "HX_002_MOBIUS_EDGE",
+      "HX_003_MOBIUS_EDGE",
+      "HX_004_RIBBON_RUNG",
+      "HX_005_RIBBON_RUNG",
+      "HX_006_RIBBON_RUNG",
+      "HX_007_RIBBON_RUNG",
+      "HX_008_RIBBON_RUNG",
+      "HX_009_RIBBON_RUNG",
+      "HX_010_RIBBON_RUNG",
+      "HX_011_RIBBON_RUNG",
+      "HX_012_RIBBON_RUNG",
+      "HX_013_RIBBON_RUNG",
+      "HX_014_RIBBON_RUNG",
+      "HX_015_RIBBON_RUNG",
+      "HX_016_RIBBON_RUNG",
+      "HX_017_RIBBON_RUNG",
+      "HX_018_RIBBON_RUNG",
+      "HX_019_RIBBON_RUNG",
+      "HX_020_RIBBON_RUNG",
+      "HX_021_RIBBON_RUNG",
+      "HX_022_RIBBON_RUNG",
+      "HX_023_RIBBON_RUNG",
+      "HX_024_RIBBON_RUNG",
+      "HX_025_RIBBON_RUNG",
+      "HX_026_RIBBON_RUNG",
+      "HX_027_RIBBON_RUNG",
+      "HX_028_RIBBON_RUNG",
+      "HX_029_RIBBON_RUNG",
+      "HX_030_RIBBON_RUNG",
+      "HX_031_RIBBON_RUNG",
+      "HX_032_RIBBON_RUNG",
+      "HX_033_RIBBON_RUNG",
+      "HX_034_RIBBON_RUNG",
+      "HX_035_RIBBON_RUNG",
+      "HX_036_RIBBON_RUNG",
+      "HX_037_RIBBON_RUNG",
+      "HX_038_RIBBON_RUNG",
+      "HX_039_RIBBON_RUNG",
+      "HX_040_RIBBON_RUNG",
+      "HX_041_RIBBON_RUNG",
+      "HX_042_RIBBON_RUNG",
+      "HX_043_RIBBON_RUNG"
+    ],
+    "HX_ZONE_RIBBON": [
+      "HX_001_MOBIUS_EDGE",
+      "HX_002_MOBIUS_EDGE",
+      "HX_003_MOBIUS_EDGE"
+    ],
+    "HX_ZONE_RUNGS": [
+      "HX_004_RIBBON_RUNG",
+      "HX_005_RIBBON_RUNG",
+      "HX_006_RIBBON_RUNG",
+      "HX_007_RIBBON_RUNG",
+      "HX_008_RIBBON_RUNG",
+      "HX_009_RIBBON_RUNG",
+      "HX_010_RIBBON_RUNG",
+      "HX_011_RIBBON_RUNG",
+      "HX_012_RIBBON_RUNG",
+      "HX_013_RIBBON_RUNG",
+      "HX_014_RIBBON_RUNG",
+      "HX_015_RIBBON_RUNG",
+      "HX_016_RIBBON_RUNG",
+      "HX_017_RIBBON_RUNG",
+      "HX_018_RIBBON_RUNG",
+      "HX_019_RIBBON_RUNG",
+      "HX_020_RIBBON_RUNG",
+      "HX_021_RIBBON_RUNG",
+      "HX_022_RIBBON_RUNG",
+      "HX_023_RIBBON_RUNG",
+      "HX_024_RIBBON_RUNG",
+      "HX_025_RIBBON_RUNG",
+      "HX_026_RIBBON_RUNG",
+      "HX_027_RIBBON_RUNG",
+      "HX_028_RIBBON_RUNG",
+      "HX_029_RIBBON_RUNG",
+      "HX_030_RIBBON_RUNG",
+      "HX_031_RIBBON_RUNG",
+      "HX_032_RIBBON_RUNG",
+      "HX_033_RIBBON_RUNG",
+      "HX_034_RIBBON_RUNG",
+      "HX_035_RIBBON_RUNG",
+      "HX_036_RIBBON_RUNG",
+      "HX_037_RIBBON_RUNG",
+      "HX_038_RIBBON_RUNG",
+      "HX_039_RIBBON_RUNG",
+      "HX_040_RIBBON_RUNG",
+      "HX_041_RIBBON_RUNG",
+      "HX_042_RIBBON_RUNG",
+      "HX_043_RIBBON_RUNG"
+    ]
+  },
+  "group_count": 5,
+  "concept_id": "29",
+  "source_art": "images/29_30.png",
+  "source_art_side": "left",
+  "build_status": "native planning layout",
+  "source_brief": {
+    "id": "29",
+    "name": "M\u00f6bius Tidewalk",
+    "standout": "A continuous half-twist ribbon creates an inside/outside illusion that changes as viewers walk around it.",
+    "scene": "A broad continuous ONE-HALF-TWIST Mobius ribbon sculpture with three parallel mint/cyan LED edge rails and gold illuminated cross-rungs. Its loop rises from low grounded dark supports to a high central twist above a dry-stage wave garden, large open center, visible back side of the ribbon, physically finite. It is an illuminated sculpture, not a public walkable bridge.",
+    "board": 4,
+    "side": "left",
+    "image": "images/29_30.png",
+    "status": "awaiting approval",
+    "scope": "Concept art; no xmodel/XML/XSQ/MP4 build.",
+    "source_catalog": "showcase/concepts/2026_10_09_advanced/concepts.json",
+    "description": "A continuous half-twist ribbon creates an inside/outside illusion that changes as viewers walk around it.",
+    "constraint": "Finite artwork-guided planning geometry; no physical actuation or surveyed construction dimensions.",
+    "round": "advanced"
+  },
+  "sequence_type": "24-second silent Animation study",
+  "physical_output_networks": 0,
+  "limits": [
+    "Finite artwork-guided planning geometry; no physical actuation or surveyed construction dimensions.",
+    "Artwork-guided finite geometry, not a scanned/surveyed reconstruction.",
+    "No complete music sequence or musical drummer acceptance claimed."
+  ]
+}

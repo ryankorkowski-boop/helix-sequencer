@@ -1,0 +1,2888 @@
+{
+  "schema": "helix.approved_concept.v1",
+  "name": "Tiny Giant Town",
+  "coordinate_system": "x-right, y-up, z-depth; design feet",
+  "xlights_source_ref": "6ceddc6b25a24d82754d4f9af28e18ee70b51f81",
+  "coverage": {
+    "Custom": 61
+  },
+  "native_families": [
+    "Custom"
+  ],
+  "native_coverage_complete": false,
+  "model_count": 61,
+  "rgb_pixels": 3600,
+  "channel_count": 10800,
+  "spiral_trees": 0,
+  "double_helices": 0,
+  "preview_contract": "Custom sparse-grid coordinates exactly match exported XML; native-family preview coordinates illustrate the authored geometry. Native xLights render/load evidence is recorded separately.",
+  "models": [
+    {
+      "name": "HX_001_HOUSE_FACADE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "FACADES",
+      "design": "HOUSE FACADE",
+      "kind": "pixel",
+      "nodes": 250,
+      "start_channel": 1,
+      "end_channel": 750,
+      "bounds_ft": [
+        [
+          -122.0,
+          0.0,
+          25.0
+        ],
+        [
+          -98.0,
+          42.875,
+          25.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.125,
+      "max_snap_error_ft": 0.08131653425252812
+    },
+    {
+      "name": "HX_002_WINDOW",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "WINDOWS",
+      "design": "WINDOW",
+      "kind": "pixel",
+      "nodes": 60,
+      "start_channel": 751,
+      "end_channel": 930,
+      "bounds_ft": [
+        [
+          -123.0,
+          18.0,
+          25.0
+        ],
+        [
+          -109.0,
+          35.0,
+          25.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.2333333333333485
+    },
+    {
+      "name": "HX_003_WINDOW",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "WINDOWS",
+      "design": "WINDOW",
+      "kind": "pixel",
+      "nodes": 60,
+      "start_channel": 931,
+      "end_channel": 1110,
+      "bounds_ft": [
+        [
+          -111.0,
+          18.0,
+          25.0
+        ],
+        [
+          -97.0,
+          35.0,
+          25.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.2333333333333485
+    },
+    {
+      "name": "HX_004_HOUSE_FACADE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "FACADES",
+      "design": "HOUSE FACADE",
+      "kind": "pixel",
+      "nodes": 250,
+      "start_channel": 1111,
+      "end_channel": 1860,
+      "bounds_ft": [
+        [
+          -77.0,
+          0.0,
+          25.0
+        ],
+        [
+          -53.0,
+          42.875,
+          25.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.125,
+      "max_snap_error_ft": 0.08131653425252812
+    },
+    {
+      "name": "HX_005_WINDOW",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "WINDOWS",
+      "design": "WINDOW",
+      "kind": "pixel",
+      "nodes": 60,
+      "start_channel": 1861,
+      "end_channel": 2040,
+      "bounds_ft": [
+        [
+          -78.0,
+          18.0,
+          25.0
+        ],
+        [
+          -64.0,
+          35.0,
+          25.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.2333333333333485
+    },
+    {
+      "name": "HX_006_WINDOW",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "WINDOWS",
+      "design": "WINDOW",
+      "kind": "pixel",
+      "nodes": 60,
+      "start_channel": 2041,
+      "end_channel": 2220,
+      "bounds_ft": [
+        [
+          -66.0,
+          18.0,
+          25.0
+        ],
+        [
+          -52.0,
+          35.0,
+          25.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.2333333333333414
+    },
+    {
+      "name": "HX_007_HOUSE_FACADE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "FACADES",
+      "design": "HOUSE FACADE",
+      "kind": "pixel",
+      "nodes": 250,
+      "start_channel": 2221,
+      "end_channel": 2970,
+      "bounds_ft": [
+        [
+          53.0,
+          0.0,
+          25.0
+        ],
+        [
+          77.0,
+          42.875,
+          25.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.125,
+      "max_snap_error_ft": 0.08131653425252812
+    },
+    {
+      "name": "HX_008_WINDOW",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "WINDOWS",
+      "design": "WINDOW",
+      "kind": "pixel",
+      "nodes": 60,
+      "start_channel": 2971,
+      "end_channel": 3150,
+      "bounds_ft": [
+        [
+          52.0,
+          18.0,
+          25.0
+        ],
+        [
+          66.0,
+          35.0,
+          25.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.2333333333333414
+    },
+    {
+      "name": "HX_009_WINDOW",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "WINDOWS",
+      "design": "WINDOW",
+      "kind": "pixel",
+      "nodes": 60,
+      "start_channel": 3151,
+      "end_channel": 3330,
+      "bounds_ft": [
+        [
+          64.0,
+          18.0,
+          25.0
+        ],
+        [
+          78.0,
+          35.0,
+          25.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.2333333333333485
+    },
+    {
+      "name": "HX_010_HOUSE_FACADE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "FACADES",
+      "design": "HOUSE FACADE",
+      "kind": "pixel",
+      "nodes": 250,
+      "start_channel": 3331,
+      "end_channel": 4080,
+      "bounds_ft": [
+        [
+          98.0,
+          0.0,
+          25.0
+        ],
+        [
+          122.0,
+          42.875,
+          25.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.125,
+      "max_snap_error_ft": 0.08131653425252812
+    },
+    {
+      "name": "HX_011_WINDOW",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "WINDOWS",
+      "design": "WINDOW",
+      "kind": "pixel",
+      "nodes": 60,
+      "start_channel": 4081,
+      "end_channel": 4260,
+      "bounds_ft": [
+        [
+          97.0,
+          18.0,
+          25.0
+        ],
+        [
+          111.0,
+          35.0,
+          25.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.2333333333333485
+    },
+    {
+      "name": "HX_012_WINDOW",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "WINDOWS",
+      "design": "WINDOW",
+      "kind": "pixel",
+      "nodes": 60,
+      "start_channel": 4261,
+      "end_channel": 4440,
+      "bounds_ft": [
+        [
+          109.0,
+          18.0,
+          25.0
+        ],
+        [
+          123.0,
+          35.0,
+          25.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.2333333333333485
+    },
+    {
+      "name": "HX_013_HEAD",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_00",
+      "design": "HEAD",
+      "kind": "pixel",
+      "nodes": 70,
+      "start_channel": 4441,
+      "end_channel": 4650,
+      "bounds_ft": [
+        [
+          -13.5,
+          100.0,
+          0.0
+        ],
+        [
+          13.5,
+          132.5,
+          0.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3001221483399035,
+      "pose_index": 0,
+      "pose_count": 4,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "name": "HX_014_TORSO",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_00",
+      "design": "TORSO",
+      "kind": "pixel",
+      "nodes": 45,
+      "start_channel": 4651,
+      "end_channel": 4785,
+      "bounds_ft": [
+        [
+          0.0,
+          51.5,
+          0.0
+        ],
+        [
+          0.0,
+          97.0,
+          0.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.25,
+      "pose_index": 0,
+      "pose_count": 4,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "name": "HX_015_ARM",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_00",
+      "design": "ARM",
+      "kind": "pixel",
+      "nodes": 55,
+      "start_channel": 4786,
+      "end_channel": 4950,
+      "bounds_ft": [
+        [
+          -38.0,
+          8.0,
+          0.0
+        ],
+        [
+          0.0,
+          92.0,
+          0.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.33442172762339584,
+      "pose_index": 0,
+      "pose_count": 4,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "name": "HX_016_LEG",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_00",
+      "design": "LEG",
+      "kind": "pixel",
+      "nodes": 65,
+      "start_channel": 4951,
+      "end_channel": 5145,
+      "bounds_ft": [
+        [
+          -26.5,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          51.5,
+          0.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.2813257300288611,
+      "pose_index": 0,
+      "pose_count": 4,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "name": "HX_017_JOINT",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_00",
+      "design": "JOINT",
+      "kind": "pixel",
+      "nodes": 16,
+      "start_channel": 5146,
+      "end_channel": 5193,
+      "bounds_ft": [
+        [
+          -25.0,
+          52.0,
+          0.0
+        ],
+        [
+          -18.5,
+          58.5,
+          0.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.23744314292580007,
+      "pose_index": 0,
+      "pose_count": 4,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "name": "HX_018_JOINT",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_00",
+      "design": "JOINT",
+      "kind": "pixel",
+      "nodes": 16,
+      "start_channel": 5194,
+      "end_channel": 5241,
+      "bounds_ft": [
+        [
+          -30.0,
+          21.0,
+          0.0
+        ],
+        [
+          -24.0,
+          27.5,
+          0.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.31661549570445574,
+      "pose_index": 0,
+      "pose_count": 4,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "name": "HX_019_SHOE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_00",
+      "design": "SHOE",
+      "kind": "pixel",
+      "nodes": 18,
+      "start_channel": 5242,
+      "end_channel": 5295,
+      "bounds_ft": [
+        [
+          -13.5,
+          0.0,
+          0.0
+        ],
+        [
+          2.5,
+          0.0,
+          0.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.24705882352941266,
+      "pose_index": 0,
+      "pose_count": 4,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "name": "HX_020_ARM",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_00",
+      "design": "ARM",
+      "kind": "pixel",
+      "nodes": 55,
+      "start_channel": 5296,
+      "end_channel": 5460,
+      "bounds_ft": [
+        [
+          0.0,
+          82.5,
+          0.0
+        ],
+        [
+          38.0,
+          97.0,
+          0.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.33293556765177784,
+      "pose_index": 0,
+      "pose_count": 4,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "name": "HX_021_LEG",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_00",
+      "design": "LEG",
+      "kind": "pixel",
+      "nodes": 65,
+      "start_channel": 5461,
+      "end_channel": 5655,
+      "bounds_ft": [
+        [
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          26.5,
+          51.5,
+          0.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.2813257300288611,
+      "pose_index": 0,
+      "pose_count": 4,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "name": "HX_022_JOINT",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_00",
+      "design": "JOINT",
+      "kind": "pixel",
+      "nodes": 16,
+      "start_channel": 5656,
+      "end_channel": 5703,
+      "bounds_ft": [
+        [
+          18.5,
+          79.0,
+          0.0
+        ],
+        [
+          25.0,
+          85.5,
+          0.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.23744314292580432,
+      "pose_index": 0,
+      "pose_count": 4,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "name": "HX_023_JOINT",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_00",
+      "design": "JOINT",
+      "kind": "pixel",
+      "nodes": 16,
+      "start_channel": 5704,
+      "end_channel": 5751,
+      "bounds_ft": [
+        [
+          24.0,
+          21.0,
+          0.0
+        ],
+        [
+          30.0,
+          27.5,
+          0.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.31661549570445574,
+      "pose_index": 0,
+      "pose_count": 4,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "name": "HX_024_SHOE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_00",
+      "design": "SHOE",
+      "kind": "pixel",
+      "nodes": 18,
+      "start_channel": 5752,
+      "end_channel": 5805,
+      "bounds_ft": [
+        [
+          2.5,
+          0.0,
+          0.0
+        ],
+        [
+          19.0,
+          0.0,
+          0.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.2294117647058851,
+      "pose_index": 0,
+      "pose_count": 4,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "name": "HX_025_HEAD",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_01",
+      "design": "HEAD",
+      "kind": "pixel",
+      "nodes": 70,
+      "start_channel": 5806,
+      "end_channel": 6015,
+      "bounds_ft": [
+        [
+          -13.5,
+          100.0,
+          4.0
+        ],
+        [
+          13.5,
+          132.5,
+          4.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3001221483399035,
+      "pose_index": 1,
+      "pose_count": 4,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "name": "HX_026_TORSO",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_01",
+      "design": "TORSO",
+      "kind": "pixel",
+      "nodes": 45,
+      "start_channel": 6016,
+      "end_channel": 6150,
+      "bounds_ft": [
+        [
+          0.0,
+          51.5,
+          4.0
+        ],
+        [
+          0.0,
+          97.0,
+          4.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.25,
+      "pose_index": 1,
+      "pose_count": 4,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "name": "HX_027_ARM",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_01",
+      "design": "ARM",
+      "kind": "pixel",
+      "nodes": 55,
+      "start_channel": 6151,
+      "end_channel": 6315,
+      "bounds_ft": [
+        [
+          -38.0,
+          52.5,
+          4.0
+        ],
+        [
+          0.0,
+          92.0,
+          4.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3198172998158672,
+      "pose_index": 1,
+      "pose_count": 4,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "name": "HX_028_LEG",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_01",
+      "design": "LEG",
+      "kind": "pixel",
+      "nodes": 65,
+      "start_channel": 6316,
+      "end_channel": 6510,
+      "bounds_ft": [
+        [
+          -24.5,
+          0.0,
+          4.0
+        ],
+        [
+          0.0,
+          51.5,
+          4.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.32401660194962795,
+      "pose_index": 1,
+      "pose_count": 4,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "name": "HX_029_JOINT",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_01",
+      "design": "JOINT",
+      "kind": "pixel",
+      "nodes": 16,
+      "start_channel": 6511,
+      "end_channel": 6558,
+      "bounds_ft": [
+        [
+          -25.0,
+          65.5,
+          4.0
+        ],
+        [
+          -18.5,
+          72.0,
+          4.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.23744314292580432,
+      "pose_index": 1,
+      "pose_count": 4,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "name": "HX_030_JOINT",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_01",
+      "design": "JOINT",
+      "kind": "pixel",
+      "nodes": 16,
+      "start_channel": 6559,
+      "end_channel": 6606,
+      "bounds_ft": [
+        [
+          -19.5,
+          21.0,
+          4.0
+        ],
+        [
+          -13.0,
+          27.5,
+          4.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.2151947480828551,
+      "pose_index": 1,
+      "pose_count": 4,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "name": "HX_031_SHOE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_01",
+      "design": "SHOE",
+      "kind": "pixel",
+      "nodes": 18,
+      "start_channel": 6607,
+      "end_channel": 6660,
+      "bounds_ft": [
+        [
+          -29.5,
+          0.0,
+          4.0
+        ],
+        [
+          -13.5,
+          0.0,
+          4.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.24705882352941444,
+      "pose_index": 1,
+      "pose_count": 4,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "name": "HX_032_ARM",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_01",
+      "design": "ARM",
+      "kind": "pixel",
+      "nodes": 55,
+      "start_channel": 6661,
+      "end_channel": 6825,
+      "bounds_ft": [
+        [
+          0.0,
+          52.5,
+          4.0
+        ],
+        [
+          38.0,
+          92.0,
+          4.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3198172998158699,
+      "pose_index": 1,
+      "pose_count": 4,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "name": "HX_033_LEG",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_01",
+      "design": "LEG",
+      "kind": "pixel",
+      "nodes": 65,
+      "start_channel": 6826,
+      "end_channel": 7020,
+      "bounds_ft": [
+        [
+          0.0,
+          0.0,
+          4.0
+        ],
+        [
+          24.5,
+          51.5,
+          4.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.32401660194962795,
+      "pose_index": 1,
+      "pose_count": 4,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "name": "HX_034_JOINT",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_01",
+      "design": "JOINT",
+      "kind": "pixel",
+      "nodes": 16,
+      "start_channel": 7021,
+      "end_channel": 7068,
+      "bounds_ft": [
+        [
+          18.5,
+          65.5,
+          4.0
+        ],
+        [
+          25.0,
+          72.0,
+          4.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.23744314292580432,
+      "pose_index": 1,
+      "pose_count": 4,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "name": "HX_035_JOINT",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_01",
+      "design": "JOINT",
+      "kind": "pixel",
+      "nodes": 16,
+      "start_channel": 7069,
+      "end_channel": 7116,
+      "bounds_ft": [
+        [
+          13.0,
+          21.0,
+          4.0
+        ],
+        [
+          19.5,
+          27.5,
+          4.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.2151947480828551,
+      "pose_index": 1,
+      "pose_count": 4,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "name": "HX_036_SHOE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_01",
+      "design": "SHOE",
+      "kind": "pixel",
+      "nodes": 18,
+      "start_channel": 7117,
+      "end_channel": 7170,
+      "bounds_ft": [
+        [
+          19.0,
+          0.0,
+          4.0
+        ],
+        [
+          35.0,
+          0.0,
+          4.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.2411764705882362,
+      "pose_index": 1,
+      "pose_count": 4,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "name": "HX_037_HEAD",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_02",
+      "design": "HEAD",
+      "kind": "pixel",
+      "nodes": 70,
+      "start_channel": 7171,
+      "end_channel": 7380,
+      "bounds_ft": [
+        [
+          -13.5,
+          100.0,
+          8.0
+        ],
+        [
+          13.5,
+          132.5,
+          8.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3001221483399035,
+      "pose_index": 2,
+      "pose_count": 4,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "name": "HX_038_TORSO",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_02",
+      "design": "TORSO",
+      "kind": "pixel",
+      "nodes": 45,
+      "start_channel": 7381,
+      "end_channel": 7515,
+      "bounds_ft": [
+        [
+          0.0,
+          51.5,
+          8.0
+        ],
+        [
+          0.0,
+          97.0,
+          8.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.25,
+      "pose_index": 2,
+      "pose_count": 4,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "name": "HX_039_ARM",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_02",
+      "design": "ARM",
+      "kind": "pixel",
+      "nodes": 55,
+      "start_channel": 7516,
+      "end_channel": 7680,
+      "bounds_ft": [
+        [
+          -38.0,
+          82.5,
+          8.0
+        ],
+        [
+          0.0,
+          97.0,
+          8.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.33293556765177784,
+      "pose_index": 2,
+      "pose_count": 4,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "name": "HX_040_LEG",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_02",
+      "design": "LEG",
+      "kind": "pixel",
+      "nodes": 65,
+      "start_channel": 7681,
+      "end_channel": 7875,
+      "bounds_ft": [
+        [
+          -40.5,
+          0.0,
+          8.0
+        ],
+        [
+          0.0,
+          51.5,
+          8.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.34045019587541825,
+      "pose_index": 2,
+      "pose_count": 4,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "name": "HX_041_JOINT",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_02",
+      "design": "JOINT",
+      "kind": "pixel",
+      "nodes": 16,
+      "start_channel": 7876,
+      "end_channel": 7923,
+      "bounds_ft": [
+        [
+          -25.0,
+          79.0,
+          8.0
+        ],
+        [
+          -18.5,
+          85.5,
+          8.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.23744314292580432,
+      "pose_index": 2,
+      "pose_count": 4,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "name": "HX_042_JOINT",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_02",
+      "design": "JOINT",
+      "kind": "pixel",
+      "nodes": 16,
+      "start_channel": 7924,
+      "end_channel": 7971,
+      "bounds_ft": [
+        [
+          -8.5,
+          21.0,
+          8.0
+        ],
+        [
+          -2.0,
+          27.5,
+          8.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.26139991474724056,
+      "pose_index": 2,
+      "pose_count": 4,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "name": "HX_043_SHOE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_02",
+      "design": "SHOE",
+      "kind": "pixel",
+      "nodes": 18,
+      "start_channel": 7972,
+      "end_channel": 8025,
+      "bounds_ft": [
+        [
+          -46.0,
+          0.0,
+          8.0
+        ],
+        [
+          -29.5,
+          0.0,
+          8.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.22941176470587976,
+      "pose_index": 2,
+      "pose_count": 4,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "name": "HX_044_ARM",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_02",
+      "design": "ARM",
+      "kind": "pixel",
+      "nodes": 55,
+      "start_channel": 8026,
+      "end_channel": 8190,
+      "bounds_ft": [
+        [
+          0.0,
+          8.0,
+          8.0
+        ],
+        [
+          38.0,
+          92.0,
+          8.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.33442172762339584,
+      "pose_index": 2,
+      "pose_count": 4,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "name": "HX_045_LEG",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_02",
+      "design": "LEG",
+      "kind": "pixel",
+      "nodes": 65,
+      "start_channel": 8191,
+      "end_channel": 8385,
+      "bounds_ft": [
+        [
+          0.0,
+          0.0,
+          8.0
+        ],
+        [
+          40.5,
+          51.5,
+          8.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.34045019587541825,
+      "pose_index": 2,
+      "pose_count": 4,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "name": "HX_046_JOINT",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_02",
+      "design": "JOINT",
+      "kind": "pixel",
+      "nodes": 16,
+      "start_channel": 8386,
+      "end_channel": 8433,
+      "bounds_ft": [
+        [
+          18.5,
+          52.0,
+          8.0
+        ],
+        [
+          25.0,
+          58.5,
+          8.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.23744314292580007,
+      "pose_index": 2,
+      "pose_count": 4,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "name": "HX_047_JOINT",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_02",
+      "design": "JOINT",
+      "kind": "pixel",
+      "nodes": 16,
+      "start_channel": 8434,
+      "end_channel": 8481,
+      "bounds_ft": [
+        [
+          2.0,
+          21.0,
+          8.0
+        ],
+        [
+          8.5,
+          27.5,
+          8.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.2613999147472411,
+      "pose_index": 2,
+      "pose_count": 4,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "name": "HX_048_SHOE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_02",
+      "design": "SHOE",
+      "kind": "pixel",
+      "nodes": 18,
+      "start_channel": 8482,
+      "end_channel": 8535,
+      "bounds_ft": [
+        [
+          35.0,
+          0.0,
+          8.0
+        ],
+        [
+          51.5,
+          0.0,
+          8.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.22941176470588687,
+      "pose_index": 2,
+      "pose_count": 4,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "name": "HX_049_HEAD",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_03",
+      "design": "HEAD",
+      "kind": "pixel",
+      "nodes": 70,
+      "start_channel": 8536,
+      "end_channel": 8745,
+      "bounds_ft": [
+        [
+          -13.5,
+          100.0,
+          12.0
+        ],
+        [
+          13.5,
+          132.5,
+          12.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3001221483399035,
+      "pose_index": 3,
+      "pose_count": 4,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "name": "HX_050_TORSO",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_03",
+      "design": "TORSO",
+      "kind": "pixel",
+      "nodes": 45,
+      "start_channel": 8746,
+      "end_channel": 8880,
+      "bounds_ft": [
+        [
+          0.0,
+          51.5,
+          12.0
+        ],
+        [
+          0.0,
+          97.0,
+          12.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.25,
+      "pose_index": 3,
+      "pose_count": 4,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "name": "HX_051_ARM",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_03",
+      "design": "ARM",
+      "kind": "pixel",
+      "nodes": 55,
+      "start_channel": 8881,
+      "end_channel": 9045,
+      "bounds_ft": [
+        [
+          -38.0,
+          52.5,
+          12.0
+        ],
+        [
+          0.0,
+          92.0,
+          12.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3198172998158699,
+      "pose_index": 3,
+      "pose_count": 4,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "name": "HX_052_LEG",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_03",
+      "design": "LEG",
+      "kind": "pixel",
+      "nodes": 65,
+      "start_channel": 9046,
+      "end_channel": 9240,
+      "bounds_ft": [
+        [
+          -24.5,
+          0.0,
+          12.0
+        ],
+        [
+          0.0,
+          51.5,
+          12.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.32401660194962795,
+      "pose_index": 3,
+      "pose_count": 4,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "name": "HX_053_JOINT",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_03",
+      "design": "JOINT",
+      "kind": "pixel",
+      "nodes": 16,
+      "start_channel": 9241,
+      "end_channel": 9288,
+      "bounds_ft": [
+        [
+          -25.0,
+          65.5,
+          12.0
+        ],
+        [
+          -18.5,
+          72.0,
+          12.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.23744314292580432,
+      "pose_index": 3,
+      "pose_count": 4,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "name": "HX_054_JOINT",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_03",
+      "design": "JOINT",
+      "kind": "pixel",
+      "nodes": 16,
+      "start_channel": 9289,
+      "end_channel": 9336,
+      "bounds_ft": [
+        [
+          -19.5,
+          21.0,
+          12.0
+        ],
+        [
+          -13.0,
+          27.5,
+          12.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.2151947480828551,
+      "pose_index": 3,
+      "pose_count": 4,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "name": "HX_055_SHOE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_03",
+      "design": "SHOE",
+      "kind": "pixel",
+      "nodes": 18,
+      "start_channel": 9337,
+      "end_channel": 9390,
+      "bounds_ft": [
+        [
+          -29.5,
+          0.0,
+          12.0
+        ],
+        [
+          -13.5,
+          0.0,
+          12.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.24705882352941444,
+      "pose_index": 3,
+      "pose_count": 4,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "name": "HX_056_ARM",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_03",
+      "design": "ARM",
+      "kind": "pixel",
+      "nodes": 55,
+      "start_channel": 9391,
+      "end_channel": 9555,
+      "bounds_ft": [
+        [
+          0.0,
+          52.5,
+          12.0
+        ],
+        [
+          38.0,
+          92.0,
+          12.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3198172998158672,
+      "pose_index": 3,
+      "pose_count": 4,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "name": "HX_057_LEG",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_03",
+      "design": "LEG",
+      "kind": "pixel",
+      "nodes": 65,
+      "start_channel": 9556,
+      "end_channel": 9750,
+      "bounds_ft": [
+        [
+          0.0,
+          0.0,
+          12.0
+        ],
+        [
+          24.5,
+          51.5,
+          12.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.32401660194962795,
+      "pose_index": 3,
+      "pose_count": 4,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "name": "HX_058_JOINT",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_03",
+      "design": "JOINT",
+      "kind": "pixel",
+      "nodes": 16,
+      "start_channel": 9751,
+      "end_channel": 9798,
+      "bounds_ft": [
+        [
+          18.5,
+          65.5,
+          12.0
+        ],
+        [
+          25.0,
+          72.0,
+          12.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.23744314292580432,
+      "pose_index": 3,
+      "pose_count": 4,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "name": "HX_059_JOINT",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_03",
+      "design": "JOINT",
+      "kind": "pixel",
+      "nodes": 16,
+      "start_channel": 9799,
+      "end_channel": 9846,
+      "bounds_ft": [
+        [
+          13.0,
+          21.0,
+          12.0
+        ],
+        [
+          19.5,
+          27.5,
+          12.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.21519474808285607,
+      "pose_index": 3,
+      "pose_count": 4,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "name": "HX_060_SHOE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "POSE_BODY_03",
+      "design": "SHOE",
+      "kind": "pixel",
+      "nodes": 18,
+      "start_channel": 9847,
+      "end_channel": 9900,
+      "bounds_ft": [
+        [
+          19.0,
+          0.0,
+          12.0
+        ],
+        [
+          35.0,
+          0.0,
+          12.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.24117647058824332,
+      "pose_index": 3,
+      "pose_count": 4,
+      "pose_track": "BODY",
+      "pose_order": [
+        0,
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "name": "HX_061_VILLAGE_STREET",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "GROUND",
+      "design": "VILLAGE STREET",
+      "kind": "pixel",
+      "nodes": 300,
+      "start_channel": 9901,
+      "end_channel": 10800,
+      "bounds_ft": [
+        [
+          -150.0,
+          0.0,
+          40.0
+        ],
+        [
+          150.0,
+          0.0,
+          40.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.2491638795986688
+    }
+  ],
+  "file_prefix": "Tiny_Giant_Town",
+  "description": "A giant\u2019s stepped footfall beside tiny houses creates the scale contrast of a miniature-film set.",
+  "palette": [
+    "#69EFFF",
+    "#B599FF",
+    "#FFD98A"
+  ],
+  "groups": {
+    "HX_ALL_PIXELS": [
+      "HX_001_HOUSE_FACADE",
+      "HX_002_WINDOW",
+      "HX_003_WINDOW",
+      "HX_004_HOUSE_FACADE",
+      "HX_005_WINDOW",
+      "HX_006_WINDOW",
+      "HX_007_HOUSE_FACADE",
+      "HX_008_WINDOW",
+      "HX_009_WINDOW",
+      "HX_010_HOUSE_FACADE",
+      "HX_011_WINDOW",
+      "HX_012_WINDOW",
+      "HX_013_HEAD",
+      "HX_014_TORSO",
+      "HX_015_ARM",
+      "HX_016_LEG",
+      "HX_017_JOINT",
+      "HX_018_JOINT",
+      "HX_019_SHOE",
+      "HX_020_ARM",
+      "HX_021_LEG",
+      "HX_022_JOINT",
+      "HX_023_JOINT",
+      "HX_024_SHOE",
+      "HX_025_HEAD",
+      "HX_026_TORSO",
+      "HX_027_ARM",
+      "HX_028_LEG",
+      "HX_029_JOINT",
+      "HX_030_JOINT",
+      "HX_031_SHOE",
+      "HX_032_ARM",
+      "HX_033_LEG",
+      "HX_034_JOINT",
+      "HX_035_JOINT",
+      "HX_036_SHOE",
+      "HX_037_HEAD",
+      "HX_038_TORSO",
+      "HX_039_ARM",
+      "HX_040_LEG",
+      "HX_041_JOINT",
+      "HX_042_JOINT",
+      "HX_043_SHOE",
+      "HX_044_ARM",
+      "HX_045_LEG",
+      "HX_046_JOINT",
+      "HX_047_JOINT",
+      "HX_048_SHOE",
+      "HX_049_HEAD",
+      "HX_050_TORSO",
+      "HX_051_ARM",
+      "HX_052_LEG",
+      "HX_053_JOINT",
+      "HX_054_JOINT",
+      "HX_055_SHOE",
+      "HX_056_ARM",
+      "HX_057_LEG",
+      "HX_058_JOINT",
+      "HX_059_JOINT",
+      "HX_060_SHOE",
+      "HX_061_VILLAGE_STREET"
+    ],
+    "HX_NATIVE_CUSTOM": [
+      "HX_001_HOUSE_FACADE",
+      "HX_002_WINDOW",
+      "HX_003_WINDOW",
+      "HX_004_HOUSE_FACADE",
+      "HX_005_WINDOW",
+      "HX_006_WINDOW",
+      "HX_007_HOUSE_FACADE",
+      "HX_008_WINDOW",
+      "HX_009_WINDOW",
+      "HX_010_HOUSE_FACADE",
+      "HX_011_WINDOW",
+      "HX_012_WINDOW",
+      "HX_013_HEAD",
+      "HX_014_TORSO",
+      "HX_015_ARM",
+      "HX_016_LEG",
+      "HX_017_JOINT",
+      "HX_018_JOINT",
+      "HX_019_SHOE",
+      "HX_020_ARM",
+      "HX_021_LEG",
+      "HX_022_JOINT",
+      "HX_023_JOINT",
+      "HX_024_SHOE",
+      "HX_025_HEAD",
+      "HX_026_TORSO",
+      "HX_027_ARM",
+      "HX_028_LEG",
+      "HX_029_JOINT",
+      "HX_030_JOINT",
+      "HX_031_SHOE",
+      "HX_032_ARM",
+      "HX_033_LEG",
+      "HX_034_JOINT",
+      "HX_035_JOINT",
+      "HX_036_SHOE",
+      "HX_037_HEAD",
+      "HX_038_TORSO",
+      "HX_039_ARM",
+      "HX_040_LEG",
+      "HX_041_JOINT",
+      "HX_042_JOINT",
+      "HX_043_SHOE",
+      "HX_044_ARM",
+      "HX_045_LEG",
+      "HX_046_JOINT",
+      "HX_047_JOINT",
+      "HX_048_SHOE",
+      "HX_049_HEAD",
+      "HX_050_TORSO",
+      "HX_051_ARM",
+      "HX_052_LEG",
+      "HX_053_JOINT",
+      "HX_054_JOINT",
+      "HX_055_SHOE",
+      "HX_056_ARM",
+      "HX_057_LEG",
+      "HX_058_JOINT",
+      "HX_059_JOINT",
+      "HX_060_SHOE",
+      "HX_061_VILLAGE_STREET"
+    ],
+    "HX_WHOLE_SHOW": [
+      "HX_001_HOUSE_FACADE",
+      "HX_002_WINDOW",
+      "HX_003_WINDOW",
+      "HX_004_HOUSE_FACADE",
+      "HX_005_WINDOW",
+      "HX_006_WINDOW",
+      "HX_007_HOUSE_FACADE",
+      "HX_008_WINDOW",
+      "HX_009_WINDOW",
+      "HX_010_HOUSE_FACADE",
+      "HX_011_WINDOW",
+      "HX_012_WINDOW",
+      "HX_013_HEAD",
+      "HX_014_TORSO",
+      "HX_015_ARM",
+      "HX_016_LEG",
+      "HX_017_JOINT",
+      "HX_018_JOINT",
+      "HX_019_SHOE",
+      "HX_020_ARM",
+      "HX_021_LEG",
+      "HX_022_JOINT",
+      "HX_023_JOINT",
+      "HX_024_SHOE",
+      "HX_025_HEAD",
+      "HX_026_TORSO",
+      "HX_027_ARM",
+      "HX_028_LEG",
+      "HX_029_JOINT",
+      "HX_030_JOINT",
+      "HX_031_SHOE",
+      "HX_032_ARM",
+      "HX_033_LEG",
+      "HX_034_JOINT",
+      "HX_035_JOINT",
+      "HX_036_SHOE",
+      "HX_037_HEAD",
+      "HX_038_TORSO",
+      "HX_039_ARM",
+      "HX_040_LEG",
+      "HX_041_JOINT",
+      "HX_042_JOINT",
+      "HX_043_SHOE",
+      "HX_044_ARM",
+      "HX_045_LEG",
+      "HX_046_JOINT",
+      "HX_047_JOINT",
+      "HX_048_SHOE",
+      "HX_049_HEAD",
+      "HX_050_TORSO",
+      "HX_051_ARM",
+      "HX_052_LEG",
+      "HX_053_JOINT",
+      "HX_054_JOINT",
+      "HX_055_SHOE",
+      "HX_056_ARM",
+      "HX_057_LEG",
+      "HX_058_JOINT",
+      "HX_059_JOINT",
+      "HX_060_SHOE",
+      "HX_061_VILLAGE_STREET"
+    ],
+    "HX_ZONE_FACADES": [
+      "HX_001_HOUSE_FACADE",
+      "HX_004_HOUSE_FACADE",
+      "HX_007_HOUSE_FACADE",
+      "HX_010_HOUSE_FACADE"
+    ],
+    "HX_ZONE_GROUND": [
+      "HX_061_VILLAGE_STREET"
+    ],
+    "HX_ZONE_POSE_BODY_00": [
+      "HX_013_HEAD",
+      "HX_014_TORSO",
+      "HX_015_ARM",
+      "HX_016_LEG",
+      "HX_017_JOINT",
+      "HX_018_JOINT",
+      "HX_019_SHOE",
+      "HX_020_ARM",
+      "HX_021_LEG",
+      "HX_022_JOINT",
+      "HX_023_JOINT",
+      "HX_024_SHOE"
+    ],
+    "HX_ZONE_POSE_BODY_01": [
+      "HX_025_HEAD",
+      "HX_026_TORSO",
+      "HX_027_ARM",
+      "HX_028_LEG",
+      "HX_029_JOINT",
+      "HX_030_JOINT",
+      "HX_031_SHOE",
+      "HX_032_ARM",
+      "HX_033_LEG",
+      "HX_034_JOINT",
+      "HX_035_JOINT",
+      "HX_036_SHOE"
+    ],
+    "HX_ZONE_POSE_BODY_02": [
+      "HX_037_HEAD",
+      "HX_038_TORSO",
+      "HX_039_ARM",
+      "HX_040_LEG",
+      "HX_041_JOINT",
+      "HX_042_JOINT",
+      "HX_043_SHOE",
+      "HX_044_ARM",
+      "HX_045_LEG",
+      "HX_046_JOINT",
+      "HX_047_JOINT",
+      "HX_048_SHOE"
+    ],
+    "HX_ZONE_POSE_BODY_03": [
+      "HX_049_HEAD",
+      "HX_050_TORSO",
+      "HX_051_ARM",
+      "HX_052_LEG",
+      "HX_053_JOINT",
+      "HX_054_JOINT",
+      "HX_055_SHOE",
+      "HX_056_ARM",
+      "HX_057_LEG",
+      "HX_058_JOINT",
+      "HX_059_JOINT",
+      "HX_060_SHOE"
+    ],
+    "HX_ZONE_WINDOWS": [
+      "HX_002_WINDOW",
+      "HX_003_WINDOW",
+      "HX_005_WINDOW",
+      "HX_006_WINDOW",
+      "HX_008_WINDOW",
+      "HX_009_WINDOW",
+      "HX_011_WINDOW",
+      "HX_012_WINDOW"
+    ]
+  },
+  "group_count": 10,
+  "concept_id": "54",
+  "source_art": "images/53_54.png",
+  "source_art_side": "right",
+  "build_status": "native planning layout",
+  "source_brief": {
+    "id": "54",
+    "name": "Tiny Giant Town",
+    "principle": "Miniature scale and staging",
+    "standout": "A giant\u2019s stepped footfall beside tiny houses creates the scale contrast of a miniature-film set.",
+    "scene": "A charming dark miniature light village with small warm-gold house-outline props, cyan street strips and a huge friendly violet/cyan giant puppet silhouette behind it, disproportionately large shoe and round head. Grounded alternate foot-position contour frames, one hero giant standing beside the miniature houses. Four bottom storyboard cells show raised foot preparing, foot advancing, broad foot contact beside houses, settled giant stance. No destructive stomp, no actual moving structure.",
+    "board": 6,
+    "side": "right",
+    "image": "images/53_54.png",
+    "status": "awaiting approval",
+    "source_catalog": "showcase/concepts/2026_10_09_stop_motion/concepts.json",
+    "description": "A giant\u2019s stepped footfall beside tiny houses creates the scale contrast of a miniature-film set.",
+    "constraint": "Finite artwork-guided planning geometry; no physical actuation or surveyed construction dimensions.",
+    "round": "stop_motion"
+  },
+  "sequence_type": "24-second silent Animation study",
+  "physical_output_networks": 0,
+  "limits": [
+    "Finite artwork-guided planning geometry; no physical actuation or surveyed construction dimensions.",
+    "Artwork-guided finite geometry, not a scanned/surveyed reconstruction.",
+    "No complete music sequence or musical drummer acceptance claimed."
+  ]
+}

@@ -1,0 +1,239 @@
+{
+  "source_audio_sha256": "0fc2ab5dfee87d4af3e2ab326f76c7ee9cb3a5a893644487d2e7350a48cefafb",
+  "xsq_sha256": "553612a9e4a9c09e9517518edbcb18f3c1a762cdee02c68b398952300c2a97fd",
+  "observed_visual_onsets": [
+    0.2,
+    0.4,
+    0.6000000000000001,
+    0.8500000000000001,
+    1.05,
+    1.25,
+    1.5,
+    1.7000000000000002,
+    1.9000000000000001,
+    2.0,
+    2.1,
+    2.25,
+    2.35,
+    2.45,
+    2.5500000000000003,
+    2.6500000000000004
+  ],
+  "acoustic_recovery_report": {
+    "method": "isolated drum-stem 40\u2013180 Hz attack/decay similarity to accepted kicks",
+    "window": [
+      0.15,
+      2.72
+    ],
+    "reference_events": 7,
+    "added": [
+      {
+        "timestamp": 1.693537,
+        "drum_family": "kick",
+        "tom_class": null,
+        "confidence": 0.938935,
+        "velocity": 0.9321,
+        "source_onset_index": 860,
+        "rejection_reason": null,
+        "evidence": {
+          "acoustic_similarity": 0.9389349702853564,
+          "low_band_peak_rms": 0.23496370391457208,
+          "reference_peak_rms": 0.2704458186284682,
+          "measured_peak_time": 1.7160997732426304,
+          "timing_calibration_seconds": 0.02256235827664388,
+          "kick_recovery_window": [
+            0.15,
+            2.72
+          ],
+          "timing_source": "recording_calibrated_lowband_transient",
+          "independent_listening_verified": false
+        }
+      },
+      {
+        "timestamp": 1.90805,
+        "drum_family": "kick",
+        "tom_class": null,
+        "confidence": 0.948382,
+        "velocity": 0.9637,
+        "source_onset_index": 965,
+        "rejection_reason": null,
+        "evidence": {
+          "acoustic_similarity": 0.9483820597927144,
+          "low_band_peak_rms": 0.25118139005644696,
+          "reference_peak_rms": 0.2704458186284682,
+          "measured_peak_time": 1.9306122448979592,
+          "timing_calibration_seconds": 0.02256235827664388,
+          "kick_recovery_window": [
+            0.15,
+            2.72
+          ],
+          "timing_source": "recording_calibrated_lowband_transient",
+          "independent_listening_verified": false
+        }
+      },
+      {
+        "timestamp": 2.012812,
+        "drum_family": "kick",
+        "tom_class": null,
+        "confidence": 0.98402,
+        "velocity": 0.8876,
+        "source_onset_index": 1020,
+        "rejection_reason": null,
+        "evidence": {
+          "acoustic_similarity": 0.9840196545245652,
+          "low_band_peak_rms": 0.21307925291403754,
+          "reference_peak_rms": 0.2704458186284682,
+          "measured_peak_time": 2.035374149659864,
+          "timing_calibration_seconds": 0.02256235827664388,
+          "kick_recovery_window": [
+            0.15,
+            2.72
+          ],
+          "timing_source": "recording_calibrated_lowband_transient",
+          "independent_listening_verified": false
+        }
+      },
+      {
+        "timestamp": 2.117574,
+        "drum_family": "kick",
+        "tom_class": null,
+        "confidence": 0.968561,
+        "velocity": 0.9184,
+        "source_onset_index": 1070,
+        "rejection_reason": null,
+        "evidence": {
+          "acoustic_similarity": 0.9685605558275729,
+          "low_band_peak_rms": 0.22808729774844072,
+          "reference_peak_rms": 0.2704458186284682,
+          "measured_peak_time": 2.1401360544217685,
+          "timing_calibration_seconds": 0.02256235827664388,
+          "kick_recovery_window": [
+            0.15,
+            2.72
+          ],
+          "timing_source": "recording_calibrated_lowband_transient",
+          "independent_listening_verified": false
+        }
+      },
+      {
+        "timestamp": 2.227324,
+        "drum_family": "kick",
+        "tom_class": null,
+        "confidence": 0.986977,
+        "velocity": 0.9034,
+        "source_onset_index": 1125,
+        "rejection_reason": null,
+        "evidence": {
+          "acoustic_similarity": 0.9869765228757136,
+          "low_band_peak_rms": 0.2207119976843568,
+          "reference_peak_rms": 0.2704458186284682,
+          "measured_peak_time": 2.2498866213151927,
+          "timing_calibration_seconds": 0.02256235827664388,
+          "kick_recovery_window": [
+            0.15,
+            2.72
+          ],
+          "timing_source": "recording_calibrated_lowband_transient",
+          "independent_listening_verified": false
+        }
+      },
+      {
+        "timestamp": 2.332086,
+        "drum_family": "kick",
+        "tom_class": null,
+        "confidence": 0.957556,
+        "velocity": 0.9216,
+        "source_onset_index": 1175,
+        "rejection_reason": null,
+        "evidence": {
+          "acoustic_similarity": 0.9575563426255466,
+          "low_band_peak_rms": 0.22972562798268573,
+          "reference_peak_rms": 0.2704458186284682,
+          "measured_peak_time": 2.3546485260770975,
+          "timing_calibration_seconds": 0.02256235827664388,
+          "kick_recovery_window": [
+            0.15,
+            2.72
+          ],
+          "timing_source": "recording_calibrated_lowband_transient",
+          "independent_listening_verified": false
+        }
+      },
+      {
+        "timestamp": 2.441837,
+        "drum_family": "kick",
+        "tom_class": null,
+        "confidence": 0.971879,
+        "velocity": 0.8949,
+        "source_onset_index": 1230,
+        "rejection_reason": null,
+        "evidence": {
+          "acoustic_similarity": 0.9718785617944625,
+          "low_band_peak_rms": 0.21656834720228987,
+          "reference_peak_rms": 0.2704458186284682,
+          "measured_peak_time": 2.4643990929705213,
+          "timing_calibration_seconds": 0.02256235827664388,
+          "kick_recovery_window": [
+            0.15,
+            2.72
+          ],
+          "timing_source": "recording_calibrated_lowband_transient",
+          "independent_listening_verified": false
+        }
+      },
+      {
+        "timestamp": 2.546599,
+        "drum_family": "kick",
+        "tom_class": null,
+        "confidence": 0.964963,
+        "velocity": 0.8753,
+        "source_onset_index": 1285,
+        "rejection_reason": null,
+        "evidence": {
+          "acoustic_similarity": 0.9649627441428872,
+          "low_band_peak_rms": 0.20719146925492957,
+          "reference_peak_rms": 0.2704458186284682,
+          "measured_peak_time": 2.569160997732426,
+          "timing_calibration_seconds": 0.02256235827664388,
+          "kick_recovery_window": [
+            0.15,
+            2.72
+          ],
+          "timing_source": "recording_calibrated_lowband_transient",
+          "independent_listening_verified": false
+        }
+      },
+      {
+        "timestamp": 2.656349,
+        "drum_family": "kick",
+        "tom_class": null,
+        "confidence": 0.97269,
+        "velocity": 0.8196,
+        "source_onset_index": 1340,
+        "rejection_reason": null,
+        "evidence": {
+          "acoustic_similarity": 0.9726902238105054,
+          "low_band_peak_rms": 0.1816655884851436,
+          "reference_peak_rms": 0.2704458186284682,
+          "measured_peak_time": 2.6789115646258503,
+          "timing_calibration_seconds": 0.02256235827664388,
+          "kick_recovery_window": [
+            0.15,
+            2.72
+          ],
+          "timing_source": "recording_calibrated_lowband_transient",
+          "independent_listening_verified": false
+        }
+      }
+    ],
+    "timing_source": "measured RMS peak minus median accepted-kick attack delay",
+    "class_probability_calibrated": false,
+    "beat_filler": false,
+    "reference_peak_rms": 0.2704458186284682,
+    "timing_calibration_seconds": 0.02256235827664388,
+    "candidate_count": 18,
+    "added_count": 9
+  },
+  "independent_listening_verified": false,
+  "audio_included": false
+}

@@ -1,0 +1,29 @@
+{
+  "source_commit": "546fcd454c4dd37ba357d05c9928f3e45e696d26",
+  "ci_run": 39608785140,
+  "python_versions": [
+    "3.11",
+    "3.12"
+  ],
+  "passed_per_version": 2034,
+  "skipped_per_version": 6,
+  "subtests_passed_per_version": 16,
+  "lint_both_passed": true,
+  "local_result": "2034 passed,6 skipped,16 subtests passed",
+  "windows_run": 39608785241,
+  "windows_artifact": 12349097869,
+  "native_source": "cc736b12c04184b7da0eb45a674ffb44fb71e3c9",
+  "native_run": 39605876463,
+  "native_artifact": 12347664834,
+  "native_current_source_accepted": false,
+  "android_run": 39608785388,
+  "android_status": "API30 and API36 success; independent source/hash/signing/full-song decode proofs pass",
+  "release_accepted": false,
+  "android_artifacts": {
+    "api30": 12350661773,
+    "api36": 12350666406
+  },
+  "apk_sha256": "7913cd4af74cd40cd1bd19fbfefff60b8de92fa2d5143d869d563b687b77e7b6",
+  "physical_android_verified": false,
+  "native_cached_renderer_restore_verified": true
+}

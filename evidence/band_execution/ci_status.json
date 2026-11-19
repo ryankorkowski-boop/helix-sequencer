@@ -1,0 +1,19 @@
+{
+  "run_id": 38299471460,
+  "job_id": 114978576590,
+  "workflow": "Helix Flow Quality Artifact",
+  "failed_step": "Export Helix Flow demo artifacts",
+  "preceding_tests": "49 passed",
+  "error": "ModuleNotFoundError: No module named core",
+  "cause": "Workflow invokes python tools/export_birdsong_demo_manifest.py without a repository module import path",
+  "band_code_involved": false,
+  "scope": "Unchanged existing Flow export entry point; no unrelated sequencing rewrite",
+  "other_ci": [
+    "Helix CI success",
+    "Helix Beta CI success",
+    "Helix Birdsong CI success",
+    "Helix Remote Review Preview MP4 success",
+    "Helix Flow Review Artifacts success"
+  ],
+  "unchanged_exporter": true
+}

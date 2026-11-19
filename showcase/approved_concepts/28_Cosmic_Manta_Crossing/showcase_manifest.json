@@ -1,0 +1,1939 @@
+{
+  "schema": "helix.approved_concept.v1",
+  "name": "Cosmic Manta Crossing",
+  "coordinate_system": "x-right, y-up, z-depth; design feet",
+  "xlights_source_ref": "6ceddc6b25a24d82754d4f9af28e18ee70b51f81",
+  "coverage": {
+    "Custom": 48
+  },
+  "native_families": [
+    "Custom"
+  ],
+  "native_coverage_complete": false,
+  "model_count": 48,
+  "rgb_pixels": 2514,
+  "channel_count": 7542,
+  "spiral_trees": 0,
+  "double_helices": 0,
+  "preview_contract": "Custom sparse-grid coordinates exactly match exported XML; native-family preview coordinates illustrate the authored geometry. Native xLights render/load evidence is recorded separately.",
+  "models": [
+    {
+      "name": "HX_001_MANTA_WING_RIB",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "MANTA",
+      "design": "MANTA WING RIB",
+      "kind": "pixel",
+      "nodes": 120,
+      "start_channel": 1,
+      "end_channel": 360,
+      "bounds_ft": [
+        [
+          -127.0,
+          70.0,
+          -57.0
+        ],
+        [
+          -12.0,
+          85.0,
+          -12.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.4208145748477945
+    },
+    {
+      "name": "HX_002_MANTA_WING_RIB",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "MANTA",
+      "design": "MANTA WING RIB",
+      "kind": "pixel",
+      "nodes": 120,
+      "start_channel": 361,
+      "end_channel": 720,
+      "bounds_ft": [
+        [
+          -127.0,
+          66.0,
+          -46.0
+        ],
+        [
+          -12.0,
+          85.0,
+          -5.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.411390113992327
+    },
+    {
+      "name": "HX_003_MANTA_WING_RIB",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "MANTA",
+      "design": "MANTA WING RIB",
+      "kind": "pixel",
+      "nodes": 120,
+      "start_channel": 721,
+      "end_channel": 1080,
+      "bounds_ft": [
+        [
+          -127.0,
+          62.0,
+          -35.0
+        ],
+        [
+          -12.0,
+          85.0,
+          2.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.38451954624777773
+    },
+    {
+      "name": "HX_004_MANTA_WING_RIB",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "MANTA",
+      "design": "MANTA WING RIB",
+      "kind": "pixel",
+      "nodes": 120,
+      "start_channel": 1081,
+      "end_channel": 1440,
+      "bounds_ft": [
+        [
+          -127.0,
+          58.0,
+          -24.0
+        ],
+        [
+          -12.0,
+          85.0,
+          9.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3792728369646246
+    },
+    {
+      "name": "HX_005_MANTA_WING_RIB",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "MANTA",
+      "design": "MANTA WING RIB",
+      "kind": "pixel",
+      "nodes": 120,
+      "start_channel": 1441,
+      "end_channel": 1800,
+      "bounds_ft": [
+        [
+          -127.0,
+          54.0,
+          -13.0
+        ],
+        [
+          -12.0,
+          85.0,
+          16.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3960982540884423
+    },
+    {
+      "name": "HX_006_MANTA_WING_RIB",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "MANTA",
+      "design": "MANTA WING RIB",
+      "kind": "pixel",
+      "nodes": 120,
+      "start_channel": 1801,
+      "end_channel": 2160,
+      "bounds_ft": [
+        [
+          -127.0,
+          50.0,
+          -2.0
+        ],
+        [
+          -12.0,
+          85.0,
+          23.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.4142941061398696
+    },
+    {
+      "name": "HX_007_MANTA_WING_EDGE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "MANTA",
+      "design": "MANTA WING EDGE",
+      "kind": "pixel",
+      "nodes": 170,
+      "start_channel": 2161,
+      "end_channel": 2670,
+      "bounds_ft": [
+        [
+          -127.5,
+          53.0,
+          -55.5
+        ],
+        [
+          -12.0,
+          85.0,
+          24.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.38550404576620817
+    },
+    {
+      "name": "HX_008_MANTA_WING_RIB",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "MANTA",
+      "design": "MANTA WING RIB",
+      "kind": "pixel",
+      "nodes": 120,
+      "start_channel": 2671,
+      "end_channel": 3030,
+      "bounds_ft": [
+        [
+          12.0,
+          70.0,
+          -57.0
+        ],
+        [
+          127.0,
+          85.0,
+          -12.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.4208145748477945
+    },
+    {
+      "name": "HX_009_MANTA_WING_RIB",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "MANTA",
+      "design": "MANTA WING RIB",
+      "kind": "pixel",
+      "nodes": 120,
+      "start_channel": 3031,
+      "end_channel": 3390,
+      "bounds_ft": [
+        [
+          12.0,
+          66.0,
+          -46.0
+        ],
+        [
+          127.0,
+          85.0,
+          -5.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.411390113992327
+    },
+    {
+      "name": "HX_010_MANTA_WING_RIB",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "MANTA",
+      "design": "MANTA WING RIB",
+      "kind": "pixel",
+      "nodes": 120,
+      "start_channel": 3391,
+      "end_channel": 3750,
+      "bounds_ft": [
+        [
+          12.0,
+          62.0,
+          -35.0
+        ],
+        [
+          127.0,
+          85.0,
+          2.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.38451954624777773
+    },
+    {
+      "name": "HX_011_MANTA_WING_RIB",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "MANTA",
+      "design": "MANTA WING RIB",
+      "kind": "pixel",
+      "nodes": 120,
+      "start_channel": 3751,
+      "end_channel": 4110,
+      "bounds_ft": [
+        [
+          12.0,
+          58.0,
+          -24.0
+        ],
+        [
+          127.0,
+          85.0,
+          9.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3792728369646246
+    },
+    {
+      "name": "HX_012_MANTA_WING_RIB",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "MANTA",
+      "design": "MANTA WING RIB",
+      "kind": "pixel",
+      "nodes": 120,
+      "start_channel": 4111,
+      "end_channel": 4470,
+      "bounds_ft": [
+        [
+          12.0,
+          54.0,
+          -13.0
+        ],
+        [
+          127.0,
+          85.0,
+          16.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3960982540884423
+    },
+    {
+      "name": "HX_013_MANTA_WING_RIB",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "MANTA",
+      "design": "MANTA WING RIB",
+      "kind": "pixel",
+      "nodes": 120,
+      "start_channel": 4471,
+      "end_channel": 4830,
+      "bounds_ft": [
+        [
+          12.0,
+          50.0,
+          -2.0
+        ],
+        [
+          127.0,
+          85.0,
+          23.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.4142941061398696
+    },
+    {
+      "name": "HX_014_MANTA_WING_EDGE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "MANTA",
+      "design": "MANTA WING EDGE",
+      "kind": "pixel",
+      "nodes": 170,
+      "start_channel": 4831,
+      "end_channel": 5340,
+      "bounds_ft": [
+        [
+          12.0,
+          53.0,
+          -55.5
+        ],
+        [
+          127.5,
+          85.0,
+          24.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.38550404576620817
+    },
+    {
+      "name": "HX_015_MANTA_BODY",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "MANTA",
+      "design": "MANTA BODY",
+      "kind": "pixel",
+      "nodes": 150,
+      "start_channel": 5341,
+      "end_channel": 5790,
+      "bounds_ft": [
+        [
+          -20.0,
+          70.0,
+          -15.0
+        ],
+        [
+          20.0,
+          70.0,
+          15.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.34090962995636354
+    },
+    {
+      "name": "HX_016_MANTA_TAIL",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "MANTA",
+      "design": "MANTA TAIL",
+      "kind": "pixel",
+      "nodes": 200,
+      "start_channel": 5791,
+      "end_channel": 6390,
+      "bounds_ft": [
+        [
+          -8.0,
+          47.0,
+          15.0
+        ],
+        [
+          8.0,
+          62.0,
+          115.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.41347522630448275
+    },
+    {
+      "name": "HX_017_STAR_RAY",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "ACCENTS",
+      "design": "STAR RAY",
+      "kind": "pixel",
+      "nodes": 12,
+      "start_channel": 6391,
+      "end_channel": 6426,
+      "bounds_ft": [
+        [
+          -89.0,
+          7.0,
+          50.0
+        ],
+        [
+          -85.0,
+          7.0,
+          50.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.25,
+      "max_snap_error_ft": 0.11363636363635976
+    },
+    {
+      "name": "HX_018_STAR_RAY",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "ACCENTS",
+      "design": "STAR RAY",
+      "kind": "pixel",
+      "nodes": 12,
+      "start_channel": 6427,
+      "end_channel": 6462,
+      "bounds_ft": [
+        [
+          -89.25,
+          7.75,
+          50.0
+        ],
+        [
+          -86.5,
+          10.5,
+          50.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.25,
+      "max_snap_error_ft": 0.06066017177981698
+    },
+    {
+      "name": "HX_019_STAR_RAY",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "ACCENTS",
+      "design": "STAR RAY",
+      "kind": "pixel",
+      "nodes": 12,
+      "start_channel": 6463,
+      "end_channel": 6498,
+      "bounds_ft": [
+        [
+          -90.0,
+          8.0,
+          50.0
+        ],
+        [
+          -90.0,
+          12.0,
+          50.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.25,
+      "max_snap_error_ft": 0.11363636363636331
+    },
+    {
+      "name": "HX_020_STAR_RAY",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "ACCENTS",
+      "design": "STAR RAY",
+      "kind": "pixel",
+      "nodes": 12,
+      "start_channel": 6499,
+      "end_channel": 6534,
+      "bounds_ft": [
+        [
+          -93.5,
+          7.75,
+          50.0
+        ],
+        [
+          -90.75,
+          10.5,
+          50.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.25,
+      "max_snap_error_ft": 0.06066017177981698
+    },
+    {
+      "name": "HX_021_STAR_RAY",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "ACCENTS",
+      "design": "STAR RAY",
+      "kind": "pixel",
+      "nodes": 12,
+      "start_channel": 6535,
+      "end_channel": 6570,
+      "bounds_ft": [
+        [
+          -95.0,
+          7.0,
+          50.0
+        ],
+        [
+          -91.0,
+          7.0,
+          50.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.25,
+      "max_snap_error_ft": 0.11363636363635976
+    },
+    {
+      "name": "HX_022_STAR_RAY",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "ACCENTS",
+      "design": "STAR RAY",
+      "kind": "pixel",
+      "nodes": 12,
+      "start_channel": 6571,
+      "end_channel": 6606,
+      "bounds_ft": [
+        [
+          -93.5,
+          3.5,
+          50.0
+        ],
+        [
+          -90.75,
+          6.25,
+          50.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.25,
+      "max_snap_error_ft": 0.06066017177981698
+    },
+    {
+      "name": "HX_023_STAR_RAY",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "ACCENTS",
+      "design": "STAR RAY",
+      "kind": "pixel",
+      "nodes": 12,
+      "start_channel": 6607,
+      "end_channel": 6642,
+      "bounds_ft": [
+        [
+          -90.0,
+          2.0,
+          50.0
+        ],
+        [
+          -90.0,
+          6.0,
+          50.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.25,
+      "max_snap_error_ft": 0.11363636363636331
+    },
+    {
+      "name": "HX_024_STAR_RAY",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "ACCENTS",
+      "design": "STAR RAY",
+      "kind": "pixel",
+      "nodes": 12,
+      "start_channel": 6643,
+      "end_channel": 6678,
+      "bounds_ft": [
+        [
+          -89.25,
+          3.5,
+          50.0
+        ],
+        [
+          -86.5,
+          6.25,
+          50.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.25,
+      "max_snap_error_ft": 0.06066017177981698
+    },
+    {
+      "name": "HX_025_STAR_RAY",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "ACCENTS",
+      "design": "STAR RAY",
+      "kind": "pixel",
+      "nodes": 12,
+      "start_channel": 6679,
+      "end_channel": 6714,
+      "bounds_ft": [
+        [
+          -29.0,
+          7.0,
+          50.0
+        ],
+        [
+          -25.0,
+          7.0,
+          50.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.25,
+      "max_snap_error_ft": 0.11363636363636331
+    },
+    {
+      "name": "HX_026_STAR_RAY",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "ACCENTS",
+      "design": "STAR RAY",
+      "kind": "pixel",
+      "nodes": 12,
+      "start_channel": 6715,
+      "end_channel": 6750,
+      "bounds_ft": [
+        [
+          -29.25,
+          7.75,
+          50.0
+        ],
+        [
+          -26.5,
+          10.5,
+          50.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.25,
+      "max_snap_error_ft": 0.060660171779822
+    },
+    {
+      "name": "HX_027_STAR_RAY",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "ACCENTS",
+      "design": "STAR RAY",
+      "kind": "pixel",
+      "nodes": 12,
+      "start_channel": 6751,
+      "end_channel": 6786,
+      "bounds_ft": [
+        [
+          -30.0,
+          8.0,
+          50.0
+        ],
+        [
+          -30.0,
+          12.0,
+          50.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.25,
+      "max_snap_error_ft": 0.11363636363636331
+    },
+    {
+      "name": "HX_028_STAR_RAY",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "ACCENTS",
+      "design": "STAR RAY",
+      "kind": "pixel",
+      "nodes": 12,
+      "start_channel": 6787,
+      "end_channel": 6822,
+      "bounds_ft": [
+        [
+          -33.5,
+          7.75,
+          50.0
+        ],
+        [
+          -30.75,
+          10.5,
+          50.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.25,
+      "max_snap_error_ft": 0.060660171779822
+    },
+    {
+      "name": "HX_029_STAR_RAY",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "ACCENTS",
+      "design": "STAR RAY",
+      "kind": "pixel",
+      "nodes": 12,
+      "start_channel": 6823,
+      "end_channel": 6858,
+      "bounds_ft": [
+        [
+          -35.0,
+          7.0,
+          50.0
+        ],
+        [
+          -31.0,
+          7.0,
+          50.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.25,
+      "max_snap_error_ft": 0.11363636363636331
+    },
+    {
+      "name": "HX_030_STAR_RAY",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "ACCENTS",
+      "design": "STAR RAY",
+      "kind": "pixel",
+      "nodes": 12,
+      "start_channel": 6859,
+      "end_channel": 6894,
+      "bounds_ft": [
+        [
+          -33.5,
+          3.5,
+          50.0
+        ],
+        [
+          -30.75,
+          6.25,
+          50.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.25,
+      "max_snap_error_ft": 0.060660171779822
+    },
+    {
+      "name": "HX_031_STAR_RAY",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "ACCENTS",
+      "design": "STAR RAY",
+      "kind": "pixel",
+      "nodes": 12,
+      "start_channel": 6895,
+      "end_channel": 6930,
+      "bounds_ft": [
+        [
+          -30.0,
+          2.0,
+          50.0
+        ],
+        [
+          -30.0,
+          6.0,
+          50.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.25,
+      "max_snap_error_ft": 0.11363636363636331
+    },
+    {
+      "name": "HX_032_STAR_RAY",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "ACCENTS",
+      "design": "STAR RAY",
+      "kind": "pixel",
+      "nodes": 12,
+      "start_channel": 6931,
+      "end_channel": 6966,
+      "bounds_ft": [
+        [
+          -29.25,
+          3.5,
+          50.0
+        ],
+        [
+          -26.5,
+          6.25,
+          50.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.25,
+      "max_snap_error_ft": 0.060660171779822
+    },
+    {
+      "name": "HX_033_STAR_RAY",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "ACCENTS",
+      "design": "STAR RAY",
+      "kind": "pixel",
+      "nodes": 12,
+      "start_channel": 6967,
+      "end_channel": 7002,
+      "bounds_ft": [
+        [
+          31.0,
+          7.0,
+          50.0
+        ],
+        [
+          35.0,
+          7.0,
+          50.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.25,
+      "max_snap_error_ft": 0.11363636363636331
+    },
+    {
+      "name": "HX_034_STAR_RAY",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "ACCENTS",
+      "design": "STAR RAY",
+      "kind": "pixel",
+      "nodes": 12,
+      "start_channel": 7003,
+      "end_channel": 7038,
+      "bounds_ft": [
+        [
+          30.75,
+          7.75,
+          50.0
+        ],
+        [
+          33.5,
+          10.5,
+          50.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.25,
+      "max_snap_error_ft": 0.060660171779822
+    },
+    {
+      "name": "HX_035_STAR_RAY",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "ACCENTS",
+      "design": "STAR RAY",
+      "kind": "pixel",
+      "nodes": 12,
+      "start_channel": 7039,
+      "end_channel": 7074,
+      "bounds_ft": [
+        [
+          30.0,
+          8.0,
+          50.0
+        ],
+        [
+          30.0,
+          12.0,
+          50.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.25,
+      "max_snap_error_ft": 0.11363636363636331
+    },
+    {
+      "name": "HX_036_STAR_RAY",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "ACCENTS",
+      "design": "STAR RAY",
+      "kind": "pixel",
+      "nodes": 12,
+      "start_channel": 7075,
+      "end_channel": 7110,
+      "bounds_ft": [
+        [
+          26.5,
+          7.75,
+          50.0
+        ],
+        [
+          29.25,
+          10.5,
+          50.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.25,
+      "max_snap_error_ft": 0.060660171779822
+    },
+    {
+      "name": "HX_037_STAR_RAY",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "ACCENTS",
+      "design": "STAR RAY",
+      "kind": "pixel",
+      "nodes": 12,
+      "start_channel": 7111,
+      "end_channel": 7146,
+      "bounds_ft": [
+        [
+          25.0,
+          7.0,
+          50.0
+        ],
+        [
+          29.0,
+          7.0,
+          50.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.25,
+      "max_snap_error_ft": 0.11363636363636331
+    },
+    {
+      "name": "HX_038_STAR_RAY",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "ACCENTS",
+      "design": "STAR RAY",
+      "kind": "pixel",
+      "nodes": 12,
+      "start_channel": 7147,
+      "end_channel": 7182,
+      "bounds_ft": [
+        [
+          26.5,
+          3.5,
+          50.0
+        ],
+        [
+          29.25,
+          6.25,
+          50.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.25,
+      "max_snap_error_ft": 0.060660171779822
+    },
+    {
+      "name": "HX_039_STAR_RAY",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "ACCENTS",
+      "design": "STAR RAY",
+      "kind": "pixel",
+      "nodes": 12,
+      "start_channel": 7183,
+      "end_channel": 7218,
+      "bounds_ft": [
+        [
+          30.0,
+          2.0,
+          50.0
+        ],
+        [
+          30.0,
+          6.0,
+          50.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.25,
+      "max_snap_error_ft": 0.11363636363636331
+    },
+    {
+      "name": "HX_040_STAR_RAY",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "ACCENTS",
+      "design": "STAR RAY",
+      "kind": "pixel",
+      "nodes": 12,
+      "start_channel": 7219,
+      "end_channel": 7254,
+      "bounds_ft": [
+        [
+          30.75,
+          3.5,
+          50.0
+        ],
+        [
+          33.5,
+          6.25,
+          50.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.25,
+      "max_snap_error_ft": 0.060660171779822
+    },
+    {
+      "name": "HX_041_STAR_RAY",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "ACCENTS",
+      "design": "STAR RAY",
+      "kind": "pixel",
+      "nodes": 12,
+      "start_channel": 7255,
+      "end_channel": 7290,
+      "bounds_ft": [
+        [
+          91.0,
+          7.0,
+          50.0
+        ],
+        [
+          95.0,
+          7.0,
+          50.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.25,
+      "max_snap_error_ft": 0.11363636363635976
+    },
+    {
+      "name": "HX_042_STAR_RAY",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "ACCENTS",
+      "design": "STAR RAY",
+      "kind": "pixel",
+      "nodes": 12,
+      "start_channel": 7291,
+      "end_channel": 7326,
+      "bounds_ft": [
+        [
+          90.75,
+          7.75,
+          50.0
+        ],
+        [
+          93.5,
+          10.5,
+          50.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.25,
+      "max_snap_error_ft": 0.06066017177981698
+    },
+    {
+      "name": "HX_043_STAR_RAY",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "ACCENTS",
+      "design": "STAR RAY",
+      "kind": "pixel",
+      "nodes": 12,
+      "start_channel": 7327,
+      "end_channel": 7362,
+      "bounds_ft": [
+        [
+          90.0,
+          8.0,
+          50.0
+        ],
+        [
+          90.0,
+          12.0,
+          50.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.25,
+      "max_snap_error_ft": 0.11363636363636331
+    },
+    {
+      "name": "HX_044_STAR_RAY",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "ACCENTS",
+      "design": "STAR RAY",
+      "kind": "pixel",
+      "nodes": 12,
+      "start_channel": 7363,
+      "end_channel": 7398,
+      "bounds_ft": [
+        [
+          86.5,
+          7.75,
+          50.0
+        ],
+        [
+          89.25,
+          10.5,
+          50.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.25,
+      "max_snap_error_ft": 0.06066017177981698
+    },
+    {
+      "name": "HX_045_STAR_RAY",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "ACCENTS",
+      "design": "STAR RAY",
+      "kind": "pixel",
+      "nodes": 12,
+      "start_channel": 7399,
+      "end_channel": 7434,
+      "bounds_ft": [
+        [
+          85.0,
+          7.0,
+          50.0
+        ],
+        [
+          89.0,
+          7.0,
+          50.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.25,
+      "max_snap_error_ft": 0.11363636363635976
+    },
+    {
+      "name": "HX_046_STAR_RAY",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "ACCENTS",
+      "design": "STAR RAY",
+      "kind": "pixel",
+      "nodes": 12,
+      "start_channel": 7435,
+      "end_channel": 7470,
+      "bounds_ft": [
+        [
+          86.5,
+          3.5,
+          50.0
+        ],
+        [
+          89.25,
+          6.25,
+          50.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.25,
+      "max_snap_error_ft": 0.06066017177981698
+    },
+    {
+      "name": "HX_047_STAR_RAY",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "ACCENTS",
+      "design": "STAR RAY",
+      "kind": "pixel",
+      "nodes": 12,
+      "start_channel": 7471,
+      "end_channel": 7506,
+      "bounds_ft": [
+        [
+          90.0,
+          2.0,
+          50.0
+        ],
+        [
+          90.0,
+          6.0,
+          50.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.25,
+      "max_snap_error_ft": 0.11363636363636331
+    },
+    {
+      "name": "HX_048_STAR_RAY",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "ACCENTS",
+      "design": "STAR RAY",
+      "kind": "pixel",
+      "nodes": 12,
+      "start_channel": 7507,
+      "end_channel": 7542,
+      "bounds_ft": [
+        [
+          90.75,
+          3.5,
+          50.0
+        ],
+        [
+          93.5,
+          6.25,
+          50.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.25,
+      "max_snap_error_ft": 0.06066017177981698
+    }
+  ],
+  "file_prefix": "Cosmic_Manta_Crossing",
+  "description": "Broad wing planes and a narrow helix spine make depth ripples read as a ray gliding overhead.",
+  "palette": [
+    "#69EFFF",
+    "#FFAB99",
+    "#E5F6FF"
+  ],
+  "groups": {
+    "HX_ALL_PIXELS": [
+      "HX_001_MANTA_WING_RIB",
+      "HX_002_MANTA_WING_RIB",
+      "HX_003_MANTA_WING_RIB",
+      "HX_004_MANTA_WING_RIB",
+      "HX_005_MANTA_WING_RIB",
+      "HX_006_MANTA_WING_RIB",
+      "HX_007_MANTA_WING_EDGE",
+      "HX_008_MANTA_WING_RIB",
+      "HX_009_MANTA_WING_RIB",
+      "HX_010_MANTA_WING_RIB",
+      "HX_011_MANTA_WING_RIB",
+      "HX_012_MANTA_WING_RIB",
+      "HX_013_MANTA_WING_RIB",
+      "HX_014_MANTA_WING_EDGE",
+      "HX_015_MANTA_BODY",
+      "HX_016_MANTA_TAIL",
+      "HX_017_STAR_RAY",
+      "HX_018_STAR_RAY",
+      "HX_019_STAR_RAY",
+      "HX_020_STAR_RAY",
+      "HX_021_STAR_RAY",
+      "HX_022_STAR_RAY",
+      "HX_023_STAR_RAY",
+      "HX_024_STAR_RAY",
+      "HX_025_STAR_RAY",
+      "HX_026_STAR_RAY",
+      "HX_027_STAR_RAY",
+      "HX_028_STAR_RAY",
+      "HX_029_STAR_RAY",
+      "HX_030_STAR_RAY",
+      "HX_031_STAR_RAY",
+      "HX_032_STAR_RAY",
+      "HX_033_STAR_RAY",
+      "HX_034_STAR_RAY",
+      "HX_035_STAR_RAY",
+      "HX_036_STAR_RAY",
+      "HX_037_STAR_RAY",
+      "HX_038_STAR_RAY",
+      "HX_039_STAR_RAY",
+      "HX_040_STAR_RAY",
+      "HX_041_STAR_RAY",
+      "HX_042_STAR_RAY",
+      "HX_043_STAR_RAY",
+      "HX_044_STAR_RAY",
+      "HX_045_STAR_RAY",
+      "HX_046_STAR_RAY",
+      "HX_047_STAR_RAY",
+      "HX_048_STAR_RAY"
+    ],
+    "HX_NATIVE_CUSTOM": [
+      "HX_001_MANTA_WING_RIB",
+      "HX_002_MANTA_WING_RIB",
+      "HX_003_MANTA_WING_RIB",
+      "HX_004_MANTA_WING_RIB",
+      "HX_005_MANTA_WING_RIB",
+      "HX_006_MANTA_WING_RIB",
+      "HX_007_MANTA_WING_EDGE",
+      "HX_008_MANTA_WING_RIB",
+      "HX_009_MANTA_WING_RIB",
+      "HX_010_MANTA_WING_RIB",
+      "HX_011_MANTA_WING_RIB",
+      "HX_012_MANTA_WING_RIB",
+      "HX_013_MANTA_WING_RIB",
+      "HX_014_MANTA_WING_EDGE",
+      "HX_015_MANTA_BODY",
+      "HX_016_MANTA_TAIL",
+      "HX_017_STAR_RAY",
+      "HX_018_STAR_RAY",
+      "HX_019_STAR_RAY",
+      "HX_020_STAR_RAY",
+      "HX_021_STAR_RAY",
+      "HX_022_STAR_RAY",
+      "HX_023_STAR_RAY",
+      "HX_024_STAR_RAY",
+      "HX_025_STAR_RAY",
+      "HX_026_STAR_RAY",
+      "HX_027_STAR_RAY",
+      "HX_028_STAR_RAY",
+      "HX_029_STAR_RAY",
+      "HX_030_STAR_RAY",
+      "HX_031_STAR_RAY",
+      "HX_032_STAR_RAY",
+      "HX_033_STAR_RAY",
+      "HX_034_STAR_RAY",
+      "HX_035_STAR_RAY",
+      "HX_036_STAR_RAY",
+      "HX_037_STAR_RAY",
+      "HX_038_STAR_RAY",
+      "HX_039_STAR_RAY",
+      "HX_040_STAR_RAY",
+      "HX_041_STAR_RAY",
+      "HX_042_STAR_RAY",
+      "HX_043_STAR_RAY",
+      "HX_044_STAR_RAY",
+      "HX_045_STAR_RAY",
+      "HX_046_STAR_RAY",
+      "HX_047_STAR_RAY",
+      "HX_048_STAR_RAY"
+    ],
+    "HX_WHOLE_SHOW": [
+      "HX_001_MANTA_WING_RIB",
+      "HX_002_MANTA_WING_RIB",
+      "HX_003_MANTA_WING_RIB",
+      "HX_004_MANTA_WING_RIB",
+      "HX_005_MANTA_WING_RIB",
+      "HX_006_MANTA_WING_RIB",
+      "HX_007_MANTA_WING_EDGE",
+      "HX_008_MANTA_WING_RIB",
+      "HX_009_MANTA_WING_RIB",
+      "HX_010_MANTA_WING_RIB",
+      "HX_011_MANTA_WING_RIB",
+      "HX_012_MANTA_WING_RIB",
+      "HX_013_MANTA_WING_RIB",
+      "HX_014_MANTA_WING_EDGE",
+      "HX_015_MANTA_BODY",
+      "HX_016_MANTA_TAIL",
+      "HX_017_STAR_RAY",
+      "HX_018_STAR_RAY",
+      "HX_019_STAR_RAY",
+      "HX_020_STAR_RAY",
+      "HX_021_STAR_RAY",
+      "HX_022_STAR_RAY",
+      "HX_023_STAR_RAY",
+      "HX_024_STAR_RAY",
+      "HX_025_STAR_RAY",
+      "HX_026_STAR_RAY",
+      "HX_027_STAR_RAY",
+      "HX_028_STAR_RAY",
+      "HX_029_STAR_RAY",
+      "HX_030_STAR_RAY",
+      "HX_031_STAR_RAY",
+      "HX_032_STAR_RAY",
+      "HX_033_STAR_RAY",
+      "HX_034_STAR_RAY",
+      "HX_035_STAR_RAY",
+      "HX_036_STAR_RAY",
+      "HX_037_STAR_RAY",
+      "HX_038_STAR_RAY",
+      "HX_039_STAR_RAY",
+      "HX_040_STAR_RAY",
+      "HX_041_STAR_RAY",
+      "HX_042_STAR_RAY",
+      "HX_043_STAR_RAY",
+      "HX_044_STAR_RAY",
+      "HX_045_STAR_RAY",
+      "HX_046_STAR_RAY",
+      "HX_047_STAR_RAY",
+      "HX_048_STAR_RAY"
+    ],
+    "HX_ZONE_ACCENTS": [
+      "HX_017_STAR_RAY",
+      "HX_018_STAR_RAY",
+      "HX_019_STAR_RAY",
+      "HX_020_STAR_RAY",
+      "HX_021_STAR_RAY",
+      "HX_022_STAR_RAY",
+      "HX_023_STAR_RAY",
+      "HX_024_STAR_RAY",
+      "HX_025_STAR_RAY",
+      "HX_026_STAR_RAY",
+      "HX_027_STAR_RAY",
+      "HX_028_STAR_RAY",
+      "HX_029_STAR_RAY",
+      "HX_030_STAR_RAY",
+      "HX_031_STAR_RAY",
+      "HX_032_STAR_RAY",
+      "HX_033_STAR_RAY",
+      "HX_034_STAR_RAY",
+      "HX_035_STAR_RAY",
+      "HX_036_STAR_RAY",
+      "HX_037_STAR_RAY",
+      "HX_038_STAR_RAY",
+      "HX_039_STAR_RAY",
+      "HX_040_STAR_RAY",
+      "HX_041_STAR_RAY",
+      "HX_042_STAR_RAY",
+      "HX_043_STAR_RAY",
+      "HX_044_STAR_RAY",
+      "HX_045_STAR_RAY",
+      "HX_046_STAR_RAY",
+      "HX_047_STAR_RAY",
+      "HX_048_STAR_RAY"
+    ],
+    "HX_ZONE_MANTA": [
+      "HX_001_MANTA_WING_RIB",
+      "HX_002_MANTA_WING_RIB",
+      "HX_003_MANTA_WING_RIB",
+      "HX_004_MANTA_WING_RIB",
+      "HX_005_MANTA_WING_RIB",
+      "HX_006_MANTA_WING_RIB",
+      "HX_007_MANTA_WING_EDGE",
+      "HX_008_MANTA_WING_RIB",
+      "HX_009_MANTA_WING_RIB",
+      "HX_010_MANTA_WING_RIB",
+      "HX_011_MANTA_WING_RIB",
+      "HX_012_MANTA_WING_RIB",
+      "HX_013_MANTA_WING_RIB",
+      "HX_014_MANTA_WING_EDGE",
+      "HX_015_MANTA_BODY",
+      "HX_016_MANTA_TAIL"
+    ]
+  },
+  "group_count": 5,
+  "concept_id": "28",
+  "source_art": "images/27_28.png",
+  "source_art_side": "right",
+  "build_status": "native planning layout",
+  "source_brief": {
+    "id": "28",
+    "name": "Cosmic Manta Crossing",
+    "standout": "Broad wing planes and a narrow helix spine make depth ripples read as a ray gliding overhead.",
+    "scene": "A gigantic celestial manta ray made entirely of restrained cyan and coral LED contour meshes, long swept wing planes split into three distinct depths, long mint double-helix tail, hovering-looking above a low dark pathway but supported by discrete grounded columns. Readable unmistakable manta silhouette, transparent layered light wings, small point-star clusters below.",
+    "board": 3,
+    "side": "right",
+    "image": "images/27_28.png",
+    "status": "awaiting approval",
+    "scope": "Concept art; no xmodel/XML/XSQ/MP4 build.",
+    "source_catalog": "showcase/concepts/2026_10_09_advanced/concepts.json",
+    "description": "Broad wing planes and a narrow helix spine make depth ripples read as a ray gliding overhead.",
+    "constraint": "Finite artwork-guided planning geometry; no physical actuation or surveyed construction dimensions.",
+    "round": "advanced"
+  },
+  "sequence_type": "24-second silent Animation study",
+  "physical_output_networks": 0,
+  "limits": [
+    "Finite artwork-guided planning geometry; no physical actuation or surveyed construction dimensions.",
+    "Artwork-guided finite geometry, not a scanned/surveyed reconstruction.",
+    "No complete music sequence or musical drummer acceptance claimed."
+  ]
+}

@@ -1,0 +1,46 @@
+{
+  "baseline_source_sha": "5aac37af254c4bc08df992551a5f06d918506f6f",
+  "input_origin": "Soundtrack decoded from existing 15-second diagnostic libfile_626471dc82648191b8e706cd1c7366ac; not an approval render",
+  "input_pcm_sha256": "0a1fb73d9755682396bf458d306cff06d48e5d76aea3045cc58201607cab4338",
+  "duration_seconds": 15,
+  "sample_rate": 44100,
+  "layout": "tests/fixtures/beta_demo/minimal_layout.xml",
+  "profile": "master/v27.3; history, polish, matrix intelligence and template guidance disabled equally",
+  "baseline_sync_frames": 0,
+  "candidate_sync_frames": 3,
+  "candidate_phrase_motifs": 3,
+  "baseline_effects_reported": 299,
+  "candidate_effects_reported": 299,
+  "xsq_effect_signature_before": [
+    "b5caa01361db6ff961e616a26c0a3c9f500821b43eebf3dcef13aa82afac37ea",
+    1591
+  ],
+  "xsq_effect_signature_after": [
+    "b5caa01361db6ff961e616a26c0a3c9f500821b43eebf3dcef13aa82afac37ea",
+    1591
+  ],
+  "drummer_cues": 71,
+  "drummer_cues_exactly_preserved": true,
+  "drummer_cue_sha256": "0ef0feff3378af21383fae64d3fd9d3ea058067d4512520bd008ad897c2f7213",
+  "source_ownership_unknown_count": 59,
+  "source_note_events": 59,
+  "repeated_candidate_xsq_byte_identical": true,
+  "roles_unchanged": {
+    "drummer": true,
+    "bassist": false,
+    "guitarist": false,
+    "keyboardist": true,
+    "lead_singer": true
+  },
+  "cache_reuse": {
+    "audio": 2,
+    "harmonic": 2,
+    "stems": 2,
+    "multiband": 2
+  },
+  "limitations": [
+    "Short existing soundtrack excerpt and minimal two-model RGB fixture only",
+    "No full-song acoustic or lexical proof, native xLights renderer or FSEQ, MP4, device acceptance, or owner approval",
+    "Drummer parity is against starting source 5aac37a, not independently recovered b27 oracle"
+  ]
+}

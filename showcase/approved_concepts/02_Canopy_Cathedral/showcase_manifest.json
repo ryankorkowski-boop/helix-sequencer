@@ -1,0 +1,1127 @@
+{
+  "schema": "helix.approved_concept.v1",
+  "name": "Canopy Cathedral",
+  "coordinate_system": "x-right, y-up, z-depth; design feet",
+  "xlights_source_ref": "6ceddc6b25a24d82754d4f9af28e18ee70b51f81",
+  "coverage": {
+    "Custom": 23
+  },
+  "native_families": [
+    "Custom"
+  ],
+  "native_coverage_complete": false,
+  "model_count": 23,
+  "rgb_pixels": 7500,
+  "channel_count": 22500,
+  "spiral_trees": 6,
+  "double_helices": 12,
+  "preview_contract": "Custom sparse-grid coordinates exactly match exported XML; native-family preview coordinates illustrate the authored geometry. Native xLights render/load evidence is recorded separately.",
+  "models": [
+    {
+      "name": "HX_001_NAVE_COLUMN",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "COLUMNS",
+      "design": "NAVE COLUMN",
+      "kind": "pixel",
+      "nodes": 395,
+      "start_channel": 1,
+      "end_channel": 1185,
+      "bounds_ft": [
+        [
+          -79.0,
+          0.0,
+          -84.0
+        ],
+        [
+          -71.0,
+          80.0,
+          -76.0
+        ]
+      ],
+      "submodels": [
+        "STRAND_A",
+        "STRAND_B",
+        "RUNGS",
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.38574120658534844,
+      "double_helix": true
+    },
+    {
+      "name": "HX_002_NAVE_COLUMN",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "COLUMNS",
+      "design": "NAVE COLUMN",
+      "kind": "pixel",
+      "nodes": 395,
+      "start_channel": 1186,
+      "end_channel": 2370,
+      "bounds_ft": [
+        [
+          71.0,
+          0.0,
+          -84.0
+        ],
+        [
+          79.0,
+          80.0,
+          -76.0
+        ]
+      ],
+      "submodels": [
+        "STRAND_A",
+        "STRAND_B",
+        "RUNGS",
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.38574120658534844,
+      "double_helix": true
+    },
+    {
+      "name": "HX_003_POINTED_ARCH",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "NAVE",
+      "design": "POINTED ARCH",
+      "kind": "pixel",
+      "nodes": 160,
+      "start_channel": 2371,
+      "end_channel": 2850,
+      "bounds_ft": [
+        [
+          -72.5,
+          0.0,
+          -80.0
+        ],
+        [
+          72.5,
+          102.5,
+          -80.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.32486708532358527
+    },
+    {
+      "name": "HX_004_CANOPY_RIB",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "CANOPY",
+      "design": "CANOPY RIB",
+      "kind": "pixel",
+      "nodes": 395,
+      "start_channel": 2851,
+      "end_channel": 4035,
+      "bounds_ft": [
+        [
+          -75.0,
+          71.5,
+          -84.0
+        ],
+        [
+          75.0,
+          88.5,
+          -76.0
+        ]
+      ],
+      "submodels": [
+        "STRAND_A",
+        "STRAND_B",
+        "RUNGS",
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3972187596446083,
+      "double_helix": true
+    },
+    {
+      "name": "HX_005_NAVE_COLUMN",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "COLUMNS",
+      "design": "NAVE COLUMN",
+      "kind": "pixel",
+      "nodes": 395,
+      "start_channel": 4036,
+      "end_channel": 5220,
+      "bounds_ft": [
+        [
+          -79.0,
+          0.0,
+          -44.0
+        ],
+        [
+          -71.0,
+          80.0,
+          -36.0
+        ]
+      ],
+      "submodels": [
+        "STRAND_A",
+        "STRAND_B",
+        "RUNGS",
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.38574120658534844,
+      "double_helix": true
+    },
+    {
+      "name": "HX_006_NAVE_COLUMN",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "COLUMNS",
+      "design": "NAVE COLUMN",
+      "kind": "pixel",
+      "nodes": 395,
+      "start_channel": 5221,
+      "end_channel": 6405,
+      "bounds_ft": [
+        [
+          71.0,
+          0.0,
+          -44.0
+        ],
+        [
+          79.0,
+          80.0,
+          -36.0
+        ]
+      ],
+      "submodels": [
+        "STRAND_A",
+        "STRAND_B",
+        "RUNGS",
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.38574120658534844,
+      "double_helix": true
+    },
+    {
+      "name": "HX_007_POINTED_ARCH",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "NAVE",
+      "design": "POINTED ARCH",
+      "kind": "pixel",
+      "nodes": 160,
+      "start_channel": 6406,
+      "end_channel": 6885,
+      "bounds_ft": [
+        [
+          -72.5,
+          0.0,
+          -40.0
+        ],
+        [
+          72.5,
+          102.5,
+          -40.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.32486708532358527
+    },
+    {
+      "name": "HX_008_CANOPY_RIB",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "CANOPY",
+      "design": "CANOPY RIB",
+      "kind": "pixel",
+      "nodes": 395,
+      "start_channel": 6886,
+      "end_channel": 8070,
+      "bounds_ft": [
+        [
+          -75.0,
+          71.5,
+          -44.0
+        ],
+        [
+          75.0,
+          88.5,
+          -36.0
+        ]
+      ],
+      "submodels": [
+        "STRAND_A",
+        "STRAND_B",
+        "RUNGS",
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3972187596446083,
+      "double_helix": true
+    },
+    {
+      "name": "HX_009_NAVE_COLUMN",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "COLUMNS",
+      "design": "NAVE COLUMN",
+      "kind": "pixel",
+      "nodes": 395,
+      "start_channel": 8071,
+      "end_channel": 9255,
+      "bounds_ft": [
+        [
+          -79.0,
+          0.0,
+          -4.0
+        ],
+        [
+          -71.0,
+          80.0,
+          4.0
+        ]
+      ],
+      "submodels": [
+        "STRAND_A",
+        "STRAND_B",
+        "RUNGS",
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.38574120658534977,
+      "double_helix": true
+    },
+    {
+      "name": "HX_010_NAVE_COLUMN",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "COLUMNS",
+      "design": "NAVE COLUMN",
+      "kind": "pixel",
+      "nodes": 395,
+      "start_channel": 9256,
+      "end_channel": 10440,
+      "bounds_ft": [
+        [
+          71.0,
+          0.0,
+          -4.0
+        ],
+        [
+          79.0,
+          80.0,
+          4.0
+        ]
+      ],
+      "submodels": [
+        "STRAND_A",
+        "STRAND_B",
+        "RUNGS",
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.38574120658534977,
+      "double_helix": true
+    },
+    {
+      "name": "HX_011_POINTED_ARCH",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "NAVE",
+      "design": "POINTED ARCH",
+      "kind": "pixel",
+      "nodes": 160,
+      "start_channel": 10441,
+      "end_channel": 10920,
+      "bounds_ft": [
+        [
+          -72.5,
+          0.0,
+          0.0
+        ],
+        [
+          72.5,
+          102.5,
+          0.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.32486708532358527
+    },
+    {
+      "name": "HX_012_CANOPY_RIB",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "CANOPY",
+      "design": "CANOPY RIB",
+      "kind": "pixel",
+      "nodes": 395,
+      "start_channel": 10921,
+      "end_channel": 12105,
+      "bounds_ft": [
+        [
+          -75.0,
+          71.5,
+          -4.0
+        ],
+        [
+          75.0,
+          88.5,
+          4.0
+        ]
+      ],
+      "submodels": [
+        "STRAND_A",
+        "STRAND_B",
+        "RUNGS",
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3972187596446098,
+      "double_helix": true
+    },
+    {
+      "name": "HX_013_NAVE_COLUMN",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "COLUMNS",
+      "design": "NAVE COLUMN",
+      "kind": "pixel",
+      "nodes": 395,
+      "start_channel": 12106,
+      "end_channel": 13290,
+      "bounds_ft": [
+        [
+          -79.0,
+          0.0,
+          36.0
+        ],
+        [
+          -71.0,
+          80.0,
+          44.0
+        ]
+      ],
+      "submodels": [
+        "STRAND_A",
+        "STRAND_B",
+        "RUNGS",
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.38574120658534844,
+      "double_helix": true
+    },
+    {
+      "name": "HX_014_NAVE_COLUMN",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "COLUMNS",
+      "design": "NAVE COLUMN",
+      "kind": "pixel",
+      "nodes": 395,
+      "start_channel": 13291,
+      "end_channel": 14475,
+      "bounds_ft": [
+        [
+          71.0,
+          0.0,
+          36.0
+        ],
+        [
+          79.0,
+          80.0,
+          44.0
+        ]
+      ],
+      "submodels": [
+        "STRAND_A",
+        "STRAND_B",
+        "RUNGS",
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.38574120658534844,
+      "double_helix": true
+    },
+    {
+      "name": "HX_015_POINTED_ARCH",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "NAVE",
+      "design": "POINTED ARCH",
+      "kind": "pixel",
+      "nodes": 160,
+      "start_channel": 14476,
+      "end_channel": 14955,
+      "bounds_ft": [
+        [
+          -72.5,
+          0.0,
+          40.0
+        ],
+        [
+          72.5,
+          102.5,
+          40.0
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.32486708532358527
+    },
+    {
+      "name": "HX_016_CANOPY_RIB",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "CANOPY",
+      "design": "CANOPY RIB",
+      "kind": "pixel",
+      "nodes": 395,
+      "start_channel": 14956,
+      "end_channel": 16140,
+      "bounds_ft": [
+        [
+          -75.0,
+          71.5,
+          36.0
+        ],
+        [
+          75.0,
+          88.5,
+          44.0
+        ]
+      ],
+      "submodels": [
+        "STRAND_A",
+        "STRAND_B",
+        "RUNGS",
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3972187596446083,
+      "double_helix": true
+    },
+    {
+      "name": "HX_017_SPIRAL_TREE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "GROVE",
+      "design": "SPIRAL TREE",
+      "kind": "pixel",
+      "nodes": 320,
+      "start_channel": 16141,
+      "end_channel": 17100,
+      "bounds_ft": [
+        [
+          -153.5,
+          0.0,
+          -73.5
+        ],
+        [
+          -126.5,
+          45.0,
+          -46.5
+        ]
+      ],
+      "submodels": [
+        "STRAND_1",
+        "STRAND_2",
+        "STRAND_3",
+        "STRAND_4",
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3780520534678216,
+      "spiral_tree": true,
+      "custom_exact": true
+    },
+    {
+      "name": "HX_018_SPIRAL_TREE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "GROVE",
+      "design": "SPIRAL TREE",
+      "kind": "pixel",
+      "nodes": 320,
+      "start_channel": 17101,
+      "end_channel": 18060,
+      "bounds_ft": [
+        [
+          -153.5,
+          0.0,
+          -3.5
+        ],
+        [
+          -126.5,
+          45.0,
+          23.5
+        ]
+      ],
+      "submodels": [
+        "STRAND_1",
+        "STRAND_2",
+        "STRAND_3",
+        "STRAND_4",
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3780520534678216,
+      "spiral_tree": true,
+      "custom_exact": true
+    },
+    {
+      "name": "HX_019_SPIRAL_TREE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "GROVE",
+      "design": "SPIRAL TREE",
+      "kind": "pixel",
+      "nodes": 320,
+      "start_channel": 18061,
+      "end_channel": 19020,
+      "bounds_ft": [
+        [
+          -153.5,
+          0.0,
+          41.5
+        ],
+        [
+          -126.5,
+          45.0,
+          68.5
+        ]
+      ],
+      "submodels": [
+        "STRAND_1",
+        "STRAND_2",
+        "STRAND_3",
+        "STRAND_4",
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3780520534678216,
+      "spiral_tree": true,
+      "custom_exact": true
+    },
+    {
+      "name": "HX_020_SPIRAL_TREE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "GROVE",
+      "design": "SPIRAL TREE",
+      "kind": "pixel",
+      "nodes": 320,
+      "start_channel": 19021,
+      "end_channel": 19980,
+      "bounds_ft": [
+        [
+          126.5,
+          0.0,
+          -73.5
+        ],
+        [
+          153.5,
+          45.0,
+          -46.5
+        ]
+      ],
+      "submodels": [
+        "STRAND_1",
+        "STRAND_2",
+        "STRAND_3",
+        "STRAND_4",
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3780520534678216,
+      "spiral_tree": true,
+      "custom_exact": true
+    },
+    {
+      "name": "HX_021_SPIRAL_TREE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "GROVE",
+      "design": "SPIRAL TREE",
+      "kind": "pixel",
+      "nodes": 320,
+      "start_channel": 19981,
+      "end_channel": 20940,
+      "bounds_ft": [
+        [
+          126.5,
+          0.0,
+          -3.5
+        ],
+        [
+          153.5,
+          45.0,
+          23.5
+        ]
+      ],
+      "submodels": [
+        "STRAND_1",
+        "STRAND_2",
+        "STRAND_3",
+        "STRAND_4",
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3780520534678216,
+      "spiral_tree": true,
+      "custom_exact": true
+    },
+    {
+      "name": "HX_022_SPIRAL_TREE",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "GROVE",
+      "design": "SPIRAL TREE",
+      "kind": "pixel",
+      "nodes": 320,
+      "start_channel": 20941,
+      "end_channel": 21900,
+      "bounds_ft": [
+        [
+          126.5,
+          0.0,
+          41.5
+        ],
+        [
+          153.5,
+          45.0,
+          68.5
+        ]
+      ],
+      "submodels": [
+        "STRAND_1",
+        "STRAND_2",
+        "STRAND_3",
+        "STRAND_4",
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.3780520534678216,
+      "spiral_tree": true,
+      "custom_exact": true
+    },
+    {
+      "name": "HX_023_WALKWAY",
+      "native_type": "Custom",
+      "family": "Custom",
+      "zone": "GROUND",
+      "design": "WALKWAY",
+      "kind": "pixel",
+      "nodes": 200,
+      "start_channel": 21901,
+      "end_channel": 22500,
+      "bounds_ft": [
+        [
+          -25.0,
+          0.0,
+          -97.5
+        ],
+        [
+          25.0,
+          0.0,
+          57.5
+        ]
+      ],
+      "submodels": [
+        "SECTOR_00",
+        "SECTOR_01",
+        "SECTOR_02",
+        "SECTOR_03",
+        "SECTOR_04",
+        "SECTOR_05",
+        "SECTOR_06",
+        "SECTOR_07"
+      ],
+      "grid_spacing_ft": 0.5,
+      "max_snap_error_ft": 0.25
+    }
+  ],
+  "file_prefix": "Canopy_Cathedral",
+  "description": "A green-and-lilac grove surrounds a walk-through nave beneath arched DNA ribs and a suspended leaflike light canopy.",
+  "palette": [
+    "#83FFA3",
+    "#CEACFF",
+    "#FFF3CC"
+  ],
+  "groups": {
+    "HX_ALL_PIXELS": [
+      "HX_001_NAVE_COLUMN",
+      "HX_002_NAVE_COLUMN",
+      "HX_003_POINTED_ARCH",
+      "HX_004_CANOPY_RIB",
+      "HX_005_NAVE_COLUMN",
+      "HX_006_NAVE_COLUMN",
+      "HX_007_POINTED_ARCH",
+      "HX_008_CANOPY_RIB",
+      "HX_009_NAVE_COLUMN",
+      "HX_010_NAVE_COLUMN",
+      "HX_011_POINTED_ARCH",
+      "HX_012_CANOPY_RIB",
+      "HX_013_NAVE_COLUMN",
+      "HX_014_NAVE_COLUMN",
+      "HX_015_POINTED_ARCH",
+      "HX_016_CANOPY_RIB",
+      "HX_017_SPIRAL_TREE",
+      "HX_018_SPIRAL_TREE",
+      "HX_019_SPIRAL_TREE",
+      "HX_020_SPIRAL_TREE",
+      "HX_021_SPIRAL_TREE",
+      "HX_022_SPIRAL_TREE",
+      "HX_023_WALKWAY"
+    ],
+    "HX_DNA_ALL": [
+      "HX_001_NAVE_COLUMN",
+      "HX_002_NAVE_COLUMN",
+      "HX_004_CANOPY_RIB",
+      "HX_005_NAVE_COLUMN",
+      "HX_006_NAVE_COLUMN",
+      "HX_008_CANOPY_RIB",
+      "HX_009_NAVE_COLUMN",
+      "HX_010_NAVE_COLUMN",
+      "HX_012_CANOPY_RIB",
+      "HX_013_NAVE_COLUMN",
+      "HX_014_NAVE_COLUMN",
+      "HX_016_CANOPY_RIB"
+    ],
+    "HX_DNA_RUNGS": [
+      "HX_001_NAVE_COLUMN/RUNGS",
+      "HX_002_NAVE_COLUMN/RUNGS",
+      "HX_004_CANOPY_RIB/RUNGS",
+      "HX_005_NAVE_COLUMN/RUNGS",
+      "HX_006_NAVE_COLUMN/RUNGS",
+      "HX_008_CANOPY_RIB/RUNGS",
+      "HX_009_NAVE_COLUMN/RUNGS",
+      "HX_010_NAVE_COLUMN/RUNGS",
+      "HX_012_CANOPY_RIB/RUNGS",
+      "HX_013_NAVE_COLUMN/RUNGS",
+      "HX_014_NAVE_COLUMN/RUNGS",
+      "HX_016_CANOPY_RIB/RUNGS"
+    ],
+    "HX_DNA_STRAND_A": [
+      "HX_001_NAVE_COLUMN/STRAND_A",
+      "HX_002_NAVE_COLUMN/STRAND_A",
+      "HX_004_CANOPY_RIB/STRAND_A",
+      "HX_005_NAVE_COLUMN/STRAND_A",
+      "HX_006_NAVE_COLUMN/STRAND_A",
+      "HX_008_CANOPY_RIB/STRAND_A",
+      "HX_009_NAVE_COLUMN/STRAND_A",
+      "HX_010_NAVE_COLUMN/STRAND_A",
+      "HX_012_CANOPY_RIB/STRAND_A",
+      "HX_013_NAVE_COLUMN/STRAND_A",
+      "HX_014_NAVE_COLUMN/STRAND_A",
+      "HX_016_CANOPY_RIB/STRAND_A"
+    ],
+    "HX_DNA_STRAND_B": [
+      "HX_001_NAVE_COLUMN/STRAND_B",
+      "HX_002_NAVE_COLUMN/STRAND_B",
+      "HX_004_CANOPY_RIB/STRAND_B",
+      "HX_005_NAVE_COLUMN/STRAND_B",
+      "HX_006_NAVE_COLUMN/STRAND_B",
+      "HX_008_CANOPY_RIB/STRAND_B",
+      "HX_009_NAVE_COLUMN/STRAND_B",
+      "HX_010_NAVE_COLUMN/STRAND_B",
+      "HX_012_CANOPY_RIB/STRAND_B",
+      "HX_013_NAVE_COLUMN/STRAND_B",
+      "HX_014_NAVE_COLUMN/STRAND_B",
+      "HX_016_CANOPY_RIB/STRAND_B"
+    ],
+    "HX_NATIVE_CUSTOM": [
+      "HX_001_NAVE_COLUMN",
+      "HX_002_NAVE_COLUMN",
+      "HX_003_POINTED_ARCH",
+      "HX_004_CANOPY_RIB",
+      "HX_005_NAVE_COLUMN",
+      "HX_006_NAVE_COLUMN",
+      "HX_007_POINTED_ARCH",
+      "HX_008_CANOPY_RIB",
+      "HX_009_NAVE_COLUMN",
+      "HX_010_NAVE_COLUMN",
+      "HX_011_POINTED_ARCH",
+      "HX_012_CANOPY_RIB",
+      "HX_013_NAVE_COLUMN",
+      "HX_014_NAVE_COLUMN",
+      "HX_015_POINTED_ARCH",
+      "HX_016_CANOPY_RIB",
+      "HX_017_SPIRAL_TREE",
+      "HX_018_SPIRAL_TREE",
+      "HX_019_SPIRAL_TREE",
+      "HX_020_SPIRAL_TREE",
+      "HX_021_SPIRAL_TREE",
+      "HX_022_SPIRAL_TREE",
+      "HX_023_WALKWAY"
+    ],
+    "HX_SPIRALS_EAST": [
+      "HX_020_SPIRAL_TREE",
+      "HX_021_SPIRAL_TREE",
+      "HX_022_SPIRAL_TREE"
+    ],
+    "HX_SPIRALS_WEST": [
+      "HX_017_SPIRAL_TREE",
+      "HX_018_SPIRAL_TREE",
+      "HX_019_SPIRAL_TREE"
+    ],
+    "HX_SPIRAL_TREES": [
+      "HX_017_SPIRAL_TREE",
+      "HX_018_SPIRAL_TREE",
+      "HX_019_SPIRAL_TREE",
+      "HX_020_SPIRAL_TREE",
+      "HX_021_SPIRAL_TREE",
+      "HX_022_SPIRAL_TREE"
+    ],
+    "HX_WHOLE_SHOW": [
+      "HX_001_NAVE_COLUMN",
+      "HX_002_NAVE_COLUMN",
+      "HX_003_POINTED_ARCH",
+      "HX_004_CANOPY_RIB",
+      "HX_005_NAVE_COLUMN",
+      "HX_006_NAVE_COLUMN",
+      "HX_007_POINTED_ARCH",
+      "HX_008_CANOPY_RIB",
+      "HX_009_NAVE_COLUMN",
+      "HX_010_NAVE_COLUMN",
+      "HX_011_POINTED_ARCH",
+      "HX_012_CANOPY_RIB",
+      "HX_013_NAVE_COLUMN",
+      "HX_014_NAVE_COLUMN",
+      "HX_015_POINTED_ARCH",
+      "HX_016_CANOPY_RIB",
+      "HX_017_SPIRAL_TREE",
+      "HX_018_SPIRAL_TREE",
+      "HX_019_SPIRAL_TREE",
+      "HX_020_SPIRAL_TREE",
+      "HX_021_SPIRAL_TREE",
+      "HX_022_SPIRAL_TREE",
+      "HX_023_WALKWAY"
+    ],
+    "HX_ZONE_CANOPY": [
+      "HX_004_CANOPY_RIB",
+      "HX_008_CANOPY_RIB",
+      "HX_012_CANOPY_RIB",
+      "HX_016_CANOPY_RIB"
+    ],
+    "HX_ZONE_COLUMNS": [
+      "HX_001_NAVE_COLUMN",
+      "HX_002_NAVE_COLUMN",
+      "HX_005_NAVE_COLUMN",
+      "HX_006_NAVE_COLUMN",
+      "HX_009_NAVE_COLUMN",
+      "HX_010_NAVE_COLUMN",
+      "HX_013_NAVE_COLUMN",
+      "HX_014_NAVE_COLUMN"
+    ],
+    "HX_ZONE_GROUND": [
+      "HX_023_WALKWAY"
+    ],
+    "HX_ZONE_GROVE": [
+      "HX_017_SPIRAL_TREE",
+      "HX_018_SPIRAL_TREE",
+      "HX_019_SPIRAL_TREE",
+      "HX_020_SPIRAL_TREE",
+      "HX_021_SPIRAL_TREE",
+      "HX_022_SPIRAL_TREE"
+    ],
+    "HX_ZONE_NAVE": [
+      "HX_003_POINTED_ARCH",
+      "HX_007_POINTED_ARCH",
+      "HX_011_POINTED_ARCH",
+      "HX_015_POINTED_ARCH"
+    ]
+  },
+  "group_count": 15,
+  "concept_id": "02",
+  "source_art": "images/01_02_Emberfrost_Canopy.png",
+  "source_art_side": "right",
+  "build_status": "native planning layout",
+  "source_brief": {
+    "id": "02",
+    "name": "Canopy Cathedral",
+    "round": "spatial",
+    "board": 1,
+    "side": "right",
+    "description": "A green-and-lilac grove surrounds a walk-through nave beneath arched DNA ribs and a suspended leaflike light canopy.",
+    "spatial": "Tall perimeter columns, open central corridor and a distinct overhead layer.",
+    "choreography": "Ground roots answer canopy ripples, with depth waves traveling along the nave.",
+    "constraint": "Overhead installation needs rigging and clearance review.",
+    "image": "images/01_02_Emberfrost_Canopy.png",
+    "panel_ratio": 1.2503152585119799,
+    "status": "awaiting user selection"
+  },
+  "sequence_type": "24-second silent Animation study",
+  "physical_output_networks": 0,
+  "limits": [
+    "Overhead installation needs rigging and clearance review.",
+    "Artwork-guided finite geometry, not a scanned/surveyed reconstruction.",
+    "No complete music sequence or musical drummer acceptance claimed."
+  ]
+}

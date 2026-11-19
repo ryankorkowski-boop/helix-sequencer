@@ -1,0 +1,48 @@
+{
+  "retrieved_today_conversations": true,
+  "prior_native_samplers_run": {
+    "id": 38367553613,
+    "conclusion": "success"
+  },
+  "prior_split_handoff_run": {
+    "id": 38370448272,
+    "conclusion": "success"
+  },
+  "prior_windows_build_run": {
+    "id": 38365377124,
+    "conclusion": "success"
+  },
+  "android_stability_run": {
+    "id": 38391577471,
+    "head": "6bdae4e461256df6184200e55dde2675741381ad",
+    "conclusion": "success"
+  },
+  "android_stability_handoff": {
+    "id": 38396947536,
+    "conclusion": "success",
+    "apk_artifact": 11812187859,
+    "artifacts_unexpired": true
+  },
+  "current_gui_source_implemented": true,
+  "new_gui_native_build": "blocked by rejected source publication",
+  "fresh_artifacts_in_this_delivery": 9,
+  "physical_validation_claimed": false,
+  "prior_saved_file_inventory_checked": true,
+  "prior_saved_installers_bytes": {
+    "Helix-Android-0.2.1.apk": 141847489,
+    "Helix-Windows-Portable.zip": 189243723
+  },
+  "prior_saved_movie_zip_bytes": 255455921,
+  "prior_saved_native_show_zip_bytes": 367210690,
+  "prior_five_all_song_movies_saved": [
+    "Helix_Sampler_A_6_Layouts.mp4",
+    "Helix_Sampler_B_6_Layouts.mp4",
+    "Helix_Sampler_C_6_Layouts.mp4",
+    "Helix_Neon_Circuit_All_Songs.mp4",
+    "Helix_Celestial_Orrery_All_Songs.mp4"
+  ],
+  "prior_two_recovered_movies_saved": [
+    "Helix_Six_Layouts_Same_Real_Sampler.mp4",
+    "Helix_Band_With_Singers_Same_Sampler.mp4"
+  ]
+}

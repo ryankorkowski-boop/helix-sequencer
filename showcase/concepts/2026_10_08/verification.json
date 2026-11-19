@@ -1,0 +1,49 @@
+{
+  "date": "2026-10-08",
+  "status": "review ready; user selection pending",
+  "concept_count": 22,
+  "paired_plate_count": 11,
+  "favorites": [
+    "Helix Aurora",
+    "Fire & Ice",
+    "Enchanted Grove"
+  ],
+  "favorite_baseline_commit": "15a7e5450d2798eacc57b821267d6a526428884a",
+  "favorite_files_verified_unchanged": 85,
+  "favorite_archive_matches_every_baseline_file": true,
+  "concept_images_match_generated_originals": true,
+  "new_native_layout_files": 0,
+  "new_audio_sequences": 0,
+  "native_workflows_dispatched": 0,
+  "gallery": {
+    "browser": "headless Chromium; offline file load",
+    "concept_cards": 22,
+    "filters": {
+      "spatial": 6,
+      "abstract": 6,
+      "traditional": 2,
+      "stage": 2,
+      "vehicle": 2,
+      "church": 2,
+      "boat": 2
+    },
+    "saved_favorites": 3,
+    "all_images_decoded": true,
+    "both_panel_sides_in_modal": true,
+    "modal_and_escape": true,
+    "shortlist_selection_and_reload": true,
+    "copyable_shortlist": true,
+    "mobile_no_horizontal_overflow": true,
+    "javascript_errors": [],
+    "screenshots": [
+      "Spatial_Gallery_Review.png",
+      "Abstract_Gallery_Review.png",
+      "Vehicle_Gallery_Review.png",
+      "Mobile_Gallery_Review.png"
+    ]
+  },
+  "favorite_archive_sha256": "4dfd4a21bb7b65ceae0edfdf6b25b8c7bc0561456de94602bc11ccf3052cbd5a",
+  "favorite_archive_bytes": 6194437,
+  "concept_package_excludes_native_files": true,
+  "limitations": "Concepts do not validate 3D mesh conversion, physical rigging, optical illusions or musical/native sequencing."
+}

@@ -1,0 +1,19 @@
+{
+  "steps": [
+    {
+      "step": "native_fseq",
+      "returncode": 0
+    },
+    {
+      "step": "lor_engine",
+      "returncode": 0
+    },
+    {
+      "step": "xlights_engine",
+      "returncode": 0
+    }
+  ],
+  "real_audio_source": "Tinsel Sawtooth (1).mp3",
+  "source_lms_preserved": true,
+  "legacy_lor_import_in_vendor_app_verified": false
+}

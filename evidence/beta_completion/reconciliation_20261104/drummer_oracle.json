@@ -1,0 +1,6953 @@
+{
+  "cues": [
+    {
+      "cluster_id": 0,
+      "composite_submodels": [
+        "kick"
+      ],
+      "confidence": 1.0,
+      "end_ms": 519,
+      "frames": [
+        "kick_center",
+        "kick_mid",
+        "kick_outer"
+      ],
+      "frequency_band_info": {},
+      "kind": "kick",
+      "performer": "drummer",
+      "section": "SECTION",
+      "source": "canonical_event_oracle",
+      "start_ms": 250,
+      "submodel": "kick",
+      "velocity": 0.9,
+      "visual_effect": {
+        "confidence": 1.0,
+        "drum_type": "kick",
+        "effect": "low_frequency_glow",
+        "effect_scoring_hint": "allow_layering_with_shaders_and_spatial_engine",
+        "end_ms": 519,
+        "intensity": 0.9,
+        "layer": "accent",
+        "player_piano_hook": {
+          "enabled": true,
+          "trigger": "floor_piano_percussive_note",
+          "velocity": 0.9
+        },
+        "spatial_impulse": {
+          "enabled": true,
+          "mode": "ground_spread",
+          "propagate_to": [
+            "trees",
+            "arches",
+            "matrices"
+          ],
+          "strength": 0.9
+        },
+        "start_ms": 250,
+        "submodel": "kick"
+      }
+    },
+    {
+      "cluster_id": 1,
+      "composite_submodels": [
+        "snare"
+      ],
+      "confidence": 1.0,
+      "end_ms": 1396,
+      "frames": [
+        "snare_burst"
+      ],
+      "frequency_band_info": {},
+      "kind": "snare",
+      "performer": "drummer",
+      "section": "SECTION",
+      "source": "canonical_event_oracle",
+      "start_ms": 1250,
+      "submodel": "snare",
+      "velocity": 0.9,
+      "visual_effect": {
+        "confidence": 1.0,
+        "drum_type": "snare",
+        "effect": "sharp_white_flash",
+        "effect_scoring_hint": "allow_layering_with_shaders_and_spatial_engine",
+        "end_ms": 1396,
+        "intensity": 0.9,
+        "layer": "accent",
+        "player_piano_hook": {
+          "enabled": true,
+          "trigger": "floor_piano_percussive_note",
+          "velocity": 0.9
+        },
+        "spatial_impulse": {
+          "enabled": true,
+          "mode": "lateral_flash",
+          "propagate_to": [
+            "trees",
+            "arches",
+            "matrices"
+          ],
+          "strength": 0.9
+        },
+        "start_ms": 1250,
+        "submodel": "snare"
+      }
+    },
+    {
+      "cluster_id": 2,
+      "composite_submodels": [
+        "hi_hat"
+      ],
+      "confidence": 1.0,
+      "end_ms": 2347,
+      "frames": [
+        "hat_flash"
+      ],
+      "frequency_band_info": {},
+      "kind": "hihat",
+      "performer": "drummer",
+      "section": "SECTION",
+      "source": "canonical_event_oracle",
+      "start_ms": 2250,
+      "submodel": "hi_hat",
+      "velocity": 0.9,
+      "visual_effect": {
+        "confidence": 1.0,
+        "drum_type": "hihat",
+        "effect": "rapid_shimmer_tick",
+        "effect_scoring_hint": "allow_layering_with_shaders_and_spatial_engine",
+        "end_ms": 2347,
+        "intensity": 0.9,
+        "layer": "accent",
+        "player_piano_hook": {
+          "enabled": true,
+          "trigger": "grid_tick",
+          "velocity": 0.9
+        },
+        "spatial_impulse": {
+          "enabled": true,
+          "mode": "spark_particles",
+          "propagate_to": [
+            "trees",
+            "arches",
+            "matrices"
+          ],
+          "strength": 0.9
+        },
+        "start_ms": 2250,
+        "submodel": "hi_hat"
+      }
+    },
+    {
+      "cluster_id": 3,
+      "composite_submodels": [
+        "tom"
+      ],
+      "confidence": 1.0,
+      "end_ms": 3470,
+      "frames": [
+        "tom_bounce"
+      ],
+      "frequency_band_info": {
+        "tom_class": "high",
+        "tom_class_confidence": 1.0
+      },
+      "kind": "tom",
+      "performer": "drummer",
+      "section": "SECTION",
+      "source": "canonical_event_oracle",
+      "start_ms": 3250,
+      "submodel": "tom",
+      "velocity": 0.9,
+      "visual_effect": {
+        "confidence": 1.0,
+        "drum_type": "tom",
+        "effect": "mid_bounce_pulse",
+        "effect_scoring_hint": "allow_layering_with_shaders_and_spatial_engine",
+        "end_ms": 3470,
+        "intensity": 0.9,
+        "layer": "motion",
+        "player_piano_hook": {
+          "enabled": true,
+          "trigger": "grid_tick",
+          "velocity": 0.9
+        },
+        "spatial_impulse": {
+          "enabled": true,
+          "mode": "body_bounce",
+          "propagate_to": [
+            "trees",
+            "arches",
+            "matrices"
+          ],
+          "strength": 0.9
+        },
+        "start_ms": 3250,
+        "submodel": "tom"
+      }
+    },
+    {
+      "cluster_id": 4,
+      "composite_submodels": [
+        "tom"
+      ],
+      "confidence": 1.0,
+      "end_ms": 4470,
+      "frames": [
+        "tom_bounce"
+      ],
+      "frequency_band_info": {
+        "tom_class": "mid",
+        "tom_class_confidence": 1.0
+      },
+      "kind": "tom",
+      "performer": "drummer",
+      "section": "SECTION",
+      "source": "canonical_event_oracle",
+      "start_ms": 4250,
+      "submodel": "tom",
+      "velocity": 0.9,
+      "visual_effect": {
+        "confidence": 1.0,
+        "drum_type": "tom",
+        "effect": "mid_bounce_pulse",
+        "effect_scoring_hint": "allow_layering_with_shaders_and_spatial_engine",
+        "end_ms": 4470,
+        "intensity": 0.9,
+        "layer": "motion",
+        "player_piano_hook": {
+          "enabled": true,
+          "trigger": "grid_tick",
+          "velocity": 0.9
+        },
+        "spatial_impulse": {
+          "enabled": true,
+          "mode": "body_bounce",
+          "propagate_to": [
+            "trees",
+            "arches",
+            "matrices"
+          ],
+          "strength": 0.9
+        },
+        "start_ms": 4250,
+        "submodel": "tom"
+      }
+    },
+    {
+      "cluster_id": 5,
+      "composite_submodels": [
+        "tom"
+      ],
+      "confidence": 1.0,
+      "end_ms": 5470,
+      "frames": [
+        "tom_bounce"
+      ],
+      "frequency_band_info": {
+        "tom_class": "floor",
+        "tom_class_confidence": 1.0
+      },
+      "kind": "tom",
+      "performer": "drummer",
+      "section": "SECTION",
+      "source": "canonical_event_oracle",
+      "start_ms": 5250,
+      "submodel": "tom",
+      "velocity": 0.9,
+      "visual_effect": {
+        "confidence": 1.0,
+        "drum_type": "tom",
+        "effect": "mid_bounce_pulse",
+        "effect_scoring_hint": "allow_layering_with_shaders_and_spatial_engine",
+        "end_ms": 5470,
+        "intensity": 0.9,
+        "layer": "motion",
+        "player_piano_hook": {
+          "enabled": true,
+          "trigger": "grid_tick",
+          "velocity": 0.9
+        },
+        "spatial_impulse": {
+          "enabled": true,
+          "mode": "body_bounce",
+          "propagate_to": [
+            "trees",
+            "arches",
+            "matrices"
+          ],
+          "strength": 0.9
+        },
+        "start_ms": 5250,
+        "submodel": "tom"
+      }
+    },
+    {
+      "cluster_id": 6,
+      "composite_submodels": [
+        "cymbal"
+      ],
+      "confidence": 1.0,
+      "end_ms": 6690,
+      "frames": [
+        "cymbal_frame_1",
+        "cymbal_frame_2",
+        "cymbal_frame_3",
+        "cymbal_frame_4"
+      ],
+      "frequency_band_info": {},
+      "kind": "cymbal",
+      "performer": "drummer",
+      "section": "SECTION",
+      "shimmer": true,
+      "source": "canonical_event_oracle",
+      "start_ms": 6250,
+      "submodel": "cymbal",
+      "velocity": 0.9,
+      "visual_effect": {
+        "confidence": 1.0,
+        "drum_type": "cymbal",
+        "effect": "wide_bright_wash",
+        "effect_scoring_hint": "allow_layering_with_shaders_and_spatial_engine",
+        "end_ms": 6690,
+        "intensity": 0.9,
+        "layer": "motion",
+        "player_piano_hook": {
+          "enabled": true,
+          "trigger": "grid_tick",
+          "velocity": 0.9
+        },
+        "spatial_impulse": {
+          "enabled": true,
+          "mode": "wide_wash_tail",
+          "propagate_to": [
+            "trees",
+            "arches",
+            "matrices"
+          ],
+          "strength": 0.9
+        },
+        "start_ms": 6250,
+        "submodel": "cymbal"
+      }
+    },
+    {
+      "cluster_id": 7,
+      "composite_submodels": [
+        "cymbal"
+      ],
+      "confidence": 1.0,
+      "end_ms": 7690,
+      "frames": [
+        "cymbal_frame_1",
+        "cymbal_frame_2",
+        "cymbal_frame_3",
+        "cymbal_frame_4"
+      ],
+      "frequency_band_info": {},
+      "kind": "cymbal",
+      "performer": "drummer",
+      "section": "SECTION",
+      "shimmer": true,
+      "source": "canonical_event_oracle",
+      "start_ms": 7250,
+      "submodel": "cymbal",
+      "velocity": 0.9,
+      "visual_effect": {
+        "confidence": 1.0,
+        "drum_type": "cymbal",
+        "effect": "wide_bright_wash",
+        "effect_scoring_hint": "allow_layering_with_shaders_and_spatial_engine",
+        "end_ms": 7690,
+        "intensity": 0.9,
+        "layer": "motion",
+        "player_piano_hook": {
+          "enabled": true,
+          "trigger": "grid_tick",
+          "velocity": 0.9
+        },
+        "spatial_impulse": {
+          "enabled": true,
+          "mode": "wide_wash_tail",
+          "propagate_to": [
+            "trees",
+            "arches",
+            "matrices"
+          ],
+          "strength": 0.9
+        },
+        "start_ms": 7250,
+        "submodel": "cymbal"
+      }
+    },
+    {
+      "cluster_id": 8,
+      "composite_submodels": [
+        "kick"
+      ],
+      "confidence": 1.0,
+      "end_ms": 8269,
+      "frames": [
+        "kick_center",
+        "kick_mid",
+        "kick_outer"
+      ],
+      "frequency_band_info": {},
+      "kind": "kick",
+      "performer": "drummer",
+      "section": "SECTION",
+      "source": "canonical_event_oracle",
+      "start_ms": 8000,
+      "submodel": "kick",
+      "velocity": 0.9,
+      "visual_effect": {
+        "confidence": 1.0,
+        "drum_type": "kick",
+        "effect": "low_frequency_glow",
+        "effect_scoring_hint": "allow_layering_with_shaders_and_spatial_engine",
+        "end_ms": 8269,
+        "intensity": 0.9,
+        "layer": "accent",
+        "player_piano_hook": {
+          "enabled": true,
+          "trigger": "floor_piano_percussive_note",
+          "velocity": 0.9
+        },
+        "spatial_impulse": {
+          "enabled": true,
+          "mode": "ground_spread",
+          "propagate_to": [
+            "trees",
+            "arches",
+            "matrices"
+          ],
+          "strength": 0.9
+        },
+        "start_ms": 8000,
+        "submodel": "kick"
+      }
+    },
+    {
+      "cluster_id": 9,
+      "composite_submodels": [
+        "cymbal"
+      ],
+      "confidence": 1.0,
+      "end_ms": 8440,
+      "frames": [
+        "cymbal_frame_1",
+        "cymbal_frame_2",
+        "cymbal_frame_3",
+        "cymbal_frame_4"
+      ],
+      "frequency_band_info": {},
+      "kind": "cymbal",
+      "performer": "drummer",
+      "section": "SECTION",
+      "shimmer": true,
+      "source": "canonical_event_oracle",
+      "start_ms": 8000,
+      "submodel": "cymbal",
+      "velocity": 0.9,
+      "visual_effect": {
+        "confidence": 1.0,
+        "drum_type": "cymbal",
+        "effect": "wide_bright_wash",
+        "effect_scoring_hint": "allow_layering_with_shaders_and_spatial_engine",
+        "end_ms": 8440,
+        "intensity": 0.9,
+        "layer": "motion",
+        "player_piano_hook": {
+          "enabled": true,
+          "trigger": "grid_tick",
+          "velocity": 0.9
+        },
+        "spatial_impulse": {
+          "enabled": true,
+          "mode": "wide_wash_tail",
+          "propagate_to": [
+            "trees",
+            "arches",
+            "matrices"
+          ],
+          "strength": 0.9
+        },
+        "start_ms": 8000,
+        "submodel": "cymbal"
+      }
+    },
+    {
+      "cluster_id": 10,
+      "composite_submodels": [
+        "hi_hat"
+      ],
+      "confidence": 1.0,
+      "end_ms": 8347,
+      "frames": [
+        "hat_flash"
+      ],
+      "frequency_band_info": {},
+      "kind": "hihat",
+      "performer": "drummer",
+      "section": "SECTION",
+      "source": "canonical_event_oracle",
+      "start_ms": 8250,
+      "submodel": "hi_hat",
+      "velocity": 0.9,
+      "visual_effect": {
+        "confidence": 1.0,
+        "drum_type": "hihat",
+        "effect": "rapid_shimmer_tick",
+        "effect_scoring_hint": "allow_layering_with_shaders_and_spatial_engine",
+        "end_ms": 8347,
+        "intensity": 0.9,
+        "layer": "accent",
+        "player_piano_hook": {
+          "enabled": true,
+          "trigger": "grid_tick",
+          "velocity": 0.9
+        },
+        "spatial_impulse": {
+          "enabled": true,
+          "mode": "spark_particles",
+          "propagate_to": [
+            "trees",
+            "arches",
+            "matrices"
+          ],
+          "strength": 0.9
+        },
+        "start_ms": 8250,
+        "submodel": "hi_hat"
+      }
+    },
+    {
+      "cluster_id": 11,
+      "composite_submodels": [
+        "snare"
+      ],
+      "confidence": 1.0,
+      "end_ms": 8646,
+      "frames": [
+        "snare_burst"
+      ],
+      "frequency_band_info": {},
+      "kind": "snare",
+      "performer": "drummer",
+      "section": "SECTION",
+      "source": "canonical_event_oracle",
+      "start_ms": 8500,
+      "submodel": "snare",
+      "velocity": 0.9,
+      "visual_effect": {
+        "confidence": 1.0,
+        "drum_type": "snare",
+        "effect": "sharp_white_flash",
+        "effect_scoring_hint": "allow_layering_with_shaders_and_spatial_engine",
+        "end_ms": 8646,
+        "intensity": 0.9,
+        "layer": "accent",
+        "player_piano_hook": {
+          "enabled": true,
+          "trigger": "floor_piano_percussive_note",
+          "velocity": 0.9
+        },
+        "spatial_impulse": {
+          "enabled": true,
+          "mode": "lateral_flash",
+          "propagate_to": [
+            "trees",
+            "arches",
+            "matrices"
+          ],
+          "strength": 0.9
+        },
+        "start_ms": 8500,
+        "submodel": "snare"
+      }
+    },
+    {
+      "cluster_id": 12,
+      "composite_submodels": [
+        "hi_hat"
+      ],
+      "confidence": 1.0,
+      "end_ms": 8847,
+      "frames": [
+        "hat_flash"
+      ],
+      "frequency_band_info": {},
+      "kind": "hihat",
+      "performer": "drummer",
+      "section": "SECTION",
+      "source": "canonical_event_oracle",
+      "start_ms": 8750,
+      "submodel": "hi_hat",
+      "velocity": 0.9,
+      "visual_effect": {
+        "confidence": 1.0,
+        "drum_type": "hihat",
+        "effect": "rapid_shimmer_tick",
+        "effect_scoring_hint": "allow_layering_with_shaders_and_spatial_engine",
+        "end_ms": 8847,
+        "intensity": 0.9,
+        "layer": "accent",
+        "player_piano_hook": {
+          "enabled": true,
+          "trigger": "grid_tick",
+          "velocity": 0.9
+        },
+        "spatial_impulse": {
+          "enabled": true,
+          "mode": "spark_particles",
+          "propagate_to": [
+            "trees",
+            "arches",
+            "matrices"
+          ],
+          "strength": 0.9
+        },
+        "start_ms": 8750,
+        "submodel": "hi_hat"
+      }
+    },
+    {
+      "cluster_id": 13,
+      "composite_submodels": [
+        "kick"
+      ],
+      "confidence": 1.0,
+      "end_ms": 9269,
+      "frames": [
+        "kick_center",
+        "kick_mid",
+        "kick_outer"
+      ],
+      "frequency_band_info": {},
+      "kind": "kick",
+      "performer": "drummer",
+      "section": "SECTION",
+      "source": "canonical_event_oracle",
+      "start_ms": 9000,
+      "submodel": "kick",
+      "velocity": 0.9,
+      "visual_effect": {
+        "confidence": 1.0,
+        "drum_type": "kick",
+        "effect": "low_frequency_glow",
+        "effect_scoring_hint": "allow_layering_with_shaders_and_spatial_engine",
+        "end_ms": 9269,
+        "intensity": 0.9,
+        "layer": "accent",
+        "player_piano_hook": {
+          "enabled": true,
+          "trigger": "floor_piano_percussive_note",
+          "velocity": 0.9
+        },
+        "spatial_impulse": {
+          "enabled": true,
+          "mode": "ground_spread",
+          "propagate_to": [
+            "trees",
+            "arches",
+            "matrices"
+          ],
+          "strength": 0.9
+        },
+        "start_ms": 9000,
+        "submodel": "kick"
+      }
+    },
+    {
+      "cluster_id": 14,
+      "composite_submodels": [
+        "hi_hat"
+      ],
+      "confidence": 1.0,
+      "end_ms": 9347,
+      "frames": [
+        "hat_flash"
+      ],
+      "frequency_band_info": {},
+      "kind": "hihat",
+      "performer": "drummer",
+      "section": "SECTION",
+      "source": "canonical_event_oracle",
+      "start_ms": 9250,
+      "submodel": "hi_hat",
+      "velocity": 0.9,
+      "visual_effect": {
+        "confidence": 1.0,
+        "drum_type": "hihat",
+        "effect": "rapid_shimmer_tick",
+        "effect_scoring_hint": "allow_layering_with_shaders_and_spatial_engine",
+        "end_ms": 9347,
+        "intensity": 0.9,
+        "layer": "accent",
+        "player_piano_hook": {
+          "enabled": true,
+          "trigger": "grid_tick",
+          "velocity": 0.9
+        },
+        "spatial_impulse": {
+          "enabled": true,
+          "mode": "spark_particles",
+          "propagate_to": [
+            "trees",
+            "arches",
+            "matrices"
+          ],
+          "strength": 0.9
+        },
+        "start_ms": 9250,
+        "submodel": "hi_hat"
+      }
+    },
+    {
+      "cluster_id": 15,
+      "composite_submodels": [
+        "snare"
+      ],
+      "confidence": 1.0,
+      "end_ms": 9646,
+      "frames": [
+        "snare_burst"
+      ],
+      "frequency_band_info": {},
+      "kind": "snare",
+      "performer": "drummer",
+      "section": "SECTION",
+      "source": "canonical_event_oracle",
+      "start_ms": 9500,
+      "submodel": "snare",
+      "velocity": 0.9,
+      "visual_effect": {
+        "confidence": 1.0,
+        "drum_type": "snare",
+        "effect": "sharp_white_flash",
+        "effect_scoring_hint": "allow_layering_with_shaders_and_spatial_engine",
+        "end_ms": 9646,
+        "intensity": 0.9,
+        "layer": "accent",
+        "player_piano_hook": {
+          "enabled": true,
+          "trigger": "floor_piano_percussive_note",
+          "velocity": 0.9
+        },
+        "spatial_impulse": {
+          "enabled": true,
+          "mode": "lateral_flash",
+          "propagate_to": [
+            "trees",
+            "arches",
+            "matrices"
+          ],
+          "strength": 0.9
+        },
+        "start_ms": 9500,
+        "submodel": "snare"
+      }
+    },
+    {
+      "cluster_id": 16,
+      "composite_submodels": [
+        "hi_hat"
+      ],
+      "confidence": 1.0,
+      "end_ms": 9847,
+      "frames": [
+        "hat_flash"
+      ],
+      "frequency_band_info": {},
+      "kind": "hihat",
+      "performer": "drummer",
+      "section": "SECTION",
+      "source": "canonical_event_oracle",
+      "start_ms": 9750,
+      "submodel": "hi_hat",
+      "velocity": 0.9,
+      "visual_effect": {
+        "confidence": 1.0,
+        "drum_type": "hihat",
+        "effect": "rapid_shimmer_tick",
+        "effect_scoring_hint": "allow_layering_with_shaders_and_spatial_engine",
+        "end_ms": 9847,
+        "intensity": 0.9,
+        "layer": "accent",
+        "player_piano_hook": {
+          "enabled": true,
+          "trigger": "grid_tick",
+          "velocity": 0.9
+        },
+        "spatial_impulse": {
+          "enabled": true,
+          "mode": "spark_particles",
+          "propagate_to": [
+            "trees",
+            "arches",
+            "matrices"
+          ],
+          "strength": 0.9
+        },
+        "start_ms": 9750,
+        "submodel": "hi_hat"
+      }
+    },
+    {
+      "cluster_id": 17,
+      "composite_submodels": [
+        "kick"
+      ],
+      "confidence": 1.0,
+      "end_ms": 10269,
+      "frames": [
+        "kick_center",
+        "kick_mid",
+        "kick_outer"
+      ],
+      "frequency_band_info": {},
+      "kind": "kick",
+      "performer": "drummer",
+      "section": "SECTION",
+      "source": "canonical_event_oracle",
+      "start_ms": 10000,
+      "submodel": "kick",
+      "velocity": 0.9,
+      "visual_effect": {
+        "confidence": 1.0,
+        "drum_type": "kick",
+        "effect": "low_frequency_glow",
+        "effect_scoring_hint": "allow_layering_with_shaders_and_spatial_engine",
+        "end_ms": 10269,
+        "intensity": 0.9,
+        "layer": "accent",
+        "player_piano_hook": {
+          "enabled": true,
+          "trigger": "floor_piano_percussive_note",
+          "velocity": 0.9
+        },
+        "spatial_impulse": {
+          "enabled": true,
+          "mode": "ground_spread",
+          "propagate_to": [
+            "trees",
+            "arches",
+            "matrices"
+          ],
+          "strength": 0.9
+        },
+        "start_ms": 10000,
+        "submodel": "kick"
+      }
+    },
+    {
+      "cluster_id": 18,
+      "composite_submodels": [
+        "hi_hat"
+      ],
+      "confidence": 1.0,
+      "end_ms": 10347,
+      "frames": [
+        "hat_flash"
+      ],
+      "frequency_band_info": {},
+      "kind": "hihat",
+      "performer": "drummer",
+      "section": "SECTION",
+      "source": "canonical_event_oracle",
+      "start_ms": 10250,
+      "submodel": "hi_hat",
+      "velocity": 0.9,
+      "visual_effect": {
+        "confidence": 1.0,
+        "drum_type": "hihat",
+        "effect": "rapid_shimmer_tick",
+        "effect_scoring_hint": "allow_layering_with_shaders_and_spatial_engine",
+        "end_ms": 10347,
+        "intensity": 0.9,
+        "layer": "accent",
+        "player_piano_hook": {
+          "enabled": true,
+          "trigger": "grid_tick",
+          "velocity": 0.9
+        },
+        "spatial_impulse": {
+          "enabled": true,
+          "mode": "spark_particles",
+          "propagate_to": [
+            "trees",
+            "arches",
+            "matrices"
+          ],
+          "strength": 0.9
+        },
+        "start_ms": 10250,
+        "submodel": "hi_hat"
+      }
+    },
+    {
+      "cluster_id": 19,
+      "composite_submodels": [
+        "snare"
+      ],
+      "confidence": 1.0,
+      "end_ms": 10646,
+      "frames": [
+        "snare_burst"
+      ],
+      "frequency_band_info": {},
+      "kind": "snare",
+      "performer": "drummer",
+      "section": "SECTION",
+      "source": "canonical_event_oracle",
+      "start_ms": 10500,
+      "submodel": "snare",
+      "velocity": 0.9,
+      "visual_effect": {
+        "confidence": 1.0,
+        "drum_type": "snare",
+        "effect": "sharp_white_flash",
+        "effect_scoring_hint": "allow_layering_with_shaders_and_spatial_engine",
+        "end_ms": 10646,
+        "intensity": 0.9,
+        "layer": "accent",
+        "player_piano_hook": {
+          "enabled": true,
+          "trigger": "floor_piano_percussive_note",
+          "velocity": 0.9
+        },
+        "spatial_impulse": {
+          "enabled": true,
+          "mode": "lateral_flash",
+          "propagate_to": [
+            "trees",
+            "arches",
+            "matrices"
+          ],
+          "strength": 0.9
+        },
+        "start_ms": 10500,
+        "submodel": "snare"
+      }
+    },
+    {
+      "cluster_id": 20,
+      "composite_submodels": [
+        "hi_hat"
+      ],
+      "confidence": 1.0,
+      "end_ms": 10847,
+      "frames": [
+        "hat_flash"
+      ],
+      "frequency_band_info": {},
+      "kind": "hihat",
+      "performer": "drummer",
+      "section": "SECTION",
+      "source": "canonical_event_oracle",
+      "start_ms": 10750,
+      "submodel": "hi_hat",
+      "velocity": 0.9,
+      "visual_effect": {
+        "confidence": 1.0,
+        "drum_type": "hihat",
+        "effect": "rapid_shimmer_tick",
+        "effect_scoring_hint": "allow_layering_with_shaders_and_spatial_engine",
+        "end_ms": 10847,
+        "intensity": 0.9,
+        "layer": "accent",
+        "player_piano_hook": {
+          "enabled": true,
+          "trigger": "grid_tick",
+          "velocity": 0.9
+        },
+        "spatial_impulse": {
+          "enabled": true,
+          "mode": "spark_particles",
+          "propagate_to": [
+            "trees",
+            "arches",
+            "matrices"
+          ],
+          "strength": 0.9
+        },
+        "start_ms": 10750,
+        "submodel": "hi_hat"
+      }
+    },
+    {
+      "cluster_id": 21,
+      "composite_submodels": [
+        "kick"
+      ],
+      "confidence": 1.0,
+      "end_ms": 11269,
+      "frames": [
+        "kick_center",
+        "kick_mid",
+        "kick_outer"
+      ],
+      "frequency_band_info": {},
+      "kind": "kick",
+      "performer": "drummer",
+      "section": "SECTION",
+      "source": "canonical_event_oracle",
+      "start_ms": 11000,
+      "submodel": "kick",
+      "velocity": 0.9,
+      "visual_effect": {
+        "confidence": 1.0,
+        "drum_type": "kick",
+        "effect": "low_frequency_glow",
+        "effect_scoring_hint": "allow_layering_with_shaders_and_spatial_engine",
+        "end_ms": 11269,
+        "intensity": 0.9,
+        "layer": "accent",
+        "player_piano_hook": {
+          "enabled": true,
+          "trigger": "floor_piano_percussive_note",
+          "velocity": 0.9
+        },
+        "spatial_impulse": {
+          "enabled": true,
+          "mode": "ground_spread",
+          "propagate_to": [
+            "trees",
+            "arches",
+            "matrices"
+          ],
+          "strength": 0.9
+        },
+        "start_ms": 11000,
+        "submodel": "kick"
+      }
+    },
+    {
+      "cluster_id": 22,
+      "composite_submodels": [
+        "tom"
+      ],
+      "confidence": 1.0,
+      "end_ms": 11220,
+      "frames": [
+        "tom_bounce"
+      ],
+      "frequency_band_info": {
+        "tom_class": "high",
+        "tom_class_confidence": 1.0
+      },
+      "kind": "tom",
+      "performer": "drummer",
+      "section": "SECTION",
+      "source": "canonical_event_oracle",
+      "start_ms": 11000,
+      "submodel": "tom",
+      "velocity": 0.9,
+      "visual_effect": {
+        "confidence": 1.0,
+        "drum_type": "tom",
+        "effect": "mid_bounce_pulse",
+        "effect_scoring_hint": "allow_layering_with_shaders_and_spatial_engine",
+        "end_ms": 11220,
+        "intensity": 0.9,
+        "layer": "motion",
+        "player_piano_hook": {
+          "enabled": true,
+          "trigger": "grid_tick",
+          "velocity": 0.9
+        },
+        "spatial_impulse": {
+          "enabled": true,
+          "mode": "body_bounce",
+          "propagate_to": [
+            "trees",
+            "arches",
+            "matrices"
+          ],
+          "strength": 0.9
+        },
+        "start_ms": 11000,
+        "submodel": "tom"
+      }
+    },
+    {
+      "cluster_id": 23,
+      "composite_submodels": [
+        "tom"
+      ],
+      "confidence": 1.0,
+      "end_ms": 11345,
+      "frames": [
+        "tom_bounce"
+      ],
+      "frequency_band_info": {
+        "tom_class": "mid",
+        "tom_class_confidence": 1.0
+      },
+      "kind": "tom",
+      "performer": "drummer",
+      "section": "SECTION",
+      "source": "canonical_event_oracle",
+      "start_ms": 11125,
+      "submodel": "tom",
+      "velocity": 0.9,
+      "visual_effect": {
+        "confidence": 1.0,
+        "drum_type": "tom",
+        "effect": "mid_bounce_pulse",
+        "effect_scoring_hint": "allow_layering_with_shaders_and_spatial_engine",
+        "end_ms": 11345,
+        "intensity": 0.9,
+        "layer": "motion",
+        "player_piano_hook": {
+          "enabled": true,
+          "trigger": "grid_tick",
+          "velocity": 0.9
+        },
+        "spatial_impulse": {
+          "enabled": true,
+          "mode": "body_bounce",
+          "propagate_to": [
+            "trees",
+            "arches",
+            "matrices"
+          ],
+          "strength": 0.9
+        },
+        "start_ms": 11125,
+        "submodel": "tom"
+      }
+    },
+    {
+      "cluster_id": 25,
+      "composite_submodels": [
+        "tom"
+      ],
+      "confidence": 1.0,
+      "end_ms": 11470,
+      "frames": [
+        "tom_bounce"
+      ],
+      "frequency_band_info": {
+        "tom_class": "floor",
+        "tom_class_confidence": 1.0
+      },
+      "kind": "tom",
+      "performer": "drummer",
+      "section": "SECTION",
+      "source": "canonical_event_oracle",
+      "start_ms": 11250,
+      "submodel": "tom",
+      "velocity": 0.9,
+      "visual_effect": {
+        "confidence": 1.0,
+        "drum_type": "tom",
+        "effect": "mid_bounce_pulse",
+        "effect_scoring_hint": "allow_layering_with_shaders_and_spatial_engine",
+        "end_ms": 11470,
+        "intensity": 0.9,
+        "layer": "motion",
+        "player_piano_hook": {
+          "enabled": true,
+          "trigger": "grid_tick",
+          "velocity": 0.9
+        },
+        "spatial_impulse": {
+          "enabled": true,
+          "mode": "body_bounce",
+          "propagate_to": [
+            "trees",
+            "arches",
+            "matrices"
+          ],
+          "strength": 0.9
+        },
+        "start_ms": 11250,
+        "submodel": "tom"
+      }
+    },
+    {
+      "cluster_id": 24,
+      "composite_submodels": [
+        "hi_hat"
+      ],
+      "confidence": 1.0,
+      "end_ms": 11347,
+      "frames": [
+        "hat_flash"
+      ],
+      "frequency_band_info": {},
+      "kind": "hihat",
+      "performer": "drummer",
+      "section": "SECTION",
+      "source": "canonical_event_oracle",
+      "start_ms": 11250,
+      "submodel": "hi_hat",
+      "velocity": 0.9,
+      "visual_effect": {
+        "confidence": 1.0,
+        "drum_type": "hihat",
+        "effect": "rapid_shimmer_tick",
+        "effect_scoring_hint": "allow_layering_with_shaders_and_spatial_engine",
+        "end_ms": 11347,
+        "intensity": 0.9,
+        "layer": "accent",
+        "player_piano_hook": {
+          "enabled": true,
+          "trigger": "grid_tick",
+          "velocity": 0.9
+        },
+        "spatial_impulse": {
+          "enabled": true,
+          "mode": "spark_particles",
+          "propagate_to": [
+            "trees",
+            "arches",
+            "matrices"
+          ],
+          "strength": 0.9
+        },
+        "start_ms": 11250,
+        "submodel": "hi_hat"
+      }
+    },
+    {
+      "cluster_id": 26,
+      "composite_submodels": [
+        "snare"
+      ],
+      "confidence": 1.0,
+      "end_ms": 11646,
+      "frames": [
+        "snare_burst"
+      ],
+      "frequency_band_info": {},
+      "kind": "snare",
+      "performer": "drummer",
+      "section": "SECTION",
+      "source": "canonical_event_oracle",
+      "start_ms": 11500,
+      "submodel": "snare",
+      "velocity": 0.9,
+      "visual_effect": {
+        "confidence": 1.0,
+        "drum_type": "snare",
+        "effect": "sharp_white_flash",
+        "effect_scoring_hint": "allow_layering_with_shaders_and_spatial_engine",
+        "end_ms": 11646,
+        "intensity": 0.9,
+        "layer": "accent",
+        "player_piano_hook": {
+          "enabled": true,
+          "trigger": "floor_piano_percussive_note",
+          "velocity": 0.9
+        },
+        "spatial_impulse": {
+          "enabled": true,
+          "mode": "lateral_flash",
+          "propagate_to": [
+            "trees",
+            "arches",
+            "matrices"
+          ],
+          "strength": 0.9
+        },
+        "start_ms": 11500,
+        "submodel": "snare"
+      }
+    },
+    {
+      "cluster_id": 27,
+      "composite_submodels": [
+        "hi_hat"
+      ],
+      "confidence": 1.0,
+      "end_ms": 11847,
+      "frames": [
+        "hat_flash"
+      ],
+      "frequency_band_info": {},
+      "kind": "hihat",
+      "performer": "drummer",
+      "section": "SECTION",
+      "source": "canonical_event_oracle",
+      "start_ms": 11750,
+      "submodel": "hi_hat",
+      "velocity": 0.9,
+      "visual_effect": {
+        "confidence": 1.0,
+        "drum_type": "hihat",
+        "effect": "rapid_shimmer_tick",
+        "effect_scoring_hint": "allow_layering_with_shaders_and_spatial_engine",
+        "end_ms": 11847,
+        "intensity": 0.9,
+        "layer": "accent",
+        "player_piano_hook": {
+          "enabled": true,
+          "trigger": "grid_tick",
+          "velocity": 0.9
+        },
+        "spatial_impulse": {
+          "enabled": true,
+          "mode": "spark_particles",
+          "propagate_to": [
+            "trees",
+            "arches",
+            "matrices"
+          ],
+          "strength": 0.9
+        },
+        "start_ms": 11750,
+        "submodel": "hi_hat"
+      }
+    },
+    {
+      "cluster_id": 28,
+      "composite_submodels": [
+        "kick"
+      ],
+      "confidence": 1.0,
+      "end_ms": 12269,
+      "frames": [
+        "kick_center",
+        "kick_mid",
+        "kick_outer"
+      ],
+      "frequency_band_info": {},
+      "kind": "kick",
+      "performer": "drummer",
+      "section": "SECTION",
+      "source": "canonical_event_oracle",
+      "start_ms": 12000,
+      "submodel": "kick",
+      "velocity": 0.9,
+      "visual_effect": {
+        "confidence": 1.0,
+        "drum_type": "kick",
+        "effect": "low_frequency_glow",
+        "effect_scoring_hint": "allow_layering_with_shaders_and_spatial_engine",
+        "end_ms": 12269,
+        "intensity": 0.9,
+        "layer": "accent",
+        "player_piano_hook": {
+          "enabled": true,
+          "trigger": "floor_piano_percussive_note",
+          "velocity": 0.9
+        },
+        "spatial_impulse": {
+          "enabled": true,
+          "mode": "ground_spread",
+          "propagate_to": [
+            "trees",
+            "arches",
+            "matrices"
+          ],
+          "strength": 0.9
+        },
+        "start_ms": 12000,
+        "submodel": "kick"
+      }
+    },
+    {
+      "cluster_id": 29,
+      "composite_submodels": [
+        "cymbal"
+      ],
+      "confidence": 1.0,
+      "end_ms": 12440,
+      "frames": [
+        "cymbal_frame_1",
+        "cymbal_frame_2",
+        "cymbal_frame_3",
+        "cymbal_frame_4"
+      ],
+      "frequency_band_info": {},
+      "kind": "cymbal",
+      "performer": "drummer",
+      "section": "SECTION",
+      "shimmer": true,
+      "source": "canonical_event_oracle",
+      "start_ms": 12000,
+      "submodel": "cymbal",
+      "velocity": 0.9,
+      "visual_effect": {
+        "confidence": 1.0,
+        "drum_type": "cymbal",
+        "effect": "wide_bright_wash",
+        "effect_scoring_hint": "allow_layering_with_shaders_and_spatial_engine",
+        "end_ms": 12440,
+        "intensity": 0.9,
+        "layer": "motion",
+        "player_piano_hook": {
+          "enabled": true,
+          "trigger": "grid_tick",
+          "velocity": 0.9
+        },
+        "spatial_impulse": {
+          "enabled": true,
+          "mode": "wide_wash_tail",
+          "propagate_to": [
+            "trees",
+            "arches",
+            "matrices"
+          ],
+          "strength": 0.9
+        },
+        "start_ms": 12000,
+        "submodel": "cymbal"
+      }
+    },
+    {
+      "cluster_id": 30,
+      "composite_submodels": [
+        "hi_hat"
+      ],
+      "confidence": 1.0,
+      "end_ms": 12347,
+      "frames": [
+        "hat_flash"
+      ],
+      "frequency_band_info": {},
+      "kind": "hihat",
+      "performer": "drummer",
+      "section": "SECTION",
+      "source": "canonical_event_oracle",
+      "start_ms": 12250,
+      "submodel": "hi_hat",
+      "velocity": 0.9,
+      "visual_effect": {
+        "confidence": 1.0,
+        "drum_type": "hihat",
+        "effect": "rapid_shimmer_tick",
+        "effect_scoring_hint": "allow_layering_with_shaders_and_spatial_engine",
+        "end_ms": 12347,
+        "intensity": 0.9,
+        "layer": "accent",
+        "player_piano_hook": {
+          "enabled": true,
+          "trigger": "grid_tick",
+          "velocity": 0.9
+        },
+        "spatial_impulse": {
+          "enabled": true,
+          "mode": "spark_particles",
+          "propagate_to": [
+            "trees",
+            "arches",
+            "matrices"
+          ],
+          "strength": 0.9
+        },
+        "start_ms": 12250,
+        "submodel": "hi_hat"
+      }
+    },
+    {
+      "cluster_id": 31,
+      "composite_submodels": [
+        "snare"
+      ],
+      "confidence": 1.0,
+      "end_ms": 12646,
+      "frames": [
+        "snare_burst"
+      ],
+      "frequency_band_info": {},
+      "kind": "snare",
+      "performer": "drummer",
+      "section": "SECTION",
+      "source": "canonical_event_oracle",
+      "start_ms": 12500,
+      "submodel": "snare",
+      "velocity": 0.9,
+      "visual_effect": {
+        "confidence": 1.0,
+        "drum_type": "snare",
+        "effect": "sharp_white_flash",
+        "effect_scoring_hint": "allow_layering_with_shaders_and_spatial_engine",
+        "end_ms": 12646,
+        "intensity": 0.9,
+        "layer": "accent",
+        "player_piano_hook": {
+          "enabled": true,
+          "trigger": "floor_piano_percussive_note",
+          "velocity": 0.9
+        },
+        "spatial_impulse": {
+          "enabled": true,
+          "mode": "lateral_flash",
+          "propagate_to": [
+            "trees",
+            "arches",
+            "matrices"
+          ],
+          "strength": 0.9
+        },
+        "start_ms": 12500,
+        "submodel": "snare"
+      }
+    },
+    {
+      "cluster_id": 32,
+      "composite_submodels": [
+        "hi_hat"
+      ],
+      "confidence": 1.0,
+      "end_ms": 12847,
+      "frames": [
+        "hat_flash"
+      ],
+      "frequency_band_info": {},
+      "kind": "hihat",
+      "performer": "drummer",
+      "section": "SECTION",
+      "source": "canonical_event_oracle",
+      "start_ms": 12750,
+      "submodel": "hi_hat",
+      "velocity": 0.9,
+      "visual_effect": {
+        "confidence": 1.0,
+        "drum_type": "hihat",
+        "effect": "rapid_shimmer_tick",
+        "effect_scoring_hint": "allow_layering_with_shaders_and_spatial_engine",
+        "end_ms": 12847,
+        "intensity": 0.9,
+        "layer": "accent",
+        "player_piano_hook": {
+          "enabled": true,
+          "trigger": "grid_tick",
+          "velocity": 0.9
+        },
+        "spatial_impulse": {
+          "enabled": true,
+          "mode": "spark_particles",
+          "propagate_to": [
+            "trees",
+            "arches",
+            "matrices"
+          ],
+          "strength": 0.9
+        },
+        "start_ms": 12750,
+        "submodel": "hi_hat"
+      }
+    },
+    {
+      "cluster_id": 33,
+      "composite_submodels": [
+        "kick"
+      ],
+      "confidence": 1.0,
+      "end_ms": 13269,
+      "frames": [
+        "kick_center",
+        "kick_mid",
+        "kick_outer"
+      ],
+      "frequency_band_info": {},
+      "kind": "kick",
+      "performer": "drummer",
+      "section": "SECTION",
+      "source": "canonical_event_oracle",
+      "start_ms": 13000,
+      "submodel": "kick",
+      "velocity": 0.9,
+      "visual_effect": {
+        "confidence": 1.0,
+        "drum_type": "kick",
+        "effect": "low_frequency_glow",
+        "effect_scoring_hint": "allow_layering_with_shaders_and_spatial_engine",
+        "end_ms": 13269,
+        "intensity": 0.9,
+        "layer": "accent",
+        "player_piano_hook": {
+          "enabled": true,
+          "trigger": "floor_piano_percussive_note",
+          "velocity": 0.9
+        },
+        "spatial_impulse": {
+          "enabled": true,
+          "mode": "ground_spread",
+          "propagate_to": [
+            "trees",
+            "arches",
+            "matrices"
+          ],
+          "strength": 0.9
+        },
+        "start_ms": 13000,
+        "submodel": "kick"
+      }
+    },
+    {
+      "cluster_id": 34,
+      "composite_submodels": [
+        "hi_hat"
+      ],
+      "confidence": 1.0,
+      "end_ms": 13347,
+      "frames": [
+        "hat_flash"
+      ],
+      "frequency_band_info": {},
+      "kind": "hihat",
+      "performer": "drummer",
+      "section": "SECTION",
+      "source": "canonical_event_oracle",
+      "start_ms": 13250,
+      "submodel": "hi_hat",
+      "velocity": 0.9,
+      "visual_effect": {
+        "confidence": 1.0,
+        "drum_type": "hihat",
+        "effect": "rapid_shimmer_tick",
+        "effect_scoring_hint": "allow_layering_with_shaders_and_spatial_engine",
+        "end_ms": 13347,
+        "intensity": 0.9,
+        "layer": "accent",
+        "player_piano_hook": {
+          "enabled": true,
+          "trigger": "grid_tick",
+          "velocity": 0.9
+        },
+        "spatial_impulse": {
+          "enabled": true,
+          "mode": "spark_particles",
+          "propagate_to": [
+            "trees",
+            "arches",
+            "matrices"
+          ],
+          "strength": 0.9
+        },
+        "start_ms": 13250,
+        "submodel": "hi_hat"
+      }
+    },
+    {
+      "cluster_id": 35,
+      "composite_submodels": [
+        "snare"
+      ],
+      "confidence": 1.0,
+      "end_ms": 13646,
+      "frames": [
+        "snare_burst"
+      ],
+      "frequency_band_info": {},
+      "kind": "snare",
+      "performer": "drummer",
+      "section": "SECTION",
+      "source": "canonical_event_oracle",
+      "start_ms": 13500,
+      "submodel": "snare",
+      "velocity": 0.9,
+      "visual_effect": {
+        "confidence": 1.0,
+        "drum_type": "snare",
+        "effect": "sharp_white_flash",
+        "effect_scoring_hint": "allow_layering_with_shaders_and_spatial_engine",
+        "end_ms": 13646,
+        "intensity": 0.9,
+        "layer": "accent",
+        "player_piano_hook": {
+          "enabled": true,
+          "trigger": "floor_piano_percussive_note",
+          "velocity": 0.9
+        },
+        "spatial_impulse": {
+          "enabled": true,
+          "mode": "lateral_flash",
+          "propagate_to": [
+            "trees",
+            "arches",
+            "matrices"
+          ],
+          "strength": 0.9
+        },
+        "start_ms": 13500,
+        "submodel": "snare"
+      }
+    },
+    {
+      "cluster_id": 36,
+      "composite_submodels": [
+        "hi_hat"
+      ],
+      "confidence": 1.0,
+      "end_ms": 13847,
+      "frames": [
+        "hat_flash"
+      ],
+      "frequency_band_info": {},
+      "kind": "hihat",
+      "performer": "drummer",
+      "section": "SECTION",
+      "source": "canonical_event_oracle",
+      "start_ms": 13750,
+      "submodel": "hi_hat",
+      "velocity": 0.9,
+      "visual_effect": {
+        "confidence": 1.0,
+        "drum_type": "hihat",
+        "effect": "rapid_shimmer_tick",
+        "effect_scoring_hint": "allow_layering_with_shaders_and_spatial_engine",
+        "end_ms": 13847,
+        "intensity": 0.9,
+        "layer": "accent",
+        "player_piano_hook": {
+          "enabled": true,
+          "trigger": "grid_tick",
+          "velocity": 0.9
+        },
+        "spatial_impulse": {
+          "enabled": true,
+          "mode": "spark_particles",
+          "propagate_to": [
+            "trees",
+            "arches",
+            "matrices"
+          ],
+          "strength": 0.9
+        },
+        "start_ms": 13750,
+        "submodel": "hi_hat"
+      }
+    },
+    {
+      "cluster_id": 37,
+      "composite_submodels": [
+        "kick"
+      ],
+      "confidence": 1.0,
+      "end_ms": 14269,
+      "frames": [
+        "kick_center",
+        "kick_mid",
+        "kick_outer"
+      ],
+      "frequency_band_info": {},
+      "kind": "kick",
+      "performer": "drummer",
+      "section": "SECTION",
+      "source": "canonical_event_oracle",
+      "start_ms": 14000,
+      "submodel": "kick",
+      "velocity": 0.9,
+      "visual_effect": {
+        "confidence": 1.0,
+        "drum_type": "kick",
+        "effect": "low_frequency_glow",
+        "effect_scoring_hint": "allow_layering_with_shaders_and_spatial_engine",
+        "end_ms": 14269,
+        "intensity": 0.9,
+        "layer": "accent",
+        "player_piano_hook": {
+          "enabled": true,
+          "trigger": "floor_piano_percussive_note",
+          "velocity": 0.9
+        },
+        "spatial_impulse": {
+          "enabled": true,
+          "mode": "ground_spread",
+          "propagate_to": [
+            "trees",
+            "arches",
+            "matrices"
+          ],
+          "strength": 0.9
+        },
+        "start_ms": 14000,
+        "submodel": "kick"
+      }
+    },
+    {
+      "cluster_id": 38,
+      "composite_submodels": [
+        "hi_hat"
+      ],
+      "confidence": 1.0,
+      "end_ms": 14347,
+      "frames": [
+        "hat_flash"
+      ],
+      "frequency_band_info": {},
+      "kind": "hihat",
+      "performer": "drummer",
+      "section": "SECTION",
+      "source": "canonical_event_oracle",
+      "start_ms": 14250,
+      "submodel": "hi_hat",
+      "velocity": 0.9,
+      "visual_effect": {
+        "confidence": 1.0,
+        "drum_type": "hihat",
+        "effect": "rapid_shimmer_tick",
+        "effect_scoring_hint": "allow_layering_with_shaders_and_spatial_engine",
+        "end_ms": 14347,
+        "intensity": 0.9,
+        "layer": "accent",
+        "player_piano_hook": {
+          "enabled": true,
+          "trigger": "grid_tick",
+          "velocity": 0.9
+        },
+        "spatial_impulse": {
+          "enabled": true,
+          "mode": "spark_particles",
+          "propagate_to": [
+            "trees",
+            "arches",
+            "matrices"
+          ],
+          "strength": 0.9
+        },
+        "start_ms": 14250,
+        "submodel": "hi_hat"
+      }
+    },
+    {
+      "cluster_id": 39,
+      "composite_submodels": [
+        "snare"
+      ],
+      "confidence": 1.0,
+      "end_ms": 14646,
+      "frames": [
+        "snare_burst"
+      ],
+      "frequency_band_info": {},
+      "kind": "snare",
+      "performer": "drummer",
+      "section": "SECTION",
+      "source": "canonical_event_oracle",
+      "start_ms": 14500,
+      "submodel": "snare",
+      "velocity": 0.9,
+      "visual_effect": {
+        "confidence": 1.0,
+        "drum_type": "snare",
+        "effect": "sharp_white_flash",
+        "effect_scoring_hint": "allow_layering_with_shaders_and_spatial_engine",
+        "end_ms": 14646,
+        "intensity": 0.9,
+        "layer": "accent",
+        "player_piano_hook": {
+          "enabled": true,
+          "trigger": "floor_piano_percussive_note",
+          "velocity": 0.9
+        },
+        "spatial_impulse": {
+          "enabled": true,
+          "mode": "lateral_flash",
+          "propagate_to": [
+            "trees",
+            "arches",
+            "matrices"
+          ],
+          "strength": 0.9
+        },
+        "start_ms": 14500,
+        "submodel": "snare"
+      }
+    },
+    {
+      "cluster_id": 40,
+      "composite_submodels": [
+        "hi_hat"
+      ],
+      "confidence": 1.0,
+      "end_ms": 14847,
+      "frames": [
+        "hat_flash"
+      ],
+      "frequency_band_info": {},
+      "kind": "hihat",
+      "performer": "drummer",
+      "section": "SECTION",
+      "source": "canonical_event_oracle",
+      "start_ms": 14750,
+      "submodel": "hi_hat",
+      "velocity": 0.9,
+      "visual_effect": {
+        "confidence": 1.0,
+        "drum_type": "hihat",
+        "effect": "rapid_shimmer_tick",
+        "effect_scoring_hint": "allow_layering_with_shaders_and_spatial_engine",
+        "end_ms": 14847,
+        "intensity": 0.9,
+        "layer": "accent",
+        "player_piano_hook": {
+          "enabled": true,
+          "trigger": "grid_tick",
+          "velocity": 0.9
+        },
+        "spatial_impulse": {
+          "enabled": true,
+          "mode": "spark_particles",
+          "propagate_to": [
+            "trees",
+            "arches",
+            "matrices"
+          ],
+          "strength": 0.9
+        },
+        "start_ms": 14750,
+        "submodel": "hi_hat"
+      }
+    },
+    {
+      "cluster_id": 41,
+      "composite_submodels": [
+        "kick"
+      ],
+      "confidence": 1.0,
+      "end_ms": 15269,
+      "frames": [
+        "kick_center",
+        "kick_mid",
+        "kick_outer"
+      ],
+      "frequency_band_info": {},
+      "kind": "kick",
+      "performer": "drummer",
+      "section": "SECTION",
+      "source": "canonical_event_oracle",
+      "start_ms": 15000,
+      "submodel": "kick",
+      "velocity": 0.9,
+      "visual_effect": {
+        "confidence": 1.0,
+        "drum_type": "kick",
+        "effect": "low_frequency_glow",
+        "effect_scoring_hint": "allow_layering_with_shaders_and_spatial_engine",
+        "end_ms": 15269,
+        "intensity": 0.9,
+        "layer": "accent",
+        "player_piano_hook": {
+          "enabled": true,
+          "trigger": "floor_piano_percussive_note",
+          "velocity": 0.9
+        },
+        "spatial_impulse": {
+          "enabled": true,
+          "mode": "ground_spread",
+          "propagate_to": [
+            "trees",
+            "arches",
+            "matrices"
+          ],
+          "strength": 0.9
+        },
+        "start_ms": 15000,
+        "submodel": "kick"
+      }
+    },
+    {
+      "cluster_id": 42,
+      "composite_submodels": [
+        "tom"
+      ],
+      "confidence": 1.0,
+      "end_ms": 15220,
+      "frames": [
+        "tom_bounce"
+      ],
+      "frequency_band_info": {
+        "tom_class": "high",
+        "tom_class_confidence": 1.0
+      },
+      "kind": "tom",
+      "performer": "drummer",
+      "section": "SECTION",
+      "source": "canonical_event_oracle",
+      "start_ms": 15000,
+      "submodel": "tom",
+      "velocity": 0.9,
+      "visual_effect": {
+        "confidence": 1.0,
+        "drum_type": "tom",
+        "effect": "mid_bounce_pulse",
+        "effect_scoring_hint": "allow_layering_with_shaders_and_spatial_engine",
+        "end_ms": 15220,
+        "intensity": 0.9,
+        "layer": "motion",
+        "player_piano_hook": {
+          "enabled": true,
+          "trigger": "grid_tick",
+          "velocity": 0.9
+        },
+        "spatial_impulse": {
+          "enabled": true,
+          "mode": "body_bounce",
+          "propagate_to": [
+            "trees",
+            "arches",
+            "matrices"
+          ],
+          "strength": 0.9
+        },
+        "start_ms": 15000,
+        "submodel": "tom"
+      }
+    },
+    {
+      "cluster_id": 43,
+      "composite_submodels": [
+        "tom"
+      ],
+      "confidence": 1.0,
+      "end_ms": 15345,
+      "frames": [
+        "tom_bounce"
+      ],
+      "frequency_band_info": {
+        "tom_class": "mid",
+        "tom_class_confidence": 1.0
+      },
+      "kind": "tom",
+      "performer": "drummer",
+      "section": "SECTION",
+      "source": "canonical_event_oracle",
+      "start_ms": 15125,
+      "submodel": "tom",
+      "velocity": 0.9,
+      "visual_effect": {
+        "confidence": 1.0,
+        "drum_type": "tom",
+        "effect": "mid_bounce_pulse",
+        "effect_scoring_hint": "allow_layering_with_shaders_and_spatial_engine",
+        "end_ms": 15345,
+        "intensity": 0.9,
+        "layer": "motion",
+        "player_piano_hook": {
+          "enabled": true,
+          "trigger": "grid_tick",
+          "velocity": 0.9
+        },
+        "spatial_impulse": {
+          "enabled": true,
+          "mode": "body_bounce",
+          "propagate_to": [
+            "trees",
+            "arches",
+            "matrices"
+          ],
+          "strength": 0.9
+        },
+        "start_ms": 15125,
+        "submodel": "tom"
+      }
+    },
+    {
+      "cluster_id": 45,
+      "composite_submodels": [
+        "tom"
+      ],
+      "confidence": 1.0,
+      "end_ms": 15470,
+      "frames": [
+        "tom_bounce"
+      ],
+      "frequency_band_info": {
+        "tom_class": "floor",
+        "tom_class_confidence": 1.0
+      },
+      "kind": "tom",
+      "performer": "drummer",
+      "section": "SECTION",
+      "source": "canonical_event_oracle",
+      "start_ms": 15250,
+      "submodel": "tom",
+      "velocity": 0.9,
+      "visual_effect": {
+        "confidence": 1.0,
+        "drum_type": "tom",
+        "effect": "mid_bounce_pulse",
+        "effect_scoring_hint": "allow_layering_with_shaders_and_spatial_engine",
+        "end_ms": 15470,
+        "intensity": 0.9,
+        "layer": "motion",
+        "player_piano_hook": {
+          "enabled": true,
+          "trigger": "grid_tick",
+          "velocity": 0.9
+        },
+        "spatial_impulse": {
+          "enabled": true,
+          "mode": "body_bounce",
+          "propagate_to": [
+            "trees",
+            "arches",
+            "matrices"
+          ],
+          "strength": 0.9
+        },
+        "start_ms": 15250,
+        "submodel": "tom"
+      }
+    },
+    {
+      "cluster_id": 44,
+      "composite_submodels": [
+        "hi_hat"
+      ],
+      "confidence": 1.0,
+      "end_ms": 15347,
+      "frames": [
+        "hat_flash"
+      ],
+      "frequency_band_info": {},
+      "kind": "hihat",
+      "performer": "drummer",
+      "section": "SECTION",
+      "source": "canonical_event_oracle",
+      "start_ms": 15250,
+      "submodel": "hi_hat",
+      "velocity": 0.9,
+      "visual_effect": {
+        "confidence": 1.0,
+        "drum_type": "hihat",
+        "effect": "rapid_shimmer_tick",
+        "effect_scoring_hint": "allow_layering_with_shaders_and_spatial_engine",
+        "end_ms": 15347,
+        "intensity": 0.9,
+        "layer": "accent",
+        "player_piano_hook": {
+          "enabled": true,
+          "trigger": "grid_tick",
+          "velocity": 0.9
+        },
+        "spatial_impulse": {
+          "enabled": true,
+          "mode": "spark_particles",
+          "propagate_to": [
+            "trees",
+            "arches",
+            "matrices"
+          ],
+          "strength": 0.9
+        },
+        "start_ms": 15250,
+        "submodel": "hi_hat"
+      }
+    },
+    {
+      "cluster_id": 46,
+      "composite_submodels": [
+        "snare"
+      ],
+      "confidence": 1.0,
+      "end_ms": 15646,
+      "frames": [
+        "snare_burst"
+      ],
+      "frequency_band_info": {},
+      "kind": "snare",
+      "performer": "drummer",
+      "section": "SECTION",
+      "source": "canonical_event_oracle",
+      "start_ms": 15500,
+      "submodel": "snare",
+      "velocity": 0.9,
+      "visual_effect": {
+        "confidence": 1.0,
+        "drum_type": "snare",
+        "effect": "sharp_white_flash",
+        "effect_scoring_hint": "allow_layering_with_shaders_and_spatial_engine",
+        "end_ms": 15646,
+        "intensity": 0.9,
+        "layer": "accent",
+        "player_piano_hook": {
+          "enabled": true,
+          "trigger": "floor_piano_percussive_note",
+          "velocity": 0.9
+        },
+        "spatial_impulse": {
+          "enabled": true,
+          "mode": "lateral_flash",
+          "propagate_to": [
+            "trees",
+            "arches",
+            "matrices"
+          ],
+          "strength": 0.9
+        },
+        "start_ms": 15500,
+        "submodel": "snare"
+      }
+    },
+    {
+      "cluster_id": 47,
+      "composite_submodels": [
+        "hi_hat"
+      ],
+      "confidence": 1.0,
+      "end_ms": 15847,
+      "frames": [
+        "hat_flash"
+      ],
+      "frequency_band_info": {},
+      "kind": "hihat",
+      "performer": "drummer",
+      "section": "SECTION",
+      "source": "canonical_event_oracle",
+      "start_ms": 15750,
+      "submodel": "hi_hat",
+      "velocity": 0.9,
+      "visual_effect": {
+        "confidence": 1.0,
+        "drum_type": "hihat",
+        "effect": "rapid_shimmer_tick",
+        "effect_scoring_hint": "allow_layering_with_shaders_and_spatial_engine",
+        "end_ms": 15847,
+        "intensity": 0.9,
+        "layer": "accent",
+        "player_piano_hook": {
+          "enabled": true,
+          "trigger": "grid_tick",
+          "velocity": 0.9
+        },
+        "spatial_impulse": {
+          "enabled": true,
+          "mode": "spark_particles",
+          "propagate_to": [
+            "trees",
+            "arches",
+            "matrices"
+          ],
+          "strength": 0.9
+        },
+        "start_ms": 15750,
+        "submodel": "hi_hat"
+      }
+    },
+    {
+      "cluster_id": 48,
+      "composite_submodels": [
+        "kick"
+      ],
+      "confidence": 1.0,
+      "end_ms": 16269,
+      "frames": [
+        "kick_center",
+        "kick_mid",
+        "kick_outer"
+      ],
+      "frequency_band_info": {},
+      "kind": "kick",
+      "performer": "drummer",
+      "section": "SECTION",
+      "source": "canonical_event_oracle",
+      "start_ms": 16000,
+      "submodel": "kick",
+      "velocity": 0.9,
+      "visual_effect": {
+        "confidence": 1.0,
+        "drum_type": "kick",
+        "effect": "low_frequency_glow",
+        "effect_scoring_hint": "allow_layering_with_shaders_and_spatial_engine",
+        "end_ms": 16269,
+        "intensity": 0.9,
+        "layer": "accent",
+        "player_piano_hook": {
+          "enabled": true,
+          "trigger": "floor_piano_percussive_note",
+          "velocity": 0.9
+        },
+        "spatial_impulse": {
+          "enabled": true,
+          "mode": "ground_spread",
+          "propagate_to": [
+            "trees",
+            "arches",
+            "matrices"
+          ],
+          "strength": 0.9
+        },
+        "start_ms": 16000,
+        "submodel": "kick"
+      }
+    },
+    {
+      "cluster_id": 49,
+      "composite_submodels": [
+        "cymbal"
+      ],
+      "confidence": 1.0,
+      "end_ms": 16440,
+      "frames": [
+        "cymbal_frame_1",
+        "cymbal_frame_2",
+        "cymbal_frame_3",
+        "cymbal_frame_4"
+      ],
+      "frequency_band_info": {},
+      "kind": "cymbal",
+      "performer": "drummer",
+      "section": "SECTION",
+      "shimmer": true,
+      "source": "canonical_event_oracle",
+      "start_ms": 16000,
+      "submodel": "cymbal",
+      "velocity": 0.9,
+      "visual_effect": {
+        "confidence": 1.0,
+        "drum_type": "cymbal",
+        "effect": "wide_bright_wash",
+        "effect_scoring_hint": "allow_layering_with_shaders_and_spatial_engine",
+        "end_ms": 16440,
+        "intensity": 0.9,
+        "layer": "motion",
+        "player_piano_hook": {
+          "enabled": true,
+          "trigger": "grid_tick",
+          "velocity": 0.9
+        },
+        "spatial_impulse": {
+          "enabled": true,
+          "mode": "wide_wash_tail",
+          "propagate_to": [
+            "trees",
+            "arches",
+            "matrices"
+          ],
+          "strength": 0.9
+        },
+        "start_ms": 16000,
+        "submodel": "cymbal"
+      }
+    },
+    {
+      "cluster_id": 50,
+      "composite_submodels": [
+        "hi_hat"
+      ],
+      "confidence": 1.0,
+      "end_ms": 16347,
+      "frames": [
+        "hat_flash"
+      ],
+      "frequency_band_info": {},
+      "kind": "hihat",
+      "performer": "drummer",
+      "section": "SECTION",
+      "source": "canonical_event_oracle",
+      "start_ms": 16250,
+      "submodel": "hi_hat",
+      "velocity": 0.9,
+      "visual_effect": {
+        "confidence": 1.0,
+        "drum_type": "hihat",
+        "effect": "rapid_shimmer_tick",
+        "effect_scoring_hint": "allow_layering_with_shaders_and_spatial_engine",
+        "end_ms": 16347,
+        "intensity": 0.9,
+        "layer": "accent",
+        "player_piano_hook": {
+          "enabled": true,
+          "trigger": "grid_tick",
+          "velocity": 0.9
+        },
+        "spatial_impulse": {
+          "enabled": true,
+          "mode": "spark_particles",
+          "propagate_to": [
+            "trees",
+            "arches",
+            "matrices"
+          ],
+          "strength": 0.9
+        },
+        "start_ms": 16250,
+        "submodel": "hi_hat"
+      }
+    },
+    {
+      "cluster_id": 51,
+      "composite_submodels": [
+        "snare"
+      ],
+      "confidence": 1.0,
+      "end_ms": 16646,
+      "frames": [
+        "snare_burst"
+      ],
+      "frequency_band_info": {},
+      "kind": "snare",
+      "performer": "drummer",
+      "section": "SECTION",
+      "source": "canonical_event_oracle",
+      "start_ms": 16500,
+      "submodel": "snare",
+      "velocity": 0.9,
+      "visual_effect": {
+        "confidence": 1.0,
+        "drum_type": "snare",
+        "effect": "sharp_white_flash",
+        "effect_scoring_hint": "allow_layering_with_shaders_and_spatial_engine",
+        "end_ms": 16646,
+        "intensity": 0.9,
+        "layer": "accent",
+        "player_piano_hook": {
+          "enabled": true,
+          "trigger": "floor_piano_percussive_note",
+          "velocity": 0.9
+        },
+        "spatial_impulse": {
+          "enabled": true,
+          "mode": "lateral_flash",
+          "propagate_to": [
+            "trees",
+            "arches",
+            "matrices"
+          ],
+          "strength": 0.9
+        },
+        "start_ms": 16500,
+        "submodel": "snare"
+      }
+    },
+    {
+      "cluster_id": 52,
+      "composite_submodels": [
+        "hi_hat"
+      ],
+      "confidence": 1.0,
+      "end_ms": 16847,
+      "frames": [
+        "hat_flash"
+      ],
+      "frequency_band_info": {},
+      "kind": "hihat",
+      "performer": "drummer",
+      "section": "SECTION",
+      "source": "canonical_event_oracle",
+      "start_ms": 16750,
+      "submodel": "hi_hat",
+      "velocity": 0.9,
+      "visual_effect": {
+        "confidence": 1.0,
+        "drum_type": "hihat",
+        "effect": "rapid_shimmer_tick",
+        "effect_scoring_hint": "allow_layering_with_shaders_and_spatial_engine",
+        "end_ms": 16847,
+        "intensity": 0.9,
+        "layer": "accent",
+        "player_piano_hook": {
+          "enabled": true,
+          "trigger": "grid_tick",
+          "velocity": 0.9
+        },
+        "spatial_impulse": {
+          "enabled": true,
+          "mode": "spark_particles",
+          "propagate_to": [
+            "trees",
+            "arches",
+            "matrices"
+          ],
+          "strength": 0.9
+        },
+        "start_ms": 16750,
+        "submodel": "hi_hat"
+      }
+    },
+    {
+      "cluster_id": 53,
+      "composite_submodels": [
+        "kick"
+      ],
+      "confidence": 1.0,
+      "end_ms": 17269,
+      "frames": [
+        "kick_center",
+        "kick_mid",
+        "kick_outer"
+      ],
+      "frequency_band_info": {},
+      "kind": "kick",
+      "performer": "drummer",
+      "section": "SECTION",
+      "source": "canonical_event_oracle",
+      "start_ms": 17000,
+      "submodel": "kick",
+      "velocity": 0.9,
+      "visual_effect": {
+        "confidence": 1.0,
+        "drum_type": "kick",
+        "effect": "low_frequency_glow",
+        "effect_scoring_hint": "allow_layering_with_shaders_and_spatial_engine",
+        "end_ms": 17269,
+        "intensity": 0.9,
+        "layer": "accent",
+        "player_piano_hook": {
+          "enabled": true,
+          "trigger": "floor_piano_percussive_note",
+          "velocity": 0.9
+        },
+        "spatial_impulse": {
+          "enabled": true,
+          "mode": "ground_spread",
+          "propagate_to": [
+            "trees",
+            "arches",
+            "matrices"
+          ],
+          "strength": 0.9
+        },
+        "start_ms": 17000,
+        "submodel": "kick"
+      }
+    },
+    {
+      "cluster_id": 54,
+      "composite_submodels": [
+        "hi_hat"
+      ],
+      "confidence": 1.0,
+      "end_ms": 17347,
+      "frames": [
+        "hat_flash"
+      ],
+      "frequency_band_info": {},
+      "kind": "hihat",
+      "performer": "drummer",
+      "section": "SECTION",
+      "source": "canonical_event_oracle",
+      "start_ms": 17250,
+      "submodel": "hi_hat",
+      "velocity": 0.9,
+      "visual_effect": {
+        "confidence": 1.0,
+        "drum_type": "hihat",
+        "effect": "rapid_shimmer_tick",
+        "effect_scoring_hint": "allow_layering_with_shaders_and_spatial_engine",
+        "end_ms": 17347,
+        "intensity": 0.9,
+        "layer": "accent",
+        "player_piano_hook": {
+          "enabled": true,
+          "trigger": "grid_tick",
+          "velocity": 0.9
+        },
+        "spatial_impulse": {
+          "enabled": true,
+          "mode": "spark_particles",
+          "propagate_to": [
+            "trees",
+            "arches",
+            "matrices"
+          ],
+          "strength": 0.9
+        },
+        "start_ms": 17250,
+        "submodel": "hi_hat"
+      }
+    },
+    {
+      "cluster_id": 55,
+      "composite_submodels": [
+        "snare"
+      ],
+      "confidence": 1.0,
+      "end_ms": 17646,
+      "frames": [
+        "snare_burst"
+      ],
+      "frequency_band_info": {},
+      "kind": "snare",
+      "performer": "drummer",
+      "section": "SECTION",
+      "source": "canonical_event_oracle",
+      "start_ms": 17500,
+      "submodel": "snare",
+      "velocity": 0.9,
+      "visual_effect": {
+        "confidence": 1.0,
+        "drum_type": "snare",
+        "effect": "sharp_white_flash",
+        "effect_scoring_hint": "allow_layering_with_shaders_and_spatial_engine",
+        "end_ms": 17646,
+        "intensity": 0.9,
+        "layer": "accent",
+        "player_piano_hook": {
+          "enabled": true,
+          "trigger": "floor_piano_percussive_note",
+          "velocity": 0.9
+        },
+        "spatial_impulse": {
+          "enabled": true,
+          "mode": "lateral_flash",
+          "propagate_to": [
+            "trees",
+            "arches",
+            "matrices"
+          ],
+          "strength": 0.9
+        },
+        "start_ms": 17500,
+        "submodel": "snare"
+      }
+    },
+    {
+      "cluster_id": 56,
+      "composite_submodels": [
+        "hi_hat"
+      ],
+      "confidence": 1.0,
+      "end_ms": 17847,
+      "frames": [
+        "hat_flash"
+      ],
+      "frequency_band_info": {},
+      "kind": "hihat",
+      "performer": "drummer",
+      "section": "SECTION",
+      "source": "canonical_event_oracle",
+      "start_ms": 17750,
+      "submodel": "hi_hat",
+      "velocity": 0.9,
+      "visual_effect": {
+        "confidence": 1.0,
+        "drum_type": "hihat",
+        "effect": "rapid_shimmer_tick",
+        "effect_scoring_hint": "allow_layering_with_shaders_and_spatial_engine",
+        "end_ms": 17847,
+        "intensity": 0.9,
+        "layer": "accent",
+        "player_piano_hook": {
+          "enabled": true,
+          "trigger": "grid_tick",
+          "velocity": 0.9
+        },
+        "spatial_impulse": {
+          "enabled": true,
+          "mode": "spark_particles",
+          "propagate_to": [
+            "trees",
+            "arches",
+            "matrices"
+          ],
+          "strength": 0.9
+        },
+        "start_ms": 17750,
+        "submodel": "hi_hat"
+      }
+    },
+    {
+      "cluster_id": 57,
+      "composite_submodels": [
+        "kick"
+      ],
+      "confidence": 1.0,
+      "end_ms": 18269,
+      "frames": [
+        "kick_center",
+        "kick_mid",
+        "kick_outer"
+      ],
+      "frequency_band_info": {},
+      "kind": "kick",
+      "performer": "drummer",
+      "section": "SECTION",
+      "source": "canonical_event_oracle",
+      "start_ms": 18000,
+      "submodel": "kick",
+      "velocity": 0.9,
+      "visual_effect": {
+        "confidence": 1.0,
+        "drum_type": "kick",
+        "effect": "low_frequency_glow",
+        "effect_scoring_hint": "allow_layering_with_shaders_and_spatial_engine",
+        "end_ms": 18269,
+        "intensity": 0.9,
+        "layer": "accent",
+        "player_piano_hook": {
+          "enabled": true,
+          "trigger": "floor_piano_percussive_note",
+          "velocity": 0.9
+        },
+        "spatial_impulse": {
+          "enabled": true,
+          "mode": "ground_spread",
+          "propagate_to": [
+            "trees",
+            "arches",
+            "matrices"
+          ],
+          "strength": 0.9
+        },
+        "start_ms": 18000,
+        "submodel": "kick"
+      }
+    },
+    {
+      "cluster_id": 58,
+      "composite_submodels": [
+        "hi_hat"
+      ],
+      "confidence": 1.0,
+      "end_ms": 18347,
+      "frames": [
+        "hat_flash"
+      ],
+      "frequency_band_info": {},
+      "kind": "hihat",
+      "performer": "drummer",
+      "section": "SECTION",
+      "source": "canonical_event_oracle",
+      "start_ms": 18250,
+      "submodel": "hi_hat",
+      "velocity": 0.9,
+      "visual_effect": {
+        "confidence": 1.0,
+        "drum_type": "hihat",
+        "effect": "rapid_shimmer_tick",
+        "effect_scoring_hint": "allow_layering_with_shaders_and_spatial_engine",
+        "end_ms": 18347,
+        "intensity": 0.9,
+        "layer": "accent",
+        "player_piano_hook": {
+          "enabled": true,
+          "trigger": "grid_tick",
+          "velocity": 0.9
+        },
+        "spatial_impulse": {
+          "enabled": true,
+          "mode": "spark_particles",
+          "propagate_to": [
+            "trees",
+            "arches",
+            "matrices"
+          ],
+          "strength": 0.9
+        },
+        "start_ms": 18250,
+        "submodel": "hi_hat"
+      }
+    },
+    {
+      "cluster_id": 59,
+      "composite_submodels": [
+        "snare"
+      ],
+      "confidence": 1.0,
+      "end_ms": 18646,
+      "frames": [
+        "snare_burst"
+      ],
+      "frequency_band_info": {},
+      "kind": "snare",
+      "performer": "drummer",
+      "section": "SECTION",
+      "source": "canonical_event_oracle",
+      "start_ms": 18500,
+      "submodel": "snare",
+      "velocity": 0.9,
+      "visual_effect": {
+        "confidence": 1.0,
+        "drum_type": "snare",
+        "effect": "sharp_white_flash",
+        "effect_scoring_hint": "allow_layering_with_shaders_and_spatial_engine",
+        "end_ms": 18646,
+        "intensity": 0.9,
+        "layer": "accent",
+        "player_piano_hook": {
+          "enabled": true,
+          "trigger": "floor_piano_percussive_note",
+          "velocity": 0.9
+        },
+        "spatial_impulse": {
+          "enabled": true,
+          "mode": "lateral_flash",
+          "propagate_to": [
+            "trees",
+            "arches",
+            "matrices"
+          ],
+          "strength": 0.9
+        },
+        "start_ms": 18500,
+        "submodel": "snare"
+      }
+    },
+    {
+      "cluster_id": 60,
+      "composite_submodels": [
+        "hi_hat"
+      ],
+      "confidence": 1.0,
+      "end_ms": 18847,
+      "frames": [
+        "hat_flash"
+      ],
+      "frequency_band_info": {},
+      "kind": "hihat",
+      "performer": "drummer",
+      "section": "SECTION",
+      "source": "canonical_event_oracle",
+      "start_ms": 18750,
+      "submodel": "hi_hat",
+      "velocity": 0.9,
+      "visual_effect": {
+        "confidence": 1.0,
+        "drum_type": "hihat",
+        "effect": "rapid_shimmer_tick",
+        "effect_scoring_hint": "allow_layering_with_shaders_and_spatial_engine",
+        "end_ms": 18847,
+        "intensity": 0.9,
+        "layer": "accent",
+        "player_piano_hook": {
+          "enabled": true,
+          "trigger": "grid_tick",
+          "velocity": 0.9
+        },
+        "spatial_impulse": {
+          "enabled": true,
+          "mode": "spark_particles",
+          "propagate_to": [
+            "trees",
+            "arches",
+            "matrices"
+          ],
+          "strength": 0.9
+        },
+        "start_ms": 18750,
+        "submodel": "hi_hat"
+      }
+    },
+    {
+      "cluster_id": 61,
+      "composite_submodels": [
+        "kick"
+      ],
+      "confidence": 1.0,
+      "end_ms": 19269,
+      "frames": [
+        "kick_center",
+        "kick_mid",
+        "kick_outer"
+      ],
+      "frequency_band_info": {},
+      "kind": "kick",
+      "performer": "drummer",
+      "section": "SECTION",
+      "source": "canonical_event_oracle",
+      "start_ms": 19000,
+      "submodel": "kick",
+      "velocity": 0.9,
+      "visual_effect": {
+        "confidence": 1.0,
+        "drum_type": "kick",
+        "effect": "low_frequency_glow",
+        "effect_scoring_hint": "allow_layering_with_shaders_and_spatial_engine",
+        "end_ms": 19269,
+        "intensity": 0.9,
+        "layer": "accent",
+        "player_piano_hook": {
+          "enabled": true,
+          "trigger": "floor_piano_percussive_note",
+          "velocity": 0.9
+        },
+        "spatial_impulse": {
+          "enabled": true,
+          "mode": "ground_spread",
+          "propagate_to": [
+            "trees",
+            "arches",
+            "matrices"
+          ],
+          "strength": 0.9
+        },
+        "start_ms": 19000,
+        "submodel": "kick"
+      }
+    },
+    {
+      "cluster_id": 62,
+      "composite_submodels": [
+        "tom"
+      ],
+      "confidence": 1.0,
+      "end_ms": 19220,
+      "frames": [
+        "tom_bounce"
+      ],
+      "frequency_band_info": {
+        "tom_class": "high",
+        "tom_class_confidence": 1.0
+      },
+      "kind": "tom",
+      "performer": "drummer",
+      "section": "SECTION",
+      "source": "canonical_event_oracle",
+      "start_ms": 19000,
+      "submodel": "tom",
+      "velocity": 0.9,
+      "visual_effect": {
+        "confidence": 1.0,
+        "drum_type": "tom",
+        "effect": "mid_bounce_pulse",
+        "effect_scoring_hint": "allow_layering_with_shaders_and_spatial_engine",
+        "end_ms": 19220,
+        "intensity": 0.9,
+        "layer": "motion",
+        "player_piano_hook": {
+          "enabled": true,
+          "trigger": "grid_tick",
+          "velocity": 0.9
+        },
+        "spatial_impulse": {
+          "enabled": true,
+          "mode": "body_bounce",
+          "propagate_to": [
+            "trees",
+            "arches",
+            "matrices"
+          ],
+          "strength": 0.9
+        },
+        "start_ms": 19000,
+        "submodel": "tom"
+      }
+    },
+    {
+      "cluster_id": 63,
+      "composite_submodels": [
+        "tom"
+      ],
+      "confidence": 1.0,
+      "end_ms": 19345,
+      "frames": [
+        "tom_bounce"
+      ],
+      "frequency_band_info": {
+        "tom_class": "mid",
+        "tom_class_confidence": 1.0
+      },
+      "kind": "tom",
+      "performer": "drummer",
+      "section": "SECTION",
+      "source": "canonical_event_oracle",
+      "start_ms": 19125,
+      "submodel": "tom",
+      "velocity": 0.9,
+      "visual_effect": {
+        "confidence": 1.0,
+        "drum_type": "tom",
+        "effect": "mid_bounce_pulse",
+        "effect_scoring_hint": "allow_layering_with_shaders_and_spatial_engine",
+        "end_ms": 19345,
+        "intensity": 0.9,
+        "layer": "motion",
+        "player_piano_hook": {
+          "enabled": true,
+          "trigger": "grid_tick",
+          "velocity": 0.9
+        },
+        "spatial_impulse": {
+          "enabled": true,
+          "mode": "body_bounce",
+          "propagate_to": [
+            "trees",
+            "arches",
+            "matrices"
+          ],
+          "strength": 0.9
+        },
+        "start_ms": 19125,
+        "submodel": "tom"
+      }
+    },
+    {
+      "cluster_id": 65,
+      "composite_submodels": [
+        "tom"
+      ],
+      "confidence": 1.0,
+      "end_ms": 19470,
+      "frames": [
+        "tom_bounce"
+      ],
+      "frequency_band_info": {
+        "tom_class": "floor",
+        "tom_class_confidence": 1.0
+      },
+      "kind": "tom",
+      "performer": "drummer",
+      "section": "SECTION",
+      "source": "canonical_event_oracle",
+      "start_ms": 19250,
+      "submodel": "tom",
+      "velocity": 0.9,
+      "visual_effect": {
+        "confidence": 1.0,
+        "drum_type": "tom",
+        "effect": "mid_bounce_pulse",
+        "effect_scoring_hint": "allow_layering_with_shaders_and_spatial_engine",
+        "end_ms": 19470,
+        "intensity": 0.9,
+        "layer": "motion",
+        "player_piano_hook": {
+          "enabled": true,
+          "trigger": "grid_tick",
+          "velocity": 0.9
+        },
+        "spatial_impulse": {
+          "enabled": true,
+          "mode": "body_bounce",
+          "propagate_to": [
+            "trees",
+            "arches",
+            "matrices"
+          ],
+          "strength": 0.9
+        },
+        "start_ms": 19250,
+        "submodel": "tom"
+      }
+    },
+    {
+      "cluster_id": 64,
+      "composite_submodels": [
+        "hi_hat"
+      ],
+      "confidence": 1.0,
+      "end_ms": 19347,
+      "frames": [
+        "hat_flash"
+      ],
+      "frequency_band_info": {},
+      "kind": "hihat",
+      "performer": "drummer",
+      "section": "SECTION",
+      "source": "canonical_event_oracle",
+      "start_ms": 19250,
+      "submodel": "hi_hat",
+      "velocity": 0.9,
+      "visual_effect": {
+        "confidence": 1.0,
+        "drum_type": "hihat",
+        "effect": "rapid_shimmer_tick",
+        "effect_scoring_hint": "allow_layering_with_shaders_and_spatial_engine",
+        "end_ms": 19347,
+        "intensity": 0.9,
+        "layer": "accent",
+        "player_piano_hook": {
+          "enabled": true,
+          "trigger": "grid_tick",
+          "velocity": 0.9
+        },
+        "spatial_impulse": {
+          "enabled": true,
+          "mode": "spark_particles",
+          "propagate_to": [
+            "trees",
+            "arches",
+            "matrices"
+          ],
+          "strength": 0.9
+        },
+        "start_ms": 19250,
+        "submodel": "hi_hat"
+      }
+    },
+    {
+      "cluster_id": 66,
+      "composite_submodels": [
+        "snare"
+      ],
+      "confidence": 1.0,
+      "end_ms": 19646,
+      "frames": [
+        "snare_burst"
+      ],
+      "frequency_band_info": {},
+      "kind": "snare",
+      "performer": "drummer",
+      "section": "SECTION",
+      "source": "canonical_event_oracle",
+      "start_ms": 19500,
+      "submodel": "snare",
+      "velocity": 0.9,
+      "visual_effect": {
+        "confidence": 1.0,
+        "drum_type": "snare",
+        "effect": "sharp_white_flash",
+        "effect_scoring_hint": "allow_layering_with_shaders_and_spatial_engine",
+        "end_ms": 19646,
+        "intensity": 0.9,
+        "layer": "accent",
+        "player_piano_hook": {
+          "enabled": true,
+          "trigger": "floor_piano_percussive_note",
+          "velocity": 0.9
+        },
+        "spatial_impulse": {
+          "enabled": true,
+          "mode": "lateral_flash",
+          "propagate_to": [
+            "trees",
+            "arches",
+            "matrices"
+          ],
+          "strength": 0.9
+        },
+        "start_ms": 19500,
+        "submodel": "snare"
+      }
+    },
+    {
+      "cluster_id": 67,
+      "composite_submodels": [
+        "hi_hat"
+      ],
+      "confidence": 1.0,
+      "end_ms": 19847,
+      "frames": [
+        "hat_flash"
+      ],
+      "frequency_band_info": {},
+      "kind": "hihat",
+      "performer": "drummer",
+      "section": "SECTION",
+      "source": "canonical_event_oracle",
+      "start_ms": 19750,
+      "submodel": "hi_hat",
+      "velocity": 0.9,
+      "visual_effect": {
+        "confidence": 1.0,
+        "drum_type": "hihat",
+        "effect": "rapid_shimmer_tick",
+        "effect_scoring_hint": "allow_layering_with_shaders_and_spatial_engine",
+        "end_ms": 19847,
+        "intensity": 0.9,
+        "layer": "accent",
+        "player_piano_hook": {
+          "enabled": true,
+          "trigger": "grid_tick",
+          "velocity": 0.9
+        },
+        "spatial_impulse": {
+          "enabled": true,
+          "mode": "spark_particles",
+          "propagate_to": [
+            "trees",
+            "arches",
+            "matrices"
+          ],
+          "strength": 0.9
+        },
+        "start_ms": 19750,
+        "submodel": "hi_hat"
+      }
+    }
+  ],
+  "debug": {
+    "counts": {
+      "cymbal_events": 5,
+      "drum_bus_events": 0,
+      "hihat_events": 25,
+      "kick_events": 13,
+      "snare_events": 13,
+      "tom_events": 12
+    },
+    "effect_cues": [
+      {
+        "confidence": 1.0,
+        "drum_type": "kick",
+        "effect": "low_frequency_glow",
+        "effect_scoring_hint": "allow_layering_with_shaders_and_spatial_engine",
+        "end_ms": 519,
+        "intensity": 0.9,
+        "layer": "accent",
+        "player_piano_hook": {
+          "enabled": true,
+          "trigger": "floor_piano_percussive_note",
+          "velocity": 0.9
+        },
+        "spatial_impulse": {
+          "enabled": true,
+          "mode": "ground_spread",
+          "propagate_to": [
+            "trees",
+            "arches",
+            "matrices"
+          ],
+          "strength": 0.9
+        },
+        "start_ms": 250,
+        "submodel": "kick"
+      },
+      {
+        "confidence": 1.0,
+        "drum_type": "snare",
+        "effect": "sharp_white_flash",
+        "effect_scoring_hint": "allow_layering_with_shaders_and_spatial_engine",
+        "end_ms": 1396,
+        "intensity": 0.9,
+        "layer": "accent",
+        "player_piano_hook": {
+          "enabled": true,
+          "trigger": "floor_piano_percussive_note",
+          "velocity": 0.9
+        },
+        "spatial_impulse": {
+          "enabled": true,
+          "mode": "lateral_flash",
+          "propagate_to": [
+            "trees",
+            "arches",
+            "matrices"
+          ],
+          "strength": 0.9
+        },
+        "start_ms": 1250,
+        "submodel": "snare"
+      },
+      {
+        "confidence": 1.0,
+        "drum_type": "hihat",
+        "effect": "rapid_shimmer_tick",
+        "effect_scoring_hint": "allow_layering_with_shaders_and_spatial_engine",
+        "end_ms": 2347,
+        "intensity": 0.9,
+        "layer": "accent",
+        "player_piano_hook": {
+          "enabled": true,
+          "trigger": "grid_tick",
+          "velocity": 0.9
+        },
+        "spatial_impulse": {
+          "enabled": true,
+          "mode": "spark_particles",
+          "propagate_to": [
+            "trees",
+            "arches",
+            "matrices"
+          ],
+          "strength": 0.9
+        },
+        "start_ms": 2250,
+        "submodel": "hi_hat"
+      },
+      {
+        "confidence": 1.0,
+        "drum_type": "tom",
+        "effect": "mid_bounce_pulse",
+        "effect_scoring_hint": "allow_layering_with_shaders_and_spatial_engine",
+        "end_ms": 3470,
+        "intensity": 0.9,
+        "layer": "motion",
+        "player_piano_hook": {
+          "enabled": true,
+          "trigger": "grid_tick",
+          "velocity": 0.9
+        },
+        "spatial_impulse": {
+          "enabled": true,
+          "mode": "body_bounce",
+          "propagate_to": [
+            "trees",
+            "arches",
+            "matrices"
+          ],
+          "strength": 0.9
+        },
+        "start_ms": 3250,
+        "submodel": "tom"
+      },
+      {
+        "confidence": 1.0,
+        "drum_type": "tom",
+        "effect": "mid_bounce_pulse",
+        "effect_scoring_hint": "allow_layering_with_shaders_and_spatial_engine",
+        "end_ms": 4470,
+        "intensity": 0.9,
+        "layer": "motion",
+        "player_piano_hook": {
+          "enabled": true,
+          "trigger": "grid_tick",
+          "velocity": 0.9
+        },
+        "spatial_impulse": {
+          "enabled": true,
+          "mode": "body_bounce",
+          "propagate_to": [
+            "trees",
+            "arches",
+            "matrices"
+          ],
+          "strength": 0.9
+        },
+        "start_ms": 4250,
+        "submodel": "tom"
+      },
+      {
+        "confidence": 1.0,
+        "drum_type": "tom",
+        "effect": "mid_bounce_pulse",
+        "effect_scoring_hint": "allow_layering_with_shaders_and_spatial_engine",
+        "end_ms": 5470,
+        "intensity": 0.9,
+        "layer": "motion",
+        "player_piano_hook": {
+          "enabled": true,
+          "trigger": "grid_tick",
+          "velocity": 0.9
+        },
+        "spatial_impulse": {
+          "enabled": true,
+          "mode": "body_bounce",
+          "propagate_to": [
+            "trees",
+            "arches",
+            "matrices"
+          ],
+          "strength": 0.9
+        },
+        "start_ms": 5250,
+        "submodel": "tom"
+      },
+      {
+        "confidence": 1.0,
+        "drum_type": "cymbal",
+        "effect": "wide_bright_wash",
+        "effect_scoring_hint": "allow_layering_with_shaders_and_spatial_engine",
+        "end_ms": 6690,
+        "intensity": 0.9,
+        "layer": "motion",
+        "player_piano_hook": {
+          "enabled": true,
+          "trigger": "grid_tick",
+          "velocity": 0.9
+        },
+        "spatial_impulse": {
+          "enabled": true,
+          "mode": "wide_wash_tail",
+          "propagate_to": [
+            "trees",
+            "arches",
+            "matrices"
+          ],
+          "strength": 0.9
+        },
+        "start_ms": 6250,
+        "submodel": "cymbal"
+      },
+      {
+        "confidence": 1.0,
+        "drum_type": "cymbal",
+        "effect": "wide_bright_wash",
+        "effect_scoring_hint": "allow_layering_with_shaders_and_spatial_engine",
+        "end_ms": 7690,
+        "intensity": 0.9,
+        "layer": "motion",
+        "player_piano_hook": {
+          "enabled": true,
+          "trigger": "grid_tick",
+          "velocity": 0.9
+        },
+        "spatial_impulse": {
+          "enabled": true,
+          "mode": "wide_wash_tail",
+          "propagate_to": [
+            "trees",
+            "arches",
+            "matrices"
+          ],
+          "strength": 0.9
+        },
+        "start_ms": 7250,
+        "submodel": "cymbal"
+      },
+      {
+        "confidence": 1.0,
+        "drum_type": "kick",
+        "effect": "low_frequency_glow",
+        "effect_scoring_hint": "allow_layering_with_shaders_and_spatial_engine",
+        "end_ms": 8269,
+        "intensity": 0.9,
+        "layer": "accent",
+        "player_piano_hook": {
+          "enabled": true,
+          "trigger": "floor_piano_percussive_note",
+          "velocity": 0.9
+        },
+        "spatial_impulse": {
+          "enabled": true,
+          "mode": "ground_spread",
+          "propagate_to": [
+            "trees",
+            "arches",
+            "matrices"
+          ],
+          "strength": 0.9
+        },
+        "start_ms": 8000,
+        "submodel": "kick"
+      },
+      {
+        "confidence": 1.0,
+        "drum_type": "cymbal",
+        "effect": "wide_bright_wash",
+        "effect_scoring_hint": "allow_layering_with_shaders_and_spatial_engine",
+        "end_ms": 8440,
+        "intensity": 0.9,
+        "layer": "motion",
+        "player_piano_hook": {
+          "enabled": true,
+          "trigger": "grid_tick",
+          "velocity": 0.9
+        },
+        "spatial_impulse": {
+          "enabled": true,
+          "mode": "wide_wash_tail",
+          "propagate_to": [
+            "trees",
+            "arches",
+            "matrices"
+          ],
+          "strength": 0.9
+        },
+        "start_ms": 8000,
+        "submodel": "cymbal"
+      },
+      {
+        "confidence": 1.0,
+        "drum_type": "hihat",
+        "effect": "rapid_shimmer_tick",
+        "effect_scoring_hint": "allow_layering_with_shaders_and_spatial_engine",
+        "end_ms": 8347,
+        "intensity": 0.9,
+        "layer": "accent",
+        "player_piano_hook": {
+          "enabled": true,
+          "trigger": "grid_tick",
+          "velocity": 0.9
+        },
+        "spatial_impulse": {
+          "enabled": true,
+          "mode": "spark_particles",
+          "propagate_to": [
+            "trees",
+            "arches",
+            "matrices"
+          ],
+          "strength": 0.9
+        },
+        "start_ms": 8250,
+        "submodel": "hi_hat"
+      },
+      {
+        "confidence": 1.0,
+        "drum_type": "snare",
+        "effect": "sharp_white_flash",
+        "effect_scoring_hint": "allow_layering_with_shaders_and_spatial_engine",
+        "end_ms": 8646,
+        "intensity": 0.9,
+        "layer": "accent",
+        "player_piano_hook": {
+          "enabled": true,
+          "trigger": "floor_piano_percussive_note",
+          "velocity": 0.9
+        },
+        "spatial_impulse": {
+          "enabled": true,
+          "mode": "lateral_flash",
+          "propagate_to": [
+            "trees",
+            "arches",
+            "matrices"
+          ],
+          "strength": 0.9
+        },
+        "start_ms": 8500,
+        "submodel": "snare"
+      },
+      {
+        "confidence": 1.0,
+        "drum_type": "hihat",
+        "effect": "rapid_shimmer_tick",
+        "effect_scoring_hint": "allow_layering_with_shaders_and_spatial_engine",
+        "end_ms": 8847,
+        "intensity": 0.9,
+        "layer": "accent",
+        "player_piano_hook": {
+          "enabled": true,
+          "trigger": "grid_tick",
+          "velocity": 0.9
+        },
+        "spatial_impulse": {
+          "enabled": true,
+          "mode": "spark_particles",
+          "propagate_to": [
+            "trees",
+            "arches",
+            "matrices"
+          ],
+          "strength": 0.9
+        },
+        "start_ms": 8750,
+        "submodel": "hi_hat"
+      },
+      {
+        "confidence": 1.0,
+        "drum_type": "kick",
+        "effect": "low_frequency_glow",
+        "effect_scoring_hint": "allow_layering_with_shaders_and_spatial_engine",
+        "end_ms": 9269,
+        "intensity": 0.9,
+        "layer": "accent",
+        "player_piano_hook": {
+          "enabled": true,
+          "trigger": "floor_piano_percussive_note",
+          "velocity": 0.9
+        },
+        "spatial_impulse": {
+          "enabled": true,
+          "mode": "ground_spread",
+          "propagate_to": [
+            "trees",
+            "arches",
+            "matrices"
+          ],
+          "strength": 0.9
+        },
+        "start_ms": 9000,
+        "submodel": "kick"
+      },
+      {
+        "confidence": 1.0,
+        "drum_type": "hihat",
+        "effect": "rapid_shimmer_tick",
+        "effect_scoring_hint": "allow_layering_with_shaders_and_spatial_engine",
+        "end_ms": 9347,
+        "intensity": 0.9,
+        "layer": "accent",
+        "player_piano_hook": {
+          "enabled": true,
+          "trigger": "grid_tick",
+          "velocity": 0.9
+        },
+        "spatial_impulse": {
+          "enabled": true,
+          "mode": "spark_particles",
+          "propagate_to": [
+            "trees",
+            "arches",
+            "matrices"
+          ],
+          "strength": 0.9
+        },
+        "start_ms": 9250,
+        "submodel": "hi_hat"
+      },
+      {
+        "confidence": 1.0,
+        "drum_type": "snare",
+        "effect": "sharp_white_flash",
+        "effect_scoring_hint": "allow_layering_with_shaders_and_spatial_engine",
+        "end_ms": 9646,
+        "intensity": 0.9,
+        "layer": "accent",
+        "player_piano_hook": {
+          "enabled": true,
+          "trigger": "floor_piano_percussive_note",
+          "velocity": 0.9
+        },
+        "spatial_impulse": {
+          "enabled": true,
+          "mode": "lateral_flash",
+          "propagate_to": [
+            "trees",
+            "arches",
+            "matrices"
+          ],
+          "strength": 0.9
+        },
+        "start_ms": 9500,
+        "submodel": "snare"
+      },
+      {
+        "confidence": 1.0,
+        "drum_type": "hihat",
+        "effect": "rapid_shimmer_tick",
+        "effect_scoring_hint": "allow_layering_with_shaders_and_spatial_engine",
+        "end_ms": 9847,
+        "intensity": 0.9,
+        "layer": "accent",
+        "player_piano_hook": {
+          "enabled": true,
+          "trigger": "grid_tick",
+          "velocity": 0.9
+        },
+        "spatial_impulse": {
+          "enabled": true,
+          "mode": "spark_particles",
+          "propagate_to": [
+            "trees",
+            "arches",
+            "matrices"
+          ],
+          "strength": 0.9
+        },
+        "start_ms": 9750,
+        "submodel": "hi_hat"
+      },
+      {
+        "confidence": 1.0,
+        "drum_type": "kick",
+        "effect": "low_frequency_glow",
+        "effect_scoring_hint": "allow_layering_with_shaders_and_spatial_engine",
+        "end_ms": 10269,
+        "intensity": 0.9,
+        "layer": "accent",
+        "player_piano_hook": {
+          "enabled": true,
+          "trigger": "floor_piano_percussive_note",
+          "velocity": 0.9
+        },
+        "spatial_impulse": {
+          "enabled": true,
+          "mode": "ground_spread",
+          "propagate_to": [
+            "trees",
+            "arches",
+            "matrices"
+          ],
+          "strength": 0.9
+        },
+        "start_ms": 10000,
+        "submodel": "kick"
+      },
+      {
+        "confidence": 1.0,
+        "drum_type": "hihat",
+        "effect": "rapid_shimmer_tick",
+        "effect_scoring_hint": "allow_layering_with_shaders_and_spatial_engine",
+        "end_ms": 10347,
+        "intensity": 0.9,
+        "layer": "accent",
+        "player_piano_hook": {
+          "enabled": true,
+          "trigger": "grid_tick",
+          "velocity": 0.9
+        },
+        "spatial_impulse": {
+          "enabled": true,
+          "mode": "spark_particles",
+          "propagate_to": [
+            "trees",
+            "arches",
+            "matrices"
+          ],
+          "strength": 0.9
+        },
+        "start_ms": 10250,
+        "submodel": "hi_hat"
+      },
+      {
+        "confidence": 1.0,
+        "drum_type": "snare",
+        "effect": "sharp_white_flash",
+        "effect_scoring_hint": "allow_layering_with_shaders_and_spatial_engine",
+        "end_ms": 10646,
+        "intensity": 0.9,
+        "layer": "accent",
+        "player_piano_hook": {
+          "enabled": true,
+          "trigger": "floor_piano_percussive_note",
+          "velocity": 0.9
+        },
+        "spatial_impulse": {
+          "enabled": true,
+          "mode": "lateral_flash",
+          "propagate_to": [
+            "trees",
+            "arches",
+            "matrices"
+          ],
+          "strength": 0.9
+        },
+        "start_ms": 10500,
+        "submodel": "snare"
+      },
+      {
+        "confidence": 1.0,
+        "drum_type": "hihat",
+        "effect": "rapid_shimmer_tick",
+        "effect_scoring_hint": "allow_layering_with_shaders_and_spatial_engine",
+        "end_ms": 10847,
+        "intensity": 0.9,
+        "layer": "accent",
+        "player_piano_hook": {
+          "enabled": true,
+          "trigger": "grid_tick",
+          "velocity": 0.9
+        },
+        "spatial_impulse": {
+          "enabled": true,
+          "mode": "spark_particles",
+          "propagate_to": [
+            "trees",
+            "arches",
+            "matrices"
+          ],
+          "strength": 0.9
+        },
+        "start_ms": 10750,
+        "submodel": "hi_hat"
+      },
+      {
+        "confidence": 1.0,
+        "drum_type": "kick",
+        "effect": "low_frequency_glow",
+        "effect_scoring_hint": "allow_layering_with_shaders_and_spatial_engine",
+        "end_ms": 11269,
+        "intensity": 0.9,
+        "layer": "accent",
+        "player_piano_hook": {
+          "enabled": true,
+          "trigger": "floor_piano_percussive_note",
+          "velocity": 0.9
+        },
+        "spatial_impulse": {
+          "enabled": true,
+          "mode": "ground_spread",
+          "propagate_to": [
+            "trees",
+            "arches",
+            "matrices"
+          ],
+          "strength": 0.9
+        },
+        "start_ms": 11000,
+        "submodel": "kick"
+      },
+      {
+        "confidence": 1.0,
+        "drum_type": "tom",
+        "effect": "mid_bounce_pulse",
+        "effect_scoring_hint": "allow_layering_with_shaders_and_spatial_engine",
+        "end_ms": 11220,
+        "intensity": 0.9,
+        "layer": "motion",
+        "player_piano_hook": {
+          "enabled": true,
+          "trigger": "grid_tick",
+          "velocity": 0.9
+        },
+        "spatial_impulse": {
+          "enabled": true,
+          "mode": "body_bounce",
+          "propagate_to": [
+            "trees",
+            "arches",
+            "matrices"
+          ],
+          "strength": 0.9
+        },
+        "start_ms": 11000,
+        "submodel": "tom"
+      },
+      {
+        "confidence": 1.0,
+        "drum_type": "tom",
+        "effect": "mid_bounce_pulse",
+        "effect_scoring_hint": "allow_layering_with_shaders_and_spatial_engine",
+        "end_ms": 11345,
+        "intensity": 0.9,
+        "layer": "motion",
+        "player_piano_hook": {
+          "enabled": true,
+          "trigger": "grid_tick",
+          "velocity": 0.9
+        },
+        "spatial_impulse": {
+          "enabled": true,
+          "mode": "body_bounce",
+          "propagate_to": [
+            "trees",
+            "arches",
+            "matrices"
+          ],
+          "strength": 0.9
+        },
+        "start_ms": 11125,
+        "submodel": "tom"
+      },
+      {
+        "confidence": 1.0,
+        "drum_type": "tom",
+        "effect": "mid_bounce_pulse",
+        "effect_scoring_hint": "allow_layering_with_shaders_and_spatial_engine",
+        "end_ms": 11470,
+        "intensity": 0.9,
+        "layer": "motion",
+        "player_piano_hook": {
+          "enabled": true,
+          "trigger": "grid_tick",
+          "velocity": 0.9
+        },
+        "spatial_impulse": {
+          "enabled": true,
+          "mode": "body_bounce",
+          "propagate_to": [
+            "trees",
+            "arches",
+            "matrices"
+          ],
+          "strength": 0.9
+        },
+        "start_ms": 11250,
+        "submodel": "tom"
+      },
+      {
+        "confidence": 1.0,
+        "drum_type": "hihat",
+        "effect": "rapid_shimmer_tick",
+        "effect_scoring_hint": "allow_layering_with_shaders_and_spatial_engine",
+        "end_ms": 11347,
+        "intensity": 0.9,
+        "layer": "accent",
+        "player_piano_hook": {
+          "enabled": true,
+          "trigger": "grid_tick",
+          "velocity": 0.9
+        },
+        "spatial_impulse": {
+          "enabled": true,
+          "mode": "spark_particles",
+          "propagate_to": [
+            "trees",
+            "arches",
+            "matrices"
+          ],
+          "strength": 0.9
+        },
+        "start_ms": 11250,
+        "submodel": "hi_hat"
+      },
+      {
+        "confidence": 1.0,
+        "drum_type": "snare",
+        "effect": "sharp_white_flash",
+        "effect_scoring_hint": "allow_layering_with_shaders_and_spatial_engine",
+        "end_ms": 11646,
+        "intensity": 0.9,
+        "layer": "accent",
+        "player_piano_hook": {
+          "enabled": true,
+          "trigger": "floor_piano_percussive_note",
+          "velocity": 0.9
+        },
+        "spatial_impulse": {
+          "enabled": true,
+          "mode": "lateral_flash",
+          "propagate_to": [
+            "trees",
+            "arches",
+            "matrices"
+          ],
+          "strength": 0.9
+        },
+        "start_ms": 11500,
+        "submodel": "snare"
+      },
+      {
+        "confidence": 1.0,
+        "drum_type": "hihat",
+        "effect": "rapid_shimmer_tick",
+        "effect_scoring_hint": "allow_layering_with_shaders_and_spatial_engine",
+        "end_ms": 11847,
+        "intensity": 0.9,
+        "layer": "accent",
+        "player_piano_hook": {
+          "enabled": true,
+          "trigger": "grid_tick",
+          "velocity": 0.9
+        },
+        "spatial_impulse": {
+          "enabled": true,
+          "mode": "spark_particles",
+          "propagate_to": [
+            "trees",
+            "arches",
+            "matrices"
+          ],
+          "strength": 0.9
+        },
+        "start_ms": 11750,
+        "submodel": "hi_hat"
+      },
+      {
+        "confidence": 1.0,
+        "drum_type": "kick",
+        "effect": "low_frequency_glow",
+        "effect_scoring_hint": "allow_layering_with_shaders_and_spatial_engine",
+        "end_ms": 12269,
+        "intensity": 0.9,
+        "layer": "accent",
+        "player_piano_hook": {
+          "enabled": true,
+          "trigger": "floor_piano_percussive_note",
+          "velocity": 0.9
+        },
+        "spatial_impulse": {
+          "enabled": true,
+          "mode": "ground_spread",
+          "propagate_to": [
+            "trees",
+            "arches",
+            "matrices"
+          ],
+          "strength": 0.9
+        },
+        "start_ms": 12000,
+        "submodel": "kick"
+      },
+      {
+        "confidence": 1.0,
+        "drum_type": "cymbal",
+        "effect": "wide_bright_wash",
+        "effect_scoring_hint": "allow_layering_with_shaders_and_spatial_engine",
+        "end_ms": 12440,
+        "intensity": 0.9,
+        "layer": "motion",
+        "player_piano_hook": {
+          "enabled": true,
+          "trigger": "grid_tick",
+          "velocity": 0.9
+        },
+        "spatial_impulse": {
+          "enabled": true,
+          "mode": "wide_wash_tail",
+          "propagate_to": [
+            "trees",
+            "arches",
+            "matrices"
+          ],
+          "strength": 0.9
+        },
+        "start_ms": 12000,
+        "submodel": "cymbal"
+      },
+      {
+        "confidence": 1.0,
+        "drum_type": "hihat",
+        "effect": "rapid_shimmer_tick",
+        "effect_scoring_hint": "allow_layering_with_shaders_and_spatial_engine",
+        "end_ms": 12347,
+        "intensity": 0.9,
+        "layer": "accent",
+        "player_piano_hook": {
+          "enabled": true,
+          "trigger": "grid_tick",
+          "velocity": 0.9
+        },
+        "spatial_impulse": {
+          "enabled": true,
+          "mode": "spark_particles",
+          "propagate_to": [
+            "trees",
+            "arches",
+            "matrices"
+          ],
+          "strength": 0.9
+        },
+        "start_ms": 12250,
+        "submodel": "hi_hat"
+      },
+      {
+        "confidence": 1.0,
+        "drum_type": "snare",
+        "effect": "sharp_white_flash",
+        "effect_scoring_hint": "allow_layering_with_shaders_and_spatial_engine",
+        "end_ms": 12646,
+        "intensity": 0.9,
+        "layer": "accent",
+        "player_piano_hook": {
+          "enabled": true,
+          "trigger": "floor_piano_percussive_note",
+          "velocity": 0.9
+        },
+        "spatial_impulse": {
+          "enabled": true,
+          "mode": "lateral_flash",
+          "propagate_to": [
+            "trees",
+            "arches",
+            "matrices"
+          ],
+          "strength": 0.9
+        },
+        "start_ms": 12500,
+        "submodel": "snare"
+      },
+      {
+        "confidence": 1.0,
+        "drum_type": "hihat",
+        "effect": "rapid_shimmer_tick",
+        "effect_scoring_hint": "allow_layering_with_shaders_and_spatial_engine",
+        "end_ms": 12847,
+        "intensity": 0.9,
+        "layer": "accent",
+        "player_piano_hook": {
+          "enabled": true,
+          "trigger": "grid_tick",
+          "velocity": 0.9
+        },
+        "spatial_impulse": {
+          "enabled": true,
+          "mode": "spark_particles",
+          "propagate_to": [
+            "trees",
+            "arches",
+            "matrices"
+          ],
+          "strength": 0.9
+        },
+        "start_ms": 12750,
+        "submodel": "hi_hat"
+      },
+      {
+        "confidence": 1.0,
+        "drum_type": "kick",
+        "effect": "low_frequency_glow",
+        "effect_scoring_hint": "allow_layering_with_shaders_and_spatial_engine",
+        "end_ms": 13269,
+        "intensity": 0.9,
+        "layer": "accent",
+        "player_piano_hook": {
+          "enabled": true,
+          "trigger": "floor_piano_percussive_note",
+          "velocity": 0.9
+        },
+        "spatial_impulse": {
+          "enabled": true,
+          "mode": "ground_spread",
+          "propagate_to": [
+            "trees",
+            "arches",
+            "matrices"
+          ],
+          "strength": 0.9
+        },
+        "start_ms": 13000,
+        "submodel": "kick"
+      },
+      {
+        "confidence": 1.0,
+        "drum_type": "hihat",
+        "effect": "rapid_shimmer_tick",
+        "effect_scoring_hint": "allow_layering_with_shaders_and_spatial_engine",
+        "end_ms": 13347,
+        "intensity": 0.9,
+        "layer": "accent",
+        "player_piano_hook": {
+          "enabled": true,
+          "trigger": "grid_tick",
+          "velocity": 0.9
+        },
+        "spatial_impulse": {
+          "enabled": true,
+          "mode": "spark_particles",
+          "propagate_to": [
+            "trees",
+            "arches",
+            "matrices"
+          ],
+          "strength": 0.9
+        },
+        "start_ms": 13250,
+        "submodel": "hi_hat"
+      },
+      {
+        "confidence": 1.0,
+        "drum_type": "snare",
+        "effect": "sharp_white_flash",
+        "effect_scoring_hint": "allow_layering_with_shaders_and_spatial_engine",
+        "end_ms": 13646,
+        "intensity": 0.9,
+        "layer": "accent",
+        "player_piano_hook": {
+          "enabled": true,
+          "trigger": "floor_piano_percussive_note",
+          "velocity": 0.9
+        },
+        "spatial_impulse": {
+          "enabled": true,
+          "mode": "lateral_flash",
+          "propagate_to": [
+            "trees",
+            "arches",
+            "matrices"
+          ],
+          "strength": 0.9
+        },
+        "start_ms": 13500,
+        "submodel": "snare"
+      },
+      {
+        "confidence": 1.0,
+        "drum_type": "hihat",
+        "effect": "rapid_shimmer_tick",
+        "effect_scoring_hint": "allow_layering_with_shaders_and_spatial_engine",
+        "end_ms": 13847,
+        "intensity": 0.9,
+        "layer": "accent",
+        "player_piano_hook": {
+          "enabled": true,
+          "trigger": "grid_tick",
+          "velocity": 0.9
+        },
+        "spatial_impulse": {
+          "enabled": true,
+          "mode": "spark_particles",
+          "propagate_to": [
+            "trees",
+            "arches",
+            "matrices"
+          ],
+          "strength": 0.9
+        },
+        "start_ms": 13750,
+        "submodel": "hi_hat"
+      },
+      {
+        "confidence": 1.0,
+        "drum_type": "kick",
+        "effect": "low_frequency_glow",
+        "effect_scoring_hint": "allow_layering_with_shaders_and_spatial_engine",
+        "end_ms": 14269,
+        "intensity": 0.9,
+        "layer": "accent",
+        "player_piano_hook": {
+          "enabled": true,
+          "trigger": "floor_piano_percussive_note",
+          "velocity": 0.9
+        },
+        "spatial_impulse": {
+          "enabled": true,
+          "mode": "ground_spread",
+          "propagate_to": [
+            "trees",
+            "arches",
+            "matrices"
+          ],
+          "strength": 0.9
+        },
+        "start_ms": 14000,
+        "submodel": "kick"
+      },
+      {
+        "confidence": 1.0,
+        "drum_type": "hihat",
+        "effect": "rapid_shimmer_tick",
+        "effect_scoring_hint": "allow_layering_with_shaders_and_spatial_engine",
+        "end_ms": 14347,
+        "intensity": 0.9,
+        "layer": "accent",
+        "player_piano_hook": {
+          "enabled": true,
+          "trigger": "grid_tick",
+          "velocity": 0.9
+        },
+        "spatial_impulse": {
+          "enabled": true,
+          "mode": "spark_particles",
+          "propagate_to": [
+            "trees",
+            "arches",
+            "matrices"
+          ],
+          "strength": 0.9
+        },
+        "start_ms": 14250,
+        "submodel": "hi_hat"
+      },
+      {
+        "confidence": 1.0,
+        "drum_type": "snare",
+        "effect": "sharp_white_flash",
+        "effect_scoring_hint": "allow_layering_with_shaders_and_spatial_engine",
+        "end_ms": 14646,
+        "intensity": 0.9,
+        "layer": "accent",
+        "player_piano_hook": {
+          "enabled": true,
+          "trigger": "floor_piano_percussive_note",
+          "velocity": 0.9
+        },
+        "spatial_impulse": {
+          "enabled": true,
+          "mode": "lateral_flash",
+          "propagate_to": [
+            "trees",
+            "arches",
+            "matrices"
+          ],
+          "strength": 0.9
+        },
+        "start_ms": 14500,
+        "submodel": "snare"
+      },
+      {
+        "confidence": 1.0,
+        "drum_type": "hihat",
+        "effect": "rapid_shimmer_tick",
+        "effect_scoring_hint": "allow_layering_with_shaders_and_spatial_engine",
+        "end_ms": 14847,
+        "intensity": 0.9,
+        "layer": "accent",
+        "player_piano_hook": {
+          "enabled": true,
+          "trigger": "grid_tick",
+          "velocity": 0.9
+        },
+        "spatial_impulse": {
+          "enabled": true,
+          "mode": "spark_particles",
+          "propagate_to": [
+            "trees",
+            "arches",
+            "matrices"
+          ],
+          "strength": 0.9
+        },
+        "start_ms": 14750,
+        "submodel": "hi_hat"
+      },
+      {
+        "confidence": 1.0,
+        "drum_type": "kick",
+        "effect": "low_frequency_glow",
+        "effect_scoring_hint": "allow_layering_with_shaders_and_spatial_engine",
+        "end_ms": 15269,
+        "intensity": 0.9,
+        "layer": "accent",
+        "player_piano_hook": {
+          "enabled": true,
+          "trigger": "floor_piano_percussive_note",
+          "velocity": 0.9
+        },
+        "spatial_impulse": {
+          "enabled": true,
+          "mode": "ground_spread",
+          "propagate_to": [
+            "trees",
+            "arches",
+            "matrices"
+          ],
+          "strength": 0.9
+        },
+        "start_ms": 15000,
+        "submodel": "kick"
+      },
+      {
+        "confidence": 1.0,
+        "drum_type": "tom",
+        "effect": "mid_bounce_pulse",
+        "effect_scoring_hint": "allow_layering_with_shaders_and_spatial_engine",
+        "end_ms": 15220,
+        "intensity": 0.9,
+        "layer": "motion",
+        "player_piano_hook": {
+          "enabled": true,
+          "trigger": "grid_tick",
+          "velocity": 0.9
+        },
+        "spatial_impulse": {
+          "enabled": true,
+          "mode": "body_bounce",
+          "propagate_to": [
+            "trees",
+            "arches",
+            "matrices"
+          ],
+          "strength": 0.9
+        },
+        "start_ms": 15000,
+        "submodel": "tom"
+      },
+      {
+        "confidence": 1.0,
+        "drum_type": "tom",
+        "effect": "mid_bounce_pulse",
+        "effect_scoring_hint": "allow_layering_with_shaders_and_spatial_engine",
+        "end_ms": 15345,
+        "intensity": 0.9,
+        "layer": "motion",
+        "player_piano_hook": {
+          "enabled": true,
+          "trigger": "grid_tick",
+          "velocity": 0.9
+        },
+        "spatial_impulse": {
+          "enabled": true,
+          "mode": "body_bounce",
+          "propagate_to": [
+            "trees",
+            "arches",
+            "matrices"
+          ],
+          "strength": 0.9
+        },
+        "start_ms": 15125,
+        "submodel": "tom"
+      },
+      {
+        "confidence": 1.0,
+        "drum_type": "tom",
+        "effect": "mid_bounce_pulse",
+        "effect_scoring_hint": "allow_layering_with_shaders_and_spatial_engine",
+        "end_ms": 15470,
+        "intensity": 0.9,
+        "layer": "motion",
+        "player_piano_hook": {
+          "enabled": true,
+          "trigger": "grid_tick",
+          "velocity": 0.9
+        },
+        "spatial_impulse": {
+          "enabled": true,
+          "mode": "body_bounce",
+          "propagate_to": [
+            "trees",
+            "arches",
+            "matrices"
+          ],
+          "strength": 0.9
+        },
+        "start_ms": 15250,
+        "submodel": "tom"
+      },
+      {
+        "confidence": 1.0,
+        "drum_type": "hihat",
+        "effect": "rapid_shimmer_tick",
+        "effect_scoring_hint": "allow_layering_with_shaders_and_spatial_engine",
+        "end_ms": 15347,
+        "intensity": 0.9,
+        "layer": "accent",
+        "player_piano_hook": {
+          "enabled": true,
+          "trigger": "grid_tick",
+          "velocity": 0.9
+        },
+        "spatial_impulse": {
+          "enabled": true,
+          "mode": "spark_particles",
+          "propagate_to": [
+            "trees",
+            "arches",
+            "matrices"
+          ],
+          "strength": 0.9
+        },
+        "start_ms": 15250,
+        "submodel": "hi_hat"
+      },
+      {
+        "confidence": 1.0,
+        "drum_type": "snare",
+        "effect": "sharp_white_flash",
+        "effect_scoring_hint": "allow_layering_with_shaders_and_spatial_engine",
+        "end_ms": 15646,
+        "intensity": 0.9,
+        "layer": "accent",
+        "player_piano_hook": {
+          "enabled": true,
+          "trigger": "floor_piano_percussive_note",
+          "velocity": 0.9
+        },
+        "spatial_impulse": {
+          "enabled": true,
+          "mode": "lateral_flash",
+          "propagate_to": [
+            "trees",
+            "arches",
+            "matrices"
+          ],
+          "strength": 0.9
+        },
+        "start_ms": 15500,
+        "submodel": "snare"
+      },
+      {
+        "confidence": 1.0,
+        "drum_type": "hihat",
+        "effect": "rapid_shimmer_tick",
+        "effect_scoring_hint": "allow_layering_with_shaders_and_spatial_engine",
+        "end_ms": 15847,
+        "intensity": 0.9,
+        "layer": "accent",
+        "player_piano_hook": {
+          "enabled": true,
+          "trigger": "grid_tick",
+          "velocity": 0.9
+        },
+        "spatial_impulse": {
+          "enabled": true,
+          "mode": "spark_particles",
+          "propagate_to": [
+            "trees",
+            "arches",
+            "matrices"
+          ],
+          "strength": 0.9
+        },
+        "start_ms": 15750,
+        "submodel": "hi_hat"
+      },
+      {
+        "confidence": 1.0,
+        "drum_type": "kick",
+        "effect": "low_frequency_glow",
+        "effect_scoring_hint": "allow_layering_with_shaders_and_spatial_engine",
+        "end_ms": 16269,
+        "intensity": 0.9,
+        "layer": "accent",
+        "player_piano_hook": {
+          "enabled": true,
+          "trigger": "floor_piano_percussive_note",
+          "velocity": 0.9
+        },
+        "spatial_impulse": {
+          "enabled": true,
+          "mode": "ground_spread",
+          "propagate_to": [
+            "trees",
+            "arches",
+            "matrices"
+          ],
+          "strength": 0.9
+        },
+        "start_ms": 16000,
+        "submodel": "kick"
+      },
+      {
+        "confidence": 1.0,
+        "drum_type": "cymbal",
+        "effect": "wide_bright_wash",
+        "effect_scoring_hint": "allow_layering_with_shaders_and_spatial_engine",
+        "end_ms": 16440,
+        "intensity": 0.9,
+        "layer": "motion",
+        "player_piano_hook": {
+          "enabled": true,
+          "trigger": "grid_tick",
+          "velocity": 0.9
+        },
+        "spatial_impulse": {
+          "enabled": true,
+          "mode": "wide_wash_tail",
+          "propagate_to": [
+            "trees",
+            "arches",
+            "matrices"
+          ],
+          "strength": 0.9
+        },
+        "start_ms": 16000,
+        "submodel": "cymbal"
+      },
+      {
+        "confidence": 1.0,
+        "drum_type": "hihat",
+        "effect": "rapid_shimmer_tick",
+        "effect_scoring_hint": "allow_layering_with_shaders_and_spatial_engine",
+        "end_ms": 16347,
+        "intensity": 0.9,
+        "layer": "accent",
+        "player_piano_hook": {
+          "enabled": true,
+          "trigger": "grid_tick",
+          "velocity": 0.9
+        },
+        "spatial_impulse": {
+          "enabled": true,
+          "mode": "spark_particles",
+          "propagate_to": [
+            "trees",
+            "arches",
+            "matrices"
+          ],
+          "strength": 0.9
+        },
+        "start_ms": 16250,
+        "submodel": "hi_hat"
+      },
+      {
+        "confidence": 1.0,
+        "drum_type": "snare",
+        "effect": "sharp_white_flash",
+        "effect_scoring_hint": "allow_layering_with_shaders_and_spatial_engine",
+        "end_ms": 16646,
+        "intensity": 0.9,
+        "layer": "accent",
+        "player_piano_hook": {
+          "enabled": true,
+          "trigger": "floor_piano_percussive_note",
+          "velocity": 0.9
+        },
+        "spatial_impulse": {
+          "enabled": true,
+          "mode": "lateral_flash",
+          "propagate_to": [
+            "trees",
+            "arches",
+            "matrices"
+          ],
+          "strength": 0.9
+        },
+        "start_ms": 16500,
+        "submodel": "snare"
+      },
+      {
+        "confidence": 1.0,
+        "drum_type": "hihat",
+        "effect": "rapid_shimmer_tick",
+        "effect_scoring_hint": "allow_layering_with_shaders_and_spatial_engine",
+        "end_ms": 16847,
+        "intensity": 0.9,
+        "layer": "accent",
+        "player_piano_hook": {
+          "enabled": true,
+          "trigger": "grid_tick",
+          "velocity": 0.9
+        },
+        "spatial_impulse": {
+          "enabled": true,
+          "mode": "spark_particles",
+          "propagate_to": [
+            "trees",
+            "arches",
+            "matrices"
+          ],
+          "strength": 0.9
+        },
+        "start_ms": 16750,
+        "submodel": "hi_hat"
+      },
+      {
+        "confidence": 1.0,
+        "drum_type": "kick",
+        "effect": "low_frequency_glow",
+        "effect_scoring_hint": "allow_layering_with_shaders_and_spatial_engine",
+        "end_ms": 17269,
+        "intensity": 0.9,
+        "layer": "accent",
+        "player_piano_hook": {
+          "enabled": true,
+          "trigger": "floor_piano_percussive_note",
+          "velocity": 0.9
+        },
+        "spatial_impulse": {
+          "enabled": true,
+          "mode": "ground_spread",
+          "propagate_to": [
+            "trees",
+            "arches",
+            "matrices"
+          ],
+          "strength": 0.9
+        },
+        "start_ms": 17000,
+        "submodel": "kick"
+      },
+      {
+        "confidence": 1.0,
+        "drum_type": "hihat",
+        "effect": "rapid_shimmer_tick",
+        "effect_scoring_hint": "allow_layering_with_shaders_and_spatial_engine",
+        "end_ms": 17347,
+        "intensity": 0.9,
+        "layer": "accent",
+        "player_piano_hook": {
+          "enabled": true,
+          "trigger": "grid_tick",
+          "velocity": 0.9
+        },
+        "spatial_impulse": {
+          "enabled": true,
+          "mode": "spark_particles",
+          "propagate_to": [
+            "trees",
+            "arches",
+            "matrices"
+          ],
+          "strength": 0.9
+        },
+        "start_ms": 17250,
+        "submodel": "hi_hat"
+      },
+      {
+        "confidence": 1.0,
+        "drum_type": "snare",
+        "effect": "sharp_white_flash",
+        "effect_scoring_hint": "allow_layering_with_shaders_and_spatial_engine",
+        "end_ms": 17646,
+        "intensity": 0.9,
+        "layer": "accent",
+        "player_piano_hook": {
+          "enabled": true,
+          "trigger": "floor_piano_percussive_note",
+          "velocity": 0.9
+        },
+        "spatial_impulse": {
+          "enabled": true,
+          "mode": "lateral_flash",
+          "propagate_to": [
+            "trees",
+            "arches",
+            "matrices"
+          ],
+          "strength": 0.9
+        },
+        "start_ms": 17500,
+        "submodel": "snare"
+      },
+      {
+        "confidence": 1.0,
+        "drum_type": "hihat",
+        "effect": "rapid_shimmer_tick",
+        "effect_scoring_hint": "allow_layering_with_shaders_and_spatial_engine",
+        "end_ms": 17847,
+        "intensity": 0.9,
+        "layer": "accent",
+        "player_piano_hook": {
+          "enabled": true,
+          "trigger": "grid_tick",
+          "velocity": 0.9
+        },
+        "spatial_impulse": {
+          "enabled": true,
+          "mode": "spark_particles",
+          "propagate_to": [
+            "trees",
+            "arches",
+            "matrices"
+          ],
+          "strength": 0.9
+        },
+        "start_ms": 17750,
+        "submodel": "hi_hat"
+      },
+      {
+        "confidence": 1.0,
+        "drum_type": "kick",
+        "effect": "low_frequency_glow",
+        "effect_scoring_hint": "allow_layering_with_shaders_and_spatial_engine",
+        "end_ms": 18269,
+        "intensity": 0.9,
+        "layer": "accent",
+        "player_piano_hook": {
+          "enabled": true,
+          "trigger": "floor_piano_percussive_note",
+          "velocity": 0.9
+        },
+        "spatial_impulse": {
+          "enabled": true,
+          "mode": "ground_spread",
+          "propagate_to": [
+            "trees",
+            "arches",
+            "matrices"
+          ],
+          "strength": 0.9
+        },
+        "start_ms": 18000,
+        "submodel": "kick"
+      },
+      {
+        "confidence": 1.0,
+        "drum_type": "hihat",
+        "effect": "rapid_shimmer_tick",
+        "effect_scoring_hint": "allow_layering_with_shaders_and_spatial_engine",
+        "end_ms": 18347,
+        "intensity": 0.9,
+        "layer": "accent",
+        "player_piano_hook": {
+          "enabled": true,
+          "trigger": "grid_tick",
+          "velocity": 0.9
+        },
+        "spatial_impulse": {
+          "enabled": true,
+          "mode": "spark_particles",
+          "propagate_to": [
+            "trees",
+            "arches",
+            "matrices"
+          ],
+          "strength": 0.9
+        },
+        "start_ms": 18250,
+        "submodel": "hi_hat"
+      },
+      {
+        "confidence": 1.0,
+        "drum_type": "snare",
+        "effect": "sharp_white_flash",
+        "effect_scoring_hint": "allow_layering_with_shaders_and_spatial_engine",
+        "end_ms": 18646,
+        "intensity": 0.9,
+        "layer": "accent",
+        "player_piano_hook": {
+          "enabled": true,
+          "trigger": "floor_piano_percussive_note",
+          "velocity": 0.9
+        },
+        "spatial_impulse": {
+          "enabled": true,
+          "mode": "lateral_flash",
+          "propagate_to": [
+            "trees",
+            "arches",
+            "matrices"
+          ],
+          "strength": 0.9
+        },
+        "start_ms": 18500,
+        "submodel": "snare"
+      },
+      {
+        "confidence": 1.0,
+        "drum_type": "hihat",
+        "effect": "rapid_shimmer_tick",
+        "effect_scoring_hint": "allow_layering_with_shaders_and_spatial_engine",
+        "end_ms": 18847,
+        "intensity": 0.9,
+        "layer": "accent",
+        "player_piano_hook": {
+          "enabled": true,
+          "trigger": "grid_tick",
+          "velocity": 0.9
+        },
+        "spatial_impulse": {
+          "enabled": true,
+          "mode": "spark_particles",
+          "propagate_to": [
+            "trees",
+            "arches",
+            "matrices"
+          ],
+          "strength": 0.9
+        },
+        "start_ms": 18750,
+        "submodel": "hi_hat"
+      },
+      {
+        "confidence": 1.0,
+        "drum_type": "kick",
+        "effect": "low_frequency_glow",
+        "effect_scoring_hint": "allow_layering_with_shaders_and_spatial_engine",
+        "end_ms": 19269,
+        "intensity": 0.9,
+        "layer": "accent",
+        "player_piano_hook": {
+          "enabled": true,
+          "trigger": "floor_piano_percussive_note",
+          "velocity": 0.9
+        },
+        "spatial_impulse": {
+          "enabled": true,
+          "mode": "ground_spread",
+          "propagate_to": [
+            "trees",
+            "arches",
+            "matrices"
+          ],
+          "strength": 0.9
+        },
+        "start_ms": 19000,
+        "submodel": "kick"
+      },
+      {
+        "confidence": 1.0,
+        "drum_type": "tom",
+        "effect": "mid_bounce_pulse",
+        "effect_scoring_hint": "allow_layering_with_shaders_and_spatial_engine",
+        "end_ms": 19220,
+        "intensity": 0.9,
+        "layer": "motion",
+        "player_piano_hook": {
+          "enabled": true,
+          "trigger": "grid_tick",
+          "velocity": 0.9
+        },
+        "spatial_impulse": {
+          "enabled": true,
+          "mode": "body_bounce",
+          "propagate_to": [
+            "trees",
+            "arches",
+            "matrices"
+          ],
+          "strength": 0.9
+        },
+        "start_ms": 19000,
+        "submodel": "tom"
+      },
+      {
+        "confidence": 1.0,
+        "drum_type": "tom",
+        "effect": "mid_bounce_pulse",
+        "effect_scoring_hint": "allow_layering_with_shaders_and_spatial_engine",
+        "end_ms": 19345,
+        "intensity": 0.9,
+        "layer": "motion",
+        "player_piano_hook": {
+          "enabled": true,
+          "trigger": "grid_tick",
+          "velocity": 0.9
+        },
+        "spatial_impulse": {
+          "enabled": true,
+          "mode": "body_bounce",
+          "propagate_to": [
+            "trees",
+            "arches",
+            "matrices"
+          ],
+          "strength": 0.9
+        },
+        "start_ms": 19125,
+        "submodel": "tom"
+      },
+      {
+        "confidence": 1.0,
+        "drum_type": "tom",
+        "effect": "mid_bounce_pulse",
+        "effect_scoring_hint": "allow_layering_with_shaders_and_spatial_engine",
+        "end_ms": 19470,
+        "intensity": 0.9,
+        "layer": "motion",
+        "player_piano_hook": {
+          "enabled": true,
+          "trigger": "grid_tick",
+          "velocity": 0.9
+        },
+        "spatial_impulse": {
+          "enabled": true,
+          "mode": "body_bounce",
+          "propagate_to": [
+            "trees",
+            "arches",
+            "matrices"
+          ],
+          "strength": 0.9
+        },
+        "start_ms": 19250,
+        "submodel": "tom"
+      },
+      {
+        "confidence": 1.0,
+        "drum_type": "hihat",
+        "effect": "rapid_shimmer_tick",
+        "effect_scoring_hint": "allow_layering_with_shaders_and_spatial_engine",
+        "end_ms": 19347,
+        "intensity": 0.9,
+        "layer": "accent",
+        "player_piano_hook": {
+          "enabled": true,
+          "trigger": "grid_tick",
+          "velocity": 0.9
+        },
+        "spatial_impulse": {
+          "enabled": true,
+          "mode": "spark_particles",
+          "propagate_to": [
+            "trees",
+            "arches",
+            "matrices"
+          ],
+          "strength": 0.9
+        },
+        "start_ms": 19250,
+        "submodel": "hi_hat"
+      },
+      {
+        "confidence": 1.0,
+        "drum_type": "snare",
+        "effect": "sharp_white_flash",
+        "effect_scoring_hint": "allow_layering_with_shaders_and_spatial_engine",
+        "end_ms": 19646,
+        "intensity": 0.9,
+        "layer": "accent",
+        "player_piano_hook": {
+          "enabled": true,
+          "trigger": "floor_piano_percussive_note",
+          "velocity": 0.9
+        },
+        "spatial_impulse": {
+          "enabled": true,
+          "mode": "lateral_flash",
+          "propagate_to": [
+            "trees",
+            "arches",
+            "matrices"
+          ],
+          "strength": 0.9
+        },
+        "start_ms": 19500,
+        "submodel": "snare"
+      },
+      {
+        "confidence": 1.0,
+        "drum_type": "hihat",
+        "effect": "rapid_shimmer_tick",
+        "effect_scoring_hint": "allow_layering_with_shaders_and_spatial_engine",
+        "end_ms": 19847,
+        "intensity": 0.9,
+        "layer": "accent",
+        "player_piano_hook": {
+          "enabled": true,
+          "trigger": "grid_tick",
+          "velocity": 0.9
+        },
+        "spatial_impulse": {
+          "enabled": true,
+          "mode": "spark_particles",
+          "propagate_to": [
+            "trees",
+            "arches",
+            "matrices"
+          ],
+          "strength": 0.9
+        },
+        "start_ms": 19750,
+        "submodel": "hi_hat"
+      }
+    ],
+    "fallback_mode": "typed_detection",
+    "mapping": [
+      {
+        "cluster_id": 0,
+        "confidence": 1.0,
+        "drum_type": "kick",
+        "frequency_band_info": {},
+        "source": "canonical_event_oracle",
+        "submodel": "kick",
+        "timestamp_ms": 250,
+        "velocity": 0.9
+      },
+      {
+        "cluster_id": 1,
+        "confidence": 1.0,
+        "drum_type": "snare",
+        "frequency_band_info": {},
+        "source": "canonical_event_oracle",
+        "submodel": "snare",
+        "timestamp_ms": 1250,
+        "velocity": 0.9
+      },
+      {
+        "cluster_id": 2,
+        "confidence": 1.0,
+        "drum_type": "hihat",
+        "frequency_band_info": {},
+        "source": "canonical_event_oracle",
+        "submodel": "hi_hat",
+        "timestamp_ms": 2250,
+        "velocity": 0.9
+      },
+      {
+        "cluster_id": 3,
+        "confidence": 1.0,
+        "drum_type": "tom",
+        "frequency_band_info": {
+          "tom_class": "high",
+          "tom_class_confidence": 1.0
+        },
+        "source": "canonical_event_oracle",
+        "submodel": "tom",
+        "timestamp_ms": 3250,
+        "velocity": 0.9
+      },
+      {
+        "cluster_id": 4,
+        "confidence": 1.0,
+        "drum_type": "tom",
+        "frequency_band_info": {
+          "tom_class": "mid",
+          "tom_class_confidence": 1.0
+        },
+        "source": "canonical_event_oracle",
+        "submodel": "tom",
+        "timestamp_ms": 4250,
+        "velocity": 0.9
+      },
+      {
+        "cluster_id": 5,
+        "confidence": 1.0,
+        "drum_type": "tom",
+        "frequency_band_info": {
+          "tom_class": "floor",
+          "tom_class_confidence": 1.0
+        },
+        "source": "canonical_event_oracle",
+        "submodel": "tom",
+        "timestamp_ms": 5250,
+        "velocity": 0.9
+      },
+      {
+        "cluster_id": 6,
+        "confidence": 1.0,
+        "drum_type": "cymbal",
+        "frequency_band_info": {},
+        "source": "canonical_event_oracle",
+        "submodel": "cymbal",
+        "timestamp_ms": 6250,
+        "velocity": 0.9
+      },
+      {
+        "cluster_id": 7,
+        "confidence": 1.0,
+        "drum_type": "cymbal",
+        "frequency_band_info": {},
+        "source": "canonical_event_oracle",
+        "submodel": "cymbal",
+        "timestamp_ms": 7250,
+        "velocity": 0.9
+      },
+      {
+        "cluster_id": 8,
+        "confidence": 1.0,
+        "drum_type": "kick",
+        "frequency_band_info": {},
+        "source": "canonical_event_oracle",
+        "submodel": "kick",
+        "timestamp_ms": 8000,
+        "velocity": 0.9
+      },
+      {
+        "cluster_id": 9,
+        "confidence": 1.0,
+        "drum_type": "cymbal",
+        "frequency_band_info": {},
+        "source": "canonical_event_oracle",
+        "submodel": "cymbal",
+        "timestamp_ms": 8000,
+        "velocity": 0.9
+      },
+      {
+        "cluster_id": 10,
+        "confidence": 1.0,
+        "drum_type": "hihat",
+        "frequency_band_info": {},
+        "source": "canonical_event_oracle",
+        "submodel": "hi_hat",
+        "timestamp_ms": 8250,
+        "velocity": 0.9
+      },
+      {
+        "cluster_id": 11,
+        "confidence": 1.0,
+        "drum_type": "snare",
+        "frequency_band_info": {},
+        "source": "canonical_event_oracle",
+        "submodel": "snare",
+        "timestamp_ms": 8500,
+        "velocity": 0.9
+      },
+      {
+        "cluster_id": 12,
+        "confidence": 1.0,
+        "drum_type": "hihat",
+        "frequency_band_info": {},
+        "source": "canonical_event_oracle",
+        "submodel": "hi_hat",
+        "timestamp_ms": 8750,
+        "velocity": 0.9
+      },
+      {
+        "cluster_id": 13,
+        "confidence": 1.0,
+        "drum_type": "kick",
+        "frequency_band_info": {},
+        "source": "canonical_event_oracle",
+        "submodel": "kick",
+        "timestamp_ms": 9000,
+        "velocity": 0.9
+      },
+      {
+        "cluster_id": 14,
+        "confidence": 1.0,
+        "drum_type": "hihat",
+        "frequency_band_info": {},
+        "source": "canonical_event_oracle",
+        "submodel": "hi_hat",
+        "timestamp_ms": 9250,
+        "velocity": 0.9
+      },
+      {
+        "cluster_id": 15,
+        "confidence": 1.0,
+        "drum_type": "snare",
+        "frequency_band_info": {},
+        "source": "canonical_event_oracle",
+        "submodel": "snare",
+        "timestamp_ms": 9500,
+        "velocity": 0.9
+      },
+      {
+        "cluster_id": 16,
+        "confidence": 1.0,
+        "drum_type": "hihat",
+        "frequency_band_info": {},
+        "source": "canonical_event_oracle",
+        "submodel": "hi_hat",
+        "timestamp_ms": 9750,
+        "velocity": 0.9
+      },
+      {
+        "cluster_id": 17,
+        "confidence": 1.0,
+        "drum_type": "kick",
+        "frequency_band_info": {},
+        "source": "canonical_event_oracle",
+        "submodel": "kick",
+        "timestamp_ms": 10000,
+        "velocity": 0.9
+      },
+      {
+        "cluster_id": 18,
+        "confidence": 1.0,
+        "drum_type": "hihat",
+        "frequency_band_info": {},
+        "source": "canonical_event_oracle",
+        "submodel": "hi_hat",
+        "timestamp_ms": 10250,
+        "velocity": 0.9
+      },
+      {
+        "cluster_id": 19,
+        "confidence": 1.0,
+        "drum_type": "snare",
+        "frequency_band_info": {},
+        "source": "canonical_event_oracle",
+        "submodel": "snare",
+        "timestamp_ms": 10500,
+        "velocity": 0.9
+      },
+      {
+        "cluster_id": 20,
+        "confidence": 1.0,
+        "drum_type": "hihat",
+        "frequency_band_info": {},
+        "source": "canonical_event_oracle",
+        "submodel": "hi_hat",
+        "timestamp_ms": 10750,
+        "velocity": 0.9
+      },
+      {
+        "cluster_id": 21,
+        "confidence": 1.0,
+        "drum_type": "kick",
+        "frequency_band_info": {},
+        "source": "canonical_event_oracle",
+        "submodel": "kick",
+        "timestamp_ms": 11000,
+        "velocity": 0.9
+      },
+      {
+        "cluster_id": 22,
+        "confidence": 1.0,
+        "drum_type": "tom",
+        "frequency_band_info": {
+          "tom_class": "high",
+          "tom_class_confidence": 1.0
+        },
+        "source": "canonical_event_oracle",
+        "submodel": "tom",
+        "timestamp_ms": 11000,
+        "velocity": 0.9
+      },
+      {
+        "cluster_id": 23,
+        "confidence": 1.0,
+        "drum_type": "tom",
+        "frequency_band_info": {
+          "tom_class": "mid",
+          "tom_class_confidence": 1.0
+        },
+        "source": "canonical_event_oracle",
+        "submodel": "tom",
+        "timestamp_ms": 11125,
+        "velocity": 0.9
+      },
+      {
+        "cluster_id": 25,
+        "confidence": 1.0,
+        "drum_type": "tom",
+        "frequency_band_info": {
+          "tom_class": "floor",
+          "tom_class_confidence": 1.0
+        },
+        "source": "canonical_event_oracle",
+        "submodel": "tom",
+        "timestamp_ms": 11250,
+        "velocity": 0.9
+      },
+      {
+        "cluster_id": 24,
+        "confidence": 1.0,
+        "drum_type": "hihat",
+        "frequency_band_info": {},
+        "source": "canonical_event_oracle",
+        "submodel": "hi_hat",
+        "timestamp_ms": 11250,
+        "velocity": 0.9
+      },
+      {
+        "cluster_id": 26,
+        "confidence": 1.0,
+        "drum_type": "snare",
+        "frequency_band_info": {},
+        "source": "canonical_event_oracle",
+        "submodel": "snare",
+        "timestamp_ms": 11500,
+        "velocity": 0.9
+      },
+      {
+        "cluster_id": 27,
+        "confidence": 1.0,
+        "drum_type": "hihat",
+        "frequency_band_info": {},
+        "source": "canonical_event_oracle",
+        "submodel": "hi_hat",
+        "timestamp_ms": 11750,
+        "velocity": 0.9
+      },
+      {
+        "cluster_id": 28,
+        "confidence": 1.0,
+        "drum_type": "kick",
+        "frequency_band_info": {},
+        "source": "canonical_event_oracle",
+        "submodel": "kick",
+        "timestamp_ms": 12000,
+        "velocity": 0.9
+      },
+      {
+        "cluster_id": 29,
+        "confidence": 1.0,
+        "drum_type": "cymbal",
+        "frequency_band_info": {},
+        "source": "canonical_event_oracle",
+        "submodel": "cymbal",
+        "timestamp_ms": 12000,
+        "velocity": 0.9
+      },
+      {
+        "cluster_id": 30,
+        "confidence": 1.0,
+        "drum_type": "hihat",
+        "frequency_band_info": {},
+        "source": "canonical_event_oracle",
+        "submodel": "hi_hat",
+        "timestamp_ms": 12250,
+        "velocity": 0.9
+      },
+      {
+        "cluster_id": 31,
+        "confidence": 1.0,
+        "drum_type": "snare",
+        "frequency_band_info": {},
+        "source": "canonical_event_oracle",
+        "submodel": "snare",
+        "timestamp_ms": 12500,
+        "velocity": 0.9
+      },
+      {
+        "cluster_id": 32,
+        "confidence": 1.0,
+        "drum_type": "hihat",
+        "frequency_band_info": {},
+        "source": "canonical_event_oracle",
+        "submodel": "hi_hat",
+        "timestamp_ms": 12750,
+        "velocity": 0.9
+      },
+      {
+        "cluster_id": 33,
+        "confidence": 1.0,
+        "drum_type": "kick",
+        "frequency_band_info": {},
+        "source": "canonical_event_oracle",
+        "submodel": "kick",
+        "timestamp_ms": 13000,
+        "velocity": 0.9
+      },
+      {
+        "cluster_id": 34,
+        "confidence": 1.0,
+        "drum_type": "hihat",
+        "frequency_band_info": {},
+        "source": "canonical_event_oracle",
+        "submodel": "hi_hat",
+        "timestamp_ms": 13250,
+        "velocity": 0.9
+      },
+      {
+        "cluster_id": 35,
+        "confidence": 1.0,
+        "drum_type": "snare",
+        "frequency_band_info": {},
+        "source": "canonical_event_oracle",
+        "submodel": "snare",
+        "timestamp_ms": 13500,
+        "velocity": 0.9
+      },
+      {
+        "cluster_id": 36,
+        "confidence": 1.0,
+        "drum_type": "hihat",
+        "frequency_band_info": {},
+        "source": "canonical_event_oracle",
+        "submodel": "hi_hat",
+        "timestamp_ms": 13750,
+        "velocity": 0.9
+      },
+      {
+        "cluster_id": 37,
+        "confidence": 1.0,
+        "drum_type": "kick",
+        "frequency_band_info": {},
+        "source": "canonical_event_oracle",
+        "submodel": "kick",
+        "timestamp_ms": 14000,
+        "velocity": 0.9
+      },
+      {
+        "cluster_id": 38,
+        "confidence": 1.0,
+        "drum_type": "hihat",
+        "frequency_band_info": {},
+        "source": "canonical_event_oracle",
+        "submodel": "hi_hat",
+        "timestamp_ms": 14250,
+        "velocity": 0.9
+      },
+      {
+        "cluster_id": 39,
+        "confidence": 1.0,
+        "drum_type": "snare",
+        "frequency_band_info": {},
+        "source": "canonical_event_oracle",
+        "submodel": "snare",
+        "timestamp_ms": 14500,
+        "velocity": 0.9
+      },
+      {
+        "cluster_id": 40,
+        "confidence": 1.0,
+        "drum_type": "hihat",
+        "frequency_band_info": {},
+        "source": "canonical_event_oracle",
+        "submodel": "hi_hat",
+        "timestamp_ms": 14750,
+        "velocity": 0.9
+      },
+      {
+        "cluster_id": 41,
+        "confidence": 1.0,
+        "drum_type": "kick",
+        "frequency_band_info": {},
+        "source": "canonical_event_oracle",
+        "submodel": "kick",
+        "timestamp_ms": 15000,
+        "velocity": 0.9
+      },
+      {
+        "cluster_id": 42,
+        "confidence": 1.0,
+        "drum_type": "tom",
+        "frequency_band_info": {
+          "tom_class": "high",
+          "tom_class_confidence": 1.0
+        },
+        "source": "canonical_event_oracle",
+        "submodel": "tom",
+        "timestamp_ms": 15000,
+        "velocity": 0.9
+      },
+      {
+        "cluster_id": 43,
+        "confidence": 1.0,
+        "drum_type": "tom",
+        "frequency_band_info": {
+          "tom_class": "mid",
+          "tom_class_confidence": 1.0
+        },
+        "source": "canonical_event_oracle",
+        "submodel": "tom",
+        "timestamp_ms": 15125,
+        "velocity": 0.9
+      },
+      {
+        "cluster_id": 45,
+        "confidence": 1.0,
+        "drum_type": "tom",
+        "frequency_band_info": {
+          "tom_class": "floor",
+          "tom_class_confidence": 1.0
+        },
+        "source": "canonical_event_oracle",
+        "submodel": "tom",
+        "timestamp_ms": 15250,
+        "velocity": 0.9
+      },
+      {
+        "cluster_id": 44,
+        "confidence": 1.0,
+        "drum_type": "hihat",
+        "frequency_band_info": {},
+        "source": "canonical_event_oracle",
+        "submodel": "hi_hat",
+        "timestamp_ms": 15250,
+        "velocity": 0.9
+      },
+      {
+        "cluster_id": 46,
+        "confidence": 1.0,
+        "drum_type": "snare",
+        "frequency_band_info": {},
+        "source": "canonical_event_oracle",
+        "submodel": "snare",
+        "timestamp_ms": 15500,
+        "velocity": 0.9
+      },
+      {
+        "cluster_id": 47,
+        "confidence": 1.0,
+        "drum_type": "hihat",
+        "frequency_band_info": {},
+        "source": "canonical_event_oracle",
+        "submodel": "hi_hat",
+        "timestamp_ms": 15750,
+        "velocity": 0.9
+      },
+      {
+        "cluster_id": 48,
+        "confidence": 1.0,
+        "drum_type": "kick",
+        "frequency_band_info": {},
+        "source": "canonical_event_oracle",
+        "submodel": "kick",
+        "timestamp_ms": 16000,
+        "velocity": 0.9
+      },
+      {
+        "cluster_id": 49,
+        "confidence": 1.0,
+        "drum_type": "cymbal",
+        "frequency_band_info": {},
+        "source": "canonical_event_oracle",
+        "submodel": "cymbal",
+        "timestamp_ms": 16000,
+        "velocity": 0.9
+      },
+      {
+        "cluster_id": 50,
+        "confidence": 1.0,
+        "drum_type": "hihat",
+        "frequency_band_info": {},
+        "source": "canonical_event_oracle",
+        "submodel": "hi_hat",
+        "timestamp_ms": 16250,
+        "velocity": 0.9
+      },
+      {
+        "cluster_id": 51,
+        "confidence": 1.0,
+        "drum_type": "snare",
+        "frequency_band_info": {},
+        "source": "canonical_event_oracle",
+        "submodel": "snare",
+        "timestamp_ms": 16500,
+        "velocity": 0.9
+      },
+      {
+        "cluster_id": 52,
+        "confidence": 1.0,
+        "drum_type": "hihat",
+        "frequency_band_info": {},
+        "source": "canonical_event_oracle",
+        "submodel": "hi_hat",
+        "timestamp_ms": 16750,
+        "velocity": 0.9
+      },
+      {
+        "cluster_id": 53,
+        "confidence": 1.0,
+        "drum_type": "kick",
+        "frequency_band_info": {},
+        "source": "canonical_event_oracle",
+        "submodel": "kick",
+        "timestamp_ms": 17000,
+        "velocity": 0.9
+      },
+      {
+        "cluster_id": 54,
+        "confidence": 1.0,
+        "drum_type": "hihat",
+        "frequency_band_info": {},
+        "source": "canonical_event_oracle",
+        "submodel": "hi_hat",
+        "timestamp_ms": 17250,
+        "velocity": 0.9
+      },
+      {
+        "cluster_id": 55,
+        "confidence": 1.0,
+        "drum_type": "snare",
+        "frequency_band_info": {},
+        "source": "canonical_event_oracle",
+        "submodel": "snare",
+        "timestamp_ms": 17500,
+        "velocity": 0.9
+      },
+      {
+        "cluster_id": 56,
+        "confidence": 1.0,
+        "drum_type": "hihat",
+        "frequency_band_info": {},
+        "source": "canonical_event_oracle",
+        "submodel": "hi_hat",
+        "timestamp_ms": 17750,
+        "velocity": 0.9
+      },
+      {
+        "cluster_id": 57,
+        "confidence": 1.0,
+        "drum_type": "kick",
+        "frequency_band_info": {},
+        "source": "canonical_event_oracle",
+        "submodel": "kick",
+        "timestamp_ms": 18000,
+        "velocity": 0.9
+      },
+      {
+        "cluster_id": 58,
+        "confidence": 1.0,
+        "drum_type": "hihat",
+        "frequency_band_info": {},
+        "source": "canonical_event_oracle",
+        "submodel": "hi_hat",
+        "timestamp_ms": 18250,
+        "velocity": 0.9
+      },
+      {
+        "cluster_id": 59,
+        "confidence": 1.0,
+        "drum_type": "snare",
+        "frequency_band_info": {},
+        "source": "canonical_event_oracle",
+        "submodel": "snare",
+        "timestamp_ms": 18500,
+        "velocity": 0.9
+      },
+      {
+        "cluster_id": 60,
+        "confidence": 1.0,
+        "drum_type": "hihat",
+        "frequency_band_info": {},
+        "source": "canonical_event_oracle",
+        "submodel": "hi_hat",
+        "timestamp_ms": 18750,
+        "velocity": 0.9
+      },
+      {
+        "cluster_id": 61,
+        "confidence": 1.0,
+        "drum_type": "kick",
+        "frequency_band_info": {},
+        "source": "canonical_event_oracle",
+        "submodel": "kick",
+        "timestamp_ms": 19000,
+        "velocity": 0.9
+      },
+      {
+        "cluster_id": 62,
+        "confidence": 1.0,
+        "drum_type": "tom",
+        "frequency_band_info": {
+          "tom_class": "high",
+          "tom_class_confidence": 1.0
+        },
+        "source": "canonical_event_oracle",
+        "submodel": "tom",
+        "timestamp_ms": 19000,
+        "velocity": 0.9
+      },
+      {
+        "cluster_id": 63,
+        "confidence": 1.0,
+        "drum_type": "tom",
+        "frequency_band_info": {
+          "tom_class": "mid",
+          "tom_class_confidence": 1.0
+        },
+        "source": "canonical_event_oracle",
+        "submodel": "tom",
+        "timestamp_ms": 19125,
+        "velocity": 0.9
+      },
+      {
+        "cluster_id": 65,
+        "confidence": 1.0,
+        "drum_type": "tom",
+        "frequency_band_info": {
+          "tom_class": "floor",
+          "tom_class_confidence": 1.0
+        },
+        "source": "canonical_event_oracle",
+        "submodel": "tom",
+        "timestamp_ms": 19250,
+        "velocity": 0.9
+      },
+      {
+        "cluster_id": 64,
+        "confidence": 1.0,
+        "drum_type": "hihat",
+        "frequency_band_info": {},
+        "source": "canonical_event_oracle",
+        "submodel": "hi_hat",
+        "timestamp_ms": 19250,
+        "velocity": 0.9
+      },
+      {
+        "cluster_id": 66,
+        "confidence": 1.0,
+        "drum_type": "snare",
+        "frequency_band_info": {},
+        "source": "canonical_event_oracle",
+        "submodel": "snare",
+        "timestamp_ms": 19500,
+        "velocity": 0.9
+      },
+      {
+        "cluster_id": 67,
+        "confidence": 1.0,
+        "drum_type": "hihat",
+        "frequency_band_info": {},
+        "source": "canonical_event_oracle",
+        "submodel": "hi_hat",
+        "timestamp_ms": 19750,
+        "velocity": 0.9
+      }
+    ],
+    "motion_events": [
+      {
+        "anticipation_ms": 159,
+        "component": "HX_SNOWMAN_DRUMMER_V3_KICK",
+        "drum_type": "kick",
+        "hand": "foot",
+        "humanized_offset_ms": -21,
+        "rebound_end_ms": 395,
+        "start_ms": 159,
+        "strike_ms": 229,
+        "submodels": [
+          "HX_SNOWMAN_DRUMMER_V3_KICK"
+        ],
+        "tom_class": null,
+        "velocity": 0.947
+      },
+      {
+        "anticipation_ms": 1197,
+        "component": "HX_SNOWMAN_DRUMMER_V3_SNARE",
+        "drum_type": "snare",
+        "hand": "left",
+        "humanized_offset_ms": 17,
+        "rebound_end_ms": 1433,
+        "start_ms": 1197,
+        "strike_ms": 1267,
+        "submodels": [
+          "HX_SNOWMAN_DRUMMER_V3_SNARE"
+        ],
+        "tom_class": null,
+        "velocity": 0.917
+      },
+      {
+        "anticipation_ms": 2162,
+        "component": "HX_SNOWMAN_DRUMMER_V3_HI_HAT",
+        "drum_type": "hihat",
+        "hand": "right",
+        "humanized_offset_ms": -18,
+        "rebound_end_ms": 2398,
+        "start_ms": 2162,
+        "strike_ms": 2232,
+        "submodels": [
+          "HX_SNOWMAN_DRUMMER_V3_HI_HAT"
+        ],
+        "tom_class": null,
+        "velocity": 0.944
+      },
+      {
+        "anticipation_ms": 3194,
+        "component": "HX_SNOWMAN_DRUMMER_V3_TOM_HIGH",
+        "drum_type": "tom",
+        "hand": "both",
+        "humanized_offset_ms": 14,
+        "rebound_end_ms": 3430,
+        "start_ms": 3194,
+        "strike_ms": 3264,
+        "submodels": [
+          "HX_SNOWMAN_DRUMMER_V3_TOM_HIGH"
+        ],
+        "tom_class": "high",
+        "velocity": 0.925
+      },
+      {
+        "anticipation_ms": 4166,
+        "component": "HX_SNOWMAN_DRUMMER_V3_TOM_MID",
+        "drum_type": "tom",
+        "hand": "both",
+        "humanized_offset_ms": -14,
+        "rebound_end_ms": 4402,
+        "start_ms": 4166,
+        "strike_ms": 4236,
+        "submodels": [
+          "HX_SNOWMAN_DRUMMER_V3_TOM_MID"
+        ],
+        "tom_class": "mid",
+        "velocity": 0.864
+      },
+      {
+        "anticipation_ms": 5151,
+        "component": "HX_SNOWMAN_DRUMMER_V3_TOM_FLOOR",
+        "drum_type": "tom",
+        "hand": "both",
+        "humanized_offset_ms": -29,
+        "rebound_end_ms": 5387,
+        "start_ms": 5151,
+        "strike_ms": 5221,
+        "submodels": [
+          "HX_SNOWMAN_DRUMMER_V3_TOM_FLOOR"
+        ],
+        "tom_class": "floor",
+        "velocity": 0.961
+      },
+      {
+        "anticipation_ms": 6156,
+        "component": "HX_SNOWMAN_DRUMMER_V3_CYMBAL_LEFT",
+        "drum_type": "cymbal",
+        "hand": "right",
+        "humanized_offset_ms": -24,
+        "rebound_end_ms": 6392,
+        "start_ms": 6156,
+        "strike_ms": 6226,
+        "submodels": [
+          "HX_SNOWMAN_DRUMMER_V3_CYMBAL_LEFT"
+        ],
+        "tom_class": null,
+        "velocity": 0.846
+      },
+      {
+        "anticipation_ms": 7209,
+        "component": "HX_SNOWMAN_DRUMMER_V3_CYMBAL_RIGHT",
+        "drum_type": "cymbal",
+        "hand": "right",
+        "humanized_offset_ms": 29,
+        "rebound_end_ms": 7445,
+        "start_ms": 7209,
+        "strike_ms": 7279,
+        "submodels": [
+          "HX_SNOWMAN_DRUMMER_V3_CYMBAL_RIGHT"
+        ],
+        "tom_class": null,
+        "velocity": 0.939
+      },
+      {
+        "anticipation_ms": 7907,
+        "component": "HX_SNOWMAN_DRUMMER_V3_KICK",
+        "drum_type": "kick",
+        "hand": "foot",
+        "humanized_offset_ms": -23,
+        "rebound_end_ms": 8143,
+        "start_ms": 7907,
+        "strike_ms": 7977,
+        "submodels": [
+          "HX_SNOWMAN_DRUMMER_V3_KICK"
+        ],
+        "tom_class": null,
+        "velocity": 0.883
+      },
+      {
+        "anticipation_ms": 7949,
+        "component": "HX_SNOWMAN_DRUMMER_V3_CYMBAL_LEFT",
+        "drum_type": "cymbal",
+        "hand": "right",
+        "humanized_offset_ms": 19,
+        "rebound_end_ms": 8185,
+        "start_ms": 7949,
+        "strike_ms": 8019,
+        "submodels": [
+          "HX_SNOWMAN_DRUMMER_V3_CYMBAL_LEFT"
+        ],
+        "tom_class": null,
+        "velocity": 0.853
+      },
+      {
+        "anticipation_ms": 8210,
+        "component": "HX_SNOWMAN_DRUMMER_V3_HI_HAT",
+        "drum_type": "hihat",
+        "hand": "right",
+        "humanized_offset_ms": 30,
+        "rebound_end_ms": 8446,
+        "start_ms": 8210,
+        "strike_ms": 8280,
+        "submodels": [
+          "HX_SNOWMAN_DRUMMER_V3_HI_HAT"
+        ],
+        "tom_class": null,
+        "velocity": 0.848
+      },
+      {
+        "anticipation_ms": 8404,
+        "component": "HX_SNOWMAN_DRUMMER_V3_SNARE",
+        "drum_type": "snare",
+        "hand": "left",
+        "humanized_offset_ms": -26,
+        "rebound_end_ms": 8640,
+        "start_ms": 8404,
+        "strike_ms": 8474,
+        "submodels": [
+          "HX_SNOWMAN_DRUMMER_V3_SNARE"
+        ],
+        "tom_class": null,
+        "velocity": 0.844
+      },
+      {
+        "anticipation_ms": 8657,
+        "component": "HX_SNOWMAN_DRUMMER_V3_HI_HAT",
+        "drum_type": "hihat",
+        "hand": "right",
+        "humanized_offset_ms": -23,
+        "rebound_end_ms": 8893,
+        "start_ms": 8657,
+        "strike_ms": 8727,
+        "submodels": [
+          "HX_SNOWMAN_DRUMMER_V3_HI_HAT"
+        ],
+        "tom_class": null,
+        "velocity": 0.937
+      },
+      {
+        "anticipation_ms": 8955,
+        "component": "HX_SNOWMAN_DRUMMER_V3_KICK",
+        "drum_type": "kick",
+        "hand": "foot",
+        "humanized_offset_ms": 25,
+        "rebound_end_ms": 9191,
+        "start_ms": 8955,
+        "strike_ms": 9025,
+        "submodels": [
+          "HX_SNOWMAN_DRUMMER_V3_KICK"
+        ],
+        "tom_class": null,
+        "velocity": 0.876
+      },
+      {
+        "anticipation_ms": 9167,
+        "component": "HX_SNOWMAN_DRUMMER_V3_HI_HAT",
+        "drum_type": "hihat",
+        "hand": "right",
+        "humanized_offset_ms": -13,
+        "rebound_end_ms": 9403,
+        "start_ms": 9167,
+        "strike_ms": 9237,
+        "submodels": [
+          "HX_SNOWMAN_DRUMMER_V3_HI_HAT"
+        ],
+        "tom_class": null,
+        "velocity": 0.859
+      },
+      {
+        "anticipation_ms": 9443,
+        "component": "HX_SNOWMAN_DRUMMER_V3_SNARE",
+        "drum_type": "snare",
+        "hand": "left",
+        "humanized_offset_ms": 13,
+        "rebound_end_ms": 9679,
+        "start_ms": 9443,
+        "strike_ms": 9513,
+        "submodels": [
+          "HX_SNOWMAN_DRUMMER_V3_SNARE"
+        ],
+        "tom_class": null,
+        "velocity": 0.854
+      },
+      {
+        "anticipation_ms": 9665,
+        "component": "HX_SNOWMAN_DRUMMER_V3_HI_HAT",
+        "drum_type": "hihat",
+        "hand": "right",
+        "humanized_offset_ms": -15,
+        "rebound_end_ms": 9901,
+        "start_ms": 9665,
+        "strike_ms": 9735,
+        "submodels": [
+          "HX_SNOWMAN_DRUMMER_V3_HI_HAT"
+        ],
+        "tom_class": null,
+        "velocity": 0.836
+      },
+      {
+        "anticipation_ms": 9953,
+        "component": "HX_SNOWMAN_DRUMMER_V3_KICK",
+        "drum_type": "kick",
+        "hand": "foot",
+        "humanized_offset_ms": 23,
+        "rebound_end_ms": 10189,
+        "start_ms": 9953,
+        "strike_ms": 10023,
+        "submodels": [
+          "HX_SNOWMAN_DRUMMER_V3_KICK"
+        ],
+        "tom_class": null,
+        "velocity": 0.951
+      },
+      {
+        "anticipation_ms": 10207,
+        "component": "HX_SNOWMAN_DRUMMER_V3_HI_HAT",
+        "drum_type": "hihat",
+        "hand": "right",
+        "humanized_offset_ms": 27,
+        "rebound_end_ms": 10443,
+        "start_ms": 10207,
+        "strike_ms": 10277,
+        "submodels": [
+          "HX_SNOWMAN_DRUMMER_V3_HI_HAT"
+        ],
+        "tom_class": null,
+        "velocity": 0.963
+      },
+      {
+        "anticipation_ms": 10454,
+        "component": "HX_SNOWMAN_DRUMMER_V3_SNARE",
+        "drum_type": "snare",
+        "hand": "left",
+        "humanized_offset_ms": 24,
+        "rebound_end_ms": 10690,
+        "start_ms": 10454,
+        "strike_ms": 10524,
+        "submodels": [
+          "HX_SNOWMAN_DRUMMER_V3_SNARE"
+        ],
+        "tom_class": null,
+        "velocity": 0.904
+      },
+      {
+        "anticipation_ms": 10694,
+        "component": "HX_SNOWMAN_DRUMMER_V3_HI_HAT",
+        "drum_type": "hihat",
+        "hand": "right",
+        "humanized_offset_ms": 14,
+        "rebound_end_ms": 10930,
+        "start_ms": 10694,
+        "strike_ms": 10764,
+        "submodels": [
+          "HX_SNOWMAN_DRUMMER_V3_HI_HAT"
+        ],
+        "tom_class": null,
+        "velocity": 0.85
+      },
+      {
+        "anticipation_ms": 10912,
+        "component": "HX_SNOWMAN_DRUMMER_V3_KICK",
+        "drum_type": "kick",
+        "hand": "foot",
+        "humanized_offset_ms": -18,
+        "rebound_end_ms": 11148,
+        "start_ms": 10912,
+        "strike_ms": 10982,
+        "submodels": [
+          "HX_SNOWMAN_DRUMMER_V3_KICK"
+        ],
+        "tom_class": null,
+        "velocity": 0.867
+      },
+      {
+        "anticipation_ms": 10915,
+        "component": "HX_SNOWMAN_DRUMMER_V3_TOM_HIGH",
+        "drum_type": "tom",
+        "hand": "both",
+        "humanized_offset_ms": -15,
+        "rebound_end_ms": 11151,
+        "start_ms": 10915,
+        "strike_ms": 10985,
+        "submodels": [
+          "HX_SNOWMAN_DRUMMER_V3_TOM_HIGH"
+        ],
+        "tom_class": "high",
+        "velocity": 0.965
+      },
+      {
+        "anticipation_ms": 11038,
+        "component": "HX_SNOWMAN_DRUMMER_V3_TOM_MID",
+        "drum_type": "tom",
+        "hand": "both",
+        "humanized_offset_ms": -17,
+        "rebound_end_ms": 11274,
+        "start_ms": 11038,
+        "strike_ms": 11108,
+        "submodels": [
+          "HX_SNOWMAN_DRUMMER_V3_TOM_MID"
+        ],
+        "tom_class": "mid",
+        "velocity": 0.906
+      },
+      {
+        "anticipation_ms": 11201,
+        "component": "HX_SNOWMAN_DRUMMER_V3_TOM_FLOOR",
+        "drum_type": "tom",
+        "hand": "both",
+        "humanized_offset_ms": 21,
+        "rebound_end_ms": 11437,
+        "start_ms": 11201,
+        "strike_ms": 11271,
+        "submodels": [
+          "HX_SNOWMAN_DRUMMER_V3_TOM_FLOOR"
+        ],
+        "tom_class": "floor",
+        "velocity": 0.912
+      },
+      {
+        "anticipation_ms": 11167,
+        "component": "HX_SNOWMAN_DRUMMER_V3_HI_HAT",
+        "drum_type": "hihat",
+        "hand": "right",
+        "humanized_offset_ms": -13,
+        "rebound_end_ms": 11403,
+        "start_ms": 11167,
+        "strike_ms": 11237,
+        "submodels": [
+          "HX_SNOWMAN_DRUMMER_V3_HI_HAT"
+        ],
+        "tom_class": null,
+        "velocity": 0.91
+      },
+      {
+        "anticipation_ms": 11402,
+        "component": "HX_SNOWMAN_DRUMMER_V3_SNARE",
+        "drum_type": "snare",
+        "hand": "left",
+        "humanized_offset_ms": -28,
+        "rebound_end_ms": 11638,
+        "start_ms": 11402,
+        "strike_ms": 11472,
+        "submodels": [
+          "HX_SNOWMAN_DRUMMER_V3_SNARE"
+        ],
+        "tom_class": null,
+        "velocity": 0.928
+      },
+      {
+        "anticipation_ms": 11656,
+        "component": "HX_SNOWMAN_DRUMMER_V3_HI_HAT",
+        "drum_type": "hihat",
+        "hand": "right",
+        "humanized_offset_ms": -24,
+        "rebound_end_ms": 11892,
+        "start_ms": 11656,
+        "strike_ms": 11726,
+        "submodels": [
+          "HX_SNOWMAN_DRUMMER_V3_HI_HAT"
+        ],
+        "tom_class": null,
+        "velocity": 0.868
+      },
+      {
+        "anticipation_ms": 11915,
+        "component": "HX_SNOWMAN_DRUMMER_V3_KICK",
+        "drum_type": "kick",
+        "hand": "foot",
+        "humanized_offset_ms": -15,
+        "rebound_end_ms": 12151,
+        "start_ms": 11915,
+        "strike_ms": 11985,
+        "submodels": [
+          "HX_SNOWMAN_DRUMMER_V3_KICK"
+        ],
+        "tom_class": null,
+        "velocity": 0.959
+      },
+      {
+        "anticipation_ms": 11906,
+        "component": "HX_SNOWMAN_DRUMMER_V3_CYMBAL_RIGHT",
+        "drum_type": "cymbal",
+        "hand": "right",
+        "humanized_offset_ms": -24,
+        "rebound_end_ms": 12142,
+        "start_ms": 11906,
+        "strike_ms": 11976,
+        "submodels": [
+          "HX_SNOWMAN_DRUMMER_V3_CYMBAL_RIGHT"
+        ],
+        "tom_class": null,
+        "velocity": 0.9
+      },
+      {
+        "anticipation_ms": 12167,
+        "component": "HX_SNOWMAN_DRUMMER_V3_HI_HAT",
+        "drum_type": "hihat",
+        "hand": "right",
+        "humanized_offset_ms": -13,
+        "rebound_end_ms": 12403,
+        "start_ms": 12167,
+        "strike_ms": 12237,
+        "submodels": [
+          "HX_SNOWMAN_DRUMMER_V3_HI_HAT"
+        ],
+        "tom_class": null,
+        "velocity": 0.957
+      },
+      {
+        "anticipation_ms": 12407,
+        "component": "HX_SNOWMAN_DRUMMER_V3_SNARE",
+        "drum_type": "snare",
+        "hand": "left",
+        "humanized_offset_ms": -23,
+        "rebound_end_ms": 12643,
+        "start_ms": 12407,
+        "strike_ms": 12477,
+        "submodels": [
+          "HX_SNOWMAN_DRUMMER_V3_SNARE"
+        ],
+        "tom_class": null,
+        "velocity": 0.867
+      },
+      {
+        "anticipation_ms": 12656,
+        "component": "HX_SNOWMAN_DRUMMER_V3_HI_HAT",
+        "drum_type": "hihat",
+        "hand": "right",
+        "humanized_offset_ms": -24,
+        "rebound_end_ms": 12892,
+        "start_ms": 12656,
+        "strike_ms": 12726,
+        "submodels": [
+          "HX_SNOWMAN_DRUMMER_V3_HI_HAT"
+        ],
+        "tom_class": null,
+        "velocity": 0.925
+      },
+      {
+        "anticipation_ms": 12919,
+        "component": "HX_SNOWMAN_DRUMMER_V3_KICK",
+        "drum_type": "kick",
+        "hand": "foot",
+        "humanized_offset_ms": -11,
+        "rebound_end_ms": 13155,
+        "start_ms": 12919,
+        "strike_ms": 12989,
+        "submodels": [
+          "HX_SNOWMAN_DRUMMER_V3_KICK"
+        ],
+        "tom_class": null,
+        "velocity": 0.87
+      },
+      {
+        "anticipation_ms": 13209,
+        "component": "HX_SNOWMAN_DRUMMER_V3_HI_HAT",
+        "drum_type": "hihat",
+        "hand": "right",
+        "humanized_offset_ms": 29,
+        "rebound_end_ms": 13445,
+        "start_ms": 13209,
+        "strike_ms": 13279,
+        "submodels": [
+          "HX_SNOWMAN_DRUMMER_V3_HI_HAT"
+        ],
+        "tom_class": null,
+        "velocity": 0.929
+      },
+      {
+        "anticipation_ms": 13445,
+        "component": "HX_SNOWMAN_DRUMMER_V3_SNARE",
+        "drum_type": "snare",
+        "hand": "left",
+        "humanized_offset_ms": 15,
+        "rebound_end_ms": 13681,
+        "start_ms": 13445,
+        "strike_ms": 13515,
+        "submodels": [
+          "HX_SNOWMAN_DRUMMER_V3_SNARE"
+        ],
+        "tom_class": null,
+        "velocity": 0.863
+      },
+      {
+        "anticipation_ms": 13710,
+        "component": "HX_SNOWMAN_DRUMMER_V3_HI_HAT",
+        "drum_type": "hihat",
+        "hand": "right",
+        "humanized_offset_ms": 30,
+        "rebound_end_ms": 13946,
+        "start_ms": 13710,
+        "strike_ms": 13780,
+        "submodels": [
+          "HX_SNOWMAN_DRUMMER_V3_HI_HAT"
+        ],
+        "tom_class": null,
+        "velocity": 0.87
+      },
+      {
+        "anticipation_ms": 13942,
+        "component": "HX_SNOWMAN_DRUMMER_V3_KICK",
+        "drum_type": "kick",
+        "hand": "foot",
+        "humanized_offset_ms": 12,
+        "rebound_end_ms": 14178,
+        "start_ms": 13942,
+        "strike_ms": 14012,
+        "submodels": [
+          "HX_SNOWMAN_DRUMMER_V3_KICK"
+        ],
+        "tom_class": null,
+        "velocity": 0.841
+      },
+      {
+        "anticipation_ms": 14164,
+        "component": "HX_SNOWMAN_DRUMMER_V3_HI_HAT",
+        "drum_type": "hihat",
+        "hand": "right",
+        "humanized_offset_ms": -16,
+        "rebound_end_ms": 14400,
+        "start_ms": 14164,
+        "strike_ms": 14234,
+        "submodels": [
+          "HX_SNOWMAN_DRUMMER_V3_HI_HAT"
+        ],
+        "tom_class": null,
+        "velocity": 0.962
+      },
+      {
+        "anticipation_ms": 14458,
+        "component": "HX_SNOWMAN_DRUMMER_V3_SNARE",
+        "drum_type": "snare",
+        "hand": "left",
+        "humanized_offset_ms": 28,
+        "rebound_end_ms": 14694,
+        "start_ms": 14458,
+        "strike_ms": 14528,
+        "submodels": [
+          "HX_SNOWMAN_DRUMMER_V3_SNARE"
+        ],
+        "tom_class": null,
+        "velocity": 0.956
+      },
+      {
+        "anticipation_ms": 14666,
+        "component": "HX_SNOWMAN_DRUMMER_V3_HI_HAT",
+        "drum_type": "hihat",
+        "hand": "right",
+        "humanized_offset_ms": -14,
+        "rebound_end_ms": 14902,
+        "start_ms": 14666,
+        "strike_ms": 14736,
+        "submodels": [
+          "HX_SNOWMAN_DRUMMER_V3_HI_HAT"
+        ],
+        "tom_class": null,
+        "velocity": 0.896
+      },
+      {
+        "anticipation_ms": 14915,
+        "component": "HX_SNOWMAN_DRUMMER_V3_KICK",
+        "drum_type": "kick",
+        "hand": "foot",
+        "humanized_offset_ms": -15,
+        "rebound_end_ms": 15151,
+        "start_ms": 14915,
+        "strike_ms": 14985,
+        "submodels": [
+          "HX_SNOWMAN_DRUMMER_V3_KICK"
+        ],
+        "tom_class": null,
+        "velocity": 0.865
+      },
+      {
+        "anticipation_ms": 14957,
+        "component": "HX_SNOWMAN_DRUMMER_V3_TOM_HIGH",
+        "drum_type": "tom",
+        "hand": "both",
+        "humanized_offset_ms": 27,
+        "rebound_end_ms": 15193,
+        "start_ms": 14957,
+        "strike_ms": 15027,
+        "submodels": [
+          "HX_SNOWMAN_DRUMMER_V3_TOM_HIGH"
+        ],
+        "tom_class": "high",
+        "velocity": 0.903
+      },
+      {
+        "anticipation_ms": 15068,
+        "component": "HX_SNOWMAN_DRUMMER_V3_TOM_MID",
+        "drum_type": "tom",
+        "hand": "both",
+        "humanized_offset_ms": 13,
+        "rebound_end_ms": 15304,
+        "start_ms": 15068,
+        "strike_ms": 15138,
+        "submodels": [
+          "HX_SNOWMAN_DRUMMER_V3_TOM_MID"
+        ],
+        "tom_class": "mid",
+        "velocity": 0.913
+      },
+      {
+        "anticipation_ms": 15201,
+        "component": "HX_SNOWMAN_DRUMMER_V3_TOM_FLOOR",
+        "drum_type": "tom",
+        "hand": "both",
+        "humanized_offset_ms": 21,
+        "rebound_end_ms": 15437,
+        "start_ms": 15201,
+        "strike_ms": 15271,
+        "submodels": [
+          "HX_SNOWMAN_DRUMMER_V3_TOM_FLOOR"
+        ],
+        "tom_class": "floor",
+        "velocity": 0.84
+      },
+      {
+        "anticipation_ms": 15162,
+        "component": "HX_SNOWMAN_DRUMMER_V3_HI_HAT",
+        "drum_type": "hihat",
+        "hand": "right",
+        "humanized_offset_ms": -18,
+        "rebound_end_ms": 15398,
+        "start_ms": 15162,
+        "strike_ms": 15232,
+        "submodels": [
+          "HX_SNOWMAN_DRUMMER_V3_HI_HAT"
+        ],
+        "tom_class": null,
+        "velocity": 0.871
+      },
+      {
+        "anticipation_ms": 15442,
+        "component": "HX_SNOWMAN_DRUMMER_V3_SNARE",
+        "drum_type": "snare",
+        "hand": "left",
+        "humanized_offset_ms": 12,
+        "rebound_end_ms": 15678,
+        "start_ms": 15442,
+        "strike_ms": 15512,
+        "submodels": [
+          "HX_SNOWMAN_DRUMMER_V3_SNARE"
+        ],
+        "tom_class": null,
+        "velocity": 0.903
+      },
+      {
+        "anticipation_ms": 15661,
+        "component": "HX_SNOWMAN_DRUMMER_V3_HI_HAT",
+        "drum_type": "hihat",
+        "hand": "right",
+        "humanized_offset_ms": -19,
+        "rebound_end_ms": 15897,
+        "start_ms": 15661,
+        "strike_ms": 15731,
+        "submodels": [
+          "HX_SNOWMAN_DRUMMER_V3_HI_HAT"
+        ],
+        "tom_class": null,
+        "velocity": 0.845
+      },
+      {
+        "anticipation_ms": 15945,
+        "component": "HX_SNOWMAN_DRUMMER_V3_KICK",
+        "drum_type": "kick",
+        "hand": "foot",
+        "humanized_offset_ms": 15,
+        "rebound_end_ms": 16181,
+        "start_ms": 15945,
+        "strike_ms": 16015,
+        "submodels": [
+          "HX_SNOWMAN_DRUMMER_V3_KICK"
+        ],
+        "tom_class": null,
+        "velocity": 0.956
+      },
+      {
+        "anticipation_ms": 15957,
+        "component": "HX_SNOWMAN_DRUMMER_V3_CYMBAL_LEFT",
+        "drum_type": "cymbal",
+        "hand": "right",
+        "humanized_offset_ms": 27,
+        "rebound_end_ms": 16193,
+        "start_ms": 15957,
+        "strike_ms": 16027,
+        "submodels": [
+          "HX_SNOWMAN_DRUMMER_V3_CYMBAL_LEFT"
+        ],
+        "tom_class": null,
+        "velocity": 0.929
+      },
+      {
+        "anticipation_ms": 16195,
+        "component": "HX_SNOWMAN_DRUMMER_V3_HI_HAT",
+        "drum_type": "hihat",
+        "hand": "right",
+        "humanized_offset_ms": 15,
+        "rebound_end_ms": 16431,
+        "start_ms": 16195,
+        "strike_ms": 16265,
+        "submodels": [
+          "HX_SNOWMAN_DRUMMER_V3_HI_HAT"
+        ],
+        "tom_class": null,
+        "velocity": 0.873
+      },
+      {
+        "anticipation_ms": 16420,
+        "component": "HX_SNOWMAN_DRUMMER_V3_SNARE",
+        "drum_type": "snare",
+        "hand": "left",
+        "humanized_offset_ms": -10,
+        "rebound_end_ms": 16656,
+        "start_ms": 16420,
+        "strike_ms": 16490,
+        "submodels": [
+          "HX_SNOWMAN_DRUMMER_V3_SNARE"
+        ],
+        "tom_class": null,
+        "velocity": 0.874
+      },
+      {
+        "anticipation_ms": 16660,
+        "component": "HX_SNOWMAN_DRUMMER_V3_HI_HAT",
+        "drum_type": "hihat",
+        "hand": "right",
+        "humanized_offset_ms": -20,
+        "rebound_end_ms": 16896,
+        "start_ms": 16660,
+        "strike_ms": 16730,
+        "submodels": [
+          "HX_SNOWMAN_DRUMMER_V3_HI_HAT"
+        ],
+        "tom_class": null,
+        "velocity": 0.834
+      },
+      {
+        "anticipation_ms": 16919,
+        "component": "HX_SNOWMAN_DRUMMER_V3_KICK",
+        "drum_type": "kick",
+        "hand": "foot",
+        "humanized_offset_ms": -11,
+        "rebound_end_ms": 17155,
+        "start_ms": 16919,
+        "strike_ms": 16989,
+        "submodels": [
+          "HX_SNOWMAN_DRUMMER_V3_KICK"
+        ],
+        "tom_class": null,
+        "velocity": 0.937
+      },
+      {
+        "anticipation_ms": 17202,
+        "component": "HX_SNOWMAN_DRUMMER_V3_HI_HAT",
+        "drum_type": "hihat",
+        "hand": "right",
+        "humanized_offset_ms": 22,
+        "rebound_end_ms": 17438,
+        "start_ms": 17202,
+        "strike_ms": 17272,
+        "submodels": [
+          "HX_SNOWMAN_DRUMMER_V3_HI_HAT"
+        ],
+        "tom_class": null,
+        "velocity": 0.873
+      },
+      {
+        "anticipation_ms": 17453,
+        "component": "HX_SNOWMAN_DRUMMER_V3_SNARE",
+        "drum_type": "snare",
+        "hand": "left",
+        "humanized_offset_ms": 23,
+        "rebound_end_ms": 17689,
+        "start_ms": 17453,
+        "strike_ms": 17523,
+        "submodels": [
+          "HX_SNOWMAN_DRUMMER_V3_SNARE"
+        ],
+        "tom_class": null,
+        "velocity": 0.94
+      },
+      {
+        "anticipation_ms": 17669,
+        "component": "HX_SNOWMAN_DRUMMER_V3_HI_HAT",
+        "drum_type": "hihat",
+        "hand": "right",
+        "humanized_offset_ms": -11,
+        "rebound_end_ms": 17905,
+        "start_ms": 17669,
+        "strike_ms": 17739,
+        "submodels": [
+          "HX_SNOWMAN_DRUMMER_V3_HI_HAT"
+        ],
+        "tom_class": null,
+        "velocity": 0.924
+      },
+      {
+        "anticipation_ms": 17901,
+        "component": "HX_SNOWMAN_DRUMMER_V3_KICK",
+        "drum_type": "kick",
+        "hand": "foot",
+        "humanized_offset_ms": -29,
+        "rebound_end_ms": 18137,
+        "start_ms": 17901,
+        "strike_ms": 17971,
+        "submodels": [
+          "HX_SNOWMAN_DRUMMER_V3_KICK"
+        ],
+        "tom_class": null,
+        "velocity": 0.864
+      },
+      {
+        "anticipation_ms": 18163,
+        "component": "HX_SNOWMAN_DRUMMER_V3_HI_HAT",
+        "drum_type": "hihat",
+        "hand": "right",
+        "humanized_offset_ms": -17,
+        "rebound_end_ms": 18399,
+        "start_ms": 18163,
+        "strike_ms": 18233,
+        "submodels": [
+          "HX_SNOWMAN_DRUMMER_V3_HI_HAT"
+        ],
+        "tom_class": null,
+        "velocity": 0.9
+      },
+      {
+        "anticipation_ms": 18415,
+        "component": "HX_SNOWMAN_DRUMMER_V3_SNARE",
+        "drum_type": "snare",
+        "hand": "left",
+        "humanized_offset_ms": -15,
+        "rebound_end_ms": 18651,
+        "start_ms": 18415,
+        "strike_ms": 18485,
+        "submodels": [
+          "HX_SNOWMAN_DRUMMER_V3_SNARE"
+        ],
+        "tom_class": null,
+        "velocity": 0.941
+      },
+      {
+        "anticipation_ms": 18655,
+        "component": "HX_SNOWMAN_DRUMMER_V3_HI_HAT",
+        "drum_type": "hihat",
+        "hand": "right",
+        "humanized_offset_ms": -25,
+        "rebound_end_ms": 18891,
+        "start_ms": 18655,
+        "strike_ms": 18725,
+        "submodels": [
+          "HX_SNOWMAN_DRUMMER_V3_HI_HAT"
+        ],
+        "tom_class": null,
+        "velocity": 0.947
+      },
+      {
+        "anticipation_ms": 18904,
+        "component": "HX_SNOWMAN_DRUMMER_V3_KICK",
+        "drum_type": "kick",
+        "hand": "foot",
+        "humanized_offset_ms": -26,
+        "rebound_end_ms": 19140,
+        "start_ms": 18904,
+        "strike_ms": 18974,
+        "submodels": [
+          "HX_SNOWMAN_DRUMMER_V3_KICK"
+        ],
+        "tom_class": null,
+        "velocity": 0.875
+      },
+      {
+        "anticipation_ms": 18904,
+        "component": "HX_SNOWMAN_DRUMMER_V3_TOM_HIGH",
+        "drum_type": "tom",
+        "hand": "both",
+        "humanized_offset_ms": -26,
+        "rebound_end_ms": 19140,
+        "start_ms": 18904,
+        "strike_ms": 18974,
+        "submodels": [
+          "HX_SNOWMAN_DRUMMER_V3_TOM_HIGH"
+        ],
+        "tom_class": "high",
+        "velocity": 0.877
+      },
+      {
+        "anticipation_ms": 19067,
+        "component": "HX_SNOWMAN_DRUMMER_V3_TOM_MID",
+        "drum_type": "tom",
+        "hand": "both",
+        "humanized_offset_ms": 12,
+        "rebound_end_ms": 19303,
+        "start_ms": 19067,
+        "strike_ms": 19137,
+        "submodels": [
+          "HX_SNOWMAN_DRUMMER_V3_TOM_MID"
+        ],
+        "tom_class": "mid",
+        "velocity": 0.837
+      },
+      {
+        "anticipation_ms": 19206,
+        "component": "HX_SNOWMAN_DRUMMER_V3_TOM_FLOOR",
+        "drum_type": "tom",
+        "hand": "both",
+        "humanized_offset_ms": 26,
+        "rebound_end_ms": 19442,
+        "start_ms": 19206,
+        "strike_ms": 19276,
+        "submodels": [
+          "HX_SNOWMAN_DRUMMER_V3_TOM_FLOOR"
+        ],
+        "tom_class": "floor",
+        "velocity": 0.968
+      },
+      {
+        "anticipation_ms": 19205,
+        "component": "HX_SNOWMAN_DRUMMER_V3_HI_HAT",
+        "drum_type": "hihat",
+        "hand": "right",
+        "humanized_offset_ms": 25,
+        "rebound_end_ms": 19441,
+        "start_ms": 19205,
+        "strike_ms": 19275,
+        "submodels": [
+          "HX_SNOWMAN_DRUMMER_V3_HI_HAT"
+        ],
+        "tom_class": null,
+        "velocity": 0.895
+      },
+      {
+        "anticipation_ms": 19416,
+        "component": "HX_SNOWMAN_DRUMMER_V3_SNARE",
+        "drum_type": "snare",
+        "hand": "left",
+        "humanized_offset_ms": -14,
+        "rebound_end_ms": 19652,
+        "start_ms": 19416,
+        "strike_ms": 19486,
+        "submodels": [
+          "HX_SNOWMAN_DRUMMER_V3_SNARE"
+        ],
+        "tom_class": null,
+        "velocity": 0.859
+      },
+      {
+        "anticipation_ms": 19664,
+        "component": "HX_SNOWMAN_DRUMMER_V3_HI_HAT",
+        "drum_type": "hihat",
+        "hand": "right",
+        "humanized_offset_ms": -16,
+        "rebound_end_ms": 19900,
+        "start_ms": 19664,
+        "strike_ms": 19734,
+        "submodels": [
+          "HX_SNOWMAN_DRUMMER_V3_HI_HAT"
+        ],
+        "tom_class": null,
+        "velocity": 0.845
+      }
+    ]
+  },
+  "events": 68,
+  "exact_fixture_mapping": true,
+  "mapped_events": [
+    [
+      250,
+      "KICK"
+    ],
+    [
+      1250,
+      "SNARE"
+    ],
+    [
+      2250,
+      "HI_HAT"
+    ],
+    [
+      3250,
+      "TOM_HIGH"
+    ],
+    [
+      4250,
+      "TOM_MID"
+    ],
+    [
+      5250,
+      "TOM_FLOOR"
+    ],
+    [
+      6250,
+      "CYMBAL_LEFT"
+    ],
+    [
+      7250,
+      "CYMBAL_RIGHT"
+    ],
+    [
+      8000,
+      "KICK"
+    ],
+    [
+      8000,
+      "CYMBAL_LEFT"
+    ],
+    [
+      8250,
+      "HI_HAT"
+    ],
+    [
+      8500,
+      "SNARE"
+    ],
+    [
+      8750,
+      "HI_HAT"
+    ],
+    [
+      9000,
+      "KICK"
+    ],
+    [
+      9250,
+      "HI_HAT"
+    ],
+    [
+      9500,
+      "SNARE"
+    ],
+    [
+      9750,
+      "HI_HAT"
+    ],
+    [
+      10000,
+      "KICK"
+    ],
+    [
+      10250,
+      "HI_HAT"
+    ],
+    [
+      10500,
+      "SNARE"
+    ],
+    [
+      10750,
+      "HI_HAT"
+    ],
+    [
+      11000,
+      "KICK"
+    ],
+    [
+      11000,
+      "TOM_HIGH"
+    ],
+    [
+      11125,
+      "TOM_MID"
+    ],
+    [
+      11250,
+      "TOM_FLOOR"
+    ],
+    [
+      11250,
+      "HI_HAT"
+    ],
+    [
+      11500,
+      "SNARE"
+    ],
+    [
+      11750,
+      "HI_HAT"
+    ],
+    [
+      12000,
+      "KICK"
+    ],
+    [
+      12000,
+      "CYMBAL_RIGHT"
+    ],
+    [
+      12250,
+      "HI_HAT"
+    ],
+    [
+      12500,
+      "SNARE"
+    ],
+    [
+      12750,
+      "HI_HAT"
+    ],
+    [
+      13000,
+      "KICK"
+    ],
+    [
+      13250,
+      "HI_HAT"
+    ],
+    [
+      13500,
+      "SNARE"
+    ],
+    [
+      13750,
+      "HI_HAT"
+    ],
+    [
+      14000,
+      "KICK"
+    ],
+    [
+      14250,
+      "HI_HAT"
+    ],
+    [
+      14500,
+      "SNARE"
+    ],
+    [
+      14750,
+      "HI_HAT"
+    ],
+    [
+      15000,
+      "KICK"
+    ],
+    [
+      15000,
+      "TOM_HIGH"
+    ],
+    [
+      15125,
+      "TOM_MID"
+    ],
+    [
+      15250,
+      "TOM_FLOOR"
+    ],
+    [
+      15250,
+      "HI_HAT"
+    ],
+    [
+      15500,
+      "SNARE"
+    ],
+    [
+      15750,
+      "HI_HAT"
+    ],
+    [
+      16000,
+      "KICK"
+    ],
+    [
+      16000,
+      "CYMBAL_LEFT"
+    ],
+    [
+      16250,
+      "HI_HAT"
+    ],
+    [
+      16500,
+      "SNARE"
+    ],
+    [
+      16750,
+      "HI_HAT"
+    ],
+    [
+      17000,
+      "KICK"
+    ],
+    [
+      17250,
+      "HI_HAT"
+    ],
+    [
+      17500,
+      "SNARE"
+    ],
+    [
+      17750,
+      "HI_HAT"
+    ],
+    [
+      18000,
+      "KICK"
+    ],
+    [
+      18250,
+      "HI_HAT"
+    ],
+    [
+      18500,
+      "SNARE"
+    ],
+    [
+      18750,
+      "HI_HAT"
+    ],
+    [
+      19000,
+      "KICK"
+    ],
+    [
+      19000,
+      "TOM_HIGH"
+    ],
+    [
+      19125,
+      "TOM_MID"
+    ],
+    [
+      19250,
+      "TOM_FLOOR"
+    ],
+    [
+      19250,
+      "HI_HAT"
+    ],
+    [
+      19500,
+      "SNARE"
+    ],
+    [
+      19750,
+      "HI_HAT"
+    ]
+  ],
+  "targets": [
+    "KICK",
+    "SNARE",
+    "HI_HAT",
+    "TOM_HIGH",
+    "TOM_MID",
+    "TOM_FLOOR",
+    "CYMBAL_LEFT",
+    "CYMBAL_RIGHT"
+  ]
+}

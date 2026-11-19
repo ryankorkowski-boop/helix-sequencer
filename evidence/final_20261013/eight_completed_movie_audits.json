@@ -1,0 +1,306 @@
+[
+  {
+    "file": "Helix_Band_1_prismatic_orrery.mp4",
+    "bytes": 44597081,
+    "sha256": "e95551cde1d939dd15f033b7a4356eab301870b19e07c9902919252c42586026",
+    "seconds": 78.2,
+    "frames": 1564,
+    "full_decode_passed": true,
+    "codec": "H264/AAC",
+    "waveform_correlation": 0.9985783042257419,
+    "decoded_samples": [
+      {
+        "time": 4.692,
+        "path": "Helix_Band_1_prismatic_orrery_decoded_0.jpg",
+        "lit_fraction": 0.2728125
+      },
+      {
+        "time": 17.204,
+        "path": "Helix_Band_1_prismatic_orrery_decoded_1.jpg",
+        "lit_fraction": 0.4132899305555556
+      },
+      {
+        "time": 33.626,
+        "path": "Helix_Band_1_prismatic_orrery_decoded_2.jpg",
+        "lit_fraction": 0.28141927083333335
+      },
+      {
+        "time": 49.266000000000005,
+        "path": "Helix_Band_1_prismatic_orrery_decoded_3.jpg",
+        "lit_fraction": 0.2745138888888889
+      },
+      {
+        "time": 66.47,
+        "path": "Helix_Band_1_prismatic_orrery_decoded_4.jpg",
+        "lit_fraction": 0.4090266927083333
+      }
+    ],
+    "max_contact_error": 0
+  },
+  {
+    "file": "Helix_Band_2_woven_aurora.mp4",
+    "bytes": 57622982,
+    "sha256": "5753acb586ef319f2659b5c826b4ea40718fc9be1df25548251e92987b07f1de",
+    "seconds": 78.2,
+    "frames": 1564,
+    "full_decode_passed": true,
+    "codec": "H264/AAC",
+    "waveform_correlation": 0.9987986716409456,
+    "decoded_samples": [
+      {
+        "time": 4.692,
+        "path": "Helix_Band_2_woven_aurora_decoded_0.jpg",
+        "lit_fraction": 0.2812684461805556
+      },
+      {
+        "time": 17.204,
+        "path": "Helix_Band_2_woven_aurora_decoded_1.jpg",
+        "lit_fraction": 0.42041124131944446
+      },
+      {
+        "time": 33.626,
+        "path": "Helix_Band_2_woven_aurora_decoded_2.jpg",
+        "lit_fraction": 0.2938226996527778
+      },
+      {
+        "time": 49.266000000000005,
+        "path": "Helix_Band_2_woven_aurora_decoded_3.jpg",
+        "lit_fraction": 0.2910026041666667
+      },
+      {
+        "time": 66.47,
+        "path": "Helix_Band_2_woven_aurora_decoded_4.jpg",
+        "lit_fraction": 0.4241167534722222
+      }
+    ],
+    "max_contact_error": 0
+  },
+  {
+    "file": "Helix_Band_3_cymatic_geode.mp4",
+    "bytes": 52891156,
+    "sha256": "502ae038ff5d8f40d7fb099088512408ec305bbc2d2923190c84681d93712e58",
+    "seconds": 78.2,
+    "frames": 1564,
+    "full_decode_passed": true,
+    "codec": "H264/AAC",
+    "waveform_correlation": 0.9984414932223902,
+    "decoded_samples": [
+      {
+        "time": 4.692,
+        "path": "Helix_Band_3_cymatic_geode_decoded_0.jpg",
+        "lit_fraction": 0.299140625
+      },
+      {
+        "time": 17.204,
+        "path": "Helix_Band_3_cymatic_geode_decoded_1.jpg",
+        "lit_fraction": 0.43024522569444446
+      },
+      {
+        "time": 33.626,
+        "path": "Helix_Band_3_cymatic_geode_decoded_2.jpg",
+        "lit_fraction": 0.30419596354166667
+      },
+      {
+        "time": 49.266000000000005,
+        "path": "Helix_Band_3_cymatic_geode_decoded_3.jpg",
+        "lit_fraction": 0.28481553819444444
+      },
+      {
+        "time": 66.47,
+        "path": "Helix_Band_3_cymatic_geode_decoded_4.jpg",
+        "lit_fraction": 0.4349392361111111
+      }
+    ],
+    "max_contact_error": 0
+  },
+  {
+    "file": "Helix_Band_4_quasicrystal_theatre.mp4",
+    "bytes": 56637264,
+    "sha256": "a9a379d547198998d4022fcb0bd8665ccd79938e1109cb5a0623dfe2a130a981",
+    "seconds": 78.2,
+    "frames": 1564,
+    "full_decode_passed": true,
+    "codec": "H264/AAC",
+    "waveform_correlation": 0.9987398116077393,
+    "decoded_samples": [
+      {
+        "time": 4.692,
+        "path": "Helix_Band_4_quasicrystal_theatre_decoded_0.jpg",
+        "lit_fraction": 0.30984266493055557
+      },
+      {
+        "time": 17.204,
+        "path": "Helix_Band_4_quasicrystal_theatre_decoded_1.jpg",
+        "lit_fraction": 0.4447298177083333
+      },
+      {
+        "time": 33.626,
+        "path": "Helix_Band_4_quasicrystal_theatre_decoded_2.jpg",
+        "lit_fraction": 0.32459635416666666
+      },
+      {
+        "time": 49.266000000000005,
+        "path": "Helix_Band_4_quasicrystal_theatre_decoded_3.jpg",
+        "lit_fraction": 0.30191297743055556
+      },
+      {
+        "time": 66.47,
+        "path": "Helix_Band_4_quasicrystal_theatre_decoded_4.jpg",
+        "lit_fraction": 0.4542328559027778
+      }
+    ],
+    "max_contact_error": 0
+  },
+  {
+    "file": "Helix_Two_Stages_1.mp4",
+    "bytes": 26581763,
+    "sha256": "353f61f5ce681b9c36a775f67ed57f5499ae3424d3e3ddb9ae83b6971760a10e",
+    "seconds": 78.2,
+    "frames": 1564,
+    "full_decode_passed": true,
+    "codec": "H264/AAC",
+    "waveform_correlation": 0.9987253528433357,
+    "decoded_samples": [
+      {
+        "time": 4.692,
+        "path": "Helix_Two_Stages_1_decoded_0.jpg",
+        "lit_fraction": 0.14511670524691359
+      },
+      {
+        "time": 17.204,
+        "path": "Helix_Two_Stages_1_decoded_1.jpg",
+        "lit_fraction": 0.1488551311728395
+      },
+      {
+        "time": 33.626,
+        "path": "Helix_Two_Stages_1_decoded_2.jpg",
+        "lit_fraction": 0.14688175154320987
+      },
+      {
+        "time": 49.266000000000005,
+        "path": "Helix_Two_Stages_1_decoded_3.jpg",
+        "lit_fraction": 0.14613570601851852
+      },
+      {
+        "time": 66.47,
+        "path": "Helix_Two_Stages_1_decoded_4.jpg",
+        "lit_fraction": 0.14755738811728394
+      }
+    ],
+    "max_contact_error": 0
+  },
+  {
+    "file": "Helix_Two_Stages_2.mp4",
+    "bytes": 20155108,
+    "sha256": "ddcd1e7eadc0519946e103b4381489b111c42222d5375ccb72db0ae90d35bc20",
+    "seconds": 68.2,
+    "frames": 1364,
+    "full_decode_passed": true,
+    "codec": "H264/AAC",
+    "waveform_correlation": 0.9984528680949298,
+    "decoded_samples": [
+      {
+        "time": 4.092,
+        "path": "Helix_Two_Stages_2_decoded_0.jpg",
+        "lit_fraction": 0.11767891589506173
+      },
+      {
+        "time": 15.004000000000001,
+        "path": "Helix_Two_Stages_2_decoded_1.jpg",
+        "lit_fraction": 0.1182494212962963
+      },
+      {
+        "time": 29.326,
+        "path": "Helix_Two_Stages_2_decoded_2.jpg",
+        "lit_fraction": 0.11796296296296296
+      },
+      {
+        "time": 42.966,
+        "path": "Helix_Two_Stages_2_decoded_3.jpg",
+        "lit_fraction": 0.11782262731481481
+      },
+      {
+        "time": 57.97,
+        "path": "Helix_Two_Stages_2_decoded_4.jpg",
+        "lit_fraction": 0.11880738811728395
+      }
+    ],
+    "max_contact_error": 0
+  },
+  {
+    "file": "Helix_Two_Stages_3.mp4",
+    "bytes": 25700415,
+    "sha256": "2fa98a7893b444cd072c2054ee548f8b2f6a47580794f7030ff3e75fca890333",
+    "seconds": 80.2,
+    "frames": 1604,
+    "full_decode_passed": true,
+    "codec": "H264/AAC",
+    "waveform_correlation": 0.9988174767548302,
+    "decoded_samples": [
+      {
+        "time": 4.812,
+        "path": "Helix_Two_Stages_3_decoded_0.jpg",
+        "lit_fraction": 0.1639549575617284
+      },
+      {
+        "time": 17.644000000000002,
+        "path": "Helix_Two_Stages_3_decoded_1.jpg",
+        "lit_fraction": 0.16415461033950618
+      },
+      {
+        "time": 34.486000000000004,
+        "path": "Helix_Two_Stages_3_decoded_2.jpg",
+        "lit_fraction": 0.16590470679012345
+      },
+      {
+        "time": 50.526,
+        "path": "Helix_Two_Stages_3_decoded_3.jpg",
+        "lit_fraction": 0.16374614197530865
+      },
+      {
+        "time": 68.17,
+        "path": "Helix_Two_Stages_3_decoded_4.jpg",
+        "lit_fraction": 0.16464699074074074
+      }
+    ],
+    "max_contact_error": 0
+  },
+  {
+    "file": "Helix_Spiral_Symphony.mp4",
+    "bytes": 33938813,
+    "sha256": "d6d79bfcb20b73e5682b2f1aa5e060800be1a4eb5c6ffa5ff78f0a97b75459b9",
+    "seconds": 92.2,
+    "frames": 1844,
+    "full_decode_passed": true,
+    "codec": "H264/AAC",
+    "waveform_correlation": 0.9987240457084511,
+    "decoded_samples": [
+      {
+        "time": 5.532,
+        "path": "Helix_Spiral_Symphony_decoded_0.jpg",
+        "lit_fraction": 0.2765403163580247
+      },
+      {
+        "time": 20.284000000000002,
+        "path": "Helix_Spiral_Symphony_decoded_1.jpg",
+        "lit_fraction": 0.1939038387345679
+      },
+      {
+        "time": 39.646,
+        "path": "Helix_Spiral_Symphony_decoded_2.jpg",
+        "lit_fraction": 0.27122395833333335
+      },
+      {
+        "time": 58.086000000000006,
+        "path": "Helix_Spiral_Symphony_decoded_3.jpg",
+        "lit_fraction": 0.2816840277777778
+      },
+      {
+        "time": 78.37,
+        "path": "Helix_Spiral_Symphony_decoded_4.jpg",
+        "lit_fraction": 0.26379292052469133
+      }
+    ],
+    "max_contact_error": 0
+  }
+]

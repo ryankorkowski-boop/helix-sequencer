@@ -1,0 +1,13 @@
+{
+  "baseline": {
+    "peak_traced_python_bytes": 67113402,
+    "elapsed_seconds": 0.2603450439999051
+  },
+  "bounded": {
+    "peak_traced_python_bytes": 2102614,
+    "elapsed_seconds": 0.052214377999916906
+  },
+  "source_bytes": 67108864,
+  "digest": "73ee9fd124c10cc95a3ee5401250595de417d9bcc0e36cd3d3ed3771ab782e4d",
+  "peak_reduction_percent": 96.86707283889439
+}

@@ -1,0 +1,96 @@
+{
+  "mode": "final",
+  "elapsed_seconds": 142.71967468999992,
+  "peak_rss_bytes": 1805180928,
+  "stage_peaks": {
+    "setup": 1805344768,
+    "analyze": 1023434752,
+    "analyze_harmonic": 546463744,
+    "build_stem_analysis": 937664512,
+    "_classify_background_vocals": 701513728,
+    "_summarize_stem_file": 746123264,
+    "derive_multiband_analysis": 1073569792,
+    "build_helixualizer_plan": 983384064,
+    "_melbank_payload": 747196416
+  },
+  "stages": [
+    {
+      "function": "analyze",
+      "elapsed_seconds": 8.598020414000075
+    },
+    {
+      "function": "analyze_harmonic",
+      "elapsed_seconds": 30.1970210100003
+    },
+    {
+      "function": "_classify_background_vocals",
+      "elapsed_seconds": 30.177875852999932
+    },
+    {
+      "function": "_summarize_stem_file",
+      "elapsed_seconds": 0.7408656560000964
+    },
+    {
+      "function": "_summarize_stem_file",
+      "elapsed_seconds": 0.6950436189999891
+    },
+    {
+      "function": "_summarize_stem_file",
+      "elapsed_seconds": 0.7551713240000026
+    },
+    {
+      "function": "_summarize_stem_file",
+      "elapsed_seconds": 0.759413303999736
+    },
+    {
+      "function": "build_stem_analysis",
+      "elapsed_seconds": 62.76371721999976
+    },
+    {
+      "function": "derive_multiband_analysis",
+      "elapsed_seconds": 3.962993903000097
+    },
+    {
+      "function": "_melbank_payload",
+      "elapsed_seconds": 1.7388780059995952
+    },
+    {
+      "function": "build_helixualizer_plan",
+      "elapsed_seconds": 2.4983568389998254
+    }
+  ],
+  "result": {
+    "bundle": "/workspace/scratch/1ed7281f6b64/offline-memory/final/job/Helix-show.zip",
+    "preview": "",
+    "sequence": "/workspace/scratch/1ed7281f6b64/offline-memory/final/job/outputs/audio,v27.3.xsq",
+    "report": "/workspace/scratch/1ed7281f6b64/offline-memory/final/job/outputs/Android-run-report.txt",
+    "manifest": "/workspace/scratch/1ed7281f6b64/offline-memory/final/job/outputs/android-run.json",
+    "sequence_count": 1,
+    "mode": "xlights",
+    "stages": {
+      "sequencing": {
+        "status": "success"
+      },
+      "packaging": {
+        "status": "success"
+      },
+      "preview": {
+        "status": "skipped"
+      }
+    }
+  },
+  "audio_sha256": "dd988078a13ae2c7be5ebe645ba62adab45f9cb47ae7140134007e408539a632",
+  "source_commit": "18a97623524ac8c5b37689c95553716163bd04b0",
+  "preview": false,
+  "working_tree_dirty": true,
+  "tested_module_sha256": {
+    "core/bounded_audio.py": "fbbaf3596a78610b6e84f30a70c939bc8594faa1e968115506c9708d43f9f5b0",
+    "core/audio_intelligence.py": "5deb6de0c5bce8b8c6d2aab96a96cf451fb42c6b1c625914d897df8731140c80",
+    "core/effect_engine.py": "c8959d8b1d06e14931224333f59184fbf3e29f46df53cbd603deb23828153302",
+    "audio/drummer_v3.py": "3a614bcfe56f839a02c0136941d17bfb2257929807253cf6ee72a310a254e839",
+    "xlights/xsq_writer.py": "42e325cf54ddbc8c842b1050c0b80d5fb58b1c1762ebcb277dccc65010fd8cc9",
+    "core/helixualizer.py": "61f21a6fa0e687a8a9624e39fba5ea76f579f956cde35c694cd4ccea7bed0544"
+  },
+  "musical_signature": "fed5565412b36f5f48967eaf4e68572cd4b846b399d8f523161b094d31e2864c",
+  "model_effect_count": 43913
+}

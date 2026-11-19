@@ -1,0 +1,72 @@
+{
+  "schema": "helix.recovery-delivery-status.v1",
+  "artifact": {
+    "file": "Helix_Recovery_Diagnostics_20261024_r2.zip",
+    "bytes": 401660108,
+    "sha256": "8d56230c288a83a030e17650d4755c42cf36885cb6c525a4f2c66889e0d36ace",
+    "movies": 13,
+    "local_crc_and_entry_hashes_verified": true
+  },
+  "files": [
+    {
+      "file": "Helix_Recovery_Diagnostics_20261024_r2.zip",
+      "bytes": 401660108,
+      "saved": true,
+      "server_file_materialized": true,
+      "post_save_hash_comparison": "UNCONFIRMED: execution environment unavailable before result retrieval"
+    },
+    {
+      "file": "Helix_Native_Band_Recovery_Pilot.mp4",
+      "bytes": 1548548,
+      "saved": true,
+      "server_file_materialized": true,
+      "post_save_hash_comparison": "UNCONFIRMED: execution environment unavailable before result retrieval"
+    },
+    {
+      "file": "Helix_Native_faces_Closeup.mp4",
+      "bytes": 1114016,
+      "saved": true,
+      "server_file_materialized": true,
+      "post_save_hash_comparison": "UNCONFIRMED: execution environment unavailable before result retrieval"
+    },
+    {
+      "file": "Helix_Authenticated_Sampler_Technical_Comparison.mp4",
+      "bytes": 111510714,
+      "saved": true,
+      "server_file_materialized": true,
+      "post_save_hash_comparison": "UNCONFIRMED: execution environment unavailable before result retrieval"
+    },
+    {
+      "file": "Vocal_And_Instrument_Verification.mp4",
+      "bytes": 3317377,
+      "saved": true,
+      "server_file_materialized": true,
+      "post_save_hash_comparison": "UNCONFIRMED: execution environment unavailable before result retrieval"
+    },
+    {
+      "file": "Helix_Solid_3D_Recovery_Diagnostic.mp4",
+      "bytes": 13695504,
+      "saved": true,
+      "server_file_materialized": true,
+      "post_save_hash_comparison": "UNCONFIRMED: execution environment unavailable before result retrieval"
+    },
+    {
+      "file": "Helix_Recovery_Status_20261024.md",
+      "bytes": 6805,
+      "saved": true,
+      "server_file_materialized": true,
+      "post_save_hash_comparison": "UNCONFIRMED: execution environment unavailable before result retrieval"
+    },
+    {
+      "file": "Final_Archive_Verification.json",
+      "bytes": 424,
+      "saved": true,
+      "server_file_materialized": true,
+      "post_save_hash_comparison": "UNCONFIRMED: execution environment unavailable before result retrieval"
+    }
+  ],
+  "acceptance_complete": false,
+  "compatible_android_update_delivered": false,
+  "pr188_merged": false,
+  "public_beta_published": false
+}

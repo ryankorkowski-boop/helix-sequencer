@@ -1,0 +1,43 @@
+{
+  "release_url": "https://github.com/ryankorkowski-boop/helix-sequencer/releases/tag/review-movies-2026-10-10",
+  "publication_run_id": 38048023409,
+  "publication_run_conclusion": "success",
+  "asset": {
+    "url": "https://api.github.com/repos/ryankorkowski-boop/helix-sequencer/releases/assets/627778285",
+    "id": 627778285,
+    "node_id": "RA_kwDOSCnV-s4layLt",
+    "name": "Earlier_Layout_And_Drummer_MP4s.zip",
+    "label": "",
+    "uploader": {
+      "login": "github-actions[bot]",
+      "id": 41898282,
+      "node_id": "MDM6Qm90NDE4OTgyODI=",
+      "avatar_url": "https://avatars.githubusercontent.com/in/15368?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/github-actions%5Bbot%5D",
+      "html_url": "https://github.com/apps/github-actions",
+      "followers_url": "https://api.github.com/users/github-actions%5Bbot%5D/followers",
+      "following_url": "https://api.github.com/users/github-actions%5Bbot%5D/following{/other_user}",
+      "gists_url": "https://api.github.com/users/github-actions%5Bbot%5D/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/github-actions%5Bbot%5D/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/github-actions%5Bbot%5D/subscriptions",
+      "organizations_url": "https://api.github.com/users/github-actions%5Bbot%5D/orgs",
+      "repos_url": "https://api.github.com/users/github-actions%5Bbot%5D/repos",
+      "events_url": "https://api.github.com/users/github-actions%5Bbot%5D/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/github-actions%5Bbot%5D/received_events",
+      "type": "Bot",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "content_type": "application/zip",
+    "state": "uploaded",
+    "size": 405628496,
+    "digest": "sha256:52b50b007b67771501f3bc25595ef1ef6906e4586a647c8ba81874297035c7b8",
+    "download_count": 0,
+    "created_at": "2026-10-10T11:20:23Z",
+    "updated_at": "2026-10-10T11:20:40Z",
+    "browser_download_url": "https://github.com/ryankorkowski-boop/helix-sequencer/releases/download/review-movies-2026-10-10/Earlier_Layout_And_Drummer_MP4s.zip"
+  },
+  "full_public_download_bytes_match": true,
+  "sha256": "52b50b007b67771501f3bc25595ef1ef6906e4586a647c8ba81874297035c7b8"
+}

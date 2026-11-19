@@ -1,0 +1,228 @@
+{
+  "schema": "helix.approval-candidate.v1",
+  "layout": "Original owner AC256, all256original addresses; virtual geometry, fixed source colors",
+  "source_commit": "c15bed4a97dd50a6affa68588b4622a219fd9761",
+  "analysis_source_commit": "a9beaa7c9be89fffc21a856e033bf75a3136c29b",
+  "source_audio_filename": "Phoneme_Test_Hook.mp3",
+  "source_audio_sha256": "19e90c273d0d747938f24b36586b50818c104cddffbefe4a4128927374301938",
+  "mp4": "/workspace/helix-output/ac256/native-preview-kf4_cgcc/preview.mp4",
+  "sha256": "e55451ac2da468fbf2067612fbe3c35c9fdaa306015fa719ea38559fd4eee05a",
+  "bytes": 14201572,
+  "xsq_sha256": "f001f72adbcc91e548f833ff583258459947ebb6597cca199b9f2dae9905952d",
+  "fseq_sha256": "a2b3c71362c927f340a7e5555d54bf667b71e3a983a12e44ee1e8f8417851e85",
+  "native_version": "2026.18",
+  "render_command": "DISPLAY=:99 PATH=/workspace/helix-runtime/bin:/workspace/helix-runtime/usr/bin:$PATH LD_LIBRARY_PATH=/workspace/helix-runtime/usr/lib/x86_64-linux-gnu HELIX_NATIVE_PREVIEW_WIDTH=1920 HELIX_NATIVE_PREVIEW_HEIGHT=1080 XL_NO_GPU_COMPUTE=1 OPENBLAS_NUM_THREADS=2 /workspace/helix-venv/bin/python -m tools.native_preview /workspace/helix-output/ac256 --xsq /workspace/helix-output/ac256/Performance.xsq --audio /workspace/helix-output/ac256/media/Phoneme_Test_Hook.mp3 --xlights /workspace/helix-runtime/bin/xLights",
+  "workflow_url": null,
+  "native_render_location": "Local managed environment; recovered renderer from Actions42151760880",
+  "owner_approved": false,
+  "limitations": [
+    "20fps native sequence clock (30fps target not exercised)",
+    "Virtual geometry is not surveyed physical installation",
+    "Instrument events are retained mixed-source estimates",
+    "34.88s hook contains verse and prechorus, not whole-song structure proof",
+    "No singing faces or performers in original AC256"
+  ],
+  "full_decode": true,
+  "readability": {
+    "schema": "helix.showcase_readability.v1",
+    "frames": 70,
+    "sample_fps": 2,
+    "thresholds": {
+      "median_luma": 12.0,
+      "median_bright_fraction": 0.012,
+      "median_motion": 0.65,
+      "min_visible_width": 0.4,
+      "min_visible_height": 0.35
+    },
+    "measurements": {
+      "median_luma": 4.698,
+      "median_bright_fraction": 0.00994,
+      "median_motion": 1.905,
+      "visible_width": 0.412,
+      "visible_height": 0.456
+    },
+    "checks": {
+      "visible_stage_width": true,
+      "visible_stage_height": true,
+      "median_stage_luminance": false,
+      "bright_stage_area": false,
+      "visible_stage_motion": true
+    },
+    "passed": false,
+    "note": "Quantitative visibility gate only; no artistic, musical or source classification approval"
+  },
+  "soundtrack": {
+    "correlation": 0.9968081439606467,
+    "windows": [
+      {
+        "source_start_seconds": 0,
+        "lag_ms": 0.0
+      },
+      {
+        "source_start_seconds": 10,
+        "lag_ms": 0.0
+      },
+      {
+        "source_start_seconds": 20,
+        "lag_ms": 0.0
+      },
+      {
+        "source_start_seconds": 30,
+        "lag_ms": 0.0
+      }
+    ],
+    "passed": true
+  },
+  "channel_evidence": {
+    "channels": 256,
+    "frames": 698,
+    "step_ms": 50,
+    "unique_channel_timelines": 88,
+    "peak_lit_channels": 178,
+    "full_layout_all_on_frames": 0,
+    "nonzero_frames": 649,
+    "passed": true
+  },
+  "metadata": {
+    "format": {
+      "bit_rate": "3255374",
+      "duration": "34.900000",
+      "filename": "/workspace/helix-output/ac256/native-preview-kf4_cgcc/preview.mp4",
+      "format_long_name": "QuickTime / MOV",
+      "format_name": "mov,mp4,m4a,3gp,3g2,mj2",
+      "nb_programs": 0,
+      "nb_stream_groups": 0,
+      "nb_streams": 2,
+      "probe_score": 100,
+      "size": "14201572",
+      "start_time": "0.000000",
+      "tags": {
+        "compatible_brands": "isomiso2avc1mp41",
+        "encoder": "Lavf61.7.103",
+        "major_brand": "isom",
+        "minor_version": "512"
+      }
+    },
+    "streams": [
+      {
+        "avg_frame_rate": "20/1",
+        "bit_rate": "3118337",
+        "bits_per_raw_sample": "8",
+        "chroma_location": "left",
+        "closed_captions": 0,
+        "codec_long_name": "H.264 / AVC / MPEG-4 AVC / MPEG-4 part 10",
+        "codec_name": "h264",
+        "codec_tag": "0x31637661",
+        "codec_tag_string": "avc1",
+        "codec_type": "video",
+        "coded_height": 1080,
+        "coded_width": 1920,
+        "color_primaries": "bt709",
+        "color_range": "pc",
+        "color_space": "bt709",
+        "color_transfer": "bt709",
+        "disposition": {
+          "attached_pic": 0,
+          "captions": 0,
+          "clean_effects": 0,
+          "comment": 0,
+          "default": 1,
+          "dependent": 0,
+          "descriptions": 0,
+          "dub": 0,
+          "forced": 0,
+          "hearing_impaired": 0,
+          "karaoke": 0,
+          "lyrics": 0,
+          "metadata": 0,
+          "multilayer": 0,
+          "non_diegetic": 0,
+          "original": 0,
+          "still_image": 0,
+          "timed_thumbnails": 0,
+          "visual_impaired": 0
+        },
+        "duration": "34.900000",
+        "duration_ts": 698000,
+        "extradata_size": 50,
+        "field_order": "progressive",
+        "film_grain": 0,
+        "has_b_frames": 0,
+        "height": 1080,
+        "id": "0x1",
+        "index": 0,
+        "is_avc": "true",
+        "level": 40,
+        "nal_length_size": "4",
+        "nb_frames": "698",
+        "pix_fmt": "yuvj420p",
+        "profile": "High",
+        "r_frame_rate": "20/1",
+        "refs": 1,
+        "start_pts": 0,
+        "start_time": "0.000000",
+        "tags": {
+          "handler_name": "VideoHandler",
+          "language": "und",
+          "vendor_id": "[0][0][0][0]"
+        },
+        "time_base": "1/20000",
+        "width": 1920
+      },
+      {
+        "avg_frame_rate": "0/0",
+        "bit_rate": "131872",
+        "bits_per_sample": 0,
+        "channel_layout": "stereo",
+        "channels": 2,
+        "codec_long_name": "AAC (Advanced Audio Coding)",
+        "codec_name": "aac",
+        "codec_tag": "0x6134706d",
+        "codec_tag_string": "mp4a",
+        "codec_type": "audio",
+        "disposition": {
+          "attached_pic": 0,
+          "captions": 0,
+          "clean_effects": 0,
+          "comment": 0,
+          "default": 1,
+          "dependent": 0,
+          "descriptions": 0,
+          "dub": 0,
+          "forced": 0,
+          "hearing_impaired": 0,
+          "karaoke": 0,
+          "lyrics": 0,
+          "metadata": 0,
+          "multilayer": 0,
+          "non_diegetic": 0,
+          "original": 0,
+          "still_image": 0,
+          "timed_thumbnails": 0,
+          "visual_impaired": 0
+        },
+        "duration": "34.880000",
+        "duration_ts": 1674240,
+        "extradata_size": 5,
+        "id": "0x2",
+        "index": 1,
+        "initial_padding": 0,
+        "nb_frames": "1636",
+        "profile": "LC",
+        "r_frame_rate": "0/0",
+        "sample_fmt": "fltp",
+        "sample_rate": "48000",
+        "start_pts": 0,
+        "start_time": "0.000000",
+        "tags": {
+          "handler_name": "SoundHandler",
+          "language": "und",
+          "vendor_id": "[0][0][0][0]"
+        },
+        "time_base": "1/48000"
+      }
+    ]
+  },
+  "status": "FAIL",
+  "musical_or_owner_acceptance": "UNVERIFIED"
+}

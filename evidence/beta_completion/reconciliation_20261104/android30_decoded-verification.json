@@ -1,0 +1,67 @@
+[
+  {
+    "mode": "xlights",
+    "frames": 45,
+    "video_codec": "h264",
+    "audio_codec": "aac",
+    "duration": "3.000000",
+    "source_duration_seconds": 8.0,
+    "full_song_preview_verified": false,
+    "max_mean_pixel_error": 1.9779658564814815,
+    "minimum_expected_lit_pixels_visible": 0.9821706768218799,
+    "audio_correlation": 0.9999563842574754,
+    "audio_offset_ms": 0.0
+  },
+  {
+    "mode": "lor",
+    "frames": 45,
+    "video_codec": "h264",
+    "audio_codec": "aac",
+    "duration": "3.000000",
+    "source_duration_seconds": 8.0,
+    "full_song_preview_verified": false,
+    "max_mean_pixel_error": 1.6728457754629629,
+    "minimum_expected_lit_pixels_visible": 0.9634881247784474,
+    "audio_correlation": 0.9999563842574754,
+    "audio_offset_ms": 0.0
+  },
+  {
+    "mode": "real-rgb",
+    "frames": 120,
+    "video_codec": "h264",
+    "audio_codec": "aac",
+    "duration": "8.000000",
+    "source_duration_seconds": 8.0,
+    "full_song_preview_verified": false,
+    "max_mean_pixel_error": 1.7437080439814814,
+    "minimum_expected_lit_pixels_visible": 0.9737937790840069,
+    "audio_correlation": 0.9977437981465205,
+    "audio_offset_ms": 0.0
+  },
+  {
+    "mode": "full-song",
+    "frames": 3562,
+    "video_codec": "h264",
+    "audio_codec": "aac",
+    "duration": "237.466708",
+    "source_duration_seconds": 237.43997916666666,
+    "full_song_preview_verified": true,
+    "max_mean_pixel_error": 1.728548900462963,
+    "minimum_expected_lit_pixels_visible": 0.9649313087490962,
+    "audio_correlation": 0.9957144538319959,
+    "audio_offset_ms": 0.0
+  },
+  {
+    "mode": "band-off",
+    "frames": 45,
+    "video_codec": "h264",
+    "audio_codec": "aac",
+    "duration": "3.000000",
+    "source_duration_seconds": 8.0,
+    "full_song_preview_verified": false,
+    "max_mean_pixel_error": 1.7449464699074073,
+    "minimum_expected_lit_pixels_visible": 0.9747796278158668,
+    "audio_correlation": 0.9990602343817021,
+    "audio_offset_ms": 0.0
+  }
+]

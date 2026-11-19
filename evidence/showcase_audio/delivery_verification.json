@@ -1,0 +1,12 @@
+{
+  "full_review_zip_crc_passed": true,
+  "gallery_links_checked": 100,
+  "all_gallery_links_resolve_inside_zip": true,
+  "native_xsqs_in_zip": 30,
+  "native_fseqs_in_zip": 30,
+  "all_movies_full_duration_1280x720_20fps": true,
+  "all_audio_sources_verified": true,
+  "minimum_full_audio_correlation": 0.9988084397773179,
+  "minimum_review_audio_correlation": 0.9989922172585811,
+  "five_import_packages_crc_passed": true
+}

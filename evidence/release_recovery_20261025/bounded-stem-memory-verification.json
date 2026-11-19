@@ -1,0 +1,43 @@
+{
+  "source": "Helix Audiolights.mp3 decoded to 48000Hz mono PCM16, matching Android full-song input",
+  "audio_sha256": "7ced206c1c0fb3282bffcf3ad34bd190ec6121ed4686fce847515b7c49718a0f",
+  "whole": {
+    "mode": "whole",
+    "peak_rss_kib": 1696624,
+    "seconds": 34.245878464999805
+  },
+  "bounded": {
+    "mode": "bounded",
+    "peak_rss_kib": 334736,
+    "seconds": 30.419296568999926
+  },
+  "stems": {
+    "vocals": {
+      "samples": 11397119,
+      "duration_seconds": 237.43997916666666,
+      "max_abs_difference": 0.0,
+      "rms_difference": 0.0
+    },
+    "drums": {
+      "samples": 11397119,
+      "duration_seconds": 237.43997916666666,
+      "max_abs_difference": 0.0,
+      "rms_difference": 0.0
+    },
+    "bass": {
+      "samples": 11397119,
+      "duration_seconds": 237.43997916666666,
+      "max_abs_difference": 0.0,
+      "rms_difference": 0.0
+    },
+    "other": {
+      "samples": 11397119,
+      "duration_seconds": 237.43997916666666,
+      "max_abs_difference": 0.0,
+      "rms_difference": 0.0
+    }
+  },
+  "peak_rss_reduction_fraction": 0.8027046652646668,
+  "passed": true,
+  "scope": "Measured Linux subprocess RSS and PCM parity; Android emulator proof still required."
+}

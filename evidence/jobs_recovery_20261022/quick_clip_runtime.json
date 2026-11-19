@@ -1,0 +1,12 @@
+{
+  "source_sha256": "19e90c273d0d747938f24b36586b50818c104cddffbefe4a4128927374301938",
+  "source_title": "Phoneme Test Hook.mp3",
+  "source_duration_seconds": 34.879979166666665,
+  "clip_seconds": 10.0,
+  "sequence_effects": 778,
+  "all_model_intervals_within_audio": true,
+  "layout": "helixville4",
+  "palette": "warm",
+  "native_render_verified": false,
+  "owner_visual_approval": false
+}

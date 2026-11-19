@@ -1,0 +1,70 @@
+name: Real source CLI performance and musical parity
+on:
+  pull_request:
+    paths: [tools/profile_real_sequence.py, .github/workflows/real-sequence-profile.yml]
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: real-cli-profile-${{ github.head_ref || github.ref_name }}
+  cancel-in-progress: true
+jobs:
+  profile:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 90
+    env:
+      OMP_NUM_THREADS: '2'
+      OPENBLAS_NUM_THREADS: '2'
+      NUMBA_NUM_THREADS: '2'
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: pip
+      - name: Install declared real sequencing runtime
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y ffmpeg time
+          python -m pip install -r requirements-dev.txt gdown==6.4.2
+          python -m compileall -q tools/profile_real_sequence.py
+      - name: Recover exact original real-audio excerpt
+        run: |
+          source_ok=0
+          for attempt in 1 2 3; do
+            if python -m gdown 1XZTghW96Adc27iL4b_7Vi8kBJQzLCM1j -O "$RUNNER_TEMP/profile-source.zip" && \
+               echo "604107acea8e57e8e5436b6bcbcb6f584806a4bed3a85679f72295d340c37b10  $RUNNER_TEMP/profile-source.zip" | sha256sum -c -; then
+              source_ok=1
+              break
+            fi
+            if [ "$attempt" -lt 3 ]; then sleep $((attempt * 15)); fi
+          done
+          test "$source_ok" -eq 1
+          python - <<'PY'
+          import hashlib,os,zipfile
+          from pathlib import Path
+          temp=Path(os.environ["RUNNER_TEMP"])
+          with zipfile.ZipFile(temp/"profile-source.zip") as archive:
+              members=[m for m in archive.infolist() if m.filename.endswith("sources/E14/audio.wav")]
+              if len(members)!=1 or members[0].file_size>128*1024**2:
+                  raise SystemExit("Exactly one bounded original E14 WAV required")
+              audio=archive.read(members[0])
+          if hashlib.sha256(audio).hexdigest()!="8905fcaf105faf5016608517cf2d8a798d1809d8e615f1d4f5bca58e0c0b1171":
+              raise SystemExit("Original source WAV digest mismatch")
+          (temp/"profile-audio.wav").write_bytes(audio)
+          PY
+      - name: Profile actual CLI in alternating former-current-current-former order
+        run: |
+          python -m tools.profile_real_sequence "$RUNNER_TEMP/profile-audio.wav" \
+            --audio-sha256 8905fcaf105faf5016608517cf2d8a798d1809d8e615f1d4f5bca58e0c0b1171 \
+            --output "$GITHUB_WORKSPACE/real-cli-profile"
+      - name: Preserve measurements, actual sequences and CPU profiles
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: real-source-cli-profile-and-parity
+          path: real-cli-profile/
+          if-no-files-found: warn
+          retention-days: 30

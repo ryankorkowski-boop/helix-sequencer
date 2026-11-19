@@ -1,0 +1,368 @@
+{
+  "schema": "helix.vocal-review-timeline.v1",
+  "source_audio_sha256": "50857fef6ac17197821bb6a9ce27f7ebd1c23b7eb8c82521345296bd22087677",
+  "source_clock_sha256": "132f80e1d2ea81467a96c5070d3ba6284b10da653535cffa7a2c90056c619d68",
+  "source_duration_seconds": 120.0,
+  "hop_seconds": 0.01,
+  "independent_backing_verified": false,
+  "exact_phoneme_boundaries_verified": false,
+  "confidence_meaning": "Speech VAD probability where retained; not calibrated singing or singer identity confidence. Blank CSV fields mean unavailable.",
+  "lanes": {
+    "lead": {
+      "active_seconds": 4.72,
+      "source_track_sha256": "492efbc8e1999936090fed08cdeea41f4418e8017bd73a180d4cf6c344c8a036",
+      "speech_vad_available": true,
+      "regions": [
+        {
+          "start_seconds": 0.0,
+          "end_seconds": 0.04,
+          "active": false
+        },
+        {
+          "start_seconds": 0.04,
+          "end_seconds": 0.61,
+          "active": true
+        },
+        {
+          "start_seconds": 0.61,
+          "end_seconds": 0.64,
+          "active": false
+        },
+        {
+          "start_seconds": 0.64,
+          "end_seconds": 0.87,
+          "active": true
+        },
+        {
+          "start_seconds": 0.87,
+          "end_seconds": 2.0,
+          "active": false
+        },
+        {
+          "start_seconds": 2.0,
+          "end_seconds": 2.21,
+          "active": true
+        },
+        {
+          "start_seconds": 2.21,
+          "end_seconds": 2.2600000000000002,
+          "active": false
+        },
+        {
+          "start_seconds": 2.2600000000000002,
+          "end_seconds": 2.38,
+          "active": true
+        },
+        {
+          "start_seconds": 2.38,
+          "end_seconds": 2.42,
+          "active": false
+        },
+        {
+          "start_seconds": 2.42,
+          "end_seconds": 2.47,
+          "active": true
+        },
+        {
+          "start_seconds": 2.47,
+          "end_seconds": 2.48,
+          "active": false
+        },
+        {
+          "start_seconds": 2.48,
+          "end_seconds": 3.0,
+          "active": true
+        },
+        {
+          "start_seconds": 3.0,
+          "end_seconds": 3.11,
+          "active": false
+        },
+        {
+          "start_seconds": 3.11,
+          "end_seconds": 3.56,
+          "active": true
+        },
+        {
+          "start_seconds": 3.56,
+          "end_seconds": 3.62,
+          "active": false
+        },
+        {
+          "start_seconds": 3.62,
+          "end_seconds": 3.8000000000000003,
+          "active": true
+        },
+        {
+          "start_seconds": 3.8000000000000003,
+          "end_seconds": 3.9,
+          "active": false
+        },
+        {
+          "start_seconds": 3.9,
+          "end_seconds": 4.0200000000000005,
+          "active": true
+        },
+        {
+          "start_seconds": 4.0200000000000005,
+          "end_seconds": 4.05,
+          "active": false
+        },
+        {
+          "start_seconds": 4.05,
+          "end_seconds": 4.61,
+          "active": true
+        },
+        {
+          "start_seconds": 4.61,
+          "end_seconds": 25.57,
+          "active": false
+        },
+        {
+          "start_seconds": 25.57,
+          "end_seconds": 25.64,
+          "active": true
+        },
+        {
+          "start_seconds": 25.64,
+          "end_seconds": 25.650000000000002,
+          "active": false
+        },
+        {
+          "start_seconds": 25.650000000000002,
+          "end_seconds": 25.73,
+          "active": true
+        },
+        {
+          "start_seconds": 25.73,
+          "end_seconds": 26.37,
+          "active": false
+        },
+        {
+          "start_seconds": 26.37,
+          "end_seconds": 26.43,
+          "active": true
+        },
+        {
+          "start_seconds": 26.43,
+          "end_seconds": 26.650000000000002,
+          "active": false
+        },
+        {
+          "start_seconds": 26.650000000000002,
+          "end_seconds": 26.72,
+          "active": true
+        },
+        {
+          "start_seconds": 26.72,
+          "end_seconds": 28.6,
+          "active": false
+        },
+        {
+          "start_seconds": 28.6,
+          "end_seconds": 28.71,
+          "active": true
+        },
+        {
+          "start_seconds": 28.71,
+          "end_seconds": 28.78,
+          "active": false
+        },
+        {
+          "start_seconds": 28.78,
+          "end_seconds": 29.66,
+          "active": true
+        },
+        {
+          "start_seconds": 29.66,
+          "end_seconds": 30.150000000000002,
+          "active": false
+        },
+        {
+          "start_seconds": 30.150000000000002,
+          "end_seconds": 30.21,
+          "active": true
+        },
+        {
+          "start_seconds": 30.21,
+          "end_seconds": 74.19,
+          "active": false
+        },
+        {
+          "start_seconds": 74.19,
+          "end_seconds": 74.37,
+          "active": true
+        },
+        {
+          "start_seconds": 74.37,
+          "end_seconds": 105.4,
+          "active": false
+        },
+        {
+          "start_seconds": 105.4,
+          "end_seconds": 105.60000000000001,
+          "active": true
+        },
+        {
+          "start_seconds": 105.60000000000001,
+          "end_seconds": 120.0,
+          "active": false
+        }
+      ]
+    },
+    "backing": {
+      "active_seconds": 5.4,
+      "source_track_sha256": "51ca667835595afaf4634a1b86fd6e318c5ddbe8b9a355b906021c174a0e2b3f",
+      "speech_vad_available": true,
+      "regions": [
+        {
+          "start_seconds": 0.0,
+          "end_seconds": 2.69,
+          "active": false
+        },
+        {
+          "start_seconds": 2.69,
+          "end_seconds": 4.3500000000000005,
+          "active": true
+        },
+        {
+          "start_seconds": 4.3500000000000005,
+          "end_seconds": 4.37,
+          "active": false
+        },
+        {
+          "start_seconds": 4.37,
+          "end_seconds": 4.51,
+          "active": true
+        },
+        {
+          "start_seconds": 4.51,
+          "end_seconds": 15.4,
+          "active": false
+        },
+        {
+          "start_seconds": 15.4,
+          "end_seconds": 15.55,
+          "active": true
+        },
+        {
+          "start_seconds": 15.55,
+          "end_seconds": 15.57,
+          "active": false
+        },
+        {
+          "start_seconds": 15.57,
+          "end_seconds": 16.32,
+          "active": true
+        },
+        {
+          "start_seconds": 16.32,
+          "end_seconds": 95.76,
+          "active": false
+        },
+        {
+          "start_seconds": 95.76,
+          "end_seconds": 95.89,
+          "active": true
+        },
+        {
+          "start_seconds": 95.89,
+          "end_seconds": 96.03,
+          "active": false
+        },
+        {
+          "start_seconds": 96.03,
+          "end_seconds": 96.96000000000001,
+          "active": true
+        },
+        {
+          "start_seconds": 96.96000000000001,
+          "end_seconds": 104.99000000000001,
+          "active": false
+        },
+        {
+          "start_seconds": 104.99000000000001,
+          "end_seconds": 105.09,
+          "active": true
+        },
+        {
+          "start_seconds": 105.09,
+          "end_seconds": 105.86,
+          "active": false
+        },
+        {
+          "start_seconds": 105.86,
+          "end_seconds": 106.08,
+          "active": true
+        },
+        {
+          "start_seconds": 106.08,
+          "end_seconds": 111.13,
+          "active": false
+        },
+        {
+          "start_seconds": 111.13,
+          "end_seconds": 111.49000000000001,
+          "active": true
+        },
+        {
+          "start_seconds": 111.49000000000001,
+          "end_seconds": 111.53,
+          "active": false
+        },
+        {
+          "start_seconds": 111.53,
+          "end_seconds": 111.68,
+          "active": true
+        },
+        {
+          "start_seconds": 111.68,
+          "end_seconds": 115.11,
+          "active": false
+        },
+        {
+          "start_seconds": 115.11,
+          "end_seconds": 115.18,
+          "active": true
+        },
+        {
+          "start_seconds": 115.18,
+          "end_seconds": 115.59,
+          "active": false
+        },
+        {
+          "start_seconds": 115.59,
+          "end_seconds": 115.97,
+          "active": true
+        },
+        {
+          "start_seconds": 115.97,
+          "end_seconds": 115.99000000000001,
+          "active": false
+        },
+        {
+          "start_seconds": 115.99000000000001,
+          "end_seconds": 116.06,
+          "active": true
+        },
+        {
+          "start_seconds": 116.06,
+          "end_seconds": 116.07000000000001,
+          "active": false
+        },
+        {
+          "start_seconds": 116.07000000000001,
+          "end_seconds": 116.36,
+          "active": true
+        },
+        {
+          "start_seconds": 116.36,
+          "end_seconds": 120.0,
+          "active": false
+        }
+      ]
+    }
+  },
+  "timeline_csv_sha256": "fed242cacc53f49b557df41f86b20ad8b10668f3767d6458a6cd2c30ed78b7a4",
+  "timeline_png_sha256": "7cce81390aadfb73d711b17c109ed22852e77b3d6c7cf8974703df1a6f956659"
+}
