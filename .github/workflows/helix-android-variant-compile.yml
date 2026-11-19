@@ -67,19 +67,27 @@ jobs:
           APK="android/app/build/outputs/apk/debug/app-debug.apk"
           test -s "$APK"
           python - "$APK" <<'PY'
-          import sys, zipfile
+          import sys, zipfile, hashlib
+          from pathlib import Path
           apk = sys.argv[1]
           with zipfile.ZipFile(apk) as archive:
               broken = archive.testzip()
               if broken:
                   raise SystemExit(f"APK has corrupt entry: {broken}")
               names = archive.namelist()
-              required = ["AndroidManifest.xml", "classes.dex"]
+              required = ["AndroidManifest.xml", "classes.dex", "assets/helix_instructions.txt"]
               missing = [name for name in required if name not in names]
               if missing:
                   raise SystemExit(f"APK missing required entries: {missing}")
               if not any(name.startswith("assets/") for name in names):
                   raise SystemExit("APK missing assets")
+              manual = archive.read("assets/helix_instructions.txt")
+              source = Path("android/app/src/main/assets/helix_instructions.txt").read_bytes()
+              if manual != source:
+                  raise SystemExit("Packaged instructions differ from shared source")
+              digest = hashlib.sha256(manual).hexdigest()
+              Path("helix-manual.sha256").write_text(digest + "  helix_instructions.txt\n")
+              print(f"Manual SHA256: {digest}")
               print(f"APK ZIP validated: {len(names)} entries, manifest, DEX and assets present")
           PY
           sha256sum "$APK"
@@ -88,6 +96,9 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: helix-android-debug-${{ github.sha }}
-          path: android/app/build/outputs/apk/debug/app-debug.apk
+          path: |
+            android/app/build/outputs/apk/debug/app-debug.apk
+            android/app/src/main/assets/helix_instructions.txt
+            helix-manual.sha256
           if-no-files-found: error
           retention-days: 7
