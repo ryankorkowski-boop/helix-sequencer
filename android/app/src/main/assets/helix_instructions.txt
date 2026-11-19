@@ -1,4 +1,4 @@
-Helix Beta 1.3
+Helix instructions — Beta 1.4 preparation (check installed app version)
 
 Your first Helix show
 
@@ -8,7 +8,7 @@ Your first Helix show
 4. Choose an output folder on desktop. On Android, generated shows stay private until you save or share them.
 5. Keep the default colors and automatic musical response to start. Advanced controls are optional. Neon is only an optional RGB palette.
 6. Generate. Full song is the default. Quick clip sequences only the first ten seconds when enabled; preview length is otherwise separate.
-7. Play the preview, then save the sequence and complete show ZIP. Keep the soundtrack, layout and controller files together.
+7. Request 1–8 variants. In Results, select an individual sequence and use Play preview or Save MP4 when its video is available. A pending or failed video does not invalidate a completed sequence. Save the sequence and complete show ZIP. Keep the soundtrack, layout and controller files together.
 8. Import and check the show in your lighting software before controller playback.
 
 Band performers: in Layout, turn Band performers on to include the performers already present in your selected xLights layout. Turn it off for a lights-only sequence and preview. The choice is remembered. Helixville 4 includes a band; the switch does not add performers to a layout that has none. LOR retains your addressed channels.
@@ -22,3 +22,9 @@ If the preview fails, your completed sequence can still be saved. Read the run r
 Android installation: use the project APK and verify its published checksum. Open it in My Files/Files, allow that trusted app to install it when prompted, and temporarily disable Samsung Auto Blocker if it blocks the install. Recheck its state if necessary and re-enable protection afterward. Keep the old app and back up shows before an update; a different signing certificate cannot update the old installation.
 
 Desktop control from your phone is optional and requires reaching your own Helix desktop server. Local Android sequencing does not require a desktop.
+
+Preview and export notes
+
+Android previews are simulated Helix model previews, not native xLights renders or proof of FSEQ compatibility. Open the exported XSQ with its matching layout and audio in xLights, render there and inspect channel mapping before connecting controllers. AC/LOR mode preserves addressed channels; RGB-only effects are not intended for AC circuits.
+
+For memory-constrained phones, start with one variant and a short preview. Quick clip reduces the sequence to ten seconds; shorter preview duration alone does not shorten full-song analysis. If Android interrupts processing, check Results and the run report for any completed exports. Eight-variant device acceptance and expanded preset verification remain in progress for 1.4.
