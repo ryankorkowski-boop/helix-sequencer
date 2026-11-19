@@ -863,3 +863,6 @@ Commit 97a5c72 preserves primary MP4 fallback even when preview_paths is present
 - [ ] Synchronize in-app instructions, distributed manuals and version labels; verify scrolling and recreation on Android and package the manuals with both installers. Document only verified capabilities; explicitly label pending or experimental features.
 - [ ] Record manual versions and checksums in the release artifact manifest before owner acceptance.
 Mobile checkpoint: 07d1896 resets per-variant encoding progress; device verification pending. EngineService propagates preview_states and aligned paths. No merge/release.
+
+- [x] Confirm desktop and Android share instruction text in source; add desktop scrollbar (8c37f9d).
+- [ ] Verify packaged Windows executable includes shared instruction asset and opens it; verify both platform readers and finalize 1.4 documentation after acceptance.
