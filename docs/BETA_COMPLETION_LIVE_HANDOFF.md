@@ -343,3 +343,7 @@ Mobile checkpoint: 07d1896 resets per-variant encoding progress; device verifica
 
 
 Android manual packaging gate implemented in 442d26c3cdae90c252fd65b8926f056bfd37f5d2: APK asset must match source bytes; SHA256 and manual retained with debug APK. CI and device verification pending; Windows parity remains open.
+
+
+### Beta 1.4 Windows packaging checkpoint
+{"spec_commit":"fe4113264617d20319df4358c34877a921e21bea","workflow_commit":"7e3339d8563d11c5c4d6bab9ff5e11d35439c3e1","workflow":".github/workflows/helix-beta14-windows-candidate.yml","status":"implemented; push build not confirmed; no packaged runtime verification","next_action":"Inspect push Actions run directly; connector commit workflow lookup covers pull-request runs only. Verify ZIP and Windows 11 runtime; no release."}
