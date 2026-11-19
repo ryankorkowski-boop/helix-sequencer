@@ -81,5 +81,12 @@
     "commit": "442d26c3cdae90c252fd65b8926f056bfd37f5d2",
     "status": "implemented; CI pending",
     "checksum": null
+  },
+  "windows_manual_packaging_gate": {
+    "spec_commit": "fe4113264617d20319df4358c34877a921e21bea",
+    "workflow_commit": "7e3339d8563d11c5c4d6bab9ff5e11d35439c3e1",
+    "workflow": ".github/workflows/helix-beta14-windows-candidate.yml",
+    "status": "implemented; push build not confirmed; no packaged runtime verification",
+    "next_action": "Inspect push Actions run directly; connector commit workflow lookup covers pull-request runs only. Verify ZIP and Windows 11 runtime; no release."
   }
 }
