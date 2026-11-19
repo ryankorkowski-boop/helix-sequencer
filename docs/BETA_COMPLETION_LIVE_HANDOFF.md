@@ -420,3 +420,6 @@ Commit `3e23a0d213dbbe024f4e4331eae1b7aea1110ea7` integrates the Infinity native
 
 ### 2026-11-19 — Native timing regression coverage
 Commit `91ce5e23cee31149131f475f793c484148f80385` adds eight pytest cases for independent legacy vocal clocks, nonfinite phonemes and matching populated native timing rows. Execution pending; no new render or acceptance. Infinity run 44448740526 completed but owner rejected the appearance; do not count as approval. Next verify CI, packaged Windows dependencies and Android runtime, then native singer and canonical band proof. No merge or release.
+
+### 2026-11-19 — Native timing interval validation
+Production validator commit `dba9a993` checks finite nonnegative startTime and strictly later endTime for populated matching native timing rows, including mixed legacy/native files. Test commit `1b7ab2d3` adds 12 cases (six malformed intervals, with and without legacy tracks). Full-suite CI discovers these tests; execution not verified here. Compatibility with real native exports must be checked before promotion; zero-duration marks are currently rejected. No new MP4, device acceptance, merge or release.
