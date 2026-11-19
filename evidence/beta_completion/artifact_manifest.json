@@ -102,6 +102,26 @@
     "status": "implemented; CI pending",
     "checksum": null
   },
+  "nine_panel_v5": {
+    "kind": "vivid nine-panel native FSEQ after the AC brightness pass",
+    "owner_approval": false,
+    "preview": {
+      "file": "nine-panel-vivid-preview-30s-crf18.mp4",
+      "sha256": "b843d63c2ed2ac1f66f91221da46797081df1ce93b5861c59686c82a72af43c9",
+      "bytes": 13068064
+    },
+    "full": {
+      "file": "nine-panel-tinsel-tornado-v5-crf18.mp4",
+      "sha256": "d3091e7553190f2d7eeb9f6e86319d62943732684c065dafffeff6ae58f03bf0",
+      "bytes": 88428458
+    },
+    "contact_sheets": {
+      "042": "83fcefc368d7bc100a92ac0223aeac759beabd1392bff261b073ce72f6535b03",
+      "096": "d3f2c7504352552b548efb69227b74a6c10f4f892d8d8af1aedfa8b7cadfafe5",
+      "168": "f009b8030c7bd0ea57c2b16ef220576a3f21eb7dfe9aff22cb46dcf0a732c701"
+    },
+    "directory": "/opt/cursor/artifacts/nine-panel-v5"
+  },
   "stem_metal": {
     "kind": "Demucs drum-stem ride and floor-tom counts",
     "owner_approval": false,

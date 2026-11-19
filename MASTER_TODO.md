@@ -897,7 +897,7 @@ Android manual packaging gate implemented in 442d26c3cdae90c252fd65b8926f056bfd3
 **Changed:** `core/vivid_style.py`, `core/effect_engine.py`, `tools/layout_bench/xlights_fseq.py`, `tests/test_vivid_style.py`.
 **Preserved:** Drummer geometry, hand mapping, Demucs and Whisper. The musical bed function remains and runs only when `HELIX_MUSICAL_BED=1`. `HELIX_VIVID=0` skips the new pass. Group, submodel, and blend keys stay.
 **New:** After the optional bed, the default pass removes it. AC channels chase and alternate banks at intensity 100. RGB hits attack at 100 and decay within 140 ms. Palettes are single saturated colors, rotated per model and section. White is every 17th AC accent. Spiral trees and DNA sculptures can be appended without moving existing channels. AC bulbs that were white or gray draw as saturated color.
-**Evidence:** `tests/test_vivid_style.py`. A 30-second native preview is the visual check; the full-song render follows in the next checkpoint.
+**Evidence:** `tests/test_vivid_style.py` passed. 30-second preview sha256 `b843d63c2ed2ac1f66f91221da46797081df1ce93b5861c59686c82a72af43c9`. Full-song v5 sha256 `d3091e7553190f2d7eeb9f6e86319d62943732684c065dafffeff6ae58f03bf0`, 4116 FSEQ frames, xLights 2026.19. AC lit pixels are fully saturated and brighter than the reference frames. White fraction of lit pixels is 0.
 **Limitations:** The nine-panel picture is a 2D plot of FSEQ pixels, not the reference's perspective camera. Sixteen AC channels cannot match a 36-tree grove in pixel count; they are drawn large so the row reads bright.
 **Deferred:** Replacing the real 256-channel house geometry. That file is not densified.
 **Risks:** Sequences grow by the chase effects. Set `HELIX_VIVID=0` to keep the previous look.

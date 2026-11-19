@@ -395,7 +395,22 @@ Draft PR #250 was not merged. Its layout generator is integrated here with neste
 ### 2026-11-19 — Ride and floor tom on the drum stem
 Stem co-hits now look for a floor-tom body above the kick sub and a ride ping whose centroid stays at or below 5.2 kHz. A hit the main classifier already called a hi-hat or crash is not also labeled a ride. Floor events store `tom_class` 3.0, which the mapper reads as the floor tom. On the cached Tinsel Tornado drum stem: 40 floor toms, 0 of them within 60 ms of a snare, and 1 ride. On Candy Cane Shockwave after Demucs: 6 floor toms and 2 rides, none within 40 ms of a hi-hat. The earlier full-song pass had 0 rides and 2 toms. These counts are detector output, not a transcription.
 
-### 2026-11-19 — Vivid style
+### 2026-11-19 — Vivid style and the v5 nine-panel
+Owner feedback on v4: the designs were too simple and drab, and the first row had to be vivid. The default sequence pass now removes the musical bed, drives AC props at full brightness with chases and alternating banks, and paints RGB from saturated section colors with a fast decay. White is an accent. Spiral groves and DNA pairs are appended behind the generated layouts without renumbering them. The real 256-channel house file is not densified; its bulbs are simulated in saturated color. `HELIX_MUSICAL_BED=1` keeps the bed. `HELIX_VIVID=0` skips the pass.
+
+30-second preview sha256 `b843d63c2ed2ac1f66f91221da46797081df1ce93b5861c59686c82a72af43c9` (13,068,064 bytes). Full song sha256 `d3091e7553190f2d7eeb9f6e86319d62943732684c065dafffeff6ae58f03bf0` (88,428,458 bytes), 1920×1080 H.264 30 fps AAC CRF 18, 205.76 s, xLights 2026.19 FSEQ. Both are in `/opt/cursor/artifacts/nine-panel-v5/`. Contact sheets at 42, 96, and 168 s.
+
+Lit-pixel comparison at a bright moment, luma threshold 28. Reference frames are the whole six-panel picture, so their lit fraction includes the UI.
+
+| Surface | Mean luma | Lit fraction | Saturation of lit | White fraction | Lit luma |
+|---|---:|---:|---:|---:|---:|
+| Ref musical | 21.5 | 0.092 | 0.440 | 0.044 | 94.8 |
+| Ref cinematic | 19.4 | 0.070 | 0.397 | 0.060 | 104.5 |
+| 1 Simple 16ch | 18.3 | 0.068 | 1.000 | 0.000 | 110.8 |
+| 2 Original 256ch | 16.5 | 0.050 | 0.942 | 0.000 | 141.1 |
+| 7 Birdsong | 27.3 | 0.099 | 0.841 | 0.000 | 171.7 |
+
+The AC row is saturated and brighter per lit pixel than the references, with no white wash. The other RGB panels sit lower in lit fraction because the chase keeps black between phrases. Not owner approval.
 Owner feedback on v4: the designs were too simple and drab, and the AC row had to be vivid. The default sequence pass now removes the musical bed, drives AC props at full brightness with chases and alternating banks, and paints RGB from saturated section colors with a fast decay. White is an accent. Spiral groves and DNA pairs can be added behind a layout without renumbering it. `HELIX_MUSICAL_BED=1` keeps the bed. `HELIX_VIVID=0` skips the pass. Not owner approval.
 
 ## Unified native timing integration checkpoint

@@ -229,6 +229,18 @@
     "status": "implemented; CI pending",
     "checksum": null
   },
+  "nine_panel_v5": {
+    "status": "rendered after the vivid pass; not owner approval",
+    "preview_sha256": "b843d63c2ed2ac1f66f91221da46797081df1ce93b5861c59686c82a72af43c9",
+    "preview_bytes": 13068064,
+    "full_sha256": "d3091e7553190f2d7eeb9f6e86319d62943732684c065dafffeff6ae58f03bf0",
+    "full_bytes": 88428458,
+    "duration_s": 205.76,
+    "video": "1920x1080 h264 30fps aac crf18",
+    "xlights_version": "2026.19",
+    "ac_row": "saturated, lit luma above the reference, white fraction 0",
+    "path": "/opt/cursor/artifacts/nine-panel-v5"
+  },
   "stem_metal": {
     "status": "measured on two Demucs drum stems; not a transcription",
     "tinsel_tornado": {"floor": 40, "ride": 1, "floor_near_snare_60ms": 0},
