@@ -35,8 +35,6 @@ assert TOTAL_PROPS == 2048
 
 def coordinates(family, index, count):
     # Deterministic dispersed arrangement with actual Z variation.
-    angle = index * 2.399963229728653 + (sum(map(ord, family)) % 97)
-    radius = 70.0 + 490.0 * math.sqrt((index + .5) / count)
     # Give each family a coherent concentric district rather than random overlap.
     district = next(k for k, spec in enumerate(FAMILIES) if spec[0] == family)
     angle = 2*math.pi*(district + 0.12 + 0.76*(index % 17)/16)/len(FAMILIES)
@@ -149,14 +147,20 @@ def make_layout(output, manifest, size=2048):
     output.parent.mkdir(parents=True,exist_ok=True)
     manifest.parent.mkdir(parents=True,exist_ok=True)
     ET.ElementTree(root).write(output,encoding="utf-8",xml_declaration=True)
-    digest=hashlib.sha256(output.read_bytes()).hexdigest()
+    h=hashlib.sha256()
+    with output.open('rb') as stream:
+        for chunk in iter(lambda: stream.read(1024*1024), b''):
+            h.update(chunk)
+    digest=h.hexdigest()
     meta={"name":"HELIX INFINITY UNIVERSE","panel":9,"tier":size,
           "model_count":len(records),"group_count":len(groups),
           "pixel_count":sum(r["nodes"] for r in records),"rgb_channel_count":next_channel-1,
           "sha256":digest,"families":dict(Counter(r["family"] for r in records)),
           "channel_map":records,"generated_xml":str(output),
           "status":"layout only; musical XSQ, native FSEQ and MP4 require verified Helix/xLights render"}
-    manifest.write_text(json.dumps(meta,indent=2)+"\n")
+    with manifest.open('w', encoding='utf-8') as stream:
+        json.dump(meta, stream, indent=2)
+        stream.write('\n')
     return meta
 
 def main():
