@@ -866,3 +866,6 @@ Mobile checkpoint: 07d1896 resets per-variant encoding progress; device verifica
 
 - [x] Confirm desktop and Android share instruction text in source; add desktop scrollbar (8c37f9d).
 - [ ] Verify packaged Windows executable includes shared instruction asset and opens it; verify both platform readers and finalize 1.4 documentation after acceptance.
+
+
+2026-11-18: Shared instruction source expanded in 5b8f300bb62ddfbfeb44a9813363279ade62be8b with nine preset descriptions, experimental singer provenance, desktop recovery and native export guidance. Source committed; compilation, packaged manuals, checksums and device acceptance remain pending. Next: validate Android compile and desktop packaging; verify readers on devices. No merge/release.
