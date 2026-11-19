@@ -1,0 +1,86 @@
+name: Helix Beta 1.4 Windows candidate
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - integration/unified-beta-completion-20261117
+    paths:
+      - .github/workflows/helix-beta14-windows-candidate.yml
+      - windows_portable.spec
+      - android/app/src/main/assets/helix_instructions.txt
+      - android/app/src/main/assets/helix_legal.txt
+permissions:
+  contents: read
+concurrency:
+  group: helix-beta14-windows-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  windows-portable:
+    runs-on: windows-2022
+    timeout-minutes: 90
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+          cache-dependency-path: requirements-windows-portable.txt
+      - name: Install portable build dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -r requirements-windows-portable.txt
+          python -m pip install pytest
+      - name: Check version and palette regression
+        run: python -m pytest -q tests/test_helix_version.py tests/test_palette_not_white.py
+      - name: Build one-folder portable app
+        run: python -m PyInstaller --noconfirm --clean windows_portable.spec
+      - name: Assemble customer folder
+        shell: pwsh
+        run: |
+          $root = "dist/Helix"
+          foreach ($file in @("Helix.exe", "HelixCLI.exe", "_internal/template.xsq")) {
+            if (-not (Test-Path "$root/$file")) { throw "Missing packaged file: $file" }
+          }
+          $manual = "$root/_internal/android/app/src/main/assets/helix_instructions.txt"
+          $legal = "$root/_internal/android/app/src/main/assets/helix_legal.txt"
+          foreach ($asset in @($manual, $legal)) {
+            if (-not (Test-Path $asset)) { throw "Missing shared asset: $asset" }
+            $source = "android/app/src/main/assets/" + (Split-Path $asset -Leaf)
+            if ((Get-FileHash $asset).Hash -ne (Get-FileHash $source).Hash) { throw "Shared asset mismatch: $asset" }
+          }
+          Copy-Item $manual "$root/helix_instructions.txt"
+          Copy-Item $legal "$root/helix_legal.txt"
+          $digest = (Get-FileHash $manual -Algorithm SHA256).Hash.ToLowerInvariant()
+          "$digest  helix_instructions.txt" | Set-Content -Encoding ascii "$root/helix-manual.sha256"
+          Copy-Item "$root/_internal/template.xsq" "$root/template.xsq" -Force
+          if (Test-Path "$root/_internal/xlights_rgbeffects.xml") {
+            Copy-Item "$root/_internal/xlights_rgbeffects.xml" "$root/xlights_rgbeffects.xml" -Force
+          }
+          foreach ($name in @("WINDOWS_PORTABLE_README.txt", "THIRD_PARTY_LICENSES.md", "NOTICE", "LICENSE", "CHANGELOG.md")) {
+            $source = "$root/_internal/$name"
+            if (Test-Path $source) { Copy-Item $source "$root/$name" -Force }
+          }
+          New-Item -ItemType Directory -Force -Path "$root/outputs" | Out-Null
+      - name: Smoke the packaged worker palette
+        shell: pwsh
+        run: |
+          python tools/palette_smoke.py --output palette-smoke --runner dist/Helix/HelixCLI.exe
+          if ($LASTEXITCODE -ne 0) { throw "Packaged palette smoke failed" }
+      - name: Create one-part zip and checksum
+        shell: pwsh
+        run: |
+          if (Test-Path Helix-Windows-Beta-1.4-candidate.zip) { Remove-Item Helix-Windows-Beta-1.4-candidate.zip -Force }
+          Compress-Archive -Path "dist/Helix" -DestinationPath "Helix-Windows-Beta-1.4-candidate.zip" -CompressionLevel Optimal
+          $hash = (Get-FileHash "Helix-Windows-Beta-1.4-candidate.zip" -Algorithm SHA256).Hash.ToLowerInvariant()
+          "$hash  Helix-Windows-Beta-1.4-candidate.zip" | Set-Content -Encoding ascii Helix-Windows-Beta-1.4-candidate.sha256
+          Get-Item Helix-Windows-Beta-1.4-candidate.zip | Select-Object Name, Length
+      - uses: actions/upload-artifact@v4
+        with:
+          name: Helix-Windows-Beta-1.4-candidate
+          path: |
+            Helix-Windows-Beta-1.4-candidate.zip
+            Helix-Windows-Beta-1.4-candidate.sha256
+            palette-smoke/palette-smoke.json
+          retention-days: 14
+          if-no-files-found: error
+
