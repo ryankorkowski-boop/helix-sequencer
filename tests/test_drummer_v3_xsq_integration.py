@@ -3,119 +3,162 @@ from __future__ import annotations
 import xml.etree.ElementTree as ET
 
 from audio.drum_classification import DrumEvent
-from mapping.drum_mapper import DRUMMER_COMPONENTS, map_events_to_drummer_components, map_events_to_drummer_v3_poses
+from mapping.drum_mapper import (
+    DRUMMER_COMPONENTS,
+    map_events_to_drummer_components,
+    map_events_to_drummer_v3_poses,
+    resolve_drum_streams,
+)
 
-LEGACY_STICK_OR_ARM_TOKENS = ("LEFT_STICK", "RIGHT_STICK", "LEFT_ARM", "RIGHT_ARM")
 CANONICAL_TOMS = (
-    "HX_SNOWMAN_DRUMMER_TOM_HIGH",
-    "HX_SNOWMAN_DRUMMER_TOM_MID",
-    "HX_SNOWMAN_DRUMMER_TOM_FLOOR",
+    "HX_SNOWMAN_DRUMMER_V3_TOM_HIGH",
+    "HX_SNOWMAN_DRUMMER_V3_TOM_MID",
+    "HX_SNOWMAN_DRUMMER_V3_TOM_FLOOR",
 )
 
 
-def test_nine_logical_drummer_components_include_three_toms_and_ride() -> None:
-    assert len(DRUMMER_COMPONENTS) == 9
-    assert len(set(DRUMMER_COMPONENTS)) == 9
-    assert DRUMMER_COMPONENTS[-1] == "HX_SNOWMAN_DRUMMER_RIDE"
+def test_canonical_drummer_has_exactly_eight_components() -> None:
+    assert len(DRUMMER_COMPONENTS) == 8
+    assert len(set(DRUMMER_COMPONENTS)) == 8
     assert all("STICK" not in name and "ARM" not in name for name in DRUMMER_COMPONENTS)
     assert CANONICAL_TOMS == DRUMMER_COMPONENTS[3:6]
     assert not any("TOM_4" in name for name in DRUMMER_COMPONENTS)
 
 
-def test_component_mapper_never_emits_independent_sticks_arms_or_fourth_tom() -> None:
+def test_component_mapper_uses_exact_detected_tom_class_and_cymbal_alternation() -> None:
     events = [
-        DrumEvent(0.1, 0.8, 0.7, {}, 1, "kick"), DrumEvent(0.2, 0.9, 0.8, {}, 2, "snare"),
-        DrumEvent(0.3, 0.6, 0.7, {}, 3, "hihat"), DrumEvent(0.4, 0.7, 0.7, {}, 4, "tom"),
-        DrumEvent(0.5, 0.7, 0.7, {}, 5, "tom"), DrumEvent(0.6, 0.7, 0.7, {}, 6, "tom"),
-        DrumEvent(0.8, 1.0, 0.8, {}, 8, "cymbal"), DrumEvent(0.9, 0.8, 0.8, {}, 9, "cymbal"),
+        DrumEvent(0.1, 0.8, 0.7, {}, 1, "kick"),
+        DrumEvent(0.2, 0.9, 0.8, {}, 2, "snare"),
+        DrumEvent(0.3, 0.6, 0.7, {}, 3, "hihat"),
+        DrumEvent(0.4, 0.7, 0.8, {"tom_class": "high"}, 4, "tom"),
+        DrumEvent(0.5, 0.7, 0.8, {"tom_class": "mid"}, 5, "tom"),
+        DrumEvent(0.6, 0.7, 0.8, {"tom_class": "floor"}, 6, "tom"),
+        DrumEvent(0.8, 0.8, 0.8, {}, 8, "cymbal"),
+        DrumEvent(0.9, 0.8, 0.8, {}, 9, "cymbal"),
     ]
     mapped = map_events_to_drummer_components(events)
-    components = [str(item["component"]) for item in mapped]
-    assert set(components).issubset(set(DRUMMER_COMPONENTS))
-    assert not any(any(token in component for token in LEGACY_STICK_OR_ARM_TOKENS) for component in components)
-    assert components[0:3] == ["HX_SNOWMAN_DRUMMER_KICK", "HX_SNOWMAN_DRUMMER_SNARE", "HX_SNOWMAN_DRUMMER_HI_HAT"]
-    assert components[3:6] == list(CANONICAL_TOMS)
-    assert components[6:8] == ["HX_SNOWMAN_DRUMMER_CYMBAL_LEFT", "HX_SNOWMAN_DRUMMER_CYMBAL_RIGHT"]
-    assert not any("TOM_4" in component for component in components)
+    assert [item["component"] for item in mapped] == [
+        DRUMMER_COMPONENTS[0],
+        DRUMMER_COMPONENTS[1],
+        DRUMMER_COMPONENTS[2],
+        *CANONICAL_TOMS,
+        DRUMMER_COMPONENTS[6],
+        DRUMMER_COMPONENTS[7],
+    ]
 
 
-def test_explicit_tom_classes_map_high_mid_floor() -> None:
+def test_pose_adapter_names_the_three_toms_directly() -> None:
     events = [
         DrumEvent(0.1, 0.7, 0.9, {"tom_class": "high"}, 1, "tom"),
         DrumEvent(0.2, 0.7, 0.9, {"tom_class": "mid"}, 2, "tom"),
         DrumEvent(0.3, 0.7, 0.9, {"tom_class": "floor"}, 3, "tom"),
     ]
-    mapped = map_events_to_drummer_components(events)
-    assert [item["component"] for item in mapped] == list(CANONICAL_TOMS)
-    assert [item["tom_class"] for item in mapped] == ["high", "mid", "floor"]
-
-
-def test_v3_pose_adapter_uses_only_canonical_component_targets() -> None:
-    events = [DrumEvent(0.1, 0.8, 0.7, {}, 1, "kick"), DrumEvent(0.2, 0.9, 0.8, {}, 2, "snare"), DrumEvent(0.3, 0.6, 0.7, {}, 3, "hihat"), DrumEvent(0.4, 0.7, 0.7, {}, 4, "tom"), DrumEvent(0.5, 1.0, 0.8, {}, 5, "cymbal")]
     mapped = map_events_to_drummer_v3_poses(events)
-    for item in mapped:
-        assert str(item["component"]) in DRUMMER_COMPONENTS
-        assert all(token not in str(item["component"]) for token in LEGACY_STICK_OR_ARM_TOKENS)
-        assert "TOM_4" not in str(item["component"])
-        assert list(item["submodels"]) == [item["component"]]
+    assert [item["pose"] for item in mapped] == [
+        "tom_high_hit",
+        "tom_mid_hit",
+        "tom_floor_hit",
+    ]
+    assert [item["component"] for item in mapped] == list(CANONICAL_TOMS)
+    assert all(item["tom_class_source"] == "detected_tom_class" for item in mapped)
+
+
+def test_high_energy_cymbal_does_not_fabricate_a_both_crash() -> None:
+    event = DrumEvent(0.1, 1.0, 0.95, {}, 1, "cymbal")
+    mapped = map_events_to_drummer_v3_poses([event])
+    assert len(mapped) == 1
+    assert mapped[0]["pose"] == "left_crash"
+    assert mapped[0]["components"] == [DRUMMER_COMPONENTS[6]]
+
+
+def test_ambiguous_bus_never_becomes_a_drummer_hit() -> None:
+    streams = {
+        "kick_events": [],
+        "snare_events": [],
+        "tom_events": [],
+        "hihat_events": [],
+        "cymbal_events": [],
+        "drum_bus_events": [
+            DrumEvent(0.1, 0.9, 0.2, {}, 1, "drum_bus"),
+            DrumEvent(0.2, 0.9, 0.2, {}, 2, "drum_bus"),
+        ],
+    }
+    resolved = resolve_drum_streams(streams)
+    assert resolved["fallback_mode"] == "ambiguous_bus_rejected"
+    assert resolved["events"] == []
+    assert resolved["ambiguous_bus_rejected_count"] == 2
 
 
 def test_injection_helper_preserves_existing_xlights_effect_container() -> None:
     from tools.integrate_drummer_v3_into_xsq import _find_or_create_element_effects
+
     root = ET.fromstring("<xsequence><ElementEffects><Element type='model' name='Existing'/></ElementEffects></xsequence>")
     container = _find_or_create_element_effects(root)
     assert container is root.find("ElementEffects")
-    assert [e.get("name") for e in container.findall("Element")] == ["Existing"]
+    assert [element.get("name") for element in container.findall("Element")] == ["Existing"]
 
 
 def test_injection_helper_creates_current_xlights_container_without_legacy_effects() -> None:
     from tools.integrate_drummer_v3_into_xsq import _find_or_create_element_effects
+
     root = ET.fromstring("<xsequence/>")
     container = _find_or_create_element_effects(root)
     assert container.tag == "ElementEffects"
     assert root.find("effects") is None
 
 
-def test_generated_xmodel_contains_all_nine_native_targets() -> None:
-    """The authored ride must exist physically, not merely in a logical cue list."""
-    from pathlib import Path
-    from tools.integrate_drummer_v3_into_xsq import DRUMMER_TARGETS
-
-    xmodel = Path(__file__).resolve().parents[1] / "fixtures/band_geometry/models/HX_SNOWMAN_DRUMMER_V3.xmodel"
-    names = {node.get("name") for node in ET.parse(xmodel).getroot().findall("./subModels/subModel")}
-    assert DRUMMER_TARGETS == set(DRUMMER_COMPONENTS)
-    assert DRUMMER_TARGETS <= names
-    assert DRUMMER_COMPONENTS[-1] in names
-
-
-def test_native_on_effect_emits_percentage_peak_and_decay() -> None:
+def test_xlights_effect_uses_percent_brightness_color_and_pose_metadata() -> None:
     from tools.integrate_drummer_v3_into_xsq import _add_on
+
     layer = ET.Element("EffectLayer")
-    _add_on(layer, 100, 250, .72, "HX_SNOWMAN_DRUMMER_SNARE", "snare", hand="L")
+    _add_on(
+        layer,
+        100,
+        200,
+        0.25,
+        palette_hex="#DC2D1C",
+        source_component=DRUMMER_COMPONENTS[0],
+        source_type="kick",
+        source_pose="kick_hit",
+        role="logical_component",
+    )
     effect = layer.find("Effect")
     assert effect is not None
-    settings = effect.attrib["settings"]
-    assert "E_TEXTCTRL_Eff_On_Start=72" in settings
-    assert "E_TEXTCTRL_Eff_On_End=4" in settings
-    assert "E_SLIDER_Brightness" not in settings
-    assert effect.attrib["palette"].endswith("C_CHECKBOX_Palette1=1")
-    assert effect.get("sourceHand") == "L"
-    assert effect.get("startTime") == "100"
-    assert effect.get("endTime") == "250"
+    settings = effect.get("settings", "")
+    brightness = int(settings.split("E_SLIDER_Brightness=", 1)[1].split(",", 1)[0])
+    assert 68 <= brightness <= 100
+    assert "#DC2D1C" in effect.get("palette", "")
+    assert effect.get("sourcePose") == "kick_hit"
+    assert effect.get("sourceDetector") == "v3_historical_hpss_onset_classifier"
 
 
-def test_deterministic_truth_xsq_contains_nine_real_on_targets() -> None:
-    from tools.export_drummer_ground_truth_xsq import build_drummer_ground_truth_xsq_text
-    root = ET.fromstring(build_drummer_ground_truth_xsq_text(duration=12.0))
-    expected = set(DRUMMER_COMPONENTS)
-    assert root.get("drummerChannels") == "9"
-    assert set(root.find("timingtrack").get("channels", "").split(",")) == {
-        "KICK", "SNARE", "HI_HAT", "TOM_HIGH", "TOM_MID", "TOM_FLOOR",
-        "CYMBAL_LEFT", "CYMBAL_RIGHT", "RIDE",
-    }
-    actual = {item.get("name") for item in root.findall("./ElementEffects/Element")}
-    assert actual == {name.replace("HX_SNOWMAN_DRUMMER_", "HX_SNOWMAN_DRUMMER_V3_") for name in expected}
-    effects = root.findall("./ElementEffects/Element/EffectLayer/Effect")
-    assert effects and all(item.get("name") == "On" for item in effects)
-    assert all("E_TEXTCTRL_Eff_On_Start=" in item.get("settings", "") for item in effects)
-    assert any(item.get("sourcePoseSubmodel") == "HX_SNOWMAN_DRUMMER_V3_RIDE" for item in effects)
+def test_tom_identity_requires_a_resolved_pitch_and_never_cycles():
+    import numpy as np
+    from audio.drummer_v3 import _tom_class_from_spectrum
+    freqs=np.linspace(0,1000,1001)
+    for pitch, expected in [(130,"floor"),(310,"mid"),(480,"high")]:
+        spectrum=np.exp(-((freqs-pitch)/8)**2)
+        name,confidence,hz=_tom_class_from_spectrum(spectrum,freqs)
+        assert name == expected
+        assert abs(hz-pitch)<2 and confidence>.5
+    assert _tom_class_from_spectrum(np.ones_like(freqs),freqs)[0] is None
+
+
+def test_visual_geometry_keeps_instrument_color_separate_from_actuator() -> None:
+    from tools.integrate_drummer_v3_into_xsq import COMPONENT_VISUAL_PARTS
+
+    kick_parts = COMPONENT_VISUAL_PARTS[DRUMMER_COMPONENTS[0]]
+    assert kick_parts == (("HX_SNOWMAN_DRUMMER_V3_KICK_SURFACE", "#DC2D1C"),)
+
+    for tom in DRUMMER_COMPONENTS[3:6]:
+        parts = COMPONENT_VISUAL_PARTS[tom]
+        assert parts[0][0] == f"{tom}_SURFACE"
+        assert parts[0][1] == "#2CB242"
+        assert parts[1][0].endswith("_ARM_STICK_NEUTRAL")
+        assert parts[2][0].endswith("_ARM_STICK_WOOD")
+        assert parts[1][1] != parts[2][1]
+        assert parts[1][1] != "#2CB242"
+
+    hi_hat_parts = COMPONENT_VISUAL_PARTS[DRUMMER_COMPONENTS[2]]
+    assert hi_hat_parts[1][0] == "HX_SNOWMAN_DRUMMER_V3_HI_HAT_FOOT"
+    assert all("ARM_STICK" not in name for name, _ in hi_hat_parts)

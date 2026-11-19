@@ -5,7 +5,7 @@ from dataclasses import dataclass
 from typing import Iterable
 
 from audio.drum_classification import DrumEvent
-from mapping.drum_mapper import drummer_component_for_event, tom_class_for_event
+from mapping.drum_mapper import drummer_component_for_event, tom_class_for_event, _explicit_tom_class
 
 
 @dataclass(frozen=True)
@@ -20,36 +20,41 @@ class DrummerMotionConfig:
 
 
 def assign_hand(event: DrumEvent, previous_hand: str | None = None) -> str:
-    """Readable limb assignment for a single strike.
+    """Preserve the historical drummer-motion hand contract.
 
-    This is performance metadata only. Physical illumination still routes
-    through the canonical drummer components, never independent stick channels.
+    This is performance metadata only; physical illumination still routes through
+    the canonical eight integrated components, never independent stick channels.
     """
     if event.drum_type == "kick":
         return "foot"
     if event.drum_type == "snare":
         return "left"
-    if event.drum_type in {"hihat", "ride"}:
+    if event.drum_type == "hihat":
         return "left" if previous_hand == "right" else "right"
     if event.drum_type == "cymbal":
         return "right"
+    if event.drum_type == "tom":
+        return "both"
     return "both"
 
 
 def build_drummer_motion(events: Iterable[DrumEvent], config: DrummerMotionConfig = DrummerMotionConfig()) -> list[dict[str, object]]:
     """Create visual hit timing and deterministic hand assignment.
 
-    Preserve physical routing. Alternate snare hands on every strike and
-    align crash hands with the actual alternating physical crash target.
-    No independent stick channels are created.
+    Physical routing remains the canonical eight-component drummer. Hand is a
+    performance attribute used by contacting-stick composites: rapid snare
+    repeats alternate left/right hands, and rapid cymbal repeats alternate the
+    left/right physical cymbals. No independent stick channels are created.
     """
     rng = random.Random(config.seed)
     motions: list[dict[str, object]] = []
     tom_index = 0
     cymbal_index = 0
-    snare_index = 0
-    previous_limb: str | None = None
+    previous_by_type: dict[str, int] = {}
+    hand_by_type: dict[str, str] = {"snare": "left", "cymbal": "right"}
     for event in sorted(events, key=lambda item: item.timestamp_ms):
+        if event.drum_type == "drum_bus" or (event.drum_type == "tom" and _explicit_tom_class(event)[0] is None):
+            continue
         if event.drum_type == "tom":
             component = drummer_component_for_event(event, event_index=tom_index)
             tom_class = tom_class_for_event(event, tom_index)
@@ -62,20 +67,14 @@ def build_drummer_motion(events: Iterable[DrumEvent], config: DrummerMotionConfi
             component = drummer_component_for_event(event)
             tom_class = None
 
-        hand: str | None = None
-        if event.drum_type == "snare":
-            hand = "L" if snare_index % 2 == 0 else "R"
-            snare_index += 1
-        elif event.drum_type == "cymbal":
-            hand = "L" if component.endswith("_LEFT") else "R"
-        # ``limb`` is the readable contract shared with assign_hand: alternating
-        # stick hits report the hand actually used, the kick reports the foot,
-        # and every other strike keeps the historical assignment.
-        if hand is not None:
-            limb = "left" if hand == "L" else "right"
+        previous = previous_by_type.get(event.drum_type)
+        if event.drum_type in {"snare", "cymbal"}:
+            if previous is not None and event.timestamp_ms - previous <= config.rapid_alternation_threshold_ms:
+                hand_by_type[event.drum_type] = "right" if hand_by_type[event.drum_type] == "left" else "left"
+            hand = hand_by_type[event.drum_type]
+            previous_by_type[event.drum_type] = event.timestamp_ms
         else:
-            limb = assign_hand(event, previous_limb)
-        previous_limb = limb
+            hand = assign_hand(event)
 
         sign = -1 if rng.random() < 0.5 else 1
         humanize = sign * rng.randint(config.humanize_min_ms, config.humanize_max_ms)
@@ -87,7 +86,6 @@ def build_drummer_motion(events: Iterable[DrumEvent], config: DrummerMotionConfi
             "component": component,
             "tom_class": tom_class,
             "hand": hand,
-            "limb": limb,
             "start_ms": start,
             "anticipation_ms": strike - config.anticipation_ms,
             "strike_ms": strike,

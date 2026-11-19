@@ -69,12 +69,8 @@ class DrumMappingTests(unittest.TestCase):
         self.assertEqual(assign_hand(_event(100, "snare")), "left")
         self.assertEqual(assign_hand(_event(100, "cymbal")), "right")
         motions = build_drummer_motion([_event(100, "snare"), DrumEvent(.25, .8, .7, {"tom_class": "mid"}, 1, "tom")])
-        # ``hand`` carries the L/R stick code for alternating snare and crash
-        # strikes; ``limb`` is the readable assignment shared with assign_hand.
-        self.assertEqual(motions[0]["hand"], "L")
-        self.assertEqual(motions[0]["limb"], "left")
-        self.assertIsNone(motions[1]["hand"])
-        self.assertEqual(motions[1]["limb"], "both")
+        self.assertEqual(motions[0]["hand"], "left")
+        self.assertEqual(motions[1]["hand"], "both")
         self.assertLess(motions[0]["start_ms"], motions[0]["strike_ms"])
 
     def test_effect_cues_expose_spatial_and_piano_hooks(self) -> None:
