@@ -37,7 +37,7 @@ jobs:
       - name: Validate deterministic layout and channel isolation
         run: |
           python -m pytest -q tests/test_infinity_showcase_layout.py tests/test_validate_xsq_native_timing.py
-          python tools/build_infinity_showcase_layout.py --size 2048 --output test_runs/infinity_bells/full/xlights_rgbeffects.xml --manifest test_runs/infinity_bells/full/manifest.json
+          python tools/build_infinity_showcase_layout.py --size 10240 --output test_runs/infinity_bells/full/xlights_rgbeffects.xml --manifest test_runs/infinity_bells/full/manifest.json
           python tools/build_infinity_showcase_layout.py --size 512 --output test_runs/infinity_bells/pilot/xlights_rgbeffects.xml --manifest test_runs/infinity_bells/pilot/manifest.json
       - name: Download verified real Bells of Mathmas recording from Drive
         run: |
@@ -51,7 +51,7 @@ jobs:
       - name: Run current Helix master profile on actual generated 512-prop Infinity layout
         run: |
           mkdir -p test_runs/infinity_bells/pilot/sequences
-          python main.py --profile master -- --template template.xsq --audio test_runs/infinity_bells/media/bells_pilot.mp3 --layout-file test_runs/infinity_bells/pilot/xlights_rgbeffects.xml --output-dir test_runs/infinity_bells/pilot/sequences --variants 1 --single --no-prompt --no-save-settings --no-workspace-history --audio-reactive-profile showcase --spatial-awareness 0.85 --max-layers-per-prop 3
+          python main.py --profile master -- --template template.xsq --audio test_runs/infinity_bells/media/bells_pilot.mp3 --layout-file test_runs/infinity_bells/pilot/xlights_rgbeffects.xml --output-dir test_runs/infinity_bells/pilot/sequences --variants 1 --single --no-prompt --no-save-settings --no-workspace-history --audio-reactive-profile showcase --spatial-awareness 0.85 --max-layers-per-prop 6 --layering-mode smart_layer --chase-style wave --flash-guard 0.48 --palette-mode workspace_match
       - name: Require actual Infinity model effects — reject untouched-template renders
         run: |
           python - <<'PY'
