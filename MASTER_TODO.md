@@ -856,3 +856,10 @@ Commit 97a5c72 preserves primary MP4 fallback even when preview_paths is present
 **Evidence:** GitHub Actions job conclusions for those run ids. Not a device test and not owner approval.
 **Limitations:** The Android APK is a CI debug build of `40dca014`, not proof of eight-variant playback.
 **Deferred:** Inspect `61982611` when its remaining jobs finish. Replace panel 5 with the canonical band.
+
+
+### Beta 1.4 documentation release gate — owner directive 2026-11-18
+- [ ] Update and verify Android and Windows user manuals for Beta 1.4: installation, nine bundled layout presets, audio import, AC/LOR and RGB modes, band toggle, eight-variant selection/playback/export, native XSQ/FSEQ versus simulated previews, troubleshooting, memory limits, licensing and donations.
+- [ ] Synchronize in-app instructions, distributed manuals and version labels; verify scrolling and recreation on Android and package the manuals with both installers. Document only verified capabilities; explicitly label pending or experimental features.
+- [ ] Record manual versions and checksums in the release artifact manifest before owner acceptance.
+Mobile checkpoint: 07d1896 resets per-variant encoding progress; device verification pending. EngineService propagates preview_states and aligned paths. No merge/release.
