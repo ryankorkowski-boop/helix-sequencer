@@ -230,6 +230,7 @@
     "checksum": null
   },
   "layer_spatial_checkpoint": {
+    "commit": "b706a874",
     "status": "short clip accepted by xLights 2026.19; not a full-song render and not owner approval",
     "xlights_version": "2026.19",
     "frames": 40,

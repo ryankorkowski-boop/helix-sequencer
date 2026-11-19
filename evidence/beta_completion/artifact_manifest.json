@@ -103,6 +103,7 @@
     "checksum": null
   },
   "native_short_clip": {
+    "commit": "b706a874",
     "kind": "2 second xLights 2026.19 FSEQ of modelGroup, submodel, and blend XML",
     "path": "evidence/beta_completion/layer_blend_clip/",
     "xsq_sha256": "359ca891db31ad4620a6a35186e269d5d8bd42608db0b4720021eb8a4dbba52d",

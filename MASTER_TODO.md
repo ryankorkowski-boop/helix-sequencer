@@ -896,6 +896,7 @@ Android manual packaging gate implemented in 442d26c3cdae90c252fd65b8926f056bfd3
 {"spec_commit":"fe4113264617d20319df4358c34877a921e21bea","workflow_commit":"7e3339d8563d11c5c4d6bab9ff5e11d35439c3e1","workflow":".github/workflows/helix-beta14-windows-candidate.yml","status":"implemented; push build not confirmed; no packaged runtime verification","next_action":"Inspect push Actions run directly; connector commit workflow lookup covers pull-request runs only. Verify ZIP and Windows 11 runtime; no release."}
 
 ### 2026-11-19 — Nested groups, spatial routing, and xLights layer blend
+**Commit:** `b706a874` on `integration/unified-beta-completion-20261117`.
 **Goal:** Let effects target nested groups and submodels, route props from 3D layout coordinates, and write the layer-blend and Canvas XML that xLights 2026.19 accepts. Check the washed-white v3 panels against the musical bed.
 **Changed files/modules:** `core/model_parser.py`, `core/helix_flow_spatial_graph.py`, `core/effect_layering_engine.py`, `core/musical_bed.py`, `xlights/layout_sync.py`, `xlights/layer_blend.py`, `tests/test_native_layer_targets.py`, `evidence/beta_completion/layer_blend_clip/`.
 **Preserved:** WorldPos model coordinates used by the existing spatial tests. Layer role names and the internal blend labels Normal, Overlay, Screen, and Additive. Drummer hand alternation, Demucs, and Whisper. `ensure_master_view_models` no longer rewrites `modelGroup` or `submodel` back to `model`. PR #188 and PR #250 were not merged. No release.

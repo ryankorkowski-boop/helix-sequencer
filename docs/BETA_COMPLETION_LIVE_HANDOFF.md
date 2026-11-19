@@ -363,6 +363,7 @@ Owner rejected the nine-panel benchmark (zero panels passed) and the local Tinse
 
 
 ### 2026-11-19 — xLights groups, submodels, and layer blend
+Commit `b706a874` on `integration/unified-beta-completion-20261117`.
 The washed-out v3 panels match the musical bed. Its On effect stored an inline palette string. xLights resolves `palette` as an index into `ColorPalettes`, so the bed fell through to palette 0, which is white on the real templates. The bed now adds a dark `#1A2744` palette, points at that index, and sets `T_CHOICE_LayerMethod=Average` on its own bottom layer. Spatial effects get `T_CHECKBOX_Canvas=1` and `T_LayersSelected=1`. Those keys are the ones in xLights 2026.19 `Blending.json` and the BlendingPanel help text inside the 2026.19 binary. Overlay maps to Average and Screen maps to Highlight, because those Helix names are not xLights labels.
 
 Layout sync now writes `type="modelGroup"` and `type="submodel"` instead of forcing every row to `type="model"`. Nested groups expand to their member models. Submodel and group positions come from geometry centroids, and the six snowmen order left to right by that X: Bassist, Keyboardist, Lead, Harmony, Guitarist, Drummer. Drummer hand mapping, Demucs, and Whisper are unchanged. PR #250 was not merged.
