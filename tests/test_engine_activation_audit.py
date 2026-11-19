@@ -171,3 +171,9 @@ def test_promotion_flag_without_template_path_is_not_reported_as_promoted():
     report = SimpleNamespace(invoked=True, xsq_written=True, orchestrated_xsq_path=None, error=None)
     audit = build_engine_activation_audit(["--promote-orchestrated-template"], report)
     assert audit["engines"]["nine_pass_orchestrator"]["promoted_to_renderer"] is False
+
+
+def test_explicit_orchestrator_disable_overrides_stale_promotion_report():
+    report = SimpleNamespace(invoked=True, xsq_written=True, orchestrated_xsq_path="old.xsq")
+    audit = build_engine_activation_audit(["--no-effects-orchestrator", "--promote-orchestrated-template"], report)
+    assert audit["engines"]["nine_pass_orchestrator"]["promoted_to_renderer"] is False
