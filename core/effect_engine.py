@@ -12811,6 +12811,12 @@ def run_variant(
         base.indent_xml(xsq.root)
     except Exception:
         pass
+    head = xsq.root.find("head")
+    if head is not None and getattr(audio, "dur_s", 0):
+        duration_node = head.find("sequenceDuration")
+        if duration_node is None:
+            duration_node = ET.SubElement(head, "sequenceDuration")
+        duration_node.text = f"{float(audio.dur_s):.3f}"
     xsq.tree.write(out_path, encoding="utf-8", xml_declaration=True)
     try:
         from core.musical_bed import apply_musical_bed
