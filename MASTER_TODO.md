@@ -892,6 +892,16 @@ Android manual packaging gate implemented in 442d26c3cdae90c252fd65b8926f056bfd3
 **Limitations:** The v2 16-panel layout module and its runner do not apply onto this branch. Floor-tom *detection* from a full mix is still not proven on Tinsel Tornado; explicit floor-tom labels still route to the floor tom. Android device playback and a Windows EXE were not rebuilt in this pass.
 **Risks:** The musical bed adds effects to every model gap and can look like a wash if section energy is high. Level is capped at 28 percent.
 
+### 2026-11-19 — Stem ride and floor-tom detection
+**Goal:** Find ride and floor-tom hits on a Demucs drum stem without relabeling snares and hi-hats.
+**Changed:** `audio/drum_stem_cohits.py`, `mapping/drum_mapper.py`, `tests/test_stem_metal.py`.
+**Preserved:** Kick and snare co-hit rules. The classifier still runs first. Demucs and Whisper requirements are unchanged. Drummer geometry and crash hand alternation are unchanged.
+**New:** A 110–220 Hz body that is louder than the kick sub and the snare wires, and not on top of a kick or snare, is a floor tom. A 2.8–6.2 kHz ping louder than the 9–14 kHz wash, with a high-band centroid at or below 5.2 kHz, is a ride unless that moment is already a hi-hat or crash. The mapper treats tom_class 3.0 as floor.
+**Evidence:** Synthetic burst test passed. Tinsel Tornado stem: floor 40, ride 1. Candy Cane Shockwave stem: floor 6, ride 2. Floor hits were not within 60 ms of a snare.
+**Limitations:** These are not a human transcription. Many ride-like pings were already classified as hi-hats and were left as hi-hats.
+**Deferred:** A second-pass reclassification of hi-hats into ride when a pattern is steady.
+**Risks:** Floor-tom count can rise on bass-heavy stems. The wire and kick exclusions are there to limit that.
+
 ### 2026-11-19 — Infinity Showcase groups, submodels, and spatial order
 **Goal:** Bring the Infinity layout onto this branch and target it with the new group, submodel, blend, and spatial graph.
 **Changed:** `tools/build_infinity_showcase_layout.py`, `tools/infinity_showcase_clip.py`, `tests/test_infinity_showcase_layout.py`, `tests/test_infinity_showcase_targeting.py`, `.github/workflows/helix-infinity-layout.yml`, `docs/INFINITY_SHOWCASE_INTEGRATION.md`, `evidence/beta_completion/infinity_clip/`.

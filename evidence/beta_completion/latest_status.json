@@ -229,6 +229,12 @@
     "status": "implemented; CI pending",
     "checksum": null
   },
+  "stem_metal": {
+    "status": "measured on two Demucs drum stems; not a transcription",
+    "tinsel_tornado": {"floor": 40, "ride": 1, "floor_near_snare_60ms": 0},
+    "candy_cane_shockwave": {"floor": 6, "ride": 2, "ride_near_hat_40ms": 0},
+    "previous_tinsel": {"ride": 0, "tom": 2}
+  },
   "infinity_showcase": {
     "status": "layout integrated; 2s native clip accepted; full Bells song not rendered",
     "pr": 250,

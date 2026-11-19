@@ -102,6 +102,14 @@
     "status": "implemented; CI pending",
     "checksum": null
   },
+  "stem_metal": {
+    "kind": "Demucs drum-stem ride and floor-tom counts",
+    "owner_approval": false,
+    "tinsel_tornado_audio_sha256": "8b8caddd6c292a13995bde0e80ac66f948246bd634278ab4ade1a82163aa7086",
+    "tinsel_tornado": {"floor": 40, "ride": 1},
+    "candy_cane_shockwave_audio_sha256": "4918dbc6ceb0c69e7e8663936d241fd0993fef1fe8f3197da31d6e569cca31ff",
+    "candy_cane_shockwave": {"floor": 6, "ride": 2}
+  },
   "infinity_clip": {
     "kind": "2 second xLights 2026.19 mouth-submodel clip",
     "owner_approval": false,

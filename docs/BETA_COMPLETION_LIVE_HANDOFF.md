@@ -392,5 +392,8 @@ Panel 8 is the brightest and is red, yellow, and cyan, not white. Contact sheets
 ### 2026-11-19 — Infinity Showcase on this branch
 Draft PR #250 was not merged. Its layout generator is integrated here with nested `HX_INFINITY_DISTRICTS`, singing-face Mouth and Eyes submodels, spatial face order, and the 2026.19 blend keys. The draft's private audio download was not copied. xLights 2026.19 accepted a 2 second 128-prop clip. Mouth-only FSEQ sha256 `aa3554e0a1f84b12ab6e9db9bb9364ba4221e6bdce8087bddcebaf4e8acf1941`: mouth 255, eyes 0. See `docs/INFINITY_SHOWCASE_INTEGRATION.md`. Not owner approval.
 
+### 2026-11-19 — Ride and floor tom on the drum stem
+Stem co-hits now look for a floor-tom body above the kick sub and a ride ping whose centroid stays at or below 5.2 kHz. A hit the main classifier already called a hi-hat or crash is not also labeled a ride. Floor events store `tom_class` 3.0, which the mapper reads as the floor tom. On the cached Tinsel Tornado drum stem: 40 floor toms, 0 of them within 60 ms of a snare, and 1 ride. On Candy Cane Shockwave after Demucs: 6 floor toms and 2 rides, none within 40 ms of a hi-hat. The earlier full-song pass had 0 rides and 2 toms. These counts are detector output, not a transcription.
+
 ## Unified native timing integration checkpoint
 Commit `3e23a0d213dbbe024f4e4331eae1b7aea1110ea7` integrates the Infinity native timing-row recognition into the unified validator, scopes legacy phoneme indexes and ordering per timing track, and rejects non-finite timing values. PR #250 remains unmerged. Tests not executed in this checkpoint; next add regression coverage for independent tracks, native rows and NaN/Infinity, then run focused CI and verify a real native export. No device, video or release approval claimed.

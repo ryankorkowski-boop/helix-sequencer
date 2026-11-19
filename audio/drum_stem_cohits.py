@@ -54,9 +54,9 @@ def detect_stem_cohits(y, sr, existing=(), config: StemCohitConfig = StemCohitCo
     report = {
         "method": SOURCE,
         "config": asdict(config),
-        "added": {"kick": 0, "snare": 0},
-        "measured": {"kick": 0, "snare": 0},
-        "deduped": {"kick": 0, "snare": 0},
+        "added": {"kick": 0, "snare": 0, "floor": 0, "ride": 0},
+        "measured": {"kick": 0, "snare": 0, "floor": 0, "ride": 0},
+        "deduped": {"kick": 0, "snare": 0, "floor": 0, "ride": 0},
     }
     if y.size == 0 or sr <= 0 or y.size < config.n_fft:
         return [], report
@@ -77,13 +77,55 @@ def detect_stem_cohits(y, sr, existing=(), config: StemCohitConfig = StemCohitCo
     wires = _peaks(w_rise, w_energy, config.snare_wire_rise_db, config.level_window_db, wait)
     tol = max(1, round(config.pair_tolerance_ms / frame_ms))
     snares = np.asarray([b for b in bodies if wires.size and np.min(np.abs(wires - b)) <= tol], dtype=int)
-    report["measured"] = {"kick": int(kicks.size), "snare": int(snares.size)}
-    have = {"kick": [], "snare": []}
+    # Floor tom body sits above the kick sub. A hit only counts when the
+    # 110-220 Hz body is louder than the 35-80 Hz sub, so kicks stay kicks.
+    sub_energy, _sub_rise = _band_rise(spec, freqs, (35.0, 80.0), ref)
+    floor_energy, floor_rise = _band_rise(spec, freqs, (110.0, 220.0), ref)
+    floors = _peaks(floor_rise, floor_energy, 8.0, config.level_window_db, wait)
+    floors = np.asarray([
+        frame for frame in floors
+        if floor_energy[frame] >= sub_energy[frame] + 3.0
+        and floor_energy[frame] >= w_energy[frame] + 6.0
+        and (kicks.size == 0 or np.min(np.abs(kicks - frame)) * frame_ms > 50.0)
+        and (snares.size == 0 or np.min(np.abs(snares - frame)) * frame_ms > 50.0)
+    ], dtype=int)
+    # A ride is a stick ping in 2.8-6.2 kHz that is stronger than the
+    # 9-14 kHz wash. A crash is the other way around, and snare wires
+    # are excluded by the snare frames already measured.
+    ping_energy, ping_rise = _band_rise(spec, freqs, (2800.0, 6200.0), ref)
+    wash_energy, wash_rise = _band_rise(spec, freqs, (9000.0, 14000.0), ref)
+    rides = _peaks(ping_rise, ping_energy, 7.0, config.level_window_db, wait)
+    high = freqs >= 2000.0
+    high_weight = spec[high].sum(axis=0) + 1e-10
+    high_centroid = (freqs[high, None] * spec[high]).sum(axis=0) / high_weight
+    rides = np.asarray([
+        frame for frame in rides
+        if ping_energy[frame] >= wash_energy[frame] + 6.0
+        and ping_rise[frame] >= wash_rise[frame] + 3.0
+        and high_centroid[frame] <= 5200.0
+        and (snares.size == 0 or np.min(np.abs(snares - frame)) * frame_ms > 40.0)
+    ], dtype=int)
+    report["measured"] = {
+        "kick": int(kicks.size),
+        "snare": int(snares.size),
+        "floor": int(floors.size),
+        "ride": int(rides.size),
+    }
+    have = {"kick": [], "snare": [], "floor": [], "ride": []}
     for event in existing:
-        if event.drum_type in have:
-            have[event.drum_type].append(event.timestamp_ms)
+        family = "floor" if event.drum_type == "tom" and str(event.frequency_band_info.get("tom_class", "")) in {"3", "3.0", "floor"} else event.drum_type
+        if family in have:
+            have[family].append(event.timestamp_ms)
+        if event.drum_type in {"cymbal", "hihat"}:
+            have["ride"].append(event.timestamp_ms)
     added = []
-    for family, frames, energy, rise in (("kick", kicks, k_energy, k_rise), ("snare", snares, b_energy, b_rise)):
+    families = (
+        ("kick", kicks, k_energy, k_rise, "kick", None),
+        ("snare", snares, b_energy, b_rise, "snare", None),
+        ("floor", floors, floor_energy, floor_rise, "tom", 3.0),
+        ("ride", rides, ping_energy, ping_rise, "ride", None),
+    )
+    for family, frames, energy, rise, drum_type, tom_class in families:
         loud = float(np.percentile(energy, 99)) if energy.size else 0.0
         prior = np.asarray(sorted(have[family]), dtype=float)
         for index, frame in enumerate(frames):
@@ -98,9 +140,11 @@ def detect_stem_cohits(y, sr, existing=(), config: StemCohitConfig = StemCohitCo
                 "band_rise_db": round(float(rise[frame]), 2),
                 "band_level_db": round(float(energy[frame]), 2),
             }
+            if tom_class is not None:
+                info["tom_class"] = tom_class
             added.append(DrumEvent(
                 round(ms / 1000.0, 4), round(velocity, 3), round(confidence, 3),
-                info, -1, family, SOURCE,
+                info, -1, drum_type, SOURCE,
             ))
             report["added"][family] += 1
     added.sort(key=lambda event: event.timestamp)
