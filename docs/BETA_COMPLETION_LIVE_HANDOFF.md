@@ -337,3 +337,6 @@ Commit `40dca014` finished with 15 successful checks. Push run `44406112861` pas
 - [ ] Synchronize in-app instructions, distributed manuals and version labels; verify scrolling and recreation on Android and package the manuals with both installers. Document only verified capabilities; explicitly label pending or experimental features.
 - [ ] Record manual versions and checksums in the release artifact manifest before owner acceptance.
 Mobile checkpoint: 07d1896 resets per-variant encoding progress; device verification pending. EngineService propagates preview_states and aligned paths. No merge/release.
+
+
+2026-11-18: Shared instruction source expanded in 5b8f300bb62ddfbfeb44a9813363279ade62be8b with nine preset descriptions, experimental singer provenance, desktop recovery and native export guidance. Source committed; compilation, packaged manuals, checksums and device acceptance remain pending. Next: validate Android compile and desktop packaging; verify readers on devices. No merge/release.
