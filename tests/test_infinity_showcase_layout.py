@@ -45,3 +45,14 @@ def test_geometry_is_truly_volumetric_and_reproducible(tmp_path):
         assert int(m.get('parm2'))==len(zs)
     known=set(names)
     assert all(set(g.get('models').split(','))<=known for g in root.findall('./modelGroups/modelGroup'))
+
+
+def test_magical_extreme_scale(tmp_path):
+    meta=make_layout(tmp_path/'extreme.xml',tmp_path/'extreme.json',10240)
+    assert meta['model_count']==10240
+    assert meta['pixel_count']==790080
+    assert meta['rgb_channel_count']==2370240
+    root=ET.parse(tmp_path/'extreme.xml').getroot()
+    groups=root.findall('./modelGroups/modelGroup')
+    assert sum(g.get('name','').startswith('HX_INFINITY_MAGIC_') for g in groups)==6
+    assert len({r['name'] for r in meta['channel_map']})==10240
