@@ -41,3 +41,10 @@ Duration: 156.000 seconds; MP3, 3,620,694 bytes. Source recording is fetched in 
 - Initial MP4 had 52.7s video vs 42.0s audio; local extracted pilot was losslessly remuxed/cut to exactly 42s video and audio for user preview (not committed to GitHub/Drive).
 - Visual quality review: FAIL owner-ready extreme standard. Many small sparse flashing white points; rendered shapes don't convincingly demonstrate double helixes, voxels, tunnels, saturated palettes or depth. Report flags excessive flash-like events 12.55/sec vs <=2.7 target, quality 94.5 below vendor threshold 96, audit 84.1 below 90, 16,993 rejected effects above 12,000 maximum. Birdsong disabled; replace layering and template palette active; no full 2,048-prop XSQ yet.
 - Next iteration must enable smart-layer, a color-forward palette, spatial chases, birdsong as applicable, eliminate over-whitening and flash density, fix geometry visualization then retest. Do not call early technical MP4 approved or a native xLights render. Native XSQ/FSEQ still missing.
+
+
+## 10,240-prop expansion
+- [x] Implement fivefold model scaling, spatial districts, sectors and rings.
+- [x] Configure smart layering, wave chases and flash guard for Bells pilot.
+- [ ] Verify 10,240-model generation in CI and inspect pilot MP4 for color and shape visibility.
+- [ ] Enable and verify Birdsong and role routing; render full 10,240-model full song; verify native XSQ/FSEQ and duration. No release without owner approval.
