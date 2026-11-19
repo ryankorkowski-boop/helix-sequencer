@@ -271,7 +271,10 @@ class HelixGui(tk.Tk):
         window.title("Helix Instructions")
         window.geometry("720x560")
         viewer = tk.Text(window, wrap=tk.WORD, bg="#101b30", fg="#e7f1ff")
-        viewer.pack(fill=tk.BOTH, expand=True)
+        scrollbar = ttk.Scrollbar(window, orient=tk.VERTICAL, command=viewer.yview)
+        scrollbar.pack(side=tk.RIGHT, fill=tk.Y)
+        viewer.configure(yscrollcommand=scrollbar.set)
+        viewer.pack(side=tk.LEFT, fill=tk.BOTH, expand=True)
         viewer.insert("1.0", instructions.read_text(encoding="utf-8"))
         viewer.configure(state=tk.DISABLED)
 
