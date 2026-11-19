@@ -30,6 +30,15 @@ for relative in (
 ):
     add_file(relative)
 
+# The desktop reader uses the same source as Android.
+for relative in (
+    "android/app/src/main/assets/helix_instructions.txt",
+    "android/app/src/main/assets/helix_legal.txt",
+):
+    if not (root / relative).is_file():
+        raise FileNotFoundError(f"Missing shared help asset: {relative}")
+    add_file(relative)
+
 options = json.loads((root / "config/gui_options.json").read_text(encoding="utf-8"))
 for item in options["layouts"] + options["stages"]:
     relative = item["path"]
