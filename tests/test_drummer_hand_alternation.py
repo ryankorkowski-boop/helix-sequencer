@@ -8,7 +8,7 @@ def test_alternating_hands_across_slow_and_fast_strikes():
     motions = build_drummer_motion(events)
     for kind in ("snare", "cymbal"):
         hits = [m for m in motions if m["drum_type"] == kind]
-        assert [m["hand"] for m in hits] == ["L", "R", "L", "R"]
+        assert [m["hand"] for m in hits] == ["left", "right", "left", "right"]
         if kind == "cymbal":
             assert [m["component"].rsplit("_", 1)[-1] for m in hits] == ["LEFT", "RIGHT", "LEFT", "RIGHT"]
     assert motions == build_drummer_motion(events)
@@ -20,11 +20,11 @@ def test_export_mapping_preserves_hand_assignment():
               for kind in ("snare", "cymbal") for t in (.1, .8, 1.6, 2.4)]
     mapped = map_events_to_drummer_components(events)
     for kind in ("snare", "cymbal"):
-        assert [m["hand"] for m in mapped if m["drum_type"] == kind] == ["L", "R", "L", "R"]
+        assert [m["hand"] for m in mapped if m["drum_type"] == kind] == ["left", "right", "left", "right"]
 
 
 def test_interleaved_instrument_candidates_cluster_independently():
-    from core.drummer_v3_analysis import Candidate, DrumType, _cluster_candidates
+    from audio.archive.drummer_v3_features import Candidate, DrumType, _cluster_candidates
     candidates = [
         Candidate(10, .10, DrumType.SNARE, .8, "snare_a"),
         Candidate(11, .11, DrumType.KICK, .8, "kick"),
@@ -64,7 +64,7 @@ def test_explicit_ride_has_independent_target_and_effect():
     streams = empty_drum_streams()
     streams["ride_events"].append(DrumEvent(1., .8, .9, {}, 1, "ride", "explicit_test"))
     result = resolve_drum_streams(streams)
-    assert result["drummer_component_events"][0]["component"] == "HX_SNOWMAN_DRUMMER_RIDE"
+    assert result["drummer_component_events"][0]["component"] == "HX_SNOWMAN_DRUMMER_V3_RIDE"
     assert build_drum_effect_cues(result["events"])[0]["effect"] == "ride_ping"
 
 

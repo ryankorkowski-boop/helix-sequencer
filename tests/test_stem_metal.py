@@ -33,8 +33,8 @@ def test_stem_separates_floor_tom_and_ride_from_kick():
     floors = [event for event in added if event.drum_type == "tom"]
     rides = [event for event in added if event.drum_type == "ride"]
     assert floors[0].frequency_band_info["tom_class"] == 3.0
-    assert drummer_component_for_event(floors[0]) == "HX_SNOWMAN_DRUMMER_TOM_FLOOR"
-    assert drummer_component_for_event(rides[0]) == "HX_SNOWMAN_DRUMMER_RIDE"
+    assert drummer_component_for_event(floors[0]) == "HX_SNOWMAN_DRUMMER_V3_TOM_FLOOR"
+    assert drummer_component_for_event(rides[0]) == "HX_SNOWMAN_DRUMMER_V3_RIDE"
     assert report["measured"]["floor"] >= 1
     assert report["measured"]["ride"] >= 1
     # The 55 Hz burst is a kick body, not a floor tom.

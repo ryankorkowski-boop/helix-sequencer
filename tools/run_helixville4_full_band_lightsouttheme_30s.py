@@ -8,7 +8,6 @@ from pathlib import Path
 from typing import Sequence
 
 from tools.build_helixville4_full_band_layout import build_full_band_layout
-from tools.audio_excerpt import extract, active_window, timestamp
 
 ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_OUTPUT_DIR = ROOT / "test_runs" / "helixville4_full_band_lightsouttheme_30s"
@@ -26,11 +25,33 @@ def _sequence_path(output_dir: Path, audio: Path, profile: str) -> Path:
     return output_dir / f"{audio.stem},{profile}.xsq"
 
 
-def _trim_audio_to_30s(audio: Path, output_dir: Path, *, dry_run: bool = False,
-                       start: float = 0, end: float = 30) -> Path:
-    target = output_dir / f"{audio.stem}_{start:g}-{end:g}s.wav"
-    if not dry_run:
-        extract(audio, target, start=start, end=end)
+def _trimmed_audio_path(output_dir: Path, source_audio: Path = DEFAULT_AUDIO) -> Path:
+    return output_dir / f"{source_audio.stem}_30s.mp3"
+
+
+def _trim_audio_to_30s(audio: Path, output_dir: Path, *, dry_run: bool = False) -> Path:
+    """Create a genuine, bounded audio excerpt; never rename a full song as 30s."""
+    target = _trimmed_audio_path(output_dir, audio)
+    if dry_run:
+        return target
+    if not audio.is_file() or not audio.stat().st_size:
+        raise FileNotFoundError(f"Required source song missing or empty: {audio}")
+    import imageio_ffmpeg
+
+    target.parent.mkdir(parents=True, exist_ok=True)
+    temporary = target.with_name(target.stem + ".partial.mp3")
+    try:
+        command = [
+            imageio_ffmpeg.get_ffmpeg_exe(), "-nostdin", "-hide_banner", "-loglevel", "error",
+            "-y", "-i", str(audio), "-t", "30", "-vn",
+            "-codec:a", "libmp3lame", "-qscale:a", "2", str(temporary),
+        ]
+        result = subprocess.run(command, cwd=ROOT, capture_output=True, text=True)
+        if result.returncode or not temporary.is_file() or temporary.stat().st_size == 0:
+            raise RuntimeError(f"Failed to trim real audio to a 30-second clip: {result.stderr[-2000:]}")
+        temporary.replace(target)
+    finally:
+        temporary.unlink(missing_ok=True)
     return target
 
 
@@ -102,19 +123,13 @@ def run_full_band_lightsouttheme_30s(
     width: int = 960,
     height: int = 540,
     dry_run: bool = False,
-    start: float = 0,
-    end: float = 30,
-    select_active: bool = False,
 ) -> dict[str, object]:
     output_dir = output_dir.resolve()
     output_dir.mkdir(parents=True, exist_ok=True)
 
-    selection = active_window(audio) if select_active else None
-    if selection:
-        start, end = selection['start_seconds'], selection['end_seconds']
     layout_payload = build_full_band_layout(output_dir)
     layout = output_dir / "xlights_rgbeffects.xml"
-    audio_30s = _trim_audio_to_30s(audio.resolve(), output_dir, dry_run=dry_run, start=start, end=end)
+    audio_30s = _trim_audio_to_30s(audio.resolve(), output_dir, dry_run=dry_run)
     xsq = _sequence_path(output_dir, audio_30s, profile)
 
     sequence_command = build_sequence_command(
@@ -140,11 +155,8 @@ def run_full_band_lightsouttheme_30s(
     payload: dict[str, object] = {
         "schema": "helixville4.full_band_lightsouttheme_30s.v1",
         "status": "commands_completed" if not dry_run else "dry_run",
-        "duration_seconds_target": end - start,
-        "source_start_seconds": start,
-        "source_end_seconds": end,
-        "active_window_selection": selection,
-        "native_render": False,
+        "audio_trim_method": "ffmpeg_30s_transcode" if not dry_run else "planned",
+        "duration_seconds_target": 30,
         "audio": str(audio_30s),
         "layout": str(layout),
         "sequence": str(xsq),
@@ -160,7 +172,7 @@ def run_full_band_lightsouttheme_30s(
         },
         "notes": [
             "The generated layout uses the approved Helixville4 full snowman band custom models.",
-            "Audio is verified and losslessly trimmed to the selected 30–42-second interval before sequencing. This runner produces a diagnostic Python preview; use tools.native_preview for a native final export.",
+            "The input is transcoded to an actual at-most-30-second MP3 segment; no full-song placeholder is accepted.",
         ],
     }
     report = output_dir / "full_band_lightsouttheme_30s.run.json"
@@ -178,9 +190,6 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument("--width", type=int, default=960)
     parser.add_argument("--height", type=int, default=540)
     parser.add_argument("--dry-run", action="store_true")
-    parser.add_argument("--start", type=timestamp, default=0)
-    parser.add_argument("--end", type=timestamp, default=30)
-    parser.add_argument("--select-active", action="store_true", help="Select the existing ranker's best 36s activity window")
     return parser
 
 
@@ -195,7 +204,6 @@ def main(argv: Sequence[str] | None = None) -> int:
         width=args.width,
         height=args.height,
         dry_run=args.dry_run,
-        start=args.start, end=args.end, select_active=args.select_active,
     )
     print(json.dumps(payload, indent=2, sort_keys=True))
     return 0

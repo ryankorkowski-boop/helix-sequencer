@@ -29,7 +29,7 @@ def assign_hand(event: DrumEvent, previous_hand: str | None = None) -> str:
         return "foot"
     if event.drum_type == "snare":
         return "left"
-    if event.drum_type == "hihat":
+    if event.drum_type in {"hihat", "ride"}:
         return "left" if previous_hand == "right" else "right"
     if event.drum_type == "cymbal":
         return "right"
@@ -41,17 +41,17 @@ def assign_hand(event: DrumEvent, previous_hand: str | None = None) -> str:
 def build_drummer_motion(events: Iterable[DrumEvent], config: DrummerMotionConfig = DrummerMotionConfig()) -> list[dict[str, object]]:
     """Create visual hit timing and deterministic hand assignment.
 
-    Physical routing remains the canonical eight-component drummer. Hand is a
-    performance attribute used by contacting-stick composites: rapid snare
-    repeats alternate left/right hands, and rapid cymbal repeats alternate the
-    left/right physical cymbals. No independent stick channels are created.
+    Physical routing remains the canonical nine-component drummer. Hand is a
+    performance attribute used by contacting-stick composites: snare strikes
+    alternate left/right hands and crashes alternate the left/right physical
+    cymbals on every strike. No independent stick channels are created.
     """
     rng = random.Random(config.seed)
     motions: list[dict[str, object]] = []
     tom_index = 0
     cymbal_index = 0
-    previous_by_type: dict[str, int] = {}
-    hand_by_type: dict[str, str] = {"snare": "left", "cymbal": "right"}
+    snare_index = 0
+    previous_hand: str | None = None
     for event in sorted(events, key=lambda item: item.timestamp_ms):
         if event.drum_type == "drum_bus" or (event.drum_type == "tom" and _explicit_tom_class(event)[0] is None):
             continue
@@ -67,14 +67,16 @@ def build_drummer_motion(events: Iterable[DrumEvent], config: DrummerMotionConfi
             component = drummer_component_for_event(event)
             tom_class = None
 
-        previous = previous_by_type.get(event.drum_type)
-        if event.drum_type in {"snare", "cymbal"}:
-            if previous is not None and event.timestamp_ms - previous <= config.rapid_alternation_threshold_ms:
-                hand_by_type[event.drum_type] = "right" if hand_by_type[event.drum_type] == "left" else "left"
-            hand = hand_by_type[event.drum_type]
-            previous_by_type[event.drum_type] = event.timestamp_ms
+        # Staging contract: the snare alternates hands on every strike, slow or
+        # fast, and each crash is struck by the hand on its own physical side.
+        if event.drum_type == "snare":
+            hand = "left" if snare_index % 2 == 0 else "right"
+            snare_index += 1
+        elif event.drum_type == "cymbal":
+            hand = "left" if component.endswith("_LEFT") else "right"
         else:
-            hand = assign_hand(event)
+            hand = assign_hand(event, previous_hand)
+        previous_hand = hand
 
         sign = -1 if rng.random() < 0.5 else 1
         humanize = sign * rng.randint(config.humanize_min_ms, config.humanize_max_ms)

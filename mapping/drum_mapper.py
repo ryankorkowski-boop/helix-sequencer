@@ -11,9 +11,10 @@ DRUM_SUBMODEL_BY_TYPE = {
     "tom": "tom",
     "hihat": "hi_hat",
     "cymbal": "cymbal",
+    "ride": "ride",
     "drum_bus": "drum_bus",
 }
-DRUM_PRIORITY = {"kick": 0, "snare": 1, "cymbal": 2, "tom": 3, "hihat": 4, "drum_bus": 5}
+DRUM_PRIORITY = {"kick": 0, "snare": 1, "cymbal": 2, "tom": 3, "hihat": 4, "ride": 4, "drum_bus": 5}
 DRUMMER_V3_MODEL = "HX_SNOWMAN_DRUMMER_V3"
 DRUMMER_COMPONENTS = tuple(
     f"{DRUMMER_V3_MODEL}_{name}"
@@ -26,9 +27,11 @@ DRUMMER_COMPONENTS = tuple(
         "TOM_FLOOR",
         "CYMBAL_LEFT",
         "CYMBAL_RIGHT",
+        "RIDE",
     )
 )
-KICK, SNARE, HI_HAT, TOM_HIGH, TOM_MID, TOM_FLOOR, CYMBAL_LEFT, CYMBAL_RIGHT = DRUMMER_COMPONENTS
+# The owner's nine-cue kit: kick, snare, hi-hat, three toms, two crashes, ride.
+KICK, SNARE, HI_HAT, TOM_HIGH, TOM_MID, TOM_FLOOR, CYMBAL_LEFT, CYMBAL_RIGHT, RIDE = DRUMMER_COMPONENTS
 TOM_COMPONENT_BY_CLASS = {"high": TOM_HIGH, "mid": TOM_MID, "floor": TOM_FLOOR}
 TOM_POSE_BY_CLASS = {
     "high": "tom_high_hit",
@@ -40,6 +43,7 @@ DRUMMER_V3_POSE_BY_TYPE = {
     "kick": "kick_hit",
     "snare": "snare_hit",
     "hihat": "hi_hat_pulse",
+    "ride": "ride_hit",
 }
 DRUMMER_V3_DURATION_BY_POSE = {
     "kick_hit": 150,
@@ -50,6 +54,7 @@ DRUMMER_V3_DURATION_BY_POSE = {
     "tom_floor_hit": 175,
     "left_crash": 320,
     "right_crash": 320,
+    "ride_hit": 180,
 }
 
 
@@ -197,21 +202,28 @@ def schedule_drum_events(
         ),
     )
 
+    # Independent instruments interleave in time, so duplicates of one physical
+    # target are merged against that target's last hit, not the last global hit.
     merged: list[DrumEvent] = []
+    last_merged: dict[tuple[str, str], int] = {}
     for event in sorted_events:
+        key = _physical_hit_key(event)
+        index = last_merged.get(key)
         if (
-            merged
-            and _physical_hit_key(event) == _physical_hit_key(merged[-1])
-            and event.timestamp_ms - merged[-1].timestamp_ms <= config.merge_window_ms
+            index is not None
+            and event.timestamp_ms - merged[index].timestamp_ms <= config.merge_window_ms
         ):
-            previous = merged[-1]
-            merged[-1] = (
-                event
-                if (event.velocity, event.confidence) > (previous.velocity, previous.confidence)
-                else previous
-            )
+            previous = merged[index]
+            if (event.velocity, event.confidence) > (previous.velocity, previous.confidence):
+                merged[index] = event
             continue
+        last_merged[key] = len(merged)
         merged.append(event)
+    merged.sort(key=lambda event: (
+        event.timestamp_ms,
+        DRUM_PRIORITY.get(event.drum_type, 9),
+        -event.velocity,
+    ))
 
     scheduled: list[DrumEvent] = []
     last_by_target: dict[tuple[str, str], DrumEvent] = {}
@@ -342,6 +354,8 @@ def _pose_components(
     if event.drum_type == "cymbal":
         component = CYMBAL_LEFT if pose == "left_crash" else CYMBAL_RIGHT
         return (component,), None, "deterministic_cymbal_alternation"
+    if event.drum_type == "ride":
+        return (RIDE,), None, None
     if event.drum_type == "drum_bus":
         return (), None, "ambiguous_bus_rejected"
     return (), None, "unknown_rejected"
@@ -388,10 +402,14 @@ def map_events_to_drummer_v3_poses(events: Iterable[DrumEvent]) -> list[dict[str
         if not components:
             continue
 
+        # Staging metadata, not an acoustic fact: the snare alternates hands on
+        # every strike and a crash is struck by the hand on its own side.
         hand = None
         if event.drum_type == "snare":
             hand = "left" if snare_index % 2 == 0 else "right"
             snare_index += 1
+        elif event.drum_type == "cymbal":
+            hand = "left" if components[0] == CYMBAL_LEFT else "right"
 
         mapped.append(
             {
@@ -472,7 +490,7 @@ def resolve_drum_streams(
     fallback_cymbals: Iterable[int] = (),
     config: DrumMappingConfig = DrumMappingConfig(),
 ) -> dict[str, object]:
-    """Resolve only typed drum evidence into the eight physical components.
+    """Resolve only typed drum evidence into the nine physical components.
 
     drum_bus is diagnostic evidence, not a musical event. It is always rejected.
     This prevents ambiguous guitar/piano/intro transients from being turned into
