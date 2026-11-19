@@ -35,7 +35,7 @@ jobs:
       - name: Download verified real Bells of Mathmas recording from Drive
         run: |
           mkdir -p test_runs/infinity_bells/media
-          gdown --fuzzy 'https://drive.google.com/file/d/1Zjyz9b-V0SdJ-p9K2FN6ryUR2H88DELG/view' -O 'test_runs/infinity_bells/media/Bells of Mathmas.mp3'
+          gdown 1Zjyz9b-V0SdJ-p9K2FN6ryUR2H88DELG -O 'test_runs/infinity_bells/media/Bells of Mathmas.mp3'
           echo 'beb2a064595a64d4924847ccd68ca0f2897d5de3ae5064e6e2023a68b7b8ce8a  test_runs/infinity_bells/media/Bells of Mathmas.mp3' | sha256sum -c -
       - name: Extract 42-second real-song pilot
         run: |
