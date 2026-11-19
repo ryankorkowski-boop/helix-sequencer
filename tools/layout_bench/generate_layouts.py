@@ -1027,9 +1027,11 @@ def write_layout_xml(layout: Layout, path: Path) -> None:
         for sub_name, line0 in spec["submodels"]:
             ET.SubElement(el, "subModel", {"name": sub_name, "layout": "horizontal", "type": "ranges", "line0": line0})
     groups = ET.SubElement(root, "modelGroups")
+    positions = {spec["name"]: (spec["cx"], spec["cy"]) for spec in layout.models}
     for name, members in layout.groups:
-        xs = [spec["cx"] for spec in layout.models if spec["name"] in set(members)]
-        ys = [spec["cy"] for spec in layout.models if spec["name"] in set(members)]
+        points = [positions[member] for member in dict.fromkeys(members) if member in positions]
+        xs = [point[0] for point in points]
+        ys = [point[1] for point in points]
         centrex = f"{(sum(xs) / len(xs)):.3f}" if xs else "0"
         centrey = f"{(sum(ys) / len(ys)):.3f}" if ys else "0"
         ET.SubElement(
