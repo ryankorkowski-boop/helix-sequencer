@@ -8,6 +8,7 @@ from types import SimpleNamespace
 
 from core.run_config import RunConfig
 from core.sequence_builder import (
+    ORCHESTRATOR_ONLY_FLAGS,
     _orchestrator_template_promotion_enabled,
     _promote_orchestrated_template,
 )
@@ -45,7 +46,13 @@ def test_explicit_opt_in_round_trips_into_builder_flag():
 def test_parsed_unflagged_cli_defaults_to_sidecar_only():
     config = RunConfig.from_engine_args("master", ["--audio", "song.wav", "--template", "original.xsq"])
     assert config.promote_orchestrated_template is False
-    assert _promote_orchestrated_template(config.to_engine_args(), _successful_report()) == config.to_engine_args()
+    engine_args = config.to_engine_args()
+    forwarded = _promote_orchestrated_template(engine_args, _successful_report())
+    # Orchestrator-only switches are consumed by the builder and never reach the
+    # effect engine; everything else, including the user's template, is untouched.
+    assert forwarded == [arg for arg in engine_args if arg not in ORCHESTRATOR_ONLY_FLAGS]
+    assert forwarded[forwarded.index("--template") + 1] == "original.xsq"
+    assert "output/song.orchestrated.xsq" not in forwarded
 
 
 def test_explicit_promotion_replaces_template_and_removes_internal_flag():

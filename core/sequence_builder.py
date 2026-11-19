@@ -963,11 +963,6 @@ def run_profile(profile_id: str | None, engine_args: list[str] | None = None) ->
                     layout, ctx, lor_mode=lor_source is not None,
                     preview_seconds=preview_seconds,
                 )
-            # Optional birdsong post-run hook (guarded by explicit engine flag)
-            try:
-                _run_birdsong_hook(config, engine_args, ctx)
-            except Exception as exc:  # pragma: no cover - safe guard
-                print(f"birdsong: post-run hook failed: {exc}", file=sys.stderr)
         finally:
             changed_artifacts = _record_changed_artifacts(ctx, artifact_roots, artifact_snapshot)
             ctx.record_artifact("configured_output_root", config.output_root)

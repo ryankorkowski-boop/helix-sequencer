@@ -176,8 +176,11 @@ def test_sequence_builder_direct_lor_path_without_xlights(monkeypatch, tmp_path:
 
     class Context:
         manifest_path = tmp_path / "manifest.json"
+        run_dir = tmp_path
         def record_artifact(self, *args):
             snapshots.append(args)
+        def record_warning(self, message):
+            snapshots.append(("warning", message))
         def finalize(self, **kwargs):
             snapshots.append(("finished", kwargs))
 
@@ -212,7 +215,6 @@ def test_sequence_builder_direct_lor_path_without_xlights(monkeypatch, tmp_path:
                         staticmethod(lambda *_args: types.SimpleNamespace(output_root=output)))
     monkeypatch.setattr(sequence, "_apply_prime_beat_grid_defaults",
                         lambda _id, args: list(args))
-    monkeypatch.setattr(sequence, "_run_birdsong_hook", lambda *args: None)
 
     sequence.run_profile("master", [
         "--helix-lor-source-lms", str(original),

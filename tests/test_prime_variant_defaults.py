@@ -56,7 +56,10 @@ class PrimeVariantDefaultsTests(unittest.TestCase):
             current = parents[current]
             if isinstance(current, ast.If):
                 guards.append(ast.unparse(current.test))
-        self.assertTrue(any("HELIX_USE_DEMUCS" in guard for guard in guards))
+        # Production (require_neural_stems) always separates with Demucs. On the
+        # bounded offline path Demucs stays an explicit HELIX_USE_DEMUCS opt-in.
+        self.assertTrue(any("require_neural_stems or demucs_opt_in" in guard for guard in guards))
+        self.assertIn("demucs_opt_in = os.environ.get('HELIX_USE_DEMUCS'", ast.unparse(fn))
 
     def test_local_stem_cache_requires_source_identity(self):
         source = (ENGINE.parent / "audio_intelligence.py").read_text(encoding="utf-8")
@@ -64,7 +67,10 @@ class PrimeVariantDefaultsTests(unittest.TestCase):
         fn = next(node for node in tree.body if isinstance(node, ast.FunctionDef)
                   and node.name == "build_stem_analysis")
         body = ast.unparse(fn)
-        self.assertIn('hashlib.sha256()', body)
+        self.assertIn('source_sha256 = _file_sha256(audio_path)', body)
+        self.assertIn('hashlib.sha256()', ast.unparse(next(
+            node for node in tree.body if isinstance(node, ast.FunctionDef)
+            and node.name == "_file_sha256")))
         self.assertIn("source_sha256", body)
         self.assertIn("manifest.get(", body)
         self.assertIn("st_mtime_ns", body)
