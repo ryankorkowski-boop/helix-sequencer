@@ -10,4 +10,6 @@ Pillow>=10.2
 PyYAML>=6.0
 requests>=2.34.2
 openai-whisper>=20240930
+torch>=2.2
+demucs>=4.0.1
 pyinstaller>=6.10

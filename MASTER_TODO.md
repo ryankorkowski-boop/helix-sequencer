@@ -874,5 +874,14 @@ Mobile checkpoint: 07d1896 resets per-variant encoding progress; device verifica
 Android manual packaging gate implemented in 442d26c3cdae90c252fd65b8926f056bfd37f5d2: APK asset must match source bytes; SHA256 and manual retained with debug APK. CI and device verification pending; Windows parity remains open.
 
 
+### 2026-11-19 — Owner rejections and required Demucs/Whisper
+**Goal:** Record that the nine-panel benchmark and the local v2 16-panel pilot are rejected, and stop production sequencing from silently analyzing the full mix.
+**Changed files/modules:** `core/audio_intelligence.py`, `core/effect_engine.py`, `audio/drum_detection.py`, `audio/drum_stem_cohits.py`, `requirements.txt`, `requirements-windows-portable.txt`, `windows_portable.spec`, `tests/test_neural_stems_required.py`, `tests/test_audio.py`, both evidence JSON files, and this ledger.
+**Preserved:** Diagnostic HPSS remains available only when `require_neural_stems=False`. Missing audio still returns an empty analysis. Moises remains an explicit optional separator. Whisper transcripts stay labeled CANDIDATE. No merge and no release.
+**New:** The default stem path requires Demucs htdemucs, caches stems by source SHA256, and raises `NeuralStemRequired` if Demucs or Whisper is missing or fails. Drum classification reads the drum stem and may add kick/snare co-hits only on that separated stem. Whisper reads the vocal stem.
+**Evidence:** Targeted tests in this commit. The rejected nine-panel file remains at `/cursor/stores/self/beta14-nine-panel/nine-panel-tinsel-tornado-native-fseq.mp4` and is not approval.
+**Limitations:** Demucs and Whisper model weights are not bundled here. A full-song run will download them on first use. The canonical six-member band, floor-tom detection, and crash-hand alternation from the rejected pilot are not integrated. Layouts are not vendor-dense.
+**Regression risks:** Any production sequence now fails until Demucs and Whisper can run. Windows portable builds become much larger. Cached stems are reused only when the source SHA256 matches.
+
 ### Beta 1.4 Windows packaging checkpoint
 {"spec_commit":"fe4113264617d20319df4358c34877a921e21bea","workflow_commit":"7e3339d8563d11c5c4d6bab9ff5e11d35439c3e1","workflow":".github/workflows/helix-beta14-windows-candidate.yml","status":"implemented; push build not confirmed; no packaged runtime verification","next_action":"Inspect push Actions run directly; connector commit workflow lookup covers pull-request runs only. Verify ZIP and Windows 11 runtime; no release."}

@@ -116,7 +116,7 @@ class AudioIntelligenceTests(unittest.TestCase):
             burst = 0.9 if idx % 4000 < 180 else 0.2
             values.append((0.28 * math.sin((2.0 * math.pi * 220.0 * t))) + (burst * math.sin((2.0 * math.pi * 440.0 * t)) * 0.4))
         path = self._write_wave(values, sample_rate=sr)
-        result = audio_intelligence.analyze_audio_file(path, enable_lyrics=False)
+        result = audio_intelligence.analyze_audio_file(path, enable_lyrics=False, require_neural_stems=False)
 
         self.assertEqual(result.metadata["analysis_schema"], "helix.audio_analysis.v1")
         self.assertTrue(result.onset_events)
@@ -146,6 +146,7 @@ class AudioIntelligenceTests(unittest.TestCase):
                 max_candidate_events_per_second=24,
             ),
             enable_lyrics=False,
+            require_neural_stems=False,
         )
 
         self.assertTrue(result.raw_candidates["pitch_candidates"])

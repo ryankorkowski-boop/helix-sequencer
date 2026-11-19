@@ -1,6 +1,6 @@
 # Unified Beta Completion — Live Handoff
 
-Updated: 2026-11-18 UTC. Status: IN PROGRESS; no release approval. Current code commit: `9d622d67b4efc748210c0626accc8d0dd06d8a3b`. Read the 2026-11-18 phone-preview section at the end before the older baseline. Local focused tests passed on Python 3.11.18 and 3.12.3. GitHub Actions for that SHA are not yet inspected. No approval MP4, native FSEQ, device pass, or release.
+Updated: 2026-11-19 UTC. Status: IN PROGRESS; no release approval. Owner rejected the nine-panel benchmark and the local Tinsel Tornado v2 16-panel pilot. Zero panels passed. Do not treat those videos as approval. Current code commit: `9d622d67b4efc748210c0626accc8d0dd06d8a3b`. Read the 2026-11-18 phone-preview section at the end before the older baseline. Local focused tests passed on Python 3.11.18 and 3.12.3. GitHub Actions for that SHA are not yet inspected. No approval MP4, native FSEQ, device pass, or release.
 
 ## Baseline
 Integration branch: `integration/unified-beta-completion-20261117`, created from PR #248 head `bb41f078a92e02ccb1980785efe1c1be741a9d16`. This is a stacked audit branch, NOT the default branch. No merge or publication authorized.
@@ -344,6 +344,9 @@ Mobile checkpoint: 07d1896 resets per-variant encoding progress; device verifica
 
 Android manual packaging gate implemented in 442d26c3cdae90c252fd65b8926f056bfd37f5d2: APK asset must match source bytes; SHA256 and manual retained with debug APK. CI and device verification pending; Windows parity remains open.
 
+
+### 2026-11-19 — Rejections and required neural stems
+Owner rejected the nine-panel benchmark (zero panels passed) and the local Tinsel Tornado v2 16-panel pilot. Those files are not approval. Production sequencing now requires Demucs htdemucs and Whisper on the vocal stem. A missing tool raises `NeuralStemRequired` instead of analyzing the full mix. Stems and the CANDIDATE transcript cache by source SHA256. Drum hits are read from the Demucs drum stem, with kick/snare co-hit recovery only on that stem. Windows portable requirements now include torch, demucs, and whisper, and the spec no longer excludes them. Canonical six-member band, floor tom, crash-hand alternation, and vendor-dense layouts are still open. No release.
 
 ### Beta 1.4 Windows packaging checkpoint
 {"spec_commit":"fe4113264617d20319df4358c34877a921e21bea","workflow_commit":"7e3339d8563d11c5c4d6bab9ff5e11d35439c3e1","workflow":".github/workflows/helix-beta14-windows-candidate.yml","status":"implemented; push build not confirmed; no packaged runtime verification","next_action":"Inspect push Actions run directly; connector commit workflow lookup covers pull-request runs only. Verify ZIP and Windows 11 runtime; no release."}

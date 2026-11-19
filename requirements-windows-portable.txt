@@ -1,5 +1,4 @@
-# Windows 10/11 portable beta. Same runtime as the November one-part zip,
-# without optional Whisper/PyTorch transcription.
+# Windows 10/11 portable beta. Demucs and Whisper are required production tools.
 numpy==2.2.6
 scipy>=1.11
 librosa==0.10.2.post1
@@ -13,3 +12,6 @@ PyYAML>=6.0
 requests>=2.34.2
 pyinstaller>=6.10
 zstandard>=0.23
+torch>=2.2
+demucs>=4.0.1
+openai-whisper>=20240930

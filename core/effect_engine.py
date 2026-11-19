@@ -10765,13 +10765,20 @@ def run_variant(
             "sentiment_score": 0,
         },
     }
-    if tuning.sync_lyrics_heads or bool(matrix_intelligence_payload.get("matrix_available", False)):
-        lyric_events = ai.extract_lyrics_events(
-            audio_path=audio_path,
-            use_moises=bool(tuning.use_moises),
-            api_key=tuning.moises_api_key,
-            log_fn=log,
-        )
+    vocal_stem = stem_analysis.stems.get("vocals")
+    if vocal_stem is None:
+        raise ai.NeuralStemRequired("Whisper requires the Demucs vocal stem.")
+    lyric_events = ai.extract_lyrics_events(
+        audio_path=vocal_stem,
+        use_moises=False,
+        api_key=tuning.moises_api_key,
+        log_fn=log,
+        required=True,
+        cache_dir=Path("RenderCache") / "stems",
+        source_sha256=stem_analysis.source_sha256,
+    )
+    log(f"Lyric transcript label: CANDIDATE events={len(lyric_events)}")
+    if lyric_events or tuning.sync_lyrics_heads or bool(matrix_intelligence_payload.get("matrix_available", False)):
         if lyric_events:
             log(f"Lyric events detected: {len(lyric_events)}")
             lyric_interpreter_payload = lyric_interpreter.interpret_lyric_events(

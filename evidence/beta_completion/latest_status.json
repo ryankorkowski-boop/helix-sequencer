@@ -7,6 +7,10 @@
   "source_pr": 248,
   "release_label": "Beta Version 1.4",
   "release_approved": false,
+  "owner_rejections": [
+    "2026-11-18 nine-panel benchmark: zero panels passed",
+    "2026-11-18 Tinsel Tornado v2 16-panel pilot: rejected"
+  ],
   "tests_run_this_session": [
     {
       "workflow": "Helix Unified Beta Integration",

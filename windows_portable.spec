@@ -90,7 +90,8 @@ a = Analysis(
     hookspath=[],
     hooksconfig={},
     runtime_hooks=[],
-    excludes=["whisper", "torch", "torchaudio", "torchvision", "tensorflow"],
+    excludes=["tensorflow"],
+    hiddenimports=["whisper", "demucs"],
     noarchive=False,
 )
 pyz = PYZ(a.pure)

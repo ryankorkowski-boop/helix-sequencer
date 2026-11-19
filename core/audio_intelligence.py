@@ -29,6 +29,12 @@ from music.note_events import midi_note_name
 librosa = LazyModule("librosa")
 np = LazyModule("numpy")
 
+STEM_ROLES = ("vocals", "drums", "bass", "other")
+
+
+class NeuralStemRequired(RuntimeError):
+    """Demucs or Whisper is required for a production sequence and did not run."""
+
 
 def _requests_module():
     return optional_import("requests")
@@ -70,6 +76,8 @@ class StemAnalysis:
     drum_event_streams: dict[str, list[object]] | None = None
     stem_features: dict[str, dict[str, object]] = field(default_factory=dict)
     confidence_summary: dict[str, float] = field(default_factory=dict)
+    vocal_transcript_label: str = ""
+    source_sha256: str = ""
 
 
 @dataclass(frozen=True)
@@ -393,50 +401,101 @@ def _local_stem_separation(audio_path: Path, out_dir: Path, log_fn: Callable[[st
     return stems
 
 
+def _file_sha256(path: Path) -> str:
+    digest = hashlib.sha256()
+    with path.open("rb") as handle:
+        for block in iter(lambda: handle.read(1024 * 1024), b""):
+            digest.update(block)
+    return digest.hexdigest()
+
+
+def _demucs_available() -> bool:
+    if shutil.which("demucs"):
+        return True
+    try:
+        __import__("demucs")
+    except Exception:
+        return False
+    return True
+
+
+def _cached_demucs_stems(cache_dir: Path, source_sha256: str) -> dict[str, Path] | None:
+    manifest_path = cache_dir / "helix-demucs-stems.json"
+    try:
+        manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+    except (OSError, ValueError, TypeError):
+        return None
+    if manifest.get("format") != "helix-demucs-htdemucs-v1" or manifest.get("source_sha256") != source_sha256:
+        return None
+    stems = {role: Path(manifest["stems"][role]) for role in STEM_ROLES}
+    if all(path.is_file() and path.stat().st_size > 44 for path in stems.values()):
+        return stems
+    return None
+
+
+def _write_demucs_manifest(cache_dir: Path, source_sha256: str, stems: dict[str, Path]) -> None:
+    payload = {
+        "format": "helix-demucs-htdemucs-v1",
+        "model": "htdemucs",
+        "source_sha256": source_sha256,
+        "stems": {role: str(stems[role]) for role in STEM_ROLES},
+        "label": "separated",
+    }
+    cache_dir.mkdir(parents=True, exist_ok=True)
+    (cache_dir / "helix-demucs-stems.json").write_text(json.dumps(payload, indent=2), encoding="utf-8")
+
+
 def _try_demucs_stem_separation(
     audio_path: Path,
     out_dir: Path,
     log_fn: Callable[[str], None] | None,
+    *,
+    source_sha256: str | None = None,
+    required: bool = False,
 ) -> dict[str, Path] | None:
-    demucs_exe = shutil.which("demucs")
-    if not demucs_exe:
+    digest = source_sha256 or _file_sha256(audio_path)
+    cache_dir = out_dir / digest
+    cached = _cached_demucs_stems(cache_dir, digest)
+    if cached is not None:
+        _log(log_fn, "Demucs: reusing source-SHA-verified htdemucs stems.")
+        return cached
+    if not _demucs_available():
+        message = "Demucs is required for production sequencing and is not installed. Refusing to analyze the full mix."
+        if required:
+            raise NeuralStemRequired(message)
+        _log(log_fn, message)
         return None
-    _log(log_fn, "Stem split: attempting local Demucs separation.")
+    _log(log_fn, "Stem split: running Demucs htdemucs.")
+    cache_dir.mkdir(parents=True, exist_ok=True)
+    cmd = ["demucs", "-n", "htdemucs", "-o", str(cache_dir), str(audio_path)]
+    if shutil.which("demucs") is None:
+        import sys
+        cmd = [sys.executable, "-m", "demucs", "-n", "htdemucs", "-o", str(cache_dir), str(audio_path)]
     try:
-        out_dir.mkdir(parents=True, exist_ok=True)
-        cmd = [
-            demucs_exe,
-            "-n",
-            "htdemucs",
-            "-o",
-            str(out_dir),
-            str(audio_path),
-        ]
-        subprocess.run(cmd, check=True, capture_output=True)
+        subprocess.run(cmd, check=True, capture_output=True, text=True)
     except Exception as exc:
-        _log(log_fn, f"Demucs split failed, falling back: {exc}")
+        message = f"Demucs separation failed for {audio_path.name}: {exc}"
+        if required:
+            raise NeuralStemRequired(message) from exc
+        _log(log_fn, message)
         return None
-
-    track_dir: Path | None = None
-    for model_dir in sorted(out_dir.iterdir()):
+    track_dir = None
+    for model_dir in sorted(cache_dir.iterdir()):
         if not model_dir.is_dir():
             continue
         candidate = model_dir / audio_path.stem
-        if candidate.exists():
+        if candidate.is_dir():
             track_dir = candidate
             break
-    if track_dir is None:
+    stems = None if track_dir is None else {role: track_dir / f"{role}.wav" for role in STEM_ROLES}
+    if stems is None or not all(path.is_file() and path.stat().st_size > 44 for path in stems.values()):
+        message = f"Demucs did not write vocals, drums, bass, and other stems for {audio_path.name}."
+        if required:
+            raise NeuralStemRequired(message)
+        _log(log_fn, message)
         return None
-
-    stems = {
-        "vocals": track_dir / "vocals.wav",
-        "drums": track_dir / "drums.wav",
-        "bass": track_dir / "bass.wav",
-        "other": track_dir / "other.wav",
-    }
-    if not stems["vocals"].exists():
-        return None
-    _log(log_fn, f"Demucs: stems ready ({', '.join(sorted(stems))}).")
+    _write_demucs_manifest(cache_dir, digest, stems)
+    _log(log_fn, "Demucs: stems ready and cached by source SHA256.")
     return stems
 
 
@@ -818,6 +877,8 @@ def build_stem_analysis(
     cache_dir: Path,
     config: AudioAnalysisConfig | None = None,
     log_fn: Callable[[str], None] | None = None,
+    *,
+    require_neural_stems: bool = True,
 ) -> StemAnalysis:
     """Build stems and per-stem timing cues used by the sequencer engine."""
     settings = config or load_audio_analysis_config()
@@ -842,28 +903,46 @@ def build_stem_analysis(
 
     stems: dict[str, Path] | None = None
     source = "local"
+    source_sha = _file_sha256(audio_path) if require_neural_stems else ""
     if use_moises:
         stems = _try_moises_stem_separation(audio_path, stem_dir, api_key or "", log_fn)
         if stems:
             source = "moises"
     if not stems:
-        stems = _try_demucs_stem_separation(audio_path, stem_dir, log_fn)
+        stems = _try_demucs_stem_separation(
+            audio_path, stem_dir, log_fn, source_sha256=source_sha or None, required=require_neural_stems,
+        )
         if stems:
             source = "demucs"
     if not stems:
+        if require_neural_stems:
+            raise NeuralStemRequired(
+                "Production sequencing requires Demucs vocals, drums, bass, and other stems. "
+                "The full mix was not used."
+            )
         try:
+            _log(log_fn, "Stem split: DIAGNOSTIC HPSS only. This is not the production path.")
             stems = _local_stem_separation(audio_path, stem_dir, log_fn)
-            source = "local"
+            source = "local_hpss_diagnostic"
         except Exception as exc:
-            _log(log_fn, f"Stem split fallback failed, using direct audio analysis only: {exc}")
+            _log(log_fn, f"Diagnostic stem split failed: {exc}")
             stems = {}
             source = "direct"
 
-    drum_src = stems.get("drums") or audio_path
+    if require_neural_stems and source not in {"demucs", "moises"}:
+        raise NeuralStemRequired("Production sequencing refused a non-separated stem source.")
+    separated = source in {"demucs", "moises"}
+    if require_neural_stems and "drums" not in stems:
+        raise NeuralStemRequired("Demucs drum stem is missing. Drum classification will not use the full mix.")
+    drum_src = stems["drums"] if separated else (stems.get("drums") or audio_path)
     bass_src = stems.get("bass") or audio_path
     vocal_src = stems.get("vocals") or audio_path
+    if require_neural_stems and vocal_src == audio_path:
+        raise NeuralStemRequired("Demucs vocal stem is missing. Whisper will not transcribe the full mix.")
     kicks, snares, hats = _analyze_drum_events(drum_src)
-    drum_event_streams = drum_intel.detect_drum_event_streams_from_file(drum_src, log_fn=log_fn)
+    drum_event_streams = drum_intel.detect_drum_event_streams_from_file(
+        drum_src, log_fn=log_fn, separated_stem=separated,
+    )
     bass_peaks = _analyze_peak_events(bass_src, "bass")
     vocal_peaks = _analyze_peak_events(vocal_src, "vocals")
     background_vocal_events = _classify_background_vocals(vocal_src, log_fn)
@@ -892,28 +971,74 @@ def build_stem_analysis(
         drum_event_streams=drum_event_streams,
         stem_features=stem_features,
         confidence_summary=confidence_summary,
+        vocal_transcript_label="CANDIDATE" if require_neural_stems else "",
+        source_sha256=source_sha,
     )
 
 
-def _try_whisper_lyrics(audio_path: Path, log_fn: Callable[[str], None] | None = None) -> list[LyricEvent]:
+def _whisper_cache_path(cache_dir: Path, source_sha256: str) -> Path:
+    return cache_dir / source_sha256 / "helix-whisper-vocal.json"
+
+
+def _try_whisper_lyrics(
+    audio_path: Path,
+    log_fn: Callable[[str], None] | None = None,
+    *,
+    required: bool = False,
+    cache_dir: Path | None = None,
+    source_sha256: str | None = None,
+) -> list[LyricEvent]:
+    digest = source_sha256
+    if cache_dir is not None and digest:
+        cached = _whisper_cache_path(cache_dir, digest)
+        try:
+            payload = json.loads(cached.read_text(encoding="utf-8"))
+            if payload.get("source_sha256") == digest and payload.get("label") == "CANDIDATE":
+                _log(log_fn, "Lyrics: reusing SHA-verified CANDIDATE Whisper transcript.")
+                return _whisper_result_to_events(payload.get("result") or {})
+        except (OSError, ValueError, TypeError):
+            pass
     try:
         import whisper  # type: ignore
-    except Exception:
-        _log(log_fn, "Lyrics: Whisper package unavailable.")
+    except Exception as exc:
+        message = "Whisper is required to transcribe the Demucs vocal stem and is not installed."
+        if required:
+            raise NeuralStemRequired(message) from exc
+        _log(log_fn, message)
         return []
 
     ffmpeg_exe = _ensure_ffmpeg_environment()
     if ffmpeg_exe is None:
-        _log(log_fn, "Lyrics: Whisper skipped because ffmpeg was not found in this build.")
+        message = "Whisper requires ffmpeg and it was not found."
+        if required:
+            raise NeuralStemRequired(message)
+        _log(log_fn, message)
         return []
-    _log(log_fn, f"Lyrics: Whisper using ffmpeg at {ffmpeg_exe}")
+    _log(log_fn, f"Lyrics: CANDIDATE Whisper on the vocal stem using ffmpeg at {ffmpeg_exe}")
 
     try:
         model = whisper.load_model("tiny")
         result = model.transcribe(str(audio_path), fp16=False, word_timestamps=True)
     except Exception as exc:
-        _log(log_fn, f"Lyrics: Whisper transcription failed: {exc}")
+        message = f"Whisper transcription of the vocal stem failed: {exc}"
+        if required:
+            raise NeuralStemRequired(message) from exc
+        _log(log_fn, message)
         return []
+    if cache_dir is not None and digest:
+        path = _whisper_cache_path(cache_dir, digest)
+        path.parent.mkdir(parents=True, exist_ok=True)
+        path.write_text(json.dumps({
+            "format": "helix-whisper-vocal-v1",
+            "label": "CANDIDATE",
+            "source_sha256": digest,
+            "input": "demucs_vocals",
+            "result": result,
+        }), encoding="utf-8")
+    return _whisper_result_to_events(result)
+
+
+def _whisper_result_to_events(result) -> list[LyricEvent]:
 
     events: list[LyricEvent] = []
     segments = result.get("segments", []) if isinstance(result, dict) else []
@@ -994,15 +1119,22 @@ def extract_lyrics_events(
     use_moises: bool,
     api_key: str | None,
     log_fn: Callable[[str], None] | None = None,
+    *,
+    required: bool = False,
+    cache_dir: Path | None = None,
+    source_sha256: str | None = None,
 ) -> list[LyricEvent]:
-    """Try Moises lyrics first (when enabled/key present), then Whisper fallback."""
+    """Transcribe lyrics. Production passes the Demucs vocal stem and required=True."""
     events: list[LyricEvent] = []
-    if use_moises and api_key:
+    if use_moises and api_key and not required:
         _log(log_fn, "Lyrics: attempting Moises transcription.")
         events = _try_moises_lyrics(audio_path, api_key, log_fn)
-    if not events:
-        _log(log_fn, "Lyrics: using Whisper fallback transcription.")
-        events = _try_whisper_lyrics(audio_path, log_fn)
+    if not events or required:
+        if required:
+            _log(log_fn, "Lyrics: CANDIDATE Whisper on the separated vocal stem.")
+        events = _try_whisper_lyrics(
+            audio_path, log_fn, required=required, cache_dir=cache_dir, source_sha256=source_sha256,
+        )
     if events:
         events.sort(key=lambda e: (e.start_ms, e.end_ms))
     return events
@@ -1014,13 +1146,20 @@ def extract_lyric_timeline(
     api_key: str | None,
     vocal_peaks_ms: list[int] | None = None,
     log_fn: Callable[[str], None] | None = None,
+    *,
+    required: bool = False,
+    cache_dir: Path | None = None,
+    source_sha256: str | None = None,
 ) -> vt.LyricTimeline:
     """Return Helix's structured lyric timeline with word and phoneme timing.
 
-    This keeps the working Moises/Whisper pathway while adding a deterministic
-    word-to-phoneme fallback for xLights-style Faces export.
+    Production passes the Demucs vocal stem and required=True. The transcript
+    stays CANDIDATE, never VERIFIED.
     """
-    events = extract_lyrics_events(audio_path, use_moises, api_key, log_fn)
+    events = extract_lyrics_events(
+        audio_path, use_moises, api_key, log_fn,
+        required=required, cache_dir=cache_dir, source_sha256=source_sha256,
+    )
     timeline = vt.build_lyric_timeline(events, vocal_peaks_ms or [])
     if not events and vocal_peaks_ms:
         _log(log_fn, "Lyrics: no transcript found; using vocal-energy mouth fallback.")
@@ -1565,6 +1704,7 @@ def analyze_audio_file(
     provided_parts: list[object] | None = None,
     enable_lyrics: bool = True,
     log_fn: Callable[[str], None] | None = None,
+    require_neural_stems: bool = True,
 ) -> AudioAnalysisResult:
     settings = config or load_audio_analysis_config()
     cache_root = cache_dir or (_repo_root() / "build" / "audio_analysis_cache")
@@ -1629,12 +1769,20 @@ def analyze_audio_file(
     audio_reactive_actions = audio_trigger_routes.build_audio_reactive_actions(beat_feature_timeline)
     audio_reactive_summary = audio_trigger_routes.build_audio_reactive_summary(audio_reactive_actions)
 
-    stem = build_stem_analysis(audio_path, use_moises, api_key, cache_root, config=settings, log_fn=log_fn)
-    lyric_timeline = (
-        extract_lyric_timeline(audio_path, use_moises, api_key, stem.vocal_peaks_ms, log_fn=log_fn)
-        if enable_lyrics
-        else vt.build_lyric_timeline([], stem.vocal_peaks_ms)
+    stem = build_stem_analysis(
+        audio_path, use_moises, api_key, cache_root, config=settings, log_fn=log_fn,
+        require_neural_stems=require_neural_stems,
     )
+    if require_neural_stems or enable_lyrics:
+        lyric_source = stem.stems.get("vocals", audio_path)
+        if require_neural_stems and "vocals" not in stem.stems:
+            raise NeuralStemRequired("Whisper requires the Demucs vocal stem.")
+        lyric_timeline = extract_lyric_timeline(
+            lyric_source, use_moises and not require_neural_stems, api_key, stem.vocal_peaks_ms, log_fn=log_fn,
+            required=require_neural_stems, cache_dir=cache_root, source_sha256=stem.source_sha256 or None,
+        )
+    else:
+        lyric_timeline = vt.build_lyric_timeline([], stem.vocal_peaks_ms)
     note_events, raw_pitch = _extract_note_candidates(harm, sr, source_stem="mix_harmonic", config=settings)
     if stem.stems.get("bass") and stem.stems["bass"].exists():
         bass_y, bass_sr = librosa.load(str(stem.stems["bass"]), sr=None, mono=True)
