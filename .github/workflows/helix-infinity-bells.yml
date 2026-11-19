@@ -1,0 +1,92 @@
+name: Helix Infinity Bells Showcase — real-audio pilot
+on:
+  push:
+    branches:
+      - codex/infinity-showcase-bells-20261118
+    paths:
+      - tools/build_infinity_showcase_layout.py
+      - tests/test_infinity_showcase_layout.py
+      - .github/workflows/helix-infinity-bells.yml
+      - docs/INFINITY_BELLS_SHOWCASE_HANDOFF.md
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  generate-and-render:
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    env:
+      PYTHONPATH: .
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: pip
+      - name: Install current Helix and media dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install numpy scipy librosa soundfile numba llvmlite imageio imageio-ffmpeg pillow scikit-learn pytest gdown
+      - name: Validate deterministic layout and channel isolation
+        run: |
+          python -m pytest -q tests/test_infinity_showcase_layout.py
+          python tools/build_infinity_showcase_layout.py --size 2048 --output test_runs/infinity_bells/full/xlights_rgbeffects.xml --manifest test_runs/infinity_bells/full/manifest.json
+          python tools/build_infinity_showcase_layout.py --size 512 --output test_runs/infinity_bells/pilot/xlights_rgbeffects.xml --manifest test_runs/infinity_bells/pilot/manifest.json
+      - name: Download verified real Bells of Mathmas recording from Drive
+        run: |
+          mkdir -p test_runs/infinity_bells/media
+          gdown --fuzzy 'https://drive.google.com/file/d/1Zjyz9b-V0SdJ-p9K2FN6ryUR2H88DELG/view' -O 'test_runs/infinity_bells/media/Bells of Mathmas.mp3'
+          echo 'beb2a064595a64d4924847ccd68ca0f2897d5de3ae5064e6e2023a68b7b8ce8a  test_runs/infinity_bells/media/Bells of Mathmas.mp3' | sha256sum -c -
+      - name: Extract 42-second real-song pilot
+        run: |
+          ffmpeg -y -v error -ss 35 -i 'test_runs/infinity_bells/media/Bells of Mathmas.mp3' -t 42 -c:a libmp3lame -b:a 192k test_runs/infinity_bells/media/bells_pilot.mp3
+          test -s test_runs/infinity_bells/media/bells_pilot.mp3
+      - name: Run current Helix master profile on actual generated 512-prop Infinity layout
+        run: |
+          mkdir -p test_runs/infinity_bells/pilot/sequences
+          python main.py --profile master -- --template template.xsq --audio test_runs/infinity_bells/media/bells_pilot.mp3 --layout-file test_runs/infinity_bells/pilot/xlights_rgbeffects.xml --output-dir test_runs/infinity_bells/pilot/sequences --variants 1 --single --no-prompt --no-save-settings --no-workspace-history --audio-reactive-profile showcase --spatial-awareness 0.85 --max-layers-per-prop 3
+      - name: Require actual Infinity model effects — reject untouched-template renders
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import xml.etree.ElementTree as ET
+          files=list(Path('test_runs/infinity_bells/pilot/sequences').rglob('*.xsq'))
+          if not files: raise SystemExit('No real Helix XSQ created')
+          best=max(files,key=lambda f:f.stat().st_size)
+          root=ET.parse(best).getroot()
+          active=[]
+          for e in root.findall('.//ElementEffects/Element'):
+              if e.get('name','').startswith('HX_INFINITY_') and e.findall('.//Effect'):
+                  active.append(e.get('name'))
+          print(f'Produced {best}; active Infinity models: {len(active)}')
+          if len(active)<20:
+              raise SystemExit('FAIL: real Helix engine did not actually sequence >=20 Infinity models; no misleading approval MP4')
+          Path('test_runs/infinity_bells/pilot/selected_xsq.txt').write_text(str(best))
+          PY
+      - name: Validate XSQ then render original audio with Helix HQ preview
+        run: |
+          xsq=$(cat test_runs/infinity_bells/pilot/selected_xsq.txt)
+          python tools/validate_xsq_structure.py "$xsq"
+          python -m tools.preview_hq "$xsq" --layout test_runs/infinity_bells/pilot/xlights_rgbeffects.xml --audio test_runs/infinity_bells/media/bells_pilot.mp3 --quality-preset xlights
+      - name: Verify MP4 audio/video decode
+        run: |
+          python - <<'PY'
+          import subprocess
+          from pathlib import Path
+          clips=list(Path('test_runs/infinity_bells/pilot').rglob('*.mp4'))
+          if not clips: raise SystemExit('No MP4 rendered')
+          for p in clips:
+              subprocess.run(['ffmpeg','-v','error','-i',str(p),'-map','0:v:0','-map','0:a:0','-f','null','-'],check=True)
+              print('DECODE PASS',p,p.stat().st_size)
+          PY
+      - name: Upload outputs, including diagnostics on failure
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: infinity-bells-real-helix-pilot-and-full-layout
+          retention-days: 7
+          if-no-files-found: warn
+          path: |
+            test_runs/infinity_bells/full/**
+            test_runs/infinity_bells/pilot/**
+            !test_runs/infinity_bells/media/**

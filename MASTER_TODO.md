@@ -191,3 +191,14 @@ Do not mark complete from unit tests alone.
 6. Render full-song MP4 with real audio.
 7. Compare rendered component flashes to actual audible drum events and the prior known-good render.
 8. Iterate only on measured false positives/false negatives.
+
+
+## Infinity Universe layout #9 — Bells of Mathmas (2026-11-18)
+- [x] Locate and hash-verify original Bells of Mathmas MP3 from Drive (156 seconds).
+- [x] Add deterministic generator for extreme 2,048 model layout with collision-free channels and overlapping groups.
+- [x] Add Python regression checks and proposed Actions real-audio rendering gate.
+- [ ] Verify GitHub Actions tests and 512-model real-engine pilot; fix failures, no substitute rendering.
+- [ ] Validate native xLights XSQ/FSEQ and owner-review MP4 for full 2,048-model layout.
+- [ ] Integrate extreme showcase into nine-panel benchmark and Windows/Android 1.4 preset choices/manuals.
+- [ ] Await explicit owner approval before merging or publishing.
+See docs/INFINITY_BELLS_SHOWCASE_HANDOFF.md.
