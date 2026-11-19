@@ -11,6 +11,8 @@ on:
 
 jobs:
   export-quality-artifact:
+    env:
+      PYTHONPATH: .
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
