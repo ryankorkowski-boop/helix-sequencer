@@ -28,3 +28,19 @@ Preview and export notes
 Android previews are simulated Helix model previews, not native xLights renders or proof of FSEQ compatibility. Open the exported XSQ with its matching layout and audio in xLights, render there and inspect channel mapping before connecting controllers. AC/LOR mode preserves addressed channels; RGB-only effects are not intended for AC circuits.
 
 For memory-constrained phones, start with one variant and a short preview. Quick clip reduces the sequence to ten seconds; shorter preview duration alone does not shorten full-song analysis. If Android interrupts processing, check Results and the run report for any completed exports. Eight-variant device acceptance and expanded preset verification remain in progress for 1.4.
+
+Beta 1.4 benchmark layout guide (availability depends on build)
+
+The nine target presets are 16-channel LOR AC, original 256-channel AC, RGB house, house with coro singing faces, canonical six-snowman band, singing trees and matrices, 3D spatial grid, keyboard-driven sequential groups, and extreme Helix showcase. Preset availability and native compatibility are still being verified. Do not substitute a generated channel map for Greg's original AC map or the owner's 16-strip tree.
+
+Advanced controls and vocal sources
+
+Start with defaults and change one engine setting at a time where exposed. Compare variants using the same audio and layout. Independent singer and phoneme support is under acceptance testing; estimated separation is experimental and is not equivalent to verified independent stems. A recording without backing vocals should not produce a fabricated harmony performance.
+
+Desktop installation and recovery
+
+Use the project-provided Windows package and published checksum when available. Extract portable packages into a writable folder before launching; preserve your existing layouts, audio, controller mappings and exported shows before updating. If processing is interrupted, retain completed sequences and inspect the run report before retrying. Windows 11 package acceptance remains pending. Do not assume interrupted jobs can resume automatically.
+
+Native export and safety
+
+Keep XSQ, layout, audio and controller configuration together. Render FSEQ using compatible native xLights and check timing, channel counts and controller mapping before output to physical lights. Review LMS exports in Light-O-Rama. A playable MP4 is a visual preview, not a controller-ready sequence. Consult the bundled Legal and licensing information; donations are optional. Consult the release manifest for verified platforms, manual versions and package checksums.
