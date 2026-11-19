@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "updated_utc": "2026-11-19",
+  "updated_utc": "2026-11-19T23:50:00Z",
   "branch": "integration/unified-beta-completion-20261117",
   "release_label": "Beta Version 1.4",
   "verified_artifacts": [],
@@ -213,8 +213,28 @@
   },
   "unification_checkpoint": {
     "date_utc": "2026-11-19",
-    "new_deliverable_artifacts": [],
-    "note": "No MP4, APK, EXE or Drive artifact has been produced from the unified tree yet. Earlier artifacts listed in this file predate the merge.",
+    "new_deliverable_artifacts": [
+      {
+        "name": "Helix_Beta14_SixMember_Band_PhonemeHook_1080p30.mp4",
+        "kind": "band review MP4 (custom renderer)",
+        "sha256": "eb752258373832085ca24bfe7c8b678f2883834273c3f4dcd41268ded6ba50c1",
+        "bytes": 7036183,
+        "native_xlights": false,
+        "owner_approved": false,
+        "receipt": "evidence/beta_completion/band_review_20261119/receipt.json",
+        "drive": "pending upload"
+      },
+      {
+        "name": "Helix-Android-Beta-v1.4.apk",
+        "kind": "Android debug APK built by CI from cebf299f",
+        "sha256": "536a6da71beb5c93d1d9840190a9244490a3d1952e8d075ecdf642ba24d925ca",
+        "bytes": 112659115,
+        "actions_artifact": "https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/44576199654/artifacts/14555349736",
+        "expires": "2026-12-03",
+        "device_tested": false
+      }
+    ],
+    "note": "First artifacts from the unified tree are listed below. None is owner-approved; the band MP4 is a custom Helix render, not native xLights.",
     "checklist": "docs/BETA_1_4_RUNNING_CHECKLIST.md"
   }
 }

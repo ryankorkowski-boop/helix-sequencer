@@ -27,3 +27,16 @@ def test_every_catalog_layout_is_a_real_file_the_spec_can_package():
     options = json.loads((ROOT / "config/gui_options.json").read_text(encoding="utf-8"))
     for item in options["layouts"] + options["stages"]:
         assert (ROOT / item["path"]).is_file(), item["key"]
+
+
+def test_runtime_resources_of_required_models_are_collected():
+    # A frozen build without Whisper's mel_filters.npz starts, then fails every
+    # real sequencing run (CI run 44576199654, packaged palette smoke).
+    tree = ast.parse((ROOT / "windows_portable.spec").read_text(encoding="utf-8"))
+    collected = set()
+    for node in ast.walk(tree):
+        if isinstance(node, ast.For) and any(
+                isinstance(call, ast.Call) and getattr(call.func, "id", "") == "collect_data_files"
+                for call in ast.walk(node)):
+            collected |= {element.value for element in node.iter.elts}
+    assert {"whisper", "demucs", "librosa"} <= collected

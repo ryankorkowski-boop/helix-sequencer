@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "updated_utc": "2026-11-19",
+  "updated_utc": "2026-11-19T23:50:00Z",
   "overall_status": "IN PROGRESS",
   "branch": "integration/unified-beta-completion-20261117",
   "base_commit": "bb41f078a92e02ccb1980785efe1c1be741a9d16",
@@ -375,6 +375,30 @@
       "nine-layout catalog",
       "Drive delivery"
     ],
-    "checklist": "docs/BETA_1_4_RUNNING_CHECKLIST.md"
+    "checklist": "docs/BETA_1_4_RUNNING_CHECKLIST.md",
+    "milestone_2": {
+      "ci_on_cebf299f": {
+        "full_suite_3_11": "passed",
+        "full_suite_3_12": "passed",
+        "run": 44576199699,
+        "android_debug_apk": "built (run 44576199654)",
+        "windows_portable": "EXE built; packaged palette smoke FAILED (missing whisper/assets/mel_filters.npz); spec fix pushed, re-verify",
+        "drummer_ground_truth": "failed (PYTHONPATH); fix pushed, re-verify",
+        "native_snowman_geometry": "failed (no ffmpeg on runner); fix pushed, re-verify"
+      },
+      "local_full_suite_3_12": "0 failed, 2580 passed, 6 skipped",
+      "fixes": [
+        "production band plan carries drum component and hand",
+        "front-view sightline: kit no longer hidden by singers",
+        "review renderer renders 30 fps natively",
+        "Windows spec collects Whisper/Demucs/librosa resources"
+      ],
+      "band_mp4": {
+        "receipt": "evidence/beta_completion/band_review_20261119/receipt.json",
+        "native_xlights": false,
+        "owner_approved": false
+      },
+      "android_emulator": "not runnable in the session sandbox (no KVM); dispatch android-offline.yml (API 30 and 36)"
+    }
   }
 }

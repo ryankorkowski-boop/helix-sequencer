@@ -96,3 +96,26 @@ def test_resolution_reuses_component_mapping(monkeypatch):
     assert resolved["counts"]["kick_events"] == 1
     assert resolved["counts"]["snare_events"] == 1
     assert [p["component"] for p in resolved["drummer_v3_pose_events"]] == [p["component"] for p in resolved["drummer_component_events"]]
+
+
+def test_production_band_plan_states_component_and_hand_for_each_strike():
+    # Regression: the exported plan took component/hand from the per-type
+    # submodel list, which never carries them, so every cue said None and the
+    # nine-target staging existed only inside individual renderers.
+    from core.snowman_band import _build_intelligent_drum_cues
+    times = (1.0, 1.8, 2.6, 3.4)
+    streams = {kind+"_events": [DrumEvent(t+offset, .8, .9, {}, None, kind) for t in times]
+               for offset, kind in ((0, "snare"), (.2, "cymbal"), (.4, "ride"), (.6, "kick"), (.1, "hihat"))}
+    cues, _, _ = _build_intelligent_drum_cues([], drum_event_streams=streams,
+                                              kicks=[], snares=[], hats=[], releases=[])
+    by_kind = {}
+    for cue in cues:
+        by_kind.setdefault(cue["kind"], []).append(cue)
+    assert {"snare", "cymbal", "ride", "kick", "hihat"} <= set(by_kind)
+    assert all(cue["component"] for kind in by_kind for cue in by_kind[kind])
+    assert [c["hand"] for c in by_kind["snare"]] == ["left", "right", "left", "right"]
+    crashes = by_kind["cymbal"]
+    assert [c["component"].rsplit("_", 1)[-1] for c in crashes] == ["LEFT", "RIGHT", "LEFT", "RIGHT"]
+    assert [c["hand"] for c in crashes] == ["left", "right", "left", "right"]
+    assert all(c["component"].endswith("_RIDE") for c in by_kind["ride"])
+    assert len({c["component"] for c in cues}) >= 6

@@ -56,7 +56,8 @@ def drum_hits(cues):
             continue
         side = 'right' if target in (TARGETS[3], TARGETS[7]) else 'left'  # each crash uses the hand on its own side
         if cue['kind'] == 'snare':
-            side = 'right' if snare % 2 else 'left'
+            # The production plan's staged hand wins; older plans alternate here.
+            side = cue.get('hand') if cue.get('hand') in ('left', 'right') else ('right' if snare % 2 else 'left')
             snare += 1
         hits.append(dict(time=cue['start_ms']/1000, target=target,
                          side=side, velocity=float(cue.get('velocity', .8))))
@@ -91,7 +92,7 @@ def dimensional_camera(width,height,elapsed):
 
 
 def render(source, vocals, reference, output, expected_sha256, *, seconds=None, width=1920, height=1080,
-           dimensional_drummer=False, rock=False):
+           dimensional_drummer=False, rock=False, fps=20):
     from PIL import ImageDraw, ImageFont
     import soundfile as sf
     from models.final_band_scene import FinalBandScene
@@ -119,7 +120,10 @@ def render(source, vocals, reference, output, expected_sha256, *, seconds=None, 
     duration = sf.info(audio).duration
     if seconds is not None: duration = min(duration, float(seconds))
     if duration <= 0: raise ValueError('Positive duration required')
-    n = math.ceil(duration*20)
+    if fps not in (20, 30, 60): raise ValueError('Supported review frame rates are 20, 30 and 60')
+    # Note and wrist tables keep their retained 20 Hz grid; the output frame
+    # clock samples them (wrists interpolated) so 30 fps is not frame doubling.
+    n = math.ceil(duration*20); output_frames = math.ceil(duration*fps)
     plan_path, = (source/'sequence').glob('*.snowman_band.json')
     plan = json.loads(plan_path.read_text())['cues']
     receipt = json.loads((vocals/'diagnostic.json').read_text())
@@ -129,6 +133,13 @@ def render(source, vocals, reference, output, expected_sha256, *, seconds=None, 
         clocks = {k:z[k].copy() for k in z.files}
     scene = FinalBandScene('ember_amphitheatre' if rock else 'glacier_pier', rock=rock, full_keyboard=True)
     if scene.visible_roles != ROLES: raise ValueError('Six-member cast required')
+    sightline=None
+    if dimensional_drummer:
+        # The orthographic front view has no parallax: clear the kit corridor
+        # before any rig, key or string coordinate is sampled below.
+        from models.band_sightline import open_drummer_sightline, front_camera_for
+        sightline=open_drummer_sightline(scene)
+        if sightline['kit_occluded_by']: raise ValueError('Drum kit is obstructed: '+', '.join(sightline['kit_occluded_by']))
     keys = {int(o['name'].rsplit('_', 1)[1]):o['matrix'][:3, 3].copy()
             for o in scene.instances if o['name'].startswith('piano_key_') and o['kind'] != 'hidden'}
     keyboard = [NoteEvent(c['start_ms']/1000, c['end_ms']/1000,
@@ -144,7 +155,7 @@ def render(source, vocals, reference, output, expected_sha256, *, seconds=None, 
         from tools.source_band_view import SourceBandView
         dimensional=SourceDrummer3D(scene,hits)
         player=dimensional.player
-        view=SourceBandView(scene,dimensional,width,height,dimensional_camera)
+        view=SourceBandView(scene,dimensional,width,height,front_camera_for(scene))
     else:
         player = ArticulatedDrummer(hits, natural_arms=True, cache_lighting=True)
         view = SamplerView(scene, width, height, SAMPLER_VERTEX.replace('activity[128]', 'activity[280]'), REFINED_FRAGMENT)
@@ -152,15 +163,17 @@ def render(source, vocals, reference, output, expected_sha256, *, seconds=None, 
         view.camera_callback = fixed_camera; view.dry = DynamicDry(player)
     output.parent.mkdir(parents=True, exist_ok=True)
     temporary = output.with_name(output.stem+'.encoding.mp4')
-    writer = encoder(temporary, width, height, 20, audio, 0, duration)
+    writer = encoder(temporary, width, height, fps, audio, 0, duration)
     font = ImageFont.truetype('/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf', round(width/60))
     began = time.monotonic(); poses = []; snapshots = output.parent/'frames'; snapshots.mkdir(exist_ok=True)
     try:
-        for i in range(n):
-            t = i/20; levels = np.zeros(280, 'f4'); levels[177] = .7
+        for frame in range(output_frames):
+            t = frame/fps; i = min(n-1, int(t*20+1e-6)); blend = min(1., max(0., t*20-i))
+            levels = np.zeros(280, 'f4'); levels[177] = .7
             voice = []
             for k, role in enumerate(('lead', 'harmony')):
-                lane = ('estimated_lead', 'estimated_backing')[k]; j = i*5
+                lane = ('estimated_lead', 'estimated_backing')[k]
+                j = min(len(clocks[lane+'_energy'])-1, round(t*100))
                 energy = float(clocks[lane+'_energy'][j]); index = int(clocks[lane+'_shapes'][j]) if energy > 0 else 0
                 shape = SHAPE_NAMES[index]; scene.update_singer_mouth(role, shape, energy)
                 if not dimensional_drummer:
@@ -193,7 +206,7 @@ def render(source, vocals, reference, output, expected_sha256, *, seconds=None, 
             for pitch, value in zip(held[i], velocities[i]):
                 if pitch >= 0: levels[192+int(pitch)-21] = value
             for side, rig in rigs.items():
-                hand = wrists[side][i]; shoulder = rig['shoulder']
+                hand = wrists[side][i]*(1-blend)+wrists[side][min(i+1, n-1)]*blend; shoulder = rig['shoulder']
                 elbow = elbow_3d(shoulder, hand, *rig['link_lengths'], (-.8 if side == 'left' else .8, -.2, .8))
                 a, b, c = rig['ids']; scene.instances[a]['matrix'] = line_matrix(shoulder, elbow, .046)
                 scene.instances[b]['matrix'] = line_matrix(elbow, hand, .046); scene.instances[c]['matrix'] = matrix(hand, (.10, .075, .08))
@@ -216,10 +229,10 @@ def render(source, vocals, reference, output, expected_sha256, *, seconds=None, 
             draw = ImageDraw.Draw(image); draw.rectangle((0, 0, width, round(height*.055)), fill='#07111E')
             draw.text((24, 12), 'HELIX / SIX-MEMBER SNOWMAN BAND / REAL OWNER AUDIO', font=font, fill='#DCEBF4')
             writer.stdin.write(image.tobytes())
-            poses.append(dict(frame=i, seconds=t, voices=voice,
+            poses.append(dict(frame=frame, seconds=t, voices=voice,
                               keys={side:assignments[side][i] for side in rigs}))
-            if i in {0, 10, 20, n//4, n//2, 3*n//4, n-1}: image.save(snapshots/f'band_{i:05}.jpg', quality=94)
-            if i % 100 == 0: print('BAND_FRAME', i, n, round(time.monotonic()-began, 1), flush=True)
+            if frame in {0, 10, 20, output_frames//4, output_frames//2, 3*output_frames//4, output_frames-1}: image.save(snapshots/f'band_{frame:05}.jpg', quality=94)
+            if frame % 100 == 0: print('BAND_FRAME', frame, output_frames, round(time.monotonic()-began, 1), flush=True)
     except BaseException:
         writer.stdin.close(); writer.terminate(); writer.wait(); temporary.unlink(missing_ok=True); raise
     finally:
@@ -228,7 +241,7 @@ def render(source, vocals, reference, output, expected_sha256, *, seconds=None, 
     if writer.wait(): raise RuntimeError('Band encoder failed')
     temporary.replace(output)
     result = dict(schema='helix.owner-six-band-review.v1', file=output.name, sha256=digest(output),
-        frames=n, fps=20, source_audio_sha256=expected_sha256, source_plan_sha256=digest(plan_path),
+        frames=output_frames, fps=fps, sightline=sightline, source_audio_sha256=expected_sha256, source_plan_sha256=digest(plan_path),
         passed_reference_sha256=digest(reference), visible_roles=list(scene.visible_roles),
         renderer=('Helix solid meshes and closed source-front V3 volumes' if dimensional_drummer else
                   'OpenGL solid meshes plus preserved original planar V3 artwork'), native_xlights=False,
@@ -245,8 +258,9 @@ if __name__ == '__main__':
     p = argparse.ArgumentParser(description=__doc__)
     for name in ('source', 'vocals', 'reference', 'output'): p.add_argument(name, type=Path)
     p.add_argument('--expected-sha256', required=True); p.add_argument('--seconds', type=float)
+    p.add_argument('--fps', type=int, default=20, choices=(20, 30, 60))
     p.add_argument('--width', type=int, default=1920); p.add_argument('--height', type=int, default=1080)
     p.add_argument('--dimensional-drummer',action='store_true');p.add_argument('--rock',action='store_true')
     a = p.parse_args()
     render(a.source, a.vocals, a.reference, a.output, a.expected_sha256, seconds=a.seconds, width=a.width, height=a.height,
-           dimensional_drummer=a.dimensional_drummer,rock=a.rock)
+           dimensional_drummer=a.dimensional_drummer,rock=a.rock,fps=a.fps)

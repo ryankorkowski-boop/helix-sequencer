@@ -77,11 +77,20 @@ for folder in (
 
 datas += collect_data_files("imageio_ffmpeg")
 datas += collect_data_files("imageio")
+# Required production models read packaged resources at run time: Whisper's
+# mel filter bank and tokenizers, Demucs' pretrained-model manifests and
+# librosa's interval tables. Without them the frozen worker builds and starts
+# but every real sequencing run fails at transcription.
+for package in ("whisper", "demucs", "librosa"):
+    datas += collect_data_files(package)
 for distribution in ("imageio", "imageio-ffmpeg", "librosa", "zstandard"):
     datas += copy_metadata(distribution, recursive=True)
 
 # Demucs and Whisper are required production tools, not optional extras.
-hiddenimports = ["imageio.plugins.ffmpeg", "imageio.plugins.pillow", "zstandard", "whisper", "demucs"]
+hiddenimports = ["imageio.plugins.ffmpeg", "imageio.plugins.pillow", "zstandard", "whisper", "demucs",
+                 "tiktoken_ext", "tiktoken_ext.openai_public"]
+for package in ("whisper", "demucs"):
+    hiddenimports.extend(collect_submodules(package, on_error="warn once"))
 for package in (
     "core", "xlights", "tools", "audio", "helix", "helix_composers",
     "helix_intent", "helix_knowledge", "helix_layout", "helix_mapping",

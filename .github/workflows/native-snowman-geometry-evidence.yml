@@ -26,6 +26,7 @@ jobs:
           python-version: '3.11'
       - name: Install model/test dependencies
         run: |
+          sudo apt-get update && sudo apt-get install -y --no-install-recommends ffmpeg
           python -m pip install -r requirements-dev.txt
           python -m pip install trimesh
       - name: Verify native geometry and previews

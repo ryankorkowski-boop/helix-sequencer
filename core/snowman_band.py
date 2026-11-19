@@ -567,10 +567,19 @@ def _build_intelligent_drum_cues(
     mapped = list(resolved["mapped_events"])
     motions = drummer_motion.build_drummer_motion(events)
     effect_cues = drum_effects.build_drum_effect_cues(events)
+    # The nine-component / striking-hand staging is decided by the V3 pose
+    # mapper, not by the per-type submodel list.  Join it here so the exported
+    # plan states which physical target and hand each strike uses instead of
+    # leaving every consumer to re-derive (and possibly disagree about) it.
+    staged = {
+        (int(pose["timestamp_ms"]), str(pose["drum_type"])): pose
+        for pose in resolved.get("drummer_v3_pose_events", [])
+    }
     cues: list[dict[str, Any]] = []
     for idx, item in enumerate(mapped):
         start_ms = int(item["timestamp_ms"])
         drum_type = str(item["drum_type"])
+        pose = staged.get((start_ms, drum_type), {})
         effect = effect_cues[idx] if idx < len(effect_cues) else {}
         cue = {
             "performer": "drummer",
@@ -579,8 +588,8 @@ def _build_intelligent_drum_cues(
             "kind": drum_type,
             "section": _part_label(parts, start_ms),
             "submodel": item["submodel"],
-            "component": item.get("component"),
-            "hand": item.get("hand"),
+            "component": item.get("component") or pose.get("component"),
+            "hand": item.get("hand") or pose.get("hand"),
             "composite_submodels": list(item.get("composite_submodels", [])),
             "velocity": item["velocity"],
             "confidence": item["confidence"],
