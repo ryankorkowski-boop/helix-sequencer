@@ -57,19 +57,23 @@ def build_args(request, job, engine):
         args.remove('--no-effects-orchestrator')
         args.append('--no-orchestrator-template-promotion')
     args.append('--polish' if request.get('polish', True) else '--no-polish')
+    if request.get('quick_clip', False):
+        args.append('--helix-quick-clip')
     if mode == 'xlights' and not (job/'input/xlights_rgbeffects.xml').is_file() and request.get('sample_layout', 'custom') != 'custom':
         args[args.index('--layout-file') + 1] = str(resolve_layout(engine, request['sample_layout']))
     if mode == 'lor':
         source = job/'input/source.lms'
         if not source.is_file():
             raise ValueError('Select an LMS containing your real LOR Unit/Circuit addresses')
-        # This engine has no separate LOR source binder. AC-safe effects still run.
-        args += ['--ac-lights-only', '--no-pixel-reactive',
+        # Bind to the owner's real Unit/Circuit addresses; never invent a channel map.
+        args += ['--helix-lor-source-lms', str(source), '--ac-lights-only', '--no-pixel-reactive',
                  '--no-matrix-intelligence', '--no-birdsong', '--no-birdsong-auto']
     else:
         if request.get('ac_compatible', False):
             args += ['--ac-lights-only', '--no-pixel-reactive', '--no-matrix-intelligence', '--no-birdsong', '--no-birdsong-auto']
         else:
+            if not request.get('pitched_props', True):
+                args += ['--helix-no-pitched-props']
             selected_palette = palette_key(request.get('palette', 'default'))
             if selected_palette != 'default':
                 args += ['--palette-mode', selected_palette]
@@ -77,6 +81,8 @@ def build_args(request, job, engine):
             args += ['--birdsong' if request.get('birdsong', True) else '--no-birdsong']
             if request.get('birdsong', True):
                 args += ['--birdsong-auto', '--birdsong-profile', 'canopy', '--birdsong-intensity', '1.20', '--birdsong-min-confidence', '0.45']
+            if request.get('spatial', True):
+                args += ['--helix-spatial-accent']
         if (job/'input/routing.json').is_file():
             args += ['--model-overrides-file', str(job/'input/routing.json')]
     return args

@@ -47,7 +47,11 @@ def test_failed_preview_keeps_sequence_and_zip(completed_job,monkeypatch):
     result=json.loads(mobile.run(str(engine),str(job),'{}',callback))
     assert Path(result['sequence']).is_file() and result['preview']==''
     assert result['stages']['sequencing']['status']=='success'
-    assert result['stages']['preview']=={'status':'failed','error':'codec failure'}
+    preview_stage=result['stages']['preview']
+    assert preview_stage['status']=='failed' and 'codec failure' not in result['preview']
+    assert preview_stage['failed_variants']==['song.xsq'] and preview_stage['rendered']==0
+    assert result['preview_paths']==[''] and [Path(x).name for x in result['sequence_paths']]==['song.xsq']
+    assert any('codec failure' in line for line in callback.logs)
     with zipfile.ZipFile(result['bundle']) as archive:
         assert archive.testzip() is None and 'audio.wav' in archive.namelist()
         report=json.loads(archive.read('android-run.json'))
@@ -123,10 +127,18 @@ def test_variant_previews_continue_after_one_codec_failure(completed_job, monkey
 
     monkeypatch.setattr(sequence_builder, 'run_profile', sequence)
     monkeypatch.setattr(mobile, 'render_preview', render)
-    result = json.loads(mobile.run(str(engine), str(job), '{"variants":3}', Callback()))
-    assert [Path(path).name for path in result['previews']] == ['song.mp4', 'variant-c.mp4']
-    assert result['preview'] == result['previews'][0]
-    assert result['stages']['preview'] == {'status': 'partial', 'error': 'variant-b.xsq: codec failure'}
+    callback = Callback()
+    result = json.loads(mobile.run(str(engine), str(job), '{"variants":3}', callback))
+    # preview_paths stays index-aligned with sequence_paths so the phone picker can
+    # play every rendered variant and show the failed one as unavailable.
+    by_sequence = {Path(sequence).name: Path(preview).name if preview else ''
+                   for sequence, preview in zip(result['sequence_paths'], result['preview_paths'])}
+    assert by_sequence == {'song.xsq': 'song.mp4', 'variant-b.xsq': '', 'variant-c.xsq': 'variant-c.mp4'}
+    assert Path(result['preview']).name == 'song.mp4'
+    preview_stage = result['stages']['preview']
+    assert preview_stage['status'] == 'partial'
+    assert preview_stage['failed_variants'] == ['variant-b.xsq'] and preview_stage['rendered'] == 2
+    assert any('codec failure' in line for line in callback.logs)
     with zipfile.ZipFile(result['bundle']) as archive:
         assert {name for name in archive.namelist() if name.endswith('.mp4')} == {
             'song.mp4', 'variant-c.mp4',
