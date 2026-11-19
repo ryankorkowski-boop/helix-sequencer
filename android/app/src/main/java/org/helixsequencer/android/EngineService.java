@@ -140,6 +140,7 @@ public class EngineService extends Service {
     }
     public void beginPreview(String output,String wav,int width,int height,int fps)throws Exception{
         previewDestination=output;previewWav=wav;previewFps=fps;previewDuration=0;
+        previewPercent=0;
         encoder=new MediaRuntime.VideoEncoder(output+".video.mp4",width,height,fps);
     }
     public void previewFrame(byte[] png,long pts)throws Exception{encoder.frame(png,pts);previewDuration=pts+1_000_000L/previewFps;}
