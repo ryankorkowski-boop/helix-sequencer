@@ -76,7 +76,7 @@ jobs:
           python -m pip install --upgrade pip
           python -m pip install -r requirements-dev.txt
       - name: Compile focused sources
-        run: python -m compileall -q core/sequence_builder.py core/engine_activation_audit.py core/run_config_v2.py core/effects_orchestrator_bridge.py core/effect_engine.py core/birdsong_engine.py
+        run: python -m compileall -q core/sequence_builder.py core/engine_activation_audit.py core/run_config_v2.py core/effects_orchestrator_bridge.py core/effect_engine.py core/birdsong_engine.py helix_intent/xlights_contract_validator.py helix_intent/xsq_template_writer.py
       - name: Verify orchestration argument propagation and reports
         run: |
           python -m pytest -q \
@@ -89,6 +89,9 @@ jobs:
             tests/test_birdsong_engine.py \
             tests/test_android_orchestrator_policy.py \
             tests/test_android_preview_states.py \
+            tests/test_xlights_contract_validator.py \
+            tests/test_xlights_effect_contract.py \
+            tests/test_xsq_template_writer.py \
             tests/test_orchestration_motion_routing.py \
             tests/test_orchestration_explicit_layout.py \
             tests/test_bounded_audio.py \
