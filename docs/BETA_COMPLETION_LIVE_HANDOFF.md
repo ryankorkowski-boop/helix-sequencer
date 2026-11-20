@@ -491,3 +491,7 @@ Run 44690824609 generated nine-component custom diagnostic but failed duration g
 - b4f97ce / 5bf5b32: reject empty contracts, invalid targets and malformed JSON.
 - 3a12e3b / e8b069c: reject missing or invalid source timing rather than invent 250 ms effects; count invalid timing exclusions, add nine regression scenarios.
 - All new changes await CI verification. No new approval render or native proof. Next: check latest CI, repair regressions, integrate reachable Birdsong and other musical engines, prove native parameters with real rendered pixels. Do not merge or release.
+
+## Full-song bounded MP4 continuation — November 20
+
+Implemented in `b944f707195a5ab3f32785a449c6a61ffba22d48`: native FSEQ channel preview with original Bells audio, 1080p/30 H.264/AAC conversion, full decode, duration checks, brightness sample check and SHA-256 receipt. [Run 44793419539](https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/44793419539) was in progress at inspection. Do not count as completed until successful execution and actual visual inspection. Approximate geometry remains a risk; prior dots/dashes rejection remains binding. No owner approval or release.
