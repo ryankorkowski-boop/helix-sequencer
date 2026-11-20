@@ -495,3 +495,10 @@ Run 44690824609 generated nine-component custom diagnostic but failed duration g
 ## Full-song bounded MP4 continuation — November 20
 
 Implemented in `b944f707195a5ab3f32785a449c6a61ffba22d48`: native FSEQ channel preview with original Bells audio, 1080p/30 H.264/AAC conversion, full decode, duration checks, brightness sample check and SHA-256 receipt. [Run 44793419539](https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/44793419539) was in progress at inspection. Do not count as completed until successful execution and actual visual inspection. Approximate geometry remains a risk; prior dots/dashes rejection remains binding. No owner approval or release.
+
+
+### XSQ cache repair — November 20
+
+- [x] Implement input/output receipt validation and isolated fresh generation (`e0efe160ac0ec7cd4805f9f97ef3f6737cd9667e`).
+- [ ] Verify cache hits, changed inputs, dirty tree and failed generation with regression tests.
+- [ ] Confirm native MP4 run 44793419539; visual approval remains pending.
