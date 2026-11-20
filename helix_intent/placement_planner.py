@@ -178,7 +178,20 @@ def plan_prop_effect_intents(
                     if previous is None or candidate.priority < previous.priority:
                         matched[candidate.prop_name] = candidate
 
-        ordered = sorted(matched.values(), key=lambda item: (item.priority, item.prop_name))
+        # For directional phrases, honor the choreography's ordered role
+        # preferences before applying the density cap. Keep specialist and
+        # non-directional selection unchanged.
+        if intent.intent_type in {"transition", "trail"}:
+            def motion_rank(candidate: PlacementCandidate) -> tuple[int, int, str]:
+                role_index = next(
+                    (i for i, role in enumerate(intent.target_roles)
+                     if _candidate_matches(candidate, role)),
+                    len(intent.target_roles),
+                )
+                return role_index, candidate.priority, candidate.prop_name
+            ordered = sorted(matched.values(), key=motion_rank)
+        else:
+            ordered = sorted(matched.values(), key=lambda item: (item.priority, item.prop_name))
         if not ordered:
             rejected.append(intent.id)
             continue
