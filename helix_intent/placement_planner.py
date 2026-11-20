@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from bisect import bisect_left, insort
+from math import isfinite
 from dataclasses import dataclass
 from typing import Iterable, Mapping
 
@@ -177,6 +178,10 @@ def plan_prop_effect_intents(
 
     for intent in visual_intents:
         intent_count += 1
+        if not (isfinite(intent.start_time) and isfinite(intent.end_time)
+                and 0 <= intent.start_time < intent.end_time):
+            rejected.append(intent.id)
+            continue
         density = _norm(intent.density_level) or "medium"
         max_targets = MAX_TARGETS_BY_DENSITY.get(density, MAX_TARGETS_BY_DENSITY["medium"])
         brightness_cap = BRIGHTNESS_CAP_BY_DENSITY.get(density, BRIGHTNESS_CAP_BY_DENSITY["medium"])
