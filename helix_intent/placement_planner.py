@@ -164,6 +164,7 @@ def plan_prop_effect_intents(
     capped: list[str] = []
     intent_count = 0
     motion_usage: dict[str, int] = {}
+    occupied: dict[str, list[tuple[float, float]]] = {}
 
     for intent in visual_intents:
         intent_count += 1
@@ -193,6 +194,16 @@ def plan_prop_effect_intents(
             ordered = sorted(matched.values(), key=motion_rank)
         else:
             ordered = sorted(matched.values(), key=lambda item: (item.priority, item.prop_name))
+        # Until the exporter has an explicit compatible-layer contract,
+        # reserve each model's time interval exclusively. Adjacent intervals
+        # are allowed, and free alternatives are selected before density caps.
+        ordered = [
+            candidate for candidate in ordered
+            if not any(
+                intent.start_time < end and start < intent.end_time
+                for start, end in occupied.get(candidate.prop_name, ())
+            )
+        ]
         if not ordered:
             rejected.append(intent.id)
             continue
@@ -201,6 +212,7 @@ def plan_prop_effect_intents(
             ordered = ordered[:max_targets]
 
         for candidate in ordered:
+            occupied.setdefault(candidate.prop_name, []).append((intent.start_time, intent.end_time))
             if intent.intent_type in {"transition", "trail"}:
                 motion_usage[candidate.prop_name] = motion_usage.get(candidate.prop_name, 0) + 1
             confidence = min(1.0, max(0.0, float(intent.confidence) * (1.0 if candidate.priority <= 50 else 0.9)))
