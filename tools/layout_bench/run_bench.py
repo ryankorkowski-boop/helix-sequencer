@@ -15,11 +15,18 @@ import sys
 import xml.etree.ElementTree as ET
 from concurrent.futures import ProcessPoolExecutor, as_completed
 from pathlib import Path
+from tempfile import TemporaryDirectory
 
 
 ROOT = Path(__file__).resolve().parents[2]
 MANIFEST = ROOT / "fixtures" / "layout_bench" / "manifest.json"
 DEFAULT_OUT = ROOT / "test_runs" / "layout_bench"
+
+# Support direct script execution as well as module imports.
+if str(ROOT) not in sys.path:
+    sys.path.insert(0, str(ROOT))
+from core.output_provenance import sha256
+from tools.layout_bench.render_cache import cached_render, publish_render
 
 
 def load_manifest() -> list[dict]:
@@ -77,7 +84,8 @@ def effect_report(xsq_path: Path, layout_entry: dict) -> dict:
 
 
 def canonical_xsq(folder: Path, audio_stem: str) -> Path | None:
-    matches = sorted(folder.glob(f"{audio_stem},*.xsq"))
+    matches = sorted(path for path in folder.glob("*.xsq")
+                     if path.name.startswith(audio_stem + ","))
     matches = [path for path in matches if "orchestrated" not in path.name]
     if not matches:
         return None
@@ -90,7 +98,14 @@ def run_one(layout_entry: dict, audio: Path, out_root: Path) -> dict:
     out_dir = out_root / layout_id
     out_dir.mkdir(parents=True, exist_ok=True)
     existing = canonical_xsq(out_dir, audio.stem)
-    if existing is not None:
+    # A basename is not proof of input identity. A dirty tree cannot safely reuse
+    # a receipt keyed only by the committed revision.
+    revision = subprocess.check_output(["git", "rev-parse", "HEAD"], cwd=ROOT, text=True).strip()
+    dirty = bool(subprocess.check_output(["git", "status", "--porcelain", "--untracked-files=normal"], cwd=ROOT, text=True).strip())
+    inputs = {"audio": sha256(audio), "layout": sha256(ROOT / layout_entry["layout"]),
+              "template": sha256(ROOT / layout_entry["template"]), "revision": revision,
+              "runner": sha256(__file__), "python": sys.version}
+    if existing is not None and not dirty and cached_render(existing, inputs):
         return {
             "layout": layout_id,
             "audio": audio.name,
@@ -127,16 +142,25 @@ def run_one(layout_entry: dict, audio: Path, out_root: Path) -> dict:
     env["OMP_NUM_THREADS"] = "1"
     env["MKL_NUM_THREADS"] = "1"
     env["NUMBA_NUM_THREADS"] = "1"
-    with log_path.open("w", encoding="utf-8") as handle:
-        completed = subprocess.run(
-            cmd,
-            cwd=str(ROOT),
-            env=env,
-            stdout=handle,
-            stderr=subprocess.STDOUT,
-            check=False,
-        )
-    xsq = canonical_xsq(out_dir, audio.stem)
+    # Never mistake a stale XSQ for the result of a failed or empty run.
+    with TemporaryDirectory(prefix="sequence-", dir=out_dir) as workspace:
+        cmd[-1] = str(Path(workspace).resolve())
+        with log_path.open("w", encoding="utf-8") as handle:
+            completed = subprocess.run(
+                cmd, cwd=str(ROOT), env=env, stdout=handle,
+                stderr=subprocess.STDOUT, check=False,
+            )
+        generated = canonical_xsq(Path(workspace), audio.stem)
+        xsq = None
+        if completed.returncode == 0 and generated is not None:
+            effect_report(generated, layout_entry)
+            xsq = existing or (out_dir / generated.name)
+            if dirty:
+                from tools.layout_bench.render_cache import receipt_path
+                receipt_path(xsq).unlink(missing_ok=True)
+                generated.replace(xsq)
+            else:
+                publish_render(generated, xsq, inputs)
     result = {
         "layout": layout_id,
         "audio": audio.name,
