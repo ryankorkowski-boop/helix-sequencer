@@ -163,6 +163,7 @@ def plan_prop_effect_intents(
     rejected: list[str] = []
     capped: list[str] = []
     intent_count = 0
+    motion_usage: dict[str, int] = {}
 
     for intent in visual_intents:
         intent_count += 1
@@ -182,13 +183,13 @@ def plan_prop_effect_intents(
         # preferences before applying the density cap. Keep specialist and
         # non-directional selection unchanged.
         if intent.intent_type in {"transition", "trail"}:
-            def motion_rank(candidate: PlacementCandidate) -> tuple[int, int, str]:
+            def motion_rank(candidate: PlacementCandidate) -> tuple[int, int, int, str]:
                 role_index = next(
                     (i for i, role in enumerate(intent.target_roles)
                      if _candidate_matches(candidate, role)),
                     len(intent.target_roles),
                 )
-                return role_index, candidate.priority, candidate.prop_name
+                return role_index, motion_usage.get(candidate.prop_name, 0), candidate.priority, candidate.prop_name
             ordered = sorted(matched.values(), key=motion_rank)
         else:
             ordered = sorted(matched.values(), key=lambda item: (item.priority, item.prop_name))
@@ -200,6 +201,8 @@ def plan_prop_effect_intents(
             ordered = ordered[:max_targets]
 
         for candidate in ordered:
+            if intent.intent_type in {"transition", "trail"}:
+                motion_usage[candidate.prop_name] = motion_usage.get(candidate.prop_name, 0) + 1
             confidence = min(1.0, max(0.0, float(intent.confidence) * (1.0 if candidate.priority <= 50 else 0.9)))
             placements.append(
                 PropEffectIntent(
