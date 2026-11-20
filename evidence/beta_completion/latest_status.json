@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "updated_utc": "2026-11-20T06:28:00Z",
+  "updated_utc": "2026-11-20T07:00:00Z",
   "overall_status": "IN PROGRESS",
   "branch": "integration/unified-beta-completion-20261117",
   "base_commit": "bb41f078a92e02ccb1980785efe1c1be741a9d16",
@@ -411,5 +411,30 @@
     "band_receipt_url": "https://drive.google.com/file/d/1CPX59ePv9XyVXUTu2QNU9OZWfYQyQ_93/view",
     "classification": "DIAGNOSTIC_ONLY_NOT_NATIVE",
     "owner_approved": false
+  },
+  "current_verification_checkpoint": {
+    "drummer_ground_truth": {
+      "run_id": 44691270749,
+      "commit": "113f03f4c1ac8d87be8079ca7dec249ea417f2e3",
+      "conclusion": "success",
+      "classification": "SYNTHETIC_DIAGNOSTIC_NOT_NATIVE"
+    },
+    "unified_beta_integration": {
+      "run_id": 44691692355,
+      "commit": "e9e63fbe0bcbbae0630920d93a8df76c6bcb36b5",
+      "conclusion": "pending_at_last_check"
+    },
+    "native_effect_contract": {
+      "nonfinite_validation_commit": "b21acf79ee99ec6ca4bc14e3c1486aea309666db",
+      "tests_commit": "c4f5b76d508624c7f52942929c4f666d18942add",
+      "focused_gate_commit": "e9e63fbe0bcbbae0630920d93a8df76c6bcb36b5",
+      "validation": "pending"
+    },
+    "drive_approval_gate": {
+      "document_url": "https://docs.google.com/document/d/1TfhnsrYi7v8-q4BMeSUWDs5owkZUazbdvDNeUyXDsIM/edit",
+      "native_verified": false,
+      "owner_approved": false
+    },
+    "release_approved": false
   }
 }
