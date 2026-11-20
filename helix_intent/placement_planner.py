@@ -118,7 +118,13 @@ def _candidate_matches(candidate: PlacementCandidate, target_role: str) -> bool:
 
 
 def _effect_family(intent: VisualIntent, candidate: PlacementCandidate) -> str:
-    return EFFECT_BY_ROLE.get(candidate.role) or EFFECT_BY_ROLE.get(candidate.family) or EFFECT_BY_INTENT.get(intent.intent_type, "support_pulse")
+    role_family = EFFECT_BY_ROLE.get(candidate.role) or EFFECT_BY_ROLE.get(candidate.family)
+    # Preserve specialist routing (faces, performers, AC outlines, accents).
+    # Motion-capable pixel surfaces can express the actual musical movement.
+    if role_family in {"energy_wave", "matrix_pulse", "directional_sweep"}:
+        if intent.intent_type in {"transition", "trail"}:
+            return EFFECT_BY_INTENT[intent.intent_type]
+    return role_family or EFFECT_BY_INTENT.get(intent.intent_type, "support_pulse")
 
 
 def _render_style(intent: VisualIntent, candidate: PlacementCandidate) -> str:
