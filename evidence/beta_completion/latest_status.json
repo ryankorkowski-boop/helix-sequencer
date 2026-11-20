@@ -523,5 +523,12 @@
     "owner_approved": false,
     "full_10240_proof": false,
     "visual_mp4_approved": false
+  },
+  "latest_xsq_cache_repair": {
+    "commit": "e0efe160ac0ec7cd4805f9f97ef3f6737cd9667e",
+    "status": "IMPLEMENTED_TEST_PENDING",
+    "scope": "XSQ cache validates audio/layout/template/revision/output hashes; isolated fresh generation; no dirty-tree reuse",
+    "limitations": "Runtime regression tests pending; conservative revision invalidation; no owner approval",
+    "render_run": 44793419539
   }
 }
