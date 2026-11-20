@@ -84,16 +84,20 @@ jobs:
       - name: Export deterministic 9-lane drummer truth XSQ using canonical xmodel zones
         env:
           PYTHONPATH: .
-          HELIX_DURATION: '12'
+          HELIX_DURATION: '20'
         run: python tools/export_drummer_ground_truth_xsq.py --output test_runs/drummer_ground_truth/HelixDrummerGroundTruth_9lane.xsq --duration 20
       - name: Verify XSQ has exactly nine logical components and canonical physical targets
         run: |
           python - <<'PY'
           import xml.etree.ElementTree as ET
+          import json
           from pathlib import Path
           p=Path('test_runs/drummer_ground_truth/HelixDrummerGroundTruth_9lane.xsq')
           root=ET.parse(p).getroot()
           expected={'KICK','SNARE','HI_HAT','TOM_HIGH','TOM_MID','TOM_FLOOR','CYMBAL_LEFT','CYMBAL_RIGHT','RIDE'}
+          manifest=json.loads(p.with_name('events.json').read_text())
+          timing=[{'time':round(float(n.get('start')),4),'duration':round(float(n.get('duration')),4),'event':n.get('channel')} for n in root.findall('./timingtrack/phoneme')]
+          if len(timing)!=69 or timing!=manifest: raise SystemExit('FAIL: XSQ and audio event oracle mismatch')
           channels=set(root.find('./timingtrack').get('channels','').split(','))
           expected_models={
               'HX_SNOWMAN_DRUMMER_V3_KICK','HX_SNOWMAN_DRUMMER_V3_SNARE','HX_SNOWMAN_DRUMMER_V3_HI_HAT',
