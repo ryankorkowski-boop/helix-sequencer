@@ -52,7 +52,7 @@ def test_exact_nine_public_targets_exist_and_are_nonempty() -> None:
     # the eight pieces visible in the owner's reference video, plus the ride.
     submodels = _submodels()
     assert len(TARGETS) == 9
-    assert set(TARGETS) == {f"HX_SNOWMAN_DRUMMER_V3_{name}" for name in (*LOGICAL_TARGETS, "RIDE")}
+    assert set(TARGETS) == {f"HX_SNOWMAN_DRUMMER_V3_{name}" for name in LOGICAL_TARGETS}
     for target in TARGETS:
         assert submodels[target]
 
@@ -218,11 +218,12 @@ def test_renderer_rejects_empty_public_target_nodes(tmp_path: Path) -> None:
         load_component_masks(xmodel_path=mutated)
 
 
-def test_fixture_has_isolated_eight_then_combinations_and_68_events() -> None:
+def test_fixture_has_isolated_nine_then_combinations_and_69_events() -> None:
     events = fixture_events(20.0)
-    assert len(events) == 68
-    assert [event.target for event in events[:8]] == list(LOGICAL_TARGETS)
-    assert [round(event.time, 3) for event in events[:8]] == [0.25, 1.25, 2.25, 3.25, 4.25, 5.25, 6.25, 7.25]
+    assert len(events) == 69
+    assert [event.target for event in events[:9]] == list(LOGICAL_TARGETS)
+    assert [round(event.time, 3) for event in events[:8]] == [0.25, 1.25, 2.25, 3.25, 4.25, 5.25, 6.25, 7.25, 7.75]
+    assert all(a.time + a.duration <= b.time for a, b in zip(events[:9], events[1:10]))
 
 
 def test_wav_manifest_and_xsq_share_exact_event_oracle_and_duration(tmp_path: Path) -> None:
