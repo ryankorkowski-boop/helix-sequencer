@@ -124,6 +124,11 @@ def _native_settings(placement: Mapping[str, Any]) -> str:
 def _append_native_effect_rows(root: ET.Element, contract: Mapping[str, Any]) -> int:
     element_effects = _find_or_create_element_effects(root)
     layers_by_model: dict[str, ET.Element] = {}
+    # Remove stale generated effects even on models absent from the new plan.
+    for element in element_effects.findall('Element'):
+        for layer in element.findall('EffectLayer'):
+            if layer.get('name') == AUTO_LAYER_NAME or layer.get('Name') == AUTO_LAYER_NAME:
+                _clear_auto_layer(layer)
     count = 0
     for placement in list(contract.get("effect_placements", []) or []):
         if not isinstance(placement, Mapping):
