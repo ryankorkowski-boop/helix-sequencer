@@ -438,3 +438,5 @@ Commit `20472f1` removes hardcoded fallback candidates when layout parsing succe
 - `0233aeb`: transition/trail placements honor ordered target roles before density caps; `914ef80`: regression checks arch/matrix selection over higher-priority hero props. Dynamic rotation not implemented; CI and native render pending.
 
 - `aca2b50`: directional/trail placement uses cumulative per-prop usage after role rank and before static priority. `783952b`: six arches across three sparse phrases, deterministic under reversed candidate order. Tests unexecuted here; no spatial adjacency, temporal overlap protection or native render proof yet.
+
+- `1dfa614`: exclusive per-prop temporal reservations with alternative selection before density caps. `3e9fb0d`: six overlap/adjacency regressions. `27985c9`: sorted interval binary search; out-of-order insertion remains linear. `9f5d236`: seeded 4000-operation comparison against linear oracle. All tests pending execution; compatible layering, invalid interval guards, performance measurement and native preview remain open.
