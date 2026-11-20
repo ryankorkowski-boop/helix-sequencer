@@ -85,7 +85,7 @@ jobs:
         env:
           PYTHONPATH: .
           HELIX_DURATION: '12'
-        run: python tools/export_drummer_ground_truth_xsq.py --output test_runs/drummer_ground_truth/HelixDrummerGroundTruth_9lane.xsq --duration 12
+        run: python tools/export_drummer_ground_truth_xsq.py --output test_runs/drummer_ground_truth/HelixDrummerGroundTruth_9lane.xsq --duration 20
       - name: Verify XSQ has exactly nine logical components and canonical physical targets
         run: |
           python - <<'PY'
