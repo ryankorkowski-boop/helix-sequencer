@@ -16,3 +16,11 @@ def test_specialist_roles_preserved(role, expected):
     placements, report = plan_prop_effect_intents([intent], [PlacementCandidate("Prop", role)])
     assert report.placement_count == 1
     assert placements[0].effect_family == expected
+
+
+def test_directional_role_priority_survives_density_cap():
+    intent = VisualIntent("motion", 0, 2, "transition", "phrase", "left_to_right_sweep", ["arches", "matrix", "hero"], "sparse", "verse", "default", "controlled", "attack_decay", "per_model", 0.9)
+    candidates = [PlacementCandidate("HeroA", "hero", priority=1), PlacementCandidate("HeroB", "hero", priority=2), PlacementCandidate("Arch", "arch", priority=50), PlacementCandidate("Matrix", "matrix", priority=50)]
+    placements, report = plan_prop_effect_intents([intent], candidates)
+    assert [p.target_prop for p in placements] == ["Arch", "Matrix"]
+    assert report.capped_density_intents == ["motion"]
