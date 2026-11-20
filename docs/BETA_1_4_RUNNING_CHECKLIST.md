@@ -98,3 +98,9 @@ Rebuild the band MP4: `python -m tools.prepare_phoneme_show --audio fixtures/aud
 - [ ] P1: profile CPU/RAM, caching, audio chunking and bounded rendering before/after; document results.
 - [ ] P1: update Beta 1.4 manuals, install/export instructions and troubleshooting, checksums and verified direct Drive links for tested APK/EXE and approval MP4s.
 - [ ] Final: reconcile MASTER_TODO, handoff/status/manifest, owner explicit visual and release approval. No merge or publishing without approval.
+
+## November 20 continuation — regression checkpoint
+
+- [x] Inspected run 44687388477: both focused jobs passed; both full jobs failed. Python 3.12: 2634 passed, 1 failed, 6 skipped; stale 68-event expectation after ride addition.
+- [x] Current source already expects 69 events and nine isolated cues. Commit `3e4ff9b41e692b3a318142e944a409a77c188192` strengthens coverage and soundtrack bounds; no production behavior changed.
+- [ ] Confirm fresh full-suite CI on corrected source. Do not rerun old SHA as proof. Device and native visual acceptance remain open.
