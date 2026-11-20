@@ -57,8 +57,8 @@ def validate_xlights_effect_contract(payload: Mapping[str, Any]) -> XlightsContr
     if not isinstance(placements, list):
         errors.append("effect_placements must be a list.")
         placements = []
-    if bool(payload.get("rendered", False)) and not placements:
-        warnings.append("Contract is marked rendered but has no effect placements.")
+    if not placements:
+        errors.append("Contract has no effect placements.")
 
     supported = dict(payload.get("supported_render_families", {}) or {})
     if not supported:
@@ -71,7 +71,8 @@ def validate_xlights_effect_contract(payload: Mapping[str, Any]) -> XlightsContr
         if not isinstance(item, Mapping):
             errors.append(f"effect_placements[{idx}] must be an object.")
             continue
-        target = str(item.get("target_model", ""))
+        raw_target = item.get("target_model")
+        target = raw_target.strip() if isinstance(raw_target, str) else ""
         effect_name = str(item.get("effect_name", ""))
         start = _as_float(item.get("start_time"), -1.0)
         end = _as_float(item.get("end_time"), -1.0)
@@ -120,7 +121,13 @@ def validate_xlights_effect_contract(payload: Mapping[str, Any]) -> XlightsContr
 
 
 def validate_xlights_effect_contract_file(path: str | Path) -> XlightsContractValidationReport:
-    payload = json.loads(Path(path).read_text(encoding="utf-8"))
+    try:
+        payload = json.loads(Path(path).read_text(encoding="utf-8"))
+    except (OSError, UnicodeError, json.JSONDecodeError) as exc:
+        return XlightsContractValidationReport(
+            passed=False, error_count=1,
+            errors=[f"Cannot read effect contract: {exc}"],
+        )
     if not isinstance(payload, Mapping):
         return XlightsContractValidationReport(
             passed=False,
