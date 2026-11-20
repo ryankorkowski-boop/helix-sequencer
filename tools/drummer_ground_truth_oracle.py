@@ -26,16 +26,17 @@ class GroundTruthEvent:
 def fixture_events(duration: float = 20.0) -> list[GroundTruthEvent]:
     """Return the canonical 20-second verification schedule.
 
-    The first nine seconds isolate every public component exactly once. The
+    The first eight seconds isolate every public component exactly once. The
     remainder adds ordinary kick/snare/hat motion, alternating crashes and
     three-tom fills. At 20 seconds this contains exactly 69 events.
     """
     duration = float(duration)
     events: list[GroundTruthEvent] = []
     for index, target in enumerate(TARGETS):
-        time = index + 0.25
+        time = 7.75 if target == "RIDE" else index + 0.25
+        length = 0.25 if target == "RIDE" else 0.45
         if time < duration:
-            events.append(GroundTruthEvent(time, target, min(0.45, duration - time)))
+            events.append(GroundTruthEvent(time, target, min(length, duration - time)))
 
     for second in range(8, 20):
         if second >= duration:
