@@ -162,7 +162,7 @@ def _spatial_behavior(intent: ChoreographyIntent) -> str:
     motions = {motion.value for motion in intent.motion_vocabulary}
     if "helix_spiral" in motions:
         return "helix_orbit"
-    if "chase" in motions or "sweep" in motions:
+    if {"chase", "sweep", "cascade"}.intersection(motions):
         return "left_to_right_sweep"
     if "impact" in motions:
         return "center_out_impact"
@@ -171,6 +171,9 @@ def _spatial_behavior(intent: ChoreographyIntent) -> str:
 
 def _target_roles(intent: ChoreographyIntent) -> list[str]:
     roles = ["hero", "background", "roofline"]
+    motions = {motion.value for motion in intent.motion_vocabulary}
+    if {"chase", "sweep", "cascade"}.intersection(motions):
+        roles = ["arches", "matrix", *roles]
     if intent.dominance_strategy == DominanceStrategy.BAND_CENTRIC or intent.dominant_prop:
         roles.insert(0, "performer")
         roles.insert(1, "vocal_prop")
