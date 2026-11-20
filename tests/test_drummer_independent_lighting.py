@@ -222,7 +222,7 @@ def test_fixture_has_isolated_nine_then_combinations_and_69_events() -> None:
     events = fixture_events(20.0)
     assert len(events) == 69
     assert [event.target for event in events[:9]] == list(LOGICAL_TARGETS)
-    assert [round(event.time, 3) for event in events[:8]] == [0.25, 1.25, 2.25, 3.25, 4.25, 5.25, 6.25, 7.25, 7.75]
+    assert [round(event.time, 3) for event in events[:9]] == [0.25, 1.25, 2.25, 3.25, 4.25, 5.25, 6.25, 7.25, 7.75]
     assert all(a.time + a.duration <= b.time for a, b in zip(events[:9], events[1:10]))
 
 
