@@ -1,7 +1,6 @@
 from __future__ import annotations
 
 import json
-import shutil
 import xml.etree.ElementTree as ET
 from dataclasses import asdict, dataclass, field
 from pathlib import Path
@@ -213,11 +212,17 @@ def write_xsq_from_template(
         contract_effect_count = _append_helix_contract_node(root, contract_payload)
         native_effect_count = _append_native_effect_rows(root, contract_payload)
         tree.write(output, encoding="utf-8", xml_declaration=True)
-    except ET.ParseError:
-        shutil.copyfile(template, output)
-        contract_effect_count = len(list(contract_payload.get("effect_placements", []) or []))
-        native_effect_count = 0
-        warnings.append("Template could not be XML-parsed; copied template unchanged and wrote sidecar report only.")
+    except ET.ParseError as exc:
+        report = XsqTemplateWriteReport(
+            template_path=str(template),
+            output_xsq=str(output),
+            sidecar_json=str(sidecar),
+            warnings=validation.warnings,
+            errors=[f"Invalid XML template XSQ: {exc}"],
+        )
+        sidecar.parent.mkdir(parents=True, exist_ok=True)
+        sidecar.write_text(json.dumps(report.to_dict(), indent=2, sort_keys=True) + "\n", encoding="utf-8")
+        return report
 
     report = XsqTemplateWriteReport(
         wrote_sequence=True,
