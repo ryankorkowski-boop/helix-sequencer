@@ -136,3 +136,24 @@ def test_writer_refuses_nonfinite_contract(tmp_path):
     assert not report.wrote_sequence
     assert not output.exists()
     assert any("end_time" in error for error in report.errors)
+
+
+@pytest.mark.parametrize("target", [None, "", "   ", 42])
+def test_invalid_target_is_rejected(target):
+    payload = _contract()
+    payload["effect_placements"][0]["target_model"] = target
+    assert not validate_xlights_effect_contract(payload).passed
+
+
+def test_empty_contract_is_rejected():
+    payload = _contract()
+    payload["effect_placements"] = []
+    assert not validate_xlights_effect_contract(payload).passed
+
+
+def test_malformed_contract_returns_failure(tmp_path):
+    path = tmp_path / "invalid.json"
+    path.write_text("{", encoding="utf-8")
+    report = validate_xlights_effect_contract_file(path)
+    assert not report.passed
+    assert report.error_count == 1
