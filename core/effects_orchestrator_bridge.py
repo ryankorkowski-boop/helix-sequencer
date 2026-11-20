@@ -225,7 +225,9 @@ def _layout_file_from_args(engine_args: list[str] | None) -> Path | None:
     if not raw:
         return None
     path = Path(raw)
-    return path if path.exists() else None
+    if not path.is_file():
+        raise ValueError(f"Requested orchestration layout is not a file: {path}")
+    return path
 
 
 def _write_orchestrated_xsq(engine_args: list[str] | None, contract_path: Path) -> dict[str, Any]:
@@ -272,9 +274,8 @@ def _build_orchestrated_exports(final_graph: IntentGraph, engine_args: list[str]
 
             parsed_layout = xmp.parse_layout(layout_file)
             placement_source = str(layout_file)
-        except Exception:
-            parsed_layout = None
-            placement_source = "fallback_candidates"
+        except Exception as exc:
+            raise ValueError(f"Unable to parse requested orchestration layout: {layout_file}") from exc
 
     placement_report = build_placement_plan(
         visual_intents=visual_intents,
