@@ -461,3 +461,10 @@ Run 44690824609 generated nine-component custom diagnostic but failed duration g
 - Native xLights effect-contract validation now explicitly rejects non-finite (NaN, positive/negative infinity) start/end timestamps and brightness caps (b21acf7). Nine parameterized edge cases and a fail-closed XSQ writer regression added (c4f5b76); focused CI includes contract validator, mapping and template writer regressions (e9e63fb). These are new production export correctness gates; actual FSEQ render remains unverified.
 - Google Drive folder https://drive.google.com/drive/folders/1tcW6pfQ3CmyDPWMsYbvJrzaBTJsz_1lT checked; it contains the pre-existing custom-render six-performer phoneme-hook MP4 and receipt plus native-proof approval gate Google Doc. None is approved; independent harmony and native output still unverified. Do not replace these with diagnostic footage.
 - Next: await newest full CI verdict, remediate failures; native xLights FSEQ/XSQ and real-audio nine-panel plus 16-panel proof; Android API30/API36 and Windows packaged smoke; update manuals. No merge/release without owner approval.
+
+## 2026-11-20 — Export and musical timing checkpoint
+
+- 0678577 / e3cfa69: remove obsolete generated layers while preserving manual effects.
+- b4f97ce / 5bf5b32: reject empty contracts, invalid targets and malformed JSON.
+- 3a12e3b / e8b069c: reject missing or invalid source timing rather than invent 250 ms effects; count invalid timing exclusions, add nine regression scenarios.
+- All new changes await CI verification. No new approval render or native proof. Next: check latest CI, repair regressions, integrate reachable Birdsong and other musical engines, prove native parameters with real rendered pixels. Do not merge or release.
