@@ -451,3 +451,6 @@ Commit `20472f1` removes hardcoded fallback candidates when layout parsing succe
 
 ### 2026-11-20 — Full-suite failure triage and CI coverage
 Run 44687388477: Python 3.11 2630 passed, 5 failed, 6 skipped; Python 3.12 2634 passed, 1 failed, 6 skipped. Both focused jobs succeeded. Drummer oracle repair 00788c2 isolates ride at 7.75 s before combinations, preserving 69 events; ab87de3 updates regression. ff9263b changes entropy test absolute tolerance from 1e-7 to 3e-7 (maximum observed discrepancy 2.66020723e-7); production audio unchanged, rounding explanation not independently proven. 7a5f90c adds helix_intent path triggers and explicit motion, layout, bounded audio and independent drummer regressions to focused CI. New results pending. Next verify both full suites and native render; no approval or release.
+
+### 2026-11-20 — Drummer full-duration integration
+Run 44690824609 generated nine-component custom diagnostic but failed duration gate: 20-second audio/video versus 12-second XSQ and old expected duration. Commits 19cb503, 9f1983c, 3641247 align duration to 20 seconds and enforce 69 manifest/XSQ events. Latest drummer run 44691049460 and unified run 44690927905 in progress at inspection. Preserve both; no native or owner approval claimed. Next inspect final results and actual per-component illumination, then native FSEQ proof.
