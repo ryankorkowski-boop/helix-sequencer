@@ -104,3 +104,8 @@ Rebuild the band MP4: `python -m tools.prepare_phoneme_show --audio fixtures/aud
 - [x] Inspected run 44687388477: both focused jobs passed; both full jobs failed. Python 3.12: 2634 passed, 1 failed, 6 skipped; stale 68-event expectation after ride addition.
 - [x] Current source already expects 69 events and nine isolated cues. Commit `3e4ff9b41e692b3a318142e944a409a77c188192` strengthens coverage and soundtrack bounds; no production behavior changed.
 - [ ] Confirm fresh full-suite CI on corrected source. Do not rerun old SHA as proof. Device and native visual acceptance remain open.
+
+## Layout XML structural repair
+- [x] Full-band and floor-piano builders reuse empty XML containers via explicit None checks (commits 7c9beed5 and c874f95f).
+- [ ] Verify empty-container and repeat-build cases and native xLights rendering; source repair is not visual acceptance.
+- Fresh CI run discovery returned no PR-triggered runs for the preceding test commit; push CI status remains unconfirmed.
