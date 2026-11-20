@@ -434,3 +434,5 @@ Commit `20472f1` removes hardcoded fallback candidates when layout parsing succe
 - Motion routing: `903b97b` preserves transition/trail families on motion-capable roles while retaining specialist effects; `b019824` adds 14 parameterized regression cases. Test execution and native visual acceptance pending. Existing native effect mappings unchanged.
 
 - `e564e8d`: directional chase/sweep/cascade intents now request arches and matrices; cascade receives directional spatial behavior unless higher-priority helix motion applies. Placement caps and candidate priority still apply; actual selection and native rendering unverified.
+
+- `0233aeb`: transition/trail placements honor ordered target roles before density caps; `914ef80`: regression checks arch/matrix selection over higher-priority hero props. Dynamic rotation not implemented; CI and native render pending.
