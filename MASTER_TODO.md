@@ -1,5 +1,7 @@
 # HELIX MASTER TODO & AGENT HANDOFF LEDGER
 
+> **2026-11-20 GitHub/Drive gate:** CI run [44687388477](https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/44687388477), head `f8bd364`: focused regression jobs 3.11 and 3.12 passed; full suites pending when inspected. Drive [Beta 1.4 band hook](https://drive.google.com/file/d/1NShBmODsUiToi14bxZ1sptbYrU1CZ_YQ/view) is a **custom OpenGL diagnostic**, explicitly NOT native xLights nor approved; its [receipt](https://drive.google.com/file/d/1CPX59ePv9XyVXUTu2QNU9OZWfYQyQ_93/view) confirms independent backing unverified. [Drive review gate](https://docs.google.com/document/d/1TfhnsrYi7v8-q4BMeSUWDs5owkZUazbdvDNeUyXDsIM/edit). **Open:** finish full-suite verification; add focused orchestration motion tests to workflow; native XSQ/FSEQ six-member band and 9/16 panel visual review; Android eight-variant playback/API30; Windows EXE; manuals; owner approval. No merge or release.
+
 > Beta 1.4 completion status (2026-11-19): see [docs/BETA_1_4_RUNNING_CHECKLIST.md](docs/BETA_1_4_RUNNING_CHECKLIST.md). Unified both lineages; nine-cue drummer with physical ride; full suite green in CI on 3.11/3.12; first real-audio band MP4 (custom renderer, kit fully visible); Windows EXE smoke fix pending re-run; no release approval; MP4 deliverables, nine-layout catalog, Android/Windows acceptance and Drive delivery are still open.
 
 > Canonical project roadmap and cross-agent handoff layer.
