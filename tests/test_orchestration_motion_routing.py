@@ -53,3 +53,18 @@ def test_overlapping_intents_use_free_alternatives_before_cap():
     placements, report = plan_prop_effect_intents([first, second], candidates)
     assert [p.target_prop for p in placements] == ["Hero0", "Hero1", "Hero2", "Hero3"]
     assert report.rejected_intents == []
+
+
+def test_interval_index_matches_linear_reference():
+    from bisect import insort
+    from random import Random
+    from helix_intent.placement_planner import _interval_available
+    rng = Random(20261120)
+    intervals = []
+    for _ in range(4000):
+        start = rng.randrange(0, 10000)
+        end = start + rng.randrange(1, 100)
+        expected = not any(start < b and a < end for a, b in intervals)
+        assert _interval_available(intervals, start, end) == expected
+        if expected:
+            insort(intervals, (start, end))
