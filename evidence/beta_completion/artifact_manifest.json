@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "updated_utc": "2026-11-19T23:50:00Z",
+  "updated_utc": "2026-11-20T06:30:00Z",
   "branch": "integration/unified-beta-completion-20261117",
   "release_label": "Beta Version 1.4",
   "verified_artifacts": [],
@@ -96,6 +96,22 @@
       "artifact_id": 14421831415,
       "url": "https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/44291725423/artifacts/14421831415",
       "verification": "clean-room generated; structural gate passed; unapproved layout, no FSEQ or real-audio render"
+    },
+    {
+      "kind": "six-member Phoneme Test Hook custom OpenGL diagnostic video",
+      "url": "https://drive.google.com/file/d/1NShBmODsUiToi14bxZ1sptbYrU1CZ_YQ/view",
+      "receipt_url": "https://drive.google.com/file/d/1CPX59ePv9XyVXUTu2QNU9OZWfYQyQ_93/view",
+      "sha256": "eb752258373832085ca24bfe7c8b678f2883834273c3f4dcd41268ded6ba50c1",
+      "bytes": 7036183,
+      "duration_seconds": 34.88,
+      "width": 1920,
+      "height": 1080,
+      "fps": 30,
+      "native_xlights": false,
+      "independent_backing_verified": false,
+      "owner_approved": false,
+      "release_acceptance": false,
+      "verification": "Receipt reports H.264/AAC full decode and soundtrack correlation; not a native xLights or owner-approved render."
     }
   ],
   "latest_execution_checkpoint": {
@@ -132,9 +148,9 @@
       "bytes": 88428458
     },
     "contact_sheets": {
+      "168": "f009b8030c7bd0ea57c2b16ef220576a3f21eb7dfe9aff22cb46dcf0a732c701",
       "042": "83fcefc368d7bc100a92ac0223aeac759beabd1392bff261b073ce72f6535b03",
-      "096": "d3f2c7504352552b548efb69227b74a6c10f4f892d8d8af1aedfa8b7cadfafe5",
-      "168": "f009b8030c7bd0ea57c2b16ef220576a3f21eb7dfe9aff22cb46dcf0a732c701"
+      "096": "d3f2c7504352552b548efb69227b74a6c10f4f892d8d8af1aedfa8b7cadfafe5"
     },
     "directory": "/opt/cursor/artifacts/nine-panel-v5"
   },
@@ -188,9 +204,9 @@
       }
     ],
     "contact_sheets": {
+      "168": "a8832165d9fa1b4dc2a9207961d7ca533041eb689c93f71555608ca5e22a8338",
       "042": "64507e7882f368405baf4d5e0aac7af7cc01d8a8d033c6428626e346959b0bf3",
-      "096": "dd4a536239341ed05ab3cefc7b33567055159dede0acb80c48db24f527f3799c",
-      "168": "a8832165d9fa1b4dc2a9207961d7ca533041eb689c93f71555608ca5e22a8338"
+      "096": "dd4a536239341ed05ab3cefc7b33567055159dede0acb80c48db24f527f3799c"
     }
   },
   "native_short_clip": {
@@ -236,5 +252,6 @@
     ],
     "note": "First artifacts from the unified tree are listed below. None is owner-approved; the band MP4 is a custom Helix render, not native xLights.",
     "checklist": "docs/BETA_1_4_RUNNING_CHECKLIST.md"
-  }
+  },
+  "review_gate_document_url": "https://docs.google.com/document/d/1TfhnsrYi7v8-q4BMeSUWDs5owkZUazbdvDNeUyXDsIM/edit"
 }
