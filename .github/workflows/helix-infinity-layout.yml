@@ -76,6 +76,33 @@ jobs:
           if abs(seconds - 155.96) > .10 or len(active) != len(set(family_by_name.values())):
               raise SystemExit("Native duration or model-family coverage failed; see verification.json")
           PY
+      - name: Render synchronized native-channel review MP4
+        run: |
+          set -euo pipefail
+          work="$RUNNER_TEMP/infinity"
+          python -m pip install imageio imageio-ffmpeg Pillow
+          python -m tools.fseq_pixel_preview "$work/Bells.fseq" --layout "$work/xlights_rgbeffects.xml" --audio "$work/media/Bells of Mathmas.mp3" --width 1920 --height 1080 --output "$work/Bells-preview.mp4"
+          ffmpeg -v error -xerror -i "$work/Bells-preview.mp4" -vf fps=30 -c:v libx264 -preset fast -crf 19 -pix_fmt yuv420p -c:a copy -movflags +faststart "$work/Bells-review.mp4"
+          ffmpeg -v error -xerror -i "$work/Bells-review.mp4" -f null -
+          ffprobe -v error -show_streams -show_format -of json "$work/Bells-review.mp4" > "$work/video-probe.json"
+          python - <<'PY'
+          import json, os
+          from pathlib import Path
+          from core.output_provenance import sha256
+          root = Path(os.environ["RUNNER_TEMP"]) / "infinity"
+          probe = json.loads((root / "video-probe.json").read_text())
+          report = json.loads((root / "Bells-preview.pixel_preview.json").read_text())
+          video = next(s for s in probe["streams"] if s["codec_type"] == "video")
+          audio = next(s for s in probe["streams"] if s["codec_type"] == "audio")
+          assert (video["width"], video["height"], video["codec_name"], video["avg_frame_rate"]) == (1920, 1080, "h264", "30/1")
+          assert audio["codec_name"] == "aac"
+          assert abs(float(video["duration"]) - 155.96) < .15
+          assert abs(float(audio["duration"]) - float(video["duration"])) < .15
+          assert report["bright_node_samples"] > 0
+          report.update(review_sha256=sha256(root / "Bells-review.mp4"), owner_approved=False,
+                        classification="native FSEQ channel preview; approximate geometry; visual review required")
+          (root / "video-review.json").write_text(json.dumps(report, indent=2))
+          PY
       - uses: actions/upload-artifact@v4
         if: always()
         with:
@@ -88,3 +115,6 @@ jobs:
             ${{ runner.temp }}/infinity/layout.json
             ${{ runner.temp }}/infinity/verification.json
             ${{ runner.temp }}/infinity/native/xlights.log
+            ${{ runner.temp }}/infinity/Bells-review.mp4
+            ${{ runner.temp }}/infinity/video-probe.json
+            ${{ runner.temp }}/infinity/video-review.json
