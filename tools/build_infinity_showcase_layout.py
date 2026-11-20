@@ -101,14 +101,19 @@ def make_layout(output, manifest, size=2048):
             assert len(p)==nodes, (family,len(p),nodes)
             name=f"HX_INFINITY_{family}_{i+1:04d}"
             x,y,z=coordinates(family,i,count)
+            # Geometry helpers use a horizontal XY plane with Z height. xLights
+            # displays X/Y from the front and adds WorldPos to model-local points.
+            local = [(a-x, c-z, b-y) for a,b,c in p]
+            if family == "TUNNEL_3D":
+                local = [(a-x, b-y, c-z) for a,b,c in p]
             attrs={"name":name,"DisplayAs":"Poly Line","StringType":"RGB Nodes",
                    "StartChannel":str(next_channel),"parm1":"1","parm2":str(nodes),"parm3":"1",
                    "StartSide":"B","Dir":"L","Antialias":"1","PixelSize":"4",
-                   "Transparency":"0","LayoutGroup":"HELIX INFINITY",
-                   "WorldPosX":f"{x:.4f}","WorldPosY":f"{y:.4f}","WorldPosZ":f"{z:.4f}",
+                   "Transparency":"0","LayoutGroup":"Default",
+                   "WorldPosX":f"{x:.4f}","WorldPosY":f"{z:.4f}","WorldPosZ":f"{y:.4f}",
                    "ScaleX":"1.0000","ScaleY":"1.0000","ScaleZ":"1.0000",
                    "NumPoints":str(nodes),
-                   "PointData":",".join(f"{a:.3f},{b:.3f},{c:.3f}" for a,b,c in p),
+                   "PointData":",".join(f"{a:.3f},{b:.3f},{c:.3f}" for a,b,c in local),
                    "cPointData":"","versionNumber":"7"}
             model = ET.SubElement(models,"model",attrs)
             if family == "SINGING_FACE":
@@ -116,7 +121,7 @@ def make_layout(output, manifest, size=2048):
                 ET.SubElement(model, "subModel", {"name": "Eyes", "layout": "horizontal", "type": "ranges", "line0": "25-48"})
             records.append({"name":name,"family":family,"role":role,"nodes":nodes,
                             "start_channel":next_channel,"end_channel":next_channel+3*nodes-1,
-                            "center":[round(x,3),round(y,3),round(z,3)]})
+                            "center":[round(x,3),round(z,3),round(y,3)]})
             next_channel+=3*nodes
     names=[r["name"] for r in records]
     def group(name,members):
@@ -139,12 +144,12 @@ def make_layout(output, manifest, size=2048):
         for start in range(0,len(records),level):
             group(f"HX_INFINITY_HIER_{level:04d}_{start//level:04d}",names[start:start+level])
     for sector in range(24):
-        group(f"HX_INFINITY_SECTOR_{sector:02d}", [r["name"] for r in records if int((math.atan2(r["center"][1],r["center"][0])%(2*math.pi))*24/(2*math.pi))==sector])
+        group(f"HX_INFINITY_SECTOR_{sector:02d}", [r["name"] for r in records if int((math.atan2(r["center"][2],r["center"][0])%(2*math.pi))*24/(2*math.pi))==sector])
     # Musical travel paths overlap family, role and spatial groups.
     for label, families in (("ENCHANTED_FOREST", ("SPIRAL_TREE","MEGA_TREE")), ("STARDUST", ("ORNAMENT","SKY_STRUCTURE")), ("PORTALS", ("DOUBLE_HELIX","TUNNEL_3D")), ("AURORA", ("MATRIX_2D","VOXEL_GRID_3D")), ("BELLS_PROCESSION", ("ARCH","PIANO_COLUMN")), ("RIVER_OF_LIGHT", ("GROUND_WAVE","SPHERE"))):
         group("HX_INFINITY_MAGIC_"+label, [r["name"] for r in records if r["family"] in families])
     for ring in range(8):
-        group(f"HX_INFINITY_RING_{ring:02d}", [r["name"] for r in records if min(7,int(math.hypot(*r["center"][:2])/70))==ring])
+        group(f"HX_INFINITY_RING_{ring:02d}", [r["name"] for r in records if min(7,int(math.hypot(r["center"][0],r["center"][2])/70))==ring])
     # Validate full channel allocation and group references before emitting artifacts.
     assert len(names)==len(set(names))
     assert all(a["end_channel"]+1==b["start_channel"] for a,b in zip(records,records[1:]))

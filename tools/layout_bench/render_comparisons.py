@@ -13,6 +13,7 @@ import json
 import math
 import subprocess
 import sys
+from tempfile import TemporaryDirectory
 from pathlib import Path
 
 import numpy as np
@@ -23,6 +24,11 @@ ROOT = Path(__file__).resolve().parents[2]
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
+from core import model_parser
+from core.output_provenance import sha256
+from tools import fseq_pixel_preview
+from tools.layout_bench import xlights_fseq
+from tools.layout_bench.render_cache import cached_render, publish_render
 from tools.layout_bench.xlights_fseq import (  # noqa: E402
     build_node_drawlist,
     load_fseq,
@@ -206,17 +212,33 @@ def paint_fseq_frame(drawlist: dict, row: np.ndarray, sparse_start: int, title: 
 
 
 def write_panel_mp4(panel: dict, out_path: Path) -> dict:
+    inputs = {
+        "layout": sha256(panel["layout"]), "fseq": sha256(panel["fseq"]),
+        "title": panel["title"], "channels": panel["channels"],
+        "dimensions": [PANEL_W, PANEL_H, HEADER_H], "renderer": sha256(__file__),
+        "geometry": sha256(xlights_fseq.__file__), "parser": sha256(model_parser.__file__),
+        "decoder": sha256(fseq_pixel_preview.__file__), "encoder": sha256(_ffmpeg()),
+    }
+    receipt = cached_render(out_path, inputs)
+    if receipt and "result" in receipt:
+        return receipt["result"]
+    out_path.parent.mkdir(parents=True, exist_ok=True)
+    with TemporaryDirectory(dir=out_path.parent) as workspace:
+        silent = Path(workspace) / "panel.mp4"
+        result = _encode_panel(panel, silent)
+        publish_render(silent, out_path, inputs, result=result)
+    return result
+
+
+def _encode_panel(panel: dict, silent: Path) -> dict:
     fseq = load_fseq(panel["fseq"])
     report = model_channel_report(panel["layout"], fseq)
-    if out_path.exists() and out_path.stat().st_size > 10000:
-        return {"fps": fseq.fps(), "report": report}
-    out_path.parent.mkdir(parents=True, exist_ok=True)
     drawlist = build_node_drawlist(panel["layout"], PANEL_W, PANEL_H, HEADER_H)
-    silent = out_path.with_suffix(".silent.mp4")
     cmd = [
         _ffmpeg(),
         "-y",
         "-f", "rawvideo",
+        "-loglevel", "error",
         "-vcodec", "rawvideo",
         "-pix_fmt", "rgb24",
         "-s", f"{PANEL_W}x{PANEL_H}",
@@ -232,16 +254,15 @@ def write_panel_mp4(panel: dict, out_path: Path) -> dict:
     assert proc.stdin is not None
     subtitle = f"{panel['channels']} ch · xLights FSEQ {fseq.step_ms} ms"
     try:
-        for frame_idx in range(fseq.frames):
-            frame = paint_fseq_frame(drawlist, fseq.samples[frame_idx], fseq.sparse_start, panel["title"], subtitle)
+        for row in fseq.rows():
+            frame = paint_fseq_frame(drawlist, row, fseq.sparse_start, panel["title"], subtitle)
             proc.stdin.write(frame.tobytes())
     finally:
         proc.stdin.close()
         stderr = proc.stderr.read().decode("utf-8", errors="replace") if proc.stderr else ""
         code = proc.wait()
     if code != 0:
-        raise RuntimeError(f"panel encode failed for {out_path.name}: {stderr[-600:]}")
-    silent.replace(out_path)
+        raise RuntimeError(f"panel encode failed for {panel['title']}: {stderr[-600:]}")
     return {"fps": fseq.fps(), "report": report}
 
 

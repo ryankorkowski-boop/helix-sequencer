@@ -1,5 +1,18 @@
 # Unified Beta Completion — Live Handoff
 
+## November 20 · Real-audio inventory, native comparison repair and Infinity geometry
+
+HBC-LIB-PCM VERIFIED. All 91 source entries decoded with original channel layout and sample rate. Every byte hash agrees with the previous Drive inventory. There are 84 distinct source files, 80 distinct PCM recordings and 79 eligible songs after excluding Dry Drum Test.wav. [Per-recording evidence](https://drive.google.com/file/d/1Y86xucK6idATACNrdIeTkDqBpMLdhpdY/view). The historical Helix Motion pilot still needs reconciliation against current visual and band requirements.
+
+HBC-COMP-REUSE VERIFIED for the comparison FSEQ and panel stages. Reuse now requires input and output hashes. A corrupted or legacy receipt forces regeneration. Sparse channel gaps stay dark and the comparator streams rows rather than loading every frame into RAM. The sequencing bench's older basename-only XSQ lookup still requires repair.
+
+HBC-GEO-PERF VERIFIED. The model parser reuses the current segment as pixel positions advance. Twenty 512-point projections took 0.16186 s before and 0.01310 s after (seven-run medians, same output hash). See evidence/beta_completion/path_projection_benchmark.json.
+
+HBC-INF-FRONT IMPLEMENTED — UNVERIFIED visually. The former writer applied world translation twice and used depth for vertical height. The repaired layout places upright props in the default preview; the original model names, pixel counts, channels, family groups and nested districts are preserved. Do not reuse prior renders after geometry changes. HBC-INF-NATIVE IMPLEMENTED — UNVERIFIED. The existing Infinity workflow now sequences the full verified Bells source and checks actual native FSEQ duration and family coverage at the bounded tier. This machine's Xvfb cannot open a display socket. The 10,240-prop render, band, mobile, Windows, native acceptance and required comparisons remain open.
+
+Test command: `python -m pytest -q tests/test_infinity_showcase_layout.py tests/test_infinity_showcase_targeting.py tests/test_fseq_pixel_preview.py tests/test_layout_bench.py tests/test_nine_panel_gate.py tests/test_vivid_style.py` (38 passed). The current session did not approve or publish any video. See latest_status.json for per-item dependencies, evidence and blockers.
+
+
 > 2026-11-19 unification session: the current checklist, test table and next actions are in [BETA_1_4_RUNNING_CHECKLIST.md](BETA_1_4_RUNNING_CHECKLIST.md). The sections below are earlier history.
 
 Updated: 2026-11-19 UTC. Status: IN PROGRESS; no release approval. Owner rejected the nine-panel benchmark and the local Tinsel Tornado v2 16-panel pilot. Zero panels passed. The later v3 panels also looked washed out. Do not treat those videos as approval. The newest code change emits xLights modelGroup, submodel, and layer-blend XML and proves it with a 2 second xLights 2026.19 FSEQ. Read that section at the end. No approval MP4, device pass, or release.

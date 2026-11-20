@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "updated_utc": "2026-11-20T06:30:00Z",
+  "updated_utc": "2026-11-20T09:30:03+00:00",
   "branch": "integration/unified-beta-completion-20261117",
   "release_label": "Beta Version 1.4",
   "verified_artifacts": [],
@@ -253,5 +253,12 @@
     "note": "First artifacts from the unified tree are listed below. None is owner-approved; the band MP4 is a custom Helix render, not native xLights.",
     "checklist": "docs/BETA_1_4_RUNNING_CHECKLIST.md"
   },
-  "review_gate_document_url": "https://docs.google.com/document/d/1TfhnsrYi7v8-q4BMeSUWDs5owkZUazbdvDNeUyXDsIM/edit"
+  "review_gate_document_url": "https://docs.google.com/document/d/1TfhnsrYi7v8-q4BMeSUWDs5owkZUazbdvDNeUyXDsIM/edit",
+  "decoded_audio_inventory": {
+    "path": "evidence/beta_completion/decoded_audio_inventory.json",
+    "drive_url": "https://drive.google.com/file/d/1Y86xucK6idATACNrdIeTkDqBpMLdhpdY/view",
+    "sha256": "d43b1760c73d3e366d3fc886a8900b7b3f0287aa8e36c33bb0dcf30a37226804",
+    "type": "source inventory only",
+    "render_count_added": 0
+  }
 }

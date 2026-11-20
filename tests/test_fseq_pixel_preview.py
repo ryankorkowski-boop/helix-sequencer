@@ -132,3 +132,74 @@ def test_fseq_v2_historical_raw_first_block(tmp_path: Path):
     struct.pack_into("<I", buf, 36, len(original))
     path.write_bytes(buf[:raw_offset] + original)
     assert list(FseqReader(path).iter_frames()) == [original]
+
+
+def test_comparison_decoder_keeps_dark_sparse_gaps_and_fractional_rate(tmp_path):
+    from tools.layout_bench.xlights_fseq import load_fseq
+    path = tmp_path / "repacked.fseq"
+    write_fseq(path, version=2, compression=2, sparse=[(30, 3), (63, 3)],
+               frames=[bytes([1, 2, 3, 4, 5, 6])])
+    data = bytearray(path.read_bytes())
+    data[18] = 40
+    path.write_bytes(data)
+    packed = load_fseq(path)
+    assert packed.sparse_start == 30
+    assert next(packed.rows()).tolist() == [1, 2, 3] + [0] * 30 + [4, 5, 6]
+    data[18] = 33
+    path.write_bytes(data)
+    assert load_fseq(path).fps() == pytest.approx(1000 / 33)
+
+
+def test_native_reuse_requires_inputs_and_intact_decodable_output(tmp_path, monkeypatch):
+    from tools.layout_bench import xlights_fseq as bench
+    binary = tmp_path / "xLights"
+    binary.write_bytes(b"test executable identity")
+    monkeypatch.setenv("XLIGHTS_BIN", str(binary))
+    paths = {key: tmp_path / key for key in ("layout_xml", "xsq_path", "media_path")}
+    for path in paths.values():
+        path.write_bytes(b"old")
+    target, show = tmp_path / "show.fseq", tmp_path / "show"
+    calls = []
+    def producer(binary, layout, sequence, audio, directory):
+        calls.append(sequence.read_bytes())
+        output = directory / "output.fseq"
+        write_fseq(output, version=2)
+        return output, "test-version"
+    monkeypatch.setattr(bench, "_run_xlights", producer)
+    def render():
+        return bench.render_sequence_to_fseq(**paths, fseq_path=target, show_dir=show)
+    target.write_bytes(b"x" * 1024)
+    assert render() == render() == "test-version"
+    assert len(calls) == 1
+    for key in paths:
+        paths[key].write_bytes(b"new")
+        render()
+    assert len(calls) == 4
+    target.write_bytes(b"x" * target.stat().st_size)
+    render()
+    assert len(calls) == 5
+
+
+def test_comparison_panel_reuse_checks_bytes_and_render_inputs(tmp_path, monkeypatch):
+    from tools.layout_bench import render_comparisons as bench
+    calls = []
+    def encode(panel, output):
+        calls.append(panel["title"])
+        output.write_bytes(b"panel output" * 1100)
+        return {"fps": 20.0, "report": []}
+    monkeypatch.setattr(bench, "_encode_panel", encode)
+    layout = tmp_path / "layout.xml"
+    layout.write_text("<xrgb/>")
+    fseq = tmp_path / "source.fseq"
+    write_fseq(fseq, version=2)
+    monkeypatch.setattr(bench, "_ffmpeg", lambda: str(layout))
+    panel = {"layout": layout, "fseq": fseq, "title": "one", "channels": 6}
+    output = tmp_path / "panel.mp4"
+    output.write_bytes(b"x" * 12000)
+    bench.write_panel_mp4(panel, output)
+    bench.write_panel_mp4(panel, output)
+    panel["title"] = "two"
+    bench.write_panel_mp4(panel, output)
+    output.write_bytes(b"x" * output.stat().st_size)
+    bench.write_panel_mp4(panel, output)
+    assert calls == ["one", "two", "two"]

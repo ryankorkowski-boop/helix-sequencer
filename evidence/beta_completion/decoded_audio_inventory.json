@@ -1,0 +1,1345 @@
+{
+  "schema": "helix.library.decoded-inventory.v1",
+  "comparison": "First audio stream fully decoded to signed 32-bit little-endian PCM without channel mixing or resampling. Group key includes sample rate, channels and channel layout. All original file SHA-256 multiplicities match prior source inventory.",
+  "decoder": "ffmpeg version 7.1.5-0+deb13u1 Copyright (c) 2000-2026 the FFmpeg developers",
+  "entries": 91,
+  "source_sha256_count": 84,
+  "unique_recordings": 80,
+  "eligible_songs": 79,
+  "recordings": [
+    {
+      "pcm_sha256": "03eaa02216c5cc296f14c443517878ca1d461d379d0de37fd97a2511073707ff",
+      "stream": {
+        "sample_rate": "48000",
+        "channels": 2,
+        "channel_layout": "stereo"
+      },
+      "sources": [
+        {
+          "name": "Circuit Carol (2).mp3",
+          "bytes": 1748982,
+          "sha256": "0bd787a527141e63402ba6833c64f8cbfee67196063b00cfbd85c8d538f1b570"
+        }
+      ],
+      "eligibility": "song"
+    },
+    {
+      "pcm_sha256": "05bbd3633c03715a324334e451c40cfe7220e30f7bbebe465f0a41b1e3ae50c3",
+      "stream": {
+        "sample_rate": "48000",
+        "channels": 2,
+        "channel_layout": "stereo"
+      },
+      "sources": [
+        {
+          "name": "Lights Go Crazy",
+          "bytes": 4578036,
+          "sha256": "1fd83adfae8762f9e79db2f220dae6ee1d1b35756d99aaae8fb04909ee2b6180"
+        }
+      ],
+      "eligibility": "song"
+    },
+    {
+      "pcm_sha256": "1177743bc861ad7c15aea247d7a13c47a82bcadde9aaa7295b1f52cea62bbf69",
+      "stream": {
+        "sample_rate": "48000",
+        "channels": 2,
+        "channel_layout": "stereo"
+      },
+      "sources": [
+        {
+          "name": "Phoneme Test Hook.mp3",
+          "bytes": 802902,
+          "sha256": "19e90c273d0d747938f24b36586b50818c104cddffbefe4a4128927374301938"
+        }
+      ],
+      "eligibility": "song"
+    },
+    {
+      "pcm_sha256": "120d28e19717bc099873e017715ff088bbe633c146787a7772e146112d67ac70",
+      "stream": {
+        "sample_rate": "48000",
+        "channels": 2,
+        "channel_layout": "stereo"
+      },
+      "sources": [
+        {
+          "name": "Drop Circuit (1).mp3",
+          "bytes": 3764326,
+          "sha256": "bef12e0003e69c4022678f5731dea6bc6f26044f7e2cdcc784cc5cc50f8e1261"
+        }
+      ],
+      "eligibility": "song"
+    },
+    {
+      "pcm_sha256": "1aaf4eda119dcd246584b19f15e17e303c7b6040214f204907d852bf19ad5b7a",
+      "stream": {
+        "sample_rate": "48000",
+        "channels": 2,
+        "channel_layout": "stereo"
+      },
+      "sources": [
+        {
+          "name": "Dry Drum Test (Remastered).mp3",
+          "bytes": 1110774,
+          "sha256": "8cfacc022694cf441b9b5e2fa7b9f65d9d0d82f58f71edfecb5205156dd0b275"
+        }
+      ],
+      "eligibility": "song"
+    },
+    {
+      "pcm_sha256": "1c75c20fdf332cafa05d76557519807c35987e0cb6d680772e63c22469772bc1",
+      "stream": {
+        "sample_rate": "48000",
+        "channels": 2,
+        "channel_layout": "stereo"
+      },
+      "sources": [
+        {
+          "name": "Ghost In The Grid.mp3",
+          "bytes": 6178449,
+          "sha256": "201418cf9e011af8c1c8a8d517df7769d89383dee9b6a0c106c246c1d86ce2d2"
+        }
+      ],
+      "eligibility": "song"
+    },
+    {
+      "pcm_sha256": "21fb9136092a2d44d2536ba473b52e0b12979bd8bfd8430a0e19ba087cbbe04b",
+      "stream": {
+        "sample_rate": "48000",
+        "channels": 2,
+        "channel_layout": "stereo"
+      },
+      "sources": [
+        {
+          "name": "Christmas in the Ether 3 ",
+          "bytes": 6192301,
+          "sha256": "547eba840df327746b4552f0a4c19178dd276c469828c3c963f67c1b9ceda45e"
+        }
+      ],
+      "eligibility": "song"
+    },
+    {
+      "pcm_sha256": "24d14423909d9936669a208c1b0c5968795f1b8a5e3d6bef88fa9730ce5a906b",
+      "stream": {
+        "sample_rate": "48000",
+        "channels": 2,
+        "channel_layout": "stereo"
+      },
+      "sources": [
+        {
+          "name": "Candy Cane Shockwave.mp3",
+          "bytes": 3254166,
+          "sha256": "4918dbc6ceb0c69e7e8663936d241fd0993fef1fe8f3197da31d6e569cca31ff"
+        }
+      ],
+      "eligibility": "song"
+    },
+    {
+      "pcm_sha256": "2a9bd3edc260d625dca82a6800263bce94f926b225977e15ead160475fd059c4",
+      "stream": {
+        "sample_rate": "48000",
+        "channels": 2,
+        "channel_layout": "stereo"
+      },
+      "sources": [
+        {
+          "name": "Code Red Garlands.mp3",
+          "bytes": 4824310,
+          "sha256": "6d26ffcfd5afc8528f1aa6b43c7024758a6b6127ac53d573bf5ff365690214f7"
+        }
+      ],
+      "eligibility": "song"
+    },
+    {
+      "pcm_sha256": "2cc03d56b55d0247dbef7308f941e16f472579b22e0ea49c99b74db97733b9f6",
+      "stream": {
+        "sample_rate": "48000",
+        "channels": 2,
+        "channel_layout": "stereo"
+      },
+      "sources": [
+        {
+          "name": "Tinsel Havoc.mp3",
+          "bytes": 3600150,
+          "sha256": "e6424f2c4c17359399cc12afda749e2d8accd481953f00a1ff7342abbce85e1e"
+        }
+      ],
+      "eligibility": "song"
+    },
+    {
+      "pcm_sha256": "2d1c72e6622009e716693b7b5c0dd35191910bd82445fcc4acfa17ba9a98ccfd",
+      "stream": {
+        "sample_rate": "48000",
+        "channels": 2,
+        "channel_layout": "stereo"
+      },
+      "sources": [
+        {
+          "name": "Wire Tree.mp3",
+          "bytes": 5844390,
+          "sha256": "60c78154189231db21791de1a7ad64f063af2eaaf18bb7f318b151620f41cca5"
+        }
+      ],
+      "eligibility": "song"
+    },
+    {
+      "pcm_sha256": "3662b7fb2cc4439f9eed0b98aa6e1eb40323046dbd05334a0e89090700ba6f85",
+      "stream": {
+        "sample_rate": "48000",
+        "channels": 2,
+        "channel_layout": "stereo"
+      },
+      "sources": [
+        {
+          "name": "Wires in the Garland.mp3",
+          "bytes": 5028338,
+          "sha256": "7db189a38b62ccefdc7dec2675e8a4547f7cc206cb6bc55be09aa8aab4760eaf"
+        }
+      ],
+      "eligibility": "song"
+    },
+    {
+      "pcm_sha256": "3cb2c3adf51237f174a72bf53f6730b4ff6d49dc61b56353b028236d8d8156fb",
+      "stream": {
+        "sample_rate": "48000",
+        "channels": 2,
+        "channel_layout": "stereo"
+      },
+      "sources": [
+        {
+          "name": "Spiral Abacus.mp3",
+          "bytes": 1928982,
+          "sha256": "02fd57c52616ac7621a53f67cdc089100c485254bf3775c7ded1b1d044d5a1b3"
+        }
+      ],
+      "eligibility": "song"
+    },
+    {
+      "pcm_sha256": "3e7e368d5a45fded8ebbe45cf276e6f783bef124762a34a999bef224ba79dff6",
+      "stream": {
+        "sample_rate": "48000",
+        "channels": 2,
+        "channel_layout": "stereo"
+      },
+      "sources": [
+        {
+          "name": "Bells of Mathmas.mp3",
+          "bytes": 3620694,
+          "sha256": "beb2a064595a64d4924847ccd68ca0f2897d5de3ae5064e6e2023a68b7b8ce8a"
+        }
+      ],
+      "eligibility": "song"
+    },
+    {
+      "pcm_sha256": "408e913d2fb80d78cfa86f85749c0aa9e54b03c2335b5a585ce016313b0cfc27",
+      "stream": {
+        "sample_rate": "48000",
+        "channels": 2,
+        "channel_layout": "stereo"
+      },
+      "sources": [
+        {
+          "name": "Frosted Axes (1).mp3",
+          "bytes": 3277782,
+          "sha256": "3441a7ffc4fe78370e00e36a1a53371fd8ba98e557f5e274e43234638a02baf3"
+        }
+      ],
+      "eligibility": "song"
+    },
+    {
+      "pcm_sha256": "42c67e3cca9fe2ca17b155131786fb4b10b8dee80d5479e24bd6f04037d82c04",
+      "stream": {
+        "sample_rate": "48000",
+        "channels": 2,
+        "channel_layout": "stereo"
+      },
+      "sources": [
+        {
+          "name": "Tinsel Sawtooth (3).mp3",
+          "bytes": 2313564,
+          "sha256": "691d4386e39b4f7cdf5e539219da42dcd49cdc73370af3fba608d9210618ea25"
+        }
+      ],
+      "eligibility": "song"
+    },
+    {
+      "pcm_sha256": "4738708a18357da1b04f969c48cd5f2ed2916d2667b2cb66fbf78c3fca726c47",
+      "stream": {
+        "sample_rate": "48000",
+        "channels": 2,
+        "channel_layout": "stereo"
+      },
+      "sources": [
+        {
+          "name": "Polar Prism Parade (2).mp3",
+          "bytes": 4171136,
+          "sha256": "42ef3366b32a7e74cc230816ee14551077c9498024990d790d3d96543267149e"
+        }
+      ],
+      "eligibility": "song"
+    },
+    {
+      "pcm_sha256": "4b915783b54e99b4d9e1587cb70f394ccc296b4c29d43969ec6079be6e8e5b5c",
+      "stream": {
+        "sample_rate": "48000",
+        "channels": 2,
+        "channel_layout": "stereo"
+      },
+      "sources": [
+        {
+          "name": "Kaleidoscope Engine (Remastered) (1).mp3",
+          "bytes": 10201132,
+          "sha256": "4db104e4359e5fffaa2f76e946fbb31033a845f0882018ecd37980385b46332a"
+        }
+      ],
+      "eligibility": "song"
+    },
+    {
+      "pcm_sha256": "4cd7483385a1c7636d3346b48414fa3fb93170cca52e2362ec0eec9b1aad9df1",
+      "stream": {
+        "sample_rate": "48000",
+        "channels": 2,
+        "channel_layout": "stereo"
+      },
+      "sources": [
+        {
+          "name": "Frosted Axes.mp3",
+          "bytes": 3266166,
+          "sha256": "6cd567832e6534e1fee26000abfb8a3eef066985752716a6899fb3a2973736ad"
+        }
+      ],
+      "eligibility": "song"
+    },
+    {
+      "pcm_sha256": "4edd141d184c296c87debdcaa5111787a58cd01e930f96cba7f3858780ee7617",
+      "stream": {
+        "sample_rate": "48000",
+        "channels": 2,
+        "channel_layout": "stereo"
+      },
+      "sources": [
+        {
+          "name": "Labyrinth of Swells (1).mp3",
+          "bytes": 4286096,
+          "sha256": "cbc9ba86d4b4c5d7aa7a60a03ff0329c357eb252e8806d5799c7a8ec83d18c9e"
+        }
+      ],
+      "eligibility": "song"
+    },
+    {
+      "pcm_sha256": "502e65ec06bc60fe9d994205e7f38993a0654eb3ad5ca0b94427d9bc87303201",
+      "stream": {
+        "sample_rate": "48000",
+        "channels": 2,
+        "channel_layout": "stereo"
+      },
+      "sources": [
+        {
+          "name": "Who Knew (Grinch's Redemption) (5).mp3",
+          "bytes": 2674749,
+          "sha256": "7c1eb25d0f3ff92a576edc0504c0314526dbcd0dc702bfe998c4ce673e1e0402"
+        }
+      ],
+      "eligibility": "song"
+    },
+    {
+      "pcm_sha256": "50de5f2c69cd70e0e41db5bdd5baec3ee805dfd4560549e3b7984aa2aed79f41",
+      "stream": {
+        "sample_rate": "48000",
+        "channels": 2,
+        "channel_layout": "stereo"
+      },
+      "sources": [
+        {
+          "name": "Snowbound Polyrhythm (1).mp3",
+          "bytes": 3460015,
+          "sha256": "0a075f33fdd05ce511acd175c9c2b91c39c23a5bca9ac252acca157410052fb6"
+        }
+      ],
+      "eligibility": "song"
+    },
+    {
+      "pcm_sha256": "57ef75f49b2c04a0ff6bd71ff2db8e3ccabfeae34198428e19f56402cf2c250c",
+      "stream": {
+        "sample_rate": "48000",
+        "channels": 2,
+        "channel_layout": "stereo"
+      },
+      "sources": [
+        {
+          "name": "Fractal Neck Sprint.mp3",
+          "bytes": 2996742,
+          "sha256": "0b71925089200f340d94748195682705bfe45c015bccb12ca713d752308b59eb"
+        }
+      ],
+      "eligibility": "song"
+    },
+    {
+      "pcm_sha256": "587b98976bac03abb6a569605b9ceb53634e66570b7a0bda1546dff02e0510d4",
+      "stream": {
+        "sample_rate": "48000",
+        "channels": 2,
+        "channel_layout": "stereo"
+      },
+      "sources": [
+        {
+          "name": "Who Knew (Grinch's Redemption) (1).mp3",
+          "bytes": 2621338,
+          "sha256": "a7a5c026e460812bf089ae30d7cee8d8a354606521fdd8532dbe5d86ef3b67b6"
+        }
+      ],
+      "eligibility": "song"
+    },
+    {
+      "pcm_sha256": "5f624a930f4f3e78f1143a737711ffc178148abcf04f027aa8200ec0d28b7e3b",
+      "stream": {
+        "sample_rate": "48000",
+        "channels": 2,
+        "channel_layout": "stereo"
+      },
+      "sources": [
+        {
+          "name": "Tinsel Reactor.mp3",
+          "bytes": 4199167,
+          "sha256": "e02b8ef2ac9f00988470a18c9d254ca830f4bf1a34dcd33f913ee4db8a77c150"
+        }
+      ],
+      "eligibility": "song"
+    },
+    {
+      "pcm_sha256": "60b719d437553268b818b002a6c8f1b402daf2f7b1b47b874fee4674f93221a0",
+      "stream": {
+        "sample_rate": "48000",
+        "channels": 2,
+        "channel_layout": "stereo"
+      },
+      "sources": [
+        {
+          "name": "Holly Steel Run (3).mp3",
+          "bytes": 4122925,
+          "sha256": "f485ef477662e857d2b396b06313bc5248d4270c11d5da5e22e090ea3be3f0a4"
+        }
+      ],
+      "eligibility": "song"
+    },
+    {
+      "pcm_sha256": "62f9d17a1a0d33fc9058b36ee4e2b44655f667295c2db7abf0ec625e448a739b",
+      "stream": {
+        "sample_rate": "48000",
+        "channels": 2,
+        "channel_layout": "stereo"
+      },
+      "sources": [
+        {
+          "name": "Cloud Carousel.mp3",
+          "bytes": 4008726,
+          "sha256": "8ef69995e935315bd999f847deace63c94a689514fa4faf70928bcf9fa33f7dc"
+        }
+      ],
+      "eligibility": "song"
+    },
+    {
+      "pcm_sha256": "642f631cd5054046ffb36ab1444130be1c96873f5eb482a16f5355aa4eff05e2",
+      "stream": {
+        "sample_rate": "48000",
+        "channels": 2,
+        "channel_layout": "stereo"
+      },
+      "sources": [
+        {
+          "name": "Santa on the Subwoofer.mp3",
+          "bytes": 3667326,
+          "sha256": "1edc6870da1f80fcf865bdf783a311b1784e4bd742b612334e93fa0cd8baa210"
+        }
+      ],
+      "eligibility": "song"
+    },
+    {
+      "pcm_sha256": "686cb5e4d8fafe219447840b076418562c9b0deb87efe16a6292eb5e9791d4b9",
+      "stream": {
+        "sample_rate": "48000",
+        "channels": 2,
+        "channel_layout": "stereo"
+      },
+      "sources": [
+        {
+          "name": "Whims of the Machine (Remix).mp3",
+          "bytes": 4649144,
+          "sha256": "2f0a0ceb3b4c74cacfad62920d69ec63634487c1e9993666e7f40a42be7981f5"
+        }
+      ],
+      "eligibility": "song"
+    },
+    {
+      "pcm_sha256": "690108976ad89bd50f251bc038e984daf98a38e67bee14cf8b4046286fe39417",
+      "stream": {
+        "sample_rate": "48000",
+        "channels": 2,
+        "channel_layout": "stereo"
+      },
+      "sources": [
+        {
+          "name": "Drop Circuit (2).mp3",
+          "bytes": 3778742,
+          "sha256": "8066ee15ac18a13ef2a76d7a952d5afa2e52b6a124e295421a4facc9c4f6733c"
+        },
+        {
+          "name": "Drop Circuit.mp3",
+          "bytes": 3748182,
+          "sha256": "49cfd02eb8450e0daa334a9176adbbeb6b63cc45ed6c1dfb3c8da7611cb443fd"
+        }
+      ],
+      "eligibility": "song"
+    },
+    {
+      "pcm_sha256": "6953e1baaedc2edb6118cd74479457db63c59deae2e46ae4e9508e12c46671cd",
+      "stream": {
+        "sample_rate": "48000",
+        "channels": 2,
+        "channel_layout": "stereo"
+      },
+      "sources": [
+        {
+          "name": "Festivus (Remastered).mp3",
+          "bytes": 2701542,
+          "sha256": "df30a1b52523ecc41efb06751f64a576744b06e49b594d016c2793bab90836f6"
+        }
+      ],
+      "eligibility": "song"
+    },
+    {
+      "pcm_sha256": "6db22a4b07f4fc896a0dc5a2bf67d1e8c7af664b29dc1bce21343c2e5e61a3de",
+      "stream": {
+        "sample_rate": "48000",
+        "channels": 2,
+        "channel_layout": "stereo"
+      },
+      "sources": [
+        {
+          "name": "Glitterquake Parade (1).mp3",
+          "bytes": 3523498,
+          "sha256": "20528546d72578325407ea8d97f05dcd7b43d9e337a449bc0d3e2b3a457f84ab"
+        },
+        {
+          "name": "Glitterquake Parade (2).mp3",
+          "bytes": 3523498,
+          "sha256": "20528546d72578325407ea8d97f05dcd7b43d9e337a449bc0d3e2b3a457f84ab"
+        }
+      ],
+      "eligibility": "song"
+    },
+    {
+      "pcm_sha256": "6fad95d53edeb386236bfa9a245dc91b2027e873d8e9ed924f8a6135c1041e3a",
+      "stream": {
+        "sample_rate": "48000",
+        "channels": 2,
+        "channel_layout": "stereo"
+      },
+      "sources": [
+        {
+          "name": "Fractured Mosaic.mp3",
+          "bytes": 4857535,
+          "sha256": "63634f2bea843006ce6341aadde5815400e8ed8b8a4a682a71fcc9ad13d94313"
+        }
+      ],
+      "eligibility": "song"
+    },
+    {
+      "pcm_sha256": "6fb947a8ca49be1389cdd8f3187627fee8a08fb2e4205d0ed1b7e436ef6324e2",
+      "stream": {
+        "sample_rate": "48000",
+        "channels": 2,
+        "channel_layout": "stereo"
+      },
+      "sources": [
+        {
+          "name": "Audio in. Lights out. Welcome to Helix",
+          "bytes": 6206675,
+          "sha256": "539b7ab219cf5a1bddeae098a8df58f193ceb02d46bacf7b0f3189ea3f4ebe92"
+        },
+        {
+          "name": "Audio in. Lights out. Welcome to Helix",
+          "bytes": 6206675,
+          "sha256": "539b7ab219cf5a1bddeae098a8df58f193ceb02d46bacf7b0f3189ea3f4ebe92"
+        },
+        {
+          "name": "Audio in. Lights out. Welcome to Helix",
+          "bytes": 6206675,
+          "sha256": "539b7ab219cf5a1bddeae098a8df58f193ceb02d46bacf7b0f3189ea3f4ebe92"
+        },
+        {
+          "name": "Copy of Audio in. Lights out. Welcome to Helix",
+          "bytes": 6206675,
+          "sha256": "539b7ab219cf5a1bddeae098a8df58f193ceb02d46bacf7b0f3189ea3f4ebe92"
+        }
+      ],
+      "eligibility": "song"
+    },
+    {
+      "pcm_sha256": "709f1622a31d454e8f11752dbbaf9abc78b04d894fdc3d563c36ac2da33e76e4",
+      "stream": {
+        "sample_rate": "48000",
+        "channels": 2,
+        "channel_layout": "stereo"
+      },
+      "sources": [
+        {
+          "name": "Who Knew (Grinch's Redemption).mp3",
+          "bytes": 2673907,
+          "sha256": "edf070483773ff3ef4da91841ed04da5c7f7dfd080c7bfba32e063cae1848f33"
+        }
+      ],
+      "eligibility": "song"
+    },
+    {
+      "pcm_sha256": "70f4a4826781a708a930566e89e4d61834186433ff342b6d92d9022d845b81b3",
+      "stream": {
+        "sample_rate": "48000",
+        "channels": 2,
+        "channel_layout": "stereo"
+      },
+      "sources": [
+        {
+          "name": "Tinsel Sawtooth (1).mp3",
+          "bytes": 3088470,
+          "sha256": "e9add1d351989d4a359cdda837fc5139a8e358ca067d31a839cafa6b35c954fc"
+        },
+        {
+          "name": "Tinsel Sawtooth (4).mp3",
+          "bytes": 3122628,
+          "sha256": "d03bf439af6508ba3ec87964999f4a9a5ff3a162fd030f6f4016b7f293ded2ba"
+        }
+      ],
+      "eligibility": "song"
+    },
+    {
+      "pcm_sha256": "71ba25b801d2de25692af2a1e11c24c004dbfec28c98496516122d0bacf5d3b9",
+      "stream": {
+        "sample_rate": "48000",
+        "channels": 2,
+        "channel_layout": "stereo"
+      },
+      "sources": [
+        {
+          "name": "Circuit Carol.mp3",
+          "bytes": 1837014,
+          "sha256": "546d214fafc467c8581175bae47e78531eae01fb7abcd99a1a37358670885885"
+        }
+      ],
+      "eligibility": "song"
+    },
+    {
+      "pcm_sha256": "72f9590a4473edb6c19a2bd63d304f66fdecdfc69593befa4518d81b625ca1f8",
+      "stream": {
+        "sample_rate": "48000",
+        "channels": 2,
+        "channel_layout": "stereo"
+      },
+      "sources": [
+        {
+          "name": "Holly Steel Run (2).mp3",
+          "bytes": 4013010,
+          "sha256": "74fc257d4927aa3313ac689fa9c953fee8c739b38900c86383bd276e220c333e"
+        }
+      ],
+      "eligibility": "song"
+    },
+    {
+      "pcm_sha256": "75017fa0c759bd93a6dc2d43aa747b1e56bd2ce38cd6552bea6c34565dd64f23",
+      "stream": {
+        "sample_rate": "48000",
+        "channels": 2,
+        "channel_layout": "stereo"
+      },
+      "sources": [
+        {
+          "name": "Who Knew (Grinch's Redemption) (2).mp3",
+          "bytes": 2509665,
+          "sha256": "159d4495d4c267b7dab04c9903dee7ccca222a53b798c0cb6627029a2b70ebd0"
+        }
+      ],
+      "eligibility": "song"
+    },
+    {
+      "pcm_sha256": "77a4a0ed41c3286971db15200934de9176a21c41f4e8623f3a66a6b2e422c025",
+      "stream": {
+        "sample_rate": "48000",
+        "channels": 2
+      },
+      "sources": [
+        {
+          "name": "Dry Drum Test.wav",
+          "bytes": 7357612,
+          "sha256": "4cd9ee35b65d359aa44ac4c9e01a256bbcaf3297458340fc512084bae1463913"
+        }
+      ],
+      "eligibility": "dry-drum calibration"
+    },
+    {
+      "pcm_sha256": "7c90005fd7255023754a8c45e1bc3718de8a2eb42f039c437636c7b2cf3f3c60",
+      "stream": {
+        "sample_rate": "48000",
+        "channels": 2,
+        "channel_layout": "stereo"
+      },
+      "sources": [
+        {
+          "name": "Copy of Tinsel Tornado.mp3",
+          "bytes": 4832005,
+          "sha256": "8b8caddd6c292a13995bde0e80ac66f948246bd634278ab4ade1a82163aa7086"
+        },
+        {
+          "name": "Tinsel Tornado.mp3",
+          "bytes": 4832005,
+          "sha256": "8b8caddd6c292a13995bde0e80ac66f948246bd634278ab4ade1a82163aa7086"
+        }
+      ],
+      "eligibility": "song"
+    },
+    {
+      "pcm_sha256": "7ee11cadea9f04f62cb6aa7fb491dd8ca6109332e8fd6e8a662e8239d707f843",
+      "stream": {
+        "sample_rate": "48000",
+        "channels": 2,
+        "channel_layout": "stereo"
+      },
+      "sources": [
+        {
+          "name": "Frostbitten Fingerboard (1).mp3",
+          "bytes": 1157046,
+          "sha256": "657e5c5dbb9b6372d5c9086b547d236b47815c32306e53a753735f5f5775e504"
+        }
+      ],
+      "eligibility": "song"
+    },
+    {
+      "pcm_sha256": "81254ef30ed8ab6b06bc2ab4ddb8a93d09e61af6eda74cbb2b53308c4f29825c",
+      "stream": {
+        "sample_rate": "48000",
+        "channels": 2,
+        "channel_layout": "stereo"
+      },
+      "sources": [
+        {
+          "name": "Glitterquake Parade.mp3",
+          "bytes": 3859470,
+          "sha256": "07cc2ffb0359b6f0a1703b633be890979c2369e227ee383536a2cfbbdb1ca3f3"
+        }
+      ],
+      "eligibility": "song"
+    },
+    {
+      "pcm_sha256": "81eba12efaae1497437eba9ec5d2ee0575f23bb269af62beb0bc2e4f6a63cc33",
+      "stream": {
+        "sample_rate": "48000",
+        "channels": 2,
+        "channel_layout": "stereo"
+      },
+      "sources": [
+        {
+          "name": "Glass Under Skin.mp3",
+          "bytes": 6792343,
+          "sha256": "1918810704b9c103d9273745d761a49f365fe9d6a626aaf997c682871bdefd53"
+        }
+      ],
+      "eligibility": "song"
+    },
+    {
+      "pcm_sha256": "83c635b43ba968f28172b5bbbab87d678789bb7eb121be8ffc14d5ce4f8ad0e7",
+      "stream": {
+        "sample_rate": "48000",
+        "channels": 2,
+        "channel_layout": "stereo"
+      },
+      "sources": [
+        {
+          "name": "Kaleidoscope Engine (Remastered).mp3",
+          "bytes": 9991396,
+          "sha256": "211a5aa243b4ae0df70fca05a183f534f422e91b4780cf2abf9e6bf79f8c3ac6"
+        }
+      ],
+      "eligibility": "song"
+    },
+    {
+      "pcm_sha256": "843dacc04e312a461b7532e81385f6ac2ed22af89ddaae91b7d3701558184ca6",
+      "stream": {
+        "sample_rate": "48000",
+        "channels": 2,
+        "channel_layout": "stereo"
+      },
+      "sources": [
+        {
+          "name": "Labyrinth of Swells.mp3",
+          "bytes": 5451202,
+          "sha256": "b1b6309b253e6f49dcf36e8b34127559903e9ef836f61a178c975ac573f7ed1d"
+        }
+      ],
+      "eligibility": "song"
+    },
+    {
+      "pcm_sha256": "8457fbc42b047bc75a7201ebd7a22a9b94a9c73249ad8258a1585ea1a4daf5dd",
+      "stream": {
+        "sample_rate": "48000",
+        "channels": 2,
+        "channel_layout": "stereo"
+      },
+      "sources": [
+        {
+          "name": "Wub Wub Wonderland.mp3",
+          "bytes": 5017817,
+          "sha256": "76641340a2a59c5797b333cd36b1e108f503017d190510fbe8da9931ea3f9abc"
+        }
+      ],
+      "eligibility": "song"
+    },
+    {
+      "pcm_sha256": "8a557a9a13b3a7f571d291f8e7f73ce5d6eb6802df6be5c30ad52043405caff4",
+      "stream": {
+        "sample_rate": "48000",
+        "channels": 2,
+        "channel_layout": "stereo"
+      },
+      "sources": [
+        {
+          "name": "Helix Audiolights.mp3",
+          "bytes": 5574695,
+          "sha256": "8ced92ba179c931a2c7f29f834df1c8fd6a399d78074de0de030bc952bb5f0ec"
+        }
+      ],
+      "eligibility": "song"
+    },
+    {
+      "pcm_sha256": "8f65b17779eae79c97359b348e0009dc33a9f5adb3ad4fb1d06be73ed881264a",
+      "stream": {
+        "sample_rate": "48000",
+        "channels": 2,
+        "channel_layout": "stereo"
+      },
+      "sources": [
+        {
+          "name": "Whims of the Machine (Remastered x2) (1).mp3",
+          "bytes": 6570615,
+          "sha256": "567622f3fd766a87a6a0aedd185d6d6f52c16efae2bb61823814d41c4ca211f7"
+        }
+      ],
+      "eligibility": "song"
+    },
+    {
+      "pcm_sha256": "9301c33d3874918047363580c5e638a4e601c7b021e684ddbff46d805a03130d",
+      "stream": {
+        "sample_rate": "48000",
+        "channels": 2,
+        "channel_layout": "stereo"
+      },
+      "sources": [
+        {
+          "name": "North Pole Overdrive.mp3",
+          "bytes": 5585164,
+          "sha256": "d4a22b3b8982ea0e71aebc2ee0c7235cae2e77965b73764274cfbd89f64e54e5"
+        }
+      ],
+      "eligibility": "song"
+    },
+    {
+      "pcm_sha256": "93bd268bc1ecb435cf017416786bb72d78088163f4b5238d6c2aff45ad81c482",
+      "stream": {
+        "sample_rate": "48000",
+        "channels": 2,
+        "channel_layout": "stereo"
+      },
+      "sources": [
+        {
+          "name": "Christmas in the Ether",
+          "bytes": 2591814,
+          "sha256": "440b8ceca771c27686fe6c4f09bea36c07962894c8f818478702b9b2c78aefa1"
+        }
+      ],
+      "eligibility": "song"
+    },
+    {
+      "pcm_sha256": "9567489b7a4d7cb94fd578a87a7f05f61f8a9b2d7ef38c9d6ebffb973eab830b",
+      "stream": {
+        "sample_rate": "48000",
+        "channels": 2,
+        "channel_layout": "stereo"
+      },
+      "sources": [
+        {
+          "name": "Frostbitten Fingerboard.mp3",
+          "bytes": 3216822,
+          "sha256": "db04752e8a7e29c6290234ecd5f237c999f9137fcbaaba4721d78e9dbfdb8d76"
+        }
+      ],
+      "eligibility": "song"
+    },
+    {
+      "pcm_sha256": "9a9a608a92e42024373690b380507fe7660022a211831d68d33f438e4b3d8497",
+      "stream": {
+        "sample_rate": "48000",
+        "channels": 2,
+        "channel_layout": "stereo"
+      },
+      "sources": [
+        {
+          "name": "Sentient Christmas Glow.mp3",
+          "bytes": 4875651,
+          "sha256": "b15e54f6a23dc4f2dc8223a909ae2d7cba981e81c9a04c8a6d0e83e2f4f14407"
+        }
+      ],
+      "eligibility": "song"
+    },
+    {
+      "pcm_sha256": "9cee552bb369aba2b243bcdd60c9e0c2e20ceda31693ab6d12112eec5de74913",
+      "stream": {
+        "sample_rate": "48000",
+        "channels": 2,
+        "channel_layout": "stereo"
+      },
+      "sources": [
+        {
+          "name": "Let It Glow.mp3",
+          "bytes": 5039785,
+          "sha256": "d0fdcf1fc60c68a2b0834795a3d182326b1094561035f1d60ea789ab3d863dc5"
+        }
+      ],
+      "eligibility": "song"
+    },
+    {
+      "pcm_sha256": "9d65da965407b08f1355df60784b16623653932d705e9cf0fecc2d15138a02bc",
+      "stream": {
+        "sample_rate": "48000",
+        "channels": 2,
+        "channel_layout": "stereo"
+      },
+      "sources": [
+        {
+          "name": "Whims of the Machine (Remastered x2).mp3",
+          "bytes": 4757366,
+          "sha256": "3f54924f09d7c71516763d8b141a65648d18475c05939fd81c26e0326b3f8053"
+        }
+      ],
+      "eligibility": "song"
+    },
+    {
+      "pcm_sha256": "9f02b300366586d15e80fea63f8d09aecc2552d242883bfae6ee46f79c097dab",
+      "stream": {
+        "sample_rate": "48000",
+        "channels": 2,
+        "channel_layout": "stereo"
+      },
+      "sources": [
+        {
+          "name": "Polar Prism Parade (1).mp3",
+          "bytes": 4686892,
+          "sha256": "a03b3508dfbc3886912ee188df764f04464ced8add8ccb57ddfafb71fa6ad6ca"
+        },
+        {
+          "name": "Polar Prism Parade.mp3",
+          "bytes": 4660374,
+          "sha256": "f349d05738ab274a6a37125021a7addae5569f9d074278b351a17c62072a2a0f"
+        }
+      ],
+      "eligibility": "song"
+    },
+    {
+      "pcm_sha256": "a07ee7f5750cbd208f367213f1d4fcafd53f2ac25eb7ef97cc497660a861aa84",
+      "stream": {
+        "sample_rate": "48000",
+        "channels": 2,
+        "channel_layout": "stereo"
+      },
+      "sources": [
+        {
+          "name": "Candy Cane Chaos (1).mp3",
+          "bytes": 5247603,
+          "sha256": "1da0375054c21124d020f9daf4312e9c2d2e2453b48bbc0bf1c2389a9df36f25"
+        }
+      ],
+      "eligibility": "song"
+    },
+    {
+      "pcm_sha256": "a30688b42ac57b698875565a7d0628b72e2f887769eafca448bfac753d10d549",
+      "stream": {
+        "sample_rate": "48000",
+        "channels": 2,
+        "channel_layout": "stereo"
+      },
+      "sources": [
+        {
+          "name": "Signal Bend.mp3",
+          "bytes": 8145250,
+          "sha256": "e2eb9f3a7892e830f358689404a8466cac26c6db7378d4fa81ce49935bce6f88"
+        }
+      ],
+      "eligibility": "song"
+    },
+    {
+      "pcm_sha256": "a7b25bb6641efb8eeff66b564ede606a0bdae30ac98a2908aca9b256a99399fe",
+      "stream": {
+        "sample_rate": "48000",
+        "channels": 2,
+        "channel_layout": "stereo"
+      },
+      "sources": [
+        {
+          "name": "Tinsel Mayhem.mp3",
+          "bytes": 5898262,
+          "sha256": "ba6fd3c939ffd8795da30afc5b025f538eeb06afd1f77eb20304108f75c26fdc"
+        }
+      ],
+      "eligibility": "song"
+    },
+    {
+      "pcm_sha256": "b07edcd444de498bfcd3dd73b64c87a0086d68e55c775323f44a807311fc679b",
+      "stream": {
+        "sample_rate": "48000",
+        "channels": 2,
+        "channel_layout": "stereo"
+      },
+      "sources": [
+        {
+          "name": "Candy Cane Maelstrom.mp3",
+          "bytes": 4421430,
+          "sha256": "d9f7c0527624aadc0262ca661cca613ede349f5d5565cfcf7788827faf74a1c8"
+        }
+      ],
+      "eligibility": "song"
+    },
+    {
+      "pcm_sha256": "b254a0e070caa6f4778fe8e836a12f304674211fe1c1397fccef3cd6d5bb4854",
+      "stream": {
+        "sample_rate": "48000",
+        "channels": 2,
+        "channel_layout": "stereo"
+      },
+      "sources": [
+        {
+          "name": "Who Knew (Grinch's Redemption) (3).mp3",
+          "bytes": 2423307,
+          "sha256": "a6a1fc079df2458525ac19d3b7d1a0295981f3dbfb965a59bb19de1db17dc623"
+        },
+        {
+          "name": "Who Knew (Grinch's Redemption) (4).mp3",
+          "bytes": 2423307,
+          "sha256": "a6a1fc079df2458525ac19d3b7d1a0295981f3dbfb965a59bb19de1db17dc623"
+        }
+      ],
+      "eligibility": "song"
+    },
+    {
+      "pcm_sha256": "b2ea8ebd184575dd79a30161b326a6a068b070fda11e78475f6ef429d4043475",
+      "stream": {
+        "sample_rate": "48000",
+        "channels": 2,
+        "channel_layout": "stereo"
+      },
+      "sources": [
+        {
+          "name": "Christmas in the Ether 2",
+          "bytes": 3402898,
+          "sha256": "a9248bce4d672f72cedc04ddb00c2820b10978ac6109b8977e2b798cd4fc9ed9"
+        }
+      ],
+      "eligibility": "song"
+    },
+    {
+      "pcm_sha256": "b3587df699a3458054004643adab60877832018f6772d8ba5791050882602b80",
+      "stream": {
+        "sample_rate": "48000",
+        "channels": 2,
+        "channel_layout": "stereo"
+      },
+      "sources": [
+        {
+          "name": "Audio In Lights Out.mp3",
+          "bytes": 3112518,
+          "sha256": "7dd9d8184043bda4f9dbbd2d83e268d6b30c00bc1edc981e13ce37c48697eca9"
+        },
+        {
+          "name": "Tralala",
+          "bytes": 3112518,
+          "sha256": "7dd9d8184043bda4f9dbbd2d83e268d6b30c00bc1edc981e13ce37c48697eca9"
+        }
+      ],
+      "eligibility": "song"
+    },
+    {
+      "pcm_sha256": "b5420ff79cc7e5ef12864efb8e5108f245c51e7e55ff6545f41b81a8c9b89c1a",
+      "stream": {
+        "sample_rate": "48000",
+        "channels": 2,
+        "channel_layout": "stereo"
+      },
+      "sources": [
+        {
+          "name": "Jingle Wobble",
+          "bytes": 5172966,
+          "sha256": "ce7b0d9f3127a49e3d0dff8e1dce56a0d620c45f15465dbca0fde3925501c122"
+        }
+      ],
+      "eligibility": "song"
+    },
+    {
+      "pcm_sha256": "b88c7c11ff50eaa259385b8189f6367787bc9e99b758ea50a488503eea59f558",
+      "stream": {
+        "sample_rate": "48000",
+        "channels": 2,
+        "channel_layout": "stereo"
+      },
+      "sources": [
+        {
+          "name": "Orchestral wanderings (Remastered) (1).mp3",
+          "bytes": 5510849,
+          "sha256": "228d35885e03039b8063e9368f707e942a0c0bdb8957fdf5064eecb0d49c83a6"
+        },
+        {
+          "name": "Orchestral wanderings (Remastered).mp3",
+          "bytes": 5478822,
+          "sha256": "eb10341c7430bb4e8ea9d4fc1c0146861de59635800385ad7e70274df2148f0d"
+        }
+      ],
+      "eligibility": "song"
+    },
+    {
+      "pcm_sha256": "ba852dfa610639960200b7956f72a138ba6135e8452f4de5dd22db52ea46f383",
+      "stream": {
+        "sample_rate": "48000",
+        "channels": 2,
+        "channel_layout": "stereo"
+      },
+      "sources": [
+        {
+          "name": "Holly Steel Run.mp3",
+          "bytes": 3873558,
+          "sha256": "730d7db5128fb81675a61f159dea6fa05a7f677c469536c0f789c03992fdb7af"
+        }
+      ],
+      "eligibility": "song"
+    },
+    {
+      "pcm_sha256": "bd81f5df2a6260e48a3fe952e2525e8e3b036a007ace2ba0dd0770ee6c9df8b2",
+      "stream": {
+        "sample_rate": "48000",
+        "channels": 2,
+        "channel_layout": "stereo"
+      },
+      "sources": [
+        {
+          "name": "Tinsel Sawtooth.mp3",
+          "bytes": 3839910,
+          "sha256": "b23c792a3c42dc27a756d6e302cb4d4b19b9cfe1742a4ec48f813dbbc0604715"
+        }
+      ],
+      "eligibility": "song"
+    },
+    {
+      "pcm_sha256": "bdfa52a6c6be58f1508ea55743ce9dd61afc6325e16a80fa83af6963f6facc22",
+      "stream": {
+        "sample_rate": "48000",
+        "channels": 2,
+        "channel_layout": "stereo"
+      },
+      "sources": [
+        {
+          "name": "Glass Horizon Run.mp3",
+          "bytes": 3732185,
+          "sha256": "d35a6beb5be67cc822e3f3da7f1eebc7e4149e8f22760e5c2612dc8786bf6e4b"
+        }
+      ],
+      "eligibility": "song"
+    },
+    {
+      "pcm_sha256": "c11966ea395fae1a69591821fe6dff754e4d4a13d69975854e5699056a9e0789",
+      "stream": {
+        "sample_rate": "48000",
+        "channels": 2,
+        "channel_layout": "stereo"
+      },
+      "sources": [
+        {
+          "name": "Who Knew (Grinch's Redemption) (6).mp3",
+          "bytes": 2327710,
+          "sha256": "cff87ccea7a00dad0c4874c1b5d4d348a0335dbc2f35e60ca202d5c4d67a512a"
+        }
+      ],
+      "eligibility": "song"
+    },
+    {
+      "pcm_sha256": "ca0b5d4c77cae9c30d6ea893b1df92b4aa78e8c8e393719cafa369277f740be5",
+      "stream": {
+        "sample_rate": "48000",
+        "channels": 2,
+        "channel_layout": "stereo"
+      },
+      "sources": [
+        {
+          "name": "Whims of the Machine (Remastered).mp3",
+          "bytes": 5851718,
+          "sha256": "cc789fc195190357a3489192cb6bbcd92dca30a7805684bc795878eb89775ecc"
+        }
+      ],
+      "eligibility": "song"
+    },
+    {
+      "pcm_sha256": "d4745460c212b2d274667dca2fe5e152c79ad7498e566efe1db86e2f8c12c9c3",
+      "stream": {
+        "sample_rate": "48000",
+        "channels": 2,
+        "channel_layout": "stereo"
+      },
+      "sources": [
+        {
+          "name": "Helix Motion.mp3",
+          "bytes": 5933913,
+          "sha256": "fc91e3f48f709e615ba598a5d49ae63ab9652c0d16e324095f6e1b20377e082b"
+        }
+      ],
+      "eligibility": "song"
+    },
+    {
+      "pcm_sha256": "d98723a740f6671e75995618c941ea6bc4b266b6b3ec11d89d30e01945fdf8d0",
+      "stream": {
+        "sample_rate": "48000",
+        "channels": 2,
+        "channel_layout": "stereo"
+      },
+      "sources": [
+        {
+          "name": "Whims of the Machine (Remastered x2) (2).mp3",
+          "bytes": 6515991,
+          "sha256": "c19cc2f51e2a0c7e51b937aae81af7d6999af1fdd3539b2dcd745c9cf1d37111"
+        }
+      ],
+      "eligibility": "song"
+    },
+    {
+      "pcm_sha256": "dd79368c52b3344f0e2bf46fab0a480db93dbbb79bece58e15ed209f2fca6394",
+      "stream": {
+        "sample_rate": "48000",
+        "channels": 2,
+        "channel_layout": "stereo"
+      },
+      "sources": [
+        {
+          "name": "Three Solo Test.mp3",
+          "bytes": 3751782,
+          "sha256": "f3db3612e84179684118c8e2ef8e476e1aa87cb7d252e965a8228098d3969933"
+        }
+      ],
+      "eligibility": "song"
+    },
+    {
+      "pcm_sha256": "e17edd51c1f9e4d7f41caa7ccbd2fea3698d98782c5572d70175f9ea030e95f2",
+      "stream": {
+        "sample_rate": "48000",
+        "channels": 2,
+        "channel_layout": "stereo"
+      },
+      "sources": [
+        {
+          "name": "Whims of the Machine (Remix) (1).mp3",
+          "bytes": 9077065,
+          "sha256": "e4e84549475ac225100a87694577fc0ba282481e8cf1bdb50f99550bf3a25607"
+        }
+      ],
+      "eligibility": "song"
+    },
+    {
+      "pcm_sha256": "eb3940c21e1ef51d625d3450b0054bf6f5133a7a8dabf115156ffac2d5076f9c",
+      "stream": {
+        "sample_rate": "48000",
+        "channels": 2,
+        "channel_layout": "stereo"
+      },
+      "sources": [
+        {
+          "name": "Holly Steel Run (1).mp3",
+          "bytes": 2361798,
+          "sha256": "47e61a145578fa7d153b2ecb7de02bf10c61646bf246421365f24439df697dc1"
+        }
+      ],
+      "eligibility": "song"
+    },
+    {
+      "pcm_sha256": "ef9f494bebf3aff70a8edca9105d728ef2a7a007aa954350ae3244cb663e38d4",
+      "stream": {
+        "sample_rate": "48000",
+        "channels": 2,
+        "channel_layout": "stereo"
+      },
+      "sources": [
+        {
+          "name": "Tinsel Sawtooth (2).mp3",
+          "bytes": 3750203,
+          "sha256": "1908c4b1c7504674e93be7dec84a777a159c6879fcf5f31c16047de4255b4ab2"
+        }
+      ],
+      "eligibility": "song"
+    },
+    {
+      "pcm_sha256": "f7cbe4b1647c0faf70b3faba877cc4c960e306de35a5589b922748ebf2394a02",
+      "stream": {
+        "sample_rate": "48000",
+        "channels": 2,
+        "channel_layout": "stereo"
+      },
+      "sources": [
+        {
+          "name": "Fractal Crown.mp3",
+          "bytes": 5033166,
+          "sha256": "4cf9f696e04fbac5fdd326dc34a3d576e79cb8086357bfb744c8ab46f6d3a64a"
+        }
+      ],
+      "eligibility": "song"
+    },
+    {
+      "pcm_sha256": "f7e17a37aacc00c82540d4dddfe296be608f60eb9771dea04628ea36c59e47c9",
+      "stream": {
+        "sample_rate": "48000",
+        "channels": 2,
+        "channel_layout": "stereo"
+      },
+      "sources": [
+        {
+          "name": "Who Knew (Grinch's Redemption) (Remastered).mp3",
+          "bytes": 2753482,
+          "sha256": "e8063b8e2826f8c60aec7b72f4b7a07fef69161e8537789cf6a2193e7f060abd"
+        }
+      ],
+      "eligibility": "song"
+    },
+    {
+      "pcm_sha256": "f99f04e20ae911bc896f5cd7489a4873b96fec3bf898e27281c37a6aa4fb865e",
+      "stream": {
+        "sample_rate": "48000",
+        "channels": 2,
+        "channel_layout": "stereo"
+      },
+      "sources": [
+        {
+          "name": "Lethal Christmas Logic (Remastered).mp3",
+          "bytes": 1585350,
+          "sha256": "75287928c8c062bb667aa1f49acf72944673cb0a69afcdb9ba8ecb70add07d79"
+        }
+      ],
+      "eligibility": "song"
+    },
+    {
+      "pcm_sha256": "fdcd0749f49a32c7d51c5a980beae66cca8bd67f84042f20cc6b2bcd311c9a95",
+      "stream": {
+        "sample_rate": "48000",
+        "channels": 2,
+        "channel_layout": "stereo"
+      },
+      "sources": [
+        {
+          "name": "Wub Wub Wonderland (Remastered).mp3",
+          "bytes": 4944239,
+          "sha256": "f5bf2671150fd3bfaecec35fea53839b4a62543df3f2520d3c288fffd51aee73"
+        }
+      ],
+      "eligibility": "song"
+    }
+  ]
+}

@@ -1,5 +1,18 @@
 # HELIX MASTER TODO & AGENT HANDOFF LEDGER
 
+## November 20 · Real-audio inventory, native comparison repair and Infinity geometry
+
+HBC-LIB-PCM VERIFIED. All 91 source entries decoded with original channel layout and sample rate. Every byte hash agrees with the previous Drive inventory. There are 84 distinct source files, 80 distinct PCM recordings and 79 eligible songs after excluding Dry Drum Test.wav. [Per-recording evidence](https://drive.google.com/file/d/1Y86xucK6idATACNrdIeTkDqBpMLdhpdY/view). The historical Helix Motion pilot still needs reconciliation against current visual and band requirements.
+
+HBC-COMP-REUSE VERIFIED for the comparison FSEQ and panel stages. Reuse now requires input and output hashes. A corrupted or legacy receipt forces regeneration. Sparse channel gaps stay dark and the comparator streams rows rather than loading every frame into RAM. The sequencing bench's older basename-only XSQ lookup still requires repair.
+
+HBC-GEO-PERF VERIFIED. The model parser reuses the current segment as pixel positions advance. Twenty 512-point projections took 0.16186 s before and 0.01310 s after (seven-run medians, same output hash). See evidence/beta_completion/path_projection_benchmark.json.
+
+HBC-INF-FRONT IMPLEMENTED — UNVERIFIED visually. The former writer applied world translation twice and used depth for vertical height. The repaired layout places upright props in the default preview; the original model names, pixel counts, channels, family groups and nested districts are preserved. Do not reuse prior renders after geometry changes. HBC-INF-NATIVE IMPLEMENTED — UNVERIFIED. The existing Infinity workflow now sequences the full verified Bells source and checks actual native FSEQ duration and family coverage at the bounded tier. This machine's Xvfb cannot open a display socket. The 10,240-prop render, band, mobile, Windows, native acceptance and required comparisons remain open.
+
+Test command: `python -m pytest -q tests/test_infinity_showcase_layout.py tests/test_infinity_showcase_targeting.py tests/test_fseq_pixel_preview.py tests/test_layout_bench.py tests/test_nine_panel_gate.py tests/test_vivid_style.py` (38 passed). The current session did not approve or publish any video. See latest_status.json for per-item dependencies, evidence and blockers.
+
+
 > **2026-11-20 GitHub/Drive gate:** CI run [44687388477](https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/44687388477), head `f8bd364`: focused regression jobs 3.11 and 3.12 passed; full suites pending when inspected. Drive [Beta 1.4 band hook](https://drive.google.com/file/d/1NShBmODsUiToi14bxZ1sptbYrU1CZ_YQ/view) is a **custom OpenGL diagnostic**, explicitly NOT native xLights nor approved; its [receipt](https://drive.google.com/file/d/1CPX59ePv9XyVXUTu2QNU9OZWfYQyQ_93/view) confirms independent backing unverified. [Drive review gate](https://docs.google.com/document/d/1TfhnsrYi7v8-q4BMeSUWDs5owkZUazbdvDNeUyXDsIM/edit). **Open:** finish full-suite verification; add focused orchestration motion tests to workflow; native XSQ/FSEQ six-member band and 9/16 panel visual review; Android eight-variant playback/API30; Windows EXE; manuals; owner approval. No merge or release.
 
 > Beta 1.4 completion status (2026-11-19): see [docs/BETA_1_4_RUNNING_CHECKLIST.md](docs/BETA_1_4_RUNNING_CHECKLIST.md). Unified both lineages; nine-cue drummer with physical ride; full suite green in CI on 3.11/3.12; first real-audio band MP4 (custom renderer, kit fully visible); Windows EXE smoke fix pending re-run; no release approval; MP4 deliverables, nine-layout catalog, Android/Windows acceptance and Drive delivery are still open.

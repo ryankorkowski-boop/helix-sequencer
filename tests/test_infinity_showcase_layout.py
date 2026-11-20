@@ -61,3 +61,20 @@ def test_magical_extreme_scale(tmp_path):
     groups=root.findall('./modelGroups/modelGroup')
     assert sum(g.get('name','').startswith('HX_INFINITY_MAGIC_') for g in groups)==6
     assert len({r['name'] for r in meta['channel_map']})==10240
+
+
+def test_front_preview_uses_upright_model_local_geometry(tmp_path):
+    from core.model_parser import parse_layout
+    xml = tmp_path / "infinity.xml"
+    meta = make_layout(xml, tmp_path / "manifest.json", 128)
+    layout = parse_layout(xml)
+    for family, min_height in (("PIANO_COLUMN", 27), ("ARCH", 21),
+                               ("SPIRAL_TREE", 42), ("DOUBLE_HELIX", 75)):
+        entry = next(row for row in meta["channel_map"] if row["family"] == family)
+        model = layout.models[entry["name"]]
+        assert model.raw_attrs["LayoutGroup"] == "Default"
+        assert max(abs(a-b) for a,b in zip(model.coordinates, entry["center"])) < .001
+        xs, ys, zs = zip(*model.geometry_points)
+        assert max(ys) - min(ys) > min_height
+        assert max(abs(x-model.coordinates[0]) for x in xs) <= 17
+        assert max(abs(z-model.coordinates[2]) for z in zs) <= 17

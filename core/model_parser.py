@@ -113,9 +113,10 @@ def _sample_path(points: list[tuple[float, float, float]], count: int) -> list[t
     cumulative = [0.0]
     for length in seg_lengths:
         cumulative.append(cumulative[-1] + length)
-    for slot in range(max(1, count)):
-        target = 0.0 if count == 1 else (total_len * slot) / max(1, count - 1)
-        seg_index = 0
+    # Targets increase monotonically, including when adjacent vertices coincide.
+    seg_index = 0
+    for slot in range(count):
+        target = (total_len * slot) / (count - 1)
         while seg_index + 1 < len(cumulative) and cumulative[seg_index + 1] < target:
             seg_index += 1
         if seg_index >= len(points) - 1:

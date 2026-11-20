@@ -8,7 +8,7 @@ from __future__ import annotations
 
 import os
 import shutil
-import struct
+from tempfile import TemporaryDirectory
 import subprocess
 import xml.etree.ElementTree as ET
 from pathlib import Path
@@ -16,74 +16,47 @@ from pathlib import Path
 import numpy as np
 
 from core import model_parser as xmp
+from core.output_provenance import sha256
+from tools.fseq_pixel_preview import FseqReader
+from tools.layout_bench.render_cache import cached_render, publish_render
 
 
 DEFAULT_XLIGHTS = Path("/tmp/xlights/squashfs-root/AppRun")
 
 
 class FseqData:
-    def __init__(self, channels: int, frames: int, step_ms: int, samples: np.ndarray, sparse_start: int) -> None:
-        self.channels = channels
-        self.frames = frames
-        self.step_ms = step_ms
-        self.samples = samples  # uint8 [frames, channels]
-        self.sparse_start = sparse_start  # 0-based absolute channel index of column 0
+    """Stream absolute channel rows, reconstructing dark gaps between sparse ranges."""
 
-    def fps(self) -> int:
-        return max(1, int(round(1000.0 / max(1, self.step_ms))))
+    def __init__(self, path: Path):
+        self.reader = FseqReader(path)
+        info = self.reader.info
+        self.frames = info.frames
+        self.step_ms = info.step_ms
+        self.sparse_start = info.ranges[0][0] if info.ranges else 0
+        self.channels = (sum(info.ranges[-1]) - self.sparse_start
+                         if info.ranges else info.channels)
+
+    def fps(self) -> float:
+        return 1000.0 / self.step_ms
+
+    def rows(self):
+        ranges = self.reader.info.ranges
+        for frame in self.reader.iter_frames():
+            packed = np.frombuffer(frame, dtype=np.uint8)
+            if len(ranges) < 2:
+                yield packed
+                continue
+            result = np.zeros(self.channels, dtype=np.uint8)
+            offset = 0
+            for start, length in ranges:
+                column = start - self.sparse_start
+                result[column:column + length] = packed[offset:offset + length]
+                offset += length
+            yield result
 
 
 def load_fseq(path: Path) -> FseqData:
-    import zstandard
-
-    data = path.read_bytes()
-    if data[:4] != b"PSEQ":
-        raise RuntimeError(f"{path} is not an FSEQ file (magic {data[:4]!r})")
-    data_offset = struct.unpack_from("<H", data, 4)[0]
-    major = data[7]
-    if major < 2:
-        raise RuntimeError(f"{path} is FSEQ v{major}; this bench reads v2")
-    channels = struct.unpack_from("<I", data, 10)[0]
-    frames = struct.unpack_from("<I", data, 14)[0]
-    step_ms = int(data[18]) or 50
-    compression = data[20] & 0x0F
-    block_count = ((data[20] >> 4) << 8) | data[21]
-    sparse_count = data[22]
-    pos = 32
-    blocks: list[tuple[int, int]] = []
-    for _ in range(block_count):
-        first_frame, length = struct.unpack_from("<II", data, pos)
-        blocks.append((first_frame, length))
-        pos += 8
-    sparse_start = 0
-    for _ in range(sparse_count):
-        raw = data[pos : pos + 6]
-        start = raw[0] | (raw[1] << 8) | (raw[2] << 16)
-        pos += 6
-        sparse_start = start
-        break
-    if channels <= 0 or frames <= 0:
-        raise RuntimeError(f"{path} has no channel data (channels={channels} frames={frames})")
-    buffer = np.zeros((frames, channels), dtype=np.uint8)
-    if compression == 0:
-        raw = data[data_offset : data_offset + frames * channels]
-        if len(raw) < frames * channels:
-            raise RuntimeError(f"{path} uncompressed payload is short")
-        buffer[:, :] = np.frombuffer(raw[: frames * channels], dtype=np.uint8).reshape(frames, channels)
-    elif compression == 1:
-        decoder = zstandard.ZstdDecompressor()
-        cursor = data_offset
-        for first_frame, length in blocks:
-            if length <= 0:
-                continue
-            chunk = data[cursor : cursor + length]
-            cursor += length
-            raw = decoder.decompress(chunk, max_output_size=frames * channels)
-            frame_span = len(raw) // channels
-            buffer[first_frame : first_frame + frame_span, :] = np.frombuffer(raw, dtype=np.uint8).reshape(frame_span, channels)
-    else:
-        raise RuntimeError(f"{path} uses unsupported FSEQ compression type {compression}")
-    return FseqData(channels, frames, step_ms, buffer, sparse_start)
+    return FseqData(path)
 
 
 def xlights_binary() -> Path:
@@ -130,12 +103,39 @@ def render_sequence_to_fseq(
     show_dir: Path,
 ) -> str:
     """Run xLights --headless. Returns the version string from the log."""
-    if fseq_path.exists() and fseq_path.stat().st_size > 64:
-        return "cached"
-    binary = xlights_binary()
-    if show_dir.exists():
-        shutil.rmtree(show_dir)
-    show_dir.mkdir(parents=True)
+    binary = xlights_binary().resolve()
+    executable = binary.parent / "usr/bin/xLights" if binary.name == "AppRun" else binary
+    inputs = {
+        "layout": sha256(layout_xml), "sequence": sha256(xsq_path), "media": sha256(media_path),
+        "xlights": sha256(executable), "launcher": sha256(binary),
+        "bench": sha256(__file__), "parser": sha256(xmp.__file__),
+    }
+    receipt = cached_render(fseq_path, inputs)
+    if receipt:
+        return receipt["version"]
+    show_dir.mkdir(parents=True, exist_ok=True)
+    # Concurrent renders and failed retries must not remove one another's show or log.
+    with TemporaryDirectory(dir=show_dir, prefix="run-") as workspace:
+        work = Path(workspace)
+        try:
+            produced, version = _run_xlights(binary, layout_xml, xsq_path, media_path, work)
+            for _ in FseqReader(produced).iter_frames():
+                pass
+            fseq_path.parent.mkdir(parents=True, exist_ok=True)
+            with TemporaryDirectory(dir=fseq_path.parent) as staging:
+                staged = Path(staging) / fseq_path.name
+                shutil.copyfile(produced, staged)
+                publish_render(staged, fseq_path, inputs, version=version)
+            return version
+        finally:
+            log = work / "xlights.log"
+            if log.is_file():
+                log.replace(show_dir / "xlights.log")
+
+
+def _run_xlights(binary: Path, layout_xml: Path, xsq_path: Path, media_path: Path,
+                 show_dir: Path) -> tuple[Path, str]:
+    show_dir = show_dir.resolve()
     shutil.copy2(layout_xml, show_dir / "xlights_rgbeffects.xml")
     channels = _channel_extent(layout_xml)
     networks = f"""<?xml version="1.0" encoding="UTF-8"?>
@@ -173,7 +173,8 @@ def render_sequence_to_fseq(
         str(out_dir),
         str(staged_xsq),
     ]
-    completed = subprocess.run(cmd, env=env, stdout=log_path.open("w"), stderr=subprocess.STDOUT, check=False)
+    with log_path.open("w") as log:
+        completed = subprocess.run(cmd, env=env, stdout=log, stderr=subprocess.STDOUT, check=False)
     log_text = log_path.read_text(encoding="utf-8", errors="replace") if log_path.exists() else ""
     produced = out_dir / f"{xsq_path.stem}.fseq"
     if completed.returncode != 0 or not produced.exists():
@@ -181,8 +182,6 @@ def render_sequence_to_fseq(
         raise RuntimeError(
             f"xLights --headless failed for {xsq_path.name} (exit {completed.returncode}).\n{tail}"
         )
-    fseq_path.parent.mkdir(parents=True, exist_ok=True)
-    shutil.copy2(produced, fseq_path)
     version = "unknown"
     spdlog = home / ".local" / "state" / "xLights" / "xLights_spdlog.log"
     haystacks = [log_text]
@@ -192,7 +191,7 @@ def render_sequence_to_fseq(
         for line in text.splitlines():
             if "Version:" in line and "WX Version" not in line:
                 version = line.split("Version:")[-1].strip()
-    return version
+    return produced, version
 
 
 BULB_COLORS = (
@@ -311,38 +310,35 @@ def model_channel_report(layout_xml: Path, fseq: FseqData) -> list[dict]:
         key=lambda model: int(model.start_channel or 0),
     )
     reports = []
-    for index, model in enumerate(roots):
-        per = 3 if model.is_rgb_capable() else 1
+    spans = []
+    for model in roots:
+        count = model.total_pixels * (3 if model.is_rgb_capable() else 1)
         start = int(model.start_channel) - 1 - fseq.sparse_start
-        count = model.total_pixels * per
         end = start + count
         if start < 0 or end > fseq.channels:
-            reports.append(
-                {
-                    "name": model.name,
-                    "status": "out_of_range",
-                    "start": int(model.start_channel or 0),
-                    "channels": count,
-                }
-            )
+            reports.append({"name": model.name, "status": "out_of_range",
+                            "start": int(model.start_channel), "channels": count})
             continue
-        block = fseq.samples[:, start:end]
-        lit = int(np.count_nonzero(np.any(block > 0, axis=1)))
-        # A frame varies when two nodes (or channels) disagree.
-        if block.shape[1] > 1:
-            varying = int(np.count_nonzero(block.max(axis=1) != block.min(axis=1)))
-        else:
-            varying = 0
-        reports.append(
-            {
-                "name": model.name,
-                "display": model.display_as,
-                "status": "rendered" if lit else "blank",
-                "lit_frames": lit,
-                "varying_frames": varying,
-                "max": int(block.max()) if block.size else 0,
-                "channels": count,
-                "rgb": model.is_rgb_capable(),
-            }
-        )
+        stats = {"name": model.name, "display": model.display_as, "status": "blank",
+                 "lit_frames": 0, "varying_frames": 0, "max": 0, "channels": count,
+                 "rgb": model.is_rgb_capable()}
+        reports.append(stats)
+        spans.append((start, end, stats))
+
+    # Amortize per-model reductions without retaining the full song in RAM.
+    capacity = max(1, min(fseq.frames, (4 * 1024 * 1024) // fseq.channels))
+    batch = np.empty((capacity, fseq.channels), dtype=np.uint8)
+    for index, row in enumerate(fseq.rows()):
+        slot = index % capacity
+        batch[slot] = row
+        if slot + 1 < capacity and index + 1 != fseq.frames:
+            continue
+        for start, end, stats in spans:
+            block = batch[:slot + 1, start:end]
+            bright = block.max(axis=1)
+            stats["lit_frames"] += int(np.count_nonzero(bright))
+            stats["varying_frames"] += int(np.count_nonzero(bright != block.min(axis=1)))
+            stats["max"] = max(stats["max"], int(bright.max()))
+            if stats["max"]:
+                stats["status"] = "rendered"
     return reports
