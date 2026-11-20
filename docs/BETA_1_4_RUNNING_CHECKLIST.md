@@ -81,3 +81,20 @@ Rebuild the band MP4: `python -m tools.prepare_phoneme_show --audio fixtures/aud
 - Native render: xLights 2026.19 AppImage, extracted, headless under Xvfb.
 - Production sequencing needs Demucs `htdemucs` and Whisper; `HELIX_VIVID=0`, `HELIX_MUSICAL_BED=1`.
 - Regenerate drummer assets: `python -m tools.build_drummer_v3_assets --overwrite`.
+
+## 7. Current outstanding acceptance gates — 2026-11-20 (supersedes older status above)
+
+- [x] Dedicated synthetic nine-cue drummer CI 44691270749 succeeded; native real-song drummer still open.
+- [x] Drive band diagnostic MP4 and receipt plus review gate document present; not native, not approved. Folder https://drive.google.com/drive/folders/1tcW6pfQ3CmyDPWMsYbvJrzaBTJsz_1lT
+- [~] Nonfinite effect contract validation b21acf7, malformed template failure 0a5efbe, stale generated layer cleanup 0678577 and regression e3cfa69; CI verification pending. Manual layers preserved by intended contract.
+- [ ] P0: full Python 3.11/3.12 suites and focused CI on latest head; verify Windows frozen dependency and native snowman geometry fixes.
+- [ ] P0: native XSQ/FSEQ real-audio proof with valid palettes, brightness, timing, group/submodel composition and compatible layering; never promote custom preview to native.
+- [ ] P0: canonical six snowmen, nine independently illuminated drum cues and correct hand/foot movement, restrained keyboard and credible bass/guitar; validated independent leads/harmonies and ten phonemes, silence and false-harmony suppression. Apply to singing faces/trees too.
+- [ ] P1: audit engine reachability, decide/integrate Birdsong post-run adapter, vary engines and effect families musically; spatial adjacency, traveling chases, counterpoint, brightness envelopes, contrast, rests, section transitions and sustained phrases. Preserve AC color/channel mapping.
+- [ ] P1: nine preloaded layouts on Android and Windows matching owner-approved panel order: 16 AC, 256 AC with arches/mega tree, RGB house, coro faces, canonical band, singing pixel trees/matrices, 3D digital grid, keyboard-responsive groups, Infinity. Preserve original 256-channel layout and 16-strip LED tree (owner specs pending).
+- [ ] P1: recognizable Infinity >=10,000 props, groups, layers, 3D spirals, double helices, tunnels and matrices using Bells of Mathmas; reject dots/dashes and all-white flashing. Native evidence and visual review required.
+- [ ] P1: genuine native-evidence nine-panel and 16-panel real-audio exemplar with owner pass/fail gate before batch; 1920x1080 H264/AAC 30fps, full decode, sync, brightness/framing; no blank panels. Batch issue 216: decoded-content dedup, verified audio hashes, one full-length 16-panel MP4 per unique recording, resumable queue.
+- [ ] P0: Android API30/API36 offline acceptance, eliminate crashes/OOM/flashing dots, nine-layout catalog, all eight variants selectable/playable/exportable, scrollable instructions and persistent settings. Windows EXE packaged parity and smoke, legal/donate/instructions.
+- [ ] P1: profile CPU/RAM, caching, audio chunking and bounded rendering before/after; document results.
+- [ ] P1: update Beta 1.4 manuals, install/export instructions and troubleshooting, checksums and verified direct Drive links for tested APK/EXE and approval MP4s.
+- [ ] Final: reconcile MASTER_TODO, handoff/status/manifest, owner explicit visual and release approval. No merge or publishing without approval.
