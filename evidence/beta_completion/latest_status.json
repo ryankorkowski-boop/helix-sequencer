@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "updated_utc": "2026-11-20T09:30:03+00:00",
+  "updated_utc": "2026-11-20T17:36:28+00:00",
   "overall_status": "IN PROGRESS",
   "branch": "integration/unified-beta-completion-20261117",
   "base_commit": "bb41f078a92e02ccb1980785efe1c1be741a9d16",
@@ -501,5 +501,15 @@
       "owner_approved": false
     },
     "release_approved": false
+  },
+  "infinity_runner_repair": {
+    "inspected_source": "e84bcfd1ffd05e78d46d28d6766ada6c4c754ed2",
+    "workflow": "helix-infinity-layout.yml",
+    "earlier_run": 44711406069,
+    "failure": "xLights exit 127: libEGL.so.1 missing",
+    "implementation": "Ubuntu 24.04 with libgl1, libegl1 and libegl-mesa0",
+    "native_verified": false,
+    "owner_review_ready": false,
+    "next_action": "Inspect the next 128-model native Bells job and its artifact on the integration branch."
   }
 }

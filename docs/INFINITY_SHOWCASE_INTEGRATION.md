@@ -1,6 +1,6 @@
 # Infinity Showcase on the integration branch
 
-The layout generator from draft PR #250 is on `integration/unified-beta-completion-20261117`. That draft was not merged. The full-song Bells render and its private audio fetch stay on the draft. This branch does not download that file and does not publish its id.
+The layout generator from draft PR #250 is on `integration/unified-beta-completion-20261117`. That draft was not merged. The Infinity workflow fetches the original Bells recording, verifies its SHA-256 and sequences the full song on the 128-model tier. Its artifact contains the layout, sequence and native render evidence available at the end of the run. Check the verification report and job conclusion before using a run as native evidence.
 
 ## What landed
 

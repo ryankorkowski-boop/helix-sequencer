@@ -1,5 +1,10 @@
 # Helix Sequencer Beta 1.4 — Running Checklist and Handoff
 
+## November 20 · Infinity native runner repair
+
+At integration source `e84bcfd1ffd05e78d46d28d6766ada6c4c754ed2`, [run 44711406069](https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/44711406069) had produced the bounded-layout Bells XSQ, then xLights exited 127 loading libEGL.so.1. The Infinity workflow now provisions EGL, Mesa and GL on Ubuntu 24.04. Names, channels and authored geometry are preserved. Code implemented. Native rerender, visual verification and owner review pending. Inspect the integration branch's next Helix Infinity run and its verification receipt before using the 10,240-model tier. Full Python suites started in isolated source trees for e84bcfd.
+
+
 Single source of truth for the autonomous Beta 1.4 completion session.
 Updated after every milestone. If the session stops, resume from "Next actions".
 
