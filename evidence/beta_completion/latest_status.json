@@ -511,5 +511,17 @@
     "native_verified": false,
     "owner_review_ready": false,
     "next_action": "Inspect the next 128-model native Bells job and its artifact on the integration branch."
+  },
+  "last_verified_infinity_native": {
+    "id": "HBC-INF-NATIVE-BOUNDED",
+    "status": "VERIFIED_ENGINEERING_ONLY",
+    "branch_head": "abc6b2c3a1fc97f2a0710efff52b83ec5434c544",
+    "run_id": 44785020701,
+    "artifact_id": 14653767707,
+    "source_duration_seconds": 155.96,
+    "model_rows": 323,
+    "owner_approved": false,
+    "full_10240_proof": false,
+    "visual_mp4_approved": false
   }
 }
