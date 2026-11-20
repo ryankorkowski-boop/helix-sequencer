@@ -177,8 +177,12 @@ def add_floor_piano_model(models_el: ET.Element, *, start_channel: int = 920000)
 def add_floor_piano_to_layout(layout_path: Path) -> None:
     tree = ET.parse(layout_path)
     root = tree.getroot()
-    models_el = root.find("models") or ET.SubElement(root, "models")
-    groups_el = root.find("modelGroups") or ET.SubElement(root, "modelGroups")
+    models_el = root.find("models")
+    if models_el is None:
+        models_el = ET.SubElement(root, "models")
+    groups_el = root.find("modelGroups")
+    if groups_el is None:
+        groups_el = ET.SubElement(root, "modelGroups")
     add_floor_piano_model(models_el)
     ET.SubElement(groups_el, "modelGroup", {"name": "HX_FLOOR_PIANO_GROUP", "models": "HX_FLOOR_PIANO"})
     ET.SubElement(groups_el, "modelGroup", {"name": "HX_SEQUENTIAL_MUSIC_PROPS", "models": "HX_FLOOR_PIANO"})
