@@ -360,8 +360,12 @@ def add_performer_model(models_el: ET.Element, spec: PerformerSpec) -> ET.Elemen
 def add_full_helixville4_band_models(layout_path: Path) -> None:
     tree = ET.parse(layout_path)
     root = tree.getroot()
-    models_el = root.find("models") or ET.SubElement(root, "models")
-    groups_el = root.find("modelGroups") or ET.SubElement(root, "modelGroups")
+    models_el = root.find("models")
+    if models_el is None:
+        models_el = ET.SubElement(root, "models")
+    groups_el = root.find("modelGroups")
+    if groups_el is None:
+        groups_el = ET.SubElement(root, "modelGroups")
     for spec in FULL_BAND_SPECS:
         _remove_existing_model(root, spec.model_name)
         add_performer_model(models_el, spec)
