@@ -12,6 +12,7 @@ TARGETS = (
     "TOM_FLOOR",
     "CYMBAL_LEFT",
     "CYMBAL_RIGHT",
+    "RIDE",
 )
 
 
@@ -25,9 +26,9 @@ class GroundTruthEvent:
 def fixture_events(duration: float = 20.0) -> list[GroundTruthEvent]:
     """Return the canonical 20-second verification schedule.
 
-    The first eight seconds isolate every public component exactly once. The
+    The first nine seconds isolate every public component exactly once. The
     remainder adds ordinary kick/snare/hat motion, alternating crashes and
-    three-tom fills. At 20 seconds this contains exactly 68 events.
+    three-tom fills. At 20 seconds this contains exactly 69 events.
     """
     duration = float(duration)
     events: list[GroundTruthEvent] = []

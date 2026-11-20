@@ -22,6 +22,7 @@ CHANNEL_HEX = {
     "TOM_FLOOR": "#2CB242",
     "CYMBAL_LEFT": "#DCA416",
     "CYMBAL_RIGHT": "#DCA416",
+    "RIDE": "#DCA416",
 }
 
 
@@ -53,7 +54,7 @@ def build_drummer_ground_truth_xsq_text(duration: float = 20.0) -> str:
         "name": "HelixDrummerGroundTruth",
         "model": DRUMMER_MODEL,
         "duration": f"{duration:.6f}",
-        "drummerChannels": "8",
+        "drummerChannels": "9",
         "tomContract": "HIGH_MID_FLOOR",
     })
     track = ET.SubElement(root, "timingtrack", {
@@ -75,7 +76,7 @@ def build_drummer_ground_truth_xsq_text(duration: float = 20.0) -> str:
         "type": "drummer_ground_truth",
         "duration": f"{duration:.6f}",
         "event_count": str(len(fixture_events(duration))),
-        "channel_contract": "8",
+        "channel_contract": "9",
         "tom_contract": "HIGH_MID_FLOOR",
         "stick_channels": "0",
     })
@@ -94,7 +95,7 @@ def export_drummer_ground_truth_xsq(output_path: str | Path, duration: float | N
 
 
 def main(argv: Sequence[str] | None = None) -> int:
-    parser = argparse.ArgumentParser(description="Export deterministic eight-lane Drummer V3 ground truth.")
+    parser = argparse.ArgumentParser(description="Export deterministic nine-lane Drummer V3 ground truth.")
     parser.add_argument("--output", type=Path, required=True)
     parser.add_argument("--duration", type=float, default=None)
     args = parser.parse_args(argv)

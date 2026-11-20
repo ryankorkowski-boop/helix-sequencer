@@ -947,3 +947,13 @@ Android manual packaging gate implemented in 442d26c3cdae90c252fd65b8926f056bfd3
 **Limitations:** This is a short clip, not a full-song nine-panel render. The bed level is still 12–28 percent. Infinity Showcase #250 was inspected only as a named target and was not ported. Ride and floor-tom detection on Tinsel Tornado are unchanged.
 **Deferred:** Full-song re-render after this blend fix. Vendor-dense layouts. Android and Windows packaging.
 **Regression risks:** Sequences that previously stored groups as `type="model"` now store `modelGroup` after a layout sync. xLights 2026.19 accepted that on the band fixture. Older xLights builds were not tested. Spatial effects gain Canvas settings and can composite differently from a bare effect.
+
+
+### 2026-11-19 — Restore the ninth canonical drummer lane in the ground-truth oracle
+**Goal:** Make the dedicated Drummer Ground Truth workflow test the current nine-component contract, including the physical ride, instead of exporting the stale eight-lane fixture.
+**Changed files/modules:** `tools/drummer_ground_truth_oracle.py`, `tools/export_drummer_ground_truth_xsq.py`, new `tests/test_drummer_ground_truth_export.py`, and this ledger.
+**Preserved behavior:** Existing kick, snare, hi-hat, three tom, and left/right crash events; canonical xmodel naming; no production detector, mapper, approved engine, or physical show routing changes.
+**New behavior:** The deterministic oracle now includes RIDE as its ninth target, emits a ride event in the isolated component sequence, exports nine logical channels and nine physical xmodel targets, and assigns the ride the cymbal palette color. The CLI/help and embedded XSQ contract now consistently report nine lanes.
+**Tests/evidence:** Added focused assertions for the nine-target oracle, ride event, palette/physical target coverage, and nine-lane XSQ structure. GitHub Actions Drummer Ground Truth workflow is expected to rerun because its watched `tools/**` and `tests/**` paths changed; execution is pending.
+**Limitations/deferred:** This synthetic fixture proves export contract consistency, not real-audio ride detection or native xLights FSEQ/MP4 playback. Full-song canonical drummer acceptance remains open.
+**Regression risks:** The fixture now includes a ride event; consumers that intentionally expected the old eight-lane test fixture must be updated to the current nine-cue contract. No merge/release or owner approval implied.
