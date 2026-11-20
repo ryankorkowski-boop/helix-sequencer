@@ -5,6 +5,7 @@ on:
     branches:
       - 'integration/unified-beta-completion-20261117'
     paths:
+      - 'helix_intent/**'
       - 'core/**'
       - 'animation/**'
       - 'models/**'
@@ -28,6 +29,7 @@ on:
       - 'packaging/**'
   pull_request:
     paths:
+      - 'helix_intent/**'
       - 'core/**'
       - 'animation/**'
       - 'models/**'
@@ -87,13 +89,16 @@ jobs:
             tests/test_birdsong_engine.py \
             tests/test_android_orchestrator_policy.py \
             tests/test_android_preview_states.py \
+            tests/test_orchestration_motion_routing.py \
+            tests/test_orchestration_explicit_layout.py \
+            tests/test_bounded_audio.py \
             tests/test_preview_intensity_windows.py
       - name: Verify native XSQ and independent vocal tracks
         run: python -m pytest -q tests/test_validate_xsq_native_timing.py tests/test_beta14_native_timing_contract.py
       - name: Verify drummer alternation and localized illumination
         run: |
           python -m pip install pillow numpy imageio imageio-ffmpeg soundfile
-          python -m pytest -q tests/test_drummer_hand_alternation.py tests/test_drummer_preview_aliases.py
+          python -m pytest -q tests/test_drummer_hand_alternation.py tests/test_drummer_preview_aliases.py tests/test_drummer_independent_lighting.py
       - name: Generate original drummer assets and verify physical geometry
         run: |
           python tools/build_drummer_v3_assets.py
