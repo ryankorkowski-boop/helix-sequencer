@@ -55,6 +55,25 @@ class XlightsEffectContractTests(unittest.TestCase):
         self.assertFalse(report.rendered)
         self.assertFalse(report.permission["allowed"])
 
+    def test_invalid_musical_intervals_do_not_create_effects(self) -> None:
+        for start, end in [(None, 4), (0, None), (4, 4), (4, 3), (-1, 4),
+                           (float("nan"), 4), (0, float("inf")), (0, 0.00001)]:
+            with self.subTest(start=start, end=end):
+                plan = _plan()
+                plan["visual_intents"][0].update(start_time=start, end_time=end)
+                placements, report = build_xlights_effect_contract(plan)
+                self.assertEqual(report.invalid_timing_count, 1)
+                self.assertEqual(report.skipped_count, 2)
+                self.assertEqual(len(placements), 5)
+                self.assertFalse(any(p.source_visual_intent_id == "intent_001" for p in placements))
+
+    def test_missing_source_intent_cannot_generate_an_effect(self) -> None:
+        plan = _plan()
+        plan["prop_effect_intents"][0]["visual_intent_id"] = "missing"
+        placements, report = build_xlights_effect_contract(plan)
+        self.assertEqual(report.invalid_timing_count, 1)
+        self.assertEqual(len(placements), 5)
+
     def test_write_contract_outputs_json(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
             path = Path(tmp) / "xlights_effect_contract.json"
