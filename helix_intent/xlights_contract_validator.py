@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import json
+from math import isfinite
 from dataclasses import asdict, dataclass, field
 from pathlib import Path
 from typing import Any, Mapping
@@ -84,14 +85,14 @@ def validate_xlights_effect_contract(payload: Mapping[str, Any]) -> XlightsContr
             errors.append(f"effect_placements[{idx}] has unsupported effect_name: {effect_name!r}")
         else:
             effect_names.add(effect_name)
-        if start < 0:
-            errors.append(f"effect_placements[{idx}] has negative start_time.")
-        if end <= start:
-            errors.append(f"effect_placements[{idx}] has end_time <= start_time.")
+        if not isfinite(start) or start < 0:
+            errors.append(f"effect_placements[{idx}] has invalid start_time.")
+        if not isfinite(end) or end <= start:
+            errors.append(f"effect_placements[{idx}] has end_time <= start_time or non-finite end_time.")
         if start < previous_start:
             warnings.append(f"effect_placements[{idx}] starts before previous placement; output is not sorted.")
         previous_start = start
-        if brightness < 0.0 or brightness > 1.0:
+        if not isfinite(brightness) or brightness < 0.0 or brightness > 1.0:
             errors.append(f"effect_placements[{idx}] brightness_cap outside 0..1: {brightness}")
         elif brightness > 0.88:
             warnings.append(f"effect_placements[{idx}] brightness_cap is high: {brightness:.3f}")
