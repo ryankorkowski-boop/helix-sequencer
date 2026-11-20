@@ -33,3 +33,23 @@ def test_directional_rotation_is_balanced_and_deterministic():
     second, _ = plan_prop_effect_intents(intents, list(reversed(candidates)))
     assert [p.target_prop for p in first] == [f"Arch{i}" for i in range(6)]
     assert first == second
+
+
+@pytest.mark.parametrize("second_start,second_end,expected", [(1,3,False),(2,4,True),(-1,0,True),(0,2,False),(0.5,1,False)])
+def test_prop_reservation_boundaries(second_start, second_end, expected):
+    from dataclasses import replace
+    first = VisualIntent("a", 0, 2, "bloom", "phrase", "impact", ["hero"], "sparse", "verse", "default", "controlled", "attack_decay", "per_model", 0.9)
+    second = replace(first, id="b", start_time=second_start, end_time=second_end)
+    placements, report = plan_prop_effect_intents([first, second], [PlacementCandidate("Hero", "hero")])
+    assert len(placements) == (2 if expected else 1)
+    assert report.rejected_intents == ([] if expected else ["b"])
+
+
+def test_overlapping_intents_use_free_alternatives_before_cap():
+    from dataclasses import replace
+    first = VisualIntent("a", 0, 2, "bloom", "phrase", "impact", ["hero"], "sparse", "verse", "default", "controlled", "attack_decay", "per_model", 0.9)
+    second = replace(first, id="b", start_time=1, end_time=3)
+    candidates = [PlacementCandidate(f"Hero{i}", "hero", priority=i) for i in range(4)]
+    placements, report = plan_prop_effect_intents([first, second], candidates)
+    assert [p.target_prop for p in placements] == ["Hero0", "Hero1", "Hero2", "Hero3"]
+    assert report.rejected_intents == []
