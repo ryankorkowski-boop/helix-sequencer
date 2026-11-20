@@ -170,7 +170,7 @@ jobs:
           match=re.search(r'Duration:\s*(\d+):(\d+):(\d+(?:\.\d+)?)',output)
           if not match: raise SystemExit('FAIL: unable to parse diagnostic duration')
           seconds=int(match[1])*3600+int(match[2])*60+float(match[3])
-          if not 11.0 <= seconds <= 13.0: raise SystemExit(f'FAIL: 12-second ground-truth duration mismatch {seconds}')
+          if not 19.95 <= seconds <= 20.05: raise SystemExit(f'FAIL: 20-second ground-truth duration mismatch {seconds}')
           result=subprocess.run([ff,'-v','error','-i',str(movie),'-map','0:v:0','-map','0:a:0','-f','null','-'],capture_output=True,text=True)
           if result.returncode: raise SystemExit('FAIL: A/V decode failed: '+result.stderr[-2000:])
           print(f'PASS: H.264/AAC diagnostic decoded from start to finish, duration={seconds:.2f}s')
