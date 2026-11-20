@@ -24,3 +24,12 @@ def test_directional_role_priority_survives_density_cap():
     placements, report = plan_prop_effect_intents([intent], candidates)
     assert [p.target_prop for p in placements] == ["Arch", "Matrix"]
     assert report.capped_density_intents == ["motion"]
+
+
+def test_directional_rotation_is_balanced_and_deterministic():
+    intents = [VisualIntent(f"phrase-{i}", i*2, i*2+2, "transition", "phrase", "left_to_right_sweep", ["arches"], "sparse", "verse", "default", "controlled", "attack_decay", "per_model", 0.9) for i in range(3)]
+    candidates = [PlacementCandidate(f"Arch{i}", "arch", priority=i) for i in range(6)]
+    first, _ = plan_prop_effect_intents(intents, candidates)
+    second, _ = plan_prop_effect_intents(intents, list(reversed(candidates)))
+    assert [p.target_prop for p in first] == [f"Arch{i}" for i in range(6)]
+    assert first == second
