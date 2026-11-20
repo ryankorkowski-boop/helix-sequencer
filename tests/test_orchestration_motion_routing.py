@@ -35,7 +35,7 @@ def test_directional_rotation_is_balanced_and_deterministic():
     assert first == second
 
 
-@pytest.mark.parametrize("second_start,second_end,expected", [(1,3,False),(2,4,True),(-1,0,True),(0,2,False),(0.5,1,False)])
+@pytest.mark.parametrize("second_start,second_end,expected", [(1,3,False),(2,4,True),(-1,0,False),(0,2,False),(0.5,1,False)])
 def test_prop_reservation_boundaries(second_start, second_end, expected):
     from dataclasses import replace
     first = VisualIntent("a", 0, 2, "bloom", "phrase", "impact", ["hero"], "sparse", "verse", "default", "controlled", "attack_decay", "per_model", 0.9)
@@ -68,3 +68,13 @@ def test_interval_index_matches_linear_reference():
         assert _interval_available(intervals, start, end) == expected
         if expected:
             insort(intervals, (start, end))
+
+
+@pytest.mark.parametrize("start,end", [(-1,1),(1,1),(2,1),(float("nan"),2),(0,float("inf"))])
+def test_invalid_intervals_do_not_reserve_props(start,end):
+    from dataclasses import replace
+    valid = VisualIntent("valid", 0, 2, "bloom", "phrase", "impact", ["hero"], "sparse", "verse", "default", "controlled", "attack_decay", "per_model", 0.9)
+    invalid = replace(valid, id="invalid", start_time=start, end_time=end)
+    placements, report = plan_prop_effect_intents([invalid,valid], [PlacementCandidate("Hero","hero")])
+    assert [p.visual_intent_id for p in placements] == ["valid"]
+    assert report.rejected_intents == ["invalid"]
