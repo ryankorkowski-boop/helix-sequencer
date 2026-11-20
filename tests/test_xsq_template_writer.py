@@ -140,3 +140,26 @@ def test_malformed_template_is_not_reported_as_success(tmp_path):
     sidecar = json.loads(Path(report.sidecar_json).read_text(encoding="utf-8"))
     assert not sidecar["wrote_sequence"]
     assert sidecar["errors"]
+
+
+def test_resequencing_removes_stale_auto_effects_but_preserves_manual_layers(tmp_path):
+    template = tmp_path / "template.xsq"
+    template.write_text(
+        '<xsequence><ElementEffects><Element type="model" name="Old Tree">'
+        '<EffectLayer name="AUTO_Helix_Orchestrated"><Effect name="On"/></EffectLayer>'
+        '<EffectLayer name="Manual"><Effect name="Color Wash"/></EffectLayer>'
+        '</Element></ElementEffects></xsequence>', encoding="utf-8"
+    )
+    contract = tmp_path / "contract.json"
+    contract.write_text(json.dumps(_contract()), encoding="utf-8")
+    output = tmp_path / "out.xsq"
+    report = write_xsq_from_template(
+        template_path=template, effect_contract_json=contract, output_xsq=output
+    )
+    assert report.wrote_sequence
+    root = ET.parse(output).getroot()
+    old = root.find(".//Element[@name='Old Tree']")
+    assert old is not None
+    assert old.findall("./EffectLayer[@name='AUTO_Helix_Orchestrated']/Effect") == []
+    assert old.find("./EffectLayer[@name='Manual']/Effect").get("name") == "Color Wash"
+    assert len(root.findall(".//Effect[@source='HelixOrchestrator']")) == 2
