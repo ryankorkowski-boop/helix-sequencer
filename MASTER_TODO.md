@@ -982,3 +982,10 @@ Android manual packaging gate implemented in 442d26c3cdae90c252fd65b8926f056bfd3
 **Tests/evidence:** Added focused assertions for the nine-target oracle, ride event, palette/physical target coverage, and nine-lane XSQ structure. GitHub Actions Drummer Ground Truth workflow is expected to rerun because its watched `tools/**` and `tests/**` paths changed; execution is pending.
 **Limitations/deferred:** This synthetic fixture proves export contract consistency, not real-audio ride detection or native xLights FSEQ/MP4 playback. Full-song canonical drummer acceptance remains open.
 **Regression risks:** The fixture now includes a ride event; consumers that intentionally expected the old eight-lane test fixture must be updated to the current nine-cue contract. No merge/release or owner approval implied.
+
+
+### XSQ cache repair — November 20
+
+- [x] Implement input/output receipt validation and isolated fresh generation (`e0efe160ac0ec7cd4805f9f97ef3f6737cd9667e`).
+- [ ] Verify cache hits, changed inputs, dirty tree and failed generation with regression tests.
+- [ ] Confirm native MP4 run 44793419539; visual approval remains pending.
