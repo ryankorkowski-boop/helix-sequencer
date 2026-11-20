@@ -436,3 +436,5 @@ Commit `20472f1` removes hardcoded fallback candidates when layout parsing succe
 - `e564e8d`: directional chase/sweep/cascade intents now request arches and matrices; cascade receives directional spatial behavior unless higher-priority helix motion applies. Placement caps and candidate priority still apply; actual selection and native rendering unverified.
 
 - `0233aeb`: transition/trail placements honor ordered target roles before density caps; `914ef80`: regression checks arch/matrix selection over higher-priority hero props. Dynamic rotation not implemented; CI and native render pending.
+
+- `aca2b50`: directional/trail placement uses cumulative per-prop usage after role rank and before static priority. `783952b`: six arches across three sparse phrases, deterministic under reversed candidate order. Tests unexecuted here; no spatial adjacency, temporal overlap protection or native render proof yet.
