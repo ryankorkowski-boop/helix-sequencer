@@ -432,3 +432,5 @@ Commit `20472f1` removes hardcoded fallback candidates when layout parsing succe
 - `5787222`: explicit missing/non-file layout paths and parser exceptions now fail orchestration instead of substituting fictional candidates. `db08403`: four path regression cases. No-layout diagnostic fallback remains. Tests and native rendering unverified.
 
 - Motion routing: `903b97b` preserves transition/trail families on motion-capable roles while retaining specialist effects; `b019824` adds 14 parameterized regression cases. Test execution and native visual acceptance pending. Existing native effect mappings unchanged.
+
+- `e564e8d`: directional chase/sweep/cascade intents now request arches and matrices; cascade receives directional spatial behavior unless higher-priority helix motion applies. Placement caps and candidate priority still apply; actual selection and native rendering unverified.
