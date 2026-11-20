@@ -122,3 +122,21 @@ class XsqTemplateWriterTests(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+def test_malformed_template_is_not_reported_as_success(tmp_path):
+    template = tmp_path / "malformed.xsq"
+    template.write_text("<xsequence><ElementEffects>", encoding="utf-8")
+    contract = tmp_path / "contract.json"
+    contract.write_text(json.dumps(_contract()), encoding="utf-8")
+    output = tmp_path / "out.xsq"
+    report = write_xsq_from_template(
+        template_path=template, effect_contract_json=contract, output_xsq=output
+    )
+    assert not report.wrote_sequence
+    assert report.effect_count == report.native_effect_count == 0
+    assert not output.exists()
+    assert any("Invalid XML template" in error for error in report.errors)
+    sidecar = json.loads(Path(report.sidecar_json).read_text(encoding="utf-8"))
+    assert not sidecar["wrote_sequence"]
+    assert sidecar["errors"]
