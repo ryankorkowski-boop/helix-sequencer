@@ -425,3 +425,6 @@ Commit `91ce5e23cee31149131f475f793c484148f80385` adds eight pytest cases for in
 Production validator commit `dba9a993` checks finite nonnegative startTime and strictly later endTime for populated matching native timing rows, including mixed legacy/native files. Test commit `1b7ab2d3` adds 12 cases (six malformed intervals, with and without legacy tracks). Full-suite CI discovers these tests; execution not verified here. Compatibility with real native exports must be checked before promotion; zero-duration marks are currently rejected. No new MP4, device acceptance, merge or release.
 
 - Focused CI now explicitly runs both native timing test modules (`a0c99c63`); 20 additional contract cases included. CI results remain unverified; no new render or release.
+
+### 2026-11-19 — Layout-aware orchestration placement
+Commit `20472f1` removes hardcoded fallback candidates when layout parsing succeeds. Fallback remains for absent or failed parsing. Pending focused regression and real layout/native render verification; no visual acceptance claimed. Next: verify planner behavior with genuine layout inventory and fail closed on invalid production layouts.
