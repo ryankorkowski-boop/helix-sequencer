@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+from bisect import bisect_left, insort
 from dataclasses import dataclass
 from typing import Iterable, Mapping
 
@@ -147,6 +148,14 @@ def _curve_type(intent: VisualIntent) -> str:
     return "section_envelope"
 
 
+def _interval_available(intervals: list[tuple[float, float]], start: float, end: float) -> bool:
+    index = bisect_left(intervals, (start, float("-inf")))
+    return (
+        (index == 0 or intervals[index - 1][1] <= start)
+        and (index == len(intervals) or end <= intervals[index][0])
+    )
+
+
 def plan_prop_effect_intents(
     visual_intents: Iterable[VisualIntent],
     candidates: Iterable[PlacementCandidate | Mapping[str, object]],
@@ -199,9 +208,8 @@ def plan_prop_effect_intents(
         # are allowed, and free alternatives are selected before density caps.
         ordered = [
             candidate for candidate in ordered
-            if not any(
-                intent.start_time < end and start < intent.end_time
-                for start, end in occupied.get(candidate.prop_name, ())
+            if _interval_available(
+                occupied.get(candidate.prop_name, []), intent.start_time, intent.end_time
             )
         ]
         if not ordered:
@@ -212,7 +220,7 @@ def plan_prop_effect_intents(
             ordered = ordered[:max_targets]
 
         for candidate in ordered:
-            occupied.setdefault(candidate.prop_name, []).append((intent.start_time, intent.end_time))
+            insort(occupied.setdefault(candidate.prop_name, []), (intent.start_time, intent.end_time))
             if intent.intent_type in {"transition", "trail"}:
                 motion_usage[candidate.prop_name] = motion_usage.get(candidate.prop_name, 0) + 1
             confidence = min(1.0, max(0.0, float(intent.confidence) * (1.0 if candidate.priority <= 50 else 0.9)))
