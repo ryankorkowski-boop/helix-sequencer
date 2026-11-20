@@ -279,7 +279,7 @@ def _build_orchestrated_exports(final_graph: IntentGraph, engine_args: list[str]
     placement_report = build_placement_plan(
         visual_intents=visual_intents,
         parsed_layout=parsed_layout,
-        extra_candidates=_fallback_candidates(),
+        extra_candidates=_fallback_candidates() if parsed_layout is None else [],
     )
     placement_path = placement_report_path(engine_args)
     write_placement_export_report(placement_report, placement_path)
