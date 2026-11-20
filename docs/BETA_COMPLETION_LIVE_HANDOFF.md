@@ -428,3 +428,5 @@ Production validator commit `dba9a993` checks finite nonnegative startTime and s
 
 ### 2026-11-19 — Layout-aware orchestration placement
 Commit `20472f1` removes hardcoded fallback candidates when layout parsing succeeds. Fallback remains for absent or failed parsing. Pending focused regression and real layout/native render verification; no visual acceptance claimed. Next: verify planner behavior with genuine layout inventory and fail closed on invalid production layouts.
+
+- `5787222`: explicit missing/non-file layout paths and parser exceptions now fail orchestration instead of substituting fictional candidates. `db08403`: four path regression cases. No-layout diagnostic fallback remains. Tests and native rendering unverified.
