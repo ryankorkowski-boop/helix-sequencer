@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import json
+from math import isfinite
 from dataclasses import asdict, dataclass, field
 from pathlib import Path
 from typing import Any, Mapping
@@ -62,6 +63,7 @@ class XlightsEffectContractReport:
     skipped_count: int = 0
     skipped_effect_families: list[str] = field(default_factory=list)
     permission: dict[str, Any] = field(default_factory=dict)
+    invalid_timing_count: int = 0
 
     def to_dict(self) -> dict[str, Any]:
         return asdict(self)
@@ -101,6 +103,7 @@ def build_xlights_effect_contract(
     intents = _visual_intent_map(placement_plan)
     placements: list[XlightsEffectPlacement] = []
     skipped: list[str] = []
+    invalid_timing_count = 0
     for item in list(placement_plan.get("prop_effect_intents", []) or []):
         if not isinstance(item, Mapping):
             continue
@@ -111,10 +114,11 @@ def build_xlights_effect_contract(
             continue
         intent_id = str(item.get("visual_intent_id", ""))
         visual = intents.get(intent_id, {})
-        start_time = _as_float(visual.get("start_time"), 0.0)
-        end_time = _as_float(visual.get("end_time"), start_time)
-        if end_time <= start_time:
-            end_time = start_time + 0.25
+        start_time = round(_as_float(visual.get("start_time"), float("nan")), 4)
+        end_time = round(_as_float(visual.get("end_time"), float("nan")), 4)
+        if not (isfinite(start_time) and isfinite(end_time) and 0 <= start_time < end_time):
+            invalid_timing_count += 1
+            continue
         placements.append(
             XlightsEffectPlacement(
                 start_time=round(start_time, 4),
@@ -131,9 +135,10 @@ def build_xlights_effect_contract(
             )
         )
     return placements, XlightsEffectContractReport(
-        rendered=True,
+        rendered=bool(placements),
+        invalid_timing_count=invalid_timing_count,
         placement_count=len(placements),
-        skipped_count=len(skipped),
+        skipped_count=len(skipped) + invalid_timing_count,
         skipped_effect_families=sorted(set(skipped)),
         permission=permission.to_dict(),
     )
@@ -162,4 +167,5 @@ def write_xlights_effect_contract(
         skipped_count=report.skipped_count,
         skipped_effect_families=report.skipped_effect_families,
         permission=report.permission,
+        invalid_timing_count=report.invalid_timing_count,
     )
