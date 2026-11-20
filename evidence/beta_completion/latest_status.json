@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "updated_utc": "2026-11-19T23:50:00Z",
+  "updated_utc": "2026-11-20T06:28:00Z",
   "overall_status": "IN PROGRESS",
   "branch": "integration/unified-beta-completion-20261117",
   "base_commit": "bb41f078a92e02ccb1980785efe1c1be741a9d16",
@@ -97,8 +97,8 @@
     }
   ],
   "next_command": "See docs/BETA_1_4_RUNNING_CHECKLIST.md section 5",
-  "last_inspected_head": "9d622d67b4efc748210c0626accc8d0dd06d8a3b",
-  "ci_status": "40dca014 CI success: unified integration 44406112861 passed Python 3.11 and 3.12; Android compile 44406112855 assembled and retained a debug APK; drummer 44406112840 passed. Those runs do not verify HEAD 61982611. At last look, 61982611 still had unified integration 44412936937 and drummer 44412936902 in progress; nine-panel bench 44412936764 had passed. No device playback and no owner approval.",
+  "last_inspected_head": "f8bd364eaad6409b89e03765810eab04b3203247",
+  "ci_status": "Run 44687388477, head f8bd364: focused regressions Python 3.11 and 3.12 succeeded; full suite 3.11 and 3.12 still in progress at checkpoint. Do not claim complete green or native acceptance.",
   "confirmed_findings": [
     "Default orchestration sidecar is not promoted without explicit flag",
     "Orchestrated XSQ requires an existing --template",
@@ -173,7 +173,10 @@
     "Drummer native On-effect previously used E_SLIDER_Brightness 0..1 rather than percent start/end intensity controls; fixed 74be0df8 and tested ff1233a9",
     "Drummer logical nine-cue mapper and eight-physical-asset guard now explicitly tested in CI; ride physical xmodel still absent",
     "Former six-piece runner copied full audio to a 30s-labeled MP3; replaced with ffmpeg bounded transcode and duration test, pending CI",
-    "Android debug APK exists from workflow 44269896607 artifact 14412037480 but prior owner device failures remain unresolved"
+    "Android debug APK exists from workflow 44269896607 artifact 14412037480 but prior owner device failures remain unresolved",
+    "2026-11-20 CI: focused jobs in run 44687388477 succeeded on Python 3.11 and 3.12; both complete-suite jobs remained in progress at checkpoint.",
+    "2026-11-20 Drive diagnostic Phoneme Hook six-member MP4 receipt: native_xlights=false, owner_approved=false, independent_backing_verified=false; custom OpenGL only, 34.88s.",
+    "2026-11-20 Drive Beta Version 1.4 approval gate document created (1TfhnsrYi7v8-q4BMeSUWDs5owkZUazbdvDNeUyXDsIM)."
   ],
   "drummer_diagnostic": {
     "run_id": 44290824555,
@@ -400,5 +403,13 @@
       },
       "android_emulator": "not runnable in the session sandbox (no KVM); dispatch android-offline.yml (API 30 and 36)"
     }
+  },
+  "drive_beta14_approval_gate": {
+    "document_url": "https://docs.google.com/document/d/1TfhnsrYi7v8-q4BMeSUWDs5owkZUazbdvDNeUyXDsIM/edit",
+    "folder_url": "https://drive.google.com/drive/folders/1tcW6pfQ3CmyDPWMsYbvJrzaBTJsz_1lT",
+    "band_mp4_url": "https://drive.google.com/file/d/1NShBmODsUiToi14bxZ1sptbYrU1CZ_YQ/view",
+    "band_receipt_url": "https://drive.google.com/file/d/1CPX59ePv9XyVXUTu2QNU9OZWfYQyQ_93/view",
+    "classification": "DIAGNOSTIC_ONLY_NOT_NATIVE",
+    "owner_approved": false
   }
 }
