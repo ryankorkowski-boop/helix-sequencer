@@ -51,6 +51,20 @@ public class InfoAndBandUiTest {
         }
     }
 
+    @Test public void missingVariantPreviewShowsRecoveryDialog() throws Exception {
+        Instrumentation instrumentation = InstrumentationRegistry.getInstrumentation();
+        Context context = instrumentation.getTargetContext();
+        Intent intent = new Intent(context, PreviewActivity.class)
+            .putExtra("path", new java.io.File(context.getFilesDir(), "missing-variant.mp4").getAbsolutePath());
+        try (ActivityScenario<PreviewActivity> scenario = ActivityScenario.launch(intent)) {
+            instrumentation.waitForIdleSync();
+            scenario.onActivity(activity -> {
+                assertFalse(activity.isFinishing());
+                assertNotNull(activity.getWindow().getDecorView());
+            });
+        }
+    }
+
     @Test public void bandSwitchSurvivesActivityRecreation() throws Exception {
         Instrumentation instrumentation = InstrumentationRegistry.getInstrumentation();
         Context context = instrumentation.getTargetContext();
