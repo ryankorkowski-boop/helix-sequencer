@@ -12,6 +12,8 @@ on:
       - tools/separate_vocal_roles.py
       - tests/test_verify_shared_approval_source.py
       - tests/test_build_shared_approval_analysis.py
+      - tests/test_run_beta14_approval_suite.py
+      - tools/run_beta14_approval_suite.py
       - tools/build_shared_approval_analysis.py
       - tools/verify_shared_approval_source.py
       - tests/test_independent_vocals.py
