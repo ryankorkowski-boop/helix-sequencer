@@ -29,6 +29,14 @@ def write_json(path, data):
 
 
 def prepare(audio, work, sha, *, instrumental, vocals):
+    shared_manifest = os.environ.get('HELIX_APPROVAL_ANALYSIS_MANIFEST')
+    if shared_manifest:
+        from tools.build_shared_approval_analysis import verify as verify_shared
+        shared = verify_shared(audio, os.environ['HELIX_APPROVAL_STEMS'], shared_manifest)
+        if shared['source_audio_sha256'] != sha:
+            raise ValueError('Shared approval source does not match 16-panel original')
+        if shared['analysis_sha256'] != os.environ.get('HELIX_APPROVAL_ANALYSIS_SHA256'):
+            raise ValueError('Shared approval analysis identity changed')
     if digest(audio) != sha:
         raise ValueError('Original Drive bytes do not match the expected SHA-256')
     if instrumental == (vocals is not None):
