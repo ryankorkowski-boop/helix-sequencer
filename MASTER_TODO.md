@@ -1,3 +1,10 @@
+## 2026-11-20 · Integrated Android multi-variant preview isolation
+
+- [x] Prevent an unsupported canonical band layout from aborting all other requested preview variants; per-variant preview status remains independently recorded (3bfa5509).
+- [x] Add regression for per-variant preview isolation (52da83d7).
+- [ ] Run final Android compile/device acceptance on the latest integration SHA; verify eight independent preview playback/export flows.
+- [ ] Replace effect-level simulation for canonical six-member band with verified native xLights review output; do not label unsupported previews as approved.
+
 # HELIX MASTER TODO & AGENT HANDOFF LEDGER
 
 ## November 20 · Native comparison renderer hardening (implemented, CI unverified)
