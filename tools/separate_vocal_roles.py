@@ -11,7 +11,7 @@ import hashlib
 import json
 from pathlib import Path
 import subprocess
-import sys
+import shutil
 
 MODEL = "mel_band_roformer_karaoke_aufr33_viperx_sdr_10.1956.ckpt"
 
@@ -60,7 +60,10 @@ def main() -> None:
     args = parser.parse_args()
     root = args.output_dir.resolve()
     root.mkdir(parents=True, exist_ok=True)
-    cmd = [sys.executable, "-m", "audio_separator", str(args.vocals.resolve()),
+    exe = shutil.which("audio-separator")
+    if not exe:
+        raise SystemExit("Install audio-separator in the current Python environment")
+    cmd = [exe, str(args.vocals.resolve()),
            "--model_filename", args.model, "--output_format", "WAV",
            "--output_dir", str(root)]
     subprocess.run(cmd, check=True)
