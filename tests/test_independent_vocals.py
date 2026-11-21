@@ -4,7 +4,7 @@ import tempfile
 import unittest
 import wave
 from pathlib import Path
-from core.independent_vocals import analyze_independent_vocals, _read_mono_pcm
+from core.independent_vocals import analyze_independent_vocals, _read_mono_pcm, _stream_vocal_features
 
 
 def make_wav(path, hz, duration=0.6, amplitude=0.4):
@@ -84,3 +84,25 @@ def test_compact_pcm_buffer_preserves_activity_and_sample_values():
         assert samples.typecode == "h"
         assert len(samples) == 8000
         assert max(samples) > 10000
+
+
+def test_streaming_vocal_features_use_bounded_fingerprint():
+    with tempfile.TemporaryDirectory() as d:
+        path = Path(d) / "long.wav"
+        make_wav(path, 220, duration=4.0)
+        rate, frames, energies, fingerprint = _stream_vocal_features(path, fingerprint_budget=1000)
+        assert rate == 16000
+        assert frames == 64000
+        assert 190 <= len(energies) <= 210
+        assert len(fingerprint) <= 1000
+        assert max(energies) > 0.1
+
+
+def test_streamed_activity_preserves_separate_singer_windows():
+    with tempfile.TemporaryDirectory() as d:
+        lead, backing = Path(d) / "lead.wav", Path(d) / "backing.wav"
+        make_wav(lead, 220, duration=4.0)
+        make_wav(backing, 330, duration=4.0)
+        result = analyze_independent_vocals(lead, backing)
+        assert all(track["windows"] for track in result["tracks"])
+        assert result["independence"] == "duplicate_rejection_only_not_voice_identity_proof"
