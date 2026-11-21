@@ -99,3 +99,25 @@ def test_failed_comparison_encode_preserves_previous_mp4(tmp_path, monkeypatch):
     assert destination.read_bytes() == b"previous valid video"
     assert not list(tmp_path.glob("*.banner.png"))
     assert not list(tmp_path.glob("tmp*/comparison.mp4"))
+
+
+def test_legacy_variant_plan_can_select_one_song_without_entire_catalog(tmp_path):
+    from tools.layout_bench.render_comparisons import variant_plan
+
+    songs = {"north_pole_overdrive": {
+        "path": tmp_path / "north_pole_overdrive.mp3",
+        "stem": "north_pole_overdrive",
+        "label": "North Pole Overdrive",
+    }}
+    plans = variant_plan(songs, {"V01-NPO-ALL16"})
+    assert len(plans) == 1
+    assert plans[0]["id"] == "V01-NPO-ALL16"
+    assert len(plans[0]["layout_ids"]) == 16
+
+
+def test_legacy_variant_specs_have_unique_ids_and_expected_panel_counts():
+    from tools.layout_bench.render_comparisons import variant_specs
+
+    specs = variant_specs()
+    assert len({spec[0] for spec in specs}) == len(specs)
+    assert all(len(spec[4]) in (12, 16) for spec in specs)
