@@ -183,6 +183,10 @@ def analyze_independent_vocals(lead_path: str | Path, harmony_path: str | Path,
     # Use the same absolute sample indices for both singer fingerprints, even
     # when their WAV durations differ by the permitted 50 ms tolerance.
     with wave.open(str(lead_path), "rb") as lead_wav, wave.open(str(harmony_path), "rb") as harmony_wav:
+        if lead_wav.getframerate() != harmony_wav.getframerate():
+            raise ValueError("Vocal stems have different sample rates; align/resample first")
+        if abs(lead_wav.getnframes() - harmony_wav.getnframes()) > round(lead_wav.getframerate() * 0.05):
+            raise ValueError("Vocal stems differ in duration by more than 50 ms")
         common_stride = max(1, (max(lead_wav.getnframes(), harmony_wav.getnframes()) + 49999) // 50000)
     lead_rate, lead_frames, lead_energies, lead_fingerprint = _stream_vocal_features(
         lead_path, fingerprint_stride=common_stride)
