@@ -445,7 +445,13 @@ def collect_required_layouts(plans: list[dict]) -> list[tuple[str, Path]]:
     """Validate panel identity and deduplicate native render inputs."""
     needed: list[tuple[str, Path]] = []
     seen: set[tuple[str, str]] = set()
+    media_by_stem: dict[str, Path] = {}
     for plan in plans:
+        stem = plan["song"]["stem"]
+        media = Path(plan["song"]["path"])
+        previous = media_by_stem.setdefault(stem, media)
+        if previous.resolve() != media.resolve():
+            raise ValueError(f"Conflicting source audio for song stem {stem}")
         layouts = plan["layout_ids"]
         if len(layouts) not in (9, 12, 16):
             raise ValueError(f"Invalid comparison panel count for {plan['id']}: {len(layouts)}")
