@@ -4,7 +4,7 @@ Every visible arm state comes from ReviewBandPerformance.pose(), never from
 post-production animation. Existing AC16 exports/default models stay unchanged.
 """
 from __future__ import annotations
-import argparse,copy,json,shutil
+import argparse,copy,json,shutil,os
 from pathlib import Path
 import numpy as np
 import trimesh
@@ -154,6 +154,14 @@ def prepare(source_root:Path,output:Path,eid='E14',limit=32,frame_ms=50,legacy_x
     if frame_ms not in (25,50):raise ValueError('Native interval must be 25 or 50 ms')
     if output.exists():raise FileExistsError('Use a fresh directory')
     row,audio,scene,p=setup(source_root,eid,scene_factory=Review3DScene)
+    shared_manifest=os.environ.get('HELIX_APPROVAL_ANALYSIS_MANIFEST')
+    if shared_manifest:
+        from tools.build_shared_approval_analysis import verify as verify_shared
+        shared=verify_shared(audio,os.environ['HELIX_APPROVAL_STEMS'],shared_manifest)
+        if shared['source_audio_sha256']!=os.environ.get('HELIX_APPROVAL_SOURCE_SHA256'):
+            raise ValueError('Native snowman band source differs from shared Beta 1.4 original')
+        if shared['analysis_sha256']!=os.environ.get('HELIX_APPROVAL_ANALYSIS_SHA256'):
+            raise ValueError('Native snowman band analysis differs from shared Beta 1.4 pass')
     keyboard_motion_proof=configure_native_keyboard_motion(
         scene,p,legacy_xylophone=legacy_xylophone)
     if stemless_duet:
