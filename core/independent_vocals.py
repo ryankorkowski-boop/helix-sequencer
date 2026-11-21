@@ -102,7 +102,11 @@ def analyze_independent_vocals(lead_path: str | Path, harmony_path: str | Path,
     harmony_sha = hashlib.sha256(harmony_path.read_bytes()).hexdigest()
     if lead_sha == harmony_sha or lead == harmony:
         raise ValueError("Duplicate vocal stems: independent harmony not established")
-    if not _activity(harmony, harmony_rate):
+    lead_windows = _activity(lead, lead_rate)
+    harmony_windows = _activity(harmony, harmony_rate)
+    if not lead_windows:
+        raise ValueError("Lead stem is silent; no lead singer can be verified")
+    if not harmony_windows:
         raise ValueError("Harmony stem is silent; no second singer can be verified")
     # Detect near-identical tracks, including gain-scaled copies. Sample sparsely
     # to avoid retaining extra analysis arrays for long songs.
@@ -115,9 +119,9 @@ def analyze_independent_vocals(lead_path: str | Path, harmony_path: str | Path,
     if corr >= 0.995:
         raise ValueError("Vocal stems are near-identical (possibly gain-scaled copies)")
     tracks = (
-        VocalTrack("lead_singer", str(lead_path), lead_sha, lead_rate, _activity(lead, lead_rate)),
+        VocalTrack("lead_singer", str(lead_path), lead_sha, lead_rate, lead_windows),
         VocalTrack("harmony_singer", str(harmony_path), harmony_sha, harmony_rate,
-                   _activity(harmony, harmony_rate)),
+                   harmony_windows),
     )
     result = {"schema": "helix.independent-vocals.v1", "status": "distinct_stem_inputs",
               "independence": "duplicate_rejection_only_not_voice_identity_proof",
