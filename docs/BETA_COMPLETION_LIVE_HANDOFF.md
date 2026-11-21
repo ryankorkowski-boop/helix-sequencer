@@ -1,5 +1,10 @@
 # Unified Beta Completion — Live Handoff
 
+## November 20 · Android per-variant MP4 export and result selection
+
+Implemented selected-variant-specific MP4 export names (rather than the generic Helix-preview.mp4), displayed the current variant index and total next to its preview readiness, and added Android source-contract regression coverage. Commits 1ceebdcb, 16f07853, 188d75d6. Source changes are committed on the integration branch; APK device playback and all-eight-variant acceptance remain unverified. Overall Beta 1.4 completion estimate ~70%.
+
+
 ## November 20 · Native FSEQ panel-frame and sparse-channel safeguards
 
 Implemented fail-closed comparison panel frame count verification against FSEQ declared frames, malformed packed-channel row rejection, and regression tests for truncated panels, malformed sparse frames, and zero-valued gaps. Commits 6954a32c, d32b23f7, 2ec9871d, f667b0d8. Native renderer/test implementation is committed; CI/device/render acceptance not asserted. Overall Beta 1.4 completion estimate remains ~70% pending owner acceptance.
