@@ -119,3 +119,12 @@ def test_cli_rejects_original_mix_as_backing(tmp_path):
     with pytest.raises(ValueError, match="matches original audio"):
         prepare(original, lead, original, output)
     assert not output.exists()
+
+
+def test_handwritten_manifest_rejects_original_mix_as_lead(tmp_path):
+    original, lead, _, manifest, data = fixture(tmp_path)
+    lead.write_bytes(original.read_bytes())
+    data["lead"]["sha256"] = digest(lead)
+    manifest.write_text(json.dumps(data))
+    with pytest.raises(ValueError, match="matches original source audio"):
+        validate_vocal_separation_manifest(manifest, original)
