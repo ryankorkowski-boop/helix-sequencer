@@ -1,5 +1,10 @@
 # Unified Beta Completion — Live Handoff
 
+## November 20 · Native comparison renderer hardening (implemented, CI unverified)
+
+Commits through b051b04e: strict literal canonical XSQ matching, complete selected-source preflight, duplicate/empty input rejection, isolated 30-fps banner, staged atomic MP4 publication, zero-frame panel rejection, and ffmpeg process cleanup after FSEQ iterator errors. Focused regression coverage is wired into Python 3.11/3.12 CI. This is implementation and test authorship only; do not count tests as passed or review MP4s as accepted until verified. Remaining P0: six-snowman native band, independent vocals, Android eight-variant playback/API30, Windows EXE, native 9/16-panel acceptance, full Infinity 10,240 props, manuals, owner approval. Estimated overall Beta 1.4 completion: ~70% (qualitative, not a verified checklist fraction).
+
+
 ## November 20 · Bounded Infinity native xLights verification (confirmed)
 
 GitHub Actions [44785020701](https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/44785020701), source `abc6b2c3a1fc97f2a0710efff52b83ec5434c544`, completed SUCCESS including 7 layout/targeting tests and the full-song xLights FSEQ step. The 155.96-second original Bells of Mathmas source passed its byte hash check; sequencing reported 323/323 editable model rows and zero stale models, plus 30,372 showcase effects and palette dominance 16.4%. Native artifact [14653767707](https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/44785020701/artifacts/14653767707) includes XSQ, FSEQ, layout XML, manifest, native xLights log, verification.json. This is bounded-tier native technical proof only: no visual MP4 approval, 10,240-prop full render, band acceptance or public release. Continue by checking verification.json pixel/frame quality, producing a synchronized MP4, and owner-reviewing it before attempting full tier.
