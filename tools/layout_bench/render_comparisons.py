@@ -266,16 +266,23 @@ def _encode_panel(panel: dict, silent: Path) -> dict:
     proc = subprocess.Popen(cmd, stdin=subprocess.PIPE, stdout=subprocess.DEVNULL, stderr=subprocess.PIPE)
     assert proc.stdin is not None
     subtitle = f"{panel['channels']} ch · xLights FSEQ {fseq.step_ms} ms"
+    frame_count = 0
+    write_error = None
     try:
         for row in fseq.rows():
             frame = paint_fseq_frame(drawlist, row, fseq.sparse_start, panel["title"], subtitle)
             proc.stdin.write(frame.tobytes())
+            frame_count += 1
+    except (BrokenPipeError, OSError) as exc:
+        write_error = exc
     finally:
         proc.stdin.close()
         stderr = proc.stderr.read().decode("utf-8", errors="replace") if proc.stderr else ""
         code = proc.wait()
-    if code != 0:
-        raise RuntimeError(f"panel encode failed for {panel['title']}: {stderr[-600:]}")
+    if write_error is not None or code != 0:
+        raise RuntimeError(f"panel encode failed for {panel['title']}: {stderr[-600:]}") from write_error
+    if frame_count == 0 or not silent.is_file() or silent.stat().st_size == 0:
+        raise RuntimeError(f"panel encode produced no video frames for {panel['title']}")
     return {"fps": fseq.fps(), "report": report}
 
 
