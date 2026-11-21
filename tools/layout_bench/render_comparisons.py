@@ -492,7 +492,12 @@ def main() -> int:
     needed: list[tuple[str, Path]] = []
     seen: set[tuple[str, str]] = set()
     for plan in plans:
-        for layout_id in plan["layout_ids"]:
+        layouts = plan["layout_ids"]
+        if len(layouts) not in (9, 12, 16):
+            raise ValueError(f"Invalid comparison panel count for {plan['id']}: {len(layouts)}")
+        if len(set(layouts)) != len(layouts):
+            raise ValueError(f"Repeated layout IDs in comparison {plan['id']}")
+        for layout_id in layouts:
             key = (layout_id, plan["song"]["stem"])
             if key in seen:
                 continue
