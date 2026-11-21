@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "updated_utc": "2026-11-20T17:36:28+00:00",
+  "updated_utc": "2026-11-21T20:21:25.939116+00:00",
   "overall_status": "IN PROGRESS",
   "branch": "integration/unified-beta-completion-20261117",
   "base_commit": "bb41f078a92e02ccb1980785efe1c1be741a9d16",
@@ -530,5 +530,27 @@
     "scope": "XSQ cache validates audio/layout/template/revision/output hashes; isolated fresh generation; no dirty-tree reuse",
     "limitations": "Runtime regression tests pending; conservative revision invalidation; no owner approval",
     "render_run": 44793419539
+  },
+  "nov21_production_recovery": {
+    "baseline_commit": "9122e00f3822e6152154cc02f0bffd5940880d0f",
+    "runs": {
+      "16_panel": 44944727109,
+      "12_layout": 44944730430,
+      "six_snowmen": 44944734212
+    },
+    "classification": "failed",
+    "review_candidates": [],
+    "owner_approved": false,
+    "diagnostic_artifact_ids": [
+      14722769438,
+      14722189784
+    ],
+    "tests_passed": 55,
+    "verified_audio": "19e90c273d0d747938f24b36586b50818c104cddffbefe4a4128927374301938",
+    "remaining": [
+      "native pilot reference and timing acceptance",
+      "16-panel native media and verification",
+      "qualified full-song singer sources"
+    ]
   }
 }

@@ -237,6 +237,7 @@ def build(source,vocals,output,*,numbers=None,names=NAMES,layout_builder=layout,
     plans=(source/'sequence').rglob('*.snowman_band.json') if full_song else (source/'sequence').glob('*.snowman_band.json')
     plan_path,=plans
     plan=json.loads(plan_path.read_text())
+    plan_sha256=digest(plan_path)
     cache={}
     shape_names=SHAPE_NAMES
     if vocals is not None:
@@ -406,7 +407,7 @@ def build(source,vocals,output,*,numbers=None,names=NAMES,layout_builder=layout,
             from tools.native_residential_context import add_showcase_context
             add_showcase_context(folder, g)
         item=dict(number=number,name=name,folder=str(folder.resolve()),xsq='Performance.xsq',source_audio_sha256=sha,
-                  source_analysis_sha256=digest(plan_path),source_duration_seconds=duration,audio_name=audio.name,models=len(g.models),
+                  source_analysis_sha256=plan_sha256,source_duration_seconds=duration,audio_name=audio.name,models=len(g.models),
                   channels=max(m.start+m.channels-1 for m in g.models),warnings=[],native_render_status='pending',
                   renderer_for_comparison='Helix solid 3D' if number==2 and not full_song else 'native xLights',
                   owner_approved=False)
@@ -414,11 +415,15 @@ def build(source,vocals,output,*,numbers=None,names=NAMES,layout_builder=layout,
             item.update(layout_sha256=digest(folder/'xlights_rgbeffects.xml'),xsq_sha256=digest(path),
                         vocal_mode='instrumental_rest' if instrumental else receipt.get('verification_state','estimate'),
                         canonical_cast_count=len(performers) if band else 0)
-        (folder/'run_manifest.json').write_text(json.dumps(item,indent=2)+'\n')
         (folder/'Spatial_Event_Provenance.json').write_text(json.dumps(reports,indent=2)+'\n')
-        manifest.append(item);print('BUILT',number,name,item['models'],item['channels'],flush=True)
-    manifest.sort(key=lambda item:item['number'])
-    (output/'Layout_Manifest.json').write_text(json.dumps(manifest,indent=2)+'\n')
+        manifest.append(item)
+        manifest.sort(key=lambda entry:entry['number'])
+        index=output/'Layout_Manifest.json'
+        temporary=index.with_suffix('.json.tmp')
+        temporary.write_text(json.dumps(manifest,indent=2)+'\n')
+        temporary.replace(index)
+        (folder/'run_manifest.json').write_text(json.dumps(item,indent=2)+'\n')
+        print('BUILT',number,name,item['models'],item['channels'],flush=True)
     return manifest
 
 

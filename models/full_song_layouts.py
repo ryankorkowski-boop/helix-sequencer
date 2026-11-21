@@ -72,9 +72,9 @@ def assign_routes(garden):
 def mega_tree(garden, x, z, *, height, radius, sculptor=None):
     garden.tree(f'MEGA_TREE_{len(garden.models):02}', x, z, height, radius,
                         0, 20, 42, 'MEGA_TREES')
-    # Vertical groups make climbs visible across the whole cone.
+    # Phase groups wind around the existing native cone from base to tip.
     model = garden.models[-1]
-    model.details.update(spatial_axis='y', spatial_direction=1 if x < 0 else -1)
+    model.details.update(spatial_axis='spiral', spatial_direction=1 if x < 0 else -1)
     (sculptor or structures(garden)).starburst((x, height + 4, z), 4)
 
 

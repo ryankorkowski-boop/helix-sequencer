@@ -458,29 +458,34 @@ def _demucs_available() -> bool:
 
 
 def _cached_demucs_stems(cache_dir: Path, source_sha256: str) -> dict[str, Path] | None:
-    manifest_path = cache_dir / "helix-demucs-stems.json"
     try:
-        manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
-    except (OSError, ValueError, TypeError):
-        return None
-    if manifest.get("format") != "helix-demucs-htdemucs-v1" or manifest.get("source_sha256") != source_sha256:
-        return None
-    stems = {role: Path(manifest["stems"][role]) for role in STEM_ROLES}
-    if all(path.is_file() and path.stat().st_size > 44 for path in stems.values()):
+        manifest = json.loads((cache_dir / "helix-demucs-stems.json").read_text(encoding="utf-8"))
+        if manifest["format"] != "helix-demucs-htdemucs-v2" or manifest["source_sha256"] != source_sha256:
+            return None
+        stems = {}
+        for role in STEM_ROLES:
+            path = (cache_dir / manifest["stems"][role]).resolve()
+            if (not path.is_relative_to(cache_dir.resolve()) or path.name != f"{role}.wav"
+                    or _file_sha256(path) != manifest["sha256"][role]):
+                return None
+            stems[role] = path
         return stems
-    return None
+    except (OSError, ValueError, KeyError, TypeError):
+        return None
 
 
 def _write_demucs_manifest(cache_dir: Path, source_sha256: str, stems: dict[str, Path]) -> None:
     payload = {
-        "format": "helix-demucs-htdemucs-v1",
+        "format": "helix-demucs-htdemucs-v2",
         "model": "htdemucs",
         "source_sha256": source_sha256,
-        "stems": {role: str(stems[role]) for role in STEM_ROLES},
+        "stems": {role: str(stems[role].relative_to(cache_dir)) for role in STEM_ROLES},
+        "sha256": {role: _file_sha256(stems[role]) for role in STEM_ROLES},
         "label": "separated",
     }
-    cache_dir.mkdir(parents=True, exist_ok=True)
-    (cache_dir / "helix-demucs-stems.json").write_text(json.dumps(payload, indent=2), encoding="utf-8")
+    with tempfile.NamedTemporaryFile(mode="w", dir=cache_dir, delete=False, encoding="utf-8") as temp:
+        json.dump(payload, temp, indent=2)
+    Path(temp.name).replace(cache_dir / "helix-demucs-stems.json")
 
 
 def _try_demucs_stem_separation(
@@ -491,11 +496,13 @@ def _try_demucs_stem_separation(
     source_sha256: str | None = None,
     required: bool = False,
 ) -> dict[str, Path] | None:
+    import sys
+
     digest = source_sha256 or _file_sha256(audio_path)
-    cache_dir = out_dir / digest
+    cache_dir = (out_dir / digest).resolve()
     cached = _cached_demucs_stems(cache_dir, digest)
     if cached is not None:
-        _log(log_fn, "Demucs: reusing source-SHA-verified htdemucs stems.")
+        _log(log_fn, "Demucs: reusing source- and content-verified htdemucs stems.")
         return cached
     if not _demucs_available():
         message = "Demucs is required for production sequencing and is not installed. Refusing to analyze the full mix."
@@ -503,37 +510,40 @@ def _try_demucs_stem_separation(
             raise NeuralStemRequired(message)
         _log(log_fn, message)
         return None
-    _log(log_fn, "Stem split: running Demucs htdemucs.")
     cache_dir.mkdir(parents=True, exist_ok=True)
-    cmd = ["demucs", "-n", "htdemucs", "-o", str(cache_dir), str(audio_path)]
-    if shutil.which("demucs") is None:
-        import sys
-        cmd = [sys.executable, "-m", "demucs", "-n", "htdemucs", "-o", str(cache_dir), str(audio_path)]
+    # Unique output per attempt prevents a partial or concurrent separation
+    # from overwriting WAVs referenced by an already published manifest.
+    output = Path(tempfile.mkdtemp(prefix="separation-", dir=cache_dir))
+    log_path = output.with_suffix(".log")
+    command = [sys.executable, "-m", "demucs", "-n", "htdemucs", "-j", "0", "--shifts", "0",
+               "--segment", "7", "-o", str(output), str(audio_path)]
+    if os.environ.get("HELIX_DEMUCS_DEVICE"):
+        command[3:3] = ["--device", os.environ["HELIX_DEMUCS_DEVICE"]]
+    _log(log_fn, f"Demucs: separating {audio_path.name}. Full log: {log_path}")
     try:
-        subprocess.run(cmd, check=True, capture_output=True, text=True)
-    except Exception as exc:
-        message = f"Demucs separation failed for {audio_path.name}: {exc}"
+        with log_path.open("w", encoding="utf-8") as log:
+            subprocess.run(command, stdout=log, stderr=subprocess.STDOUT, check=True)
+        import soundfile as sf
+        original = sf.info(audio_path)
+        stems = {role: output / "htdemucs" / audio_path.stem / f"{role}.wav" for role in STEM_ROLES}
+        for role, path in stems.items():
+            info = sf.info(path)
+            if (info.format != "WAV" or info.frames <= 0 or info.samplerate != 44100 or info.channels != 2
+                    or abs(info.duration - original.duration) > .05):
+                raise ValueError(f"Invalid or incomplete {role} stem: {info}")
+        _write_demucs_manifest(cache_dir, digest, stems)
+    except (OSError, ValueError, RuntimeError, subprocess.CalledProcessError) as exc:
+        shutil.rmtree(output, ignore_errors=True)
+        message = f"Demucs separation failed for {audio_path.name}: {exc}. Full log: {log_path}"
+        if log_path.exists():
+            with log_path.open("rb") as log:
+                log.seek(max(0, log_path.stat().st_size - 4096))
+                message += "\n" + log.read().decode("utf-8", errors="replace")
         if required:
             raise NeuralStemRequired(message) from exc
         _log(log_fn, message)
         return None
-    track_dir = None
-    for model_dir in sorted(cache_dir.iterdir()):
-        if not model_dir.is_dir():
-            continue
-        candidate = model_dir / audio_path.stem
-        if candidate.is_dir():
-            track_dir = candidate
-            break
-    stems = None if track_dir is None else {role: track_dir / f"{role}.wav" for role in STEM_ROLES}
-    if stems is None or not all(path.is_file() and path.stat().st_size > 44 for path in stems.values()):
-        message = f"Demucs did not write vocals, drums, bass, and other stems for {audio_path.name}."
-        if required:
-            raise NeuralStemRequired(message)
-        _log(log_fn, message)
-        return None
-    _write_demucs_manifest(cache_dir, digest, stems)
-    _log(log_fn, "Demucs: stems ready and cached by source SHA256.")
+    _log(log_fn, "Demucs: verified stem clocks and cached WAV hashes.")
     return stems
 
 

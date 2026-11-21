@@ -51,7 +51,7 @@ class NeuralStemRequirementTests(unittest.TestCase):
             for role in audio_intelligence.STEM_ROLES:
                 path = cache / f"{role}.wav"
                 path.parent.mkdir(parents=True, exist_ok=True)
-                path.write_bytes(b"RIFF" + b"\0" * 80)
+                _tone(path)
                 stems[role] = path
             audio_intelligence._write_demucs_manifest(cache, digest, stems)
             calls = []
@@ -65,6 +65,9 @@ class NeuralStemRequirementTests(unittest.TestCase):
                 audio_intelligence._demucs_available = original
             self.assertEqual(calls, [])
             self.assertEqual(found["drums"], stems["drums"])
+            with stems["vocals"].open("ab") as stream:
+                stream.write(b"corrupt")
+            self.assertIsNone(audio_intelligence._cached_demucs_stems(cache, digest))
 
     def test_missing_whisper_fails_on_the_required_path(self) -> None:
         real_import = __import__

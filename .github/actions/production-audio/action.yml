@@ -1,0 +1,67 @@
+name: Prepare production audio
+description: Install the paired CPU runtime and separate the verified original once before native rendering.
+inputs:
+  audio:
+    description: Hash-verified original file
+    required: true
+  sha256:
+    description: Expected source SHA-256
+    required: true
+runs:
+  using: composite
+  steps:
+    - shell: bash
+      run: |
+        python -m pip install --index-url https://download.pytorch.org/whl/cpu torch==2.5.1+cpu torchaudio==2.5.1+cpu
+        python -m pip install numpy==2.2.6 numba==0.61.2 llvmlite==0.44.0 librosa==0.10.2.post1 soundfile==0.13.1 demucs==4.0.1 openai-whisper==20250625
+    - uses: actions/cache/restore@v4
+      id: model
+      with:
+        path: ~/.cache/torch/hub/checkpoints/955717e8-8726e21a.th
+        key: helix-htdemucs-8726e21a-v1
+    - shell: bash
+      run: |
+        set -euo pipefail
+        model="$HOME/.cache/torch/hub/checkpoints/955717e8-8726e21a.th"
+        checksum=8726e21a993978c7ba086d3872e7608d7d5bfca646ca4aca459ffda844faa8b4
+        if ! echo "$checksum  $model" | sha256sum -c --status; then
+          mkdir -p "$(dirname "$model")"
+          curl --fail --location --retry 3 https://dl.fbaipublicfiles.com/demucs/hybrid_transformer/955717e8-8726e21a.th -o "$model"
+        fi
+        echo "$checksum  $model" | sha256sum -c -
+    - uses: actions/cache/save@v4
+      if: steps.model.outputs.cache-hit != 'true'
+      with:
+        path: ~/.cache/torch/hub/checkpoints/955717e8-8726e21a.th
+        key: helix-htdemucs-8726e21a-v1
+    - uses: actions/cache/restore@v4
+      id: stems
+      with:
+        path: RenderCache/stems/*/${{ inputs.sha256 }}
+        key: helix-demucs-cpu-v2-${{ inputs.sha256 }}
+    - shell: bash
+      env:
+        SOURCE: ${{ inputs.audio }}
+        EXPECTED: ${{ inputs.sha256 }}
+        HELIX_DEMUCS_DEVICE: cpu
+      run: |
+        set -euo pipefail
+        ffmpeg -version
+        python - <<'PY'
+        import os
+        from pathlib import Path
+        import torch, torchaudio, whisper
+        from core.audio_intelligence import _file_sha256, _try_demucs_stem_separation
+        audio = Path(os.environ["SOURCE"])
+        sha = _file_sha256(audio)
+        if sha != os.environ["EXPECTED"]:
+            raise SystemExit("Unexpected original audio SHA-256")
+        print(torch.__version__, torchaudio.__version__, flush=True)
+        _try_demucs_stem_separation(audio, Path("RenderCache/stems") / audio.stem, print,
+                                    source_sha256=sha, required=True)
+        PY
+    - uses: actions/cache/save@v4
+      if: steps.stems.outputs.cache-hit != 'true'
+      with:
+        path: RenderCache/stems/*/${{ inputs.sha256 }}
+        key: helix-demucs-cpu-v2-${{ inputs.sha256 }}

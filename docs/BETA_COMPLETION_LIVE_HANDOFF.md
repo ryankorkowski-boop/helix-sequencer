@@ -1,3 +1,12 @@
+## November 21 · Production audio and native comparison recovery
+
+- Runs 44944727109 and 44944730430 failed in the version probe before separation (torch 2.15.0+cu132, torchaudio 2.11.1+cu132, missing list_audio_backends). Run 44944734212 rejected the E14 mixed vocal bus. No approval MP4 resulted.
+- Shared CPU action pins torch/torchaudio 2.5.1+cpu, Demucs 4.0.1, the repository DSP pins and the required Whisper runtime. It verifies the model checksum, separates the real source before the native build, and caches SHA-bound stems. The separator uses one worker, seven-second segments, separate per-attempt logs and an atomic manifest with per-WAV hashes and source-clock validation. Legacy v1 caches regenerate once.
+- The 16-panel builder batches missing layouts so they parse one plan and voice clock together. Native mega-tree segments now wind around the cone. Original AC addresses and singer qualification remain in force. Both comparison workflows retain separation failure logs.
+- Local Python 3.12: 55 focused regressions passed. Real Phoneme Test Hook: 34.88 seconds, four checked stems; master emitted a source XSQ and band plan. Full-length Helix Motion and native export verification pending. Local files or diagnostics do not imply delivery.
+- E14 source archive hash 604107acea8e57e8e5436b6bcbcb6f584806a4bed3a85679f72295d340c37b10, original WAV 8905fcaf105faf5016608517cf2d8a798d1809d8e615f1d4f5bca58e0c0b1171. Manifest has one demucs_mixed_vocals bus and zero independent tracks. No isolated vocal pair identified in Drive music folder listings. Supply aligned original lead and harmony exports for this exact take or a matching master and isolated singers from another take.
+- Next: qualify native short pilot against approved reference; verify fresh Actions on this change; render and decode only eligible comparisons. Owner review pending for every production.
+
 # Unified Beta Completion — Live Handoff
 
 ## 2026-11-20 · Acceptance-first CI wiring and status

@@ -75,19 +75,22 @@ def prepare(audio, work, sha, *, instrumental, vocals):
             raise ValueError('Layout checkpoint belongs to different inputs')
     else:
         write_json(checkpoint, settings)
+    missing = []
     for number in range(1, len(NAMES) + 1):
         folder = layouts / f'{number:02}'
         panel = folder / 'run_manifest.json'
         if panel.exists():
             row = json.loads(panel.read_text())
-            if (row['source_audio_sha256'] != sha or row['source_analysis_sha256'] != digest(plan)
+            if (row['source_audio_sha256'] != sha or row['source_analysis_sha256'] != settings['plan_sha256']
                     or row['layout_sha256'] != digest(folder / 'xlights_rgbeffects.xml')
                     or row['xsq_sha256'] != digest(folder / row['xsq'])):
                 raise ValueError(f'Layout checkpoint {number} has changed')
             continue
         if folder.exists():
             raise ValueError(f'Incomplete layout checkpoint at {folder}; move it aside before retrying')
-        build_layouts(production, vocals, layouts, numbers=(number,), names=NAMES,
+        missing.append(number)
+    if missing:
+        build_layouts(production, vocals, layouts, numbers=missing, names=NAMES,
                       layout_builder=build_layout, preserve_addresses=(3,),
                       instrumental=instrumental, expected_sha256=sha)
     return settings

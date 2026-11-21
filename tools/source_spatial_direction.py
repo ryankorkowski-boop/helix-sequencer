@@ -26,6 +26,14 @@ def role_for(model):
 def parts_for(model):
     if model.kind=='ac':return list(model.submodels)
     axis=model.details.get('spatial_axis')
+    if axis == 'spiral':
+        x,y,z = model.points.T
+        angle = np.arctan2(x - (x.min()+x.max())/2, z - (z.min()+z.max())/2)
+        height = (y-y.min()) / max(float(np.ptp(y)), 1e-9)
+        bins = np.floor(12 * ((angle/(2*np.pi) + height) % 1)).astype(int)
+        for index in np.unique(bins):
+            model.submodels[f'SPIRAL_{index:02}'] = (np.flatnonzero(bins == index)+1).tolist()
+        return sorted(name for name in model.submodels if name.startswith('SPIRAL_'))
     if axis in ('x','y','z'):
         # Divide physical coordinates rather than pixel insertion order.
         # A spiral can now travel up a tower instead of switching whole strands.
