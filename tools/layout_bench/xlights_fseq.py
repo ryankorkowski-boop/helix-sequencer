@@ -111,7 +111,7 @@ def render_sequence_to_fseq(
         "bench": sha256(__file__), "parser": sha256(xmp.__file__),
     }
     receipt = cached_render(fseq_path, inputs)
-    if receipt:
+    if receipt and isinstance(receipt.get("version"), str) and receipt["version"].strip():
         return receipt["version"]
     show_dir.mkdir(parents=True, exist_ok=True)
     # Concurrent renders and failed retries must not remove one another's show or log.
