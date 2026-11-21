@@ -1,5 +1,10 @@
 # Unified Beta Completion — Live Handoff
 
+## 2026-11-20 · Acceptance-first CI wiring and status
+
+To break the 75% plateau, stopped auto-cancelling integration and Android CI (39aa1b5e, 51048a7f), enabled Windows Beta candidate builds on engine/catalog changes (7b97a44b), and enabled native band proof on unified integration branch (c2362bf1). Drummer ground truth passed run 44866678888; full integration run 44866678856 had focused Python 3.11 success while other matrix jobs remained running. Android run 44866672371 and packages run 44866672401 still in progress. Do not equate native fixture proof with real-song six-snowman acceptance. Critical blockers remain: native FSEQ/MP4 independent band, vocals, visual approval, device playback/API30, Windows runtime and final release owner signoff. No percentage increase until evidence.
+
+
 ## 2026-11-20 · Android eight-variant playback workflow completed in source
 
 Implemented automatic sequential playback of completed variant MP4s with a user-toggleable Play all option (cf7beac4), preserving option across recreation; fixed restoration of seek position and paused state across rotation and onPause (b95b5c16), updated regression tests (71c4ce2f, 637f369a) and Android installation/user workflow manual (b64f3383, 8f6fc528). The earlier Results-to-player playlist/Previous/Next work remains integrated. CI jobs were queued/in progress at checkpoint, not claimed passing. On-device media playback and API 30 acceptance remain unverified. Estimated overall completion ~75%.
