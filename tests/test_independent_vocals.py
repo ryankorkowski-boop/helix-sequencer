@@ -106,3 +106,13 @@ def test_streamed_activity_preserves_separate_singer_windows():
         result = analyze_independent_vocals(lead, backing)
         assert all(track["windows"] for track in result["tracks"])
         assert result["independence"] == "duplicate_rejection_only_not_voice_identity_proof"
+
+
+def test_gain_scaled_copy_with_short_tail_is_rejected():
+    # 30 ms tail changes the WAV length but not singer identity.
+    with tempfile.TemporaryDirectory() as d:
+        lead, backing = Path(d) / "lead.wav", Path(d) / "backing.wav"
+        make_wav(lead, 220, duration=1.0, amplitude=0.4)
+        make_wav(backing, 220, duration=1.03, amplitude=0.2)
+        with unittest.TestCase().assertRaisesRegex(ValueError, "near-identical"):
+            analyze_independent_vocals(lead, backing)
