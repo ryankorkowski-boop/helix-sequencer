@@ -96,6 +96,10 @@ jobs:
               --expected-sha256 "$HELIX_DRIVE_SOURCE_SHA256" \
               --instrumental --xlights "$HELIX_PATCHED_XLIGHTS"
           '
+      - name: Expose sequencer failure details
+        if: failure()
+        run: |
+          find pilot-work -name sequencer.log -type f -print -exec tail -n 130 {} \; || true
       - name: Verify 16 genuine panels and keep owner acceptance pending
         run: |
           set -euo pipefail
