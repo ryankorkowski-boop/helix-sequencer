@@ -333,3 +333,22 @@ def test_comparison_collector_rejects_same_stem_different_audio_sources(tmp_path
     ]
     with pytest.raises(ValueError, match="Conflicting source audio"):
         collect_required_layouts(plans)
+
+
+def test_legacy_song_catalog_accepts_lossless_and_uppercase_extensions(tmp_path):
+    from tools.layout_bench.render_comparisons import song_catalog
+
+    (tmp_path / "north_pole_overdrive.WAV").write_bytes(b"audio")
+    (tmp_path / "clip_b.FLAC").write_bytes(b"audio")
+    songs = song_catalog(tmp_path)
+    assert songs["north_pole_overdrive"]["path"].suffix == ".WAV"
+    assert songs["clip_b"]["path"].suffix == ".FLAC"
+
+
+def test_legacy_song_catalog_rejects_duplicate_source_formats(tmp_path):
+    from tools.layout_bench.render_comparisons import song_catalog
+
+    (tmp_path / "north_pole_overdrive.mp3").write_bytes(b"audio")
+    (tmp_path / "north_pole_overdrive.wav").write_bytes(b"audio")
+    with pytest.raises(ValueError, match="Ambiguous audio sources"):
+        song_catalog(tmp_path)
