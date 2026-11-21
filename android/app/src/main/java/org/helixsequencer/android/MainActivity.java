@@ -234,7 +234,12 @@ public class MainActivity extends Activity {
         String state=selectedPreviewState();
         boolean playable=PreviewStatus.canPlay(state,available(previewPath));
         watch.setEnabled(playable);movie.setEnabled(playable);
-        if(previewStateLabel!=null)previewStateLabel.setText(PreviewStatus.label(state));
+        if(previewStateLabel!=null){
+            int count=sequenceChoices.getAdapter()==null?0:sequenceChoices.getAdapter().getCount();
+            int selected=count==0?0:sequenceChoices.getSelectedItemPosition()+1;
+            String heading=count>0?"Variant "+selected+" of "+count+" · ":"";
+            previewStateLabel.setText(heading+PreviewStatus.label(state));
+        }
     }
     private void poll(){
         if(currentJob==null)return;File state=new File(currentJob,"state.json");if(!state.isFile())return;
