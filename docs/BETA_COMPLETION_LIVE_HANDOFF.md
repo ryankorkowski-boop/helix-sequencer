@@ -1,5 +1,10 @@
 # Unified Beta Completion — Live Handoff
 
+## 2026-11-20 · Nine showcase-era presets exposed across Android and desktop
+
+Expanded config/gui_options.json with seven real tracked xLights layouts (AC64, pixel starter, pixel classic, band-stage bench, advanced moiré, spiral trees, advanced RGB showcase), retaining all prior selections. Nine named showcase-era choices now coexist in the shared GUI catalog (ac16, ac64, greg256, pixel_starter, pixel_classic, band_stage_bench, wow_moire, wow_spirals, wow_showcase); these are real editable layout inputs, not proof that every panel has achieved owner-approved visuals. tools/stage_android_engine.py automatically packages the selected sample paths and UiOptions.java loads the shared catalog. Added tests/test_showcase_preset_catalog.py and focused CI coverage/trigger. Commits 42a0171e, ea2a7067, 4f1330d3. Android compilation and end-to-end playback for this SHA are pending. Estimated Beta completion ~75% pending native visual and app acceptance.
+
+
 ## 2026-11-20 · Android multi-variant integration checkpoint
 
 Removed the global canonical-band preview rejection in android/app/src/main/python/helix_mobile.py. Each preview variant is now independently validated and its failed status checkpointed without cancelling the other sequence previews; unsupported six-member band remains honestly marked as requiring the canonical native renderer. Added test_band_preview_rejection_is_per_variant_not_global in tests/test_android_preview_states.py and reconciled MASTER_TODO.md. Commits 3bfa5509, 52da83d7, 0c68be02. Earlier Android Variant Compile workflow 44865846936 succeeded at 3656e2ca; that is not proof for the new changes. Remaining gates: current CI, device all-eight playback, six-snowman native review, Infinity and final package approval. Overall estimate ~70–75%.
