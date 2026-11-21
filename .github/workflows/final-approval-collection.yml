@@ -29,6 +29,9 @@ jobs:
       HELIX_NATIVE_PREVIEW_HEIGHT: '720'
       XL_NO_GPU_COMPUTE: '1'
       OMP_NUM_THREADS: '2'
+      MKL_NUM_THREADS: '2'
+      TORCH_NUM_THREADS: '2'
+      PYTORCH_ENABLE_MPS_FALLBACK: '0'
       OPENBLAS_NUM_THREADS: '2'
     steps:
       - uses: actions/checkout@v4
@@ -46,6 +49,13 @@ jobs:
           sudo apt-get update -qq
           sudo apt-get install -y ffmpeg xvfb xauth openbox x11-utils x11-xserver-utils wmctrl xdotool libgtk-3-0t64 libgl1 libegl1 libopengl0 libglu1-mesa libgstreamer-plugins-base1.0-0
           python -m pip install numpy scipy librosa==0.10.2.post1 soundfile numba llvmlite Pillow trimesh moderngl zstandard imageio imageio-ffmpeg cmudict PyYAML requests pytest demucs==4.0.1
+      - name: Diagnose Demucs model execution before production sequencing
+        run: |
+          python - <<'PY'
+          import torch, torchaudio
+          print('torch:', torch.__version__, 'torchaudio:', torchaudio.__version__)
+          print('torch audio backends:', torchaudio.list_audio_backends())
+          PY
       - name: Confirm mandatory neural separator is importable
         run: python -c 'import demucs; print("Demucs installed:", demucs.__file__)'
       - name: Validate source ingestion, DSP equivalence and strict native faces
