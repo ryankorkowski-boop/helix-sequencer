@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from dataclasses import asdict, dataclass
+import math
 from typing import Any, Iterable
 
 from models.helixville4_performer_runtime import FEMALE_SINGER, SINGER
@@ -61,6 +62,11 @@ class BandVocalFaceExportCompiler:
         if performer not in self.PERFORMER_MODELS:
             raise ValueError(f"Unsupported vocal performer: {performer}")
 
+        if (not math.isfinite(timing.start) or not math.isfinite(timing.duration)
+                or timing.start < 0 or timing.duration <= 0):
+            raise ValueError("Vocal phoneme timing requires finite nonnegative start and positive duration")
+        if not math.isfinite(timing.intensity):
+            raise ValueError("Vocal phoneme intensity must be finite")
         phoneme = timing.phoneme.upper()
         if phoneme not in PHONEME_BY_NAME:
             raise ValueError(f"Unsupported vocal phoneme: {timing.phoneme}")
