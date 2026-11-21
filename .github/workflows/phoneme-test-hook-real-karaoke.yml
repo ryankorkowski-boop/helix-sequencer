@@ -68,6 +68,24 @@ jobs:
           if outputs[0]["sha256"]==outputs[1]["sha256"]: raise SystemExit("Duplicate model outputs")
           print(json.dumps(receipt,indent=2))
           PY
+      - name: Qualify separated audio without asserting singer identity
+        continue-on-error: true
+        run: |
+          set -euo pipefail
+          VOCALS="$(find RenderCache/stems/The_Test_Is_On -name vocals.wav -type f | head -n 1)"
+          ROOT=owner-source/roformer
+          LEAD="$(find "$ROOT" -maxdepth 1 -name '*\(Vocals\)*.wav' -printf '%f\n' | head -n 1)"
+          BACKING="$(find "$ROOT" -maxdepth 1 -name '*\(Instrumental\)*.wav' -printf '%f\n' | head -n 1)"
+          test -n "$LEAD" && test -n "$BACKING"
+          python tools/separate_vocal_roles.py --source owner-source/The_Test_Is_On.mp3 --vocals "$VOCALS" --output-dir "$ROOT" --skip-separation --lead-output "$LEAD" --backing-output "$BACKING"
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          root=Path("owner-source/roformer")
+          data=json.loads((root/"vocal_separation_manifest.json").read_text())
+          assert data["identity_evidence"]=="unverified_roles_not_individual_singer_identity"
+          (root/"qualification_receipt.json").write_text(json.dumps({"source_bound_manifest":True,"independent_audio_gate":True,"independent_singer_identity_verified":False,"requires_listening_or_voice_identity_evidence":True},indent=2)+"\n")
+          PY
       - name: Upload model outputs for singer-role inspection
         if: always()
         uses: actions/upload-artifact@v4
