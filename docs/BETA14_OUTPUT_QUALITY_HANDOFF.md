@@ -21,6 +21,17 @@ This file is a running checklist, not a claim of product completion. No merge or
 4. [ ] Reuse SHA-bound audio/stem/section plans; invalidate only changed layout/panel native renders.
 5. [ ] Repair synthetic test contracts and exercise native exports in CI. Keep diagnostics separate from approval media.
 
+## 2026-11-21 implementation checkpoint
+- [x] Added bounded RGB sample evaluator (core/native_rgb_quality.py), commit 6cd8d4e; no full-resolution frame retention.
+- [x] Added white/blank/frozen/vivid regression tests (tests/test_native_rgb_quality.py), commit 35d492a.
+- [x] Added CLI to decode sampled frames from actual MP4 and write a JSON receipt (tools/check_mp4_visual_quality.py), commit 48e1601.
+- [ ] Run these tests in CI and wire CLI into native approval workflows; no pass is claimed yet.
+- [ ] Calibrate thresholds against actual owner-approved visuals; bright white intentional scenes may otherwise be flagged.
+- [ ] Repair any tests that fail after latest phoneme/drum commits.
+
+Example after native MP4 exists: `python -m tools.check_mp4_visual_quality path/to/native.mp4 --report path/to/visual_quality.json` (exit 2 on rejected output).
+
+
 ## Evidence known before this handoff
 - MASTER_TODO reports 55 focused local Python 3.12 regressions passing on an earlier checkpoint; this does not verify the most recent commits.
 - Nov 21 source reports a real 34.88s Phoneme Test Hook with four checked stems; mixed E14 vocals do not qualify as separate lead/harmony.
