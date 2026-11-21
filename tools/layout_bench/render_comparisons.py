@@ -57,7 +57,7 @@ def find_xsq(run_root: Path, layout_id: str, audio_stem: str) -> Path:
         if path.is_file()
         and path.suffix.lower() == ".xsq"
         and path.name.startswith(audio_stem + ",")
-        and "orchestrated" not in path.name.lower()
+        and "orchestrated" not in path.name[len(audio_stem) + 1:].lower()
     ] if folder.is_dir() else []
     if not matches:
         raise FileNotFoundError(f"No canonical XSQ for {layout_id} / {audio_stem} under {folder}")
