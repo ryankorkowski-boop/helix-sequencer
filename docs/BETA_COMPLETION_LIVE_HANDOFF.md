@@ -1,5 +1,10 @@
 # Unified Beta Completion — Live Handoff
 
+## November 20 · Independent vocal face timing safety
+
+Implemented strict finite/positive phoneme timing validation and finite intensity validation in core.band_vocal_face_export; suppressed zero-intensity non-REST mouth animation while preserving independent REST closure and harmony events. Added focused regression tests. Commits 19b094cd, 2a7c37b7, 464e7748. No native visual or device acceptance asserted. Overall estimate ~70%.
+
+
 ## November 20 · Android preview queue integrity
 
 Updated core.preview_status.select_preview_candidates to exclude stale primary selections and deduplicate export paths, preventing phantom preview jobs from consuming the 1–8 requested variant slots. Added regression coverage. Commits 3aa8644e and 51d98f40. CI and device acceptance are not asserted; Beta completion estimate ~70%.
