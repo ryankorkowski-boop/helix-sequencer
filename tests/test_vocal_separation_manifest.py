@@ -103,3 +103,19 @@ def test_cli_rejects_stems_outside_manifest_directory(tmp_path):
     with pytest.raises(ValueError, match="within"):
         prepare(original, lead, backing, output)
     assert not output.exists()
+
+
+def test_cli_rejects_original_mix_as_lead(tmp_path):
+    original, _, backing, _, _ = fixture(tmp_path)
+    output = tmp_path / "unsafe.json"
+    with pytest.raises(ValueError, match="matches original audio"):
+        prepare(original, original, backing, output)
+    assert not output.exists()
+
+
+def test_cli_rejects_original_mix_as_backing(tmp_path):
+    original, lead, _, _, _ = fixture(tmp_path)
+    output = tmp_path / "unsafe.json"
+    with pytest.raises(ValueError, match="matches original audio"):
+        prepare(original, lead, original, output)
+    assert not output.exists()
