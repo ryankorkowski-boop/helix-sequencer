@@ -282,11 +282,18 @@ def _encode_panel(panel: dict, silent: Path) -> dict:
 def stitch_panels(panel_paths: list[Path], audio_path: Path, out_path: Path, title: str, description: str) -> None:
     if len(panel_paths) not in (9, 12, 16):
         raise ValueError(f"Comparison requires 9, 12 or 16 panels; got {len(panel_paths)}")
+    if len({path.resolve() for path in panel_paths}) != len(panel_paths):
+        raise ValueError("Comparison contains duplicate panel video paths")
     missing = [str(path) for path in panel_paths if not path.is_file()]
     if missing:
         raise FileNotFoundError("Missing comparison panel videos: " + ", ".join(missing))
+    empty = [str(path) for path in panel_paths if path.stat().st_size == 0]
+    if empty:
+        raise ValueError("Empty comparison panel videos: " + ", ".join(empty))
     if not audio_path.is_file():
         raise FileNotFoundError(f"Missing comparison soundtrack: {audio_path}")
+    if audio_path.stat().st_size == 0:
+        raise ValueError(f"Empty comparison soundtrack: {audio_path}")
     cols, _rows = grid_shape(len(panel_paths))
     width = cols * PANEL_W
     banner = Image.new("RGB", (width, 48), (4, 8, 16))
