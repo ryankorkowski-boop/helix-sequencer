@@ -191,9 +191,16 @@ jobs:
               print(json.dumps({k:r.get(k) for k in ('source_sha256','verification_state','origin','mixed_bus_only','voice_identity_resolved','independent_tracks')},indent=2))
           PY
         continue-on-error: true
-      - name: Qualify both original vocal lanes before compiling or rendering
+      - name: Qualify original vocal lanes and retain evidence for diagnostic native render
+        id: vocal-gate
+        continue-on-error: true
         run: |
           python -m tools.verify_native_vocal_source "$SOURCE_ROOT/sources/E14/audio.wav" "$SOURCE_ROOT/analysis/E14" --report review/SOURCE_VOCAL_PREFLIGHT.json
+      - name: Label unqualified source as diagnostic, never owner-approved
+        if: steps.vocal-gate.outcome == 'failure'
+        run: |
+          echo "::warning::Independent singer identity is not verified. Rendering a DIAGNOSTIC native preview, not an approval MP4."
+          echo "HELIX_DIAGNOSTIC_UNVERIFIED_VOCALS=1" >> "$GITHUB_ENV"
       - name: Restore compiled pinned native renderer
         id: native-cache
         uses: actions/cache/restore@v4
@@ -332,6 +339,15 @@ jobs:
           (Path('review')/'PROVENANCE.json').write_text(json.dumps({'source_commit':os.environ['HELIX_SOURCE_COMMIT'],'audio_sha256':os.environ['AUDIO_SHA256'],'mp4_sha256':hashlib.sha256(mp4.read_bytes()).hexdigest(),'source':'original hardKor analyzed audio','native_xlights':True,'visual_review_status':'not_reviewed','performers':sorted(names)},indent=2))
           PY
           ffmpeg -v error -xerror -i "$(find review/show -name preview.mp4 -print -quit)" -map 0:v:0 -map 0:a:0 -f null -
+      - name: Enforce vocal qualification for owner approval
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          report=json.loads(Path('review/SOURCE_VOCAL_PREFLIGHT.json').read_text())
+          if report.get('passed') is not True:
+              raise SystemExit('DIAGNOSTIC ONLY: MP4 may exist but independent lead/harmony identity is unverified; NOT approval-ready')
+          PY
       - name: Reject nearly black or frozen native showcases
         run: |
           python -m tools.verify_showcase_luma "$(find review/show -name preview.mp4 -print -quit)" --report review/SHOWCASE_READABILITY.json
