@@ -64,6 +64,24 @@ def run_suite(source, stems, output, commit, commands, *, runner=subprocess.run)
                 digest.update(chunk)
         if digest.hexdigest() != media["sha256"]:
             raise ValueError(f"{role} MP4 SHA256 mismatch")
+        # A hash only proves byte identity; ffprobe proves this is a decodable
+        # media container with the required video and original soundtrack.
+        probe = subprocess.run(
+            ["ffprobe", "-v", "error", "-show_streams", "-show_format",
+             "-of", "json", str(movie)], capture_output=True, text=True, check=True)
+        info = json.loads(probe.stdout)
+        video = [stream for stream in info.get("streams", []) if stream.get("codec_type") == "video"]
+        audio = [stream for stream in info.get("streams", []) if stream.get("codec_type") == "audio"]
+        if len(video) != 1 or not audio:
+            raise ValueError(f"{role} MP4 missing video or audio")
+        v = video[0]
+        if (v.get("codec_name") != "h264" or int(v.get("width", 0)) != 1920
+                or int(v.get("height", 0)) != 1080 or v.get("avg_frame_rate") != "30/1"):
+            raise ValueError(f"{role} MP4 must be H264 1920x1080 30fps")
+        if not any(a.get("codec_name") == "aac" for a in audio):
+            raise ValueError(f"{role} MP4 must contain AAC audio")
+        if float(info.get("format", {}).get("duration", 0)) <= 0:
+            raise ValueError(f"{role} MP4 duration invalid")
         receipts.append(receipt_path)
     verify(source, stems, manifest_path)
     result = verify_three(receipts)
