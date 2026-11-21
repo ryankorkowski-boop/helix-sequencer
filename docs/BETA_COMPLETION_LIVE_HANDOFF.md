@@ -562,3 +562,14 @@ Implemented in `b944f707195a5ab3f32785a449c6a61ffba22d48`: native FSEQ channel p
 - [x] Implement input/output receipt validation and isolated fresh generation (`e0efe160ac0ec7cd4805f9f97ef3f6737cd9667e`).
 - [ ] Verify cache hits, changed inputs, dirty tree and failed generation with regression tests.
 - [ ] Confirm native MP4 run 44793419539; visual approval remains pending.
+
+## November 20–21 — Independent singers, GUI catalog and Windows palette gate
+
+- [x] `dad2e739`, `c00cb595`: independent lead/harmony WAV activity and explicit two-stem routing. This checks distinctness, **not voice identity**; four-stem Demucs does not resolve individual singers.
+- [x] `b12c62b1`, `ec1af1ea`, `e967086a`: reject silent lead/harmony, test rejection, and reduce fingerprint/correlation temporary memory. Full PCM tracks are still loaded; whole-song memory is not yet bounded.
+- [x] `688451a1`, `cb901afe`: label source ownership unverified and test dedicated harmony-snowman target.
+- [x] `1e7a35df`: repair stale GUI layout catalog assertion for 15 configured layouts. Full-suite retest pending; prior 688451a1 run had 2710 passed, 1 failed on each Python version.
+- [x] `c3242356`: emit exact white-only effect attributes in Windows packaged palette smoke. Prior Windows run 44868894275 generated 6438 effects but failed because 3 were white-only. **Do not relax the all-chromatic acceptance gate.**
+- [x] Focused integration tests passed on Python 3.11 and 3.12 in run 44868894288; full suite failed only stale catalog assertion there. Drummer ground-truth passed in run 44872008171.
+- [ ] Check current unified CI and Windows candidate after commits; repair any new failures. Find three white-only effect producers from diagnostic log and fix actual color assignment.
+- [ ] Obtain authenticated lead and harmony sources; verify independent phoneme clocks and native xLights XSQ/FSEQ; real-audio snowman MP4 and owner visual approval remain blocked. Windows/Android release not approved. Do not merge or publish.
