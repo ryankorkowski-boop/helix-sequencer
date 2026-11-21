@@ -50,6 +50,10 @@ jobs:
         run: python -m pytest tests/test_phoneme_source.py tests/test_audio_analysis_reuse.py tests/test_native_face_instructions.py -q
       - name: Prepare complete show from current Helix source
         run: python -m tools.prepare_phoneme_show --audio phoneme-work/input/Phoneme_Test_Hook.mp3 --output phoneme-work/show
+      - name: Expose source sequencer failure details
+        if: failure()
+        run: |
+          find phoneme-work -name sequencer.log -type f -print -exec tail -n 130 {} \; || true
       - name: Restore compiled pinned native renderer
         id: native-cache
         uses: actions/cache/restore@v4
