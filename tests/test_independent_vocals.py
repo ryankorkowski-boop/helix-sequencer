@@ -36,6 +36,22 @@ class IndependentVocalTests(unittest.TestCase):
             with self.assertRaisesRegex(ValueError, "Duplicate"):
                 analyze_independent_vocals(a, a)
 
+    def test_gain_scaled_copy_is_rejected(self):
+        with tempfile.TemporaryDirectory() as d:
+            a, b = Path(d) / "lead.wav", Path(d) / "scaled.wav"
+            make_wav(a, 220, amplitude=0.4)
+            make_wav(b, 220, amplitude=0.2)
+            with self.assertRaisesRegex(ValueError, "near-identical"):
+                analyze_independent_vocals(a, b)
+
+    def test_mismatched_duration_is_rejected(self):
+        with tempfile.TemporaryDirectory() as d:
+            a, b = Path(d) / "lead.wav", Path(d) / "harmony.wav"
+            make_wav(a, 220, duration=0.6)
+            make_wav(b, 330, duration=0.3)
+            with self.assertRaisesRegex(ValueError, "duration"):
+                analyze_independent_vocals(a, b)
+
     def test_silent_harmony_is_rejected(self):
         with tempfile.TemporaryDirectory() as d:
             a, b = Path(d) / "lead.wav", Path(d) / "silent.wav"
