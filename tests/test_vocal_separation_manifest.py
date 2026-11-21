@@ -128,3 +128,30 @@ def test_handwritten_manifest_rejects_original_mix_as_lead(tmp_path):
     manifest.write_text(json.dumps(data))
     with pytest.raises(ValueError, match="matches original source audio"):
         validate_vocal_separation_manifest(manifest, original)
+
+
+def test_cli_never_overwrites_original_or_stems(tmp_path):
+    original, lead, backing, _, _ = fixture(tmp_path)
+    for protected in (original, lead, backing):
+        before = protected.read_bytes()
+        with pytest.raises(ValueError, match="cannot overwrite"):
+            prepare(original, lead, backing, protected)
+        assert protected.read_bytes() == before
+
+
+def test_cli_preserves_existing_manifest_when_validation_fails(tmp_path):
+    original, lead, _, _, _ = fixture(tmp_path)
+    output = tmp_path / "existing.json"
+    output.write_text("previous valid artifact")
+    with pytest.raises(ValueError, match="Duplicate"):
+        prepare(original, lead, lead, output)
+    assert output.read_text() == "previous valid artifact"
+    assert not list(tmp_path.glob(".helix-stems-*"))
+
+
+def test_cli_writes_no_temporary_manifest_after_success(tmp_path):
+    original, lead, backing, _, _ = fixture(tmp_path)
+    output = tmp_path / "generated.json"
+    prepare(original, lead, backing, output)
+    assert output.exists()
+    assert not list(tmp_path.glob(".helix-stems-*"))
