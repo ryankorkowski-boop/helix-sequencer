@@ -1,7 +1,16 @@
 name: Helix final band and native output verification
 on:
   push:
-    branches: ['codex/beta-final-*', 'codex/72h-completion-*']
+    branches: ['codex/beta-final-*', 'codex/72h-completion-*', 'integration/unified-beta-completion-20261117']
+    paths:
+      - 'models/**'
+      - 'core/**'
+      - 'audio/**'
+      - 'music/**'
+      - 'tools/**'
+      - 'validation/**'
+      - 'tests/**'
+      - '.github/workflows/beta-completion-native.yml'
   pull_request:
     paths: ['models/**','core/**','audio/**','music/**','tools/**','validation/**','tests/**','requirements*.txt','.github/workflows/beta-completion-native.yml']
   workflow_dispatch:
@@ -10,7 +19,7 @@ permissions:
   actions: read
 concurrency:
   group: helix-native-${{ github.ref }}
-  cancel-in-progress: true
+  cancel-in-progress: false
 jobs:
   native-proof:
     runs-on: ubuntu-24.04
