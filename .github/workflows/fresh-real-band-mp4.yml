@@ -1,7 +1,7 @@
 name: Fresh native universal-keyboard snowman band MP4 from real audio
 on:
   push:
-    branches: [codex/fresh-real-band-mp4-20261017]
+    branches: [codex/fresh-real-band-mp4-20261017, integration/unified-beta-completion-20261117]
     paths: [.github/workflows/fresh-real-band-mp4.yml, tools/native_preview.py, tools/native_source_pose_band.py, models/native_review_band.py, tools/verify_native_band_artifact.py, tests/test_native_source_pose_band.py, tests/test_native_preview_resolution.py, tests/test_native_band_artifact.py]
   pull_request:
     paths: ['models/**','core/**','audio/**','music/**','tools/**','validation/**','tests/**','requirements*.txt','.github/workflows/beta-completion-native.yml','.github/workflows/fresh-real-band-mp4.yml']
@@ -27,7 +27,7 @@ permissions:
 # A newer source/workflow revision supersedes an older in-flight preview.
 concurrency:
   group: helix-native-preview-${{ github.workflow }}-${{ github.head_ref || github.ref_name }}
-  cancel-in-progress: true
+  cancel-in-progress: false
 
 jobs:
   preflight:
