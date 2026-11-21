@@ -370,9 +370,9 @@ def song_catalog(audio_dir: Path) -> dict[str, dict]:
     return found
 
 
-def variant_plan(songs: dict[str, dict]) -> list[dict]:
-    """Distinct comparison videos. Every grid includes the AC yards and the band stage."""
-    specs = [
+def variant_specs() -> list[tuple]:
+    """Return the immutable legacy comparison definitions for preflight."""
+    return [
         ("V01-NPO-ALL16", "north_pole_overdrive", "ALL16", "16-panel grid of every layout", ALL16),
         ("V02-WWW-ALL16", "wub_wub_wonderland", "ALL16", "16-panel grid of every layout", ALL16),
         ("V03-CCC-ALL16", "candy_cane_chaos", "ALL16", "16-panel grid of every layout", ALL16),
@@ -384,8 +384,12 @@ def variant_plan(songs: dict[str, dict]) -> list[dict]:
         ("V09-WWW-WOW12", "wub_wub_wonderland", "WOW12", "12-panel wow grid with the AC yards and the band stage", WOW12),
         ("V10-CCC-SIMPLE12", "candy_cane_chaos", "SIMPLE12", "12-panel simple-to-mid grid plus the first wow props", SIMPLE12),
     ]
+
+
+def variant_plan(songs: dict[str, dict]) -> list[dict]:
+    """Distinct comparison videos. Every grid includes the AC yards and the band stage."""
     plans = []
-    for variant_id, stem, _code, grid_desc, layout_ids in specs:
+    for variant_id, stem, _code, grid_desc, layout_ids in variant_specs():
         song = songs[stem]
         plans.append(
             {
@@ -450,6 +454,17 @@ def main() -> int:
         if args.audio_dir is None or not args.audio_dir.is_dir():
             parser.error("--audio-dir must be an existing directory for legacy variants")
         songs = song_catalog(args.audio_dir)
+        # Build only variants whose source audio is present. Missing songs must
+        # not crash unrelated requested variants or silently produce a partial batch.
+        requested = set(args.only) if args.only else None
+        specs = variant_specs()
+        available_ids = {spec[0] for spec in specs}
+        if requested is not None and requested - available_ids:
+            parser.error("Unknown variant IDs: " + ", ".join(sorted(requested - available_ids)))
+        selected = [spec for spec in specs if requested is None or spec[0] in requested]
+        missing_songs = sorted({spec[1] for spec in selected if spec[1] not in songs})
+        if missing_songs:
+            parser.error("Missing audio for selected variants: " + ", ".join(missing_songs))
         plans = variant_plan(songs)
         if args.only:
             wanted = set(args.only)
