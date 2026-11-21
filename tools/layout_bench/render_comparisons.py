@@ -382,8 +382,12 @@ WOW12 = [
 
 def song_catalog(audio_dir: Path) -> dict[str, dict]:
     found = {}
-    for path in audio_dir.glob("*.mp3"):
+    for path in sorted(audio_dir.iterdir()):
+        if not path.is_file() or path.suffix.lower() not in {".mp3", ".wav", ".flac", ".m4a"}:
+            continue
         if path.stem in SONG_META:
+            if path.stem in found:
+                raise ValueError(f"Ambiguous audio sources for {path.stem}: {found[path.stem]['path']} and {path}")
             code, label = SONG_META[path.stem]
             found[path.stem] = {"path": path, "stem": path.stem, "code": code, "label": label}
     return found
