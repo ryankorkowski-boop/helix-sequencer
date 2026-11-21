@@ -221,3 +221,34 @@ def test_orchestrated_sidecar_filter_is_case_insensitive(tmp_path):
     expected.write_text("canonical")
     (folder / "Track,ORCHESTRATED.xsq").write_text("sidecar")
     assert find_xsq(tmp_path, "ac16_lor", "Track") == expected
+
+
+def test_native_panel_encode_rejects_zero_frames(tmp_path, monkeypatch):
+    import numpy as np
+    from types import SimpleNamespace
+    from tools.layout_bench import render_comparisons as comparisons
+
+    fseq = SimpleNamespace(
+        fps=lambda: 30, step_ms=33, sparse_start=0, rows=lambda: iter(())
+    )
+    class FakePipe:
+        def write(self, data):
+            pass
+        def close(self):
+            pass
+    class FakeProcess:
+        stdin = FakePipe()
+        stderr = SimpleNamespace(read=lambda: b"")
+        def wait(self):
+            return 0
+    monkeypatch.setattr(comparisons, "load_fseq", lambda path: fseq)
+    monkeypatch.setattr(comparisons, "model_channel_report", lambda *args: [])
+    monkeypatch.setattr(comparisons, "build_node_drawlist", lambda *args: {})
+    monkeypatch.setattr(comparisons, "_ffmpeg", lambda: "ffmpeg")
+    monkeypatch.setattr(comparisons.subprocess, "Popen", lambda *args, **kwargs: FakeProcess())
+    with pytest.raises(RuntimeError, match="no video frames"):
+        comparisons._encode_panel(
+            {"fseq": tmp_path / "empty.fseq", "layout": tmp_path / "layout.xml",
+             "title": "Test panel", "channels": 3},
+            tmp_path / "empty.mp4",
+        )
