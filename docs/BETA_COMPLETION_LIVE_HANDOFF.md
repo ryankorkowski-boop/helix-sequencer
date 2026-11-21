@@ -1,5 +1,10 @@
 # Unified Beta Completion — Live Handoff
 
+## November 20 · Native FSEQ panel-frame and sparse-channel safeguards
+
+Implemented fail-closed comparison panel frame count verification against FSEQ declared frames, malformed packed-channel row rejection, and regression tests for truncated panels, malformed sparse frames, and zero-valued gaps. Commits 6954a32c, d32b23f7, 2ec9871d, f667b0d8. Native renderer/test implementation is committed; CI/device/render acceptance not asserted. Overall Beta 1.4 completion estimate remains ~70% pending owner acceptance.
+
+
 ## November 20 · Legacy comparison audio input hardening
 
 Implemented source discovery for MP3, WAV, FLAC and M4A, including uppercase filename extensions, while rejecting duplicate-format recordings with the same stem rather than silently selecting one. Added regression tests for both behaviors. Commits 3f52cfe2 and d1a4e9d6. No native renders, device acceptance or owner approvals are claimed from these changes. Estimated overall completion remains ~70% pending substantive acceptance gates.
