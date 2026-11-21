@@ -1070,7 +1070,36 @@ def build_stem_analysis(
     )
     bass_peaks = _analyze_peak_events(bass_src, "bass")
     vocal_peaks = _analyze_peak_events(vocal_src, "vocals")
-    background_vocal_events = _classify_background_vocals(vocal_src, log_fn)
+    # An explicitly supplied singer-specific pair takes precedence over the
+    # mixed-vocal pitch/chroma heuristic. Four-stem Demucs is NOT singer separation.
+    # Both environment variables must be present: never silently invent a singer.
+    lead_override = os.environ.get("HELIX_LEAD_VOCAL_STEM", "").strip()
+    harmony_override = os.environ.get("HELIX_HARMONY_VOCAL_STEM", "").strip()
+    if lead_override or harmony_override:
+        if not (lead_override and harmony_override):
+            raise ValueError("Both HELIX_LEAD_VOCAL_STEM and HELIX_HARMONY_VOCAL_STEM are required")
+        from core.independent_vocals import analyze_independent_vocals
+        independent = analyze_independent_vocals(lead_override, harmony_override)
+        lead_track, harmony_track = independent["tracks"]
+        # Lead activity drives the lead singer; harmony activity is kept separate.
+        vocal_peaks = [window["start_ms"] for window in lead_track["windows"]]
+        background_vocal_events = [
+            BackgroundVocalEvent(
+                start_ms=window["start_ms"],
+                end_ms=window["end_ms"],
+                confidence=window["confidence"],
+                role="harmony",
+                source_reason="explicit_independent_harmony_stem",
+                energy=window["confidence"],
+                performer_hint="female_singer",
+            )
+            for window in harmony_track["windows"]
+        ]
+        stems["lead_vocals"] = Path(lead_override)
+        stems["harmony_vocals"] = Path(harmony_override)
+        _log(log_fn, "Independent singer stems: bypassed speculative mixed-vocal harmony classifier.")
+    else:
+        background_vocal_events = _classify_background_vocals(vocal_src, log_fn)
     stem_features = {
         name: _summarize_stem_file(
             path,
