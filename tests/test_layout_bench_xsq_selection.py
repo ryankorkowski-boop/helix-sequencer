@@ -173,3 +173,35 @@ def test_zero_byte_comparison_encode_preserves_previous_mp4(tmp_path, monkeypatc
     with pytest.raises(RuntimeError, match="Comparison encode"):
         comparisons.stitch_panels(panels, soundtrack, destination, "Title", "Description")
     assert destination.read_bytes() == b"previous review"
+
+
+def test_stitch_rejects_duplicate_panel_paths(tmp_path):
+    from tools.layout_bench.render_comparisons import stitch_panels
+
+    panel = tmp_path / "panel.mp4"
+    panel.write_bytes(b"video")
+    with pytest.raises(ValueError, match="duplicate panel"):
+        stitch_panels([panel] * 9, tmp_path / "song.mp3", tmp_path / "out.mp4", "Title", "Description")
+
+
+def test_stitch_rejects_empty_panel(tmp_path):
+    from tools.layout_bench.render_comparisons import stitch_panels
+
+    panels = [tmp_path / f"panel_{i}.mp4" for i in range(9)]
+    for panel in panels:
+        panel.write_bytes(b"video")
+    panels[3].write_bytes(b"")
+    with pytest.raises(ValueError, match="Empty comparison panel"):
+        stitch_panels(panels, tmp_path / "song.mp3", tmp_path / "out.mp4", "Title", "Description")
+
+
+def test_stitch_rejects_empty_soundtrack(tmp_path):
+    from tools.layout_bench.render_comparisons import stitch_panels
+
+    panels = [tmp_path / f"panel_{i}.mp4" for i in range(9)]
+    for panel in panels:
+        panel.write_bytes(b"video")
+    soundtrack = tmp_path / "song.mp3"
+    soundtrack.write_bytes(b"")
+    with pytest.raises(ValueError, match="Empty comparison soundtrack"):
+        stitch_panels(panels, soundtrack, tmp_path / "out.mp4", "Title", "Description")
