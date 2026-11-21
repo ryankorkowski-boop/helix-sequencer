@@ -119,3 +119,14 @@ def test_preview_candidate_selection_ignores_stale_primary_and_duplicates():
     assert candidates == [Path("/job/a.xsq"), Path("/job/b.xsq")]
     assert selected not in candidates
     assert preview_stage(candidates, {}, limit, running=False)["missing_candidates"] == 6
+
+
+def test_band_preview_rejection_is_per_variant_not_global():
+    mobile = MOBILE.read_text(encoding="utf-8")
+    start = mobile.index("preview_candidates, preview_limit = select_preview_candidates(")
+    end = mobile.index("for index, variant in enumerate(preview_candidates):", start)
+    assert "band_stage_preview_error(" not in mobile[start:end]
+    variant = mobile[end:mobile.index("publish(running=index + 1 < len(preview_candidates))", end)]
+    assert "variant_band_error = band_stage_preview_error(inspect_band_stage(variant_layout))" in variant
+    assert "outcomes[str(variant)] = ''" in variant
+    assert "callback.log('Variant %d preview failed:" in variant
