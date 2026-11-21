@@ -500,7 +500,14 @@ def main() -> int:
     for layout_id, media in needed:
         if layout_id not in manifest:
             raise ValueError(f"Unknown comparison layout: {layout_id}")
+        layout_path = ROOT / manifest[layout_id]["layout"]
+        if not layout_path.is_file() or layout_path.stat().st_size == 0:
+            raise FileNotFoundError(f"Missing or empty native xLights layout: {layout_path}")
+        if not media.is_file() or media.stat().st_size == 0:
+            raise FileNotFoundError(f"Missing or empty source audio: {media}")
         sources[(layout_id, media.stem)] = find_xsq(args.run_root, layout_id, media.stem)
+        if sources[(layout_id, media.stem)].stat().st_size == 0:
+            raise ValueError(f"Empty canonical XSQ: {sources[(layout_id, media.stem)]}")
     versions: set[str] = set()
     for layout_id, media in needed:
         entry = manifest[layout_id]
