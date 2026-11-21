@@ -287,6 +287,12 @@ def _encode_panel(panel: dict, silent: Path) -> dict:
         raise RuntimeError(f"panel encode failed for {panel['title']}: {stderr[-600:]}") from write_error
     if frame_count == 0 or not silent.is_file() or silent.stat().st_size == 0:
         raise RuntimeError(f"panel encode produced no video frames for {panel['title']}")
+    expected_frames = getattr(fseq, "frames", None)
+    if expected_frames is not None and frame_count != expected_frames:
+        raise RuntimeError(
+            f"panel frame count mismatch for {panel['title']}: "
+            f"expected {expected_frames}, painted {frame_count}"
+        )
     return {"fps": fseq.fps(), "report": report}
 
 
