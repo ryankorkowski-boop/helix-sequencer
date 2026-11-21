@@ -29,6 +29,14 @@ class VocalTrack:
     windows: tuple[VocalWindow, ...]
 
 
+def _file_sha256(path: Path) -> str:
+    digest = hashlib.sha256()
+    with path.open("rb") as handle:
+        for block in iter(lambda: handle.read(1024 * 1024), b""):
+            digest.update(block)
+    return digest.hexdigest()
+
+
 def _read_mono_pcm(path: Path) -> tuple[int, list[float]]:
     with wave.open(str(path), "rb") as wav:
         channels, width, rate, frames = (wav.getnchannels(), wav.getsampwidth(),
@@ -98,8 +106,8 @@ def analyze_independent_vocals(lead_path: str | Path, harmony_path: str | Path,
         raise ValueError("Vocal stems have different sample rates; align/resample first")
     if abs(len(lead) - len(harmony)) > round(lead_rate * 0.05):
         raise ValueError("Vocal stems differ in duration by more than 50 ms")
-    lead_sha = hashlib.sha256(lead_path.read_bytes()).hexdigest()
-    harmony_sha = hashlib.sha256(harmony_path.read_bytes()).hexdigest()
+    lead_sha = _file_sha256(lead_path)
+    harmony_sha = _file_sha256(harmony_path)
     if lead_sha == harmony_sha or lead == harmony:
         raise ValueError("Duplicate vocal stems: independent harmony not established")
     lead_windows = _activity(lead, lead_rate)
@@ -111,10 +119,12 @@ def analyze_independent_vocals(lead_path: str | Path, harmony_path: str | Path,
     # Detect near-identical tracks, including gain-scaled copies. Sample sparsely
     # to avoid retaining extra analysis arrays for long songs.
     step = max(1, len(lead) // 50000)
-    pairs = [(lead[i], harmony[i]) for i in range(0, min(len(lead), len(harmony)), step)]
-    dot = sum(a * b for a, b in pairs)
-    aa = sum(a * a for a, _ in pairs)
-    bb = sum(b * b for _, b in pairs)
+    dot = aa = bb = 0.0
+    for i in range(0, min(len(lead), len(harmony)), step):
+        a, b = lead[i], harmony[i]
+        dot += a * b
+        aa += a * a
+        bb += b * b
     corr = abs(dot) / math.sqrt(aa * bb) if aa > 0 and bb > 0 else 0.0
     if corr >= 0.995:
         raise ValueError("Vocal stems are near-identical (possibly gain-scaled copies)")
