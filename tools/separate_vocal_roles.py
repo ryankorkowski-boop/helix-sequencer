@@ -55,18 +55,20 @@ def main() -> None:
     parser.add_argument("--vocals", type=Path, required=True)
     parser.add_argument("--output-dir", type=Path, required=True)
     parser.add_argument("--model", default=MODEL)
+    parser.add_argument("--skip-separation", action="store_true", help="Reuse existing model outputs without rerunning inference")
     parser.add_argument("--lead-output", help="Exact filename returned by audio-separator")
     parser.add_argument("--backing-output", help="Exact filename returned by audio-separator")
     args = parser.parse_args()
     root = args.output_dir.resolve()
     root.mkdir(parents=True, exist_ok=True)
-    exe = shutil.which("audio-separator")
-    if not exe:
-        raise SystemExit("Install audio-separator in the current Python environment")
-    cmd = [exe, str(args.vocals.resolve()),
-           "--model_filename", args.model, "--output_format", "WAV",
-           "--output_dir", str(root)]
-    subprocess.run(cmd, check=True)
+    if not args.skip_separation:
+        exe = shutil.which("audio-separator")
+        if not exe:
+            raise SystemExit("Install audio-separator in the current Python environment")
+        cmd = [exe, str(args.vocals.resolve()),
+               "--model_filename", args.model, "--output_format", "WAV",
+               "--output_dir", str(root)]
+        subprocess.run(cmd, check=True)
     if not args.lead_output or not args.backing_output:
         raise SystemExit(
             "Separation completed, but singer roles are unverified. Inspect outputs in "
@@ -75,6 +77,8 @@ def main() -> None:
     lead_raw, backing_raw = (root / args.lead_output).resolve(), (root / args.backing_output).resolve()
     if any(not p.is_relative_to(root) or not p.is_file() for p in (lead_raw, backing_raw)):
         raise SystemExit("Model output filename missing or escapes output directory")
+    if lead_raw == backing_raw:
+        raise SystemExit("Lead and backing cannot be mapped to the same output")
     # Normalize to the format expected by the existing independent-vocal gate.
     normalized = []
     for role, raw in (("lead", lead_raw), ("backing", backing_raw)):
