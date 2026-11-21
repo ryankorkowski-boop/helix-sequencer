@@ -345,9 +345,9 @@ def run(engine_path, job_path, request_json, callback):
                     from core.preview_status import (
                         align_preview_paths, preview_stage, preview_states, select_preview_candidates,
                     )
-                    band_error = band_stage_preview_error(inspect_band_stage(layout))
-                    if band_error:
-                        raise RuntimeError(band_error)
+                    # Validate each variant independently below. A missing or
+                    # unsupported band in one layout must not cancel every
+                    # other variant's preview or its sequence export.
                     # Prioritize the primary XSQ while preserving the exact
                     # sequence_paths index mapping for the Android picker.
                     preview_candidates, preview_limit = select_preview_candidates(
