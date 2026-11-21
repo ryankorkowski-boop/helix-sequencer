@@ -1,0 +1,30 @@
+{
+  "schema_version": 1,
+  "generated_utc": "2026-11-21",
+  "purpose": "source audio candidates for native stem separation and vocal qualification; no stems or native MP4s claimed",
+  "sources": [
+    {
+      "name": "The Test Is On.mp3",
+      "drive_file_id": "18zI7nKAQ0JHG-cPMppPJWeNP_Qo3aXce",
+      "drive_url": "https://drive.google.com/file/d/18zI7nKAQ0JHG-cPMppPJWeNP_Qo3aXce/view",
+      "sha256": "02c31e2a77ed61a11053ade8275e556b06c0d450b34da67827ed47a06b55115c",
+      "duration_seconds": 30,
+      "sample_rate_hz": 48000,
+      "channels": 2,
+      "priority": "short pilot"
+    },
+    {
+      "name": "Rhythmic Awe.mp3",
+      "drive_file_id": "11J89FUSbbH1QuP_joaTlgKdFVUdqRuqH",
+      "drive_url": "https://drive.google.com/file/d/11J89FUSbbH1QuP_joaTlgKdFVUdqRuqH/view",
+      "sha256": "02cd54391e4b20efc805ae5f68b0760eafdc33931c6be14bbcf37b7d851fdba4",
+      "duration_seconds": 253.44,
+      "sample_rate_hz": 48000,
+      "channels": 2,
+      "priority": "full song"
+    }
+  ],
+  "separation_status": "not_run",
+  "blocker": "local Demucs pretrained weights unavailable; GitHub CI has separate pinned and cached separation workflow",
+  "acceptance": "validate per-stem duration, WAV hashes, source clock, lead/harmony independence before band render"
+}
