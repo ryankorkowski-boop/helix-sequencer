@@ -386,10 +386,12 @@ def variant_specs() -> list[tuple]:
     ]
 
 
-def variant_plan(songs: dict[str, dict]) -> list[dict]:
+def variant_plan(songs: dict[str, dict], only: set[str] | None = None) -> list[dict]:
     """Distinct comparison videos. Every grid includes the AC yards and the band stage."""
     plans = []
     for variant_id, stem, _code, grid_desc, layout_ids in variant_specs():
+        if only is not None and variant_id not in only:
+            continue
         song = songs[stem]
         plans.append(
             {
@@ -465,7 +467,7 @@ def main() -> int:
         missing_songs = sorted({spec[1] for spec in selected if spec[1] not in songs})
         if missing_songs:
             parser.error("Missing audio for selected variants: " + ", ".join(missing_songs))
-        plans = variant_plan(songs)
+        plans = variant_plan(songs, requested)
         if args.only:
             wanted = set(args.only)
             available = {plan["id"] for plan in plans}
