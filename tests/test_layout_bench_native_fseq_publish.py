@@ -134,3 +134,49 @@ def test_native_render_regenerates_corrupted_cached_fseq(tmp_path, monkeypatch):
     assert xlights_fseq.render_sequence_to_fseq(**kwargs) == "2026.19"
     assert destination.read_bytes() == b"native-good"
     assert len(calls) == 2
+
+
+def test_native_render_regenerates_receipt_without_version(tmp_path, monkeypatch):
+    import json
+
+    source = tmp_path / "native.fseq"
+    source.write_bytes(b"native-good")
+    binary = tmp_path / "xLights"
+    binary.write_bytes(b"binary")
+    layout = tmp_path / "layout.xml"
+    layout.write_text("<layout/>")
+    xsq = tmp_path / "song.xsq"
+    xsq.write_text("<sequence/>")
+    media = tmp_path / "song.wav"
+    media.write_bytes(b"audio")
+    destination = tmp_path / "result.fseq"
+    calls = []
+
+    class FakeReader:
+        info = SimpleNamespace(frames=1, step_ms=50)
+
+        def __init__(self, path):
+            pass
+
+        def iter_frames(self):
+            yield b"frame"
+
+    def fake_xlights(*args):
+        calls.append(True)
+        return source, "2026.19"
+
+    monkeypatch.setattr(xlights_fseq, "xlights_binary", lambda: binary)
+    monkeypatch.setattr(xlights_fseq, "_run_xlights", fake_xlights)
+    monkeypatch.setattr(xlights_fseq, "FseqReader", FakeReader)
+    kwargs = dict(
+        layout_xml=layout, xsq_path=xsq, media_path=media,
+        fseq_path=destination, show_dir=tmp_path / "show"
+    )
+    xlights_fseq.render_sequence_to_fseq(**kwargs)
+    receipt = receipt_path(destination)
+    metadata = json.loads(receipt.read_text())
+    del metadata["version"]
+    receipt.write_text(json.dumps(metadata))
+    assert xlights_fseq.render_sequence_to_fseq(**kwargs) == "2026.19"
+    assert len(calls) == 2
+    assert json.loads(receipt.read_text())["version"] == "2026.19"
