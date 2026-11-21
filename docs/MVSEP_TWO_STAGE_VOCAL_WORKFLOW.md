@@ -49,3 +49,18 @@ authenticates singer identity, phonemes, or visual acceptance.**
 - Never put API tokens in logs or the repository; require upload consent and
   account for service licensing, data retention, and provider availability.
 - Preserve local fallback, native xLights acceptance and owner review gates.
+
+## Prepare the manifest locally
+
+After obtaining separate mono 16-bit PCM WAV singer stems using a two-stage
+separator, put them in the same directory as the manifest and run:
+
+```bash
+python -m tools.prepare_vocal_separation_manifest original.wav stems/lead.wav stems/backing.wav --output stems/separation.json
+HELIX_VOCAL_SEPARATION_MANIFEST=stems/separation.json python -m pytest tests/test_vocal_separation_manifest.py -q
+```
+
+The second command is a smoke test for the manifest integration, **not** a
+render or singer-identity acceptance test. The preparation tool validates
+stem independence before publishing the manifest and rejects out-of-directory
+paths. No provider is called and no original media is uploaded.
