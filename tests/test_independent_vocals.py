@@ -116,3 +116,24 @@ def test_gain_scaled_copy_with_short_tail_is_rejected():
         make_wav(backing, 220, duration=1.03, amplitude=0.2)
         with unittest.TestCase().assertRaisesRegex(ValueError, "near-identical"):
             analyze_independent_vocals(lead, backing)
+
+
+def test_streaming_rejects_invalid_budgets_and_stride():
+    with tempfile.TemporaryDirectory() as d:
+        path = Path(d) / "lead.wav"
+        make_wav(path, 220)
+        for options in ({"fingerprint_budget": 0}, {"hop_ms": 0},
+                        {"fingerprint_stride": 0}, {"fingerprint_stride": -1}):
+            with unittest.TestCase().assertRaises(ValueError):
+                _stream_vocal_features(path, **options)
+
+
+def test_streamed_and_compact_activity_windows_match():
+    from core.independent_vocals import _activity, _activity_from_energies
+    with tempfile.TemporaryDirectory() as d:
+        path = Path(d) / "lead.wav"
+        make_wav(path, 220, duration=1.0)
+        rate, samples = _read_mono_pcm(path)
+        _, frames, energies, _ = _stream_vocal_features(path)
+        assert _activity(samples, rate) == _activity_from_energies(
+            energies, round(frames * 1000 / rate))
