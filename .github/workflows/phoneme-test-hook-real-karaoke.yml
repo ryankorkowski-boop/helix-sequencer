@@ -1,6 +1,10 @@
 name: Phoneme Test Hook - real karaoke model pilot
 on:
   workflow_dispatch:
+  push:
+    branches: [integration/unified-beta-completion-20261117]
+    paths:
+      - .github/workflows/phoneme-test-hook-real-karaoke.yml
 permissions:
   contents: read
 jobs:
