@@ -37,7 +37,9 @@ jobs:
           audio: owner-source/The_Test_Is_On.mp3
           sha256: 02c31e2a77ed61a11053ade8275e556b06c0d450b34da67827ed47a06b55115c
       - name: Install RoFormer adapter dependencies
-        run: python -m pip install 'audio-separator==0.41.1'
+        run: |
+          python -m pip install 'audio-separator==0.41.1' 'onnxruntime==1.23.2'
+          python -c 'import onnxruntime; import audio_separator.separator; print("RoFormer dependencies import successfully")'
       - name: Run karaoke model on genuine vocal stem
         run: |
           set -euo pipefail
