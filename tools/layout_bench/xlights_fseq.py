@@ -119,8 +119,15 @@ def render_sequence_to_fseq(
         work = Path(workspace)
         try:
             produced, version = _run_xlights(binary, layout_xml, xsq_path, media_path, work)
-            for _ in FseqReader(produced).iter_frames():
-                pass
+            reader = FseqReader(produced)
+            if reader.info.frames <= 0 or reader.info.step_ms <= 0:
+                raise ValueError(f"Native xLights FSEQ has no playable frames: {produced}")
+            decoded_frames = sum(1 for _ in reader.iter_frames())
+            if decoded_frames != reader.info.frames:
+                raise ValueError(
+                    f"Native xLights FSEQ frame count mismatch: "
+                    f"declared {reader.info.frames}, decoded {decoded_frames}"
+                )
             fseq_path.parent.mkdir(parents=True, exist_ok=True)
             with TemporaryDirectory(dir=fseq_path.parent) as staging:
                 staged = Path(staging) / fseq_path.name
