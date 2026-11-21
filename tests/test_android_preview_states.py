@@ -94,3 +94,11 @@ def test_phone_sources_publish_and_honor_preview_states():
     assert "PreviewStatus.canPlay" in activity
     assert "pending_variants" in activity
     assert 'android:largeHeap="true"' in manifest
+
+
+def test_phone_variant_export_uses_selected_sequence_filename():
+    activity = ACTIVITY.read_text(encoding="utf-8")
+    assert 'movie=button("Save selected variant MP4' in activity
+    assert 'new File(sequencePath).getName()' in activity
+    assert 'export(previewPath,"video/mp4",name+"-preview.mp4")' in activity
+    assert 'Variant "+selected+" of "+count' in activity
