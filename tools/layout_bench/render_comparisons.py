@@ -308,24 +308,31 @@ def stitch_panels(panel_paths: list[Path], audio_path: Path, out_path: Path, tit
         f"[0:v][grid]vstack=inputs=2[v]"
     )
     filter_complex += ";[v]fps=30,scale=1920:1080:force_original_aspect_ratio=decrease,pad=1920:1080:(ow-iw)/2:(oh-ih)/2,setsar=1[vout]"
-    cmd.extend(
-        [
-            "-filter_complex", filter_complex,
-            "-map", "[vout]",
-            "-map", f"{audio_index}:a:0",
-            "-c:v", "libx264",
-            "-pix_fmt", "yuv420p",
-            "-r", "30",
-            "-crf", "20",
-            "-c:a", "aac",
-            "-shortest",
-            str(out_path),
-        ]
-    )
-    completed = subprocess.run(cmd, stdout=subprocess.DEVNULL, stderr=subprocess.PIPE, check=False)
-    if completed.returncode != 0:
-        raise RuntimeError(completed.stderr.decode("utf-8", errors="replace")[-800:])
-    banner_path.unlink(missing_ok=True)
+    # Never expose a truncated comparison as the final owner-review MP4.
+    with TemporaryDirectory(dir=out_path.parent) as workspace:
+        staged = Path(workspace) / "comparison.mp4"
+        cmd.extend(
+            [
+                "-filter_complex", filter_complex,
+                "-map", "[vout]",
+                "-map", f"{audio_index}:a:0",
+                "-c:v", "libx264",
+                "-pix_fmt", "yuv420p",
+                "-r", "30",
+                "-crf", "20",
+                "-c:a", "aac",
+                "-shortest",
+                str(staged),
+            ]
+        )
+        try:
+            completed = subprocess.run(cmd, stdout=subprocess.DEVNULL, stderr=subprocess.PIPE, check=False)
+            if completed.returncode != 0 or not staged.is_file() or staged.stat().st_size == 0:
+                raise RuntimeError("Comparison encode did not produce a valid file: "
+                                   + completed.stderr.decode("utf-8", errors="replace")[-800:])
+            staged.replace(out_path)
+        finally:
+            banner_path.unlink(missing_ok=True)
 
 
 SONG_META = {
