@@ -10,7 +10,9 @@ on:
       - tests/test_phoneme_hook_harmony_routing.py
       - tests/test_separate_vocal_roles.py
       - tools/separate_vocal_roles.py
-      - tests/test_verify_shared_approval_source.py
+      - tests/test_verify_shared_approval_source.py tests/test_build_shared_approval_analysis.py
+      - tests/test_build_shared_approval_analysis.py
+      - tools/build_shared_approval_analysis.py
       - tools/verify_shared_approval_source.py
       - tests/test_independent_vocals.py
       - tests/test_vocal_separation_manifest.py
