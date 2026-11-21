@@ -50,10 +50,23 @@ def load_manifest() -> dict[str, dict]:
 
 def find_xsq(run_root: Path, layout_id: str, audio_stem: str) -> Path:
     folder = run_root / layout_id
-    matches = [path for path in folder.glob(f"{audio_stem},*.xsq") if "orchestrated" not in path.name]
+    # Match the complete media stem literally; glob metacharacters in song titles
+    # must never select a different recording's sequence.
+    matches = [
+        path for path in folder.iterdir()
+        if path.is_file()
+        and path.suffix.lower() == ".xsq"
+        and path.name.startswith(audio_stem + ",")
+        and "orchestrated" not in path.name.lower()
+    ] if folder.is_dir() else []
     if not matches:
         raise FileNotFoundError(f"No canonical XSQ for {layout_id} / {audio_stem} under {folder}")
     matches.sort(key=lambda path: (path.name.count("("), len(path.name), path.name))
+    if len(matches) > 1:
+        raise ValueError(
+            f"Ambiguous canonical XSQ for {layout_id} / {audio_stem}: "
+            + ", ".join(path.name for path in matches)
+        )
     return matches[0]
 
 
