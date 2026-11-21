@@ -88,6 +88,7 @@ def test_harmony_has_stable_distinct_target_and_never_borrows_only_lead():
     assert routing["preferred_lead"] == "HX_SNOW_LEAD"
     for time in (0, 200, 700, 1900):
         assert _face_target_for_instruction({"performer": "female_singer", "start_ms": time}, routing) == "HX_SNOW_HARMONY"
+        assert _face_target_for_instruction({"performer": "harmony_singer", "start_ms": time}, routing) == "HX_SNOW_HARMONY"
     only_lead = preferred_face_routing(["HX_SNOW_LEAD", "Matrix"])
     assert _face_target_for_instruction({"performer": "female_singer"}, only_lead) == ""
 
