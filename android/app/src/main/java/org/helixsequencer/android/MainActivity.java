@@ -236,8 +236,16 @@ public class MainActivity extends Activity {
         watch.setEnabled(playable);movie.setEnabled(playable);
         if(previewStateLabel!=null){
             int count=sequenceChoices.getAdapter()==null?0:sequenceChoices.getAdapter().getCount();
-            int selected=count==0?0:sequenceChoices.getSelectedItemPosition()+1;
-            String heading=count>0?"Variant "+selected+" of "+count+" · ":"";
+            int index=sequenceChoices.getSelectedItemPosition();
+            if(index<0&&count>0){
+                for(int i=0;i<count;i++){
+                    if(sequencePath.equals(String.valueOf(sequenceChoices.getAdapter().getItem(i)))){
+                        index=i;
+                        break;
+                    }
+                }
+            }
+            String heading=index>=0&&index<count?"Variant "+(index+1)+" of "+count+" · ":"";
             previewStateLabel.setText(heading+PreviewStatus.label(state));
         }
     }
