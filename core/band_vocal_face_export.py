@@ -2,8 +2,9 @@ from __future__ import annotations
 
 from dataclasses import asdict, dataclass
 import math
-from typing import Any, Iterable
+from typing import Any, Iterable, Mapping
 
+from core.face_style_adapter import resolve_face_mapping
 from models.helixville4_performer_runtime import FEMALE_SINGER, SINGER
 from models.helixville4_vocal_phonemes import PHONEME_BY_NAME
 
@@ -57,6 +58,14 @@ class BandVocalFaceExportCompiler:
         "female_singer": "helixville4_harmony_singer_full",
     }
 
+    def __init__(self, performer_styles: Mapping[str, str] | None = None) -> None:
+        self.performer_styles = dict(performer_styles or {})
+        self.style_mappings = {performer: resolve_face_mapping(style)
+                               for performer, style in self.performer_styles.items()}
+        unknown = set(self.performer_styles) - set(self.PERFORMER_MODELS)
+        if unknown:
+            raise ValueError(f"Unknown vocal performers: {sorted(unknown)}")
+
     def compile_timing(self, timing: VocalPhonemeTiming) -> XLightsVocalFaceEffect:
         performer = timing.performer
         if performer not in self.PERFORMER_MODELS:
@@ -78,7 +87,8 @@ class BandVocalFaceExportCompiler:
             performer=performer,
             model_name=self.PERFORMER_MODELS[performer],
             phoneme=spec.phoneme,
-            mouth_shape=spec.mouth_shape,
+            mouth_shape=self.style_mappings[performer][phoneme]
+                if performer in self.style_mappings else spec.mouth_shape,
             submodels=submodels,
             effect_type=spec.xlights_face_effect,
             face_definition=self.FACE_DEFINITIONS[performer],
