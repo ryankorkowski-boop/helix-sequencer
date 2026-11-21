@@ -8,6 +8,8 @@ on:
       - core/independent_vocals.py
       - core/vocal_separation_manifest.py
       - tests/test_phoneme_hook_harmony_routing.py
+      - tests/test_separate_vocal_roles.py
+      - tools/separate_vocal_roles.py
       - tests/test_independent_vocals.py
       - tests/test_vocal_separation_manifest.py
       - .github/workflows/phoneme-test-hook-independent-vocals.yml
@@ -25,4 +27,4 @@ jobs:
       - name: Install minimal test requirements
         run: python -m pip install pytest
       - name: Verify independent singer and phoneme routing gates
-        run: python -m pytest -q tests/test_phoneme_hook_harmony_routing.py tests/test_independent_vocals.py tests/test_vocal_separation_manifest.py
+        run: python -m pytest -q tests/test_phoneme_hook_harmony_routing.py tests/test_separate_vocal_roles.py tests/test_independent_vocals.py tests/test_vocal_separation_manifest.py
