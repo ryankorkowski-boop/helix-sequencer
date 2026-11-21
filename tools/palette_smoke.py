@@ -59,11 +59,16 @@ def summarize(xsq_path: Path) -> dict:
     indexes: Counter[str] = Counter()
     white_only = 0
     chromatic = 0
+    white_only_examples = []
     for effect in effects:
         choice = effect.attrib.get("palette", "")
         indexes[choice] += 1
         if palette_collapses_to_white(choice, tables):
             white_only += 1
+            if len(white_only_examples) < 20:
+                white_only_examples.append({"effect": effect.attrib.get("name"),
+                                            "palette": choice,
+                                            "attributes": dict(effect.attrib)})
         else:
             chromatic += 1
     sample = []
@@ -79,6 +84,7 @@ def summarize(xsq_path: Path) -> dict:
         "effect_count": len(effects),
         "chromatic_effects": chromatic,
         "white_only_effects": white_only,
+        "white_only_examples": white_only_examples,
         "palette_indexes": dict(indexes),
         "palette_sample": sample,
     }
