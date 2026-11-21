@@ -3,7 +3,7 @@
 name: Helix Motion 16-panel OWNER approval pilot (native)
 on:
   push:
-    branches: [codex/full-song-16-panel-216]
+    branches: [codex/full-song-16-panel-216, integration/unified-beta-completion-20261117]
     paths: [.github/workflows/full-song-16panel-approval-pilot.yml]
   workflow_dispatch:
 permissions:
@@ -11,7 +11,7 @@ permissions:
   actions: read
 concurrency:
   group: helix-motion-owner-pilot
-  cancel-in-progress: true
+  cancel-in-progress: false
 jobs:
   render-one-owner-pilot:
     runs-on: ubuntu-24.04
