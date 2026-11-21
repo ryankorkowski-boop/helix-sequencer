@@ -82,7 +82,7 @@ def main() -> None:
     # Normalize to the format expected by the existing independent-vocal gate.
     normalized = []
     for role, raw in (("lead", lead_raw), ("backing", backing_raw)):
-        dest = root / (role + ".wav")
+        dest = root / (role + ".normalized.wav")
         subprocess.run(["ffmpeg", "-nostdin", "-hide_banner", "-loglevel", "error",
                         "-y", "-i", str(raw), "-ac", "1", "-ar", "44100",
                         "-c:a", "pcm_s16le", str(dest)], check=True)
