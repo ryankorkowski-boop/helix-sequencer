@@ -78,10 +78,15 @@ def test_vivid_accents_keep_white_highlight_but_never_white_only(tmp_path: Path)
                if effect.attrib.get("source") == "HelixVivid"
                and effect.attrib.get("label") == "white accent"]
     assert accents, "Synthetic AC layout should exercise occasional vivid highlights"
-    for effect in accents:
+    vivid_effects = [effect for effect in root.iter("Effect")
+                     if effect.attrib.get("source") == "HelixVivid"]
+    for effect in vivid_effects:
         colors = enabled_palette_hexes(tables[int(effect.attrib["palette"])])
-        assert any(hex_is_near_white(color) for color in colors)
-        assert any(not hex_is_near_white(color) for color in colors)
+        assert colors, "Every generated effect must reference an enabled palette"
+        assert any(not hex_is_near_white(color) for color in colors), (
+            "HelixVivid must never emit a white-only effect", effect.attrib)
+        if effect.attrib.get("label") == "white accent":
+            assert any(hex_is_near_white(color) for color in colors)
 
 
 def test_grove_appends_without_moving_existing_channels(tmp_path: Path):
