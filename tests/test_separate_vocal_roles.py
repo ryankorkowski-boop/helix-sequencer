@@ -50,3 +50,30 @@ def test_roformer_adapter_rejects_duplicate_voice(tmp_path):
     backing.write_bytes(lead.read_bytes())
     with pytest.raises(ValueError, match="identical|Duplicate|near-identical"):
         adapter.write_manifest(source, lead, backing, tmp_path / "roles.json")
+
+
+def test_roformer_adapter_rejects_stems_outside_manifest_bundle(tmp_path):
+    adapter = load_adapter()
+    source = tmp_path / "source.mp3"
+    source.write_bytes(b"source-audio")
+    lead, backing = tmp_path / "lead.wav", tmp_path / "backing.wav"
+    wav(lead, 180)
+    wav(backing, 310)
+    bundle = tmp_path / "bundle"
+    with pytest.raises(ValueError, match="inside the manifest directory"):
+        adapter.write_manifest(source, lead, backing, bundle / "roles.json")
+    assert not (bundle / "roles.json").exists()
+
+
+def test_roformer_manifest_detects_original_source_mutation(tmp_path):
+    adapter = load_adapter()
+    from core.vocal_separation_manifest import validate_vocal_separation_manifest
+    source = tmp_path / "source.mp3"
+    source.write_bytes(b"original-source")
+    lead, backing = tmp_path / "lead.wav", tmp_path / "backing.wav"
+    wav(lead, 180)
+    wav(backing, 310)
+    manifest = adapter.write_manifest(source, lead, backing, tmp_path / "roles.json")
+    source.write_bytes(b"changed-source")
+    with pytest.raises(ValueError, match="source audio SHA256 mismatch"):
+        validate_vocal_separation_manifest(manifest, source)
