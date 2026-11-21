@@ -52,7 +52,8 @@ def _read_mono_pcm(path: Path) -> tuple[int, "array.array"]:
 
 
 def _stream_vocal_features(path: Path, *, hop_ms: int = 20,
-                           fingerprint_budget: int = 50000) -> tuple[int, int, list[float], list[float]]:
+                           fingerprint_budget: int = 50000,
+                           fingerprint_stride: int | None = None) -> tuple[int, int, list[float], list[float]]:
     """Stream PCM once: small RMS envelope and bounded sparse fingerprint.
 
     The fingerprint samples fixed absolute positions, allowing correlations
@@ -66,7 +67,9 @@ def _stream_vocal_features(path: Path, *, hop_ms: int = 20,
         if channels != 1 or width != 2 or rate < 8000:
             raise ValueError(f"{path}: expected mono 16-bit PCM WAV at >= 8 kHz")
         hop = max(1, round(rate * hop_ms / 1000))
-        stride = max(1, (frames + fingerprint_budget - 1) // fingerprint_budget)
+        stride = fingerprint_stride or max(1, (frames + fingerprint_budget - 1) // fingerprint_budget)
+        if stride < 1:
+            raise ValueError("fingerprint_stride must be positive")
         energies: list[float] = []
         fingerprint: list[float] = []
         offset = 0
@@ -170,8 +173,14 @@ def analyze_independent_vocals(lead_path: str | Path, harmony_path: str | Path,
     gate deliberately fails closed if two paths contain identical PCM.
     """
     lead_path, harmony_path = Path(lead_path), Path(harmony_path)
-    lead_rate, lead_frames, lead_energies, lead_fingerprint = _stream_vocal_features(lead_path)
-    harmony_rate, harmony_frames, harmony_energies, harmony_fingerprint = _stream_vocal_features(harmony_path)
+    # Use the same absolute sample indices for both singer fingerprints, even
+    # when their WAV durations differ by the permitted 50 ms tolerance.
+    with wave.open(str(lead_path), "rb") as lead_wav, wave.open(str(harmony_path), "rb") as harmony_wav:
+        common_stride = max(1, (max(lead_wav.getnframes(), harmony_wav.getnframes()) + 49999) // 50000)
+    lead_rate, lead_frames, lead_energies, lead_fingerprint = _stream_vocal_features(
+        lead_path, fingerprint_stride=common_stride)
+    harmony_rate, harmony_frames, harmony_energies, harmony_fingerprint = _stream_vocal_features(
+        harmony_path, fingerprint_stride=common_stride)
     if lead_rate != harmony_rate:
         raise ValueError("Vocal stems have different sample rates; align/resample first")
     if abs(lead_frames - harmony_frames) > round(lead_rate * 0.05):
