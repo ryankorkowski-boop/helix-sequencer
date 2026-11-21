@@ -1089,9 +1089,11 @@ def build_stem_analysis(
                 end_ms=window["end_ms"],
                 confidence=window["confidence"],
                 role="harmony",
-                source_reason="explicit_independent_harmony_stem",
+                # The files passed duplicate checks, NOT verified singer identity.
+                # Do not upgrade this event to native vocal-source approval.
+                source_reason="distinct_user_supplied_stem_identity_unverified",
                 energy=window["confidence"],
-                performer_hint="female_singer",
+                performer_hint="harmony_singer",
             )
             for window in harmony_track["windows"]
         ]
