@@ -205,3 +205,19 @@ def test_stitch_rejects_empty_soundtrack(tmp_path):
     soundtrack.write_bytes(b"")
     with pytest.raises(ValueError, match="Empty comparison soundtrack"):
         stitch_panels(panels, soundtrack, tmp_path / "out.mp4", "Title", "Description")
+
+
+def test_orchestrated_word_in_song_title_does_not_exclude_canonical_xsq(tmp_path):
+    folder = _folder(tmp_path)
+    expected = folder / "Orchestrated Christmas,auto.xsq"
+    expected.write_text("canonical")
+    (folder / "Orchestrated Christmas,orchestrated.xsq").write_text("sidecar")
+    assert find_xsq(tmp_path, "ac16_lor", "Orchestrated Christmas") == expected
+
+
+def test_orchestrated_sidecar_filter_is_case_insensitive(tmp_path):
+    folder = _folder(tmp_path)
+    expected = folder / "Track,auto.xsq"
+    expected.write_text("canonical")
+    (folder / "Track,ORCHESTRATED.xsq").write_text("sidecar")
+    assert find_xsq(tmp_path, "ac16_lor", "Track") == expected
