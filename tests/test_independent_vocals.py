@@ -4,7 +4,7 @@ import tempfile
 import unittest
 import wave
 from pathlib import Path
-from core.independent_vocals import analyze_independent_vocals
+from core.independent_vocals import analyze_independent_vocals, _read_mono_pcm
 
 
 def make_wav(path, hz, duration=0.6, amplitude=0.4):
@@ -71,3 +71,16 @@ class IndependentVocalTests(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+def test_compact_pcm_buffer_preserves_activity_and_sample_values():
+    import array
+    with tempfile.TemporaryDirectory() as d:
+        path = Path(d) / "lead.wav"
+        make_wav(path, 220, duration=0.5)
+        rate, samples = _read_mono_pcm(path)
+        assert rate == 16000
+        assert isinstance(samples, array.array)
+        assert samples.typecode == "h"
+        assert len(samples) == 8000
+        assert max(samples) > 10000
