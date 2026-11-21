@@ -1,6 +1,7 @@
 """Build all review layouts from one retained full-song production analysis."""
 import argparse
 import json
+import os
 import shutil
 import subprocess
 from pathlib import Path
@@ -23,6 +24,14 @@ def build(source, output, *, audio_name='Phoneme_Test_Hook.mp3', expected_sha256
         raise ValueError('Choose unique layout numbers in1..12')
     source,output=Path(source),Path(output)
     audio=source/'media'/audio_name
+    shared_manifest=os.environ.get('HELIX_APPROVAL_ANALYSIS_MANIFEST')
+    if shared_manifest:
+        from tools.build_shared_approval_analysis import verify as verify_shared
+        shared=verify_shared(audio,os.environ['HELIX_APPROVAL_STEMS'],shared_manifest)
+        if shared['source_audio_sha256']!=expected_sha256:
+            raise ValueError('Shared approval source differs from 12-layout soundtrack')
+        if shared['analysis_sha256']!=os.environ.get('HELIX_APPROVAL_ANALYSIS_SHA256'):
+            raise ValueError('Shared approval analysis identity changed')
     if digest(audio)!=expected_sha256:raise ValueError('Original soundtrack mismatch')
     import soundfile as sf
     duration_ms=round(sf.info(audio).duration*1000)
