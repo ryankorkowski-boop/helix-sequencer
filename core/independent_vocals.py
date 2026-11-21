@@ -59,6 +59,8 @@ def _stream_vocal_features(path: Path, *, hop_ms: int = 20,
     The fingerprint samples fixed absolute positions, allowing correlations
     between separately streamed stems without retaining full-song PCM.
     """
+    if hop_ms <= 0 or fingerprint_budget <= 0:
+        raise ValueError("hop_ms and fingerprint_budget must be positive")
     import array
     import sys
     with wave.open(str(path), "rb") as wav:
@@ -67,7 +69,8 @@ def _stream_vocal_features(path: Path, *, hop_ms: int = 20,
         if channels != 1 or width != 2 or rate < 8000:
             raise ValueError(f"{path}: expected mono 16-bit PCM WAV at >= 8 kHz")
         hop = max(1, round(rate * hop_ms / 1000))
-        stride = fingerprint_stride or max(1, (frames + fingerprint_budget - 1) // fingerprint_budget)
+        stride = (fingerprint_stride if fingerprint_stride is not None
+                  else max(1, (frames + fingerprint_budget - 1) // fingerprint_budget))
         if stride < 1:
             raise ValueError("fingerprint_stride must be positive")
         energies: list[float] = []
@@ -93,6 +96,10 @@ def _activity_from_energies(energies: list[float], duration_ms: int, *,
                             max_gap_ms: int = 80) -> tuple[VocalWindow, ...]:
     if not energies:
         return ()
+    # Prefix sums make window confidence O(1) rather than re-scanning each window.
+    cumulative = [0.0]
+    for energy in energies:
+        cumulative.append(cumulative[-1] + energy)
     peak = max(energies)
     if peak < 1e-4:
         return ()
@@ -118,7 +125,7 @@ def _activity_from_energies(energies: list[float], duration_ms: int, *,
         elif not on and start is not None:
             a, b = start * hop_ms, min(duration_ms, i * hop_ms)
             if b - a >= min_duration_ms:
-                strength = sum(energies[start:i]) / max(1, i - start)
+                strength = (cumulative[i] - cumulative[start]) / max(1, i - start)
                 windows.append(VocalWindow(a, b, round(min(1.0, strength / max(peak, 1e-9)), 3)))
             start = None
     return tuple(windows)
@@ -159,7 +166,7 @@ def _activity(samples: "array.array", rate: int, *,
         elif not on and start is not None:
             a, b = start * hop_ms, min(round(len(samples) * 1000 / rate), i * hop_ms)
             if b - a >= min_duration_ms:
-                strength = sum(energies[start:i]) / max(1, i - start)
+                strength = (cumulative[i] - cumulative[start]) / max(1, i - start)
                 windows.append(VocalWindow(a, b, round(min(1.0, strength / max(peak, 1e-9)), 3)))
             start = None
     return tuple(windows)
