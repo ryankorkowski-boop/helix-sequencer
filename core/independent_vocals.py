@@ -139,37 +139,11 @@ def _activity(samples: "array.array", rate: int, *,
     for start in range(0, len(samples), hop):
         block = samples[start:start + hop]
         energies.append(math.sqrt(sum(x * x for x in block) / len(block)) / 32768.0)
-    if not energies:
-        return ()
-    peak = max(energies)
-    if peak < 1e-4:
-        return ()
-    floor = max(10 ** (threshold_db / 20), peak * 0.035)
-    active = [e >= floor for e in energies]
-    gap_frames = max(0, round(max_gap_ms / hop_ms))
-    i = 0
-    while i < len(active):
-        if active[i]:
-            i += 1
-            continue
-        j = i
-        while j < len(active) and not active[j]:
-            j += 1
-        if i > 0 and j < len(active) and j - i <= gap_frames:
-            active[i:j] = [True] * (j - i)
-        i = j
-    windows = []
-    start = None
-    for i, on in enumerate(active + [False]):
-        if on and start is None:
-            start = i
-        elif not on and start is not None:
-            a, b = start * hop_ms, min(round(len(samples) * 1000 / rate), i * hop_ms)
-            if b - a >= min_duration_ms:
-                strength = (cumulative[i] - cumulative[start]) / max(1, i - start)
-                windows.append(VocalWindow(a, b, round(min(1.0, strength / max(peak, 1e-9)), 3)))
-            start = None
-    return tuple(windows)
+    # Keep compact PCM activity equivalent to the streaming envelope path.
+    return _activity_from_energies(energies, round(len(samples) * 1000 / rate),
+                                   hop_ms=hop_ms, threshold_db=threshold_db,
+                                   min_duration_ms=min_duration_ms,
+                                   max_gap_ms=max_gap_ms)
 
 
 def analyze_independent_vocals(lead_path: str | Path, harmony_path: str | Path,
