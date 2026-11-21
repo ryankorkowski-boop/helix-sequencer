@@ -90,6 +90,10 @@ class BandVocalFaceExportCompiler:
 
     def compile_many(self, timings: Iterable[VocalPhonemeTiming]) -> tuple[XLightsVocalFaceEffect, ...]:
         effects = [self.compile_timing(timing) for timing in timings]
+        # A silent vocal event must not animate an open mouth. REST remains
+        # explicit so each singer can independently close their mouth.
+        effects = [effect for effect in effects
+                   if effect.intensity > 0 or effect.phoneme == "REST"]
         return tuple(sorted(effects, key=lambda item: (item.start, item.performer, item.phoneme)))
 
     def build_manifest(self, timings: Iterable[VocalPhonemeTiming]) -> dict[str, Any]:
