@@ -325,14 +325,11 @@ def stitch_panels(panel_paths: list[Path], audio_path: Path, out_path: Path, tit
                 str(staged),
             ]
         )
-        try:
-            completed = subprocess.run(cmd, stdout=subprocess.DEVNULL, stderr=subprocess.PIPE, check=False)
-            if completed.returncode != 0 or not staged.is_file() or staged.stat().st_size == 0:
-                raise RuntimeError("Comparison encode did not produce a valid file: "
-                                   + completed.stderr.decode("utf-8", errors="replace")[-800:])
-            staged.replace(out_path)
-        finally:
-            pass
+        completed = subprocess.run(cmd, stdout=subprocess.DEVNULL, stderr=subprocess.PIPE, check=False)
+        if completed.returncode != 0 or not staged.is_file() or staged.stat().st_size == 0:
+            raise RuntimeError("Comparison encode did not produce a valid file: "
+                               + completed.stderr.decode("utf-8", errors="replace")[-800:])
+        staged.replace(out_path)
 
 
 SONG_META = {
