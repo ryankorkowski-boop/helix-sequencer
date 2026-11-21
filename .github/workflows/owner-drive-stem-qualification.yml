@@ -1,0 +1,85 @@
+name: Owner Drive audio stem qualification
+on:
+  push:
+    branches: [integration/unified-beta-completion-20261117]
+    paths:
+      - .github/workflows/owner-drive-stem-qualification.yml
+      - evidence/beta_completion/new_drive_audio_candidates_20261121.json
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: owner-drive-stems-${{ github.ref }}
+  cancel-in-progress: false
+jobs:
+  separate-short-pilot:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 55
+    env:
+      HELIX_DEMUCS_DEVICE: cpu
+      OMP_NUM_THREADS: '2'
+      MKL_NUM_THREADS: '2'
+      TORCH_NUM_THREADS: '2'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install original-audio transport
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y ffmpeg
+          python -m pip install gdown==6.4.2
+      - name: Fetch and verify 30-second owner source
+        run: |
+          set -euo pipefail
+          mkdir -p owner-source
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          manifest=json.loads(Path('evidence/beta_completion/new_drive_audio_candidates_20261121.json').read_text())
+          assert len(manifest['sources']) == 2
+          short=next(row for row in manifest['sources'] if row['priority']=='short pilot')
+          Path('owner-source/source.env').write_text('SOURCE_ID='+short['drive_file_id']+'\nSOURCE_SHA256='+short['sha256']+'\n')
+          PY
+          source owner-source/source.env
+          python -m gdown "$SOURCE_ID" -O owner-source/The_Test_Is_On.mp3
+          echo "$SOURCE_SHA256  owner-source/The_Test_Is_On.mp3" | sha256sum -c -
+      - name: Separate verified source with production Demucs action
+        uses: ./.github/actions/production-audio
+        with:
+          audio: owner-source/The_Test_Is_On.mp3
+          sha256: 02c31e2a77ed61a11053ade8275e556b06c0d450b34da67827ed47a06b55115c
+      - name: Check real four-stem cache and source-aligned duration
+        run: |
+          python - <<'PY'
+          import hashlib,json,wave
+          from pathlib import Path
+          source_sha='02c31e2a77ed61a11053ade8275e556b06c0d450b34da67827ed47a06b55115c'
+          root=Path('RenderCache/stems/The_Test_Is_On')/source_sha
+          stems={}
+          for name in ('drums','bass','other','vocals'):
+              matches=list(root.rglob(name+'.wav'))
+              if len(matches)!=1:raise SystemExit(f'Expected one {name}.wav in {root}, got {len(matches)}')
+              f=matches[0]
+              with wave.open(str(f),'rb') as audio:
+                  duration=audio.getnframes()/audio.getframerate()
+              if abs(duration-30)>1:raise SystemExit(f'Unexpected duration of {name}: {duration}')
+              stems[name]={'path':str(f),'sha256':hashlib.sha256(f.read_bytes()).hexdigest(),'seconds':duration}
+          receipt={'status':'demucs_four_stems_verified','source_sha256':source_sha,'stems':stems,
+                   'independent_lead_harmony_verified':False,
+                   'approval_mp4_produced':False}
+          Path('owner-source/stem_receipt.json').write_text(json.dumps(receipt,indent=2)+'\n')
+          print(json.dumps(receipt,indent=2))
+          PY
+      - name: Upload source-bound WAVs and separation evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: owner-test-is-on-demucs-stems-${{ github.sha }}
+          retention-days: 14
+          if-no-files-found: warn
+          path: |
+            RenderCache/stems/The_Test_Is_On/
+            owner-source/stem_receipt.json
+            owner-source/source.env
