@@ -196,16 +196,17 @@ def analyze_independent_vocals(lead_path: str | Path, harmony_path: str | Path,
         raise ValueError("Vocal stems have different sample rates; align/resample first")
     if abs(lead_frames - harmony_frames) > round(lead_rate * 0.05):
         raise ValueError("Vocal stems differ in duration by more than 50 ms")
-    lead_sha = _file_sha256(lead_path)
-    harmony_sha = _file_sha256(harmony_path)
-    if lead_sha == harmony_sha:
-        raise ValueError("Duplicate vocal stems: independent harmony not established")
     lead_windows = _activity_from_energies(lead_energies, round(lead_frames * 1000 / lead_rate))
     harmony_windows = _activity_from_energies(harmony_energies, round(harmony_frames * 1000 / harmony_rate))
     if not lead_windows:
         raise ValueError("Lead stem is silent; no lead singer can be verified")
     if not harmony_windows:
         raise ValueError("Harmony stem is silent; no second singer can be verified")
+    # Hash only stems that have passed the inexpensive streaming activity gate.
+    lead_sha = _file_sha256(lead_path)
+    harmony_sha = _file_sha256(harmony_path)
+    if lead_sha == harmony_sha:
+        raise ValueError("Duplicate vocal stems: independent harmony not established")
     dot = aa = bb = 0.0
     for a, b in zip(lead_fingerprint, harmony_fingerprint):
         dot += a * b
