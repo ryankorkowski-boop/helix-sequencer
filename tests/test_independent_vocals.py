@@ -137,3 +137,23 @@ def test_streamed_and_compact_activity_windows_match():
         _, frames, energies, _ = _stream_vocal_features(path)
         assert _activity(samples, rate) == _activity_from_energies(
             energies, round(frames * 1000 / rate))
+
+
+def test_mismatched_rates_are_rejected_before_streaming(monkeypatch):
+    from core import independent_vocals as vocals
+    with tempfile.TemporaryDirectory() as d:
+        a, b = Path(d) / "lead.wav", Path(d) / "backing.wav"
+        make_wav(a, 220)
+        make_wav(b, 330)
+        with wave.open(str(b), "rb") as reader:
+            frames = reader.readframes(reader.getnframes())
+        with wave.open(str(b), "wb") as writer:
+            writer.setnchannels(1)
+            writer.setsampwidth(2)
+            writer.setframerate(8000)
+            writer.writeframes(frames)
+        def should_not_stream(*args, **kwargs):
+            raise AssertionError("Streaming should not run for mismatched sample rates")
+        monkeypatch.setattr(vocals, "_stream_vocal_features", should_not_stream)
+        with unittest.TestCase().assertRaisesRegex(ValueError, "sample rates"):
+            vocals.analyze_independent_vocals(a, b)
