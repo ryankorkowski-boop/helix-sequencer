@@ -55,6 +55,8 @@ def validate_vocal_separation_manifest(manifest_path: str | Path,
         paths.append(candidate)
     if paths[0] == paths[1]:
         raise ValueError("Lead and backing stems reference the same file")
+    if data["lead"]["sha256"] == data["backing"]["sha256"]:
+        raise ValueError("Duplicate vocal stems: independent harmony not established")
     if any(data["source_sha256"] == data[role]["sha256"] for role in ("lead", "backing")):
         raise ValueError("Singer stem matches original source audio; separation not established")
     return paths[0], paths[1]
