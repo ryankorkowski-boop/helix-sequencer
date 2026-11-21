@@ -81,6 +81,12 @@ def main() -> None:
         raise SystemExit("Model output filename missing or escapes output directory")
     if lead_raw == backing_raw:
         raise SystemExit("Lead and backing cannot be mapped to the same output")
+    # Karaoke models may return Vocals/Instrumental instead of Lead/Backing.
+    # An instrumental or no-vocals output is never evidence of a harmony singer.
+    for role, path in (("lead", lead_raw), ("backing", backing_raw)):
+        label = path.stem.lower().replace("-", "_").replace(" ", "_")
+        if "instrumental" in label or "no_vocals" in label or "no_vocal" in label:
+            raise SystemExit(f"{role} mapping points to an instrumental/non-vocal output: {path.name}")
     # Normalize to the format expected by the existing independent-vocal gate.
     normalized = []
     for role, raw in (("lead", lead_raw), ("backing", backing_raw)):
