@@ -7,13 +7,18 @@ on:
     paths:
       - .github/workflows/helix-beta14-windows-candidate.yml
       - windows_portable.spec
+      - core/**
+      - models/**
+      - config/gui_options.json
+      - requirements-windows-portable.txt
+      - tools/palette_smoke.py
       - android/app/src/main/assets/helix_instructions.txt
       - android/app/src/main/assets/helix_legal.txt
 permissions:
   contents: read
 concurrency:
   group: helix-beta14-windows-${{ github.ref }}
-  cancel-in-progress: true
+  cancel-in-progress: false
 jobs:
   windows-portable:
     runs-on: windows-2022
