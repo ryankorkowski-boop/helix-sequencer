@@ -1075,6 +1075,13 @@ def build_stem_analysis(
     # Both environment variables must be present: never silently invent a singer.
     lead_override = os.environ.get("HELIX_LEAD_VOCAL_STEM", "").strip()
     harmony_override = os.environ.get("HELIX_HARMONY_VOCAL_STEM", "").strip()
+    separation_manifest = os.environ.get("HELIX_VOCAL_SEPARATION_MANIFEST", "").strip()
+    if separation_manifest:
+        if lead_override or harmony_override:
+            raise ValueError("Use either HELIX_VOCAL_SEPARATION_MANIFEST or direct vocal stem overrides")
+        from core.vocal_separation_manifest import validate_vocal_separation_manifest
+        lead_file, backing_file = validate_vocal_separation_manifest(separation_manifest, audio_path)
+        lead_override, harmony_override = str(lead_file), str(backing_file)
     if lead_override or harmony_override:
         if not (lead_override and harmony_override):
             raise ValueError("Both HELIX_LEAD_VOCAL_STEM and HELIX_HARMONY_VOCAL_STEM are required")
