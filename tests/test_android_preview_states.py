@@ -149,3 +149,11 @@ def test_android_preview_player_supports_next_previous_and_rotation():
     assert 'selectVariant(playlistIndex, state!=null)' in source
     assert 'prepared?video.getCurrentPosition():position' in source
     assert 'if(prepared){resumePlayback=video.isPlaying();position=video.getCurrentPosition();video.pause();}' in source
+
+
+def test_android_player_can_auto_play_all_completed_variants():
+    source = (ROOT / "android/app/src/main/java/org/helixsequencer/android/PreviewActivity.java").read_text(encoding="utf-8")
+    assert 'playAll.setText("Play all completed variants automatically")' in source
+    assert 'if(playAll.isChecked()&&playlistIndex+1<playlist.size())selectVariant(playlistIndex+1)' in source
+    assert 'state.putBoolean("play_all",playAll.isChecked())' in source
+    assert 'state.getBoolean("play_all",true)' in source
