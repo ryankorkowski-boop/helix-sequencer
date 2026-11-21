@@ -25,7 +25,14 @@ def bounded_preview_limit(requested, cap: int = 8) -> int:
 def select_preview_candidates(valid, selected, preview_limit):
     """Primary sequence first, then the other exports, capped at the request."""
     limit = bounded_preview_limit(preview_limit)
-    ordered = [selected] + [item for item in valid if item != selected]
+    # Only render exported sequences. A stale primary selection must never
+    # consume one of the limited preview slots or produce a phantom movie.
+    ordered = []
+    if selected in valid:
+        ordered.append(selected)
+    for item in valid:
+        if item not in ordered:
+            ordered.append(item)
     return ordered[:limit], limit
 
 
