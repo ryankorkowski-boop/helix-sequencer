@@ -1,5 +1,10 @@
 # Unified Beta Completion — Live Handoff
 
+## 2026-11-20 · Android eight-variant playback workflow completed in source
+
+Implemented automatic sequential playback of completed variant MP4s with a user-toggleable Play all option (cf7beac4), preserving option across recreation; fixed restoration of seek position and paused state across rotation and onPause (b95b5c16), updated regression tests (71c4ce2f, 637f369a) and Android installation/user workflow manual (b64f3383, 8f6fc528). The earlier Results-to-player playlist/Previous/Next work remains integrated. CI jobs were queued/in progress at checkpoint, not claimed passing. On-device media playback and API 30 acceptance remain unverified. Estimated overall completion ~75%.
+
+
 ## 2026-11-20 · Android all-variant in-player navigation implemented
 
 MainActivity now constructs an ordered playlist from only completed, existing variant MP4s and passes selected index to PreviewActivity. PreviewActivity now has Previous/Next navigation, resets the video on selection, labels current completed preview, retains playlist selection across recreation, and preserves missing-file recovery. Added regression coverage in tests/test_android_preview_states.py. Commits eb9121bc, c9c588d6, bceb80b6. Android device playback and eight-variant media encoding remain acceptance gates; no pass is claimed. Overall estimate ~75%.
