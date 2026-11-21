@@ -76,7 +76,7 @@ jobs:
           LEAD="$(find "$ROOT" -maxdepth 1 -name '*Vocals*.wav' -printf '%f\n' | head -n 1)"
           BACKING="$(find "$ROOT" -maxdepth 1 -name '*Instrumental*.wav' -printf '%f\n' | head -n 1)"
           test -n "$LEAD" && test -n "$BACKING"
-          python tools/separate_vocal_roles.py --source owner-source/The_Test_Is_On.mp3 --vocals "$VOCALS" --output-dir "$ROOT" --skip-separation --lead-output "$LEAD" --backing-output "$BACKING"
+          python -m tools.separate_vocal_roles --source owner-source/The_Test_Is_On.mp3 --vocals "$VOCALS" --output-dir "$ROOT" --skip-separation --lead-output "$LEAD" --backing-output "$BACKING"
           python - <<'PY'
           import json
           from pathlib import Path
