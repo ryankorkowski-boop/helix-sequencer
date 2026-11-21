@@ -130,3 +130,19 @@ def test_band_preview_rejection_is_per_variant_not_global():
     assert "variant_band_error = band_stage_preview_error(inspect_band_stage(variant_layout))" in variant
     assert "outcomes[str(variant)] = ''" in variant
     assert "callback.log('Variant %d preview failed:" in variant
+
+
+def test_android_results_passes_completed_variant_playlist_to_player():
+    activity = (ROOT / "android/app/src/main/java/org/helixsequencer/android/MainActivity.java").read_text(encoding="utf-8")
+    assert 'putStringArrayListExtra("playlist",playable)' in activity
+    assert 'putExtra("playlist_index",playable.indexOf(previewPath))' in activity
+    assert 'PreviewStatus.canPlay(previewStateFor(candidate),available(moviePath))' in activity
+
+
+def test_android_preview_player_supports_next_previous_and_rotation():
+    source = (ROOT / "android/app/src/main/java/org/helixsequencer/android/PreviewActivity.java").read_text(encoding="utf-8")
+    assert 'previous.setOnClickListener(v->selectVariant(playlistIndex-1))' in source
+    assert 'next.setOnClickListener(v->selectVariant(playlistIndex+1))' in source
+    assert 'state.putInt("playlist_index",playlistIndex)' in source
+    assert 'state.getInt("playlist_index",playlistIndex)' in source
+    assert 'video.stopPlayback();prepared=false;play.setEnabled(false);position=0;' in source
