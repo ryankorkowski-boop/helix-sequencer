@@ -468,13 +468,6 @@ def main() -> int:
         if missing_songs:
             parser.error("Missing audio for selected variants: " + ", ".join(missing_songs))
         plans = variant_plan(songs, requested)
-        if args.only:
-            wanted = set(args.only)
-            available = {plan["id"] for plan in plans}
-            unknown = wanted - available
-            if unknown:
-                parser.error("Unknown variant IDs: " + ", ".join(sorted(unknown)))
-            plans = [plan for plan in plans if plan["id"] in wanted]
         if not plans:
             parser.error("No comparison variants selected; refusing empty delivery")
     needed: list[tuple[str, Path]] = []
@@ -486,10 +479,17 @@ def main() -> int:
                 continue
             seen.add(key)
             needed.append((layout_id, plan["song"]["path"]))
+    # Resolve every canonical source before invoking xLights. A missing or
+    # ambiguous later panel must not leave an apparently complete partial batch.
+    sources: dict[tuple[str, str], Path] = {}
+    for layout_id, media in needed:
+        if layout_id not in manifest:
+            raise ValueError(f"Unknown comparison layout: {layout_id}")
+        sources[(layout_id, media.stem)] = find_xsq(args.run_root, layout_id, media.stem)
     versions: set[str] = set()
     for layout_id, media in needed:
         entry = manifest[layout_id]
-        xsq = find_xsq(args.run_root, layout_id, media.stem)
+        xsq = sources[(layout_id, media.stem)]
         version = ensure_fseq(args.run_root, layout_id, ROOT / entry["layout"], xsq, media)
         if version != "cached":
             versions.add(version)
@@ -506,7 +506,7 @@ def main() -> int:
                 "channels": entry["channels"],
                 "pixels": entry["pixels"],
                 "layout": ROOT / entry["layout"],
-                "xsq": find_xsq(args.run_root, layout_id, plan["song"]["stem"]),
+                "xsq": sources[(layout_id, plan["song"]["stem"])],
                 "fseq": _fseq_path(args.run_root, layout_id, plan["song"]["stem"]),
             }
             panel_path = panel_dir / f"{layout_id}__{plan['song']['stem']}.mp4"
