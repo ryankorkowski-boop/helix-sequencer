@@ -237,7 +237,10 @@ def _ensure_palettes(root: ET.Element) -> dict[int, str]:
     index_of: dict[int, str] = {}
     for index, color in enumerate(vivid_colors()):
         index_of[index] = _palette_index(palettes, palette_text((color,)))
-    index_of[-1] = _palette_index(palettes, palette_text((WHITE,)))
+    # Keep occasional white highlights without creating white-only effects.
+    # xLights chooses from enabled colors; a white-only palette fails the
+    # packaged Windows color-quality gate even for a short accent.
+    index_of[-1] = _palette_index(palettes, palette_text((WHITE, "#FF2BD6", "#00F0FF")))
     return index_of
 
 
