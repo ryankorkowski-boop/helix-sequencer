@@ -442,7 +442,13 @@ def main() -> int:
         plans = variant_plan(songs)
         if args.only:
             wanted = set(args.only)
+            available = {plan["id"] for plan in plans}
+            unknown = wanted - available
+            if unknown:
+                parser.error("Unknown variant IDs: " + ", ".join(sorted(unknown)))
             plans = [plan for plan in plans if plan["id"] in wanted]
+        if not plans:
+            parser.error("No comparison variants selected; refusing empty delivery")
     needed: list[tuple[str, Path]] = []
     seen: set[tuple[str, str]] = set()
     for plan in plans:
