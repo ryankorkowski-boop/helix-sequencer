@@ -50,3 +50,46 @@ def test_native_render_rejects_empty_invalid_or_truncated_fseq(
         )
     assert not destination.exists()
     assert not receipt_path(destination).exists()
+
+
+def test_native_render_publishes_verified_frames_and_reuses_cache(tmp_path, monkeypatch):
+    source = tmp_path / "native.fseq"
+    source.write_bytes(b"verified-native-frames")
+    binary = tmp_path / "xLights"
+    binary.write_bytes(b"binary")
+    layout = tmp_path / "layout.xml"
+    layout.write_text("<layout/>")
+    xsq = tmp_path / "song.xsq"
+    xsq.write_text("<sequence/>")
+    media = tmp_path / "song.wav"
+    media.write_bytes(b"audio")
+    destination = tmp_path / "result.fseq"
+    calls = []
+
+    class FakeReader:
+        info = SimpleNamespace(frames=3, step_ms=50)
+
+        def __init__(self, path):
+            pass
+
+        def iter_frames(self):
+            yield b"a"
+            yield b"b"
+            yield b"c"
+
+    def fake_xlights(*args):
+        calls.append(True)
+        return source, "2026.19"
+
+    monkeypatch.setattr(xlights_fseq, "xlights_binary", lambda: binary)
+    monkeypatch.setattr(xlights_fseq, "_run_xlights", fake_xlights)
+    monkeypatch.setattr(xlights_fseq, "FseqReader", FakeReader)
+    kwargs = dict(
+        layout_xml=layout, xsq_path=xsq, media_path=media,
+        fseq_path=destination, show_dir=tmp_path / "show"
+    )
+    assert xlights_fseq.render_sequence_to_fseq(**kwargs) == "2026.19"
+    assert destination.read_bytes() == b"verified-native-frames"
+    assert receipt_path(destination).is_file()
+    assert xlights_fseq.render_sequence_to_fseq(**kwargs) == "2026.19"
+    assert len(calls) == 1
