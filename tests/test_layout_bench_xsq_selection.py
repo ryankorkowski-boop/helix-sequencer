@@ -74,3 +74,28 @@ def test_stitch_rejects_missing_soundtrack_before_encoding(tmp_path):
         panel.write_bytes(b"placeholder")
     with pytest.raises(FileNotFoundError, match="Missing comparison soundtrack"):
         stitch_panels(panels, tmp_path / "missing.mp3", tmp_path / "out.mp4", "Title", "Description")
+
+
+def test_failed_comparison_encode_preserves_previous_mp4(tmp_path, monkeypatch):
+    import subprocess
+    from tools.layout_bench import render_comparisons as comparisons
+
+    panels = [tmp_path / f"panel_{i}.mp4" for i in range(9)]
+    for panel in panels:
+        panel.write_bytes(b"panel")
+    soundtrack = tmp_path / "song.mp3"
+    soundtrack.write_bytes(b"audio")
+    destination = tmp_path / "approved.mp4"
+    destination.write_bytes(b"previous valid video")
+
+    def fail_encode(*args, **kwargs):
+        return subprocess.CompletedProcess(args[0], 1, stderr=b"simulated failure")
+
+    monkeypatch.setattr(comparisons, "_ffmpeg", lambda: "ffmpeg")
+    monkeypatch.setattr(comparisons.subprocess, "run", fail_encode)
+    with pytest.raises(RuntimeError, match="Comparison encode"):
+        comparisons.stitch_panels(panels, soundtrack, destination, "Title", "Description")
+
+    assert destination.read_bytes() == b"previous valid video"
+    assert not list(tmp_path.glob("*.banner.png"))
+    assert not list(tmp_path.glob("tmp*/comparison.mp4"))
