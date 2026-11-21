@@ -184,7 +184,7 @@ def _run_xlights(binary: Path, layout_xml: Path, xsq_path: Path, media_path: Pat
         completed = subprocess.run(cmd, env=env, stdout=log, stderr=subprocess.STDOUT, check=False)
     log_text = log_path.read_text(encoding="utf-8", errors="replace") if log_path.exists() else ""
     produced = out_dir / f"{xsq_path.stem}.fseq"
-    if completed.returncode != 0 or not produced.exists():
+    if completed.returncode != 0 or not produced.is_file() or produced.stat().st_size == 0:
         tail = log_text[-1500:]
         raise RuntimeError(
             f"xLights --headless failed for {xsq_path.name} (exit {completed.returncode}).\n{tail}"
