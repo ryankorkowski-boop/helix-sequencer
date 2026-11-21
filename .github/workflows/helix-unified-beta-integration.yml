@@ -26,6 +26,7 @@ on:
       - 'tools/**'
       - 'gui_launcher.py'
       - 'android/**'
+      - 'config/gui_options.json'
       - 'packaging/**'
   pull_request:
     paths:
@@ -109,7 +110,7 @@ jobs:
       - name: Generate clean-room xLights fixtures and check nine-panel gate
         run: |
           python tools/layout_bench/generate_layouts.py
-          python -m pytest -q tests/test_layout_bench.py tests/test_layout_bench_xsq_selection.py tests/test_layout_bench_native_fseq_publish.py tests/test_nine_panel_gate.py
+          python -m pytest -q tests/test_layout_bench.py tests/test_layout_bench_xsq_selection.py tests/test_layout_bench_native_fseq_publish.py tests/test_nine_panel_gate.py tests/test_showcase_preset_catalog.py
 
   full-suite:
     # The focused job above hid full-suite failures. This runs everything with
