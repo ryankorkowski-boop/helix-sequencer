@@ -273,10 +273,14 @@ def _encode_panel(panel: dict, silent: Path) -> dict:
             frame = paint_fseq_frame(drawlist, row, fseq.sparse_start, panel["title"], subtitle)
             proc.stdin.write(frame.tobytes())
             frame_count += 1
-    except (BrokenPipeError, OSError) as exc:
+    except Exception as exc:
         write_error = exc
     finally:
-        proc.stdin.close()
+        try:
+            proc.stdin.close()
+        except BrokenPipeError as exc:
+            if write_error is None:
+                write_error = exc
         stderr = proc.stderr.read().decode("utf-8", errors="replace") if proc.stderr else ""
         code = proc.wait()
     if write_error is not None or code != 0:
