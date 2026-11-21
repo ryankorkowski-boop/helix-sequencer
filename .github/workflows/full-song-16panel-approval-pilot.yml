@@ -4,7 +4,7 @@ name: Helix Motion 16-panel OWNER approval pilot (native)
 on:
   push:
     branches: [codex/full-song-16-panel-216, integration/unified-beta-completion-20261117]
-    paths: [.github/workflows/full-song-16panel-approval-pilot.yml]
+    paths: [.github/workflows/full-song-16panel-approval-pilot.yml, tools/render_full_song_comparison.py, models/full_song_layouts.py, models/advanced_full_song_showcase.py, core/audio_intelligence.py, core/independent_vocals.py]
   workflow_dispatch:
 permissions:
   contents: read
@@ -21,8 +21,8 @@ jobs:
       OMP_NUM_THREADS: '2'
       OPENBLAS_NUM_THREADS: '2'
       XL_NO_GPU_COMPUTE: '1'
-      HELIX_NATIVE_PREVIEW_WIDTH: '640'
-      HELIX_NATIVE_PREVIEW_HEIGHT: '360'
+      HELIX_NATIVE_PREVIEW_WIDTH: '1920'
+      HELIX_NATIVE_PREVIEW_HEIGHT: '1080'
       HELIX_DRIVE_SOURCE_ID: '12gRu8SUf-8GVCQdJnrIROnTY6XumOUzZ'
       HELIX_DRIVE_SOURCE_SHA256: 'fc91e3f48f709e615ba598a5d49ae63ab9652c0d16e324095f6e1b20377e082b'
     steps:
