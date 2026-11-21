@@ -1,0 +1,53 @@
+name: Phoneme Test Hook - real karaoke model pilot
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  real-vocal-pilot:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 90
+    env:
+      HELIX_DEMUCS_DEVICE: cpu
+      OMP_NUM_THREADS: '2'
+      MKL_NUM_THREADS: '2'
+      TORCH_NUM_THREADS: '2'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install audio tools
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y ffmpeg
+          python -m pip install gdown==6.4.2
+      - name: Fetch source-verified owner phoneme test audio
+        run: |
+          mkdir -p owner-source
+          python -m gdown 18zI7nKAQ0JHG-cPMppPJWeNP_Qo3aXce -O owner-source/The_Test_Is_On.mp3
+          echo "02c31e2a77ed61a11053ade8275e556b06c0d450b34da67827ed47a06b55115c  owner-source/The_Test_Is_On.mp3" | sha256sum -c -
+      - name: Produce genuine Demucs combined vocals
+        uses: ./.github/actions/production-audio
+        with:
+          audio: owner-source/The_Test_Is_On.mp3
+          sha256: 02c31e2a77ed61a11053ade8275e556b06c0d450b34da67827ed47a06b55115c
+      - name: Install RoFormer adapter dependencies
+        run: python -m pip install 'audio-separator==0.41.1'
+      - name: Run karaoke model on genuine vocal stem
+        run: |
+          set -euo pipefail
+          VOCALS="$(find RenderCache/stems/The_Test_Is_On -name vocals.wav -type f | head -n 1)"
+          test -s "$VOCALS"
+          mkdir -p owner-source/roformer
+          audio-separator "$VOCALS" --model_filename mel_band_roformer_karaoke_aufr33_viperx_sdr_10.1956.ckpt --output_format WAV --output_dir owner-source/roformer
+          find owner-source/roformer -maxdepth 1 -type f -printf '%f %s bytes\n'
+      - name: Upload model outputs for singer-role inspection
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: phoneme-test-hook-real-karaoke-pilot-${{ github.sha }}
+          retention-days: 7
+          if-no-files-found: warn
+          path: |
+            owner-source/roformer/
