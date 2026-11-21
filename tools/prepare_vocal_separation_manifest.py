@@ -28,16 +28,19 @@ def prepare(source: Path, lead: Path, backing: Path, output: Path) -> Path:
         Path(source).resolve(), Path(lead).resolve(),
         Path(backing).resolve(), Path(output).resolve()
     )
+    # Never overwrite source material or a singer stem with a manifest.
+    if output in {source, lead, backing}:
+        raise ValueError("Manifest output cannot overwrite source audio or singer stems")
     # A stem cannot simply be the original mix renamed as a singer track.
     source_hash = sha256(source)
     if source_hash in {sha256(lead), sha256(backing)}:
         raise ValueError("Vocal stem matches original audio; singer separation not established")
     # Fail before writing any misleading source provenance.
     analyze_independent_vocals(lead, backing)
-    output.parent.mkdir(parents=True, exist_ok=True)
     for stem in (lead, backing):
         if not stem.is_relative_to(output.parent):
             raise ValueError("Stem files must be within the output manifest directory")
+    output.parent.mkdir(parents=True, exist_ok=True)
     manifest = {
         "schema": "helix.vocal-separation.v1",
         "method": "vocals_first_then_lead_backing",
@@ -46,13 +49,19 @@ def prepare(source: Path, lead: Path, backing: Path, output: Path) -> Path:
         "backing": {"path": str(backing.relative_to(output.parent)), "sha256": sha256(backing)},
     }
     # Validate the manifest before publishing; atomic replace avoids partial JSON.
-    temporary = output.with_suffix(output.suffix + ".tmp")
+    import tempfile
+    temporary = None
     try:
-        temporary.write_text(json.dumps(manifest, indent=2) + "\n", encoding="utf-8")
+        with tempfile.NamedTemporaryFile(mode="w", encoding="utf-8",
+                                         prefix=".helix-stems-", suffix=".json",
+                                         dir=output.parent, delete=False) as handle:
+            temporary = Path(handle.name)
+            handle.write(json.dumps(manifest, indent=2) + "\n")
         validate_vocal_separation_manifest(temporary, source)
         temporary.replace(output)
     finally:
-        temporary.unlink(missing_ok=True)
+        if temporary is not None:
+            temporary.unlink(missing_ok=True)
     return output
 
 
