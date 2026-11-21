@@ -53,7 +53,9 @@ permissions:
 
 concurrency:
   group: helix-unified-beta-${{ github.ref }}
-  cancel-in-progress: true
+  # Preserve a complete acceptance result even during rapid integration pushes.
+  # Newer runs queue instead of erasing the only full-suite evidence.
+  cancel-in-progress: false
 
 jobs:
   focused-regressions:
