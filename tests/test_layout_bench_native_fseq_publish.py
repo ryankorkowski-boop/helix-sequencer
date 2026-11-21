@@ -180,3 +180,38 @@ def test_native_render_regenerates_receipt_without_version(tmp_path, monkeypatch
     assert xlights_fseq.render_sequence_to_fseq(**kwargs) == "2026.19"
     assert len(calls) == 2
     assert json.loads(receipt.read_text())["version"] == "2026.19"
+
+
+def test_native_fseq_rows_reject_incorrect_channel_count(monkeypatch, tmp_path):
+    class FakeReader:
+        info = SimpleNamespace(
+            frames=1, step_ms=50, channels=4, ranges=((0, 2), (6, 2))
+        )
+
+        def __init__(self, path):
+            pass
+
+        def iter_frames(self):
+            yield b"abc"
+
+    monkeypatch.setattr(xlights_fseq, "FseqReader", FakeReader)
+    fseq = xlights_fseq.FseqData(tmp_path / "native.fseq")
+    with pytest.raises(ValueError, match="expected 4"):
+        list(fseq.rows())
+
+
+def test_native_fseq_rows_restore_dark_sparse_channel_gaps(monkeypatch, tmp_path):
+    class FakeReader:
+        info = SimpleNamespace(
+            frames=1, step_ms=50, channels=4, ranges=((0, 2), (6, 2))
+        )
+
+        def __init__(self, path):
+            pass
+
+        def iter_frames(self):
+            yield bytes([12, 34, 56, 78])
+
+    monkeypatch.setattr(xlights_fseq, "FseqReader", FakeReader)
+    fseq = xlights_fseq.FseqData(tmp_path / "native.fseq")
+    assert list(fseq.rows())[0].tolist() == [12, 34, 0, 0, 0, 0, 56, 78]
