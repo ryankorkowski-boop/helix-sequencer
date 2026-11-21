@@ -70,6 +70,41 @@
       "key": "greg256_spirals",
       "title": "Greg 256 · three-color AC spiral trees",
       "path": "showcase/Experimental_256_AC_Spirals/xlights_rgbeffects.xml"
+    },
+    {
+      "key": "ac64",
+      "title": "64-channel LOR AC · showcase 2",
+      "path": "fixtures/layout_bench/ac64_yard/xlights_rgbeffects.xml"
+    },
+    {
+      "key": "pixel_starter",
+      "title": "RGB starter yard · showcase 4",
+      "path": "fixtures/layout_bench/pixel_starter/xlights_rgbeffects.xml"
+    },
+    {
+      "key": "pixel_classic",
+      "title": "RGB pixel house · showcase 5",
+      "path": "fixtures/layout_bench/pixel_classic/xlights_rgbeffects.xml"
+    },
+    {
+      "key": "band_stage_bench",
+      "title": "Six-performer band stage · native review layout",
+      "path": "fixtures/layout_bench/band_stage/xlights_rgbeffects.xml"
+    },
+    {
+      "key": "wow_moire",
+      "title": "Advanced matrix and moiré · showcase 7",
+      "path": "fixtures/layout_bench/wow_moire/xlights_rgbeffects.xml"
+    },
+    {
+      "key": "wow_spirals",
+      "title": "Advanced spiral trees · showcase 8",
+      "path": "fixtures/layout_bench/wow_spirals/xlights_rgbeffects.xml"
+    },
+    {
+      "key": "wow_showcase",
+      "title": "Advanced RGB showcase · showcase 9",
+      "path": "fixtures/layout_bench/wow_showcase/xlights_rgbeffects.xml"
     }
   ],
   "stages": [
