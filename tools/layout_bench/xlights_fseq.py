@@ -43,6 +43,11 @@ class FseqData:
         ranges = self.reader.info.ranges
         for frame in self.reader.iter_frames():
             packed = np.frombuffer(frame, dtype=np.uint8)
+            if packed.size != self.reader.info.channels:
+                raise ValueError(
+                    f"FSEQ frame has {packed.size} channels; "
+                    f"expected {self.reader.info.channels}"
+                )
             if len(ranges) < 2:
                 yield packed
                 continue
