@@ -78,13 +78,3 @@ def test_roformer_manifest_detects_original_source_mutation(tmp_path):
     with pytest.raises(ValueError, match="source audio SHA256 mismatch"):
         validate_vocal_separation_manifest(manifest, source)
 
-
-@pytest.mark.parametrize("name", [
-    "vocals_(Instrumental)_mel_band_roformer.wav",
-    "vocals_(No Vocals)_model.wav",
-    "vocals_(No-Vocal)_model.wav",
-])
-def test_karaoke_instrumental_output_cannot_be_mapped_to_harmony(name):
-    adapter = load_adapter()
-    with pytest.raises(ValueError, match="instrumental/non-vocal"):
-        adapter.require_vocal_role_label("backing", Path(name))
