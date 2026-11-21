@@ -1,5 +1,10 @@
 # Unified Beta Completion — Live Handoff
 
+## 2026-11-20 · Android all-variant in-player navigation implemented
+
+MainActivity now constructs an ordered playlist from only completed, existing variant MP4s and passes selected index to PreviewActivity. PreviewActivity now has Previous/Next navigation, resets the video on selection, labels current completed preview, retains playlist selection across recreation, and preserves missing-file recovery. Added regression coverage in tests/test_android_preview_states.py. Commits eb9121bc, c9c588d6, bceb80b6. Android device playback and eight-variant media encoding remain acceptance gates; no pass is claimed. Overall estimate ~75%.
+
+
 ## 2026-11-20 · Nine showcase-era presets exposed across Android and desktop
 
 Expanded config/gui_options.json with seven real tracked xLights layouts (AC64, pixel starter, pixel classic, band-stage bench, advanced moiré, spiral trees, advanced RGB showcase), retaining all prior selections. Nine named showcase-era choices now coexist in the shared GUI catalog (ac16, ac64, greg256, pixel_starter, pixel_classic, band_stage_bench, wow_moire, wow_spirals, wow_showcase); these are real editable layout inputs, not proof that every panel has achieved owner-approved visuals. tools/stage_android_engine.py automatically packages the selected sample paths and UiOptions.java loads the shared catalog. Added tests/test_showcase_preset_catalog.py and focused CI coverage/trigger. Commits 42a0171e, ea2a7067, 4f1330d3. Android compilation and end-to-end playback for this SHA are pending. Estimated Beta completion ~75% pending native visual and app acceptance.
