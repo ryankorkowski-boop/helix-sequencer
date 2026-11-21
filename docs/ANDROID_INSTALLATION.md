@@ -26,6 +26,12 @@ Keep enough free space for the APK, extracted engine, decoded WAV, sequences, ZI
 and temporary movie files. Large songs need substantially more space than the MP3.
 The app uses Android file pickers; it does not request all-files storage access.
 
+## Beta 1.4: Review up to eight sequence variants
+
+On **Advanced**, choose **Sequence variations** from 1 through 8 before generating the show. On **Results**, select a generated sequence from the variant picker to save that specific XSQ/LMS file or its MP4. Tap **Play preview** to open the completed preview player; **Previous** and **Next** move through the successfully rendered previews without returning to Results. The player shows the current preview number and retains its selection and seek position when the screen rotates.
+
+The player includes only completed MP4s that still exist on the device. A sequence may export successfully even if its optional movie fails; those sequences remain available for saving, but are omitted from playback navigation. Save the **show ZIP** to retain the available sequences and associated files. A stage layout requiring the canonical 3D renderer is not represented by the phone's effect-level preview, and its preview failure does not invalidate other variant sequences.
+
 ## Troubleshooting
 
 | Problem | What to check |
