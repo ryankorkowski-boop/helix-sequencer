@@ -52,6 +52,14 @@ class IndependentVocalTests(unittest.TestCase):
             with self.assertRaisesRegex(ValueError, "duration"):
                 analyze_independent_vocals(a, b)
 
+    def test_silent_lead_is_rejected(self):
+        with tempfile.TemporaryDirectory() as d:
+            a, b = Path(d) / "silent.wav", Path(d) / "harmony.wav"
+            make_wav(a, 220, amplitude=0.0)
+            make_wav(b, 330)
+            with self.assertRaisesRegex(ValueError, "Lead stem is silent"):
+                analyze_independent_vocals(a, b)
+
     def test_silent_harmony_is_rejected(self):
         with tempfile.TemporaryDirectory() as d:
             a, b = Path(d) / "lead.wav", Path(d) / "silent.wav"
