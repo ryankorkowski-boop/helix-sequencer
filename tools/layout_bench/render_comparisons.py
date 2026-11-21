@@ -441,6 +441,24 @@ def ensure_fseq(run_root: Path, layout_id: str, layout_xml: Path, xsq: Path, med
     return version
 
 
+def collect_required_layouts(plans: list[dict]) -> list[tuple[str, Path]]:
+    """Validate panel identity and deduplicate native render inputs."""
+    needed: list[tuple[str, Path]] = []
+    seen: set[tuple[str, str]] = set()
+    for plan in plans:
+        layouts = plan["layout_ids"]
+        if len(layouts) not in (9, 12, 16):
+            raise ValueError(f"Invalid comparison panel count for {plan['id']}: {len(layouts)}")
+        if len(set(layouts)) != len(layouts):
+            raise ValueError(f"Repeated layout IDs in comparison {plan['id']}")
+        for layout_id in layouts:
+            key = (layout_id, plan["song"]["stem"])
+            if key not in seen:
+                seen.add(key)
+                needed.append((layout_id, plan["song"]["path"]))
+    return needed
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description="Render xLights FSEQ comparison videos for the layout bench.")
     parser.add_argument("--audio-dir", type=Path, help="Legacy song catalog directory; not needed with --nine-panel.")
@@ -489,20 +507,7 @@ def main() -> int:
         plans = variant_plan(songs, requested)
         if not plans:
             parser.error("No comparison variants selected; refusing empty delivery")
-    needed: list[tuple[str, Path]] = []
-    seen: set[tuple[str, str]] = set()
-    for plan in plans:
-        layouts = plan["layout_ids"]
-        if len(layouts) not in (9, 12, 16):
-            raise ValueError(f"Invalid comparison panel count for {plan['id']}: {len(layouts)}")
-        if len(set(layouts)) != len(layouts):
-            raise ValueError(f"Repeated layout IDs in comparison {plan['id']}")
-        for layout_id in layouts:
-            key = (layout_id, plan["song"]["stem"])
-            if key in seen:
-                continue
-            seen.add(key)
-            needed.append((layout_id, plan["song"]["path"]))
+    needed = collect_required_layouts(plans)
     # Resolve every canonical source before invoking xLights. A missing or
     # ambiguous later panel must not leave an apparently complete partial batch.
     sources: dict[tuple[str, str], Path] = {}
