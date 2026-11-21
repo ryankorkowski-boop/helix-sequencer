@@ -5,6 +5,7 @@ from types import SimpleNamespace
 import pytest
 
 from tools.layout_bench import xlights_fseq
+from tools.layout_bench.render_cache import receipt_path
 
 
 @pytest.mark.parametrize(
@@ -48,4 +49,4 @@ def test_native_render_rejects_empty_invalid_or_truncated_fseq(
             show_dir=tmp_path / "show",
         )
     assert not destination.exists()
-    assert not xlights_fseq.receipt_path(destination).exists()
+    assert not receipt_path(destination).exists()
