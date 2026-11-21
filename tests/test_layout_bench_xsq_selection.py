@@ -289,3 +289,33 @@ def test_native_panel_encoder_reaps_process_on_frame_iterator_exception(tmp_path
         )
     assert isinstance(exc.value.__cause__, ValueError)
     assert events == ["stdin_closed", "reaped"]
+
+
+def test_comparison_layout_collector_rejects_repeated_layout_ids(tmp_path):
+    from tools.layout_bench.render_comparisons import collect_required_layouts
+
+    song = {"stem": "song", "path": tmp_path / "song.mp3"}
+    with pytest.raises(ValueError, match="Repeated layout IDs"):
+        collect_required_layouts([{"id": "duplicate", "song": song, "layout_ids": ["a"] * 9}])
+
+
+def test_comparison_layout_collector_rejects_unsupported_panel_count(tmp_path):
+    from tools.layout_bench.render_comparisons import collect_required_layouts
+
+    song = {"stem": "song", "path": tmp_path / "song.mp3"}
+    with pytest.raises(ValueError, match="Invalid comparison panel count"):
+        collect_required_layouts([{"id": "short", "song": song, "layout_ids": ["a", "b"]}])
+
+
+def test_comparison_layout_collector_deduplicates_shared_native_inputs(tmp_path):
+    from tools.layout_bench.render_comparisons import collect_required_layouts
+
+    song = {"stem": "song", "path": tmp_path / "song.mp3"}
+    layouts = [f"layout_{i}" for i in range(9)]
+    plans = [
+        {"id": "one", "song": song, "layout_ids": layouts},
+        {"id": "two", "song": song, "layout_ids": list(reversed(layouts))},
+    ]
+    required = collect_required_layouts(plans)
+    assert [layout for layout, _media in required] == layouts
+    assert all(media == song["path"] for _layout, media in required)
