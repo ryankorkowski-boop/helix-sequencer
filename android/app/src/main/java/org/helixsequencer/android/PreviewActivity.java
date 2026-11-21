@@ -12,6 +12,7 @@ public class PreviewActivity extends Activity {
     private VideoView video;
     private SeekBar seek;
     private Button play,previous,next;
+    private CheckBox playAll;
     private TextView variantLabel;
     private ArrayList<String> playlist;
     private int playlistIndex;
@@ -41,6 +42,9 @@ public class PreviewActivity extends Activity {
         seek=new SeekBar(this);seek.setContentDescription("Preview position");controls.addView(seek,new LinearLayout.LayoutParams(0,-2,1));
         next=new Button(this);next.setText("Next");controls.addView(next);
         Button close=new Button(this);close.setText("Close");controls.addView(close);close.setOnClickListener(v->finish());
+        playAll=new CheckBox(this);playAll.setText("Play all completed variants automatically");
+        playAll.setTextColor(Color.WHITE);playAll.setChecked(state==null||state.getBoolean("play_all",true));
+        root.addView(playAll,new LinearLayout.LayoutParams(-1,-2));
         variantLabel=new TextView(this);variantLabel.setTextColor(Color.WHITE);variantLabel.setGravity(Gravity.CENTER);
         root.addView(variantLabel,new LinearLayout.LayoutParams(-1,-2));setContentView(root);
         previous.setOnClickListener(v->selectVariant(playlistIndex-1));
@@ -52,7 +56,10 @@ public class PreviewActivity extends Activity {
             public void onStopTrackingTouch(SeekBar s){seeking=false;}
         });
         video.setOnPreparedListener(p->{prepared=true;play.setEnabled(true);seek.setMax(video.getDuration());video.seekTo(position);if(resumePlayback)video.start();});
-        video.setOnCompletionListener(p->{resumePlayback=false;play.setText("Play");});
+        video.setOnCompletionListener(p->{
+            if(playAll.isChecked()&&playlistIndex+1<playlist.size())selectVariant(playlistIndex+1);
+            else{resumePlayback=false;play.setText("Play");}
+        });
         selectVariant(playlistIndex, state!=null);
         video.setOnErrorListener((p,w,e)->{new android.app.AlertDialog.Builder(this).setMessage("Preview playback failed ("+w+", "+e+")").setPositiveButton("Close",(d,x)->finish()).show();return true;});
     }
@@ -75,6 +82,6 @@ public class PreviewActivity extends Activity {
         video.setVideoURI(Uri.fromFile(new java.io.File(path)));
     }
     @Override protected void onResume(){super.onResume();handler.post(tick);if(prepared&&resumePlayback)video.start();}
-    @Override protected void onSaveInstanceState(Bundle state){state.putInt("position",prepared?video.getCurrentPosition():position);state.putBoolean("playing",prepared?video.isPlaying():resumePlayback);state.putInt("playlist_index",playlistIndex);super.onSaveInstanceState(state);}
+    @Override protected void onSaveInstanceState(Bundle state){state.putInt("position",prepared?video.getCurrentPosition():position);state.putBoolean("playing",prepared?video.isPlaying():resumePlayback);state.putInt("playlist_index",playlistIndex);state.putBoolean("play_all",playAll.isChecked());super.onSaveInstanceState(state);}
     @Override protected void onPause(){if(prepared){resumePlayback=video.isPlaying();position=video.getCurrentPosition();video.pause();}handler.removeCallbacks(tick);super.onPause();}
 }
