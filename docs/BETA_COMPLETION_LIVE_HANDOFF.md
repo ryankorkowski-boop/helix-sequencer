@@ -1,5 +1,10 @@
 # Unified Beta Completion — Live Handoff
 
+## 2026-11-20 · Android multi-variant integration checkpoint
+
+Removed the global canonical-band preview rejection in android/app/src/main/python/helix_mobile.py. Each preview variant is now independently validated and its failed status checkpointed without cancelling the other sequence previews; unsupported six-member band remains honestly marked as requiring the canonical native renderer. Added test_band_preview_rejection_is_per_variant_not_global in tests/test_android_preview_states.py and reconciled MASTER_TODO.md. Commits 3bfa5509, 52da83d7, 0c68be02. Earlier Android Variant Compile workflow 44865846936 succeeded at 3656e2ca; that is not proof for the new changes. Remaining gates: current CI, device all-eight playback, six-snowman native review, Infinity and final package approval. Overall estimate ~70–75%.
+
+
 ## November 20 · Independent vocal face timing safety
 
 Implemented strict finite/positive phoneme timing validation and finite intensity validation in core.band_vocal_face_export; suppressed zero-intensity non-REST mouth animation while preserving independent REST closure and harmony events. Added focused regression tests. Commits 19b094cd, 2a7c37b7, 464e7748. No native visual or device acceptance asserted. Overall estimate ~70%.
