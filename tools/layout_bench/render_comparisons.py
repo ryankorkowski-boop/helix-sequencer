@@ -293,14 +293,8 @@ def stitch_panels(panel_paths: list[Path], audio_path: Path, out_path: Path, tit
     draw = ImageDraw.Draw(banner)
     draw.text((12, 4), title, fill=(245, 248, 255))
     draw.text((12, 24), description[:180], fill=(160, 190, 220))
-    banner_path = out_path.with_suffix(".banner.png")
     out_path.parent.mkdir(parents=True, exist_ok=True)
-    banner.save(banner_path)
     layout_expr = "|".join(f"{(index % cols) * PANEL_W}_{(index // cols) * PANEL_H}" for index in range(len(panel_paths)))
-    cmd = [_ffmpeg(), "-y", "-i", str(banner_path)]
-    for path in panel_paths:
-        cmd.extend(["-i", str(path)])
-    cmd.extend(["-i", str(audio_path)])
     stack = "".join(f"[{index + 1}:v]" for index in range(len(panel_paths)))
     audio_index = len(panel_paths) + 1
     filter_complex = (
@@ -311,6 +305,12 @@ def stitch_panels(panel_paths: list[Path], audio_path: Path, out_path: Path, tit
     # Never expose a truncated comparison as the final owner-review MP4.
     with TemporaryDirectory(dir=out_path.parent) as workspace:
         staged = Path(workspace) / "comparison.mp4"
+        banner_path = Path(workspace) / "banner.png"
+        banner.save(banner_path)
+        cmd = [_ffmpeg(), "-y", "-loop", "1", "-i", str(banner_path)]
+        for path in panel_paths:
+            cmd.extend(["-i", str(path)])
+        cmd.extend(["-i", str(audio_path)])
         cmd.extend(
             [
                 "-filter_complex", filter_complex,
@@ -332,7 +332,7 @@ def stitch_panels(panel_paths: list[Path], audio_path: Path, out_path: Path, tit
                                    + completed.stderr.decode("utf-8", errors="replace")[-800:])
             staged.replace(out_path)
         finally:
-            banner_path.unlink(missing_ok=True)
+            pass
 
 
 SONG_META = {
