@@ -91,20 +91,51 @@ class BandRenderer:
         self._frame_glow = glow.filter(ImageFilter.GaussianBlur(radius=10))
 
     def drums(self, d, cx, cy, s, b, p):
+        """Canonical snowman kit preview: kick, snare, three toms, hi-hat,
+        ride and two crashes. This is geometry only; actual hits require
+        independently mapped percussion events from the sequencing engine.
+        """
         base = cy + 30 * s
-        w = 55 * s
-        h = 28 * s
         col = COLORS["HX_SNOWMAN_DRUMMER"]
-        d.ellipse((cx - w, base - h, cx + w, base + h), fill=(45, 50, 62, 255), outline=col + (255,), width=max(2, int(3 * s)))
-        d.ellipse((cx - w * .38, base - h * .5, cx + w * .38, base + h * .5), fill=(20, 25, 35, 255), outline=(220, 225, 235, 255), width=max(1, int(2 * s)))
-        d.ellipse((cx - 65 * s, base - 20 * s, cx - 35 * s, base + 4 * s), fill=(35, 40, 52, 255), outline=(210, 215, 225, 255), width=max(2, int(3 * s)))
-        d.ellipse((cx + 35 * s, base - 20 * s, cx + 65 * s, base + 4 * s), fill=(35, 40, 52, 255), outline=(210, 215, 225, 255), width=max(2, int(3 * s)))
-        hit = math.sin(p * 3) > 0.2 and b > .3
-        arm = 32 * s * (1.35 if hit else 1.0)
-        d.line((cx - 18 * s, cy - 18 * s, cx - 42 * s, cy - 18 * s - arm * .35), fill=(255, 230, 170, 255), width=max(2, int(4 * s)))
-        d.line((cx + 18 * s, cy - 18 * s, cx + 42 * s, cy - 18 * s - arm * .35), fill=(255, 230, 170, 255), width=max(2, int(4 * s)))
-        d.ellipse((cx - 85 * s, base - 48 * s, cx - 58 * s, base - 42 * s), fill=(190, 200, 215, 255))
-        d.ellipse((cx + 58 * s, base - 52 * s, cx + 85 * s, base - 46 * s), fill=(190, 200, 215, 255))
+        def shell(x, y, rx, ry):
+            d.ellipse((cx + (x-rx)*s, base + (y-ry)*s,
+                       cx + (x+rx)*s, base + (y+ry)*s),
+                      fill=(38, 49, 66, 255), outline=col + (255,),
+                      width=max(2, int(2*s)))
+        def cymbal(x, y, rx):
+            d.ellipse((cx + (x-rx)*s, base + (y-3)*s,
+                       cx + (x+rx)*s, base + (y+3)*s),
+                      fill=(196, 166, 91, 255),
+                      outline=(245, 217, 138, 255))
+            d.line((cx+x*s, base+(y+3)*s, cx+x*s, base+25*s),
+                   fill=(170, 180, 192, 255), width=max(1, int(2*s)))
+        # Back-to-front layering keeps the complete kit visible.
+        cymbal(-83, -58, 18)  # left crash
+        cymbal(-62, -33, 15)  # hi-hat
+        cymbal(61, -35, 17)   # ride
+        cymbal(84, -58, 18)   # right crash
+        shell(-23, -29, 15, 10)  # rack tom left
+        shell(19, -29, 15, 10)   # rack tom right
+        shell(54, -4, 17, 15)    # floor tom
+        shell(-48, -2, 17, 11)   # snare
+        shell(0, 10, 35, 31)     # kick
+        d.ellipse((cx-15*s, base-5*s, cx+15*s, base+25*s),
+                  fill=(22, 35, 55, 255), outline=(232, 238, 245, 255),
+                  width=max(2, int(2*s)))
+        # Snowflake emblem on the bass drum, rather than a blank circle.
+        for angle in (0, math.pi/3, 2*math.pi/3):
+            dx, dy = math.cos(angle)*10*s, math.sin(angle)*10*s
+            d.line((cx-dx, base+10*s-dy, cx+dx, base+10*s+dy),
+                   fill=(168, 225, 255, 255), width=max(1, int(2*s)))
+        # Resting shoulder-anchored sticks: no fabricated audio-triggered hits.
+        for side in (-1, 1):
+            shoulder = (cx + side*20*s, cy - 12*s)
+            elbow = (cx + side*33*s, cy + 1*s)
+            tip = (cx + side*43*s, cy + 18*s)
+            d.line((*shoulder, *elbow), fill=(230, 236, 246, 255),
+                   width=max(2, int(4*s)))
+            d.line((*elbow, *tip), fill=(185, 145, 95, 255),
+                   width=max(2, int(3*s)))
 
     def instrument(self, d, cx, cy, s, b, bass):
         col = COLORS["HX_SNOWMAN_BASSIST" if bass else "HX_SNOWMAN_GUITARIST"]
