@@ -44,9 +44,14 @@ def test_quick_clip_preserves_samples_and_original_song(tmp_path, seconds):
 
 
 def test_all_sample_choices_resolve_to_existing_native_layouts():
-    # Unified catalog: the recovered 16-channel AC preset joins the earlier samples.
-    assert {choice['key'] for choice in OPTIONS['layouts']} == {
-        'ac16','greg256','helixville2','allmodels','helixville3','aurora','helixville4','greg256_spirals'}
+    # Catalog grows as new native layouts are added; keep the original choices
+    # available without rejecting valid additional preloaded layouts.
+    keys = [choice['key'] for choice in OPTIONS['layouts']]
+    assert len(keys) == len(set(keys)), "Preloaded layout keys must be unique"
+    assert set(keys) >= {
+        'ac16','greg256','helixville2','allmodels','helixville3','aurora','helixville4','greg256_spirals',
+        'ac64','pixel_starter','pixel_classic','band_stage_bench',
+        'wow_moire','wow_spirals','wow_showcase'}
     assert len(OPTIONS["stages"]) == 3
     for item in layout_options():
         layout = resolve_layout(ROOT, item["key"])
