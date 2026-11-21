@@ -155,3 +155,12 @@ def test_cli_writes_no_temporary_manifest_after_success(tmp_path):
     prepare(original, lead, backing, output)
     assert output.exists()
     assert not list(tmp_path.glob(".helix-stems-*"))
+
+
+def test_handwritten_manifest_rejects_duplicate_content_stems(tmp_path):
+    original, lead, backing, manifest, data = fixture(tmp_path)
+    backing.write_bytes(lead.read_bytes())
+    data["backing"]["sha256"] = digest(backing)
+    manifest.write_text(json.dumps(data))
+    with pytest.raises(ValueError, match="Duplicate vocal stems"):
+        validate_vocal_separation_manifest(manifest, original)
