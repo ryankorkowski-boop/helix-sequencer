@@ -10,8 +10,10 @@ on:
       - tests/test_phoneme_hook_harmony_routing.py
       - tests/test_separate_vocal_roles.py
       - tools/separate_vocal_roles.py
+      - tests/test_verify_shared_approval_source.py
+      - tools/verify_shared_approval_source.py
       - tests/test_independent_vocals.py
-      - tests/test_vocal_separation_manifest.py
+      - tests/test_vocal_separation_manifest.py tests/test_verify_shared_approval_source.py
       - .github/workflows/phoneme-test-hook-independent-vocals.yml
 permissions:
   contents: read
