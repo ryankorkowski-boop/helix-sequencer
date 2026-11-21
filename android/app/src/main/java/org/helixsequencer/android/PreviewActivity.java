@@ -19,8 +19,8 @@ public class PreviewActivity extends Activity {
     private boolean seeking,prepared,resumePlayback=true;
     private int position;
     private final Runnable tick=new Runnable(){public void run(){
-        if(prepared&&!seeking){seek.setMax(video.getDuration());seek.setProgress(video.getCurrentPosition());}
-        play.setText(video.isPlaying()?"Pause":"Play");handler.postDelayed(this,250);
+        if(video!=null&&prepared&&!seeking){seek.setMax(video.getDuration());seek.setProgress(video.getCurrentPosition());}
+        if(play!=null&&video!=null)play.setText(video.isPlaying()?"Pause":"Play");handler.postDelayed(this,250);
     }};
     @Override public void onCreate(Bundle state){
         super.onCreate(state);
@@ -53,10 +53,11 @@ public class PreviewActivity extends Activity {
         });
         video.setOnPreparedListener(p->{prepared=true;play.setEnabled(true);seek.setMax(video.getDuration());video.seekTo(position);if(resumePlayback)video.start();});
         video.setOnCompletionListener(p->{resumePlayback=false;play.setText("Play");});
-        selectVariant(playlistIndex);
+        selectVariant(playlistIndex, state!=null);
         video.setOnErrorListener((p,w,e)->{new android.app.AlertDialog.Builder(this).setMessage("Preview playback failed ("+w+", "+e+")").setPositiveButton("Close",(d,x)->finish()).show();return true;});
     }
-    private void selectVariant(int index){
+    private void selectVariant(int index){selectVariant(index,false);}
+    private void selectVariant(int index,boolean restoring){
         if(index<0||index>=playlist.size())return;
         playlistIndex=index;
         previous.setEnabled(index>0);next.setEnabled(index<playlist.size()-1);
@@ -68,11 +69,12 @@ public class PreviewActivity extends Activity {
                 .setPositiveButton("Close",(d,x)->finish()).setOnCancelListener(d->finish()).show();
             return;
         }
-        video.stopPlayback();prepared=false;play.setEnabled(false);position=0;
-        resumePlayback=true;seek.setProgress(0);
+        video.stopPlayback();prepared=false;play.setEnabled(false);
+        if(!restoring){position=0;resumePlayback=true;}
+        seek.setProgress(position);
         video.setVideoURI(Uri.fromFile(new java.io.File(path)));
     }
     @Override protected void onResume(){super.onResume();handler.post(tick);if(prepared&&resumePlayback)video.start();}
-    @Override protected void onSaveInstanceState(Bundle state){state.putInt("position",video.getCurrentPosition());state.putBoolean("playing",video.isPlaying()||resumePlayback);state.putInt("playlist_index",playlistIndex);super.onSaveInstanceState(state);}
-    @Override protected void onPause(){resumePlayback=video.isPlaying();position=video.getCurrentPosition();video.pause();handler.removeCallbacks(tick);super.onPause();}
+    @Override protected void onSaveInstanceState(Bundle state){state.putInt("position",prepared?video.getCurrentPosition():position);state.putBoolean("playing",prepared?video.isPlaying():resumePlayback);state.putInt("playlist_index",playlistIndex);super.onSaveInstanceState(state);}
+    @Override protected void onPause(){if(prepared){resumePlayback=video.isPlaying();position=video.getCurrentPosition();video.pause();}handler.removeCallbacks(tick);super.onPause();}
 }
