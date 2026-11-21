@@ -252,3 +252,40 @@ def test_native_panel_encode_rejects_zero_frames(tmp_path, monkeypatch):
              "title": "Test panel", "channels": 3},
             tmp_path / "empty.mp4",
         )
+
+
+def test_native_panel_encoder_reaps_process_on_frame_iterator_exception(tmp_path, monkeypatch):
+    from types import SimpleNamespace
+    from tools.layout_bench import render_comparisons as comparisons
+
+    def broken_rows():
+        raise ValueError("malformed FSEQ frame")
+        yield b""
+
+    fseq = SimpleNamespace(
+        fps=lambda: 30, step_ms=33, sparse_start=0, rows=broken_rows
+    )
+    events = []
+    class FakePipe:
+        def close(self):
+            events.append("stdin_closed")
+    class FakeProcess:
+        stdin = FakePipe()
+        stderr = SimpleNamespace(read=lambda: b"ffmpeg log")
+        def wait(self):
+            events.append("reaped")
+            return 0
+
+    monkeypatch.setattr(comparisons, "load_fseq", lambda path: fseq)
+    monkeypatch.setattr(comparisons, "model_channel_report", lambda *args: [])
+    monkeypatch.setattr(comparisons, "build_node_drawlist", lambda *args: {})
+    monkeypatch.setattr(comparisons, "_ffmpeg", lambda: "ffmpeg")
+    monkeypatch.setattr(comparisons.subprocess, "Popen", lambda *args, **kwargs: FakeProcess())
+    with pytest.raises(RuntimeError, match="panel encode failed") as exc:
+        comparisons._encode_panel(
+            {"fseq": tmp_path / "bad.fseq", "layout": tmp_path / "layout.xml",
+             "title": "Test panel", "channels": 3},
+            tmp_path / "panel.mp4",
+        )
+    assert isinstance(exc.value.__cause__, ValueError)
+    assert events == ["stdin_closed", "reaped"]
