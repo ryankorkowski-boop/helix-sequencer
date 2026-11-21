@@ -57,3 +57,34 @@ def test_harmony_requires_independent_non_rest_events() -> None:
     assert {effect["start"] for effect in harmony["effects"] if effect["performer"] == "singer"} != {
         effect["start"] for effect in harmony["effects"] if effect["performer"] == "female_singer"
     }
+
+
+def test_vocal_export_rejects_invalid_timing_and_nonfinite_intensity() -> None:
+    import math
+    compiler = BandVocalFaceExportCompiler()
+    for start, duration, intensity in (
+        (-0.1, 0.2, 1.0),
+        (0.0, 0.0, 1.0),
+        (0.0, -0.1, 1.0),
+        (math.nan, 0.2, 1.0),
+        (0.0, math.inf, 1.0),
+        (0.0, 0.2, math.nan),
+    ):
+        try:
+            compiler.compile_timing(VocalPhonemeTiming("singer", "AH", start, duration, intensity))
+        except ValueError:
+            pass
+        else:
+            raise AssertionError("invalid phoneme timing/intensity must be rejected")
+
+
+def test_vocal_export_suppresses_silent_open_mouths_independently() -> None:
+    compiler = BandVocalFaceExportCompiler()
+    effects = compiler.compile_many((
+        VocalPhonemeTiming("singer", "AH", 0.0, 0.2, 0.0),
+        VocalPhonemeTiming("female_singer", "OH", 0.1, 0.3, 0.8),
+        VocalPhonemeTiming("singer", "REST", 0.2, 0.1, 0.0),
+    ))
+    assert [(effect.performer, effect.phoneme) for effect in effects] == [
+        ("female_singer", "OH"), ("singer", "REST")
+    ]
