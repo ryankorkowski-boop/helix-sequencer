@@ -1,0 +1,81 @@
+"""Two-stage vocal separation provenance checks; no network/API credentials needed."""
+import hashlib
+import json
+import math
+import struct
+import wave
+
+import pytest
+
+from core.independent_vocals import analyze_independent_vocals
+from core.vocal_separation_manifest import validate_vocal_separation_manifest
+
+
+def digest(path):
+    return hashlib.sha256(path.read_bytes()).hexdigest()
+
+
+def wav(path, hz):
+    rate = 16000
+    with wave.open(str(path), "wb") as f:
+        f.setnchannels(1)
+        f.setsampwidth(2)
+        f.setframerate(rate)
+        f.writeframes(b"".join(struct.pack("<h", int(8000 * math.sin(2 * math.pi * hz * i / rate)))
+                              for i in range(rate // 2)))
+
+
+def fixture(tmp_path):
+    original, lead, backing = (tmp_path / name for name in ("original.wav", "lead.wav", "backing.wav"))
+    wav(original, 180)
+    wav(lead, 220)
+    wav(backing, 330)
+    manifest = tmp_path / "stems.json"
+    data = {
+        "schema": "helix.vocal-separation.v1",
+        "method": "vocals_first_then_lead_backing",
+        "source_sha256": digest(original),
+        "lead": {"path": lead.name, "sha256": digest(lead)},
+        "backing": {"path": backing.name, "sha256": digest(backing)},
+    }
+    manifest.write_text(json.dumps(data))
+    return original, lead, backing, manifest, data
+
+
+def test_valid_two_stage_bundle_routes_distinct_singers(tmp_path):
+    original, lead, backing, manifest, _ = fixture(tmp_path)
+    paths = validate_vocal_separation_manifest(manifest, original)
+    assert paths == (lead, backing)
+    result = analyze_independent_vocals(*paths)
+    assert result["status"] == "distinct_stem_inputs"
+    assert result["independence"] == "duplicate_rejection_only_not_voice_identity_proof"
+
+
+def test_source_identity_mismatch_rejected(tmp_path):
+    original, _, _, manifest, _ = fixture(tmp_path)
+    original.write_bytes(b"changed")
+    with pytest.raises(ValueError, match="source audio SHA256 mismatch"):
+        validate_vocal_separation_manifest(manifest, original)
+
+
+def test_tampered_stem_rejected(tmp_path):
+    original, lead, _, manifest, _ = fixture(tmp_path)
+    lead.write_bytes(b"changed")
+    with pytest.raises(ValueError, match="lead stem SHA256 mismatch"):
+        validate_vocal_separation_manifest(manifest, original)
+
+
+def test_path_escape_rejected(tmp_path):
+    original, _, _, manifest, data = fixture(tmp_path)
+    data["lead"]["path"] = "../escape.wav"
+    manifest.write_text(json.dumps(data))
+    with pytest.raises(ValueError, match="Unsafe or missing"):
+        validate_vocal_separation_manifest(manifest, original)
+
+
+def test_unstaged_method_rejected(tmp_path):
+    original, _, _, manifest, data = fixture(tmp_path)
+    data["method"] = "unknown"
+    manifest.write_text(json.dumps(data))
+    with pytest.raises(ValueError, match="vocals-first"):
+        validate_vocal_separation_manifest(manifest, original)
