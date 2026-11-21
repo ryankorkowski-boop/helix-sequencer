@@ -319,3 +319,17 @@ def test_comparison_layout_collector_deduplicates_shared_native_inputs(tmp_path)
     required = collect_required_layouts(plans)
     assert [layout for layout, _media in required] == layouts
     assert all(media == song["path"] for _layout, media in required)
+
+
+def test_comparison_collector_rejects_same_stem_different_audio_sources(tmp_path):
+    from tools.layout_bench.render_comparisons import collect_required_layouts
+
+    layouts = [f"layout_{i}" for i in range(9)]
+    plans = [
+        {"id": "one", "song": {"stem": "shared", "path": tmp_path / "a" / "shared.mp3"},
+         "layout_ids": layouts},
+        {"id": "two", "song": {"stem": "shared", "path": tmp_path / "b" / "shared.mp3"},
+         "layout_ids": layouts},
+    ]
+    with pytest.raises(ValueError, match="Conflicting source audio"):
+        collect_required_layouts(plans)
