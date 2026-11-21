@@ -48,3 +48,29 @@ def test_missing_sequence_fails(tmp_path):
     _folder(tmp_path)
     with pytest.raises(FileNotFoundError, match="No canonical XSQ"):
         find_xsq(tmp_path, "ac16_lor", "Missing")
+
+
+def test_stitch_rejects_incomplete_panel_count(tmp_path):
+    from tools.layout_bench.render_comparisons import stitch_panels
+
+    with pytest.raises(ValueError, match="9, 12 or 16"):
+        stitch_panels([], tmp_path / "song.mp3", tmp_path / "out.mp4", "Title", "Description")
+
+
+def test_stitch_rejects_missing_panel_before_encoding(tmp_path):
+    from tools.layout_bench.render_comparisons import stitch_panels
+
+    soundtrack = tmp_path / "song.mp3"
+    soundtrack.write_bytes(b"placeholder")
+    with pytest.raises(FileNotFoundError, match="Missing comparison panel"):
+        stitch_panels([tmp_path / f"panel_{i}.mp4" for i in range(9)], soundtrack, tmp_path / "out.mp4", "Title", "Description")
+
+
+def test_stitch_rejects_missing_soundtrack_before_encoding(tmp_path):
+    from tools.layout_bench.render_comparisons import stitch_panels
+
+    panels = [tmp_path / f"panel_{i}.mp4" for i in range(9)]
+    for panel in panels:
+        panel.write_bytes(b"placeholder")
+    with pytest.raises(FileNotFoundError, match="Missing comparison soundtrack"):
+        stitch_panels(panels, tmp_path / "missing.mp3", tmp_path / "out.mp4", "Title", "Description")
