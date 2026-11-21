@@ -37,7 +37,7 @@ def _file_sha256(path: Path) -> str:
     return digest.hexdigest()
 
 
-def _read_mono_pcm(path: Path) -> tuple[int, list[float]]:
+def _read_mono_pcm(path: Path) -> tuple[int, "array.array"]:
     with wave.open(str(path), "rb") as wav:
         channels, width, rate, frames = (wav.getnchannels(), wav.getsampwidth(),
                                           wav.getframerate(), wav.getnframes())
@@ -48,17 +48,17 @@ def _read_mono_pcm(path: Path) -> tuple[int, list[float]]:
         samples.frombytes(wav.readframes(frames))
         if __import__("sys").byteorder != "little":
             samples.byteswap()
-    return rate, [x / 32768.0 for x in samples]
+    return rate, samples
 
 
-def _activity(samples: list[float], rate: int, *,
+def _activity(samples: "array.array", rate: int, *,
               hop_ms: int = 20, threshold_db: float = -34.0,
               min_duration_ms: int = 100, max_gap_ms: int = 80) -> tuple[VocalWindow, ...]:
     hop = max(1, round(rate * hop_ms / 1000))
     energies = []
     for start in range(0, len(samples), hop):
         block = samples[start:start + hop]
-        energies.append(math.sqrt(sum(x * x for x in block) / len(block)))
+        energies.append(math.sqrt(sum(x * x for x in block) / len(block)) / 32768.0)
     if not energies:
         return ()
     peak = max(energies)
