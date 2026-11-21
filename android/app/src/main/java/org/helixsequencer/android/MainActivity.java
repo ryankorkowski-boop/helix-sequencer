@@ -142,7 +142,12 @@ public class MainActivity extends Activity {
         });
         sequence=button("Save selected sequence…",()->export(sequencePath,sequencePath.endsWith(".lms")?"application/xml":"application/octet-stream",new File(sequencePath).getName()));
         watch=button("Play preview",()->{if(PreviewStatus.canPlay(selectedPreviewState(),available(previewPath)))startActivity(new Intent(this,PreviewActivity.class).putExtra("path",previewPath));else alert("This variant has no completed preview yet.");});
-        movie=button("Save MP4…",()->export(previewPath,"video/mp4","Helix-preview.mp4"));
+        movie=button("Save selected variant MP4…",()->{
+            String name=available(sequencePath)?new File(sequencePath).getName():"Helix-preview";
+            int dot=name.lastIndexOf('.');
+            if(dot>0)name=name.substring(0,dot);
+            export(previewPath,"video/mp4",name+"-preview.mp4");
+        });
         save=button("Save show ZIP…",()->export(bundlePath,"application/zip","Helix-show.zip"));share=button("Share show ZIP…",this::shareShow);
         report=button("Save run report…",()->export(reportPath,"text/plain","Helix-run-report.txt"));
         for(Button v:new Button[]{sequence,watch,movie,save,share,report})v.setEnabled(false);
