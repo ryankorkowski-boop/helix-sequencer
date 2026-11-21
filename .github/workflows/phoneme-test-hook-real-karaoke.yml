@@ -74,8 +74,8 @@ jobs:
           set -euo pipefail
           VOCALS="$(find RenderCache/stems/The_Test_Is_On -name vocals.wav -type f | head -n 1)"
           ROOT=owner-source/roformer
-          LEAD="$(find "$ROOT" -maxdepth 1 -name '*\(Vocals\)*.wav' -printf '%f\n' | head -n 1)"
-          BACKING="$(find "$ROOT" -maxdepth 1 -name '*\(Instrumental\)*.wav' -printf '%f\n' | head -n 1)"
+          LEAD="$(find "$ROOT" -maxdepth 1 -name '*Vocals*.wav' -printf '%f\n' | head -n 1)"
+          BACKING="$(find "$ROOT" -maxdepth 1 -name '*Instrumental*.wav' -printf '%f\n' | head -n 1)"
           test -n "$LEAD" && test -n "$BACKING"
           python tools/separate_vocal_roles.py --source owner-source/The_Test_Is_On.mp3 --vocals "$VOCALS" --output-dir "$ROOT" --skip-separation --lead-output "$LEAD" --backing-output "$BACKING"
           python - <<'PY'
