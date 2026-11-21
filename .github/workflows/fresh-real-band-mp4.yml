@@ -177,6 +177,19 @@ jobs:
               out.write('SOURCE_ROOT='+str(root)+'\n')
           print('Verified E14 original audio and retained source analysis:',expected)
           PY
+      - name: Inspect source-bound vocal evidence without weakening acceptance gate
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          p=Path('source-root/analysis/E14/voice_roles.json')
+          if not p.exists():
+              print('No source-bound voice_roles.json at expected path; strict gate remains enabled')
+          else:
+              r=json.loads(p.read_text())
+              print(json.dumps({k:r.get(k) for k in ('source_sha256','verification_state','origin','mixed_bus_only','voice_identity_resolved','independent_tracks')},indent=2))
+          PY
+        continue-on-error: true
       - name: Qualify both original vocal lanes before compiling or rendering
         run: |
           python -m tools.verify_native_vocal_source "$SOURCE_ROOT/sources/E14/audio.wav" "$SOURCE_ROOT/analysis/E14" --report review/SOURCE_VOCAL_PREFLIGHT.json
