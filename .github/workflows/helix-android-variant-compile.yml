@@ -18,7 +18,8 @@ permissions:
 
 concurrency:
   group: helix-android-variant-${{ github.ref }}
-  cancel-in-progress: true
+  # Keep one complete Android build result through rapid integration pushes.
+  cancel-in-progress: false
 
 jobs:
   compile-debug:
