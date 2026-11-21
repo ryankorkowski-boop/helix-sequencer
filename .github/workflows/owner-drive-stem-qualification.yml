@@ -5,6 +5,7 @@ on:
     paths:
       - .github/workflows/owner-drive-stem-qualification.yml
       - evidence/beta_completion/new_drive_audio_candidates_20261121.json
+      - core/audio_intelligence.py
   workflow_dispatch:
 permissions:
   contents: read
