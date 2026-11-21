@@ -145,4 +145,7 @@ def test_android_preview_player_supports_next_previous_and_rotation():
     assert 'next.setOnClickListener(v->selectVariant(playlistIndex+1))' in source
     assert 'state.putInt("playlist_index",playlistIndex)' in source
     assert 'state.getInt("playlist_index",playlistIndex)' in source
-    assert 'video.stopPlayback();prepared=false;play.setEnabled(false);position=0;' in source
+    assert 'if(!restoring){position=0;resumePlayback=true;}' in source
+    assert 'selectVariant(playlistIndex, state!=null)' in source
+    assert 'prepared?video.getCurrentPosition():position' in source
+    assert 'if(prepared){resumePlayback=video.isPlaying();position=video.getCurrentPosition();video.pause();}' in source
