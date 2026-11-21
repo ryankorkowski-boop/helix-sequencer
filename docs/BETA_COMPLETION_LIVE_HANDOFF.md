@@ -1,5 +1,10 @@
 # Unified Beta Completion — Live Handoff
 
+## November 20 · Legacy comparison audio input hardening
+
+Implemented source discovery for MP3, WAV, FLAC and M4A, including uppercase filename extensions, while rejecting duplicate-format recordings with the same stem rather than silently selecting one. Added regression tests for both behaviors. Commits 3f52cfe2 and d1a4e9d6. No native renders, device acceptance or owner approvals are claimed from these changes. Estimated overall completion remains ~70% pending substantive acceptance gates.
+
+
 ## November 20 · Native comparison renderer hardening (implemented, CI unverified)
 
 Commits through b051b04e: strict literal canonical XSQ matching, complete selected-source preflight, duplicate/empty input rejection, isolated 30-fps banner, staged atomic MP4 publication, zero-frame panel rejection, and ffmpeg process cleanup after FSEQ iterator errors. Focused regression coverage is wired into Python 3.11/3.12 CI. This is implementation and test authorship only; do not count tests as passed or review MP4s as accepted until verified. Remaining P0: six-snowman native band, independent vocals, Android eight-variant playback/API30, Windows EXE, native 9/16-panel acceptance, full Infinity 10,240 props, manuals, owner approval. Estimated overall Beta 1.4 completion: ~70% (qualitative, not a verified checklist fraction).
