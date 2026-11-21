@@ -1,5 +1,10 @@
 # Unified Beta Completion — Live Handoff
 
+## November 20 · Android variant preview resilience
+
+Guarded PreviewActivity against missing/stale MP4 paths with a recovery dialog; corrected Results variant counter during spinner adapter refresh; added source regression coverage and an Android instrumentation smoke test for missing-preview recovery. Commits daa4e0f4, 8c209799, 5055a699, 3656e2ca. Device acceptance remains unverified. GitHub Actions integration and Android compile jobs were queued/pending when checked; no CI pass is claimed. Overall estimate remains ~70%.
+
+
 ## November 20 · Android per-variant MP4 export and result selection
 
 Implemented selected-variant-specific MP4 export names (rather than the generic Helix-preview.mp4), displayed the current variant index and total next to its preview readiness, and added Android source-contract regression coverage. Commits 1ceebdcb, 16f07853, 188d75d6. Source changes are committed on the integration branch; APK device playback and all-eight-variant acceptance remain unverified. Overall Beta 1.4 completion estimate ~70%.
