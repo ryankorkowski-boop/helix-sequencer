@@ -6,6 +6,7 @@ Each renderer must write a verified receipt at <output>/<role>/receipt.json.
 Commands are supplied explicitly; no placeholders are silently accepted.
 """
 import argparse
+import hashlib
 import json
 import os
 import subprocess
@@ -51,6 +52,18 @@ def run_suite(source, stems, output, commit, commands, *, runner=subprocess.run)
                               ("source_commit", commit)):
             if receipt.get(key) != expected:
                 raise ValueError(f"{role} did not consume shared {key}")
+        media = receipt.get("mp4")
+        if not isinstance(media, dict) or not media.get("path") or not media.get("sha256"):
+            raise ValueError(f"{role} missing MP4 file evidence")
+        movie = (role_dir / media["path"]).resolve()
+        if not movie.is_relative_to(role_dir) or not movie.is_file() or movie.stat().st_size < 1024:
+            raise ValueError(f"{role} MP4 missing, outside output, or too small")
+        digest = hashlib.sha256()
+        with movie.open("rb") as stream:
+            for chunk in iter(lambda: stream.read(1024 * 1024), b""):
+                digest.update(chunk)
+        if digest.hexdigest() != media["sha256"]:
+            raise ValueError(f"{role} MP4 SHA256 mismatch")
         receipts.append(receipt_path)
     verify(source, stems, manifest_path)
     result = verify_three(receipts)
