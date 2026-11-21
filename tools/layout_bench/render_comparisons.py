@@ -307,7 +307,7 @@ def stitch_panels(panel_paths: list[Path], audio_path: Path, out_path: Path, tit
         staged = Path(workspace) / "comparison.mp4"
         banner_path = Path(workspace) / "banner.png"
         banner.save(banner_path)
-        cmd = [_ffmpeg(), "-y", "-loop", "1", "-i", str(banner_path)]
+        cmd = [_ffmpeg(), "-y", "-framerate", "30", "-loop", "1", "-i", str(banner_path)]
         for path in panel_paths:
             cmd.extend(["-i", str(path)])
         cmd.extend(["-i", str(audio_path)])
@@ -321,6 +321,7 @@ def stitch_panels(panel_paths: list[Path], audio_path: Path, out_path: Path, tit
                 "-r", "30",
                 "-crf", "20",
                 "-c:a", "aac",
+                "-movflags", "+faststart",
                 "-shortest",
                 str(staged),
             ]
