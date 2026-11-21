@@ -9,6 +9,7 @@ import pytest
 
 from core.independent_vocals import analyze_independent_vocals
 from core.vocal_separation_manifest import validate_vocal_separation_manifest
+from tools.prepare_vocal_separation_manifest import prepare
 
 
 def digest(path):
@@ -79,3 +80,26 @@ def test_unstaged_method_rejected(tmp_path):
     manifest.write_text(json.dumps(data))
     with pytest.raises(ValueError, match="vocals-first"):
         validate_vocal_separation_manifest(manifest, original)
+
+
+def test_cli_manifest_preparation_roundtrip(tmp_path):
+    original, lead, backing, _, _ = fixture(tmp_path)
+    output = tmp_path / "generated.json"
+    assert prepare(original, lead, backing, output) == output
+    assert validate_vocal_separation_manifest(output, original) == (lead, backing)
+
+
+def test_cli_rejects_duplicate_stems_without_writing_manifest(tmp_path):
+    original, lead, _, _, _ = fixture(tmp_path)
+    output = tmp_path / "rejected.json"
+    with pytest.raises(ValueError, match="Duplicate"):
+        prepare(original, lead, lead, output)
+    assert not output.exists()
+
+
+def test_cli_rejects_stems_outside_manifest_directory(tmp_path):
+    original, lead, backing, _, _ = fixture(tmp_path)
+    output = tmp_path / "subdir" / "stems.json"
+    with pytest.raises(ValueError, match="within"):
+        prepare(original, lead, backing, output)
+    assert not output.exists()
