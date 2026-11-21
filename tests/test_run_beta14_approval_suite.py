@@ -2,6 +2,8 @@ import json
 import hashlib
 import tempfile
 import unittest
+from unittest.mock import patch
+from types import SimpleNamespace
 from pathlib import Path
 
 from tools.run_beta14_approval_suite import ROLES, run_suite
@@ -20,6 +22,15 @@ class Beta14SuiteTests(unittest.TestCase):
             (self.stems / (role + ".wav")).write_bytes(role.encode())
         self.output = self.root / "output"
         self.commands = {role: ["renderer", role] for role in ROLES}
+        self.probe = patch("tools.run_beta14_approval_suite.subprocess.run",
+            return_value=SimpleNamespace(stdout=json.dumps({
+                "streams": [
+                    {"codec_type": "video", "codec_name": "h264", "width": 1920,
+                     "height": 1080, "avg_frame_rate": "30/1"},
+                    {"codec_type": "audio", "codec_name": "aac"}],
+                "format": {"duration": "30.0"}})))
+        self.probe.start()
+        self.addCleanup(self.probe.stop)
 
     def runner(self, command, check, env):
         self.assertTrue(check)
