@@ -141,7 +141,22 @@ public class MainActivity extends Activity {
             @Override public void onNothingSelected(android.widget.AdapterView<?> parent){}
         });
         sequence=button("Save selected sequence…",()->export(sequencePath,sequencePath.endsWith(".lms")?"application/xml":"application/octet-stream",new File(sequencePath).getName()));
-        watch=button("Play preview",()->{if(PreviewStatus.canPlay(selectedPreviewState(),available(previewPath)))startActivity(new Intent(this,PreviewActivity.class).putExtra("path",previewPath));else alert("This variant has no completed preview yet.");});
+        watch=button("Play preview",()->{
+            if(!PreviewStatus.canPlay(selectedPreviewState(),available(previewPath))){
+                alert("This variant has no completed preview yet.");return;
+            }
+            ArrayList<String> playable=new ArrayList<>();
+            if(sequenceChoices.getAdapter()!=null)for(int i=0;i<sequenceChoices.getAdapter().getCount();i++){
+                String candidate=String.valueOf(sequenceChoices.getAdapter().getItem(i));
+                String moviePath=variantMovies.get(candidate);
+                if(PreviewStatus.canPlay(previewStateFor(candidate),available(moviePath))&&!playable.contains(moviePath))
+                    playable.add(moviePath);
+            }
+            if(!playable.contains(previewPath))playable.add(previewPath);
+            startActivity(new Intent(this,PreviewActivity.class).putExtra("path",previewPath)
+                .putStringArrayListExtra("playlist",playable)
+                .putExtra("playlist_index",playable.indexOf(previewPath)));
+        });
         movie=button("Save selected variant MP4…",()->{
             String name=available(sequencePath)?new File(sequencePath).getName():"Helix-preview";
             int dot=name.lastIndexOf('.');
@@ -224,12 +239,13 @@ public class MainActivity extends Activity {
         }catch(Exception e){busy=false;run.setEnabled(true);cancel.setEnabled(false);updateMode();alert(e.getMessage());}
     }
     private boolean available(String p){return p!=null&&!p.isEmpty()&&new File(p).isFile();}
-    private String selectedPreviewState(){
-        if(checkpointPaths==null||checkpointPreviewStates==null||sequencePath==null)return "";
+    private String previewStateFor(String candidate){
+        if(checkpointPaths==null||checkpointPreviewStates==null||candidate==null)return "";
         for(int i=0;i<checkpointPaths.length()&&i<checkpointPreviewStates.length();i++)
-            if(sequencePath.equals(checkpointPaths.optString(i)))return checkpointPreviewStates.optString(i);
+            if(candidate.equals(checkpointPaths.optString(i)))return checkpointPreviewStates.optString(i);
         return "";
     }
+    private String selectedPreviewState(){return previewStateFor(sequencePath);}
     private void applyVariantSelection(){
         String state=selectedPreviewState();
         boolean playable=PreviewStatus.canPlay(state,available(previewPath));
