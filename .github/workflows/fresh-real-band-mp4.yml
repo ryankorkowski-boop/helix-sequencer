@@ -2,7 +2,24 @@ name: Fresh native universal-keyboard snowman band MP4 from real audio
 on:
   push:
     branches: [codex/fresh-real-band-mp4-20261017, integration/unified-beta-completion-20261117]
-    paths: [.github/workflows/fresh-real-band-mp4.yml, tools/native_preview.py, tools/native_source_pose_band.py, models/native_review_band.py, tools/verify_native_band_artifact.py, tests/test_native_source_pose_band.py, tests/test_native_preview_resolution.py, tests/test_native_band_artifact.py]
+    paths:
+      - .github/workflows/fresh-real-band-mp4.yml
+      - .github/workflows/beta-completion-native.yml
+      - tools/native_preview.py
+      - tools/native_source_pose_band.py
+      - tools/verify_native_band_artifact.py
+      - tools/verify_native_vocal_source.py
+      - tools/prepare_vocal_separation_manifest.py
+      - models/native_review_band.py
+      - core/independent_vocals.py
+      - core/vocal_separation_manifest.py
+      - core/audio_intelligence.py
+      - tests/test_native_source_pose_band.py
+      - tests/test_native_preview_resolution.py
+      - tests/test_native_band_artifact.py
+      - tests/test_native_vocal_source.py
+      - tests/test_independent_vocals.py
+      - tests/test_vocal_separation_manifest.py
   pull_request:
     paths: ['models/**','core/**','audio/**','music/**','tools/**','validation/**','tests/**','requirements*.txt','.github/workflows/beta-completion-native.yml','.github/workflows/fresh-real-band-mp4.yml']
   workflow_dispatch:
