@@ -51,12 +51,6 @@ def write_manifest(source: Path, lead: Path, backing: Path, output: Path,
     return output
 
 
-def require_vocal_role_label(role: str, path: Path) -> None:
-    label = path.stem.lower().replace("-", "_").replace(" ", "_")
-    if "instrumental" in label or "no_vocals" in label or "no_vocal" in label:
-        raise ValueError(f"{role} mapping points to an instrumental/non-vocal output: {path.name}")
-
-
 def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--source", type=Path, required=True)
@@ -87,10 +81,9 @@ def main() -> None:
         raise SystemExit("Model output filename missing or escapes output directory")
     if lead_raw == backing_raw:
         raise SystemExit("Lead and backing cannot be mapped to the same output")
-    # Karaoke models may return Vocals/Instrumental instead of Lead/Backing.
-    # An instrumental or no-vocals output is never evidence of a harmony singer.
-    for role, path in (("lead", lead_raw), ("backing", backing_raw)):
-        require_vocal_role_label(role, path)
+    # Karaoke-model secondary output may be named Instrumental even when
+    # applied to an isolated vocal stem. Never infer singer identity from
+    # filenames; the source-bound audio independence gate runs below.
     # Normalize to the format expected by the existing independent-vocal gate.
     normalized = []
     for role, raw in (("lead", lead_raw), ("backing", backing_raw)):
