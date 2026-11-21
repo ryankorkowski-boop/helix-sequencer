@@ -5,6 +5,9 @@ on:
     branches: [integration/unified-beta-completion-20261117]
     paths:
       - .github/workflows/phoneme-test-hook-real-karaoke.yml
+concurrency:
+  group: helix-real-karaoke-pilot
+  cancel-in-progress: false
 permissions:
   contents: read
 jobs:
@@ -51,13 +54,14 @@ jobs:
       - name: Record model outputs without claiming singer identity
         run: |
           python - <<'PY'
-          import json, hashlib, wave
+          import json, hashlib, subprocess
           from pathlib import Path
           root=Path("owner-source/roformer")
           outputs=[]
           for path in sorted(root.glob("*.wav")):
-              with wave.open(str(path),"rb") as w:
-                  outputs.append({"filename":path.name,"sha256":hashlib.sha256(path.read_bytes()).hexdigest(),"channels":w.getnchannels(),"rate":w.getframerate(),"seconds":round(w.getnframes()/w.getframerate(),3)})
+              probe=json.loads(subprocess.check_output(["ffprobe","-v","error","-select_streams","a:0","-show_entries","stream=channels,sample_rate,duration","-of","json",str(path)],text=True))
+              stream=probe["streams"][0]
+              outputs.append({"filename":path.name,"sha256":hashlib.sha256(path.read_bytes()).hexdigest(),"channels":int(stream["channels"]),"rate":int(stream["sample_rate"]),"seconds":round(float(stream["duration"]),3)})
           receipt={"schema":"helix.karaoke-pilot.v1","status":"unqualified_model_outputs","lead_harmony_identity_verified":False,"files":outputs}
           (root/"pilot_receipt.json").write_text(json.dumps(receipt,indent=2)+"\n")
           if len(outputs)!=2: raise SystemExit(f"Expected 2 karaoke outputs; got {len(outputs)}")
