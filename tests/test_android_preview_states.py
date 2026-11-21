@@ -101,4 +101,11 @@ def test_phone_variant_export_uses_selected_sequence_filename():
     assert 'movie=button("Save selected variant MP4' in activity
     assert 'new File(sequencePath).getName()' in activity
     assert 'export(previewPath,"video/mp4",name+"-preview.mp4")' in activity
-    assert 'Variant "+selected+" of "+count' in activity
+    assert 'Variant "+(index+1)+" of "+count' in activity
+    assert 'if(index<0&&count>0)' in activity
+
+
+def test_phone_preview_activity_handles_missing_variant_movie():
+    source = (ROOT / "android/app/src/main/java/org/helixsequencer/android/PreviewActivity.java").read_text(encoding="utf-8")
+    assert 'path==null||path.isEmpty()||!new java.io.File(path).isFile()' in source
+    assert 'Return to Results and choose a completed preview.' in source
