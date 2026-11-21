@@ -352,3 +352,38 @@ def test_legacy_song_catalog_rejects_duplicate_source_formats(tmp_path):
     (tmp_path / "north_pole_overdrive.wav").write_bytes(b"audio")
     with pytest.raises(ValueError, match="Ambiguous audio sources"):
         song_catalog(tmp_path)
+
+
+def test_native_panel_encoder_rejects_truncated_fseq_frames(tmp_path, monkeypatch):
+    from types import SimpleNamespace
+    from tools.layout_bench import render_comparisons as comparisons
+
+    fseq = SimpleNamespace(
+        fps=lambda: 30, step_ms=33, sparse_start=0, frames=3,
+        rows=lambda: iter([b"frame"])
+    )
+    class FakePipe:
+        def write(self, data):
+            return len(data)
+        def close(self):
+            pass
+    class FakeProcess:
+        stdin = FakePipe()
+        stderr = SimpleNamespace(read=lambda: b"")
+        def wait(self):
+            return 0
+
+    output = tmp_path / "partial.mp4"
+    output.write_bytes(b"encoded")
+    monkeypatch.setattr(comparisons, "load_fseq", lambda path: fseq)
+    monkeypatch.setattr(comparisons, "model_channel_report", lambda *args: [])
+    monkeypatch.setattr(comparisons, "build_node_drawlist", lambda *args: [])
+    monkeypatch.setattr(comparisons, "paint_fseq_frame", lambda *args: SimpleNamespace(tobytes=lambda: b"rgb"))
+    monkeypatch.setattr(comparisons, "_ffmpeg", lambda: "ffmpeg")
+    monkeypatch.setattr(comparisons.subprocess, "Popen", lambda *args, **kwargs: FakeProcess())
+    with pytest.raises(RuntimeError, match="panel frame count mismatch"):
+        comparisons._encode_panel(
+            {"fseq": tmp_path / "short.fseq", "layout": tmp_path / "layout.xml",
+             "title": "Test panel", "channels": 3},
+            output,
+        )
