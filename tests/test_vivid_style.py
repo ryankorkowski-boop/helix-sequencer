@@ -64,6 +64,26 @@ def test_vivid_removes_the_bed_and_drives_ac_to_full(tmp_path: Path):
     assert not any("#CCCCCC" in text for text in texts)
 
 
+
+def test_vivid_accents_keep_white_highlight_but_never_white_only(tmp_path: Path):
+    from core.effect_engine import color_palette_table, enabled_palette_hexes, hex_is_near_white
+    layout = tmp_path / "layout.xml"
+    sequence = tmp_path / "show.xsq"
+    _layout(layout)
+    _sequence(sequence)
+    apply_vivid_style(sequence, layout)
+    root = ET.parse(sequence).getroot()
+    tables = color_palette_table(root)
+    accents = [effect for effect in root.iter("Effect")
+               if effect.attrib.get("source") == "HelixVivid"
+               and effect.attrib.get("label") == "white accent"]
+    assert accents, "Synthetic AC layout should exercise occasional vivid highlights"
+    for effect in accents:
+        colors = enabled_palette_hexes(tables[int(effect.attrib["palette"])])
+        assert any(hex_is_near_white(color) for color in colors)
+        assert any(not hex_is_near_white(color) for color in colors)
+
+
 def test_grove_appends_without_moving_existing_channels(tmp_path: Path):
     layout = tmp_path / "layout.xml"
     _layout(layout)
