@@ -35,7 +35,15 @@ public class PreviewActivity extends Activity {
             public void onProgressChanged(SeekBar s,int p,boolean user){if(user&&prepared){position=p;video.seekTo(p);}}
             public void onStopTrackingTouch(SeekBar s){seeking=false;}
         });
-        video.setVideoURI(Uri.fromFile(new java.io.File(getIntent().getStringExtra("path"))));
+        String path=getIntent().getStringExtra("path");
+        if(path==null||path.isEmpty()||!new java.io.File(path).isFile()){
+            new android.app.AlertDialog.Builder(this)
+                .setMessage("This variant preview is no longer available. Return to Results and choose a completed preview.")
+                .setPositiveButton("Close",(d,x)->finish())
+                .setOnCancelListener(d->finish()).show();
+            return;
+        }
+        video.setVideoURI(Uri.fromFile(new java.io.File(path)));
         video.setOnPreparedListener(p->{prepared=true;play.setEnabled(true);seek.setMax(video.getDuration());video.seekTo(position);if(resumePlayback)video.start();});
         video.setOnCompletionListener(p->{resumePlayback=false;play.setText("Play");});
         video.setOnErrorListener((p,w,e)->{new android.app.AlertDialog.Builder(this).setMessage("Preview playback failed ("+w+", "+e+")").setPositiveButton("Close",(d,x)->finish()).show();return true;});
