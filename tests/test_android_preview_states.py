@@ -109,3 +109,13 @@ def test_phone_preview_activity_handles_missing_variant_movie():
     source = (ROOT / "android/app/src/main/java/org/helixsequencer/android/PreviewActivity.java").read_text(encoding="utf-8")
     assert 'path==null||path.isEmpty()||!new java.io.File(path).isFile()' in source
     assert 'Return to Results and choose a completed preview.' in source
+
+
+def test_preview_candidate_selection_ignores_stale_primary_and_duplicates():
+    valid = [Path("/job/a.xsq"), Path("/job/b.xsq"), Path("/job/a.xsq")]
+    selected = Path("/job/removed.xsq")
+    candidates, limit = select_preview_candidates(valid, selected, 8)
+    assert limit == 8
+    assert candidates == [Path("/job/a.xsq"), Path("/job/b.xsq")]
+    assert selected not in candidates
+    assert preview_stage(candidates, {}, limit, running=False)["missing_candidates"] == 6
