@@ -121,3 +121,55 @@ def test_legacy_variant_specs_have_unique_ids_and_expected_panel_counts():
     specs = variant_specs()
     assert len({spec[0] for spec in specs}) == len(specs)
     assert all(len(spec[4]) in (12, 16) for spec in specs)
+
+
+def test_successful_comparison_encode_atomically_replaces_previous_mp4(tmp_path, monkeypatch):
+    import subprocess
+    from tools.layout_bench import render_comparisons as comparisons
+
+    panels = [tmp_path / f"panel_{i}.mp4" for i in range(9)]
+    for panel in panels:
+        panel.write_bytes(b"panel")
+    soundtrack = tmp_path / "song.mp3"
+    soundtrack.write_bytes(b"audio")
+    destination = tmp_path / "review.mp4"
+    destination.write_bytes(b"previous review")
+
+    def successful_encode(cmd, **kwargs):
+        assert cmd[cmd.index("-framerate") + 1] == "30"
+        assert cmd[cmd.index("-movflags") + 1] == "+faststart"
+        staged = Path(cmd[-1])
+        assert staged != destination
+        assert staged.parent != destination.parent
+        assert Path(cmd[cmd.index("-loop") + 3]).is_file()
+        staged.write_bytes(b"new verified render")
+        return subprocess.CompletedProcess(cmd, 0, stderr=b"")
+
+    monkeypatch.setattr(comparisons, "_ffmpeg", lambda: "ffmpeg")
+    monkeypatch.setattr(comparisons.subprocess, "run", successful_encode)
+    comparisons.stitch_panels(panels, soundtrack, destination, "Title", "Description")
+    assert destination.read_bytes() == b"new verified render"
+    assert not list(tmp_path.glob("*.banner.png"))
+
+
+def test_zero_byte_comparison_encode_preserves_previous_mp4(tmp_path, monkeypatch):
+    import subprocess
+    from tools.layout_bench import render_comparisons as comparisons
+
+    panels = [tmp_path / f"panel_{i}.mp4" for i in range(12)]
+    for panel in panels:
+        panel.write_bytes(b"panel")
+    soundtrack = tmp_path / "song.mp3"
+    soundtrack.write_bytes(b"audio")
+    destination = tmp_path / "review.mp4"
+    destination.write_bytes(b"previous review")
+
+    def empty_encode(cmd, **kwargs):
+        Path(cmd[-1]).write_bytes(b"")
+        return subprocess.CompletedProcess(cmd, 0, stderr=b"")
+
+    monkeypatch.setattr(comparisons, "_ffmpeg", lambda: "ffmpeg")
+    monkeypatch.setattr(comparisons.subprocess, "run", empty_encode)
+    with pytest.raises(RuntimeError, match="Comparison encode"):
+        comparisons.stitch_panels(panels, soundtrack, destination, "Title", "Description")
+    assert destination.read_bytes() == b"previous review"
