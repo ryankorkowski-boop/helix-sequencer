@@ -1,0 +1,67 @@
+"""Fail-closed trace from source-timed Helix events into native XSQ lanes.
+
+This verifies the *input* to xLights; it does not claim rendered FSEQ pixels
+match the input. A native render and FSEQ activity check are still required.
+"""
+from __future__ import annotations
+
+import argparse
+import json
+import xml.etree.ElementTree as ET
+from pathlib import Path
+
+
+def verify(folder: Path) -> dict:
+    folder = Path(folder)
+    manifest = json.loads((folder / "run_manifest.json").read_text())
+    xsq = folder / manifest["xsq"]
+    root = ET.parse(xsq).getroot()
+    effects = root.findall(".//ElementEffects/Element/EffectLayer/Effect")
+    if not effects:
+        raise ValueError("No effects reach the authoritative native XSQ")
+    source_effects = [effect for effect in effects if effect.get("sourceMethod", "").startswith("retained_production_")]
+    band = (folder / "Band_Instrument_Provenance.json")
+    result = {
+        "schema": "helix.render_logic_provenance.v1",
+        "source_audio_sha256": manifest["source_audio_sha256"],
+        "source_analysis_sha256": manifest["source_analysis_sha256"],
+        "xsq": manifest["xsq"],
+        "xsq_effects": len(effects),
+        "source_tagged_effects": len(source_effects),
+        "native_fseq_verified": False,
+        "status": "xsq_source_trace_verified",
+    }
+    if band.is_file():
+        report = json.loads(band.read_text())
+        models = report.get("models", {})
+        mapped = sum(int(m.get("mapped_events", 0)) for m in models.values())
+        result["instrument_mapped_events"] = mapped
+        if mapped > 0 and not any(e.get("sourceMethod") == "retained_production_band_plan" for e in effects):
+            raise ValueError("Musician source cues were mapped but never reached native XSQ")
+    drummer = folder / "Canonical_Drummer.json"
+    if drummer.is_file():
+        report = json.loads(drummer.read_text())
+        counts = report.get("event_mapping", {}).get("component_events", {})
+        result["drum_component_events"] = counts
+        if sum(int(v) for v in counts.values()) and not any(
+            e.get("sourceMethod") == "retained_production_drum_plan" for e in effects
+        ):
+            raise ValueError("Detected drum cues never reached native XSQ")
+    if band.is_file() and not source_effects and result.get("instrument_mapped_events", 0):
+        raise ValueError("Band effects have no source provenance")
+    return result
+
+
+def main() -> None:
+    parser = argparse.ArgumentParser()
+    parser.add_argument("folder", type=Path)
+    parser.add_argument("--report", type=Path, required=True)
+    args = parser.parse_args()
+    result = verify(args.folder)
+    args.report.parent.mkdir(parents=True, exist_ok=True)
+    args.report.write_text(json.dumps(result, indent=2) + "\n")
+    print(json.dumps(result, indent=2))
+
+
+if __name__ == "__main__":
+    main()
