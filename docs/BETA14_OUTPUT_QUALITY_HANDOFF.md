@@ -87,3 +87,8 @@ Read this checklist, MASTER_TODO.md, docs/BETA_COMPLETION_LIVE_HANDOFF.md and ev
 - [x] Added partial-loss regression: two mapped musician cues with only one native source effect must fail (f89b1ab).
 - [ ] Confirm updated CI [44965743388](https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/44965743388) passes; subsequent test commit may supersede the run.
 - [ ] Extend proof to exact event timestamps and qualified vocal clocks, then independently inspect xLights FSEQ channels and actual decoded MP4; source XSQ event counts alone are not full render verification.
+
+## 2026-11-22 · Regression failure repair
+- [x] Investigated failed Python 3.11/3.12 quality runs 44965750104 and 44965743388 using job logs. Failure: new fixture placed musician source effect on parent `GUITAR`, while real production writes submodel `GUITAR/STRING_0`; 3 regression assertions failed, 15 passed.
+- [x] Corrected fixture to use actual native submodel effect lane, commit 95f81fa; [rerun 44965816121](https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/44965816121) queued. No pass claimed yet.
+- [ ] Verify current CI and then perform real XSQ/FSEQ provenance comparison on owner audio; never count a fixture pass as proof of actual native pixels.
