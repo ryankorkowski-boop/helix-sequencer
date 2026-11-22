@@ -1,0 +1,44 @@
+name: Recovery native xLights color regression
+on:
+  push:
+    branches: [recovery/v13-quality-v14-final]
+    paths:
+      - '.github/workflows/v13-recovery-native.yml'
+      - 'core/**'
+      - 'xlights/**'
+      - 'helix_intent/**'
+      - 'tests/test_recovery_native_color.py'
+      - 'tools/read_recovery_fseq.py'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  native-color:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install native runtime and test dependencies
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y xvfb xauth libgtk-3-0t64 libgl1 libegl1 libopengl0 libglu1-mesa libgstreamer-plugins-base1.0-0
+          python -m pip install pytest numpy zstandard
+          cd "$RUNNER_TEMP"
+          curl -fLsS --retry 3 -o xLights.AppImage https://github.com/xLightsSequencer/xLights/releases/download/2026.19/xLights-2026.19-x86_64.AppImage
+          echo '929d6bd713de386e2f3a0b7f68c4062d514fcd6f199c4ff07af4232b8281016d  xLights.AppImage' | sha256sum -c -
+          chmod +x xLights.AppImage
+          ./xLights.AppImage --appimage-extract >/dev/null
+      - name: Render and check channel values on three layouts
+        run: |
+          export HELIX_XLIGHTS="$RUNNER_TEMP/squashfs-root/AppRun"
+          export HELIX_COLOR_EVIDENCE="$GITHUB_WORKSPACE/native-color"
+          xvfb-run -a python -m pytest -q tests/test_recovery_native_color.py
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: recovery-native-color-${{ github.sha }}
+          path: native-color
+          if-no-files-found: error

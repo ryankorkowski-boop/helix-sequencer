@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import re
+import math
 from pathlib import Path
 from typing import TYPE_CHECKING
 import xml.etree.ElementTree as ET
@@ -13,6 +14,24 @@ def _legacy():
     from xlights import xsq_writer as legacy
 
     return legacy
+
+
+def effect_template_values(root: ET.Element, effect: ET.Element) -> tuple[str | None, str | None]:
+    """Resolve native tables before reusing a template on another effect row."""
+    legacy = _legacy()
+    settings, palette = legacy._effect_settings(effect), legacy._effect_palette(effect)
+    ref = effect.get('ref')
+    if ref is not None:
+        table = root.findall('./EffectDB/Effect')
+        if not ref.isdigit() or int(ref) >= len(table):
+            raise ValueError('Invalid native EffectDB template reference: ' + ref)
+        settings = table[int(ref)].text or ''
+    if palette is not None and palette.isdigit():
+        table = root.findall('./ColorPalettes/ColorPalette')
+        if int(palette) >= len(table):
+            raise ValueError('Invalid native palette template reference: ' + palette)
+        palette = table[int(palette)].text or ''
+    return settings, palette
 
 
 def load_xsq(path: Path) -> "XsqIndex":
@@ -51,12 +70,10 @@ def load_xsq(path: Path) -> "XsqIndex":
             break
 
     if first_on is not None:
-        on.settings = legacy._effect_settings(first_on)
-        on.palette = legacy._effect_palette(first_on)
+        on.settings, on.palette = effect_template_values(root, first_on)
 
     if first_ramp is not None:
-        ramp.settings = legacy._effect_settings(first_ramp)
-        ramp.palette = legacy._effect_palette(first_ramp)
+        ramp.settings, ramp.palette = effect_template_values(root, first_ramp)
 
     return legacy.XsqIndex(tree=tree, root=root, elements=elements, on_tpl=on, ramp_tpl=ramp)
 
@@ -136,6 +153,72 @@ def add_effect(layer: ET.Element, start_ms: int, end_ms: int, name: str, tpl: "E
     return effect
 
 
+def materialize_native_effect_tables(root: ET.Element) -> dict[str, int]:
+    """Serialize inline Helix templates into native xLights reference tables.
+
+    Settings remain available to legacy readers. Native palette/ref indices,
+    existing table order, all targets and every source timestamp are preserved.
+    A missing palette retains xLights' white default explicitly.
+    """
+    elements = root.find('ElementEffects')
+    if elements is None:
+        return {'settings_added': 0, 'palettes_added': 0, 'effects': 0}
+    palette_root = root.find('ColorPalettes')
+    if palette_root is None:
+        palette_root = ET.SubElement(root, 'ColorPalettes')
+    database = root.find('EffectDB')
+    if database is None:
+        database = ET.SubElement(root, 'EffectDB')
+    palettes = [node.text or '' for node in palette_root.findall('ColorPalette')]
+    settings = [node.text or '' for node in database.findall('Effect')]
+    before_palette, before_settings = len(palettes), len(settings)
+    # Table cardinality, rather than unique-value count, determines new indices.
+    pmap, smap = {v:i for i,v in enumerate(palettes)}, {v:i for i,v in enumerate(settings)}
+    effects = [effect for element in elements if element.get('type') != 'timing'
+               for layer in element if layer.tag in {'EffectLayer', 'SubModelEffectLayer'}
+               for effect in layer.findall('Effect')]
+    if not palettes and any(effect.get('palette') is None for effect in effects):
+        # Native missing palettes use table0. Preserve that white default when
+        # creating a previously absent table, but keep the attribute absent so
+        # the existing explicit neon post-pass can still assign its palette.
+        white = 'C_BUTTON_Palette1=#FFFFFF,C_CHECKBOX_Palette1=1'
+        pmap[white] = 0
+        palettes.append(white)
+        ET.SubElement(palette_root, 'ColorPalette').text = white
+    next_id = max((int(e.get('id')) for e in effects if e.get('id', '').isdigit()), default=0) + 1
+    for effect in effects:
+        ref = effect.get('ref')
+        if ref is None:
+            value = effect.get('settings', '')
+            if value not in smap:
+                smap[value] = len(settings)
+                settings.append(value)
+                ET.SubElement(database, 'Effect').text = value
+            effect.set('ref', str(smap[value]))
+        elif not ref.isdigit() or int(ref) >= len(settings):
+            raise ValueError('Invalid native EffectDB reference: ' + ref)
+        value = effect.get('palette')
+        if value is None:
+            pass
+        elif not value.isdigit():
+            if value not in pmap:
+                pmap[value] = len(palettes)
+                palettes.append(value)
+                ET.SubElement(palette_root, 'ColorPalette').text = value
+            effect.set('palette', str(pmap[value]))
+        elif int(value) >= len(palettes):
+            raise ValueError('Invalid native ColorPalettes reference: ' + value)
+        if effect.get('id') is None:
+            effect.set('id', str(next_id))
+            next_id += 1
+    next_node = root.find('nextid')
+    if next_node is None:
+        next_node = ET.SubElement(root, 'nextid')
+    next_node.text = str(next_id)
+    return dict(settings_added=len(settings)-before_settings,
+                palettes_added=len(palettes)-before_palette, effects=len(effects))
+
+
 def replace_audio_references(root: ET.Element, new_audio: Path) -> int:
     new_name = new_audio.name
     changed = 0
@@ -167,6 +250,50 @@ def replace_audio_references(root: ET.Element, new_audio: Path) -> int:
                 el.text = new_text
                 changed += replacements
     return changed
+
+
+def set_sequence_duration(root: ET.Element, duration_seconds: float) -> int:
+    """Bind the media sequence length to decoded audio, never the old template.
+
+    xLights uses this head value for FSEQ/preview length even when editable
+    effects continue beyond it. Retain the existing writer contract of nearest-millisecond precision.
+    """
+    if not math.isfinite(duration_seconds) or duration_seconds <= 0:
+        raise ValueError('Media duration requires finite positive seconds')
+    duration_ms = max(1, round(duration_seconds * 1000))
+    namespace = root.tag.rpartition('}')[0] + '}' if '}' in root.tag else ''
+    head = root.find(namespace + 'head')
+    if head is None:
+        head = ET.SubElement(root, namespace + 'head')
+    for name, value in (('sequenceDuration', f'{duration_ms / 1000:.3f}'),
+                        ('sequenceType', 'Media')):
+        element = head.find(namespace + name)
+        if element is None:
+            element = ET.SubElement(head, namespace + name)
+        element.text = value
+    return duration_ms
+
+
+def bound_media_effects(root: ET.Element, duration_ms: int) -> dict[str, int]:
+    """Bound generated lighting/timing intervals to the actual audio clock."""
+    if duration_ms < 1:
+        raise ValueError('Media duration must be positive')
+    counts = {'trimmed': 0, 'removed': 0}
+    for parent in root.iter():
+        for effect in list(parent):
+            if (not isinstance(effect.tag, str) or effect.tag.rsplit('}', 1)[-1] != 'Effect'
+                    or 'startTime' not in effect.attrib or 'endTime' not in effect.attrib):
+                continue
+            start, end = int(effect.get('startTime')), int(effect.get('endTime'))
+            lo, hi = max(0, start), min(duration_ms, end)
+            if hi <= lo:
+                parent.remove(effect)
+                counts['removed'] += 1
+            elif (lo, hi) != (start, end):
+                effect.set('startTime', str(lo))
+                effect.set('endTime', str(hi))
+                counts['trimmed'] += 1
+    return counts
 
 
 def find_root_child(root: ET.Element, suffix: str) -> ET.Element | None:

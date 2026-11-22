@@ -7,6 +7,7 @@ from xml.etree.ElementTree import Element, SubElement, tostring
 from core.birdsong_behavior_planner import EffectIntent
 from core.birdsong_layout_targets import build_target_plan, load_helixville3_target_pool
 from core.xsq_emitter import XSQSequence
+from xlights.xml_io import materialize_native_effect_tables
 
 
 DEFAULT_BIRDSONG_MODEL = "Helix_Birdsong_Group"
@@ -120,6 +121,7 @@ def emit_birdsong_xsq_sequence(
             model_effect.set("settings", f"E_VALUECURVE_Intensity=Active=TRUE,Start={int(round(cascade_strength * 100))},End=0")
             model_effect.set("palette", "C_BUTTON_Palette1=#ffffff,C_BUTTON_Palette2=#4dabff,C_CHECKBOX_Palette1=1,C_CHECKBOX_Palette2=1")
 
+    materialize_native_effect_tables(root)
     return XSQSequence(
         sequence_name=sequence_name,
         model_name=model_name,

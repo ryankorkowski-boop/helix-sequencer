@@ -1,0 +1,30 @@
+{
+  "baseline": "1b1ff83c9c1b992a3ad5e202fc29ee0b292919bf",
+  "reference_integration": "feaa06b467adcee18d1de1b3bf250ca09309411b",
+  "owner_video_commit_verified": false,
+  "source": "Helix Audiolights.mp3",
+  "clip_seconds": 8,
+  "clip_sha256": "8fcf0e1c7a94c718668bec1763cd86e08b6674c513904879c68e9a59b3340e53",
+  "paired_master": {
+    "effects": 1050,
+    "target_rows": 181,
+    "effect_types": 12,
+    "lost": 0,
+    "added": 0
+  },
+  "header_seconds": [
+    132.039,
+    8.0
+  ],
+  "orchestrator_inline_palette_count": [
+    21,
+    0
+  ],
+  "focused_tests_passed": 38,
+  "native_fseq_verified": false,
+  "comparison_mp4s_verified": [],
+  "android_runtime_verified": false,
+  "windows_runtime_verified": false,
+  "owner_approved": false,
+  "next_action": "Run source-bound native color test and qualify canonical band against original reference."
+}

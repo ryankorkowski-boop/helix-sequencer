@@ -75,6 +75,13 @@ A prior drummer render was explicitly identified by the user as having the **cor
 
 Do not mark complete from unit tests alone.
 
+## Quality recovery, November 21
+
+- [x] Recover the packaged 1.3 source and its native color evidence. Reference footage attribution remains open.
+- [x] Preserve master placements in a controlled original-layout eight-second real-audio comparison. Integrate native XML tables, duration and pitch fixes. Repair orchestrator and birdsong colors and prevent compounding saved settings.
+- [ ] Render and review native color checks, then independently qualify the canonical band, singers and each comparison. Platform runtime and final bundle remain open.
+- See `docs/BETA_COMPLETION_LIVE_HANDOFF.md` for the changed subsystems, commands, results, limitations and remaining gates. Primary regression risks are reference-table semantics, older persisted settings and changes to native output even with identical editable cues.
+
 ## Change Ledger
 
 ### 2026-11-13 — Beta 1.3 packages the palette fix for Windows and Android

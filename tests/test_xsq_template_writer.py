@@ -75,7 +75,9 @@ class XsqTemplateWriterTests(unittest.TestCase):
         self.assertEqual(placement.attrib["colorStrategy"], "spatial_helix")  # type: ignore[union-attr]
         self.assertEqual(placement.attrib["curveStrategy"], "attack_decay")  # type: ignore[union-attr]
         self.assertEqual(placement.attrib["palette1"], "#2bd9ff")  # type: ignore[union-attr]
-        self.assertEqual(native_effects[0].attrib["palette"], "C_BUTTON_Palette1=#2bd9ff,C_BUTTON_Palette2=#7f52ff,C_BUTTON_Palette3=#ffffff")
+        palette = root.findall("ColorPalettes/ColorPalette")[int(native_effects[0].attrib["palette"])]
+        self.assertIn("C_BUTTON_Palette1=#2bd9ff", palette.text)
+        self.assertIn("C_CHECKBOX_Palette3=1", palette.text)
         self.assertIn("HELIX_Curve=attack_decay", native_effects[0].attrib["settings"])
         self.assertEqual(native_effects[1].attrib["name"], "Wave")
         self.assertEqual(native_effects[1].attrib["sourceColorStrategy"], "classic_christmas")

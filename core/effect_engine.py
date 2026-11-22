@@ -51,6 +51,7 @@ from tools.build_helpers import (
 )
 from tools import utilities as xfb
 from xlights import xsq_writer as base
+from xlights.xml_io import bound_media_effects, materialize_native_effect_tables, set_sequence_duration
 
 librosa = LazyModule("librosa")
 np = LazyModule("numpy")
@@ -10335,6 +10336,7 @@ def build_all_models_all_effects_sequence(
         base.indent_xml(xsq.root)
     except Exception:
         pass
+    materialize_native_effect_tables(xsq.root)
     xsq.tree.write(out_path, encoding="utf-8", xml_declaration=True)
     return out_path
 
@@ -12786,6 +12788,9 @@ def run_variant(
         base.indent_xml(xsq.root)
     except Exception:
         pass
+    materialize_native_effect_tables(xsq.root)
+    duration_ms = set_sequence_duration(xsq.root, audio.dur_s)
+    bound_media_effects(xsq.root, duration_ms)
     xsq.tree.write(out_path, encoding="utf-8", xml_declaration=True)
 
     if GENERATE_SHOWCASE:
@@ -12991,25 +12996,15 @@ def main_for(version: str, argv: list[str] | None = None) -> None:
 
     folder = Path(".").resolve()
     settings_path = resolve_path(folder, args.settings) or (folder / f"{style.version}.settings.json")
-    default_profile = base.UserProfile(
-        feel="balanced",
-        density=base.DENSITY,
-        speed=base.SPEED,
-        randomness=base.RANDOMNESS,
-        bass_bias=1.0,
-        melody_density=1.0,
-        darkness=1.0,
-        save_settings=not args.no_save_settings,
-    )
+    default_profile = base.UserProfile(save_settings=not args.no_save_settings)
     profile = merge_profile(base.load_profile(settings_path) if settings_path.exists() else default_profile, args)
     if not args.no_prompt:
         profile = base.prompt_for_profile(profile)
     profile.save_settings = not args.no_save_settings
-    profile = base.apply_profile(profile)
-    profile = clamp_profile(profile, style)
     if profile.save_settings:
         base.save_profile(settings_path, profile)
         log(f"Settings saved: {settings_path.name}")
+    profile = clamp_profile(base.apply_profile(profile), style)
 
     overrides_path = resolve_path(folder, args.model_overrides_file) if args.model_overrides_file else None
     overrides_payload = load_override_file(overrides_path)

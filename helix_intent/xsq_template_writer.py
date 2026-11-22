@@ -7,6 +7,7 @@ from dataclasses import asdict, dataclass, field
 from pathlib import Path
 from typing import Any, Mapping
 
+from xlights.xml_io import materialize_native_effect_tables
 from helix_intent.xlights_contract_validator import validate_xlights_effect_contract_file
 
 AUTO_LAYER_NAME = "AUTO_Helix_Orchestrated"
@@ -41,7 +42,7 @@ def _placement_palette(placement: Mapping[str, Any]) -> tuple[str, str, str]:
 
 def _palette_settings(placement: Mapping[str, Any]) -> str:
     color1, color2, color3 = _placement_palette(placement)
-    return f"C_BUTTON_Palette1={color1},C_BUTTON_Palette2={color2},C_BUTTON_Palette3={color3}"
+    return f"C_BUTTON_Palette1={color1},C_BUTTON_Palette2={color2},C_BUTTON_Palette3={color3},C_CHECKBOX_Palette1=1,C_CHECKBOX_Palette2=1,C_CHECKBOX_Palette3=1"
 
 
 def _append_helix_contract_node(root: ET.Element, contract: Mapping[str, Any]) -> int:
@@ -212,6 +213,7 @@ def write_xsq_from_template(
         root = tree.getroot()
         contract_effect_count = _append_helix_contract_node(root, contract_payload)
         native_effect_count = _append_native_effect_rows(root, contract_payload)
+        materialize_native_effect_tables(root)
         tree.write(output, encoding="utf-8", xml_declaration=True)
     except ET.ParseError:
         shutil.copyfile(template, output)

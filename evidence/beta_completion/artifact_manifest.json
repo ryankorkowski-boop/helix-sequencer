@@ -1,0 +1,12 @@
+{
+  "recovery_deliveries": [],
+  "historical_evidence": {
+    "release": "https://github.com/ryankorkowski-boop/helix-sequencer/releases/tag/helix-beta-v1.3",
+    "color": "https://github.com/ryankorkowski-boop/helix-sequencer/pull/218",
+    "drummer": "https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/35486153096"
+  },
+  "rejected_media": [
+    "01_Six_Snowman_Band_Native_Diagnostic.mp4",
+    "02_Twelve_Layout_Pilot_Native_Diagnostic.mp4"
+  ]
+}
