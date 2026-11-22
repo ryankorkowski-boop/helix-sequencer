@@ -36,13 +36,14 @@ jobs:
           ./xLights.AppImage --appimage-extract >/dev/null
       - name: Sequence original layout on a real music excerpt
         run: |
-          mkdir panel
+          mkdir inputs panel
           cp xlights_rgbeffects.xml panel/
           echo '<Networks/>' > panel/xlights_networks.xml
-          ffmpeg -v error -ss 30 -i 'Helix Audiolights.mp3' -t 36 -c:a pcm_s16le panel/Helix_Audiolights.wav
+          ffmpeg -v error -ss 30 -i 'Helix Audiolights.mp3' -t 36 -c:a pcm_s16le inputs/Helix_Audiolights.wav
+          cp inputs/Helix_Audiolights.wav panel/
           sha256sum 'Helix Audiolights.mp3' panel/Helix_Audiolights.wav panel/xlights_rgbeffects.xml > panel/source-sha256.txt
           git rev-parse HEAD > panel/source-commit.txt
-          python main.py --profile master -- --template template.xsq --audio panel/Helix_Audiolights.wav --layout-file panel/xlights_rgbeffects.xml --output-dir panel --variants 1 --no-prompt --no-save-settings --no-workspace-history --no-learning-memory
+          python main.py --profile master -- --template template.xsq --audio inputs/Helix_Audiolights.wav --layout-file xlights_rgbeffects.xml --output-dir panel --variants 1 --no-prompt --no-save-settings --no-workspace-history --no-learning-memory
           cp panel/beta/*/run_manifest.json panel/run_manifest.json
       - name: Render original layout and verify native video with its soundtrack
         run: |

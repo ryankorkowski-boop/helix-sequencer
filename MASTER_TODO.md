@@ -202,3 +202,5 @@ Do not mark complete from unit tests alone.
 ### Recovery verification and nine-cue drums
 
 Native color regression passed for the RGB, mixed and original layouts. The archive is in the recovery artifact manifest. The V3 drum mapper, detector, motion, mask assets, injector and corresponding tests now bind nine physical targets to the original artwork. Real Dry Drum Test XSQ output and the 36 targeted tests are recorded in the live handoff. Remaining risks include live ride-source coverage, visual fit of the kit to the full band and singer ownership. The source-panel workflow runs an actual 36-second excerpt through the master, native FSEQ and House Preview before muxing.
+
+The 36-second original AC panel stopped before sequencing because the show inputs shared the destination directory. The recovery job now keeps source and destination separate. Native color checks also passed on the drummer commit (44974867954).
