@@ -862,7 +862,9 @@ def build_stem_analysis(
     bass_src = stems.get("bass") or audio_path
     vocal_src = stems.get("vocals") or audio_path
     kicks, snares, hats = _analyze_drum_events(drum_src)
-    drum_event_streams = drum_intel.detect_drum_event_streams_from_file(drum_src, log_fn=log_fn)
+    drum_event_streams = drum_intel.detect_drum_event_streams_from_file(
+        drum_src, log_fn=log_fn, separated_stem=source in {"moises", "demucs"} and drum_src != audio_path,
+    )
     bass_peaks = _analyze_peak_events(bass_src, "bass")
     vocal_peaks = _analyze_peak_events(vocal_src, "vocals")
     background_vocal_events = _classify_background_vocals(vocal_src, log_fn)

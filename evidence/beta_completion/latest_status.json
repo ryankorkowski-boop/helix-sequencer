@@ -26,5 +26,20 @@
   "android_runtime_verified": false,
   "windows_runtime_verified": false,
   "owner_approved": false,
-  "next_action": "Run source-bound native color test and qualify canonical band against original reference."
+  "next_action": "Run source-bound native color test and qualify canonical band against original reference.",
+  "native_color_probe_verified": true,
+  "native_color_run": 44974483062,
+  "native_color_cases": [
+    "rgb",
+    "mixed",
+    "original256"
+  ],
+  "drum_tests_passed": 36,
+  "dry_drum": {
+    "source_sha256": "4cd9ee35b65d359aa44ac4c9e01a256bbcaf3297458340fc512084bae1463913",
+    "xsq_events": 289,
+    "visual_placements": 585,
+    "scheduled_ride_events": 0
+  },
+  "protection_enabled": false
 }

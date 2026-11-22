@@ -5,7 +5,7 @@ import unittest
 from animation.drummer_motion import assign_hand, build_drummer_motion
 from audio.drum_classification import DrumEvent, empty_drum_streams
 from effects.drum_effects import build_drum_effect_cues
-from mapping.drum_mapper import resolve_drum_streams, schedule_drum_events
+from mapping.drum_mapper import resolve_drum_streams, schedule_drum_events, suppress_intro_false_hits
 
 
 def _event(ms: int, drum_type: str, velocity: float = 0.8, confidence: float = 0.7) -> DrumEvent:
@@ -13,14 +13,17 @@ def _event(ms: int, drum_type: str, velocity: float = 0.8, confidence: float = 0
 
 
 class DrumMappingTests(unittest.TestCase):
-    def test_bus_fallback_distributes_across_kit(self) -> None:
+    def test_ambiguous_bus_is_rejected_instead_of_fabricating_a_pattern(self) -> None:
         streams = empty_drum_streams()
-        streams["drum_bus_events"] = [_event(100, "drum_bus"), _event(300, "drum_bus"), _event(500, "drum_bus")]
+        streams["drum_bus_events"] = [
+            _event(100, "drum_bus"),
+            _event(300, "drum_bus"),
+            _event(500, "drum_bus"),
+        ]
         resolved = resolve_drum_streams(streams)
-        types = [event.drum_type for event in resolved["events"]]
-        self.assertEqual(resolved["fallback_mode"], "drum_bus_distribution")
-        self.assertIn("kick", types)
-        self.assertIn("snare", types)
+        self.assertEqual(resolved["fallback_mode"], "ambiguous_bus_rejected")
+        self.assertEqual(resolved["events"], [])
+        self.assertEqual(resolved["ambiguous_bus_rejected_count"], 3)
 
     def test_scheduler_prioritizes_dense_hits_and_reduces_repeats(self) -> None:
         events = [
@@ -37,11 +40,35 @@ class DrumMappingTests(unittest.TestCase):
         self.assertIn("snare", types)
         self.assertLessEqual(len([event for event in scheduled if event.timestamp_ms <= 170]), 4)
 
+    def test_eight_rapid_kicks_keep_velocity_and_each_onset(self) -> None:
+        # At 20 fps each of these onsets is independently visible.
+        kicks = [_event(2000 + index * 50, "kick", 0.82) for index in range(8)]
+        scheduled = schedule_drum_events(kicks)
+        self.assertEqual(len(scheduled), 8)
+        self.assertEqual([hit.timestamp_ms for hit in scheduled],
+                         [2000 + index * 50 for index in range(8)])
+        self.assertTrue(all(hit.velocity == 0.82 for hit in scheduled))
+
+    def test_intro_gate_rejects_weak_false_hits_before_confirmed_drum_entry(self) -> None:
+        events = [
+            _event(576, "kick", 0.20),
+            _event(907, "cymbal", 0.12),
+            _event(3819, "drum_bus", 0.80),
+            _event(8405, "kick", 0.22),
+            _event(11008, "kick", 0.62),
+            _event(11989, "snare", 0.54),
+            _event(12181, "cymbal", 0.48),
+        ]
+        gated, start_ms, suppressed = suppress_intro_false_hits(events)
+        self.assertEqual(start_ms, 10928)
+        self.assertEqual(suppressed, 3)
+        self.assertEqual([event.timestamp_ms for event in gated], [11008, 11989, 12181])
+
     def test_arm_assignment_and_motion_windows(self) -> None:
         self.assertEqual(assign_hand(_event(100, "kick")), "foot")
         self.assertEqual(assign_hand(_event(100, "snare")), "left")
         self.assertEqual(assign_hand(_event(100, "cymbal")), "right")
-        motions = build_drummer_motion([_event(100, "snare"), _event(250, "tom")])
+        motions = build_drummer_motion([_event(100, "snare"), DrumEvent(.25, .8, .7, {"tom_class": "mid"}, 1, "tom")])
         self.assertEqual(motions[0]["hand"], "left")
         self.assertEqual(motions[1]["hand"], "both")
         self.assertLess(motions[0]["start_ms"], motions[0]["strike_ms"])

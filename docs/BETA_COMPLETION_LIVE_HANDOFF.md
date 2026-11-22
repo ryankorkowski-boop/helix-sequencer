@@ -24,3 +24,9 @@ Isolate the 1.4 vivid-style and musical-bed postprocessing. Source inspection sh
 ## Outstanding verification
 
 Use the native regression on the recovery branch to verify lit RGB, deliberate white, rests, and AC intensity from real FSEQ bytes. Local xLights 2026.19 GTK initialization could not obtain a display. The local X server could not open a listener. Verify branch protection in GitHub. Continue with the first owner-reference-matched native band excerpt, using documented drum and independent vocal sources before composing the comparisons. The historical 12-layout gate, 9-panel production path, and 16-panel full-song output are open. Android and Windows runtime parity and the release bundle are open.
+
+## Native color and drum recovery
+
+Run 44974483062 passed all three native color cases on commit 675b1996. Its archive contains three matched XSQ/FSEQ pairs and show folders. Next verify the real 36-second Helix Audiolights excerpt on the original layout. The private Helix Motion file requires separate download approval.
+
+The recovery now includes the nine-component V3 mapper and source-art masks, detector, XSQ injector and preview support. The original drummer source image matches both branches. The injector had discarded detected ride events when reconstructing streams, and the 1.3 band plan looked up a nonexistent composite key. Both paths are repaired. The hash-bound Dry Drum Test transcription produced 289 events, 585 visual placements, 53 snares and 17 crashes. All three toms fired. This particular transcription contains no ride. Thirty-six targeted drum tests passed. A six-performer native visual pass is outstanding.

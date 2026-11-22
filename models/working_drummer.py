@@ -150,15 +150,16 @@ def build_reactive_drummer_member(
     mapped_events = list(resolved["mapped_events"])
     motions = drummer_motion.build_drummer_motion(events)
     effect_cues = drum_effects.build_drum_effect_cues(events)
-    motion_by_strike = {(str(motion.get("drum_type")), int(motion.get("strike_ms", 0))): motion for motion in motions}
+    ordered_indices = sorted(range(len(events)), key=lambda i: events[i].timestamp_ms)
+    motion_by_event_index = dict(zip(ordered_indices, motions))
+    effect_by_event_index = dict(zip(ordered_indices, effect_cues))
     reactive_cues: list[dict[str, Any]] = []
     for index, mapped in enumerate(mapped_events):
         event = events[index]
-        effect = effect_cues[index] if index < len(effect_cues) else {}
-        nearest_motion = min(
-            motions,
-            key=lambda motion: abs(int(motion.get("strike_ms", 0)) - int(mapped["timestamp_ms"])),
-        ) if motions else {}
+        effect = effect_by_event_index.get(index, {})
+        # Motion generation is stable timestamp-sorted; bind by original event
+        # identity/order rather than humanized strike proximity across instruments.
+        nearest_motion = motion_by_event_index.get(index, {})
         reactive_cues.append(
             {
                 "performer": "drummer",
@@ -199,7 +200,7 @@ def build_reactive_drummer_member(
                 "mapped_events": mapped_events,
                 "motion_events": motions,
                 "effect_cues": effect_cues,
-                "uses_typed_detection": resolved["fallback_mode"] == "typed_detection",
+                "uses_typed_detection": resolved["fallback_mode"] in {"typed_detection", "typed_detection_bus_suppressed"},
                 "uses_legacy_marks": resolved["fallback_mode"] == "legacy_marks",
                 "uses_drum_bus_distribution": resolved["fallback_mode"] == "drum_bus_distribution",
             },

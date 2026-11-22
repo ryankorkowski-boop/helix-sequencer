@@ -430,10 +430,18 @@ def _build_intelligent_drum_cues(
     mapped = list(resolved["mapped_events"])
     motions = drummer_motion.build_drummer_motion(events)
     effect_cues = drum_effects.build_drum_effect_cues(events)
+    poses = {
+        (pose["timestamp_ms"], pose["drum_type"], pose["tom_class"]): pose
+        for pose in resolved["drummer_v3_pose_events"]
+    }
     cues: list[dict[str, Any]] = []
     for idx, item in enumerate(mapped):
         start_ms = int(item["timestamp_ms"])
         drum_type = str(item["drum_type"])
+        tom_class = drum_mapper._explicit_tom_class(events[idx])[0] if drum_type == "tom" else None
+        pose = poses.get((start_ms, drum_type, tom_class))
+        if pose is None:
+            continue
         effect = effect_cues[idx] if idx < len(effect_cues) else {}
         cue = {
             "performer": "drummer",
@@ -442,7 +450,9 @@ def _build_intelligent_drum_cues(
             "kind": drum_type,
             "section": _part_label(parts, start_ms),
             "submodel": item["submodel"],
-            "composite_submodels": item["composite_submodels"],
+            "composite_submodels": list(pose["submodels"]),
+            "component": pose["component"],
+            "hand": pose["hand"],
             "velocity": item["velocity"],
             "confidence": item["confidence"],
             "frequency_band_info": item["frequency_band_info"],
@@ -459,6 +469,8 @@ def _build_intelligent_drum_cues(
         elif drum_type == "cymbal":
             cue["frames"] = ["cymbal_frame_1", "cymbal_frame_2", "cymbal_frame_3", "cymbal_frame_4"]
             cue["shimmer"] = True
+        elif drum_type == "ride":
+            cue["frames"] = ["ride_hit"]
         elif drum_type == "tom":
             cue["frames"] = ["tom_bounce"]
         else:

@@ -198,3 +198,7 @@ Do not mark complete from unit tests alone.
 6. Render full-song MP4 with real audio.
 7. Compare rendered component flashes to actual audible drum events and the prior known-good render.
 8. Iterate only on measured false positives/false negatives.
+
+### Recovery verification and nine-cue drums
+
+Native color regression passed for the RGB, mixed and original layouts. The archive is in the recovery artifact manifest. The V3 drum mapper, detector, motion, mask assets, injector and corresponding tests now bind nine physical targets to the original artwork. Real Dry Drum Test XSQ output and the 36 targeted tests are recorded in the live handoff. Remaining risks include live ride-source coverage, visual fit of the kit to the full band and singer ownership. The source-panel workflow runs an actual 36-second excerpt through the master, native FSEQ and House Preview before muxing.

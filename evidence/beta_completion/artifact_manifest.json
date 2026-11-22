@@ -1,5 +1,12 @@
 {
-  "recovery_deliveries": [],
+  "recovery_deliveries": [
+    {
+      "kind": "native color regression XSQ and FSEQ",
+      "source_commit": "675b1996a5220397c73dc35fe60460fd6a68211d",
+      "sha256": "f2b9b98cff292e5a5d8ffccebb1748d94b04c3d42cf3457525310224e4f5434f",
+      "url": "https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/44974483062/artifacts/14735360048"
+    }
+  ],
   "historical_evidence": {
     "release": "https://github.com/ryankorkowski-boop/helix-sequencer/releases/tag/helix-beta-v1.3",
     "color": "https://github.com/ryankorkowski-boop/helix-sequencer/pull/218",

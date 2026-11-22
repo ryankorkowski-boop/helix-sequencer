@@ -11,6 +11,7 @@ DEFAULT_DRUM_EFFECTS = {
     "tom": {"effect": "mid_bounce_pulse", "duration_ms": 180, "spatial": "body_bounce", "layer": "motion"},
     "hihat": {"effect": "rapid_shimmer_tick", "duration_ms": 80, "spatial": "spark_particles", "layer": "accent"},
     "cymbal": {"effect": "wide_bright_wash", "duration_ms": 360, "spatial": "wide_wash_tail", "layer": "motion"},
+    "ride": {"effect": "ride_ping", "duration_ms": 180, "spatial": "localized_cymbal_shimmer", "layer": "accent"},
     "drum_bus": {"effect": "drum_bus_pulse", "duration_ms": 150, "spatial": "fallback_impulse", "layer": "motion"},
 }
 

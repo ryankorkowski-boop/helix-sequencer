@@ -1,0 +1,67 @@
+name: Recovery original AC source panel
+on:
+  workflow_dispatch:
+  push:
+    branches: [recovery/v13-quality-v14-final]
+    paths: ['.github/workflows/recovery-source-panel.yml']
+permissions:
+  contents: read
+concurrency:
+  group: recovery-original-ac-panel
+  cancel-in-progress: false
+jobs:
+  panel:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
+    env:
+      OPENBLAS_NUM_THREADS: '1'
+      OMP_NUM_THREADS: '1'
+      PYTHONHASHSEED: '0'
+      LIBGL_ALWAYS_SOFTWARE: '1'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: pip
+      - name: Prepare Helix and the baseline renderer
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y ffmpeg xvfb xauth openbox wmctrl xdotool x11-utils libgtk-3-0t64 libgl1 libegl1 libopengl0 libglu1-mesa libgstreamer-plugins-base1.0-0
+          python -m pip install -r requirements-windows-portable.txt
+          cd "$RUNNER_TEMP"
+          curl -fLsS --retry 3 -o xLights.AppImage https://github.com/xLightsSequencer/xLights/releases/download/2026.19/xLights-2026.19-x86_64.AppImage
+          echo '929d6bd713de386e2f3a0b7f68c4062d514fcd6f199c4ff07af4232b8281016d  xLights.AppImage' | sha256sum -c -
+          chmod +x xLights.AppImage
+          ./xLights.AppImage --appimage-extract >/dev/null
+      - name: Sequence original layout on a real music excerpt
+        run: |
+          mkdir panel
+          cp xlights_rgbeffects.xml panel/
+          echo '<Networks/>' > panel/xlights_networks.xml
+          ffmpeg -v error -ss 30 -i 'Helix Audiolights.mp3' -t 36 -c:a pcm_s16le panel/Helix_Audiolights.wav
+          sha256sum 'Helix Audiolights.mp3' panel/Helix_Audiolights.wav panel/xlights_rgbeffects.xml > panel/source-sha256.txt
+          git rev-parse HEAD > panel/source-commit.txt
+          python main.py --profile master -- --template template.xsq --audio panel/Helix_Audiolights.wav --layout-file panel/xlights_rgbeffects.xml --output-dir panel --variants 1 --no-prompt --no-save-settings --no-workspace-history --no-learning-memory
+          cp panel/beta/*/run_manifest.json panel/run_manifest.json
+      - name: Render original layout and verify native video with its soundtrack
+        run: |
+          xvfb-run -a -s '-screen 0 2560x1440x24 +extension GLX' bash -ec '
+            openbox >/tmp/recovery-openbox.log 2>&1 &
+            python -m tools.native_preview panel --xsq panel/Helix_Audiolights,v27.3.xsq --audio panel/Helix_Audiolights.wav --xlights "$RUNNER_TEMP/squashfs-root/AppRun"
+          '
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: original-ac-panel-${{ github.sha }}
+          path: |
+            panel/*.xml
+            panel/*.wav
+            panel/*v27.3.xsq
+            panel/*.txt
+            panel/run_manifest.json
+            panel/native-preview-*/*.fseq
+            panel/native-preview-*/preview.mp4
+            panel/native-preview-*/*.log
+            panel/native-preview-*/*.json
+          if-no-files-found: error
