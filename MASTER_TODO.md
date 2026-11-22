@@ -1,3 +1,13 @@
+## November 22 · Start full 12-panel production when final presentation is repaired
+
+**Goal:** Allow the corrected final 4x3 layout and required caption logic to be exercised by the real production workflow, rather than leaving the fix unrendered.
+**Changed files:** `.github/workflows/final-approval-collection.yml`, `MASTER_TODO.md`.
+**Preserved:** Existing workflow job steps, source checksums, pinned native xLights, all visual/readability gates, retained source material, fail-closed rejection, branch isolation, and no auto-merge/release.
+**New behavior:** Integration-branch changes to `tools/finish_approval_presentation.py` or its grid regression test now trigger the final native twelve-layout workflow on push. The previous trigger only watched the renderer and layout builder despite failures in the final presentation module; editing this workflow itself also initiates an immediate run.
+**Tests/evidence:** Earlier run 45008501418 reached final presentation and failed on the 3x4-vs-4x3 mismatch; commits e4486e5 and ddd5a57 corrected the grid and explicit panel labels. Fresh workflow run and video verification remain pending. No claim of a passed run or owner approval.
+**Limitations/deferred:** The 12-panel source is a 34.88-second pilot; no full-song release approval. Any remaining artistic/motion failures must be corrected rather than hidden.
+**Regression risks:** A future push touching final presentation/tests now starts an expensive native workflow; concurrency settings continue to cancel superseded same-branch runs.
+
 ## November 22 · Follow-up on 12-panel final presentation
 
 **Goal:** Ensure the corrected 4x3 final 12-panel comparison passes both existing strict compositor input contracts.
