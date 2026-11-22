@@ -1014,7 +1014,11 @@ def register_palette_index(root: ET.Element, palette_text: str) -> str:
     parent = _color_palettes_element(root)
     existing = [child for child in list(parent) if str(child.tag).endswith("ColorPalette")]
     wanted = (palette_text or "").strip()
-    for index, child in enumerate(existing):
+    # Repeated adjacent musical effects commonly reuse the same palette.
+    # Check the newest entry first to avoid rescanning large palette tables.
+    if existing and (existing[-1].text or "").strip() == wanted:
+        return str(len(existing) - 1)
+    for index, child in enumerate(existing[:-1]):
         if (child.text or "").strip() == wanted:
             return str(index)
     child = ET.SubElement(parent, "ColorPalette")
