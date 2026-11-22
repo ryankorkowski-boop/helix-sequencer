@@ -134,6 +134,19 @@
     "status": "implemented; CI pending",
     "checksum": null
   },
+  "nine_panel_v6": {
+    "kind": "vivid nine-panel after singer and drummer protection",
+    "owner_approval": false,
+    "preview_sha256": "fe02d08a7b67002c7232e6ec640187f5f40ebdd0ba381d1af4571d421704b771",
+    "full_sha256": "9e5cd92892d7a3241e3463e606e4f49d7ac32d12a95578603baefa5db51d07be",
+    "full_bytes": 59331941,
+    "directory": "/opt/cursor/artifacts/nine-panel-v6",
+    "contact_sheets": {
+      "042": "cb30573173384442bb5967a451a82aba6655aaf2d10e797d92a43651b351f6ed",
+      "096": "7998d47112b450b25ad86942418909f7e341d7cb4b6876a9433fd893944e9093",
+      "168": "228bc85c6bcf91f74d23b3e10ede812f199034b0a312398023a1ec436aed7500"
+    }
+  },
   "nine_panel_v5": {
     "kind": "vivid nine-panel native FSEQ after the AC brightness pass",
     "owner_approval": false,

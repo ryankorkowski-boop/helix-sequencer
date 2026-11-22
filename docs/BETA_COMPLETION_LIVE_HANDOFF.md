@@ -507,6 +507,27 @@ Lit-pixel comparison at a bright moment, luma threshold 28. Reference frames are
 The AC row is saturated and brighter per lit pixel than the references, with no white wash. The other RGB panels sit lower in lit fraction because the chase keeps black between phrases. Not owner approval.
 Owner feedback on v4: the designs were too simple and drab, and the AC row had to be vivid. The default sequence pass now removes the musical bed, drives AC props at full brightness with chases and alternating banks, and paints RGB from saturated section colors with a fast decay. White is an accent. Spiral groves and DNA pairs can be added behind a layout without renumbering it. `HELIX_MUSICAL_BED=1` keeps the bed. `HELIX_VIVID=0` skips the pass. Not owner approval.
 
+### 2026-11-22 — Vivid pass no longer rewrites singers or drummers
+Singing faces, snowmen, and drummer props are left alone. Existing effects are not shortened or deleted, so a 340 ms mouth phoneme stays 340 ms and a drum hit inside a pre-drop window stays. New chases are written on a layer named Helix Vivid, with no overlapping effects on that layer. Chase steps are the phrase beats, not a fixed clock. Section labels come from the detected section list. Each layout picks its own `choose_palette` strategy.
+
+v6 full song, xLights 2026.19, 1920×1080 H.264 30 fps AAC CRF 18, 205.76 s. sha256 `9e5cd92892d7a3241e3463e606e4f49d7ac32d12a95578603baefa5db51d07be` (59,331,941 bytes). 30 s preview sha256 `fe02d08a7b67002c7232e6ec640187f5f40ebdd0ba381d1af4571d421704b771` (8,527,276 bytes). Both are in `/opt/cursor/artifacts/nine-panel-v6/` with contact sheets at 42, 96, and 168 s.
+
+Lit fraction of model nodes during active phrases (luma threshold 28):
+
+| Panel | Active lit fraction |
+|---|---:|
+| 1 Simple 16ch | 0.766 |
+| 2 Original 256ch | 0.284 |
+| 3 RGB house | 0.311 |
+| 4 Singing-face house | 0.244 |
+| 5 Snowman band | 0.283 |
+| 6 Model zoo | 0.244 |
+| 7 Birdsong | 0.493 |
+| 8 Prop groups | 0.260 |
+| 9 Ultimate | 0.324 |
+
+Panels 3–6 and 8–9 sit in the 15–35% band. Panel 7 is higher because the moiré matrix is most of that panel’s nodes. On the band panel the three singing faces and the mouth stayed at 340 ms and lit (channel max 232), and all nine drum cues lit (channel max 232). Not owner approval.
+
 ## Unified native timing integration checkpoint
 Commit `3e23a0d213dbbe024f4e4331eae1b7aea1110ea7` integrates the Infinity native timing-row recognition into the unified validator, scopes legacy phoneme indexes and ordering per timing track, and rejects non-finite timing values. PR #250 remains unmerged. Tests not executed in this checkpoint; next add regression coverage for independent tracks, native rows and NaN/Infinity, then run focused CI and verify a real native export. No device, video or release approval claimed.
 

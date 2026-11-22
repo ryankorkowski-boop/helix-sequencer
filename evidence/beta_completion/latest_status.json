@@ -297,6 +297,26 @@
     "status": "implemented; CI pending",
     "checksum": null
   },
+  "nine_panel_v6": {
+    "status": "rendered; singers and nine drum cues verified in the FSEQ; not owner approval",
+    "preview_sha256": "fe02d08a7b67002c7232e6ec640187f5f40ebdd0ba381d1af4571d421704b771",
+    "preview_bytes": 8527276,
+    "full_sha256": "9e5cd92892d7a3241e3463e606e4f49d7ac32d12a95578603baefa5db51d07be",
+    "full_bytes": 59331941,
+    "duration_s": 205.76,
+    "path": "/opt/cursor/artifacts/nine-panel-v6",
+    "active_lit_fraction": {
+      "01-ac16": 0.766,
+      "02-ac256": 0.284,
+      "03-rgb-house": 0.311,
+      "04-faces": 0.244,
+      "05-band": 0.283,
+      "06-model-zoo": 0.244,
+      "07-birdsong": 0.493,
+      "08-groups": 0.260,
+      "09-ultimate": 0.324
+    }
+  },
   "nine_panel_v5": {
     "status": "rendered after the vivid pass; not owner approval",
     "preview_sha256": "b843d63c2ed2ac1f66f91221da46797081df1ce93b5861c59686c82a72af43c9",

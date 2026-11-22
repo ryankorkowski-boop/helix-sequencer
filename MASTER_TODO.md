@@ -940,6 +940,15 @@ Android manual packaging gate implemented in 442d26c3cdae90c252fd65b8926f056bfd3
 **Limitations:** The v2 16-panel layout module and its runner do not apply onto this branch. Floor-tom *detection* from a full mix is still not proven on Tinsel Tornado; explicit floor-tom labels still route to the floor tom. Android device playback and a Windows EXE were not rebuilt in this pass.
 **Risks:** The musical bed adds effects to every model gap and can look like a wash if section energy is high. Level is capped at 28 percent.
 
+### 2026-11-22 — Vivid pass leaves performance props and existing timing alone
+**Goal:** Stop the vivid pass from recoloring or retiming singers, the band, and the drummer, and stop it from deleting or shortening any existing effect.
+**Changed:** `core/vivid_style.py`, `core/effect_engine.py`, `tests/test_vivid_style.py`.
+**Preserved:** AC full-bright chases. Demucs, Whisper, drummer geometry, and hand mapping. Musical bed still optional.
+**New:** Performance props are skipped. Existing effects keep their start, end, and palette. Vivid effects go on a layer named Helix Vivid and do not overlap on that layer. Chases step on the phrase beats. Sections come from `detect_sections` in the engine, or from a Sections timing track. Each layout uses a different `choose_palette` strategy.
+**Evidence:** `tests/test_vivid_style.py` (6 passed, the librosa-import accent test deselected in this environment). v6 FSEQ on the band panel: mouth phonemes remain 340 ms and light; all nine drum cues light. Active-phrase node lit fraction is in the handoff table. Panel 7 is 0.493 because the matrix dominates its node count.
+**Limitations:** Not owner approval. The nine-panel film is a 2D plot of FSEQ pixels.
+**Risks:** A group that contains a singer or drummer is not given a vivid group effect, so that group stays on its original effects only.
+
 ### 2026-11-19 — Vivid AC banks and saturated RGB on black
 **Goal:** Stop the nine-panel shows reading as simple and drab. The AC row has to be full-bright and colored. RGB panels use saturated section colors on black, in the manner of the Helix Prime references.
 **Changed:** `core/vivid_style.py`, `core/effect_engine.py`, `tools/layout_bench/xlights_fseq.py`, `tests/test_vivid_style.py`.
