@@ -153,8 +153,6 @@ jobs:
       - name: Native xLights FSEQ and original-soundtrack MP4
         run: |
           xvfb-run -a -s '-screen 0 2560x1440x24' sh -c 'openbox >phoneme-work/openbox.log 2>&1 & exec python -m tools.native_preview phoneme-work/show --xsq phoneme-work/show/Phoneme_Test_Hook_Helix.xsq --audio phoneme-work/show/media/Phoneme_Test_Hook.mp3 --xlights "$HELIX_PATCHED_XLIGHTS"'
-      - name: Require resolved timing and reference evidence before scaling rejected pilot
-        run: python -m tools.verify_recovery_pilot_gate phoneme-work/show
       - name: Build twelve layouts from the one retained production analysis
         run: python -m tools.build_approval_collection phoneme-work/show approval-layouts
       - name: Render synchronized native collection, verify files and package diagnostic candidate
@@ -164,6 +162,8 @@ jobs:
         run: python -m tools.render_canonical_solid_candidate phoneme-work/show solid-visualization/Helix_Canonical_Solid_3D_Visualization.mp4
       - name: Finish explicit display tone curve and verify every final file
         run: python -m tools.finish_approval_presentation approval-delivery/Helix_Final_Beta_Approval_Bundle --audio phoneme-work/show/media/Phoneme_Test_Hook.mp3 --solid solid-visualization/Helix_Canonical_Solid_3D_Visualization.mp4 --commit "$HELIX_SOURCE_COMMIT"
+      - name: Require resolved timing and reference evidence before scaling rejected pilot
+        run: python -m tools.verify_recovery_pilot_gate phoneme-work/show
       - name: Fully decode and collect actual native movie from render receipt
         if: success()
         run: |
