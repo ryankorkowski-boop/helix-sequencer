@@ -276,8 +276,8 @@ def build(source,vocals,output,*,numbers=None,names=NAMES,layout_builder=layout,
                 raise ValueError(f'Panel {number} ({name}) lost its native band')
             roles = [m.details.get('review_role') for m in g.models
                      if m.details.get('review_role')]
-            expected_roles = {'drummer', 'guitarist', 'bassist',
-                              'keyboardist', 'lead', 'harmony'}
+            expected_roles = {'drummer', 'guitar', 'bass',
+                              'piano', 'lead', 'harmony'}
             if set(roles) != expected_roles or len(roles) != 6:
                 raise ValueError(
                     f'Panel {number} missing or duplicating canonical band performers: {roles}')
