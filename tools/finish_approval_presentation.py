@@ -29,7 +29,7 @@ def finish(folder,audio,solid,commit):
     previous.update(progress)
     comparison_names={'Helix_6_Layout_Comparison.mp4','Helix_12_Layout_Comparison.mp4','Helix_Band_Integration_Comparison.mp4'}
     reports=[]
-    for row in before['videos']:
+    for row in (before['videos'] if isinstance(before, dict) else before):
         if row['file'] in comparison_names:continue
         matches=list(folder.rglob(row['file']))
         if len(matches)!=1:raise ValueError('Ambiguous final movie '+row['file'])
@@ -69,9 +69,13 @@ def finish(folder,audio,solid,commit):
         progress[path.name]=current
         progress_path.write_text(json.dumps(progress,indent=2)+'\n')
     movies={int(p.name[:2]):p for p in (folder/'01_Individual_Layouts').glob('*.mp4')}
-    for name,indexes,cols,rows in [('Helix_6_Layout_Comparison.mp4',[1,3,4,6,9,12],3,2),
+    groups=[('Helix_6_Layout_Comparison.mp4',[1,3,4,6,9,12],3,2),
             ('Helix_12_Layout_Comparison.mp4',list(range(1,13)),3,4),
-            ('Helix_Band_Integration_Comparison.mp4',[7,8,12],3,1)]:
+            ('Helix_Band_Integration_Comparison.mp4',[7,8,12],3,1)]
+    if len(movies)==9:
+        groups=[('Helix_9_Layout_Comparison.mp4',list(range(1,10)),3,3),
+                ('Helix_Band_Integration_Comparison.mp4',[7,8,9],3,1)]
+    for name,indexes,cols,rows in groups:
         target=folder/'02_Comparison_Videos'/name
         print('FINAL_COMPARISON',name,flush=True)
         comparison([movies[i] for i in indexes],[],target,audio,cols,rows)
@@ -84,7 +88,7 @@ def finish(folder,audio,solid,commit):
     shutil.copyfile(solid.with_suffix('.json'),evidence/'Canonical_Solid_Visualization_Provenance.json')
     failures=[dict(file=r['file'],reason='Final unchanged readability/motion gate failed',
                    measurements=r['readability']) for r in reports if not r['readability']['passed']]
-    after=dict(before,videos=reports,mp4_count=len(reports),technical_failures=failures)
+    after=dict(before if isinstance(before,dict) else {},videos=reports,mp4_count=len(reports),technical_failures=failures)
     after['complete']=False
     after['presentation']=dict(gamma=2.2,gamma_overrides={'03_LOR_128_256_AC.mp4':2.6},formula='output=255*(input/255)^(1/gamma)',
         geometry_changed=False,audio_changed=False,event_clocks_changed=False,
