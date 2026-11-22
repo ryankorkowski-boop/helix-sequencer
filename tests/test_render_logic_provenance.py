@@ -14,7 +14,7 @@ def _fixture(tmp_path, *, source=True, mapped=1, drums=0):
     }))
     root = ET.Element("xsequence")
     elements = ET.SubElement(root, "ElementEffects")
-    lane = ET.SubElement(ET.SubElement(elements, "Element", name="GUITAR"), "EffectLayer")
+    lane = ET.SubElement(ET.SubElement(elements, "Element", name="GUITAR/STRING_0"), "EffectLayer")
     effect = ET.SubElement(lane, "Effect")
     if source:
         effect.set("sourceMethod", "retained_production_band_plan")
