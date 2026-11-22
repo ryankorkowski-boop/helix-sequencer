@@ -6,7 +6,7 @@ This file is a running checklist, not a claim of product completion. No merge or
 - [x] Existing classified drum mapper inspected: nine physical targets, snare-hand and crash-side logic already exist.
 - [x] Existing vocal adapter and synthetic XSQ emitter inspected; seven canonical phonemes currently supported, not ten.
 - [x] Existing production handoff and owner rejections reviewed; previous approval videos remain FAIL.
-- [ ] Verify latest integration SHA with Python 3.11/3.12 focused and full CI; record actual run IDs.
+- [ ] Verify latest integration SHA with Python 3.11/3.12 **full** CI; focused regressions already PASSED on integration commit 48e1601 (run 44964385167), full suites still running.
 - [ ] Integrate **actual** drum events and canonical drummer geometry in native xLights model and FSEQ; independently check all nine targets.
 - [ ] Ensure singing-face mappings correspond to real xLights face definitions/submodels (not merely synthetic XML metadata).
 - [ ] Verify independently qualified lead/harmony stems; reject mixed vocal bus as proof of independent singers.
@@ -27,8 +27,10 @@ This file is a running checklist, not a claim of product completion. No merge or
 - [x] Added CLI to decode sampled frames from actual MP4 and write a JSON receipt (tools/check_mp4_visual_quality.py), commit 48e1601.
 - [x] Add dedicated Python 3.11/3.12 output-quality regression workflow, commit 204d693; trigger is configured, execution not yet confirmed.
 - [x] Add end-to-end MP4 encode/decode/receipt CI smoke, commit c66ad512; verifies real H.264 frames rather than just Python syntax.
-- [ ] Inspect CI run result for latest integration SHA; repair failures before claiming pass.
-- [ ] Wire CLI into native approval workflows; no production acceptance pass is claimed yet.
+- [x] Dedicated output-quality regression CI PASSED for Python 3.11 and 3.12, including decoded MP4 smoke: run 44964518308 (commit c66ad512).
+- [ ] Inspect full-suite integration CI results (run 44964385167); repair any failures.
+- [x] Wire decoded MP4 quality receipt into real Helix Motion 16-panel native pilot workflow (commit 4c43604a); run 44964923524 pending, receipt not yet produced.
+- [ ] Extend receipt coverage to all native approval workflows and calibrate thresholds.
 - [ ] Calibrate thresholds against actual owner-approved visuals; bright white intentional scenes may otherwise be flagged.
 - [ ] Repair any tests that fail after latest phoneme/drum commits.
 
@@ -54,3 +56,10 @@ Read this checklist, MASTER_TODO.md, docs/BETA_COMPLETION_LIVE_HANDOFF.md and ev
 - [x] Verified new output-quality CI smoke including real MP4 encode/decode PASSED: [44964518308](https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/44964518308) (commit `c66ad512`).
 - [ ] Inspect both current Actions runs, download actual artifacts after completion, verify source SHA, native XSQ/FSEQ, audio sync, frame quality, and output decoding; provide real playable MP4 only if produced.
 - [ ] If either run fails, use the logs to make a targeted repair and launch another run. Preserve diagnostic distinction, do not count failed or queued jobs as completed videos.
+
+## 2026-11-22 · Live execution update
+- [x] Confirmed native-proof job PASS in [44964385102](https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/44964385102); accepted-native-band job still awaiting successful producer, not an acceptance pass.
+- [x] Confirmed Python 3.11/3.12 focused regression jobs PASS in [44964385167](https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/44964385167); full suites remain in progress.
+- [x] Confirmed original Rhythmic Awe file fetched, SHA verified, MP3 duration/stereo format validated, Demucs syntax check passed in [44964935413](https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/44964935413); Demucs separation running, four-stem receipt pending.
+- [ ] Helix Motion 16-panel native [44964923524](https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/44964923524) remains PENDING with no allocated job. Do not assert rendering has started.
+- [ ] Once completed, inspect jobs and retrieve genuine MP4/FSEQ/XSQ artifacts. In-progress job logs currently unavailable from GitHub API; wait for job completion before using logs for targeted repair.
