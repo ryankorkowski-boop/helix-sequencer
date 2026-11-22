@@ -423,6 +423,13 @@ def build(source,vocals,output,*,numbers=None,names=NAMES,layout_builder=layout,
         temporary.write_text(json.dumps(manifest,indent=2)+'\n')
         temporary.replace(index)
         (folder/'run_manifest.json').write_text(json.dumps(item,indent=2)+'\n')
+        # All approval layouts (9, 12, 16, or other selections) use the
+        # same source-to-native-XSQ gate; panel count never changes the logic.
+        from tools.verify_render_logic_provenance import verify as verify_logic
+        provenance = verify_logic(folder)
+        (folder/'RENDER_LOGIC_PROVENANCE.json').write_text(
+            json.dumps(provenance, indent=2)+'\n')
+
         print('BUILT',number,name,item['models'],item['channels'],flush=True)
     return manifest
 
