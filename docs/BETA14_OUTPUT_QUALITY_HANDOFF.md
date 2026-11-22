@@ -26,6 +26,7 @@ This file is a running checklist, not a claim of product completion. No merge or
 - [x] Added white/blank/frozen/vivid regression tests (tests/test_native_rgb_quality.py), commit 35d492a.
 - [x] Added CLI to decode sampled frames from actual MP4 and write a JSON receipt (tools/check_mp4_visual_quality.py), commit 48e1601.
 - [x] Add dedicated Python 3.11/3.12 output-quality regression workflow, commit 204d693; trigger is configured, execution not yet confirmed.
+- [x] Add end-to-end MP4 encode/decode/receipt CI smoke, commit c66ad512; verifies real H.264 frames rather than just Python syntax.
 - [ ] Inspect CI run result for latest integration SHA; repair failures before claiming pass.
 - [ ] Wire CLI into native approval workflows; no production acceptance pass is claimed yet.
 - [ ] Calibrate thresholds against actual owner-approved visuals; bright white intentional scenes may otherwise be flagged.
