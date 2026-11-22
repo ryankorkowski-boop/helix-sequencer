@@ -161,6 +161,13 @@ def apply_vivid_style(xsq_path: Path, layout_path: Path | None = None, *, keep_b
     added += _rgb_motion(effects_root, rgb_names, rgb_by_z, duration, hits, palette_index, sections)
     added += _group_motion(effects_root, _chase_groups(layout_path, kind), duration, hits, palette_index)
     added += _blackouts(effects_root, hits, duration)
+    display = root.find("DisplayElements")
+    effects_node = root.find("ElementEffects")
+    if display is not None and effects_node is not None:
+        children = list(root)
+        if children.index(display) > children.index(effects_node):
+            root.remove(display)
+            root.insert(list(root).index(effects_node), display)
     if layout_path and Path(layout_path).exists():
         for index, name in enumerate(models_without_effects(root, layout_path)):
             start = (index * 160) % max(1, duration - 180)
