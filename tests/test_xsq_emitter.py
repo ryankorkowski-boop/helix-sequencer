@@ -62,7 +62,7 @@ def test_deterministic_output():
 
 
 def test_stable_ordering():
-    timings = [_timing(1.0, "B"), _timing(0.0, "A")]
+    timings = [_timing(1.0, "EE"), _timing(0.0, "AH")]
 
     xsq = emit_xsq_sequence(
         timings=timings,
@@ -70,7 +70,7 @@ def test_stable_ordering():
         model_name="Face",
     )
 
-    a_index = xsq.xml_text.find('phoneme="A"')
-    b_index = xsq.xml_text.find('phoneme="B"')
+    a_index = xsq.xml_text.find('phoneme="AH"')
+    b_index = xsq.xml_text.find('phoneme="EE"')
 
     assert a_index < b_index
