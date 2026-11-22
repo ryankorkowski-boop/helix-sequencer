@@ -105,15 +105,32 @@ def append_show_grove(layout_path: Path, output_path: Path, *, spirals: int = 24
     return {"spirals": len(spiral_names), "dna": len(dna_names), "next_channel": channel}
 
 
-def apply_vivid_style(xsq_path: Path, layout_path: Path | None = None, *, keep_bed: bool = False) -> dict:
+def is_performance_prop(name: str) -> bool:
+    """Band, singing-face and drummer props keep the effects the sequencer wrote."""
+    text = name.lower().replace("_", " ")
+    if "singing face" in text or "/mouth" in text or "/eyes" in text:
+        return True
+    if "drummer" in text or "snowman" in text:
+        return True
+    return any(token in text for token in ("bassist", "guitarist", "keyboardist", "lead singer", "harmony singer"))
+
+
+def apply_vivid_style(
+    xsq_path: Path,
+    layout_path: Path | None = None,
+    *,
+    keep_bed: bool = False,
+    sections: list[dict] | None = None,
+    features: object | None = None,
+) -> dict:
     tree = ET.parse(xsq_path)
     root = tree.getroot()
     if not keep_bed:
         _strip_bed(root)
     duration = _duration_ms(root)
-    palette_index = _ensure_palettes(root)
+    song_sections = sections or _sections_from_sequence(root, duration)
+    palette_index, palette_for = _palettes_for_layout(root, layout_path, song_sections, features)
     hits = _hit_times(root)
-    sections = 4
     effects_root = root.find("ElementEffects")
     if effects_root is None:
         return {"ac_models": 0, "rgb_models": 0, "added": 0}
@@ -126,14 +143,10 @@ def apply_vivid_style(xsq_path: Path, layout_path: Path | None = None, *, keep_b
         if (element.attrib.get("type") or "").lower() == "timing":
             continue
         name = element.attrib.get("name") or ""
-        if kind.get(name) == "group":
+        if kind.get(name) == "group" or is_performance_prop(name):
             continue
         ac = kind.get(name, "rgb") == "ac"
         (ac_names if ac else rgb_names).append(name)
-        for effect in element.findall(".//Effect"):
-            if effect.attrib.get("source") == "HelixMusicalBed":
-                continue
-            _restyle_effect(effect, name=name, ac=ac, duration=duration, palette_index=palette_index, sections=sections)
     if layout_path and Path(layout_path).exists():
         present = {element.attrib.get("name") for element in effects_root.findall("Element")}
         display = root.find("DisplayElements")
@@ -146,7 +159,7 @@ def apply_vivid_style(xsq_path: Path, layout_path: Path | None = None, *, keep_b
             ET.SubElement(display, "Element", {"collapsed": "0", "type": "model", "name": name, "visible": "1"})
             shown.add(name)
         for name, model_kind in kind.items():
-            if name in present or model_kind == "group":
+            if name in present or model_kind == "group" or is_performance_prop(name):
                 continue
             element = ET.SubElement(effects_root, "Element", {"type": "model", "name": name})
             ET.SubElement(element, "EffectLayer")
@@ -157,10 +170,10 @@ def apply_vivid_style(xsq_path: Path, layout_path: Path | None = None, *, keep_b
     ac_names = _ordered(ac_names, positions, "x")
     rgb_names = _ordered(rgb_names, positions, "x")
     rgb_by_z = _ordered(list(rgb_names), positions, "z")
-    added += _ac_motion(effects_root, ac_names, duration, hits, palette_index)
-    added += _rgb_motion(effects_root, rgb_names, rgb_by_z, duration, hits, palette_index, sections)
-    added += _group_motion(effects_root, _chase_groups(layout_path, kind), duration, hits, palette_index)
-    added += _blackouts(effects_root, hits, duration)
+    beats = _beats(hits, duration)
+    added += _ac_motion(effects_root, ac_names, duration, beats, palette_for)
+    added += _rgb_motion(effects_root, rgb_names, rgb_by_z, duration, beats, palette_for)
+    added += _group_motion(effects_root, _chase_groups(layout_path, kind), duration, beats, song_sections, palette_for)
     display = root.find("DisplayElements")
     effects_node = root.find("ElementEffects")
     if display is not None and effects_node is not None:
@@ -170,9 +183,11 @@ def apply_vivid_style(xsq_path: Path, layout_path: Path | None = None, *, keep_b
             root.insert(list(root).index(effects_node), display)
     if layout_path and Path(layout_path).exists():
         for index, name in enumerate(models_without_effects(root, layout_path)):
-            start = (index * 160) % max(1, duration - 180)
-            _add_on(_layer(effects_root, name), start, min(duration, start + 160), palette_index[_color_index(name, 0)])
-            added += 1
+            if is_performance_prop(name):
+                continue
+            start = beats[index % len(beats)] if beats else 0
+            if _add_on(_vivid_layer(effects_root, name), start, min(duration, start + 140), palette_for(name, start)):
+                added += 1
     tree.write(xsq_path, encoding="utf-8", xml_declaration=True)
     return {
         "ac_models": len(ac_names),
@@ -180,6 +195,7 @@ def apply_vivid_style(xsq_path: Path, layout_path: Path | None = None, *, keep_b
         "added": added,
         "bed_kept": keep_bed,
         "hits": len(hits),
+        "strategy": getattr(palette_for, "strategy", ""),
     }
 
 
@@ -270,6 +286,79 @@ def _palette_index(palettes: ET.Element, text: str) -> str:
     return str(len(list(palettes)) - 1)
 
 
+def _beats(hits: list[int], duration: int) -> list[int]:
+    """Phrase beats only. A gap longer than 700 ms is silence, not a filled clock."""
+    return [hit for hit in hits if 0 <= hit < duration]
+
+
+def _sections_from_sequence(root: ET.Element, duration: int) -> list[dict]:
+    found = []
+    effects_root = root.find("ElementEffects")
+    if effects_root is not None:
+        for element in effects_root.findall("Element"):
+            if (element.attrib.get("type") or "").lower() != "timing":
+                continue
+            if (element.attrib.get("name") or "").lower() not in {"sections", "phrases", "structure"}:
+                continue
+            for effect in element.findall(".//Effect"):
+                label = effect.attrib.get("label") or effect.attrib.get("name") or "GROOVE"
+                try:
+                    start = int(float(effect.attrib.get("startTime", "0") or 0))
+                    end = int(float(effect.attrib.get("endTime", "0") or 0))
+                except ValueError:
+                    continue
+                if end > start:
+                    found.append({"label": label, "start_ms": start, "end_ms": end, "energy": 0.6})
+    if found:
+        return sorted(found, key=lambda item: item["start_ms"])
+    return [{"label": "GROOVE", "start_ms": 0, "end_ms": duration, "energy": 0.6}]
+
+
+def _section_label(start: int, sections: list[dict]) -> str:
+    for section in sections:
+        if section["start_ms"] <= start < section["end_ms"]:
+            return str(section["label"])
+    return str(sections[-1]["label"]) if sections else "GROOVE"
+
+
+def _palettes_for_layout(root: ET.Element, layout_path: Path | None, sections: list[dict], features: object | None):
+    from helix_style.palette_chooser import STRATEGIES, SongFeatures, choose_palette
+
+    if features is None:
+        features = SongFeatures(
+            tempo_bpm=120,
+            intensity=0.7,
+            sections=sections,
+            lyrics=["lights"],
+            key="C major",
+        )
+    identity = Path(layout_path).name if layout_path else "layout"
+    strategy = STRATEGIES[sum(ord(char) for char in identity) % len(STRATEGIES)]
+    decision = choose_palette(features, strategy)
+    palettes = root.find("ColorPalettes")
+    if palettes is None:
+        palettes = ET.Element("ColorPalettes")
+        root.insert(0, palettes)
+    index_of: dict[str, str] = {}
+
+    def install(color: str) -> str:
+        if color in index_of:
+            return index_of[color]
+        index_of[color] = _palette_index(palettes, palette_text((color,)))
+        return index_of[color]
+
+    for color in list(decision.palette) + [item for cols in decision.section_palettes.values() for item in cols]:
+        install(color)
+
+    def palette_for(name: str, start: int) -> str:
+        colors = decision.for_section(_section_label(start, sections)) or decision.palette
+        usable = [color for color in colors if color.upper() not in {"#FFFFFF", "#FFF1D0", "#E8F6FF"}] or list(colors)
+        return install(usable[sum(ord(char) for char in name) % len(usable)])
+
+    palette_for.strategy = strategy
+    return {}, palette_for
+
+
 def _hit_times(root: ET.Element) -> list[int]:
     hits = []
     for effect in root.iter("Effect"):
@@ -355,22 +444,38 @@ def _restyle_effect(effect: ET.Element, *, name: str, ac: bool, duration: int, p
         )
 
 
-def _layer(effects_root: ET.Element, name: str, element_type: str = "model") -> ET.Element:
-    for element in effects_root.findall("Element"):
-        if element.attrib.get("name") == name:
-            if element_type == "modelGroup":
-                element.attrib["type"] = "modelGroup"
-            layer = element.find("EffectLayer")
-            if layer is None:
-                layer = ET.SubElement(element, "EffectLayer")
+def _vivid_layer(effects_root: ET.Element, name: str, element_type: str = "model") -> ET.Element:
+    """Vivid effects live on their own layer and never share it with sequencer effects."""
+    element = None
+    for candidate in effects_root.findall("Element"):
+        if candidate.attrib.get("name") == name:
+            element = candidate
+            break
+    if element is None:
+        element = ET.SubElement(effects_root, "Element", {"type": element_type, "name": name})
+    elif element_type == "modelGroup":
+        element.attrib["type"] = "modelGroup"
+    for layer in element.findall("EffectLayer"):
+        if layer.attrib.get("name") == "Helix Vivid":
             return layer
-    element = ET.SubElement(effects_root, "Element", {"type": element_type, "name": name})
-    return ET.SubElement(element, "EffectLayer")
+    return ET.SubElement(element, "EffectLayer", {"name": "Helix Vivid"})
 
 
-def _add_on(layer: ET.Element, start: int, end: int, palette: str, *, accent_white: bool = False) -> None:
-    if end <= start:
-        return
+def _overlaps(layer: ET.Element, start: int, end: int) -> bool:
+    for effect in layer.findall("Effect"):
+        try:
+            other_start = int(float(effect.attrib.get("startTime", "0") or 0))
+            other_end = int(float(effect.attrib.get("endTime", "0") or 0))
+        except ValueError:
+            continue
+        if start < other_end and other_start < end:
+            return True
+    return False
+
+
+def _add_on(layer: ET.Element, start: int, end: int, palette: str, *, accent_white: bool = False) -> bool:
+    if end <= start or _overlaps(layer, start, end):
+        return False
     ET.SubElement(layer, "Effect", {
         "name": "On",
         "startTime": str(start),
@@ -383,39 +488,29 @@ def _add_on(layer: ET.Element, start: int, end: int, palette: str, *, accent_whi
         "source": "HelixVivid",
         "label": "white accent" if accent_white else "vivid",
     })
+    return True
 
 
-def _ac_motion(effects_root: ET.Element, names: list[str], duration: int, hits: list[int], palette_index: dict[int, str]) -> int:
-    if not names:
+def _ac_motion(effects_root: ET.Element, names: list[str], duration: int, beats: list[int], palette_for) -> int:
+    if not names or not beats:
         return 0
     added = 0
     window = max(8, len(names) // 2) if len(names) <= 32 else max(24, len(names) // 5)
-    step = 160
-    for tick, start in enumerate(range(0, duration, step)):
-        section = _section(start, duration, 4)
+    for tick, start in enumerate(beats):
+        if start >= duration:
+            continue
+        end = min(duration, start + 140)
         for offset in range(window):
             name = names[(tick + offset) % len(names)]
             accent = tick % 17 == 0 and offset == 0
-            palette = palette_index[-1] if accent else palette_index[_color_index(name, section)]
-            _add_on(_layer(effects_root, name), start, min(duration, start + 140), palette, accent_white=accent)
-            added += 1
-    beat = 320
-    for beat_index, start in enumerate(range(0, duration, beat)):
-        bank = beat_index % 2
-        members = [name for index, name in enumerate(names) if index % 2 == bank]
-        if len(members) > 24:
-            members = members[:: max(1, len(members) // 24)]
-        section = _section(start, duration, 4)
-        for name in members:
-            _add_on(_layer(effects_root, name), start, min(duration, start + 180), palette_index[_color_index(name, section)])
-            added += 1
-    if hits:
-        for index, start in enumerate(hits):
-            if start >= duration:
-                continue
-            name = names[index % len(names)]
-            _add_on(_layer(effects_root, name), start, min(duration, start + 160), palette_index[_color_index(name, _section(start, duration, 4))])
-            added += 1
+            if _add_on(_vivid_layer(effects_root, name), start, end, palette_for(name, start), accent_white=accent):
+                added += 1
+        bank = [name for index, name in enumerate(names) if index % 2 == tick % 2]
+        if len(bank) > 24:
+            bank = bank[:: max(1, len(bank) // 24)]
+        for name in bank:
+            if _add_on(_vivid_layer(effects_root, name), start, min(duration, start + 160), palette_for(name, start)):
+                added += 1
     return added
 
 
@@ -450,58 +545,52 @@ def _chase_groups(layout_path: Path | None, kind: dict[str, str]) -> list[str]:
         if model_kind != "group":
             continue
         members = [member for member in layout.expand_group_members(name) if member in layout.models and not layout.models[member].is_submodel]
+        if any(is_performance_prop(member) for member in members):
+            continue
         if 2 <= len(set(members)) <= ceiling:
             chosen.append(name)
     return chosen
 
 
-def _rgb_motion(effects_root, names, by_z, duration, hits, palette_index, sections: int) -> int:
-    """Light about a quarter of the RGB models while music is active.
+def _rgb_motion(effects_root, names, by_z, duration, beats, palette_for) -> int:
+    """Light about a quarter of the RGB models on each beat.
 
-    Seconds with no hits stay black. The 200 ms before a drop stays black.
-    A heavy second keeps the same coverage and shortens the flash.
+    Beats only exist inside active phrases, so the gaps stay black. A beat
+    in the 200 ms before a drop is skipped. Existing effects are not moved.
     """
-    if not names:
+    if not names or not beats:
         return 0
     added = 0
-    buckets = _buckets(hits, duration)
     window = max(1, int(round(len(names) * 0.22)))
-    step = 120
-    for tick, start in enumerate(range(0, duration, step)):
-        second = min(len(buckets) - 1, start // 1000)
-        if buckets[second] <= 0 or _in_blackout(start, buckets):
+    buckets = _buckets(beats, duration)
+    for tick, start in enumerate(beats):
+        if start >= duration or _in_blackout(start, buckets):
             continue
-        length = 70 if _heavy(buckets, second) else 140
-        section = _section(start, duration, sections)
+        end = min(duration, start + 120)
         for offset in range(window):
             name = names[(tick + offset) % len(names)]
-            _add_on(_layer(effects_root, name), start, min(duration, start + length), palette_index[_color_index(name, section)])
-            added += 1
+            if _add_on(_vivid_layer(effects_root, name), start, end, palette_for(name, start)):
+                added += 1
         if by_z:
             name = by_z[(tick * 3) % len(by_z)]
-            _add_on(_layer(effects_root, name), start, min(duration, start + length), palette_index[_color_index(name, section + 1)])
-            added += 1
+            if _add_on(_vivid_layer(effects_root, name), start, end, palette_for(name, start)):
+                added += 1
     return added
 
 
-def _group_motion(effects_root, names: list[str], duration: int, hits: list[int], palette_index: dict[int, str]) -> int:
-    if not names:
+def _group_motion(effects_root, names: list[str], duration: int, beats: list[int], sections: list[dict], palette_for) -> int:
+    if not names or not beats:
         return 0
     added = 0
-    buckets = _buckets(hits, duration)
-    for index, name in enumerate(names):
-        for section in range(4):
-            start = int(duration * section / 4) + (index % 5) * 80
-            second = min(len(buckets) - 1, max(0, start // 1000))
-            if buckets and buckets[second] <= 0:
+    for section in sections:
+        start = next((beat for beat in beats if section["start_ms"] <= beat < section["end_ms"]), None)
+        if start is None:
+            continue
+        for name in names:
+            if is_performance_prop(name):
                 continue
-            _add_on(
-                _layer(effects_root, name, element_type="modelGroup"),
-                start,
-                min(duration, start + 120),
-                palette_index[_color_index(name, section)],
-            )
-            added += 1
+            if _add_on(_vivid_layer(effects_root, name, element_type="modelGroup"), start, min(duration, start + 120), palette_for(name, start)):
+                added += 1
     return added
 
 

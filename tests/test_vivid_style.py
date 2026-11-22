@@ -59,8 +59,7 @@ def test_vivid_removes_the_bed_and_drives_ac_to_full(tmp_path: Path):
     assert report["added"] > 0
     assert len(vivid) > 0
     texts = [palette.text or "" for palette in root.find("ColorPalettes")]
-    assert palette_text(("#FF2BD6",)) in texts
-    assert palette_text(("#00F0FF",)) in texts
+    assert any(text != palette_text(("#FFFFFF",)) and "C_BUTTON_Palette1=#" in text for text in texts)
     assert not any("#CCCCCC" in text for text in texts)
 
 
@@ -152,6 +151,97 @@ def test_every_model_including_grove_gets_effects_during_active_music(tmp_path: 
                 lit += 1
         samples.append(lit / len(watched))
     assert 0.15 <= sum(samples) / len(samples) <= 0.45
+
+
+def test_singers_and_drummers_keep_their_effects(tmp_path: Path):
+    layout = tmp_path / "layout.xml"
+    _layout(layout)
+    text = layout.read_text(encoding="utf-8").replace(
+        "</models>",
+        '<model name="Singing Face 1" DisplayAs="Poly Line" StringType="RGB Nodes" StartChannel="100" parm1="1" parm2="48" WorldPosX="10" WorldPosY="10" WorldPosZ="0" CustomColor="#FFD0A8">'
+        '<subModel name="Mouth" layout="horizontal" type="ranges" line0="1-24"/>'
+        '</model>'
+        '<model name="HX_SNOWMAN_DRUMMER_KICK" DisplayAs="Single Line" StringType="RGB Nodes" StartChannel="300" parm1="1" parm2="8" WorldPosX="20" WorldPosY="0" WorldPosZ="0" CustomColor="#F6AD55"/>'
+        "</models>",
+    )
+    layout.write_text(text, encoding="utf-8")
+    sequence = tmp_path / "show.xsq"
+    root = ET.Element("xsequence")
+    head = ET.SubElement(root, "head")
+    ET.SubElement(head, "sequenceDuration").text = "4.000"
+    ET.SubElement(root, "ColorPalettes")
+    effects = ET.SubElement(root, "ElementEffects")
+    mouth = ET.SubElement(effects, "Element", {"type": "submodel", "name": "Singing Face 1/Mouth"})
+    mouth_layer = ET.SubElement(mouth, "EffectLayer")
+    ET.SubElement(mouth_layer, "Effect", {
+        "name": "On", "startTime": "0", "endTime": "340", "palette": "0",
+        "settings": "E_TEXTCTRL_Eff_On_Start=80", "label": "phoneme",
+    })
+    kick = ET.SubElement(effects, "Element", {"type": "model", "name": "HX_SNOWMAN_DRUMMER_KICK"})
+    kick_layer = ET.SubElement(kick, "EffectLayer")
+    ET.SubElement(kick_layer, "Effect", {
+        "name": "On", "startTime": "800", "endTime": "1000", "palette": "0", "label": "kick",
+    })
+    matrix = ET.SubElement(effects, "Element", {"type": "model", "name": "Matrix"})
+    matrix_layer = ET.SubElement(matrix, "EffectLayer")
+    ET.SubElement(matrix_layer, "Effect", {
+        "name": "On", "startTime": "800", "endTime": "1140", "palette": "0", "label": "held",
+    })
+    ET.ElementTree(root).write(sequence)
+    apply_vivid_style(sequence, layout, sections=[
+        {"label": "GROOVE", "start_ms": 0, "end_ms": 2000, "energy": 0.4},
+        {"label": "DROP", "start_ms": 2000, "end_ms": 4000, "energy": 0.9},
+    ])
+    saved = ET.parse(sequence).getroot()
+    mouth_effect = next(effect for effect in saved.findall(".//Effect") if effect.attrib.get("label") == "phoneme")
+    kick_effect = next(effect for effect in saved.findall(".//Effect") if effect.attrib.get("label") == "kick")
+    held = next(effect for effect in saved.findall(".//Effect") if effect.attrib.get("label") == "held")
+    assert mouth_effect.attrib["endTime"] == "340" and mouth_effect.attrib["palette"] == "0"
+    assert kick_effect.attrib["startTime"] == "800" and kick_effect.attrib["endTime"] == "1000"
+    assert held.attrib["endTime"] == "1140"
+    for name in ("Singing Face 1/Mouth", "HX_SNOWMAN_DRUMMER_KICK"):
+        element = next(item for item in saved.find("ElementEffects") if item.attrib.get("name") == name)
+        assert element.find("EffectLayer[@name='Helix Vivid']") is None
+
+
+def test_vivid_layer_is_beat_locked_and_does_not_overlap(tmp_path: Path):
+    layout = tmp_path / "layout.xml"
+    _layout(layout)
+    sequence = tmp_path / "show.xsq"
+    _sequence(sequence)
+    root = ET.parse(sequence).getroot()
+    timing = ET.SubElement(root.find("ElementEffects"), "Element", {"type": "timing", "name": "Sections"})
+    layer = ET.SubElement(timing, "EffectLayer")
+    ET.SubElement(layer, "Effect", {"name": "On", "label": "INTRO", "startTime": "0", "endTime": "2000"})
+    ET.SubElement(layer, "Effect", {"name": "On", "label": "DROP", "startTime": "2000", "endTime": "4000"})
+    ET.ElementTree(root).write(sequence)
+    first = apply_vivid_style(sequence, layout)
+    other_layout = tmp_path / "neon-world.xml"
+    other_layout.write_text(layout.read_text(encoding="utf-8"), encoding="utf-8")
+    other = tmp_path / "other.xsq"
+    _sequence(other)
+    second = apply_vivid_style(other, other_layout)
+    assert first["strategy"] != second["strategy"]
+    saved = ET.parse(sequence).getroot()
+    beat_starts = {
+        int(float(effect.attrib["startTime"]))
+        for effect in saved.findall(".//Effect")
+        if effect.attrib.get("source") != "HelixVivid"
+    }
+    assert beat_starts
+    for element in saved.find("ElementEffects"):
+        vivid = element.find("EffectLayer[@name='Helix Vivid']")
+        if vivid is None:
+            continue
+        spans = []
+        for effect in vivid.findall("Effect"):
+            start = int(effect.attrib["startTime"])
+            end = int(effect.attrib["endTime"])
+            assert start in beat_starts
+            spans.append((start, end))
+        spans.sort()
+        for left, right in zip(spans, spans[1:]):
+            assert left[1] <= right[0]
 
 
 def test_white_bulbs_become_saturated():

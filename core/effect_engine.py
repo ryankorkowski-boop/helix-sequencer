@@ -12913,10 +12913,20 @@ def run_variant(
         import os
         from core.vivid_style import apply_vivid_style
         if os.environ.get("HELIX_VIVID", "1") != "0":
+            song_sections = None
+            try:
+                from xlights.xsq_writer import detect_sections
+                song_sections = [
+                    {"label": sec.label, "start_ms": sec.start_ms, "end_ms": sec.end_ms, "energy": sec.energy}
+                    for sec in detect_sections(audio)
+                ]
+            except Exception:
+                song_sections = None
             vivid = apply_vivid_style(
                 out_path,
                 active_layout_file,
                 keep_bed=os.environ.get("HELIX_MUSICAL_BED", "0") == "1",
+                sections=song_sections,
             )
             log(f"Vivid style: ac={vivid['ac_models']} rgb={vivid['rgb_models']} added={vivid['added']} bed_kept={vivid['bed_kept']}")
     except Exception as exc:
