@@ -46,6 +46,19 @@ jobs:
           source owner-source/source.env
           python -m gdown "$SOURCE_ID" -O owner-source/Rhythmic_Awe.mp3
           echo "$SOURCE_SHA256  owner-source/Rhythmic_Awe.mp3" | sha256sum -c -
+      - name: Verify owner audio duration and channel format before separation
+        run: |
+          ffprobe -v error -show_entries format=duration:stream=codec_name,sample_rate,channels -of json owner-source/Rhythmic_Awe.mp3 > owner-source/audio_probe.json
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          info=json.loads(Path('owner-source/audio_probe.json').read_text())
+          duration=float(info['format']['duration'])
+          streams=[s for s in info.get('streams',[]) if s.get('codec_name')=='mp3']
+          assert 252.0 < duration < 255.0, f'Unexpected original song duration: {duration}'
+          assert len(streams)==1 and int(streams[0]['sample_rate'])==48000 and int(streams[0]['channels'])==2, streams
+          print('Owner Rhythmic Awe source clock and stereo verified:',duration)
+          PY
       - name: Check Demucs command syntax before expensive model work
         run: |
           python - <<'PY'
@@ -93,4 +106,5 @@ jobs:
           path: |
             RenderCache/stems/Rhythmic_Awe/
             owner-source/stem_receipt.json
+            owner-source/audio_probe.json
             owner-source/source.env
