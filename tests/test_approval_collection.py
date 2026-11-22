@@ -21,7 +21,9 @@ def test_twelve_layouts_have_unique_models_and_exact_ac_budgets():
             hero=next(m for m in garden.models if m.name=='HX_CENTER_KEYBOARD_HELIX')
             assert all(hero.submodels[f'KEY_MIDI_{p:03d}'] for p in range(21,109))
         if number in (7,8,12):
-            assert len([m for m in garden.models if m.details.get('review_role')])==6
+            roles=[m.details['review_role'] for m in garden.models if m.details.get('review_role')]
+            assert len(roles)==6
+            assert set(roles)=={'drummer','bass','guitar','piano','lead','harmony'}
 
 
 def test_native_musician_adapter_preserves_source_clock_and_reports_omissions():
