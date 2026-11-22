@@ -267,6 +267,20 @@ def build(source,vocals,output,*,numbers=None,names=NAMES,layout_builder=layout,
         if folder.exists():raise FileExistsError(folder)
         layout_options = {'native_extended_mouths': True} if shape_names == NATIVE_SHAPE_NAMES else {}
         g,band=layout_builder(number,plan,duration=duration,**layout_options);g.title=name
+        # The canonical performance must never disappear when the same music
+        # is repackaged as 9, 12, or 16 comparison panels.
+        canonical_panel = ('snowman band' in name.lower()
+                           or (full_song and number == 11))
+        if canonical_panel:
+            if band is None:
+                raise ValueError(f'Panel {number} ({name}) lost its native band')
+            roles = [m.details.get('review_role') for m in g.models
+                     if m.details.get('review_role')]
+            expected_roles = {'drummer', 'guitarist', 'bassist',
+                              'keyboardist', 'lead', 'harmony'}
+            if set(roles) != expected_roles or len(roles) != 6:
+                raise ValueError(
+                    f'Panel {number} missing or duplicating canonical band performers: {roles}')
         if number not in preserve_addresses:allocate(g)
         for m in g.models:
             if not m.submodels:m.submodels['ALL']=list(range(1,len(m.points)+1))
