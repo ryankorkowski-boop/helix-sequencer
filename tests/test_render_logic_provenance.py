@@ -7,7 +7,7 @@ import pytest
 from tools.verify_render_logic_provenance import verify
 
 
-def _fixture(tmp_path, *, source=True, mapped=2, drums=0):
+def _fixture(tmp_path, *, source=True, mapped=1, drums=0):
     (tmp_path / "run_manifest.json").write_text(json.dumps({
         "xsq": "Performance.xsq", "source_audio_sha256": "a" * 64,
         "source_analysis_sha256": "b" * 64,
@@ -32,17 +32,17 @@ def _fixture(tmp_path, *, source=True, mapped=2, drums=0):
 def test_source_cues_reach_xsq(tmp_path):
     report = verify(_fixture(tmp_path))
     assert report["source_tagged_effects"] == 1
-    assert report["instrument_mapped_events"] == 2
+    assert report["instrument_mapped_events"] == 1
     assert report["native_fseq_verified"] is False
 
 
 def test_missing_source_tag_fails_closed(tmp_path):
-    with pytest.raises(ValueError, match="never reached"):
+    with pytest.raises(ValueError, match="mapped cues"):
         verify(_fixture(tmp_path, source=False))
 
 
 def test_missing_drum_source_tag_fails_closed(tmp_path):
-    with pytest.raises(ValueError, match="Detected drum cues"):
+    with pytest.raises(ValueError, match="detected strikes"):
         verify(_fixture(tmp_path, drums=3))
 
 
@@ -55,3 +55,7 @@ def test_all_panel_counts_use_shared_builder_and_gate():
     assert "verify_logic(folder)" in shared
     assert "build_layouts(production, vocals, layouts" in sixteen
     assert "layout_builder=build_layout" in sixteen
+
+def test_partial_instrument_coverage_fails(tmp_path):
+    with pytest.raises(ValueError, match="2 mapped cues but only 1"):
+        verify(_fixture(tmp_path, mapped=2))
