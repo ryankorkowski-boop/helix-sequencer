@@ -16,7 +16,11 @@ def verify(folder: Path) -> dict:
     manifest = json.loads((folder / "run_manifest.json").read_text())
     xsq = folder / manifest["xsq"]
     root = ET.parse(xsq).getroot()
-    effects = root.findall(".//ElementEffects/Element/EffectLayer/Effect")
+    effect_rows = [(element.get("name", ""), effect)
+                   for element in root.findall(".//ElementEffects/Element")
+                   for layer in element.findall("EffectLayer")
+                   for effect in layer.findall("Effect")]
+    effects = [effect for _, effect in effect_rows]
     if not effects:
         raise ValueError("No effects reach the authoritative native XSQ")
     source_effects = [effect for effect in effects if effect.get("sourceMethod", "").startswith("retained_production_")]
@@ -36,17 +40,33 @@ def verify(folder: Path) -> dict:
         models = report.get("models", {})
         mapped = sum(int(m.get("mapped_events", 0)) for m in models.values())
         result["instrument_mapped_events"] = mapped
-        if mapped > 0 and not any(e.get("sourceMethod") == "retained_production_band_plan" for e in effects):
-            raise ValueError("Musician source cues were mapped but never reached native XSQ")
+        coverage = {}
+        for model_name, counts in models.items():
+            expected = int(counts.get("mapped_events", 0))
+            actual = sum(name.startswith(model_name + "/")
+                         and effect.get("sourceMethod") == "retained_production_band_plan"
+                         for name, effect in effect_rows)
+            coverage[model_name] = {"mapped_events": expected, "source_effects": actual}
+            if actual < expected:
+                raise ValueError(f"Musician {model_name}: {expected} mapped cues but only {actual} source effects in native XSQ")
+        result["instrument_coverage"] = coverage
     drummer = folder / "Canonical_Drummer.json"
     if drummer.is_file():
         report = json.loads(drummer.read_text())
         counts = report.get("event_mapping", {}).get("component_events", {})
         result["drum_component_events"] = counts
-        if sum(int(v) for v in counts.values()) and not any(
-            e.get("sourceMethod") == "retained_production_drum_plan" for e in effects
-        ):
-            raise ValueError("Detected drum cues never reached native XSQ")
+        coverage = {}
+        for component, count in counts.items():
+            expected = int(count)
+            suffix = component + "_SURFACE"
+            actual = sum(name.endswith(suffix)
+                         and effect.get("sourceMethod") == "retained_production_drum_plan"
+                         and effect.get("sourceComponent", "").endswith(suffix)
+                         for name, effect in effect_rows)
+            coverage[component] = {"detected_events": expected, "source_effects": actual}
+            if actual < expected:
+                raise ValueError(f"Drum {component}: {expected} detected strikes but only {actual} source effects in native XSQ")
+        result["drum_coverage"] = coverage
     if band.is_file() and not source_effects and result.get("instrument_mapped_events", 0):
         raise ValueError("Band effects have no source provenance")
     return result
