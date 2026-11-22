@@ -313,7 +313,7 @@
       "05-band": 0.283,
       "06-model-zoo": 0.244,
       "07-birdsong": 0.493,
-      "08-groups": 0.260,
+      "08-groups": 0.26,
       "09-ultimate": 0.324
     }
   },
@@ -572,5 +572,27 @@
       "16-panel native media and verification",
       "qualified full-song singer sources"
     ]
+  },
+  "video_delivery_2026_11_22": {
+    "status": "REVIEW_CANDIDATES_DELIVERED_NOT_APPROVED",
+    "source_commit": "f0e882fa8c47e9aa787d274171422170e58697f0",
+    "sixteen_panel": {
+      "url": "https://drive.google.com/file/d/1CQHC_5XVRi02nQlmtBjE6QovVzYzktPz/view",
+      "duration_seconds": 264.8,
+      "owner_approved": false,
+      "sampled_pixel_quality_passed": true
+    },
+    "nine_panel": {
+      "url": "https://drive.google.com/file/d/1CmEpUUCG2ckNGs626-oF3VnNCTzNxW_R/view",
+      "owner_approved": false,
+      "readability_motion_gate": "failed"
+    },
+    "twelve_panel": {
+      "url": "https://drive.google.com/file/d/1OvKatynrNzbLLTu0-pquFOKdiRH_W8D5/view",
+      "owner_approved": false,
+      "final_presentation_grid": "fix_authored_ci_pending"
+    },
+    "individual_panels_drive_folder": "https://drive.google.com/drive/folders/1MM54iPDmyMNsD5Ajl-ClbE1MNpDP9LtD",
+    "note": "16 standalones are audio-attached crops of the delivered native composite, not independently re-rendered panels"
   }
 }

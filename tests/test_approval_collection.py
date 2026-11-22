@@ -196,3 +196,22 @@ def test_quiet_real_note_starts_brighter_than_nonmusical_idle_visibility():
     assert idle.get('sourceMethod')=='nonmusical_instrument_visibility'
     assert idle.get('sourceStartMs') is None
     assert (note.get('startTime'),note.get('endTime'))==('203','407')
+
+
+def test_final_presentation_comparison_grids_match_native_compositor():
+    import pytest
+    from tools.finish_approval_presentation import _comparison_groups
+
+    for layout_count in (9, 12):
+        groups = _comparison_groups(layout_count)
+        assert len(groups) == (2 if layout_count == 9 else 3)
+        for name, panel_numbers, columns, rows in groups:
+            assert len(panel_numbers) == columns * rows
+            assert len(set(panel_numbers)) == len(panel_numbers)
+            assert all(1 <= number <= layout_count for number in panel_numbers)
+            if name == 'Helix_12_Layout_Comparison.mp4':
+                assert (columns, rows) == (4, 3)
+            if name == 'Helix_6_Layout_Comparison.mp4':
+                assert (columns, rows) == (3, 2)
+    with pytest.raises(ValueError, match='nine or twelve'):
+        _comparison_groups(11)

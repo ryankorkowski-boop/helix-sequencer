@@ -15,6 +15,22 @@ from tools.phoneme_source import digest
 CURVE="lutrgb=r='255*pow(val/255,0.4545454545)':g='255*pow(val/255,0.4545454545)':b='255*pow(val/255,0.4545454545)'"
 
 
+def _comparison_groups(layout_count):
+    """Match each final comparison to the strict compositor grid contract."""
+    if layout_count == 9:
+        return [
+            ('Helix_9_Layout_Comparison.mp4', list(range(1, 10)), 3, 3),
+            ('Helix_Band_Integration_Comparison.mp4', [7, 8, 9], 3, 1),
+        ]
+    if layout_count == 12:
+        return [
+            ('Helix_6_Layout_Comparison.mp4', [1, 3, 4, 6, 9, 12], 3, 2),
+            ('Helix_12_Layout_Comparison.mp4', list(range(1, 13)), 4, 3),
+            ('Helix_Band_Integration_Comparison.mp4', [7, 8, 12], 3, 1),
+        ]
+    raise ValueError('Final presentation requires exactly nine or twelve rendered layouts')
+
+
 def finish(folder,audio,solid,commit):
     folder,audio,solid=map(Path,(folder,audio,solid))
     evidence=folder/'05_Verification'
@@ -73,12 +89,7 @@ def finish(folder,audio,solid,commit):
         progress[path.name]=current
         progress_path.write_text(json.dumps(progress,indent=2)+'\n')
     movies={int(p.name[:2]):p for p in (folder/'01_Individual_Layouts').glob('*.mp4')}
-    groups=[('Helix_6_Layout_Comparison.mp4',[1,3,4,6,9,12],3,2),
-            ('Helix_12_Layout_Comparison.mp4',list(range(1,13)),3,4),
-            ('Helix_Band_Integration_Comparison.mp4',[7,8,12],3,1)]
-    if len(movies)==9:
-        groups=[('Helix_9_Layout_Comparison.mp4',list(range(1,10)),3,3),
-                ('Helix_Band_Integration_Comparison.mp4',[7,8,9],3,1)]
+    groups=_comparison_groups(len(movies))
     for name,indexes,cols,rows in groups:
         target=folder/'02_Comparison_Videos'/name
         print('FINAL_COMPARISON',name,flush=True)
