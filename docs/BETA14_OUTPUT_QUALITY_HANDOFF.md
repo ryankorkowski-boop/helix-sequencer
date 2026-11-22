@@ -99,3 +99,9 @@ Read this checklist, MASTER_TODO.md, docs/BETA_COMPLETION_LIVE_HANDOFF.md and ev
 - [x] Added regression for invalid source onset, plus source clock fields in test fixtures (2e90652). Await new CI; no claim of success until completed.
 - [ ] Native Helix Motion pilot [44964923524](https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/44964923524) in progress, currently building authentic patched xLights; no approval MP4 artifact at last check. Superseding provenance-gated pilot 44965365205 pending.
 - [ ] Next: check native FSEQ activity per prop and effect clock, compare decoded MP4 to musical activity, ensure 9/12/16 native parity.
+
+## 2026-11-22 · Exact native effect onset parity
+- [x] Output-quality CI [44965895398](https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/44965895398) PASSED with bounded source clock validation.
+- [x] Source-timed instrument and drum events now require xLights Effect.startTime to equal original sourceStartMs exactly (d4e7755). A missing/shifted native effect onset fails before render. Note that short instrument gestures may intentionally end before the sustained note ends.
+- [x] Added shifted-onset regression fixture (927d9bb); new CI pending.
+- [ ] Native FSEQ per-model event activity and full MP4 decoded quality remain unverified; owner approval not granted.
