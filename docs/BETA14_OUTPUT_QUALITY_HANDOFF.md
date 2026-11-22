@@ -119,3 +119,9 @@ Read this checklist, MASTER_TODO.md, docs/BETA_COMPLETION_LIVE_HANDOFF.md and ev
 - [x] Confirmed [fresh real-audio native band producer 44967134379](https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/44967134379) queued on that commit.
 - [ ] Verify producer preflight/render result and actual downloadable MP4, then exact-commit accepted-native-band job. No review approval yet.
 - [ ] Validate FSEQ per-model activity and full-song panel renders; the 9/12/16 source pipeline is shared but native acceptance remains pending.
+
+## 2026-11-22 · Required canonical band in every comparison
+- [x] Added fail-closed layout build guard for canonical snowman band panels and full-song panel 11 (bf716bd, 8b700ff). The guard requires six unique real native performer roles: drummer, guitar, bass, piano, lead, harmony. Missing/duplicated performers abort preparation before native rendering.
+- [x] Guard is in shared `tools.build_current_comparison.build`, used by 12-layout and 16-panel production; 9-panel selections using this builder receive the same protection.
+- [ ] Validate 9-panel workflow selection includes the canonical band panel; guard does not automatically insert a missing panel into a selection.
+- [ ] Check new CI, authentic native producer, and actual playable MP4 artifacts. No approval claimed.
