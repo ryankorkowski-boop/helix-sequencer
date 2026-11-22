@@ -44,3 +44,13 @@ Example after native MP4 exists: `python -m tools.check_mp4_visual_quality path/
 
 ## Resume instructions
 Read this checklist, MASTER_TODO.md, docs/BETA_COMPLETION_LIVE_HANDOFF.md and evidence/beta_completion/latest_status.json. Inspect current branch HEAD, run focused tests, fix any failing tests, then follow the P0 native visual gate. Update this file after each verified milestone. Never mark an artifact approved without explicit owner review.
+
+
+## 2026-11-21 · Real owner Drive audio execution checkpoint
+- [x] Verified Google Drive original `Helix Motion.mp3` (file ID `12gRu8SUf-8GVCQdJnrIROnTY6XumOUzZ`), MIME audio/mpeg, owner-readable; native workflow has a pinned original SHA256.
+- [x] Verified new `The Test Is On.mp3` (file ID `18zI7nKAQ0JHG-cPMppPJWeNP_Qo3aXce`; 30s) and `Rhythmic Awe.mp3` (file ID `11J89FUSbbH1QuP_joaTlgKdFVUdqRuqH`; 253.44s) in Google Drive, matching existing repository source manifest identities pending exact in-run hash checks.
+- [x] Triggered original-drive-audio Helix Motion 16-panel native pilot by updating its workflow to collect decoded MP4 quality receipt, commit `4c43604a`; Actions run [44964923524](https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/44964923524) was PENDING at first check. No success/MP4 claimed.
+- [x] Triggered Rhythmic Awe full-song Demucs qualification workflow with explicit stereo 48kHz and source-clock preflight, commit `3ecf9579`; Actions run [44964935413](https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/44964935413) was QUEUED at first check. No independent vocal pair claimed.
+- [x] Verified new output-quality CI smoke including real MP4 encode/decode PASSED: [44964518308](https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/44964518308) (commit `c66ad512`).
+- [ ] Inspect both current Actions runs, download actual artifacts after completion, verify source SHA, native XSQ/FSEQ, audio sync, frame quality, and output decoding; provide real playable MP4 only if produced.
+- [ ] If either run fails, use the logs to make a targeted repair and launch another run. Preserve diagnostic distinction, do not count failed or queued jobs as completed videos.
