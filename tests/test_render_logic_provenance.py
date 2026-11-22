@@ -48,10 +48,10 @@ def test_missing_drum_source_tag_fails_closed(tmp_path):
 
 def test_all_panel_counts_use_shared_builder_and_gate():
     """Nine/twelve/sixteen are views of one production pipeline, not engines."""
-    import inspect
-    from tools import build_current_comparison, render_full_song_comparison
-    shared = inspect.getsource(build_current_comparison.build)
-    sixteen = inspect.getsource(render_full_song_comparison.prepare)
+    from pathlib import Path
+    root = Path(__file__).resolve().parents[1]
+    shared = (root / "tools/build_current_comparison.py").read_text()
+    sixteen = (root / "tools/render_full_song_comparison.py").read_text()
     assert "verify_logic(folder)" in shared
     assert "build_layouts(production, vocals, layouts" in sixteen
     assert "layout_builder=build_layout" in sixteen
