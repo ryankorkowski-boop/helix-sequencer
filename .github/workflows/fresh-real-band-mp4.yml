@@ -7,6 +7,10 @@ on:
       - .github/workflows/fresh-real-band-mp4.yml
       - .github/workflows/beta-completion-native.yml
       - tools/native_preview.py
+      - tools/verify_render_logic_provenance.py
+      - tools/build_current_comparison.py
+      - tools/canonical_band_cues.py
+      - tests/test_render_logic_provenance.py
       - tools/native_source_pose_band.py
       - tools/verify_native_band_artifact.py
       - tools/verify_native_vocal_source.py
