@@ -92,3 +92,10 @@ Read this checklist, MASTER_TODO.md, docs/BETA_COMPLETION_LIVE_HANDOFF.md and ev
 - [x] Investigated failed Python 3.11/3.12 quality runs 44965750104 and 44965743388 using job logs. Failure: new fixture placed musician source effect on parent `GUITAR`, while real production writes submodel `GUITAR/STRING_0`; 3 regression assertions failed, 15 passed.
 - [x] Corrected fixture to use actual native submodel effect lane, commit 95f81fa; [rerun 44965816121](https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/44965816121) queued. No pass claimed yet.
 - [ ] Verify current CI and then perform real XSQ/FSEQ provenance comparison on owner audio; never count a fixture pass as proof of actual native pixels.
+
+## 2026-11-22 · Native XSQ source clock retention
+- [x] Confirmed repaired shared-pipeline source-coverage regression run [44965816121](https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/44965816121) SUCCESS for Python 3.11 and 3.12.
+- [x] Added source clock validation for every tagged native musician/drum effect: required sourceStartMs, nonnegative onset, onset within declared sequence duration when available, and valid sourceEndMs where present (ca63e77). Musical note duration and shortened gesture duration remain separate by design.
+- [x] Added regression for invalid source onset, plus source clock fields in test fixtures (2e90652). Await new CI; no claim of success until completed.
+- [ ] Native Helix Motion pilot [44964923524](https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/44964923524) in progress, currently building authentic patched xLights; no approval MP4 artifact at last check. Superseding provenance-gated pilot 44965365205 pending.
+- [ ] Next: check native FSEQ activity per prop and effect clock, compare decoded MP4 to musical activity, ensure 9/12/16 native parity.
