@@ -131,6 +131,19 @@ jobs:
           (root/'OWNER_APPROVAL_GATE.json').write_text(json.dumps(receipt,indent=2)+'\n')
           print(json.dumps(receipt,indent=2))
           PY
+      - name: Audit decoded native video for white/blank/frozen frames
+        if: success()
+        run: |
+          set +e
+          python -m tools.check_mp4_visual_quality \
+            pilot-work/helix-motion/Full_Length_16_Panel_Comparison.mp4 \
+            --report pilot-work/helix-motion/VISUAL_QUALITY_RECEIPT.json --fps 2
+          result=$?
+          set -e
+          if [ "$result" -ne 0 ]; then
+            echo "::warning::Native video visual quality flagged; retain receipt for owner review, do not imply approval."
+          fi
+          test -s pilot-work/helix-motion/VISUAL_QUALITY_RECEIPT.json
       - name: Upload only the verified one-song approval package
         if: success()
         uses: actions/upload-artifact@v4
@@ -143,6 +156,7 @@ jobs:
             pilot-work/helix-motion/comparison_manifest.json
             pilot-work/helix-motion/panel_activity.json
             pilot-work/helix-motion/OWNER_APPROVAL_GATE.json
+            pilot-work/helix-motion/VISUAL_QUALITY_RECEIPT.json
             pilot-work/helix-motion/layouts/**/run_manifest.json
             pilot-work/helix-motion/layouts/**/*.xsq
       - name: Retain only diagnostic logs on failure, never label as approval
