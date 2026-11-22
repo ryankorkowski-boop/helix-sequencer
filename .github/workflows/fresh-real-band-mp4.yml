@@ -19,6 +19,7 @@ on:
       - core/independent_vocals.py
       - core/vocal_separation_manifest.py
       - core/audio_intelligence.py
+      - core/effect_engine.py
       - tests/test_native_source_pose_band.py
       - tests/test_native_preview_resolution.py
       - tests/test_native_band_artifact.py
