@@ -79,3 +79,16 @@ def test_native_effect_onset_mismatch_fails(tmp_path):
     tree.write(folder / "Performance.xsq")
     with pytest.raises(ValueError, match="but source event starts at"):
         verify(folder)
+
+
+def test_native_submodel_effect_layer_reaches_provenance_gate(tmp_path):
+    folder = _fixture(tmp_path)
+    xsq = folder / "Performance.xsq"
+    tree = ET.parse(xsq)
+    layer = tree.find(".//EffectLayer")
+    layer.tag = "SubModelEffectLayer"
+    tree.write(xsq)
+    report = verify(folder)
+    assert report["xsq_effects"] == 1
+    assert report["source_tagged_effects"] == 1
+    assert report["instrument_coverage"]["GUITAR"]["source_effects"] == 1
