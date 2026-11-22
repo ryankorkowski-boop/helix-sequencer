@@ -26,7 +26,7 @@
   "android_runtime_verified": false,
   "windows_runtime_verified": false,
   "owner_approved": false,
-  "next_action": "Run source-bound native color test and qualify canonical band against original reference.",
+  "next_action": "Inspect original AC native output and qualify independent vocals and platform playback.",
   "native_color_probe_verified": true,
   "native_color_run": 44974483062,
   "native_color_cases": [
@@ -41,5 +41,13 @@
     "visual_placements": 585,
     "scheduled_ride_events": 0
   },
-  "protection_enabled": false
+  "protection_enabled": false,
+  "mobile_preview_focused_tests": 22,
+  "initial_full_suite": {
+    "passed": 961,
+    "failed": 16,
+    "skipped": 8,
+    "xfail": 1
+  },
+  "source_panel_run": 44975125169
 }

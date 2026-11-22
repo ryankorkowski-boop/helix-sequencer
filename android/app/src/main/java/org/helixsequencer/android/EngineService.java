@@ -122,7 +122,7 @@ public class EngineService extends Service {
             JSONObject state=new JSONObject();state.put("phase",phase);state.put("message",message);state.put("log",logs.toString());state.put("updated_ms",System.currentTimeMillis());
             state.put("active_stage",activeStage);state.put("preview_percent",previewPercent);
             if(completedResult!=null){
-                for(String key:new String[]{"bundle","preview","sequence","report","manifest","stages"})
+                for(String key:new String[]{"bundle","preview","sequence","sequence_paths","preview_paths","preview_states","sequence_count","report","manifest","stages"})
                     if(completedResult.has(key))state.put(key,completedResult.get(key));
                 if("cancelled".equals(phase)||"failed".equals(phase)){
                     JSONObject stages=state.optJSONObject("stages");
@@ -140,6 +140,7 @@ public class EngineService extends Service {
     }
     public void beginPreview(String output,String wav,int width,int height,int fps)throws Exception{
         previewDestination=output;previewWav=wav;previewFps=fps;previewDuration=0;
+        previewPercent=0;
         encoder=new MediaRuntime.VideoEncoder(output+".video.mp4",width,height,fps);
     }
     public void previewFrame(byte[] png,long pts)throws Exception{encoder.frame(png,pts);previewDuration=pts+1_000_000L/previewFps;}

@@ -24,14 +24,17 @@ public class MainActivity extends Activity {
     private final String[] steps={"Music","Layout","Style","Advanced","Generate","Results"};
     private final LinearLayout[] pages=new LinearLayout[6];
     private LinearLayout body,expert;
-    private Spinner mode,palette,sampleLayout;
+    private Spinner mode,palette,sampleLayout,sequenceChoices;
     private UiOptions options;
     private EditText variants,duration;
     private CheckBox polish,matrix,birdsong,spatial,ac,preview,quickClip,includeBand;
-    private TextView status,log,stepTitle,results;
+    private TextView status,log,stepTitle,results,previewStateLabel;
     private ProgressBar progress;
+    private SequencingLightShowView lightShow;
     private Button run,cancel,save,watch,movie,sequence,report,share,next,back;
-    private String picking,exporting,bundlePath="",previewPath="",sequencePath="",reportPath="";
+    private String picking,exporting,bundlePath="",previewPath="",sequencePath="",reportPath="",selectedSequencePath="",lastVariantChoices="";
+    private final java.util.Map<String,String> variantMovies=new java.util.HashMap<>();
+    private JSONArray checkpointPaths,checkpointPreviewStates;
     private File currentJob;
     private boolean busy,wasBusy;
     private int page;
@@ -58,8 +61,8 @@ public class MainActivity extends Activity {
     }
     private void select(String key,String label){
         Button v=button(label,()->{
-            picking=key;startActivityForResult(new Intent(Intent.ACTION_OPEN_DOCUMENT).setType(key.equals("audio")?"audio/*":"*/*")
-                .addCategory(Intent.CATEGORY_OPENABLE).addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION|Intent.FLAG_GRANT_PERSISTABLE_URI_PERMISSION),100);
+            picking=key;remember();try{startActivityForResult(new Intent(Intent.ACTION_OPEN_DOCUMENT).setType(key.equals("audio")?"audio/*":"*/*")
+                .addCategory(Intent.CATEGORY_OPENABLE).addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION|Intent.FLAG_GRANT_PERSISTABLE_URI_PERMISSION),100);}catch(RuntimeException e){picking=null;alert("Unable to open file picker. Built-in layout remains available. "+e.getMessage());}
         });selectors.put(key,v);settings.add(v);
     }
     private void panel(int i){body=pages[i];text(steps[i],26,Color.WHITE);}
@@ -88,9 +91,9 @@ public class MainActivity extends Activity {
 
         panel(1);text("Choose the program you use for your lighting show.",17,Color.WHITE);
         mode=spinner(new String[]{"xLights · export XSQ","Light-O-Rama · export LMS"});
-        select("layout","Import xLights layout · RGB effects XML");select("lor","Import LOR channels · existing LMS");
-        text("Sample layouts · six display choices and separate stage scenery",16,Color.WHITE);
-        sampleLayout=spinner(options.layoutTitles());sampleLayout.setSelection(6);
+        select("layout","Import xLights layout · RGB effects XML");button("Use built-in layout",()->{inputs.remove("layout");getPreferences(0).edit().remove("uri_layout").apply();selectors.get("layout").setText("Import xLights layout · RGB effects XML");sampleLayout.setSelection(options.defaultLayoutIndex());remember();});select("lor","Import LOR channels · existing LMS");
+        text("Built-in sample layouts · no import required",16,Color.WHITE);
+        sampleLayout=spinner(options.layoutTitles());sampleLayout.setSelection(options.defaultLayoutIndex());
         includeBand=check("Band performers",true);includeBand.setId(R.id.include_band);
         text("Include the band when it is present in your xLights layout. Turn it off for a lights-only show.",14,Color.LTGRAY);
         text("Your imported layout takes priority. With no import, the selected sample is used. Stage scenery contains the stage props; it does not replace the band design.",14,Color.LTGRAY);
@@ -120,12 +123,46 @@ public class MainActivity extends Activity {
         panel(4);text("Generate on this phone. Keep Helix open for best performance. Cancellation affects only this job.",17,Color.WHITE);
         run=button("Generate sequence",this::startJob);cancel=button("Cancel current job",()->startService(new Intent(this,EngineService.class).setAction("cancel")));cancel.setEnabled(false);
         progress=new ProgressBar(this,null,android.R.attr.progressBarStyleHorizontal);progress.setMax(100);body.addView(progress);progress.setVisibility(View.GONE);
+        lightShow=new SequencingLightShowView(this);body.addView(lightShow,new LinearLayout.LayoutParams(-1,dp(160)));lightShow.setVisibility(View.GONE);
         status=text("Ready · choose music and layout",17,Color.rgb(86,230,197));text("Run log",18,Color.WHITE);log=text("",12,Color.LTGRAY);log.setTextIsSelectable(true);
 
         panel(5);results=text("Your sequence, show ZIP and preview will appear here.",16,Color.WHITE);
-        sequence=button("Save sequence…",()->export(sequencePath,sequencePath.endsWith(".lms")?"application/xml":"application/octet-stream",new File(sequencePath).getName()));
-        watch=button("Play preview",()->startActivity(new Intent(this,PreviewActivity.class).putExtra("path",previewPath)));
-        movie=button("Save MP4…",()->export(previewPath,"video/mp4","Helix-preview.mp4"));
+        sequenceChoices=new Spinner(this);body.addView(sequenceChoices);
+        previewStateLabel=text("Selected preview: waiting for a checkpoint",14,Color.LTGRAY);
+        sequenceChoices.setOnItemSelectedListener(new android.widget.AdapterView.OnItemSelectedListener(){
+            @Override public void onItemSelected(android.widget.AdapterView<?> parent,View view,int position,long id){
+                Object selected=parent.getItemAtPosition(position);
+                selectedSequencePath=selected==null?"":selected.toString();
+                sequencePath=selectedSequencePath;
+                previewPath=variantMovies.getOrDefault(sequencePath,"");
+                sequence.setEnabled(available(sequencePath));
+                applyVariantSelection();
+            }
+            @Override public void onNothingSelected(android.widget.AdapterView<?> parent){}
+        });
+        sequence=button("Save selected sequence…",()->export(sequencePath,sequencePath.endsWith(".lms")?"application/xml":"application/octet-stream",new File(sequencePath).getName()));
+        watch=button("Play preview",()->{
+            if(!PreviewStatus.canPlay(selectedPreviewState(),available(previewPath))){
+                alert("This variant has no completed preview yet.");return;
+            }
+            ArrayList<String> playable=new ArrayList<>();
+            if(sequenceChoices.getAdapter()!=null)for(int i=0;i<sequenceChoices.getAdapter().getCount();i++){
+                String candidate=String.valueOf(sequenceChoices.getAdapter().getItem(i));
+                String moviePath=variantMovies.get(candidate);
+                if(PreviewStatus.canPlay(previewStateFor(candidate),available(moviePath))&&!playable.contains(moviePath))
+                    playable.add(moviePath);
+            }
+            if(!playable.contains(previewPath))playable.add(previewPath);
+            startActivity(new Intent(this,PreviewActivity.class).putExtra("path",previewPath)
+                .putStringArrayListExtra("playlist",playable)
+                .putExtra("playlist_index",playable.indexOf(previewPath)));
+        });
+        movie=button("Save selected variant MP4…",()->{
+            String name=available(sequencePath)?new File(sequencePath).getName():"Helix-preview";
+            int dot=name.lastIndexOf('.');
+            if(dot>0)name=name.substring(0,dot);
+            export(previewPath,"video/mp4",name+"-preview.mp4");
+        });
         save=button("Save show ZIP…",()->export(bundlePath,"application/zip","Helix-show.zip"));share=button("Share show ZIP…",this::shareShow);
         report=button("Save run report…",()->export(reportPath,"text/plain","Helix-run-report.txt"));
         for(Button v:new Button[]{sequence,watch,movie,save,share,report})v.setEnabled(false);
@@ -140,7 +177,7 @@ public class MainActivity extends Activity {
         mode.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener(){
             public void onItemSelected(AdapterView<?> p,View v,int n,long id){updateMode();}public void onNothingSelected(AdapterView<?> p){}
         });ac.setOnCheckedChangeListener((b,v)->updateMode());
-        if(state!=null){picking=state.getString("picking");exporting=state.getString("exporting");page=state.getInt("page",page);}
+        if(state!=null){picking=state.getString("picking");exporting=state.getString("exporting");page=state.getInt("page",page);selectedSequencePath=state.getString("selected_sequence","");}
         showPage(page);updateMode();if(!getPreferences(0).getBoolean("walkthrough_seen",false))walkthrough();
     }
     private void walkthrough(){
@@ -152,7 +189,7 @@ public class MainActivity extends Activity {
     private void restorePreferences(){
         android.content.SharedPreferences p=getPreferences(0);mode.setSelection(p.getInt("mode",0));palette.setSelection(p.getInt("palette",0));
         variants.setText(p.getString("variants","1"));duration.setText(p.getString("duration","30"));preview.setChecked(p.getBoolean("preview",true));
-        quickClip.setChecked(p.getBoolean("quick_clip",false));sampleLayout.setSelection(p.getInt("sample_layout",6));
+        quickClip.setChecked(p.getBoolean("quick_clip",false));sampleLayout.setSelection(options.validLayoutIndex(p.getInt("sample_layout",options.defaultLayoutIndex())));
         includeBand.setChecked(p.getBoolean("band_enabled",true));
         spatial.setChecked(p.getBoolean("spatial",true));ac.setChecked(p.getBoolean("ac",false));polish.setChecked(p.getBoolean("polish",true));
         matrix.setChecked(p.getBoolean("matrix",true));birdsong.setChecked(p.getBoolean("birdsong",true));
@@ -193,7 +230,7 @@ public class MainActivity extends Activity {
             r.put("matrix",matrix.isChecked());r.put("birdsong",birdsong.isChecked());r.put("spatial",spatial.isChecked());r.put("ac_compatible",ac.isChecked());
             JSONObject uris=new JSONObject();for(Map.Entry<String,Uri> e:inputs.entrySet())uris.put(e.getKey(),e.getValue().toString());r.put("inputs",uris);
             currentJob=new File(getFilesDir(),"jobs/"+UUID.randomUUID());getPreferences(0).edit().putString("job",currentJob.getAbsolutePath()).apply();
-            bundlePath=previewPath=sequencePath=reportPath="";lastState="";busy=wasBusy=true;
+            bundlePath=previewPath=sequencePath=reportPath=selectedSequencePath=lastVariantChoices="";variantMovies.clear();lastState="";busy=wasBusy=true;
             for(Button v:new Button[]{sequence,watch,movie,save,share,report})v.setEnabled(false);run.setEnabled(false);cancel.setEnabled(true);status.setText("Starting local engine…");updateMode();remember();
             if(Build.VERSION.SDK_INT>=33&&!getPreferences(0).getBoolean("notifications_asked",false)){
                 getPreferences(0).edit().putBoolean("notifications_asked",true).apply();requestPermissions(new String[]{"android.permission.POST_NOTIFICATIONS"},1);
@@ -201,7 +238,33 @@ public class MainActivity extends Activity {
             startForegroundService(new Intent(this,EngineService.class).putExtra("job",currentJob.getAbsolutePath()).putExtra("request",r.toString()));
         }catch(Exception e){busy=false;run.setEnabled(true);cancel.setEnabled(false);updateMode();alert(e.getMessage());}
     }
-    private boolean available(String p){return !p.isEmpty()&&new File(p).isFile();}
+    private boolean available(String p){return p!=null&&!p.isEmpty()&&new File(p).isFile();}
+    private String previewStateFor(String candidate){
+        if(checkpointPaths==null||checkpointPreviewStates==null||candidate==null)return "";
+        for(int i=0;i<checkpointPaths.length()&&i<checkpointPreviewStates.length();i++)
+            if(candidate.equals(checkpointPaths.optString(i)))return checkpointPreviewStates.optString(i);
+        return "";
+    }
+    private String selectedPreviewState(){return previewStateFor(sequencePath);}
+    private void applyVariantSelection(){
+        String state=selectedPreviewState();
+        boolean playable=PreviewStatus.canPlay(state,available(previewPath));
+        watch.setEnabled(playable);movie.setEnabled(playable);
+        if(previewStateLabel!=null){
+            int count=sequenceChoices.getAdapter()==null?0:sequenceChoices.getAdapter().getCount();
+            int index=sequenceChoices.getSelectedItemPosition();
+            if(index<0&&count>0){
+                for(int i=0;i<count;i++){
+                    if(sequencePath.equals(String.valueOf(sequenceChoices.getAdapter().getItem(i)))){
+                        index=i;
+                        break;
+                    }
+                }
+            }
+            String heading=index>=0&&index<count?"Variant "+(index+1)+" of "+count+" · ":"";
+            previewStateLabel.setText(heading+PreviewStatus.label(state));
+        }
+    }
     private void poll(){
         if(currentJob==null)return;File state=new File(currentJob,"state.json");if(!state.isFile())return;
         try{
@@ -211,21 +274,65 @@ public class MainActivity extends Activity {
                 List<ActivityManager.RunningAppProcessInfo> running=getSystemService(ActivityManager.class).getRunningAppProcesses();
                 if(running!=null&&running.stream().noneMatch(p->p.processName.equals(getPackageName()+":engine"))){busy=false;s.put("message","Android interrupted this job. Completed files below can still be saved.");}
             }
-            run.setEnabled(!busy);cancel.setEnabled(busy);progress.setVisibility(busy?View.VISIBLE:View.GONE);
-            int percent=s.optInt("preview_percent",-1);boolean measured=busy&&"preview".equals(s.optString("active_stage"))&&percent>=0;progress.setIndeterminate(!measured);if(measured)progress.setProgress(percent);
+            run.setEnabled(!busy);cancel.setEnabled(busy);progress.setVisibility(busy?View.VISIBLE:View.GONE);lightShow.setVisibility(busy?View.VISIBLE:View.GONE);lightShow.setRunning(busy);
+            int percent=s.optInt("preview_percent",-1);boolean measured=busy&&"preview".equals(s.optString("active_stage"))&&percent>=0;progress.setIndeterminate(!measured);if(measured)progress.setProgress(percent);lightShow.setProgress(measured?percent/100f:0f);lightShow.setScene("preview".equals(s.optString("active_stage"))?SequencingLightShowView.Scene.TREE:SequencingLightShowView.Scene.ARCHES);
             status.setText(s.optString("message",phase));log.setText(s.optString("log"));updateMode();
-            bundlePath=s.optString("bundle");previewPath=s.optString("preview");sequencePath=s.optString("sequence");reportPath=s.optString("report");
-            sequence.setEnabled(available(sequencePath));save.setEnabled(available(bundlePath));share.setEnabled(save.isEnabled());watch.setEnabled(available(previewPath));movie.setEnabled(watch.isEnabled());report.setEnabled(available(reportPath));
+            bundlePath=s.optString("bundle");reportPath=s.optString("report");
+            String engineSequence=s.optString("sequence");
+            JSONArray paths=engineSequence.endsWith(".lms")?null:s.optJSONArray("sequence_paths");
+            List<String> choices=new ArrayList<>();
+            if(paths!=null)for(int i=0;i<paths.length();i++){
+                String candidate=paths.optString(i);
+                if(available(candidate)&&!choices.contains(candidate))choices.add(candidate);
+            }
+            if(choices.isEmpty()&&available(engineSequence))choices.add(engineSequence);
+            JSONArray moviePaths=s.optJSONArray("preview_paths");
+            variantMovies.clear();
+            if(paths!=null&&moviePaths!=null)for(int i=0;i<Math.min(paths.length(),moviePaths.length());i++){
+                String moviePath=moviePaths.optString(i);
+                if(available(moviePath))variantMovies.put(paths.optString(i),moviePath);
+            }
+            // Primary preview can be checkpointed before the aligned array is populated.
+            if(available(engineSequence)&&available(s.optString("preview")))
+                variantMovies.putIfAbsent(engineSequence,s.optString("preview"));
+            String choiceKey=android.text.TextUtils.join("\n",choices);
+            if(!choiceKey.equals(lastVariantChoices)){
+                lastVariantChoices=choiceKey;
+                String prior=selectedSequencePath;
+                ArrayAdapter<String> adapter=new ArrayAdapter<>(this,android.R.layout.simple_spinner_dropdown_item,choices);
+                sequenceChoices.setAdapter(adapter);
+                int selection=choices.indexOf(prior);
+                if(selection<0)selection=choices.indexOf(engineSequence);
+                if(selection>=0){sequenceChoices.setSelection(selection);selectedSequencePath=choices.get(selection);}
+            }
+            if(!choices.contains(selectedSequencePath))
+                selectedSequencePath=choices.isEmpty()?"":choices.get(0);
+            sequencePath=selectedSequencePath;
+            previewPath=variantMovies.getOrDefault(sequencePath,"");
+            checkpointPaths=paths;checkpointPreviewStates=s.optJSONArray("preview_states");
+            sequence.setEnabled(available(sequencePath));save.setEnabled(available(bundlePath));share.setEnabled(save.isEnabled());applyVariantSelection();report.setEnabled(available(reportPath));
             StringBuilder summary=new StringBuilder(s.optString("message",phase));JSONObject stages=s.optJSONObject("stages");
             if(stages!=null)for(String key:new String[]{"sequencing","packaging","preview"}){
-                JSONObject stage=stages.optJSONObject(key);if(stage!=null)summary.append("\n\n").append(key).append(": ").append(stage.optString("status")).append(stage.has("error")?" · "+stage.optString("error"):"");
+                JSONObject stage=stages.optJSONObject(key);if(stage!=null){
+                    summary.append("\n\n").append(key).append(": ").append(stage.optString("status"));
+                    if("preview".equals(key)&&stage.has("requested"))
+                        summary.append(" (").append(stage.optInt("rendered")).append("/")
+                               .append(stage.optInt("requested")).append(" MP4s)");
+                    if(stage.has("error"))summary.append(" · ").append(stage.optString("error"));
+                    JSONArray failures=stage.optJSONArray("failed_variants");
+                    if(failures!=null&&failures.length()>0)
+                        summary.append("\nFailed variants: ").append(failures.join(", "));
+                    JSONArray waiting=stage.optJSONArray("pending_variants");
+                    if(waiting!=null&&waiting.length()>0)
+                        summary.append("\nWaiting variants: ").append(waiting.join(", "));
+                }
             }results.setText(summary.toString());if(wasBusy&&!busy)showPage(5);wasBusy=busy;
         }catch(Exception ignored){/* Retry an interrupted atomic state write. */}
     }
     private final Runnable ticker=new Runnable(){public void run(){poll();handler.postDelayed(this,1000);}};
     @Override protected void onResume(){super.onResume();handler.removeCallbacks(ticker);handler.post(ticker);}
     @Override protected void onPause(){remember();handler.removeCallbacks(ticker);super.onPause();}
-    @Override protected void onSaveInstanceState(Bundle s){s.putString("picking",picking);s.putString("exporting",exporting);s.putInt("page",page);remember();super.onSaveInstanceState(s);}
+    @Override protected void onSaveInstanceState(Bundle s){s.putString("picking",picking);s.putString("exporting",exporting);s.putInt("page",page);s.putString("selected_sequence",selectedSequencePath);remember();super.onSaveInstanceState(s);}
     private void export(String path,String mime,String filename){
         if(!available(path)){alert("This output is not available yet.");return;}exporting=path;
         startActivityForResult(new Intent(Intent.ACTION_CREATE_DOCUMENT).setType(mime).addCategory(Intent.CATEGORY_OPENABLE).putExtra(Intent.EXTRA_TITLE,filename),200);

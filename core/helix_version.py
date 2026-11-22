@@ -3,7 +3,7 @@
 Packaging, the desktop window, and the CLI all read this module.
 """
 
-VERSION = "1.3.0-beta"
-VERSION_CODE = 9
-DISPLAY = "Beta 1.3"
-TITLE = "Helix Sequencer — Beta 1.3"
+VERSION = "1.4.0-beta-recovery"
+VERSION_CODE = 10
+DISPLAY = "Beta 1.4 recovery"
+TITLE = "Helix Sequencer — Beta 1.4 recovery"

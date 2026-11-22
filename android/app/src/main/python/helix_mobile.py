@@ -4,6 +4,7 @@ import contextlib
 import hashlib
 import io
 import json
+import math
 import os
 import shutil
 import sys
@@ -133,36 +134,61 @@ def package_show(job):
         temporary.unlink(missing_ok=True)
 
 
+# Two seconds at the phone preview rate. The full-song matrix is the same
+# data, built and released one window at a time so API 30 can keep the process.
+PREVIEW_FRAME_CHUNK = 30
+
+
 def render_preview(xsq, layout, wav, seconds, callback):
     from tools import preview_renderer as p
     seq = preview_sequence(p.parse_sequence(xsq), seconds)
     geom = p.parse_models(layout)
-    # Crop the frame timeline BEFORE allocating RGB/intensity matrices on a phone.
+    # Crop the frame timeline BEFORE allocating intensity matrices on a phone.
+    # Resolve XSQ palettes within the same bounded window as model intensities.
     fps, width, height = 15, 640, 360
-    leaves, intensities = p.build_leaf_intensity_matrix(geom, seq, fps)
-    colors = p.build_leaf_color_matrix(geom, seq, fps, leaves, intensities.shape[1])
+    total_frames = max(1, int(math.ceil(seq.duration_ms / (1000.0 / fps))))
     renderer = p.HouseRenderer(geom, width=width, height=height)
+    part_track = p.choose_track(seq, "song parts")
+    piano_track = p.choose_track(seq, "piano")
+    sweep_track = p.choose_track(seq, "sweeps")
+    drop_track = p.choose_track(seq, "drops")
     final_output = xsq.with_suffix('.mp4')
     output = xsq.with_suffix('.pending.mp4')
+    try:
+        from core.output_provenance import brand_frame
+    except ImportError:
+        brand_frame = None
     callback.beginPreview(str(output), str(wav), width, height, fps)
     try:
-        for i in range(intensities.shape[1]):
-            image = renderer.render_frame(leaf_names=leaves, frame_values=intensities[:, i],
-                title=xsq.name, t_ms=round(i*1000/fps), duration_ms=seq.duration_ms,
-                overlays={}, frame_colors=colors[:, i, :])
-            try:
-                from core.output_provenance import brand_frame
-            except ImportError:
-                pass
-            else:
-                image = brand_frame(image)
-            buffer = io.BytesIO()
-            image.convert('RGB').save(buffer, format='PNG')
-            callback.previewFrame(buffer.getvalue(), i*1_000_000//fps)
-            if i % fps == 0:
-                notify(callback, 'previewProgress', i, intensities.shape[1])
-                notify(callback, 'stage', 'preview',
-                       'Rendering preview: %d/%d seconds' % (i//fps, round(intensities.shape[1]/fps)))
+        for start in range(0, total_frames, PREVIEW_FRAME_CHUNK):
+            leaves, intensities = p.build_leaf_intensity_matrix(
+                geom, seq, fps, frame_start=start,
+                frame_limit=min(PREVIEW_FRAME_CHUNK, total_frames - start))
+            colors = p.build_leaf_color_matrix(geom, seq, fps, leaves, intensities.shape[1], frame_start=start)
+            for offset in range(intensities.shape[1]):
+                i = start + offset
+                t_ms = round(i * 1000 / fps)
+                image = renderer.render_frame(
+                    leaf_names=leaves, frame_values=intensities[:, offset],
+                    frame_colors=colors[:, offset, :] if colors is not None else None,
+                    title=xsq.name, t_ms=t_ms, duration_ms=seq.duration_ms,
+                    overlays={
+                        "song part": p.active_label(part_track, t_ms),
+                        "piano": p.active_label(piano_track, t_ms),
+                        "sweep": p.active_label(sweep_track, t_ms),
+                        "drop": p.active_label(drop_track, t_ms),
+                    })
+                if brand_frame is not None:
+                    image = brand_frame(image)
+                buffer = io.BytesIO()
+                image.convert('RGB').save(buffer, format='PNG')
+                callback.previewFrame(buffer.getvalue(), i * 1_000_000 // fps)
+                if i % fps == 0:
+                    notify(callback, 'previewProgress', i, total_frames)
+                    notify(callback, 'stage', 'preview',
+                           'Rendering preview: %d/%d seconds' % (i // fps, round(total_frames / fps)))
+                del image, buffer
+            del intensities, colors
         callback.endPreview()
     except BaseException:
         callback.abortPreview()
@@ -220,7 +246,7 @@ def run(engine_path, job_path, request_json, callback):
                         'Serial joblib and Python Numba kernels; large songs may run slowly'],
         'input_hashes': {x.name: file_hash(x) for x in (job/'input').iterdir() if x.is_file()}}
     result = {'bundle': '', 'preview': '', 'sequence': '', 'report': str(job/'outputs/Android-run-report.txt'),
-              'manifest': str(job/'outputs/android-run.json'), 'sequence_count': 0, 'mode': manifest['mode'],
+              'manifest': str(job/'outputs/android-run.json'), 'sequence_count': 0, 'sequence_paths': [], 'preview_paths': [], 'preview_states': [], 'mode': manifest['mode'],
               'stages': stages}
     try:
         if manifest['mode'] == 'xlights':
@@ -269,6 +295,7 @@ def run(engine_path, job_path, request_json, callback):
             if not Path(result['sequence']).is_file():
                 raise RuntimeError('Selected sequence export is missing')
             result['sequence_count'] = len(valid)
+            result['sequence_paths'] = [str(x) for x in valid]
             stages['sequencing'] = {'status': 'success'}
             manifest['sequences'] = [str(x.relative_to(job)) for x in valid]
             manifest['lms'] = [str(x.relative_to(job)) for x in lms_files]
@@ -304,12 +331,66 @@ def run(engine_path, job_path, request_json, callback):
                 try:
                     if layout is None:
                         raise RuntimeError('Generated sequence is missing its packaged preview layout')
-                    preview = render_preview(selected, layout, job/'input/audio.wav', seconds, callback)
-                    result['preview'] = str(preview)
-                    manifest['previews'] = [str(preview.relative_to(job))]
-                    stages['preview'] = {'status': 'success'}
+                    from core.band_visibility import inspect_band_stage, band_stage_preview_error
+                    from core.preview_status import (
+                        align_preview_paths, preview_stage, preview_states, select_preview_candidates,
+                    )
+                    # Validate each variant independently below. A missing or
+                    # unsupported band in one layout must not cancel every
+                    # other variant's preview or its sequence export.
+                    # Prioritize the primary XSQ while preserving the exact
+                    # sequence_paths index mapping for the Android picker.
+                    preview_candidates, preview_limit = select_preview_candidates(
+                        valid, selected, request.get('variants', 1))
+                    outcomes = {}
+                    if len(valid) > preview_limit:
+                        callback.log('Preview capped at %d requested variants; %d auxiliary XSQs remain exportable.' %
+                                     (preview_limit, len(valid)-preview_limit))
+
+                    def publish(active=None, running=True):
+                        result['preview_paths'] = align_preview_paths(valid, outcomes)
+                        result['preview_states'] = preview_states(
+                            valid, preview_candidates, outcomes, active)
+                        stages['preview'] = preview_stage(
+                            preview_candidates, outcomes, preview_limit, running=running)
+                        write_report(job, manifest)
+                        notify(callback, 'checkpoint', json.dumps(result))
+
+                    publish(running=True)
+                    for index, variant in enumerate(preview_candidates):
+                        variant_layout = variant.parent/'xlights_rgbeffects.xml'
+                        if not variant_layout.is_file():
+                            variant_layout = layout
+                        publish(active=variant, running=True)
+                        try:
+                            callback.log('Preview variant %d/%d: %s' %
+                                         (index+1, len(preview_candidates), variant.name))
+                            variant_band_error = band_stage_preview_error(inspect_band_stage(variant_layout))
+                            if variant_band_error:
+                                raise RuntimeError(variant_band_error)
+                            movie = render_preview(variant, variant_layout, job/'input/audio.wav', seconds, callback)
+                            outcomes[str(variant)] = str(movie)
+                            manifest['previews'].append(str(movie.relative_to(job)))
+                            if variant == selected:
+                                result['preview'] = str(movie)
+                        except Exception as variant_exc:
+                            outcomes[str(variant)] = ''
+                            if variant == selected:
+                                result['preview'] = ''
+                            callback.log('Variant %d preview failed: %s' % (index+1, variant_exc))
+                            callback.log(traceback.format_exc())
+                        publish(running=index + 1 < len(preview_candidates))
                 except Exception as exc:
-                    stages['preview'] = {'status': 'failed', 'error': str(exc)}
+                    rendered = sum(bool(path) for path in result.get('preview_paths') or [])
+                    prior = stages.get('preview') or {}
+                    stages['preview'] = {
+                        'status': 'partial' if rendered else 'failed',
+                        'error': str(exc),
+                        'rendered': rendered,
+                        'requested': int(prior.get('requested') or 0),
+                        'failed_variants': list(prior.get('failed_variants') or []),
+                        'pending_variants': list(prior.get('pending_variants') or []),
+                    }
                     callback.log('Sequence succeeded. Optional MP4 preview failed: ' + str(exc))
                     # Keep the original stack in the local log; never advertise a failed movie.
                     callback.log(traceback.format_exc())
