@@ -30,6 +30,10 @@ def finish(folder,audio,solid,commit):
     comparison_names={'Helix_6_Layout_Comparison.mp4','Helix_12_Layout_Comparison.mp4','Helix_Band_Integration_Comparison.mp4'}
     reports=[]
     for row in (before['videos'] if isinstance(before, dict) else before):
+        # Some verification entries are summaries rather than individual movie records.
+        # Preserve them in the original report; grade only named MP4 files.
+        if not isinstance(row, dict) or not isinstance(row.get('file'), str):
+            continue
         if row['file'] in comparison_names:continue
         matches=list(folder.rglob(row['file']))
         if len(matches)!=1:raise ValueError('Ambiguous final movie '+row['file'])
