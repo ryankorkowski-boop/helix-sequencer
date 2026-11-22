@@ -15,7 +15,7 @@ def _fixture(tmp_path, *, source=True, mapped=1, drums=0):
     root = ET.Element("xsequence")
     elements = ET.SubElement(root, "ElementEffects")
     lane = ET.SubElement(ET.SubElement(elements, "Element", name="GUITAR/STRING_0"), "EffectLayer")
-    effect = ET.SubElement(lane, "Effect")
+    effect = ET.SubElement(lane, "Effect", startTime="100", endTime="200")
     if source:
         effect.set("sourceMethod", "retained_production_band_plan")
         effect.set("sourceStartMs", "100")
@@ -70,4 +70,12 @@ def test_out_of_range_source_onset_fails(tmp_path):
     tree.find(".//Effect").set("sourceStartMs", "-1")
     tree.write(xsq)
     with pytest.raises(ValueError, match="out-of-range onset"):
+        verify(folder)
+
+def test_native_effect_onset_mismatch_fails(tmp_path):
+    folder = _fixture(tmp_path)
+    tree = ET.parse(folder / "Performance.xsq")
+    tree.find(".//Effect").set("startTime", "120")
+    tree.write(folder / "Performance.xsq")
+    with pytest.raises(ValueError, match="but source event starts at"):
         verify(folder)
