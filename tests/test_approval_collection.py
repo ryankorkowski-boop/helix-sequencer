@@ -215,3 +215,20 @@ def test_final_presentation_comparison_grids_match_native_compositor():
                 assert (columns, rows) == (3, 2)
     with pytest.raises(ValueError, match='nine or twelve'):
         _comparison_groups(11)
+
+
+def test_final_twelve_comparison_keeps_explicit_layout_names(tmp_path):
+    from tools.finish_approval_presentation import _comparison_groups, _comparison_labels
+
+    movies = {i: tmp_path / f'{i:02d}_Distinct_Layout.mp4' for i in range(1, 13)}
+    groups = _comparison_groups(12)
+    for name, indexes, columns, rows in groups:
+        labels = _comparison_labels(indexes, movies)
+        if name == 'Helix_12_Layout_Comparison.mp4':
+            assert len(labels) == 12
+            assert len(set(labels)) == 12
+            assert labels[0] == '01 Distinct Layout'
+            assert (columns, rows) == (4, 3)
+        else:
+            assert labels == []
+    assert _comparison_labels(list(range(1, 10)), movies) == []

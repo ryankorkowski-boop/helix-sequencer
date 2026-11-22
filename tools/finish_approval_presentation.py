@@ -30,6 +30,12 @@ def _comparison_groups(layout_count):
         ]
     raise ValueError('Final presentation requires exactly nine or twelve rendered layouts')
 
+def _comparison_labels(indexes, movies):
+    """The strict 12-panel compositor requires one visible identity per panel."""
+    if len(indexes) == 12:
+        return [movies[index].stem.replace('_', ' ') for index in indexes]
+    return []
+
 
 def finish(folder,audio,solid,commit):
     folder,audio,solid=map(Path,(folder,audio,solid))
@@ -93,7 +99,7 @@ def finish(folder,audio,solid,commit):
     for name,indexes,cols,rows in groups:
         target=folder/'02_Comparison_Videos'/name
         print('FINAL_COMPARISON',name,flush=True)
-        comparison([movies[i] for i in indexes],[],target,audio,cols,rows)
+        comparison([movies[i] for i in indexes],_comparison_labels(indexes,movies),target,audio,cols,rows)
         current=verify(target,audio,native=False)
         current['graded_native_panels']=[dict(file=movies[i].name,sha256=digest(movies[i])) for i in indexes]
         reports.append(current)

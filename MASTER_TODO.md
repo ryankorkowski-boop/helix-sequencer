@@ -1,3 +1,13 @@
+## November 22 · Follow-up on 12-panel final presentation
+
+**Goal:** Ensure the corrected 4x3 final 12-panel comparison passes both existing strict compositor input contracts.
+**Changed files:** `tools/finish_approval_presentation.py`, `tests/test_approval_collection.py`, `MASTER_TODO.md`.
+**Preserved:** The renderer's strict explicit-label validation for twelve layouts, unlabeled six/nine/three-panel companion behavior, genuine xLights source visuals and audio, all acceptance thresholds, and owner-review gate.
+**New behavior:** Final presentation now passes twelve distinct, human-readable layout captions from the actual individual MP4 filenames. The 4x3 fix alone would otherwise have failed with `Twelve-layout comparison requires explicit panel labels`.
+**Tests/evidence:** Added focused regression checking the twelve labels are present and unique, and companions retain their previous unlabeled behavior. Latest source correction awaits CI; not yet proven by a new 12-panel MP4.
+**Limitations/deferred:** Re-render the final 12-layout workflow against this source, verify MP4 receipt, resolve any artistic/readability issues, and obtain owner visual approval before release.
+**Regression risks:** Changed only metadata labels on final comparison; no change to native XSQ/FSEQ, pixel choreography, audio, or framing.
+
 ## November 22 · Real MP4 delivery and final comparison grid repair
 
 **Goal:** Deliver real, viewable approval candidates and repair the twelve-layout final presentation failure without weakening source, geometry, audio, or readability gates.
