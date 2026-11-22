@@ -37,6 +37,12 @@ def verify(folder: Path) -> dict:
         if start is None:
             raise ValueError(f"Source effect {name} lacks its original onset clock")
         onset = int(start)
+        rendered_onset = int(effect.get("startTime", "-1"))
+        if rendered_onset != int(start):
+            raise ValueError(
+                f"Native effect {name} starts at {rendered_onset}ms, "
+                f"but source event starts at {start}ms"
+            )
         if onset < 0 or (duration_ms > 0 and onset >= duration_ms):
             raise ValueError(f"Source effect {name} has out-of-range onset {onset}")
         end = effect.get("sourceEndMs")
