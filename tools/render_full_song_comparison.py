@@ -111,6 +111,10 @@ def render_panel(folder, audio, xlights, *, port=49914):
     if (digest(audio) != row['source_audio_sha256'] or digest(xsq) != row['xsq_sha256']
             or digest(folder / 'xlights_rgbeffects.xml') != row['layout_sha256']):
         raise ValueError(f'Native panel {row["number"]} inputs changed after layout preparation')
+    # Reject lost musical source lanes before invoking expensive native xLights.
+    from tools.verify_render_logic_provenance import verify as verify_logic
+    logic = verify_logic(folder)
+    write_json(folder / 'RENDER_LOGIC_PROVENANCE.json', logic)
     report = row.get('native_preview', {})
     renderer_sha = digest(Path(xlights))
     if report.get('status') == 'success' and row.get('batch_renderer_sha256') == renderer_sha:
