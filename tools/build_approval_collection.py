@@ -66,6 +66,14 @@ def build(source, output, *, audio_name='Phoneme_Test_Hook.mp3', expected_sha256
         from tools.native_prop_visibility import prepare_review_visibility
         prepare_review_visibility(g)
         band=[m for m in g.models if m.details.get('review_role')]
+        # The 12-layout native approval collection must retain the same
+        # canonical six performers used by the 9/16-panel comparisons.
+        if number in (7, 8, 12):
+            expected_roles = {'drummer', 'bass', 'guitar', 'piano', 'lead', 'harmony'}
+            roles = [m.details['review_role'] for m in band]
+            if len(roles) != 6 or set(roles) != expected_roles:
+                raise ValueError(
+                    f'Layout {number} lost or duplicated canonical six-snowman cast: {roles}')
         if band:
             # Static material export operates only on canonical performers.
             from types import SimpleNamespace
