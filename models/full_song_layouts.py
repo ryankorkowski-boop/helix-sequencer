@@ -34,7 +34,7 @@ def singing_props(garden, kinds, positions, *, scale, native_extended_mouths=Fal
         model.attrs.update(PixelSize='11', BlackTransparency='100')
 
 
-def assign_routes(garden):
+def assign_routes(garden, *, panel_number=None):
     from tools.source_role_routing import configure_source_routes
 
     for model in garden.models:
@@ -65,6 +65,24 @@ def assign_routes(garden):
                     model.details.setdefault('propagation_delay_ms', round(min(60, abs(x) * 1.1)))
                 if zone == 'TREES':
                     model.details.setdefault('spatial_axis', 'y')
+    # Reuse Helix's existing source-role choreographer, but give each native
+    # layout a distinct, source-bound ensemble rather than broadcasting the
+    # same mixed-bus beat across every zone. No synthetic events are added.
+    ensemble = {
+        4: {'HOUSE': 'guitarist', 'TREES': 'bassist'},
+        5: {'ARCHES': 'keyboardist', 'TREES': 'guitarist'},
+        6: {'MEGA_TREES': 'bassist', 'ARCHES': 'keyboardist'},
+        7: {'MEGA_TREES': 'guitarist', 'ARCHES': 'drummer'},
+        8: {'ARCHES': 'keyboardist', 'TREES': 'bassist'},
+        9: {'TREES': 'guitarist', 'CANES': 'keyboardist'},
+        10: {'MATRICES': 'keyboardist', 'TREES': 'bassist'},
+        12: {'MATRICES': 'keyboardist', 'SPINNERS': 'drummer', 'SNOWFLAKES': 'guitarist'},
+    }.get(panel_number, {})
+    for model in garden.models:
+        if model.details.get('review_role') or model.details.get('generic_singer'):
+            continue
+        if model.zone in ensemble:
+            model.details['musical_role'] = ensemble[model.zone]
     configure_source_routes(garden.models)
     return allocate(garden)
 
@@ -165,7 +183,7 @@ def build(number, plan, *, duration, native_extended_mouths=False):
         ac_house(garden, number)
     else:
         residential(garden, number, native_extended_mouths=native_extended_mouths)
-    return assign_routes(garden), None
+    return assign_routes(garden, panel_number=number), None
 
 
 def configure_legacy_routes(garden):
