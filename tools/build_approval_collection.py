@@ -78,6 +78,8 @@ def build(source, output, *, audio_name='Phoneme_Test_Hook.mp3', expected_sha256
             # Static material export operates only on canonical performers.
             from types import SimpleNamespace
             static_materials(SimpleNamespace(models=band))
+        from tools.source_role_routing import configure_advanced_spatial_routes
+        configure_advanced_spatial_routes(g.models)
         write_layout(g,folder,include_demo=False,export_all_custom=True)
         (folder/'media').mkdir();shutil.copyfile(audio,folder/'media'/audio_name)
         sequence=NativeSequence(g,duration,'media/'+audio_name,g.title)

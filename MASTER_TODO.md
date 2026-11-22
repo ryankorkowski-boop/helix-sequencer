@@ -1,3 +1,13 @@
+## November 22 · Physical inter-prop choreography for advanced customer layouts
+
+**Goal:** Replace global source-cue broadcast between advanced props with coordinated, physical-position-based source note travel while keeping Helix's existing semantic role and section logic.
+**Changed files:** `tools/source_role_routing.py`, `tools/build_approval_collection.py`, `tests/test_source_spatial_direction.py`, `MASTER_TODO.md`.
+**Preserved:** All native song-analysis events, original source timing, canonical band and singers, 16/64/256 AC wiring, source role ownership, existing per-prop geometry paths, simple house layouts, all native rendering and approval gates.
+**New behavior:** Before native layout export, advanced depth, cathedral, optical, spiral, helix, DNA, matrix and grove pixel props are grouped by actual musical role and ordered along the dominant physical axis of their centers. Helix's existing `route_event` now selects a subset of spatially ordered props for a measured note/phrase rather than broadcasting that cue to every eligible prop. Builds and choruses retain their source-bound strategies. No invented source notes or new effect engine.
+**Tests/evidence:** Added regression for unique physical ranks, selective inter-prop routing, insertion-order independence, and AC/starter exclusion. Source authored; CI and fresh native video verification pending.
+**Limitations/deferred:** The full customer realism/artistic variety bar is not met by a unit test. Need review of 9/12/16 native MP4s for recognizable homes, independently acting spatial groups, dramatic changes in sections, absence of global pulse, and canonical band behavior. Release/merge remains blocked.
+**Regression risks:** An advanced musical role with many props may become too sparse. Validate visible density and route balance in native MP4; adjust the existing bank strategy if needed, not by reintroducing global broadcast.
+
 ## November 22 · Owner rejects global-pulse customer layouts; first geometry-path repair
 
 **Goal:** Make advanced native customer layouts spatially active, not whole-prop beat flashes, using the existing source-bound choreography and native xLights exporter.

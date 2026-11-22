@@ -125,3 +125,26 @@ def test_sustained_note_cannot_hide_a_new_section_surface():
     events=[dict(source_start_ms=0,source_end_ms=1200,section='verse'),
             dict(source_start_ms=600,source_end_ms=1800,section='chorus')]
     assert supported_phrases(events)==[[0,600,'verse'],[600,1800,'chorus']]
+
+
+def test_advanced_customer_routes_move_between_physical_props_without_global_broadcast():
+    from tools.source_role_routing import configure_advanced_spatial_routes,route_event
+    g=build_layout(11)
+    configure_advanced_spatial_routes(g.models)
+    members=[m for m in g.models if m.details.get('source_route_bank','').startswith('advanced_spatial_keyboardist')]
+    assert len(members)>=3
+    assert len({m.details['source_route_rank'] for m in members})==len(members)
+    cue=dict(start_ms=100,end_ms=600,pitch_midi=62,velocity=.8)
+    strategy=dict(name='note_trace',direction=1)
+    active=[m for m in members if route_event(m,cue,0,strategy) is not None]
+    assert 0<len(active)<len(members)
+    original={m.name:m.details['source_route_rank'] for m in members}
+    g.models.reverse()
+    configure_advanced_spatial_routes(g.models)
+    assert {m.name:m.details['source_route_rank'] for m in members}==original
+    starter=build_layout(4)
+    configure_advanced_spatial_routes(starter.models)
+    assert not any(m.details.get('advanced_spatial_routing') for m in starter.models)
+    legacy=build_layout(1)
+    configure_advanced_spatial_routes(legacy.models)
+    assert not any(m.details.get('advanced_spatial_routing') for m in legacy.models)

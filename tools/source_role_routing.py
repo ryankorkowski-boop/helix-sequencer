@@ -39,6 +39,42 @@ def configure_source_routes(models):
                                  source_route_rank=rank, source_route_count=len(members))
 
 
+def configure_advanced_spatial_routes(models):
+    """Route real note phrases between distinct physical customer props.
+
+    This extends the existing source bank routing only for advanced pixel
+    installations; legacy AC wiring, canonical band and singers are untouched.
+    """
+    from tools.source_spatial_direction import role_for
+    banks = defaultdict(list)
+    for model in models:
+        if model.kind != 'pixel' or model.details.get('review_role') or model.details.get('generic_singer'):
+            continue
+        zone = str(model.zone).upper()
+        if not any(word in zone for word in ('DEPTH','CATHEDRAL','OPTICAL','SPIRAL','HELIX','DNA','MATRIX','GROVE')):
+            continue
+        role = role_for(model)
+        if role not in ('bassist','guitarist','keyboardist'):
+            continue
+        banks[role].append(model)
+    for role, members in banks.items():
+        if len(members)<3:
+            continue
+        # Use the physical world coordinate, not the model insertion index.
+        centers = np.asarray([np.mean(m.points,axis=0) for m in members])
+        spread = np.ptp(centers,axis=0)
+        axis = int(np.argmax(spread))
+        ordered = sorted(members,key=lambda m:(float(np.mean(m.points[:,axis])),m.name))
+        for rank, model in enumerate(ordered):
+            model.details.update(
+                source_route_bank=f'advanced_spatial_{role}_axis_{axis}',
+                source_route_rank=rank,
+                source_route_count=len(ordered),
+                musical_role=role,
+                advanced_spatial_routing=True,
+            )
+
+
 def route_event(model, cue, onset_index, strategy):
     """Return a bank-relative propagation delay, or abstain for this circuit.
 
