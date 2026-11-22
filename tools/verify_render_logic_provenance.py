@@ -24,6 +24,25 @@ def verify(folder: Path) -> dict:
     if not effects:
         raise ValueError("No effects reach the authoritative native XSQ")
     source_effects = [effect for effect in effects if effect.get("sourceMethod", "").startswith("retained_production_")]
+    # Validate source event clocks, not merely effect counts. Instrument
+    # gesture effects may be shorter than sustained source notes by design.
+    duration_ms = round(float(root.findtext("head/sequenceDuration", "0")) * 1000)
+    timing_checked = 0
+    for name, effect in effect_rows:
+        if effect.get("sourceMethod") not in (
+            "retained_production_band_plan", "retained_production_drum_plan"
+        ):
+            continue
+        start = effect.get("sourceStartMs")
+        if start is None:
+            raise ValueError(f"Source effect {name} lacks its original onset clock")
+        onset = int(start)
+        if onset < 0 or (duration_ms > 0 and onset >= duration_ms):
+            raise ValueError(f"Source effect {name} has out-of-range onset {onset}")
+        end = effect.get("sourceEndMs")
+        if end is not None and (int(end) <= onset or (duration_ms > 0 and int(end) > duration_ms)):
+            raise ValueError(f"Source effect {name} has invalid source offset {end}")
+        timing_checked += 1
     band = (folder / "Band_Instrument_Provenance.json")
     result = {
         "schema": "helix.render_logic_provenance.v1",
@@ -32,6 +51,7 @@ def verify(folder: Path) -> dict:
         "xsq": manifest["xsq"],
         "xsq_effects": len(effects),
         "source_tagged_effects": len(source_effects),
+        "source_timing_checked_effects": timing_checked,
         "native_fseq_verified": False,
         "status": "xsq_source_trace_verified",
     }
