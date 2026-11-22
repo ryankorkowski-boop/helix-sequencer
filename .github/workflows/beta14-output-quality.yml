@@ -45,3 +45,32 @@ jobs:
             tests/test_canonical_drum_preview_geometry.py
       - name: Compile visual quality CLI
         run: python -m py_compile core/native_rgb_quality.py tools/check_mp4_visual_quality.py
+      - name: End-to-end decoded MP4 quality smoke
+        env:
+          PYTHONPATH: .
+        run: |
+          python - <<'PY'
+          import subprocess
+          import imageio_ffmpeg
+          import numpy as np
+          ffmpeg = imageio_ffmpeg.get_ffmpeg_exe()
+          command = [ffmpeg, '-hide_banner', '-loglevel', 'error', '-y',
+                     '-f', 'rawvideo', '-pix_fmt', 'rgb24', '-s', '160x90',
+                     '-r', '10', '-i', '-', '-an', '-c:v', 'libx264',
+                     '-pix_fmt', 'yuv420p', 'quality_smoke.mp4']
+          proc = subprocess.Popen(command, stdin=subprocess.PIPE)
+          for i in range(40):
+              frame = np.zeros((90, 160, 3), dtype=np.uint8)
+              x = (i * 5) % 120
+              frame[:, x:x+35, i % 3] = 255
+              proc.stdin.write(frame.tobytes())
+          proc.stdin.close()
+          assert proc.wait() == 0
+          PY
+          python -m tools.check_mp4_visual_quality quality_smoke.mp4 --report quality_receipt.json --fps 5
+          python - <<'PY'
+          import json
+          receipt=json.load(open('quality_receipt.json'))
+          assert receipt['passed'], receipt
+          assert receipt['sampled_frames'] >= 10, receipt
+          PY
