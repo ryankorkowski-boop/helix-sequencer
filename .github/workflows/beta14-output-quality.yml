@@ -10,6 +10,8 @@ on:
       - 'core/xsq_emitter.py'
       - 'tools/performer_preview_renderer.py'
       - 'tools/check_mp4_visual_quality.py'
+      - 'tools/verify_render_logic_provenance.py'
+      - 'tests/test_render_logic_provenance.py'
       - 'tests/test_native_rgb_quality.py'
       - 'tests/test_face_style_adapter.py'
       - 'tests/test_band_vocal_face_styles.py'
@@ -42,9 +44,10 @@ jobs:
             tests/test_face_style_adapter.py \
             tests/test_band_vocal_face_styles.py \
             tests/test_xsq_face_styles.py \
-            tests/test_canonical_drum_preview_geometry.py
+            tests/test_canonical_drum_preview_geometry.py \
+            tests/test_render_logic_provenance.py
       - name: Compile visual quality CLI
-        run: python -m py_compile core/native_rgb_quality.py tools/check_mp4_visual_quality.py
+        run: python -m py_compile core/native_rgb_quality.py tools/check_mp4_visual_quality.py tools/verify_render_logic_provenance.py
       - name: End-to-end decoded MP4 quality smoke
         env:
           PYTHONPATH: .
