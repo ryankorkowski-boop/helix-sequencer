@@ -111,3 +111,11 @@ Read this checklist, MASTER_TODO.md, docs/BETA_COMPLETION_LIVE_HANDOFF.md and ev
 - [x] Read full integration suite 44965985490: 2771 passed, 2 failed, 6 skipped. The second independent failure was an outdated test using unsupported vocal phonemes A and B, although the current seven-shape contract accepts REST/AH/EE/OH/MBP/FV/L. Repaired ordering test with AH and EE (ef5fbe5); retained strict validation, no production mouth-shape weakening.
 - [x] Native-proof job in final-band run 44965985512 succeeded; accepted-native-band job failed at its producer gate. No approval MP4 claimed.
 - [ ] Confirm fresh quality and full-suite CI after both fixes; investigate accepted-native-band producer failure separately and verify actual native FSEQ/model activity.
+
+## 2026-11-22 · Native band producer scheduling blocker fixed
+- [x] Shared native XSQ timing/coverage regression [44967057573](https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/44967057573) PASSED on Python 3.11 and 3.12.
+- [x] Inspected accepted-native-band failed job logs (44965985512): `await_native_producer.cjs` reported **No native producer was scheduled for exact source**. Root cause: `fresh-real-band-mp4.yml` push path filters omitted shared XSQ source-provenance and comparison builder changes, while acceptance required exact SHA.
+- [x] Expanded producer push filters to include `verify_render_logic_provenance.py`, `build_current_comparison.py`, `canonical_band_cues.py`, and `test_render_logic_provenance.py` (7b637a7).
+- [x] Confirmed [fresh real-audio native band producer 44967134379](https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/44967134379) queued on that commit.
+- [ ] Verify producer preflight/render result and actual downloadable MP4, then exact-commit accepted-native-band job. No review approval yet.
+- [ ] Validate FSEQ per-model activity and full-song panel renders; the 9/12/16 source pipeline is shared but native acceptance remains pending.
