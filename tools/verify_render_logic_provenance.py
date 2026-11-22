@@ -18,7 +18,7 @@ def verify(folder: Path) -> dict:
     root = ET.parse(xsq).getroot()
     effect_rows = [(element.get("name", ""), effect)
                    for element in root.findall(".//ElementEffects/Element")
-                   for layer in element.findall("EffectLayer")
+                   for layer in element if layer.tag in {"EffectLayer", "SubModelEffectLayer"}
                    for effect in layer.findall("Effect")]
     effects = [effect for _, effect in effect_rows]
     if not effects:
