@@ -354,8 +354,14 @@ jobs:
               raise SystemExit('DIAGNOSTIC ONLY: MP4 may exist but independent lead/harmony identity is unverified; NOT approval-ready')
           PY
       - name: Reject nearly black or frozen native showcases
+        if: success() || failure()
         run: |
-          python -m tools.verify_showcase_luma "$(find review/show -name preview.mp4 -print -quit)" --report review/SHOWCASE_READABILITY.json
+          preview="$(find review/show -name preview.mp4 -print -quit 2>/dev/null || true)"
+          if [ -z "$preview" ]; then
+            echo "::warning::No native MP4 available for readability verification"
+          else
+            python -m tools.verify_showcase_luma "$preview" --report review/SHOWCASE_READABILITY.json
+          fi
       - name: Upload MP4 and source provenance (never a placeholder)
         if: always()
         uses: actions/upload-artifact@v4
