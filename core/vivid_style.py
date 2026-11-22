@@ -159,7 +159,13 @@ def apply_vivid_style(xsq_path: Path, layout_path: Path | None = None, *, keep_b
     rgb_by_z = _ordered(list(rgb_names), positions, "z")
     added += _ac_motion(effects_root, ac_names, duration, hits, palette_index)
     added += _rgb_motion(effects_root, rgb_names, rgb_by_z, duration, hits, palette_index, sections)
+    added += _group_motion(effects_root, _chase_groups(layout_path, kind), duration, hits, palette_index)
     added += _blackouts(effects_root, hits, duration)
+    if layout_path and Path(layout_path).exists():
+        for index, name in enumerate(models_without_effects(root, layout_path)):
+            start = (index * 160) % max(1, duration - 180)
+            _add_on(_layer(effects_root, name), start, min(duration, start + 160), palette_index[_color_index(name, 0)])
+            added += 1
     tree.write(xsq_path, encoding="utf-8", xml_declaration=True)
     return {
         "ac_models": len(ac_names),
@@ -342,14 +348,16 @@ def _restyle_effect(effect: ET.Element, *, name: str, ac: bool, duration: int, p
         )
 
 
-def _layer(effects_root: ET.Element, name: str) -> ET.Element:
+def _layer(effects_root: ET.Element, name: str, element_type: str = "model") -> ET.Element:
     for element in effects_root.findall("Element"):
         if element.attrib.get("name") == name:
+            if element_type == "modelGroup":
+                element.attrib["type"] = "modelGroup"
             layer = element.find("EffectLayer")
             if layer is None:
                 layer = ET.SubElement(element, "EffectLayer")
             return layer
-    element = ET.SubElement(effects_root, "Element", {"type": "model", "name": name})
+    element = ET.SubElement(effects_root, "Element", {"type": element_type, "name": name})
     return ET.SubElement(element, "EffectLayer")
 
 
@@ -404,41 +412,98 @@ def _ac_motion(effects_root: ET.Element, names: list[str], duration: int, hits: 
     return added
 
 
+def models_without_effects(root: ET.Element, layout_path: Path | None) -> list[str]:
+    """Root models with no effect. Submodels share the parent channel buffer."""
+    if layout_path is None or not Path(layout_path).exists():
+        return []
+    from core.model_parser import parse_layout
+
+    layout = parse_layout(layout_path)
+    wanted = [name for name, model in layout.models.items() if not model.is_submodel]
+    covered: set[str] = set()
+    effects_root = root.find("ElementEffects")
+    if effects_root is not None:
+        for element in effects_root.findall("Element"):
+            if element.findall(".//Effect"):
+                covered.add(element.attrib.get("name") or "")
+    return sorted(name for name in wanted if name not in covered)
+
+
+def _chase_groups(layout_path: Path | None, kind: dict[str, str]) -> list[str]:
+    """Groups small enough that one effect is a motif, not a full-yard blast."""
+    if layout_path is None or not Path(layout_path).exists():
+        return []
+    from core.model_parser import parse_layout
+
+    layout = parse_layout(layout_path)
+    model_count = max(1, sum(1 for model in layout.models.values() if not model.is_submodel))
+    ceiling = max(6, int(model_count * 0.35))
+    chosen = []
+    for name, model_kind in kind.items():
+        if model_kind != "group":
+            continue
+        members = [member for member in layout.expand_group_members(name) if member in layout.models and not layout.models[member].is_submodel]
+        if 2 <= len(set(members)) <= ceiling:
+            chosen.append(name)
+    return chosen
+
+
 def _rgb_motion(effects_root, names, by_z, duration, hits, palette_index, sections: int) -> int:
+    """Light about a quarter of the RGB models while music is active.
+
+    Seconds with no hits stay black. The 200 ms before a drop stays black.
+    A heavy second keeps the same coverage and shortens the flash.
+    """
     if not names:
         return 0
     added = 0
     buckets = _buckets(hits, duration)
-    window = max(1, len(names) // 8)
-    step = 140
-    tick = 0
-    for start in range(0, duration, step):
+    window = max(1, int(round(len(names) * 0.22)))
+    step = 120
+    for tick, start in enumerate(range(0, duration, step)):
         second = min(len(buckets) - 1, start // 1000)
-        if buckets[second] <= 0:
+        if buckets[second] <= 0 or _in_blackout(start, buckets):
             continue
-        heavy = _heavy(buckets, second)
-        if heavy:
-            continue
+        length = 70 if _heavy(buckets, second) else 140
         section = _section(start, duration, sections)
         for offset in range(window):
             name = names[(tick + offset) % len(names)]
-            _add_on(_layer(effects_root, name), start, min(duration, start + 110), palette_index[_color_index(name, section)])
+            _add_on(_layer(effects_root, name), start, min(duration, start + length), palette_index[_color_index(name, section)])
             added += 1
         if by_z:
-            name = by_z[tick % len(by_z)]
-            _add_on(_layer(effects_root, name), start, min(duration, start + 90), palette_index[_color_index(name, section + 1)])
-            added += 1
-        tick += 1
-    for second, count in enumerate(buckets):
-        if not _heavy(buckets, second) or count <= 0:
-            continue
-        start = second * 1000
-        section = _section(start, duration, sections)
-        for index in range(min(count, 6)):
-            name = names[(second + index) % len(names)]
-            _add_on(_layer(effects_root, name), start, min(duration, start + 70), palette_index[_color_index(name, section)])
+            name = by_z[(tick * 3) % len(by_z)]
+            _add_on(_layer(effects_root, name), start, min(duration, start + length), palette_index[_color_index(name, section + 1)])
             added += 1
     return added
+
+
+def _group_motion(effects_root, names: list[str], duration: int, hits: list[int], palette_index: dict[int, str]) -> int:
+    if not names:
+        return 0
+    added = 0
+    buckets = _buckets(hits, duration)
+    for index, name in enumerate(names):
+        for section in range(4):
+            start = int(duration * section / 4) + (index % 5) * 80
+            second = min(len(buckets) - 1, max(0, start // 1000))
+            if buckets and buckets[second] <= 0:
+                continue
+            _add_on(
+                _layer(effects_root, name, element_type="modelGroup"),
+                start,
+                min(duration, start + 120),
+                palette_index[_color_index(name, section)],
+            )
+            added += 1
+    return added
+
+
+def _in_blackout(start: int, buckets: list[int]) -> bool:
+    second = min(len(buckets) - 1, max(0, start // 1000))
+    if not _heavy(buckets, second):
+        return False
+    drop = second * 1000
+    return drop - 200 <= start < drop
 
 
 def _buckets(hits: list[int], duration: int) -> list[int]:

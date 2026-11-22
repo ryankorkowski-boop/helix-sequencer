@@ -105,6 +105,55 @@ def test_grove_appends_without_moving_existing_channels(tmp_path: Path):
     assert "HX Vivid Spiral 01" in group.attrib["models"]
 
 
+def test_every_model_including_grove_gets_effects_during_active_music(tmp_path: Path):
+    layout = tmp_path / "layout.xml"
+    _layout(layout)
+    dense = tmp_path / "dense.xml"
+    append_show_grove(layout, dense, spirals=4, dna_pairs=1)
+    sequence = tmp_path / "show.xsq"
+    _sequence(sequence)
+    root = ET.parse(sequence).getroot()
+    layer = root.find("ElementEffects/Element/EffectLayer")
+    for start in range(0, 4000, 200):
+        ET.SubElement(layer, "Effect", {"name": "On", "startTime": str(start), "endTime": str(start + 80), "palette": "0"})
+    ET.ElementTree(root).write(sequence)
+    apply_vivid_style(sequence, dense)
+    saved = ET.parse(sequence).getroot()
+    from core.vivid_style import models_without_effects
+
+    assert models_without_effects(saved, dense) == []
+    groups = {
+        item.attrib["name"]: item.attrib["models"]
+        for item in ET.parse(dense).getroot().findall("./modelGroups/modelGroup")
+    }
+    assert "HX Vivid Spiral 01" in groups["HX Vivid Spirals"]
+    assert "HX Vivid DNA 01 A" in groups["HX Vivid DNA"]
+    covered = {
+        element.attrib.get("name")
+        for element in saved.find("ElementEffects").findall("Element")
+        if element.findall(".//Effect")
+    }
+    assert "HX Vivid Spirals" in covered and "HX Vivid DNA" in covered
+    watched = (
+        "Matrix",
+        "HX Vivid Spiral 01",
+        "HX Vivid Spiral 02",
+        "HX Vivid Spiral 03",
+        "HX Vivid Spiral 04",
+        "HX Vivid DNA 01 A",
+        "HX Vivid DNA 01 B",
+    )
+    samples = []
+    for t in range(200, 3800, 120):
+        lit = 0
+        for name in watched:
+            element = next(item for item in saved.find("ElementEffects") if item.attrib.get("name") == name)
+            if any(int(effect.attrib["startTime"]) <= t < int(effect.attrib["endTime"]) for effect in element.findall(".//Effect")):
+                lit += 1
+        samples.append(lit / len(watched))
+    assert 0.15 <= sum(samples) / len(samples) <= 0.45
+
+
 def test_white_bulbs_become_saturated():
     assert saturated_bulb("Window", (255, 255, 255)) != (255, 255, 255)
     assert saturated_bulb("Tree", (0, 255, 0)) == (0, 255, 0)
