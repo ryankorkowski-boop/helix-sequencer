@@ -16,6 +16,7 @@ from core.effect_engine import (
     palette_collapses_to_white,
     palette_for_output,
     pick_palette_for_effect,
+    register_palette_index,
 )
 
 
@@ -106,3 +107,15 @@ def test_white_is_only_an_accent_on_sparkle_effects():
     stored = enabled_palette_hexes(color_palette_table(root)[int(written)])
     assert any(hex_is_near_white(color) for color in stored)
     assert any(not hex_is_near_white(color) for color in stored)
+
+
+def test_palette_registration_reuses_recent_and_earlier_indices():
+    root = _white_sequence()
+    first = "C_BUTTON_Palette1=#FF0000,C_CHECKBOX_Palette1=1"
+    second = "C_BUTTON_Palette1=#00FF00,C_CHECKBOX_Palette1=1"
+    assert register_palette_index(root, first) == "1"
+    assert register_palette_index(root, first) == "1"
+    assert register_palette_index(root, second) == "2"
+    assert register_palette_index(root, first) == "1"
+    assert register_palette_index(root, second) == "2"
+    assert len(color_palette_table(root)) == 3
