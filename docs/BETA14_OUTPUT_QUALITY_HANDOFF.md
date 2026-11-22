@@ -80,3 +80,10 @@ Read this checklist, MASTER_TODO.md, docs/BETA_COMPLETION_LIVE_HANDOFF.md and ev
 - [ ] Important: do not equate one source-tagged effect with *all* logic reaching render. Build per-role cue counts/timestamps/target coverage, confirm source-driven vocal modes, and measure native FSEQ model activity.
 - [ ] Keep HPSS, Demucs, beat/chord/section, orchestration, instrument and vocal logic independent of panel count; allow AC/RGB capability-specific effect mapping only. Never force band geometry onto non-band layouts.
 - [ ] Verify 9/12/16 all use same music-plan SHA for identical source audio, and prove native FSEQ carries those event lanes before owner acceptance.
+
+## 2026-11-22 · Per-component source coverage
+- [x] Shared 9/12/16 pipeline output-quality CI [44965603728](https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/44965603728) PASSED for Python 3.11 and 3.12.
+- [x] Upgraded shared XSQ provenance gate to check source-tagged effect counts separately for every instrument model and every detected drummer component, not only the presence of one tagged effect (fd6d533).
+- [x] Added partial-loss regression: two mapped musician cues with only one native source effect must fail (f89b1ab).
+- [ ] Confirm updated CI [44965743388](https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/44965743388) passes; subsequent test commit may supersede the run.
+- [ ] Extend proof to exact event timestamps and qualified vocal clocks, then independently inspect xLights FSEQ channels and actual decoded MP4; source XSQ event counts alone are not full render verification.
