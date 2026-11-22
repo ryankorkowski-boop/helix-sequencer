@@ -56,6 +56,33 @@ def parts_for(model):
     for prefix in ('ROW_','STRAND_','RAY_','SECTOR_'):
         parts=[p for p in model.submodels if p.startswith(prefix)]
         if parts:return parts
+    # Advanced customer installations must move through actual physical
+    # coordinates rather than flash the entire prop as one ALL segment.
+    # Preserve authored rows, rays, strands and explicit spatial axes above.
+    # A PCA-derived primary direction works for angled corridors, rotated
+    # matrices and 3-D objects without relying on insertion order.
+    advanced={'DEPTH','CATHEDRAL','OPTICAL','SPIRALS','HELIX','DNA','MATRICES','GROVE','SPATIAL','3D'}
+    zone=str(model.zone).upper()
+    if (model.kind=='pixel' and len(model.points)>=48
+            and (zone in advanced or any(word in zone for word in ('HELIX','SPATIAL','MATRIX','DEPTH','OPTICAL')))):
+        coords=np.asarray(model.points,dtype=float)
+        centered=coords-coords.mean(axis=0)
+        _,singular,vectors=np.linalg.svd(centered,full_matrices=False)
+        if singular[0]>1e-6:
+            axis=vectors[0]
+            # Canonical direction: no sign flips when geometry order changes.
+            primary=int(np.argmax(np.abs(axis)))
+            if axis[primary]<0:axis=-axis
+            position=centered@axis
+            spread=float(np.ptp(position))
+            if spread>1e-6:
+                bins=np.minimum(11,np.floor((position-position.min())/spread*12).astype(int))
+                names=[]
+                for index in sorted(np.unique(bins)):
+                    name=f'SPATIAL_PATH_{index:02}'
+                    model.submodels[name]=(np.flatnonzero(bins==index)+1).tolist()
+                    names.append(name)
+                if len(names)>1:return names
     model.submodels.setdefault('ALL',list(range(1,len(model.points)+1)))
     return ['ALL']
 

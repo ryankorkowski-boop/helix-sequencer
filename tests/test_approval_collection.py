@@ -232,3 +232,32 @@ def test_final_twelve_comparison_keeps_explicit_layout_names(tmp_path):
         else:
             assert labels == []
     assert _comparison_labels(list(range(1, 10)), movies) == []
+
+
+def test_advanced_customer_props_follow_geometry_not_global_pulses():
+    import numpy as np
+    from types import SimpleNamespace
+    from tools.source_spatial_direction import parts_for
+
+    points=np.array([[float(i),float(i)*.4,float(i)*.7] for i in range(120)])
+    model=SimpleNamespace(name='CUSTOMER_DEPTH_CORRIDOR',zone='DEPTH',kind='pixel',
+                          display='Custom',points=points,details={},submodels={'ALL':list(range(1,121))})
+    parts=parts_for(model)
+    assert len(parts)>=8
+    assert all(part.startswith('SPATIAL_PATH_') for part in parts)
+    assert sorted(n for part in parts for n in model.submodels[part])==list(range(1,121))
+    assert all(len(model.submodels[part])<120 for part in parts)
+    # Reordering pixel insertion must not alter spatial bin membership.
+    shuffled=points[::-1].copy()
+    second=SimpleNamespace(name=model.name,zone='DEPTH',kind='pixel',
+                           display='Custom',points=shuffled,details={},submodels={})
+    again=parts_for(second)
+    assert len(again)==len(parts)
+    assert [sorted(points[np.array(model.submodels[p])-1,0].tolist()) for p in parts] == [
+        sorted(shuffled[np.array(second.submodels[p])-1,0].tolist()) for p in again]
+    ac=SimpleNamespace(name='LEGACY_AC',zone='DEPTH',kind='ac',display='Custom',
+                       points=points,details={},submodels={'CIRCUIT_01':[1]})
+    assert parts_for(ac)==['CIRCUIT_01']
+    starter=SimpleNamespace(name='STARTER',zone='HOUSE',kind='pixel',display='Custom',
+                            points=points,details={},submodels={})
+    assert parts_for(starter)==['ALL']

@@ -1,3 +1,13 @@
+## November 22 · Owner rejects global-pulse customer layouts; first geometry-path repair
+
+**Goal:** Make advanced native customer layouts spatially active, not whole-prop beat flashes, using the existing source-bound choreography and native xLights exporter.
+**Changed files:** `tools/source_spatial_direction.py`, `tests/test_approval_collection.py`, `MASTER_TODO.md`.
+**Preserved:** All actual source cue clocks, silence, role routing, section strategies, native XSQ/FSEQ export, AC16/64/256 channel budgets, explicit native strands/rows/rays/sectors, vocal/band handling, owner approval gates, and existing simple customer house behavior.
+**New behavior:** When an advanced 3-D/cathedral/depth/optical/matrix/helix pixel model has no authored spatial segmentation, split its real physical coordinates into up to 12 principal-axis spatial submodels. The existing source-timed phrase choreography now travels through real physical locations instead of turning on the entire prop. It does not invent notes, fake geometry rotation, or add generic beat flashes. The path axis is deterministic and insertion-order independent.
+**Tests/evidence:** New focused geometry-order, segment coverage, AC preservation, and starter-house regression authored. CI and new native xLights video still pending; no artistic acceptance claimed.
+**Limitations/deferred:** A path within one prop is only the first repair. Customer setup realism, coordinated inter-prop spatial choreography, high-level engine selection, musical counterpoint, varied section choreography, 3D lighting motion, all 9/12/16 panel re-renders, native proof and owner approval remain mandatory. Existing generic source-cue density may still cause pulsing; must inspect the new MP4 and reject if so.
+**Regression risks:** Advanced pixel submodel count increases, so memory, xLights model XML and effect tables must be checked on fresh render. No merge or release.
+
 ## November 22 · Start full 12-panel production when final presentation is repaired
 
 **Goal:** Allow the corrected final 4x3 layout and required caption logic to be exercised by the real production workflow, rather than leaving the fix unrendered.
