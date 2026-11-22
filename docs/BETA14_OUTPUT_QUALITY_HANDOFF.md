@@ -105,3 +105,9 @@ Read this checklist, MASTER_TODO.md, docs/BETA_COMPLETION_LIVE_HANDOFF.md and ev
 - [x] Source-timed instrument and drum events now require xLights Effect.startTime to equal original sourceStartMs exactly (d4e7755). A missing/shifted native effect onset fails before render. Note that short instrument gestures may intentionally end before the sustained note ends.
 - [x] Added shifted-onset regression fixture (927d9bb); new CI pending.
 - [ ] Native FSEQ per-model event activity and full MP4 decoded quality remain unverified; owner approval not granted.
+
+## 2026-11-22 · Two CI failure repairs
+- [x] Read output-quality logs 44965985549: 19 tests passed, 1 failed because the invalid-onset fixture triggered native timestamp mismatch before the expected out-of-range diagnostic. Reordered validation to check source bounds first (df7b267).
+- [x] Read full integration suite 44965985490: 2771 passed, 2 failed, 6 skipped. The second independent failure was an outdated test using unsupported vocal phonemes A and B, although the current seven-shape contract accepts REST/AH/EE/OH/MBP/FV/L. Repaired ordering test with AH and EE (ef5fbe5); retained strict validation, no production mouth-shape weakening.
+- [x] Native-proof job in final-band run 44965985512 succeeded; accepted-native-band job failed at its producer gate. No approval MP4 claimed.
+- [ ] Confirm fresh quality and full-suite CI after both fixes; investigate accepted-native-band producer failure separately and verify actual native FSEQ/model activity.
