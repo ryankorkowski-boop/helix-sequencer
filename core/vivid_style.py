@@ -350,10 +350,16 @@ def _palettes_for_layout(root: ET.Element, layout_path: Path | None, sections: l
     for color in list(decision.palette) + [item for cols in decision.section_palettes.values() for item in cols]:
         install(color)
 
-    def palette_for(name: str, start: int) -> str:
+    def palette_for(name: str, start: int, *, white_accent: bool = False) -> str:
         colors = decision.for_section(_section_label(start, sections)) or decision.palette
         usable = [color for color in colors if color.upper() not in {"#FFFFFF", "#FFF1D0", "#E8F6FF"}] or list(colors)
-        return install(usable[sum(ord(char) for char in name) % len(usable)])
+        chosen = usable[sum(ord(char) for char in name) % len(usable)]
+        if white_accent:
+            # The highlight must contain white AND a saturated color, never
+            # a white-only palette. Previously its label said white accent
+            # while the selected palette excluded white entirely.
+            return _palette_index(palettes, palette_text(("#FFFFFF", chosen if chosen.upper() != "#FFFFFF" else "#FF2BD6")))
+        return install(chosen)
 
     palette_for.strategy = strategy
     return {}, palette_for
@@ -503,7 +509,7 @@ def _ac_motion(effects_root: ET.Element, names: list[str], duration: int, beats:
         for offset in range(window):
             name = names[(tick + offset) % len(names)]
             accent = tick % 17 == 0 and offset == 0
-            if _add_on(_vivid_layer(effects_root, name), start, end, palette_for(name, start), accent_white=accent):
+            if _add_on(_vivid_layer(effects_root, name), start, end, palette_for(name, start, white_accent=accent), accent_white=accent):
                 added += 1
         bank = [name for index, name in enumerate(names) if index % 2 == tick % 2]
         if len(bank) > 24:
