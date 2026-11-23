@@ -516,9 +516,11 @@ def _ac_motion(effects_root: ET.Element, names: list[str], duration: int, beats:
         # Broad parity banks previously flashed up to 24 extra AC circuits
         # on the same beat. Restrict them to a short traveling response.
         bank = [names[(tick * 3 + step * 2) % len(names)] for step in range(min(3, len(names)))]
-        for step, name in enumerate(bank):
-            onset = start + step * 35
-            if _add_on(_vivid_layer(effects_root, name), onset, min(duration, onset + 110), palette_for(name, onset)):
+        for name in bank:
+            # Keep starts locked to the actual musical event; spatial motion
+            # comes from selecting a changing physical subset, not inventing
+            # off-grid timing that fails the source-clock invariant.
+            if _add_on(_vivid_layer(effects_root, name), start, min(duration, start + 110), palette_for(name, start)):
                 added += 1
     return added
 
