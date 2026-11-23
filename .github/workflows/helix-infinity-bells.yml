@@ -28,6 +28,11 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           python -m pip install numpy scipy librosa soundfile numba llvmlite imageio imageio-ffmpeg pillow scikit-learn pytest gdown
+      - name: Install FFmpeg and ffprobe for final media verification
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y ffmpeg
+          command -v ffprobe
       - name: Provide FFmpeg from installed imageio wheel
         run: |
           mkdir -p "$RUNNER_TEMP/helix-bin"
