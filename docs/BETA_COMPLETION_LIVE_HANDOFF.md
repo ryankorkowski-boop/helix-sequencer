@@ -1,3 +1,9 @@
+## November 23 — Anti-pulse regression repair
+
+- GitHub full CI on `bf4e0106`: 2,782 passed, 1 failed (`test_vivid_layer_is_beat_locked_and_does_not_overlap`). The initial 35-ms artificial offset broke native musical event timing; fixed in `7b9059cf` while retaining the smaller selective AC groups.
+- Earlier `1c4ecfc` passed Helix Unified Beta Integration, Helix Beta CI, and Birdsong CI. The preview darkness regression and white-plus-saturated highlight repair remain on the unmerged recovery branch.
+- **Pending:** CI on `7b9059cf`, native FSEQ comparison, spatial motion measurement, verified Bells of Mathmas 16-panel delivery. Some unrelated Windows/Android/band workflows failed; do not label them passed or owner-approved.
+
 ## November 22 — Beta 1.4 choreography recovery roadmap (owner review required)
 
 **Goal:** Restore 1.3 musical variety without all-white flashing, verify real xLights FSEQ visual fidelity, and deliver original-audio Bells of Mathmas 16-panel approval videos. This branch is unmerged and not owner-approved.
