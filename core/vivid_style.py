@@ -501,7 +501,9 @@ def _ac_motion(effects_root: ET.Element, names: list[str], duration: int, beats:
     if not names or not beats:
         return 0
     added = 0
-    window = max(8, len(names) // 2) if len(names) <= 32 else max(24, len(names) // 5)
+    # Avoid turning half the AC installation on at every beat. Keep the
+    # existing moving selection but cap simultaneous active circuits.
+    window = min(len(names), max(2, min(8, (len(names) + 7) // 8)))
     for tick, start in enumerate(beats):
         if start >= duration:
             continue
@@ -511,11 +513,12 @@ def _ac_motion(effects_root: ET.Element, names: list[str], duration: int, beats:
             accent = tick % 17 == 0 and offset == 0
             if _add_on(_vivid_layer(effects_root, name), start, end, palette_for(name, start, white_accent=accent), accent_white=accent):
                 added += 1
-        bank = [name for index, name in enumerate(names) if index % 2 == tick % 2]
-        if len(bank) > 24:
-            bank = bank[:: max(1, len(bank) // 24)]
-        for name in bank:
-            if _add_on(_vivid_layer(effects_root, name), start, min(duration, start + 160), palette_for(name, start)):
+        # Broad parity banks previously flashed up to 24 extra AC circuits
+        # on the same beat. Restrict them to a short traveling response.
+        bank = [names[(tick * 3 + step * 2) % len(names)] for step in range(min(3, len(names)))]
+        for step, name in enumerate(bank):
+            onset = start + step * 35
+            if _add_on(_vivid_layer(effects_root, name), onset, min(duration, onset + 110), palette_for(name, onset)):
                 added += 1
     return added
 
