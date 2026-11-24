@@ -564,7 +564,7 @@ def _chase_groups(layout_path: Path | None, kind: dict[str, str]) -> list[str]:
 
 
 def _rgb_motion(effects_root, names, by_z, duration, beats, palette_for) -> int:
-    """Light about a quarter of the RGB models on each beat.
+    """Add sparse RGB accents without overwhelming existing musical effects.
 
     Beats only exist inside active phrases, so the gaps stay black. A beat
     in the 200 ms before a drop is skipped. Existing effects are not moved.
@@ -572,7 +572,9 @@ def _rgb_motion(effects_root, names, by_z, duration, beats, palette_for) -> int:
     if not names or not beats:
         return 0
     added = 0
-    window = max(1, int(round(len(names) * 0.22)))
+    # Keep this supplemental accent layer subordinate to existing native
+    # source-specific choreography, particularly on dense RGB installations.
+    window = max(1, min(8, int(round(len(names) * 0.08))))
     buckets = _buckets(beats, duration)
     for tick, start in enumerate(beats):
         if start >= duration or _in_blackout(start, buckets):
@@ -597,11 +599,14 @@ def _group_motion(effects_root, names: list[str], duration: int, beats: list[int
         start = next((beat for beat in beats if section["start_ms"] <= beat < section["end_ms"]), None)
         if start is None:
             continue
-        for name in names:
-            if is_performance_prop(name):
-                continue
-            if _add_on(_vivid_layer(effects_root, name, element_type="modelGroup"), start, min(duration, start + 120), palette_for(name, start)):
-                added += 1
+        eligible = [name for name in names if not is_performance_prop(name)]
+        if not eligible:
+            continue
+        # One focal group per section, rather than flashing every overlapping
+        # model group simultaneously at the section boundary.
+        name = eligible[sections.index(section) % len(eligible)]
+        if _add_on(_vivid_layer(effects_root, name, element_type="modelGroup"), start, min(duration, start + 120), palette_for(name, start)):
+            added += 1
     return added
 
 
