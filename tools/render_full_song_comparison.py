@@ -74,10 +74,13 @@ def prepare(audio, work, sha, *, instrumental, vocals, names=NAMES, layout_build
             subprocess.run(command, cwd=ROOT, stdout=log, stderr=subprocess.STDOUT, check=True)
         plan, = (production / 'sequence').rglob('*.snowman_band.json')
         write_json(manifest, dict(identity, plan_sha256=digest(plan)))
+    keyboard_stems = os.environ.get("HELIX_KEYBOARD_STEMS_MANIFEST")
     layouts = work / 'layouts'
     layouts.mkdir(exist_ok=True)
     settings = dict(identity, plan_sha256=digest(plan), instrumental=instrumental,
                     vocal_clock_sha256=digest(vocals / 'acoustic_vocal_clocks.npz') if vocals else None)
+    if keyboard_stems:
+        settings["keyboard_stems_sha256"] = digest(Path(keyboard_stems))
     if names != NAMES:
         settings['layout_names'] = list(names)
     checkpoint = layouts / 'batch_identity.json'
@@ -94,7 +97,8 @@ def prepare(audio, work, sha, *, instrumental, vocals, names=NAMES, layout_build
             row = json.loads(panel.read_text())
             if (row['source_audio_sha256'] != sha or row['source_analysis_sha256'] != settings['plan_sha256']
                     or row['layout_sha256'] != digest(folder / 'xlights_rgbeffects.xml')
-                    or row['xsq_sha256'] != digest(folder / row['xsq'])):
+                    or row['xsq_sha256'] != digest(folder / row['xsq'])
+                    or row.get('keyboard_evidence', {}).get('manifest_sha256') != settings.get('keyboard_stems_sha256')):
                 raise ValueError(f'Layout checkpoint {number} has changed')
             continue
         if folder.exists():
@@ -103,7 +107,7 @@ def prepare(audio, work, sha, *, instrumental, vocals, names=NAMES, layout_build
     if missing:
         build_layouts(production, vocals, layouts, numbers=missing, names=names,
                       layout_builder=layout_builder, preserve_addresses=preserve_addresses,
-                      instrumental=instrumental, expected_sha256=sha)
+                      instrumental=instrumental, expected_sha256=sha, keyboard_stems=keyboard_stems)
     return settings
 
 

@@ -224,7 +224,7 @@ def layout(number,plan,*,duration=36):
 
 def build(source,vocals,output,*,numbers=None,names=NAMES,layout_builder=layout,
           preserve_addresses=(1,),instrumental=False,expected_sha256=None,
-          unqualified_vocals=False):
+          unqualified_vocals=False, keyboard_stems=None):
     source,output=map(Path,(source,output));output.mkdir(parents=True,exist_ok=True)
     source_manifest=json.loads((source/'run_manifest.json').read_text())
     audio=source/'media'/source_manifest.get('audio_name','Helix_Starred_New_Review.wav');sha=digest(audio)
@@ -240,6 +240,14 @@ def build(source,vocals,output,*,numbers=None,names=NAMES,layout_builder=layout,
     plan_path,=plans
     plan=json.loads(plan_path.read_text())
     plan_sha256=digest(plan_path)
+    keyboard_report=None
+    if keyboard_stems is not None:
+        from tools.qualified_keyboard import cues as qualified_cues
+        qualified, keyboard_report=qualified_cues(audio, keyboard_stems)
+        # Only replace the canonical pitched performer lane; all other musical
+        # cues and the retained production plan file remain unchanged.
+        plan['cues']['keyboardist']=qualified
+        keyboard_report['manifest_sha256']=digest(Path(keyboard_stems))
     cache={}
     shape_names=SHAPE_NAMES
     if vocals is not None:
@@ -448,6 +456,8 @@ def build(source,vocals,output,*,numbers=None,names=NAMES,layout_builder=layout,
                   channels=max(m.start+m.channels-1 for m in g.models),warnings=[],native_render_status='pending',
                   renderer_for_comparison='Helix solid 3D' if number==2 and not full_song else 'native xLights',
                   owner_approved=False)
+        if keyboard_report is not None:
+            item['keyboard_evidence']=keyboard_report
         if full_song:
             item.update(layout_sha256=digest(folder/'xlights_rgbeffects.xml'),xsq_sha256=digest(path),
                         vocal_mode=('UNQUALIFIED_VOCALS_MUTED' if unqualified_vocals else 'instrumental_rest' if instrumental else receipt.get('verification_state','estimate')),
