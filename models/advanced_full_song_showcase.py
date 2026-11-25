@@ -229,6 +229,43 @@ def _ultimate(g, s, *, native_extended_mouths=False):
                phase=index / 4)
 
 
+def _advanced_layers(g, s, number):
+    """Distinct physical ensembles using existing native structure constructors."""
+    if number == 13:
+        # Three interlaced, separately routed garden paths across the estate.
+        for i, z in enumerate((-29, -3, 23)):
+            first = len(g.models)
+            s.path('ESTATE_WAVE_PATH', [(-112, 3, z), (-75, 8, z+6),
+                   (-38, 3, z), (0, 8, z+6), (38, 3, z), (75, 8, z+6),
+                   (112, 3, z)], 'SPATIAL_GARDEN_PATHS', i, 300)
+            _music(g, first, ('bassist', 'guitarist', 'keyboardist')[i],
+                   direction=(-1)**i, phase=i/3)
+    elif number == 14:
+        # Crossed, counter-wound canopy spans between the upright helix pairs.
+        for i, z in enumerate((-40, -14, 12)):
+            first = len(g.models)
+            s.dna('COUNTERWOUND_CANOPY', (-72, 59, z), (72, 59, z),
+                  6, (-1)**i * 4, 'HELIX_CANOPY', i)
+            _music(g, first, ('keyboardist', 'guitarist', 'bassist')[i],
+                   direction=(-1)**i, phase=i/3)
+            g.models[-1].details['spatial_axis'] = 'x'
+    elif number == 15:
+        # Rotated, translucent lattice layers create actual optical parallax.
+        for i, z in enumerate((-58, -37, -16)):
+            first = len(g.models)
+            s.mesh('OPTICAL_CROSS_LATTICE', (0, 12, z), 122, 52,
+                   'OPTICAL_MATRIX', i, wave=4, yaw=(-1)**i*22)
+            _music(g, first, ('guitarist', 'bassist', 'keyboardist')[i],
+                   direction=(-1)**i, phase=i/3)
+    elif number == 16:
+        # Concentric ground orbits around the finale, with alternating lanes.
+        for i, radius in enumerate((44, 66, 91, 119)):
+            first = len(g.models)
+            s.ring('FINALE_GROUND_ORBIT', (0, 3+i*2, 0), radius,
+                   radius*.45, 'SPIRAL_ORBITS', i, plane='xz', count=240)
+            _music(g, first, ('bassist','keyboardist','guitarist','bassist')[i],
+                   direction=(-1)**i, phase=i/4)
+
 def build_showcase(number, plan, *, duration, native_band, native_extended_mouths=False):
     if number not in (13, 14, 15, 16):
         raise ValueError('Advanced showcase is limited to panels 13–16')
@@ -240,6 +277,7 @@ def build_showcase(number, plan, *, duration, native_band, native_extended_mouth
         _ultimate(g, s, native_extended_mouths=native_extended_mouths)
     else:
         {13: _estate, 14: _wonderland, 15: _megastructure}[number](g, s)
+    _advanced_layers(g, s, number)
     # Reuse the tested native source routing for every advanced layout, not
     # just the finale. Explicit per-prop motion remains on its measured clock.
     from tools.source_role_routing import configure_advanced_spatial_routes
@@ -247,7 +285,8 @@ def build_showcase(number, plan, *, duration, native_band, native_extended_mouth
         zone = str(model.zone).upper()
         if ('HELIX' in zone or 'DNA' in zone or 'NESTED_TOWER' in zone
                 or 'SPIRAL_GROVE' in zone or 'SPIRAL_FOREST' in zone):
-            model.details['spatial_axis'] = 'spiral'
+            if model.details.get('spatial_axis') != 'x':
+                model.details['spatial_axis'] = 'spiral'
         if zone == 'THREE_D_GRID':
             # Preserve matrix rows for native surface buffers.
             model.details.pop('spatial_axis', None)
