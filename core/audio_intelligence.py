@@ -1951,17 +1951,32 @@ def analyze_audio_file(
         local_bpm = _scalar_float(tempo_bpm) if idx == 0 or idx >= len(beat_events) - 1 else (60000.0 / max(1, beat_events[idx + 1].time_ms - event.time_ms))
         tempo_map.append({"time_ms": event.time_ms, "bpm": round(local_bpm, 3), "confidence": event.confidence, "downbeat": bool(event.metadata.get("downbeat", False))})
 
-    rms = librosa.feature.rms(y=y, hop_length=hop)[0]
+    def _compute_spectral() -> dict[str, np.ndarray]:
+        return {
+            "rms": librosa.feature.rms(y=y, hop_length=hop)[0],
+            "centroid": librosa.feature.spectral_centroid(y=y, sr=sr, hop_length=hop)[0],
+            "bandwidth": librosa.feature.spectral_bandwidth(y=y, sr=sr, hop_length=hop)[0],
+            "contrast": librosa.feature.spectral_contrast(y=y, sr=sr, hop_length=hop),
+            "rolloff": librosa.feature.spectral_rolloff(y=y, sr=sr, hop_length=hop)[0],
+            "zcr": librosa.feature.zero_crossing_rate(y, hop_length=hop)[0],
+            "mfcc": librosa.feature.mfcc(y=y, sr=sr, hop_length=hop, n_mfcc=13),
+            "chroma": librosa.feature.chroma_stft(y=y, sr=sr, hop_length=hop),
+        }
+
+    names = ("rms", "centroid", "bandwidth", "contrast", "rolloff", "zcr", "mfcc", "chroma")
+    try:
+        spectral_key = audio_cache_key(audio_path, {
+            "feature": "spectral_bundle_v1", "sr": int(sr), "hop": hop,
+            "mono": True, "librosa": str(librosa.__version__),
+        })
+        spectral = cached_arrays(cache_root / "features", spectral_key, _compute_spectral)
+        rms, centroid, bandwidth, contrast, rolloff, zcr, mfcc, chroma = (spectral[name] for name in names)
+    except (OSError, ValueError, TypeError, KeyError, EOFError):
+        spectral = _compute_spectral()
+        rms, centroid, bandwidth, contrast, rolloff, zcr, mfcc, chroma = (spectral[name] for name in names)
     rms01 = rms / max(1e-9, float(np.max(rms) if rms.size else 1.0))
     loudness = librosa.amplitude_to_db(np.maximum(rms, 1e-8), ref=np.max) if rms.size else np.asarray([], dtype=float)
-    centroid = librosa.feature.spectral_centroid(y=y, sr=sr, hop_length=hop)[0]
-    bandwidth = librosa.feature.spectral_bandwidth(y=y, sr=sr, hop_length=hop)[0]
-    contrast = librosa.feature.spectral_contrast(y=y, sr=sr, hop_length=hop)
-    rolloff = librosa.feature.spectral_rolloff(y=y, sr=sr, hop_length=hop)[0]
-    zcr = librosa.feature.zero_crossing_rate(y, hop_length=hop)[0]
-    mfcc = librosa.feature.mfcc(y=y, sr=sr, hop_length=hop, n_mfcc=13)
     mfcc_delta = librosa.feature.delta(mfcc) if mfcc.size else np.asarray([], dtype=float)
-    chroma = librosa.feature.chroma_stft(y=y, sr=sr, hop_length=hop)
     harm, perc = bounded_audio.hpss(y, sr)
     perc_onset = librosa.onset.onset_strength(y=perc, sr=sr, hop_length=hop)
     harmonic_change = np.abs(np.diff(np.mean(chroma, axis=0))) if chroma.size else np.asarray([], dtype=float)
