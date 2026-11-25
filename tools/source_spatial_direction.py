@@ -191,11 +191,20 @@ def schedule(model,plan,cache,duration,*,source_clocks=None):
         route_delay=route_event(model,cue,section_onsets[cue.get('section','')][a],strategy)
         if route_delay is None:continue
         steps=min(len(parts),strategy['steps'])
+        bounded_advanced=bool(model.details.get('advanced_spatial_routing')
+                              or model.details.get('advanced_showcase_clock'))
+        # Bank, world-depth and local-path delays share the same note budget.
+        # Preserve their ordering without dropping distant props on short notes.
+        latest=max(0,depth_ms+route_delay+(steps-1)*strategy['step_ms'])
+        budget=max(0,(b-a-1)//2)
+        delay_scale=min(1.,budget/max(1,latest)) if bounded_advanced else 1.
         for step in range(steps):
             part=parts[(origin+direction*strategy['direction']*step)%len(parts)]
             delay=depth_ms+step*strategy['step_ms']+route_delay
+            if bounded_advanced:
+                delay=round(max(0,delay)*delay_scale)
             start=max(0,a+delay);end=min(duration,b+delay)
-            if model.details.get('source_route_count',1)>1 or model.details.get('spatial_axis'):
+            if bounded_advanced or model.details.get('source_route_count',1)>1 or model.details.get('spatial_axis'):
                 # Preserve the source clock and negative space even when
                 # neighboring nodes respond at staggered times.
                 end=min(end,b)

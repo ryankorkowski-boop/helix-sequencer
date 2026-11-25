@@ -260,6 +260,9 @@ def build_showcase(number, plan, *, duration, native_band, native_extended_mouth
         model.attrs.setdefault('PixelSize', '8')
         model.attrs.setdefault('BlackTransparency', '100')
         model.details.setdefault('source_display_floor', .20)
+        if (model.kind=='pixel' and not model.details.get('review_role')
+                and not model.details.get('generic_singer')):
+            model.details['advanced_showcase_clock']=True
         if not model.submodels:
             model.submodels['ALL'] = list(range(1, len(model.points) + 1))
     return g, cast

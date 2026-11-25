@@ -240,3 +240,36 @@ def test_native_surface_buffer_preserves_physical_rows_and_every_channel():
     assert root.find("./subModel[@name='ROW_00']").get('line1') is None
     assert surface_buffer_rows(model,model.submodels['SPATIAL_SURFACE'][:-1])==[]
     assert any(e.get('name')=='Bars' for e in seq.root.findall('./ElementEffects//Effect'))
+
+
+def test_advanced_combined_delay_budget_preserves_short_notes_and_rests():
+    m=SimpleNamespace(name='DISTANT_GRID',zone='THREE_D_GRID',kind='pixel',
+        points=np.asarray([[x,0,0] for x in range(12)],dtype=float),
+        submodels={f'ROW_{i:02}':[i+1] for i in range(12)},
+        details=dict(musical_role='keyboardist',advanced_showcase_clock=True,
+                     propagation_delay_ms=360,source_route_count=12,
+                     source_route_rank=11,advanced_spatial_routing=True))
+    cue=dict(start_ms=100,end_ms=160,pitch_midi=48,velocity=.9,section='chorus')
+    events=schedule(m,dict(cues={'keyboardist':[cue]}),{},1000)
+    assert len(events)==5
+    assert all(100<=e['start_ms']<=129 and e['end_ms']==160 for e in events)
+    assert [e['start_ms'] for e in events]==sorted(e['start_ms'] for e in events)
+    assert len({e['part'] for e in events})==5
+    assert all(e['source_start_ms']==100 and e['source_end_ms']==160 for e in events)
+    m.details['source_route_rank']=5
+    assert not schedule(m,dict(cues={'keyboardist':[cue]}),{},1000)
+    assert not schedule(m,dict(cues={'keyboardist':[]}),{},1000)
+
+
+def test_long_advanced_note_retains_authored_delay_and_legacy_is_unchanged():
+    m=SimpleNamespace(name='DEPTH_GRID',zone='DEPTH',kind='pixel',
+        points=np.asarray([[x,0,0] for x in range(4)],dtype=float),
+        submodels={f'ROW_{i}':[i+1] for i in range(4)},
+        details=dict(musical_role='bassist',advanced_showcase_clock=True,
+                     propagation_delay_ms=120))
+    plan=dict(cues={'bassist':[dict(start_ms=100,end_ms=1100,section='verse',pitch_midi=40)]})
+    events=schedule(m,plan,{},2000)
+    assert [e['propagation_delay_ms'] for e in events]==[120,170]
+    assert all(e['end_ms']==1100 for e in events)
+    m.details.pop('advanced_showcase_clock')
+    assert [e['end_ms'] for e in schedule(m,plan,{},2000)]==[1220,1270]
