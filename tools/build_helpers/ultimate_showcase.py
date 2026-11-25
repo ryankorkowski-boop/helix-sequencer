@@ -29,6 +29,25 @@ def _ranges(nodes: list[int]) -> str:
     return ",".join(str(r[0]) if len(r)==1 else f"{r[0]}-{r[-1]}" for r in runs)
 
 
+def surface_buffer_rows(model, nodes):
+    """Use complete rectangular physical rows; otherwise keep legacy buffer.
+
+    Only the phrase surface is re-shaped. Channel membership, node IDs,
+    original note submodels and all other model serialization stay intact.
+    """
+    rows=[list(row) for name,row in model.submodels.items() if name.startswith("ROW_") and row]
+    if len(rows)<2 or len({len(row) for row in rows})!=1 or len(rows[0])<2:
+        return []
+    flat=[node for row in rows for node in row]
+    if len(flat)!=len(set(flat)) or set(flat)!=set(nodes):
+        return []
+    points=np.asarray(model.points)
+    if min(flat)<1 or max(flat)>len(points):
+        return []
+    rows.sort(key=lambda row:(float(points[np.asarray(row)-1,1].mean()),min(row)))
+    return [sorted(row,key=lambda node:(float(points[node-1,0]),node)) for row in rows]
+
+
 def model_xml(m, tag: str = "model") -> ET.Element:
     attrs={"name":m.name,"DisplayAs":m.display,"StringType":"RGB Nodes" if m.kind=="pixel" else "Single Color White",
            "StartChannel":str(m.start),"Controller":"","LayoutGroup":"Default",
@@ -37,7 +56,15 @@ def model_xml(m, tag: str = "model") -> ET.Element:
     root=ET.Element(tag,{k:str(v) for k,v in attrs.items()})
     for name,nodes in m.submodels.items():
         if nodes:
-            ET.SubElement(root,"subModel",{"name":name,"layout":"horizontal","type":"ranges","line0":_ranges(nodes)})
+            attrs={"name":name,"layout":"horizontal","type":"ranges","line0":_ranges(nodes)}
+            if name == "SPATIAL_SURFACE" and m.details.get("native_surface_rows"):
+                rows=surface_buffer_rows(m,nodes)
+                if rows:
+                    # Node order defines xLights buffer coordinates; do not
+                    # sort numerical addresses or compress a reversed strand.
+                    attrs.update({f"line{i}":",".join(map(str,row))
+                                  for i,row in enumerate(rows)})
+            ET.SubElement(root,"subModel",attrs)
     for name,attrs in m.children:
         ET.SubElement(root,name,attrs)
     return root
