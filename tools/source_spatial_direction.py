@@ -210,6 +210,24 @@ def schedule(model,plan,cache,duration,*,source_clocks=None):
     return result
 
 
+def native_bars_direction(model, strategy):
+    """Select a native Bars direction from the existing section/geometry plan.
+
+    Use only established 2026.18-compatible choices, not the newer custom
+    angle option. For an advanced sampled surface, a build expands from
+    center and a chorus alternates across it; ordinary surfaces retain
+    the former directional sweep.
+    """
+    direction = model.details.get('spatial_direction', 1) * strategy['direction']
+    zone = str(model.zone).upper()
+    advanced = any(word in zone for word in ('OPTICAL', 'DEPTH', 'CATHEDRAL', 'HELIX', 'MATRIX', 'SPATIAL'))
+    if advanced and strategy['name'] == 'ascending':
+        return 'H-expand' if direction > 0 else 'H-compress'
+    if advanced and strategy['name'] == 'wide_response':
+        return 'Alternate Left' if direction > 0 else 'Alternate Right'
+    return 'Left' if direction > 0 else 'Right'
+
+
 def export_model(sequence,model,plan,cache,palette,*,source_clocks=None):
     events=schedule(model,plan,cache,sequence.duration,source_clocks=source_clocks)
     role=role_for(model)
@@ -251,12 +269,13 @@ def export_model(sequence,model,plan,cache,palette,*,source_clocks=None):
             if strategy['name']=='sparse':continue
             color=section_color(role,section,palette)
             cycles=2.0 if strategy['name']=='ascending' else .5 if strategy['name']=='solo_trace' else 1.0
-            direction=model.details.get('spatial_direction',1)*strategy['direction']
+            bars_direction=native_bars_direction(model,strategy)
             sequence.effect(model,'SPATIAL_SURFACE',a,b,color,provenance={
                 'sourceRole':role,'sourceMethod':'source_phrase_native_Bars','sourceStartMs':str(a),'sourceEndMs':str(b),
-                'sourceSection':str(section),'spatialStrategy':strategy['name']},
+                'sourceSection':str(section),'spatialStrategy':strategy['name'],
+                'nativeBarsDirection':bars_direction},
                 settings=f'E_SLIDER_Bars_BarCount=2,E_TEXTCTRL_Bars_Cycles={cycles},E_CHOICE_Bars_Direction='+
-                    ('Left' if direction>0 else 'Right')+',E_CHECKBOX_Bars_Gradient=1',
+                    bars_direction+',E_CHECKBOX_Bars_Gradient=1',
                 palette=f'C_BUTTON_Palette1={color},C_CHECKBOX_Palette1=1,C_BUTTON_Palette2=#000000,C_CHECKBOX_Palette2=1',
                 effect_name='Bars')
             native_effect='On + Bars'
