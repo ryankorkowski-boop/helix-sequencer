@@ -1,3 +1,7 @@
+## November 25 · Wub Wub Wonderland 30-second native owner-review pilot
+
+Added isolated branch-scoped workflow `.github/workflows/wub-wub-native-16panel-review.yml`, reusing the previously developed RoFormer fixture adapter, actual Demucs production separation, native 16-panel comparison, pinned patched xLights and output gates. Original source checksum pinned; excerpt 45–75 seconds is a provisional selection, not verified to contain both voices. Both estimated lanes must pass existing screening and have at least 0.5 s active frames each before native rendering. No singer identity or exact phoneme verification claimed. Original Drive identifier remains private via `HELIX_WUB_WUB_SOURCE_ID` Actions secret; connected tools cannot set secrets or dispatch workflows. If missing, the first step fails before installing dependencies. No automatic library batch, merge, or release. Candidate workflow and adapter committed; execution and MP4 pending. Continue from the native compatibility run and this pilot, not another instrumental substitute.
+
 ## November 25 · Verified vocal-song source and shared comparison clocks
 
 **Goal:** Extend the earlier shared-clock optimization to the actual 9/12/16 comparison builder and unblock source identification for a short vocal-song review.
