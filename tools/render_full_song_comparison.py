@@ -29,13 +29,13 @@ def write_json(path, data):
     temporary.replace(path)
 
 
-def prepare(audio, work, sha, *, instrumental, vocals):
+def prepare(audio, work, sha, *, instrumental, vocals, names=NAMES, layout_builder=build_layout, preserve_addresses=(3,)):
     shared_manifest = os.environ.get('HELIX_APPROVAL_ANALYSIS_MANIFEST')
     if shared_manifest:
         from tools.build_shared_approval_analysis import verify as verify_shared
         shared = verify_shared(audio, os.environ['HELIX_APPROVAL_STEMS'], shared_manifest)
         if shared['source_audio_sha256'] != sha:
-            raise ValueError('Shared approval source does not match 16-panel original')
+            raise ValueError('Shared approval source does not match comparison original')
         if shared['analysis_sha256'] != os.environ.get('HELIX_APPROVAL_ANALYSIS_SHA256'):
             raise ValueError('Shared approval analysis identity changed')
     if digest(audio) != sha:
@@ -78,6 +78,8 @@ def prepare(audio, work, sha, *, instrumental, vocals):
     layouts.mkdir(exist_ok=True)
     settings = dict(identity, plan_sha256=digest(plan), instrumental=instrumental,
                     vocal_clock_sha256=digest(vocals / 'acoustic_vocal_clocks.npz') if vocals else None)
+    if names != NAMES:
+        settings['layout_names'] = list(names)
     checkpoint = layouts / 'batch_identity.json'
     if checkpoint.exists():
         if json.loads(checkpoint.read_text()) != settings:
@@ -85,7 +87,7 @@ def prepare(audio, work, sha, *, instrumental, vocals):
     else:
         write_json(checkpoint, settings)
     missing = []
-    for number in range(1, len(NAMES) + 1):
+    for number in range(1, len(names) + 1):
         folder = layouts / f'{number:02}'
         panel = folder / 'run_manifest.json'
         if panel.exists():
@@ -99,8 +101,8 @@ def prepare(audio, work, sha, *, instrumental, vocals):
             raise ValueError(f'Incomplete layout checkpoint at {folder}; move it aside before retrying')
         missing.append(number)
     if missing:
-        build_layouts(production, vocals, layouts, numbers=missing, names=NAMES,
-                      layout_builder=build_layout, preserve_addresses=(3,),
+        build_layouts(production, vocals, layouts, numbers=missing, names=names,
+                      layout_builder=layout_builder, preserve_addresses=preserve_addresses,
                       instrumental=instrumental, expected_sha256=sha)
     return settings
 
@@ -135,14 +137,14 @@ def render_panel(folder, audio, xlights, *, port=49914, renderer_sha=None):
     return row, report, Path(report['evidence_dir']) / xsq.with_suffix('.fseq').name
 
 
-def inspect_grid(movie):
+def inspect_grid(movie, *, cols=4, rows=4):
     """Sample decoded layout pixels over the full video, excluding the labels."""
     width, height = 960, 540
     frame_bytes = width * height
-    hashes = [hashlib.sha256() for _ in NAMES]
-    previous = [None] * len(NAMES)
-    visible = np.zeros(len(NAMES), dtype=int)
-    moving = np.zeros(len(NAMES), dtype=int)
+    hashes = [hashlib.sha256() for _ in range(cols * rows)]
+    previous = [None] * (cols * rows)
+    visible = np.zeros((cols * rows), dtype=int)
+    moving = np.zeros((cols * rows), dtype=int)
     total = 0
     command = ['ffmpeg', '-nostdin', '-v', 'error', '-xerror', '-threads', '2', '-i', str(movie),
                '-an', '-vf', f'fps=4,scale={width}:{height}', '-pix_fmt', 'gray',
@@ -153,8 +155,9 @@ def inspect_grid(movie):
                 raise ValueError('Incomplete decoded comparison frame')
             frame = np.frombuffer(block, dtype=np.uint8).reshape(height, width)
             for index, fingerprint in enumerate(hashes):
-                y, x = (index // 4) * 135, (index % 4) * 240
-                crop = frame[y + 21:y + 132, x + 3:x + 237]
+                cell_h, cell_w = height // rows, width // cols
+                y, x = (index // cols) * cell_h, (index % cols) * cell_w
+                crop = frame[y + 21:y + cell_h - 3, x + 3:x + cell_w - 3]
                 fingerprint.update(crop.tobytes())
                 visible[index] += np.count_nonzero(crop > 32) >= 16
                 if previous[index] is not None:
@@ -167,23 +170,24 @@ def inspect_grid(movie):
     rows = [dict(number=i + 1, decoded_panel_sha256=value, sampled_frames=total,
                  visible_frames=int(visible[i]), moving_frames=int(moving[i]))
             for i, value in enumerate(fingerprints)]
-    passed = total >= 4 and len(set(fingerprints)) == 16 and all(
+    passed = total >= 4 and len(set(fingerprints)) == cols * rows and all(
         r['visible_frames'] >= max(4, total // 20) and r['moving_frames'] >= max(3, total // 100)
         for r in rows)
     return rows, passed
 
 
-def render(audio, work, xlights, identity, *, port=49914):
+def render(audio, work, xlights, identity, *, port=49914, names=NAMES, cols=4, rows=4,
+           ac_budgets=(16, 64, 256), movie_stem='Full_Length_16_Panel'):
     receipts = []
     timings = []
     started = time.monotonic()
     renderer_sha = digest(Path(xlights))
-    for number, name in enumerate(NAMES, 1):
+    for number, name in enumerate(names, 1):
         folder = work / 'layouts' / f'{number:02}'
         panel_started = time.monotonic()
         row, native, fseq = render_panel(folder, audio, xlights, port=port, renderer_sha=renderer_sha)
         channels = json.loads((fseq.parent / 'native_channels.json').read_text())
-        if number <= 3 and (channels['channels'], row['channels']) != ((16, 64, 256)[number - 1],) * 2:
+        if number <= len(ac_budgets) and (channels['channels'], row['channels']) != (ac_budgets[number - 1],) * 2:
             raise ValueError(f'Native AC channel budget mismatch for panel {number}')
         receipts.append(dict(number=number, name=name, layout_sha256=native['layout_sha256'],
                              xsq_sha256=native['xsq_sha256'], fseq_sha256=digest(fseq),
@@ -193,11 +197,11 @@ def render(audio, work, xlights, identity, *, port=49914):
         timings.append(dict(number=number, seconds=round(time.monotonic()-panel_started, 3)))
         write_json(work / 'render_performance.json', dict(panels=timings, elapsed_seconds=round(time.monotonic()-started, 3)))
         print(f'NATIVE PANEL {number:02} verified', flush=True)
-    if any(len({r[key] for r in receipts}) != 16 for key in ('layout_sha256', 'xsq_sha256', 'fseq_sha256')):
+    if any(len({r[key] for r in receipts}) != len(names) for key in ('layout_sha256', 'xsq_sha256', 'fseq_sha256')):
         raise ValueError('Duplicate native layout, XSQ or FSEQ')
     composition_started = time.monotonic()
-    movie = work / 'Full_Length_16_Panel_Comparison.mp4'
-    candidate = work / 'Full_Length_16_Panel_Candidate.mp4'
+    movie = work / f'{movie_stem}_Comparison.mp4'
+    candidate = work / f'{movie_stem}_Candidate.mp4'
     manifest = work / 'comparison_manifest.json'
     previous = json.loads(manifest.read_text()) if manifest.is_file() else {}
     if (movie.is_file() and previous.get('panels') == receipts
@@ -205,14 +209,14 @@ def render(audio, work, xlights, identity, *, port=49914):
         candidate = movie
     else:
         comparison([Path(r['native_movie']) for r in receipts],
-                   [f'{i:02}  {name}' for i, name in enumerate(NAMES, 1)], candidate, audio, 4, 4,
+                   [f'{i:02}  {name}' for i, name in enumerate(NAMES, 1)], candidate, audio, cols, rows,
                    duration=float(probe_media(audio, 'ffprobe')['format']['duration']))
     media = verify_media(candidate, audio, identity['audio_sha256'])
     streams = probe_media(candidate, 'ffprobe')['streams']
     if (media['dimensions'] != [1920, 1080] or media['actual_frame_rate'] != '30/1'
             or sorted(s['codec_type'] for s in streams) != ['audio', 'video']):
         raise ValueError('Expected exact 1920×1080 H.264/AAC at 30 fps with one original soundtrack')
-    activity, passed = inspect_grid(candidate)
+    activity, passed = inspect_grid(candidate, cols=cols, rows=rows)
     write_json(work / 'panel_activity.json', {'passed': passed, 'panels': activity})
     if not passed:
         raise ValueError('Decoded comparison contains duplicate, blank, or static panels')
