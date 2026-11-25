@@ -1,3 +1,12 @@
+## November 25 · Verified vocal-song source and shared comparison clocks
+
+**Goal:** Extend the earlier shared-clock optimization to the actual 9/12/16 comparison builder and unblock source identification for a short vocal-song review.
+**Files:** `tools/build_current_comparison.py`, `MASTER_TODO.md`.
+**Change:** Prepare source clocks once after vocal qualification/screening and pass them to the existing per-prop export in the common comparison builder, including the full-song 16-panel renderer. Independent lead/harmony handling, actual source cues, band geometry, AC addresses and standalone export remain unchanged.
+**Source:** Original Wub Wub Wonderland.mp3 downloaded through authenticated Drive and SHA-256 matched the source inventory (`76641340a2a59c5797b333cd36b1e108f503017d190510fbe8da9931ea3f9abc`); 208.152 s, 48 kHz stereo. Distinct remaster not substituted. No private Drive identifiers added to repository.
+**Evidence:** First-round and shared-clock focused PR regression jobs passed (45574622562, 45574956149). Latest native surface gate 45575997524 queued at inspection; newer comparison wiring not yet tested.
+**Blocked:** Local runtime has no available xLights executable, no cached Demucs weights, and no Whisper package. The connected GitHub tools do not expose workflow dispatch. Existing 16-panel owner pilot is hardwired to instrumental Helix Motion and restricted to specific branches. Do not claim a new MP4 or verified vocal/harmony activity. Next: configure a private source input to a 30-second candidate pilot on this branch, qualify vocal timing from actual stems, use the existing production comparison and native renderer, and verify the result before owner review. No merge/release.
+
 ## November 25 · Actual native xLights physical surface compatibility gate
 
 **Goal:** Require xLights 2026.18 FSEQ evidence before expanding the native effect library.
