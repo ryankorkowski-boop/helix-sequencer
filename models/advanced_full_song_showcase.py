@@ -240,23 +240,20 @@ def build_showcase(number, plan, *, duration, native_band, native_extended_mouth
         _ultimate(g, s, native_extended_mouths=native_extended_mouths)
     else:
         {13: _estate, 14: _wonderland, 15: _megastructure}[number](g, s)
+    # Reuse the tested native source routing for every advanced layout, not
+    # just the finale. Explicit per-prop motion remains on its measured clock.
+    from tools.source_role_routing import configure_advanced_spatial_routes
+    for model in g.models:
+        zone = str(model.zone).upper()
+        if ('HELIX' in zone or 'DNA' in zone or 'NESTED_TOWER' in zone
+                or 'SPIRAL_GROVE' in zone or 'SPIRAL_FOREST' in zone):
+            model.details['spatial_axis'] = 'spiral'
+        if zone == 'THREE_D_GRID':
+            # Preserve matrix rows for native surface buffers.
+            model.details.pop('spatial_axis', None)
+    configure_advanced_spatial_routes(g.models)
     cast = None
     if number == 16:
-        # Distribute pitched phrases across physical prop banks. This prevents
-        # broadcasting every simultaneous pitch to every fixture in the finale.
-        from collections import defaultdict
-        import numpy as np
-
-        banks = defaultdict(list)
-        for model in g.models:
-            role = model.details.get('musical_role')
-            if role in ('guitarist', 'keyboardist', 'bassist'):
-                banks[model.zone, role].append(model)
-        for (zone, role), members in banks.items():
-            members.sort(key=lambda model: (*np.mean(model.points, axis=0), model.name))
-            for rank, model in enumerate(members):
-                model.details.update(source_route_bank=f'{zone}|{role}', source_route_rank=rank,
-                                     source_route_count=len(members))
         cast = native_band(g, plan, rock=False, duration=duration,
                            native_extended_mouths=native_extended_mouths)
     for model in g.models:
