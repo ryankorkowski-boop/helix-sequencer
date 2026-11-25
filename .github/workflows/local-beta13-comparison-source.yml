@@ -1,0 +1,32 @@
+name: Historical Beta 1.3 source for local comparison
+on:
+  pull_request:
+    paths: [.github/workflows/local-beta13-comparison-source.yml]
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  archive:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: 1f0a670d5ed5c4323c14babd87998ac8633e60d1
+          persist-credentials: false
+      - name: Archive exact Beta 1.3 release source
+        run: |
+          set -euo pipefail
+          test "$(git rev-parse HEAD)" = "1f0a670d5ed5c4323c14babd87998ac8633e60d1"
+          mkdir -p "$RUNNER_TEMP/beta13"
+          git archive --format=tar.gz --prefix=helix-beta13/ HEAD > "$RUNNER_TEMP/beta13/source.tar.gz"
+          cd "$RUNNER_TEMP/beta13"
+          printf '%s\n' '1f0a670d5ed5c4323c14babd87998ac8633e60d1' > SOURCE_COMMIT.txt
+          sha256sum source.tar.gz SOURCE_COMMIT.txt > SHA256SUMS
+      - uses: actions/upload-artifact@v4
+        with:
+          name: helix-beta13-exact-source
+          path: ${{ runner.temp }}/beta13/
+          compression-level: 0
+          if-no-files-found: error
+          retention-days: 7
