@@ -167,3 +167,28 @@ def test_advanced_bank_travel_fits_short_real_note_without_changing_legacy_ac():
     assert route_event(prop(1, False), cue, 0, strategy) == 35
     assert route_event(prop(1, True), dict(cue, end_ms=5000), 0, strategy) == 35
     assert route_event(prop(99, True), dict(cue, synchronized_accent=True), 0, strategy) == 0
+
+
+def test_shared_source_clocks_preserve_existing_native_schedule(monkeypatch):
+    from tools import source_spatial_direction as spatial
+    g=build_layout(10)
+    model=next(m for m in g.models if m.name=='MOIRE_LINE_LATTICE_0')
+    cues=[dict(start_ms=100,end_ms=700,pitch_midi=60,velocity=.8,section='verse'),
+          dict(start_ms=100,end_ms=500,pitch_midi=64,velocity=.6,section='verse'),
+          dict(start_ms=900,end_ms=1200,pitch_midi=71,velocity=.7,section='chorus')]
+    plan={'cues':{'keyboardist':cues}}
+    cache={'estimated_lead_energy':np.array([0,.5,.6,0]),
+           'estimated_backing_energy':np.array([0,0,.7,0])}
+    expected=spatial.schedule(model,plan,cache,2000)
+    clocks=spatial.prepare_source_clocks(plan,cache)
+    assert clocks['lead'][0][0]['start_ms']==10
+    assert clocks['harmony'][0][0]['start_ms']==20
+    assert clocks['keyboardist'][1]=={'verse':{100:0},'chorus':{900:0}}
+    def no_reindex(*args,**kwargs):
+        raise AssertionError('Shared source lane must not be rebuilt per prop')
+    monkeypatch.setattr(spatial,'_prepare_source_clock',no_reindex)
+    assert spatial.schedule(model,plan,cache,2000,source_clocks=clocks)==expected
+    seq=NativeSequence(g,2,'','shared source clock')
+    report=spatial.export_model(seq,model,plan,cache,g.palette,source_clocks=clocks)
+    assert report['source_events']==3
+    assert all(e.get('sourceMethod') for e in seq.root.findall('./ElementEffects//Effect'))
