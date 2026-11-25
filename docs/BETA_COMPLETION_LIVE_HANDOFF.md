@@ -1,3 +1,9 @@
+# November 25 — official stock native preview sizing recovery
+
+Local official xLights 2026.18 exported 1920x1080 H.264 native House Preview after maximizing its actual docked preview pane, resizing the owned GUI window and adjusting camera zoom. Starter RGB house native 20fps export was presented at 30fps without spatial upscaling, 900 frames, exact 30s video/audio, full decode, original source correlation 0.9992405041 and zero measured lag in four windows. Output SHA256 fe3ea1347dc9ab87b9b63f5393045e37bf3e80c3400f95c91de477877f851911. Still flagged frozen/repeated frames by the current coarse RGB audit; retain warning; no visual acceptance.
+
+Implemented opt-in HELIX_NATIVE_X11_DOCKED_REVIEW=1 for private isolated Xvfb only. Exact version and owned window title/PID/stacked dock geometry required; unknown geometry rejected. Verified 29 local focused tests (10 subtests) and real stock GUI adapter export at 1280x720. Existing strict ffprobe resolution gate unchanged. Native GUI screenshot samples are camera calibration only; the movie is xLights' native export, not a screenshot sequence. No production default change. No merge/release or independent vocalist approval.
+
 # November 25 — real local nine-panel native diagnostic and measured repairs
 
 Official xLights 2026.18 rendered all nine actual source-bound layouts, using the existing production plan generated from original Audio In Lights Out, provisional 45–75 s excerpt SHA256 64bbc5716d16edb2d647233fabdadf63ac0b3b7efedd3df2369fb427c70ad4d7, plan SHA256 22ce154d4840e24f3cdd642271b37f5216ba74f8f5fa7828cf850930b3f2518d. Every native FSEQ decoded to exactly 600 frames at 50ms, channel counts matched manifests, source/layout/FSEQ checksums verified. Counts 16, 256, 1950, 22362, 640296, 109148, 103322, 40614, 150315 channels respectively. This is a bounded pilot; no full million-pixel layout.

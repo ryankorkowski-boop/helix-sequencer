@@ -333,6 +333,10 @@ def _native_gui_environment(evidence_dir: Path) -> dict[str, str]:
     settings.parent.mkdir()
     value = {"main": {"MinTipLevel": "Off", "OutputActive": False},
              "tod": {}, "bookmarks": {}, "_meta": {"migrated": True}}
+    if os.environ.get('HELIX_NATIVE_X11_DOCKED_REVIEW') == '1':
+        # Stock 2026.18 fresh profile otherwise shows a modal crash-report
+        # email prompt. The observed no-address sentinel preserves privacy.
+        value['main']['xLightsUserEmail'] = 'noone@nowhere.xlights.org'
     settings.write_text(json.dumps(value, indent=2) + "\n")
     environment["XDG_CONFIG_HOME"] = str(profile)
     environment["XDG_STATE_HOME"] = str(profile / "state")
@@ -420,6 +424,10 @@ def _native_export(xlights: str, show: Path, staged: Path,
                     capture_output=True, text=True, check=False, timeout=5)
                 if maximize.returncode == 0:
                     time.sleep(2)
+            if os.environ.get('HELIX_NATIVE_X11_DOCKED_REVIEW') == '1':
+                from tools.native_official_canvas import configure
+                canvas = configure(staged, app.pid, (width, height), rest._version_from_response(version))
+                (staged.parent / 'native_official_canvas.json').write_text(json.dumps(canvas, indent=2) + '\n')
             # Preserve actual X11 geometry for diagnosing docked-preview exports.
             # Never upscale or claim that window size proves native resolution.
             with (staged.parent / "native_window_geometry.txt").open("w") as evidence:
