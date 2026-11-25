@@ -8,6 +8,7 @@ from scipy.signal import resample_poly
 from math import gcd
 from tools.phoneme_source import digest
 from music.review_score import vocal_clock
+from music.vocal_qualification import absolute_vocal_activity
 
 def build(audio, manifest, output, *, excerpt=None, start=0):
     audio, manifest, output = map(Path, (audio, manifest, output))
@@ -31,13 +32,15 @@ def build(audio, manifest, output, *, excerpt=None, start=0):
         if excerpt:
             wave = wave[round(start*sr):round((start+count/100)*sr)]
         d = gcd(sr, 16000)
-        clock = vocal_clock(resample_poly(wave.mean(axis=1), 16000//d, sr//d))
+        mono = wave.mean(axis=1)
+        mask, _ = absolute_vocal_activity(mono, sr, count)
+        clock = vocal_clock(resample_poly(mono, 16000//d, sr//d))
         for key in ('energy', 'shapes'):
             values = clock[key][:count]
-            arrays[lane+'_'+key] = np.pad(values, (0, count-len(values)))
+            arrays[lane+'_'+key] = np.where(mask, np.pad(values, (0, count-len(values))), 0)
         # Acoustic periodicity is a heuristic, not calibrated singer confidence.
         values = np.clip(clock['periodicity'][:count], 0, 1)
-        arrays[lane+'_presence_probability'] = np.pad(values, (0, count-len(values)))
+        arrays[lane+'_presence_probability'] = np.where(mask, np.pad(values, (0, count-len(values))), 0)
         tracks[lane] = {'sha256': entry['sha256']}
     output.mkdir(parents=True, exist_ok=False)
     archive = output/'acoustic_vocal_clocks.npz'
@@ -45,7 +48,7 @@ def build(audio, manifest, output, *, excerpt=None, start=0):
     receipt = dict(audio_sha256=digest(target), original_audio_sha256=digest(audio), excerpt_start_seconds=start, clock_sha256=digest(archive),
         clock_hop_seconds=.01, tracks=tracks, verification_state='ESTIMATED_REVIEW',
         independent_backing_verified=False, exact_phoneme_boundaries_verified=False,
-        limitation='RoFormer model estimates; periodicity proxy, not calibrated presence or verified singer identity.')
+        absolute_activity_floor_dbfs=-34, limitation='RoFormer model estimates; periodicity proxy, not calibrated presence or verified singer identity.')
     (output/'diagnostic.json').write_text(json.dumps(receipt, indent=2)+'\n')
     return output
 

@@ -43,6 +43,25 @@ def independence_metrics(energy, shapes, *, shape_names=NATIVE_SHAPE_NAMES):
                 duplicate_clock=bool(union.any() and same_activity and same_shapes and residual < 1e-4))
 
 
+def absolute_vocal_activity(y, sr, clock_count):
+    """Use the existing PCM activity floor before relative acoustic scaling.
+
+    Return a 10 ms mask and original activity windows. This is a conservative
+    estimated-review guard, not singer identity or lexical confidence proof.
+    """
+    from core.independent_vocals import _activity_from_energies
+    y = np.asarray(y, dtype='float32')
+    if y.ndim != 1 or not len(y) or not np.isfinite(y).all() or sr < 8000 or clock_count < 0:
+        raise ValueError('Invalid source PCM for vocal activity')
+    step = round(sr*.02)
+    rms = [float(np.sqrt(np.mean(y[i:i+step]**2))) for i in range(0, len(y), step)]
+    windows = _activity_from_energies(rms, round(len(y)/sr*1000))
+    mask = np.zeros(clock_count, dtype=bool)
+    for w in windows:
+        mask[w.start_ms//10:min(clock_count,w.end_ms//10)] = True
+    return mask, windows
+
+
 def screen_candidate_lanes(energy, shapes, probabilities, *, fps=100,
                            onset=.65, offset=.35, minimum_seconds=.15):
     """Suppress uncertain source events independently, without copying phones.

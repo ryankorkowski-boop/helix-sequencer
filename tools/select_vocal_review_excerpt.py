@@ -9,6 +9,7 @@ import numpy as np
 import soundfile as sf
 from scipy.signal import resample_poly
 from music.review_score import vocal_clock
+from music.vocal_qualification import absolute_vocal_activity, screen_candidate_lanes
 from tools.phoneme_source import digest
 from tools.roformer_review_fixture import build
 
@@ -17,7 +18,7 @@ def choose(audio, manifest, output, fixture):
     report = json.loads(manifest.read_text())
     if report['source_sha256'] != digest(audio):
         raise ValueError('Vocal manifest belongs to another source')
-    activity = []
+    clocks = []
     for role in ('lead', 'backing'):
         entry = report[role]
         path = manifest.parent / entry['path']
@@ -25,11 +26,15 @@ def choose(audio, manifest, output, fixture):
             raise ValueError('Vocal stem checksum mismatch')
         y, sr = sf.read(path, dtype='float32', always_2d=True)
         d = gcd(sr, 16000)
-        y = resample_poly(y.mean(axis=1), 16000 // d, sr // d)
-        clock = vocal_clock(y)
-        activity.append((clock['energy'] > .15) & (clock['periodicity'] > .25))
-    n = min(map(len, activity))
-    lead, backing = (x[:n] for x in activity)
+        mono = y.mean(axis=1)
+        clock = vocal_clock(resample_poly(mono, 16000 // d, sr // d))
+        mask, _ = absolute_vocal_activity(mono, sr, len(clock['energy']))
+        clocks.append((np.where(mask, clock['energy'], 0),
+                       np.where(mask, clock['shapes'], 0),
+                       np.where(mask, np.clip(clock['periodicity'], 0, 1), 0)))
+    n = min(len(c[0]) for c in clocks)
+    energy, shapes, _ = screen_candidate_lanes(*(np.column_stack([c[i][:n] for c in clocks]) for i in range(3)))
+    lead, backing = ((energy > 0) & (shapes != 0)).T
     candidates = []
     for start in range(0, n - 3000 + 1, 100):
         a, b = lead[start:start+3000], backing[start:start+3000]
