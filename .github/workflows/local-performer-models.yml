@@ -1,0 +1,78 @@
+name: Offline independent performer models
+on:
+  pull_request:
+    paths: [.github/workflows/local-performer-models.yml]
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: offline-performer-models-${{ github.head_ref || github.ref_name }}
+  cancel-in-progress: true
+jobs:
+  piano:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - name: Fetch upstream six-source Demucs checkpoint
+        run: |
+          set -euo pipefail
+          mkdir -p "$RUNNER_TEMP/piano"
+          cd "$RUNNER_TEMP/piano"
+          curl -fLsS --retry 3 https://dl.fbaipublicfiles.com/demucs/hybrid_transformer/5c90dfd2-34c22ccb.th -o 5c90dfd2-34c22ccb.th
+          sha256sum 5c90dfd2-34c22ccb.th > SHA256SUMS
+          grep -q '^34c22ccb' SHA256SUMS
+      - uses: actions/upload-artifact@v4
+        with:
+          name: helix-offline-htdemucs-six-source
+          path: ${{ runner.temp }}/piano/
+          compression-level: 0
+          retention-days: 7
+          if-no-files-found: error
+  vocals:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 35
+    steps:
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+      - name: Resolve CPU karaoke inference dependencies
+        run: |
+          set -euo pipefail
+          python -m pip install torch==2.10.0 torchaudio==2.10.0 --index-url https://download.pytorch.org/whl/cpu
+          python -m pip install --report "$RUNNER_TEMP/resolution.json" audio-separator==0.41.1 onnxruntime==1.23.2
+          mkdir -p "$RUNNER_TEMP/vocal-wheels"
+          python - <<'PY'
+          import json,os,pathlib,subprocess,sys
+          root=pathlib.Path(os.environ['RUNNER_TEMP'])
+          report=json.loads((root/'resolution.json').read_text())
+          packages=[item['metadata']['name']+'=='+item['metadata']['version'] for item in report['install'] if item['metadata']['name'].lower() not in {'torch','torchaudio','torchvision','triton'} and not item['metadata']['name'].lower().startswith('nvidia-')]
+          subprocess.run([sys.executable,'-m','pip','wheel','--no-deps','-w',str(root/'vocal-wheels'),*packages],check=True)
+          (root/'vocal-wheels'/'resolved.json').write_text(json.dumps(packages,indent=2))
+          PY
+          cd "$RUNNER_TEMP/vocal-wheels"
+          sha256sum ./*.whl > SHA256SUMS
+      - uses: actions/upload-artifact@v4
+        with:
+          name: helix-offline-karaoke-python313
+          path: ${{ runner.temp }}/vocal-wheels/
+          retention-days: 7
+          if-no-files-found: error
+      - name: Download pinned karaoke checkpoint and configuration
+        run: |
+          set -euo pipefail
+          mkdir -p "$RUNNER_TEMP/karaoke"
+          cd "$RUNNER_TEMP/karaoke"
+          MODEL=mel_band_roformer_karaoke_aufr33_viperx_sdr_10.1956
+          BASE=https://github.com/nomadkaraoke/python-audio-separator/releases/download/model-configs
+          curl -fLsS --retry 3 "$BASE/$MODEL.ckpt" -o "$MODEL.ckpt"
+          curl -fLsS --retry 3 "$BASE/${MODEL}_config.yaml" -o "${MODEL}_config.yaml"
+          test -s "$MODEL.ckpt"
+          test -s "${MODEL}_config.yaml"
+          sha256sum ./*.ckpt ./*.yaml > SHA256SUMS
+      - uses: actions/upload-artifact@v4
+        with:
+          name: helix-offline-karaoke-checkpoint
+          path: ${{ runner.temp }}/karaoke/
+          retention-days: 7
+          compression-level: 0
+          if-no-files-found: error
