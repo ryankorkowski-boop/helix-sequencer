@@ -9,6 +9,15 @@ from models.approval_layouts import house, structures
 from models.ultimate_showcase import Garden
 
 
+SHOWCASE_PALETTES = {
+    13: ('#FFB84D', '#22D498', '#F13F59'),  # warm gold, emerald, cranberry
+    14: ('#70CFFF', '#B68DFF', '#FFD49A'),  # ice blue, violet, champagne
+    15: ('#22D8DF', '#F151AB', '#FFB348'),  # turquoise, rose, amber
+    16: ('#68E8B1', '#826AFF', '#FFC15C'),  # mint, indigo, gold
+}
+
+
+
 def _music(garden, first, role, *, phase=0., direction=1, delay=0, drum=None):
     """Assign one independent source lane and spatial route to newly added props."""
     for index, model in enumerate(garden.models[first:]):
@@ -38,9 +47,9 @@ def _estate(g, s):
                 propagation_delay_ms=index * 85,
                 source_display_floor=.20,
             )
-    for row, z in enumerate((-35, -10, 17)):
-        for lane, x in enumerate(range(-106, 107, 27)):
-            model = s.tree(x + (row % 2) * 9, z, 13 + (row + lane) % 3 * 4, 5, color=lane + row)
+    for row, z in enumerate((-37, -8, 21)):
+        for lane, x in enumerate((-108, -78, -48, -18, 18, 48, 78, 108)):
+            model = s.tree(x, z, (21, 16, 11)[row] + (2 if abs(x) > 70 else 0), 5, color=row)
             model.zone = f'SPIRAL_GROVE_{row + 1}'
             _music(g, len(g.models) - 1, ('guitarist', 'keyboardist', 'bassist')[row],
                    phase=lane / 8, direction=1 if (lane + row) % 2 else -1, delay=row * 26)
@@ -65,7 +74,7 @@ def _estate(g, s):
                delay=index * 24, drum=('kick', 'snare', 'hihat', 'cymbal')[index % 4])
     for index, x in enumerate((-88, -44, 0, 44, 88)):
         first = len(g.models)
-        s.mesh(f'ESTATE_MATRIX_{index}', (x, 8, -55), 25, 32, 'MATRICES', index)
+        s.mesh(f'ESTATE_MATRIX_{index}', (x, 5, -50), 19, 19, 'MATRICES', index)
         _music(g, first, ('keyboardist', 'bassist', 'guitarist')[index % 3], phase=index / 5)
     for index, x in enumerate((-91, -31, 31, 91)):
         first = len(g.models)
@@ -253,25 +262,52 @@ def _advanced_layers(g, s, number):
         # Rotated, translucent lattice layers create actual optical parallax.
         for i, z in enumerate((-58, -37, -16)):
             first = len(g.models)
-            s.mesh('OPTICAL_CROSS_LATTICE', (0, 12, z), 122, 52,
-                   'OPTICAL_MATRIX', i, wave=4, yaw=(-1)**i*22)
+            s.mesh('OPTICAL_CROSS_LATTICE', ((-1, 0, 1)[i]*64, 34, z), 50, 32,
+                   'OPTICAL_MATRIX', i, wave=3, yaw=(-1)**i*18)
             _music(g, first, ('guitarist', 'bassist', 'keyboardist')[i],
                    direction=(-1)**i, phase=i/3)
     elif number == 16:
         # Concentric ground orbits around the finale, with alternating lanes.
         for i, radius in enumerate((44, 66, 91, 119)):
             first = len(g.models)
-            s.ring('FINALE_GROUND_ORBIT', (0, 3+i*2, 0), radius,
+            s.ring('FINALE_GROUND_ORBIT', (0, 1+i, -24), radius,
                    radius*.45, 'SPIRAL_ORBITS', i, plane='xz', count=240)
             _music(g, first, ('bassist','keyboardist','guitarist','bassist')[i],
                    direction=(-1)**i, phase=i/4)
+
+def apply_showcase_presentation(g):
+    """A coherent lighting-design hierarchy, without changing source clocks."""
+    for model in g.models:
+        if model.details.get('review_role') or model.details.get('generic_singer'):
+            continue
+        zone = str(model.zone).upper()
+        name = str(model.name).upper()
+        # Large outlines and focal sculptures read as continuous forms; dense
+        # surfaces recede. This changes the native preview point size only.
+        surface = any(p.startswith('ROW_') for p in model.submodels)
+        focal = ('MEGA_TREE' in name or 'NESTED_TOWER' in name
+                 or 'WONDERLAND_HELIX' in name or 'ULTIMATE_TWIN_HELIX' in name
+                 or zone == 'HOUSE')
+        if surface:
+            size, tier = 6, 'background_surface'
+        elif focal:
+            size, tier = 13, 'hero_silhouette'
+        elif 'STAR_RAY' in name or 'SPINNER' in zone:
+            size, tier = 10, 'accent'
+        else:
+            size, tier = 10, 'supporting_form'
+        model.attrs.update(PixelSize=str(size), Antialias='1', BlackTransparency='100')
+        model.details['showcase_presentation_tier'] = tier
+        # Keep rests dark; visible attacks are only applied to retained cues.
+        model.details['source_display_floor'] = .24 if focal else .16 if surface else .20
+
 
 def build_showcase(number, plan, *, duration, native_band, native_extended_mouths=False):
     if number not in (13, 14, 15, 16):
         raise ValueError('Advanced showcase is limited to panels 13–16')
     from models.full_song_layouts import NAMES
     g = Garden(title=NAMES[number - 1], slug=f'full_song_{number:02}',
-               palette=('#63E4FF', '#F68BFF', '#FFE38C'))
+               palette=SHOWCASE_PALETTES[number])
     s = structures(g)
     if number == 16:
         _ultimate(g, s, native_extended_mouths=native_extended_mouths)
@@ -291,6 +327,7 @@ def build_showcase(number, plan, *, duration, native_band, native_extended_mouth
             # Preserve matrix rows for native surface buffers.
             model.details.pop('spatial_axis', None)
     configure_advanced_spatial_routes(g.models)
+    apply_showcase_presentation(g)
     cast = None
     if number == 16:
         cast = native_band(g, plan, rock=False, duration=duration,
