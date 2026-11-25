@@ -137,8 +137,11 @@ def render_panel_frame(
         chosen = labels[active]
         level = np.clip(intensity[chosen], 0.0, 1.0)
         base = colors[chosen].astype(np.float32)
-        dim = base * 0.10
-        lit = dim + (base * (0.35 + 0.65 * level[:, None]) + np.array([30, 40, 55]) * level[:, None])
+        # Zero-intensity FSEQ pixels must stay dark. The previous formula
+        # added 35% of the model color even when the native channel was off,
+        # washing out rests and making every panel appear continuously lit.
+        dim = base * 0.04
+        lit = dim + (base * 0.90 + np.array([10, 12, 16])) * level[:, None]
         frame[active] = np.clip(lit, 0, 255).astype(np.uint8)
     image = Image.fromarray(frame, mode="RGB")
     draw = ImageDraw.Draw(image)

@@ -350,10 +350,16 @@ def _palettes_for_layout(root: ET.Element, layout_path: Path | None, sections: l
     for color in list(decision.palette) + [item for cols in decision.section_palettes.values() for item in cols]:
         install(color)
 
-    def palette_for(name: str, start: int) -> str:
+    def palette_for(name: str, start: int, *, white_accent: bool = False) -> str:
         colors = decision.for_section(_section_label(start, sections)) or decision.palette
         usable = [color for color in colors if color.upper() not in {"#FFFFFF", "#FFF1D0", "#E8F6FF"}] or list(colors)
-        return install(usable[sum(ord(char) for char in name) % len(usable)])
+        chosen = usable[sum(ord(char) for char in name) % len(usable)]
+        if white_accent:
+            # The highlight must contain white AND a saturated color, never
+            # a white-only palette. Previously its label said white accent
+            # while the selected palette excluded white entirely.
+            return _palette_index(palettes, palette_text(("#FFFFFF", chosen if chosen.upper() != "#FFFFFF" else "#FF2BD6")))
+        return install(chosen)
 
     palette_for.strategy = strategy
     return {}, palette_for
@@ -495,7 +501,9 @@ def _ac_motion(effects_root: ET.Element, names: list[str], duration: int, beats:
     if not names or not beats:
         return 0
     added = 0
-    window = max(8, len(names) // 2) if len(names) <= 32 else max(24, len(names) // 5)
+    # Avoid turning half the AC installation on at every beat. Keep the
+    # existing moving selection but cap simultaneous active circuits.
+    window = min(len(names), max(2, min(8, (len(names) + 7) // 8)))
     for tick, start in enumerate(beats):
         if start >= duration:
             continue
@@ -503,13 +511,16 @@ def _ac_motion(effects_root: ET.Element, names: list[str], duration: int, beats:
         for offset in range(window):
             name = names[(tick + offset) % len(names)]
             accent = tick % 17 == 0 and offset == 0
-            if _add_on(_vivid_layer(effects_root, name), start, end, palette_for(name, start), accent_white=accent):
+            if _add_on(_vivid_layer(effects_root, name), start, end, palette_for(name, start, white_accent=accent), accent_white=accent):
                 added += 1
-        bank = [name for index, name in enumerate(names) if index % 2 == tick % 2]
-        if len(bank) > 24:
-            bank = bank[:: max(1, len(bank) // 24)]
+        # Broad parity banks previously flashed up to 24 extra AC circuits
+        # on the same beat. Restrict them to a short traveling response.
+        bank = [names[(tick * 3 + step * 2) % len(names)] for step in range(min(3, len(names)))]
         for name in bank:
-            if _add_on(_vivid_layer(effects_root, name), start, min(duration, start + 160), palette_for(name, start)):
+            # Keep starts locked to the actual musical event; spatial motion
+            # comes from selecting a changing physical subset, not inventing
+            # off-grid timing that fails the source-clock invariant.
+            if _add_on(_vivid_layer(effects_root, name), start, min(duration, start + 110), palette_for(name, start)):
                 added += 1
     return added
 
@@ -553,7 +564,7 @@ def _chase_groups(layout_path: Path | None, kind: dict[str, str]) -> list[str]:
 
 
 def _rgb_motion(effects_root, names, by_z, duration, beats, palette_for) -> int:
-    """Light about a quarter of the RGB models on each beat.
+    """Add sparse RGB accents without overwhelming existing musical effects.
 
     Beats only exist inside active phrases, so the gaps stay black. A beat
     in the 200 ms before a drop is skipped. Existing effects are not moved.
@@ -561,7 +572,9 @@ def _rgb_motion(effects_root, names, by_z, duration, beats, palette_for) -> int:
     if not names or not beats:
         return 0
     added = 0
-    window = max(1, int(round(len(names) * 0.22)))
+    # Keep this supplemental accent layer subordinate to existing native
+    # source-specific choreography, particularly on dense RGB installations.
+    window = max(1, min(8, int(round(len(names) * 0.08))))
     buckets = _buckets(beats, duration)
     for tick, start in enumerate(beats):
         if start >= duration or _in_blackout(start, buckets):
@@ -579,16 +592,22 @@ def _rgb_motion(effects_root, names, by_z, duration, beats, palette_for) -> int:
 
 
 def _group_motion(effects_root, names: list[str], duration: int, beats: list[int], sections: list[dict], palette_for) -> int:
-    if not names or not beats:
+    """Rotate focal groups on distinct source events, retaining group coverage."""
+    eligible = [name for name in names if not is_performance_prop(name)]
+    if not eligible or not beats:
         return 0
     added = 0
+    cursor = 0
+    used = set()
     for section in sections:
-        start = next((beat for beat in beats if section["start_ms"] <= beat < section["end_ms"]), None)
-        if start is None:
-            continue
-        for name in names:
-            if is_performance_prop(name):
+        events = sorted(set(beat for beat in beats if section["start_ms"] <= beat < section["end_ms"] and beat < duration))
+        # Visit each group once before repeating; never broadcast on one event.
+        for start in events[:len(eligible)]:
+            if start in used:
                 continue
+            name = eligible[cursor % len(eligible)]
+            cursor += 1
+            used.add(start)
             if _add_on(_vivid_layer(effects_root, name, element_type="modelGroup"), start, min(duration, start + 120), palette_for(name, start)):
                 added += 1
     return added

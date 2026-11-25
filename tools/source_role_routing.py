@@ -64,7 +64,9 @@ def configure_advanced_spatial_routes(models):
         centers = np.asarray([np.mean(m.points,axis=0) for m in members])
         spread = np.ptp(centers,axis=0)
         axis = int(np.argmax(spread))
-        ordered = sorted(members,key=lambda m:(float(np.mean(m.points[:,axis])),m.name))
+        # Reuse the centers already calculated for axis selection.
+        ordered = [members[i] for i in sorted(range(len(members)),
+                   key=lambda i:(float(centers[i,axis]),members[i].name))]
         for rank, model in enumerate(ordered):
             model.details.update(
                 source_route_bank=f'advanced_spatial_{role}_axis_{axis}',

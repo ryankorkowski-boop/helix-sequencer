@@ -255,6 +255,11 @@ def build(source,vocals,output,*,numbers=None,names=NAMES,layout_builder=layout,
             lanes,_=screened_lanes(cache)
             for lane,(energy,shapes) in lanes.items():
                 cache[lane+'_energy'],cache[lane+'_shapes']=energy,shapes
+    from tools.source_spatial_direction import onset_index, voice_events
+    shared_onsets = {role: onset_index(plan['cues'].get(role, []))
+                     for role in ('bassist', 'guitarist', 'keyboardist', 'drummer')}
+    shared_onsets.update(lead=onset_index(voice_events(cache, 'estimated_lead')),
+                         harmony=onset_index(voice_events(cache, 'estimated_backing')))
     numbers=tuple(range(1,len(names)+1)) if numbers is None else tuple(numbers)
     if not numbers or len(set(numbers))!=len(numbers) or any(type(n) is not int or not 1<=n<=len(names) for n in numbers):
         raise ValueError(f'Choose unique layout numbers in 1..{len(names)}')
@@ -267,6 +272,9 @@ def build(source,vocals,output,*,numbers=None,names=NAMES,layout_builder=layout,
         if folder.exists():raise FileExistsError(folder)
         layout_options = {'native_extended_mouths': True} if shape_names == NATIVE_SHAPE_NAMES else {}
         g,band=layout_builder(number,plan,duration=duration,**layout_options);g.title=name
+        if full_song:
+            from tools.source_role_routing import configure_advanced_spatial_routes
+            configure_advanced_spatial_routes(g.models)
         # The canonical performance must never disappear when the same music
         # is repackaged as 9, 12, or 16 comparison panels.
         canonical_panel = ('snowman band' in name.lower()
@@ -327,7 +335,7 @@ def build(source,vocals,output,*,numbers=None,names=NAMES,layout_builder=layout,
                     part=f"KEY_MIDI_{round(cue['pitch_midi']):03}"
                     if m.submodels.get(part):sequence.effect(m,part,cue['start_ms'],cue['end_ms'],g.palette[2],100,20)
                 continue
-            reports.append(export_model(sequence,m,plan,cache,g.palette))
+            reports.append(export_model(sequence,m,plan,cache,g.palette,shared_onsets=shared_onsets))
         if band:
             from tools.phoneme_vocal_export import export_static_materials, static_materials, export as export_vocals
             from tools.canonical_band_cues import export_instruments

@@ -1,3 +1,30 @@
+# Optimization implementation — November 24
+
+- Implemented incremental native panel timing and comparison verification timing in `tools/render_full_song_comparison.py` (e62931043af52258bd88f84fc7ad9e5eebe71aa1). Retains completed timing rows on later panel failure. Converts retained grayscale samples once. No measured speedup or test pass claimed.
+- Next: profile shared analysis, verify spatial intent consumption, isolate native workers before parallel rendering, benchmark Android peak memory, preserve source and native output validation.
+- Existing Bells run 45534001762 uses its original commit; do not interrupt or claim it includes this patch. No merge or release.
+
+## November 23 — Anti-pulse regression repair
+
+- GitHub full CI on `bf4e0106`: 2,782 passed, 1 failed (`test_vivid_layer_is_beat_locked_and_does_not_overlap`). The initial 35-ms artificial offset broke native musical event timing; fixed in `7b9059cf` while retaining the smaller selective AC groups.
+- Earlier `1c4ecfc` passed Helix Unified Beta Integration, Helix Beta CI, and Birdsong CI. The preview darkness regression and white-plus-saturated highlight repair remain on the unmerged recovery branch.
+- **Pending:** CI on `7b9059cf`, native FSEQ comparison, spatial motion measurement, verified Bells of Mathmas 16-panel delivery. Some unrelated Windows/Android/band workflows failed; do not label them passed or owner-approved.
+
+## November 22 — Beta 1.4 choreography recovery roadmap (owner review required)
+
+**Goal:** Restore 1.3 musical variety without all-white flashing, verify real xLights FSEQ visual fidelity, and deliver original-audio Bells of Mathmas 16-panel approval videos. This branch is unmerged and not owner-approved.
+
+1. [x] **Trace visual regression:** Bench findings document whole-model previews, repeated Wave/Bars/On, skipped band planning; inspect native FSEQ separately from previews. Corrected one proven comparison preview defect: zero-intensity pixels were painted at 35% base color (plus 10% dim); now remain near-dark (4% ambient). This is a targeted renderer fix, **not** proof that beat pulsing is resolved.
+2. [ ] **Verify preview fidelity:** Add regression for zero-intensity darkness and independently colored RGB pixels; compare matching timestamps against native FSEQ/xLights, including matrices and 3D geometry. Do not accept model-level proxies.
+3. [ ] **Repair musical routing:** Trace real section/role/source cues through effect engine and native export; ensure melodic phrases, fills, rests, and independent parts survive. Reuse existing engines; no invented beat clock.
+4. [ ] **Restore band:** Re-test composite_submodels handling, canonical six-snowman geometry, nine drum cues, distinct instrumental activity and independent singer phonemes.
+5. [ ] **Distinct customer layouts:** Validate AC16/32/64/128/256 through singing faces, matrix, band, and advanced RGB; retain original legacy wiring. Audit each for different motion rather than changed geometry alone.
+6. [ ] **True 3D scale:** Implement and measure 20k, 35k, 60k, then 120k-pixel XYZ targets with bounded resources; report verified size rather than target if blocked.
+7. [ ] **Anti-pulse acceptance:** Measure native channel-level synchronization, spatial travel, darkness, color balance, and independent role activity; reject all-white and whole-show flashing.
+8. [ ] **Bells of Mathmas production:** Verify source SHA; produce 16 native XSQ/FSEQ, 16 individual MP4s, synchronized 4x4 MP4; decode and inspect full-song audio/video. Owner approval only after direct playable delivery.
+
+**Current evidence:** GitHub commit `332c044970c25ae8322965f75e0280951cc5d7c9` fixes one always-on preview brightness formula. No test or new render is claimed passed. Next immediate step: add focused preview tests, then native-vs-preview comparison.
+
 ## November 21 · Production audio and native comparison recovery
 
 - Runs 44944727109 and 44944730430 failed in the version probe before separation (torch 2.15.0+cu132, torchaudio 2.11.1+cu132, missing list_audio_backends). Run 44944734212 rejected the E14 mixed vocal bus. No approval MP4 resulted.
