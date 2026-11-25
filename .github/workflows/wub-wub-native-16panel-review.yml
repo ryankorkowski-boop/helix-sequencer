@@ -3,6 +3,9 @@
 name: Helix Audio In Lights Out 30-second native 16-panel pilot
 on:
   workflow_call:
+  pull_request:
+    branches: [integration/unified-beta-completion-20261117]
+    paths: [.github/workflows/wub-wub-native-16panel-review.yml]
   workflow_dispatch:
 permissions:
   contents: read
@@ -12,6 +15,7 @@ concurrency:
   cancel-in-progress: false
 jobs:
   render-one-owner-pilot:
+    if: github.event_name != 'pull_request' || github.head_ref == 'codex/native-xlights-optimization-20261125'
     runs-on: ubuntu-24.04
     timeout-minutes: 300
     env:
