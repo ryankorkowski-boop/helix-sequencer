@@ -223,7 +223,7 @@ class TestEngineCoordinator(unittest.TestCase):
 class TestShowMasteringAndAdapters(unittest.TestCase):
     def test_negative_space_restraint(self) -> None:
         from core.engine_coordinator import CoordinationResult, ArbitrationReport, PlannedEffect
-        from core.show_mastering import ProShowMaster
+        from core.show_mastering import ProShowMaster, ShowMasteringConfig
 
         ctx = AudioAnalysisContext(
             duration_ms=8000,
@@ -250,7 +250,7 @@ class TestShowMasteringAndAdapters(unittest.TestCase):
             PlannedEffect("core_base", "mini_1", "base", "wash", 4000, 8000, score=0.4, priority=1, section_name="chorus"),
         )
         result = CoordinationResult(planned_effects=planned, report=ArbitrationReport())
-        mastered = ProShowMaster().master_plan(result, ctx, props)
+        mastered = ProShowMaster(ShowMasteringConfig(enforce_negative_space=True)).master_plan(result, ctx, props)
 
         intro_props = {e.prop_id for e in mastered.planned_effects if e.section_name == "intro"}
         chorus_props = {e.prop_id for e in mastered.planned_effects if e.section_name == "chorus"}
@@ -277,7 +277,7 @@ class TestShowMasteringAndAdapters(unittest.TestCase):
             PlannedEffect("snowman_band", "snowman_1", "motion", "sing", 0, 4000, section_name="chorus", params={"colors": ["#FFFFFF"]}),
         )
         result = CoordinationResult(planned_effects=planned, report=ArbitrationReport())
-        cfg = ShowMasteringConfig(palette_name="winter_aurora", enforce_negative_space=False)
+        cfg = ShowMasteringConfig(palette_name="winter_aurora", enforce_negative_space=False), lock_palette=True
         mastered = ProShowMaster(cfg).master_plan(result, ctx, props)
 
         expected_primary = DEFAULT_PALETTES["winter_aurora"].primary
@@ -373,6 +373,29 @@ class TestShowMasteringAndAdapters(unittest.TestCase):
         self.assertEqual(len(result.planned_effects), 1)
         self.assertIn("palette_name", result.planned_effects[0].params)
 
-
+    def test_show_mastering_default_vibrant_all_props_and_soft_hierarchy(self) -> None:
+        master = ProShowMaster(ShowMasteringConfig())
+        ctx = AudioAnalysisContext(duration_ms=4000, bpm=120.0, sections=(SectionWindow("verse", 0, 4000, energy=0.45),))
+        props = [LayoutProp("tree_1", "mega_tree"), LayoutProp("arch_1", "arch"), LayoutProp("house_1", "matrix"), LayoutProp("roof_1", "roofline")]
+        planned = [
+            PlannedEffect("tree_1", "tree", 0, 4000, "focus", "spiral", 1, {"color": "#FF00AA", "palette_name": "neon"}),
+            PlannedEffect("arch_1", "arch", 0, 4000, "accent", "chase", 0, {"color": "#00FF88", "palette_name": "emerald"}),
+            PlannedEffect("house_1", "matrix", 0, 4000, "base", "wash", 0, {"color": "#3366FF", "palette_name": "ocean"}),
+            PlannedEffect("roof_1", "roofline", 0, 4000, "texture", "twinkle", 0, {"color": "#FFFF00", "palette_name": "gold"}),
+        ]
+        result = CoordinationResult(planned_effects=planned, report=ArbitrationReport(4, 4, 0, 0, 0, {}))
+        mastered = master.master_plan(result, ctx, props)
+        by_prop = {e.prop_id: e for e in mastered.planned_effects}
+        self.assertEqual(set(by_prop.keys()), {"tree_1", "arch_1", "house_1", "roof_1"})
+        for e in planned:
+            self.assertEqual(by_prop[e.prop_id].params["color"], e.params["color"])
+        self.assertGreater(by_prop["tree_1"].params["brightness_scale"], by_prop["house_1"].params["brightness_scale"])
+        self.assertGreater(by_prop["arch_1"].params["brightness_scale"], by_prop["house_1"].params["brightness_scale"])
+        self.assertGreater(by_prop["tree_1"].params["brightness_scale"], by_prop["roof_1"].params["brightness_scale"])
+        self.assertGreater(by_prop["arch_1"].params["brightness_scale"], by_prop["roof_1"].params["brightness_scale"])
+        self.assertGreater(by_prop["roof_1"].params["brightness_scale"], 0.0)
+        self.assertEqual(len({(e.prop_id, e.layer_index) for e in mastered.planned_effects}), len(mastered.planned_effects))
+            
+        
 if __name__ == "__main__":
     unittest.main()
