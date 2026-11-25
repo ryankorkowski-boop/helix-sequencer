@@ -578,7 +578,17 @@ def preview_run(run_dir: Path, *, xsq: Path, audio: Path,
                 f"Native headless render exited {result.returncode}: "
                 + (stage / "native_headless.log").read_text(errors="replace")[-4000:])
         fseq = staged.with_suffix(".fseq")
-        channel_report = inspect_fseq(fseq)
+        authored_manifest = run_dir / 'showcase_manifest.json'
+        observer = None
+        if authored_manifest.is_file():
+            from tools.quality.native_choreography import observer_for_layout
+            observer = observer_for_layout(authored_manifest, layout)
+        channel_report = inspect_fseq(fseq, observer=observer) if observer is not None else inspect_fseq(fseq)
+        if observer is not None:
+            choreography = observer.result()
+            choreography['fseq_sha256'] = channel_report['sha256']
+            (stage / 'native_choreography.json').write_text(json.dumps(choreography, indent=2) + '\n')
+            channel_report['choreography'] = choreography
         if abs(channel_report["duration_ms"] - duration * 1000) > 100:
             raise ValueError("Native FSEQ duration differs from sequence")
         (stage / "native_channels.json").write_text(
