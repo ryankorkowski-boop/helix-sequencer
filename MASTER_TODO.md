@@ -1,3 +1,12 @@
+## November 25 · Native physical row buffers for advanced phrase surfaces
+
+**Goal:** Correct flattened native render buffers on genuine rectangular matrix/lattice surfaces, so native effects travel through physical columns rather than serialized node order.
+**Files:** `tools/build_helpers/ultimate_showcase.py`, `tools/source_spatial_direction.py`, `tools/build_approval_collection.py`, `tests/test_source_spatial_direction.py`, `MASTER_TODO.md`.
+**Preserved:** All channel addresses, node membership, existing note submodels, authored song/source clocks, band and AC geometry, ordinary submodel XML and native effect settings.
+**Change:** Production phrase export marks SPATIAL_SURFACE for physical-row rendering. The shared native XML serializer uses one line per actual row, sorts rows by physical Y and nodes by physical X, and only applies the new shape when all rows are rectangular, disjoint, and cover the exact original node set. Irregular surfaces retain the prior representation. Layout and exported custom model files use the same serializer; provenance hashes now cover it. The xLights manual documents node-range rows as buffer dimensions.
+**Evidence:** Regression checks a real moire layout's 240-node rows, exact channel membership, physical order, unchanged ordinary row submodel, fallback for incomplete coverage, and native Bars emission. Source committed; CI/native visual performance pending.
+**Limitations/risk:** A rectangular buffer improves geometry semantics, not a proven reduction in total buffer cells or wall time. Native xLights may apply layer ordering and row orientation differently; verify actual FSEQ and visual review before expansion to other effects or arbitrary 3-D layouts. No merge/release/approval. Next: verify native effect settings and buffer sizes under a short real-source pilot.
+
 ## November 25 · Section-aware native surface effect variation
 
 **Goal:** Give advanced surfaces different motion across actual musical sections without inventing notes or introducing a second choreography engine.
