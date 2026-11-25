@@ -187,3 +187,20 @@ def test_showcase_bass_and_guitar_use_original_attacks_and_string_contacts():
         assert receipt['models'][model.name]['mapped_events'] == 1
         elements = root.findall(f'./ElementEffects/Element[@name="{model.name}/STRING_0"]/EffectLayer/Effect')
         assert [(e.get('startTime'), e.get('endTime')) for e in elements] == [('100', '260')]
+
+
+@pytest.mark.parametrize("number,marker,count", [
+    (13, 'ESTATE_WAVE_PATH', 3),
+    (14, 'COUNTERWOUND_CANOPY', 3),
+    (15, 'OPTICAL_CROSS_LATTICE', 3),
+    (16, 'FINALE_GROUND_ORBIT', 4),
+])
+def test_advanced_sample_adds_distinct_native_spatial_ensembles(number, marker, count):
+    from tools.source_spatial_direction import parts_for
+    garden, _ = build_showcase(number, {'cues': {}}, duration=1,
+                              native_band=lambda *args, **kwargs: None)
+    additions = [m for m in garden.models if marker in m.name]
+    assert len(additions) == count
+    assert all(m.kind == 'pixel' and len(parts_for(m)) > 1 for m in additions)
+    routed = [m for m in garden.models if m.details.get('advanced_spatial_routing')]
+    assert routed and all(m.details['source_route_count'] >= 3 for m in routed)
