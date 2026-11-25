@@ -1,6 +1,6 @@
-# OWNER APPROVAL GATE: ONE verified Wub Wub Wonderland source only; never dispatch the 82-song batch.
+# OWNER APPROVAL GATE: ONE verified Audio in. Lights out. Welcome to Helix source only; never dispatch the 82-song batch.
 # Canonical V3 drummer and all four advanced finale props are required.
-name: Wub Wub Wonderland 16-panel OWNER approval pilot (native)
+name: Helix Audio In Lights Out 30-second native 16-panel pilot
 on:
   push:
     branches: [codex/native-xlights-optimization-20261125]
@@ -10,7 +10,7 @@ permissions:
   contents: read
   actions: read
 concurrency:
-  group: wub-wub-wonderland-owner-pilot
+  group: helix-audio-lights-out-owner-pilot
   cancel-in-progress: false
 jobs:
   render-one-owner-pilot:
@@ -27,15 +27,9 @@ jobs:
       XL_NO_GPU_COMPUTE: '1'
       HELIX_NATIVE_PREVIEW_WIDTH: '1920'
       HELIX_NATIVE_PREVIEW_HEIGHT: '1080'
-      HELIX_DRIVE_SOURCE_ID: ${{ secrets.HELIX_WUB_WUB_SOURCE_ID }}
-      HELIX_DRIVE_SOURCE_SHA256: '76641340a2a59c5797b333cd36b1e108f503017d190510fbe8da9931ea3f9abc'
+      HELIX_DRIVE_SOURCE_ID: '1L8EMKw8kh8DE9hO-Y6sek_bZYC1RXycy'
+      HELIX_DRIVE_SOURCE_SHA256: '539b7ab219cf5a1bddeae098a8df58f193ceb02d46bacf7b0f3189ea3f4ebe92'
     steps:
-      - name: Check private source configuration before consuming render minutes
-        run: |
-          if [ -z "$HELIX_DRIVE_SOURCE_ID" ]; then
-            echo "::error::Set repository Actions secret HELIX_WUB_WUB_SOURCE_ID to the owner-approved original recording ID."
-            exit 1
-          fi
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with:
@@ -47,22 +41,22 @@ jobs:
           sudo apt-get update -qq
           sudo apt-get install -y ffmpeg xvfb xauth openbox wmctrl xdotool x11-utils x11-xserver-utils libgtk-3-0t64 libgl1 libegl1 libopengl0 libglu1-mesa libgstreamer-plugins-base1.0-0
           python -m pip install scipy scikit-learn Pillow trimesh moderngl zstandard imageio imageio-ffmpeg cmudict PyYAML requests pytest gdown==6.4.2
-      - name: Retrieve actual owner Drive Wub Wub Wonderland audio (no substitute)
+      - name: Retrieve original Helix theme recording (no substitute)
         run: |
           set -euo pipefail
           mkdir -p pilot-source
-          python -m gdown "$HELIX_DRIVE_SOURCE_ID" -O pilot-source/Wub_Wub_Wonderland_original.mp3
-          echo "$HELIX_DRIVE_SOURCE_SHA256  pilot-source/Wub_Wub_Wonderland_original.mp3" | sha256sum -c -
-          ffprobe -v error -show_entries format=duration -of default=noprint_wrappers=1 pilot-source/Wub_Wub_Wonderland_original.mp3
+          python -m gdown "$HELIX_DRIVE_SOURCE_ID" -O pilot-source/Helix_Audio_In_Lights_Out_original.mp3
+          echo "$HELIX_DRIVE_SOURCE_SHA256  pilot-source/Helix_Audio_In_Lights_Out_original.mp3" | sha256sum -c -
+          ffprobe -v error -show_entries format=duration -of default=noprint_wrappers=1 pilot-source/Helix_Audio_In_Lights_Out_original.mp3
       - name: Extract 30-second review audio
         run: |
           set -euo pipefail
-          ffmpeg -v error -i pilot-source/Wub_Wub_Wonderland_original.mp3 -ss 45 -t 30 -c:a pcm_s16le pilot-source/Wub_review.wav
-          echo "HELIX_REVIEW_SHA256=$(sha256sum pilot-source/Wub_review.wav | cut -d ' ' -f1)" >> "$GITHUB_ENV"
+          ffmpeg -v error -i pilot-source/Helix_Audio_In_Lights_Out_original.mp3 -ss 45 -t 30 -c:a pcm_s16le pilot-source/Helix_Audio_review.wav
+          echo "HELIX_REVIEW_SHA256=$(sha256sum pilot-source/Helix_Audio_review.wav | cut -d ' ' -f1)" >> "$GITHUB_ENV"
       - name: Separate verified source on CPU
         uses: ./.github/actions/production-audio
         with:
-          audio: pilot-source/Wub_review.wav
+          audio: pilot-source/Helix_Audio_review.wav
           sha256: ${{ env.HELIX_REVIEW_SHA256 }}
       - name: Separate independent vocal candidates from actual excerpt vocals
         run: |
@@ -70,18 +64,18 @@ jobs:
           # Keep the karaoke runtime isolated from the paired production torch runtime.
           python -m venv --system-site-packages "$RUNNER_TEMP/helix-karaoke"
           "$RUNNER_TEMP/helix-karaoke/bin/python" -m pip install 'audio-separator==0.41.1' 'onnxruntime==1.23.2'
-          VOCALS="$(find RenderCache/stems/Wub_review -name vocals.wav -type f -print -quit)"
+          VOCALS="$(find RenderCache/stems/Helix_Audio_review -name vocals.wav -type f -print -quit)"
           test -s "$VOCALS"
           mkdir -p pilot-vocals
           "$RUNNER_TEMP/helix-karaoke/bin/audio-separator" "$VOCALS" --model_filename mel_band_roformer_karaoke_aufr33_viperx_sdr_10.1956.ckpt --output_format WAV --output_dir pilot-vocals
           LEAD="$(find pilot-vocals -maxdepth 1 -name '*Vocals*.wav' -printf '%f\n' | head -n 1)"
           BACKING="$(find pilot-vocals -maxdepth 1 -name '*Instrumental*.wav' -printf '%f\n' | head -n 1)"
           test -n "$LEAD" && test -n "$BACKING"
-          python -m tools.separate_vocal_roles --source pilot-source/Wub_review.wav --vocals "$VOCALS" --output-dir pilot-vocals --skip-separation --lead-output "$LEAD" --backing-output "$BACKING"
+          python -m tools.separate_vocal_roles --source pilot-source/Helix_Audio_review.wav --vocals "$VOCALS" --output-dir pilot-vocals --skip-separation --lead-output "$LEAD" --backing-output "$BACKING"
       - name: Build and screen source-bound estimated vocal review fixture
         run: |
           set -euo pipefail
-          python -m tools.roformer_review_fixture pilot-source/Wub_review.wav pilot-vocals/vocal_separation_manifest.json pilot-vocal-fixture
+          python -m tools.roformer_review_fixture pilot-source/Helix_Audio_review.wav pilot-vocals/vocal_separation_manifest.json pilot-vocal-fixture
           python - <<'PY'
           import json
           from pathlib import Path
@@ -145,8 +139,8 @@ jobs:
           xvfb-run -a -s '-screen 0 2560x1440x24' sh -c '
             openbox >pilot-source/openbox.log 2>&1 &
             exec python -m tools.render_full_song_comparison \
-              pilot-source/Wub_review.wav \
-              pilot-work/wub-wub-wonderland \
+              pilot-source/Helix_Audio_review.wav \
+              pilot-work/helix-audio-lights-out \
               --expected-sha256 "$HELIX_REVIEW_SHA256" \
               --vocal-fixture pilot-vocal-fixture --xlights "$HELIX_PATCHED_XLIGHTS"
           '
@@ -160,7 +154,7 @@ jobs:
           python - <<'PY'
           import json, os
           from pathlib import Path
-          root = Path('pilot-work/wub-wub-wonderland')
+          root = Path('pilot-work/helix-audio-lights-out')
           p = json.loads((root/'comparison_manifest.json').read_text())
           assert p['status'] == 'technically_verified'
           assert p['owner_approved'] is False
@@ -181,39 +175,39 @@ jobs:
         run: |
           set +e
           python -m tools.check_mp4_visual_quality \
-            pilot-work/wub-wub-wonderland/Full_Length_16_Panel_Comparison.mp4 \
-            --report pilot-work/wub-wub-wonderland/VISUAL_QUALITY_RECEIPT.json --fps 2
+            pilot-work/helix-audio-lights-out/Full_Length_16_Panel_Comparison.mp4 \
+            --report pilot-work/helix-audio-lights-out/VISUAL_QUALITY_RECEIPT.json --fps 2
           result=$?
           set -e
           if [ "$result" -ne 0 ]; then
             echo "::warning::Native video visual quality flagged; retain receipt for owner review, do not imply approval."
           fi
-          test -s pilot-work/wub-wub-wonderland/VISUAL_QUALITY_RECEIPT.json
+          test -s pilot-work/helix-audio-lights-out/VISUAL_QUALITY_RECEIPT.json
       - name: Upload only the verified one-song approval package
         if: success()
         uses: actions/upload-artifact@v4
         with:
-          name: Wub-Wub-Wonderland-30s-16-Panel-OWNER-REVIEW
+          name: Helix-Audio-Lights-Out-30s-16-Panel-OWNER-REVIEW
           retention-days: 30
           if-no-files-found: error
           path: |
-            pilot-work/wub-wub-wonderland/Full_Length_16_Panel_Comparison.mp4
-            pilot-work/wub-wub-wonderland/comparison_manifest.json
-            pilot-work/wub-wub-wonderland/panel_activity.json
-            pilot-work/wub-wub-wonderland/OWNER_APPROVAL_GATE.json
-            pilot-work/wub-wub-wonderland/VISUAL_QUALITY_RECEIPT.json
-            pilot-work/wub-wub-wonderland/layouts/**/run_manifest.json
-            pilot-work/wub-wub-wonderland/layouts/**/*.xsq
-            pilot-work/wub-wub-wonderland/layouts/**/*.mp4
-            pilot-work/wub-wub-wonderland/layouts/**/*.fseq
-            pilot-work/wub-wub-wonderland/layouts/**/xlights_rgbeffects.xml
+            pilot-work/helix-audio-lights-out/Full_Length_16_Panel_Comparison.mp4
+            pilot-work/helix-audio-lights-out/comparison_manifest.json
+            pilot-work/helix-audio-lights-out/panel_activity.json
+            pilot-work/helix-audio-lights-out/OWNER_APPROVAL_GATE.json
+            pilot-work/helix-audio-lights-out/VISUAL_QUALITY_RECEIPT.json
+            pilot-work/helix-audio-lights-out/layouts/**/run_manifest.json
+            pilot-work/helix-audio-lights-out/layouts/**/*.xsq
+            pilot-work/helix-audio-lights-out/layouts/**/*.mp4
+            pilot-work/helix-audio-lights-out/layouts/**/*.fseq
+            pilot-work/helix-audio-lights-out/layouts/**/xlights_rgbeffects.xml
             pilot-vocal-fixture/diagnostic.json
             pilot-vocal-fixture/screening.json
       - name: Retain only diagnostic logs on failure, never label as approval
         if: failure()
         uses: actions/upload-artifact@v4
         with:
-          name: Wub-Wub-Wonderland-16-Panel-FAILED-DIAGNOSTICS
+          name: Helix-Audio-Lights-Out-16-Panel-FAILED-DIAGNOSTICS
           retention-days: 14
           if-no-files-found: warn
           path: |
@@ -222,5 +216,5 @@ jobs:
             pilot-source/*.log
             pilot-vocal-fixture/*.json
             pilot-vocals/*.json
-            pilot-work/wub-wub-wonderland/**/*.log
-            pilot-work/wub-wub-wonderland/**/*.json
+            pilot-work/helix-audio-lights-out/**/*.log
+            pilot-work/helix-audio-lights-out/**/*.json
