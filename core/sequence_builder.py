@@ -273,7 +273,7 @@ def _known_artifact_paths(roots: Iterable[Path]) -> list[Path]:
     for root in _unique_paths(roots):
         if not root.exists():
             continue
-        paths.extend(path for path in root.rglob("*") if path.is_file() and _is_known_artifact(path))
+        paths.extend(path for path in root.rglob("*") if _is_known_artifact(path) and path.is_file())
     return sorted(paths, key=lambda path: str(path))
 
 
