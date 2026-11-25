@@ -142,7 +142,12 @@ def inspect_fseq(path: Path, *, observer=None) -> dict[str, Any]:
         header=source.read(32)
     if len(header)>=20 and header[:4]==b'PSEQ' and header[7]==2:
         width,count=struct.unpack_from('<II',header,10)
-        if width*count>MAX_BYTES or (observer is not None and len(header)>=32 and (header[20]&15) in (0,1)):
+        # Small compressed sequences can use the existing system-libzstd
+        # decoder when the optional streaming Python package is absent.
+        from importlib.util import find_spec
+        streamable = len(header)>=32 and ((header[20]&15)==0 or
+                     ((header[20]&15)==1 and find_spec('zstandard') is not None))
+        if width*count>MAX_BYTES or (observer is not None and streamable):
             from tools.quality.native_stream import inspect_stream
             return inspect_stream(path, observer=observer)
     data, channels, frames, step = read_frames(path)
