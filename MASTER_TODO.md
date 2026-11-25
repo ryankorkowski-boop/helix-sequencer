@@ -1,3 +1,13 @@
+## November 25 · Offline local native regression environment
+
+**Goal:** Run the exact consolidated Helix code and actual installed xLights locally without transferring owner music or credentials to a public repository.
+
+**Evidence:** Source artifact 15003287938 from run 45573415224 downloaded, SHA256SUMS verified, Git archive embedded commit cdaf42a3e8b5dc194716afce267525c67e991a44 verified. Local focused tests: 38 passed, 1 failed due to missing optional ModernGL (not a diagnosed Helix logic defect). The exact committed native analyzer and all four tests also passed independently on the actual 80-frame xLights calibration outputs. Broadcast RGB white fraction 0.5, synchronized transitions 0.189873; selective chase 0 white, 0 broadcast and normalized X/Z travel 3.0 each. These are calibration results, not an accepted music MP4.
+
+**Changed:** .github/workflows/local-native-offline-dependencies.yml stages Linux x64 Python 3.13 wheels and separately verified Demucs and Whisper model files using public upstream sources; never ingests private music. Existing active native renderer, source routing, nine-panel order, AC channel budgets and approval thresholds are unchanged.
+
+**Deferred / risks:** Dependency package and exact runtime imports pending, independent singer-role model and patched full-size MP4 exporter still needed. Local Python 3.13 differs from CI's pinned 3.12 DSP runtime; validate outputs and do not treat isolated tests as full production acceptance. Audio In Lights Out remote run 45573414719 failed at missing repository secret, before render. No owner-approved MP4 or merge/release.
+
 ## November 24 · Restore bounded vivid accent palette
 
 **Goal:** Repair the sole full-suite failure on 11bc211 without restoring white-only flashing. **Files:** core/vivid_style.py, MASTER_TODO.md. **Preserved:** section palettes, accent cadence, AC wiring and existing acceptance tests. **Change:** existing occasional AC accent now references the mixed white/magenta/cyan palette instead of a single ordinary section color. **Evidence:** run 45063651475 reported 2781 passed, 1 failed, 6 skipped on Python 3.12; existing white-accent regression remains unchanged. Fresh CI pending. **Risk:** native visual balance still requires review; no approval or release claimed. Panel pilot timing/reference gate remains unresolved.
