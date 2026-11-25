@@ -220,3 +220,23 @@ def test_advanced_surface_uses_distinct_native_bars_directions_by_section():
     assert all(int(e.get('endTime'))<=1800 for e in bars)
     simple=SimpleNamespace(zone='HOUSE',details={})
     assert native_bars_direction(simple,section_strategy('pre_chorus','keyboardist'))=='Left'
+
+
+def test_native_surface_buffer_preserves_physical_rows_and_every_channel():
+    from tools.build_helpers.ultimate_showcase import model_xml,surface_buffer_rows
+    g=build_layout(10)
+    model=next(m for m in g.models if m.name=='MOIRE_LINE_LATTICE_0')
+    seq=NativeSequence(g,2,'','physical buffer')
+    plan={'cues':{'keyboardist':[dict(start_ms=100,end_ms=700,pitch_midi=60,velocity=.8)]}}
+    export_model(seq,model,plan,{},g.palette)
+    root=model_xml(model)
+    surface=root.find("./subModel[@name='SPATIAL_SURFACE']")
+    rows=[list(map(int,surface.get(key).split(','))) for key in
+          sorted((k for k in surface.attrib if k.startswith('line')),key=lambda k:int(k[4:]))]
+    assert len(rows)>1 and {len(row) for row in rows}=={240}
+    assert sorted(n for row in rows for n in row)==model.submodels['SPATIAL_SURFACE']
+    assert all(np.all(np.diff(model.points[np.asarray(row)-1,0])>=0) for row in rows)
+    assert np.all(np.diff([model.points[np.asarray(row)-1,1].mean() for row in rows])>0)
+    assert root.find("./subModel[@name='ROW_00']").get('line1') is None
+    assert surface_buffer_rows(model,model.submodels['SPATIAL_SURFACE'][:-1])==[]
+    assert any(e.get('name')=='Bars' for e in seq.root.findall('./ElementEffects//Effect'))
