@@ -18,7 +18,7 @@ from models.ultimate_showcase import Garden
 from tools.build_snowman_ensemble import NativeSequence
 from tools.build_helpers.ultimate_showcase import write_layout
 from tools.build_source_ac_review import geometry as original_ac
-from tools.source_spatial_direction import export_model
+from tools.source_spatial_direction import export_model, prepare_source_clocks
 from tools.phoneme_source import digest
 from models.band_sampler_logic import NATIVE_SHAPE_NAMES, SHAPE_NAMES
 
@@ -255,6 +255,7 @@ def build(source,vocals,output,*,numbers=None,names=NAMES,layout_builder=layout,
             lanes,_=screened_lanes(cache)
             for lane,(energy,shapes) in lanes.items():
                 cache[lane+'_energy'],cache[lane+'_shapes']=energy,shapes
+    source_clocks=prepare_source_clocks(plan,cache)
     numbers=tuple(range(1,len(names)+1)) if numbers is None else tuple(numbers)
     if not numbers or len(set(numbers))!=len(numbers) or any(type(n) is not int or not 1<=n<=len(names) for n in numbers):
         raise ValueError(f'Choose unique layout numbers in 1..{len(names)}')
@@ -327,7 +328,7 @@ def build(source,vocals,output,*,numbers=None,names=NAMES,layout_builder=layout,
                     part=f"KEY_MIDI_{round(cue['pitch_midi']):03}"
                     if m.submodels.get(part):sequence.effect(m,part,cue['start_ms'],cue['end_ms'],g.palette[2],100,20)
                 continue
-            reports.append(export_model(sequence,m,plan,cache,g.palette))
+            reports.append(export_model(sequence,m,plan,cache,g.palette,source_clocks=source_clocks))
         if band:
             from tools.phoneme_vocal_export import export_static_materials, static_materials, export as export_vocals
             from tools.canonical_band_cues import export_instruments
