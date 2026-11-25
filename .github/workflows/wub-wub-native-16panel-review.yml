@@ -186,6 +186,31 @@ jobs:
             echo "::warning::Native video visual quality flagged; retain receipt for owner review, do not imply approval."
           fi
           test -s pilot-work/helix-audio-lights-out/VISUAL_QUALITY_RECEIPT.json
+      - name: Extract actual decoded review frames and upload lightweight video
+        if: success()
+        run: |
+          set -euo pipefail
+          root=pilot-work/helix-audio-lights-out
+          mkdir -p "$root/review-stills"
+          for second in 3 8 13 18 23 28; do
+            ffmpeg -hide_banner -loglevel error -ss "$second" -i "$root/Advanced_4_Panel_Sample.mp4" -frames:v 1 "$root/review-stills/frame-${second}s.png"
+          done
+      - name: Upload standalone MP4 for quick visual review
+        if: success()
+        uses: actions/upload-artifact@v4
+        with:
+          name: Helix-Advanced-4-Panel-Visual-Review-MP4
+          retention-days: 30
+          if-no-files-found: error
+          path: pilot-work/helix-audio-lights-out/Advanced_4_Panel_Sample.mp4
+      - name: Upload native rendered review stills
+        if: success()
+        uses: actions/upload-artifact@v4
+        with:
+          name: Helix-Advanced-4-Panel-Actual-Rendered-Stills
+          retention-days: 30
+          if-no-files-found: error
+          path: pilot-work/helix-audio-lights-out/review-stills/*.png
       - name: Upload only the verified one-song approval package
         if: success()
         uses: actions/upload-artifact@v4
