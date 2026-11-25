@@ -1,3 +1,9 @@
+# November 25 — native xLights calibration and quality measurement (not owner acceptance)
+
+- Locally executed official xLights 2026.18 AppImage, verified SHA256 62affb88b9a9b03cf5164974ac69bceef35c559719d157b3364e4d4a5ab4214b. Both four-second diagnostic XSQ files rendered to genuine V2.2 ZSTD sparse FSEQ (80 frames, 24 RGB channels, all eight models lit at least once). Independently decoded with system libzstd: broadcast peak white=100%, broad-white frame fraction=50%, same-direction transition fraction=0.189873, centroid travel=0. Colored chase peak white=0%, broad-white=0%, same-direction transition=0%, normalized X/Z centroid travel=3 each. This is diagnostic calibration, not a production music render or an executed test of the newly committed module.
+- Added native FSEQ observer and mapped-model choreography report to active native_preview path before GUI export; report separates AC/RGB, flags broadcast/white patterns, tracks authored model-center travel and coverage, checks absolute model start addresses. Native bytes decoded once in the inspection path. Thresholds are heuristics; do not claim per-pixel spatial fidelity or vocal accuracy.
+- Added focused regression tests and CI wiring; current test results pending. No new music MP4 or merge/release. Audio In Lights Out workflow remains blocked by missing private source secret; local full production source and patched GUI exporter remain outstanding.
+
 # November 25 — consolidated review candidate (NOT accepted)
 
 - Review branch based on PR #253 head f05155c2: retains all performance and reliability edits. Selectively incorporated #251's persistent beat/spectral cache, shared descriptor transform, sparse anti-pulse motion (retaining newer accent palette safety), preview renderer, source spatial routing, comparison timing, tests, and Bells workflows. Full CI and native output still required.
