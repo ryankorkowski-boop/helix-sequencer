@@ -379,20 +379,32 @@ def build(source,vocals,output,*,numbers=None,names=NAMES,layout_builder=layout,
                 (folder/'Canonical_Drummer.json').write_text(json.dumps(
                     dict(geometry=proof,event_mapping=source_report),indent=2)+'\n')
             else:
-                colors=('#DC2D1C','#D65CBE','#DCA416','#2CB242','#2CB242','#2CB242','#DCA416','#DCA416')
+                colors=('#DC2D1C','#D65CBE','#DCA416','#2CB242','#2CB242','#2CB242','#DCA416','#DCA416','#DCA416')
                 from tools.render_owner_band_review import drum_hits
                 from tools.render_drummer_v3_preview import TARGETS
                 hits,_=drum_hits(plan['cues']['drummer'])
                 for target,color in zip(TARGETS,colors):
                     part=target+'_SURFACE'
-                    if not drummer.details.get('showcase_source_drummer'):
-                        sequence.effect(drummer,part,0,duration_ms,color,22)
+                    if part not in drummer.submodels:
+                        continue
+                    # One exclusive, nonoverlapping 50 ms surface clock.
+                    # Keep idle visibility, then max-combine measured strikes
+                    # and their decays. Static body rows must not own these nodes.
+                    levels=np.full(math.ceil(duration_ms/50),18,dtype=np.int16)
                     for hit in hits:
                         if hit['target']==target:
-                            start=round(hit['time']*1000)
-                            tail=95 if target in TARGETS[:3] else 150 if target in TARGETS[3:6] else 220
+                            start=round(hit['time']*20)
+                            tail=2 if target in TARGETS[:3] else 3 if target in TARGETS[3:6] else 5
+                            end=min(len(levels),start+tail)
+                            if start>=end:continue
                             intensity=round(25+75*hit['velocity'])
-                            sequence.effect(drummer,part,start,min(duration_ms,start+tail),color,intensity,18)
+                            decay=np.rint(np.linspace(intensity,18,tail+1)[:-1]).astype(np.int16)
+                            levels[start:end]=np.maximum(levels[start:end],decay[:end-start])
+                    cuts=np.r_[0,np.flatnonzero(np.diff(levels))+1,len(levels)]
+                    for a,b in zip(cuts[:-1],cuts[1:]):
+                        sequence.effect(drummer,part,int(a)*50,int(b)*50,color,int(levels[a]),
+                            provenance={'sourceMethod':'source_drum_surface_clock' if levels[a]>18 else 'nonmusical_kit_visibility',
+                                        'sourceComponent':target})
                 clocks = states.values() if isinstance(states, dict) else (
                     np.asarray([f'SOURCE_POSE_{state:02}' for state in states]),)
                 for clock in clocks:

@@ -29,6 +29,12 @@ def static_materials(garden):
     for model in garden.models:
         groups = {}
         nodes=set(model.submodels.get('BASE_DIM' if model.details['review_role'] == 'drummer' else 'BODY', []))
+        if model.details.get('showcase_source_drummer'):
+            # Strike surfaces have exclusive musical ownership; a late
+            # static RGB submodel row otherwise masks every real strike.
+            for part, values in model.submodels.items():
+                if part.startswith('HX_SNOWMAN_DRUMMER_V3_') and part.endswith('_SURFACE'):
+                    nodes.difference_update(values)
         if model.details['review_role'] in ('lead','harmony'):
             # Retain authored wooden arms; generic sequencer accents previously
             # replaced them with flashing red/white detached-looking limbs.

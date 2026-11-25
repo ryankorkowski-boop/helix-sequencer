@@ -41,3 +41,13 @@ def test_starter_house_independent_source_banks():
         assert {m.details['source_route_rank'] for m in bank} == {0,1}
         assert all(m.details['source_route_count'] == 2 for m in bank)
     assert by_name['HOME_DOOR'].details['percussion_component'] == 'cymbal'
+
+
+def test_source_drum_surface_not_owned_by_static_material():
+    from types import SimpleNamespace
+    from tools.phoneme_vocal_export import static_materials
+    drum = SimpleNamespace(details={'review_role':'drummer','showcase_source_drummer':True},
+        submodels={'BASE_DIM':[1,2,3],'HX_SNOWMAN_DRUMMER_V3_KICK_SURFACE':[2]},
+        colors=['#FFFFFF','#FFFFFF','#FFFFFF'])
+    static_materials(SimpleNamespace(models=[drum]))
+    assert drum.submodels['STATIC_RGB_FFFFFF'] == [1,3]
