@@ -34,12 +34,16 @@ def effect_template_values(root: ET.Element, effect: ET.Element) -> tuple[str | 
     return settings, palette
 
 
+class XsqParseError(ValueError):
+    """An XSQ file could not be read or parsed."""
+
+
 def load_xsq(path: Path) -> "XsqIndex":
     legacy = _legacy()
     try:
         tree = ET.parse(path)
-    except Exception as exc:
-        legacy.die(f"Failed to parse XSQ XML: {path.name}\n{exc}")
+    except (ET.ParseError, OSError) as exc:
+        raise XsqParseError(f"Failed to parse XSQ XML: {path.name}\n{exc}") from exc
     root = tree.getroot()
 
     elements: dict[str, ET.Element] = {}
