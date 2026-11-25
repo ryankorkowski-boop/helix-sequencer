@@ -2,7 +2,7 @@ import json
 import numpy as np
 import pytest
 import soundfile as sf
-from tools.qualified_keyboard import ROLES, cues, verified_piano
+from tools.qualified_keyboard import ROLES, WEIGHT_SHA256, cues, verified_piano
 from tools.phoneme_source import digest
 
 
@@ -14,7 +14,7 @@ def fixture(tmp_path, silent=False):
         sf.write(p,y,44100);tracks[role]={'path':p.name,'sha256':digest(p)}
     manifest=tmp_path/'keyboard_stems.json'
     manifest.write_text(json.dumps(dict(schema='helix.keyboard_stems.v1',model='htdemucs_6s',
-        source_sha256=digest(source),weight_sha256='34c22ccb'+'0'*56,tracks=tracks)))
+        source_sha256=digest(source),weight_sha256=WEIGHT_SHA256,tracks=tracks)))
     return source,manifest
 
 

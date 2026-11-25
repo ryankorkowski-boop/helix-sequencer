@@ -20,7 +20,7 @@ jobs:
           cd "$RUNNER_TEMP/piano"
           curl -fLsS --retry 3 https://dl.fbaipublicfiles.com/demucs/hybrid_transformer/5c90dfd2-34c22ccb.th -o 5c90dfd2-34c22ccb.th
           sha256sum 5c90dfd2-34c22ccb.th > SHA256SUMS
-          grep -q '^34c22ccb' SHA256SUMS
+          printf '%s  %s\n' '34c22ccb381c6f9fdbf324f04e1e2fe21aaaf293f5ded163a162697ff9a02ddd' 5c90dfd2-34c22ccb.th | sha256sum -c -
       - uses: actions/upload-artifact@v4
         with:
           name: helix-offline-htdemucs-six-source

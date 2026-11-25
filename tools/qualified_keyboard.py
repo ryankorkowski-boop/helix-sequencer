@@ -15,6 +15,7 @@ from tools.phoneme_source import digest
 
 MODEL = 'htdemucs_6s'
 WEIGHT = '5c90dfd2-34c22ccb.th'
+WEIGHT_SHA256 = '34c22ccb381c6f9fdbf324f04e1e2fe21aaaf293f5ded163a162697ff9a02ddd'
 ROLES = ('vocals', 'drums', 'bass', 'other', 'guitar', 'piano')
 
 
@@ -22,7 +23,7 @@ def separate(audio: Path, output: Path, weight: Path) -> Path:
     import soundfile as sf
     audio, output, weight = (Path(p).resolve() for p in (audio, output, weight))
     weight_sha = digest(weight)
-    if weight.name != WEIGHT or not weight_sha.startswith('34c22ccb'):
+    if weight.name != WEIGHT or weight_sha != WEIGHT_SHA256:
         raise ValueError('Wrong six-source Demucs checkpoint')
     output.mkdir(parents=True, exist_ok=False)
     # Supply the verified checkpoint via Demucs' local model repository,
@@ -33,7 +34,12 @@ def separate(audio: Path, output: Path, weight: Path) -> Path:
     import shutil
     shutil.copyfile(weight, repo / WEIGHT)
     source_sha = digest(audio)
-    subprocess.run([sys.executable, '-m', 'demucs.separate', '--repo', str(repo),
+    # PyTorch >=2.6 defaults to weights-only. Allow only the two classes
+    # declared in this pinned official checkpoint, not arbitrary pickle code.
+    loader = ("import torch; from demucs.htdemucs import HTDemucs; "
+              "from fractions import Fraction; from demucs.separate import main; "
+              "torch.serialization.add_safe_globals([HTDemucs, Fraction]); main()")
+    subprocess.run([sys.executable, '-c', loader, '--repo', str(repo),
                     '-n', MODEL, '--device', 'cpu', '--shifts', '0',
                     '--overlap', '.1', '--segment', '7', '-j', '0',
                     '-o', str(output / 'stems'), str(audio)], check=True)
@@ -62,7 +68,7 @@ def verified_piano(audio, manifest):
     data = json.loads(manifest.read_text())
     if (data.get('schema') != 'helix.keyboard_stems.v1' or data.get('model') != MODEL
             or data.get('source_sha256') != digest(audio)
-            or not str(data.get('weight_sha256', '')).startswith('34c22ccb')):
+            or data.get('weight_sha256') != WEIGHT_SHA256):
         raise ValueError('Foreign or unqualified keyboard stem evidence')
     tracks = data['tracks']
     if set(tracks) != set(ROLES):
