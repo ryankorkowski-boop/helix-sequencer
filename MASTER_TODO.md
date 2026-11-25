@@ -1,3 +1,7 @@
+## November 24 · Restore bounded vivid accent palette
+
+**Goal:** Repair the sole full-suite failure on 11bc211 without restoring white-only flashing. **Files:** core/vivid_style.py, MASTER_TODO.md. **Preserved:** section palettes, accent cadence, AC wiring and existing acceptance tests. **Change:** existing occasional AC accent now references the mixed white/magenta/cyan palette instead of a single ordinary section color. **Evidence:** run 45063651475 reported 2781 passed, 1 failed, 6 skipped on Python 3.12; existing white-accent regression remains unchanged. Fresh CI pending. **Risk:** native visual balance still requires review; no approval or release claimed. Panel pilot timing/reference gate remains unresolved.
+
 ## November 22 · Physical inter-prop choreography for advanced customer layouts
 
 **Goal:** Replace global source-cue broadcast between advanced props with coordinated, physical-position-based source note travel while keeping Helix's existing semantic role and section logic.
