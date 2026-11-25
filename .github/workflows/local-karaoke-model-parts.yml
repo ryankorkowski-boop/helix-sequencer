@@ -1,0 +1,61 @@
+name: Recover oversized offline karaoke model
+on:
+  pull_request:
+    paths: [.github/workflows/local-karaoke-model-parts.yml]
+  workflow_dispatch:
+permissions:
+  contents: read
+  actions: read
+jobs:
+  split:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: helix-offline-karaoke-checkpoint
+          run-id: 45588912332
+          github-token: ${{ github.token }}
+          path: model
+      - name: Verify existing model and partition for bounded transfer
+        run: |
+          set -euo pipefail
+          cd model
+          sha256sum -c SHA256SUMS
+          mkdir -p ../parts
+          split -b 256M -d -a 2 ./*.ckpt ../parts/checkpoint.part-
+          cp SHA256SUMS ./*.yaml ../parts/
+          cd ../parts
+          test "$(find . -name 'checkpoint.part-*' | wc -l)" = 4
+          sha256sum checkpoint.part-* > PARTS_SHA256SUMS
+      - uses: actions/upload-artifact@v4
+        with:
+          name: helix-karaoke-part-00
+          path: parts/checkpoint.part-00
+          compression-level: 0
+          if-no-files-found: error
+      - uses: actions/upload-artifact@v4
+        with:
+          name: helix-karaoke-part-01
+          path: parts/checkpoint.part-01
+          compression-level: 0
+          if-no-files-found: error
+      - uses: actions/upload-artifact@v4
+        with:
+          name: helix-karaoke-part-02
+          path: parts/checkpoint.part-02
+          compression-level: 0
+          if-no-files-found: error
+      - uses: actions/upload-artifact@v4
+        with:
+          name: helix-karaoke-part-03
+          path: parts/checkpoint.part-03
+          compression-level: 0
+          if-no-files-found: error
+      - uses: actions/upload-artifact@v4
+        with:
+          name: helix-karaoke-part-manifest
+          path: |
+            parts/*.yaml
+            parts/*SHA256SUMS
+          if-no-files-found: error
