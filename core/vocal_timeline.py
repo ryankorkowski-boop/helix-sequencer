@@ -400,6 +400,10 @@ def detect_background_vocal_windows(
         hint = str(getattr(event, "performer_hint", "") or "")
         if "all" in hint or role == "group_chant":
             performer = "group"
+        elif "harmony_singer" in hint or "female_singer" in hint:
+            performer = "female_singer"
+        elif "lead_singer" in hint:
+            performer = "singer"
         elif "bass" in hint and "guitar" not in hint:
             performer = "bassist"
         else:
