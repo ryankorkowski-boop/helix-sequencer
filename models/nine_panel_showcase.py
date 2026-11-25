@@ -24,9 +24,37 @@ NAMES = (
 def build(number, plan, *, duration, native_extended_mouths=False):
     if number not in range(1, 10):
         raise ValueError('Unknown nine-panel layout')
-    if number in (1, 2, 3):
-        return full_layout({1: 1, 2: 3, 3: 4}[number], plan, duration=duration,
+    if number in (1, 2):
+        return full_layout({1: 1, 2: 3}[number], plan, duration=duration,
                            native_extended_mouths=native_extended_mouths)
+    if number == 3:
+        g, band = full_layout(4, plan, duration=duration,
+                              native_extended_mouths=native_extended_mouths)
+        # Independent native source lanes, not one guitar envelope applied to
+        # all six facade props. Keep physical customer geometry unchanged.
+        banks = {'guitarist': [], 'keyboardist': []}
+        for model in g.models:
+            name = model.name
+            if name in ('HOME_EAVE', 'HOME_ROOF'):
+                role = 'guitarist'
+            elif name.startswith('HOME_WINDOW'):
+                role = 'keyboardist'
+            elif name == 'HOME_RIDGE':
+                role = 'bassist'
+            else:
+                role = 'drummer'
+                model.details['percussion_component'] = (
+                    'cymbal' if name == 'HOME_DOOR' else
+                    'kick' if model.points[:, 0].mean() < 0 else 'snare')
+            model.details['musical_role'] = role
+            if role in banks:
+                banks[role].append(model)
+        for role, members in banks.items():
+            members.sort(key=lambda m: (*m.points.mean(axis=0), m.name))
+            for rank, model in enumerate(members):
+                model.details.update(source_route_bank=f'starter_facade_{role}',
+                                     source_route_rank=rank, source_route_count=len(members))
+        return g, band
     if number == 4:
         g, _ = full_layout(12, plan, duration=duration,
                            native_extended_mouths=native_extended_mouths)

@@ -209,7 +209,7 @@ def render(audio, work, xlights, identity, *, port=49914, names=NAMES, cols=4, r
         candidate = movie
     else:
         comparison([Path(r['native_movie']) for r in receipts],
-                   [f'{i:02}  {name}' for i, name in enumerate(NAMES, 1)], candidate, audio, cols, rows,
+                   [f'{i:02}  {name}' for i, name in enumerate(names, 1)], candidate, audio, cols, rows,
                    duration=float(probe_media(audio, 'ffprobe')['format']['duration']))
     media = verify_media(candidate, audio, identity['audio_sha256'])
     streams = probe_media(candidate, 'ffprobe')['streams']

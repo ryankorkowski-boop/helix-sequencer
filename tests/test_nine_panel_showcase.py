@@ -28,3 +28,16 @@ def test_distinct_native_geometry(number):
         assert any(m.details.get('generic_singer') for m in garden.models)
     if number == 9:
         assert len({m.zone for m in garden.models if 'DISTRICT' in m.zone}) >= 8
+
+
+def test_starter_house_independent_source_banks():
+    garden, _ = build(3, {}, duration=30)
+    by_name = {m.name:m for m in garden.models}
+    assert {m.details['musical_role'] for m in garden.models} == {
+        'guitarist', 'keyboardist', 'bassist', 'drummer'}
+    for role in ('guitarist', 'keyboardist'):
+        bank = [m for m in garden.models if m.details['musical_role'] == role]
+        assert len(bank) == 2
+        assert {m.details['source_route_rank'] for m in bank} == {0,1}
+        assert all(m.details['source_route_count'] == 2 for m in bank)
+    assert by_name['HOME_DOOR'].details['percussion_component'] == 'cymbal'

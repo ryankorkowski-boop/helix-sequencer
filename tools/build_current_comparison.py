@@ -223,15 +223,17 @@ def layout(number,plan,*,duration=36):
 
 
 def build(source,vocals,output,*,numbers=None,names=NAMES,layout_builder=layout,
-          preserve_addresses=(1,),instrumental=False,expected_sha256=None):
+          preserve_addresses=(1,),instrumental=False,expected_sha256=None,
+          unqualified_vocals=False):
     source,output=map(Path,(source,output));output.mkdir(parents=True,exist_ok=True)
     source_manifest=json.loads((source/'run_manifest.json').read_text())
     audio=source/'media'/source_manifest.get('audio_name','Helix_Starred_New_Review.wav');sha=digest(audio)
     full_song=expected_sha256 is not None
     if full_song and (sha!=expected_sha256 or source_manifest.get('audio_sha256')!=sha):
         raise ValueError('Production analysis does not belong to the verified original')
-    if instrumental != (vocals is None):
-        raise ValueError('Supply source vocal evidence or explicitly select instrumental input')
+    if sum((bool(instrumental), vocals is not None, bool(unqualified_vocals))) != 1:
+        raise ValueError('Choose exactly one: source vocal evidence, instrumental, or explicit unqualified-vocal abstention')
+    rest_only = instrumental or unqualified_vocals
     import soundfile as sf
     duration=sf.info(audio).duration;duration_ms=round(duration*1000)
     plans=(source/'sequence').rglob('*.snowman_band.json') if full_song else (source/'sequence').glob('*.snowman_band.json')
@@ -301,7 +303,7 @@ def build(source,vocals,output,*,numbers=None,names=NAMES,layout_builder=layout,
             if m.details.get('review_role'):continue
             if m.details.get('generic_singer'):
                 lane=m.details['generic_singer']
-                if instrumental:
+                if rest_only:
                     if m.submodels.get('MOUTH_REST'):
                         sequence.effect(m,'MOUTH_REST',0,duration_ms,g.palette[2],75 if m.details.get('showcase_face') else 50)
                 else:
@@ -358,7 +360,7 @@ def build(source,vocals,output,*,numbers=None,names=NAMES,layout_builder=layout,
             refresh_models(g, folder/'xlights_rgbeffects.xml')
             if full_song:
                 (folder/'Band_Instrument_Provenance.json').write_text(json.dumps(instrument_report,indent=2)+'\n')
-            if instrumental:
+            if rest_only:
                 export_static_materials(sequence.root,SimpleNamespace(models=performers),duration_ms)
                 for m in performers:
                     if m.submodels.get('MOUTH_rest'):
@@ -409,8 +411,9 @@ def build(source,vocals,output,*,numbers=None,names=NAMES,layout_builder=layout,
         points=np.concatenate([m.points for m in camera_models]);lo,hi=points.min(0),points.max(0);center=(lo+hi)/2;span=hi-lo
         if full_song:
             distance=max(span[0]*.88,span[1]*1.75,42)+span[2]*.40
-            pitch=5 if band else 14 if number in (13,15) else 5
-            yaw=17 if number==15 else 7 if number==13 else 0
+            advanced_nine = len(names)==9 and number>=6
+            pitch=5 if band else 14 if advanced_nine or number in (13,15) else 5
+            yaw=17 if advanced_nine or number==15 else 7 if number==13 else 0
         else:
             distance=max(span[0]*.82,span[1]*1.75,45)+(span[2]/2 if number==11 else 0)
             if number==1:distance*=.85
@@ -435,7 +438,7 @@ def build(source,vocals,output,*,numbers=None,names=NAMES,layout_builder=layout,
                   owner_approved=False)
         if full_song:
             item.update(layout_sha256=digest(folder/'xlights_rgbeffects.xml'),xsq_sha256=digest(path),
-                        vocal_mode='instrumental_rest' if instrumental else receipt.get('verification_state','estimate'),
+                        vocal_mode=('UNQUALIFIED_VOCALS_MUTED' if unqualified_vocals else 'instrumental_rest' if instrumental else receipt.get('verification_state','estimate')),
                         canonical_cast_count=len(performers) if band else 0)
         (folder/'Spatial_Event_Provenance.json').write_text(json.dumps(reports,indent=2)+'\n')
         manifest.append(item)
