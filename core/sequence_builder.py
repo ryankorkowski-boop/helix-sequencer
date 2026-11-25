@@ -8,6 +8,7 @@ from typing import Iterable
 
 from core import engine_profiles
 from core.effects_orchestration_bridge import EffectsOrchestrationRunReport, run_effects_orchestration
+from core.engine_coordinator import AudioAnalysisContext, CoordinationResult, EngineCoordinator, build_default_coordinator
 from core.helix_version import TITLE, VERSION
 from core.prime_beat_grid import prime_beat_grid_args
 from core.run_config import RunConfig
@@ -41,7 +42,11 @@ _ARTIFACT_KIND_BY_SUFFIX = {
     "placement_plan.json": "placement_plan",
     "xlights_effect_contract.json": "xlights_effect_contract",
 }
+def create_engine_coordinator(*, adapters=None, policies=None) -> EngineCoordinator:
+    return build_default_coordinator(adapters=adapters, policies=policies)
 
+def coordinate_sub_engines(context: AudioAnalysisContext, props, *, adapters=None, policies=None) -> CoordinationResult:
+    return create_engine_coordinator(adapters=adapters, policies=policies).coordinate(context, props)
 
 def _effect_engine():
     from core import effect_engine_beat_grid
