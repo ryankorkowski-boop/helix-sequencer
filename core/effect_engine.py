@@ -28,6 +28,7 @@ from core import matrix_intelligence as matrix_planner
 from core import birdsong_engine
 from core import lyric_interpreter
 from core import model_parser as xmp
+from core import orchestration_balance as balance
 from core import polish as sequence_polish
 from core import rhythm_intelligence as ri
 from core import self_improving_scoring as sequence_scoring
@@ -1445,6 +1446,9 @@ def family_from_parsed_model(model: xmp.Model) -> str:
     semantic = base.normalize_name(model.type)
     display = base.normalize_name(model.display_as)
     signature = " ".join(part for part in (semantic, display, base.normalize_name(model.name)) if part)
+    role_family = balance.family_for_role(balance.model_role(model.name))
+    if role_family:
+        return role_family
 
     if semantic in {"view object", "group", "submodel", "model group", "object group"}:
         return ""
@@ -7274,6 +7278,18 @@ def build_keyboard_lane_with_routes(
                     continue
                 seen.add(key)
                 lane.append(model)
+    if not override:
+        pianos: list[str] = []
+        seen_pianos: set[str] = set()
+        for pool in pools:
+            for model in pool.models:
+                key = model.lower()
+                if key in seen_pianos or balance.model_role(model) != "piano":
+                    continue
+                seen_pianos.add(key)
+                pianos.append(model)
+        if pianos:
+            return pianos
     return lane
 
 
@@ -7773,7 +7789,10 @@ def place_polyphonic_keyboard(
                 tpl=ramp_tpl if use_ramp else None,
                 stem="other",
             )
-            if arch_count:
+            lane_is_piano = bool(keyboard_lane) and all(
+                balance.model_role(name) == "piano" for name in keyboard_lane
+            )
+            if arch_count and not lane_is_piano:
                 mapped_idx = lane_idx % arch_count
                 if arch_direction < 0:
                     mapped_idx = (arch_count - 1) - mapped_idx
@@ -8528,6 +8547,16 @@ def compute_quality_score(payload: dict) -> dict:
         keyboard_target = 0.80
         keyboard_ceiling = 1.25
     keyboard_score = _score_maximum(keyboard_ratio, target=keyboard_target, ceiling=keyboard_ceiling)
+    if version_family is not None and version_family >= 27:
+        overlay_tokens = _placement_token_count(
+            placements,
+            ("polyphonic", "player_piano", "piano_lights"),
+        )
+        overlay_ratio = overlay_tokens / max(1, effects_total)
+        keyboard_score = min(
+            keyboard_score,
+            _score_maximum(overlay_ratio, target=0.12, ceiling=0.35),
+        )
 
     rejected = int(validation.get("rejected_effects_count", 0) or 0)
     auto_fixes = int(validation.get("auto_fixes", 0) or 0)
@@ -11006,6 +11035,29 @@ def run_variant(
         total += 1
         return True
 
+    layout_has_piano = balance.layout_has_role(names, "piano")
+    layout_has_singer = balance.layout_has_role(names, "singer")
+    overlay_buckets: dict[int, int] = {}
+    flash_buckets: dict[int, int] = {}
+    balance_rejected = {"piano_overlay": 0, "vocal": 0, "overlay": 0, "flash": 0}
+
+    def _reserve_section_budget(st_ms: int, label: str) -> bool:
+        lane = balance.label_lane(label)
+        part = part_for_time(parts, st_ms)
+        if lane == "overlay":
+            bucket = int(st_ms) // 1000
+            if overlay_buckets.get(bucket, 0) >= balance.overlay_cap_per_second(part):
+                return False
+            overlay_buckets[bucket] = overlay_buckets.get(bucket, 0) + 1
+            return True
+        if lane == "flash":
+            bucket = int(st_ms) // 2000
+            if flash_buckets.get(bucket, 0) >= balance.flash_cap_per_window(part):
+                return False
+            flash_buckets[bucket] = flash_buckets.get(bucket, 0) + 1
+            return True
+        return True
+
     def add_model(
         nm: str | None,
         st: int,
@@ -11018,6 +11070,19 @@ def run_variant(
         stem: str = "other",
     ) -> None:
         if nm is None or nm not in layers:
+            return
+        lane = balance.label_lane(label)
+        if lane == "piano_overlay" and not balance.allows_piano_overlay(nm, layout_has_piano=layout_has_piano):
+            balance_rejected["piano_overlay"] += 1
+            reject_effect(nm, int(st), int(en), eff, "balance", "piano overlay kept off non-piano models")
+            return
+        if not balance.allows_vocal(nm, label, layout_has_singer=layout_has_singer):
+            balance_rejected["vocal"] += 1
+            reject_effect(nm, int(st), int(en), eff, "balance", "vocal face kept on singer or lyric surface")
+            return
+        if lane in {"overlay", "flash"} and not _reserve_section_budget(int(st), label):
+            balance_rejected[lane] += 1
+            reject_effect(nm, int(st), int(en), eff, "balance", f"{lane} over section budget")
             return
         st_i = int(st)
         en_i = int(max(st_i + 1, en))
@@ -12805,6 +12870,11 @@ def run_variant(
             log(f"Final all-models generation skipped: {exc!r}")
 
     log(f"[8/8] Saved: {out_path.name} | effects added: {total}")
+    if any(balance_rejected.values()):
+        log(
+            "Orchestration balance held back "
+            + ", ".join(f"{key}={count}" for key, count in balance_rejected.items() if count)
+        )
     log(f"Placement report: {stats.summary()}")
     log(
         "Quality score: "
