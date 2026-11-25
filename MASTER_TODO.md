@@ -1,3 +1,12 @@
+## November 25 · Section-aware native surface effect variation
+
+**Goal:** Give advanced surfaces different motion across actual musical sections without inventing notes or introducing a second choreography engine.
+**Files:** `tools/source_spatial_direction.py`, `tests/test_source_spatial_direction.py`, `MASTER_TODO.md`.
+**Preserved:** Retained source note times, phrase merging and rests, section-derived colors, native On note lanes, existing Bars cycles/palettes, simple surface direction, AC and band routing.
+**Change:** Advanced optical/depth/cathedral/helix/matrix/spatial surfaces now select native Bars H-expand/H-compress for builds, Alternate Left/Right for choruses, and existing Left/Right for ordinary phrases. Native settings and direction provenance are emitted directly through the production XSQ writer, not a sidecar. Direction choices are documented in the xLights Bars effect manual/wiki; the newer 2026.19 custom-angle option is not used.
+**Evidence:** Added regression for both spatial directions, section-specific native EffectDB references, and breakdown/rest preservation. Source implemented; native 2026.18 visual behavior, buffer geometry, CI and actual speed are not yet verified.
+**Risk/deferred:** Native custom-model buffers may project geometry differently; inspect real FSEQ/MP4 before widening effect families or changing buffer dimensions. No fabricated native pass, release or merge. Continue with native effect fixtures and Wub Wub Wonderland source-qualified pilot.
+
 ## November 25 · Reuse source clocks in the production native collection
 
 **Goal:** Eliminate repeated source-event indexing and geometry serialization on actual 12-layout native export path.
