@@ -261,6 +261,9 @@ def export_model(sequence,model,plan,cache,palette,*,source_clocks=None):
     if matrix and model.kind=='pixel' and events:
         phrases=supported_phrases(events)
         model.submodels['SPATIAL_SURFACE']=sorted({n for p in parts_for(model) for n in model.submodels[p]})
+        # Keep real matrix/lattice row geometry for native phrase effects.
+        # The serializer validates rectangular coverage before using it.
+        model.details['native_surface_rows']=True
         for a,b,section in phrases:
             if b-a<400:continue
             strategy=section_strategy(section,role)
