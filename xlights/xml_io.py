@@ -178,10 +178,27 @@ def materialize_native_effect_tables(root: ET.Element) -> dict[str, int]:
     before_palette, before_settings = len(palettes), len(settings)
     # Table cardinality, rather than unique-value count, determines new indices.
     pmap, smap = {v:i for i,v in enumerate(palettes)}, {v:i for i,v in enumerate(settings)}
-    effects = [effect for element in elements if element.get('type') != 'timing'
-               for layer in element if layer.tag in {'EffectLayer', 'SubModelEffectLayer'}
-               for effect in layer.findall('Effect')]
-    if not palettes and any(effect.get('palette') is None for effect in effects):
+    def iter_effects():
+        # Walk only immediate native model effects, in the original order.
+        # Avoid allocating a second list of references to every effect.
+        for element in elements:
+            if element.get('type') == 'timing':
+                continue
+            for layer in element:
+                if layer.tag in {'EffectLayer', 'SubModelEffectLayer'}:
+                    yield from layer.iterfind('Effect')
+
+    max_id = 0
+    missing_palette = False
+    effect_count = 0
+    for effect in iter_effects():
+        effect_count += 1
+        effect_id = effect.get('id', '')
+        if effect_id.isdigit():
+            max_id = max(max_id, int(effect_id))
+        if effect.get('palette') is None:
+            missing_palette = True
+    if not palettes and missing_palette:
         # Native missing palettes use table0. Preserve that white default when
         # creating a previously absent table, but keep the attribute absent so
         # the existing explicit neon post-pass can still assign its palette.
@@ -189,8 +206,8 @@ def materialize_native_effect_tables(root: ET.Element) -> dict[str, int]:
         pmap[white] = 0
         palettes.append(white)
         ET.SubElement(palette_root, 'ColorPalette').text = white
-    next_id = max((int(e.get('id')) for e in effects if e.get('id', '').isdigit()), default=0) + 1
-    for effect in effects:
+    next_id = max_id + 1
+    for effect in iter_effects():
         ref = effect.get('ref')
         if ref is None:
             value = effect.get('settings', '')
@@ -220,7 +237,7 @@ def materialize_native_effect_tables(root: ET.Element) -> dict[str, int]:
         next_node = ET.SubElement(root, 'nextid')
     next_node.text = str(next_id)
     return dict(settings_added=len(settings)-before_settings,
-                palettes_added=len(palettes)-before_palette, effects=len(effects))
+                palettes_added=len(palettes)-before_palette, effects=effect_count)
 
 
 def replace_audio_references(root: ET.Element, new_audio: Path) -> int:
