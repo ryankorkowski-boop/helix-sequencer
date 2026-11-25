@@ -111,7 +111,8 @@ jobs:
             tests/test_xsq_parse_recoverable.py \
             tests/test_vivid_style.py \
             tests/test_source_spatial_direction.py \
-            tests/test_infinity_showcase_layout.py
+            tests/test_infinity_showcase_layout.py \
+            tests/test_native_choreography.py
       - name: Verify independently sourced singer activity and duplicate rejection
         run: python -m pytest -q tests/test_independent_vocals.py
       - name: Verify native XSQ and independent vocal tracks
