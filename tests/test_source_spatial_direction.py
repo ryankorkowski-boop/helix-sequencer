@@ -192,3 +192,31 @@ def test_shared_source_clocks_preserve_existing_native_schedule(monkeypatch):
     report=spatial.export_model(seq,model,plan,cache,g.palette,source_clocks=clocks)
     assert report['source_events']==3
     assert all(e.get('sourceMethod') for e in seq.root.findall('./ElementEffects//Effect'))
+
+
+def test_advanced_surface_uses_distinct_native_bars_directions_by_section():
+    from tools.source_spatial_direction import native_bars_direction,section_strategy
+    g=build_layout(10)
+    model=next(m for m in g.models if m.name=='MOIRE_LINE_LATTICE_0')
+    model.details['spatial_direction']=1
+    model.zone='OPTICAL'
+    assert native_bars_direction(model,section_strategy('verse','keyboardist'))=='Left'
+    assert native_bars_direction(model,section_strategy('pre_chorus','keyboardist'))=='H-expand'
+    assert native_bars_direction(model,section_strategy('chorus','keyboardist'))=='Alternate Right'
+    model.details['spatial_direction']=-1
+    assert native_bars_direction(model,section_strategy('pre_chorus','keyboardist'))=='H-compress'
+    assert native_bars_direction(model,section_strategy('chorus','keyboardist'))=='Alternate Left'
+    model.details['spatial_direction']=1
+    seq=NativeSequence(g,3,'','native bars directions')
+    cues=[dict(start_ms=a,end_ms=b,pitch_midi=60,velocity=.8,section=section)
+          for a,b,section in [(0,600,'verse'),(600,1200,'pre_chorus'),
+                              (1200,1800,'chorus'),(1900,2500,'breakdown')]]
+    export_model(seq,model,dict(cues={'keyboardist':cues}),{},g.palette)
+    settings=seq.root.findall('./EffectDB/Effect')
+    bars=[e for e in seq.root.findall('./ElementEffects//Effect') if e.get('name')=='Bars']
+    assert [e.get('nativeBarsDirection') for e in bars]==['Left','H-expand','Alternate Right']
+    for e in bars:
+        assert 'E_CHOICE_Bars_Direction='+e.get('nativeBarsDirection')+',' in settings[int(e.get('ref'))].text
+    assert all(int(e.get('endTime'))<=1800 for e in bars)
+    simple=SimpleNamespace(zone='HOUSE',details={})
+    assert native_bars_direction(simple,section_strategy('pre_chorus','keyboardist'))=='Left'
