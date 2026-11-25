@@ -105,7 +105,7 @@ def prepare(audio, work, sha, *, instrumental, vocals):
     return settings
 
 
-def render_panel(folder, audio, xlights, *, port=49914):
+def render_panel(folder, audio, xlights, *, port=49914, renderer_sha=None):
     manifest = folder / 'run_manifest.json'
     row = json.loads(manifest.read_text())
     xsq = folder / row['xsq']
@@ -117,7 +117,7 @@ def render_panel(folder, audio, xlights, *, port=49914):
     logic = verify_logic(folder)
     write_json(folder / 'RENDER_LOGIC_PROVENANCE.json', logic)
     report = row.get('native_preview', {})
-    renderer_sha = digest(Path(xlights))
+    renderer_sha = renderer_sha or digest(Path(xlights))
     if report.get('status') == 'success' and row.get('batch_renderer_sha256') == renderer_sha:
         movie = Path(report['mp4'])
         fseq = Path(report['evidence_dir']) / xsq.with_suffix('.fseq').name
@@ -177,10 +177,11 @@ def render(audio, work, xlights, identity, *, port=49914):
     receipts = []
     timings = []
     started = time.monotonic()
+    renderer_sha = digest(Path(xlights))
     for number, name in enumerate(NAMES, 1):
         folder = work / 'layouts' / f'{number:02}'
         panel_started = time.monotonic()
-        row, native, fseq = render_panel(folder, audio, xlights, port=port)
+        row, native, fseq = render_panel(folder, audio, xlights, port=port, renderer_sha=renderer_sha)
         channels = json.loads((fseq.parent / 'native_channels.json').read_text())
         if number <= 3 and (channels['channels'], row['channels']) != ((16, 64, 256)[number - 1],) * 2:
             raise ValueError(f'Native AC channel budget mismatch for panel {number}')
@@ -220,7 +221,7 @@ def render(audio, work, xlights, identity, *, port=49914):
     media['file'] = movie.name
     write_json(manifest,
                dict(identity, media=media, panels=receipts, decoded_panel_activity=activity,
-                    renderer_sha256=digest(Path(xlights)), status='technically_verified',
+                    renderer_sha256=renderer_sha, status='technically_verified',
                     owner_approved=False))
     write_json(work / 'render_performance.json', dict(panels=timings,
                composition_and_verification_seconds=round(time.monotonic()-composition_started, 3),
@@ -255,8 +256,9 @@ def main():
     if not os.access(xlights, os.X_OK):
         raise ValueError('Pinned xLights binary is not executable')
     if args.render_panels:
+        renderer_sha = digest(Path(xlights))
         for number in dict.fromkeys(args.render_panels):
-            render_panel(work / 'layouts' / f'{number:02}', audio, xlights, port=args.port)
+            render_panel(work / 'layouts' / f'{number:02}', audio, xlights, port=args.port, renderer_sha=renderer_sha)
         return
     render(audio, work, xlights, identity, port=args.port)
 
