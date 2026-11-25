@@ -238,6 +238,8 @@ def main():
     source.add_argument('--instrumental', action='store_true')
     source.add_argument('--vocal-fixture', type=Path)
     parser.add_argument('--prepare-only', action='store_true')
+    parser.add_argument('--prepared-only', action='store_true',
+                        help='Read an existing verified preparation checkpoint without rebuilding layouts')
     parser.add_argument('--xlights')
     parser.add_argument('--port', type=int, choices=(49913, 49914), default=49914)
     parser.add_argument('--render-panels', nargs='+', type=int, choices=range(1, 17),
@@ -248,8 +250,22 @@ def main():
     if args.prepare_only and args.render_panels:
         parser.error('--render-panels cannot be combined with --prepare-only')
     audio, work = args.audio.resolve(), args.work.resolve()
-    identity = prepare(audio, work, args.expected_sha256,
-                       instrumental=args.instrumental, vocals=args.vocal_fixture)
+    if args.prepared_only:
+        if args.prepare_only or not args.render_panels:
+            parser.error('--prepared-only requires --render-panels and excludes --prepare-only')
+        identity = json.loads((work / 'layouts' / 'batch_identity.json').read_text())
+        commit = subprocess.check_output(['git', 'rev-parse', 'HEAD'], cwd=ROOT, text=True).strip()
+        if (identity['source_commit'] != commit or identity['audio_sha256'] != args.expected_sha256
+                or digest(audio) != args.expected_sha256 or identity['instrumental'] != args.instrumental
+                or identity['vocal_clock_sha256'] != (digest(args.vocal_fixture / 'acoustic_vocal_clocks.npz') if args.vocal_fixture else None)):
+            raise ValueError('Prepared worker inputs do not match the verified batch')
+        for number in args.render_panels:
+            row = json.loads((work / 'layouts' / f'{number:02}' / 'run_manifest.json').read_text())
+            if row['source_analysis_sha256'] != identity['plan_sha256']:
+                raise ValueError('Prepared panel analysis identity changed')
+    else:
+        identity = prepare(audio, work, args.expected_sha256,
+                           instrumental=args.instrumental, vocals=args.vocal_fixture)
     if args.prepare_only:
         return
     xlights = str(Path(shutil.which(args.xlights) or args.xlights).resolve(strict=True))
