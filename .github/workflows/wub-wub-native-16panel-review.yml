@@ -2,9 +2,7 @@
 # Canonical V3 drummer and all four advanced finale props are required.
 name: Helix Audio In Lights Out 30-second native 16-panel pilot
 on:
-  push:
-    branches: [codex/native-xlights-optimization-20261125]
-    paths: [.github/workflows/wub-wub-native-16panel-review.yml]
+  workflow_call:
   workflow_dispatch:
 permissions:
   contents: read
