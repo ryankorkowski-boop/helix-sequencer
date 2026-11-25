@@ -220,5 +220,159 @@ class TestEngineCoordinator(unittest.TestCase):
                 )
 
 
+class TestShowMasteringAndAdapters(unittest.TestCase):
+    def test_negative_space_restraint(self) -> None:
+        from core.engine_coordinator import CoordinationResult, ArbitrationReport, PlannedEffect
+        from core.show_mastering import ProShowMaster
+
+        ctx = AudioAnalysisContext(
+            duration_ms=8000,
+            bpm=120.0,
+            sections=(
+                SectionWindow("intro", 0, 4000, energy=0.25),
+                SectionWindow("chorus", 4000, 8000, energy=0.90),
+            ),
+        )
+        props = [
+            LayoutProp("hero_tree", "mega_tree", max_layers=2, tags=("hero",)),
+            LayoutProp("arch_1", "arch", max_layers=1),
+            LayoutProp("arch_2", "arch", max_layers=1),
+            LayoutProp("mini_1", "mini_tree", max_layers=1),
+        ]
+        planned = (
+            PlannedEffect("drum_effects", "hero_tree", "focus", "spiral", 0, 4000, score=0.95, priority=5, section_name="intro"),
+            PlannedEffect("core_base", "arch_1", "base", "wash", 0, 4000, score=0.5, priority=1, section_name="intro"),
+            PlannedEffect("core_base", "arch_2", "base", "wash", 0, 4000, score=0.4, priority=1, section_name="intro"),
+            PlannedEffect("core_base", "mini_1", "base", "wash", 0, 4000, score=0.3, priority=1, section_name="intro"),
+            PlannedEffect("drum_effects", "hero_tree", "focus", "spiral", 4000, 8000, score=0.95, priority=5, section_name="chorus"),
+            PlannedEffect("core_base", "arch_1", "base", "wash", 4000, 8000, score=0.6, priority=1, section_name="chorus"),
+            PlannedEffect("core_base", "arch_2", "base", "wash", 4000, 8000, score=0.5, priority=1, section_name="chorus"),
+            PlannedEffect("core_base", "mini_1", "base", "wash", 4000, 8000, score=0.4, priority=1, section_name="chorus"),
+        )
+        result = CoordinationResult(planned_effects=planned, report=ArbitrationReport())
+        mastered = ProShowMaster().master_plan(result, ctx, props)
+
+        intro_props = {e.prop_id for e in mastered.planned_effects if e.section_name == "intro"}
+        chorus_props = {e.prop_id for e in mastered.planned_effects if e.section_name == "chorus"}
+        self.assertEqual(intro_props, {"hero_tree"})
+        self.assertGreaterEqual(len(chorus_props), 3)
+
+    def test_unified_palette_locking_and_character_exemption(self) -> None:
+        from core.engine_coordinator import CoordinationResult, ArbitrationReport, PlannedEffect
+        from core.show_mastering import DEFAULT_PALETTES, ProShowMaster, ShowMasteringConfig
+
+        ctx = AudioAnalysisContext(
+            duration_ms=4000,
+            bpm=150.0,
+            sections=(SectionWindow("chorus", 0, 4000, energy=0.9),),
+        )
+        props = [
+            LayoutProp("tree_1", "mega_tree"),
+            LayoutProp("arch_1", "arch"),
+            LayoutProp("snowman_1", "snowman", tags=("character",)),
+        ]
+        planned = (
+            PlannedEffect("core_base", "tree_1", "base", "wash", 0, 4000, section_name="chorus", params={"colors": ["#111111"]}),
+            PlannedEffect("drum_effects", "arch_1", "accent", "pulse", 0, 4000, section_name="chorus", params={"colors": ["#222222"]}),
+            PlannedEffect("snowman_band", "snowman_1", "motion", "sing", 0, 4000, section_name="chorus", params={"colors": ["#FFFFFF"]}),
+        )
+        result = CoordinationResult(planned_effects=planned, report=ArbitrationReport())
+        cfg = ShowMasteringConfig(palette_name="winter_aurora", enforce_negative_space=False)
+        mastered = ProShowMaster(cfg).master_plan(result, ctx, props)
+
+        expected_primary = DEFAULT_PALETTES["winter_aurora"].primary
+        by_prop = {e.prop_id: e for e in mastered.planned_effects}
+        self.assertEqual(by_prop["tree_1"].params["primary_color"], expected_primary)
+        self.assertEqual(by_prop["arch_1"].params["primary_color"], expected_primary)
+        self.assertEqual(by_prop["tree_1"].params["colors"], by_prop["arch_1"].params["colors"])
+        self.assertEqual(by_prop["snowman_1"].params["colors"], ["#FFFFFF"])
+        self.assertEqual(by_prop["tree_1"].params["bpm_speed_scale"], 1.25)
+        self.assertEqual(by_prop["tree_1"].params["fade_in_ms"], 150)
+
+    def test_pre_drop_anticipation_breath_carving(self) -> None:
+        from core.engine_coordinator import CoordinationResult, ArbitrationReport, PlannedEffect
+        from core.show_mastering import ProShowMaster, ShowMasteringConfig
+
+        ctx = AudioAnalysisContext(
+            duration_ms=8000,
+            bpm=120.0,
+            sections=(
+                SectionWindow("verse", 0, 4000, energy=0.45),
+                SectionWindow("chorus", 4000, 8000, energy=0.95),
+            ),
+        )
+        props = [LayoutProp("tree_1", "mega_tree", max_layers=2)]
+        planned = (
+            PlannedEffect("core_base", "tree_1", "base", "wash", 0, 4000, section_name="verse"),
+            PlannedEffect("drum_effects", "tree_1", "focus", "flash", 3000, 4000, layer_index=1, section_name="verse"),
+        )
+        result = CoordinationResult(planned_effects=planned, report=ArbitrationReport())
+        cfg = ShowMasteringConfig(anticipation_breath_ms=100, enforce_negative_space=False)
+        mastered = ProShowMaster(cfg).master_plan(result, ctx, props)
+
+        base_eff = [e for e in mastered.planned_effects if e.role == "base"][0]
+        focus_eff = [e for e in mastered.planned_effects if e.role == "focus"][0]
+        self.assertEqual(base_eff.end_ms, 3900)
+        self.assertEqual(focus_eff.end_ms, 4000)
+
+    def test_chorus_motif_continuity_bonus(self) -> None:
+        from core.show_mastering import ProShowMaster, ShowMasteringConfig
+
+        ctx = AudioAnalysisContext(
+            duration_ms=12000,
+            bpm=120.0,
+            sections=(
+                SectionWindow("chorus", 0, 4000, energy=0.9),
+                SectionWindow("verse", 4000, 8000, energy=0.45),
+                SectionWindow("chorus", 8000, 12000, energy=0.9),
+            ),
+        )
+        candidates = [
+            EngineEffectCandidate("drum_effects", "tree_1", "focus", "spiral_burst", 0, 4000, score=0.90),
+            EngineEffectCandidate("drum_effects", "tree_1", "focus", "spiral_chase", 8000, 12000, score=0.70),
+            EngineEffectCandidate("drum_effects", "tree_1", "accent", "bars_pulse", 8000, 12000, score=0.75),
+        ]
+        boosted = ProShowMaster(ShowMasteringConfig(motif_bonus=0.15)).apply_motif_continuity(candidates, ctx)
+        chase = [c for c in boosted if c.effect_type == "spiral_chase"][0]
+        bars = [c for c in boosted if c.effect_type == "bars_pulse"][0]
+        self.assertAlmostEqual(chase.score, 0.85, places=5)
+        self.assertTrue(chase.metadata.get("motif_callback"))
+        self.assertEqual(bars.score, 0.75)
+
+    def test_adapter_registration_and_graceful_fallback(self) -> None:
+        from core.engine_adapters import DrumEffectsAdapter, DEFAULT_ADAPTER_CLASSES
+        from core.sequence_builder import coordinate_sub_engines, create_engine_coordinator
+
+        coordinator = create_engine_coordinator(register_defaults=True)
+        for cls in DEFAULT_ADAPTER_CLASSES:
+            self.assertIn(cls.engine_id, coordinator._adapters)
+
+        ctx = AudioAnalysisContext(
+            duration_ms=4000,
+            bpm=120.0,
+            sections=(SectionWindow("chorus", 0, 4000, energy=0.9),),
+        )
+        props = [LayoutProp("tree_1", "mega_tree")]
+
+        disabled = DrumEffectsAdapter(enabled=False, target_callable=lambda c, p: [{"prop_id": "tree_1", "start_ms": 0, "end_ms": 1000}])
+        self.assertEqual(disabled.generate_candidates(ctx, props), [])
+
+        bad_sig = DrumEffectsAdapter(target_callable=lambda only_one: [])
+        self.assertEqual(bad_sig.generate_candidates(ctx, props), [])
+
+        dict_adapter = DrumEffectsAdapter(
+            target_callable=lambda c, p: [
+                {"prop_id": "tree_1", "role": "invalid_lane", "effect_type": "hit", "start_ms": 0, "end_ms": 1000, "score": 0.9}
+            ]
+        )
+        normalized = dict_adapter.generate_candidates(ctx, props)
+        self.assertEqual(len(normalized), 1)
+        self.assertEqual(normalized[0].role, "accent")
+
+        result = coordinate_sub_engines(ctx, props, adapters=[dict_adapter])
+        self.assertEqual(len(result.planned_effects), 1)
+        self.assertIn("palette_name", result.planned_effects[0].params)
+
+
 if __name__ == "__main__":
     unittest.main()
