@@ -1,3 +1,9 @@
+# Optimization implementation — November 24
+
+- Implemented incremental native panel timing and comparison verification timing in `tools/render_full_song_comparison.py` (e62931043af52258bd88f84fc7ad9e5eebe71aa1). Retains completed timing rows on later panel failure. Converts retained grayscale samples once. No measured speedup or test pass claimed.
+- Next: profile shared analysis, verify spatial intent consumption, isolate native workers before parallel rendering, benchmark Android peak memory, preserve source and native output validation.
+- Existing Bells run 45534001762 uses its original commit; do not interrupt or claim it includes this patch. No merge or release.
+
 ## November 23 — Anti-pulse regression repair
 
 - GitHub full CI on `bf4e0106`: 2,782 passed, 1 failed (`test_vivid_layer_is_beat_locked_and_does_not_overlap`). The initial 35-ms artificial offset broke native musical event timing; fixed in `7b9059cf` while retaining the smaller selective AC groups.
