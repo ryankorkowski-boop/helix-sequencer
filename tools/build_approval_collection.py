@@ -59,7 +59,8 @@ def build(source, output, *, audio_name='Phoneme_Test_Hook.mp3', expected_sha256
         'models/recovery_technical_layouts.py',
         'tools/build_approval_collection.py','tools/canonical_band_cues.py',
         'tools/source_spatial_direction.py','tools/source_role_routing.py',
-        'tools/build_snowman_ensemble.py','xlights/xml_io.py','tools/phoneme_vocal_export.py')}
+        'tools/build_snowman_ensemble.py','tools/build_helpers/ultimate_showcase.py',
+        'xlights/xml_io.py','tools/phoneme_vocal_export.py')}
     manifest=[]
     for number in numbers:
         name=NAMES[number-1]
