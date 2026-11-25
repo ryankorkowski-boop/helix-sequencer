@@ -1,3 +1,9 @@
+# November 25 — consolidated review candidate (NOT accepted)
+
+- Review branch based on PR #253 head f05155c2: retains all performance and reliability edits. Selectively incorporated #251's persistent beat/spectral cache, shared descriptor transform, sparse anti-pulse motion (retaining newer accent palette safety), preview renderer, source spatial routing, comparison timing, tests, and Bells workflows. Full CI and native output still required.
+- #250's Infinity layout and validator are already superseded by the integration branch's upright local geometry, nested districts, singer submodels and stricter timing checks; retained those newer versions. Incorporated preview candidate tie-break and Birdsong import path. The older Infinity full-song HQ preview workflow was not copied: it is not a native xLights FSEQ acceptance path and uses a separate branch trigger. Full-scale native render remains outstanding.
+- No merge/release. Issue #252's revised nine-panel layout implementation and fresh 30-second MP4 remain outstanding. No owner acceptance. Do not claim runtime verification from a committed patch or a queued workflow.
+
 ## November 21 · Production audio and native comparison recovery
 
 - Runs 44944727109 and 44944730430 failed in the version probe before separation (torch 2.15.0+cu132, torchaudio 2.11.1+cu132, missing list_audio_backends). Run 44944734212 rejected the E14 mixed vocal bus. No approval MP4 resulted.
