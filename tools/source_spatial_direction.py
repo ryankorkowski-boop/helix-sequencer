@@ -139,22 +139,33 @@ def supported_phrases(events):
     return [p for p in phrases if p[1]>p[0]]
 
 
-def schedule(model,plan,cache,duration):
+def prepare_source_clocks(plan, cache):
+    """Index each retained source lane once for the entire approval collection."""
+    result = {}
+    for role in ('bassist', 'guitarist', 'keyboardist', 'drummer', 'lead', 'harmony'):
+        source = (voice_events(cache, 'estimated_backing') if role == 'harmony' else
+                  voice_events(cache, 'estimated_lead') if role == 'lead' else
+                  plan['cues'].get(role, []))
+        onsets = {}
+        for cue in source:
+            onsets.setdefault(cue.get('section', ''), set()).add(int(cue['start_ms']))
+        indices = {section: {t: i for i, t in enumerate(sorted(times))}
+                   for section, times in onsets.items()}
+        result[role] = (source, indices)
+    return result
+
+
+def schedule(model,plan,cache,duration,*,source_clocks=None):
     role=role_for(model);parts=parts_for(model)
-    source=(voice_events(cache,'estimated_backing') if role=='harmony' else
-            voice_events(cache,'estimated_lead') if role=='lead' else plan['cues'].get(role,[]))
+    if source_clocks is None:
+        source_clocks = prepare_source_clocks(plan, cache)
+    source, section_onsets = source_clocks[role]
     center=np.mean(model.points,axis=0)
     depth_ms=int(model.details.get('propagation_delay_ms',0))
     phase=float(model.details.get('spatial_phase',0))
     direction=int(model.details.get('spatial_direction',1))
     result=[]
     from tools.source_role_routing import route_event
-    section_onsets={}
-    for cue in source:
-        section=cue.get('section','')
-        section_onsets.setdefault(section,set()).add(int(cue['start_ms']))
-    section_onsets={section:{t:i for i,t in enumerate(sorted(times))}
-                    for section,times in section_onsets.items()}
     for index,cue in enumerate(source):
         if cue.get('kind')=='chord_change':continue
         component=model.details.get('percussion_component')
@@ -196,8 +207,8 @@ def schedule(model,plan,cache,duration):
     return result
 
 
-def export_model(sequence,model,plan,cache,palette):
-    events=schedule(model,plan,cache,sequence.duration)
+def export_model(sequence,model,plan,cache,palette,*,source_clocks=None):
+    events=schedule(model,plan,cache,sequence.duration,source_clocks=source_clocks)
     role=role_for(model)
     fixed_color=({'Single Color Red':'#FF4040','Single Color Green':'#40FF60','Single Color White':'#FFFFFF'}[model.attrs['StringType']]
                  if model.kind=='ac' else None)
