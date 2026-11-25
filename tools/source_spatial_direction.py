@@ -139,7 +139,17 @@ def supported_phrases(events):
     return [p for p in phrases if p[1]>p[0]]
 
 
-def schedule(model,plan,cache,duration):
+def onset_index(source):
+    section_onsets={}
+    for cue in source:
+        section=cue.get('section','')
+        section_onsets.setdefault(section,set()).add(int(cue['start_ms']))
+    section_onsets={section:{t:i for i,t in enumerate(sorted(times))}
+                    for section,times in section_onsets.items()}
+    return section_onsets
+
+
+def schedule(model,plan,cache,duration,*,shared_onsets=None):
     role=role_for(model);parts=parts_for(model)
     source=(voice_events(cache,'estimated_backing') if role=='harmony' else
             voice_events(cache,'estimated_lead') if role=='lead' else plan['cues'].get(role,[]))
@@ -149,12 +159,7 @@ def schedule(model,plan,cache,duration):
     direction=int(model.details.get('spatial_direction',1))
     result=[]
     from tools.source_role_routing import route_event
-    section_onsets={}
-    for cue in source:
-        section=cue.get('section','')
-        section_onsets.setdefault(section,set()).add(int(cue['start_ms']))
-    section_onsets={section:{t:i for i,t in enumerate(sorted(times))}
-                    for section,times in section_onsets.items()}
+    section_onsets = onset_index(source) if shared_onsets is None else shared_onsets[role]
     for index,cue in enumerate(source):
         if cue.get('kind')=='chord_change':continue
         component=model.details.get('percussion_component')
@@ -196,8 +201,8 @@ def schedule(model,plan,cache,duration):
     return result
 
 
-def export_model(sequence,model,plan,cache,palette):
-    events=schedule(model,plan,cache,sequence.duration)
+def export_model(sequence,model,plan,cache,palette,*,shared_onsets=None):
+    events=schedule(model,plan,cache,sequence.duration,shared_onsets=shared_onsets)
     role=role_for(model)
     fixed_color=({'Single Color Red':'#FF4040','Single Color Green':'#40FF60','Single Color White':'#FFFFFF'}[model.attrs['StringType']]
                  if model.kind=='ac' else None)

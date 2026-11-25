@@ -10,7 +10,7 @@ from pathlib import Path
 import numpy as np
 
 
-def inspect_stream(path, *, selectors=None):
+def inspect_stream(path, *, selectors=None, observer=None):
     path=Path(path);lit=[]
     with path.open('rb') as stream:
         header=stream.read(32)
@@ -35,8 +35,11 @@ def inspect_stream(path, *, selectors=None):
         channels=max(a+n for a,n in ranges) if ranges else packed
         if channels>1_000_000:raise ValueError('Expanded sparse channel budget exceeded')
         selected={};selected_values={}
-        if selectors is not None:
+        if selectors is not None or observer is not None:
             destinations=np.concatenate([np.arange(a,a+n) for a,n in ranges]) if ranges else np.arange(packed)
+        if observer is not None:
+            observer.begin(destinations, channels, frames, step)
+        if selectors is not None:
             for name,values in selectors.items():
                 ids=np.asarray(values)
                 if ids.ndim!=1 or (ids.size and (not np.issubdtype(ids.dtype,np.integer) or ids.min()<0 or ids.max()>=channels)):
@@ -67,6 +70,8 @@ def inspect_stream(path, *, selectors=None):
                 if len(value)!=packed:raise ValueError('Truncated decoded FSEQ frame')
                 decoded=np.frombuffer(value,dtype=np.uint8)
                 lit.append(int(np.count_nonzero(decoded)))
+                if observer is not None:
+                    observer.frame(decoded)
                 for name,positions in selected.items():
                     selected_values[name].append(int(decoded[positions].max()) if len(positions) else 0)
             if compression==1:

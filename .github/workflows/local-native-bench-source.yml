@@ -1,0 +1,42 @@
+name: Local native bench source bundle
+on:
+  pull_request:
+    paths:
+      - .github/workflows/local-native-bench-source.yml
+      - tools/quality/native_choreography.py
+      - tools/quality/native.py
+      - tools/quality/native_stream.py
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: local-native-bench-source-${{ github.head_ref || github.ref_name }}
+  cancel-in-progress: true
+jobs:
+  bundle:
+    if: github.event_name != 'pull_request' || github.head_ref == 'review/beta14-consolidated-20261125'
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          persist-credentials: false
+      - name: Archive exact tracked review source without credentials or generated output
+        env:
+          EXPECTED: ${{ github.event.pull_request.head.sha || github.sha }}
+        run: |
+          set -euo pipefail
+          test "$(git rev-parse HEAD)" = "$EXPECTED"
+          mkdir -p "$RUNNER_TEMP/helix-source"
+          git archive --format=tar.gz --prefix=helix-sequencer/ HEAD > "$RUNNER_TEMP/helix-source/helix-source.tar.gz"
+          printf '%s\n' "$EXPECTED" > "$RUNNER_TEMP/helix-source/SOURCE_COMMIT.txt"
+          cd "$RUNNER_TEMP/helix-source"
+          sha256sum helix-source.tar.gz > SHA256SUMS
+      - uses: actions/upload-artifact@v4
+        with:
+          name: helix-local-native-bench-source-${{ github.event.pull_request.head.sha || github.sha }}
+          path: ${{ runner.temp }}/helix-source/
+          compression-level: 0
+          if-no-files-found: error
+          retention-days: 7

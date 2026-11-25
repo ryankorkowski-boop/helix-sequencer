@@ -496,7 +496,9 @@ def _ac_motion(effects_root: ET.Element, names: list[str], duration: int, beats:
     if not names or not beats:
         return 0
     added = 0
-    window = max(8, len(names) // 2) if len(names) <= 32 else max(24, len(names) // 5)
+    # Avoid turning half the AC installation on at every beat. Keep the
+    # existing moving selection but cap simultaneous active circuits.
+    window = min(len(names), max(2, min(8, (len(names) + 7) // 8)))
     for tick, start in enumerate(beats):
         if start >= duration:
             continue
@@ -506,11 +508,14 @@ def _ac_motion(effects_root: ET.Element, names: list[str], duration: int, beats:
             accent = tick % 17 == 0 and offset == 0
             if _add_on(_vivid_layer(effects_root, name), start, end, getattr(palette_for, 'accent', palette_for(name, start)) if accent else palette_for(name, start), accent_white=accent):
                 added += 1
-        bank = [name for index, name in enumerate(names) if index % 2 == tick % 2]
-        if len(bank) > 24:
-            bank = bank[:: max(1, len(bank) // 24)]
+        # Broad parity banks previously flashed up to 24 extra AC circuits
+        # on the same beat. Restrict them to a short traveling response.
+        bank = [names[(tick * 3 + step * 2) % len(names)] for step in range(min(3, len(names)))]
         for name in bank:
-            if _add_on(_vivid_layer(effects_root, name), start, min(duration, start + 160), palette_for(name, start)):
+            # Keep starts locked to the actual musical event; spatial motion
+            # comes from selecting a changing physical subset, not inventing
+            # off-grid timing that fails the source-clock invariant.
+            if _add_on(_vivid_layer(effects_root, name), start, min(duration, start + 110), palette_for(name, start)):
                 added += 1
     return added
 
@@ -554,7 +559,7 @@ def _chase_groups(layout_path: Path | None, kind: dict[str, str]) -> list[str]:
 
 
 def _rgb_motion(effects_root, names, by_z, duration, beats, palette_for) -> int:
-    """Light about a quarter of the RGB models on each beat.
+    """Add sparse RGB accents without overwhelming existing musical effects.
 
     Beats only exist inside active phrases, so the gaps stay black. A beat
     in the 200 ms before a drop is skipped. Existing effects are not moved.
@@ -562,7 +567,9 @@ def _rgb_motion(effects_root, names, by_z, duration, beats, palette_for) -> int:
     if not names or not beats:
         return 0
     added = 0
-    window = max(1, int(round(len(names) * 0.22)))
+    # Keep this supplemental accent layer subordinate to existing native
+    # source-specific choreography, particularly on dense RGB installations.
+    window = max(1, min(8, int(round(len(names) * 0.08))))
     buckets = _buckets(beats, duration)
     for tick, start in enumerate(beats):
         if start >= duration or _in_blackout(start, buckets):
@@ -580,16 +587,22 @@ def _rgb_motion(effects_root, names, by_z, duration, beats, palette_for) -> int:
 
 
 def _group_motion(effects_root, names: list[str], duration: int, beats: list[int], sections: list[dict], palette_for) -> int:
-    if not names or not beats:
+    """Rotate focal groups on distinct source events, retaining group coverage."""
+    eligible = [name for name in names if not is_performance_prop(name)]
+    if not eligible or not beats:
         return 0
     added = 0
+    cursor = 0
+    used = set()
     for section in sections:
-        start = next((beat for beat in beats if section["start_ms"] <= beat < section["end_ms"]), None)
-        if start is None:
-            continue
-        for name in names:
-            if is_performance_prop(name):
+        events = sorted(set(beat for beat in beats if section["start_ms"] <= beat < section["end_ms"] and beat < duration))
+        # Visit each group once before repeating; never broadcast on one event.
+        for start in events[:len(eligible)]:
+            if start in used:
                 continue
+            name = eligible[cursor % len(eligible)]
+            cursor += 1
+            used.add(start)
             if _add_on(_vivid_layer(effects_root, name, element_type="modelGroup"), start, min(duration, start + 120), palette_for(name, start)):
                 added += 1
     return added

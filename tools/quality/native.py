@@ -134,18 +134,28 @@ def read_frames(path: Path) -> tuple[bytes, int, int, int]:
     return data, channels, frames, step
 
 
-def inspect_fseq(path: Path) -> dict[str, Any]:
+def inspect_fseq(path: Path, *, observer=None) -> dict[str, Any]:
     # A long pixel show can exceed the allocation limit even though every
     # compressed block and individual frame is small. Stream those V2 shows;
     # never relax read_frames' decompression/allocation safeguards.
     with path.open('rb') as source:
-        header=source.read(20)
-    if len(header)==20 and header[:4]==b'PSEQ' and header[7]==2:
+        header=source.read(32)
+    if len(header)>=20 and header[:4]==b'PSEQ' and header[7]==2:
         width,count=struct.unpack_from('<II',header,10)
-        if width*count>MAX_BYTES:
+        # Small compressed sequences can use the existing system-libzstd
+        # decoder when the optional streaming Python package is absent.
+        from importlib.util import find_spec
+        streamable = len(header)>=32 and ((header[20]&15)==0 or
+                     ((header[20]&15)==1 and find_spec('zstandard') is not None))
+        if width*count>MAX_BYTES or (observer is not None and streamable):
             from tools.quality.native_stream import inspect_stream
-            return inspect_stream(path)
+            return inspect_stream(path, observer=observer)
     data, channels, frames, step = read_frames(path)
+    if observer is not None:
+        import numpy as np
+        observer.begin(np.arange(channels), channels, frames, step)
+        for frame in np.frombuffer(data, dtype=np.uint8).reshape(frames, channels):
+            observer.frame(frame)
     lit = [sum(value > 0 for value in data[i:i + channels])
            for i in range(0, len(data), channels)]
     dark = []

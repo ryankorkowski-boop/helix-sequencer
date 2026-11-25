@@ -1,0 +1,72 @@
+name: Local native source separation models
+on:
+  pull_request:
+    paths: [.github/workflows/local-native-source-separation-models.yml]
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: local-native-source-models-${{ github.head_ref || github.ref_name }}
+  cancel-in-progress: true
+jobs:
+  six-stem:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - name: Retrieve official six-source Demucs model
+        run: |
+          set -euo pipefail
+          mkdir -p "$RUNNER_TEMP/six"
+          cd "$RUNNER_TEMP/six"
+          curl -fLsS --retry 3 https://dl.fbaipublicfiles.com/demucs/hybrid_transformer/5c90dfd2-34c22ccb.th -o 5c90dfd2-34c22ccb.th
+          sha256sum 5c90dfd2-34c22ccb.th > SHA256SUMS
+          grep -q '^34c22ccb' SHA256SUMS
+      - uses: actions/upload-artifact@v4
+        with:
+          name: helix-offline-six-stem-model
+          path: ${{ runner.temp }}/six/
+          compression-level: 0
+          if-no-files-found: error
+          retention-days: 7
+  vocal-candidates:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+      - name: Package local inference runtime
+        run: |
+          set -euo pipefail
+          mkdir -p "$RUNNER_TEMP/wheels"
+          python -m pip download --only-binary=:all: -d "$RUNNER_TEMP/wheels" onnxruntime==1.23.2
+          cd "$RUNNER_TEMP/wheels"
+          sha256sum ./*.whl > SHA256SUMS
+      - uses: actions/upload-artifact@v4
+        with:
+          name: helix-offline-onnx-runtime
+          path: ${{ runner.temp }}/wheels/
+          if-no-files-found: error
+          retention-days: 7
+      - name: Download and authenticate existing Helix vocal models
+        run: |
+          set -euo pipefail
+          mkdir -p "$RUNNER_TEMP/vocal"
+          cd "$RUNNER_TEMP/vocal"
+          base=https://github.com/TRvlvr/model_repo/releases/download/all_public_uvr_models
+          curl -fLsS --retry 3 "$base/UVR-MDX-NET-Inst_HQ_3.onnx" -o UVR-MDX-NET-Inst_HQ_3.onnx
+          curl -fLsS --retry 3 "$base/UVR_MDXNET_KARA_2.onnx" -o UVR_MDXNET_KARA_2.onnx
+          curl -fLsS --retry 3 https://raw.githubusercontent.com/snakers4/silero-vad/v6.2/src/silero_vad/data/silero_vad.onnx -o silero_vad.onnx
+          cat > SHA256SUMS <<'EOF'
+          317554b07fe1ea5279a77f2b1520a41ea4b93432560c4ffd08792c30fddf9adc  UVR-MDX-NET-Inst_HQ_3.onnx
+          bf32e15105a09c0f7dddd2b67346146334d6f3ecb399ed7638eba2ab07cbf5f4  UVR_MDXNET_KARA_2.onnx
+          1a153a22f4509e292a94e67d6f9b85e8deb25b4988682b7e174c65279d8788e3  silero_vad.onnx
+          EOF
+          sha256sum -c SHA256SUMS
+      - uses: actions/upload-artifact@v4
+        with:
+          name: helix-offline-vocal-candidate-models
+          path: ${{ runner.temp }}/vocal/
+          compression-level: 0
+          if-no-files-found: error
+          retention-days: 7

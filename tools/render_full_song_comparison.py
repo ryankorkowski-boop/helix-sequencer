@@ -7,6 +7,7 @@ import os
 import shutil
 import subprocess
 import sys
+import time
 from pathlib import Path
 
 import numpy as np
@@ -28,13 +29,13 @@ def write_json(path, data):
     temporary.replace(path)
 
 
-def prepare(audio, work, sha, *, instrumental, vocals):
+def prepare(audio, work, sha, *, instrumental, vocals, names=NAMES, layout_builder=build_layout, preserve_addresses=(3,)):
     shared_manifest = os.environ.get('HELIX_APPROVAL_ANALYSIS_MANIFEST')
     if shared_manifest:
         from tools.build_shared_approval_analysis import verify as verify_shared
         shared = verify_shared(audio, os.environ['HELIX_APPROVAL_STEMS'], shared_manifest)
         if shared['source_audio_sha256'] != sha:
-            raise ValueError('Shared approval source does not match 16-panel original')
+            raise ValueError('Shared approval source does not match comparison original')
         if shared['analysis_sha256'] != os.environ.get('HELIX_APPROVAL_ANALYSIS_SHA256'):
             raise ValueError('Shared approval analysis identity changed')
     if digest(audio) != sha:
@@ -73,10 +74,15 @@ def prepare(audio, work, sha, *, instrumental, vocals):
             subprocess.run(command, cwd=ROOT, stdout=log, stderr=subprocess.STDOUT, check=True)
         plan, = (production / 'sequence').rglob('*.snowman_band.json')
         write_json(manifest, dict(identity, plan_sha256=digest(plan)))
+    keyboard_stems = os.environ.get("HELIX_KEYBOARD_STEMS_MANIFEST")
     layouts = work / 'layouts'
     layouts.mkdir(exist_ok=True)
     settings = dict(identity, plan_sha256=digest(plan), instrumental=instrumental,
                     vocal_clock_sha256=digest(vocals / 'acoustic_vocal_clocks.npz') if vocals else None)
+    if keyboard_stems:
+        settings["keyboard_stems_sha256"] = digest(Path(keyboard_stems))
+    if names != NAMES:
+        settings['layout_names'] = list(names)
     checkpoint = layouts / 'batch_identity.json'
     if checkpoint.exists():
         if json.loads(checkpoint.read_text()) != settings:
@@ -84,27 +90,28 @@ def prepare(audio, work, sha, *, instrumental, vocals):
     else:
         write_json(checkpoint, settings)
     missing = []
-    for number in range(1, len(NAMES) + 1):
+    for number in range(1, len(names) + 1):
         folder = layouts / f'{number:02}'
         panel = folder / 'run_manifest.json'
         if panel.exists():
             row = json.loads(panel.read_text())
             if (row['source_audio_sha256'] != sha or row['source_analysis_sha256'] != settings['plan_sha256']
                     or row['layout_sha256'] != digest(folder / 'xlights_rgbeffects.xml')
-                    or row['xsq_sha256'] != digest(folder / row['xsq'])):
+                    or row['xsq_sha256'] != digest(folder / row['xsq'])
+                    or row.get('keyboard_evidence', {}).get('manifest_sha256') != settings.get('keyboard_stems_sha256')):
                 raise ValueError(f'Layout checkpoint {number} has changed')
             continue
         if folder.exists():
             raise ValueError(f'Incomplete layout checkpoint at {folder}; move it aside before retrying')
         missing.append(number)
     if missing:
-        build_layouts(production, vocals, layouts, numbers=missing, names=NAMES,
-                      layout_builder=build_layout, preserve_addresses=(3,),
-                      instrumental=instrumental, expected_sha256=sha)
+        build_layouts(production, vocals, layouts, numbers=missing, names=names,
+                      layout_builder=layout_builder, preserve_addresses=preserve_addresses,
+                      instrumental=instrumental, expected_sha256=sha, keyboard_stems=keyboard_stems)
     return settings
 
 
-def render_panel(folder, audio, xlights, *, port=49914):
+def render_panel(folder, audio, xlights, *, port=49914, renderer_sha=None):
     manifest = folder / 'run_manifest.json'
     row = json.loads(manifest.read_text())
     xsq = folder / row['xsq']
@@ -116,7 +123,7 @@ def render_panel(folder, audio, xlights, *, port=49914):
     logic = verify_logic(folder)
     write_json(folder / 'RENDER_LOGIC_PROVENANCE.json', logic)
     report = row.get('native_preview', {})
-    renderer_sha = digest(Path(xlights))
+    renderer_sha = renderer_sha or digest(Path(xlights))
     if report.get('status') == 'success' and row.get('batch_renderer_sha256') == renderer_sha:
         movie = Path(report['mp4'])
         fseq = Path(report['evidence_dir']) / xsq.with_suffix('.fseq').name
@@ -134,14 +141,14 @@ def render_panel(folder, audio, xlights, *, port=49914):
     return row, report, Path(report['evidence_dir']) / xsq.with_suffix('.fseq').name
 
 
-def inspect_grid(movie):
+def inspect_grid(movie, *, cols=4, rows=4):
     """Sample decoded layout pixels over the full video, excluding the labels."""
     width, height = 960, 540
     frame_bytes = width * height
-    hashes = [hashlib.sha256() for _ in NAMES]
-    previous = [None] * len(NAMES)
-    visible = np.zeros(len(NAMES), dtype=int)
-    moving = np.zeros(len(NAMES), dtype=int)
+    hashes = [hashlib.sha256() for _ in range(cols * rows)]
+    previous = [None] * (cols * rows)
+    visible = np.zeros((cols * rows), dtype=int)
+    moving = np.zeros((cols * rows), dtype=int)
     total = 0
     command = ['ffmpeg', '-nostdin', '-v', 'error', '-xerror', '-threads', '2', '-i', str(movie),
                '-an', '-vf', f'fps=4,scale={width}:{height}', '-pix_fmt', 'gray',
@@ -152,44 +159,53 @@ def inspect_grid(movie):
                 raise ValueError('Incomplete decoded comparison frame')
             frame = np.frombuffer(block, dtype=np.uint8).reshape(height, width)
             for index, fingerprint in enumerate(hashes):
-                y, x = (index // 4) * 135, (index % 4) * 240
-                crop = frame[y + 21:y + 132, x + 3:x + 237]
+                cell_h, cell_w = height // rows, width // cols
+                y, x = (index // cols) * cell_h, (index % cols) * cell_w
+                crop = frame[y + 21:y + cell_h - 3, x + 3:x + cell_w - 3]
                 fingerprint.update(crop.tobytes())
                 visible[index] += np.count_nonzero(crop > 32) >= 16
                 if previous[index] is not None:
                     moving[index] += np.count_nonzero(np.abs(crop.astype(np.int16) - previous[index]) > 8) >= 12
-                previous[index] = crop
+                previous[index] = crop.astype(np.int16)
             total += 1
         if decoder.wait():
             raise ValueError('Comparison panel decode failed')
     fingerprints = [item.hexdigest() for item in hashes]
-    rows = [dict(number=i + 1, decoded_panel_sha256=value, sampled_frames=total,
+    activity_rows = [dict(number=i + 1, decoded_panel_sha256=value, sampled_frames=total,
                  visible_frames=int(visible[i]), moving_frames=int(moving[i]))
             for i, value in enumerate(fingerprints)]
-    passed = total >= 4 and len(set(fingerprints)) == 16 and all(
+    passed = total >= 4 and len(set(fingerprints)) == cols * rows and all(
         r['visible_frames'] >= max(4, total // 20) and r['moving_frames'] >= max(3, total // 100)
-        for r in rows)
-    return rows, passed
+        for r in activity_rows)
+    return activity_rows, passed
 
 
-def render(audio, work, xlights, identity, *, port=49914):
+def render(audio, work, xlights, identity, *, port=49914, names=NAMES, cols=4, rows=4,
+           ac_budgets=(16, 64, 256), movie_stem='Full_Length_16_Panel'):
     receipts = []
-    for number, name in enumerate(NAMES, 1):
+    timings = []
+    started = time.monotonic()
+    renderer_sha = digest(Path(xlights))
+    for number, name in enumerate(names, 1):
         folder = work / 'layouts' / f'{number:02}'
-        row, native, fseq = render_panel(folder, audio, xlights, port=port)
+        panel_started = time.monotonic()
+        row, native, fseq = render_panel(folder, audio, xlights, port=port, renderer_sha=renderer_sha)
         channels = json.loads((fseq.parent / 'native_channels.json').read_text())
-        if number <= 3 and (channels['channels'], row['channels']) != ((16, 64, 256)[number - 1],) * 2:
+        if number <= len(ac_budgets) and (channels['channels'], row['channels']) != (ac_budgets[number - 1],) * 2:
             raise ValueError(f'Native AC channel budget mismatch for panel {number}')
         receipts.append(dict(number=number, name=name, layout_sha256=native['layout_sha256'],
                              xsq_sha256=native['xsq_sha256'], fseq_sha256=digest(fseq),
                              native_movie_sha256=native['mp4_sha256'], native_movie=native['mp4'],
                              native_channels=channels, xlights_version=native['xlights_version'],
                              vocal_mode=row['vocal_mode']))
+        timings.append(dict(number=number, seconds=round(time.monotonic()-panel_started, 3)))
+        write_json(work / 'render_performance.json', dict(panels=timings, elapsed_seconds=round(time.monotonic()-started, 3)))
         print(f'NATIVE PANEL {number:02} verified', flush=True)
-    if any(len({r[key] for r in receipts}) != 16 for key in ('layout_sha256', 'xsq_sha256', 'fseq_sha256')):
+    if any(len({r[key] for r in receipts}) != len(names) for key in ('layout_sha256', 'xsq_sha256', 'fseq_sha256')):
         raise ValueError('Duplicate native layout, XSQ or FSEQ')
-    movie = work / 'Full_Length_16_Panel_Comparison.mp4'
-    candidate = work / 'Full_Length_16_Panel_Candidate.mp4'
+    composition_started = time.monotonic()
+    movie = work / f'{movie_stem}_Comparison.mp4'
+    candidate = work / f'{movie_stem}_Candidate.mp4'
     manifest = work / 'comparison_manifest.json'
     previous = json.loads(manifest.read_text()) if manifest.is_file() else {}
     if (movie.is_file() and previous.get('panels') == receipts
@@ -197,14 +213,14 @@ def render(audio, work, xlights, identity, *, port=49914):
         candidate = movie
     else:
         comparison([Path(r['native_movie']) for r in receipts],
-                   [f'{i:02}  {name}' for i, name in enumerate(NAMES, 1)], candidate, audio, 4, 4,
+                   [f'{i:02}  {name}' for i, name in enumerate(names, 1)], candidate, audio, cols, rows,
                    duration=float(probe_media(audio, 'ffprobe')['format']['duration']))
     media = verify_media(candidate, audio, identity['audio_sha256'])
     streams = probe_media(candidate, 'ffprobe')['streams']
     if (media['dimensions'] != [1920, 1080] or media['actual_frame_rate'] != '30/1'
             or sorted(s['codec_type'] for s in streams) != ['audio', 'video']):
         raise ValueError('Expected exact 1920×1080 H.264/AAC at 30 fps with one original soundtrack')
-    activity, passed = inspect_grid(candidate)
+    activity, passed = inspect_grid(candidate, cols=cols, rows=rows)
     write_json(work / 'panel_activity.json', {'passed': passed, 'panels': activity})
     if not passed:
         raise ValueError('Decoded comparison contains duplicate, blank, or static panels')
@@ -213,8 +229,11 @@ def render(audio, work, xlights, identity, *, port=49914):
     media['file'] = movie.name
     write_json(manifest,
                dict(identity, media=media, panels=receipts, decoded_panel_activity=activity,
-                    renderer_sha256=digest(Path(xlights)), status='technically_verified',
+                    renderer_sha256=renderer_sha, status='technically_verified',
                     owner_approved=False))
+    write_json(work / 'render_performance.json', dict(panels=timings,
+               composition_and_verification_seconds=round(time.monotonic()-composition_started, 3),
+               elapsed_seconds=round(time.monotonic()-started, 3)))
     print(f'Verified comparison: {movie}', flush=True)
 
 
@@ -226,7 +245,10 @@ def main():
     source = parser.add_mutually_exclusive_group(required=True)
     source.add_argument('--instrumental', action='store_true')
     source.add_argument('--vocal-fixture', type=Path)
+    parser.add_argument('--nine-panel', action='store_true', help='Use the nine homeowner-to-showcase layouts')
     parser.add_argument('--prepare-only', action='store_true')
+    parser.add_argument('--prepared-only', action='store_true',
+                        help='Read an existing verified preparation checkpoint without rebuilding layouts')
     parser.add_argument('--xlights')
     parser.add_argument('--port', type=int, choices=(49913, 49914), default=49914)
     parser.add_argument('--render-panels', nargs='+', type=int, choices=range(1, 17),
@@ -237,18 +259,46 @@ def main():
     if args.prepare_only and args.render_panels:
         parser.error('--render-panels cannot be combined with --prepare-only')
     audio, work = args.audio.resolve(), args.work.resolve()
-    identity = prepare(audio, work, args.expected_sha256,
-                       instrumental=args.instrumental, vocals=args.vocal_fixture)
+    names, layout_builder, preserve_addresses = NAMES, build_layout, (3,)
+    if args.nine_panel:
+        from models.nine_panel_showcase import NAMES as nine_names, build as nine_layout
+        names, layout_builder, preserve_addresses = nine_names, nine_layout, (2,)
+        if args.render_panels and any(n > 9 for n in args.render_panels):
+            parser.error('Nine-panel layout numbers are 1 through 9')
+    if args.prepared_only:
+        if args.prepare_only or not args.render_panels:
+            parser.error('--prepared-only requires --render-panels and excludes --prepare-only')
+        identity = json.loads((work / 'layouts' / 'batch_identity.json').read_text())
+        if identity.get('layout_names', list(NAMES)) != list(names):
+            raise ValueError('Prepared worker layout catalog mismatch')
+        commit = subprocess.check_output(['git', 'rev-parse', 'HEAD'], cwd=ROOT, text=True).strip()
+        if (identity['source_commit'] != commit or identity['audio_sha256'] != args.expected_sha256
+                or digest(audio) != args.expected_sha256 or identity['instrumental'] != args.instrumental
+                or identity['vocal_clock_sha256'] != (digest(args.vocal_fixture / 'acoustic_vocal_clocks.npz') if args.vocal_fixture else None)):
+            raise ValueError('Prepared worker inputs do not match the verified batch')
+        for number in args.render_panels:
+            row = json.loads((work / 'layouts' / f'{number:02}' / 'run_manifest.json').read_text())
+            if row['source_analysis_sha256'] != identity['plan_sha256']:
+                raise ValueError('Prepared panel analysis identity changed')
+    else:
+        identity = prepare(audio, work, args.expected_sha256,
+                           instrumental=args.instrumental, vocals=args.vocal_fixture,
+                           names=names, layout_builder=layout_builder, preserve_addresses=preserve_addresses)
     if args.prepare_only:
         return
     xlights = str(Path(shutil.which(args.xlights) or args.xlights).resolve(strict=True))
     if not os.access(xlights, os.X_OK):
         raise ValueError('Pinned xLights binary is not executable')
     if args.render_panels:
+        renderer_sha = digest(Path(xlights))
         for number in dict.fromkeys(args.render_panels):
-            render_panel(work / 'layouts' / f'{number:02}', audio, xlights, port=args.port)
+            render_panel(work / 'layouts' / f'{number:02}', audio, xlights, port=args.port, renderer_sha=renderer_sha)
         return
-    render(audio, work, xlights, identity, port=args.port)
+    if args.nine_panel:
+        render(audio, work, xlights, identity, port=args.port, names=names, cols=3, rows=3,
+               ac_budgets=(16, 256), movie_stem='Nine_Panel_30s')
+    else:
+        render(audio, work, xlights, identity, port=args.port)
 
 
 if __name__ == '__main__':

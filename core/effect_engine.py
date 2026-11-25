@@ -2091,6 +2091,12 @@ def classify_mir_mood(summary: dict[str, float], *, rms_mean: float) -> str:
     return "balanced"
 
 
+def _mfcc_from_power_spectrum(spectrum, *, sr: int, hop: int):
+    """Use the existing default power STFT instead of transforming audio again."""
+    mel = librosa.feature.melspectrogram(S=spectrum, sr=sr, n_fft=2048, hop_length=hop)
+    return librosa.feature.mfcc(S=librosa.power_to_db(mel), sr=sr, n_mfcc=20)
+
+
 def derive_multiband_analysis(audio: base.Audio) -> MultiBandAnalysis:
     if audio.y.size == 0 or audio.sr <= 0:
         return MultiBandAnalysis([], [], [], [], [], [], [], {})
@@ -2159,18 +2165,18 @@ def derive_multiband_analysis(audio: base.Audio) -> MultiBandAnalysis:
     contrast = np.asarray(contrast, dtype=float)
     contrast_curve = _align_curve(np.asarray(contrast.mean(axis=0), dtype=float), frame_count)
     flatness = _align_curve(flatness, frame_count)
-    del spectrum
-
     mfcc_motion = np.zeros(frame_count, dtype=float)
     chroma_stability = np.zeros(frame_count, dtype=float)
     tonnetz_motion = np.zeros(frame_count, dtype=float)
     try:
-        mfcc = np.asarray(librosa.feature.mfcc(y=audio.y, sr=audio.sr, hop_length=hop, n_mfcc=20), dtype=float)
+        mfcc = np.asarray(_mfcc_from_power_spectrum(spectrum, sr=audio.sr, hop=hop), dtype=float)
         if mfcc.size:
             mfcc_delta = np.asarray(librosa.feature.delta(mfcc), dtype=float)
             mfcc_motion = _align_curve(np.mean(np.abs(mfcc_delta), axis=0), frame_count)
     except Exception:
         mfcc_motion = np.zeros(frame_count, dtype=float)
+    finally:
+        del spectrum
     try:
         options = {}
         if len(audio.y) > 30 * audio.sr:

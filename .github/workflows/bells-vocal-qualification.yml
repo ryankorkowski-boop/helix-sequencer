@@ -1,0 +1,96 @@
+name: Bells of Mathmas - real vocal qualification
+on:
+  workflow_dispatch:
+  push:
+    branches: [codex/beta14-choreography-recovery-20261122]
+    paths:
+      - .github/workflows/bells-vocal-qualification.yml
+concurrency:
+  group: helix-bells-vocal-qualification
+  cancel-in-progress: false
+permissions:
+  contents: read
+jobs:
+  real-vocal-pilot:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 180
+    env:
+      HELIX_DEMUCS_DEVICE: cpu
+      OMP_NUM_THREADS: '2'
+      MKL_NUM_THREADS: '2'
+      TORCH_NUM_THREADS: '2'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install audio tools
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y ffmpeg
+          python -m pip install gdown==6.4.2
+      - name: Fetch original Bells of Mathmas audio
+        run: |
+          mkdir -p owner-source
+          python -m gdown 1Zjyz9b-V0SdJ-p9K2FN6ryUR2H88DELG -O owner-source/Bells_of_Mathmas.mp3
+          echo "beb2a064595a64d4924847ccd68ca0f2897d5de3ae5064e6e2023a68b7b8ce8a  owner-source/Bells_of_Mathmas.mp3" | sha256sum -c -
+      - name: Produce genuine Demucs combined vocals
+        uses: ./.github/actions/production-audio
+        with:
+          audio: owner-source/Bells_of_Mathmas.mp3
+          sha256: beb2a064595a64d4924847ccd68ca0f2897d5de3ae5064e6e2023a68b7b8ce8a
+      - name: Install RoFormer adapter dependencies
+        run: |
+          python -m pip install 'audio-separator==0.41.1' 'onnxruntime==1.23.2'
+          python -c 'import onnxruntime; import audio_separator.separator; print("RoFormer dependencies import successfully")'
+      - name: Run karaoke model on genuine vocal stem
+        run: |
+          set -euo pipefail
+          VOCALS="$(find RenderCache/stems/Bells_of_Mathmas -name vocals.wav -type f | head -n 1)"
+          test -s "$VOCALS"
+          mkdir -p owner-source/roformer
+          audio-separator "$VOCALS" --model_filename mel_band_roformer_karaoke_aufr33_viperx_sdr_10.1956.ckpt --output_format WAV --output_dir owner-source/roformer
+          find owner-source/roformer -maxdepth 1 -type f -printf '%f %s bytes\n'
+      - name: Record model outputs without claiming singer identity
+        run: |
+          python - <<'PY'
+          import json, hashlib, subprocess
+          from pathlib import Path
+          root=Path("owner-source/roformer")
+          outputs=[]
+          for path in sorted(root.glob("*.wav")):
+              probe=json.loads(subprocess.check_output(["ffprobe","-v","error","-select_streams","a:0","-show_entries","stream=channels,sample_rate,duration","-of","json",str(path)],text=True))
+              stream=probe["streams"][0]
+              outputs.append({"filename":path.name,"sha256":hashlib.sha256(path.read_bytes()).hexdigest(),"channels":int(stream["channels"]),"rate":int(stream["sample_rate"]),"seconds":round(float(stream["duration"]),3)})
+          receipt={"schema":"helix.karaoke-pilot.v1","status":"unqualified_model_outputs","lead_harmony_identity_verified":False,"files":outputs}
+          (root/"pilot_receipt.json").write_text(json.dumps(receipt,indent=2)+"\n")
+          if len(outputs)!=2: raise SystemExit(f"Expected 2 karaoke outputs; got {len(outputs)}")
+          if outputs[0]["sha256"]==outputs[1]["sha256"]: raise SystemExit("Duplicate model outputs")
+          print(json.dumps(receipt,indent=2))
+          PY
+      - name: Qualify separated audio without asserting singer identity
+        run: |
+          set -euo pipefail
+          VOCALS="$(find RenderCache/stems/Bells_of_Mathmas -name vocals.wav -type f | head -n 1)"
+          ROOT=owner-source/roformer
+          LEAD="$(find "$ROOT" -maxdepth 1 -name '*Vocals*.wav' -printf '%f\n' | head -n 1)"
+          BACKING="$(find "$ROOT" -maxdepth 1 -name '*Instrumental*.wav' -printf '%f\n' | head -n 1)"
+          test -n "$LEAD" && test -n "$BACKING"
+          python -m tools.separate_vocal_roles --source owner-source/Bells_of_Mathmas.mp3 --vocals "$VOCALS" --output-dir "$ROOT" --skip-separation --lead-output "$LEAD" --backing-output "$BACKING"
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          root=Path("owner-source/roformer")
+          data=json.loads((root/"vocal_separation_manifest.json").read_text())
+          assert data["identity_evidence"]=="unverified_roles_not_individual_singer_identity"
+          (root/"qualification_receipt.json").write_text(json.dumps({"source_bound_manifest":True,"independent_audio_gate":True,"independent_singer_identity_verified":False,"requires_listening_or_voice_identity_evidence":True},indent=2)+"\n")
+          PY
+      - name: Upload model outputs for singer-role inspection
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: bells-vocal-qualification-${{ github.sha }}
+          retention-days: 7
+          if-no-files-found: warn
+          path: |
+            owner-source/roformer/

@@ -223,21 +223,31 @@ def layout(number,plan,*,duration=36):
 
 
 def build(source,vocals,output,*,numbers=None,names=NAMES,layout_builder=layout,
-          preserve_addresses=(1,),instrumental=False,expected_sha256=None):
+          preserve_addresses=(1,),instrumental=False,expected_sha256=None,
+          unqualified_vocals=False, keyboard_stems=None):
     source,output=map(Path,(source,output));output.mkdir(parents=True,exist_ok=True)
     source_manifest=json.loads((source/'run_manifest.json').read_text())
     audio=source/'media'/source_manifest.get('audio_name','Helix_Starred_New_Review.wav');sha=digest(audio)
     full_song=expected_sha256 is not None
     if full_song and (sha!=expected_sha256 or source_manifest.get('audio_sha256')!=sha):
         raise ValueError('Production analysis does not belong to the verified original')
-    if instrumental != (vocals is None):
-        raise ValueError('Supply source vocal evidence or explicitly select instrumental input')
+    if sum((bool(instrumental), vocals is not None, bool(unqualified_vocals))) != 1:
+        raise ValueError('Choose exactly one: source vocal evidence, instrumental, or explicit unqualified-vocal abstention')
+    rest_only = instrumental or unqualified_vocals
     import soundfile as sf
     duration=sf.info(audio).duration;duration_ms=round(duration*1000)
     plans=(source/'sequence').rglob('*.snowman_band.json') if full_song else (source/'sequence').glob('*.snowman_band.json')
     plan_path,=plans
     plan=json.loads(plan_path.read_text())
     plan_sha256=digest(plan_path)
+    keyboard_report=None
+    if keyboard_stems is not None:
+        from tools.qualified_keyboard import cues as qualified_cues
+        qualified, keyboard_report=qualified_cues(audio, keyboard_stems)
+        # Only replace the canonical pitched performer lane; all other musical
+        # cues and the retained production plan file remain unchanged.
+        plan['cues']['keyboardist']=qualified
+        keyboard_report['manifest_sha256']=digest(Path(keyboard_stems))
     cache={}
     shape_names=SHAPE_NAMES
     if vocals is not None:
@@ -255,6 +265,11 @@ def build(source,vocals,output,*,numbers=None,names=NAMES,layout_builder=layout,
             lanes,_=screened_lanes(cache)
             for lane,(energy,shapes) in lanes.items():
                 cache[lane+'_energy'],cache[lane+'_shapes']=energy,shapes
+    from tools.source_spatial_direction import onset_index, voice_events
+    shared_onsets = {role: onset_index(plan['cues'].get(role, []))
+                     for role in ('bassist', 'guitarist', 'keyboardist', 'drummer')}
+    shared_onsets.update(lead=onset_index(voice_events(cache, 'estimated_lead')),
+                         harmony=onset_index(voice_events(cache, 'estimated_backing')))
     numbers=tuple(range(1,len(names)+1)) if numbers is None else tuple(numbers)
     if not numbers or len(set(numbers))!=len(numbers) or any(type(n) is not int or not 1<=n<=len(names) for n in numbers):
         raise ValueError(f'Choose unique layout numbers in 1..{len(names)}')
@@ -267,6 +282,9 @@ def build(source,vocals,output,*,numbers=None,names=NAMES,layout_builder=layout,
         if folder.exists():raise FileExistsError(folder)
         layout_options = {'native_extended_mouths': True} if shape_names == NATIVE_SHAPE_NAMES else {}
         g,band=layout_builder(number,plan,duration=duration,**layout_options);g.title=name
+        if full_song:
+            from tools.source_role_routing import configure_advanced_spatial_routes
+            configure_advanced_spatial_routes(g.models)
         # The canonical performance must never disappear when the same music
         # is repackaged as 9, 12, or 16 comparison panels.
         canonical_panel = ('snowman band' in name.lower()
@@ -293,7 +311,7 @@ def build(source,vocals,output,*,numbers=None,names=NAMES,layout_builder=layout,
             if m.details.get('review_role'):continue
             if m.details.get('generic_singer'):
                 lane=m.details['generic_singer']
-                if instrumental:
+                if rest_only:
                     if m.submodels.get('MOUTH_REST'):
                         sequence.effect(m,'MOUTH_REST',0,duration_ms,g.palette[2],75 if m.details.get('showcase_face') else 50)
                 else:
@@ -327,7 +345,7 @@ def build(source,vocals,output,*,numbers=None,names=NAMES,layout_builder=layout,
                     part=f"KEY_MIDI_{round(cue['pitch_midi']):03}"
                     if m.submodels.get(part):sequence.effect(m,part,cue['start_ms'],cue['end_ms'],g.palette[2],100,20)
                 continue
-            reports.append(export_model(sequence,m,plan,cache,g.palette))
+            reports.append(export_model(sequence,m,plan,cache,g.palette,shared_onsets=shared_onsets))
         if band:
             from tools.phoneme_vocal_export import export_static_materials, static_materials, export as export_vocals
             from tools.canonical_band_cues import export_instruments
@@ -350,7 +368,7 @@ def build(source,vocals,output,*,numbers=None,names=NAMES,layout_builder=layout,
             refresh_models(g, folder/'xlights_rgbeffects.xml')
             if full_song:
                 (folder/'Band_Instrument_Provenance.json').write_text(json.dumps(instrument_report,indent=2)+'\n')
-            if instrumental:
+            if rest_only:
                 export_static_materials(sequence.root,SimpleNamespace(models=performers),duration_ms)
                 for m in performers:
                     if m.submodels.get('MOUTH_rest'):
@@ -369,20 +387,32 @@ def build(source,vocals,output,*,numbers=None,names=NAMES,layout_builder=layout,
                 (folder/'Canonical_Drummer.json').write_text(json.dumps(
                     dict(geometry=proof,event_mapping=source_report),indent=2)+'\n')
             else:
-                colors=('#DC2D1C','#D65CBE','#DCA416','#2CB242','#2CB242','#2CB242','#DCA416','#DCA416')
+                colors=('#DC2D1C','#D65CBE','#DCA416','#2CB242','#2CB242','#2CB242','#DCA416','#DCA416','#DCA416')
                 from tools.render_owner_band_review import drum_hits
                 from tools.render_drummer_v3_preview import TARGETS
                 hits,_=drum_hits(plan['cues']['drummer'])
                 for target,color in zip(TARGETS,colors):
                     part=target+'_SURFACE'
-                    if not drummer.details.get('showcase_source_drummer'):
-                        sequence.effect(drummer,part,0,duration_ms,color,22)
+                    if part not in drummer.submodels:
+                        continue
+                    # One exclusive, nonoverlapping 50 ms surface clock.
+                    # Keep idle visibility, then max-combine measured strikes
+                    # and their decays. Static body rows must not own these nodes.
+                    levels=np.full(math.ceil(duration_ms/50),18,dtype=np.int16)
                     for hit in hits:
                         if hit['target']==target:
-                            start=round(hit['time']*1000)
-                            tail=95 if target in TARGETS[:3] else 150 if target in TARGETS[3:6] else 220
+                            start=round(hit['time']*20)
+                            tail=2 if target in TARGETS[:3] else 3 if target in TARGETS[3:6] else 5
+                            end=min(len(levels),start+tail)
+                            if start>=end:continue
                             intensity=round(25+75*hit['velocity'])
-                            sequence.effect(drummer,part,start,min(duration_ms,start+tail),color,intensity,18)
+                            decay=np.rint(np.linspace(intensity,18,tail+1)[:-1]).astype(np.int16)
+                            levels[start:end]=np.maximum(levels[start:end],decay[:end-start])
+                    cuts=np.r_[0,np.flatnonzero(np.diff(levels))+1,len(levels)]
+                    for a,b in zip(cuts[:-1],cuts[1:]):
+                        sequence.effect(drummer,part,int(a)*50,int(b)*50,color,int(levels[a]),
+                            provenance={'sourceMethod':'source_drum_surface_clock' if levels[a]>18 else 'nonmusical_kit_visibility',
+                                        'sourceComponent':target})
                 clocks = states.values() if isinstance(states, dict) else (
                     np.asarray([f'SOURCE_POSE_{state:02}' for state in states]),)
                 for clock in clocks:
@@ -401,8 +431,9 @@ def build(source,vocals,output,*,numbers=None,names=NAMES,layout_builder=layout,
         points=np.concatenate([m.points for m in camera_models]);lo,hi=points.min(0),points.max(0);center=(lo+hi)/2;span=hi-lo
         if full_song:
             distance=max(span[0]*.88,span[1]*1.75,42)+span[2]*.40
-            pitch=5 if band else 14 if number in (13,15) else 5
-            yaw=17 if number==15 else 7 if number==13 else 0
+            advanced_nine = len(names)==9 and number>=6
+            pitch=5 if band else 14 if advanced_nine or number in (13,15) else 5
+            yaw=17 if advanced_nine or number==15 else 7 if number==13 else 0
         else:
             distance=max(span[0]*.82,span[1]*1.75,45)+(span[2]/2 if number==11 else 0)
             if number==1:distance*=.85
@@ -425,9 +456,11 @@ def build(source,vocals,output,*,numbers=None,names=NAMES,layout_builder=layout,
                   channels=max(m.start+m.channels-1 for m in g.models),warnings=[],native_render_status='pending',
                   renderer_for_comparison='Helix solid 3D' if number==2 and not full_song else 'native xLights',
                   owner_approved=False)
+        if keyboard_report is not None:
+            item['keyboard_evidence']=keyboard_report
         if full_song:
             item.update(layout_sha256=digest(folder/'xlights_rgbeffects.xml'),xsq_sha256=digest(path),
-                        vocal_mode='instrumental_rest' if instrumental else receipt.get('verification_state','estimate'),
+                        vocal_mode=('UNQUALIFIED_VOCALS_MUTED' if unqualified_vocals else 'instrumental_rest' if instrumental else receipt.get('verification_state','estimate')),
                         canonical_cast_count=len(performers) if band else 0)
         (folder/'Spatial_Event_Provenance.json').write_text(json.dumps(reports,indent=2)+'\n')
         manifest.append(item)

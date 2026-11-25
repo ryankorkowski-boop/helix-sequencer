@@ -1,0 +1,77 @@
+name: Local native offline dependencies
+on:
+  pull_request:
+    paths: [.github/workflows/local-native-offline-dependencies.yml]
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: local-native-offline-deps-${{ github.head_ref || github.ref_name }}
+  cancel-in-progress: true
+jobs:
+  core:
+    if: github.event_name != 'pull_request' || github.head_ref == 'review/beta14-consolidated-20261125'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+      - name: Collect missing wheels for offline Linux x64 Python 3.13
+        run: |
+          set -euo pipefail
+          mkdir -p "$RUNNER_TEMP/wheels"
+          python -m pip download --only-binary=:all: --no-deps -d "$RUNNER_TEMP/wheels" moderngl==5.12.0 glcontext==3.0.0 zstandard==0.25.0 tiktoken==0.12.0
+          python -m pip wheel --no-deps -w "$RUNNER_TEMP/wheels" openai-whisper==20250625
+          cd "$RUNNER_TEMP/wheels"
+          sha256sum ./*.whl > SHA256SUMS
+      - uses: actions/upload-artifact@v4
+        with:
+          name: helix-offline-python313-wheels
+          path: ${{ runner.temp }}/wheels/
+          if-no-files-found: error
+          retention-days: 7
+      - name: Collect exact production Demucs weight
+        run: |
+          set -euo pipefail
+          mkdir -p "$RUNNER_TEMP/demucs"
+          cd "$RUNNER_TEMP/demucs"
+          curl -fLsS --retry 3 https://dl.fbaipublicfiles.com/demucs/hybrid_transformer/955717e8-8726e21a.th -o 955717e8-8726e21a.th
+          printf '%s  %s\n' 8726e21a993978c7ba086d3872e7608d7d5bfca646ca4aca459ffda844faa8b4 955717e8-8726e21a.th > SHA256SUMS
+          sha256sum -c SHA256SUMS
+      - uses: actions/upload-artifact@v4
+        with:
+          name: helix-offline-htdemucs-verified
+          path: ${{ runner.temp }}/demucs/
+          compression-level: 0
+          if-no-files-found: error
+          retention-days: 7
+      - name: Download and verify production Whisper small weight from pinned package
+        run: |
+          set -euo pipefail
+          mkdir -p "$RUNNER_TEMP/whisper"
+          python - <<'PY'
+          import ast, hashlib, os, pathlib, urllib.request, zipfile
+          root = pathlib.Path(os.environ['RUNNER_TEMP'])
+          wheel, = (root/'wheels').glob('openai_whisper-*.whl')
+          with zipfile.ZipFile(wheel) as archive:
+              module = ast.parse(archive.read('whisper/__init__.py'))
+          assignment = next(n for n in module.body if isinstance(n, ast.Assign) and any(isinstance(t, ast.Name) and t.id == '_MODELS' for t in n.targets))
+          url = ast.literal_eval(assignment.value)['small']
+          expected = url.split('/')[-2]
+          assert len(expected)==64
+          output = root/'whisper'/'small.pt'
+          urllib.request.urlretrieve(url, output)
+          with output.open('rb') as stream:
+              actual = hashlib.file_digest(stream, 'sha256').hexdigest()
+          if actual != expected:
+              raise ValueError('Whisper model hash mismatch')
+          (output.parent/'SHA256SUMS').write_text(f'{actual}  small.pt\n')
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: helix-offline-whisper-small-verified
+          path: ${{ runner.temp }}/whisper/
+          compression-level: 0
+          if-no-files-found: error
+          retention-days: 7
