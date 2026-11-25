@@ -267,6 +267,9 @@ def build(source,vocals,output,*,numbers=None,names=NAMES,layout_builder=layout,
         if folder.exists():raise FileExistsError(folder)
         layout_options = {'native_extended_mouths': True} if shape_names == NATIVE_SHAPE_NAMES else {}
         g,band=layout_builder(number,plan,duration=duration,**layout_options);g.title=name
+        if full_song:
+            from tools.source_role_routing import configure_advanced_spatial_routes
+            configure_advanced_spatial_routes(g.models)
         # The canonical performance must never disappear when the same music
         # is repackaged as 9, 12, or 16 comparison panels.
         canonical_panel = ('snowman band' in name.lower()
