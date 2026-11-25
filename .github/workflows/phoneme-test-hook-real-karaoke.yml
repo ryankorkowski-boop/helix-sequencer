@@ -28,17 +28,16 @@ jobs:
         run: |
           sudo apt-get update -qq
           sudo apt-get install -y ffmpeg
-          python -m pip install gdown==6.4.2
       - name: Fetch source-verified owner phoneme test audio
         run: |
           mkdir -p owner-source
-          python -m gdown 18zI7nKAQ0JHG-cPMppPJWeNP_Qo3aXce -O owner-source/The_Test_Is_On.mp3
-          echo "02c31e2a77ed61a11053ade8275e556b06c0d450b34da67827ed47a06b55115c  owner-source/The_Test_Is_On.mp3" | sha256sum -c -
+          cp fixtures/audio/Phoneme_Test_Hook.mp3 owner-source/Phoneme_Test_Hook.mp3
+          echo "19e90c273d0d747938f24b36586b50818c104cddffbefe4a4128927374301938  owner-source/Phoneme_Test_Hook.mp3" | sha256sum -c -
       - name: Produce genuine Demucs combined vocals
         uses: ./.github/actions/production-audio
         with:
-          audio: owner-source/The_Test_Is_On.mp3
-          sha256: 02c31e2a77ed61a11053ade8275e556b06c0d450b34da67827ed47a06b55115c
+          audio: owner-source/Phoneme_Test_Hook.mp3
+          sha256: 19e90c273d0d747938f24b36586b50818c104cddffbefe4a4128927374301938
       - name: Install RoFormer adapter dependencies
         run: |
           python -m pip install 'audio-separator==0.41.1' 'onnxruntime==1.23.2'
@@ -46,7 +45,7 @@ jobs:
       - name: Run karaoke model on genuine vocal stem
         run: |
           set -euo pipefail
-          VOCALS="$(find RenderCache/stems/The_Test_Is_On -name vocals.wav -type f | head -n 1)"
+          VOCALS="$(find RenderCache/stems/Phoneme_Test_Hook -name vocals.wav -type f | head -n 1)"
           test -s "$VOCALS"
           mkdir -p owner-source/roformer
           audio-separator "$VOCALS" --model_filename mel_band_roformer_karaoke_aufr33_viperx_sdr_10.1956.ckpt --output_format WAV --output_dir owner-source/roformer
@@ -71,12 +70,12 @@ jobs:
       - name: Qualify separated audio without asserting singer identity
         run: |
           set -euo pipefail
-          VOCALS="$(find RenderCache/stems/The_Test_Is_On -name vocals.wav -type f | head -n 1)"
+          VOCALS="$(find RenderCache/stems/Phoneme_Test_Hook -name vocals.wav -type f | head -n 1)"
           ROOT=owner-source/roformer
           LEAD="$(find "$ROOT" -maxdepth 1 -name '*Vocals*.wav' -printf '%f\n' | head -n 1)"
           BACKING="$(find "$ROOT" -maxdepth 1 -name '*Instrumental*.wav' -printf '%f\n' | head -n 1)"
           test -n "$LEAD" && test -n "$BACKING"
-          python -m tools.separate_vocal_roles --source owner-source/The_Test_Is_On.mp3 --vocals "$VOCALS" --output-dir "$ROOT" --skip-separation --lead-output "$LEAD" --backing-output "$BACKING"
+          python -m tools.separate_vocal_roles --source owner-source/Phoneme_Test_Hook.mp3 --vocals "$VOCALS" --output-dir "$ROOT" --skip-separation --lead-output "$LEAD" --backing-output "$BACKING"
           python - <<'PY'
           import json
           from pathlib import Path
