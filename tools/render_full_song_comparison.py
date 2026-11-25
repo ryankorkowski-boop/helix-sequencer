@@ -241,6 +241,7 @@ def main():
     source = parser.add_mutually_exclusive_group(required=True)
     source.add_argument('--instrumental', action='store_true')
     source.add_argument('--vocal-fixture', type=Path)
+    parser.add_argument('--nine-panel', action='store_true', help='Use the nine homeowner-to-showcase layouts')
     parser.add_argument('--prepare-only', action='store_true')
     parser.add_argument('--prepared-only', action='store_true',
                         help='Read an existing verified preparation checkpoint without rebuilding layouts')
@@ -254,10 +255,18 @@ def main():
     if args.prepare_only and args.render_panels:
         parser.error('--render-panels cannot be combined with --prepare-only')
     audio, work = args.audio.resolve(), args.work.resolve()
+    names, layout_builder, preserve_addresses = NAMES, build_layout, (3,)
+    if args.nine_panel:
+        from models.nine_panel_showcase import NAMES as nine_names, build as nine_layout
+        names, layout_builder, preserve_addresses = nine_names, nine_layout, (2,)
+        if args.render_panels and any(n > 9 for n in args.render_panels):
+            parser.error('Nine-panel layout numbers are 1 through 9')
     if args.prepared_only:
         if args.prepare_only or not args.render_panels:
             parser.error('--prepared-only requires --render-panels and excludes --prepare-only')
         identity = json.loads((work / 'layouts' / 'batch_identity.json').read_text())
+        if identity.get('layout_names', list(NAMES)) != list(names):
+            raise ValueError('Prepared worker layout catalog mismatch')
         commit = subprocess.check_output(['git', 'rev-parse', 'HEAD'], cwd=ROOT, text=True).strip()
         if (identity['source_commit'] != commit or identity['audio_sha256'] != args.expected_sha256
                 or digest(audio) != args.expected_sha256 or identity['instrumental'] != args.instrumental
@@ -269,7 +278,8 @@ def main():
                 raise ValueError('Prepared panel analysis identity changed')
     else:
         identity = prepare(audio, work, args.expected_sha256,
-                           instrumental=args.instrumental, vocals=args.vocal_fixture)
+                           instrumental=args.instrumental, vocals=args.vocal_fixture,
+                           names=names, layout_builder=layout_builder, preserve_addresses=preserve_addresses)
     if args.prepare_only:
         return
     xlights = str(Path(shutil.which(args.xlights) or args.xlights).resolve(strict=True))
@@ -280,7 +290,11 @@ def main():
         for number in dict.fromkeys(args.render_panels):
             render_panel(work / 'layouts' / f'{number:02}', audio, xlights, port=args.port, renderer_sha=renderer_sha)
         return
-    render(audio, work, xlights, identity, port=args.port)
+    if args.nine_panel:
+        render(audio, work, xlights, identity, port=args.port, names=names, cols=3, rows=3,
+               ac_budgets=(16, 256), movie_stem='Nine_Panel_30s')
+    else:
+        render(audio, work, xlights, identity, port=args.port)
 
 
 if __name__ == '__main__':
