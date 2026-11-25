@@ -1,3 +1,11 @@
+## November 25 · Actual native xLights physical surface compatibility gate
+
+**Goal:** Require xLights 2026.18 FSEQ evidence before expanding the native effect library.
+**Files:** `tools/verify_native_surface_buffer.py`, `.github/workflows/helix-infinity-layout.yml`, `MASTER_TODO.md`.
+**Change:** Candidate PR now runs actual pinned/checksum-verified native xLights against the existing moire lattice and production surface exporter, isolates three native Bars direction windows, checks duration, changing illuminated frames and dark rest, and retains native XSQ/FSEQ/XML/logs/receipt. Uses a four-second excerpt of the checksum-pinned original Bells recording as the media clock; controlled effect cues intentionally isolate compatibility and are NOT inferred musical activity or an owner approval video. The source Wub Wub Wonderland was not located by Drive filename search; no substitution for vocal-qualified owner review.
+**Evidence:** Source and workflow committed; execution pending. Existing first-round Python CI passed; no native or latest commit pass claimed. No merge/release.
+**Deferred:** Native gate must pass, then validate real musical output and all six canonical performers with a vocal-qualified 30-second comparison. Retain no diagnostic as approval.
+
 ## November 25 · Native physical row buffers for advanced phrase surfaces
 
 **Goal:** Correct flattened native render buffers on genuine rectangular matrix/lattice surfaces, so native effects travel through physical columns rather than serialized node order.
