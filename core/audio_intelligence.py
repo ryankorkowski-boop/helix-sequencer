@@ -1924,8 +1924,21 @@ def analyze_audio_file(
     onset_frames = _peak_pick_candidates(onset_env, sensitivity=settings.onset_sensitivity, wait=1, limit=onset_limit)
     onset_events = _timed_events_from_frames(onset_frames, frame_times_s, onset_env, label="onset")
 
+    def _compute_beats() -> dict[str, np.ndarray]:
+        tempo, frames = librosa.beat.beat_track(y=y, sr=sr, hop_length=hop, units="frames")
+        return {"tempo": np.asarray(tempo), "frames": np.asarray(frames)}
+
     try:
-        tempo_bpm, beat_frames = librosa.beat.beat_track(y=y, sr=sr, hop_length=hop, units="frames")
+        try:
+            beat_key = audio_cache_key(audio_path, {
+                "feature": "beat_track", "sr": int(sr), "hop": hop,
+                "mono": True, "librosa": str(librosa.__version__),
+            })
+            beat_data = cached_arrays(cache_root / "features", beat_key, _compute_beats)
+            tempo_bpm, beat_frames = beat_data["tempo"], beat_data["frames"]
+        except (OSError, ValueError, TypeError, KeyError, EOFError):
+            beat_data = _compute_beats()
+            tempo_bpm, beat_frames = beat_data["tempo"], beat_data["frames"]
         beat_frame_list = [int(item) for item in list(np.asarray(beat_frames).reshape(-1))]
     except Exception:
         tempo_bpm, beat_frame_list = 0.0, []
