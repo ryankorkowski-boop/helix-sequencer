@@ -1,3 +1,13 @@
+## November 25 · Reuse source clocks in the production native collection
+
+**Goal:** Eliminate repeated source-event indexing and geometry serialization on actual 12-layout native export path.
+**Files:** `tools/source_spatial_direction.py`, `tools/build_approval_collection.py`, `tests/test_source_spatial_direction.py`, `MASTER_TODO.md`.
+**Preserved:** Existing musical role routing, note/section order, source-event IDs, independent estimated singer clocks and abstention, authored native surface effects, canonical band, AC wiring and final layout/submodel serialization.
+**New behavior:** Prepare each source role's onset index and vocal windows once per collection, pass them through the production exporter, and retain lane-local standalone behavior. Write the layout, assets, geometry and model inventory once after submodels are authored. Export provenance includes the routing implementation, native writer and effect table serializer.
+**Evidence:** New regression compares shared versus original lane-local schedules, tests independent voice onset clocks, rejects per-prop reindexing and checks native effect provenance. Committed to PR #255; runtime and full native render pending.
+**Limitations/deferred:** Not a measured speedup. Need verify all 9/12/16 production paths use shared analysis or equivalent, and review native effect/layer/buffer fixtures before introducing more effect types. No owner approval.
+**Risk:** Consumers relying on partial pre-export layout files after a failed build may no longer find them. Final layout is still written before vocal export; verify final manifest/model parity. No release/merge.
+
 ## November 25 · Native xLights workflow and spatial propagation optimization
 
 **Goal:** Improve actual native approval pipeline throughput and keep short musical events visible in large advanced prop banks.
