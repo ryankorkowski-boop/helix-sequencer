@@ -81,13 +81,14 @@ class ShowMasteringConfig:
     """Configuration for pro vendor-grade show mastering."""
 
     palette_name: str = "winter_aurora"
-    anticipation_breath_ms: int = 100
+    anticipation_breath_ms: int = 0
     default_fade_ms: int = 150
     motif_bonus: float = 0.15
-    enforce_negative_space: bool = True
-    lock_palette: bool = True
+    enforce_negative_space: bool = False
+    lock_palette: bool = False
     bpm_sync_speed: bool = True
-
+    soft_brightness_layering: bool = True
+    
 
 def _normalize_section_name(name: str | None) -> str:
     if not name:
@@ -301,7 +302,16 @@ class ProShowMaster:
 
             if self.config.bpm_sync_speed:
                 params["bpm_speed_scale"] = bpm_scale
-
+            if self.config.soft_brightness_layering:
+                sec_norm = _normalize_section_name(eff.section_name)
+                if eff.role in ("focus", "accent"):
+                    params["brightness_scale"] = 1.0
+                elif eff.role == "motion":
+                    params["brightness_scale"] = 0.90
+                elif sec_norm in _HIGH_IMPACT_SECTIONS:
+                    params["brightness_scale"] = 0.88
+                else:
+                    params["brightness_scale"] = 0.65
             if self.config.default_fade_ms > 0:
                 duration_ms = max(0, eff.end_ms - eff.start_ms)
                 fade_ms = min(self.config.default_fade_ms, duration_ms // 2)
