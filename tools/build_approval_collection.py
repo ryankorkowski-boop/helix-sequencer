@@ -83,8 +83,9 @@ def build(source, output, *, audio_name='Phoneme_Test_Hook.mp3', expected_sha256
             static_materials(SimpleNamespace(models=band))
         from tools.source_role_routing import configure_advanced_spatial_routes
         configure_advanced_spatial_routes(g.models)
-        write_layout(g,folder,include_demo=False,export_all_custom=True)
-        (folder/'media').mkdir();shutil.copyfile(audio,folder/'media'/audio_name)
+        # Native submodels are finalized by the choreography loop below.
+        # Avoid writing every model, asset and geometry manifest twice.
+        (folder/'media').mkdir(parents=True);shutil.copyfile(audio,folder/'media'/audio_name)
         sequence=NativeSequence(g,duration,'media/'+audio_name,g.title)
         sequence.duration=duration_ms
         sequence.root.find('head/sequenceDuration').text=f'{duration:.3f}'
@@ -116,8 +117,8 @@ def build(source, output, *, audio_name='Phoneme_Test_Hook.mp3', expected_sha256
                 continue
             spatial_reports.append(export_model(sequence,m,plan,vocal_clocks,g.palette,
                                                 source_clocks=source_clocks))
-        # The general prop loop may have created ALL lanes after the layout was
-        # serialized; write actual final submodel definitions before compiling.
+        # Serialize only after the general prop loop has authored its final
+        # submodel definitions; the native sequence and layout must agree.
         write_layout(g,folder,include_demo=False,export_all_custom=True)
         if band:
             from types import SimpleNamespace
