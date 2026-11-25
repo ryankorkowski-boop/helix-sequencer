@@ -140,27 +140,23 @@ class ChoreographyObserver:
                     limitation='Model-center motion proxy; thresholds are review heuristics, not musical, vocal, or controller safety acceptance.')
 
 
+def observer_for_layout(manifest, layout):
+    import xml.etree.ElementTree as ET
+    models = json.loads(Path(manifest).read_text())['models']
+    native = {m.get('name'): m.get('StartChannel') for m in ET.parse(layout).getroot().findall('./models/model')}
+    for model in models:
+        if model.get('kind') in ('pixel', 'ac') and native.get(model['name']) != str(model['start_channel']):
+            raise ValueError('Authored model channel map differs from exported layout: ' + model['name'])
+    return ChoreographyObserver(models)
+
+
 def inspect_choreography(fseq, manifest):
-    from tools.quality.native import read_frames
-    from tools.quality.native_stream import inspect_stream
+    from tools.quality.native import inspect_fseq
     fseq, manifest = Path(fseq), Path(manifest)
-    models = json.loads(manifest.read_text())['models']
-    observer = ChoreographyObserver(models)
-    with fseq.open('rb') as stream:
-        header = stream.read(32)
-    if len(header) >= 32 and header[:4] == b'PSEQ' and header[7] == 2 and header[20] & 15 in (0, 1):
-        native = inspect_stream(fseq, observer=observer)
-        sha = native['sha256']
-    else:
-        import hashlib
-        data, channels, frames, step = read_frames(fseq)
-        observer.begin(np.arange(channels), channels, frames, step)
-        for frame in np.frombuffer(data, dtype=np.uint8).reshape(frames, channels):
-            observer.frame(frame)
-        with fseq.open('rb') as stream:
-            sha = hashlib.file_digest(stream, 'sha256').hexdigest()
+    observer = observer_for_layout(manifest, manifest.with_name('xlights_rgbeffects.xml'))
+    native = inspect_fseq(fseq, observer=observer)
     result = observer.result()
-    result['fseq_sha256'] = sha
+    result['fseq_sha256'] = native['sha256']
     return result
 
 
