@@ -7,6 +7,7 @@ import os
 import shutil
 import subprocess
 import sys
+import time
 from pathlib import Path
 
 import numpy as np
@@ -158,7 +159,7 @@ def inspect_grid(movie):
                 visible[index] += np.count_nonzero(crop > 32) >= 16
                 if previous[index] is not None:
                     moving[index] += np.count_nonzero(np.abs(crop.astype(np.int16) - previous[index]) > 8) >= 12
-                previous[index] = crop
+                previous[index] = crop.astype(np.int16)
             total += 1
         if decoder.wait():
             raise ValueError('Comparison panel decode failed')
@@ -174,8 +175,11 @@ def inspect_grid(movie):
 
 def render(audio, work, xlights, identity, *, port=49914):
     receipts = []
+    timings = []
+    started = time.monotonic()
     for number, name in enumerate(NAMES, 1):
         folder = work / 'layouts' / f'{number:02}'
+        panel_started = time.monotonic()
         row, native, fseq = render_panel(folder, audio, xlights, port=port)
         channels = json.loads((fseq.parent / 'native_channels.json').read_text())
         if number <= 3 and (channels['channels'], row['channels']) != ((16, 64, 256)[number - 1],) * 2:
@@ -185,9 +189,12 @@ def render(audio, work, xlights, identity, *, port=49914):
                              native_movie_sha256=native['mp4_sha256'], native_movie=native['mp4'],
                              native_channels=channels, xlights_version=native['xlights_version'],
                              vocal_mode=row['vocal_mode']))
+        timings.append(dict(number=number, seconds=round(time.monotonic()-panel_started, 3)))
+        write_json(work / 'render_performance.json', dict(panels=timings, elapsed_seconds=round(time.monotonic()-started, 3)))
         print(f'NATIVE PANEL {number:02} verified', flush=True)
     if any(len({r[key] for r in receipts}) != 16 for key in ('layout_sha256', 'xsq_sha256', 'fseq_sha256')):
         raise ValueError('Duplicate native layout, XSQ or FSEQ')
+    composition_started = time.monotonic()
     movie = work / 'Full_Length_16_Panel_Comparison.mp4'
     candidate = work / 'Full_Length_16_Panel_Candidate.mp4'
     manifest = work / 'comparison_manifest.json'
@@ -215,6 +222,9 @@ def render(audio, work, xlights, identity, *, port=49914):
                dict(identity, media=media, panels=receipts, decoded_panel_activity=activity,
                     renderer_sha256=digest(Path(xlights)), status='technically_verified',
                     owner_approved=False))
+    write_json(work / 'render_performance.json', dict(panels=timings,
+               composition_and_verification_seconds=round(time.monotonic()-composition_started, 3),
+               elapsed_seconds=round(time.monotonic()-started, 3)))
     print(f'Verified comparison: {movie}', flush=True)
 
 
