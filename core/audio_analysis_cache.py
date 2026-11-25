@@ -10,6 +10,7 @@ import json
 import os
 from pathlib import Path
 import tempfile
+import zipfile
 from typing import Callable
 
 import numpy as np
@@ -46,8 +47,11 @@ def cached_arrays(
     if target.is_file():
         try:
             with np.load(target, allow_pickle=False) as archive:
-                return {name: archive[name] for name in archive.files}
-        except (OSError, ValueError, EOFError):
+                arrays = {name: archive[name] for name in archive.files}
+                if any(array.dtype.hasobject for array in arrays.values()):
+                    raise ValueError('Invalid object array in audio cache')
+                return arrays
+        except (OSError, ValueError, EOFError, zipfile.BadZipFile):
             pass
     arrays = {name: np.asarray(value) for name, value in compute().items()}
     if any(array.dtype.hasobject for array in arrays.values()):
