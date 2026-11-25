@@ -148,3 +148,22 @@ def test_advanced_customer_routes_move_between_physical_props_without_global_bro
     legacy=build_layout(1)
     configure_advanced_spatial_routes(legacy.models)
     assert not any(m.details.get('advanced_spatial_routing') for m in legacy.models)
+
+
+def test_advanced_bank_travel_fits_short_real_note_without_changing_legacy_ac():
+    from tools.source_role_routing import route_event
+
+    cue = dict(start_ms=100, end_ms=160, pitch_midi=28)
+    strategy = dict(name='wide_response', direction=1)
+    def prop(rank, advanced):
+        return SimpleNamespace(details=dict(
+            source_route_count=100, source_route_rank=rank,
+            musical_role='bassist', advanced_spatial_routing=advanced))
+    delays = [route_event(prop(rank, True), cue, 0, strategy) for rank in range(100)]
+    assert sum(delay is not None for delay in delays) == 35
+    assert delays[0] == 0
+    assert max(delay for delay in delays if delay is not None) <= 29
+    assert delays[35] is None
+    assert route_event(prop(1, False), cue, 0, strategy) == 35
+    assert route_event(prop(1, True), dict(cue, end_ms=5000), 0, strategy) == 35
+    assert route_event(prop(99, True), dict(cue, synchronized_accent=True), 0, strategy) == 0
