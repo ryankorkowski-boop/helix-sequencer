@@ -167,13 +167,13 @@ def inspect_grid(movie, *, cols=4, rows=4):
         if decoder.wait():
             raise ValueError('Comparison panel decode failed')
     fingerprints = [item.hexdigest() for item in hashes]
-    rows = [dict(number=i + 1, decoded_panel_sha256=value, sampled_frames=total,
+    activity_rows = [dict(number=i + 1, decoded_panel_sha256=value, sampled_frames=total,
                  visible_frames=int(visible[i]), moving_frames=int(moving[i]))
             for i, value in enumerate(fingerprints)]
     passed = total >= 4 and len(set(fingerprints)) == cols * rows and all(
         r['visible_frames'] >= max(4, total // 20) and r['moving_frames'] >= max(3, total // 100)
-        for r in rows)
-    return rows, passed
+        for r in activity_rows)
+    return activity_rows, passed
 
 
 def render(audio, work, xlights, identity, *, port=49914, names=NAMES, cols=4, rows=4,
