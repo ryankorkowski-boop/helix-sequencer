@@ -139,27 +139,30 @@ def supported_phrases(events):
     return [p for p in phrases if p[1]>p[0]]
 
 
+def _prepare_source_clock(role, plan, cache):
+    source = (voice_events(cache, 'estimated_backing') if role == 'harmony' else
+              voice_events(cache, 'estimated_lead') if role == 'lead' else
+              plan['cues'].get(role, []))
+    onsets = {}
+    for cue in source:
+        onsets.setdefault(cue.get('section', ''), set()).add(int(cue['start_ms']))
+    indices = {section: {t: i for i, t in enumerate(sorted(times))}
+               for section, times in onsets.items()}
+    return source, indices
+
+
 def prepare_source_clocks(plan, cache):
     """Index each retained source lane once for the entire approval collection."""
-    result = {}
-    for role in ('bassist', 'guitarist', 'keyboardist', 'drummer', 'lead', 'harmony'):
-        source = (voice_events(cache, 'estimated_backing') if role == 'harmony' else
-                  voice_events(cache, 'estimated_lead') if role == 'lead' else
-                  plan['cues'].get(role, []))
-        onsets = {}
-        for cue in source:
-            onsets.setdefault(cue.get('section', ''), set()).add(int(cue['start_ms']))
-        indices = {section: {t: i for i, t in enumerate(sorted(times))}
-                   for section, times in onsets.items()}
-        result[role] = (source, indices)
-    return result
+    return {role: _prepare_source_clock(role, plan, cache)
+            for role in ('bassist', 'guitarist', 'keyboardist', 'drummer', 'lead', 'harmony')}
 
 
 def schedule(model,plan,cache,duration,*,source_clocks=None):
     role=role_for(model);parts=parts_for(model)
-    if source_clocks is None:
-        source_clocks = prepare_source_clocks(plan, cache)
-    source, section_onsets = source_clocks[role]
+    if source_clocks is not None and role in source_clocks:
+        source, section_onsets = source_clocks[role]
+    else:
+        source, section_onsets = _prepare_source_clock(role, plan, cache)
     center=np.mean(model.points,axis=0)
     depth_ms=int(model.details.get('propagation_delay_ms',0))
     phase=float(model.details.get('spatial_phase',0))
