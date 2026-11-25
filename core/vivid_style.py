@@ -592,21 +592,24 @@ def _rgb_motion(effects_root, names, by_z, duration, beats, palette_for) -> int:
 
 
 def _group_motion(effects_root, names: list[str], duration: int, beats: list[int], sections: list[dict], palette_for) -> int:
-    if not names or not beats:
+    """Rotate focal groups on distinct source events, retaining group coverage."""
+    eligible = [name for name in names if not is_performance_prop(name)]
+    if not eligible or not beats:
         return 0
     added = 0
+    cursor = 0
+    used = set()
     for section in sections:
-        start = next((beat for beat in beats if section["start_ms"] <= beat < section["end_ms"]), None)
-        if start is None:
-            continue
-        eligible = [name for name in names if not is_performance_prop(name)]
-        if not eligible:
-            continue
-        # One focal group per section, rather than flashing every overlapping
-        # model group simultaneously at the section boundary.
-        name = eligible[sections.index(section) % len(eligible)]
-        if _add_on(_vivid_layer(effects_root, name, element_type="modelGroup"), start, min(duration, start + 120), palette_for(name, start)):
-            added += 1
+        events = sorted(set(beat for beat in beats if section["start_ms"] <= beat < section["end_ms"] and beat < duration))
+        # Visit each group once before repeating; never broadcast on one event.
+        for start in events[:len(eligible)]:
+            if start in used:
+                continue
+            name = eligible[cursor % len(eligible)]
+            cursor += 1
+            used.add(start)
+            if _add_on(_vivid_layer(effects_root, name, element_type="modelGroup"), start, min(duration, start + 120), palette_for(name, start)):
+                added += 1
     return added
 
 
