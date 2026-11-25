@@ -404,6 +404,12 @@ def build(source,vocals,output,*,numbers=None,names=NAMES,layout_builder=layout,
             distance=max(span[0]*.88,span[1]*1.75,42)+span[2]*.40
             pitch=5 if band else 14 if number in (13,15) else 5
             yaw=17 if number==15 else 7 if number==13 else 0
+            if number in (13,14,15,16):
+                # Favor a composed, slightly elevated customer-facing view.
+                # Keep the finale cast frontal; other layouts reveal depth.
+                pitch,yaw={13:(10,5),14:(9,-9),15:(13,14),16:(7,0)}[number]
+                distance *= .96
+
         else:
             distance=max(span[0]*.82,span[1]*1.75,45)+(span[2]/2 if number==11 else 0)
             if number==1:distance*=.85
