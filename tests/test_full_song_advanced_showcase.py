@@ -204,3 +204,23 @@ def test_advanced_sample_adds_distinct_native_spatial_ensembles(number, marker, 
     assert all(m.kind == 'pixel' and len(parts_for(m)) > 1 for m in additions)
     routed = [m for m in garden.models if m.details.get('advanced_spatial_routing')]
     assert routed and all(m.details['source_route_count'] >= 3 for m in routed)
+
+
+def test_advanced_presentation_prioritizes_silhouettes_and_distinct_palettes():
+    from models.advanced_full_song_showcase import SHOWCASE_PALETTES
+    assert len(set(SHOWCASE_PALETTES.values())) == 4
+    for number in range(13,17):
+        garden, _ = build_showcase(number, {'cues': {}}, duration=1,
+                                  native_band=lambda *args, **kwargs: None)
+        assert garden.palette == SHOWCASE_PALETTES[number]
+        tiers = {m.details.get('showcase_presentation_tier') for m in garden.models}
+        assert 'hero_silhouette' in tiers and 'supporting_form' in tiers
+        for model in garden.models:
+            tier = model.details.get('showcase_presentation_tier')
+            if tier == 'hero_silhouette':
+                assert model.attrs['PixelSize'] == '13'
+            elif tier == 'background_surface':
+                assert model.attrs['PixelSize'] == '6'
+            if tier:
+                assert model.attrs['Antialias'] == '1'
+                assert model.attrs['BlackTransparency'] == '100'
