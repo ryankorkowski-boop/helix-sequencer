@@ -1882,6 +1882,20 @@ def _section_texture_signature(mfcc: np.ndarray, part: object, sr: int, hop: int
     return round(float(np.mean(window)), 4)
 
 
+def _shared_spectral_features(y: np.ndarray, sr: int, hop: int):
+    """Reuse librosa's default centered magnitude STFT for four descriptors.
+
+    Keep each descriptor's existing defaults (including the global contrast
+    dB reference), and release the shared matrix when returning the features.
+    """
+    magnitude = np.abs(librosa.stft(y, n_fft=2048, hop_length=hop))
+    centroid = librosa.feature.spectral_centroid(S=magnitude, sr=sr, hop_length=hop)[0]
+    bandwidth = librosa.feature.spectral_bandwidth(S=magnitude, sr=sr, hop_length=hop)[0]
+    contrast = librosa.feature.spectral_contrast(S=magnitude, sr=sr, hop_length=hop)
+    rolloff = librosa.feature.spectral_rolloff(S=magnitude, sr=sr, hop_length=hop)[0]
+    return centroid, bandwidth, contrast, rolloff
+
+
 def analyze_audio_file(
     audio_path: Path,
     *,
@@ -1941,10 +1955,7 @@ def analyze_audio_file(
     rms = librosa.feature.rms(y=y, hop_length=hop)[0]
     rms01 = rms / max(1e-9, float(np.max(rms) if rms.size else 1.0))
     loudness = librosa.amplitude_to_db(np.maximum(rms, 1e-8), ref=np.max) if rms.size else np.asarray([], dtype=float)
-    centroid = librosa.feature.spectral_centroid(y=y, sr=sr, hop_length=hop)[0]
-    bandwidth = librosa.feature.spectral_bandwidth(y=y, sr=sr, hop_length=hop)[0]
-    contrast = librosa.feature.spectral_contrast(y=y, sr=sr, hop_length=hop)
-    rolloff = librosa.feature.spectral_rolloff(y=y, sr=sr, hop_length=hop)[0]
+    centroid, bandwidth, contrast, rolloff = _shared_spectral_features(y, sr, hop)
     zcr = librosa.feature.zero_crossing_rate(y, hop_length=hop)[0]
     mfcc = librosa.feature.mfcc(y=y, sr=sr, hop_length=hop, n_mfcc=13)
     mfcc_delta = librosa.feature.delta(mfcc) if mfcc.size else np.asarray([], dtype=float)
