@@ -30,7 +30,7 @@ jobs:
           ref: '67bc599499041b6d47ba07c9c5c2158699aad24a'
       - uses: actions/checkout@v4
         with:
-          ref: '7d4beb8f9f5799a5c0ce23bbaa3a87eee8912a10'
+          ref: '6b87b31d9c6fbb7e78729be1b490c3e765ff8aad'
           path: ab-baseline
       - name: Isolate original engine checkout
         run: mv ab-baseline "$RUNNER_TEMP/ab-baseline"
@@ -52,28 +52,63 @@ jobs:
       - name: Test backported source separation components
         working-directory: ${{ runner.temp }}/ab-baseline
         run: python -m pytest -q tests/test_independent_vocals.py tests/test_vocal_separation_manifest.py tests/test_separate_vocal_roles.py
-      - name: Prepare identical native band layout and common separated vocal estimates with both actual engines
+      - name: Recover already completed Beta 1.4 sequence (no rerun)
+        uses: actions/download-artifact@v4
+        with:
+          name: Beta13-current-AB-pilot
+          run-id: 45707054150
+          github-token: ${{ github.token }}
+          path: recovered-ab
+      - name: Validate retained output and fast baseline drummer compatibility
         run: |
+          set -euo pipefail
           python - <<'PY'
-          import os
+          import hashlib, json, shutil
           from pathlib import Path
-          p = Path('tools/prepare_phoneme_show.py')
-          s = p.read_text()
-          s = s.replace('import argparse\n', 'import argparse\nimport os\n')
-          s = s.replace('    commit = subprocess.check_output', '    engine_root = Path(os.environ.get("HELIX_AB_ENGINE_ROOT", str(ROOT))).resolve()\n    commit = subprocess.check_output', 1)
-          s = s.replace("cwd=ROOT, text=True).strip()", "cwd=engine_root, text=True).strip()", 1)
-          s = s.replace("str(ROOT / 'main.py')", "str(engine_root / 'main.py')", 1)
-          s = s.replace("subprocess.run(command, cwd=ROOT,", "subprocess.run(command, cwd=engine_root,", 1)
+          root = Path('recovered-ab')
+          candidates = list(root.rglob('B/Phoneme_Test_Hook_Helix.xsq'))
+          assert len(candidates) == 1, candidates
+          src = candidates[0].parent
+          manifest = json.loads((src/'run_manifest.json').read_text())
+          assert manifest['source_commit'] == '67bc599499041b6d47ba07c9c5c2158699aad24a', manifest
+          assert manifest['status'] == 'sequence_generated', manifest
+          digest = lambda p: hashlib.sha256(p.read_bytes()).hexdigest()
+          assert digest(src/'media/Phoneme_Test_Hook.mp3') == digest(Path('phoneme-work/input/Phoneme_Test_Hook.mp3'))
+          assert (src/'instrument_export.json').is_file()
+          assert (src/'source_separated_vocal_export.json').is_file()
+          shutil.copytree(src, Path('phoneme-work/B'))
+          print('Recovered completed B sequence; skipping its sequencing.')
+          PY
+          cd "$RUNNER_TEMP/ab-baseline"
+          python - <<'PY'
+          from core.snowman_band import _build_intelligent_drum_cues
+          cues, kit, debug = _build_intelligent_drum_cues([], drum_event_streams=None, kicks=[100,600], snares=[300], hats=[200], releases=[800])
+          assert cues, 'Missing baseline drum cues'
+          assert all('composite_submodels' in c for c in cues)
+          print('Baseline drum metadata regression check passed.')
+          PY
+      - name: Run only repaired baseline with exact canonical output selection
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          from pathlib import Path
+          p=Path('tools/prepare_phoneme_show.py')
+          s=p.read_text()
+          changes=[
+              ('import argparse\n','import argparse\nimport os\n'),
+              ('    commit = subprocess.check_output','    engine_root = Path(os.environ.get("HELIX_AB_ENGINE_ROOT", str(ROOT))).resolve()\n    commit = subprocess.check_output'),
+              ("cwd=ROOT, text=True).strip()", "cwd=engine_root, text=True).strip()"),
+              ("str(ROOT / 'main.py')", "str(engine_root / 'main.py')"),
+              ("subprocess.run(command, cwd=ROOT,", "subprocess.run(command, cwd=engine_root,"),
+              ("sequences = [p for p in (output / 'sequence').glob('*.xsq') if '.uncolored.' not in p.name]", "sequences = [p for p in (output / 'sequence').glob(audio.stem + ',v27.3.xsq')]")
+          ]
+          for old,new in changes:
+              assert old in s, old
+              s=s.replace(old,new,1)
           p.write_text(s)
           PY
-          set +e
+          trap 'find phoneme-work/A -name sequencer.log -exec tail -n 80 {} \; || true' EXIT
           HELIX_AB_ENGINE_ROOT="$RUNNER_TEMP/ab-baseline" python -m tools.prepare_phoneme_show --audio phoneme-work/input/Phoneme_Test_Hook.mp3 --output phoneme-work/A
-          a=$?
-          python -m tools.prepare_phoneme_show --audio phoneme-work/input/Phoneme_Test_Hook.mp3 --output phoneme-work/B
-          b=$?
-          printf 'A=%s B=%s\n' "$a" "$b" | tee phoneme-work/engine-exits.txt
-          find phoneme-work -name sequencer.log -exec tail -n 60 {} \;
-          test "$a" = 0 && test "$b" = 0
       - name: Restore compiled pinned native renderer
         id: native-cache
         uses: actions/cache/restore@v4
@@ -187,7 +222,7 @@ jobs:
           filters="[0:v]scale=960:540,pad=960:1080:0:270,drawtext=text='A - Beta 1.3 + shared vocals':fontsize=26:fontcolor=white:x=20:y=220[a];[1:v]scale=960:540,pad=960:1080:0:270,drawtext=text='B - Current + shared vocals':fontsize=26:fontcolor=white:x=20:y=220[b];[a][b]hstack=inputs=2[v]"
           subprocess.run(['ffmpeg','-y','-v','error','-i',str(videos[0]),'-i',str(videos[1]),'-i',str(audio),'-filter_complex',filters,'-map','[v]','-map','2:a:0','-t','30','-r','30','-c:v','libx264','-pix_fmt','yuv420p','-c:a','aac','-movflags','+faststart',str(out)],check=True)
           subprocess.run(['ffmpeg','-v','error','-xerror','-i',str(out),'-f','null','-'],check=True)
-          (root/'AB_SCOPE.json').write_text(json.dumps({'A':'7d4beb8f9f5799a5c0ce23bbaa3a87eee8912a10','B':'67bc599499041b6d47ba07c9c5c2158699aad24a','scope':'single native six-performer band pilot, common current geometry/export adapter; not full panel acceptance','independent_singer_identity_verified':False,'vocal_mode':'same source-separated acoustic estimates, not qualified independent singers','owner_approved':False,'video_sha256':digest(out)},indent=2))
+          (root/'AB_SCOPE.json').write_text(json.dumps({'A':'6b87b31d9c6fbb7e78729be1b490c3e765ff8aad','B':'67bc599499041b6d47ba07c9c5c2158699aad24a','scope':'single native six-performer band pilot, common current geometry/export adapter; B recovered from run 45707054150; A has optional drum metadata compatibility fix; not full panel acceptance','independent_singer_identity_verified':False,'vocal_mode':'same source-separated acoustic estimates, not qualified independent singers','owner_approved':False,'video_sha256':digest(out)},indent=2))
           PY
       - name: Preserve comparison and original native evidence
         if: always()
