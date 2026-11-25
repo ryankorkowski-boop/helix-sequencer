@@ -9,6 +9,9 @@ on:
       - tools/source_spatial_direction.py
       - tools/build_helpers/ultimate_showcase.py
       - tools/verify_native_surface_buffer.py
+      - .github/workflows/wub-wub-native-16panel-review.yml
+      - tools/roformer_review_fixture.py
+      - tools/build_current_comparison.py
       - tools/fseq_pixel_preview.py
       - tests/test_source_spatial_direction.py
       - tests/test_fseq_pixel_preview.py
@@ -24,6 +27,7 @@ on:
       - .github/workflows/helix-infinity-layout.yml
 permissions:
   contents: read
+  actions: read
 jobs:
   layout:
     runs-on: ubuntu-24.04
@@ -175,3 +179,13 @@ jobs:
             ${{ runner.temp }}/infinity/Bells-review.mp4
             ${{ runner.temp }}/infinity/video-probe.json
             ${{ runner.temp }}/infinity/video-review.json
+
+  helix_theme_review:
+    # Only the owner's current candidate branch; do not render on base pushes,
+    # unrelated pull requests, or the full-song library batch.
+    if: github.event_name == 'pull_request' && github.head_ref == 'codex/native-xlights-optimization-20261125' && github.event.pull_request.head.repo.full_name == github.repository
+    needs: layout
+    permissions:
+      contents: read
+      actions: read
+    uses: ./.github/workflows/wub-wub-native-16panel-review.yml
