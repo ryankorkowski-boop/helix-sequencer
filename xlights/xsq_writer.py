@@ -535,8 +535,8 @@ def build_effect_template_library(root: ET.Element) -> dict[str, EffectTemplate]
         )
     return templates
 
-def load_xsq(path: Path) -> XsqIndex:
-    return _xml_io.load_xsq(path)
+def load_xsq(path: Path, *, unpack_submodels: bool = False) -> XsqIndex:
+    return _xml_io.load_xsq(path, unpack_submodels=unpack_submodels)
 
 
 def _name_lookup_keys(name: str) -> list[str]:

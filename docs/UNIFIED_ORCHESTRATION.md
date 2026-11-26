@@ -133,6 +133,34 @@ The pre-change profiler showed three full base analyses, three harmonic analyses
 
 The serialized regression covers explicit strict-grid placement with a section bound, a preserved hand-authored interval on a nested alias group, a disjoint submodel, and anchored Faces and renamed kick cues. It repeats the same proposals in reverse arrival order and checks identical XSQ bytes and contribution counts. The no-grid default and explicit legacy opt-out are covered separately.
 
+### Full-song phase measurements
+
+Python 3.12, one BLAS/OMP thread, fresh processes, same inputs and profile. Measurements below give elapsed seconds / calls. Phases containing other phases, such as stem extraction and decoder calls, are inclusive. The single run and three-variant runs used the same instrumentation. The three-variant run uses the standard runtime alternatives of the Master profile. Timing is one observation per workload, with Whisper fallback and host variability included. These measurements precede the final XSQ format correction, which runs after placement and scoring.
+
+| Phase | #260 single | Compatibility single | #260 three variants | Compatibility three variants |
+| --- | ---: | ---: | ---: | ---: |
+| End to end | 174.37 / 1 | 186.40 / 1 | 538.05 / 1 | 488.79 / 1 |
+| Mono decoding | 1.45 / 11 | 1.55 / 11 | 4.58 / 33 | 3.39 / 31 |
+| Stereo decoding | 0.46 / 2 | 0.44 / 2 | 1.43 / 6 | 1.34 / 6 |
+| Base audio features | 3.90 / 1 | 3.95 / 1 | 9.20 / 3 | 4.03 / 1 |
+| Stem extraction and features | 87.20 / 1 | 85.42 / 1 | 249.13 / 3 | 258.03 / 3 |
+| Stereo feature extraction | 0.42 / 1 | 0.38 / 1 | 1.14 / 3 | 1.20 / 3 |
+| Harmonic features | 27.52 / 1 | 25.75 / 1 | 78.27 / 3 | 25.20 / 1 |
+| Polyphonic extraction | 0.28 / 2 | 0.33 / 2 | 0.90 / 6 | 0.87 / 6 |
+| Piano specialist plan | 0.15 / 1 | 0.22 / 1 | 0.45 / 3 | 0.46 / 3 |
+| Placement attempts | 1.53 / 75,648 | 2.30 / 75,131 | 5.14 / 234,426 | 7.15 / 238,558 |
+| Polish | 0.60 / 1 | 0.67 / 1 | 1.68 / 3 | 1.68 / 3 |
+| XSQ write | 0.08 / 1 | 0.07 / 1 | 0.45 / 3 | 0.26 / 3 |
+| Report write | 1.57 / 2 | 1.58 / 2 | 4.54 / 6 | 4.55 / 6 |
+| Chronoflow JSON and HTML writes | 0.14 / 2 | 0.11 / 2 | 0.34 / 6 | 0.64 / 6 |
+| Snowman Band JSON write | 0.35 / 1 | 0.31 / 1 | 0.85 / 3 | 1.03 / 3 |
+
+The three-variant run took 49.26 fewer seconds (9.2%) and spent 58.24 fewer seconds in base and harmonic feature routines. The single run took 12.03 seconds longer and has no cross-variant reuse. Placement attempt overhead rose with shared-node checks. Stem extraction remains the largest measured phase.
+
+### Native XSQ representation
+
+The initial native kit diagnostic recorded 169 detector-to-XSQ start/target matches while the FSEQ channels declared for the instrument stayed dark during the 36-second excerpt. Native xLights loads submodels through `SubModelEffectLayer` children of the parent model. Effects read settings from node text or an effect database reference. The governed export now uses that representation and retains the original serialized start in milliseconds. The loader expands native submodel layers for in-memory placement and manual protection. The XSQ validator checks both representations for valid bounds and palette indexes.
+
 ### Performer acceptance gates
 
 The native compatibility workflow uploads commit-bound smoke evidence and a separate opt-in 36-second kit diagnostic from the repository fixture. The supplied Helixville4 layout groups toms and cymbals into five hit targets. The requested nine-component list in the master ledger differs from both the current eight-component drummer contract and the historical `b27e8d77` eight-row oracle. The diagnostic records that gap and cannot establish per-component playback or contacting-stick fidelity for the nine-component kit.

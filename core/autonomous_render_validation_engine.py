@@ -82,8 +82,10 @@ class AutonomousRenderValidationEngine:
             warnings.append("Missing xLights sequence root or ElementEffects")
         palette_count = len(root.findall("./ColorPalettes/*"))
         for element in root.findall("./ElementEffects/Element"):
-            for layer in element.findall("EffectLayer"):
-                if not layer.get("name", "").startswith(layer_prefix + "_"):
+            for layer in element:
+                if layer.tag not in {"EffectLayer", "SubModelEffectLayer"}:
+                    continue
+                if not layer.get("layerName", layer.get("name", "")).startswith(layer_prefix + "_"):
                     continue
                 for effect in layer.findall("Effect"):
                     effects += 1

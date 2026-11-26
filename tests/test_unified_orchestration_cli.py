@@ -81,8 +81,8 @@ def test_explicit_grid_changes_serialized_xsq_not_analysis_sidecars(tmp_path):
         band = json.loads(next(output.glob("*,*.snowman_band.json")).read_text(encoding="utf-8"))
         starts = [
             int(effect.attrib["startTime"])
-            for layer in ET.parse(xsq).findall("./ElementEffects/Element/EffectLayer")
-            if layer.get("name", "").startswith("AUTO_DreamSequenceWeaver_")
+            for layer in ET.parse(xsq).findall("./ElementEffects/Element/*")
+            if layer.get("layerName", layer.get("name", "")).startswith("AUTO_DreamSequenceWeaver_")
             for effect in layer.findall("Effect")
         ]
         return starts, report, band
@@ -184,14 +184,17 @@ def test_serialized_performer_anchors_and_shared_manual_nodes(tmp_path, monkeypa
     models = {row.get("name"): row for row in xsq.findall("./ElementEffects/Element")}
 
     def generated(name):
+        parent, slash, short = name.partition("/")
+        layers = models[parent].findall(f"SubModelEffectLayer[@name='{short}']" if slash else "EffectLayer")
         return [
-            effect for layer in models[name].findall("EffectLayer")
-            if layer.get("name", "").startswith("AUTO_DreamSequenceWeaver_")
+            effect for layer in layers
+            if layer.get("layerName", layer.get("name", "")).startswith("AUTO_DreamSequenceWeaver_")
             for effect in layer.findall("Effect")
         ]
 
     assert any(effect.get("startTime") == "113" and effect.get("name") == "Faces"
-               and "Faces_Phoneme=MBP" in effect.get("settings", "") for effect in generated("Nova"))
+               and "Faces_Phoneme=MBP" in (effect.text or "") for effect in generated("Nova"))
+    assert "Kit/Pedal" not in models
     assert any(effect.get("startTime") == "139" for effect in generated("Kit/Pedal"))
     assert any(effect.get("startTime") == "142" for effect in generated("Probe/Right"))
     assert all(int(effect.get("endTime")) <= 61 or int(effect.get("startTime")) >= 321

@@ -60,6 +60,7 @@ from tools.build_helpers import (
 )
 from tools import utilities as xfb
 from xlights import xsq_writer as base
+from xlights.layout_sync import pack_native_submodels
 
 librosa = LazyModule("librosa")
 np = LazyModule("numpy")
@@ -10440,7 +10441,7 @@ def run_variant(
         tuning.layout_file = active_layout_file
 
     log(f"[1/8] Loading template for {style.version}")
-    xsq = base.load_xsq(template_xsq)
+    xsq = base.load_xsq(template_xsq, unpack_submodels=tuning.unified_orchestration)
     normalized_views = base.normalize_display_views(xsq.root, force=True)
     if normalized_views:
         log(f"Display view normalization: updated {normalized_views} rows")
@@ -13228,6 +13229,8 @@ def run_variant(
             f"effects_added={master_report['effects_added']}, "
             f"rows_touched={master_report['rows_touched']}"
         )
+    if placement:
+        pack_native_submodels(xsq.root, physical.leaf_roots if physical else {}, auto_layer_name + "_")
     try:
         base.indent_xml(xsq.root)
     except Exception:

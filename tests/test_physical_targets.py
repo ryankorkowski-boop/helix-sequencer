@@ -62,3 +62,22 @@ def test_explicit_performer_fields_preserve_legacy_labels():
     assert explicit.timing_anchor == legacy.timing_anchor is True
     assert explicit.engine == legacy.engine == "drummer"
     assert explicit.lane == "percussion"
+
+
+def test_native_submodel_layers_round_trip_without_retiming():
+    import xml.etree.ElementTree as ET
+
+    from xlights.layout_sync import pack_native_submodels, unpack_native_submodels
+
+    root = ET.fromstring("""<xsequence><ElementEffects><Element name="Prop" type="model">
+      <SubModelEffectLayer name="Left" layer="2" layerName="Authored">
+        <Effect name="On" startTime="13" endTime="87" ref="4"/>
+      </SubModelEffectLayer>
+    </Element></ElementEffects></xsequence>""")
+    unpack_native_submodels(root)
+    layers = root.findall("./ElementEffects/Element[@name='Prop/Left']/EffectLayer")
+    assert len(layers) == 3 and layers[2].get("name") == "Authored"
+    pack_native_submodels(root, {"Prop": "Prop", "Prop/Left": "Prop"}, "AUTO_")
+    layer = root.find("./ElementEffects/Element[@name='Prop']/SubModelEffectLayer")
+    assert (layer.get("name"), layer.get("layer"), layer.get("layerName")) == ("Left", "2", "Authored")
+    assert layer.find("Effect").attrib == {"name": "On", "startTime": "13", "endTime": "87", "ref": "4"}

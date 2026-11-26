@@ -281,6 +281,85 @@ def sync_xsq_to_layout(xsq: "XsqIndex", layout_path: Path | None) -> dict[str, i
     }
 
 
+def unpack_native_submodels(root: ET.Element) -> None:
+    """Expose native submodel layers as model rows to the placement engine."""
+    effects = root.find("ElementEffects")
+    if effects is None:
+        return
+    rows = {element.get("name"): element for element in effects.findall("Element")}
+    for element in list(rows.values()):
+        if element.get("type") == "timing":
+            continue
+        for layer in element.findall("EffectLayer"):
+            if layer.get("layerName"):
+                layer.set("name", layer.get("layerName", ""))
+        by_submodel: dict[str, dict[int, ET.Element]] = defaultdict(dict)
+        for layer in element.findall("SubModelEffectLayer"):
+            short = layer.get("name", "")
+            index = layer.get("layer", "0")
+            if not short or not index.isdecimal() or int(index) > 1024:
+                continue
+            internal = copy.deepcopy(layer)
+            internal.tag = "EffectLayer"
+            internal.attrib.pop("layer", None)
+            internal.attrib.pop("name", None)
+            if internal.get("layerName"):
+                internal.set("name", internal.get("layerName", ""))
+            by_submodel[short][int(index)] = internal
+            element.remove(layer)
+        for short, layers in by_submodel.items():
+            full = f"{element.get('name', '')}/{short}"
+            row = ET.Element("Element", name=full, type="model")
+            for index in range(max(layers) + 1):
+                row.append(layers.get(index, ET.Element("EffectLayer")))
+            if full in rows:
+                merge_effect_model_entry(rows[full], row)
+            else:
+                effects.append(row)
+
+
+def pack_native_submodels(
+    root: ET.Element, leaf_roots: dict[str, str], generated_prefix: str,
+) -> None:
+    """Write the parent-owned submodel structure expected by native xLights."""
+    effects = root.find("ElementEffects")
+    if effects is None:
+        return
+    rows = {element.get("name"): element for element in effects.findall("Element")
+            if element.get("type") != "timing"}
+    for element in rows.values():
+        for layer in element.findall("EffectLayer"):
+            name = layer.get("name", "")
+            if name:
+                layer.set("layerName", name)
+            if name.startswith(generated_prefix):
+                for effect in layer.findall("Effect"):
+                    if "settings" in effect.attrib and "ref" not in effect.attrib:
+                        effect.text = effect.attrib["settings"]
+    packed = set()
+    for full, parent in leaf_roots.items():
+        if full == parent or full not in rows or parent not in rows:
+            continue
+        element = rows[full]
+        short = full.removeprefix(f"{parent}/")
+        for index, layer in enumerate(element.findall("EffectLayer")):
+            if not len(layer) and not layer.get("layerName"):
+                continue
+            layer.tag = "SubModelEffectLayer"
+            layer.set("name", short)
+            if index:
+                layer.set("layer", str(index))
+            element.remove(layer)
+            rows[parent].append(layer)
+        effects.remove(element)
+        packed.add(full)
+    display = root.find("DisplayElements")
+    if display is not None:
+        for element in display.findall("Element"):
+            if element.get("type") == "model" and element.get("name") in packed:
+                display.remove(element)
+
+
 def normalize_display_views(root: ET.Element, *, force: bool = True) -> int:
     legacy = _legacy()
     display = xml_io.find_root_child(root, "DisplayElements")

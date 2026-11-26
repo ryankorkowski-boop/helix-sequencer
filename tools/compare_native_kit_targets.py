@@ -31,13 +31,20 @@ def main() -> None:
         for model in layout.findall("./models/model/subModel")
         if model.get("name", "").startswith(PREFIX)
     } & HIT_NAMES
-    generated = {
-        (model.get("name", ""), int(effect.get("startTime", "0")))
-        for model in rows for layer in model.findall("EffectLayer")
-        if layer.get("name", "").startswith("AUTO_DreamSequenceWeaver_")
-        for effect in layer.findall("Effect")
-    }
-    proposed = {(model, start) for model, start, _ in drummer_placements(band, [row.get("name", "") for row in rows])}
+    generated = set()
+    names = []
+    for model in rows:
+        root = model.get("name", "")
+        names.append(root)
+        for layer in model:
+            target = root
+            if layer.tag == "SubModelEffectLayer":
+                target = f"{root}/{layer.get('name', '')}"
+                names.append(target)
+            if layer.get("layerName", layer.get("name", "")).startswith("AUTO_DreamSequenceWeaver_"):
+                generated.update((target, int(effect.get("startTime", "0")))
+                                 for effect in layer.findall("Effect"))
+    proposed = {(model, start) for model, start, _ in drummer_placements(band, names)}
     matched = Counter(model.split("/")[-1].removeprefix(PREFIX) for model, _ in proposed & generated)
     report = {
         "scope": "native_render_of_shipped_layout_with_xsq_detector_anchor_comparison",

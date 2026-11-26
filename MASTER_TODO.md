@@ -77,6 +77,16 @@ Do not mark complete from unit tests alone.
 
 ## Change Ledger
 
+### 2026-11-26 — Serialize actual xLights submodel layers
+**Goal:** Bind the same node placements to the native xLights parent model.
+**Changed files/modules:** XSQ import and serialization, structural validation, and native kit diagnostics.
+**Intentionally preserved behavior:** Authored timing, effect and palette data, placement policies, and legacy flat output with orchestration disabled.
+**New behavior:** Governed XSQs use native parent-owned submodel layers with native layer names and settings text. The placement path accepts those layers on reimport.
+**Tests/evidence:** Pinned render `f05f33e` retained 169 exact drum target/onset matches in XSQ, while the shipped instrument's declared FSEQ channels stayed dark. The installed xLights loader requires parent-owned `SubModelEffectLayer` elements and effect settings text or a database reference. Added a native structure round-trip regression.
+**Limitations:** The shipped layout exposes only five hit targets and cannot qualify the nine-component playback gate.
+**Deferred work:** Full named kit and contacting-stick review on the agreed oracle geometry. Original-source Faces and nine-panel review.
+**Regression risks:** Consumers that load XSQ directly need to read nested submodel layers. Default xLights frame period limits native temporal resolution.
+
 ### 2026-11-26 — Resolve physical targets and rank optional accents in live placement
 **Goal:** Let existing producers share the Composition Governor's placement policy while preserving Faces and kit timing.
 **Changed files/modules:** Composition Governor, placement accounting, physical layout groups and submodels, XSQ alias sync, BeatGrid, Snowman Band handoffs, and pinned native verification.
