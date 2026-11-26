@@ -52,11 +52,15 @@ jobs:
           import hashlib,json,os,shutil,subprocess,sys,time
           from pathlib import Path
           from tools.profile_real_sequence import musical_signature
+          import xml.etree.ElementTree as ET
+          from xlights.layout_sync import layout_entries_and_lookup, map_layout_name
           root=Path.cwd()
           out=root/'toggle-review'
           audio=out/'media/review.wav'
           layout=root/'allmodels/xlights_rgbeffects.xml'
           template=root/'template.xsq'
+          names, lookup = layout_entries_and_lookup(layout)
+          assert all(map_layout_name(name, lookup) == name for name in names), 'Layout exact-name collision'
           def sha(p): return hashlib.sha256(p.read_bytes()).hexdigest()
           modes=[('01-current',[]),('02-flow-on',['--birdsong','--no-birdsong-auto']),('03-matrix-off',['--no-matrix-intelligence']),('04-flow-on-matrix-off',['--birdsong','--no-birdsong-auto','--no-matrix-intelligence'])]
           report={'source_commit':os.environ['GITHUB_SHA'],'source_audio_sha256':sha(audio),'layout_sha256':sha(layout),'template_sha256':sha(template),'excerpt_start_seconds':45,'duration_seconds':20,'diagnostic_only':True,'owner_approved':False,'runs':[]}
