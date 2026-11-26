@@ -1,7 +1,7 @@
 name: Native Helix Drive Audio AC256 Render
 on:
   push:
-    branches: [codex/eight-hour-recovery-20261019]
+    branches: [codex/eight-hour-recovery-20261019, review/engine-toggle-diagnostic-20261125]
     paths: [.github/workflows/native-drive-audio-ac256.yml]
   workflow_dispatch:
 permissions:
@@ -31,6 +31,9 @@ jobs:
           sudo apt-get update -qq
           sudo apt-get install -y ffmpeg xvfb xauth openbox wmctrl xdotool x11-utils x11-xserver-utils libgtk-3-0t64 libgl1 libegl1 libopengl0 libglu1-mesa libgstreamer-plugins-base1.0-0
           python -m pip install numpy scipy librosa==0.10.2.post1 soundfile numba llvmlite scikit-learn Pillow trimesh moderngl zstandard imageio imageio-ffmpeg cmudict PyYAML requests pytest gdown==6.4.2
+      - name: Gate RGB quality and legacy export compatibility before native render
+        run: |
+          python -m pytest -q tests/test_native_rgb_quality.py tests/test_xsq_palette_repair.py tests/test_legacy_lms_export.py tests/test_dual_format_export.py tests/test_show_export_request.py
       - name: Download and verify original owner Drive recording
         run: |
           mkdir -p native-drive-256/media
