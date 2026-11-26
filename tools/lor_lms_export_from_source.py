@@ -21,11 +21,18 @@ def _settings(root):
 
 def _start_end(settings: str) -> tuple[int, int]:
     allowed = {'E_TEXTCTRL_Eff_On_Start', 'E_TEXTCTRL_Eff_On_End'}
+    # The XSQ writer appends these to every effect. They do not change
+    # Light-O-Rama intensity and are not a second brightness value.
+    ignored = {'T_CHOICE_LayerMethod', 'T_CHECKBOX_Canvas'}
     parsed = {}
     for part in settings.split(',') if settings.strip() else []:
         key, separator, raw = part.strip().partition('=')
         key, raw = key.strip(), raw.strip()
-        if not separator or key not in allowed or key in parsed:
+        if not separator or key in parsed:
+            raise ValueError('Unsupported or duplicate LOR intensity settings')
+        if key in ignored:
+            continue
+        if key not in allowed:
             raise ValueError('Unsupported or duplicate LOR intensity settings')
         try:
             value = float(raw)

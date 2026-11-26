@@ -1,3 +1,12 @@
+## November 26 · LOR export and Chaquopy lookup
+
+**Goal:** Unblock the Beta 1.4 Windows smoke and the Android package lookup.
+**Changed files:** `tools/lor_lms_export_from_source.py`, `tests/test_dual_mode_lor.py`, `android/settings.gradle`.
+**Preserved:** Unknown intensity keys, duplicates, and out-of-range values still fail closed. `B_SLIDER_Brightness` is still rejected.
+**New behavior:** `T_CHOICE_LayerMethod` and `T_CHECKBOX_Canvas` are ignored when reading an On/Shimmer/Twinkle effect. Chaquopy 17.0.0 is resolved from Maven Central. The stale `https://chaquo.com/maven` plugin repo, which does not contain 17.0.0, is no longer searched.
+**Tests/evidence:** `tests/test_dual_mode_lor.py` and `tests/test_legacy_lms_export.py` passed, 58 tests. A two-channel local LOR smoke wrote `real_excerpt,v27.3.lms`.
+**Limitations:** Package jobs have not been re-run yet. Android API 36's missing traceback is not separately reproduced; the device test uses the same LOR export.
+
 ## November 26 · Android and Windows no longer die when Demucs weights are absent
 
 **Goal:** Make the Beta 1.4 phone and the portable smoke able to sequence when Demucs and Whisper are not loaded, without calling that output separated vocals.
