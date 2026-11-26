@@ -203,3 +203,23 @@ def test_comparison_panel_reuse_checks_bytes_and_render_inputs(tmp_path, monkeyp
     output.write_bytes(b"x" * output.stat().st_size)
     bench.write_panel_mp4(panel, output)
     assert calls == ["one", "two", "two"]
+
+
+def test_direct_30fps_encode_preserves_one_second_source_clock(tmp_path):
+    imageio = pytest.importorskip("imageio.v2")
+    pytest.importorskip("PIL")
+    pytest.importorskip("imageio_ffmpeg")
+    source, points = tmp_path / "source.fseq", tmp_path / "pixels.csv"
+    write_fseq(source, frames=[bytes([0, 255, 0])] * 20)
+    points.write_text("channel,x,y,kind\n1,10,20,grb\n")
+    out = tmp_path / "direct.mp4"
+    report = render_fseq_preview(source, out, pixel_map=points, width=128, height=128,
+                                 output_fps=30)
+    assert report["frames"] == 20
+    assert report["source_fps"] == 20
+    assert report["output_fps"] == 30
+    assert report["bright_node_samples"] == 20
+    with imageio.get_reader(str(out)) as reader:
+        assert reader.get_meta_data()["fps"] == pytest.approx(30)
+        assert reader.count_frames() == 30
+    assert b"HELIX_PROVENANCE_V1" in out.read_bytes()
