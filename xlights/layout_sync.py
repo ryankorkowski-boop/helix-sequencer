@@ -92,6 +92,10 @@ def layout_entries_and_lookup(layout_path: Path) -> tuple[list[str], dict[str, s
                     alias_name = alias_name.split(":", 1)[1].strip()
                 for candidate in (alias_name, f"{name}/{alias_name}"):
                     register_lookup_name(lookup, candidate, prefer_exact=False)
+    # A normalized spelling or alias must never replace a real exact name.
+    # E.g. distinct models 'Star 3' and 'Star3' share a normalized key.
+    for name in ordered_names:
+        lookup[name.lower()] = name
     return (ordered_names, lookup)
 
 
