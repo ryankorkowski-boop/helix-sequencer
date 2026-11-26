@@ -21,12 +21,21 @@ def _settings(root):
 
 def _start_end(settings: str) -> tuple[int, int]:
     allowed = {'E_TEXTCTRL_Eff_On_Start', 'E_TEXTCTRL_Eff_On_End'}
+    # These two native xLights metadata fields are identity operations.
+    # Do not accept non-neutral blending or arbitrary unsupported settings.
+    neutral = {'T_CHOICE_LayerMethod': 'Normal', 'T_CHECKBOX_Canvas': '0'}
+    seen = set()
     parsed = {}
     for part in settings.split(',') if settings.strip() else []:
         key, separator, raw = part.strip().partition('=')
         key, raw = key.strip(), raw.strip()
-        if not separator or key not in allowed or key in parsed:
+        if not separator or key in seen or (key not in allowed and key not in neutral):
             raise ValueError('Unsupported or duplicate LOR intensity settings')
+        seen.add(key)
+        if key in neutral:
+            if raw != neutral[key]:
+                raise ValueError('Unsupported non-neutral LOR intensity blending')
+            continue
         try:
             value = float(raw)
         except ValueError as exc:
