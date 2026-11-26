@@ -83,6 +83,9 @@ def prepare(audio: Path, output: Path, *, vocals: Path | None = None,
     manifest = write_manifest(
         audio, *normalized, model_root / "vocal_separation_manifest.json",
         model=model, combined_vocals=vocals,
+        # Review-only fallback suppresses a silent backing candidate; never
+        # upgrades model-estimated tracks into verified independent singers.
+        allow_silent_harmony_review=True,
     )
     fixture = build_review_fixture(audio, manifest, output / "vocal-fixture")
     receipt = json.loads((fixture / "diagnostic.json").read_text())
