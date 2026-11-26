@@ -64,7 +64,7 @@ The variant's existing `*.report.json` contains `orchestration`, including conte
 
 Real performer playback still needs native import and rendering against the documented drummer oracle. Singer articulation still needs a permissioned annotated vocal fixture and native Faces playback. Model ownership uses named physical roles, so nested group membership and custom aliases need broader layout coverage. Existing specialized workflows for V2 style, venue intelligence and separate animation exporters remain separate. The seeded planning sidecar is still independent. This change shares the results of live analysis across consumers. It leaves separate optional stem, stereo and detailed piano-roll analysis with their specialized owners.
 
-Native xLights installation and REST automation were unavailable. The read-only probe returned connection refused on both local xLights ports. Native FSEQ, Windows packaging, Android device playback, and controller/channel output are unverified. An explicit BeatGrid run can modify timings after the variant's XSQ checks. This is a separate timing override and requires its own final check.
+Native xLights installation and REST automation were unavailable. The read-only probe returned connection refused on both local xLights ports. Native FSEQ, Windows packaging, Android device playback, and controller/channel output are unverified. The original implementation applied explicit BeatGrid settings to JSON after export. The follow-up below routes explicit settings into live placement instead.
 
 ## Verification on the feature branch
 
@@ -98,3 +98,10 @@ python main.py -- --template template.xsq --layout-file helixville4/xlights_rgbe
   --audio "Helix Audiolights.mp3" --output-dir /tmp/helix-orchestration-review \
   --variants 1 --single --no-prompt --no-save-settings --no-workspace-history --no-learning-memory
 ```
+
+
+## Explicit BeatGrid and native compatibility follow-up
+
+An explicit grid targets generated effect starts before placement, not analysis JSON or manually authored effects. The engine uses that grid in place of its normal start snapping for the run. It preserves initial duration where a cue can be moved within its existing section; skips boundary-crossing moves, detector-anchored drummer hits and Faces starts; and does not retry or polish into an off-grid start. Existing placement constraints can still shorten or reject a cue. With no explicit grid (including `--no-snap`), legacy scheduling is unchanged. The report distinguishes live-placement scope and counts admitted attempts, not final retained effects.
+
+The native compatibility workflow generates a clean-room XSQ on the exact pull request head, verifies the pinned xLights AppImage checksum, and fails if that renderer cannot open/render the XSQ into a fresh FSEQ with a frame payload. The evidence records the commit and binary/input/output hashes. It is an import/render smoke only; it does not prove native Faces or drummer fidelity. For the performer gate, use a trusted authorized copy of the original Audio In Lights Out source verified against issue #252, independently annotate lead and harmony, and compare native kit playback against the documented drummer oracle. Record those separately for the same commit. Keep drummer placement opt-in.

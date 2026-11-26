@@ -1,0 +1,76 @@
+name: Helix native compatibility
+
+on:
+  pull_request:
+    paths:
+      - 'core/beat_grid*.py'
+      - 'core/effect_engine*.py'
+      - 'tests/test_live_beat_grid_contract.py'
+      - 'tests/test_unified_orchestration_cli.py'
+      - 'tools/verify_native_xlights_gate.py'
+      - '.github/workflows/helix-native-compatibility.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  native-smoke:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    env:
+      HELIX_COMMIT: ${{ github.event.pull_request.head.sha || github.sha }}
+      APPIMAGE_EXTRACT_AND_RUN: '1'
+      LIBGL_ALWAYS_SOFTWARE: '1'
+      XL_NO_GPU_COMPUTE: '1'
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: pip
+          cache-dependency-path: |
+            requirements.txt
+            requirements-dev.txt
+      - name: Install Helix and native render dependencies
+        run: |
+          python -m pip install -r requirements-dev.txt
+          sudo apt-get update -qq
+          sudo apt-get install -y xvfb xauth ffmpeg libgtk-3-0t64 libgl1 libegl1 libopengl0 libglu1-mesa libgstreamer-plugins-base1.0-0
+      - name: Verify explicit-grid CLI and boundary contracts
+        run: python -m pytest -q tests/test_live_beat_grid_contract.py tests/test_unified_orchestration_cli.py
+      - name: Stage a clean-room show and generate the exact-head XSQ
+        run: |
+          show="$RUNNER_TEMP/helix-native-show"
+          mkdir -p "$show"
+          cp helixville4/xlights_rgbeffects.xml "$show/"
+          python -c 'import runpy, sys; from pathlib import Path; runpy.run_path("tests/fixtures/beta_demo/generate_synthetic_audio.py")["generate_wav"](Path(sys.argv[1]), duration_seconds=8.0)' "$show/tone.wav"
+          python main.py -- --template template.xsq --layout-file "$show/xlights_rgbeffects.xml" \
+            --audio "$show/tone.wav" --output-dir "$show" --variants 1 --single --no-prompt \
+            --no-save-settings --no-workspace-history --no-learning-memory --no-effects-orchestrator \
+            --snap-grid 16 --snap-bpm 120 --snap-mode strict
+      - name: Render with pinned native xLights and verify the FSEQ
+        run: |
+          native="$RUNNER_TEMP/xLights.AppImage"
+          show="$RUNNER_TEMP/helix-native-show"
+          curl --fail --location --retry 3 -o "$native" "https://github.com/xLightsSequencer/xLights/releases/download/2026.18/xLights-2026.18-x86_64.AppImage"
+          echo "62affb88b9a9b03cf5164974ac69bcefe35c559719d157b3364e4d4a5ab4214b  $native" | sha256sum --check -
+          chmod +x "$native"
+          shopt -s nullglob
+          sequences=("$show/"*,*.xsq)
+          test "${#sequences[@]}" -eq 1
+          xvfb-run -a python -m tools.verify_native_xlights_gate --xlights "$native" \
+            --show "$show" --xsq "${sequences[0]}" --commit "$HELIX_COMMIT" --evidence "$show/native-gate.json"
+      - name: Retain exact-head native evidence
+        uses: actions/upload-artifact@v4
+        with:
+          name: native-gate-${{ env.HELIX_COMMIT }}
+          if-no-files-found: error
+          path: |
+            ${{ runner.temp }}/helix-native-show/native-gate.json
+            ${{ runner.temp }}/helix-native-show/*.fseq
+            ${{ runner.temp }}/helix-native-show/*.xsq
+            ${{ runner.temp }}/helix-native-show/*.report.json

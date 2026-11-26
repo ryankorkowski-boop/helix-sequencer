@@ -161,17 +161,15 @@ def autosize_controller_sidecars(version: str, argv: list[str], *, since: float)
 
 
 def main_for(version: str, argv: list[str] | None = None) -> None:
-    """Run effect_engine while consuming BeatGrid runtime flags.
-
-    This keeps the existing effect_engine stable: unknown BeatGrid flags are
-    stripped before the legacy parser sees them, and generated report sidecars
-    are upgraded with raw/snapped timing metadata afterward.
-    """
+    """Pass an explicit grid to live placement; leave analysis sidecars on their source clock."""
 
     started = time.time()
     options = parse_beat_grid_runtime_args(argv or [])
     cleaned_args = list(options.cleaned_args)
-    effect_engine.main_for(version, cleaned_args)
+    if options.beat_grid is None:
+        effect_engine.main_for(version, cleaned_args)
+    else:
+        effect_engine.main_for(version, cleaned_args, placement_grid=options.beat_grid)
     controller_summary = autosize_controller_sidecars(version, cleaned_args, since=started)
     if controller_summary is not None:
         if controller_summary.get("enabled"):
@@ -182,13 +180,7 @@ def main_for(version: str, argv: list[str] | None = None) -> None:
             )
         else:
             effect_engine.log(f"Controller autosize skipped: {controller_summary.get('error')}")
-    if options.snap_timing and options.beat_grid is not None:
-        summary = postprocess_beat_grid_outputs(Path("."), options.beat_grid, since=started)
-        effect_engine.log(
-            "BeatGrid postprocess: "
-            f"reports={summary['reports_touched']} snowman={summary['snowman_exports_touched']} "
-            f"grid={summary['subdivision']} mode={summary['mode']}"
-        )
+
 
 
 def main(argv: list[str] | None = None) -> None:

@@ -130,3 +130,17 @@ def snap_timing_events(raw_values_ms: Iterable[int | float], grid_points: Sequen
     if preserve_event_order:
         return preserve_order(snapped, grid_points)
     return snapped
+
+
+def snap_placement_range(
+    start_ms: int, end_ms: int, points: Sequence[int], grid: BeatGrid, *,
+    lower_ms: int, upper_ms: int, anchored: bool = False,
+) -> tuple[int, int]:
+    """Shift an eligible cue without changing its duration or crossing its bounds."""
+    if anchored or not points or not lower_ms <= start_ms < end_ms <= upper_ms:
+        return start_ms, end_ms
+    snapped = snap_ms_to_grid(start_ms, points, max_shift_ms=grid.max_shift_ms, mode=grid.mode)
+    shifted_end = end_ms + snapped - start_ms
+    if lower_ms <= snapped < shifted_end <= upper_ms:
+        return snapped, shifted_end
+    return start_ms, end_ms
