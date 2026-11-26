@@ -111,7 +111,7 @@ def _pixel_universe(g,s):
     for x in (-55,55):
         for y in (0,92):
             first=len(g.models)
-            s.path('PIXEL_CUBE_DEPTH',[(x,y,-55),(x,y,55)],'DEPTH_CUBE_EDGES',1,150)
+            s.path('PIXEL_CUBE_DEPTH',[(x,y,-55),(x,y,55)],'DEPTH_CUBE_AXES',1,150)
             _music(g,first,'bassist',direction=1 if y==0 else -1)
     for i,(x,y,z) in enumerate(((0,46,-59),(0,46,59),(-59,46,0),(59,46,0))):
         first=len(g.models)
@@ -130,7 +130,7 @@ def _concert(g,s,*,native_extended_mouths=False):
         _music(g,first,'keyboardist' if i==0 else 'guitarist',direction=(-1)**i)
         for side in (-1,1):
             first=len(g.models)
-            s.path('CONCERT_LIGHT_TOWER',[(x+side*19,0,-37),(x+side*19,65,-37)],'CONCERT_TOWERS',i,150)
+            s.path('CONCERT_LIGHT_TOWER',[(x+side*19,0,-37),(x+side*19,65,-37)],'DEPTH_CONCERT_TOWERS',i,150)
             _music(g,first,'bassist',phase=i/2,direction=side)
             g.models[-1].details['spatial_axis']='y'
     for i,y in enumerate((67,74,81)):
@@ -160,7 +160,7 @@ def apply_showcase_presentation(g):
         focal = ('MEGA_TREE' in name or 'NESTED_TOWER' in name
                  or 'WONDERLAND_HELIX' in name or 'ULTIMATE_TWIN_HELIX' in name
                  or zone == 'HOUSE' or 'CATHEDRAL_VAULT' in zone
-                 or 'CUBE_EDGES' in zone or 'CONCERT_TOWERS' in zone)
+                 or 'CUBE_EDGES' in zone or 'DEPTH_CONCERT_TOWERS' in zone)
         if surface:
             size, tier = 6, 'background_surface'
         elif focal:
