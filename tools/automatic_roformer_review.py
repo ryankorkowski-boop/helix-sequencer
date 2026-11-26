@@ -46,7 +46,7 @@ def prepare(audio: Path, output: Path, *, vocals: Path | None = None,
     # another recording or allow cached model outputs to appear source-verified.
     if output.exists():
         raise FileExistsError(f"Review output already exists: {output}")
-    output.mkdir(parents=True)
+    output.mkdir(parents=True, exist_ok=False)
     if vocals is None:
         demucs_root = output / "demucs"
         subprocess.run(
