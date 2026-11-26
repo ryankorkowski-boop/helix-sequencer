@@ -148,3 +148,18 @@ def test_advanced_customer_routes_move_between_physical_props_without_global_bro
     legacy=build_layout(1)
     configure_advanced_spatial_routes(legacy.models)
     assert not any(m.details.get('advanced_spatial_routing') for m in legacy.models)
+
+
+def test_shared_onset_index_preserves_exact_schedule():
+    from tools.source_spatial_direction import onset_index
+    from tools.source_role_routing import configure_advanced_spatial_routes
+    g=build_layout(11)
+    configure_advanced_spatial_routes(g.models)
+    cues=[dict(start_ms=a,end_ms=a+300,pitch_midi=p,velocity=.8,section=section)
+          for a,p,section in [(500,60,'verse'),(100,48,'verse'),(500,64,'verse'),(900,72,'chorus')]]
+    plan=dict(cues={'keyboardist':cues})
+    shared={'keyboardist':onset_index(cues)}
+    members=[m for m in g.models if role_for(m)=='keyboardist']
+    assert members
+    for m in members:
+        assert schedule(m,plan,{},2000)==schedule(m,plan,{},2000,shared_onsets=shared)
