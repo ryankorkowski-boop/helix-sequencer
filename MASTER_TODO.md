@@ -77,6 +77,17 @@ Do not mark complete from unit tests alone.
 
 ## Change Ledger
 
+### 2026-11-25 — Close bounded intent feedback and verify serialized output
+**Goal:** Connect the existing readability evaluator and correction loop to the real-audio director and surface XSQ validation in runtime diagnostics.
+**Changed files/modules:** Director, canonical timeline, autonomous render validation, effect engine, and context/quality tests.
+**Intentionally preserved behavior:** Seeded bridge API and pass list, original user files, and live audit/polish pipeline.
+**New behavior:** Correct at most once when the intent simulator produces concrete issues. Keep the candidate only if it removes issues without creating others. Validate generated effect bounds and palette references after writing XSQ and report those findings alongside the live decisions.
+**Tests/evidence:** 28 focused context, correction, output palette, bridge, and band tests passed.
+**Limitations:** The simulator grades intents before placement. XSQ probing checks structure and palette references, not pixel output or native import. Explicit custom beat-grid postprocessing happens later.
+**Deferred work:** Recheck visual and timing results against native FSEQ and signed Windows/Android packages.
+**Regression risks:** A readable plan does not guarantee playable native effect settings. Keep native verification distinct in artifact reports.
+
+
 ### 2026-11-25 — Restore band cues and admit dedicated drum hits
 **Goal:** Route existing drummer analysis to valid physical kit components and protect anchored performer timing.
 **Changed files/modules:** Snowman Band cue adapter, orchestration balance attribution, effect engine runner, and Snowman Band tests.

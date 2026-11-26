@@ -36,6 +36,7 @@ from core import self_improving_scoring as sequence_scoring
 from core import snowman_band as snowman_band_engine
 from core import band_sync as band_sync_engine
 from core import youtube_show_scorer
+from core.autonomous_render_validation_engine import AutonomousRenderValidationEngine
 from core.canonical_timeline_orchestrator import MusicalContext, MusicalSection
 from core.composition_governor import CompositionGovernor
 from core.multi_pass_orchestration_director import MultiPassOrchestrationDirector
@@ -10869,11 +10870,6 @@ def run_variant(
         lyric_events=tuple(lyric_events),
         mood=multiband.mood_hint,
     )
-    governor = CompositionGovernor()
-    director_started = perf_counter()
-    direction = MultiPassOrchestrationDirector().direct_music(music) if tuning.unified_orchestration else None
-    director_ms = (perf_counter() - director_started) * 1000
-    placement = governor.begin_placement(music, names, direction.final_graph) if direction else None
     try:
         chronoflow_payload = chronoflow_engine.build_chronoflow_plan(
             audio_path=audio_path,
@@ -10952,6 +10948,23 @@ def run_variant(
             "cues": {},
             "debug": {"total_cue_count": 0, "lyric_cues": 0},
         }
+    music = replace(
+        music, phoneme_events=tuple((snowman_band_payload.get("global_timeline") or {}).get("phoneme_events", ())),
+    )
+    director_started = perf_counter()
+    direction = None
+    orchestration_warnings = []
+    if tuning.unified_orchestration:
+        try:
+            direction = MultiPassOrchestrationDirector().direct_music(music)
+        except Exception as exc:
+            warning = f"Live direction unavailable: {exc!r}"
+            log(f"[WARN] {warning}")
+            orchestration_warnings.append(warning)
+    director_ms = (perf_counter() - director_started) * 1000
+    placement = None
+    if tuning.unified_orchestration:
+        placement = CompositionGovernor().begin_placement(music, names, direction.final_graph if direction else None)
     chronoflow_track = chronoflow_engine.build_timing_track(chronoflow_payload, limit=1400)
     snowman_band_track = snowman_band_engine.build_timing_track(snowman_band_payload, limit=1800)
     try:
@@ -12901,12 +12914,13 @@ def run_variant(
         },
     }
     payload["quality"] = compute_quality_score(payload)
-    if placement and direction:
+    if placement:
+        planning_passes = direction.passes if direction else ()
         payload["orchestration"] = {
             "schema": "helix.live_orchestration.v1",
             "musical_context": music.summary(),
             "planning_passes": [
-                {"name": item.pass_name, **item.metadata} for item in direction.passes
+                {"name": item.pass_name, **item.metadata} for item in planning_passes
             ],
             **placement.summary(
                 (entry.proposal, entry.start)
@@ -12920,10 +12934,10 @@ def run_variant(
                 "director": round(director_ms, 3),
                 "variant_through_scoring": round((perf_counter() - variant_started) * 1000, 3),
             },
-            "warnings": validation_issues[:200],
+            "warnings": orchestration_warnings + validation_issues[:200],
         }
         log(
-            f"Live orchestration: {len(direction.passes)} planning passes, "
+            f"Live orchestration: {len(planning_passes)} planning passes, "
             f"{sum(placement.rejections.values())} rejected proposals, "
             f"{sum(placement.conflicts.values())} resolved conflicts"
         )
@@ -12953,9 +12967,6 @@ def run_variant(
     except Exception as exc:
         log(f"[WARN] Snowman band export skipped: {exc!r}")
     validate_report_payload(payload)
-    write_report(report_path(out_path), payload)
-    write_sequence_notes(notes_path(out_path), payload)
-
     log("[6/8] Writing sequence")
     base.normalize_display_views(xsq.root, force=True)
     if active_layout_file and active_layout_file.exists():
@@ -12980,6 +12991,14 @@ def run_variant(
     except Exception:
         pass
     xsq.tree.write(out_path, encoding="utf-8", xml_declaration=True)
+    if placement:
+        export_validation = AutonomousRenderValidationEngine().validate_export(out_path, auto_layer_name, song_length_ms)
+        payload["orchestration"]["export_validation"] = export_validation
+        payload["orchestration"]["warnings"].extend(export_validation["warnings"])
+        status = "passed" if export_validation["passed"] else "has warnings"
+        log(f"Orchestration XSQ structure {status} ({export_validation['effects_checked']} effects checked)")
+    write_report(report_path(out_path), payload)
+    write_sequence_notes(notes_path(out_path), payload)
 
     if GENERATE_SHOWCASE:
         showcase_path = out_path.with_name(f"{out_path.stem}.showcase.xsq")

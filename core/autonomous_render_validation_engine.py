@@ -1,7 +1,9 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
+from pathlib import Path
 from typing import Any
+import xml.etree.ElementTree as ET
 
 from core.choreography_intent import ChoreographyIntent
 from core.intent_graph import IntentGraph
@@ -66,6 +68,40 @@ class AutonomousRenderValidationEngine:
             cinematic_score=cinematic,
             issues=tuple(issues),
         )
+
+    def validate_export(self, path: Path, layer_prefix: str, duration_ms: int) -> dict[str, Any]:
+        """Validate serialized placements and palette references for generated layers."""
+        warnings: list[str] = []
+        effects = 0
+        try:
+            root = ET.parse(path).getroot()
+        except (ET.ParseError, OSError) as exc:
+            return {"scope": "xsq_structure", "passed": False, "effects_checked": 0, "warnings": [str(exc)]}
+
+        if root.tag != "xsequence" or root.find("ElementEffects") is None:
+            warnings.append("Missing xLights sequence root or ElementEffects")
+        palette_count = len(root.findall("./ColorPalettes/*"))
+        for element in root.findall("./ElementEffects/Element"):
+            for layer in element.findall("EffectLayer"):
+                if not layer.get("name", "").startswith(layer_prefix + "_"):
+                    continue
+                for effect in layer.findall("Effect"):
+                    effects += 1
+                    name = effect.get("name", "")
+                    try:
+                        start = int(effect.get("startTime", ""))
+                        end = int(effect.get("endTime", ""))
+                        if not name or not 0 <= start < end <= duration_ms:
+                            raise ValueError
+                        palette = effect.get("palette")
+                        if palette is not None and not 0 <= int(palette) < palette_count:
+                            raise ValueError
+                    except ValueError:
+                        if len(warnings) < 50:
+                            target = element.get("name", "")
+                            warnings.append(f"{target}: invalid effect name, bounds or palette reference")
+
+        return {"scope": "xsq_structure", "passed": not warnings, "effects_checked": effects, "warnings": warnings}
 
     def auto_repair(self, graph: IntentGraph) -> IntentGraph:
         output = IntentGraph()

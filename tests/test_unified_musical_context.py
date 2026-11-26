@@ -29,3 +29,34 @@ def test_missing_beats_and_sections_do_not_invent_cues():
     assert music.section_at(0) is None
     assert music.subdivisions_ms == []
     assert not CanonicalTimelineOrchestrator().from_music(music).intents
+
+
+def test_live_intent_correction_is_bounded_and_preserves_original():
+    from dataclasses import replace
+    from core.intent_graph import IntentGraph
+
+    music = MusicalContext(duration_ms=2000, sections=(MusicalSection("CHORUS", 0, 2000, 1),))
+    seed = CanonicalTimelineOrchestrator().from_music(music).intents[0]
+    original = IntentGraph([replace(seed, density_budget=0.95)])
+    corrected, report = MultiPassOrchestrationDirector()._validate_live_plan(original)
+    assert report["iterations"] == 1
+    assert report["correction_accepted"]
+    assert corrected.intents[0].density_budget == 0.75
+    assert corrected.intents[0].start == original.intents[0].start
+    assert original.intents[0].density_budget == 0.95
+
+
+def test_xsq_validator_checks_serialized_palette_and_timing(tmp_path):
+    from core.autonomous_render_validation_engine import AutonomousRenderValidationEngine
+
+    path = tmp_path / "export.xsq"
+    xml = """<xsequence><ColorPalettes><ColorPalette/></ColorPalettes><ElementEffects>
+    <Element name="Arch"><EffectLayer name="AUTO_base">
+    <Effect name="On" startTime="0" endTime="70" palette="{palette}" />
+    </EffectLayer></Element></ElementEffects></xsequence>"""
+    validator = AutonomousRenderValidationEngine()
+    path.write_text(xml.format(palette=0), encoding="utf-8")
+    assert validator.validate_export(path, "AUTO", 100)["passed"]
+    path.write_text(xml.format(palette=2), encoding="utf-8")
+    assert not validator.validate_export(path, "AUTO", 100)["passed"]
+    assert not validator.validate_export(path, "AUTO", 50)["passed"]

@@ -41,6 +41,7 @@ class MusicalContext:
     quiet_windows: tuple[tuple[int, int], ...] = ()
     note_events: tuple[Any, ...] = ()
     lyric_events: tuple[Any, ...] = ()
+    phoneme_events: tuple[Any, ...] = ()
     mood: str = "neutral"
     _section_starts: tuple[int, ...] = field(init=False, repr=False)
 
@@ -80,6 +81,7 @@ class MusicalContext:
             "notes": len(self.note_events),
             "vocal_peaks": len(self.vocal_peaks),
             "lyric_phrases": len(self.lyric_events),
+            "phonemes": len(self.phoneme_events),
             "percussion": {"kick": len(self.kicks), "snare": len(self.snares), "hat": len(self.hats)},
             "bass_peaks": len(self.bass_peaks),
             "quiet_windows": len(self.quiet_windows),
