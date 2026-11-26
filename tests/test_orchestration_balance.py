@@ -81,12 +81,12 @@ def test_governor_charges_accepted_final_candidates_only():
     verse_window = session.budget_window(accent, 1000)
     chorus_window = session.budget_window(accent, 1040)
     assert {session.limits[key] for key in (quiet_window, verse_window, chorus_window)} == {1, 5, 14}
-    assert session.budget_rejection(quiet_window, ()) is None
+    assert session.budget_rejection(accent, quiet_window, ()) is None
     session.reject(accent, "same-layer conflict")
-    assert session.budget_rejection(quiet_window, ()) is None
+    assert session.budget_rejection(accent, quiet_window, ()) is None
     session.accept(accent, 100, quiet_window)
-    assert session.budget_rejection(quiet_window, ()) == "overlay over section budget"
-    assert session.budget_rejection(quiet_window, (quiet_window,)) is None
+    assert session.budget_rejection(accent, quiet_window, ()) == "overlay over section budget"
+    assert session.budget_rejection(accent, quiet_window, (quiet_window,)) is None
     session.displace(accent, quiet_window)
     session.accept(accent, 1040, chorus_window)
     summary = session.summary([(accent, 1040)])
@@ -112,3 +112,24 @@ def test_owned_specialists_rank_above_accents_and_keep_layout_fallback():
     assert session.ownership_rejection(accent) == "accent kept off dedicated performer"
     assert session.ownership_rejection(yard_piano) == "piano overlay kept off non-piano models"
     assert governor.begin_placement(music, ["Arch 1"]).ownership_rejection(yard_piano) is None
+
+
+def test_late_audio_reactive_cue_gets_a_slot_without_raising_the_cap():
+    from core.canonical_timeline_orchestrator import MusicalContext
+    from core.composition_governor import CompositionGovernor
+    from core.orchestration_balance import PlacementProposal
+
+    session = CompositionGovernor().begin_placement(MusicalContext(duration_ms=1000, sections=()), ["Arch"])
+    pixel = PlacementProposal("Arch", "pixel_vocal", 30, 110, "On")
+    reactive = PlacementProposal("Arch", "audio_reactive_bass_pulse", 30, 110, "On")
+    session.reserve_audio_reactive_windows([30])
+    window = session.budget_window(pixel, 30)
+    for _ in range(4):
+        assert session.budget_rejection(pixel, window, ()) is None
+        session.accept(pixel, 30, window)
+    assert session.budget_rejection(pixel, window, ()) == "remaining overlay slot reserved for audio-reactive cues"
+    assert session.budget_rejection(reactive, window, ()) is None
+    session.finish_audio_reactive()
+    assert session.budget_rejection(pixel, window, ()) is None
+    session.accept(reactive, 30, window)
+    assert session.budget_rejection(pixel, window, ()) == "overlay over section budget"

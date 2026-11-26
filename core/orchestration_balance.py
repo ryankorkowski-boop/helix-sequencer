@@ -175,6 +175,9 @@ class PlacementSession:
         self.rejections: Counter[str] = Counter()
         self.conflicts: Counter[str] = Counter()
         self.usage: Counter[BudgetWindow] = Counter()
+        self.audio_reactive_usage: Counter[BudgetWindow] = Counter()
+        self.audio_reactive_reservations: set[BudgetWindow] = set()
+        self.audio_reactive_pending = False
         self.limits: dict[BudgetWindow, int] = {}
         self.start_shifts: Counter[int] = Counter()
 
@@ -205,6 +208,11 @@ class PlacementSession:
         lane = proposal.lane
         if lane not in {"overlay", "flash"}:
             return None
+        return self._budget_window(lane, start_ms)
+
+    def _budget_window(self, lane: str, start_ms: int) -> BudgetWindow:
+        if start_ms < 0:
+            start_ms = 0
         width = 1000 if lane == "overlay" else 2000
         section = self.music.section_at(start_ms)
         section_start = section.start_ms if section else 0
@@ -226,11 +234,34 @@ class PlacementSession:
                 self.limits[window] = limit
         return window
 
-    def budget_rejection(self, window: BudgetWindow | None, displaced: Iterable[BudgetWindow | None]) -> str | None:
+    def reserve_audio_reactive_windows(self, start_times_ms: Iterable[int]) -> None:
+        for start_ms in start_times_ms:
+            if 0 <= start_ms < self.music.duration_ms:
+                window = self._budget_window("overlay", start_ms)
+                if self.limits[window] > 1:
+                    self.audio_reactive_reservations.add(window)
+        self.audio_reactive_pending = bool(self.audio_reactive_reservations)
+
+    def finish_audio_reactive(self) -> None:
+        self.audio_reactive_pending = False
+
+    def budget_rejection(
+        self, proposal: PlacementProposal, window: BudgetWindow | None, displaced: Iterable[BudgetWindow | None],
+    ) -> str | None:
         if window is not None:
             released = sum(old == window for old in displaced)
-            if self.usage[window] - released >= self.limits[window]:
+            used = self.usage[window] - released
+            limit = self.limits[window]
+            if used >= limit:
                 return f"{window.lane} over section budget"
+            if (
+                self.audio_reactive_pending
+                and window in self.audio_reactive_reservations
+                and proposal.engine != "audio_reactive"
+                and not self.audio_reactive_usage[window]
+                and used == limit - 1
+            ):
+                return "remaining overlay slot reserved for audio-reactive cues"
         return None
 
     def reject(self, proposal: PlacementProposal, reason: str) -> None:
@@ -241,6 +272,8 @@ class PlacementSession:
         self.contributions[proposal.engine]["accepted"] += 1
         if window is not None:
             self.usage[window] += 1
+            if proposal.engine == "audio_reactive":
+                self.audio_reactive_usage[window] += 1
         if start_ms != proposal.start_ms:
             self.start_shifts[start_ms - proposal.start_ms] += 1
 
@@ -249,6 +282,8 @@ class PlacementSession:
         self.conflicts["higher_priority_same_layer"] += 1
         if window is not None:
             self.usage[window] -= 1
+            if proposal.engine == "audio_reactive":
+                self.audio_reactive_usage[window] -= 1
 
     def summary(self, retained: Iterable[tuple[PlacementProposal, int]]) -> dict:
         final_contributions: Counter[str] = Counter()
@@ -279,6 +314,8 @@ class PlacementSession:
                     **vars(window),
                     "limit": limit,
                     "accepted_at_placement": self.usage[window],
+                    "audio_reactive_reserved": window in self.audio_reactive_reservations,
+                    "audio_reactive_accepted": self.audio_reactive_usage[window],
                     "retained_after_polish": final_budgets[window],
                 }
                 for window, limit in sorted(self.limits.items())

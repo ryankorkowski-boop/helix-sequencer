@@ -11083,7 +11083,9 @@ def run_variant(
 
         budget_window = placement.budget_window(proposal, st_i) if placement else None
         if placement:
-            reason = placement.budget_rejection(budget_window, (entry.budget_window for entry in overlapping_entries))
+            reason = placement.budget_rejection(
+                proposal, budget_window, (entry.budget_window for entry in overlapping_entries),
+            )
             if reason:
                 reject_effect(nm, st_i, en_i, effect_name, layer_key, reason)
                 return False
@@ -12300,6 +12302,14 @@ def run_variant(
             log(f"Lua-style accent placements added: {lua_count}")
 
     if (not hardkor_mode) and tuning.pixel_reactive and style.family in {"v20", "v21", "v22", "v23", "v24", "v25", "v26", "v27"}:
+        if placement and tuning.audio_reactive_intensity > 0:
+            action_limit = int(round(96 * base.clamp(float(tuning.audio_reactive_intensity), 0.0, 2.0)))
+            placement.reserve_audio_reactive_windows(
+                time_ms
+                for action in audio_reactive_actions[:action_limit]
+                if str(action.get("effect", "")) not in audio_trigger_routes.FLASH_LIKE_EFFECTS
+                and not in_blackout(time_ms := _safe_int(action.get("time_ms")))
+            )
         pixel_attempts = place_pixel_reactive_score(
             style=style,
             pools=pools,
@@ -12355,6 +12365,8 @@ def run_variant(
             reactive_track=audio_reactive_track,
             intensity=float(tuning.audio_reactive_intensity),
         )
+        if placement:
+            placement.finish_audio_reactive()
         if audio_reactive_attempts:
             log(f"Audio-reactive catalog placements attempted: {audio_reactive_attempts}")
 

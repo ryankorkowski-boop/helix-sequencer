@@ -77,6 +77,17 @@ Do not mark complete from unit tests alone.
 
 ## Change Ledger
 
+### 2026-11-25 — Give late audio-reactive cues room in the accent budget
+**Goal:** Preserve contributions from the catalog-driven audio-reactive pass after pixel and multiband choreography.
+**Changed files/modules:** Live budget policy, effect scheduling call site, balance tests and a clean-room CLI integration test.
+**Intentionally preserved behavior:** Section limits, quiet gaps, primary ownership, and existing engine switches.
+**New behavior:** Hold one overlay slot in eligible windows with a scheduled reactive cue. Release any unused slot after the producer runs. Surface reserved and used counts.
+**Tests/evidence:** 15 focused balance, routing and CLI tests passed. The CLI test covers byte-identical XSQ output on repeated inputs, opt-out, manifests, and structural validation. The full test run completed with 925 passed, 25 failed, 5 skipped, 1 xfailed and 1 collection error. The baseline on the same sparse checkout had 915 passed and one additional failure in Snowman Band.
+**Limitations:** Existing audit and polish timing changes can move admitted overlays between windows. The evidence exposed this as a follow-up requirement before enforcing final budget guarantees.
+**Deferred work:** Carry the policy through the last timing pass and repeat rendered verification.
+**Regression risks:** Reserving capacity changes competing accent placements. The real-audio excerpt retained nine audio-reactive effects, compared with zero in the first governor trial.
+
+
 ### 2026-11-25 — Close bounded intent feedback and verify serialized output
 **Goal:** Connect the existing readability evaluator and correction loop to the real-audio director and surface XSQ validation in runtime diagnostics.
 **Changed files/modules:** Director, canonical timeline, autonomous render validation, effect engine, and context/quality tests.
