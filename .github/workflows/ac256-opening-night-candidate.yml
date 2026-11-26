@@ -1,0 +1,103 @@
+name: Helix AC256 full-song opening-night candidate
+on:
+  push:
+    branches: [codex/eight-hour-recovery-20261019, review/engine-toggle-diagnostic-20261125]
+    paths: [.github/workflows/ac256-opening-night-candidate.yml]
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: ac256-opening-night-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  render:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 60
+    env:
+      OMP_NUM_THREADS: '2'
+      OPENBLAS_NUM_THREADS: '2'
+      XL_NO_GPU_COMPUTE: '1'
+      HELIX_NATIVE_PREVIEW_WIDTH: '1920'
+      HELIX_NATIVE_PREVIEW_HEIGHT: '1080'
+      HELIX_DRIVE_SOURCE_ID: 12gRu8SUf-8GVCQdJnrIROnTY6XumOUzZ
+      HELIX_DRIVE_SOURCE_SHA256: fc91e3f48f709e615ba598a5d49ae63ab9652c0d16e324095f6e1b20377e082b
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install authentic Helix DSP and native runtime
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y ffmpeg
+          python -m pip install -r requirements-dev.txt gdown==6.4.2
+      - name: Gate RGB quality and legacy export compatibility before native render
+        run: |
+          python -m pytest -q tests/test_native_rgb_quality.py tests/test_xsq_palette_repair.py tests/test_legacy_lms_export.py tests/test_dual_format_export.py tests/test_show_export_request.py
+      - name: Download and verify original owner Drive recording
+        run: |
+          mkdir -p opening-night-ac256/media
+          python -m gdown "$HELIX_DRIVE_SOURCE_ID" -O opening-night-ac256/Helix_Motion_original.mp3
+          echo "$HELIX_DRIVE_SOURCE_SHA256  opening-night-ac256/Helix_Motion_original.mp3" | sha256sum -c -
+          cp opening-night-ac256/Helix_Motion_original.mp3 opening-night-ac256/media/Helix_Motion.mp3
+          test -s opening-night-ac256/media/Helix_Motion.mp3
+          sha256sum opening-night-ac256/media/Helix_Motion.mp3 > opening-night-ac256/audio.sha256
+      - name: Run current Helix production master against genuine Drive audio and original AC256 layout
+        run: |
+          set -euo pipefail
+          cp template.xsq opening-night-ac256/seed.xsq
+          cp xlights_rgbeffects.xml opening-night-ac256/xlights_rgbeffects.xml
+          python main.py --profile master -- --template opening-night-ac256/seed.xsq --audio opening-night-ac256/media/Helix_Motion.mp3 --layout-file opening-night-ac256/xlights_rgbeffects.xml --output-dir opening-night-ac256/sequence --single --variants 1 --no-prompt --no-save-settings --no-workspace-history --no-learning-memory --palette-mode warm --sync-lyrics-heads --flash-guard 0.95 --no-effects-orchestrator --no-matrix-intelligence --no-birdsong --no-birdsong-auto
+          python - <<'PY'
+          from pathlib import Path
+          import xml.etree.ElementTree as ET
+          root=Path('opening-night-ac256')
+          xsqs=[x for x in (root/'sequence').glob('*.xsq') if '.uncolored.' not in x.name]
+          if len(xsqs)!=1: raise SystemExit(f'Expected one real Helix sequence: {xsqs}')
+          dest=root/'Helix_Drive_AC256.xsq'
+          tree=ET.parse(xsqs[0])
+          media=tree.find('head/mediaFile')
+          if media is None: raise SystemExit('XSQ missing mediaFile')
+          media.text='media/Helix_Motion.mp3'
+          tree.write(dest,encoding='utf-8',xml_declaration=True)
+          effects=list(tree.getroot().iter('Effect'))
+          if len(effects)<10: raise SystemExit('Actual Helix audio sequencing produced too few effects')
+          (root/'effect_count.txt').write_text(str(len(effects))+'\n')
+          (root/'run_manifest.json').write_text(__import__('json').dumps({'schema':'helix.run_manifest.v1','warnings':[],'source':'owner_google_drive_verified','source_sha256':'fc91e3f48f709e615ba598a5d49ae63ab9652c0d16e324095f6e1b20377e082b','sequence_file':dest.name,'audio_sha256':__import__('hashlib').sha256((root/'media/Helix_Motion.mp3').read_bytes()).hexdigest(),'helix_effect_count':len(effects)},indent=2))
+          print('Real production Helix effects:',len(effects))
+          PY
+      - name: Check full-song coverage and exact soundtrack before handoff
+        run: |
+          python - <<'PY'
+          import hashlib,json,subprocess,xml.etree.ElementTree as ET
+          from pathlib import Path
+          root=Path('opening-night-ac256')
+          audio=root/'media/Helix_Motion.mp3'
+          xsq=root/'Helix_Drive_AC256.xsq'
+          duration=float(subprocess.check_output(['ffprobe','-v','error','-show_entries','format=duration','-of','csv=p=0',str(audio)],text=True))
+          seq=ET.parse(xsq).getroot()
+          actual=float(seq.findtext('head/sequenceDuration'))
+          if abs(duration-actual)>.25: raise SystemExit(f'Full soundtrack duration mismatch: {duration} vs {actual}')
+          effects=seq.findall("./ElementEffects/Element[@type='model']/EffectLayer/Effect")
+          if not effects: raise SystemExit('No editable model effects')
+          receipt=json.loads((root/'run_manifest.json').read_text())
+          receipt.update(full_song=True, duration_seconds=duration, editable_model_effects=len(effects),
+                         native_fseq_verified=False, physical_controller_mapping_verified=False,
+                         owner_approved=False, classification='editable candidate only; review in xLights before playback')
+          (root/'run_manifest.json').write_text(json.dumps(receipt,indent=2))
+          PY
+      - name: Upload editable full-song candidate and evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: Helix-AC256-Full-Song-Candidate
+          if-no-files-found: warn
+          retention-days: 30
+          path: |
+            opening-night-ac256/Helix_Drive_AC256.xsq
+            opening-night-ac256/xlights_rgbeffects.xml
+            opening-night-ac256/media/Helix_Motion.mp3
+            opening-night-ac256/run_manifest.json
+            opening-night-ac256/audio.sha256
+            opening-night-ac256/sequence/**/*.report.json
+            opening-night-ac256/sequence/**/*.log
