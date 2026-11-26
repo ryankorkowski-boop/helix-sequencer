@@ -308,3 +308,12 @@ def test_source_wired_export_keeps_last_subcentisecond_and_inline_fade(tmp_path)
     event = root.find('./channels/channel/effect')
     assert (event.get('startCentisecond'), event.get('endCentisecond')) == ('200', '201')
     assert (event.get('startIntensity'), event.get('endIntensity')) == ('20', '80')
+
+
+def test_native_identity_blending_keeps_lor_fade():
+    from tools.lor_lms_export_from_source import _start_end
+    assert _start_end('E_TEXTCTRL_Eff_On_Start=100,E_TEXTCTRL_Eff_On_End=0,T_CHOICE_LayerMethod=Normal,T_CHECKBOX_Canvas=0') == (100, 0)
+    for setting in ('T_CHOICE_LayerMethod=Average', 'T_CHECKBOX_Canvas=1',
+                    'T_CHECKBOX_Canvas=0,T_CHECKBOX_Canvas=0'):
+        with pytest.raises(ValueError, match='intensity'):
+            _start_end(setting)
