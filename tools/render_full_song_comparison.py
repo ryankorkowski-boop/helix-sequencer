@@ -237,6 +237,10 @@ def main():
     source = parser.add_mutually_exclusive_group(required=True)
     source.add_argument('--instrumental', action='store_true')
     source.add_argument('--vocal-fixture', type=Path)
+    source.add_argument('--auto-roformer-review', action='store_true',
+                        help='Run Demucs/RoFormer and use unverified model-estimated vocal clocks for review')
+    parser.add_argument('--combined-vocals', type=Path,
+                        help='Reuse an existing Demucs vocal bus when running automatic RoFormer review')
     parser.add_argument('--prepare-only', action='store_true')
     parser.add_argument('--prepared-only', action='store_true',
                         help='Read an existing verified preparation checkpoint without rebuilding layouts')
@@ -250,6 +254,29 @@ def main():
     if args.prepare_only and args.render_panels:
         parser.error('--render-panels cannot be combined with --prepare-only')
     audio, work = args.audio.resolve(), args.work.resolve()
+    if args.combined_vocals and not args.auto_roformer_review:
+        parser.error('--combined-vocals requires --auto-roformer-review')
+    if args.auto_roformer_review:
+        # Model output provides a review fixture, never verified singer identity.
+        if digest(audio) != args.expected_sha256:
+            raise ValueError('Automatic vocal review source hash mismatch')
+        from tools.automatic_roformer_review import prepare as prepare_roformer
+        review = work / 'auto_roformer_review'
+        if not review.exists():
+            prepare_roformer(audio, review, vocals=args.combined_vocals)
+        else:
+            origin = json.loads((review / 'review_origin.json').read_text())
+            if (origin.get('source_sha256') != args.expected_sha256
+                    or origin.get('mode') != 'estimated_review_only'):
+                raise ValueError('Cached RoFormer review belongs to another source or provenance')
+            if args.combined_vocals and origin.get('vocal_bus_sha256') != digest(args.combined_vocals):
+                raise ValueError('Cached RoFormer review belongs to another vocal bus')
+        args.vocal_fixture = review / 'vocal-fixture'
+        diagnostic = json.loads((args.vocal_fixture / 'diagnostic.json').read_text())
+        if (diagnostic.get('audio_sha256') != args.expected_sha256
+                or diagnostic.get('verification_state') != 'ESTIMATED_REVIEW'
+                or diagnostic.get('independent_backing_verified') is not False):
+            raise ValueError('Automatic RoFormer fixture must remain model-estimated')
     if args.prepared_only:
         if args.prepare_only or not args.render_panels:
             parser.error('--prepared-only requires --render-panels and excludes --prepare-only')
