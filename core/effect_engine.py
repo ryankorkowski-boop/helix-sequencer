@@ -35,6 +35,7 @@ from core import self_improving_scoring as sequence_scoring
 from core import snowman_band as snowman_band_engine
 from core import band_sync as band_sync_engine
 from core import youtube_show_scorer
+from core.canonical_timeline_orchestrator import MusicalContext, MusicalSection
 from effects import piano_effect as piano_effect_engine
 from core import spatial_scene as spatial
 from tools.build_helpers import (
@@ -10822,6 +10823,28 @@ def run_variant(
         max(26, base.scaled_gap(24)),
     )
     keyboard_note_events = extract_polyphonic_events(audio, harmonic, keyboard_event_times, sections, parts, keyboard_style)
+    music = MusicalContext(
+        duration_ms=song_length_ms,
+        sections=tuple(
+            MusicalSection(part.label, part.start_ms, min(part.end_ms, song_length_ms), float(part.energy))
+            for part in parts if part.start_ms < song_length_ms
+        ),
+        beat_ms=tuple(beat_ms),
+        bar_ms=tuple(bar_ms),
+        onset_ms=tuple(onset_ms),
+        note_onset_ms=tuple(note_onset_ms),
+        kicks=tuple(kicks),
+        snares=tuple(snares),
+        hats=tuple(hats),
+        bass_peaks=tuple(bass_peaks),
+        vocal_peaks=tuple(vocal_peaks),
+        build_lifts=tuple(build_lifts),
+        releases=tuple(releases),
+        quiet_windows=tuple(multiband.quiet_windows),
+        note_events=tuple(note_events),
+        lyric_events=tuple(lyric_events),
+        mood=multiband.mood_hint,
+    )
     try:
         chronoflow_payload = chronoflow_engine.build_chronoflow_plan(
             audio_path=audio_path,
@@ -10829,17 +10852,17 @@ def run_variant(
             audio=audio,
             multiband=multiband,
             parts=parts,
-            note_events=note_events,
-            lyric_events=lyric_events,
-            beat_ms=beat_ms,
-            onset_ms=onset_ms,
-            kicks=kicks,
-            snares=snares,
-            hats=hats,
-            bass_peaks=bass_peaks,
-            vocal_peaks=vocal_peaks,
-            build_lifts=build_lifts,
-            releases=releases,
+            note_events=list(music.note_events),
+            lyric_events=list(music.lyric_events),
+            beat_ms=list(music.beat_ms),
+            onset_ms=list(music.onset_ms),
+            kicks=list(music.kicks),
+            snares=list(music.snares),
+            hats=list(music.hats),
+            bass_peaks=list(music.bass_peaks),
+            vocal_peaks=list(music.vocal_peaks),
+            build_lifts=list(music.build_lifts),
+            releases=list(music.releases),
             log_fn=log,
         )
     except Exception as exc:
@@ -10855,11 +10878,11 @@ def run_variant(
     try:
         band_sync_payload = band_sync_engine.build_band_sync_plan(
             parts=parts,
-            beat_ms=beat_ms,
-            onset_ms=onset_ms,
-            vocal_peaks=vocal_peaks,
-            bass_peaks=bass_peaks,
-            note_events=note_events,
+            beat_ms=list(music.beat_ms),
+            onset_ms=list(music.onset_ms),
+            vocal_peaks=list(music.vocal_peaks),
+            bass_peaks=list(music.bass_peaks),
+            note_events=list(music.note_events),
             background_vocal_events=stem_analysis.background_vocal_events or [],
             drum_event_streams=stem_analysis.drum_event_streams or {},
             song_length_ms=song_length_ms,
@@ -10871,16 +10894,16 @@ def run_variant(
         snowman_band_payload = snowman_band_engine.build_snowman_band_plan(
             parsed_layout=parsed_layout,
             parts=parts,
-            lyric_events=lyric_events,
-            note_events=note_events,
-            beat_ms=beat_ms,
-            kicks=kicks,
-            snares=snares,
-            hats=hats,
-            bass_peaks=bass_peaks,
-            vocal_peaks=vocal_peaks,
-            build_lifts=build_lifts,
-            releases=releases,
+            lyric_events=list(music.lyric_events),
+            note_events=list(music.note_events),
+            beat_ms=list(music.beat_ms),
+            kicks=list(music.kicks),
+            snares=list(music.snares),
+            hats=list(music.hats),
+            bass_peaks=list(music.bass_peaks),
+            vocal_peaks=list(music.vocal_peaks),
+            build_lifts=list(music.build_lifts),
+            releases=list(music.releases),
             chronoflow_payload=chronoflow_payload,
             band_sync_payload=band_sync_payload,
             multiband=multiband,

@@ -13,7 +13,7 @@ from core.sequence_memory_engine import SequenceMemoryEngine
 from core.show_identity_engine import ShowIdentityEngine
 from core.spatial_choreography_engine import SpatialChoreographyEngine
 from core.visual_cinematography_engine import VisualCinematographyEngine
-from core.canonical_timeline_orchestrator import CanonicalTimelineOrchestrator
+from core.canonical_timeline_orchestrator import CanonicalTimelineOrchestrator, MusicalContext
 
 
 @dataclass(frozen=True)
@@ -45,10 +45,14 @@ class MultiPassOrchestrationDirector:
         self.convergence = IterativeQualityConvergence()
         self.masterpiece = AutonomousMasterpieceEvaluator()
 
-    def direct(self, graph: IntentGraph) -> DirectedOrchestrationResult:
-        passes: list[OrchestrationPassResult] = []
+    def direct_music(self, music: MusicalContext) -> DirectedOrchestrationResult:
+        return self._direct(self.timeline.from_music(music))
 
-        graph = self.timeline.orchestrate(graph)
+    def direct(self, graph: IntentGraph) -> DirectedOrchestrationResult:
+        return self._direct(self.timeline.orchestrate(graph))
+
+    def _direct(self, graph: IntentGraph) -> DirectedOrchestrationResult:
+        passes: list[OrchestrationPassResult] = []
         passes.append(self._pass("timeline_orchestration", graph))
 
         graph = self.memory.apply_memory(graph)

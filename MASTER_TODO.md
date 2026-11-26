@@ -77,6 +77,17 @@ Do not mark complete from unit tests alone.
 
 ## Change Ledger
 
+### 2026-11-25 — Share analyzed timing with existing planners
+**Goal:** Carry live musical timing and available features into the canonical director and specialist planners.
+**Changed files/modules:** Canonical timeline, director, effect engine, and musical-context tests.
+**Intentionally preserved behavior:** Existing analytics and feature switches, seeded bridge/template promotion, and specialist planner inputs and ordering.
+**New behavior:** Snapshot live milliseconds, beat subdivisions, local tempo, sections, notes, vocals, percussion, quiet windows and dynamic marks. Convert units at the intent graph boundary. Chronoflow, Band Sync, and Snowman Band consume this snapshot.
+**Tests/evidence:** 11 context, Band Sync and bridge tests passed. Snowman Band exposed a separately tracked drum-mapping contract failure.
+**Limitations:** Additional stereo/piano-roll analysis and specialized phoneme generation remain with their current producers. The live governor is pending.
+**Deferred work:** Live decision policy, correction, diagnostics, and render comparisons.
+**Regression risks:** Future consumers should keep beat and note timestamps in milliseconds until the intent boundary.
+
+
 ### 2026-11-25 — Unified orchestration discovery
 **Branch:** `feature/unified-intelligence-orchestration`
 
