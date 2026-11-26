@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "updated_utc": "2026-11-26T10:45:00+00:00",
+  "updated_utc": "2026-11-26T22:20:06Z",
   "branch": "integration/unified-beta-completion-20261117",
   "release_label": "Beta Version 1.4",
   "verified_artifacts": [],
@@ -544,6 +544,33 @@
           "mp4_sha256": "0dc1fa5627dd47455d11897d878d2a74b41686df1b40d13b8666dc8344d6bac0"
         },
         "download": "https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/45898714807/artifacts/15156306692"
+      },
+      {
+        "name": "Helix-Windows-Portable",
+        "run_id": 45902718037,
+        "id": 15156184834,
+        "expires_utc": "2026-12-26T22:14:28Z",
+        "classification": "Packaged GUI, worker and native FSEQ verified",
+        "source_commit": "a2b791f3d2e1864a12d7ade4387e4c1120530d48",
+        "download": "https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/45902718037/artifacts/15156184834"
+      },
+      {
+        "name": "Helix-Android-stability-api-30",
+        "run_id": 45901274691,
+        "id": 15156856767,
+        "expires_utc": "2027-02-24T21:54:21Z",
+        "classification": "API 30 installer, eight variants and independent decoded media gate passed",
+        "source_commit": "0e17f13dfa3f4c5732f2c9c2c87acdd67b6cb2f5",
+        "download": "https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/45901274691/artifacts/15156856767"
+      },
+      {
+        "name": "Helix-Android-stability-api-36",
+        "run_id": 45901274691,
+        "id": 15156463782,
+        "expires_utc": "2027-02-24T21:54:21Z",
+        "classification": "API 36 installer, eight variants and independent decoded media gate passed",
+        "source_commit": "0e17f13dfa3f4c5732f2c9c2c87acdd67b6cb2f5",
+        "download": "https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/45901274691/artifacts/15156463782"
       }
     ]
   }

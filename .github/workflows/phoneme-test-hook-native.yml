@@ -2,6 +2,9 @@ name: Phoneme Test Hook native MP4 verification
 on:
   pull_request:
     paths: [.github/workflows/phoneme-test-hook-native.yml, .github/actions/production-audio/action.yml, 'fixtures/audio/**', tools/phoneme_source.py, tools/prepare_phoneme_show.py, tools/phoneme_vocal_export.py, tools/stemless_duet.py, tools/finalize_phoneme_review.py, tools/native_preview.py, 'core/**', 'xlights/**', 'models/**']
+  push:
+    branches: [integration/beta14-recovered-logic-20261126]
+    paths: [.github/workflows/phoneme-test-hook-native.yml, tools/compare_beta13_native.py]
   workflow_dispatch:
     inputs:
       audio_url:
@@ -13,11 +16,16 @@ on:
         required: false
         type: boolean
         default: true
+      beta13_comparison:
+        description: Render the retained Beta 1.3 pilot beside the current engine with common inputs
+        required: false
+        type: boolean
+        default: false
 permissions:
   contents: read
   actions: read
 concurrency:
-  group: phoneme-native-${{ github.head_ref || github.ref_name }}
+  group: phoneme-native-${{ github.head_ref || github.ref_name }}-${{ (github.event_name == 'push' || inputs.beta13_comparison) && 'beta13' || 'show' }}
   cancel-in-progress: true
 jobs:
   render:
@@ -30,6 +38,7 @@ jobs:
       # PR previews exercise the owner-requested estimator. Manual runs may
       # explicitly select the retained source-separated estimate instead.
       HELIX_STEMLESS_DUET: ${{ github.event_name == 'pull_request' || inputs.stemless_duet }}
+      HELIX_BETA13_COMPARISON: ${{ github.event_name == 'push' || inputs.beta13_comparison }}
       HELIX_NATIVE_PREVIEW_WIDTH: '1920'
       HELIX_NATIVE_PREVIEW_HEIGHT: '1080'
       XL_NO_GPU_COMPUTE: '1'
@@ -64,14 +73,30 @@ jobs:
       - name: Prepare complete show from current Helix source
         run: |
           args=()
-          if [ "$HELIX_STEMLESS_DUET" = 'true' ]; then args+=(--stemless-duet); fi
-          python -m tools.prepare_phoneme_show --audio phoneme-work/input/Phoneme_Test_Hook.mp3 --output phoneme-work/show --full-keyboard "${args[@]}"
+          if [ "$HELIX_BETA13_COMPARISON" != 'true' ]; then
+            args+=(--full-keyboard)
+            if [ "$HELIX_STEMLESS_DUET" = 'true' ]; then args+=(--stemless-duet); fi
+          fi
+          python -m tools.prepare_phoneme_show --audio phoneme-work/input/Phoneme_Test_Hook.mp3 --output phoneme-work/show "${args[@]}"
       - name: Expose source sequencer failure details
         if: failure()
         run: |
           if [ -f phoneme-work/show/sequencer.log ]; then
             tail -n 130 phoneme-work/show/sequencer.log
           fi
+      - name: Recover the real Beta 1.3 sequence
+        if: env.HELIX_BETA13_COMPARISON == 'true'
+        uses: actions/download-artifact@v4
+        with:
+          name: Beta13-current-AB-pilot
+          run-id: 45711122050
+          github-token: ${{ github.token }}
+          path: recovered-ab
+      - name: Verify identical comparison inputs
+        if: env.HELIX_BETA13_COMPARISON == 'true'
+        run: |
+          mv recovered-ab/phoneme-work/A phoneme-work/beta13
+          python -m tools.compare_beta13_native phoneme-work/beta13 phoneme-work/show --candidate-commit "$HELIX_SOURCE_COMMIT"
       - name: Restore compiled pinned native renderer
         id: native-cache
         uses: actions/cache/restore@v4
@@ -181,8 +206,22 @@ jobs:
       - name: Native xLights FSEQ and original-soundtrack MP4
         run: |
           xvfb-run -a -s '-screen 0 2560x1440x24' sh -c 'openbox >phoneme-work/openbox.log 2>&1 & exec python -m tools.native_preview phoneme-work/show --xsq phoneme-work/show/Phoneme_Test_Hook_Helix.xsq --audio phoneme-work/show/media/Phoneme_Test_Hook.mp3 --xlights "$HELIX_PATCHED_XLIGHTS" --review-30fps'
+      - name: Render Beta 1.3 with the same xLights installation and verify comparison
+        if: env.HELIX_BETA13_COMPARISON == 'true'
+        run: |
+          xvfb-run -a -s '-screen 0 2560x1440x24' sh -c 'openbox >phoneme-work/beta13-openbox.log 2>&1 & exec python -m tools.native_preview phoneme-work/beta13 --xsq phoneme-work/beta13/Phoneme_Test_Hook_Helix.xsq --audio phoneme-work/beta13/media/Phoneme_Test_Hook.mp3 --xlights "$HELIX_PATCHED_XLIGHTS" --review-30fps'
+          python -m tools.compare_beta13_native phoneme-work/beta13 phoneme-work/show --candidate-commit "$HELIX_SOURCE_COMMIT" --output phoneme-work/ab-review
+      - name: Upload A/B movie and decoded media proof
+        if: env.HELIX_BETA13_COMPARISON == 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: Beta13-vs-Beta14-recovery-native-MP4
+          path: |
+            phoneme-work/ab-review/Beta13_vs_Beta14_30s.mp4
+            phoneme-work/ab-review/AB_PROOF.json
+          if-no-files-found: error
       - name: Fully decode and collect actual native movie from render receipt
-        if: always()
+        if: always() && env.HELIX_BETA13_COMPARISON != 'true'
         run: |
           if [ -f phoneme-work/show/run_manifest.json ]; then
             python -m tools.finalize_phoneme_review phoneme-work/show

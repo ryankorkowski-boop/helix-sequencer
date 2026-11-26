@@ -1,3 +1,12 @@
+## November 26 · Matched native A/B and final Infinity group pass
+
+**Goal.** Render the recovered Beta 1.3 and current Beta 1.4 sequences with identical inputs, and validate the full Infinity installation with the genuine original soundtrack.
+**Changed files.** The native phoneme workflow, matched native A/B verifier, Infinity layout builder and regression, and completion records.
+**Preserved behavior.** Normal phoneme jobs exercise the full keyboard and keep their stage-motion gate. The Infinity prop inventory, addresses, geometry, family, district, ring and axis groups remain intact. True video, source identity and visual approval requirements remain in force.
+**New behavior.** The native phoneme workflow has an isolated comparison mode that retrieves the original Beta 1.3 pilot XSQ, generates the current B lane, checks exact layout/audio/vocal-clock equality and renders both with the same pinned xLights. The 10,240-prop Infinity tier keeps nested clusters of 16 props and above, cutting 8,960 overlapping small groups.
+**Tests and evidence.** Compared exact A/B input hashes using both real native show folders. Verified 23 focused tests and one gated native manifest test was skipped. The new Infinity layout has 10,240 byte-identical physical props and 1,339 groups. Production sequencing completed for the hash-verified Bells of Mathmas excerpt. Both Android API device jobs passed eight-variant playback and independent media verification. The `a2b791f3` Windows portable package passed its current GUI, worker and FSEQ checks.
+**Limitations.** The stock xLights HD experiment reset the 3D camera during actual export. Its decoded picture failed the visibility gate. The current matched A/B MP4 and full-size Infinity FSEQ and movie remain unverified. See the live handoff for current run IDs and downloads.
+
 ## November 26 · Restore locked native nine-panel output
 
 **Goal.** Run the requested nine-panel grid with the six-snowman band in the center and use the existing native catalog for the actual rendering entry point.

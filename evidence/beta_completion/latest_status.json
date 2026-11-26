@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "updated_utc": "2026-11-26T10:45:00+00:00",
+  "updated_utc": "2026-11-26T22:20:06Z",
   "overall_status": "IN PROGRESS",
   "branch": "integration/unified-beta-completion-20261117",
   "base_commit": "bb41f078a92e02ccb1980785efe1c1be741a9d16",
@@ -125,7 +125,7 @@
       "id": "HBC-INF-FRONT",
       "description": "Restore front-facing Infinity geometry",
       "priority": "P0",
-      "status": "IMPLEMENTED — UNVERIFIED",
+      "status": "IMPLEMENTED \u2014 UNVERIFIED",
       "implementation": "tools/build_infinity_showcase_layout.py",
       "dependencies": "Native renderer on corrected layout",
       "base_commit": "5470a1caf00131467277b3bc104324fb24616980",
@@ -151,7 +151,7 @@
       "id": "HBC-INF-NATIVE",
       "description": "Render the real Bells master XSQ on the bounded Infinity layout in native xLights",
       "priority": "P0",
-      "status": "IMPLEMENTED — UNVERIFIED",
+      "status": "IMPLEMENTED \u2014 UNVERIFIED",
       "implementation": ".github/workflows/helix-infinity-layout.yml",
       "dependencies": "Authenticated source hash, xLights 2026.18, Demucs and Whisper",
       "base_commit": "5470a1caf00131467277b3bc104324fb24616980",
@@ -608,7 +608,7 @@
     "release_approved": false
   },
   "recovery_branch_checkpoint": {
-    "updated_utc": "2026-11-26T21:30:06Z",
+    "updated_utc": "2026-11-26T22:20:06Z",
     "branch": "integration/beta14-recovered-logic-20261126",
     "source_pr": 264,
     "observed_baseline": "c1947906d94313e51922214482d9e7df576f7d0f",
@@ -760,6 +760,70 @@
         ],
         "focused_tests_passed": 16,
         "native_review_verified": false
+      }
+    },
+    "native_and_device_checkpoint": {
+      "source_commit": "a2b791f3d2e1864a12d7ade4387e4c1120530d48",
+      "pr": 264,
+      "owner_approved": false,
+      "windows": {
+        "run_id": 45902718037,
+        "artifact_id": 15156184834,
+        "status": "packaged GUI, worker and native FSEQ passed"
+      },
+      "android_eight_variant": {
+        "source_commit": "0e17f13dfa3f4c5732f2c9c2c87acdd67b6cb2f5",
+        "run_id": 45901274691,
+        "api_30_artifact": 15156856767,
+        "api_36_artifact": 15156463782,
+        "status": "passed on API 30 and 36",
+        "native_band_mobile_parity_verified": false
+      },
+      "local_stock_xlights": {
+        "version": "2026.18",
+        "dimensions": [
+          1920,
+          1080
+        ],
+        "fps": 30,
+        "frames": 1046,
+        "full_decode": true,
+        "soundtrack_correlation": 0.9968081439606467,
+        "source_audio_lag_seconds": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "visual_gate_passed": false,
+        "stage_motion": 0.002,
+        "media_sha256": "c98516d4f38ef5695380b8ea482695cdff12f9f32ed21fd5d772bae185cc5402",
+        "finding": "Stock xLights timed audio correctly but reset the authored 3D viewpoint on movie export; the result is not readable."
+      },
+      "infinity_clustered": {
+        "prop_count": 10240,
+        "pixel_count": 790080,
+        "channels": 2370240,
+        "group_count": 1339,
+        "physical_model_definitions_unchanged": true,
+        "layout_sha256": "78da2a5c09744af33923c22cd4e772a4f04ffeabd0dfc04f9e001892634453a4",
+        "xsq_sha256": "cf3fa8dfecbfbd6994211f91cbfb56893446ff569153b4b660f3480c286161c3",
+        "native_status": "full native render active; no FSEQ or MP4 verified"
+      },
+      "a_b_comparison": {
+        "baseline_commit": "6b87b31d9c6fbb7e78729be1b490c3e765ff8aad",
+        "candidate_commit": "a2b791f3d2e1864a12d7ade4387e4c1120530d48",
+        "common_layout_sha256": "19d243c26908e26b586a9e8740d0ece70cab1801815e966732a9f39074969537",
+        "common_source_audio_sha256": "19e90c273d0d747938f24b36586b50818c104cddffbefe4a4128927374301938",
+        "vocal_estimate_sha256": "30adba33d80e52d43d95796fb3e9562137a4c1b57fbe05424baa1fd5d11ea7a0",
+        "verified": "identical inputs and both sequences generated",
+        "fresh_native_mp4_verified": false
+      },
+      "active": {
+        "locked_nine": 45902718025,
+        "twelve": 45902718060,
+        "sixteen_roformer_review": 45898800676,
+        "android_exact_source": 45902718110
       }
     }
   }

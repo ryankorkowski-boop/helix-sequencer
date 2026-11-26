@@ -61,6 +61,12 @@ def test_magical_extreme_scale(tmp_path):
     groups=root.findall('./modelGroups/modelGroup')
     assert sum(g.get('name','').startswith('HX_INFINITY_MAGIC_') for g in groups)==6
     assert len({r['name'] for r in meta['channel_map']})==10240
+    clusters=[g for g in groups if g.get('name','').startswith('HX_INFINITY_HIER_0016_')]
+    assert len(clusters)==640
+    assert {model for cluster in clusters for model in cluster.get('models').split(',')} == {
+        row['name'] for row in meta['channel_map']}
+    assert {int(g.get('name').split('_')[3]) for g in groups
+            if g.get('name','').startswith('HX_INFINITY_HIER_')} == {16,32,64,128,256,512,1024}
 
 
 def test_front_preview_uses_upright_model_local_geometry(tmp_path):

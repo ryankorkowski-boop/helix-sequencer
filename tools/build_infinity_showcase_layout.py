@@ -140,7 +140,11 @@ def make_layout(output, manifest, size=2048):
         for sign in (0,1):
             group(f"HX_INFINITY_AXIS_{axis}_{sign}",
                   [r["name"] for r in records if (r["center"][axis]>=0)==bool(sign)])
-    for level in (2,4,8,16,32,64,128,256,512,1024):
+    # District, role, axis and ring groups keep their original members. At the
+    # full tier use larger local clusters to avoid thousands of overlapping
+    # native render buffers around the same physical props.
+    levels = (16, 32, 64, 128, 256, 512, 1024) if size == 10240 else (2, 4, 8, 16, 32, 64, 128, 256, 512, 1024)
+    for level in levels:
         for start in range(0,len(records),level):
             group(f"HX_INFINITY_HIER_{level:04d}_{start//level:04d}",names[start:start+level])
     for sector in range(24):
