@@ -1,3 +1,16 @@
+## Beta 1.4 live engine integration checklist
+
+Branch `codex/beta14-live-engine-integration` starts at PR #264 commit `c5954fef098834fa79538285d7bb00eb514b787b`. The donor for governed placement is PR #261 commit `4fd2ddbced8d2f3822f2b9b3fd270bd4ae340957`. Resume from this checklist and the commits on this branch.
+
+- [x] Pin the recovery and governor sources. Preserve the existing 1.4 package, layout, and native review work.
+- [ ] Reconcile live proposal admission, physical targets, timing, and native serialization with the recovery engine.
+- [ ] Feed song-derived sections to the existing nine-pass director in the ordinary generation path. Fix Android RGB opt-in and retain AC circuit and performer timing behavior.
+- [ ] Restore recoverable XSQ errors. Evaluate opt-in compositing and the unique changes in other donor branches.
+- [ ] Verify a real piano note, drum hit and Birdsong response from source through admission and editable XSQ to decoded native channels.
+- [ ] Verify platform exports and representative AC, RGB, helix, band and finale layouts. Record independent vocal evidence and owner visual review separately.
+
+This initial checkpoint changes the ledger only. Source inspection, test results, implementation risks and remaining external evidence will be recorded as work proceeds.
+
 ## November 26 · Profile full Infinity intake and check desktop variants
 
 **Goal.** Fix the measured full-scale native xLights group-load stall and independently verify eight separately selectable desktop preview movies.
