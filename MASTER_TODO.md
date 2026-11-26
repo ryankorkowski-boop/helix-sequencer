@@ -77,6 +77,96 @@ Do not mark complete from unit tests alone.
 
 ## Change Ledger
 
+### 2026-11-25 — Verify unified orchestration against baseline exports
+**Goal:** Compare sequencing quality and preservation over the full song, an opt-in drummer excerpt and a clean-room layout.
+**Changed files/modules:** [Unified orchestration architecture, engine map and verification record](docs/UNIFIED_ORCHESTRATION.md).
+**Intentionally preserved behavior:** The master roadmap's known-good drummer oracle and outstanding native and beta release gates.
+**New behavior:** Recorded playback previews, placement evidence, deterministic output and exact detector-onset comparisons. Full-song role consistency improved from 86.5 to 87.6 and show heuristic from 72.7 to 73.7. The runtime score moved from 96.2 to 95.9. The opt-in excerpt retained 169 exact detector-onset and model matches. The governed real-audio XSQs had zero final budget overages.
+**Tests/evidence:** 926 passed, 25 failed, 5 skipped, 1 xfailed and 1 collection error on the sparse checkout. Baseline had the same failure identifiers plus the now-fixed Snowman Band test. Actual XSQ and Helix preview MP4 comparisons were produced. Clean-room repeated XSQs were byte-identical.
+**Limitations:** Native xLights REST probe returned connection refused. FSEQ, device packaging and real vocal articulation remain unverified. Preview and runtime heuristics are supporting evidence for choreography, with specific mixed results recorded in the comparison.
+**Deferred work:** Native xLights and prior drummer-oracle review, larger fixture and group ownership coverage, platform packaging and annotated vocal acceptance.
+**Regression risks:** Additional admitted cross-layer effects can increase visual density. The clean-room clutter heuristic increased while its other scores improved. Keep the band kit path gated pending native visual review.
+
+
+### 2026-11-25 — Preserve validated layering and kit timing through polish
+**Goal:** Keep the exported placements inside the governor's compatibility and budget rules after the final quality pass.
+**Changed files/modules:** Effect engine, orchestration balance reporting, polish, and audit/polish regression coverage.
+**Intentionally preserved behavior:** Manual template windows, per-layer timeline validation, and legacy audit/polish behavior for the opt-out path.
+**New behavior:** In governed runs, audit scores the admitted layers. Polish keeps approved overlaps and rejects proposed timing changes that move anchored cues, switch budget windows, or break layer, prop or manual-content constraints. The report includes final start offsets.
+**Tests/evidence:** 19 focused audit, balance, shared context, and CLI tests passed. Before this correction the full-song artifact showed 26 over-budget windows after polish, and an excerpt showed only 138 exact drum target/onset matches.
+**Limitations:** Explicit beat-grid overrides remain a separate output postprocess. The final visual comparison and broader regression totals are tracked in the verification entry.
+**Deferred work:** Native import and visual playback against the known drummer oracle, platform packages, and physical controller review.
+**Regression risks:** Preserving accepted overlap can raise active layer count relative to prior audit flattening. The placement and polish paths enforce the configured concurrent layer limit.
+
+
+### 2026-11-25 — Give late audio-reactive cues room in the accent budget
+**Goal:** Preserve contributions from the catalog-driven audio-reactive pass after pixel and multiband choreography.
+**Changed files/modules:** Live budget policy, effect scheduling call site, balance tests and a clean-room CLI integration test.
+**Intentionally preserved behavior:** Section limits, quiet gaps, primary ownership, and existing engine switches.
+**New behavior:** Hold one overlay slot in eligible windows with a scheduled reactive cue. Release any unused slot after the producer runs. Surface reserved and used counts.
+**Tests/evidence:** 15 focused balance, routing and CLI tests passed. The CLI test covers byte-identical XSQ output on repeated inputs, opt-out, manifests, and structural validation. The full test run completed with 925 passed, 25 failed, 5 skipped, 1 xfailed and 1 collection error. The baseline on the same sparse checkout had 915 passed and one additional failure in Snowman Band.
+**Limitations:** Existing audit and polish timing changes can move admitted overlays between windows. The evidence exposed this as a follow-up requirement before enforcing final budget guarantees.
+**Deferred work:** Carry the policy through the last timing pass and repeat rendered verification.
+**Regression risks:** Reserving capacity changes competing accent placements. The real-audio excerpt retained nine audio-reactive effects, compared with zero in the first governor trial.
+
+
+### 2026-11-25 — Close bounded intent feedback and verify serialized output
+**Goal:** Connect the existing readability evaluator and correction loop to the real-audio director and surface XSQ validation in runtime diagnostics.
+**Changed files/modules:** Director, canonical timeline, autonomous render validation, effect engine, and context/quality tests.
+**Intentionally preserved behavior:** Seeded bridge API and pass list, original user files, and live audit/polish pipeline.
+**New behavior:** Correct at most once when the intent simulator produces concrete issues. Keep the candidate only if it removes issues without creating others. Validate generated effect bounds and palette references after writing XSQ and report those findings alongside the live decisions.
+**Tests/evidence:** 28 focused context, correction, output palette, bridge, and band tests passed.
+**Limitations:** The simulator grades intents before placement. XSQ probing checks structure and palette references, not pixel output or native import. Explicit custom beat-grid postprocessing happens later.
+**Deferred work:** Recheck visual and timing results against native FSEQ and signed Windows/Android packages.
+**Regression risks:** A readable plan does not guarantee playable native effect settings. Keep native verification distinct in artifact reports.
+
+
+### 2026-11-25 — Restore band cues and admit dedicated drum hits
+**Goal:** Route existing drummer analysis to valid physical kit components and protect anchored performer timing.
+**Changed files/modules:** Snowman Band cue adapter, orchestration balance attribution, effect engine runner, and Snowman Band tests.
+**Intentionally preserved behavior:** Legacy drum mapper keys, fallback choreography on non-kit layouts, existing Hardkor vocabulary, and dedicated drummer workflows.
+**New behavior:** Join legacy drum cue tags with mapper-produced components. The opt-in `--orchestrate-band-performers` sends supported kit hits to live placement; their starts and Faces effect starts are held through placement retries.
+**Tests/evidence:** 30 focused band, balance, Birdsong and Hardkor tests passed. The parent branch reproduces the band cue `KeyError('composite_submodels')`.
+**Limitations:** Existing mapper and fixture geometry contain legacy drum component names. Only explicit model matches or the legacy named tom/cymbal components are used. Native performer rendering remains open.
+**Deferred work:** Verify full nine-component native geometry, mouth and face playback, and the prior drummer MP4 oracle on the target platform.
+**Regression risks:** Restoring the band payload can expose previously bypassed face routes. The new physical drummer placements remain opt-in.
+
+
+### 2026-11-25 — Govern live effect placement
+**Goal:** Hold competing effects to a common ownership, priority and density policy before XSQ serialization.
+**Changed files/modules:** Composition governor, orchestration balance, live placement in effect engine, and balance tests.
+**Intentionally preserved behavior:** Existing effect, palette and layer compatibility rules, explicit template promotion, and fallbacks on layouts without dedicated models.
+**New behavior:** Every live placement records a proposal decision. Only successful placements consume section budgets on the actual start time. Measured quiet windows and the director's low-density passages tighten overlay capacity. Owned specialist and primary placements take precedence over accent effects on the same layer.
+**Tests/evidence:** 22 focused tests passed. The three-model CLI smoke emitted 12 placed effects in an early run of this policy. The unmodified Helixville4 baseline emitted 986 effects from a 36-second real-audio excerpt with quality score 92.9.
+**Limitations:** Output report reflects live placement before any explicitly requested beat-grid postprocessing. Model ownership is inferred from names. Structural and render validation are separate gates.
+**Deferred work:** Make specialist timing verifiable, repair existing Snowman Band contract failure, and compare current final artifacts.
+**Regression risks:** Tight budgets and role assignments can suppress accents on unusually named layouts. The CLI can select previous admission policy with `--no-unified-orchestration`.
+
+
+### 2026-11-25 — Share analyzed timing with existing planners
+**Goal:** Carry live musical timing and available features into the canonical director and specialist planners.
+**Changed files/modules:** Canonical timeline, director, effect engine, and musical-context tests.
+**Intentionally preserved behavior:** Existing analytics and feature switches, seeded bridge/template promotion, and specialist planner inputs and ordering.
+**New behavior:** Snapshot live milliseconds, beat subdivisions, local tempo, sections, notes, vocals, percussion, quiet windows and dynamic marks. Convert units at the intent graph boundary. Chronoflow, Band Sync, and Snowman Band consume this snapshot.
+**Tests/evidence:** 11 context, Band Sync and bridge tests passed. Snowman Band exposed a separately tracked drum-mapping contract failure.
+**Limitations:** Additional stereo/piano-roll analysis and specialized phoneme generation remain with their current producers. The live governor is pending.
+**Deferred work:** Live decision policy, correction, diagnostics, and render comparisons.
+**Regression risks:** Future consumers should keep beat and note timestamps in milliseconds until the intent boundary.
+
+
+### 2026-11-25 — Unified orchestration discovery
+**Branch:** `feature/unified-intelligence-orchestration`
+
+**Goal:** Trace the live renderer and establish a baseline for shared timing and cooperative placement.
+**Changed files/modules:** Added [architecture and engine inventory](docs/UNIFIED_ORCHESTRATION.md).
+**Intentionally preserved behavior:** Runtime unchanged.
+**New behavior:** Recorded the seeded director sidecar and live export paths, duplicated work, timing boundaries and placement hazards.
+**Tests/evidence:** 34 focused baseline tests passed. Clean-room CLI run emitted an eight-effect XSQ with quality score 81.0.
+**Limitations:** No installed native xLights renderer. Native import and FSEQ evidence remain open.
+**Deferred work:** Complete real-audio comparison, wire analyzed context and governor, and review visual output.
+**Regression risks:** Changes to placement accounting can affect dense chords, intended layers, and section-boundary effects.
+
+
 ### 2026-11-13 — Beta 1.3 packages the palette fix for Windows and Android
 **Agent:** Cursor cloud agent
 **Branch:** `cursor/beta-1-3-release-1aae`

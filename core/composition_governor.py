@@ -1,9 +1,12 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
+from typing import Iterable
 
+from core.canonical_timeline_orchestrator import MusicalContext
 from core.choreography_intent import ContrastStrategy, DominanceStrategy
 from core.intent_graph import IntentGraph
+from core.orchestration_balance import PlacementSession
 
 
 @dataclass(frozen=True)
@@ -35,6 +38,12 @@ class CompositionGovernor:
     - section balance
     - motion overload
     """
+
+    def begin_placement(
+        self, music: MusicalContext, models: Iterable[str], direction: IntentGraph | None = None,
+    ) -> PlacementSession:
+        density = {round(intent.start * 1000): intent.density_budget for intent in direction or ()}
+        return PlacementSession(music, models, density)
 
     def evaluate(self, graph: IntentGraph) -> CompositionReport:
         diagnostics: list[CompositionDiagnostic] = []

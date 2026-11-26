@@ -299,5 +299,22 @@ class SnowmanBandTests(unittest.TestCase):
         self.assertTrue(payload["kit"]["drum_intelligence"]["motion_events"])
 
 
+def test_drummer_placements_route_only_to_explicit_components():
+    kick = "HX_SNOWMAN_DRUMMER_KICK"
+    parent = "HX_SNOWMAN_DRUMMER_INSTRUMENT"
+    payload = {"cues": {"drummer": [
+        {"kind": "kick", "composite_submodels": [kick], "start_ms": 550, "end_ms": 700},
+        {"kind": "drum_bus", "composite_submodels": [kick], "start_ms": 800, "end_ms": 900},
+        {"kind": "tom", "composite_submodels": ["HX_SNOWMAN_DRUMMER_TOM_MID"], "start_ms": 900, "end_ms": 1040},
+    ]}}
+    assert snowman_band.drummer_placements(payload, ["Arch 1"]) == []
+    assert snowman_band.drummer_placements(payload, [
+        "Arch 1", f"{parent}/{kick}", f"{parent}/HX_SNOWMAN_DRUMMER_TOM",
+    ]) == [
+        (f"{parent}/{kick}", 550, 700),
+        (f"{parent}/HX_SNOWMAN_DRUMMER_TOM", 900, 1040),
+    ]
+
+
 if __name__ == "__main__":
     unittest.main()

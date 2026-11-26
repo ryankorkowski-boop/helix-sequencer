@@ -14,6 +14,7 @@ from collections.abc import Iterator, Mapping
 from collections import Counter
 from dataclasses import dataclass, field, replace
 from pathlib import Path
+from time import perf_counter
 import xml.etree.ElementTree as ET
 
 from core.lazy_imports import LazyModule
@@ -35,6 +36,10 @@ from core import self_improving_scoring as sequence_scoring
 from core import snowman_band as snowman_band_engine
 from core import band_sync as band_sync_engine
 from core import youtube_show_scorer
+from core.autonomous_render_validation_engine import AutonomousRenderValidationEngine
+from core.canonical_timeline_orchestrator import MusicalContext, MusicalSection
+from core.composition_governor import CompositionGovernor
+from core.multi_pass_orchestration_director import MultiPassOrchestrationDirector
 from effects import piano_effect as piano_effect_engine
 from core import spatial_scene as spatial
 from tools.build_helpers import (
@@ -176,6 +181,8 @@ class RuntimeTuning:
     spatial_awareness: float = 0.0
     chase_style: str = "none"
     layering_mode: str = "replace"
+    unified_orchestration: bool = True
+    orchestrate_band_performers: bool = False
     layer_priority_vocals: int = 4
     layer_priority_drums: int = 3
     layer_priority_bass: int = 2
@@ -9108,6 +9115,9 @@ class TimelineEntry:
     priority: int
     xml_layer: ET.Element
     xml_effect: ET.Element
+    proposal: balance.PlacementProposal | None = None
+    budget_window: balance.BudgetWindow | None = None
+    composition_priority: int = 0
 
 
 class EffectTimeline:
@@ -9135,13 +9145,15 @@ class EffectTimeline:
             if self._overlap(start, end, entry.start, entry.end)
         ]
 
-    def _active_sweep(self, start: int, end: int) -> int:
+    def _active_sweep(self, start: int, end: int, excluded: frozenset[int] = frozenset()) -> int:
         """
         Return max concurrently active choreography layers in [start, end).
         """
         events: list[tuple[int, int]] = []
         for entries in self.layers.values():
             for entry in entries:
+                if id(entry) in excluded:
+                    continue
                 ov_st = max(start, entry.start)
                 ov_en = min(end, entry.end)
                 if ov_en > ov_st:
@@ -9149,7 +9161,7 @@ class EffectTimeline:
                     events.append((ov_en, -1))
         if not events:
             return 0
-        events.sort(key=lambda item: (item[0], -item[1]))
+        events.sort()
         active = 0
         max_active = 0
         for _time, delta in events:
@@ -9158,10 +9170,12 @@ class EffectTimeline:
                 max_active = active
         return max_active
 
-    def would_exceed_layers(self, start: int, end: int, max_layers_per_prop: int) -> bool:
+    def would_exceed_layers(
+        self, start: int, end: int, max_layers_per_prop: int, excluded: frozenset[int] = frozenset(),
+    ) -> bool:
         if max_layers_per_prop <= 0:
             return True
-        return self._active_sweep(start, end) >= max_layers_per_prop
+        return self._active_sweep(start, end, excluded) >= max_layers_per_prop
 
     def remove_entry(self, layer: str, entry: TimelineEntry) -> None:
         if entry in self.layers.get(layer, []):
@@ -9270,11 +9284,14 @@ def violates_prop_rules(
     effect_name: str,
     settings: str | None,
     timeline: EffectTimeline,
+    excluded: frozenset[int] = frozenset(),
 ) -> tuple[bool, str]:
     effect_family = effect_family_key(effect_name)
     if family == "mega":
         if layer == "motion":
             for entry in timeline.layers["motion"]:
+                if id(entry) in excluded:
+                    continue
                 if timeline._overlap(start_ms, end_ms, entry.start, entry.end):
                     return (True, "mega tree motion already occupied")
                 ef_existing = effect_family_key(entry.effect_name)
@@ -9282,6 +9299,8 @@ def violates_prop_rules(
                     return (True, "mega spiral/wipe conflict")
         if layer == "accent":
             for entry in timeline.layers["motion"]:
+                if id(entry) in excluded:
+                    continue
                 if timeline._overlap(start_ms, end_ms, entry.start, entry.end):
                     if overlaps_ratio(start_ms, end_ms, entry.start, entry.end) > 0.20:
                         return (True, "mega accent overlap exceeds 20% of accent duration")
@@ -9289,12 +9308,16 @@ def violates_prop_rules(
     if family == "matrix":
         if effect_family == "bars":
             for entry in timeline.layers.get(layer, []):
+                if id(entry) in excluded:
+                    continue
                 if effect_family_key(entry.effect_name) == "bars" and timeline._overlap(start_ms, end_ms, entry.start, entry.end):
                     return (True, "matrix bars stacking conflict")
         if effect_family == "wipe":
             direction = _extract_direction_key(settings or "")
             for existing_layer in LAYER_ORDER:
                 for entry in timeline.layers.get(existing_layer, []):
+                    if id(entry) in excluded:
+                        continue
                     if effect_family_key(entry.effect_name) != "wipe":
                         continue
                     if not timeline._overlap(start_ms, end_ms, entry.start, entry.end):
@@ -9306,6 +9329,8 @@ def violates_prop_rules(
     if family == "spinner" and effect_family == "rotation":
         for existing_layer in LAYER_ORDER:
             for entry in timeline.layers.get(existing_layer, []):
+                if id(entry) in excluded:
+                    continue
                 if effect_family_key(entry.effect_name) != "rotation":
                     continue
                 if timeline._overlap(start_ms, end_ms, entry.start, entry.end):
@@ -10376,6 +10401,7 @@ def run_variant(
     profile: base.UserProfile,
     tuning: RuntimeTuning | None = None,
 ) -> dict[str, object]:
+    variant_started = perf_counter()
     tuning = tuning or RuntimeTuning()
     style = apply_runtime_style(style, tuning)
     rng = random.Random(base.SEED + base.stable_name_seed(style.version + audio_path.stem.lower()))
@@ -10822,6 +10848,28 @@ def run_variant(
         max(26, base.scaled_gap(24)),
     )
     keyboard_note_events = extract_polyphonic_events(audio, harmonic, keyboard_event_times, sections, parts, keyboard_style)
+    music = MusicalContext(
+        duration_ms=song_length_ms,
+        sections=tuple(
+            MusicalSection(part.label, part.start_ms, min(part.end_ms, song_length_ms), float(part.energy))
+            for part in parts if part.start_ms < song_length_ms
+        ),
+        beat_ms=tuple(beat_ms),
+        bar_ms=tuple(bar_ms),
+        onset_ms=tuple(onset_ms),
+        note_onset_ms=tuple(note_onset_ms),
+        kicks=tuple(kicks),
+        snares=tuple(snares),
+        hats=tuple(hats),
+        bass_peaks=tuple(bass_peaks),
+        vocal_peaks=tuple(vocal_peaks),
+        build_lifts=tuple(build_lifts),
+        releases=tuple(releases),
+        quiet_windows=tuple(multiband.quiet_windows),
+        note_events=tuple(note_events),
+        lyric_events=tuple(lyric_events),
+        mood=multiband.mood_hint,
+    )
     try:
         chronoflow_payload = chronoflow_engine.build_chronoflow_plan(
             audio_path=audio_path,
@@ -10829,17 +10877,17 @@ def run_variant(
             audio=audio,
             multiband=multiband,
             parts=parts,
-            note_events=note_events,
-            lyric_events=lyric_events,
-            beat_ms=beat_ms,
-            onset_ms=onset_ms,
-            kicks=kicks,
-            snares=snares,
-            hats=hats,
-            bass_peaks=bass_peaks,
-            vocal_peaks=vocal_peaks,
-            build_lifts=build_lifts,
-            releases=releases,
+            note_events=list(music.note_events),
+            lyric_events=list(music.lyric_events),
+            beat_ms=list(music.beat_ms),
+            onset_ms=list(music.onset_ms),
+            kicks=list(music.kicks),
+            snares=list(music.snares),
+            hats=list(music.hats),
+            bass_peaks=list(music.bass_peaks),
+            vocal_peaks=list(music.vocal_peaks),
+            build_lifts=list(music.build_lifts),
+            releases=list(music.releases),
             log_fn=log,
         )
     except Exception as exc:
@@ -10855,11 +10903,11 @@ def run_variant(
     try:
         band_sync_payload = band_sync_engine.build_band_sync_plan(
             parts=parts,
-            beat_ms=beat_ms,
-            onset_ms=onset_ms,
-            vocal_peaks=vocal_peaks,
-            bass_peaks=bass_peaks,
-            note_events=note_events,
+            beat_ms=list(music.beat_ms),
+            onset_ms=list(music.onset_ms),
+            vocal_peaks=list(music.vocal_peaks),
+            bass_peaks=list(music.bass_peaks),
+            note_events=list(music.note_events),
             background_vocal_events=stem_analysis.background_vocal_events or [],
             drum_event_streams=stem_analysis.drum_event_streams or {},
             song_length_ms=song_length_ms,
@@ -10871,16 +10919,16 @@ def run_variant(
         snowman_band_payload = snowman_band_engine.build_snowman_band_plan(
             parsed_layout=parsed_layout,
             parts=parts,
-            lyric_events=lyric_events,
-            note_events=note_events,
-            beat_ms=beat_ms,
-            kicks=kicks,
-            snares=snares,
-            hats=hats,
-            bass_peaks=bass_peaks,
-            vocal_peaks=vocal_peaks,
-            build_lifts=build_lifts,
-            releases=releases,
+            lyric_events=list(music.lyric_events),
+            note_events=list(music.note_events),
+            beat_ms=list(music.beat_ms),
+            kicks=list(music.kicks),
+            snares=list(music.snares),
+            hats=list(music.hats),
+            bass_peaks=list(music.bass_peaks),
+            vocal_peaks=list(music.vocal_peaks),
+            build_lifts=list(music.build_lifts),
+            releases=list(music.releases),
             chronoflow_payload=chronoflow_payload,
             band_sync_payload=band_sync_payload,
             multiband=multiband,
@@ -10900,6 +10948,23 @@ def run_variant(
             "cues": {},
             "debug": {"total_cue_count": 0, "lyric_cues": 0},
         }
+    music = replace(
+        music, phoneme_events=tuple((snowman_band_payload.get("global_timeline") or {}).get("phoneme_events", ())),
+    )
+    director_started = perf_counter()
+    direction = None
+    orchestration_warnings = []
+    if tuning.unified_orchestration:
+        try:
+            direction = MultiPassOrchestrationDirector().direct_music(music)
+        except Exception as exc:
+            warning = f"Live direction unavailable: {exc!r}"
+            log(f"[WARN] {warning}")
+            orchestration_warnings.append(warning)
+    director_ms = (perf_counter() - director_started) * 1000
+    placement = None
+    if tuning.unified_orchestration:
+        placement = CompositionGovernor().begin_placement(music, names, direction.final_graph if direction else None)
     chronoflow_track = chronoflow_engine.build_timing_track(chronoflow_payload, limit=1400)
     snowman_band_track = snowman_band_engine.build_timing_track(snowman_band_payload, limit=1800)
     try:
@@ -10931,6 +10996,8 @@ def run_variant(
             "debug": {"event_count": 0},
         }
 
+    last_rejection = ""
+
     def reject_effect(
         nm: str,
         st_i: int,
@@ -10939,6 +11006,8 @@ def run_variant(
         layer_key: str,
         reason: str,
     ) -> None:
+        nonlocal last_rejection
+        last_rejection = reason
         if not tuning.debug_validation:
             return
         validation_rejections.append(
@@ -10961,6 +11030,8 @@ def run_variant(
         effect_name: str,
         template_to_use: base.EffectTemplate,
         stem_priority: int,
+        proposal: balance.PlacementProposal,
+        composition_priority: int,
     ) -> bool:
         nonlocal total
         duration = end_ms - start_ms
@@ -10981,18 +11052,19 @@ def run_variant(
                 reject_effect(nm, st_i, en_i, effect_name, layer_key, "smart-layer blocked by existing template content")
                 return False
         timeline = timelines[nm]
-        if timeline.would_exceed_layers(st_i, en_i, max(1, int(tuning.max_layers_per_prop))):
+        layer_limit = max(1, int(tuning.max_layers_per_prop))
+        if placement is None and timeline.would_exceed_layers(st_i, en_i, layer_limit):
             reject_effect(nm, st_i, en_i, effect_name, layer_key, "max concurrent layers reached")
             return False
         overlapping_entries = timeline.overlapping(layer_key, st_i, en_i)
-        if overlapping_entries:
-            higher_or_equal = [entry for entry in overlapping_entries if entry.priority >= stem_priority]
-            if higher_or_equal:
-                reject_effect(nm, st_i, en_i, effect_name, layer_key, "same-layer conflict with equal/higher priority effect")
-                return False
-            for entry in overlapping_entries:
-                timeline.remove_entry(layer_key, entry)
-                total = max(0, total - 1)
+        if any((entry.composition_priority, entry.priority) >= (composition_priority, stem_priority)
+               for entry in overlapping_entries):
+            reject_effect(nm, st_i, en_i, effect_name, layer_key, "same-layer conflict with equal/higher priority effect")
+            return False
+        excluded = frozenset(id(entry) for entry in overlapping_entries)
+        if placement and timeline.would_exceed_layers(st_i, en_i, layer_limit, excluded):
+            reject_effect(nm, st_i, en_i, effect_name, layer_key, "max concurrent layers reached")
+            return False
 
         family = prop_family(nm, model_category_map.get(nm))
         blocked, reason = violates_prop_rules(
@@ -11003,10 +11075,26 @@ def run_variant(
             effect_name=effect_name,
             settings=template_to_use.settings,
             timeline=timeline,
+            excluded=excluded,
         )
         if blocked:
             reject_effect(nm, st_i, en_i, effect_name, layer_key, reason)
             return False
+
+        budget_window = placement.budget_window(proposal, st_i) if placement else None
+        if placement:
+            reason = placement.budget_rejection(
+                proposal, budget_window, (entry.budget_window for entry in overlapping_entries),
+            )
+            if reason:
+                reject_effect(nm, st_i, en_i, effect_name, layer_key, reason)
+                return False
+
+        for entry in overlapping_entries:
+            timeline.remove_entry(layer_key, entry)
+            total -= 1
+            if placement and entry.proposal is not None:
+                placement.displace(entry.proposal, entry.budget_window)
 
         layer_el = layers[nm][layer_key]
         xml_effect = base.add_effect(layer_el, st_i, en_i, effect_name, template_to_use)
@@ -11019,8 +11107,13 @@ def run_variant(
                 priority=stem_priority,
                 xml_layer=layer_el,
                 xml_effect=xml_effect,
+                proposal=proposal if placement else None,
+                budget_window=budget_window,
+                composition_priority=composition_priority,
             ),
         )
+        if placement:
+            placement.accept(proposal, st_i, budget_window)
         used_targets.add(nm)
         if parsed_layout is not None:
             if nm in parsed_layout.groups:
@@ -11069,33 +11162,48 @@ def run_variant(
         cd_ms: int = 0,
         stem: str = "other",
     ) -> None:
+        proposal = balance.PlacementProposal(nm, label, int(st), int(en), eff)
         if nm is None or nm not in layers:
+            if placement:
+                placement.reject(proposal, "unavailable model")
             return
-        lane = balance.label_lane(label)
-        if lane == "piano_overlay" and not balance.allows_piano_overlay(nm, layout_has_piano=layout_has_piano):
-            balance_rejected["piano_overlay"] += 1
-            reject_effect(nm, int(st), int(en), eff, "balance", "piano overlay kept off non-piano models")
-            return
-        if not balance.allows_vocal(nm, label, layout_has_singer=layout_has_singer):
-            balance_rejected["vocal"] += 1
-            reject_effect(nm, int(st), int(en), eff, "balance", "vocal face kept on singer or lyric surface")
-            return
-        if lane in {"overlay", "flash"} and not _reserve_section_budget(int(st), label):
-            balance_rejected[lane] += 1
-            reject_effect(nm, int(st), int(en), eff, "balance", f"{lane} over section budget")
-            return
+        if placement:
+            reason = placement.ownership_rejection(proposal)
+            if reason:
+                placement.reject(proposal, reason)
+                reject_effect(nm, int(st), int(en), eff, "balance", reason)
+                return
+        else:
+            lane = balance.label_lane(label)
+            if lane == "piano_overlay" and not balance.allows_piano_overlay(nm, layout_has_piano=layout_has_piano):
+                balance_rejected["piano_overlay"] += 1
+                reject_effect(nm, int(st), int(en), eff, "balance", "piano overlay kept off non-piano models")
+                return
+            if not balance.allows_vocal(nm, label, layout_has_singer=layout_has_singer):
+                balance_rejected["vocal"] += 1
+                reject_effect(nm, int(st), int(en), eff, "balance", "vocal face kept on singer or lyric surface")
+                return
+            if lane in {"overlay", "flash"} and not _reserve_section_budget(int(st), label):
+                balance_rejected[lane] += 1
+                reject_effect(nm, int(st), int(en), eff, "balance", f"{lane} over section budget")
+                return
         st_i = int(st)
         en_i = int(max(st_i + 1, en))
         min_dur = max(1, int(tuning.min_effect_ms))
         if cd_key and not cooldowns.allow(cd_key, st_i):
+            if placement:
+                placement.reject(proposal, "cooldown active")
             reject_effect(nm, st_i, en_i, eff, "cooldown", f"cooldown active for key {cd_key}")
             return
         stem_key = stem if stem in priorities else "other"
         stem_priority = priorities.get(stem_key, priorities["other"])
+        composition_priority = placement.priority(proposal, stem_key) if placement else 0
         layer_key = stem_to_choreo_layer(stem_key, label)
-        snap_grid, snap_shift = _select_snap_grid(stem_key, layer_key)
-        st_i, en_i = _snap_range(st_i, en_i, snap_grid, snap_shift, snap_shift + 12, min_dur)
-        if (en_i - st_i) >= 800 and bar_ms:
+        anchored = placement is not None and proposal.timing_anchor
+        if not anchored:
+            snap_grid, snap_shift = _select_snap_grid(stem_key, layer_key)
+            st_i, en_i = _snap_range(st_i, en_i, snap_grid, snap_shift, snap_shift + 12, min_dur)
+        if not anchored and (en_i - st_i) >= 800 and bar_ms:
             en_i = _snap_to_grid(en_i, bar_ms, 140)
             if en_i <= st_i + min_dur:
                 en_i = st_i + min_dur
@@ -11173,7 +11281,8 @@ def run_variant(
         if layer_key == "motion":
             layer_candidates.append("accent")
         attempts: list[tuple[int, int]] = []
-        for shift in (0, 50, -50, 100, -100, 150, -150):
+        shifts = (0,) if anchored else (0, 50, -50, 100, -100, 150, -150)
+        for shift in shifts:
             attempts.append((st_i + shift, en_i + shift))
         base_duration = max(1, en_i - st_i)
         for factor in (0.92, 0.84, 0.72):
@@ -11194,11 +11303,15 @@ def run_variant(
                     effect_name=runtime_effect,
                     template_to_use=template_to_use,
                     stem_priority=stem_priority,
+                    proposal=proposal,
+                    composition_priority=composition_priority,
                 ):
                     stats.bump(label)
                     if cd_key and cd_ms > 0:
                         cooldowns.block(cd_key, st_i, cd_ms)
                     return
+        if placement:
+            placement.reject(proposal, last_rejection)
         reject_effect(nm, st_i, en_i, runtime_effect, layer_key, "placement skipped after conflict resolution attempts")
 
     blackout_windows: list[tuple[int, int]] = []
@@ -12142,6 +12255,10 @@ def run_variant(
         if placed_snowman_faces:
             log(f"Snowman sequence face effects placed: {placed_snowman_faces}")
 
+    if placement and tuning.orchestrate_band_performers and not hardkor_mode:
+        for model_name, start_ms, end_ms in snowman_band_engine.drummer_placements(snowman_band_payload, layers):
+            add_model(model_name, start_ms, end_ms, "band_drummer_hit", stem="drums")
+
     spatial_track: list[tuple[str, int, int]] = []
     if not hardkor_mode and not structured_mode:
         spatial_spans, spatial_count = apply_spatial_chase(
@@ -12185,6 +12302,14 @@ def run_variant(
             log(f"Lua-style accent placements added: {lua_count}")
 
     if (not hardkor_mode) and tuning.pixel_reactive and style.family in {"v20", "v21", "v22", "v23", "v24", "v25", "v26", "v27"}:
+        if placement and tuning.audio_reactive_intensity > 0:
+            action_limit = int(round(96 * base.clamp(float(tuning.audio_reactive_intensity), 0.0, 2.0)))
+            placement.reserve_audio_reactive_windows(
+                time_ms
+                for action in audio_reactive_actions[:action_limit]
+                if str(action.get("effect", "")) not in audio_trigger_routes.FLASH_LIKE_EFFECTS
+                and not in_blackout(time_ms := _safe_int(action.get("time_ms")))
+            )
         pixel_attempts = place_pixel_reactive_score(
             style=style,
             pools=pools,
@@ -12240,6 +12365,8 @@ def run_variant(
             reactive_track=audio_reactive_track,
             intensity=float(tuning.audio_reactive_intensity),
         )
+        if placement:
+            placement.finish_audio_reactive()
         if audio_reactive_attempts:
             log(f"Audio-reactive catalog placements attempted: {audio_reactive_attempts}")
 
@@ -12383,10 +12510,35 @@ def run_variant(
         parts=parts,
         placements=stats.counts,
         min_effect_ms=max(50, int(tuning.min_effect_ms)),
-        auto_fix=True,
+        auto_fix=placement is None,
     )
     if initial_audit.fixes_applied:
         log(f"Audit auto-fixes applied: {initial_audit.fixes_applied}")
+
+    def can_polish_timing(model: str, layer: str, entry: TimelineEntry, start: int, end: int) -> bool:
+        if placement is None or entry.proposal is None:
+            return True
+        if entry.proposal.timing_anchor or not 0 <= start < end <= song_length_ms:
+            return False
+        if placement.budget_window(entry.proposal, start) != entry.budget_window:
+            return False
+        if layering_mode == "smart_layer" and overlaps_window(start, end, existing_windows_by_model.get(model, [])):
+            return False
+        timeline = timelines[model]
+        excluded = frozenset({id(entry)})
+        if timeline.would_exceed_layers(start, end, max(1, int(tuning.max_layers_per_prop)), excluded):
+            return False
+        blocked, _ = violates_prop_rules(
+            family=prop_family(model, model_category_map.get(model)),
+            layer=layer,
+            start_ms=start,
+            end_ms=end,
+            effect_name=entry.effect_name,
+            settings=entry.xml_effect.text or "",
+            timeline=timeline,
+            excluded=excluded,
+        )
+        return not blocked
 
     polish_result = sequence_polish.PolishResult(score=0.0)
     if tuning.polish_enabled:
@@ -12406,6 +12558,7 @@ def run_variant(
             vocal_peaks=vocal_peaks,
             bass_peaks=bass_peaks,
             drum_peaks=sorted(set(kicks + snares)),
+            can_retime=can_polish_timing if placement else None,
         )
         if polish_result.notes:
             log(f"Polish pass complete: score={polish_result.score:.1f}")
@@ -12799,6 +12952,33 @@ def run_variant(
         },
     }
     payload["quality"] = compute_quality_score(payload)
+    if placement:
+        planning_passes = direction.passes if direction else ()
+        payload["orchestration"] = {
+            "schema": "helix.live_orchestration.v1",
+            "musical_context": music.summary(),
+            "planning_passes": [
+                {"name": item.pass_name, **item.metadata} for item in planning_passes
+            ],
+            **placement.summary(
+                (entry.proposal, entry.start)
+                for timeline in timelines.values()
+                for entries in timeline.layers.values()
+                for entry in entries
+                if entry.proposal is not None
+            ),
+            "quality_score": payload["quality"]["score"],
+            "performance_ms": {
+                "director": round(director_ms, 3),
+                "variant_through_scoring": round((perf_counter() - variant_started) * 1000, 3),
+            },
+            "warnings": orchestration_warnings + validation_issues[:200],
+        }
+        log(
+            f"Live orchestration: {len(planning_passes)} planning passes, "
+            f"{sum(placement.rejections.values())} rejected proposals, "
+            f"{sum(placement.conflicts.values())} resolved conflicts"
+        )
     payload["youtube_show_grade"] = youtube_show_scorer.score_youtube_show(payload)
     memory_weights: dict[str, float] | None = None
     if tuning.learning_memory_file is not None:
@@ -12825,9 +13005,6 @@ def run_variant(
     except Exception as exc:
         log(f"[WARN] Snowman band export skipped: {exc!r}")
     validate_report_payload(payload)
-    write_report(report_path(out_path), payload)
-    write_sequence_notes(notes_path(out_path), payload)
-
     log("[6/8] Writing sequence")
     base.normalize_display_views(xsq.root, force=True)
     if active_layout_file and active_layout_file.exists():
@@ -12852,6 +13029,14 @@ def run_variant(
     except Exception:
         pass
     xsq.tree.write(out_path, encoding="utf-8", xml_declaration=True)
+    if placement:
+        export_validation = AutonomousRenderValidationEngine().validate_export(out_path, auto_layer_name, song_length_ms)
+        payload["orchestration"]["export_validation"] = export_validation
+        payload["orchestration"]["warnings"].extend(export_validation["warnings"])
+        status = "passed" if export_validation["passed"] else "has warnings"
+        log(f"Orchestration XSQ structure {status} ({export_validation['effects_checked']} effects checked)")
+    write_report(report_path(out_path), payload)
+    write_sequence_notes(notes_path(out_path), payload)
 
     if GENERATE_SHOWCASE:
         showcase_path = out_path.with_name(f"{out_path.stem}.showcase.xsq")
@@ -12934,6 +13119,10 @@ def parse_args(style: VariantStyle, argv: list[str] | None = None) -> argparse.N
     parser.add_argument("--no-template-guidance", dest="template_guidance", action="store_false", help="Disable template-guided effect analysis")
     parser.add_argument("--spatial-awareness", type=float, dest="spatial_awareness", help="0.0-1.0 spatial chase intensity")
     parser.add_argument("--chase-style", dest="chase_style", help="none/left_to_right/radial_out/group_to_group/random_walk/wave")
+    parser.add_argument("--orchestrate-band-performers", action="store_true",
+                        help="Place detected drum hits on compatible physical band kit models")
+    parser.add_argument("--no-unified-orchestration", dest="unified_orchestration",
+                        action="store_false", help="Use the previous live placement and budget policy")
     parser.add_argument("--layering-mode", dest="layering_mode", help="replace/overlay_blend/smart_layer/additive")
     parser.add_argument("--layer-priority-vocals", type=int, dest="layer_priority_vocals", help="Stem priority weight for vocals")
     parser.add_argument("--layer-priority-drums", type=int, dest="layer_priority_drums", help="Stem priority weight for drums")
@@ -13130,6 +13319,8 @@ def main_for(version: str, argv: list[str] | None = None) -> None:
         spatial_awareness=base.clamp(float(args.spatial_awareness if args.spatial_awareness is not None else 0.0), 0.0, 1.0),
         chase_style=normalize_chase_style(args.chase_style or "none"),
         layering_mode=normalize_layering_mode(args.layering_mode or "replace"),
+        unified_orchestration=bool(args.unified_orchestration),
+        orchestrate_band_performers=bool(args.orchestrate_band_performers),
         layer_priority_vocals=int(args.layer_priority_vocals if args.layer_priority_vocals is not None else 4),
         layer_priority_drums=int(args.layer_priority_drums if args.layer_priority_drums is not None else 3),
         layer_priority_bass=int(args.layer_priority_bass if args.layer_priority_bass is not None else 2),
