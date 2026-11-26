@@ -63,3 +63,52 @@ def test_keyboard_lane_unchanged_without_a_piano():
     lane = build_keyboard_lane_with_routes(pools)
     assert "north roofline" in lane
     assert "arch 1" in lane
+
+
+def test_governor_charges_accepted_final_candidates_only():
+    from core.canonical_timeline_orchestrator import MusicalContext, MusicalSection
+    from core.composition_governor import CompositionGovernor
+    from core.orchestration_balance import PlacementProposal
+
+    music = MusicalContext(
+        duration_ms=2000,
+        sections=(MusicalSection("VERSE", 0, 1020, 0.2), MusicalSection("CHORUS", 1020, 2000, 0.8)),
+        quiet_windows=((0, 900),),
+    )
+    session = CompositionGovernor().begin_placement(music, ["Arch 1"])
+    accent = PlacementProposal("Arch 1", "pixel_vocal", 950, 1110, "On")
+    quiet_window = session.budget_window(accent, 100)
+    verse_window = session.budget_window(accent, 1000)
+    chorus_window = session.budget_window(accent, 1040)
+    assert {session.limits[key] for key in (quiet_window, verse_window, chorus_window)} == {1, 5, 14}
+    assert session.budget_rejection(quiet_window, ()) is None
+    session.reject(accent, "same-layer conflict")
+    assert session.budget_rejection(quiet_window, ()) is None
+    session.accept(accent, 100, quiet_window)
+    assert session.budget_rejection(quiet_window, ()) == "overlay over section budget"
+    assert session.budget_rejection(quiet_window, (quiet_window,)) is None
+    session.displace(accent, quiet_window)
+    session.accept(accent, 1040, chorus_window)
+    summary = session.summary([(accent, 1040)])
+    assert summary["contributions"]["pixel_reactive"] == {
+        "proposed": 3, "accepted": 2, "rejected": 1, "displaced": 1, "retained": 1,
+    }
+    assert summary["resolved_conflicts"] == {"higher_priority_same_layer": 1}
+
+
+def test_owned_specialists_rank_above_accents_and_keep_layout_fallback():
+    from core.canonical_timeline_orchestrator import MusicalContext
+    from core.composition_governor import CompositionGovernor
+    from core.orchestration_balance import PlacementProposal
+
+    music = MusicalContext(duration_ms=2000, sections=())
+    governor = CompositionGovernor()
+    session = governor.begin_placement(music, ["Floor Piano", "Singer", "Drummer", "Arch 1"])
+    piano = PlacementProposal("Floor Piano", "polyphonic_keyboard", 0, 100, "On")
+    accent = PlacementProposal("Floor Piano", "pixel_kick", 0, 100, "On")
+    yard_piano = PlacementProposal("Arch 1", "polyphonic_keyboard", 0, 100, "On")
+    assert session.ownership_rejection(piano) is None
+    assert session.priority(piano, "other") > session.priority(accent, "drums")
+    assert session.ownership_rejection(accent) == "accent kept off dedicated performer"
+    assert session.ownership_rejection(yard_piano) == "piano overlay kept off non-piano models"
+    assert governor.begin_placement(music, ["Arch 1"]).ownership_rejection(yard_piano) is None

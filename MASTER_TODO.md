@@ -77,6 +77,17 @@ Do not mark complete from unit tests alone.
 
 ## Change Ledger
 
+### 2026-11-25 — Govern live effect placement
+**Goal:** Hold competing effects to a common ownership, priority and density policy before XSQ serialization.
+**Changed files/modules:** Composition governor, orchestration balance, live placement in effect engine, and balance tests.
+**Intentionally preserved behavior:** Existing effect, palette and layer compatibility rules, explicit template promotion, and fallbacks on layouts without dedicated models.
+**New behavior:** Every live placement records a proposal decision. Only successful placements consume section budgets on the actual start time. Measured quiet windows and the director's low-density passages tighten overlay capacity. Owned specialist and primary placements take precedence over accent effects on the same layer.
+**Tests/evidence:** 22 focused tests passed. The three-model CLI smoke emitted 12 placed effects in an early run of this policy. The unmodified Helixville4 baseline emitted 986 effects from a 36-second real-audio excerpt with quality score 92.9.
+**Limitations:** Output report reflects live placement before any explicitly requested beat-grid postprocessing. Model ownership is inferred from names. Structural and render validation are separate gates.
+**Deferred work:** Make specialist timing verifiable, repair existing Snowman Band contract failure, and compare current final artifacts.
+**Regression risks:** Tight budgets and role assignments can suppress accents on unusually named layouts. The CLI can select previous admission policy with `--no-unified-orchestration`.
+
+
 ### 2026-11-25 — Share analyzed timing with existing planners
 **Goal:** Carry live musical timing and available features into the canonical director and specialist planners.
 **Changed files/modules:** Canonical timeline, director, effect engine, and musical-context tests.
