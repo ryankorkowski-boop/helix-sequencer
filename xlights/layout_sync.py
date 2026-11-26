@@ -29,12 +29,28 @@ def name_lookup_keys(name: str) -> list[str]:
     return keys
 
 
-def register_lookup_name(lookup: dict[str, str], name: str, *, prefer_exact: bool) -> None:
+def register_lookup_name(
+    lookup: dict[str, str], name: str, *, prefer_exact: bool, target: str | None = None,
+) -> None:
     for key in name_lookup_keys(name):
         if prefer_exact:
             lookup[key] = name
         else:
-            lookup.setdefault(key, name)
+            lookup.setdefault(key, target or name)
+
+
+def _aliases(element: ET.Element) -> list[str]:
+    names = []
+    for container in element:
+        if container.tag.lower() != "aliases":
+            continue
+        for alias in container:
+            name = alias.get("name", "").strip()
+            if name.lower().startswith("oldname:"):
+                name = name.split(":", 1)[1].strip()
+            if name:
+                names.append(name)
+    return names
 
 
 def layout_entries_and_lookup(layout_path: Path) -> tuple[list[str], dict[str, str]]:
@@ -52,6 +68,8 @@ def layout_entries_and_lookup(layout_path: Path) -> tuple[list[str], dict[str, s
                 continue
             ordered_names.append(name)
             register_lookup_name(lookup, name, prefer_exact=True)
+            for alias in _aliases(child):
+                register_lookup_name(lookup, alias, prefer_exact=False, target=name)
 
     models_el = root.find("models")
     if models_el is None:
@@ -62,19 +80,9 @@ def layout_entries_and_lookup(layout_path: Path) -> tuple[list[str], dict[str, s
             continue
         ordered_names.append(name)
         register_lookup_name(lookup, name, prefer_exact=True)
-        aliases_el = None
-        for sub in list(child):
-            if sub.tag.endswith("Aliases"):
-                aliases_el = sub
-                break
-        aliases = [] if aliases_el is None else list(aliases_el)
-        for alias in aliases:
-            alias_name = (alias.attrib.get("name") or "").strip()
-            if not alias_name:
-                continue
-            if alias_name.lower().startswith("oldname:"):
-                alias_name = alias_name.split(":", 1)[1].strip()
-            register_lookup_name(lookup, alias_name, prefer_exact=False)
+        parent_aliases = _aliases(child)
+        for alias in parent_aliases:
+            register_lookup_name(lookup, alias, prefer_exact=False, target=name)
         for sub in list(child):
             if not sub.tag.endswith("subModel"):
                 continue
@@ -84,14 +92,12 @@ def layout_entries_and_lookup(layout_path: Path) -> tuple[list[str], dict[str, s
             full_name = f"{name}/{short_name}"
             ordered_names.append(full_name)
             register_lookup_name(lookup, full_name, prefer_exact=True)
-            for alias in list(sub.findall("./aliases/alias")):
-                alias_name = (alias.attrib.get("name") or "").strip()
-                if not alias_name:
-                    continue
-                if alias_name.lower().startswith("oldname:"):
-                    alias_name = alias_name.split(":", 1)[1].strip()
-                for candidate in (alias_name, f"{name}/{alias_name}"):
-                    register_lookup_name(lookup, candidate, prefer_exact=False)
+            sub_aliases = _aliases(sub)
+            for alias in sub_aliases:
+                register_lookup_name(lookup, alias, prefer_exact=False, target=full_name)
+            for parent in [name, *parent_aliases]:
+                for leaf in [short_name, *sub_aliases]:
+                    register_lookup_name(lookup, f"{parent}/{leaf}", prefer_exact=False, target=full_name)
     return (ordered_names, lookup)
 
 

@@ -7,6 +7,7 @@ from core.canonical_timeline_orchestrator import MusicalContext
 from core.choreography_intent import ContrastStrategy, DominanceStrategy
 from core.intent_graph import IntentGraph
 from core.orchestration_balance import PlacementSession
+from core.physical_targets import PhysicalTargets
 
 
 @dataclass(frozen=True)
@@ -41,9 +42,10 @@ class CompositionGovernor:
 
     def begin_placement(
         self, music: MusicalContext, models: Iterable[str], direction: IntentGraph | None = None,
+        *, physical: PhysicalTargets | None = None,
     ) -> PlacementSession:
         density = {round(intent.start * 1000): intent.density_budget for intent in direction or ()}
-        return PlacementSession(music, models, density)
+        return PlacementSession(music, models, density, physical=physical)
 
     def evaluate(self, graph: IntentGraph) -> CompositionReport:
         diagnostics: list[CompositionDiagnostic] = []

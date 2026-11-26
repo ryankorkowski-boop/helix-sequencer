@@ -41,6 +41,7 @@ from core.beat_grid import BeatGrid, generate_beat_grid, snap_placement_range
 from core.canonical_timeline_orchestrator import MusicalContext, MusicalSection
 from core.composition_governor import CompositionGovernor
 from core.multi_pass_orchestration_director import MultiPassOrchestrationDirector
+from core.physical_targets import PhysicalTargets
 from effects import piano_effect as piano_effect_engine
 from core import spatial_scene as spatial
 from tools.build_helpers import (
@@ -86,6 +87,27 @@ class HarmonicData:
     base_midi: int
     pitch_hz: np.ndarray
     pitch_mag: np.ndarray
+
+
+class VariantAudioAnalysis:
+    """Reuse source-clock analysis across variants within one input song."""
+
+    def __init__(self):
+        self.key: tuple | None = None
+        self.result: tuple[base.Audio, HarmonicData] | None = None
+
+    def get(self, path: Path) -> tuple[base.Audio, HarmonicData]:
+        source = path.resolve()
+        stat = source.stat()
+        # Both analyzers use the original sample rate and a mono source.
+        key = (source, stat.st_dev, stat.st_ino, stat.st_size, stat.st_mtime_ns,
+               stat.st_ctime_ns, base.HOP_MS, base.USE_FAST_PITCH)
+        if self.key == key and self.result is not None:
+            return self.result
+        audio = base.analyze(path)
+        result = audio, analyze_harmonic(audio)
+        self.key, self.result = key, result
+        return result
 
 
 @dataclass
@@ -10403,6 +10425,7 @@ def run_variant(
     tuning: RuntimeTuning | None = None,
     *,
     placement_grid: BeatGrid | None = None,
+    audio_analysis: VariantAudioAnalysis | None = None,
 ) -> dict[str, object]:
     variant_started = perf_counter()
     tuning = tuning or RuntimeTuning()
@@ -10576,6 +10599,14 @@ def run_variant(
     stats = base.PlacementStats()
     total = 0
     ramp_ok = (xsq.ramp_tpl.settings is not None or xsq.ramp_tpl.palette is not None)
+    physical = PhysicalTargets(active_layout_file) if tuning.unified_orchestration and parsed_layout else None
+    shared_manual_windows = {}
+    if physical and existing_windows_by_model:
+        shared_manual_windows = {
+            name: sorted({window for row in physical.shared_rows(name)
+                          for window in existing_windows_by_model.get(row, ())})
+            for name in names
+        }
     validation_rejections: list[dict] = []
     used_targets: set[str] = set()
     used_groups: set[str] = set()
@@ -10601,11 +10632,10 @@ def run_variant(
         )
 
     log("[2/8] Analyzing audio and polyphony")
-    audio = base.analyze(audio_path)
+    audio, harmonic = (audio_analysis or VariantAudioAnalysis()).get(audio_path)
     song_length_ms = max(1000, int(audio.dur_s * 1000.0))
     explicit_grid_points = generate_beat_grid(placement_grid, song_length_ms) if placement_grid else []
     explicit_grid_counts: Counter[str] = Counter()
-    harmonic = analyze_harmonic(audio)
     sections = base.detect_sections(audio)
     parts = infer_song_parts(sections)
     if parts:
@@ -10969,7 +10999,9 @@ def run_variant(
     director_ms = (perf_counter() - director_started) * 1000
     placement = None
     if tuning.unified_orchestration:
-        placement = CompositionGovernor().begin_placement(music, names, direction.final_graph if direction else None)
+        placement = CompositionGovernor().begin_placement(
+            music, names, direction.final_graph if direction else None, physical=physical,
+        )
     chronoflow_track = chronoflow_engine.build_timing_track(chronoflow_payload, limit=1400)
     snowman_band_track = snowman_band_engine.build_timing_track(snowman_band_payload, limit=1800)
     try:
@@ -11026,6 +11058,47 @@ def run_variant(
             }
         )
 
+    def manual_overlap(model: str, start: int, end: int) -> bool:
+        windows = shared_manual_windows.get(model, existing_windows_by_model.get(model, []))
+        return layering_mode == "smart_layer" and overlaps_window(start, end, windows)
+
+    def physical_compatibility(
+        model: str, layer: str, start: int, end: int, effect: str, settings: str | None,
+        excluded: frozenset[int],
+    ) -> str | None:
+        target_timeline = timelines[model]
+        layer_limit = max(1, int(tuning.max_layers_per_prop))
+        if target_timeline.would_exceed_layers(start, end, layer_limit, excluded):
+            return "max concurrent layers reached"
+        family = prop_family(model, model_category_map.get(model))
+        blocked, reason = violates_prop_rules(
+            family=family, layer=layer, start_ms=start, end_ms=end, effect_name=effect,
+            settings=settings, timeline=target_timeline, excluded=excluded,
+        )
+        if blocked:
+            return reason
+        if physical:
+            for root, rows in physical.rows.get(model, ()):
+                other_rows = [row for row in rows if row in timelines and row != model]
+                if not other_rows:
+                    continue
+                shared = EffectTimeline()
+                for key in LAYER_ORDER:
+                    shared.layers[key] = [
+                        entry for row in (model, *other_rows) for entry in timelines[row].layers[key]
+                        if id(entry) not in excluded and entry.start < end and entry.end > start - 50
+                    ]
+                if shared.would_exceed_layers(start, end, layer_limit):
+                    return "shared physical target reached max concurrent layers"
+                blocked, reason = violates_prop_rules(
+                    family=prop_family(root, model_category_map.get(root)),
+                    layer=layer, start_ms=start, end_ms=end, effect_name=effect,
+                    settings=settings, timeline=shared,
+                )
+                if blocked:
+                    return reason
+        return None
+
     def attempt_place_effect(
         *,
         nm: str,
@@ -11051,52 +11124,45 @@ def run_variant(
         if en_i - st_i < max(50, int(tuning.min_effect_ms)):
             reject_effect(nm, st_i, en_i, effect_name, layer_key, "trimmed duration below minimum threshold")
             return False
-        if layering_mode == "smart_layer":
-            existing = existing_windows_by_model.get(nm, [])
-            if overlaps_window(st_i, en_i, existing):
-                reject_effect(nm, st_i, en_i, effect_name, layer_key, "smart-layer blocked by existing template content")
-                return False
+        if manual_overlap(nm, st_i, en_i):
+            reject_effect(nm, st_i, en_i, effect_name, layer_key, "smart-layer blocked by existing template content")
+            return False
         timeline = timelines[nm]
         layer_limit = max(1, int(tuning.max_layers_per_prop))
         if placement is None and timeline.would_exceed_layers(st_i, en_i, layer_limit):
             reject_effect(nm, st_i, en_i, effect_name, layer_key, "max concurrent layers reached")
             return False
-        overlapping_entries = timeline.overlapping(layer_key, st_i, en_i)
-        if any((entry.composition_priority, entry.priority) >= (composition_priority, stem_priority)
-               for entry in overlapping_entries):
+        related_rows = physical.shared_rows(nm) if physical else {nm}
+        overlapping_entries = [
+            (row, entry) for row in sorted(related_rows) if row in timelines
+            for entry in timelines[row].overlapping(layer_key, st_i, en_i)
+        ]
+        if any(
+            (entry.composition_priority, entry.priority) >= (composition_priority, stem_priority)
+            or (proposal.lane in {"overlay", "flash"} and entry.proposal
+                and entry.proposal.lane in {"overlay", "flash"})
+            or (entry.proposal and entry.proposal.timing_anchor and not proposal.timing_anchor)
+            for _, entry in overlapping_entries
+        ):
             reject_effect(nm, st_i, en_i, effect_name, layer_key, "same-layer conflict with equal/higher priority effect")
             return False
-        excluded = frozenset(id(entry) for entry in overlapping_entries)
-        if placement and timeline.would_exceed_layers(st_i, en_i, layer_limit, excluded):
-            reject_effect(nm, st_i, en_i, effect_name, layer_key, "max concurrent layers reached")
-            return False
-
-        family = prop_family(nm, model_category_map.get(nm))
-        blocked, reason = violates_prop_rules(
-            family=family,
-            layer=layer_key,
-            start_ms=st_i,
-            end_ms=en_i,
-            effect_name=effect_name,
-            settings=template_to_use.settings,
-            timeline=timeline,
-            excluded=excluded,
-        )
-        if blocked:
+        excluded = frozenset(id(entry) for _, entry in overlapping_entries)
+        reason = physical_compatibility(nm, layer_key, st_i, en_i, effect_name, template_to_use.settings, excluded)
+        if reason:
             reject_effect(nm, st_i, en_i, effect_name, layer_key, reason)
             return False
 
         budget_window = placement.budget_window(proposal, st_i) if placement else None
         if placement:
             reason = placement.budget_rejection(
-                proposal, budget_window, (entry.budget_window for entry in overlapping_entries),
+                proposal, budget_window, (entry.budget_window for _, entry in overlapping_entries),
             )
             if reason:
                 reject_effect(nm, st_i, en_i, effect_name, layer_key, reason)
                 return False
 
-        for entry in overlapping_entries:
-            timeline.remove_entry(layer_key, entry)
+        for row, entry in overlapping_entries:
+            timelines[row].remove_entry(layer_key, entry)
             total -= 1
             if placement and entry.proposal is not None:
                 placement.displace(entry.proposal, entry.budget_window)
@@ -11166,40 +11232,70 @@ def run_variant(
         cd_key: str | None = None,
         cd_ms: int = 0,
         stem: str = "other",
-    ) -> None:
-        proposal = balance.PlacementProposal(nm, label, int(st), int(en), eff)
+        *,
+        engine: str | None = None,
+        lane: str | None = None,
+        timing_anchor: bool | None = None,
+    ) -> bool:
+        proposal = balance.PlacementProposal(
+            nm, label, int(st), int(en), eff, engine=engine, lane=lane,
+            timing_anchor=timing_anchor,
+        )
+        if placement:
+            proposal = placement.resolve_proposal(proposal)
+            if proposal.lane in {"overlay", "flash"}:
+                placement.queue_accent(
+                    proposal, stem=stem,
+                    tie_break=(stem, cd_key or "", cd_ms, tpl is not None,
+                               repr(tpl.settings) if tpl else "", repr(tpl.palette) if tpl else ""),
+                    place=lambda: place_proposal(proposal, tpl, cd_key, cd_ms, stem),
+                )
+                return False
+        return place_proposal(proposal, tpl, cd_key, cd_ms, stem)
+
+    # Ranked accents can arrive at placement in any time order.
+    accepted_cooldowns: dict[str, list[tuple[int, int]]] = {}
+
+    def place_proposal(
+        proposal: balance.PlacementProposal, tpl: base.EffectTemplate | None,
+        cd_key: str | None, cd_ms: int, stem: str,
+    ) -> bool:
+        nm, st, en, label, eff = (
+            proposal.model, proposal.start_ms, proposal.end_ms, proposal.label, proposal.requested_effect,
+        )
+        ranked_accent = placement is not None and proposal.lane in {"overlay", "flash"}
         if nm is None or nm not in layers:
             if placement:
                 placement.reject(proposal, "unavailable model")
-            return
+            return False
         if placement:
             reason = placement.ownership_rejection(proposal)
             if reason:
                 placement.reject(proposal, reason)
                 reject_effect(nm, int(st), int(en), eff, "balance", reason)
-                return
+                return False
         else:
             lane = balance.label_lane(label)
             if lane == "piano_overlay" and not balance.allows_piano_overlay(nm, layout_has_piano=layout_has_piano):
                 balance_rejected["piano_overlay"] += 1
                 reject_effect(nm, int(st), int(en), eff, "balance", "piano overlay kept off non-piano models")
-                return
+                return False
             if not balance.allows_vocal(nm, label, layout_has_singer=layout_has_singer):
                 balance_rejected["vocal"] += 1
                 reject_effect(nm, int(st), int(en), eff, "balance", "vocal face kept on singer or lyric surface")
-                return
+                return False
             if lane in {"overlay", "flash"} and not _reserve_section_budget(int(st), label):
                 balance_rejected[lane] += 1
                 reject_effect(nm, int(st), int(en), eff, "balance", f"{lane} over section budget")
-                return
+                return False
         st_i = int(st)
         en_i = int(max(st_i + 1, en))
         min_dur = max(1, int(tuning.min_effect_ms))
-        if placement_grid is None and cd_key and not cooldowns.allow(cd_key, st_i):
+        if not ranked_accent and placement_grid is None and cd_key and not cooldowns.allow(cd_key, st_i):
             if placement:
                 placement.reject(proposal, "cooldown active")
             reject_effect(nm, st_i, en_i, eff, "cooldown", f"cooldown active for key {cd_key}")
-            return
+            return False
         stem_key = stem if stem in priorities else "other"
         stem_priority = priorities.get(stem_key, priorities["other"])
         composition_priority = placement.priority(proposal, stem_key) if placement else 0
@@ -11219,11 +11315,11 @@ def run_variant(
                 )
                 if section is None and music.section_at(snapped_start) is not None:
                     snapped_start, snapped_end = st_i, en_i
-            if cd_key and not cooldowns.allow(cd_key, snapped_start):
+            if not ranked_accent and cd_key and not cooldowns.allow(cd_key, snapped_start):
                 if placement:
                     placement.reject(proposal, "cooldown active")
                 reject_effect(nm, snapped_start, snapped_end, eff, "cooldown", f"cooldown active for key {cd_key}")
-                return
+                return False
             grid_outcome = "anchored" if anchored else "shifted" if snapped_start != st_i else "unchanged"
             st_i, en_i = snapped_start, snapped_end
         elif not anchored:
@@ -11235,7 +11331,9 @@ def run_variant(
                 en_i = st_i + min_dur
         family_key = prop_family(nm, model_category_map.get(nm))
         parsed_model = parsed_layout.model_for(nm) if parsed_layout is not None else None
-        if hardkor_mode:
+        if placement and physical and eff == "Faces" and tpl is not None and nm in physical.face_definitions:
+            runtime_effect, template_to_use = eff, tpl
+        elif hardkor_mode:
             request_key = str(eff or "On").strip().lower()
             runtime_effect = "Ramp" if request_key == "ramp" else "On"
             template_to_use = xsq.ramp_tpl if runtime_effect == "Ramp" else xsq.on_tpl
@@ -11321,6 +11419,13 @@ def run_variant(
                 if key in seen_attempts:
                     continue
                 seen_attempts.add(key)
+                actual_start = max(0, cand_st)
+                if ranked_accent and cd_key and any(
+                    actual_start < old_start + old_duration and old_start < actual_start + max(1, cd_ms)
+                    for old_start, old_duration in accepted_cooldowns.get(cd_key, ())
+                ):
+                    reject_effect(nm, cand_st, cand_en, runtime_effect, candidate_layer, "cooldown active")
+                    continue
                 if attempt_place_effect(
                     nm=nm,
                     layer_key=candidate_layer,
@@ -11336,11 +11441,15 @@ def run_variant(
                     if placement_grid is not None:
                         explicit_grid_counts[grid_outcome] += 1
                     if cd_key and cd_ms > 0:
-                        cooldowns.block(cd_key, st_i, cd_ms)
-                    return
+                        if not ranked_accent:
+                            cooldowns.block(cd_key, st_i, cd_ms)
+                        if placement:
+                            accepted_cooldowns.setdefault(cd_key, []).append((actual_start, cd_ms))
+                    return True
         if placement:
             placement.reject(proposal, last_rejection)
         reject_effect(nm, st_i, en_i, runtime_effect, layer_key, "placement skipped after conflict resolution attempts")
+        return False
 
     blackout_windows: list[tuple[int, int]] = []
     for part in parts:
@@ -11411,6 +11520,16 @@ def run_variant(
         ),
     )
     keyboard_lane = build_keyboard_lane_with_routes(pools, override=lane_override, preferred_routes=keyboard_routes)
+    if placement and placement.has_piano and not lane_override:
+        piano_rows = [name for name in names if placement.physical_roles[name] == {"piano"}]
+        if physical:
+            piano_rows = [name for name in piano_rows if "/" in name] or [
+                name for name in piano_rows if name in physical.leaf_roots
+            ]
+        if piano_rows and not all(placement.physical_roles[name] == {"piano"} for name in keyboard_lane):
+            keyboard_lane = piano_rows
+        elif piano_rows and not keyboard_lane:
+            keyboard_lane = piano_rows
     arch_keyboard_lane = next((pool.models for pool in pools if pool.category == "arch" and pool.models), [])
     cane_focus = base.clamp(float(tuning.cane_focus), 0.50, 2.50)
     flash_guard = base.clamp(float(tuning.flash_guard), 0.00, 1.00)
@@ -12121,7 +12240,7 @@ def run_variant(
             keyboard_mix=player_piano_mix,
             ramp_ok=ramp_ok,
             ramp_tpl=xsq.ramp_tpl,
-            add_model=add_model,
+            add_model=lambda *args, **kwargs: add_model(*args, engine="piano", lane="piano_overlay", **kwargs),
             in_blackout=in_blackout,
             keyboard_track=keyboard_track,
             helixualizer_payload=(chronoflow_payload.get("helixualizer", {}) or {}),
@@ -12164,7 +12283,7 @@ def run_variant(
             keyboard_mix=base.clamp((0.26 if style.family == "v23" else 0.38 if style.family == "v22" else 0.52 if focused_mode else effective_keyboard_mix) * other_priority_gain, 0.0, 2.0),
             ramp_ok=ramp_ok,
             ramp_tpl=xsq.ramp_tpl,
-            add_model=add_model,
+            add_model=lambda *args, **kwargs: add_model(*args, engine="polyphony", lane="piano_overlay", **kwargs),
             in_blackout=in_blackout,
             keyboard_track=keyboard_track,
         )
@@ -12222,6 +12341,11 @@ def run_variant(
         lyric_targets = list(snowman_face_routing.get("lead_cycle", []) or [])
         if not lyric_targets:
             lyric_targets = lyric_targets_pool.models if lyric_targets_pool else discover_talking_heads(names)
+        if placement and placement.has_singer:
+            lyric_targets = [
+                target for target in lyric_targets
+                if placement.physical_roles.get(target) == {"singer"}
+            ] or [target for target in names if placement.physical_roles[target] == {"singer"}]
         if lyric_targets:
             for idx, ev in enumerate(lyric_events):
                 st = max(0, int(ev.start_ms))
@@ -12237,7 +12361,8 @@ def run_variant(
                 for hit in range(syllables):
                     hit_st = st + hit * mouth_step
                     hit_en = min(en, hit_st + max(45, int(mouth_step * 0.72)))
-                    add_model(target, hit_st, hit_en, "lyric_mouth_sync", stem="vocals")
+                    add_model(target, hit_st, hit_en, "lyric_mouth_sync", stem="vocals",
+                              engine="vocal", lane="vocal")
                 if lyric_text_targets and (idx % 2) == 0:
                     text_target = lyric_text_targets[idx % len(lyric_text_targets)]
                     text_tpl = text_template_with_phrase(base_template=text_template_source, phrase=text)
@@ -12249,6 +12374,7 @@ def run_variant(
                         eff="Text",
                         tpl=text_tpl,
                         stem="vocals",
+                        engine="vocal", lane="vocal",
                     )
                 lyric_track.append((text[:36], st, en))
             log(f"Lyric prop sync events placed: {len(lyric_track)}")
@@ -12263,15 +12389,36 @@ def run_variant(
         placed_snowman_faces = 0
         for instruction in snowman_sequence_instructions:
             target = str(instruction.get("target_model", "") or "")
+            if physical:
+                target = physical.resolve(target) or target
             if target not in layers:
                 continue
             st = max(0, int(instruction.get("start_ms", 0) or 0))
             en = max(st + max(1, int(tuning.min_effect_ms)), int(instruction.get("end_ms", st) or st))
             label = str(instruction.get("label", "snowman_face_timing") or "snowman_face_timing")
             effect_name = str(instruction.get("effect", "Faces") or "Faces")
-            before_total = total
-            add_model(target, st, en, label, eff=effect_name, stem="vocals")
-            if total > before_total:
+            face_template = None
+            if physical and effect_name == "Faces":
+                definitions = physical.face_definitions.get(target, ())
+                if definitions:
+                    definition = str(instruction.get("face_definition", ""))
+                    if definition not in definitions:
+                        definition = definitions[0]
+                    phoneme = str(instruction.get("phoneme", "")).upper()
+                    xlights_phoneme = {
+                        "AH": "AI", "AI": "AI", "EE": "E", "E": "E", "FV": "FV", "L": "L",
+                        "MBP": "MBP", "OH": "O", "O": "O", "U": "U", "WQ": "WQ", "REST": "rest",
+                    }.get(phoneme, "etc")
+                    face_template = base.EffectTemplate(
+                        settings=(f"E_CHOICE_Faces_FaceDefinition={definition},"
+                                  f"E_CHOICE_Faces_Phoneme={xlights_phoneme}"),
+                        palette=None,
+                    )
+            if add_model(
+                target, st, en, label, eff=effect_name, tpl=face_template, stem="vocals",
+                engine="vocal", lane="vocal" if face_template else balance.label_lane(label),
+                timing_anchor=effect_name.lower() == "faces",
+            ):
                 placed_snowman_faces += 1
                 snowman_sequence_face_track.append(
                     (
@@ -12284,8 +12431,21 @@ def run_variant(
             log(f"Snowman sequence face effects placed: {placed_snowman_faces}")
 
     if placement and tuning.orchestrate_band_performers and not hardkor_mode:
-        for model_name, start_ms, end_ms in snowman_band_engine.drummer_placements(snowman_band_payload, layers):
-            add_model(model_name, start_ms, end_ms, "band_drummer_hit", stem="drums")
+        drum_aliases = {}
+        if physical:
+            for row in sorted(physical.leaf_roots):
+                if placement.physical_roles.get(row) != {"percussion"}:
+                    continue
+                for hint in physical.role_hints[row]:
+                    if hint.rsplit("/", 1)[-1].startswith("HX_SNOWMAN_DRUMMER_"):
+                        key = hint.rsplit("/", 1)[-1]
+                        drum_aliases.setdefault(key, set()).add(row)
+        for model_name, start_ms, end_ms in snowman_band_engine.drummer_placements(
+            snowman_band_payload, layers,
+            aliases={key: next(iter(rows)) for key, rows in drum_aliases.items() if len(rows) == 1},
+        ):
+            add_model(model_name, start_ms, end_ms, "band_drummer_hit", stem="drums",
+                      engine="drummer", lane="percussion", timing_anchor=True)
 
     spatial_track: list[tuple[str, int, int]] = []
     if not hardkor_mode and not structured_mode:
@@ -12330,14 +12490,6 @@ def run_variant(
             log(f"Lua-style accent placements added: {lua_count}")
 
     if (not hardkor_mode) and tuning.pixel_reactive and style.family in {"v20", "v21", "v22", "v23", "v24", "v25", "v26", "v27"}:
-        if placement and tuning.audio_reactive_intensity > 0:
-            action_limit = int(round(96 * base.clamp(float(tuning.audio_reactive_intensity), 0.0, 2.0)))
-            placement.reserve_audio_reactive_windows(
-                time_ms
-                for action in audio_reactive_actions[:action_limit]
-                if str(action.get("effect", "")) not in audio_trigger_routes.FLASH_LIKE_EFFECTS
-                and not in_blackout(time_ms := _safe_int(action.get("time_ms")))
-            )
         pixel_attempts = place_pixel_reactive_score(
             style=style,
             pools=pools,
@@ -12388,13 +12540,15 @@ def run_variant(
             pool_state=pool_state,
             ramp_ok=ramp_ok,
             ramp_tpl=xsq.ramp_tpl,
-            add_model=add_model,
+            add_model=lambda nm, st, en, label, **kwargs: add_model(
+                nm, st, en, label, engine="audio_reactive",
+                lane="flash" if label.removeprefix("audio_reactive_") in audio_trigger_routes.FLASH_LIKE_EFFECTS
+                else "overlay", **kwargs,
+            ),
             in_blackout=in_blackout,
             reactive_track=audio_reactive_track,
             intensity=float(tuning.audio_reactive_intensity),
         )
-        if placement:
-            placement.finish_audio_reactive()
         if audio_reactive_attempts:
             log(f"Audio-reactive catalog placements attempted: {audio_reactive_attempts}")
 
@@ -12428,7 +12582,7 @@ def run_variant(
             hats=hats,
             vocal_peaks=vocal_peaks,
             pools=pools,
-            add_model=add_model,
+            add_model=lambda *args, **kwargs: add_model(*args, engine="birdsong", lane="overlay", **kwargs),
             in_blackout=in_blackout,
             rng=rng,
             enabled=bool(tuning.birdsong_enabled),
@@ -12521,6 +12675,9 @@ def run_variant(
                 keyboard_track.extend(coverage_track[:256])
                 log(f"Coverage footer placements attempted: {len(coverage_track)}")
 
+    if placement:
+        placement.place_accents()
+
     validation_fixes, validation_issues = validate_sequence_timelines(
         timelines,
         min_effect_ms=max(50, int(tuning.min_effect_ms)),
@@ -12552,23 +12709,17 @@ def run_variant(
             return False
         if placement.budget_window(entry.proposal, start) != entry.budget_window:
             return False
-        if layering_mode == "smart_layer" and overlaps_window(start, end, existing_windows_by_model.get(model, [])):
+        if manual_overlap(model, start, end):
             return False
-        timeline = timelines[model]
-        excluded = frozenset({id(entry)})
-        if timeline.would_exceed_layers(start, end, max(1, int(tuning.max_layers_per_prop)), excluded):
-            return False
-        blocked, _ = violates_prop_rules(
-            family=prop_family(model, model_category_map.get(model)),
-            layer=layer,
-            start_ms=start,
-            end_ms=end,
-            effect_name=entry.effect_name,
-            settings=entry.xml_effect.text or "",
-            timeline=timeline,
-            excluded=excluded,
-        )
-        return not blocked
+        for row in physical.shared_rows(model) if physical else (model,):
+            if row in timelines and any(
+                candidate is not entry for candidate in timelines[row].overlapping(layer, start, end)
+            ):
+                return False
+        return physical_compatibility(
+            model, layer, start, end, entry.effect_name, entry.xml_effect.text or "",
+            frozenset({id(entry)}),
+        ) is None
 
     polish_result = sequence_polish.PolishResult(score=0.0)
     if tuning.polish_enabled:
@@ -12588,7 +12739,7 @@ def run_variant(
             vocal_peaks=vocal_peaks,
             bass_peaks=bass_peaks,
             drum_peaks=sorted(set(kicks + snares)),
-            can_retime=can_polish_timing if placement else None,
+            can_retime=can_polish_timing if placement or placement_grid is not None else None,
         )
         if polish_result.notes:
             log(f"Polish pass complete: score={polish_result.score:.1f}")
@@ -13506,6 +13657,7 @@ def main_for(
         log(f"\n[{i}/{len(audios)}] {audio.name} -> {out.name}")
         try:
             candidate_results: list[dict[str, object]] = []
+            audio_analysis = VariantAudioAnalysis()
             for idx, candidate in enumerate(runtime_candidates, 1):
                 candidate_out = out if idx == 1 else variant_output_name(audio, output_dir, candidate.style.version)
                 log(f"  Variant {idx}/{len(runtime_candidates)}: {candidate.label} -> {candidate_out.name}")
@@ -13517,6 +13669,7 @@ def main_for(
                     profile,
                     tuning=replace(candidate.tuning),
                     placement_grid=placement_grid,
+                    audio_analysis=audio_analysis,
                 )
                 result["label"] = candidate.label
                 result["description"] = candidate.description

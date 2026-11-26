@@ -7,11 +7,16 @@ cannot paint models they do not own or fill a quiet section.
 
 from __future__ import annotations
 
+from bisect import bisect_left
 from collections import Counter, defaultdict
-from dataclasses import dataclass
-from typing import Iterable, Mapping
+from dataclasses import dataclass, replace
+from typing import Callable, Iterable, Mapping
 
 from core.canonical_timeline_orchestrator import MusicalContext
+from core.physical_targets import PhysicalTargets
+
+
+PERFORMER_ROLES = frozenset({"piano", "singer", "percussion"})
 
 
 def model_role(name: str) -> str:
@@ -140,22 +145,21 @@ class PlacementProposal:
     end_ms: int
     requested_effect: str
 
-    @property
-    def timing_anchor(self) -> bool:
-        return self.label == "band_drummer_hit" or self.requested_effect.lower() == "faces"
+    engine: str | None = None
+    lane: str | None = None
+    timing_anchor: bool | None = None
 
-    @property
-    def engine(self) -> str:
-        if self.requested_effect.lower() == "faces":
-            return "vocal"
-        return engine_for_label(self.label.lower())
-
-    @property
-    def lane(self) -> str:
-        lane = label_lane(self.label)
-        if lane == "overlay" and self.requested_effect.lower() == "strobe":
-            return "flash"
-        return lane
+    def __post_init__(self) -> None:
+        faces = self.requested_effect.lower() == "faces"
+        if self.engine is None:
+            object.__setattr__(self, "engine", "vocal" if faces else engine_for_label(self.label.lower()))
+        if self.lane is None:
+            lane = "vocal" if faces else label_lane(self.label)
+            if lane == "overlay" and self.requested_effect.lower() == "strobe":
+                lane = "flash"
+            object.__setattr__(self, "lane", lane)
+        if self.timing_anchor is None:
+            object.__setattr__(self, "timing_anchor", self.label == "band_drummer_hit" or faces)
 
 
 @dataclass(frozen=True, order=True)
@@ -171,33 +175,102 @@ class PlacementSession:
 
     def __init__(
         self, music: MusicalContext, models: Iterable[str], section_density: Mapping[int, float] | None = None,
+        *, physical: PhysicalTargets | None = None,
     ):
         self.music = music
         self.section_density = dict(section_density or {})
+        self.physical = physical
         self.roles = {model: model_role(model) for model in models}
-        self.has_piano = "piano" in self.roles.values()
-        self.has_singer = "singer" in self.roles.values()
+        self.physical_roles = {model: frozenset({role}) for model, role in self.roles.items()}
+        if physical:
+            leaf_roles = {}
+            for leaf, root in physical.leaf_roots.items():
+                hints = physical.role_hints[leaf] + physical.role_hints[root]
+                roles = [model_role(hint) for hint in hints]
+                leaf_roles[leaf] = next((role for role in roles if role in PERFORMER_ROLES), roles[0])
+            self.physical_roles = {
+                model: frozenset(leaf_roles[leaf] for leaf in physical.members.get(model, ()))
+                for model in self.roles
+            }
+            for model, roles in self.physical_roles.items():
+                covered_performers = {
+                    leaf_roles[row] for row in physical.shared_rows(model)
+                    if row in leaf_roles and physical.leaf_roots[row] != row
+                    and leaf_roles[row] in PERFORMER_ROLES
+                }
+                self.physical_roles[model] = roles = roles | covered_performers
+                if len(roles) == 1:
+                    self.roles[model] = next(iter(roles))
+        self.has_piano = any("piano" in roles for roles in self.physical_roles.values())
+        self.has_singer = any("singer" in roles for roles in self.physical_roles.values())
+        self._accents: list[tuple[tuple, Callable[[], None]]] = []
+        self._marks = {
+            "drums": sorted(music.kicks + music.snares + music.hats),
+            "bass": sorted(music.bass_peaks),
+            "vocals": sorted(music.vocal_peaks),
+            "other": sorted(music.onset_ms),
+            "beats": sorted(music.beat_ms),
+            "transitions": sorted(music.releases + music.build_lifts),
+        }
         self.contributions: dict[str, Counter[str]] = defaultdict(Counter)
         self.rejections: Counter[str] = Counter()
         self.conflicts: Counter[str] = Counter()
         self.usage: Counter[BudgetWindow] = Counter()
         self.audio_reactive_usage: Counter[BudgetWindow] = Counter()
-        self.audio_reactive_reservations: set[BudgetWindow] = set()
-        self.audio_reactive_pending = False
         self.limits: dict[BudgetWindow, int] = {}
         self.start_shifts: Counter[int] = Counter()
+
+    def resolve_proposal(self, proposal: PlacementProposal) -> PlacementProposal:
+        if self.physical and proposal.model is not None:
+            name = self.physical.resolve(proposal.model)
+            if name is not None and name != proposal.model:
+                return replace(proposal, model=name)
+        return proposal
 
     def ownership_rejection(self, proposal: PlacementProposal) -> str | None:
         model = proposal.model
         if model is None or model not in self.roles:
             return "unavailable model"
-        if proposal.lane == "piano_overlay" and not allows_piano_overlay(model, layout_has_piano=self.has_piano):
+        roles = self.physical_roles[model]
+        if self.physical and (model in self.physical.invalid or not roles):
+            return "unresolved physical target"
+        if proposal.lane == "piano_overlay" and self.has_piano and roles != {"piano"}:
             return "piano overlay kept off non-piano models"
-        if not allows_vocal(model, proposal.label, layout_has_singer=self.has_singer):
-            return "vocal face kept on singer or lyric surface"
-        if proposal.lane in {"overlay", "flash"} and self.roles[model] in {"piano", "singer", "percussion"}:
+        if proposal.lane == "vocal" and self.has_singer:
+            allowed = {"singer", "matrix"} if "text" in proposal.label.lower() else {"singer"}
+            if not roles <= allowed:
+                return "vocal face kept on singer or lyric surface"
+        if proposal.lane == "percussion" and roles != {"percussion"}:
+            return "drummer kept on dedicated percussion"
+        if proposal.lane in {"overlay", "flash"} and roles & PERFORMER_ROLES:
             return "accent kept off dedicated performer"
         return None
+
+    def queue_accent(
+        self, proposal: PlacementProposal, *, stem: str, tie_break: tuple, place: Callable[[], None],
+    ) -> None:
+        start = proposal.start_ms
+
+        def near(marks: list[int], tolerance: int) -> bool:
+            index = bisect_left(marks, start - tolerance)
+            return index < len(marks) and marks[index] <= start + tolerance
+
+        section = self.music.section_at(start)
+        beat = near(self._marks["beats"], 45)
+        source_hit = near(self._marks.get(stem, self._marks["other"]), 45)
+        transition = near(self._marks["transitions"], 70)
+        relevance = (3 * source_hit + 2 * beat + 2 * transition
+                     + (section.energy if section else 0))
+        self._accents.append((
+            (-relevance, start, proposal.end_ms, proposal.engine, proposal.lane, proposal.model or "",
+             proposal.label, proposal.requested_effect, proposal.timing_anchor, tie_break),
+            place,
+        ))
+
+    def place_accents(self) -> None:
+        for _, place in sorted(self._accents, key=lambda cue: cue[0]):
+            place()
+        self._accents.clear()
 
     def priority(self, proposal: PlacementProposal, stem: str) -> int:
         lane = proposal.lane
@@ -206,7 +279,7 @@ class PlacementSession:
         role = self.roles.get(proposal.model or "")
         if (lane, role) in {("piano_overlay", "piano"), ("vocal", "singer")}:
             return 2
-        if role == "percussion" and stem == "drums":
+        if role == "percussion" and (lane == "percussion" or stem == "drums"):
             return 2
         return 1
 
@@ -240,17 +313,6 @@ class PlacementSession:
                 self.limits[window] = limit
         return window
 
-    def reserve_audio_reactive_windows(self, start_times_ms: Iterable[int]) -> None:
-        for start_ms in start_times_ms:
-            if 0 <= start_ms < self.music.duration_ms:
-                window = self._budget_window("overlay", start_ms)
-                if self.limits[window] > 1:
-                    self.audio_reactive_reservations.add(window)
-        self.audio_reactive_pending = bool(self.audio_reactive_reservations)
-
-    def finish_audio_reactive(self) -> None:
-        self.audio_reactive_pending = False
-
     def budget_rejection(
         self, proposal: PlacementProposal, window: BudgetWindow | None, displaced: Iterable[BudgetWindow | None],
     ) -> str | None:
@@ -260,14 +322,6 @@ class PlacementSession:
             limit = self.limits[window]
             if used >= limit:
                 return f"{window.lane} over section budget"
-            if (
-                self.audio_reactive_pending
-                and window in self.audio_reactive_reservations
-                and proposal.engine != "audio_reactive"
-                and not self.audio_reactive_usage[window]
-                and used == limit - 1
-            ):
-                return "remaining overlay slot reserved for audio-reactive cues"
         return None
 
     def reject(self, proposal: PlacementProposal, reason: str) -> None:
@@ -317,13 +371,13 @@ class PlacementSession:
             "rejection_reasons": dict(self.rejections),
             "resolved_conflicts": dict(self.conflicts),
             "model_roles": self.roles,
+            "physical_target_issues": self.physical.issues if self.physical else {},
             "fallbacks": {"yard_keyboard": not self.has_piano, "generic_vocal_targets": not self.has_singer},
             "section_budgets": [
                 {
                     **vars(window),
                     "limit": limit,
                     "accepted_at_placement": self.usage[window],
-                    "audio_reactive_reserved": window in self.audio_reactive_reservations,
                     "audio_reactive_accepted": self.audio_reactive_usage[window],
                     "retained_after_polish": final_budgets[window],
                 }

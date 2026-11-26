@@ -1125,10 +1125,13 @@ def build_snowman_band_plan(
     }
 
 
-def drummer_placements(payload: Mapping[str, Any], model_names: Iterable[str]) -> list[tuple[str, int, int]]:
+def drummer_placements(
+    payload: Mapping[str, Any], model_names: Iterable[str], *, aliases: Mapping[str, str] | None = None,
+) -> list[tuple[str, int, int]]:
     """Resolve detector cues to explicit kit components on the current layout."""
     targets: dict[str, str] = {}
-    for name in sorted(model_names):
+    available = set(model_names)
+    for name in sorted(available):
         parent, _, component = name.rpartition("/")
         if not component.startswith("HX_SNOWMAN_DRUMMER_"):
             continue
@@ -1136,6 +1139,10 @@ def drummer_placements(payload: Mapping[str, Any], model_names: Iterable[str]) -
             targets.setdefault(component, name)
         elif not parent:
             targets[component] = name
+
+    for component, target in (aliases or {}).items():
+        if target in available:
+            targets.setdefault(component, target)
 
     legacy_components = {
         "tom": "HX_SNOWMAN_DRUMMER_TOM",

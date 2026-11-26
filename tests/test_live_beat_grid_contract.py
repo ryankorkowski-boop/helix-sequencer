@@ -24,12 +24,15 @@ class LiveBeatGridTests(unittest.TestCase):
     def test_native_frame_header_requires_payload(self):
         with tempfile.TemporaryDirectory() as temp:
             path = Path(temp) / "test.fseq"
-            header = struct.pack("<4sHBBHIIBB", b"PSEQ", 20, 0, 2, 20, 12, 4, 50, 0)
+            header = struct.pack("<4sHBBHIIBB", b"PSEQ", 20, 0, 1, 20, 12, 4, 50, 0)
             path.write_bytes(header)
             with self.assertRaises(ValueError):
                 inspect_fseq(path)
             path.write_bytes(header + bytes(48))
-            self.assertEqual(inspect_fseq(path), {"channels": 12, "frames": 4, "step_ms": 50})
+            with self.assertRaisesRegex(ValueError, "no active channels"):
+                inspect_fseq(path)
+            path.write_bytes(header + b"\x01" + bytes(47))
+            self.assertEqual(inspect_fseq(path), {"channels": 12, "frames": 4, "step_ms": 50, "active_frames": 1})
 
 
 if __name__ == "__main__":

@@ -1,24 +1,75 @@
 """Fail closed unless native xLights produces a fresh FSEQ for a staged XSQ."""
 
 import argparse
+import ctypes
+import ctypes.util
 import hashlib
 import json
 from pathlib import Path
 import re
 import struct
 import subprocess
+import zlib
 
 
 def inspect_fseq(path: Path) -> dict[str, int]:
     with path.open("rb") as src:
         header = src.read(20)
-    if len(header) != 20 or header[:4] != b"PSEQ":
-        raise ValueError(f"Invalid FSEQ header: {path}")
-    offset = struct.unpack_from("<H", header, 4)[0]
-    channels, frames, step = struct.unpack_from("<IIB", header, 10)
-    if not (20 <= offset < path.stat().st_size and channels and frames and step):
-        raise ValueError(f"FSEQ has no usable frame payload: {path}")
-    return {"channels": channels, "frames": frames, "step_ms": step}
+        if len(header) != 20 or header[:4] != b"PSEQ":
+            raise ValueError(f"Invalid FSEQ header: {path}")
+        offset = struct.unpack_from("<H", header, 4)[0]
+        channels, frames, step = struct.unpack_from("<IIB", header, 10)
+        major = header[7]
+        if not (20 <= offset < path.stat().st_size and channels and frames and step and major in {1, 2}):
+            raise ValueError(f"FSEQ has no usable frame payload: {path}")
+        compression = 0
+        blocks = []
+        if major == 2:
+            extensions = src.read(12)
+            if len(extensions) != 12 or offset < 32:
+                raise ValueError("Truncated FSEQ v2 header")
+            compression = extensions[0] & 0x0F
+            count = ((extensions[0] & 0xF0) << 4) | extensions[1]
+            if compression not in {0, 1, 2} or 32 + count * 8 + extensions[2] * 6 > offset:
+                raise ValueError("Invalid FSEQ compression table")
+            blocks = [(first, size) for first, size in struct.iter_unpack("<II", src.read(count * 8)) if size]
+        if not compression:
+            blocks = [(0, channels * frames)]
+        if not blocks or blocks[0][0] != 0:
+            raise ValueError("FSEQ is missing the first frame block")
+
+        decompress = None
+        if compression == 1:
+            library = ctypes.util.find_library("zstd")
+            if not library:
+                raise ValueError("libzstd is required to inspect the pinned renderer's FSEQ")
+            decompress = ctypes.CDLL(library).ZSTD_decompress
+            decompress.argtypes = (ctypes.c_void_p, ctypes.c_size_t, ctypes.c_char_p, ctypes.c_size_t)
+            decompress.restype = ctypes.c_size_t
+
+        src.seek(offset)
+        active_frames = 0
+        for (first, size), (last, _) in zip(blocks, [*blocks[1:], (frames, 0)]):
+            if not first < last <= frames or size > path.stat().st_size - src.tell():
+                raise ValueError("Invalid FSEQ frame block")
+            expected = channels * (last - first)
+            packed = src.read(size)
+            if decompress is not None:
+                data = ctypes.create_string_buffer(expected)
+                if decompress(data, expected, packed, size) != expected:
+                    raise ValueError("Unreadable zstd FSEQ frame block")
+                decoded = data.raw
+            elif compression == 2:
+                decoded = zlib.decompress(packed)
+            else:
+                decoded = packed
+            if len(decoded) != expected:
+                raise ValueError("FSEQ frame block has the wrong size")
+            active_frames += sum(bool(decoded[i:i + channels].strip(b"\x00"))
+                                 for i in range(0, expected, channels))
+        if not active_frames:
+            raise ValueError("Native FSEQ rendered no active channels")
+    return {"channels": channels, "frames": frames, "step_ms": step, "active_frames": active_frames}
 
 
 def sha256(path: Path) -> str:

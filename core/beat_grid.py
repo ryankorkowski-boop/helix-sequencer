@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from bisect import bisect_left
+from bisect import bisect_left, bisect_right
 from dataclasses import dataclass
 from typing import Iterable, Literal, Sequence
 
@@ -139,8 +139,10 @@ def snap_placement_range(
     """Shift an eligible cue without changing its duration or crossing its bounds."""
     if anchored or not points or not lower_ms <= start_ms < end_ms <= upper_ms:
         return start_ms, end_ms
-    snapped = snap_ms_to_grid(start_ms, points, max_shift_ms=grid.max_shift_ms, mode=grid.mode)
-    shifted_end = end_ms + snapped - start_ms
-    if lower_ms <= snapped < shifted_end <= upper_ms:
-        return snapped, shifted_end
-    return start_ms, end_ms
+    duration = end_ms - start_ms
+    first = bisect_left(points, lower_ms)
+    last = bisect_right(points, upper_ms - duration)
+    if first == last:
+        return start_ms, end_ms
+    snapped = snap_ms_to_grid(start_ms, points[first:last], max_shift_ms=grid.max_shift_ms, mode=grid.mode)
+    return snapped, snapped + duration

@@ -114,22 +114,46 @@ def test_owned_specialists_rank_above_accents_and_keep_layout_fallback():
     assert governor.begin_placement(music, ["Arch 1"]).ownership_rejection(yard_piano) is None
 
 
-def test_late_audio_reactive_cue_gets_a_slot_without_raising_the_cap():
-    from core.canonical_timeline_orchestrator import MusicalContext
+def test_ranked_accents_are_independent_of_arrival_and_retry_lower_candidates():
+    from itertools import permutations
+
+    from core.canonical_timeline_orchestrator import MusicalContext, MusicalSection
     from core.composition_governor import CompositionGovernor
     from core.orchestration_balance import PlacementProposal
 
-    session = CompositionGovernor().begin_placement(MusicalContext(duration_ms=1000, sections=()), ["Arch"])
-    pixel = PlacementProposal("Arch", "pixel_vocal", 30, 110, "On")
-    reactive = PlacementProposal("Arch", "audio_reactive_bass_pulse", 30, 110, "On")
-    session.reserve_audio_reactive_windows([30])
-    window = session.budget_window(pixel, 30)
-    for _ in range(4):
-        assert session.budget_rejection(pixel, window, ()) is None
-        session.accept(pixel, 30, window)
-    assert session.budget_rejection(pixel, window, ()) == "remaining overlay slot reserved for audio-reactive cues"
-    assert session.budget_rejection(reactive, window, ()) is None
-    session.finish_audio_reactive()
-    assert session.budget_rejection(pixel, window, ()) is None
-    session.accept(reactive, 30, window)
-    assert session.budget_rejection(pixel, window, ()) == "overlay over section budget"
+    music = MusicalContext(
+        duration_ms=2000, sections=(MusicalSection("VERSE", 0, 2000, 0.3),),
+        beat_ms=(940,), kicks=(940,), vocal_peaks=(965,), quiet_windows=((1000, 1100),),
+    )
+    proposals = [
+        (PlacementProposal("Arch", "pixel_kick", 940, 1040, "On"), "drums"),
+        (PlacementProposal("Arch", "audio_reactive_rise", 965, 1065, "On"), "vocals"),
+        (PlacementProposal("Arch", "birdsong_echo", 965, 1065, "On"), "vocals"),
+    ]
+    for ordering in permutations(proposals):
+        session = CompositionGovernor().begin_placement(music, ["Arch"])
+        winners = []
+
+        def place(cue, actual=1005):
+            # The highest-ranked proposal fails placement. The quiet budget is
+            # then charged for the next accepted proposal's actual start.
+            if cue.label == "pixel_kick":
+                session.reject(cue, "manual layer")
+                return
+            window = session.budget_window(cue, actual)
+            reason = session.budget_rejection(cue, window, ())
+            if reason:
+                session.reject(cue, reason)
+            else:
+                session.accept(cue, actual, window)
+                winners.append((cue, actual))
+
+        for cue, stem in ordering:
+            session.queue_accent(cue, stem=stem, tie_break=(), place=lambda item=cue: place(item))
+        session.place_accents()
+        assert [cue.engine for cue, _ in winners] == ["audio_reactive"]
+        summary = session.summary(winners)
+        assert summary["contributions"]["pixel_reactive"]["rejected"] == 1
+        assert summary["contributions"]["birdsong"]["rejected"] == 1
+        assert summary["contributions"]["audio_reactive"]["retained"] == 1
+        assert [row["start_ms"] for row in summary["section_budgets"]] == [1000]

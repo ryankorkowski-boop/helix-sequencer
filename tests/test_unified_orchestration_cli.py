@@ -95,3 +95,94 @@ def test_explicit_grid_changes_serialized_xsq_not_analysis_sidecars(tmp_path):
     assert original != snapped and any((start - 17) % 125 == 0 for start in snapped)
     assert not band.get("beat_grid", {}).get("snapped")
     assert report["orchestration"]["export_validation"]["passed"]
+
+
+def test_serialized_performer_anchors_and_shared_manual_nodes(tmp_path, monkeypatch):
+    from core import effect_engine
+    from core.sequence_builder import run_profile
+
+    audio = tmp_path / "test.wav"
+    subprocess.run(
+        [sys.executable, "-c",
+         "import runpy, sys; from pathlib import Path; "
+         "runpy.run_path(sys.argv[1])['generate_wav'](Path(sys.argv[2]), duration_seconds=3.0)",
+         str(FIXTURE / "generate_synthetic_audio.py"), str(audio)],
+        check=True,
+    )
+    layout = tmp_path / "layout.xml"
+    layout.write_text("""<xrgb><models>
+      <model name="Nova" DisplayAs="Custom" StringType="RGB Nodes" parm1="8">
+        <faceInfo Name="Main" Type="NodeRange"/>
+      </model>
+      <model name="Kit" DisplayAs="Single Line" parm1="1" parm2="8">
+        <Aliases><alias name="OldName:Snowman Drummer"/></Aliases>
+        <subModel name="Pedal" line0="1-4">
+          <aliases><alias name="OldName:HX_SNOWMAN_DRUMMER_KICK"/></aliases>
+        </subModel>
+      </model>
+      <model name="Probe" DisplayAs="Single Line" parm1="1" parm2="8">
+        <subModel name="Left" line0="1-4"/><subModel name="Right" line0="5-8"/>
+      </model>
+    </models><modelGroups>
+      <modelGroup name="Inner Manual" models="Probe/Left"/>
+      <modelGroup name="Outer Manual" models="Inner Manual">
+        <Aliases><alias name="OldName:Manual Alias"/></Aliases>
+      </modelGroup>
+    </modelGroups></xrgb>""")
+    fixture = ET.parse(FIXTURE / "minimal_template.xsq")
+    root = fixture.getroot()
+    root.tag = "xsequence"
+    rows = ET.SubElement(root, "ElementEffects")
+    manual = ET.SubElement(rows, "Element", name="Manual Alias", type="model")
+    layer = ET.SubElement(manual, "EffectLayer", name="Hand authored")
+    ET.SubElement(layer, "Effect", name="On", startTime="61", endTime="321", palette="0")
+    template = tmp_path / "template.xsq"
+    fixture.write(template, encoding="utf-8", xml_declaration=True)
+
+    monkeypatch.setattr(effect_engine.snowman_band_engine, "build_snowman_band_plan", lambda **_: {
+        "cues": {"drummer": [{
+            "kind": "kick", "start_ms": 139, "end_ms": 250,
+            "composite_submodels": ["HX_SNOWMAN_DRUMMER_KICK"],
+        }]},
+        "xlights_translation": {"sequence_effect_instructions": [{
+            "target_model": "Nova", "effect": "Faces", "start_ms": 113, "end_ms": 238,
+            "phoneme": "MBP", "face_definition": "Main", "label": "renamed vocal lead",
+        }]},
+    })
+
+    def propose(**kwargs):
+        for name in ("Probe/Left", "Probe/Right"):
+            kwargs["add_model"](name, 155, 227, "pixel_test")
+        return 2
+
+    monkeypatch.setattr(effect_engine, "place_pixel_reactive_score", propose)
+    monkeypatch.chdir(ROOT)
+    output = tmp_path / "out"
+    run_profile("master", [
+        "--template", str(template), "--layout-file", str(layout), "--audio", str(audio),
+        "--output-dir", str(output), "--variants", "1", "--single", "--no-prompt", "--no-save-settings",
+        "--no-workspace-history", "--no-learning-memory", "--no-matrix-intelligence", "--no-effects-orchestrator",
+        "--orchestrate-band-performers", "--layering-mode", "smart_layer", "--polish",
+        "--snap-grid", "16", "--snap-bpm", "120", "--snap-offset-ms", "17", "--snap-mode", "strict",
+    ])
+    xsq = ET.parse(next(output.glob("*,*.xsq")))
+    report = json.loads(next(output.glob("*,*.report.json")).read_text())
+    models = {row.get("name"): row for row in xsq.findall("./ElementEffects/Element")}
+
+    def generated(name):
+        return [
+            effect for layer in models[name].findall("EffectLayer")
+            if layer.get("name", "").startswith("AUTO_DreamSequenceWeaver_")
+            for effect in layer.findall("Effect")
+        ]
+
+    assert any(effect.get("startTime") == "113" and effect.get("name") == "Faces"
+               and "Faces_Phoneme=MBP" in effect.get("settings", "") for effect in generated("Nova"))
+    assert any(effect.get("startTime") == "139" for effect in generated("Kit/Pedal"))
+    assert any(effect.get("startTime") == "142" for effect in generated("Probe/Right"))
+    assert all(int(effect.get("endTime")) <= 61 or int(effect.get("startTime")) >= 321
+               for effect in generated("Probe/Left"))
+    authored = models["Outer Manual"].find("./EffectLayer[@name='Hand authored']/Effect")
+    assert (authored.get("startTime"), authored.get("endTime")) == ("61", "321")
+    assert report["orchestration"]["contributions"]["drummer"]["retained"] == 1
+    assert report["orchestration"]["export_validation"]["passed"]
