@@ -51,7 +51,8 @@ jobs:
       - name: Extract 30-second review audio
         run: |
           set -euo pipefail
-          ffmpeg -v error -i pilot-source/The_Test_Is_On_original.mp3 -ss 40 -t 30 -c:a pcm_s16le pilot-source/Vocal_review.wav
+          ffmpeg -v error -i pilot-source/The_Test_Is_On_original.mp3 -ss 0 -t 30 -c:a pcm_s16le pilot-source/Vocal_review.wav
+          test "$(ffprobe -v error -show_entries format=duration -of default=nw=1:nk=1 pilot-source/Vocal_review.wav | cut -d . -f1)" -ge 29
           echo "HELIX_REVIEW_SHA256=$(sha256sum pilot-source/Vocal_review.wav | cut -d ' ' -f1)" >> "$GITHUB_ENV"
       - name: Separate verified source on CPU
         uses: ./.github/actions/production-audio
@@ -139,7 +140,7 @@ jobs:
           assert (root/'Full_Length_16_Panel_Comparison.mp4').stat().st_size > 1000000
           receipt = {'status':'ESTIMATED_VOCAL_REVIEW_ONLY','batch_allowed':False,
                      'source':'actual Helix master + pinned xLights native renderer',
-                     'excerpt_audio_sha256':p['audio_sha256'], 'original_audio_sha256':os.environ['HELIX_DRIVE_SOURCE_SHA256'], 'excerpt_start_seconds':40, 'excerpt_duration_seconds':30,
+                     'excerpt_audio_sha256':p['audio_sha256'], 'original_audio_sha256':os.environ['HELIX_DRIVE_SOURCE_SHA256'], 'excerpt_start_seconds':0, 'excerpt_duration_seconds':30,
                      'panel_count':16,'manifest':'comparison_manifest.json'}
           (root/'OWNER_APPROVAL_GATE.json').write_text(json.dumps(receipt,indent=2)+'\n')
           print(json.dumps(receipt,indent=2))
