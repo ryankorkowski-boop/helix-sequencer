@@ -64,9 +64,10 @@ def test_explicit_performer_fields_preserve_legacy_labels():
     assert explicit.lane == "percussion"
 
 
-def test_native_submodel_layers_round_trip_without_retiming():
+def test_native_submodel_layers_round_trip_without_retiming(tmp_path):
     import xml.etree.ElementTree as ET
 
+    from tools.preview_renderer import parse_sequence
     from xlights.layout_sync import pack_native_submodels, unpack_native_submodels
 
     root = ET.fromstring("""<xsequence><ElementEffects><Element name="Prop" type="model">
@@ -81,3 +82,7 @@ def test_native_submodel_layers_round_trip_without_retiming():
     layer = root.find("./ElementEffects/Element[@name='Prop']/SubModelEffectLayer")
     assert (layer.get("name"), layer.get("layer"), layer.get("layerName")) == ("Left", "2", "Authored")
     assert layer.find("Effect").attrib == {"name": "On", "startTime": "13", "endTime": "87", "ref": "4"}
+    path = tmp_path / "native.xsq"
+    ET.ElementTree(root).write(path)
+    event, = parse_sequence(path).model_effects["Prop/Left"]
+    assert (event.name, event.start_ms, event.end_ms) == ("On", 13, 87)

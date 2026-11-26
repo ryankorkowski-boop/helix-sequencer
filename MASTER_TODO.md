@@ -81,7 +81,7 @@ Do not mark complete from unit tests alone.
 **Goal:** Bind the same node placements to the native xLights parent model.
 **Changed files/modules:** XSQ import and serialization, structural validation, and native kit diagnostics.
 **Intentionally preserved behavior:** Authored timing, effect and palette data, placement policies, and legacy flat output with orchestration disabled.
-**New behavior:** Governed XSQs use native parent-owned submodel layers with native layer names and settings text. The placement path accepts those layers on reimport.
+**New behavior:** Governed XSQs use native parent-owned submodel layers with native layer names and settings text. The placement path accepts those layers on reimport and the existing preview readers retain submodel effects.
 **Tests/evidence:** Pinned render `f05f33e` retained 169 exact drum target/onset matches in XSQ, while the shipped instrument's declared FSEQ channels stayed dark. The installed xLights loader requires parent-owned `SubModelEffectLayer` elements and effect settings text or a database reference. Added a native structure round-trip regression.
 **Limitations:** The shipped layout exposes only five hit targets and cannot qualify the nine-component playback gate.
 **Deferred work:** Full named kit and contacting-stick review on the agreed oracle geometry. Original-source Faces and nine-panel review.
