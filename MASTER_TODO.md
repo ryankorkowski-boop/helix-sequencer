@@ -1,3 +1,13 @@
+## November 26 · Restore locked native nine-panel output
+
+**Goal.** Run the requested nine-panel grid with the six-snowman band in the center and use the existing native catalog for the actual rendering entry point.
+**Changed files.** `models/nine_panel_showcase.py`, `tools/render_full_song_comparison.py`, `tools/render_approval_collection.py`, the native nine-panel and Android workflows, the nine-panel regression, and completion records.
+**Preserved behavior.** The 16-panel default, the physical original 256 AC addresses, the canonical band renderer used by the 16-panel comparison, the original audio, and the timing, reference and owner approval gates. Native per-layout review delivery uses 30 fps.
+**New behavior.** Recovered the reviewed nine-panel catalog and grid support, mapped the inherited geometry to the nine requested slots, and wired the existing production native runner into the nine-panel workflow. The nine-cell compositor emits 1920×1080 at 30 fps. The workflow verifies a 30-second excerpt against the hash-verified owner soundtrack. Active Android runs can finish uploading their device proof when a new source commit queues.
+**Tests and evidence.** Real Demucs-derived Phoneme Test Hook preparation produced editable XSQ and layout XML for all nine slots. The first two contain exactly 16 and 256 channels. The fifth contains exactly six performers. Nine source-to-XSQ checks ran successfully. Sixteen targeted tests passed. The archived previous nine-panel render decodes but uses the older order and 3840×2160 at 20 fps.
+**Limitations and deferred work.** Fresh locked native MP4 and its motion gates are outstanding. The source qualification remains open. The captured E14 archive contains one mixed vocal bus and zero independently verified singers. The revised full-size Infinity XSQ also exceeded the native runner's ten-minute render window. The full-size Infinity FSEQ and MP4 remain open.
+**Regression risks.** The 3×3 compositor now has its own fixed cell sizes. The canonical center layout is larger because it uses the source pose rig. The existing review gate still requires both timing and owner-reference evidence.
+
 ## November 26 · Full-scale native inspection and performer verification
 
 **Goal.** Exercise all 10,240 Infinity models with the owner’s Bells of Mathmas excerpt and reduce missed physical piano notes in native performer review.

@@ -384,7 +384,24 @@
         "expires_utc": "2026-12-26T11:36:43Z",
         "classification": "Earlier estimated review",
         "source_commit": "f068aecb2e821dce785227a9d3ca66caf1e08ab5",
-        "download": "https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/45800149044/artifacts/15114156910"
+        "download": "https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/45800149044/artifacts/15114156910",
+        "media_verification": {
+          "codec": "H.264/AAC",
+          "dimensions": [
+            1920,
+            1080
+          ],
+          "fps": 30,
+          "duration_seconds": 29.96,
+          "source_audio_correlation": 0.9994393709600015,
+          "source_audio_lag_seconds": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "mp4_sha256": "b50f315ce2e4f981db92cdb38eccec5b3c1fb525b2b46e645960bb73d29bc831"
+        }
       },
       {
         "name": "Helix-Windows-Portable",
@@ -474,6 +491,59 @@
         "classification": "APK, instrumentation and independent decoded-video device proof",
         "source_commit": "625bcc73567bb4535a73802180c4ae991fa86784",
         "download": "https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/45898714792/artifacts/15155029984"
+      },
+      {
+        "name": "Helix-Windows-Portable",
+        "run_id": 45901274373,
+        "id": 15156337225,
+        "expires_utc": "2026-12-26T22:00:54Z",
+        "classification": "Windows GUI, engine and native FSEQ verification",
+        "source_commit": "0e17f13dfa3f4c5732f2c9c2c87acdd67b6cb2f5",
+        "download": "https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/45901274373/artifacts/15156337225"
+      },
+      {
+        "name": "nine-panel-native-review-578c9890dc55f81f0c1ea1fd80fa2f91c36c2d55",
+        "run_id": 45898714777,
+        "id": 15156405976,
+        "expires_utc": "2027-02-24T21:31:25Z",
+        "classification": "Old layout order, 4K 20fps review",
+        "source_commit": "625bcc73567bb4535a73802180c4ae991fa86784",
+        "media_verification": {
+          "codec": "H.264/AAC",
+          "dimensions": [
+            3840,
+            2160
+          ],
+          "fps": 20,
+          "source_audio_correlation": 0.9990307562351318,
+          "mp4_sha256": "df4a0b4c44e4af990c8ef2711e37a9992bb18ed6e271d9531b4569dc15d1c261"
+        },
+        "download": "https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/45898714777/artifacts/15156405976"
+      },
+      {
+        "name": "final-native-approval-collection-578c9890dc55f81f0c1ea1fd80fa2f91c36c2d55",
+        "run_id": 45898714807,
+        "id": 15156306692,
+        "expires_utc": "2027-02-24T21:31:25Z",
+        "classification": "Unapproved twelve-panel review",
+        "source_commit": "625bcc73567bb4535a73802180c4ae991fa86784",
+        "media_verification": {
+          "codec": "H.264/AAC",
+          "dimensions": [
+            1920,
+            1080
+          ],
+          "fps": 30,
+          "source_audio_correlation": 0.9990307562351318,
+          "source_audio_lag_seconds": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "mp4_sha256": "0dc1fa5627dd47455d11897d878d2a74b41686df1b40d13b8666dc8344d6bac0"
+        },
+        "download": "https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/45898714807/artifacts/15156306692"
       }
     ]
   }

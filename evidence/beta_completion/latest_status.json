@@ -723,6 +723,44 @@
         "revised_xsq_sha256": "64b20f1442183529cfb0ed0185b2829ee23bda7849e7d9386ff585cccb05d81a",
         "focused_tests_passed": 55
       }
+    },
+    "next_candidate_verification": {
+      "source_commit": "0e17f13dfa3f4c5732f2c9c2c87acdd67b6cb2f5",
+      "observed_utc": "2026-11-26T22:06:12Z",
+      "success": {
+        "windows_portable": 45901274373,
+        "beta_ci": 45901274382,
+        "birdsong_ci": 45901274446,
+        "unified_integration": 45901274469
+      },
+      "failures": {
+        "phoneme": {
+          "run": 45901274428,
+          "stage_motion": 0.375,
+          "minimum": 0.65
+        },
+        "band": {
+          "run": 45901274394,
+          "cause": "Independent identities absent in E14 archive"
+        }
+      },
+      "android_eight_variant_run": 45901274691,
+      "infinity_revised_render": {
+        "headless_timeout_seconds": 600,
+        "fseq_written": false
+      },
+      "locked_nine_panel_preparation": {
+        "source_audio_sha256": "19e90c273d0d747938f24b36586b50818c104cddffbefe4a4128927374301938",
+        "production_plan_sha256": "0e525ff197d92f4af3d955cc9aa36a25c868c8d0f7eed75507df661625a76c58",
+        "prepared_layouts": 9,
+        "center_performers": 6,
+        "first_two_channel_budgets": [
+          16,
+          256
+        ],
+        "focused_tests_passed": 16,
+        "native_review_verified": false
+      }
     }
   }
 }

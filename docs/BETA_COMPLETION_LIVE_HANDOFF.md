@@ -1,3 +1,16 @@
+## November 26 · Locked nine-panel recovery and media readback
+
+- [x] Recovered the original ordered catalog and native comparison CLI from review-branch commits `3a71134e`, `86ad3c82`, `9cef641b`, and `ed0a8d17`. The production workflow now uses the requested layout sequence and the same canonical source-pose renderer as the sixteen-panel path.
+- [x] Built all nine exact-source layouts and editable XSQs from Phoneme Test Hook. Panels one and two preserve the 16 and original 256 AC addresses. Panel five contains the six native performers. Panel eight has the existing 88-note helix and four source-routed keyboard matrices. Passed the sixteen-test focused suite and checked the nine XSQs through the existing logic-provenance verifier. The prepared files remain in the cloud workspace.
+- [x] Fully decoded the earlier [nine-panel review archive](https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/45898714777/artifacts/15156405976). It retained the original soundtrack with 0.99903 correlation and zero lag in four windows. It used the old catalog, 3840×2160 and 20 fps. It does not satisfy the locked-grid request. GitHub expiration February 24, 2027.
+- [x] Fully decoded the [twelve-panel native review](https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/45898714807/artifacts/15156306692) at 1080p/30 H.264/AAC, 34.88 seconds, 0.99903 soundtrack correlation and zero lag in four windows. The timing/reference gate failed. GitHub expiration February 24, 2027.
+- [x] Fully decoded the historical [sixteen-panel estimated review](https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/45800149044/artifacts/15114156910) at 1080p/30 H.264/AAC, 29.96 seconds, 0.99944 original The Test Is On soundtrack correlation and zero lag in four windows. GitHub expiration December 26, 2026.
+- [x] Hash-verified the exact E14 source archive from Drive. It contains a single original mix and the combined Demucs vocal bus's analysis. The manifest reports zero independent tracks. The supplied Phoneme Test Hook timing references also contain mixed soundtracks.
+- [x] Verified the [Windows portable build](https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/45901274373/artifacts/15156337225) at `0e17f13`. It passed packaged GUI and engine checks and native FSEQ rendering. GitHub expiration December 26, 2026.
+- [ ] The `0e17f13` [phoneme run](https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/45901274428) reached native video quality assessment and measured 0.375 stage motion against 0.65. Full-keyboard geometry alone did not resolve the remaining stage-motion failure.
+- [ ] The revised 10,240-model Infinity XSQ retained all physical models and their group routing. The corrected headless run exceeded its 600-second limit before writing FSEQ. Two local xLights GUI runtime configurations also failed. Native Infinity media remains open.
+- [ ] Current locked-grid render and Android eight-variant device playback remain open. The completed API 30 and API 36 package artifacts below are for `625bcc7`.
+
 ## November 26 · Recovery branch verification at `625bcc7`
 
 - [x] Pushed [`625bcc7`](https://github.com/ryankorkowski-boop/helix-sequencer/commit/625bcc73567bb4535a73802180c4ae991fa86784) to PR #264.
