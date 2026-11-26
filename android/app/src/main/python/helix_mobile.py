@@ -170,6 +170,7 @@ def render_preview(xsq, layout, wav, seconds, callback):
         from core.output_provenance import brand_frame
     except ImportError:
         brand_frame = None
+    rendered_frames = 0
     callback.beginPreview(str(output), str(wav), width, height, fps)
     try:
         for start in range(0, total_frames, PREVIEW_FRAME_CHUNK):
@@ -198,6 +199,7 @@ def render_preview(xsq, layout, wav, seconds, callback):
                     notify(callback, 'stage', 'preview',
                            'Rendering preview: %d/%d seconds' % (i // fps, round(total_frames / fps)))
                 del image, buffer
+            rendered_frames += intensities.shape[1]
             del intensities
         callback.endPreview()
     except BaseException:
@@ -208,7 +210,7 @@ def render_preview(xsq, layout, wav, seconds, callback):
     decoded = output.with_suffix('.alignment.wav')
     try:
         callback.decodePreviewAudio(str(output), str(decoded))
-        alignment = synchronize(output, wav, decoded, intensities.shape[1]/fps)
+        alignment = synchronize(output, wav, decoded, rendered_frames/fps)
         try:
             from core.output_provenance import stamp_mp4
         except ImportError:
@@ -224,7 +226,7 @@ def render_preview(xsq, layout, wav, seconds, callback):
     final_output.with_suffix('.preview_provenance.json').write_text(json.dumps({
         'schema': 'helix.preview_provenance.v1', 'native_xlights': False,
         'source': 'Helix simulated effect-level model preview; Android MediaCodec H.264/AAC',
-        'duration_seconds': intensities.shape[1]/fps, 'fps': fps, 'audio_alignment': alignment,
+        'duration_seconds': rendered_frames/fps, 'fps': fps, 'audio_alignment': alignment,
         'generator': 'Helix', 'credit': 'Made with Helix | Audio in. Lights out.',
         'visible_watermark': True,
     }, indent=2))
