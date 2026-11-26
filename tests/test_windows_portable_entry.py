@@ -68,3 +68,14 @@ def test_dual_format_dispatch_preserves_source_and_approved_map():
         with patch.object(sys, "argv", ["HelixCLI.exe", "--helix-dual-format-export", *arguments]):
             assert windows_portable_entry.main() == 0
     assert captured == [["HelixCLI.exe", *arguments]]
+
+
+def test_frozen_demucs_dispatch_preserves_arguments():
+    captured = []
+    fake = types.ModuleType("demucs.separate")
+    fake.main = lambda: captured.append(sys.argv[:]) or 0
+    args = ["-n", "htdemucs", "-o", "C:/stems", "C:/song.wav"]
+    with patch.dict(sys.modules, {"demucs.separate": fake}):
+        with patch.object(sys, "argv", ["HelixCLI.exe", "--helix-demucs", *args]):
+            assert windows_portable_entry.main() == 0
+    assert captured == [["HelixCLI.exe", *args]]
