@@ -11280,7 +11280,7 @@ def run_variant(
     cane_focus = base.clamp(float(tuning.cane_focus), 0.50, 2.50)
     flash_guard = base.clamp(float(tuning.flash_guard), 0.00, 1.00)
     keyboard_mix = base.clamp(float(tuning.keyboard_mix), 0.00, 2.00)
-    global_flash_prob = base.clamp(1.0 - flash_guard, 0.05, 1.0)
+    global_flash_prob = base.clamp(1.0 - flash_guard, 0.0, 1.0)
     family_factor = 1.10 + (0.05 * min(6, len(template_profile.discovered_effect_families)))
     dynamic_random = base.clamp(profile.randomness * family_factor, 0.05, 1.0)
     dramatic_parts = {"CHORUS", "PRECHORUS", "BRIDGE"}
@@ -12336,7 +12336,7 @@ def run_variant(
                     )
                 elif drop_pool and drop_pool.models:
                     add_model(drop_pool.models[0], part.start_ms, min(part.end_ms, part.start_ms + 280), "drop_focus", stem="drums")
-                if rng.random() < (0.85 * max(0.35, global_flash_prob)):
+                if rng.random() < (0.85 * global_flash_prob):
                     add_model(
                         layout.all_white,
                         part.start_ms,
@@ -12346,7 +12346,7 @@ def run_variant(
                         cd_ms=80,
                         stem="drums",
                     )
-                if rng.random() < (0.95 * max(0.45, global_flash_prob)):
+                if rng.random() < (0.95 * global_flash_prob):
                     add_model(
                         layout.all_red,
                         part.start_ms,
