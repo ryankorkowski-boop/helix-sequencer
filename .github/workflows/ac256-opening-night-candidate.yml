@@ -30,6 +30,7 @@ jobs:
         run: |
           sudo apt-get update -qq
           sudo apt-get install -y ffmpeg
+          python -m pip install torch==2.5.1 torchaudio==2.5.1 --index-url https://download.pytorch.org/whl/cpu
           python -m pip install -r requirements-dev.txt gdown==6.4.2
       - name: Gate RGB quality and legacy export compatibility before native render
         run: |
