@@ -1,3 +1,12 @@
+## November 26 · Android preview encoder fallback
+
+**Goal:** Stop the emulator smoke from reporting a blank preview path.
+**Changed files:** `android/app/src/main/java/org/helixsequencer/android/MediaRuntime.java`, `android/app/src/main/python/helix_mobile.py`, `android/app/src/androidTest/java/org/helixsequencer/android/OfflineEngineTest.java`.
+**Preserved:** Surface H.264 encoding when a recordable EGL config exists.
+**New behavior:** If the surface encoder fails, frames are written as YUV to a buffer encoder. A failed preview now returns `preview_error` instead of an empty path that the test opened.
+**Tests/evidence:** Local bridge reached `beginPreview` on the default 256-model layout. The encoder itself was not run here.
+**Limitations:** The Android workflow has not rerun. A complete six-member band is still refused by the effect-level preview.
+
 ## November 26 · Android MediaExtractor private files
 
 **Goal:** Let the on-device smoke open its own audio and preview.

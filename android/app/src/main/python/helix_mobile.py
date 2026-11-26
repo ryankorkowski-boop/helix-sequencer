@@ -390,6 +390,7 @@ def run(engine_path, job_path, request_json, callback):
                             outcomes[str(variant)] = ''
                             if variant == selected:
                                 result['preview'] = ''
+                                result['preview_error'] = str(variant_exc)
                             callback.log('Variant %d preview failed: %s' % (index+1, variant_exc))
                             callback.log(traceback.format_exc())
                         publish(running=index + 1 < len(preview_candidates))

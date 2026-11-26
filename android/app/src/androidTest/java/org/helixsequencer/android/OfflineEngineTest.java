@@ -62,7 +62,9 @@ public class OfflineEngineTest {
             JSONObject result=new JSONObject(Python.getInstance().getModule("helix_mobile").callAttr("run",engine.toString(),job.toString(),request.toString(),callbacks).toString());
             assertTrue(result.getInt("sequence_count")>0);File bundle=new File(result.getString("bundle"));assertTrue(bundle.length()>1000);
             try(ZipFile z=new ZipFile(bundle)){assertNotNull(z.getEntry("android-run.json"));}
-            MediaExtractor mp4=new MediaExtractor();try{MediaRuntime.open(mp4,result.getString("preview"));int v=MediaRuntime.track(mp4,"video/"),a=MediaRuntime.track(mp4,"audio/");
+            String previewPath=result.optString("preview");
+            if(previewPath.isEmpty())fail("Preview was not written: "+result.optString("preview_error"));
+            MediaExtractor mp4=new MediaExtractor();try{MediaRuntime.open(mp4,previewPath);int v=MediaRuntime.track(mp4,"video/"),a=MediaRuntime.track(mp4,"audio/");
                 assertEquals("video/avc",mp4.getTrackFormat(v).getString(MediaFormat.KEY_MIME));assertEquals("audio/mp4a-latm",mp4.getTrackFormat(a).getString(MediaFormat.KEY_MIME));
                 assertTrue(mp4.getTrackFormat(v).getLong(MediaFormat.KEY_DURATION)>2_000_000);
             }finally{mp4.release();}
