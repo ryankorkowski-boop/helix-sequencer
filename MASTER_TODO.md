@@ -77,6 +77,99 @@ Do not mark complete from unit tests alone.
 
 ## Change Ledger
 
+### 2026-11-26 — Beta 1.4 packages the depth sweep for Windows and Android
+**Agent:** Grok
+**Branch:** `feature/restructure-core`
+
+**Goal:** Ship the section planner, spatial chase, birdsong default, and depth-sweep row grouping in the Windows portable zip and Android APK, labeled Beta 1.4.
+
+**Changed files/modules:**
+- `core/helix_version.py` is `1.4.0-beta`, version code 10.
+- Android `versionName`, window title strings, Windows version resource, changelog, and portable readme.
+- `.github/workflows/beta-v1.4-packages.yml` builds `Helix-Windows-Beta-v1.4.zip` and `Helix-Android-Beta-v1.4.apk`.
+- The 1.3 workflow no longer rebuilds when the engine changes, so it does not fail the new version check.
+
+**Intentionally preserved behavior:** Package shape matches Beta 1.3: one-folder `Helix.exe` plus `HelixCLI.exe`, and a debug Chaquopy APK. Palette index behavior is still gated by the palette smoke. Release signing is still the owner's keystore.
+
+**New behavior:** User-visible version is Beta 1.4. The packaged engine includes `depth_sweep` and the v27 section budget.
+
+**Tests/evidence:** `tests/test_helix_version.py` and `tests/test_spatial_scene.py`. The package workflow checks the CLI prints `1.4.0-beta` and that the APK engine zip contains `depth_sweep`.
+
+**Limitations:** This sandbox cannot cross-compile `Helix.exe` or assemble the APK. The artifacts come from the GitHub workflow on `feature/restructure-core`.
+
+**Deferred work:** A signed release APK.
+
+**Regression risks:** Installing over Beta 1.3 uses versionCode 10, so Android should treat it as an upgrade of the same application id. The debug certificate is unchanged, so an existing debug install should update in place.
+
+### 2026-11-26 — Depth-sweep rows follow gaps, not a fixed 4% band
+**Agent:** Grok
+**Branch:** `feature/restructure-core` working tree
+
+**Goal:** Keep a physical row on one delay, and still let an even depth ramp travel.
+
+**Changed files/modules:**
+- `core/spatial_scene.py` (`_row_gap_threshold`, `_depth_layer_ids`, `depth_sweep`)
+- `tests/test_spatial_scene.py`
+
+**Intentionally preserved behavior:** Delay and weight still come from the layer index. Front-to-back order, reverse, and the flat-layout fallback are unchanged. The chase still calls `depth_sweep` for prechorus and bridge only.
+
+**New behavior:** Consecutive depth gaps are split with a 1D threshold when a large aisle is distinct from in-row jitter. Gaps under 1.2% of the span stay in the current row. An even ramp, which has no large aisle, still advances one layer per step.
+
+**Tests/evidence:** `tests/test_spatial_scene.py` covers a noisy two-row yard and an even five-step ramp, plus the earlier delay, reverse, and shared-layer cases.
+
+**Limitations:** The split is on normalized depth of the models passed in, not on raw world units. A slice that contains only one row will not invent extra rows.
+
+**Deferred work:** None for this grouping rule.
+
+**Regression risks:** Yards whose row spacing is almost the same as their in-row scatter can stay one layer or split too finely. The 2x gap test is the guard.
+
+### 2026-11-26 — Depth sweep travels on Z instead of a shared onset
+**Agent:** Grok
+**Branch:** `feature/restructure-core` working tree
+
+**Goal:** Make a build move front to back through the yard instead of lighting every model on the beat.
+
+**Changed files/modules:**
+- `core/spatial_scene.py` adds `depth_sweep`.
+- `core/effect_engine.py` uses it for prechorus and bridge spatial chases.
+- `tests/test_spatial_scene.py`.
+
+**Intentionally preserved behavior:** Verse, chorus, intro, and outro chases stay on the existing path. `directional_wave` and `path_travel` are unchanged. A 2D layout still falls back to height, matching the depth-sweep route.
+
+**New behavior:** Hits are ordered on Z (or Y when the layout is flat). Props in the same depth layer share a delay. Later layers arrive later and lose weight by `hop_decay`. A build beat sweeps only a short slice of that order, and the slice advances on the next beat. A falling pitch reverses the sweep.
+
+**Tests/evidence:** `tests/test_spatial_scene.py` covers delay, reverse, shared layers, and the flat-layout fallback.
+
+**Limitations:** The sweep runs only when a spatial scene exists and the section is prechorus or bridge. It does not yet shorten travel from measured section loudness, only from spatial awareness.
+
+**Deferred work:** Chorus radial burst from the hero, and binding pitch to height.
+
+**Regression risks:** Prechorus and bridge chases are no longer left-to-right waves. A layout with bad Z values will sweep in the wrong direction.
+
+### 2026-11-26 — Section plans, 3D chase, birdsong, no whole-yard beat pulse
+**Agent:** Grok
+**Branch:** `feature/restructure-core` working tree
+
+**Goal:** Keep 3D spatial routing, birdsong, and verse/build/chorus planning on by default, and stop every model from hitting the beat together.
+
+**Changed files/modules:**
+- `core/effect_engine.py`
+- `core/orchestration_balance.py`
+- `core/youtube_show_scorer.py`
+- `tests/test_orchestration_balance.py`
+
+**Intentionally preserved behavior:** Older profiles (through v23) still use their existing whole-group color hits. hardKor still disables birdsong. `--no-birdsong`, `--spatial-awareness 0`, and `--chase-style none` still turn the new defaults off. Small layouts still cap a section at 5 families.
+
+**New behavior:** With a layout file, spatial awareness defaults to 0.85 and the chase style to `wave`, so the 3D scene orders the chase. Birdsong defaults on. v24–v27 take bass, vocals, and keyboard routes from `intentional_scene_blueprint` (verse, prechorus/build, chorus) and light one model on the route instead of the cluster. Green VU walks at most three spatially ordered models. All-red, all-green, all-white, house, and garage no longer pulse together on those profiles. Large layouts may light more than five families; support lanes stay on the focal family plus one companion.
+
+**Tests/evidence:** `tests/test_orchestration_balance.py`, `tests/test_youtube_show_scorer.py`.
+
+**Limitations:** The effects orchestrator still builds its own equal-length intro/verse/build/chorus/finale graph before the engine runs. The engine now follows detected section labels rather than that graph's timestamps.
+
+**Deferred work:** Feeding detected section times back into the orchestrator seed graph.
+
+**Regression risks:** v27 sequences will be much less dense. Keyboard support lanes are off for v24–v27. Spatial chase adds staggered hits whenever a layout file is present.
+
 ### 2026-11-13 — Beta 1.3 packages the palette fix for Windows and Android
 **Agent:** Cursor cloud agent
 **Branch:** `cursor/beta-1-3-release-1aae`

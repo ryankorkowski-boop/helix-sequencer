@@ -14,12 +14,6 @@ on:
       - feature/restructure-core
     paths:
       - .github/workflows/beta-v1.3-packages.yml
-      - core/effect_engine.py
-      - core/helix_version.py
-      - android/**
-      - windows_portable.spec
-      - windows_portable_entry.py
-      - tools/palette_smoke.py
 
 permissions:
   contents: read

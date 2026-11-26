@@ -6,6 +6,8 @@ from collections.abc import Mapping
 from statistics import mean
 from typing import Any
 
+from core.orchestration_balance import family_cap_for_layout
+
 
 RECOGNIZED_SECTIONS = {
     "intro",
@@ -180,6 +182,8 @@ def build_show_direction_summary(
     timelines: Mapping[str, Any],
     parts: list[Any],
     quiet_windows: list[tuple[int, int]] | None = None,
+    section_motions: Mapping[str, str] | None = None,
+    section_focals: Mapping[str, str] | None = None,
 ) -> dict[str, Any]:
     """
     Summarize generated timelines for report-only YouTube-grade direction scoring.
@@ -227,7 +231,8 @@ def build_show_direction_summary(
                         color_counter[color] += overlap
 
         active_families = [family for family, _value in family_duration.most_common()]
-        focal_target = active_families[0] if active_families else ""
+        label = str(getattr(part, "label", "") or "")
+        focal_target = _planned_focal(label, active_families, section_focals) or (active_families[0] if active_families else "")
         role_map = {family: PROP_ROLE_BY_FAMILY.get(family, "support") for family in active_families}
         all_role_map.update(role_map)
         colors = [color for color, _value in color_counter.most_common(4)]
@@ -238,16 +243,17 @@ def build_show_direction_summary(
         coverage = min(1.0, len(active_families) / 8.0)
         brightness = min(1.0, (density * 0.55) + (coverage * 0.45))
         has_rest = quiet_ms / duration_ms >= 0.08 or effect_count == 0
+        detected_motion = motion_counter.most_common(1)[0][0] if motion_counter else ""
         sections.append(
             {
-                "label": str(getattr(part, "label", "") or ""),
+                "label": label,
                 "start_ms": start_ms,
                 "end_ms": end_ms,
                 "focal_target": focal_target,
-                "active_props": active_families[:10],
+                "active_props": active_families[:12],
                 "layers": [layer for layer, _value in layer_duration.most_common()],
                 "colors": colors,
-                "motion": motion_counter.most_common(1)[0][0] if motion_counter else "",
+                "motion": _planned_motion(label, detected_motion, section_motions),
                 "brightness": round(brightness, 4),
                 "density": round(density, 4),
                 "coverage": round(coverage, 4),
@@ -361,6 +367,51 @@ def letter_grade(score: float) -> str:
     return "F"
 
 
+def _family_cap(payload: Mapping[str, Any]) -> int:
+    layout = payload.get("parsed_layout") or {}
+    if not isinstance(layout, Mapping):
+        return 5
+    models = int(_number(layout.get("model_count") or layout.get("root_model_count"), 0.0))
+    available = int(_number(layout.get("available_family_count"), 0.0))
+    if models <= 0 and available <= 0:
+        return 5
+    return family_cap_for_layout(models, available)
+
+
+def _lookup_section_plan(section_label: str, plans: Mapping[str, str] | None) -> str:
+    if not plans:
+        return ""
+    label = str(section_label or "")
+    return str(plans.get(label) or plans.get(label.upper()) or plans.get(label.lower()) or "")
+
+
+def _planned_focal(section_label: str, active_families: list[str], plans: Mapping[str, str] | None) -> str:
+    planned = _norm(_lookup_section_plan(section_label, plans))
+    if not planned:
+        return ""
+    aliases = {
+        "mega": "mega_tree",
+        "gt": "mega_tree",
+        "arch": "arches",
+        "line": "rooflines",
+        "stars": "spinner",
+        "canes_combo": "cane",
+    }
+    wanted = {planned, aliases.get(planned, "")} - {""}
+    for family in active_families:
+        token = _norm(family)
+        if token in wanted or any(item and item in token for item in wanted):
+            return family
+    return ""
+
+
+def _planned_motion(section_label: str, detected: str, plans: Mapping[str, str] | None) -> str:
+    if detected and detected not in CHAOTIC_MOTION_TOKENS:
+        return detected
+    planned = _lookup_section_plan(section_label, plans)
+    return planned or detected
+
+
 def focal_clarity_score(payload: Mapping[str, Any]) -> float:
     sections = _extract_sections(payload)
     if not sections:
@@ -376,12 +427,13 @@ def focal_clarity_score(payload: Mapping[str, Any]) -> float:
         score = 82.0 if focal else 48.0
         if focal and (not props or focal in props):
             score += 8.0
-        if active_count <= 3:
+        family_cap = _family_cap(payload)
+        if active_count <= min(3, family_cap):
             score += 10.0
-        elif active_count <= 5:
+        elif active_count <= family_cap:
             score += 2.0
         else:
-            score -= min(38.0, (active_count - 5) * 7.0)
+            score -= min(38.0, (active_count - family_cap) * 7.0)
         scores.append(clamp(score))
     return round(mean(scores), 1)
 
@@ -552,10 +604,11 @@ def escalation_score(payload: Mapping[str, Any]) -> float:
 
 def clutter_penalty_score(payload: Mapping[str, Any]) -> float:
     sections = _extract_sections(payload)
+    family_cap = _family_cap(payload)
     penalties: list[float] = []
     for section in sections:
         layer_overage = max(0, len(_layers(section)) - 3)
-        prop_overage = max(0, len(set(_active_props(section))) - 5)
+        prop_overage = max(0, len(set(_active_props(section))) - family_cap)
         color_overage = max(0, len(set(_colors(section))) - 4)
         penalties.append(clamp(layer_overage * 16.0 + prop_overage * 8.0 + color_overage * 7.0))
 
@@ -605,6 +658,7 @@ def direction_problems(
         }
     clutter = clutter_penalty_score(payload) if clutter_penalty is None else float(clutter_penalty)
     sections = _extract_sections(payload)
+    family_cap = _family_cap(payload)
     problems: list[dict[str, str]] = []
 
     thresholds = (
@@ -647,7 +701,7 @@ def direction_problems(
                     metric="focal_clarity",
                 )
             )
-        if len(props) > 6:
+        if len(props) > family_cap:
             problems.append(
                 _problem(
                     "section_too_many_prop_families",

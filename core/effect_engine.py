@@ -173,8 +173,8 @@ class RuntimeTuning:
     sync_lyrics_heads: bool = False
     template_guidance: bool = True
     layout_file: Path | None = None
-    spatial_awareness: float = 0.0
-    chase_style: str = "none"
+    spatial_awareness: float = 0.85
+    chase_style: str = "wave"
     layering_mode: str = "replace"
     layer_priority_vocals: int = 4
     layer_priority_drums: int = 3
@@ -211,8 +211,8 @@ class RuntimeTuning:
     vendor_min_quality_score: float = DEFAULT_VENDOR_MIN_QUALITY_SCORE
     vendor_min_audit_score: float = DEFAULT_VENDOR_MIN_AUDIT_SCORE
     vendor_max_rejected_effects: int = DEFAULT_VENDOR_MAX_REJECTED_EFFECTS
-    birdsong_enabled: bool = False
-    birdsong_auto: bool = False
+    birdsong_enabled: bool = True
+    birdsong_auto: bool = True
     birdsong_intensity: float = 1.0
     birdsong_min_confidence: float = 0.45
     birdsong_profile: str = "wild"
@@ -3024,6 +3024,14 @@ def spatialize_pool_for_family(
     if not ordered or ordered == pool.models:
         return pool
     return replace(pool, models=ordered)
+
+
+def section_planned_family(family: str) -> bool:
+    """Profiles that take verse, build, and chorus actions from the section blueprint.
+
+    These profiles must not light all-red, all-green, or all-white groups on a beat.
+    """
+    return family in {"v24", "v25", "v26", "v27"}
 
 
 def intentional_scene_blueprint(part_label: str) -> dict[str, tuple[str, ...]]:
@@ -7533,6 +7541,11 @@ def place_spatial_keyboard_routes(
         for route_idx, route in enumerate(routes):
             if not route.models or not route_should_fire(route, event_idx, event.part):
                 continue
+            if section_planned_family(style.family):
+                blueprint = intentional_scene_blueprint(event.part)
+                allowed = tuple(dict.fromkeys(blueprint["lead"] + blueprint["rhythm"] + blueprint["sweep"]))
+                if not any(token in route.name.lower() for token in allowed):
+                    continue
             if style.family in {"v22", "v23"} and route.name not in {"north_canes", "south_canes"}:
                 if event.part in {"INTRO", "VERSE", "OUTRO"} and ((event_idx + route_idx) % 4) != 0:
                     continue
@@ -7564,7 +7577,8 @@ def place_spatial_keyboard_routes(
                     scale = 0.86 if style.family == "v23" and route.name in {"north_canes", "south_canes"} else 0.78 if style.family == "v23" else 0.92 if route.name in {"north_canes", "south_canes"} else 0.84
                     base_duration = max(55, int(base_duration * scale))
                 end_ms = min(event.end_ms + 180, base_start + base_duration)
-                for model in primary_cluster:
+                lit_models = primary_cluster[:1] if section_planned_family(style.family) else primary_cluster
+                for model in lit_models:
                     add_model(
                         model,
                         base_start,
@@ -7578,6 +7592,8 @@ def place_spatial_keyboard_routes(
                 note_labels.append(librosa.midi_to_note(midi))
 
             support_ok = route_support_enabled(route)
+            if section_planned_family(style.family):
+                support_ok = False
             if style.family == "v23":
                 support_ok = route.name in {"north_canes", "south_canes", "white_spine"}
             if support_ok and len(clusters) >= 3 and primary_indices:
@@ -9898,6 +9914,28 @@ def apply_spatial_chase(
         if descending:
             directional_path.reverse()
         width = min(len(path), width_cap, base_width + (1 if part in {"PRECHORUS", "CHORUS", "BRIDGE"} else 0))
+        if scene is not None and part in {"PRECHORUS", "BRIDGE"}:
+            depth_order = spatial.order_names_for_family(scene, path, "depth_sweep", reverse=descending)
+            start_idx = (i * max(1, width // 2)) % max(1, len(depth_order))
+            chosen = depth_order[start_idx:start_idx + width]
+            if len(chosen) < 2:
+                chosen = depth_order[:width]
+            sweep_hits = spatial.depth_sweep(
+                scene,
+                chosen,
+                travel_ms=max(90, int(round(420 - awareness * 240))),
+                reverse=descending,
+            )
+            chase_end = t_ms
+            for hit in sweep_hits:
+                st = t_ms + hit.delay_ms
+                en = st + max(70, int(dur * max(0.45, hit.weight)))
+                add_model(hit.name, st, en, "depth_sweep", eff="Wave", stem="drums")
+                chase_end = max(chase_end, en)
+                placed += 1
+            if sweep_hits:
+                spans.append((f"depth_sweep:{sweep_hits[0].name}", t_ms, chase_end))
+                continue
         start_idx = (i * max(1, int(1 + awareness * 3))) % len(path)
         if chase_style == "random_walk":
             if ascending or descending:
@@ -11058,6 +11096,12 @@ def run_variant(
             return True
         return True
 
+    layout_model_count = len(getattr(parsed_layout, "models", {}) or {}) or len(model_category_map)
+    available_family_count = len(
+        {str(value).strip().lower() for value in model_category_map.values() if str(value).strip()}
+    )
+    show_budget = balance.ShowDirectionBudget(layout_model_count, available_family_count)
+
     def add_model(
         nm: str | None,
         st: int,
@@ -11083,6 +11127,9 @@ def run_variant(
         if lane in {"overlay", "flash"} and not _reserve_section_budget(int(st), label):
             balance_rejected[lane] += 1
             reject_effect(nm, int(st), int(en), eff, "balance", f"{lane} over section budget")
+            return
+        family_key_budget = prop_family(nm, model_category_map.get(nm))
+        if not show_budget.allow(section=part_for_time(parts, int(st)), family=family_key_budget, label=label):
             return
         st_i = int(st)
         en_i = int(max(st_i + 1, en))
@@ -11285,6 +11332,7 @@ def run_variant(
     other_priority_gain = 0.80 + (priorities["other"] / stem_max) * 0.45
     hardkor_mode = bool(tuning.hardkor_enabled)
     structured_mode = style.family in {"v14", "v15", "v16", "v17", "v18", "v19", "v20", "v21", "v22", "v23"}
+    section_planned = section_planned_family(style.family)
     focused_mode = style.family in {"v14", "v16", "v19", "v22", "v23", "v25", "v26", "v27"} or style.placement_mode in {"mapped_essentials", "mapped_submodel"}
     premium_mode = style.family in {"v15", "v17", "v20", "v22", "v23", "v25", "v26", "v27"} or style.placement_mode == "mapped_showcase"
     if structured_mode:
@@ -11327,7 +11375,7 @@ def run_variant(
                 dur = int(dur * 1.35)
             part_blueprint = intentional_scene_blueprint(part)
             purposeful_bass_pools = [pool for pool in pools if pool.category in (part_blueprint["foundation"] + part_blueprint["rhythm"]) and pool.models]
-            if structured_mode and purposeful_bass_pools:
+            if (structured_mode or section_planned) and purposeful_bass_pools:
                 focus_pool = purposeful_bass_pools[i % len(purposeful_bass_pools)]
             elif bass_focus_pools and rng.random() < dynamic_random:
                 focus_pool = rng.choice(bass_focus_pools)
@@ -11363,6 +11411,8 @@ def run_variant(
                     target = color_targets[0]
                 if target[0] and (part != "VERSE" or (i % 2) == 0):
                     add_model(target[0], t_ms, t_ms + dur, target[1], cd_key=target[2], cd_ms=target[3], stem="bass")
+            elif section_planned:
+                pass
             elif rng.random() < base.clamp(0.58 + bass_priority_gain * 0.25, 0.35, 0.98):
                 target = color_targets[0]
                 if rng.random() < 0.24 and color_targets[1][0]:
@@ -11371,7 +11421,7 @@ def run_variant(
                     target = color_targets[2]
                 if target[0]:
                     add_model(target[0], t_ms, t_ms + dur, target[1], cd_key=target[2], cd_ms=target[3], stem="bass")
-            if not structured_mode and part in dramatic_parts and flash_guard < 0.45 and rng.random() < (global_flash_prob * 0.35):
+            if not structured_mode and not section_planned and part in dramatic_parts and flash_guard < 0.45 and rng.random() < (global_flash_prob * 0.35):
                 add_model(layout.house, t_ms, t_ms + dur, "bass_red", cd_key="house", cd_ms=110, stem="bass")
                 add_model(layout.garage, t_ms, t_ms + dur, "bass_red", cd_key="garage", cd_ms=110, stem="bass")
 
@@ -12028,7 +12078,29 @@ def run_variant(
             keyboard_track=keyboard_track,
         )
 
-    if layout.all_green and hints.green_has_vu and not structured_mode:
+    if hints.green_has_vu and not hardkor_mode and (section_planned or spatial_scene_model is not None):
+        vu_targets = list(gt_pool.models if gt_pool else [])
+        if not vu_targets:
+            vu_targets = list(next((pool.models for pool in pools if pool.category == "mega" and pool.models), []))
+        if spatial_scene_model is not None and len(vu_targets) >= 2:
+            vu_targets = spatial.order_names_for_family(
+                spatial_scene_model,
+                vu_targets,
+                "wave_propagation",
+                path_style="left_to_right",
+            )
+        vu_windows = base.build_vu_windows(audio, profile.density, profile.darkness, max(1, len(vu_targets)))
+        for window_index, (st, en, bars) in enumerate(vu_windows):
+            if in_blackout(st):
+                continue
+            if not vu_targets:
+                break
+            take = max(1, min(3, int(bars), len(vu_targets)))
+            start_at = (window_index * take) % len(vu_targets)
+            for step in range(take):
+                model = vu_targets[(start_at + step) % len(vu_targets)]
+                add_model(model, st + step * 45, en, "green_vu", stem="drums")
+    elif layout.all_green and hints.green_has_vu and not structured_mode:
         vu_targets = gt_pool.models if gt_pool else []
         vu_windows = base.build_vu_windows(audio, profile.density, profile.darkness, max(1, len(vu_targets)))
         for st, en, bars in vu_windows:
@@ -12046,7 +12118,7 @@ def run_variant(
             dur = max(80, int(base.scaled_dur(170) * vocals_priority_gain))
             part_blueprint = intentional_scene_blueprint(part)
             purposeful_vocal_pools = [pool for pool in pools if pool.category in (part_blueprint["lead"] + part_blueprint["accent"]) and pool.models]
-            if structured_mode and purposeful_vocal_pools:
+            if (structured_mode or section_planned) and purposeful_vocal_pools:
                 vocal_pool = purposeful_vocal_pools[i % len(purposeful_vocal_pools)]
             elif vocal_focus_pools and rng.random() < dynamic_random:
                 vocal_pool = rng.choice(vocal_focus_pools)
@@ -12066,7 +12138,7 @@ def run_variant(
                     stem="vocals",
                 )
                 pool_state[f"vocal_focus_{vocal_pool.name}"] = v_idx + 1
-            if not structured_mode and part in dramatic_parts and flash_guard < 0.55 and rng.random() < (global_flash_prob * 0.25):
+            if not structured_mode and not section_planned and part in dramatic_parts and flash_guard < 0.55 and rng.random() < (global_flash_prob * 0.25):
                 add_model(layout.all_white, t_ms, t_ms + dur, "white_vocal", cd_key="white", cd_ms=100, stem="vocals")
 
     lyric_track: list[tuple[str, int, int]] = []
@@ -12428,7 +12500,15 @@ def run_variant(
         timelines=timelines,
         parts=parts,
         quiet_windows=list(multiband.quiet_windows) + blackout_windows,
+        section_motions={part.label: show_budget.motion_for(part.label) for part in parts},
+        section_focals={part.label: show_budget.focal_family(part.label) for part in parts},
     )
+    if any(show_budget.held.values()):
+        log(
+            "Show direction budget held back "
+            f"family={show_budget.held['family']}, support={show_budget.held['support']}, vu={show_budget.held['vu']} "
+            f"(family cap {show_budget.family_cap} on {show_budget.model_count} models)"
+        )
 
     log("[5/8] Writing timing tracks and report")
     if tuning.auto_timing_tracks:
@@ -13015,8 +13095,8 @@ def parse_args(style: VariantStyle, argv: list[str] | None = None) -> argparse.N
         auto_shortlist=False,
         learn_from_my_xsqs=False,
         vendor_bar=False,
-        birdsong_enabled=False,
-        birdsong_auto=False,
+        birdsong_enabled=True,
+        birdsong_auto=True,
         hardkor_enabled=False,
     )
     return parser.parse_args(argv)
@@ -13127,8 +13207,12 @@ def main_for(version: str, argv: list[str] | None = None) -> None:
         sync_lyrics_heads=bool(args.sync_lyrics_heads),
         template_guidance=bool(args.template_guidance),
         layout_file=layout_file,
-        spatial_awareness=base.clamp(float(args.spatial_awareness if args.spatial_awareness is not None else 0.0), 0.0, 1.0),
-        chase_style=normalize_chase_style(args.chase_style or "none"),
+        spatial_awareness=base.clamp(
+            float(args.spatial_awareness if args.spatial_awareness is not None else (0.85 if layout_file else 0.0)),
+            0.0,
+            1.0,
+        ),
+        chase_style=normalize_chase_style(args.chase_style or ("wave" if layout_file else "none")),
         layering_mode=normalize_layering_mode(args.layering_mode or "replace"),
         layer_priority_vocals=int(args.layer_priority_vocals if args.layer_priority_vocals is not None else 4),
         layer_priority_drums=int(args.layer_priority_drums if args.layer_priority_drums is not None else 3),

@@ -882,6 +882,134 @@ def directional_wave(
     return scores
 
 
+@dataclass(frozen=True)
+class DepthSweepHit:
+    """One prop in a front-to-back sweep. Same depth shares a delay. Farther hops decay."""
+
+    name: str
+    depth: float
+    delay_ms: int
+    weight: float
+
+
+def _row_gap_threshold(gaps: list[float]) -> float | None:
+    """Gap size that separates a new depth row from jitter inside a row.
+
+    Returns None when the gaps are one population, such as an even ramp.
+    """
+    positive = [gap for gap in gaps if gap > 1e-6]
+    if len(positive) < 2:
+        return None
+    lo = min(positive)
+    hi = max(positive)
+    if hi < lo * 2.0 + 0.02:
+        return None
+    unique = sorted({round(gap, 6) for gap in positive})
+    if len(unique) < 2:
+        return None
+    total = float(len(positive))
+    best_cut: float | None = None
+    best_score = -1.0
+    for left, right in zip(unique, unique[1:]):
+        cut = (left + right) / 2.0
+        small = [gap for gap in positive if gap <= cut]
+        large = [gap for gap in positive if gap > cut]
+        if not small or not large:
+            continue
+        mean_small = sum(small) / len(small)
+        mean_large = sum(large) / len(large)
+        score = (len(small) / total) * (len(large) / total) * (mean_large - mean_small) ** 2
+        if score > best_score:
+            best_score = score
+            best_cut = cut
+    if best_cut is None:
+        return None
+    small = [gap for gap in positive if gap <= best_cut]
+    large = [gap for gap in positive if gap > best_cut]
+    if (sum(large) / len(large)) < (sum(small) / len(small)) * 2.0:
+        return None
+    return best_cut
+
+
+def _depth_layer_ids(depths: list[float]) -> list[int]:
+    """Group sorted depths into rows.
+
+    A real aisle opens a new layer. An even ramp still advances one layer per
+    step, so the sweep does not onset as one band. Jitter under 1.2% of the
+    span stays inside the current row.
+    """
+    count = len(depths)
+    if count == 0:
+        return []
+    if count == 1:
+        return [0]
+    gaps = [depths[index + 1] - depths[index] for index in range(count - 1)]
+    split_at = _row_gap_threshold(gaps)
+    layer = 0
+    layers = [0]
+    for gap in gaps:
+        opens_row = gap > split_at if split_at is not None else gap > 0.012
+        if opens_row:
+            layer += 1
+        layers.append(layer)
+    return layers
+
+
+def depth_sweep(
+    scene: SpatialScene,
+    names: Iterable[str],
+    *,
+    travel_ms: int = 280,
+    reverse: bool = False,
+    hop_decay: float = 0.85,
+) -> list[DepthSweepHit]:
+    """Schedule a depth sweep. Delay follows the row, so the yard does not onset together.
+
+    Props in one depth row share a start. A gap that is clearly larger than the
+    in-row jitter starts the next row. 3D and 2.5D layouts travel on Z. A flat
+    layout uses the route fallback axis (height). If that axis is also flat,
+    models still step in order.
+    """
+    nodes = _ordered_available_nodes(scene, names)
+    if not nodes:
+        return []
+    route = route_spatial_effect("depth_sweep", scene)
+    axis = route.axis or "z"
+    mode = route.distance_mode
+    ranked = sorted(nodes, key=lambda node: (_axis_value(node, axis, mode), node.name.lower()))
+    values = [_axis_value(node, axis, mode) for node in ranked]
+    lo = min(values)
+    span = max(values) - lo
+    travel = max(0, int(travel_ms))
+    decay = max(0.0, min(1.0, float(hop_decay)))
+    count = len(ranked)
+    raw: list[tuple[SceneNode, float]] = []
+    for index, (node, value) in enumerate(zip(ranked, values)):
+        if span <= _EPSILON:
+            depth = 0.0 if count == 1 else index / float(count - 1)
+        else:
+            depth = (value - lo) / span
+        if reverse:
+            depth = 1.0 - depth
+        raw.append((node, depth))
+    raw.sort(key=lambda item: (item[1], item[0].name.lower()))
+
+    layer_ids = _depth_layer_ids([depth for _, depth in raw])
+    layer_anchor: dict[int, float] = {}
+    hits: list[DepthSweepHit] = []
+    for (node, depth), layer_index in zip(raw, layer_ids):
+        layer_anchor.setdefault(layer_index, depth)
+        hits.append(
+            DepthSweepHit(
+                name=node.name,
+                depth=round(depth, 6),
+                delay_ms=int(round(layer_anchor[layer_index] * travel)),
+                weight=round(decay ** layer_index, 6),
+            )
+        )
+    return hits
+
+
 def path_travel(
     scene: SpatialScene,
     names: Iterable[str],

@@ -1,19 +1,19 @@
 {
-  "name": "Helix Beta 1.3",
-  "display": "Beta 1.3",
-  "version": "1.3.0-beta",
-  "tag": "helix-beta-v1.3",
+  "name": "Helix Beta 1.4",
+  "display": "Beta 1.4",
+  "version": "1.4.0-beta",
+  "tag": "helix-beta-v1.4",
   "android": {
     "applicationId": "org.helixsequencer.android",
-    "versionName": "1.3.0-beta",
-    "versionCode": 9,
+    "versionName": "1.4.0-beta",
+    "versionCode": 10,
     "buildType": "debug"
   },
   "windows": {
     "productName": "Helix Sequencer",
-    "fileVersion": "1.3.0.0",
-    "productVersion": "Beta 1.3",
-    "package": "Helix-Windows-Beta-v1.3.zip",
+    "fileVersion": "1.4.0.0",
+    "productVersion": "Beta 1.4",
+    "package": "Helix-Windows-Beta-v1.4.zip",
     "shape": "one-part portable folder Helix/ with Helix.exe, HelixCLI.exe, and _internal"
   },
   "sourceFix": "https://github.com/ryankorkowski-boop/helix-sequencer/pull/218"

@@ -1,5 +1,14 @@
 # Changelog
 
+## Beta 1.4 (1.4.0-beta)
+
+Shipped from `feature/restructure-core`.
+
+- Depth sweep: prechorus and bridge chases travel front to back on Z. Props in the same depth row share a start, and an even ramp still steps instead of flashing together.
+- v24–v27 follow the verse, build, and chorus blueprint. Keyboard routes light one model, not the whole cluster. All-red, all-green, all-white, house, and garage no longer pulse on the same beat.
+- With a layout file, spatial awareness defaults to 0.85 and the chase style to wave. Birdsong is on unless `--no-birdsong` is set.
+- Desktop title, `python main.py --version`, Android `versionName` `1.4.0-beta` (versionCode 10), and the Windows executable version resource all report Beta 1.4.
+
 ## Beta 1.3 (1.3.0-beta)
 
 Shipped from `feature/restructure-core` after merging pull request #218.

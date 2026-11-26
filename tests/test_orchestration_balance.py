@@ -1,7 +1,9 @@
-from core.effect_engine import SequentialPool, build_keyboard_lane_with_routes
+from core.effect_engine import SequentialPool, build_keyboard_lane_with_routes, section_planned_family
 from core.orchestration_balance import (
+    ShowDirectionBudget,
     allows_piano_overlay,
     allows_vocal,
+    family_cap_for_layout,
     flash_cap_per_window,
     label_lane,
     model_role,
@@ -63,3 +65,23 @@ def test_keyboard_lane_unchanged_without_a_piano():
     lane = build_keyboard_lane_with_routes(pools)
     assert "north roofline" in lane
     assert "arch 1" in lane
+
+
+def test_large_layouts_may_use_more_than_five_families():
+    assert family_cap_for_layout(30, 9) == 5
+    assert family_cap_for_layout(384, 9) == 9
+    assert family_cap_for_layout(384, 0) > 5
+    assert section_planned_family("v27")
+    assert not section_planned_family("v23")
+
+
+def test_show_budget_keeps_families_on_a_large_yard_but_not_a_support_wash():
+    budget = ShowDirectionBudget(384, 9)
+    admitted = []
+    for family in ("mega", "line", "arch", "matrix", "stars", "spinner", "sphere", "canes_combo", "gt"):
+        assert budget.allow(section="CHORUS", family=family, label="bass_focus")
+        admitted.append(family)
+    assert budget.allow(section="CHORUS", family="mega", label="spatial_keyboard_mega_support")
+    assert not budget.allow(section="CHORUS", family="spinner", label="spatial_keyboard_spinner_support")
+    assert len(admitted) == 9
+
