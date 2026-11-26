@@ -182,11 +182,18 @@ def schedule(model,plan,cache,duration,*,shared_onsets=None):
         route_delay=route_event(model,cue,section_onsets[cue.get('section','')][a],strategy)
         if route_delay is None:continue
         steps=min(len(parts),strategy['steps'])
+        bounded_advanced=bool(model.details.get('advanced_spatial_routing')
+                              or model.details.get('advanced_showcase_clock'))
+        latest=max(0,depth_ms+route_delay+(steps-1)*strategy['step_ms'])
+        budget=max(0,(b-a-1)//2)
+        delay_scale=min(1.,budget/max(1,latest)) if bounded_advanced else 1.
         for step in range(steps):
             part=parts[(origin+direction*strategy['direction']*step)%len(parts)]
             delay=depth_ms+step*strategy['step_ms']+route_delay
+            if bounded_advanced:
+                delay=round(max(0,delay)*delay_scale)
             start=max(0,a+delay);end=min(duration,b+delay)
-            if model.details.get('source_route_count',1)>1 or model.details.get('spatial_axis'):
+            if bounded_advanced or model.details.get('source_route_count',1)>1 or model.details.get('spatial_axis'):
                 # Preserve the source clock and negative space even when
                 # neighboring nodes respond at staggered times.
                 end=min(end,b)
@@ -199,6 +206,18 @@ def schedule(model,plan,cache,duration,*,shared_onsets=None):
                 route_bank=model.details.get('source_route_bank'),
                 route_rank=model.details.get('source_route_rank')))
     return result
+
+
+def native_bars_direction(model, strategy):
+    """Use native supported 2026.18 Bars directions from section and geometry."""
+    direction = model.details.get('spatial_direction', 1) * strategy['direction']
+    zone = str(model.zone).upper()
+    advanced = any(word in zone for word in ('OPTICAL', 'DEPTH', 'CATHEDRAL', 'HELIX', 'MATRIX', 'SPATIAL'))
+    if advanced and strategy['name'] == 'ascending':
+        return 'H-expand' if direction > 0 else 'H-compress'
+    if advanced and strategy['name'] == 'wide_response':
+        return 'Alternate Left' if direction > 0 else 'Alternate Right'
+    return 'Left' if direction > 0 else 'Right'
 
 
 def export_model(sequence,model,plan,cache,palette,*,shared_onsets=None):
@@ -234,6 +253,7 @@ def export_model(sequence,model,plan,cache,palette,*,shared_onsets=None):
     if matrix and model.kind=='pixel' and events:
         phrases=supported_phrases(events)
         model.submodels['SPATIAL_SURFACE']=sorted({n for p in parts_for(model) for n in model.submodels[p]})
+        model.details['native_surface_rows']=True
         for a,b,section in phrases:
             if b-a<400:continue
             strategy=section_strategy(section,role)
@@ -242,12 +262,13 @@ def export_model(sequence,model,plan,cache,palette,*,shared_onsets=None):
             if strategy['name']=='sparse':continue
             color=section_color(role,section,palette)
             cycles=2.0 if strategy['name']=='ascending' else .5 if strategy['name']=='solo_trace' else 1.0
-            direction=model.details.get('spatial_direction',1)*strategy['direction']
+            bars_direction=native_bars_direction(model,strategy)
             sequence.effect(model,'SPATIAL_SURFACE',a,b,color,provenance={
                 'sourceRole':role,'sourceMethod':'source_phrase_native_Bars','sourceStartMs':str(a),'sourceEndMs':str(b),
-                'sourceSection':str(section),'spatialStrategy':strategy['name']},
+                'sourceSection':str(section),'spatialStrategy':strategy['name'],
+                'nativeBarsDirection':bars_direction},
                 settings=f'E_SLIDER_Bars_BarCount=2,E_TEXTCTRL_Bars_Cycles={cycles},E_CHOICE_Bars_Direction='+
-                    ('Left' if direction>0 else 'Right')+',E_CHECKBOX_Bars_Gradient=1',
+                    bars_direction+',E_CHECKBOX_Bars_Gradient=1',
                 palette=f'C_BUTTON_Palette1={color},C_CHECKBOX_Palette1=1,C_BUTTON_Palette2=#000000,C_CHECKBOX_Palette2=1',
                 effect_name='Bars')
             native_effect='On + Bars'
