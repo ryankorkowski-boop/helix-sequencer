@@ -100,3 +100,35 @@ def family_for_role(role: str) -> str | None:
         "arch": "arch",
         "matrix": "matrix",
     }.get(role)
+
+from core.cooperative_intelligence import (
+    LANE_TO_ROLE,
+    ROLE_PRIORITY_ORDER,
+    infer_spatial_zone,
+    select_soft_brightness,
+    select_xlights_blend_mode,
+)
+
+
+def priority_for_lane(lane: str, *, is_climax: bool = False) -> int:
+    """Cooperative priority score so high-value hits win budget slots."""
+    role = LANE_TO_ROLE.get(lane, "motion")
+    base_score = ROLE_PRIORITY_ORDER.get(role, 25)
+    return base_score + (10 if is_climax else 0)
+
+
+def cooperative_layer_blend(effect_name: str, label: str, layer_index: int) -> str:
+    """Choose native xLights layer blend method for an engine proposal."""
+    role = LANE_TO_ROLE.get(label_lane(label), "motion")
+    return select_xlights_blend_mode(effect_name, role, layer_index)
+
+
+def cooperative_brightness_scale(label: str, part: str, *, enabled: bool = True) -> int:
+    """Soft brightness layering keeping the full yard vibrant and dimensional."""
+    role = LANE_TO_ROLE.get(label_lane(label), "motion")
+    return select_soft_brightness(role, part, enabled=enabled)
+
+
+def spatial_zone_for_model(model_name: str) -> str:
+    """Spatial call-and-response zone inferred from model name."""
+    return infer_spatial_zone(model_name)
