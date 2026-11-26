@@ -25,7 +25,8 @@ def sha256(path: Path) -> str:
 
 
 def write_manifest(source: Path, lead: Path, backing: Path, output: Path,
-                   *, model: str = MODEL, combined_vocals: Path | None = None) -> Path:
+                   *, model: str = MODEL, combined_vocals: Path | None = None,
+                   allow_silent_harmony_review: bool = False) -> Path:
     from core.vocal_separation_manifest import validate_vocal_separation_manifest
     from core.independent_vocals import analyze_independent_vocals
     source, lead, backing, output = (p.resolve() for p in (source, lead, backing, output))
@@ -33,9 +34,17 @@ def write_manifest(source: Path, lead: Path, backing: Path, output: Path,
     if not lead.is_relative_to(output.parent) or not backing.is_relative_to(output.parent):
         raise ValueError("Singer stems must be inside the manifest directory")
     # The current independent-vocal gate requires aligned mono 16-bit PCM WAV.
-    result = analyze_independent_vocals(lead, backing)
+    silent_harmony = False
+    try:
+        result = analyze_independent_vocals(lead, backing)
+    except ValueError as exc:
+        if not allow_silent_harmony_review or str(exc) != 'Harmony stem is silent; no second singer can be verified':
+            raise
+        silent_harmony = True
+        result = {'independence': 'not_established_harmony_silent'}
     data = {
-        "schema": "helix.vocal-separation.v1",
+        "schema": ("helix.vocal-separation.silent-harmony-review.v1"
+                   if silent_harmony else "helix.vocal-separation.v1"),
         "method": "vocals_first_then_lead_backing",
         "source_sha256": sha256(source),
         "model": model,
@@ -47,7 +56,8 @@ def write_manifest(source: Path, lead: Path, backing: Path, output: Path,
     if combined_vocals is not None:
         data["combined_vocals_sha256"] = sha256(combined_vocals.resolve())
     output.write_text(json.dumps(data, indent=2) + "\n", encoding="utf-8")
-    validate_vocal_separation_manifest(output, source)
+    if not silent_harmony:
+        validate_vocal_separation_manifest(output, source)
     return output
 
 
@@ -58,6 +68,8 @@ def main() -> None:
     parser.add_argument("--output-dir", type=Path, required=True)
     parser.add_argument("--model", default=MODEL)
     parser.add_argument("--skip-separation", action="store_true", help="Reuse existing model outputs without rerunning inference")
+    parser.add_argument("--allow-silent-harmony-review", action="store_true",
+                        help="Write an explicitly unqualified review-only manifest if the second candidate is silent")
     parser.add_argument("--lead-output", help="Exact filename returned by audio-separator")
     parser.add_argument("--backing-output", help="Exact filename returned by audio-separator")
     args = parser.parse_args()
@@ -93,7 +105,8 @@ def main() -> None:
                         "-c:a", "pcm_s16le", str(dest)], check=True)
         normalized.append(dest)
     manifest = write_manifest(args.source, *normalized, root / "vocal_separation_manifest.json",
-                              model=args.model, combined_vocals=args.vocals)
+                              model=args.model, combined_vocals=args.vocals,
+                              allow_silent_harmony_review=args.allow_silent_harmony_review)
     print(manifest)
 
 
