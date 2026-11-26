@@ -148,3 +148,128 @@ def test_advanced_customer_routes_move_between_physical_props_without_global_bro
     legacy=build_layout(1)
     configure_advanced_spatial_routes(legacy.models)
     assert not any(m.details.get('advanced_spatial_routing') for m in legacy.models)
+
+
+def test_advanced_bank_travel_fits_short_real_note_without_changing_legacy_ac():
+    from tools.source_role_routing import route_event
+
+    cue = dict(start_ms=100, end_ms=160, pitch_midi=28)
+    strategy = dict(name='wide_response', direction=1)
+    def prop(rank, advanced):
+        return SimpleNamespace(details=dict(
+            source_route_count=100, source_route_rank=rank,
+            musical_role='bassist', advanced_spatial_routing=advanced))
+    delays = [route_event(prop(rank, True), cue, 0, strategy) for rank in range(100)]
+    assert sum(delay is not None for delay in delays) == 35
+    assert delays[0] == 0
+    assert max(delay for delay in delays if delay is not None) <= 29
+    assert delays[35] is None
+    assert route_event(prop(1, False), cue, 0, strategy) == 35
+    assert route_event(prop(1, True), dict(cue, end_ms=5000), 0, strategy) == 35
+    assert route_event(prop(99, True), dict(cue, synchronized_accent=True), 0, strategy) == 0
+
+
+def test_shared_source_clocks_preserve_existing_native_schedule(monkeypatch):
+    from tools import source_spatial_direction as spatial
+    g=build_layout(10)
+    model=next(m for m in g.models if m.name=='MOIRE_LINE_LATTICE_0')
+    cues=[dict(start_ms=100,end_ms=700,pitch_midi=60,velocity=.8,section='verse'),
+          dict(start_ms=100,end_ms=500,pitch_midi=64,velocity=.6,section='verse'),
+          dict(start_ms=900,end_ms=1200,pitch_midi=71,velocity=.7,section='chorus')]
+    plan={'cues':{'keyboardist':cues}}
+    cache={'estimated_lead_energy':np.array([0,.5,.6,0]),
+           'estimated_backing_energy':np.array([0,0,.7,0])}
+    expected=spatial.schedule(model,plan,cache,2000)
+    clocks=spatial.prepare_source_clocks(plan,cache)
+    assert clocks['lead'][0][0]['start_ms']==10
+    assert clocks['harmony'][0][0]['start_ms']==20
+    assert clocks['keyboardist'][1]=={'verse':{100:0},'chorus':{900:0}}
+    def no_reindex(*args,**kwargs):
+        raise AssertionError('Shared source lane must not be rebuilt per prop')
+    monkeypatch.setattr(spatial,'_prepare_source_clock',no_reindex)
+    assert spatial.schedule(model,plan,cache,2000,source_clocks=clocks)==expected
+    seq=NativeSequence(g,2,'','shared source clock')
+    report=spatial.export_model(seq,model,plan,cache,g.palette,source_clocks=clocks)
+    assert report['source_events']==3
+    assert all(e.get('sourceMethod') for e in seq.root.findall('./ElementEffects//Effect'))
+
+
+def test_advanced_surface_uses_distinct_native_bars_directions_by_section():
+    from tools.source_spatial_direction import native_bars_direction,section_strategy
+    g=build_layout(10)
+    model=next(m for m in g.models if m.name=='MOIRE_LINE_LATTICE_0')
+    model.details['spatial_direction']=1
+    model.zone='OPTICAL'
+    assert native_bars_direction(model,section_strategy('verse','keyboardist'))=='Left'
+    assert native_bars_direction(model,section_strategy('pre_chorus','keyboardist'))=='H-expand'
+    assert native_bars_direction(model,section_strategy('chorus','keyboardist'))=='Alternate Right'
+    model.details['spatial_direction']=-1
+    assert native_bars_direction(model,section_strategy('pre_chorus','keyboardist'))=='H-compress'
+    assert native_bars_direction(model,section_strategy('chorus','keyboardist'))=='Alternate Left'
+    model.details['spatial_direction']=1
+    seq=NativeSequence(g,3,'','native bars directions')
+    cues=[dict(start_ms=a,end_ms=b,pitch_midi=60,velocity=.8,section=section)
+          for a,b,section in [(0,600,'verse'),(600,1200,'pre_chorus'),
+                              (1200,1800,'chorus'),(1900,2500,'breakdown')]]
+    export_model(seq,model,dict(cues={'keyboardist':cues}),{},g.palette)
+    settings=seq.root.findall('./EffectDB/Effect')
+    bars=[e for e in seq.root.findall('./ElementEffects//Effect') if e.get('name')=='Bars']
+    assert [e.get('nativeBarsDirection') for e in bars]==['Left','H-expand','Alternate Right']
+    for e in bars:
+        assert 'E_CHOICE_Bars_Direction='+e.get('nativeBarsDirection')+',' in settings[int(e.get('ref'))].text
+    assert all(int(e.get('endTime'))<=1800 for e in bars)
+    simple=SimpleNamespace(zone='HOUSE',details={})
+    assert native_bars_direction(simple,section_strategy('pre_chorus','keyboardist'))=='Left'
+
+
+def test_native_surface_buffer_preserves_physical_rows_and_every_channel():
+    from tools.build_helpers.ultimate_showcase import model_xml,surface_buffer_rows
+    g=build_layout(10)
+    model=next(m for m in g.models if m.name=='MOIRE_LINE_LATTICE_0')
+    seq=NativeSequence(g,2,'','physical buffer')
+    plan={'cues':{'keyboardist':[dict(start_ms=100,end_ms=700,pitch_midi=60,velocity=.8)]}}
+    export_model(seq,model,plan,{},g.palette)
+    root=model_xml(model)
+    surface=root.find("./subModel[@name='SPATIAL_SURFACE']")
+    rows=[list(map(int,surface.get(key).split(','))) for key in
+          sorted((k for k in surface.attrib if k.startswith('line')),key=lambda k:int(k[4:]))]
+    assert len(rows)>1 and {len(row) for row in rows}=={240}
+    assert sorted(n for row in rows for n in row)==model.submodels['SPATIAL_SURFACE']
+    assert all(np.all(np.diff(model.points[np.asarray(row)-1,0])>=0) for row in rows)
+    assert np.all(np.diff([model.points[np.asarray(row)-1,1].mean() for row in rows])>0)
+    assert root.find("./subModel[@name='ROW_00']").get('line1') is None
+    assert surface_buffer_rows(model,model.submodels['SPATIAL_SURFACE'][:-1])==[]
+    assert any(e.get('name')=='Bars' for e in seq.root.findall('./ElementEffects//Effect'))
+
+
+def test_advanced_combined_delay_budget_preserves_short_notes_and_rests():
+    m=SimpleNamespace(name='DISTANT_GRID',zone='THREE_D_GRID',kind='pixel',
+        points=np.asarray([[x,0,0] for x in range(12)],dtype=float),
+        submodels={f'ROW_{i:02}':[i+1] for i in range(12)},
+        details=dict(musical_role='keyboardist',advanced_showcase_clock=True,
+                     propagation_delay_ms=360,source_route_count=12,
+                     source_route_rank=11,advanced_spatial_routing=True))
+    cue=dict(start_ms=100,end_ms=160,pitch_midi=48,velocity=.9,section='chorus')
+    events=schedule(m,dict(cues={'keyboardist':[cue]}),{},1000)
+    assert len(events)==5
+    assert all(100<=e['start_ms']<=129 and e['end_ms']==160 for e in events)
+    assert [e['start_ms'] for e in events]==sorted(e['start_ms'] for e in events)
+    assert len({e['part'] for e in events})==5
+    assert all(e['source_start_ms']==100 and e['source_end_ms']==160 for e in events)
+    m.details['source_route_rank']=5
+    assert not schedule(m,dict(cues={'keyboardist':[cue]}),{},1000)
+    assert not schedule(m,dict(cues={'keyboardist':[]}),{},1000)
+
+
+def test_long_advanced_note_retains_authored_delay_and_legacy_is_unchanged():
+    m=SimpleNamespace(name='DEPTH_GRID',zone='DEPTH',kind='pixel',
+        points=np.asarray([[x,0,0] for x in range(4)],dtype=float),
+        submodels={f'ROW_{i}':[i+1] for i in range(4)},
+        details=dict(musical_role='bassist',advanced_showcase_clock=True,
+                     propagation_delay_ms=120))
+    plan=dict(cues={'bassist':[dict(start_ms=100,end_ms=1100,section='verse',pitch_midi=40)]})
+    events=schedule(m,plan,{},2000)
+    assert [e['propagation_delay_ms'] for e in events]==[120,170]
+    assert all(e['end_ms']==1100 for e in events)
+    m.details.pop('advanced_showcase_clock')
+    assert [e['end_ms'] for e in schedule(m,plan,{},2000)]==[1220,1270]

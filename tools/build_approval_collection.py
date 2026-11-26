@@ -50,13 +50,17 @@ def build(source, output, *, audio_name='Phoneme_Test_Hook.mp3', expected_sha256
     plans=list((source/'sequence').glob('*.snowman_band.json'))
     if len(plans)!=1:raise ValueError('Expected one cached production analysis')
     plan=json.loads(plans[0].read_text())
+    from tools.source_spatial_direction import export_model, prepare_source_clocks
+    source_clocks=prepare_source_clocks(plan,vocal_clocks)
     repo=Path(__file__).resolve().parents[1]
     export_commit=subprocess.check_output(['git','rev-parse','HEAD'],cwd=repo,text=True).strip()
     export_hashes={name:digest(repo/name) for name in ('models/final_band_scene.py',
         'models/final_band_native.py','models/canonical_native_band.py','models/approval_layouts.py',
         'models/recovery_technical_layouts.py',
         'tools/build_approval_collection.py','tools/canonical_band_cues.py',
-        'tools/source_spatial_direction.py','tools/phoneme_vocal_export.py')}
+        'tools/source_spatial_direction.py','tools/source_role_routing.py',
+        'tools/build_snowman_ensemble.py','tools/build_helpers/ultimate_showcase.py',
+        'xlights/xml_io.py','tools/phoneme_vocal_export.py')}
     manifest=[]
     for number in numbers:
         name=NAMES[number-1]
@@ -80,8 +84,9 @@ def build(source, output, *, audio_name='Phoneme_Test_Hook.mp3', expected_sha256
             static_materials(SimpleNamespace(models=band))
         from tools.source_role_routing import configure_advanced_spatial_routes
         configure_advanced_spatial_routes(g.models)
-        write_layout(g,folder,include_demo=False,export_all_custom=True)
-        (folder/'media').mkdir();shutil.copyfile(audio,folder/'media'/audio_name)
+        # Native submodels are finalized by the choreography loop below.
+        # Avoid writing every model, asset and geometry manifest twice.
+        (folder/'media').mkdir(parents=True);shutil.copyfile(audio,folder/'media'/audio_name)
         sequence=NativeSequence(g,duration,'media/'+audio_name,g.title)
         sequence.duration=duration_ms
         sequence.root.find('head/sequenceDuration').text=f'{duration:.3f}'
@@ -111,10 +116,10 @@ def build(source, output, *, audio_name='Phoneme_Test_Hook.mp3', expected_sha256
                     if part in m.submodels:sequence.effect(m,part,cue['start_ms'],cue['end_ms'],g.palette[2],100,25,
                         provenance={'sourceRole':'keyboardist','sourcePitchMIDI':str(pitch)})
                 continue
-            from tools.source_spatial_direction import export_model
-            spatial_reports.append(export_model(sequence,m,plan,vocal_clocks,g.palette))
-        # The general prop loop may have created ALL lanes after the layout was
-        # serialized; write actual final submodel definitions before compiling.
+            spatial_reports.append(export_model(sequence,m,plan,vocal_clocks,g.palette,
+                                                source_clocks=source_clocks))
+        # Serialize only after the general prop loop has authored its final
+        # submodel definitions; the native sequence and layout must agree.
         write_layout(g,folder,include_demo=False,export_all_custom=True)
         if band:
             from types import SimpleNamespace

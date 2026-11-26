@@ -104,4 +104,12 @@ def route_event(model, cue, onset_index, strategy):
     distance = ((rank - origin) * direction) % count
     if distance >= width:
         return None
+    if model.details.get('advanced_spatial_routing') and 'start_ms' in cue and 'end_ms' in cue:
+        # Fit inter-prop travel inside the measured note, leaving at least
+        # half its duration for local motion. Keep the existing 35ms maximum
+        # spacing and preserve the legacy AC route exactly.
+        duration = max(0, int(cue['end_ms']) - int(cue['start_ms']))
+        budget = max(0, (duration - 1) // 2)
+        spacing = min(35.0, budget / max(1, width - 1))
+        return round(distance * spacing)
     return distance * 35

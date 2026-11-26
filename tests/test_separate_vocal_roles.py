@@ -78,3 +78,31 @@ def test_roformer_manifest_detects_original_source_mutation(tmp_path):
     with pytest.raises(ValueError, match="source audio SHA256 mismatch"):
         validate_vocal_separation_manifest(manifest, source)
 
+
+
+def test_silent_harmony_review_does_not_qualify_two_singers(tmp_path):
+    import numpy as np
+    from core.vocal_separation_manifest import validate_vocal_separation_manifest
+    from tools.roformer_review_fixture import build
+    adapter = load_adapter()
+    source, lead, backing = (tmp_path / n for n in ('source.wav', 'lead.wav', 'backing.wav'))
+    wav(source, 220)
+    wav(lead, 180)
+    wav(backing, 0)
+    manifest = tmp_path / 'roles.json'
+    with pytest.raises(ValueError, match='Harmony stem is silent'):
+        adapter.write_manifest(source, lead, backing, manifest)
+    adapter.write_manifest(source, lead, backing, manifest, allow_silent_harmony_review=True)
+    with pytest.raises(ValueError, match='Unsupported vocal separation manifest schema'):
+        validate_vocal_separation_manifest(manifest, source)
+    output = build(source, manifest, tmp_path / 'review')
+    receipt = json.loads((output / 'diagnostic.json').read_text())
+    assert receipt['verification_state'] == 'ESTIMATED_REVIEW'
+    assert receipt['harmony_candidate_silent'] is True
+    assert receipt['independent_backing_verified'] is False
+    with np.load(output / 'acoustic_vocal_clocks.npz', allow_pickle=False) as clocks:
+        for key in ('energy', 'shapes', 'presence_probability'):
+            assert not np.any(clocks['estimated_backing_' + key])
+    backing.write_bytes(lead.read_bytes())
+    with pytest.raises(ValueError, match='Duplicate|identical'):
+        adapter.write_manifest(source, lead, backing, manifest, allow_silent_harmony_review=True)

@@ -8,8 +8,8 @@ NAMES = (
     'Classic LOR 16 AC', '64-channel AC', 'Original 256-channel AC', 'Basic RGB house',
     'RGB arches and mini-tree forest', 'Single mega-tree residence', 'Dual mega-tree residence',
     'Singing-face house', 'Singing Christmas trees', 'Matrix-centered residence',
-    'Canonical snowman band', 'Advanced RGB residence', 'Massive Spiral Forest Estate',
-    'Double-Helix Wonderland', '3D Helix Megastructure', 'Ultimate Helix Universe',
+    'Canonical snowman band', 'Advanced RGB residence', 'Christmas Village',
+    'Cathedral of Light', '3D Pixel Universe', 'Christmas Concert',
 )
 PALETTES = (
     ('#FD4B43', '#55E56B', '#FFF1C7'),

@@ -18,7 +18,7 @@ from models.ultimate_showcase import Garden
 from tools.build_snowman_ensemble import NativeSequence
 from tools.build_helpers.ultimate_showcase import write_layout
 from tools.build_source_ac_review import geometry as original_ac
-from tools.source_spatial_direction import export_model
+from tools.source_spatial_direction import export_model, prepare_source_clocks
 from tools.phoneme_source import digest
 from models.band_sampler_logic import NATIVE_SHAPE_NAMES, SHAPE_NAMES
 
@@ -255,6 +255,7 @@ def build(source,vocals,output,*,numbers=None,names=NAMES,layout_builder=layout,
             lanes,_=screened_lanes(cache)
             for lane,(energy,shapes) in lanes.items():
                 cache[lane+'_energy'],cache[lane+'_shapes']=energy,shapes
+    source_clocks=prepare_source_clocks(plan,cache)
     numbers=tuple(range(1,len(names)+1)) if numbers is None else tuple(numbers)
     if not numbers or len(set(numbers))!=len(numbers) or any(type(n) is not int or not 1<=n<=len(names) for n in numbers):
         raise ValueError(f'Choose unique layout numbers in 1..{len(names)}')
@@ -327,7 +328,7 @@ def build(source,vocals,output,*,numbers=None,names=NAMES,layout_builder=layout,
                     part=f"KEY_MIDI_{round(cue['pitch_midi']):03}"
                     if m.submodels.get(part):sequence.effect(m,part,cue['start_ms'],cue['end_ms'],g.palette[2],100,20)
                 continue
-            reports.append(export_model(sequence,m,plan,cache,g.palette))
+            reports.append(export_model(sequence,m,plan,cache,g.palette,source_clocks=source_clocks))
         if band:
             from tools.phoneme_vocal_export import export_static_materials, static_materials, export as export_vocals
             from tools.canonical_band_cues import export_instruments
@@ -403,6 +404,12 @@ def build(source,vocals,output,*,numbers=None,names=NAMES,layout_builder=layout,
             distance=max(span[0]*.88,span[1]*1.75,42)+span[2]*.40
             pitch=5 if band else 14 if number in (13,15) else 5
             yaw=17 if number==15 else 7 if number==13 else 0
+            if number in (13,14,15,16):
+                # Favor a composed, slightly elevated customer-facing view.
+                # Keep the finale cast frontal; other layouts reveal depth.
+                pitch,yaw={13:(10,5),14:(9,-9),15:(13,14),16:(7,0)}[number]
+                distance *= .96
+
         else:
             distance=max(span[0]*.82,span[1]*1.75,45)+(span[2]/2 if number==11 else 0)
             if number==1:distance*=.85

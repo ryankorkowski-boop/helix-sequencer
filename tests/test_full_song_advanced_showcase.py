@@ -187,3 +187,52 @@ def test_showcase_bass_and_guitar_use_original_attacks_and_string_contacts():
         assert receipt['models'][model.name]['mapped_events'] == 1
         elements = root.findall(f'./ElementEffects/Element[@name="{model.name}/STRING_0"]/EffectLayer/Effect')
         assert [(e.get('startTime'), e.get('endTime')) for e in elements] == [('100', '260')]
+
+
+@pytest.mark.parametrize("number,marker,count", [
+    (13, 'VILLAGE_WALKWAY', 3),
+    (14, 'CATHEDRAL_PILLAR', 8),
+    (15, 'PIXEL_CUBE_PLANE', 12),
+    (16, 'CONCERT_VIDEO_WALL', 2),
+])
+def test_advanced_sample_adds_distinct_native_spatial_ensembles(number, marker, count):
+    from tools.source_spatial_direction import parts_for
+    garden, _ = build_showcase(number, {'cues': {}}, duration=1,
+                              native_band=lambda *args, **kwargs: None)
+    additions = [m for m in garden.models if marker in m.name]
+    assert len(additions) == count
+    assert all(m.kind == 'pixel' and len(parts_for(m)) > 1 for m in additions)
+    routed = [m for m in garden.models if m.details.get('advanced_spatial_routing')]
+    assert routed and all(m.details['source_route_count'] >= 3 for m in routed)
+
+
+def test_advanced_presentation_prioritizes_silhouettes_and_distinct_palettes():
+    from models.advanced_full_song_showcase import SHOWCASE_PALETTES
+    assert len(set(SHOWCASE_PALETTES.values())) == 4
+    for number in range(13,17):
+        garden, _ = build_showcase(number, {'cues': {}}, duration=1,
+                                  native_band=lambda *args, **kwargs: None)
+        assert garden.palette == SHOWCASE_PALETTES[number]
+        tiers = {m.details.get('showcase_presentation_tier') for m in garden.models}
+        assert 'hero_silhouette' in tiers and 'supporting_form' in tiers
+        for model in garden.models:
+            tier = model.details.get('showcase_presentation_tier')
+            if tier == 'hero_silhouette':
+                assert model.attrs['PixelSize'] == '13'
+            elif tier == 'background_surface':
+                assert model.attrs['PixelSize'] == '6'
+            if tier:
+                assert model.attrs['Antialias'] == '1'
+                assert model.attrs['BlackTransparency'] == '100'
+
+
+def test_advanced_layouts_have_exclusive_visual_architecture():
+    gardens = [build_showcase(n, {'cues': {}}, duration=1,
+                              native_band=lambda *args, **kwargs: None)[0]
+               for n in range(13,17)]
+    zones = [{m.zone for m in g.models} for g in gardens]
+    assert 'HOUSE' in zones[0] and all('HOUSE' not in z for z in zones[1:])
+    assert 'CATHEDRAL_VAULT' in zones[1] and all('CATHEDRAL_VAULT' not in zones[i] for i in (0,2,3))
+    assert 'OPTICAL_MATRIX' in zones[2] and all('OPTICAL_MATRIX' not in zones[i] for i in (0,1,3))
+    assert 'CONCERT_TRUSS' in zones[3] and all('CONCERT_TRUSS' not in z for z in zones[:3])
+    assert not any(m.details.get('spiral_tree') for g in gardens[1:] for m in g.models)

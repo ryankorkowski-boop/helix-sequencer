@@ -28,7 +28,8 @@ def write_json(path, data):
     temporary.replace(path)
 
 
-def prepare(audio, work, sha, *, instrumental, vocals):
+def prepare(audio, work, sha, *, instrumental, vocals, numbers=None):
+    numbers = tuple(numbers or range(1, len(NAMES) + 1))
     shared_manifest = os.environ.get('HELIX_APPROVAL_ANALYSIS_MANIFEST')
     if shared_manifest:
         from tools.build_shared_approval_analysis import verify as verify_shared
@@ -84,7 +85,7 @@ def prepare(audio, work, sha, *, instrumental, vocals):
     else:
         write_json(checkpoint, settings)
     missing = []
-    for number in range(1, len(NAMES) + 1):
+    for number in numbers:
         folder = layouts / f'{number:02}'
         panel = folder / 'run_manifest.json'
         if panel.exists():
@@ -134,14 +135,18 @@ def render_panel(folder, audio, xlights, *, port=49914):
     return row, report, Path(report['evidence_dir']) / xsq.with_suffix('.fseq').name
 
 
-def inspect_grid(movie):
+def inspect_grid(movie, numbers=None):
     """Sample decoded layout pixels over the full video, excluding the labels."""
+    numbers = tuple(numbers or range(1, len(NAMES) + 1))
+    cols = 2 if len(numbers) == 4 else 4
+    rows = len(numbers) // cols
     width, height = 960, 540
+    cell_width, cell_height = width // cols, height // rows
     frame_bytes = width * height
-    hashes = [hashlib.sha256() for _ in NAMES]
-    previous = [None] * len(NAMES)
-    visible = np.zeros(len(NAMES), dtype=int)
-    moving = np.zeros(len(NAMES), dtype=int)
+    hashes = [hashlib.sha256() for _ in numbers]
+    previous = [None] * len(numbers)
+    visible = np.zeros(len(numbers), dtype=int)
+    moving = np.zeros(len(numbers), dtype=int)
     total = 0
     command = ['ffmpeg', '-nostdin', '-v', 'error', '-xerror', '-threads', '2', '-i', str(movie),
                '-an', '-vf', f'fps=4,scale={width}:{height}', '-pix_fmt', 'gray',
@@ -152,8 +157,8 @@ def inspect_grid(movie):
                 raise ValueError('Incomplete decoded comparison frame')
             frame = np.frombuffer(block, dtype=np.uint8).reshape(height, width)
             for index, fingerprint in enumerate(hashes):
-                y, x = (index // 4) * 135, (index % 4) * 240
-                crop = frame[y + 21:y + 132, x + 3:x + 237]
+                y, x = (index // cols) * cell_height, (index % cols) * cell_width
+                crop = frame[y + 21:y + cell_height - 3, x + 3:x + cell_width - 3]
                 fingerprint.update(crop.tobytes())
                 visible[index] += np.count_nonzero(crop > 32) >= 16
                 if previous[index] is not None:
@@ -163,18 +168,20 @@ def inspect_grid(movie):
         if decoder.wait():
             raise ValueError('Comparison panel decode failed')
     fingerprints = [item.hexdigest() for item in hashes]
-    rows = [dict(number=i + 1, decoded_panel_sha256=value, sampled_frames=total,
+    rows = [dict(number=numbers[i], decoded_panel_sha256=value, sampled_frames=total,
                  visible_frames=int(visible[i]), moving_frames=int(moving[i]))
             for i, value in enumerate(fingerprints)]
-    passed = total >= 4 and len(set(fingerprints)) == 16 and all(
+    passed = total >= 4 and len(set(fingerprints)) == len(numbers) and all(
         r['visible_frames'] >= max(4, total // 20) and r['moving_frames'] >= max(3, total // 100)
         for r in rows)
     return rows, passed
 
 
-def render(audio, work, xlights, identity, *, port=49914):
+def render(audio, work, xlights, identity, *, port=49914, advanced_sample=False):
+    numbers = tuple(range(13, 17) if advanced_sample else range(1, 17))
     receipts = []
-    for number, name in enumerate(NAMES, 1):
+    for number in numbers:
+        name = NAMES[number - 1]
         folder = work / 'layouts' / f'{number:02}'
         row, native, fseq = render_panel(folder, audio, xlights, port=port)
         channels = json.loads((fseq.parent / 'native_channels.json').read_text())
@@ -186,10 +193,10 @@ def render(audio, work, xlights, identity, *, port=49914):
                              native_channels=channels, xlights_version=native['xlights_version'],
                              vocal_mode=row['vocal_mode']))
         print(f'NATIVE PANEL {number:02} verified', flush=True)
-    if any(len({r[key] for r in receipts}) != 16 for key in ('layout_sha256', 'xsq_sha256', 'fseq_sha256')):
+    if any(len({r[key] for r in receipts}) != len(numbers) for key in ('layout_sha256', 'xsq_sha256', 'fseq_sha256')):
         raise ValueError('Duplicate native layout, XSQ or FSEQ')
-    movie = work / 'Full_Length_16_Panel_Comparison.mp4'
-    candidate = work / 'Full_Length_16_Panel_Candidate.mp4'
+    movie = work / ('Advanced_4_Panel_Sample.mp4' if advanced_sample else 'Full_Length_16_Panel_Comparison.mp4')
+    candidate = work / ('Advanced_4_Panel_Candidate.mp4' if advanced_sample else 'Full_Length_16_Panel_Candidate.mp4')
     manifest = work / 'comparison_manifest.json'
     previous = json.loads(manifest.read_text()) if manifest.is_file() else {}
     if (movie.is_file() and previous.get('panels') == receipts
@@ -197,14 +204,15 @@ def render(audio, work, xlights, identity, *, port=49914):
         candidate = movie
     else:
         comparison([Path(r['native_movie']) for r in receipts],
-                   [f'{i:02}  {name}' for i, name in enumerate(NAMES, 1)], candidate, audio, 4, 4,
+                   [f'{i:02}  {NAMES[i - 1]}' for i in numbers], candidate, audio,
+                   2 if advanced_sample else 4, 2 if advanced_sample else 4,
                    duration=float(probe_media(audio, 'ffprobe')['format']['duration']))
     media = verify_media(candidate, audio, identity['audio_sha256'])
     streams = probe_media(candidate, 'ffprobe')['streams']
     if (media['dimensions'] != [1920, 1080] or media['actual_frame_rate'] != '30/1'
             or sorted(s['codec_type'] for s in streams) != ['audio', 'video']):
         raise ValueError('Expected exact 1920×1080 H.264/AAC at 30 fps with one original soundtrack')
-    activity, passed = inspect_grid(candidate)
+    activity, passed = inspect_grid(candidate, numbers)
     write_json(work / 'panel_activity.json', {'passed': passed, 'panels': activity})
     if not passed:
         raise ValueError('Decoded comparison contains duplicate, blank, or static panels')
@@ -227,6 +235,7 @@ def main():
     source.add_argument('--instrumental', action='store_true')
     source.add_argument('--vocal-fixture', type=Path)
     parser.add_argument('--prepare-only', action='store_true')
+    parser.add_argument('--advanced-sample', action='store_true', help='Prepare/render only panels 13–16 as a 2×2 native comparison')
     parser.add_argument('--xlights')
     parser.add_argument('--port', type=int, choices=(49913, 49914), default=49914)
     parser.add_argument('--render-panels', nargs='+', type=int, choices=range(1, 17),
@@ -236,9 +245,12 @@ def main():
         parser.error('--xlights is required for native rendering')
     if args.prepare_only and args.render_panels:
         parser.error('--render-panels cannot be combined with --prepare-only')
+    if args.advanced_sample and args.render_panels:
+        parser.error('--advanced-sample cannot be combined with --render-panels')
     audio, work = args.audio.resolve(), args.work.resolve()
     identity = prepare(audio, work, args.expected_sha256,
-                       instrumental=args.instrumental, vocals=args.vocal_fixture)
+                       instrumental=args.instrumental, vocals=args.vocal_fixture,
+                       numbers=range(13, 17) if args.advanced_sample else None)
     if args.prepare_only:
         return
     xlights = str(Path(shutil.which(args.xlights) or args.xlights).resolve(strict=True))
@@ -248,7 +260,7 @@ def main():
         for number in dict.fromkeys(args.render_panels):
             render_panel(work / 'layouts' / f'{number:02}', audio, xlights, port=args.port)
         return
-    render(audio, work, xlights, identity, port=args.port)
+    render(audio, work, xlights, identity, port=args.port, advanced_sample=args.advanced_sample)
 
 
 if __name__ == '__main__':
