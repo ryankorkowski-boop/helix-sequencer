@@ -98,15 +98,19 @@ public final class MediaRuntime {
                 catch(Exception e){releaseQuietly();closed=true;throw new IOException("Surface encoder failed ("+(surfaceFailure==null?"":surfaceFailure.getMessage())+"); buffer encoder failed: "+e.getMessage(),e);}
             }
         }
+        // Sparse, high-contrast light props need more bits than ordinary low-motion video.
+        private int previewBitrate(int fps){
+            return (int)Math.max(2_000_000L,Math.min(20_000_000L,Math.round((double)width*height*fps*0.35)));
+        }
         private void startSurface(String output,int fps)throws Exception{
             MediaFormat f=MediaFormat.createVideoFormat("video/avc",width,height);f.setInteger(MediaFormat.KEY_COLOR_FORMAT,MediaCodecInfo.CodecCapabilities.COLOR_FormatSurface);
-            f.setInteger(MediaFormat.KEY_BIT_RATE,2_000_000);f.setInteger(MediaFormat.KEY_FRAME_RATE,fps);f.setInteger(MediaFormat.KEY_I_FRAME_INTERVAL,1);
+            f.setInteger(MediaFormat.KEY_BIT_RATE,previewBitrate(fps));f.setInteger(MediaFormat.KEY_FRAME_RATE,fps);f.setInteger(MediaFormat.KEY_I_FRAME_INTERVAL,1);
             codec=MediaCodec.createEncoderByType("video/avc");codec.configure(f,null,null,MediaCodec.CONFIGURE_FLAG_ENCODE);input=codec.createInputSurface();codec.start();
             muxer=new MediaMuxer(output,MediaMuxer.OutputFormat.MUXER_OUTPUT_MPEG_4);setupEgl();
         }
         private void startBuffer(String output,int fps)throws Exception{
             MediaFormat f=MediaFormat.createVideoFormat("video/avc",width,height);f.setInteger(MediaFormat.KEY_COLOR_FORMAT,MediaCodecInfo.CodecCapabilities.COLOR_FormatYUV420Flexible);
-            f.setInteger(MediaFormat.KEY_BIT_RATE,2_000_000);f.setInteger(MediaFormat.KEY_FRAME_RATE,fps);f.setInteger(MediaFormat.KEY_I_FRAME_INTERVAL,1);
+            f.setInteger(MediaFormat.KEY_BIT_RATE,previewBitrate(fps));f.setInteger(MediaFormat.KEY_FRAME_RATE,fps);f.setInteger(MediaFormat.KEY_I_FRAME_INTERVAL,1);
             codec=MediaCodec.createEncoderByType("video/avc");codec.configure(f,null,null,MediaCodec.CONFIGURE_FLAG_ENCODE);codec.start();
             muxer=new MediaMuxer(output,MediaMuxer.OutputFormat.MUXER_OUTPUT_MPEG_4);bufferMode=true;
         }
