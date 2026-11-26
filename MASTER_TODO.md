@@ -77,6 +77,17 @@ Do not mark complete from unit tests alone.
 
 ## Change Ledger
 
+### 2026-11-25 — Verify unified orchestration against baseline exports
+**Goal:** Compare sequencing quality and preservation over the full song, an opt-in drummer excerpt and a clean-room layout.
+**Changed files/modules:** [Unified orchestration architecture, engine map and verification record](docs/UNIFIED_ORCHESTRATION.md).
+**Intentionally preserved behavior:** The master roadmap's known-good drummer oracle and outstanding native and beta release gates.
+**New behavior:** Recorded playback previews, placement evidence, deterministic output and exact detector-onset comparisons. Full-song role consistency improved from 86.5 to 87.6 and show heuristic from 72.7 to 73.7. The runtime score moved from 96.2 to 95.9. The opt-in excerpt retained 169 exact detector-onset and model matches. The governed real-audio XSQs had zero final budget overages.
+**Tests/evidence:** 926 passed, 25 failed, 5 skipped, 1 xfailed and 1 collection error on the sparse checkout. Baseline had the same failure identifiers plus the now-fixed Snowman Band test. Actual XSQ and Helix preview MP4 comparisons were produced. Clean-room repeated XSQs were byte-identical.
+**Limitations:** Native xLights REST probe returned connection refused. FSEQ, device packaging and real vocal articulation remain unverified. Preview and runtime heuristics are supporting evidence for choreography, with specific mixed results recorded in the comparison.
+**Deferred work:** Native xLights and prior drummer-oracle review, larger fixture and group ownership coverage, platform packaging and annotated vocal acceptance.
+**Regression risks:** Additional admitted cross-layer effects can increase visual density. The clean-room clutter heuristic increased while its other scores improved. Keep the band kit path gated pending native visual review.
+
+
 ### 2026-11-25 — Preserve validated layering and kit timing through polish
 **Goal:** Keep the exported placements inside the governor's compatibility and budget rules after the final quality pass.
 **Changed files/modules:** Effect engine, orchestration balance reporting, polish, and audit/polish regression coverage.
