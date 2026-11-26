@@ -14,10 +14,15 @@ public final class MediaRuntime {
         for(int i=0;i<e.getTrackCount();i++)if(e.getTrackFormat(i).getString(MediaFormat.KEY_MIME).startsWith(prefix))return i;
         throw new IOException("No "+prefix+" track");
     }
+    /** A filesystem path is opened by the mediaextractor process, which cannot read this app's private files. */
+    static void open(MediaExtractor extractor,String path)throws IOException{
+        File file=new File(path);
+        try(FileInputStream in=new FileInputStream(file)){extractor.setDataSource(in.getFD(),0,file.length());}
+    }
     public static void decodeWav(String source,String output)throws Exception{
         MediaExtractor extractor=new MediaExtractor();MediaCodec codec=null;
         try(RandomAccessFile wav=new RandomAccessFile(output,"rw")){
-            extractor.setDataSource(source);int index=track(extractor,"audio/");extractor.selectTrack(index);
+            open(extractor,source);int index=track(extractor,"audio/");extractor.selectTrack(index);
             MediaFormat format=extractor.getTrackFormat(index);codec=MediaCodec.createDecoderByType(format.getString(MediaFormat.KEY_MIME));
             format.setInteger(MediaFormat.KEY_PCM_ENCODING,AudioFormat.ENCODING_PCM_16BIT);codec.configure(format,null,null,0);codec.start();
             wav.setLength(0);wav.write(new byte[44]);boolean inputDone=false,outputDone=false;
@@ -69,7 +74,7 @@ public final class MediaRuntime {
     static void mux(String video,String audio,String output,long maxPts)throws Exception{
         MediaExtractor v=new MediaExtractor(),a=new MediaExtractor();MediaMuxer m=null;boolean started=false;
         try{
-            v.setDataSource(video);a.setDataSource(audio);int vi=track(v,"video/"),ai=track(a,"audio/");v.selectTrack(vi);a.selectTrack(ai);
+            open(v,video);open(a,audio);int vi=track(v,"video/"),ai=track(a,"audio/");v.selectTrack(vi);a.selectTrack(ai);
             m=new MediaMuxer(output,MediaMuxer.OutputFormat.MUXER_OUTPUT_MPEG_4);int vo=m.addTrack(v.getTrackFormat(vi)),ao=m.addTrack(a.getTrackFormat(ai));m.start();started=true;
             ByteBuffer buffer=ByteBuffer.allocateDirect(4*1024*1024);MediaCodec.BufferInfo info=new MediaCodec.BufferInfo();
             while(v.getSampleTime()>=0||a.getSampleTime()>=0){

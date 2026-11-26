@@ -1,3 +1,12 @@
+## November 26 · Android MediaExtractor private files
+
+**Goal:** Let the on-device smoke open its own audio and preview.
+**Changed files:** `android/app/src/main/java/org/helixsequencer/android/MediaRuntime.java`, `android/app/src/androidTest/java/org/helixsequencer/android/OfflineEngineTest.java`.
+**Preserved:** MediaCodec encode and mux behavior. No change to the sequence engine.
+**New behavior:** `MediaExtractor` opens app-private files through a file descriptor. A raw path was unreadable to the `mediaextractor` process and failed both API 30 and API 36 as "Failed to instantiate extractor."
+**Tests/evidence:** Not run on a device here. The Android workflow must rerun.
+**Limitations:** This does not prove the generated MP4 plays. It only removes the private-path failure before decoding starts.
+
 ## November 26 · LOR export and Chaquopy lookup
 
 **Goal:** Unblock the Beta 1.4 Windows smoke and the Android package lookup.
