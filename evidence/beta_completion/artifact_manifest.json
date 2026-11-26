@@ -1,23 +1,336 @@
 {
-  "schema": "helix.beta14.artifacts.v1",
-  "updated": "2026-11-26T10:40:00Z",
-  "source_branch": "integration/beta14-recovered-logic-20261126",
-  "artifacts": [],
+  "schema_version": 1,
+  "updated_utc": "2026-11-26T10:45:00+00:00",
+  "branch": "integration/unified-beta-completion-20261117",
+  "release_label": "Beta Version 1.4",
+  "verified_artifacts": [],
+  "replacement_attempt_not_approved": {
+    "kind": "nine-panel CRF 18 split",
+    "directory": "/cursor/stores/self/beta14-nine-panel/v3",
+    "parts": [
+      {
+        "file": "nine-panel-v3-crf18-part-00.mp4",
+        "sha256": "50f32776c63ac9fe9bb67f229fe228e70f6380a9db8374a79b6d331306e56935",
+        "bytes": 39618647
+      },
+      {
+        "file": "nine-panel-v3-crf18-part-01.mp4",
+        "sha256": "5f9978edbc38f94b69b099628ccd8bdd28df0786bf6b7c9dd535816b5a392c2d",
+        "bytes": 32586080
+      },
+      {
+        "file": "nine-panel-v3-crf18-part-02.mp4",
+        "sha256": "408e048f88288b586f3d8397d1fa6d483d9eb4e22adb404ab64d1af62622f4b8",
+        "bytes": 36170042
+      },
+      {
+        "file": "nine-panel-v3-crf18-part-03.mp4",
+        "sha256": "a84c0908230222b30a325aef051205e43723c9a88c575d4412ec280e8ec59c5c",
+        "bytes": 35269360
+      }
+    ],
+    "full_file_bytes": 143639909,
+    "checks": "1920x1080 H.264 30fps AAC 205.76s, 0 blackframe hits, xLights 2026.19 FSEQ, CRF 18, stream-copy split",
+    "source_audio_sha256": "8b8caddd6c292a13995bde0e80ac66f948246bd634278ab4ade1a82163aa7086",
+    "owner_approval": false
+  },
+  "rejected_artifacts": [
+    {
+      "kind": "nine-panel native FSEQ MP4",
+      "owner_verdict": "REJECTED 2026-11-18. Zero of nine panels passed.",
+      "path": "/cursor/stores/self/beta14-nine-panel/nine-panel-tinsel-tornado-native-fseq.mp4",
+      "sha256": "e55fd0e1af7a1be8ab865193e76e03ba511e0bbb3df85eaab60a76d0dd9def88",
+      "bytes": 42076744,
+      "source_audio_sha256": "8b8caddd6c292a13995bde0e80ac66f948246bd634278ab4ade1a82163aa7086"
+    },
+    {
+      "kind": "Tinsel Tornado v2 16-panel pilot",
+      "owner_verdict": "REJECTED 2026-11-18. Local only, never pushed.",
+      "sha256_prefix": "625980556b49"
+    }
+  ],
+  "pending_artifacts": [
+    "Android APK",
+    "Windows portable EXE",
+    "canonical six-member band MP4",
+    "owner approval of the nine-panel MP4"
+  ],
+  "note": "OWNER REJECTED the nine-panel benchmark and the local Tinsel Tornado v2 16-panel pilot on 2026-11-18. Zero panels passed. The stored MP4s remain evidence of what was rendered, not approval. Audio was not committed. This is not a release.",
+  "candidate_artifacts": [
+    {
+      "kind": "Android debug APK (CI build only)",
+      "workflow_run_id": 44269896607,
+      "artifact_id": 14412037480,
+      "artifact_url": "https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/44269896607/artifacts/14412037480",
+      "source_commit": "58e58e613cd8e04e4424886d95bc82565d2e6ccc",
+      "ci_status": "success",
+      "device_runtime_status": "UNVERIFIED; earlier owner layout-picker/band visual tests failed",
+      "approval_status": "NOT APPROVED"
+    }
+  ],
+  "diagnostic_artifacts": [
+    {
+      "kind": "nine-cue original-drummer diagnostic MP4",
+      "workflow_run_id": 44290824555,
+      "artifact_id": 14419964886,
+      "url": "https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/44290824555/artifacts/14419964886",
+      "verification": "CI successful H.264/AAC full decode; synthetic audio, static canonical image with localized hit masks; not native FSEQ or approval"
+    },
+    {
+      "kind": "synthetic drum XSQ/WAV and event labels",
+      "workflow_run_id": 44290824555,
+      "artifact_id": 14421676007,
+      "url": "https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/44290824555/artifacts/14421676007",
+      "verification": "generated and structurally tested; native xLights import not verified"
+    },
+    {
+      "kind": "regenerated nine-cue physical xmodel and original source image",
+      "workflow_run_id": 44290824555,
+      "artifact_id": 14421132009,
+      "url": "https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/44290824555/artifacts/14421132009",
+      "verification": "builder and pose tests passed; native xLights import not verified"
+    },
+    {
+      "kind": "76-model provisional panel-six xLights layout and XSQ template",
+      "workflow_run_id": 44291725423,
+      "artifact_id": 14421831415,
+      "url": "https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/44291725423/artifacts/14421831415",
+      "verification": "clean-room generated; structural gate passed; unapproved layout, no FSEQ or real-audio render"
+    },
+    {
+      "kind": "six-member Phoneme Test Hook custom OpenGL diagnostic video",
+      "url": "https://drive.google.com/file/d/1NShBmODsUiToi14bxZ1sptbYrU1CZ_YQ/view",
+      "receipt_url": "https://drive.google.com/file/d/1CPX59ePv9XyVXUTu2QNU9OZWfYQyQ_93/view",
+      "sha256": "eb752258373832085ca24bfe7c8b678f2883834273c3f4dcd41268ded6ba50c1",
+      "bytes": 7036183,
+      "duration_seconds": 34.88,
+      "width": 1920,
+      "height": 1080,
+      "fps": 30,
+      "native_xlights": false,
+      "independent_backing_verified": false,
+      "owner_approved": false,
+      "release_acceptance": false,
+      "verification": "Receipt reports H.264/AAC full decode and soundtrack correlation; not a native xLights or owner-approved render."
+    }
+  ],
+  "latest_execution_checkpoint": {
+    "commit": "9d622d67b4efc748210c0626accc8d0dd06d8a3b",
+    "change": "Source and tests only. No new packaged APK, EXE, native sequence, or approval video.",
+    "ci": "not yet inspected for this SHA",
+    "local_tests": "Python 3.11.18 and 3.12.3: 50 passed, 5 subtests passed. javac PreviewStatusChecks ok.",
+    "native_fseq_verified": false,
+    "owner_approval": false
+  },
+  "documentation_source_checkpoint": {
+    "commit": "5b8f300bb62ddfbfeb44a9813363279ade62be8b",
+    "path": "android/app/src/main/assets/helix_instructions.txt",
+    "status": "implemented, not tested or packaged",
+    "manual_checksum": null,
+    "next_action": "Verify Android compile, Windows packaging and device readers"
+  },
+  "android_manual_packaging_gate": {
+    "commit": "442d26c3cdae90c252fd65b8926f056bfd37f5d2",
+    "status": "implemented; CI pending",
+    "checksum": null
+  },
+  "nine_panel_v6": {
+    "kind": "vivid nine-panel after singer and drummer protection",
+    "owner_approval": false,
+    "preview_sha256": "fe02d08a7b67002c7232e6ec640187f5f40ebdd0ba381d1af4571d421704b771",
+    "full_sha256": "9e5cd92892d7a3241e3463e606e4f49d7ac32d12a95578603baefa5db51d07be",
+    "full_bytes": 59331941,
+    "directory": "/opt/cursor/artifacts/nine-panel-v6",
+    "contact_sheets": {
+      "042": "cb30573173384442bb5967a451a82aba6655aaf2d10e797d92a43651b351f6ed",
+      "096": "7998d47112b450b25ad86942418909f7e341d7cb4b6876a9433fd893944e9093",
+      "168": "228bc85c6bcf91f74d23b3e10ede812f199034b0a312398023a1ec436aed7500"
+    }
+  },
+  "nine_panel_v5": {
+    "kind": "vivid nine-panel native FSEQ after the AC brightness pass",
+    "owner_approval": false,
+    "preview": {
+      "file": "nine-panel-vivid-preview-30s-crf18.mp4",
+      "sha256": "b843d63c2ed2ac1f66f91221da46797081df1ce93b5861c59686c82a72af43c9",
+      "bytes": 13068064
+    },
+    "full": {
+      "file": "nine-panel-tinsel-tornado-v5-crf18.mp4",
+      "sha256": "d3091e7553190f2d7eeb9f6e86319d62943732684c065dafffeff6ae58f03bf0",
+      "bytes": 88428458
+    },
+    "contact_sheets": {
+      "168": "f009b8030c7bd0ea57c2b16ef220576a3f21eb7dfe9aff22cb46dcf0a732c701",
+      "042": "83fcefc368d7bc100a92ac0223aeac759beabd1392bff261b073ce72f6535b03",
+      "096": "d3f2c7504352552b548efb69227b74a6c10f4f892d8d8af1aedfa8b7cadfafe5"
+    },
+    "directory": "/opt/cursor/artifacts/nine-panel-v5"
+  },
+  "stem_metal": {
+    "kind": "Demucs drum-stem ride and floor-tom counts",
+    "owner_approval": false,
+    "tinsel_tornado_audio_sha256": "8b8caddd6c292a13995bde0e80ac66f948246bd634278ab4ade1a82163aa7086",
+    "tinsel_tornado": {
+      "floor": 40,
+      "ride": 1
+    },
+    "candy_cane_shockwave_audio_sha256": "4918dbc6ceb0c69e7e8663936d241fd0993fef1fe8f3197da31d6e569cca31ff",
+    "candy_cane_shockwave": {
+      "floor": 6,
+      "ride": 2
+    }
+  },
+  "infinity_clip": {
+    "kind": "2 second xLights 2026.19 mouth-submodel clip",
+    "owner_approval": false,
+    "xsq_sha256": "cb7ad64c9a336541c292a6e7c6a0f5d384b42f2710978da319cfe0a1364f4be3",
+    "fseq_sha256": "aa3554e0a1f84b12ab6e9db9bb9364ba4221e6bdce8087bddcebaf4e8acf1941",
+    "mouth_max": 255,
+    "eyes_max": 0
+  },
+  "nine_panel_v4": {
+    "kind": "full-song nine-panel native FSEQ MP4 after the dark bed palette",
+    "owner_approval": false,
+    "full_sha256": "3300581f0f47dfd7eb4ec36aa3c9bc2ba8c06b1cf6adb78159744ad0e2b257ee",
+    "full_bytes": 129126519,
+    "parts": [
+      {
+        "file": "nine-panel-v4-crf18-part-00.mp4",
+        "sha256": "6a398588fff944e59cba48ef391c8dbcd8d8616f3e76840534b2592a45a182d9",
+        "bytes": 35595540
+      },
+      {
+        "file": "nine-panel-v4-crf18-part-01.mp4",
+        "sha256": "cfff53162457be4051edf97581b277aea24980313681a4c8a8f9a9ece180f386",
+        "bytes": 28633822
+      },
+      {
+        "file": "nine-panel-v4-crf18-part-02.mp4",
+        "sha256": "49e6928dc6381268633a45f8cb2e17da405ab5cd9899560bf2a05afa8b21d4f7",
+        "bytes": 32496340
+      },
+      {
+        "file": "nine-panel-v4-crf18-part-03.mp4",
+        "sha256": "ad6ea8ecf5536200b3521d01206b7e739485db49aa8d5c2d3a87651dc7272da5",
+        "bytes": 32405029
+      }
+    ],
+    "contact_sheets": {
+      "168": "a8832165d9fa1b4dc2a9207961d7ca533041eb689c93f71555608ca5e22a8338",
+      "042": "64507e7882f368405baf4d5e0aac7af7cc01d8a8d033c6428626e346959b0bf3",
+      "096": "dd4a536239341ed05ab3cefc7b33567055159dede0acb80c48db24f527f3799c"
+    }
+  },
+  "native_short_clip": {
+    "commit": "b706a874",
+    "kind": "2 second xLights 2026.19 FSEQ of modelGroup, submodel, and blend XML",
+    "path": "evidence/beta_completion/layer_blend_clip/",
+    "xsq_sha256": "359ca891db31ad4620a6a35186e269d5d8bd42608db0b4720021eb8a4dbba52d",
+    "fseq_sha256": "de63bf7ff5826c86aa7cdab1f40ab5fedb4f1e380f4fc30c63a112ea2608dd50",
+    "frames": 40,
+    "channels": 4368,
+    "owner_approval": false,
+    "note": "Proves xLights accepted the new XML. Not a full-song or nine-panel render."
+  },
+  "windows_manual_packaging_gate": {
+    "spec_commit": "fe4113264617d20319df4358c34877a921e21bea",
+    "workflow_commit": "7e3339d8563d11c5c4d6bab9ff5e11d35439c3e1",
+    "workflow": ".github/workflows/helix-beta14-windows-candidate.yml",
+    "status": "implemented; push build not confirmed; no packaged runtime verification",
+    "next_action": "Inspect push Actions run directly; connector commit workflow lookup covers pull-request runs only. Verify ZIP and Windows 11 runtime; no release."
+  },
+  "unification_checkpoint": {
+    "date_utc": "2026-11-19",
+    "new_deliverable_artifacts": [
+      {
+        "name": "Helix_Beta14_SixMember_Band_PhonemeHook_1080p30.mp4",
+        "kind": "band review MP4 (custom renderer)",
+        "sha256": "eb752258373832085ca24bfe7c8b678f2883834273c3f4dcd41268ded6ba50c1",
+        "bytes": 7036183,
+        "native_xlights": false,
+        "owner_approved": false,
+        "receipt": "evidence/beta_completion/band_review_20261119/receipt.json",
+        "drive": "pending upload"
+      },
+      {
+        "name": "Helix-Android-Beta-v1.4.apk",
+        "kind": "Android debug APK built by CI from cebf299f",
+        "sha256": "536a6da71beb5c93d1d9840190a9244490a3d1952e8d075ecdf642ba24d925ca",
+        "bytes": 112659115,
+        "actions_artifact": "https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/44576199654/artifacts/14555349736",
+        "expires": "2026-12-03",
+        "device_tested": false
+      }
+    ],
+    "note": "First artifacts from the unified tree are listed below. None is owner-approved; the band MP4 is a custom Helix render, not native xLights.",
+    "checklist": "docs/BETA_1_4_RUNNING_CHECKLIST.md"
+  },
+  "review_gate_document_url": "https://docs.google.com/document/d/1TfhnsrYi7v8-q4BMeSUWDs5owkZUazbdvDNeUyXDsIM/edit",
+  "decoded_audio_inventory": {
+    "path": "evidence/beta_completion/decoded_audio_inventory.json",
+    "drive_url": "https://drive.google.com/file/d/1Y86xucK6idATACNrdIeTkDqBpMLdhpdY/view",
+    "sha256": "d43b1760c73d3e366d3fc886a8900b7b3f0287aa8e36c33bb0dcf30a37226804",
+    "type": "source inventory only",
+    "render_count_added": 0
+  },
+  "infinity_runner_repair": {
+    "inspected_source": "e84bcfd1ffd05e78d46d28d6766ada6c4c754ed2",
+    "workflow": "helix-infinity-layout.yml",
+    "earlier_run": 44711406069,
+    "failure": "xLights exit 127: libEGL.so.1 missing",
+    "implementation": "Ubuntu 24.04 with libgl1, libegl1 and libegl-mesa0",
+    "native_verified": false,
+    "owner_review_ready": false,
+    "next_action": "Inspect the next 128-model native Bells job and its artifact on the integration branch."
+  },
+  "last_verified_infinity_native": {
+    "id": "HBC-INF-NATIVE-BOUNDED",
+    "status": "VERIFIED_ENGINEERING_ONLY",
+    "branch_head": "abc6b2c3a1fc97f2a0710efff52b83ec5434c544",
+    "run_id": 44785020701,
+    "artifact_id": 14653767707,
+    "source_duration_seconds": 155.96,
+    "model_rows": 323,
+    "owner_approved": false,
+    "full_10240_proof": false,
+    "visual_mp4_approved": false
+  },
+  "latest_xsq_cache_repair": {
+    "commit": "e0efe160ac0ec7cd4805f9f97ef3f6737cd9667e",
+    "status": "IMPLEMENTED_TEST_PENDING",
+    "scope": "XSQ cache validates audio/layout/template/revision/output hashes; isolated fresh generation; no dirty-tree reuse",
+    "limitations": "Runtime regression tests pending; conservative revision invalidation; no owner approval",
+    "render_run": 44793419539
+  },
+  "nov21_production_recovery": {
+    "baseline_commit": "9122e00f3822e6152154cc02f0bffd5940880d0f",
+    "runs": {
+      "16_panel": 44944727109,
+      "12_layout": 44944730430,
+      "six_snowmen": 44944734212
+    },
+    "classification": "failed",
+    "review_candidates": [],
+    "owner_approved": false,
+    "diagnostic_artifact_ids": [
+      14722769438,
+      14722189784
+    ],
+    "tests_passed": 55,
+    "verified_audio": "19e90c273d0d747938f24b36586b50818c104cddffbefe4a4128927374301938",
+    "remaining": [
+      "native pilot reference and timing acceptance",
+      "16-panel native media and verification",
+      "qualified full-song singer sources"
+    ]
+  },
   "not_current": [
     {
-      "name": "Helix-Android-stability-api-30",
-      "run": "https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/45800159007",
-      "reason": "Instrumentation failed. Do not install as the current Beta 1.4 app."
-    },
-    {
-      "name": "Helix-Android-stability-api-36",
-      "run": "https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/45800159007",
-      "reason": "Instrumentation failed. Do not install as the current Beta 1.4 app."
-    },
-    {
-      "name": "feature/restructure-core Beta 1.4 package",
-      "run": "https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/45802444477",
-      "reason": "Cancelled. That branch is not the recovered production engine."
+      "reason": "Do not install failed or cancelled packages as the current Beta 1.4 apps.",
+      "android_run": "https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/45800159007",
+      "windows_run": "https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/45800159363",
+      "cancelled_feature_branch_package": "https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/45802444477"
     }
   ]
 }

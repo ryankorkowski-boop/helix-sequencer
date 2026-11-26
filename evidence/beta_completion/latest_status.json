@@ -1,28 +1,610 @@
 {
-  "updated": "2026-11-26T10:40:00Z",
-  "branch": "integration/beta14-recovered-logic-20261126",
-  "base_commit": "f068aecb2e821dce785227a9d3ca66caf1e08ab5",
-  "pull_request": "https://github.com/ryankorkowski-boop/helix-sequencer/pull/264",
-  "version": "1.4.0-beta",
-  "version_code": 10,
-  "merged": false,
-  "visual_quality_approved": false,
-  "public_release": false,
-  "android": {
-    "previous_run": "https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/45800159007",
-    "previous_result": "APK compiled. API 30 and API 36 instrumentation failed: instructions heading and Demucs-required SystemExit.",
-    "current_artifact": null
+  "schema_version": 1,
+  "updated_utc": "2026-11-26T10:45:00+00:00",
+  "overall_status": "IN PROGRESS",
+  "branch": "integration/unified-beta-completion-20261117",
+  "base_commit": "bb41f078a92e02ccb1980785efe1c1be741a9d16",
+  "source_pr": 248,
+  "release_label": "Beta Version 1.4",
+  "release_approved": false,
+  "owner_rejections": [
+    "2026-11-18 nine-panel benchmark: zero panels passed",
+    "2026-11-18 Tinsel Tornado v2 16-panel pilot: rejected",
+    "2026-11-19 owner note: v3 panels looked washed out nearly white; musical bed was using palette 0 (white) because the inline palette string is not an index"
+  ],
+  "tests_run_this_session": [
+    {
+      "workflow": "Helix Unified Beta Integration",
+      "run_id": 44290301048,
+      "conclusion": "success",
+      "evidence": "Python 3.11 and 3.12, generated nine-cue physical target and xmodel tests"
+    },
+    {
+      "workflow": "Drummer Ground Truth Test",
+      "run_id": 44290824555,
+      "conclusion": "success",
+      "evidence": "synthetic nine-cue XSQ, H.264/AAC MP4 decode, generated xmodel artifact"
+    },
+    {
+      "workflow": "Drummer Ground Truth Test",
+      "run_id": 44291594505,
+      "conclusion": "success",
+      "evidence": "latest diagnostic regeneration"
+    },
+    {
+      "workflow": "Nine-panel layout bench validation",
+      "run_id": 44291725423,
+      "conclusion": "success",
+      "evidence": "76-model native-model-zoo XML template artifact and fail-closed nine-panel gate"
+    },
+    {
+      "workflow": "Helix Unified Beta Integration",
+      "run_id": 44291632931,
+      "conclusion": "success",
+      "evidence": "Python 3.11/3.12 orchestrator, drummer, 17 generated candidate layouts and nine-panel structural approval gate passed"
+    }
+  ],
+  "tasks": [
+    {
+      "id": "HBC-001",
+      "workstream": "A",
+      "priority": "P0",
+      "status": "IN PROGRESS",
+      "next_action": "Inspect Actions for 9d622d67. Local Python 3.11.18 and 3.12.3 passed the focused orchestration, Birdsong, and Android preview tests. Production Birdsong reconciliation was already correct; the fixture had deleted the sweep XML. Orchestration remains opt-in and is not promoted. Native XSQ/FSEQ proof is still outstanding."
+    },
+    {
+      "id": "HBC-002",
+      "workstream": "A",
+      "priority": "P0",
+      "status": "NOT STARTED",
+      "next_action": "Prove emitted XSQ/native FSEQ effect participation"
+    },
+    {
+      "id": "HBC-003",
+      "workstream": "Band",
+      "priority": "P0",
+      "status": "IN PROGRESS",
+      "blocker": "Independent ride physically authored and synthetic nine-cue diagnostic passed; no owner-approved real-audio six-member native render",
+      "next_action": "Render and visually review real drummer/band under actual xLights FSEQ and compare original ground truth"
+    },
+    {
+      "id": "HBC-004",
+      "workstream": "Vocals",
+      "priority": "P0",
+      "status": "IN PROGRESS",
+      "next_action": "Implement separate ESTIMATED-vocals experimental path using a finished stereo source with audible independent lead/backing; preserve VERIFIED provenance and strict verifier; reject bleed/duplicates/low-confidence harmony and keep unsupported backing at REST. Compare against owner Truths as visual references, not timing ground truth."
+    },
+    {
+      "id": "HBC-005",
+      "workstream": "B",
+      "priority": "P0",
+      "status": "IN PROGRESS",
+      "next_action": "Inspect the Android compile workflow for 9d622d67, then install that debug APK. Phone previews now call HouseRenderer instead of the missing color matrix and checkpoint completed/pending/running/failed/unavailable per sequence. Device playback, eight real MP4s, API 30 memory, and the layout-picker failure are not retested. largeHeap and 30-frame intensity windows are mitigations, not an OOM pass. No release."
+    },
+    {
+      "id": "HBC-006",
+      "workstream": "C",
+      "priority": "P0",
+      "status": "IN PROGRESS",
+      "next_action": "Nine-panel native MP4 is in the agent store (sha256 e55fd0e1af7a1be8ab865193e76e03ba511e0bbb3df85eaab60a76d0dd9def88). It is xLights 2026.19 FSEQ at 1920x1080 30fps with the verified soundtrack. Panel 5 is still the four-snowman bench, not the canonical six. Owner visual approval is not done."
+    },
+    {
+      "id": "HBC-007",
+      "workstream": "All",
+      "priority": "P0",
+      "status": "NOT STARTED",
+      "next_action": "Full acceptance and owner approval"
+    },
+    {
+      "id": "HBC-LIB-PCM",
+      "description": "Reconcile sources by file and decoded content",
+      "priority": "P0",
+      "status": "VERIFIED",
+      "implementation": "evidence/beta_completion/decoded_audio_inventory.json",
+      "dependencies": "91 Drive entries and previous source inventory",
+      "base_commit": "5470a1caf00131467277b3bc104324fb24616980",
+      "verification": "See evidence and results",
+      "results": "91 matching original SHA-256 values including duplicates; 80 distinct decoded recordings, 79 eligible after the existing calibration exclusion",
+      "evidence": "https://drive.google.com/file/d/1Y86xucK6idATACNrdIeTkDqBpMLdhpdY/view",
+      "blocker": null
+    },
+    {
+      "id": "HBC-COMP-REUSE",
+      "description": "Verify FSEQ and panel reuse and sparse channel mapping",
+      "priority": "P0",
+      "status": "VERIFIED",
+      "implementation": "tools/layout_bench/xlights_fseq.py, render_cache.py, render_comparisons.py",
+      "dependencies": "tests/test_fseq_pixel_preview.py",
+      "base_commit": "5470a1caf00131467277b3bc104324fb24616980",
+      "verification": "See evidence and results",
+      "results": "Regressions cover changed sources, same-size corruption, dark channel gaps and frame interval; 40/40 frames streamed from retained native FSEQ",
+      "evidence": "tests/test_fseq_pixel_preview.py",
+      "blocker": null
+    },
+    {
+      "id": "HBC-INF-FRONT",
+      "description": "Restore front-facing Infinity geometry",
+      "priority": "P0",
+      "status": "IMPLEMENTED \u2014 UNVERIFIED",
+      "implementation": "tools/build_infinity_showcase_layout.py",
+      "dependencies": "Native renderer on corrected layout",
+      "base_commit": "5470a1caf00131467277b3bc104324fb24616980",
+      "verification": "See evidence and results",
+      "results": "Default house preview, upright piano/arches/trees/helixes, local coordinates; 10,240 model regression passed",
+      "evidence": "tests/test_infinity_showcase_layout.py",
+      "blocker": "Full-song native visual review required; prior dots/dashes rejected"
+    },
+    {
+      "id": "HBC-GEO-PERF",
+      "description": "Reduce repeated segment scans during layout projection",
+      "priority": "P0",
+      "status": "VERIFIED",
+      "implementation": "core/model_parser.py",
+      "dependencies": "Existing pixel-map semantics",
+      "base_commit": "5470a1caf00131467277b3bc104324fb24616980",
+      "verification": "See evidence and results",
+      "results": "20 projections of 512-point voxel path per repetition, seven repetitions: 0.16186s to 0.01310s median, identical coordinates",
+      "evidence": "evidence/beta_completion/path_projection_benchmark.json",
+      "blocker": null
+    },
+    {
+      "id": "HBC-INF-NATIVE",
+      "description": "Render the real Bells master XSQ on the bounded Infinity layout in native xLights",
+      "priority": "P0",
+      "status": "IMPLEMENTED \u2014 UNVERIFIED",
+      "implementation": ".github/workflows/helix-infinity-layout.yml",
+      "dependencies": "Authenticated source hash, xLights 2026.18, Demucs and Whisper",
+      "base_commit": "5470a1caf00131467277b3bc104324fb24616980",
+      "verification": "See evidence and results",
+      "results": "Bells and xLights binary SHA-256 verified locally; Xvfb reports Cannot establish any listening sockets",
+      "evidence": ".github/workflows/helix-infinity-layout.yml",
+      "blocker": "CI native result, all-family activity and visual inspection pending"
+    }
+  ],
+  "next_command": "Run the bounded native Infinity workflow on the repaired tree; inspect verification.json and all returned family activity before launching an extreme render.",
+  "last_inspected_head": "5470a1caf00131467277b3bc104324fb24616980",
+  "ci_status": "Run 44687388477, head f8bd364: focused regressions Python 3.11 and 3.12 succeeded; full suite 3.11 and 3.12 still in progress at checkpoint. Do not claim complete green or native acceptance.",
+  "confirmed_findings": [
+    "Default orchestration sidecar is not promoted without explicit flag",
+    "Orchestrated XSQ requires an existing --template",
+    "Android build_args unconditionally disables orchestrator",
+    "V2 config promotion serialization corrected and regression tests authored",
+    "Android helix_mobile.build_args unconditionally passes --no-effects-orchestrator in both modes; this is an explicit parity gap, but enabling it requires bounded-memory and output-parity tests.",
+    "Owner authorized ESTIMATED-vocals experimental review path on 2026-11-15; VERIFIED source provenance and strict verifier remain unchanged."
+  ],
+  "drive_reference_inventory": [
+    {
+      "title": "Aaadrummertruth.mp4",
+      "drive_file_id": "1qDjj8JJ3Z-rZfFUntidsnPkq5DRqOsMm",
+      "source": "Google Drive (read-only discovery)",
+      "verified_contents": false
+    },
+    {
+      "title": "Aaadrummergroundtruth.mp4",
+      "drive_file_id": "1cPHct6XEhZM_-9x9lkCP-7tN_DfIKo7b",
+      "source": "Google Drive (read-only discovery)",
+      "verified_contents": false
+    },
+    {
+      "title": "Bbb Vocalstruth.mp4",
+      "drive_file_id": "1FN29mXUxy5dDJ0VIn6Wy7K-4llFHzGAs",
+      "source": "Google Drive (read-only discovery)",
+      "verified_contents": false
+    },
+    {
+      "title": "Bbb vocals.mp4",
+      "drive_file_id": "1PPPz4TbYIS0Z9D6zRHScfnQoom38ltxX",
+      "source": "Google Drive (read-only discovery)",
+      "verified_contents": false
+    },
+    {
+      "title": "Tinsel Tornado.mp3",
+      "drive_file_id": "1Z_WvwVcp2tOytfF63SVgJf1VUCkRpfD4",
+      "source": "Google Drive (read-only discovery)",
+      "verified_contents": false
+    },
+    {
+      "title": "Phoneme Test Hook.mp3",
+      "drive_file_id": "1gKAW9-S6TJNuKudC_TCEv2uabx36Aszj",
+      "source": "Google Drive (read-only discovery)",
+      "verified_contents": false
+    }
+  ],
+  "ci_workflow": {
+    "run_id": 44288262162,
+    "run_url": "https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/44288262162",
+    "head_sha": "ff1233a9d1a0a4d27593c71122abb795de3ee356",
+    "status": "completed",
+    "matrix": [
+      "3.11",
+      "3.12"
+    ],
+    "test_results": "success: targeted orchestrator, drummer, native on effects, asset generation and pose tests",
+    "next_run_id": 44288669616,
+    "next_run_status": "pending"
   },
-  "windows": {
-    "previous_run": "https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/45800159363",
-    "previous_result": "HelixCLI.exe built. Portable smoke timed out at 600s during Demucs.",
-    "current_artifact": null
+  "android_compile_workflow": {
+    "path": ".github/workflows/helix-android-variant-compile.yml",
+    "status": "Owner runtime FAIL despite successful build; picker/default repairs pending CI",
+    "commit": "a86114e21b97051e90bc11d6e458ed9188ff6c17",
+    "first_run_url": "https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/44214052900",
+    "java_compile_run_url": "https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/44214343888",
+    "failure_url": "https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/44217769589",
+    "apk_assembly_run_url": "https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/44217948986",
+    "apk_integrity_run_url": "https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/44218445981",
+    "variant_mp4_run_url": "https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/44256203127"
   },
-  "cancelled_wrong_engine_run": "https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/45802444477",
-  "local_tests": ["tests/test_neural_stems_required.py passed 5"],
-  "outstanding": [
-    "GitHub must rebuild the APK and Windows zip from this commit",
-    "Real-audio MP4 and native xLights exports are not new artifacts yet",
-    "RoFormer remains optional and is not loaded on Android"
-  ]
+  "current_session_findings": [
+    "Drummer native On-effect previously used E_SLIDER_Brightness 0..1 rather than percent start/end intensity controls; fixed 74be0df8 and tested ff1233a9",
+    "Drummer logical nine-cue mapper and eight-physical-asset guard now explicitly tested in CI; ride physical xmodel still absent",
+    "Former six-piece runner copied full audio to a 30s-labeled MP3; replaced with ffmpeg bounded transcode and duration test, pending CI",
+    "Android debug APK exists from workflow 44269896607 artifact 14412037480 but prior owner device failures remain unresolved",
+    "2026-11-20 CI: focused jobs in run 44687388477 succeeded on Python 3.11 and 3.12; both complete-suite jobs remained in progress at checkpoint.",
+    "2026-11-20 Drive diagnostic Phoneme Hook six-member MP4 receipt: native_xlights=false, owner_approved=false, independent_backing_verified=false; custom OpenGL only, 34.88s.",
+    "2026-11-20 Drive Beta Version 1.4 approval gate document created (1TfhnsrYi7v8-q4BMeSUWDs5owkZUazbdvDNeUyXDsIM)."
+  ],
+  "drummer_diagnostic": {
+    "run_id": 44290824555,
+    "run_url": "https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/44290824555",
+    "mp4_artifact_id": 14419964886,
+    "xsq_artifact_id": 14421676007,
+    "xmodel_artifact_id": 14421132009,
+    "kind": "synthetic diagnostic only; not native xLights verified"
+  },
+  "model_zoo_candidate": {
+    "run_id": 44291725423,
+    "artifact_id": 14421831415,
+    "model_count": 76,
+    "status": "candidate; structure passed, native FSEQ and musical choreography unverified"
+  },
+  "latest_execution_checkpoint": {
+    "commit": "9d622d67b4efc748210c0626accc8d0dd06d8a3b",
+    "change": "Phone previews use HouseRenderer in 30-frame intensity windows and checkpoint preview_states. Desktop review logs name failed previews. Birdsong production reconciliation is unchanged; its fixture no longer deletes the surviving sweep.",
+    "production_code_changed": true,
+    "local_tests": {
+      "python_3_11_18": "50 passed, 5 subtests passed",
+      "python_3_12_3": "50 passed, 5 subtests passed",
+      "javac_preview_status": "PreviewStatusChecks ok",
+      "files": [
+        "tests/test_birdsong_engine.py",
+        "tests/test_android_preview_states.py",
+        "tests/test_preview_intensity_windows.py",
+        "tests/test_android_orchestrator_policy.py",
+        "tests/test_run_config_v2_orchestration.py",
+        "tests/test_sequence_builder_orchestrator_promotion.py",
+        "tests/test_engine_activation_audit.py",
+        "tests/test_sequence_builder.py",
+        "tests/test_effects_orchestrator_bridge.py",
+        "tests/test_orchestration_xsq_reconciliation.py"
+      ]
+    },
+    "combined_status": "GitHub Actions for 9d622d67 not yet inspected.",
+    "native_fseq_verified": false,
+    "real_audio_approval_render": false,
+    "eight_variant_playback_verified": false,
+    "api_30_oom_verified": false,
+    "owner_approval": false
+  },
+  "documentation_source_checkpoint": {
+    "commit": "5b8f300bb62ddfbfeb44a9813363279ade62be8b",
+    "path": "android/app/src/main/assets/helix_instructions.txt",
+    "status": "implemented, not tested or packaged",
+    "manual_checksum": null,
+    "next_action": "Verify Android compile, Windows packaging and device readers"
+  },
+  "android_manual_packaging_gate": {
+    "commit": "442d26c3cdae90c252fd65b8926f056bfd37f5d2",
+    "status": "implemented; CI pending",
+    "checksum": null
+  },
+  "nine_panel_v6": {
+    "status": "rendered; singers and nine drum cues verified in the FSEQ; not owner approval",
+    "preview_sha256": "fe02d08a7b67002c7232e6ec640187f5f40ebdd0ba381d1af4571d421704b771",
+    "preview_bytes": 8527276,
+    "full_sha256": "9e5cd92892d7a3241e3463e606e4f49d7ac32d12a95578603baefa5db51d07be",
+    "full_bytes": 59331941,
+    "duration_s": 205.76,
+    "path": "/opt/cursor/artifacts/nine-panel-v6",
+    "active_lit_fraction": {
+      "01-ac16": 0.766,
+      "02-ac256": 0.284,
+      "03-rgb-house": 0.311,
+      "04-faces": 0.244,
+      "05-band": 0.283,
+      "06-model-zoo": 0.244,
+      "07-birdsong": 0.493,
+      "08-groups": 0.26,
+      "09-ultimate": 0.324
+    }
+  },
+  "nine_panel_v5": {
+    "status": "rendered after the vivid pass; not owner approval",
+    "preview_sha256": "b843d63c2ed2ac1f66f91221da46797081df1ce93b5861c59686c82a72af43c9",
+    "preview_bytes": 13068064,
+    "full_sha256": "d3091e7553190f2d7eeb9f6e86319d62943732684c065dafffeff6ae58f03bf0",
+    "full_bytes": 88428458,
+    "duration_s": 205.76,
+    "video": "1920x1080 h264 30fps aac crf18",
+    "xlights_version": "2026.19",
+    "ac_row": "saturated, lit luma above the reference, white fraction 0",
+    "path": "/opt/cursor/artifacts/nine-panel-v5"
+  },
+  "stem_metal": {
+    "status": "measured on two Demucs drum stems; not a transcription",
+    "tinsel_tornado": {
+      "floor": 40,
+      "ride": 1,
+      "floor_near_snare_60ms": 0
+    },
+    "candy_cane_shockwave": {
+      "floor": 6,
+      "ride": 2,
+      "ride_near_hat_40ms": 0
+    },
+    "previous_tinsel": {
+      "ride": 0,
+      "tom": 2
+    }
+  },
+  "infinity_showcase": {
+    "status": "layout integrated; 2s native clip accepted; full Bells song not rendered",
+    "pr": 250,
+    "merged": false,
+    "xlights_version": "2026.19",
+    "mouth_only_fseq_sha256": "aa3554e0a1f84b12ab6e9db9bb9364ba4221e6bdce8087bddcebaf4e8acf1941",
+    "mouth_max": 255,
+    "eyes_max": 0,
+    "owner_approval": false
+  },
+  "nine_panel_v4_color": {
+    "status": "rendered and measured; not owner approval",
+    "xlights_version": "2026.19",
+    "duration_s": 205.76,
+    "video": "1920x1080 h264 30fps aac crf18",
+    "full_sha256": "3300581f0f47dfd7eb4ec36aa3c9bc2ba8c06b1cf6adb78159744ad0e2b257ee",
+    "full_bytes": 129126519,
+    "parts_dir": "/opt/cursor/artifacts/nine-panel-v4",
+    "washed_panels": [],
+    "contact_sheets_s": [
+      42,
+      96,
+      168
+    ]
+  },
+  "layer_spatial_checkpoint": {
+    "commit": "b706a874",
+    "status": "short clip accepted by xLights 2026.19; not a full-song render and not owner approval",
+    "xlights_version": "2026.19",
+    "frames": 40,
+    "channels": 4368,
+    "fseq_sha256": "de63bf7ff5826c86aa7cdab1f40ab5fedb4f1e380f4fc30c63a112ea2608dd50",
+    "xsq_sha256": "359ca891db31ad4620a6a35186e269d5d8bd42608db0b4720021eb8a4dbba52d",
+    "path": "evidence/beta_completion/layer_blend_clip/",
+    "group_lit_lead": true,
+    "submodel_mouth_lit": true,
+    "untargeted_eyes_dark": true,
+    "tests": "12 passed: test_native_layer_targets, test_musical_bed, test_helix_flow_spatial_graph"
+  },
+  "windows_manual_packaging_gate": {
+    "spec_commit": "fe4113264617d20319df4358c34877a921e21bea",
+    "workflow_commit": "7e3339d8563d11c5c4d6bab9ff5e11d35439c3e1",
+    "workflow": ".github/workflows/helix-beta14-windows-candidate.yml",
+    "status": "implemented; push build not confirmed; no packaged runtime verification",
+    "next_action": "Inspect push Actions run directly; connector commit workflow lookup covers pull-request runs only. Verify ZIP and Windows 11 runtime; no release."
+  },
+  "unification_checkpoint": {
+    "date_utc": "2026-11-19",
+    "summary": "Merged the never-integrated 216 lineage (codex/drummer-truths-integration-20261115) into the integration branch and reconciled both product surfaces.",
+    "merge_parents": {
+      "integration": "7b333580",
+      "lineage_216": "origin/codex/drummer-truths-integration-20261115",
+      "merge_base_date": "2026-10-18",
+      "conflicts_resolved": 43
+    },
+    "full_suite": [
+      {
+        "tree": "integration before merge",
+        "python": "3.12",
+        "failed": 19,
+        "passed": 1071,
+        "errors": 1
+      },
+      {
+        "tree": "216 lineage before merge",
+        "python": "3.12",
+        "failed": 21,
+        "passed": 2243,
+        "errors": 25
+      },
+      {
+        "tree": "unified with physical ride",
+        "python": "3.12.x pinned requirements + band-preview extras",
+        "failed": 0,
+        "passed": 2573,
+        "skipped": 6,
+        "seconds": 432
+      },
+      {
+        "tree": "unified with physical ride",
+        "python": "3.11.17 requirements-dev.txt only",
+        "failed": 0,
+        "passed": 2573,
+        "skipped": 6,
+        "seconds": 451
+      }
+    ],
+    "where_run": "local sandbox (2 CPU); CI full-suite job added in helix-unified-beta-integration.yml",
+    "drummer": {
+      "cues": [
+        "KICK",
+        "SNARE",
+        "HI_HAT",
+        "RIDE",
+        "CYMBAL_LEFT",
+        "CYMBAL_RIGHT",
+        "TOM_HIGH",
+        "TOM_MID",
+        "TOM_FLOOR"
+      ],
+      "pose_spec": "helix.drummer_v3_pose_spec.v8",
+      "ride": "authored (absent from owner artwork); source PNG unchanged; owner placement approval pending",
+      "native_render_evidence": null
+    },
+    "verified": [
+      "full test suite on 3.11 and 3.12 (local)",
+      "desktop GUI start-up smoke from source under Xvfb",
+      "drummer pose sheet rendered and inspected (diagnostic compositor, not native xLights)"
+    ],
+    "not_verified": [
+      "Android APK build/run of unified tree",
+      "Windows portable EXE build/run of unified tree",
+      "native xLights render of unified tree",
+      "any MP4 deliverable",
+      "nine-layout catalog",
+      "Drive delivery"
+    ],
+    "checklist": "docs/BETA_1_4_RUNNING_CHECKLIST.md",
+    "milestone_2": {
+      "ci_on_cebf299f": {
+        "full_suite_3_11": "passed",
+        "full_suite_3_12": "passed",
+        "run": 44576199699,
+        "android_debug_apk": "built (run 44576199654)",
+        "windows_portable": "EXE built; packaged palette smoke FAILED (missing whisper/assets/mel_filters.npz); spec fix pushed, re-verify",
+        "drummer_ground_truth": "failed (PYTHONPATH); fix pushed, re-verify",
+        "native_snowman_geometry": "failed (no ffmpeg on runner); fix pushed, re-verify"
+      },
+      "local_full_suite_3_12": "0 failed, 2580 passed, 6 skipped",
+      "fixes": [
+        "production band plan carries drum component and hand",
+        "front-view sightline: kit no longer hidden by singers",
+        "review renderer renders 30 fps natively",
+        "Windows spec collects Whisper/Demucs/librosa resources"
+      ],
+      "band_mp4": {
+        "receipt": "evidence/beta_completion/band_review_20261119/receipt.json",
+        "native_xlights": false,
+        "owner_approved": false
+      },
+      "android_emulator": "not runnable in the session sandbox (no KVM); dispatch android-offline.yml (API 30 and 36)"
+    }
+  },
+  "drive_beta14_approval_gate": {
+    "document_url": "https://docs.google.com/document/d/1TfhnsrYi7v8-q4BMeSUWDs5owkZUazbdvDNeUyXDsIM/edit",
+    "folder_url": "https://drive.google.com/drive/folders/1tcW6pfQ3CmyDPWMsYbvJrzaBTJsz_1lT",
+    "band_mp4_url": "https://drive.google.com/file/d/1NShBmODsUiToi14bxZ1sptbYrU1CZ_YQ/view",
+    "band_receipt_url": "https://drive.google.com/file/d/1CPX59ePv9XyVXUTu2QNU9OZWfYQyQ_93/view",
+    "classification": "DIAGNOSTIC_ONLY_NOT_NATIVE",
+    "owner_approved": false
+  },
+  "current_verification_checkpoint": {
+    "drummer_ground_truth": {
+      "run_id": 44691270749,
+      "commit": "113f03f4c1ac8d87be8079ca7dec249ea417f2e3",
+      "conclusion": "success",
+      "classification": "SYNTHETIC_DIAGNOSTIC_NOT_NATIVE"
+    },
+    "unified_beta_integration": {
+      "run_id": 44691692355,
+      "commit": "e9e63fbe0bcbbae0630920d93a8df76c6bcb36b5",
+      "conclusion": "pending_at_last_check"
+    },
+    "native_effect_contract": {
+      "nonfinite_validation_commit": "b21acf79ee99ec6ca4bc14e3c1486aea309666db",
+      "tests_commit": "c4f5b76d508624c7f52942929c4f666d18942add",
+      "focused_gate_commit": "e9e63fbe0bcbbae0630920d93a8df76c6bcb36b5",
+      "validation": "pending"
+    },
+    "drive_approval_gate": {
+      "document_url": "https://docs.google.com/document/d/1TfhnsrYi7v8-q4BMeSUWDs5owkZUazbdvDNeUyXDsIM/edit",
+      "native_verified": false,
+      "owner_approved": false
+    },
+    "release_approved": false
+  },
+  "infinity_runner_repair": {
+    "inspected_source": "e84bcfd1ffd05e78d46d28d6766ada6c4c754ed2",
+    "workflow": "helix-infinity-layout.yml",
+    "earlier_run": 44711406069,
+    "failure": "xLights exit 127: libEGL.so.1 missing",
+    "implementation": "Ubuntu 24.04 with libgl1, libegl1 and libegl-mesa0",
+    "native_verified": false,
+    "owner_review_ready": false,
+    "next_action": "Inspect the next 128-model native Bells job and its artifact on the integration branch."
+  },
+  "last_verified_infinity_native": {
+    "id": "HBC-INF-NATIVE-BOUNDED",
+    "status": "VERIFIED_ENGINEERING_ONLY",
+    "branch_head": "abc6b2c3a1fc97f2a0710efff52b83ec5434c544",
+    "run_id": 44785020701,
+    "artifact_id": 14653767707,
+    "source_duration_seconds": 155.96,
+    "model_rows": 323,
+    "owner_approved": false,
+    "full_10240_proof": false,
+    "visual_mp4_approved": false
+  },
+  "latest_xsq_cache_repair": {
+    "commit": "e0efe160ac0ec7cd4805f9f97ef3f6737cd9667e",
+    "status": "IMPLEMENTED_TEST_PENDING",
+    "scope": "XSQ cache validates audio/layout/template/revision/output hashes; isolated fresh generation; no dirty-tree reuse",
+    "limitations": "Runtime regression tests pending; conservative revision invalidation; no owner approval",
+    "render_run": 44793419539
+  },
+  "nov21_production_recovery": {
+    "baseline_commit": "9122e00f3822e6152154cc02f0bffd5940880d0f",
+    "runs": {
+      "16_panel": 44944727109,
+      "12_layout": 44944730430,
+      "six_snowmen": 44944734212
+    },
+    "classification": "failed",
+    "review_candidates": [],
+    "owner_approved": false,
+    "diagnostic_artifact_ids": [
+      14722769438,
+      14722189784
+    ],
+    "tests_passed": 55,
+    "verified_audio": "19e90c273d0d747938f24b36586b50818c104cddffbefe4a4128927374301938",
+    "remaining": [
+      "native pilot reference and timing acceptance",
+      "16-panel native media and verification",
+      "qualified full-song singer sources"
+    ]
+  },
+  "video_delivery_2026_11_22": {
+    "status": "REVIEW_CANDIDATES_DELIVERED_NOT_APPROVED",
+    "source_commit": "f0e882fa8c47e9aa787d274171422170e58697f0",
+    "sixteen_panel": {
+      "url": "https://drive.google.com/file/d/1CQHC_5XVRi02nQlmtBjE6QovVzYzktPz/view",
+      "duration_seconds": 264.8,
+      "owner_approved": false,
+      "sampled_pixel_quality_passed": true
+    },
+    "nine_panel": {
+      "url": "https://drive.google.com/file/d/1CmEpUUCG2ckNGs626-oF3VnNCTzNxW_R/view",
+      "owner_approved": false,
+      "readability_motion_gate": "failed"
+    },
+    "twelve_panel": {
+      "url": "https://drive.google.com/file/d/1OvKatynrNzbLLTu0-pquFOKdiRH_W8D5/view",
+      "owner_approved": false,
+      "final_presentation_grid": "fix_authored_ci_pending"
+    },
+    "individual_panels_drive_folder": "https://drive.google.com/drive/folders/1MM54iPDmyMNsD5Ajl-ClbE1MNpDP9LtD",
+    "note": "16 standalones are audio-attached crops of the delivered native composite, not independently re-rendered panels"
+  },
+  "app_sequencing_gate": {
+    "commit": "503fbab5",
+    "branch": "integration/beta14-recovered-logic-20261126",
+    "pull_request": "https://github.com/ryankorkowski-boop/helix-sequencer/pull/264",
+    "android_previous_failure": "https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/45800159007",
+    "windows_previous_failure": "https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/45800159363",
+    "cancelled_wrong_engine": "https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/45802444477",
+    "change": "HELIX_REQUIRE_NEURAL_STEMS=0 on Android and the portable smoke. Diagnostic HPSS is labeled. Desktop still requires Demucs by default.",
+    "current_apk": null,
+    "current_windows_zip": null,
+    "release_approved": false
+  }
 }
