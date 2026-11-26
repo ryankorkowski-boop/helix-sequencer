@@ -190,10 +190,10 @@ def test_showcase_bass_and_guitar_use_original_attacks_and_string_contacts():
 
 
 @pytest.mark.parametrize("number,marker,count", [
-    (13, 'ESTATE_WAVE_PATH', 3),
-    (14, 'COUNTERWOUND_CANOPY', 3),
-    (15, 'OPTICAL_CROSS_LATTICE', 3),
-    (16, 'FINALE_GROUND_ORBIT', 4),
+    (13, 'VILLAGE_WALKWAY', 3),
+    (14, 'CATHEDRAL_PILLAR', 8),
+    (15, 'PIXEL_CUBE_PLANE', 12),
+    (16, 'CONCERT_VIDEO_WALL', 2),
 ])
 def test_advanced_sample_adds_distinct_native_spatial_ensembles(number, marker, count):
     from tools.source_spatial_direction import parts_for
@@ -224,3 +224,15 @@ def test_advanced_presentation_prioritizes_silhouettes_and_distinct_palettes():
             if tier:
                 assert model.attrs['Antialias'] == '1'
                 assert model.attrs['BlackTransparency'] == '100'
+
+
+def test_advanced_layouts_have_exclusive_visual_architecture():
+    gardens = [build_showcase(n, {'cues': {}}, duration=1,
+                              native_band=lambda *args, **kwargs: None)[0]
+               for n in range(13,17)]
+    zones = [{m.zone for m in g.models} for g in gardens]
+    assert 'HOUSE' in zones[0] and all('HOUSE' not in z for z in zones[1:])
+    assert 'CATHEDRAL_VAULT' in zones[1] and all('CATHEDRAL_VAULT' not in zones[i] for i in (0,2,3))
+    assert 'OPTICAL_MATRIX' in zones[2] and all('OPTICAL_MATRIX' not in zones[i] for i in (0,1,3))
+    assert 'CONCERT_TRUSS' in zones[3] and all('CONCERT_TRUSS' not in z for z in zones[:3])
+    assert not any(m.details.get('spiral_tree') for g in gardens[1:] for m in g.models)
