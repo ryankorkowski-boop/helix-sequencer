@@ -515,10 +515,11 @@ def _try_demucs_stem_separation(
     # from overwriting WAVs referenced by an already published manifest.
     output = Path(tempfile.mkdtemp(prefix="separation-", dir=cache_dir))
     log_path = output.with_suffix(".log")
-    command = [sys.executable, "-m", "demucs", "-n", "htdemucs", "-j", "0", "--shifts", "0",
-               "--segment", "7", "-o", str(output), str(audio_path)]
+    prefix = [sys.executable, "--helix-demucs"] if getattr(sys, "frozen", False) else [sys.executable, "-m", "demucs"]
+    command = [*prefix, "-n", "htdemucs", "-j", "0", "--shifts", "0", "--segment", "7"]
     if os.environ.get("HELIX_DEMUCS_DEVICE"):
-        command[5:5] = ["--device", os.environ["HELIX_DEMUCS_DEVICE"]]
+        command.extend(["--device", os.environ["HELIX_DEMUCS_DEVICE"]])
+    command.extend(["-o", str(output), str(audio_path)])
     _log(log_fn, f"Demucs: separating {audio_path.name}. Full log: {log_path}")
     try:
         with log_path.open("w", encoding="utf-8") as log:
