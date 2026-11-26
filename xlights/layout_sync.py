@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+from collections import defaultdict
 import copy
 from pathlib import Path
 from typing import TYPE_CHECKING
@@ -37,12 +38,31 @@ def register_lookup_name(lookup: dict[str, str], name: str, *, prefer_exact: boo
             lookup.setdefault(key, name)
 
 
+def _aliases(element: ET.Element) -> list[str]:
+    names = []
+    for container in element:
+        if container.tag.lower() != "aliases":
+            continue
+        for alias in container:
+            name = alias.get("name", "").strip()
+            if name.lower().startswith("oldname:"):
+                name = name.split(":", 1)[1].strip()
+            if name:
+                names.append(name)
+    return names
+
+
 def layout_entries_and_lookup(layout_path: Path) -> tuple[list[str], dict[str, str]]:
     tree = ET.parse(layout_path)
     root = tree.getroot()
 
     ordered_names: list[str] = []
     lookup: dict[str, str] = {}
+    aliases_by_key: dict[str, set[str]] = defaultdict(set)
+
+    def register_alias(alias: str, name: str) -> None:
+        for key in name_lookup_keys(alias):
+            aliases_by_key[key].add(name)
 
     groups_el = root.find("modelGroups")
     if groups_el is not None:
@@ -52,29 +72,19 @@ def layout_entries_and_lookup(layout_path: Path) -> tuple[list[str], dict[str, s
                 continue
             ordered_names.append(name)
             register_lookup_name(lookup, name, prefer_exact=True)
+            for alias in _aliases(child):
+                register_alias(alias, name)
 
     models_el = root.find("models")
-    if models_el is None:
-        return (ordered_names, lookup)
-    for child in list(models_el):
+    for child in models_el if models_el is not None else ():
         name = (child.attrib.get("name") or "").strip()
         if not name:
             continue
         ordered_names.append(name)
         register_lookup_name(lookup, name, prefer_exact=True)
-        aliases_el = None
-        for sub in list(child):
-            if sub.tag.endswith("Aliases"):
-                aliases_el = sub
-                break
-        aliases = [] if aliases_el is None else list(aliases_el)
-        for alias in aliases:
-            alias_name = (alias.attrib.get("name") or "").strip()
-            if not alias_name:
-                continue
-            if alias_name.lower().startswith("oldname:"):
-                alias_name = alias_name.split(":", 1)[1].strip()
-            register_lookup_name(lookup, alias_name, prefer_exact=False)
+        parent_aliases = _aliases(child)
+        for alias in parent_aliases:
+            register_alias(alias, name)
         for sub in list(child):
             if not sub.tag.endswith("subModel"):
                 continue
@@ -84,14 +94,15 @@ def layout_entries_and_lookup(layout_path: Path) -> tuple[list[str], dict[str, s
             full_name = f"{name}/{short_name}"
             ordered_names.append(full_name)
             register_lookup_name(lookup, full_name, prefer_exact=True)
-            for alias in list(sub.findall("./aliases/alias")):
-                alias_name = (alias.attrib.get("name") or "").strip()
-                if not alias_name:
-                    continue
-                if alias_name.lower().startswith("oldname:"):
-                    alias_name = alias_name.split(":", 1)[1].strip()
-                for candidate in (alias_name, f"{name}/{alias_name}"):
-                    register_lookup_name(lookup, candidate, prefer_exact=False)
+            sub_aliases = _aliases(sub)
+            for alias in sub_aliases:
+                register_alias(alias, full_name)
+            for parent in [name, *parent_aliases]:
+                for leaf in [short_name, *sub_aliases]:
+                    register_alias(f"{parent}/{leaf}", full_name)
+    for key, targets in aliases_by_key.items():
+        if len(targets) == 1:
+            lookup.setdefault(key, next(iter(targets)))
     return (ordered_names, lookup)
 
 
@@ -138,10 +149,16 @@ def merge_effect_model_entry(target: ET.Element, source: ET.Element) -> None:
         if not (layer.tag.endswith("EffectLayer") or layer.tag.endswith("Layer")):
             continue
         layer_name = (layer.attrib.get("name") or "").strip()
-        if layer_name and layer_name in existing_names:
-            continue
-        if not layer_name and unnamed_count > 0:
-            continue
+        already_present = layer_name in existing_names if layer_name else unnamed_count > 0
+        if already_present:
+            has_authored_effects = (
+                not layer_name.startswith("AUTO_DreamSequenceWeaver_")
+                and any(child.tag.endswith("Effect") for child in layer)
+            )
+            if not has_authored_effects or any(
+                ET.tostring(existing) == ET.tostring(layer) for existing in target
+            ):
+                continue
         target.append(copy.deepcopy(layer))
         if layer_name:
             existing_names.add(layer_name)
@@ -262,6 +279,85 @@ def sync_xsq_to_layout(xsq: "XsqIndex", layout_path: Path | None) -> dict[str, i
         "effect_rows_updated": len(model_effects_by_name),
         "stale_removed": stale_display + stale_effects,
     }
+
+
+def unpack_native_submodels(root: ET.Element) -> None:
+    """Expose native submodel layers as model rows to the placement engine."""
+    effects = root.find("ElementEffects")
+    if effects is None:
+        return
+    rows = {element.get("name"): element for element in effects.findall("Element")}
+    for element in list(rows.values()):
+        if element.get("type") == "timing":
+            continue
+        for layer in element.findall("EffectLayer"):
+            if layer.get("layerName"):
+                layer.set("name", layer.get("layerName", ""))
+        by_submodel: dict[str, dict[int, ET.Element]] = defaultdict(dict)
+        for layer in element.findall("SubModelEffectLayer"):
+            short = layer.get("name", "")
+            index = layer.get("layer", "0")
+            if not short or not index.isdecimal() or int(index) > 1024:
+                continue
+            internal = copy.deepcopy(layer)
+            internal.tag = "EffectLayer"
+            internal.attrib.pop("layer", None)
+            internal.attrib.pop("name", None)
+            if internal.get("layerName"):
+                internal.set("name", internal.get("layerName", ""))
+            by_submodel[short][int(index)] = internal
+            element.remove(layer)
+        for short, layers in by_submodel.items():
+            full = f"{element.get('name', '')}/{short}"
+            row = ET.Element("Element", name=full, type="model")
+            for index in range(max(layers) + 1):
+                row.append(layers.get(index, ET.Element("EffectLayer")))
+            if full in rows:
+                merge_effect_model_entry(rows[full], row)
+            else:
+                effects.append(row)
+
+
+def pack_native_submodels(
+    root: ET.Element, leaf_roots: dict[str, str], generated_prefix: str,
+) -> None:
+    """Write the parent-owned submodel structure expected by native xLights."""
+    effects = root.find("ElementEffects")
+    if effects is None:
+        return
+    rows = {element.get("name"): element for element in effects.findall("Element")
+            if element.get("type") != "timing"}
+    for element in rows.values():
+        for layer in element.findall("EffectLayer"):
+            name = layer.get("name", "")
+            if name:
+                layer.set("layerName", name)
+            if name.startswith(generated_prefix):
+                for effect in layer.findall("Effect"):
+                    if "settings" in effect.attrib and "ref" not in effect.attrib:
+                        effect.text = effect.attrib["settings"]
+    packed = set()
+    for full, parent in leaf_roots.items():
+        if full == parent or full not in rows or parent not in rows:
+            continue
+        element = rows[full]
+        short = full.removeprefix(f"{parent}/")
+        for index, layer in enumerate(element.findall("EffectLayer")):
+            if not len(layer) and not layer.get("layerName"):
+                continue
+            layer.tag = "SubModelEffectLayer"
+            layer.set("name", short)
+            if index:
+                layer.set("layer", str(index))
+            element.remove(layer)
+            rows[parent].append(layer)
+        effects.remove(element)
+        packed.add(full)
+    display = root.find("DisplayElements")
+    if display is not None:
+        for element in display.findall("Element"):
+            if element.get("type") == "model" and element.get("name") in packed:
+                display.remove(element)
 
 
 def normalize_display_views(root: ET.Element, *, force: bool = True) -> int:

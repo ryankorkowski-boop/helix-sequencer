@@ -12,6 +12,8 @@ import numpy as np
 import soundfile as sf
 from PIL import Image, ImageDraw, ImageEnhance, ImageFilter, ImageFont
 
+from xlights.layout_sync import unpack_native_submodels
+
 ROOT = Path(__file__).resolve().parents[1]
 SOURCE = ROOT / "fixtures/band_geometry/source/drummerbg.png"
 XMODEL = ROOT / "fixtures/band_geometry/models/HX_SNOWMAN_DRUMMER_V3.xmodel"
@@ -126,9 +128,10 @@ def load_component_masks() -> tuple[Image.Image, dict[str, Image.Image]]:
 
 def parse_effects(xsq: Path):
     root = ET.parse(xsq).getroot()
+    unpack_native_submodels(root)
     out = []
     for element in root.findall("./ElementEffects/Element"):
-        name = element.get("name", "")
+        name = element.get("name", "").rsplit("/", 1)[-1]
         if name not in TARGETS:
             continue
         for layer in element.findall("EffectLayer"):

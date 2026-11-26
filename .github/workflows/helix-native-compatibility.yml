@@ -5,9 +5,22 @@ on:
     paths:
       - 'core/beat_grid*.py'
       - 'core/effect_engine*.py'
+      - 'core/composition_governor.py'
+      - 'core/orchestration_balance.py'
+      - 'core/physical_targets.py'
+      - 'core/snowman_band.py'
+      - 'xlights/layout_sync.py'
+      - 'xlights/xml_io.py'
+      - 'xlights/xsq_writer.py'
+      - 'core/autonomous_render_validation_engine.py'
+      - 'MASTER_TODO.md'
+      - 'docs/UNIFIED_ORCHESTRATION.md'
+      - 'tests/test_physical_targets.py'
+      - 'tests/test_orchestration_balance.py'
       - 'tests/test_live_beat_grid_contract.py'
       - 'tests/test_unified_orchestration_cli.py'
       - 'tools/verify_native_xlights_gate.py'
+      - 'tools/compare_native_kit_targets.py'
       - '.github/workflows/helix-native-compatibility.yml'
   workflow_dispatch:
 
@@ -41,17 +54,25 @@ jobs:
           sudo apt-get update -qq
           sudo apt-get install -y xvfb xauth ffmpeg libgtk-3-0t64 libgl1 libegl1 libopengl0 libglu1-mesa libgstreamer-plugins-base1.0-0
       - name: Verify explicit-grid CLI and boundary contracts
-        run: python -m pytest -q tests/test_live_beat_grid_contract.py tests/test_unified_orchestration_cli.py
+        run: >-
+          python -m pytest -q tests/test_live_beat_grid_contract.py tests/test_unified_orchestration_cli.py
+          tests/test_physical_targets.py tests/test_orchestration_balance.py
       - name: Stage a clean-room show and generate the exact-head XSQ
         run: |
           show="$RUNNER_TEMP/helix-native-show"
+          generated="$RUNNER_TEMP/helix-native-generated"
           mkdir -p "$show"
           cp helixville4/xlights_rgbeffects.xml "$show/"
           python -c 'import runpy, sys; from pathlib import Path; runpy.run_path("tests/fixtures/beta_demo/generate_synthetic_audio.py")["generate_wav"](Path(sys.argv[1]), duration_seconds=8.0)' "$show/tone.wav"
           python main.py -- --template template.xsq --layout-file "$show/xlights_rgbeffects.xml" \
-            --audio "$show/tone.wav" --output-dir "$show" --variants 1 --single --no-prompt \
+            --audio "$show/tone.wav" --output-dir "$generated" --variants 1 --single --no-prompt \
             --no-save-settings --no-workspace-history --no-learning-memory --no-effects-orchestrator \
             --snap-grid 16 --snap-bpm 120 --snap-mode strict
+          shopt -s nullglob
+          sequences=("$generated/"*,*.xsq)
+          test "${#sequences[@]}" -eq 1
+          cp "${sequences[0]}" "$show/"
+          cp "$generated/"*,*.report.json "$show/"
       - name: Render with pinned native xLights and verify the FSEQ
         run: |
           native="$RUNNER_TEMP/xLights.AppImage"
@@ -63,7 +84,9 @@ jobs:
           sequences=("$show/"*,*.xsq)
           test "${#sequences[@]}" -eq 1
           xvfb-run -a python -m tools.verify_native_xlights_gate --xlights "$native" \
-            --show "$show" --xsq "${sequences[0]}" --commit "$HELIX_COMMIT" --evidence "$show/native-gate.json"
+            --show "$show" --xsq "${sequences[0]}" --audio "$show/tone.wav" \
+            --template template.xsq --commit "$HELIX_COMMIT" --evidence "$show/native-gate.json"
+          cat "$show/native-gate.json"
       - name: Retain exact-head native evidence
         uses: actions/upload-artifact@v4
         with:
@@ -74,3 +97,34 @@ jobs:
             ${{ runner.temp }}/helix-native-show/*.fseq
             ${{ runner.temp }}/helix-native-show/*.xsq
             ${{ runner.temp }}/helix-native-show/*.report.json
+            ${{ runner.temp }}/helix-native-show/tone.wav
+            ${{ runner.temp }}/helix-native-show/xlights_rgbeffects.xml
+      - name: Render opt-in kit diagnostic on the shipped layout
+        run: |
+          show="$RUNNER_TEMP/helix-native-kit"
+          generated="$RUNNER_TEMP/helix-kit-generated"
+          source="Helix Audiolights.mp3"
+          mkdir -p "$show"
+          cp helixville4/xlights_rgbeffects.xml "$show/"
+          ffmpeg -nostdin -v error -i "$source" -t 36 -c:a pcm_s16le "$show/kit.wav"
+          python main.py -- --template template.xsq --layout-file "$show/xlights_rgbeffects.xml" \
+            --audio "$show/kit.wav" --output-dir "$generated" --variants 1 --single --no-prompt \
+            --no-save-settings --no-workspace-history --no-learning-memory --no-effects-orchestrator \
+            --no-matrix-intelligence --orchestrate-band-performers
+          shopt -s nullglob
+          sequences=("$generated/"*,*.xsq)
+          test "${#sequences[@]}" -eq 1
+          cp "${sequences[0]}" "$show/"
+          cp "$generated/"*.snowman_band.json "$generated/"*.report.json "$show/"
+          xsq="$show/${sequences[0]##*/}"
+          xvfb-run -a python -m tools.verify_native_xlights_gate --xlights "$RUNNER_TEMP/xLights.AppImage" \
+            --show "$show" --xsq "$xsq" --audio "$show/kit.wav" --template template.xsq \
+            --commit "$HELIX_COMMIT" --evidence "$show/native-gate.json"
+          python -m tools.compare_native_kit_targets "$show" "$xsq" "$source"
+          cat "$show/kit-comparison.json"
+      - name: Retain exact-head opt-in kit diagnostic
+        uses: actions/upload-artifact@v4
+        with:
+          name: native-kit-diagnostic-${{ env.HELIX_COMMIT }}
+          if-no-files-found: error
+          path: ${{ runner.temp }}/helix-native-kit/

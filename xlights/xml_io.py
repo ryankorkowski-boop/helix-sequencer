@@ -15,13 +15,17 @@ def _legacy():
     return legacy
 
 
-def load_xsq(path: Path) -> "XsqIndex":
+def load_xsq(path: Path, *, unpack_submodels: bool = False) -> "XsqIndex":
     legacy = _legacy()
     try:
         tree = ET.parse(path)
     except Exception as exc:
         legacy.die(f"Failed to parse XSQ XML: {path.name}\n{exc}")
     root = tree.getroot()
+    if unpack_submodels:
+        from xlights.layout_sync import unpack_native_submodels
+
+        unpack_native_submodels(root)
 
     elements: dict[str, ET.Element] = {}
     for el in legacy._find_any(root, "Element"):

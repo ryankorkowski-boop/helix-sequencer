@@ -77,6 +77,36 @@ Do not mark complete from unit tests alone.
 
 ## Change Ledger
 
+### 2026-11-26 — Serialize actual xLights submodel layers
+**Goal:** Bind the same node placements to the native xLights parent model.
+**Changed files/modules:** XSQ import and serialization, structural validation, and native kit diagnostics.
+**Intentionally preserved behavior:** Authored timing, effect and palette data, placement policies, and legacy flat output with orchestration disabled.
+**New behavior:** Governed XSQs use native parent-owned submodel layers with native layer names and settings text. The placement path accepts those layers on reimport and the existing preview readers retain submodel effects.
+**Tests/evidence:** Pinned render `f05f33e` retained 169 exact drum target/onset matches in XSQ, while the shipped instrument's declared FSEQ channels stayed dark. The installed xLights loader requires parent-owned `SubModelEffectLayer` elements and effect settings text or a database reference. Added a native structure round-trip regression.
+**Limitations:** The shipped layout exposes only five hit targets and cannot qualify the nine-component playback gate.
+**Deferred work:** Full named kit and contacting-stick review on the agreed oracle geometry. Original-source Faces and nine-panel review.
+**Regression risks:** Consumers that load XSQ directly need to read nested submodel layers. Default xLights frame period limits native temporal resolution.
+
+### 2026-11-26 — Resolve physical targets and rank optional accents in live placement
+**Goal:** Let existing producers share the Composition Governor's placement policy while preserving Faces and kit timing.
+**Changed files/modules:** Composition Governor, placement accounting, physical layout groups and submodels, XSQ alias sync, BeatGrid, Snowman Band handoffs, and pinned native verification.
+**Intentionally preserved behavior:** Default timing, legacy orchestration opt-out, model effect compatibility, named specialist inputs, manual windows in smart-layer mode, independent analysis sidecars, and opt-in drummer placement.
+**New behavior:** Resolve layout aliases and nested groups to root/node coverage. Guard shared layers and manual windows during admission and polish. Preserve distinct authored layers that resolve to the same model and avoid assigning ambiguous template aliases. Rank optional cues by proximity to instrument onsets, beats and section transitions, then section energy and stable proposal fields. Budget and cooldown accounting use the accepted placement time for ranked cues. Explicit BeatGrid chooses the nearest admissible point in the section when one exists. Native verification decodes the FSEQ to confirm active frames.
+**Tests/evidence:** [Engine compatibility measurements and verification gates](docs/UNIFIED_ORCHESTRATION.md#physical-ownership-and-ranked-accent-follow-up). Serialized XSQ checks cover performer anchors, disjoint nodes, shared manual content and proposal-order determinism. The full-song comparison retained 8,711 effects versus 8,715 on #260, with focal clarity 60.9 versus 58.7 and zero budget overages. The cache bypass comparison reproduced all nine XSQ and specialist artifacts byte for byte on the three-variant synthetic fixture. Broad suite comparison found the same 18 failures and one collection error on both revisions.
+**Limitations:** Unsupported submodel geometry reserves the entire parent. Unresolved and cyclic groups are rejected with diagnostics. Native kit diagnostic uses the shipped five-hit-target layout and compares serialized detector anchors with the nine-component list above. The dedicated drummer docs specify a conflicting eight-component kit.
+**Deferred work:** Nine-component native kit playback against the historical oracle, original-source Faces and nine-panel review, and release gates. The prior owner pilot stopped at the missing private Drive locator and no independent vocal annotation has been verified.
+**Regression risks:** Shared node rules can displace or reject overlapping group cues. Ranked accents can redistribute focal motion with similar total density. Capability depends on xLights node-range definitions and explicit face definitions in the layout.
+
+### 2026-11-26 — Repair native smoke staging
+**Goal:** Let the pinned xLights smoke reach native rendering.
+**Changed files/modules:** Native compatibility workflow and evidence tool.
+**Intentionally preserved behavior:** CLI output-root protection, pinned renderer, exact-head checkout, and fresh FSEQ requirement.
+**New behavior:** Generate into a separate output directory, then stage the resulting XSQ in the disposable native show. Bind audio, layout, and template hashes to the evidence.
+**Tests/evidence:** Reproduced the output-root overlap error from PR #260 run 45770486080 on commit `e007e12`.
+**Limitations:** Successful native output still requires independent execution of the gate.
+**Deferred work:** Native drummer oracle and independently annotated Faces playback.
+**Regression risks:** The staged media name must match the reference emitted by Helix.
+
 ### 2026-11-26 — Apply explicit BeatGrid in live placement and add exact-head native smoke
 **Goal:** Make explicit quantization affect generated XSQ timing rather than rewriting analysis metadata; add repeatable native import/FSEQ evidence.
 **Changed files/modules:** BeatGrid helpers, effect engine and wrapper, focused/CLI regressions, native smoke workflow and evidence tool, and the orchestration architecture record.

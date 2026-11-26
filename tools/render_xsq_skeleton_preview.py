@@ -11,6 +11,7 @@ from pathlib import Path
 from typing import Sequence
 
 from core.lazy_imports import LazyModule
+from xlights.layout_sync import unpack_native_submodels
 
 imageio = LazyModule("imageio.v2")
 imageio_ffmpeg = LazyModule("imageio_ffmpeg")
@@ -97,6 +98,7 @@ def parse_skeleton_xsq(path: Path) -> tuple[str, str, list[SkeletonPhoneme]]:
 
 def parse_preview_effects(path: Path) -> list[PreviewEffect]:
     root = ET.parse(path).getroot()
+    unpack_native_submodels(root)
     effects: list[PreviewEffect] = []
     element_effects = root.find("ElementEffects")
     if element_effects is None:

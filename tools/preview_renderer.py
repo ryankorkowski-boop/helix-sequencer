@@ -13,6 +13,7 @@ from pathlib import Path
 from core.lazy_imports import LazyModule
 from core import model_parser as xmp
 from core import spatial_scene
+from xlights.layout_sync import unpack_native_submodels
 
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -217,6 +218,7 @@ def parse_models(layout_xml: Path) -> LayoutData:
 def parse_sequence(path: Path) -> SequenceData:
     tree = ET.parse(path)
     root = tree.getroot()
+    unpack_native_submodels(root)
     duration_ms = 0
     dur_node = root.find("./head/sequenceDuration")
     if dur_node is not None and dur_node.text:
