@@ -79,7 +79,7 @@ def _cathedral(g, s):
         _music(g,first,'guitarist',direction=(-1)**depth,phase=depth/4)
     for i,x in enumerate((-38,-19,0,19,38)):
         first=len(g.models)
-        s.path('CATHEDRAL_WINDOW',[(x-7,18,-62),(x-7,43,-62),(x,57,-62),(x+7,43,-62),(x+7,18,-62),(x-7,18,-62)],'CATHEDRAL_WINDOWS',i,160)
+        s.path('CATHEDRAL_WINDOW',[(x-7,18,-62),(x-7,43,-62),(x,57,-62),(x+7,43,-62),(x+7,18,-62)],'CATHEDRAL_WINDOWS',i,160,closed=True)
         _music(g,first,'keyboardist',phase=i/5)
     for i,r in enumerate((9,15,22)):
         first=len(g.models)
