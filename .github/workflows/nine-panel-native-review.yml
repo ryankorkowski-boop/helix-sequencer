@@ -16,7 +16,7 @@ permissions:
   actions: read
 concurrency:
   group: nine-panel-native-review-${{ github.head_ref || github.ref_name }}
-  cancel-in-progress: true
+  cancel-in-progress: false
 jobs:
   render:
     runs-on: ubuntu-24.04
@@ -59,7 +59,7 @@ jobs:
       - name: Validate source ingestion, DSP equivalence and strict native faces
         run: python -m pytest tests/test_phoneme_source.py tests/test_audio_analysis_reuse.py tests/test_native_face_instructions.py -q
       - name: Prepare complete show from current Helix source
-        run: python -m tools.prepare_phoneme_show --audio phoneme-work/input/Phoneme_Test_Hook.mp3 --output phoneme-work/show
+        run: python -m tools.prepare_phoneme_show --audio phoneme-work/input/Phoneme_Test_Hook.mp3 --output phoneme-work/show --full-keyboard
       - name: Expose source sequencer failure details
         if: failure()
         run: |
@@ -154,7 +154,7 @@ jobs:
         run: |
           xvfb-run -a -s '-screen 0 2560x1440x24' sh -c 'openbox >phoneme-work/openbox.log 2>&1 & exec python -m tools.native_preview phoneme-work/show --xsq phoneme-work/show/Phoneme_Test_Hook_Helix.xsq --audio phoneme-work/show/media/Phoneme_Test_Hook.mp3 --xlights "$HELIX_PATCHED_XLIGHTS"'
       - name: Build nine panel layouts from retained production analysis
-        run: python -m tools.build_approval_collection phoneme-work/show approval-layouts --layouts 1 2 3 4 5 6 7 8 9
+        run: python -m tools.build_approval_collection phoneme-work/show approval-layouts --layouts 1 2 3 4 5 6 7 8 9 --full-keyboard
       - name: Render synchronized native collection, verify files and package diagnostic candidate
         run: |
           xvfb-run -a -s '-screen 0 2560x1440x24' sh -c 'openbox >collection-openbox.log 2>&1 & exec python -m tools.render_approval_collection approval-layouts approval-delivery --xlights "$HELIX_PATCHED_XLIGHTS" --source-commit "$HELIX_SOURCE_COMMIT"'

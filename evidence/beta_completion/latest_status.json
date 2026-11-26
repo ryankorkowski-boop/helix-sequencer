@@ -657,6 +657,72 @@
       "layout_sha256": "f6e43e75d69925aca16aecd822664cac6ba42c80634cbd51bb85d2e483f3c7a0"
     },
     "external_vocal_dependency": "Matching master and independently identified time-aligned lead and harmony reference stems",
-    "handoff": "docs/BETA_COMPLETION_LIVE_HANDOFF.md"
+    "handoff": "docs/BETA_COMPLETION_LIVE_HANDOFF.md",
+    "candidate_verification": {
+      "source_commit": "625bcc73567bb4535a73802180c4ae991fa86784",
+      "observed_utc": "2026-11-26T21:51:19Z",
+      "success": {
+        "beta_ci": 45898715087,
+        "birdsong_ci": 45898714835,
+        "unified_integration_ci": 45898715109,
+        "windows_portable_build_gui_worker_native_fseq": 45898714795,
+        "engine_ci": 45898714819,
+        "android_api_30_and_36": 45898714792
+      },
+      "failures": {
+        "phoneme": {
+          "run": 45898714984,
+          "stage_motion": 0.394,
+          "minimum": 0.65
+        },
+        "band": {
+          "run": 45898714864,
+          "cause": "source lacks independently qualified lead and backing"
+        },
+        "downstream_native": {
+          "run": 45898714880,
+          "cause": "same-source band producer failed"
+        }
+      },
+      "runs_tracked": {
+        "nine_panel": 45898714777,
+        "twelve_panel": 45898714807,
+        "estimated_sixteen_panel": 45898800676,
+        "windows_candidate": 45898878097
+      },
+      "full_infinity_sequence": {
+        "duration_seconds": 30,
+        "physical_models_with_effects": 10240,
+        "physical_model_effects": 20143,
+        "source_clip_sha256": "31a593afe7edb6d26aff64a3ddd6c778afe832a30f6fc93e568e898218a0a77a",
+        "xsq_sha256": "17faf5a17ce9c7968753813466f3180d0c971b6559e52ceb8732cd772ba6a211",
+        "first_native_timeout_seconds": 90,
+        "unchanged_retry_timeout_seconds": 600
+      },
+      "additional_focused_tests": {
+        "passed": 73,
+        "skipped": 1,
+        "subtests_passed": 10,
+        "lor_and_dual_export_passed": 77
+      },
+      "android_device_verification": {
+        "run": 45898714792,
+        "api30_job": 140179101024,
+        "api36_job": 140179100824,
+        "full_song_lit_pixel_retention": 0.9322323462414579,
+        "full_song_audio_correlation": 0.9957144538319959,
+        "full_song_audio_offset_ms": 0,
+        "all_eight_variant_playback_verified": false
+      },
+      "infinity_group_bed_repair": {
+        "physical_models": 10240,
+        "model_rows_with_effects": 10080,
+        "model_level_effects": 17556,
+        "duplicate_group_beds_removed": 10326,
+        "group_beds_remaining": 0,
+        "revised_xsq_sha256": "64b20f1442183529cfb0ed0185b2829ee23bda7849e7d9386ff585cccb05d81a",
+        "focused_tests_passed": 55
+      }
+    }
   }
 }

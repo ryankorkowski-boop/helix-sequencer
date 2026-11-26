@@ -79,7 +79,8 @@ public class OfflineEngineTest {
         try(InputStream in=test.getAssets().open("stability-rgb.xml");OutputStream out=new FileOutputStream(new File(ri,"xlights_rgbeffects.xml"))){EngineService.copy(in,out);}
         MediaRuntime.decodeWav(new File(ri,"source.mp3").toString(),new File(ri,"audio.wav").toString());
         JSONObject realRequest=new JSONObject();realRequest.put("mode","xlights");realRequest.put("preview",true);realRequest.put("preview_seconds",8);
-        JSONObject realResult=new JSONObject(Python.getInstance().getModule("helix_mobile").callAttr("run",engine.toString(),real.toString(),realRequest.toString(),new Callbacks()).toString());
+        JSONObject variantRequest=new JSONObject(realRequest.toString());variantRequest.put("variants",8);
+        JSONObject realResult=new JSONObject(Python.getInstance().getModule("helix_mobile").callAttr("run",engine.toString(),real.toString(),variantRequest.toString(),new Callbacks()).toString());
         File withoutBand=new File(context.getFilesDir(),"smoke-band-off");File bi=new File(withoutBand,"input");bi.mkdirs();
         Files.copy(new File(ri,"audio.wav").toPath(),new File(bi,"audio.wav").toPath(),StandardCopyOption.REPLACE_EXISTING);
         try(InputStream in=test.getAssets().open("stability-rgb.xml");OutputStream out=new FileOutputStream(new File(bi,"xlights_rgbeffects.xml"))){EngineService.copy(in,out);}
@@ -145,12 +146,23 @@ public class OfflineEngineTest {
         android.app.Instrumentation.ActivityMonitor playback=instrumentation.addMonitor(PreviewActivity.class.getName(),null,false);
         instrumentation.runOnMainSync(()->findButton(launcher.getWindow().getDecorView(),"Play preview").performClick());
         android.app.Activity player=playback.waitForActivityWithTimeout(5000);assertNotNull(player);instrumentation.removeMonitor(playback);
-        boolean[] playing={false};
-        for(int attempt=0;attempt<40&&!playing[0];attempt++){
-            Thread.sleep(250);
-            instrumentation.runOnMainSync(()->{android.widget.VideoView view=findVideo(player.getWindow().getDecorView());playing[0]=view!=null&&view.isPlaying()&&view.getCurrentPosition()>0;});
-        }
-        assertTrue("Corrected MP4 must actually play in Android VideoView",playing[0]);
+        java.util.ArrayList<String> playlist=player.getIntent().getStringArrayListExtra("playlist");
+        assertNotNull(playlist);
+        assertEquals("The real-song job must expose eight distinct playable outputs",8,playlist.size());
+        assertEquals(8,new java.util.HashSet<>(playlist).size());
+        int initialVariant=player.getIntent().getIntExtra("playlist_index",0);
+        instrumentation.runOnMainSync(()->{
+            android.widget.Button auto=findButton(player.getWindow().getDecorView(),"Play all completed variants automatically");
+            assertNotNull(auto);
+            auto.performClick();
+            android.widget.Button previous=findButton(player.getWindow().getDecorView(),"Previous");
+            assertNotNull(previous);
+            for(int index=initialVariant;index>0;index--){
+                assertTrue(previous.isEnabled());
+                previous.performClick();
+            }
+        });
+        waitForPlayback(instrumentation,player,1);
         instrumentation.runOnMainSync(()->{
             android.widget.VideoView view=findVideo(player.getWindow().getDecorView());
             android.widget.Button close=findButton(player.getWindow().getDecorView(),"Close");
@@ -162,6 +174,15 @@ public class OfflineEngineTest {
         android.graphics.Bitmap frame=instrumentation.getUiAutomation().takeScreenshot();assertNotNull(frame);
         ByteArrayOutputStream movieFrame=new ByteArrayOutputStream();frame.compress(android.graphics.Bitmap.CompressFormat.PNG,100,movieFrame);frame.recycle();
         publishProof(context,"screen-playback.png",movieFrame.toByteArray(),"image/png");
+        for(int variant=2;variant<=playlist.size();variant++){
+            instrumentation.runOnMainSync(()->{
+                android.widget.Button next=findButton(player.getWindow().getDecorView(),"Next");
+                assertNotNull(next);
+                assertTrue(next.isEnabled());
+                next.performClick();
+            });
+            waitForPlayback(instrumentation,player,variant);
+        }
         instrumentation.runOnMainSync(player::finish);
         instrumentation.getUiAutomation().waitForIdle(1000,5000);
         // Cancel only a fresh service job. Earlier completed show files must survive.
@@ -178,6 +199,17 @@ public class OfflineEngineTest {
         assertTrue("Foreground engine job must report cancellation",cancelled);
         assertTrue(new File(realResult.getString("bundle")).isFile());assertTrue(new File(fullResult.getString("bundle")).isFile());
         publishProof(context,"cancellation.json",Files.readAllBytes(cancelState.toPath()),"application/json");
+    }
+    private static void waitForPlayback(android.app.Instrumentation instrumentation,android.app.Activity player,int variant)throws InterruptedException{
+        boolean[] playing={false};
+        for(int attempt=0;attempt<40&&!playing[0];attempt++){
+            Thread.sleep(250);
+            instrumentation.runOnMainSync(()->{
+                android.widget.VideoView view=findVideo(player.getWindow().getDecorView());
+                playing[0]=view!=null&&view.isPlaying()&&view.getCurrentPosition()>0;
+            });
+        }
+        assertTrue("Variant "+variant+" must advance in Android VideoView",playing[0]);
     }
     private static android.widget.Button findButton(android.view.View root,String label){
         if(root instanceof android.widget.Button && label.contentEquals(((android.widget.Button)root).getText()))return (android.widget.Button)root;

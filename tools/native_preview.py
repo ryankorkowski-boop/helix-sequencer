@@ -376,7 +376,7 @@ def _wait_show_folder(app: subprocess.Popen, endpoint: str, show: Path,
 
 
 def _native_export(xlights: str, show: Path, staged: Path,
-                   port: int) -> dict[str, Any]:
+                   port: int, render_timeout: int | None = None) -> dict[str, Any]:
     # Own a fresh process. Never close/switch an existing user's sequence.
     with socket.socket() as reservation:
         reservation.bind(("127.0.0.1", port))
@@ -460,7 +460,7 @@ def _native_export(xlights: str, show: Path, staged: Path,
             # take longer than the60s control-command timeout; use a bounded
             # duration-derived export budget, preserving every media QA gate.
             sequence_seconds=float(ET.parse(staged).findtext('head/sequenceDuration'))
-            export_timeout=max(60,min(1800,sequence_seconds*4))
+            export_timeout = render_timeout or max(60, min(1800, sequence_seconds * 4))
             _command(endpoint, "exportVideoPreview", timeout=export_timeout, **options)
             if not video.is_file() or video.stat().st_size == 0:
                 raise ValueError("xLights did not create a fresh native video")
@@ -528,7 +528,7 @@ def _save_manifest(path: Path, report: dict[str, Any]) -> None:
 
 def preview_run(run_dir: Path, *, xsq: Path, audio: Path,
                 xlights: str = "xLights", port: int = 49914,
-                review_30fps: bool = False) -> dict[str, Any]:
+                review_30fps: bool = False, render_timeout: int | None = None) -> dict[str, Any]:
     """Keep XSQ usable and record fallback when preview is unavailable."""
     run_dir = run_dir.resolve()
     xsq, audio = xsq.resolve(), audio.resolve()
@@ -549,6 +549,8 @@ def preview_run(run_dir: Path, *, xsq: Path, audio: Path,
     try:
         if port not in (49913, 49914):
             raise ValueError("xLights automation port must be 49913 or 49914")
+        if render_timeout is not None and not 1 <= render_timeout <= 1800:
+            raise ValueError("Native render timeout must be 1–1800 seconds")
         binaries = {name: shutil.which(value) for name, value in (
             ("xLights", xlights), ("ffmpeg", "ffmpeg"),
             ("ffprobe", "ffprobe"))}
@@ -580,7 +582,7 @@ def preview_run(run_dir: Path, *, xsq: Path, audio: Path,
             result = subprocess.run(
                 [native_bin, "--headless", "--quiet", "--show", str(run_dir),
                  "--outputdir", str(stage), str(staged)],
-                stdout=log, stderr=log, timeout=max(60, duration * 3),
+                stdout=log, stderr=log, timeout=render_timeout or max(60, duration * 3),
                 check=False)
         if result.returncode:
             raise RuntimeError(
@@ -605,7 +607,7 @@ def preview_run(run_dir: Path, *, xsq: Path, audio: Path,
                 "inspect XSQ effect-to-model start-channel mapping before "
                 "attempting GUI preview or MP4 export")
         report["native_fseq_sha256"] = _sha256(fseq)
-        report.update(_native_export(native_bin, run_dir, staged, port))
+        report.update(_native_export(native_bin, run_dir, staged, port, render_timeout))
         # Reject xLights docked-preview exports before muxing or reporting success.
         expected_width, expected_height = _export_size()
         native_stream = _stream(probe_media(Path(report["native_video"]), ffprobe), "video")
@@ -643,11 +645,14 @@ def main(argv: Sequence[str] | None = None) -> int:
     parser.add_argument("--xlights", default="xLights")
     parser.add_argument("--review-30fps", action="store_true",
                         help="Deliver native frames at 30 fps without interpolating motion")
+    parser.add_argument("--render-timeout", type=int,
+                        help="Per-render time limit in seconds for unusually large native layouts")
     parser.add_argument("--port", type=int, choices=(49913, 49914),
                         default=49914)
     args = parser.parse_args(argv)
     report = preview_run(args.run_dir, xsq=args.xsq, audio=args.audio,
-                         xlights=args.xlights, port=args.port, review_30fps=args.review_30fps)
+                         xlights=args.xlights, port=args.port, review_30fps=args.review_30fps,
+                         render_timeout=args.render_timeout)
     print(json.dumps(report, indent=2, sort_keys=True))
     return 0 if report["status"] == "success" else 2
 

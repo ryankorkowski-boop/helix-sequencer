@@ -65,7 +65,7 @@ jobs:
         run: |
           args=()
           if [ "$HELIX_STEMLESS_DUET" = 'true' ]; then args+=(--stemless-duet); fi
-          python -m tools.prepare_phoneme_show --audio phoneme-work/input/Phoneme_Test_Hook.mp3 --output phoneme-work/show "${args[@]}"
+          python -m tools.prepare_phoneme_show --audio phoneme-work/input/Phoneme_Test_Hook.mp3 --output phoneme-work/show --full-keyboard "${args[@]}"
       - name: Expose source sequencer failure details
         if: failure()
         run: |

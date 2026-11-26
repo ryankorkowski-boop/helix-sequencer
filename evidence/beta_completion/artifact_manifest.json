@@ -385,6 +385,95 @@
         "classification": "Earlier estimated review",
         "source_commit": "f068aecb2e821dce785227a9d3ca66caf1e08ab5",
         "download": "https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/45800149044/artifacts/15114156910"
+      },
+      {
+        "name": "Helix-Windows-Portable",
+        "run_id": 45898714795,
+        "id": 15155330599,
+        "expires_utc": "2026-12-26T21:38:14Z",
+        "classification": "Packaged Windows GUI, worker and native FSEQ checks passed",
+        "source_commit": "625bcc73567bb4535a73802180c4ae991fa86784",
+        "download": "https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/45898714795/artifacts/15155330599"
+      },
+      {
+        "name": "helix-fresh-original-audio-six-snowmen-keyboard",
+        "run_id": 45898714864,
+        "id": 15154613684,
+        "expires_utc": "2026-12-10T21:35:58Z",
+        "classification": "Native unqualified vocal-identity review",
+        "source_commit": "625bcc73567bb4535a73802180c4ae991fa86784",
+        "media_verification": {
+          "codec": "H.264/AAC",
+          "dimensions": [
+            1920,
+            1080
+          ],
+          "fps": 30,
+          "duration_seconds": 36,
+          "frames": 1080,
+          "source_audio_correlation": 0.9936598766026753,
+          "source_audio_lag_seconds": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "mp4_sha256": "9176e8b80740bdba9faa9301c3b25da3a8d3eb9ae486317af52a65b404cec91e"
+        },
+        "download": "https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/45898714864/artifacts/15154613684"
+      },
+      {
+        "name": "phoneme-test-hook-native-review-578c9890dc55f81f0c1ea1fd80fa2f91c36c2d55",
+        "run_id": 45898714984,
+        "id": 15155395710,
+        "expires_utc": "2027-02-24T21:31:25Z",
+        "classification": "Native review rejected by stage motion check",
+        "source_commit": "625bcc73567bb4535a73802180c4ae991fa86784",
+        "download": "https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/45898714984/artifacts/15155395710",
+        "media_verification": {
+          "codec": "H.264/AAC",
+          "dimensions": [
+            1920,
+            1080
+          ],
+          "fps": 30,
+          "duration_seconds": 34.88,
+          "source_audio_correlation": 0.9968248041636503,
+          "source_audio_lag_seconds": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "mp4_sha256": "d220a2d51a1e8f2b0a06e1c385f93f61c1738a25680481b81c921d3cba283538"
+        }
+      },
+      {
+        "name": "Beta13-vs-current-30s-MP4",
+        "run_id": 45723160362,
+        "id": 15075331230,
+        "expires_utc": "2027-02-23T23:40:28Z",
+        "classification": "Archived 30-second Beta 1.3 comparison; both tracks decoded",
+        "source_commit": "67bc599499041b6d47ba07c9c5c2158699aad24a",
+        "download": "https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/45723160362/artifacts/15075331230"
+      },
+      {
+        "name": "Helix-Android-stability-api-30",
+        "run_id": 45898714792,
+        "id": 15155172077,
+        "expires_utc": "2027-02-24T21:31:25Z",
+        "classification": "APK, instrumentation and independent decoded-video device proof",
+        "source_commit": "625bcc73567bb4535a73802180c4ae991fa86784",
+        "download": "https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/45898714792/artifacts/15155172077"
+      },
+      {
+        "name": "Helix-Android-stability-api-36",
+        "run_id": 45898714792,
+        "id": 15155029984,
+        "expires_utc": "2027-02-24T21:31:25Z",
+        "classification": "APK, instrumentation and independent decoded-video device proof",
+        "source_commit": "625bcc73567bb4535a73802180c4ae991fa86784",
+        "download": "https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/45898714792/artifacts/15155029984"
       }
     ]
   }

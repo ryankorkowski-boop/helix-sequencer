@@ -307,7 +307,7 @@ class NativePreviewResolutionTests(unittest.TestCase):
                 self.assertEqual(environment, {"HELIX_PROFILE_TEST": "original"})
                 self.assertEqual(list(Path(directory).iterdir()), [])
 
-    def _run_preview(self, directory, size):
+    def _run_preview(self, directory, size, render_timeout=None):
         """Exercise production orchestration; fixture bytes are never media evidence."""
         run = Path(directory)
         (run / "run_manifest.json").write_text(json.dumps({
@@ -319,7 +319,8 @@ class NativePreviewResolutionTests(unittest.TestCase):
         (run / "xlights_rgbeffects.xml").write_text("<xrgb/>")
         before = (xsq.read_bytes(), audio.read_bytes())
 
-        def export(binary, show, staged, port):
+        def export(binary, show, staged, port, timeout):
+            self.assertEqual(timeout, render_timeout)
             video = staged.parent / "native-silent.mp4"
             video.write_bytes(b"unit export only")
             return {"native_video": str(video), "xlights_version": "2026.18"}
@@ -331,6 +332,7 @@ class NativePreviewResolutionTests(unittest.TestCase):
                                  "height": size[1]}, {"codec_type": "audio"}]}
 
         def render(command, **kwargs):
+            self.assertEqual(kwargs['timeout'], render_timeout or 60)
             Path(command[-1]).with_suffix(".fseq").write_bytes(b"unit FSEQ only")
             return SimpleNamespace(returncode=0)
 
@@ -345,7 +347,8 @@ class NativePreviewResolutionTests(unittest.TestCase):
                 patch.object(preview, "probe_media", return_value={"streams": [
                     {"codec_type": "video", "width": size[0], "height": size[1]}]}), \
                 patch.object(preview, "mux_original_audio", side_effect=mux) as mux_call:
-            result = preview.preview_run(run, xsq=xsq, audio=audio)
+            result = preview.preview_run(run, xsq=xsq, audio=audio,
+                                         render_timeout=render_timeout)
         saved = json.loads((run / "run_manifest.json").read_text())
         self.assertEqual(saved["quality"], {"preserve": True})
         self.assertEqual(saved["native_preview"], result)
@@ -365,7 +368,7 @@ class NativePreviewResolutionTests(unittest.TestCase):
 
     def test_native_hd_passes_resolution_gate_then_muxes_selected_audio(self):
         with tempfile.TemporaryDirectory() as directory:
-            report, mux = self._run_preview(directory, (1920, 1080))
+            report, mux = self._run_preview(directory, (1920, 1080), render_timeout=600)
             self.assertEqual(report["status"], "success")
             self.assertTrue(report["audio_stream_verified"])
             self.assertTrue(Path(report["mp4"]).is_file())
