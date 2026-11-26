@@ -1,6 +1,6 @@
-Helix instructions — Beta 1.4 preparation (check installed app version)
-
 Your first Helix show
+
+Helix Beta 1.4. This phone sequences on device. Demucs and RoFormer are not loaded here; stem separation on Android is diagnostic and is not claimed as separated vocals.
 
 1. Choose your music (MP3 or WAV is a good starting point).
 2. Choose xLights or Light-O-Rama.

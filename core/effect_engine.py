@@ -10838,18 +10838,22 @@ def run_variant(
         },
     }
     vocal_stem = stem_analysis.stems.get("vocals")
-    if vocal_stem is None:
+    neural_stems = stem_analysis.source in {"demucs", "moises"}
+    if neural_stems and vocal_stem is None:
         raise ai.NeuralStemRequired("Whisper requires the Demucs vocal stem.")
-    lyric_events = ai.extract_lyrics_events(
-        audio_path=vocal_stem,
-        use_moises=False,
-        api_key=tuning.moises_api_key,
-        log_fn=log,
-        required=True,
-        cache_dir=Path("RenderCache") / "stems",
-        source_sha256=stem_analysis.source_sha256,
-    )
-    log(f"Lyric transcript label: CANDIDATE events={len(lyric_events)}")
+    if neural_stems and vocal_stem is not None:
+        lyric_events = ai.extract_lyrics_events(
+            audio_path=vocal_stem,
+            use_moises=False,
+            api_key=tuning.moises_api_key,
+            log_fn=log,
+            required=True,
+            cache_dir=Path("RenderCache") / "stems",
+            source_sha256=stem_analysis.source_sha256,
+        )
+        log(f"Lyric transcript label: CANDIDATE events={len(lyric_events)}")
+    else:
+        log("Lyrics: skipped. This run is not using a Demucs vocal stem, so Whisper is not claimed.")
     if lyric_events or tuning.sync_lyrics_heads or bool(matrix_intelligence_payload.get("matrix_available", False)):
         if lyric_events:
             log(f"Lyric events detected: {len(lyric_events)}")

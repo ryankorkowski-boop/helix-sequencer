@@ -1,3 +1,13 @@
+## November 26 · Android and Windows no longer die when Demucs weights are absent
+
+**Goal:** Make the Beta 1.4 phone and the portable smoke able to sequence when Demucs and Whisper are not loaded, without calling that output separated vocals.
+**Changed files:** `core/audio_intelligence.py`, `core/effect_engine.py`, `android/app/src/main/python/helix_mobile.py`, `android/app/src/main/assets/helix_instructions.txt`, `tools/portable_worker_smoke.py`, `tests/test_neural_stems_required.py`, `docs/BETA_COMPLETION_LIVE_HANDOFF.md`, `evidence/beta_completion/latest_status.json`, `evidence/beta_completion/artifact_manifest.json`.
+**Preserved:** Desktop production still requires Demucs when `HELIX_REQUIRE_NEURAL_STEMS` is unset. The required=True unit tests still refuse a silent full-mix stem. RoFormer review on the comparison path is unchanged. PR #264 stays unmerged.
+**New behavior:** Android and the Windows portable smoke set `HELIX_REQUIRE_NEURAL_STEMS=0`. That path uses diagnostic HPSS and skips Whisper. The instructions page starts with "Your first Helix show" again so the existing UI test can see the page.
+**Tests/evidence:** `tests/test_neural_stems_required.py` passed 5 tests. A 3-second local sequence wrote an XSQ after the stem gate. Imageio is missing in this sandbox, so no local MP4. Package rebuild is the GitHub PR check, not a file in this commit.
+**Limitations:** No current APK or EXE download yet. Demucs on a real Windows generate is still required and can be slow once the weights are present.
+**Regression risks:** A desktop process that inherits `HELIX_REQUIRE_NEURAL_STEMS=0` will not separate stems. The smoke sets that only for its own worker process.
+
 ## November 24 · Restore bounded vivid accent palette
 
 **Goal:** Repair the sole full-suite failure on 11bc211 without restoring white-only flashing. **Files:** core/vivid_style.py, MASTER_TODO.md. **Preserved:** section palettes, accent cadence, AC wiring and existing acceptance tests. **Change:** existing occasional AC accent now references the mixed white/magenta/cyan palette instead of a single ordinary section color. **Evidence:** run 45063651475 reported 2781 passed, 1 failed, 6 skipped on Python 3.12; existing white-accent regression remains unchanged. Fresh CI pending. **Risk:** native visual balance still requires review; no approval or release claimed. Panel pilot timing/reference gate remains unresolved.

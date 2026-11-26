@@ -69,6 +69,24 @@ class NeuralStemRequirementTests(unittest.TestCase):
                 stream.write(b"corrupt")
             self.assertIsNone(audio_intelligence._cached_demucs_stems(cache, digest))
 
+    def test_bounded_app_path_does_not_claim_demucs(self) -> None:
+        import os
+        with TemporaryDirectory() as directory:
+            audio = Path(directory) / "song.wav"
+            _tone(audio)
+            original = audio_intelligence._demucs_available
+            audio_intelligence._demucs_available = lambda: False
+            os.environ["HELIX_REQUIRE_NEURAL_STEMS"] = "0"
+            try:
+                result = audio_intelligence.build_stem_analysis(
+                    audio, False, "", Path(directory) / "cache", require_neural_stems=True,
+                )
+            finally:
+                os.environ.pop("HELIX_REQUIRE_NEURAL_STEMS", None)
+                audio_intelligence._demucs_available = original
+            self.assertNotEqual(result.source, "demucs")
+            self.assertIn(result.source, {"local_hpss_diagnostic", "direct"})
+
     def test_missing_whisper_fails_on_the_required_path(self) -> None:
         real_import = __import__
 

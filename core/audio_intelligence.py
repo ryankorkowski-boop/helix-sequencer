@@ -976,7 +976,18 @@ def build_stem_analysis(
     *,
     require_neural_stems: bool = True,
 ) -> StemAnalysis:
-    """Build stems and per-stem timing cues used by the sequencer engine."""
+    """Build stems and per-stem timing cues used by the sequencer engine.
+
+    HELIX_REQUIRE_NEURAL_STEMS=0 is the bounded app path (Android, and the
+    portable smoke). It uses labeled diagnostic HPSS and must not be described
+    as Demucs or RoFormer output. Desktop production stays required unless that
+    variable is set.
+    """
+    env_flag = os.environ.get("HELIX_REQUIRE_NEURAL_STEMS", "").strip().lower()
+    if env_flag in {"0", "false", "no"}:
+        require_neural_stems = False
+    elif env_flag in {"1", "true", "yes"}:
+        require_neural_stems = True
     settings = config or load_audio_analysis_config()
     if not audio_path.exists():
         _log(log_fn, f"Audio analysis skipped; file does not exist: {audio_path}")

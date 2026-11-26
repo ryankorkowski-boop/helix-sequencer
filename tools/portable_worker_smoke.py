@@ -3,6 +3,7 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
+import os
 from pathlib import Path
 import struct
 import subprocess
@@ -16,8 +17,13 @@ def main():
     a=p.parse_args(); worker=a.worker.resolve(); out=a.output.resolve();out.mkdir(parents=True,exist_ok=True)
     root=Path(__file__).resolve().parents[1]
     results=[]
+    # The packaged smoke proves the EXE can sequence and export. It does not
+    # download Demucs weights. A real desktop run still requires Demucs unless
+    # HELIX_REQUIRE_NEURAL_STEMS=0 is set.
+    smoke_env=os.environ.copy()
+    smoke_env['HELIX_REQUIRE_NEURAL_STEMS']='0'
     def run(args,label):
-        process=subprocess.run([str(worker),*map(str,args)],capture_output=True,text=True,timeout=600)
+        process=subprocess.run([str(worker),*map(str,args)],capture_output=True,text=True,timeout=600,env=smoke_env)
         (out/(label+'.log')).write_text(process.stdout+process.stderr,encoding='utf-8')
         if process.returncode:
             print((process.stdout+process.stderr)[-14000:],flush=True)
@@ -57,7 +63,8 @@ def main():
          '--output-dir',out/'xlights','--palette-mode','neon'],'xlights_engine')
     assert list((out/'xlights').glob('*.xsq')) and list((out/'xlights').glob('*.mp4'))
     (out/'verification.json').write_text(json.dumps({'steps':results,'real_audio_source':source.name,
-        'source_lms_preserved':True,'legacy_lor_import_in_vendor_app_verified':False},indent=2)+'\n')
+        'source_lms_preserved':True,'legacy_lor_import_in_vendor_app_verified':False,
+        'stem_path':'diagnostic_hpss','demucs_executed':False},indent=2)+'\n')
 
 
 if __name__=='__main__':main()

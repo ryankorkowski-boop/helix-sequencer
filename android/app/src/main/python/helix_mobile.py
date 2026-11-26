@@ -242,6 +242,9 @@ def run(engine_path, job_path, request_json, callback):
     if str(engine) not in sys.path:
         sys.path.insert(0, str(engine))
     os.environ['NUMBA_DISABLE_JIT'] = '1'
+    # Demucs and RoFormer stay off this device. The run log must keep the
+    # diagnostic HPSS label and must not claim separated stems.
+    os.environ['HELIX_REQUIRE_NEURAL_STEMS'] = '0'
     import helix_numba
     helix_numba.install()
     stream = LogStream(callback)
