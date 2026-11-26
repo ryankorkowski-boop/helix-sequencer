@@ -8,10 +8,13 @@ from typing import Iterable
 
 from core import engine_profiles
 from core.effects_orchestration_bridge import EffectsOrchestrationRunReport, run_effects_orchestration
+from core.engine_coordinator import AudioAnalysisContext, CoordinationResult, EngineCoordinator, build_default_coordinator
 from core.helix_version import TITLE, VERSION
 from core.prime_beat_grid import prime_beat_grid_args
 from core.run_config import RunConfig
 from core.run_manager import RunContext, RunManager
+from core.engine_adapters import register_default_adapters
+from core.show_mastering import ProShowMaster, ShowMasteringConfig
 
 NO_EFFECTS_ORCHESTRATOR_FLAG = "--no-effects-orchestrator"
 PROMOTE_ORCHESTRATOR_TEMPLATE_FLAG = "--promote-orchestrated-template"
@@ -41,6 +44,42 @@ _ARTIFACT_KIND_BY_SUFFIX = {
     "placement_plan.json": "placement_plan",
     "xlights_effect_contract.json": "xlights_effect_contract",
 }
+def create_engine_coordinator(
+    *,
+    adapters=None,
+    policies=None,
+    register_defaults: bool = False,
+    enabled_engines=None,
+) -> EngineCoordinator:
+    coordinator = build_default_coordinator(adapters=adapters, policies=policies)
+    if register_defaults:
+        register_default_adapters(coordinator, enabled_engines=enabled_engines)
+    return coordinator
+
+
+def coordinate_sub_engines(
+    context: AudioAnalysisContext,
+    props,
+    *,
+    adapters=None,
+    policies=None,
+    register_defaults: bool = False,
+    enabled_engines=None,
+    mastering_config: ShowMasteringConfig | None = None,
+    enable_mastering: bool = True,
+) -> CoordinationResult:
+    coordinator = create_engine_coordinator(
+        adapters=adapters,
+        policies=policies,
+        register_defaults=register_defaults,
+        enabled_engines=enabled_engines,
+    )
+    result = coordinator.coordinate(context, props)
+    if not enable_mastering:
+        return result
+    master = ProShowMaster(config=mastering_config)
+    return master.master_plan(result, context, props)
+
 
 
 def _effect_engine():
