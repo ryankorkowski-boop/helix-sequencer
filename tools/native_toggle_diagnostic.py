@@ -12,7 +12,7 @@ def main():
     audio = root / "media/review.wav"
     manifest = root / "comparison.json"
     data = json.loads(manifest.read_text())
-    titles = ["Current defaults", "Flow/Birdsong off", "Matrix intelligence off", "Both off"]
+    titles = ["Current defaults - Flow off", "Flow on", "Matrix off", "Flow on + Matrix off"]
     movies = []
     for row in data["runs"]:
         folder = root / row["name"]
