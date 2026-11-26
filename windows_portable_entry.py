@@ -12,6 +12,10 @@ def main() -> int:
         return 0
     # The console-subsystem helper lets the GUI capture native stdout and
     # tracebacks. The windowed Helix.exe remains the only user-facing launcher.
+    if len(sys.argv) > 1 and sys.argv[1] == "--helix-demucs":
+        sys.argv = [sys.argv[0], *sys.argv[2:]]
+        from demucs.separate import main as demucs_main
+        return demucs_main() or 0
     tool_modes = {
         "--helix-dual-format-export": "tools.dual_format_export",
         "--helix-remote-server": "tools.desktop_remote",
