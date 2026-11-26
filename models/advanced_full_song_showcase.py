@@ -154,7 +154,7 @@ def _ultimate(g, s, *, native_extended_mouths=False):
     # Keep the foreground cast and both face pairs in separate sight lines.
     from models.full_song_layouts import mega_tree, singing_props
     singing_props(g, ('bulb', 'snowman', 'tree', 'tree'),
-                  ((-61, 2, 43), (61, 2, 43), (-106, 1, 30), (106, 1, 30)), scale=.67,
+                  ((-73, 2, 43), (73, 2, 43), (-106, 1, 30), (106, 1, 30)), scale=.67,
                   native_extended_mouths=native_extended_mouths)
     for row, z in enumerate((-37, -9, 17)):
         for lane, x in enumerate((-118, -98, -79, -44, 44, 79, 98, 118)):
@@ -247,6 +247,17 @@ def build_showcase(number, plan, *, duration, native_band, native_extended_mouth
         from collections import defaultdict
         import numpy as np
 
+        from models.finale_concept_gallery import add_concept_gallery
+        from models.showcase_flavors import _move
+
+        cast = native_band(g, plan, rock=False, duration=duration,
+                           native_extended_mouths=native_extended_mouths)
+        for model in g.models:
+            if model.details.get('review_role'):
+                _move(model, (0, 0, 0), (-12, 0, 29), 1.55)
+
+        # Append scenery after the cast, retaining established channel order.
+        add_concept_gallery(g)
         banks = defaultdict(list)
         for model in g.models:
             role = model.details.get('musical_role')
@@ -257,8 +268,6 @@ def build_showcase(number, plan, *, duration, native_band, native_extended_mouth
             for rank, model in enumerate(members):
                 model.details.update(source_route_bank=f'{zone}|{role}', source_route_rank=rank,
                                      source_route_count=len(members))
-        cast = native_band(g, plan, rock=False, duration=duration,
-                           native_extended_mouths=native_extended_mouths)
     for model in g.models:
         model.attrs.setdefault('PixelSize', '8')
         model.attrs.setdefault('BlackTransparency', '100')

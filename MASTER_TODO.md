@@ -1111,3 +1111,27 @@ Android manual packaging gate implemented in 442d26c3cdae90c252fd65b8926f056bfd3
 - [x] Implement input/output receipt validation and isolated fresh generation (`e0efe160ac0ec7cd4805f9f97ef3f6737cd9667e`).
 - [ ] Verify cache hits, changed inputs, dirty tree and failed generation with regression tests.
 - [ ] Confirm native MP4 run 44793419539; visual approval remains pending.
+
+### 2026-11-26 — Panel 16 concept gallery and foreground band
+
+Surveyed all 93 tracked files named xlights_rgbeffects.xml at 9931c663.
+Extended the existing Ultimate Helix Universe in models/advanced_full_song_showcase.py
+with eight source selections from models/finale_concept_gallery.py. Phoenix,
+whale and manta occupy the upper tier. Tesseract, atlas, moiré, crystal facets
+and nave arches frame the stage. The six performers move and scale together,
+with more clearance between the two inner face props. Existing audio analysis,
+vocal clocks, AC addressing and panels 1–15 retain their previous behavior.
+New scenery follows the existing note routes and is appended after the band.
+
+Evidence: 27 focused tests passed in tests/test_full_song_advanced_showcase.py
+and tests/test_source_spatial_direction.py, including authored geometry parity
+and short-note release for all eight selections. A portable show built with the
+retained run 45800149044 cast parsed with 358 models and 55 groups. Stock
+xLights 2026.18 rendered a 20-frame address check. Each model lit only in its
+assigned window across 591,543 channels with two final dark frames.
+Original native video evidence belongs to f068aecb, before this layout change.
+
+Pending: musical review of the expanded composition, owner acceptance and
+physical controller mapping. Dense silhouettes may compete at grid size.
+Standalone channel totals depend on the retained drummer pose inventory used
+for export. Dashboard activity was not posted during this handoff.
