@@ -77,6 +77,16 @@ Do not mark complete from unit tests alone.
 
 ## Change Ledger
 
+### 2026-11-26 — Apply explicit BeatGrid in live placement and add exact-head native smoke
+**Goal:** Make explicit quantization affect generated XSQ timing rather than rewriting analysis metadata; add repeatable native import/FSEQ evidence.
+**Changed files/modules:** BeatGrid helpers, effect engine and wrapper, focused/CLI regressions, native smoke workflow and evidence tool, and the orchestration architecture record.
+**Intentionally preserved behavior:** Default and no-grid timing, manual template content, source-clock analysis sidecars, performer onset anchors, and opt-in kit routing.
+**New behavior:** Explicit grid starts are decided before admission, with section, duration, layer, cooldown and existing composition constraints retained. The native gate renders a synthetic fixture with checksum-pinned xLights and records exact-commit hashes.
+**Tests/evidence:** Added boundary, anchor and FSEQ-header tests and a CLI regression comparing generated XSQ timing with the override disabled and enabled. Native evidence requires a successful workflow run; it is not inferred from structural checks.
+**Limitations:** The smoke is not a performer fidelity or hardware test. Explicit start snapping can increase collisions; those are rejected or resolved by the existing placement policy without shifting starts. Reports count admitted attempts, not unique retained effects.
+**Deferred work:** Native review against the drummer oracle and independently annotated Faces for the original source, nested physical ownership, accent arbitration, and profiling.
+**Regression risks:** Requested strict grids can cause dense cues to compete for one start. The default path is unchanged and no release flag is widened.
+
 ### 2026-11-25 — Verify unified orchestration against baseline exports
 **Goal:** Compare sequencing quality and preservation over the full song, an opt-in drummer excerpt and a clean-room layout.
 **Changed files/modules:** [Unified orchestration architecture, engine map and verification record](docs/UNIFIED_ORCHESTRATION.md).

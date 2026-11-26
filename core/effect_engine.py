@@ -37,6 +37,7 @@ from core import snowman_band as snowman_band_engine
 from core import band_sync as band_sync_engine
 from core import youtube_show_scorer
 from core.autonomous_render_validation_engine import AutonomousRenderValidationEngine
+from core.beat_grid import BeatGrid, generate_beat_grid, snap_placement_range
 from core.canonical_timeline_orchestrator import MusicalContext, MusicalSection
 from core.composition_governor import CompositionGovernor
 from core.multi_pass_orchestration_director import MultiPassOrchestrationDirector
@@ -10400,6 +10401,8 @@ def run_variant(
     out_path: Path,
     profile: base.UserProfile,
     tuning: RuntimeTuning | None = None,
+    *,
+    placement_grid: BeatGrid | None = None,
 ) -> dict[str, object]:
     variant_started = perf_counter()
     tuning = tuning or RuntimeTuning()
@@ -10600,6 +10603,8 @@ def run_variant(
     log("[2/8] Analyzing audio and polyphony")
     audio = base.analyze(audio_path)
     song_length_ms = max(1000, int(audio.dur_s * 1000.0))
+    explicit_grid_points = generate_beat_grid(placement_grid, song_length_ms) if placement_grid else []
+    explicit_grid_counts: Counter[str] = Counter()
     harmonic = analyze_harmonic(audio)
     sections = base.detect_sections(audio)
     parts = infer_song_parts(sections)
@@ -11190,7 +11195,7 @@ def run_variant(
         st_i = int(st)
         en_i = int(max(st_i + 1, en))
         min_dur = max(1, int(tuning.min_effect_ms))
-        if cd_key and not cooldowns.allow(cd_key, st_i):
+        if placement_grid is None and cd_key and not cooldowns.allow(cd_key, st_i):
             if placement:
                 placement.reject(proposal, "cooldown active")
             reject_effect(nm, st_i, en_i, eff, "cooldown", f"cooldown active for key {cd_key}")
@@ -11199,11 +11204,32 @@ def run_variant(
         stem_priority = priorities.get(stem_key, priorities["other"])
         composition_priority = placement.priority(proposal, stem_key) if placement else 0
         layer_key = stem_to_choreo_layer(stem_key, label)
-        anchored = placement is not None and proposal.timing_anchor
-        if not anchored:
+        anchored = (placement is not None or placement_grid is not None) and proposal.timing_anchor
+        if placement_grid is not None:
+            section = music.section_at(st_i)
+            if section is not None and en_i > section.end_ms:
+                # Do not change the timing of a cue spanning a section boundary.
+                snapped_start, snapped_end = st_i, en_i
+            else:
+                snapped_start, snapped_end = snap_placement_range(
+                    st_i, en_i, explicit_grid_points, placement_grid,
+                    lower_ms=section.start_ms if section is not None else 0,
+                    upper_ms=section.end_ms if section is not None else song_length_ms,
+                    anchored=anchored,
+                )
+                if section is None and music.section_at(snapped_start) is not None:
+                    snapped_start, snapped_end = st_i, en_i
+            if cd_key and not cooldowns.allow(cd_key, snapped_start):
+                if placement:
+                    placement.reject(proposal, "cooldown active")
+                reject_effect(nm, snapped_start, snapped_end, eff, "cooldown", f"cooldown active for key {cd_key}")
+                return
+            grid_outcome = "anchored" if anchored else "shifted" if snapped_start != st_i else "unchanged"
+            st_i, en_i = snapped_start, snapped_end
+        elif not anchored:
             snap_grid, snap_shift = _select_snap_grid(stem_key, layer_key)
             st_i, en_i = _snap_range(st_i, en_i, snap_grid, snap_shift, snap_shift + 12, min_dur)
-        if not anchored and (en_i - st_i) >= 800 and bar_ms:
+        if placement_grid is None and not anchored and (en_i - st_i) >= 800 and bar_ms:
             en_i = _snap_to_grid(en_i, bar_ms, 140)
             if en_i <= st_i + min_dur:
                 en_i = st_i + min_dur
@@ -11281,7 +11307,7 @@ def run_variant(
         if layer_key == "motion":
             layer_candidates.append("accent")
         attempts: list[tuple[int, int]] = []
-        shifts = (0,) if anchored else (0, 50, -50, 100, -100, 150, -150)
+        shifts = (0,) if anchored or placement_grid is not None else (0, 50, -50, 100, -100, 150, -150)
         for shift in shifts:
             attempts.append((st_i + shift, en_i + shift))
         base_duration = max(1, en_i - st_i)
@@ -11307,6 +11333,8 @@ def run_variant(
                     composition_priority=composition_priority,
                 ):
                     stats.bump(label)
+                    if placement_grid is not None:
+                        explicit_grid_counts[grid_outcome] += 1
                     if cd_key and cd_ms > 0:
                         cooldowns.block(cd_key, st_i, cd_ms)
                     return
@@ -12510,12 +12538,14 @@ def run_variant(
         parts=parts,
         placements=stats.counts,
         min_effect_ms=max(50, int(tuning.min_effect_ms)),
-        auto_fix=placement is None,
+        auto_fix=placement is None and placement_grid is None,
     )
     if initial_audit.fixes_applied:
         log(f"Audit auto-fixes applied: {initial_audit.fixes_applied}")
 
     def can_polish_timing(model: str, layer: str, entry: TimelineEntry, start: int, end: int) -> bool:
+        if placement_grid is not None and start != entry.start:
+            return False
         if placement is None or entry.proposal is None:
             return True
         if entry.proposal.timing_anchor or not 0 <= start < end <= song_length_ms:
@@ -12951,6 +12981,17 @@ def run_variant(
             "track_marks": len(watermark_track),
         },
     }
+    if placement_grid is not None:
+        payload["beat_grid"] = {
+            "scope": "generated_effect_starts",
+            "source": "live_placement",
+            "subdivision": placement_grid.subdivision,
+            "bpm": placement_grid.bpm,
+            "offset_ms": placement_grid.offset_ms,
+            "mode": placement_grid.mode,
+            "max_shift_ms": placement_grid.max_shift_ms,
+            "admitted_attempts": dict(explicit_grid_counts),
+        }
     payload["quality"] = compute_quality_score(payload)
     if placement:
         planning_passes = direction.passes if direction else ()
@@ -13243,7 +13284,9 @@ def merge_profile(base_profile: base.UserProfile, args: argparse.Namespace) -> b
     )
 
 
-def main_for(version: str, argv: list[str] | None = None) -> None:
+def main_for(
+    version: str, argv: list[str] | None = None, *, placement_grid: BeatGrid | None = None,
+) -> None:
     style = VARIANTS[version]
     args = parse_args(style, argv)
     base.VERBOSE = not args.quiet
@@ -13473,6 +13516,7 @@ def main_for(version: str, argv: list[str] | None = None) -> None:
                     candidate_out,
                     profile,
                     tuning=replace(candidate.tuning),
+                    placement_grid=placement_grid,
                 )
                 result["label"] = candidate.label
                 result["description"] = candidate.description
