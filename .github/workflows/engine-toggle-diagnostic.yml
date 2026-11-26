@@ -1,0 +1,135 @@
+name: Helix real-audio engine toggle diagnostic
+on:
+  push:
+    branches: [review/engine-toggle-diagnostic-20261125]
+    paths: [.github/workflows/engine-toggle-diagnostic.yml]
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: helix-engine-toggle-diagnostic
+  cancel-in-progress: false
+jobs:
+  compare:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 90
+    env:
+      PYTHONPATH: .
+      PYTHONHASHSEED: '0'
+      OMP_NUM_THREADS: '2'
+      OPENBLAS_NUM_THREADS: '2'
+      NUMBA_NUM_THREADS: '2'
+      XL_NO_GPU_COMPUTE: '1'
+      HELIX_NATIVE_PREVIEW_WIDTH: '1920'
+      HELIX_NATIVE_PREVIEW_HEIGHT: '1080'
+      HELIX_DRIVE_SOURCE_ID: '1L8EMKw8kh8DE9hO-Y6sek_bZYC1RXycy'
+      HELIX_DRIVE_SOURCE_SHA256: '539b7ab219cf5a1bddeae098a8df58f193ceb02d46bacf7b0f3189ea3f4ebe92'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: pip
+      - name: Install real sequencing runtime
+        run: |
+          set -euo pipefail
+          sudo apt-get update -qq
+          sudo apt-get install -y ffmpeg xvfb xauth openbox wmctrl xdotool x11-utils x11-xserver-utils libgtk-3-0t64 libgl1 libegl1 libopengl0 libglu1-mesa libgstreamer-plugins-base1.0-0
+          python -m pip install -r requirements-dev.txt gdown==6.4.2
+      - name: Verify owner Drive recording and cut identical 20-second excerpt
+        run: |
+          set -euo pipefail
+          mkdir -p toggle-review/media
+          python -m gdown "$HELIX_DRIVE_SOURCE_ID" -O toggle-review/original.mp3
+          echo "$HELIX_DRIVE_SOURCE_SHA256  toggle-review/original.mp3" | sha256sum -c -
+          ffmpeg -nostdin -v error -ss 45 -i toggle-review/original.mp3 -t 20 -c:a pcm_s16le toggle-review/media/review.wav
+          sha256sum toggle-review/media/review.wav | tee toggle-review/audio.sha256
+      - name: Run actual Helix four times with one controlled factorial toggle experiment
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import hashlib,json,os,shutil,subprocess,sys,time
+          from pathlib import Path
+          from tools.profile_real_sequence import musical_signature
+          root=Path.cwd()
+          out=root/'toggle-review'
+          audio=out/'media/review.wav'
+          layout=root/'allmodels/xlights_rgbeffects.xml'
+          template=root/'template.xsq'
+          def sha(p): return hashlib.sha256(p.read_bytes()).hexdigest()
+          modes=[('01-current',[]),('02-flow-off',['--no-birdsong','--no-birdsong-auto']),('03-matrix-off',['--no-matrix-intelligence']),('04-both-off',['--no-birdsong','--no-birdsong-auto','--no-matrix-intelligence'])]
+          report={'source_commit':os.environ['GITHUB_SHA'],'source_audio_sha256':sha(audio),'layout_sha256':sha(layout),'template_sha256':sha(template),'excerpt_start_seconds':45,'duration_seconds':20,'diagnostic_only':True,'owner_approved':False,'runs':[]}
+          for name,flags in modes:
+              folder=out/name
+              folder.mkdir()
+              shutil.copyfile(layout,folder/'xlights_rgbeffects.xml')
+              args=[sys.executable,'main.py','--profile','master','--','--template',str(template),'--layout-file',str(layout),'--audio',str(audio),'--output-dir',str(folder/'sequence'),'--single','--variants','1','--settings',str(folder/'settings.json'),'--no-prompt','--no-save-settings','--no-workspace-history','--no-learning-memory','--palette-mode','warm','--sync-lyrics-heads','--no-effects-orchestrator',*flags]
+              started=time.monotonic()
+              with (folder/'cli.log').open('w') as log:
+                  subprocess.run(args,cwd=root,stdout=log,stderr=subprocess.STDOUT,check=True,timeout=600)
+              xsq=folder/'sequence/review,v27.3.xsq'
+              if not xsq.is_file(): raise RuntimeError(f'Missing canonical XSQ: {xsq}')
+              dest=folder/'review.xsq'
+              shutil.copyfile(xsq,dest)
+              signature,count=musical_signature(dest)
+              row={'name':name,'flags':flags,'command':args,'elapsed_seconds':time.monotonic()-started,'xsq_sha256':sha(dest),'musical_signature':signature,'model_effect_count':count,'warnings':[]}
+              (folder/'run_manifest.json').write_text(json.dumps(row,indent=2))
+              report['runs'].append(row)
+              (out/'comparison.json').write_text(json.dumps(report,indent=2))
+          PY
+      - name: Restore pinned native xLights renderer
+        id: native-cache
+        uses: actions/cache/restore@v4
+        with:
+          path: ${{ runner.temp }}/xlights-src
+          key: xlights-native-ubuntu24-2026.18-${{ hashFiles('tools/patch_xlights_native_export.py') }}
+          restore-keys: xlights-native-ubuntu24-2026.18-
+      - name: Validate and restore native renderer runtime
+        run: |
+          set -euo pipefail
+          sudo apt-get install -y build-essential cmake ninja-build pkg-config libgtk-3-dev libgstreamer1.0-dev libgstreamer-plugins-base1.0-dev freeglut3-dev libavcodec-dev libavformat-dev libavfilter-dev libswscale-dev libsdl2-dev libzstd-dev libcurl4-openssl-dev liblua5.3-dev libwebp-dev libsecret-1-dev libegl-dev libfreetype-dev libharfbuzz-dev libfontconfig-dev libavahi-compat-libdnssd-dev libminizip-dev libxlsxwriter-dev cbp2make glslc glslang-dev
+          root="$RUNNER_TEMP/xlights-src"
+          if [ ! -d "$root/.git" ]; then
+            git clone --depth 1 --branch 2026.18 --recurse-submodules https://github.com/xLightsSequencer/xLights.git "$root"
+          fi
+          cd "$root"
+          test "$(git rev-parse HEAD)" = 839c0f590dc454bb7adb8a16c4dd92a70b46156e
+          if [ -f wxWidgets-xlights_2026.17c/lib/libwx_gtk3u-3.3.so.4.0.0 ]; then
+            sudo make -C wxWidgets-xlights_2026.17c install
+            sudo ldconfig
+          fi
+          if ! python -c "import sys;sys.path.insert(0,'$GITHUB_WORKSPACE');from tools.native_renderer_bundle import validate_tree;validate_tree(__import__('pathlib').Path.cwd())"; then
+            git checkout -- src-ui-wx/xLightsMain.cpp src-ui-wx/app-shell/TabSequence.cpp src-ui-wx/graphics/opengl/xlGLCanvas.cpp src-ui-wx/graphics/opengl/xlGLCanvas.h src-ui-wx/graphics/vulkan/xlVulkanCanvas.cpp
+            python "$GITHUB_WORKSPACE/tools/patch_xlights_native_export.py" "$root"
+            timeout --signal=TERM --kill-after=30s 55m make -j 4
+          fi
+          test -x "$root/bin/xLights"
+          ldd "$root/bin/xLights" | tee "$GITHUB_WORKSPACE/toggle-review/native-ldd.txt"
+          ! grep -q 'not found' "$GITHUB_WORKSPACE/native-drive-256/native-ldd.txt"
+          echo "HELIX_PATCHED_XLIGHTS=$root/bin/xLights" >> "$GITHUB_ENV"
+      - name: Save native renderer cache
+        if: steps.native-cache.outputs.cache-hit != 'true'
+        uses: actions/cache/save@v4
+        with:
+          path: ${{ runner.temp }}/xlights-src
+          key: xlights-native-ubuntu24-2026.18-${{ hashFiles('tools/patch_xlights_native_export.py') }}
+      - name: Render actual four XSQs through native xLights and compose synchronized video
+        run: |
+          set -euo pipefail
+          xvfb-run -a -s '-screen 0 2560x1440x24' sh -c 'openbox >toggle-review/openbox.log 2>&1 & exec python -m tools.native_toggle_diagnostic'
+      - name: Preserve actual diagnostic video and receipts (no approval)
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: Helix-real-audio-engine-toggle-diagnostic
+          if-no-files-found: warn
+          retention-days: 30
+          path: |
+            toggle-review/Engine_Toggle_Diagnostic.mp4
+            toggle-review/comparison.json
+            toggle-review/audio.sha256
+            toggle-review/**/*.json
+            toggle-review/**/*.log
+            toggle-review/*/review.xsq
+            toggle-review/*/native-preview-*/review.fseq
+            toggle-review/*/native-preview-*/preview.mp4
