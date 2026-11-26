@@ -8,7 +8,7 @@ permissions:
   contents: read
 concurrency:
   group: helix-engine-toggle-diagnostic
-  cancel-in-progress: false
+  cancel-in-progress: true
 jobs:
   compare:
     runs-on: ubuntu-24.04
@@ -57,7 +57,7 @@ jobs:
           layout=root/'allmodels/xlights_rgbeffects.xml'
           template=root/'template.xsq'
           def sha(p): return hashlib.sha256(p.read_bytes()).hexdigest()
-          modes=[('01-current',[]),('02-flow-off',['--no-birdsong','--no-birdsong-auto']),('03-matrix-off',['--no-matrix-intelligence']),('04-both-off',['--no-birdsong','--no-birdsong-auto','--no-matrix-intelligence'])]
+          modes=[('01-current',[]),('02-flow-on',['--birdsong','--no-birdsong-auto']),('03-matrix-off',['--no-matrix-intelligence']),('04-flow-on-matrix-off',['--birdsong','--no-birdsong-auto','--no-matrix-intelligence'])]
           report={'source_commit':os.environ['GITHUB_SHA'],'source_audio_sha256':sha(audio),'layout_sha256':sha(layout),'template_sha256':sha(template),'excerpt_start_seconds':45,'duration_seconds':20,'diagnostic_only':True,'owner_approved':False,'runs':[]}
           for name,flags in modes:
               folder=out/name
