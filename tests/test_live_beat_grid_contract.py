@@ -16,6 +16,11 @@ class LiveBeatGridTests(unittest.TestCase):
         self.assertEqual(snap_placement_range(510, 600, points, grid, lower_ms=505, upper_ms=800), (510, 600))
         self.assertEqual(snap_placement_range(460, 540, points, grid, lower_ms=400, upper_ms=800, anchored=True), (460, 540))
 
+    def test_nearest_valid_grid_point_stays_within_section(self):
+        grid = BeatGrid(bpm=120, subdivision=16, mode="strict")
+        points = generate_beat_grid(grid, 2000)
+        self.assertEqual(snap_placement_range(240, 295, points, grid, lower_ms=100, upper_ms=300), (125, 180))
+
     def test_musical_limit(self):
         grid = BeatGrid(bpm=120, subdivision=4, max_shift_ms=20)
         points = generate_beat_grid(grid, 2000)

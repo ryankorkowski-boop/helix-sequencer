@@ -9141,6 +9141,7 @@ class TimelineEntry:
     proposal: balance.PlacementProposal | None = None
     budget_window: balance.BudgetWindow | None = None
     composition_priority: int = 0
+    cooldown_key: str | None = None
 
 
 class EffectTimeline:
@@ -11110,6 +11111,7 @@ def run_variant(
         stem_priority: int,
         proposal: balance.PlacementProposal,
         composition_priority: int,
+        cooldown_key: str | None,
     ) -> bool:
         nonlocal total
         duration = end_ms - start_ms
@@ -11181,6 +11183,7 @@ def run_variant(
                 proposal=proposal if placement else None,
                 budget_window=budget_window,
                 composition_priority=composition_priority,
+                cooldown_key=cooldown_key,
             ),
         )
         if placement:
@@ -11331,7 +11334,8 @@ def run_variant(
                 en_i = st_i + min_dur
         family_key = prop_family(nm, model_category_map.get(nm))
         parsed_model = parsed_layout.model_for(nm) if parsed_layout is not None else None
-        if placement and physical and eff == "Faces" and tpl is not None and nm in physical.face_definitions:
+        if (placement and physical and eff == "Faces" and tpl is not None
+                and nm in physical.face_definitions and not tuning.ac_lights_only):
             runtime_effect, template_to_use = eff, tpl
         elif hardkor_mode:
             request_key = str(eff or "On").strip().lower()
@@ -11436,6 +11440,7 @@ def run_variant(
                     stem_priority=stem_priority,
                     proposal=proposal,
                     composition_priority=composition_priority,
+                    cooldown_key=cd_key if cd_ms > 0 else None,
                 ):
                     stats.bump(label)
                     if placement_grid is not None:
@@ -12706,6 +12711,8 @@ def run_variant(
         if placement is None or entry.proposal is None:
             return True
         if entry.proposal.timing_anchor or not 0 <= start < end <= song_length_ms:
+            return False
+        if entry.cooldown_key and start != entry.start:
             return False
         if placement.budget_window(entry.proposal, start) != entry.budget_window:
             return False

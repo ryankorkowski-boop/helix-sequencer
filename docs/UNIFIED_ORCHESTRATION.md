@@ -105,3 +105,36 @@ python main.py -- --template template.xsq --layout-file helixville4/xlights_rgbe
 An explicit grid targets generated effect starts before placement, not analysis JSON or manually authored effects. The engine uses that grid in place of its normal start snapping for the run. It preserves initial duration where a cue can be moved within its existing section; skips boundary-crossing moves, detector-anchored drummer hits and Faces starts; and does not retry or polish into an off-grid start. Existing placement constraints can still shorten or reject a cue. With no explicit grid (including `--no-snap`), legacy scheduling is unchanged. The report distinguishes live-placement scope and counts admitted attempts, not final retained effects.
 
 The native compatibility workflow generates a clean-room XSQ on the exact pull request head, verifies the pinned xLights AppImage checksum, and fails if that renderer cannot open/render the XSQ into a fresh FSEQ with a frame payload. The evidence records the commit and binary/input/output hashes. It is an import/render smoke only; it does not prove native Faces or drummer fidelity. For the performer gate, use a trusted authorized copy of the original Audio In Lights Out source verified against issue #252, independently annotate lead and harmony, and compare native kit playback against the documented drummer oracle. Record those separately for the same commit. Keep drummer placement opt-in.
+
+
+## Physical ownership and ranked accent follow-up
+
+The live path remains `sequence_builder.run_profile` → BeatGrid wrapper → `effect_engine.run_variant`. Audio analysis and the selected template or detected clock feed `MusicalContext`. Existing specialist passes produce effects. The Composition Governor's per-variant placement session handles ownership, ranked offers and section budgets at the existing admission boundary. Compatible placements reach audit, guarded polish and XSQ export. Native verification reads the exported XSQ in the pinned xLights renderer and validates decoded FSEQ blocks.
+
+The physical index resolves exact model names and unambiguous aliases, expands nested groups, and compares root coverage and explicit node ranges. A shape without a supported node range reserves its parent for overlap checks. Unresolved and cyclic groups carry diagnostics and cannot receive effects. Group aliases used in a template map to the actual XML row. Smart-layer checks consult manual windows on every intersecting physical row, and both admission and polish enforce shared-node compatibility. Model roots with independent output addresses are assumed to be correctly wired in the layout. Layouts with no piano or singer keep the existing fallback routing. A Faces instruction uses native Faces settings when the target has a named face definition, and drummer placement still requires the opt-in flag.
+
+Optional overlay and flash proposals compete after primary and specialist placements. Instrument marks, beat proximity, transitions and section energy determine rank. Timing and canonical proposal fields break ties. A failed candidate consumes no budget. Accepted cues charge the window and optional cooldown at their actual start. Quiet ceilings still apply, and polish leaves cooldown-protected starts in place. The earlier audio-reactive reservation has been superseded by ranked arbitration.
+
+The matched Master v27.3 full-song comparison uses `Helix Audiolights.mp3` (237.44 s), the Helixville4 layout, `template.xsq` and visual seed 1337. Workspace history, persistent learning and the independent seeded bridge are disabled. The #260 baseline retained 8,715 generated effects and the compatibility run retained 8,711 (36.70 → 36.69 effects/s). The focal-clarity heuristic moved from 58.7 to 60.9, clutter penalty from 27.5 to 25.3, and the show heuristic from 72.5 to 74.9. Both had zero retained budget overages. These are exported density and scoring observations. Optional accents shifted toward multiband rhythmic detail and away from pixel and spatial motion.
+
+| Engine | #260 retained / rejected | Compatibility retained / rejected |
+| --- | ---: | ---: |
+| Audio-reactive | 9 / 301 | 32 / 278 |
+| Multiband | 75 / 2,732 | 1,194 / 1,613 |
+| Piano | 10 / 4,266 | 10 / 4,266 |
+| Pixel reactive | 1,532 / 1,506 | 771 / 2,268 |
+| Polish | 20 / 0 | 20 / 0 |
+| Polyphony | 1,369 / 269 | 1,369 / 269 |
+| Profile choreography | 4,844 / 13 | 4,835 / 22 |
+| Spatial | 848 / 10 | 472 / 402 |
+| Vocal | 8 / 0 | 8 / 0 |
+
+The pre-change profiler showed three full base analyses, three harmonic analyses, three stem passes and 33 mono decoder calls over three variants. Only the original-rate mono base features and their harmonic features are reused. Cache identity includes the resolved source and filesystem identity, size and change times, hop setting, and pitch setting. Stem analysis, stereo features, lyric transcription, and note extraction still run under each variant's settings. A paired five-second fixture with reuse enabled and bypassed emitted byte-identical XSQs, Chronoflow JSON and Snowman Band JSON for all three variants. The full-song benchmark uses default Whisper fallback, which can produce different transcription across processes. Those full-song exports do not establish byte-for-byte lyric equality.
+
+The serialized regression covers explicit strict-grid placement with a section bound, a preserved hand-authored interval on a nested alias group, a disjoint submodel, and anchored Faces and renamed kick cues. It repeats the same proposals in reverse arrival order and checks identical XSQ bytes and contribution counts. The no-grid default and explicit legacy opt-out are covered separately.
+
+### Performer acceptance gates
+
+The native compatibility workflow uploads commit-bound smoke evidence and a separate opt-in 36-second kit diagnostic from the repository fixture. The supplied Helixville4 layout groups toms and cymbals into five hit targets. The requested nine-component list in the master ledger differs from both the current eight-component drummer contract and the historical `b27e8d77` eight-row oracle. The diagnostic records that gap and cannot establish per-component playback or contacting-stick fidelity for the nine-component kit.
+
+The owner selected the original `Audio In Lights Out.mp3` (134.040 seconds, expected SHA-256 `7dd9d8184043bda4f9dbbd2d83e268d6b30c00bc1edc981e13ce37c48697eca9`) in [the #252 correction](https://github.com/ryankorkowski-boop/helix-sequencer/issues/252#issuecomment-7156114211). The connected Drive search found no accessible match. The prior [nine-panel pilot](https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/45600430383) stopped at its private source-locator requirement. The expected SHA-256, excerpt and independently documented overlapping voices remain unverified for this run. The [Bells run](https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/45600430361) is historical instrumental evidence.

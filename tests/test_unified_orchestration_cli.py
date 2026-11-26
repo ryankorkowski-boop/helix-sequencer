@@ -88,12 +88,15 @@ def test_explicit_grid_changes_serialized_xsq_not_analysis_sidecars(tmp_path):
         return starts, report, band
 
     args = ["--snap-grid", "16", "--snap-bpm", "120", "--snap-offset-ms", "17", "--snap-mode", "strict"]
-    original, _, _ = run("no_grid", ["--no-snap", *args])
+    default, _, default_band = run("default", [])
+    original, _, unsnapped_band = run("no_grid", ["--no-snap", *args])
+    assert original == default
+    assert unsnapped_band == default_band
     snapped, report, band = run("explicit_grid", args)
     assert report["beat_grid"]["scope"] == "generated_effect_starts"
     assert report["beat_grid"]["admitted_attempts"]["shifted"] > 0
     assert original != snapped and any((start - 17) % 125 == 0 for start in snapped)
-    assert not band.get("beat_grid", {}).get("snapped")
+    assert band == unsnapped_band
     assert report["orchestration"]["export_validation"]["passed"]
 
 
@@ -157,16 +160,21 @@ def test_serialized_performer_anchors_and_shared_manual_nodes(tmp_path, monkeypa
 
     monkeypatch.setattr(effect_engine, "place_pixel_reactive_score", propose)
     monkeypatch.chdir(ROOT)
-    output = tmp_path / "out"
-    run_profile("master", [
-        "--template", str(template), "--layout-file", str(layout), "--audio", str(audio),
-        "--output-dir", str(output), "--variants", "1", "--single", "--no-prompt", "--no-save-settings",
-        "--no-workspace-history", "--no-learning-memory", "--no-matrix-intelligence", "--no-effects-orchestrator",
-        "--orchestrate-band-performers", "--layering-mode", "smart_layer", "--polish",
-        "--snap-grid", "16", "--snap-bpm", "120", "--snap-offset-ms", "17", "--snap-mode", "strict",
-    ])
-    xsq = ET.parse(next(output.glob("*,*.xsq")))
-    report = json.loads(next(output.glob("*,*.report.json")).read_text())
+    def run(label, *, drummer=True):
+        output = tmp_path / label
+        run_profile("master", [
+            "--template", str(template), "--layout-file", str(layout), "--audio", str(audio),
+            "--output-dir", str(output), "--variants", "1", "--single", "--no-prompt", "--no-save-settings",
+            "--no-workspace-history", "--no-learning-memory", "--no-matrix-intelligence", "--no-effects-orchestrator",
+            "--layering-mode", "smart_layer", "--polish",
+            "--snap-grid", "16", "--snap-bpm", "120", "--snap-offset-ms", "17", "--snap-mode", "strict",
+            *(["--orchestrate-band-performers"] if drummer else []),
+        ])
+        xsq_path = next(output.glob("*,*.xsq"))
+        return xsq_path, json.loads(next(output.glob("*,*.report.json")).read_text())
+
+    xsq_path, report = run("out")
+    xsq = ET.parse(xsq_path)
     models = {row.get("name"): row for row in xsq.findall("./ElementEffects/Element")}
 
     def generated(name):
@@ -186,3 +194,20 @@ def test_serialized_performer_anchors_and_shared_manual_nodes(tmp_path, monkeypa
     assert (authored.get("startTime"), authored.get("endTime")) == ("61", "321")
     assert report["orchestration"]["contributions"]["drummer"]["retained"] == 1
     assert report["orchestration"]["export_validation"]["passed"]
+
+
+    # Reverse the exact same proposals just before the governor ranks them.
+    from core.orchestration_balance import PlacementSession
+
+    drain = PlacementSession.place_accents
+
+    def reverse(self):
+        self._accents.reverse()
+        drain(self)
+
+    monkeypatch.setattr(PlacementSession, "place_accents", reverse)
+    reversed_xsq, reversed_report = run("reversed")
+    assert reversed_xsq.read_bytes() == xsq_path.read_bytes()
+    assert reversed_report["orchestration"]["contributions"] == report["orchestration"]["contributions"]
+    _, default_report = run("kit-disabled", drummer=False)
+    assert "drummer" not in default_report["orchestration"]["contributions"]

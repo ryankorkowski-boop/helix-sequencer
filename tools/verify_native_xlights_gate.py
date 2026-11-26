@@ -90,6 +90,7 @@ def main() -> None:
     commit = subprocess.check_output(["git", "rev-parse", "HEAD"], text=True).strip()
     if not re.fullmatch(r"[a-f0-9]{40}", args.commit) or commit != args.commit:
         parser.error("Requested commit does not match the exact checkout")
+    subprocess.run(["git", "diff", "--quiet", "HEAD", "--"], check=True)
     show = args.show.resolve()
     xsq = args.xsq.resolve()
     if xsq.parent != show or xsq.suffix.lower() != ".xsq" or not xsq.is_file():

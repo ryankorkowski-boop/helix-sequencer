@@ -10,6 +10,8 @@ on:
       - 'core/physical_targets.py'
       - 'core/snowman_band.py'
       - 'xlights/layout_sync.py'
+      - 'MASTER_TODO.md'
+      - 'docs/UNIFIED_ORCHESTRATION.md'
       - 'tests/test_physical_targets.py'
       - 'tests/test_orchestration_balance.py'
       - 'tests/test_live_beat_grid_contract.py'
