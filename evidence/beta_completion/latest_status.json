@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "updated_utc": "2026-11-26T22:20:06Z",
+  "updated_utc": "2026-11-26T22:35:50Z",
   "overall_status": "IN PROGRESS",
   "branch": "integration/unified-beta-completion-20261117",
   "base_commit": "bb41f078a92e02ccb1980785efe1c1be741a9d16",
@@ -608,7 +608,7 @@
     "release_approved": false
   },
   "recovery_branch_checkpoint": {
-    "updated_utc": "2026-11-26T22:20:06Z",
+    "updated_utc": "2026-11-26T22:35:50Z",
     "branch": "integration/beta14-recovered-logic-20261126",
     "source_pr": 264,
     "observed_baseline": "c1947906d94313e51922214482d9e7df576f7d0f",
@@ -825,6 +825,70 @@
         "sixteen_roformer_review": 45898800676,
         "android_exact_source": 45902718110
       }
+    },
+    "verified_media_and_runtime_checkpoint": {
+      "locked_nine": {
+        "source_commit": "a2b791f3d2e1864a12d7ade4387e4c1120530d48",
+        "run_id": 45902718025,
+        "artifact_id": 15156953073,
+        "media_full_decode": true,
+        "panels": 9,
+        "center_motion": 0.423,
+        "center_motion_minimum": 0.65,
+        "timing_reference_accepted": false
+      },
+      "current_sixteen": {
+        "source_commit": "625bcc73567bb4535a73802180c4ae991fa86784",
+        "run_id": 45898800676,
+        "artifact_id": 15157222257,
+        "media_full_decode": true,
+        "panels": 16,
+        "estimated_vocal_review_only": true,
+        "white_dominant_frame_fraction": 0.0,
+        "blank_sample_fraction": 0.0
+      },
+      "canonical_band": {
+        "source_commit": "a2b791f3d2e1864a12d7ade4387e4c1120530d48",
+        "run_id": 45902719525,
+        "artifact_id": 15156274403,
+        "media_full_decode": true,
+        "stage_motion": 0.936,
+        "independent_singers_verified": false
+      },
+      "a_b": {
+        "source_commit": "89ff6277feada2a02099a8f971e1cfec6c28b6d2",
+        "beta13_commit": "6b87b31d9c6fbb7e78729be1b490c3e765ff8aad",
+        "run_id": 45904124689,
+        "artifact_id": 15157906496,
+        "media_full_decode": true,
+        "layout_and_estimated_vocals_identical": true
+      },
+      "windows_extended_smoke": {
+        "local_distinct_movies": 8,
+        "minimum_source_audio_correlation": 0.9972576819927236,
+        "play_button_paths_verified": true,
+        "packaged_windows_new_proof_pending": true,
+        "windows_external_player_verified": false
+      },
+      "android_roformer": {
+        "pin": "audio-separator 0.41.1",
+        "tested_on_real_2_second_stereo_hook": true,
+        "pytorch": "2.5.1+cpu",
+        "onnx_opset": 18,
+        "result": "PyTorch legacy exporter rejects the existing complex STFT input path",
+        "device_weights_or_parity_verified": false
+      },
+      "infinity_native_group_intake": {
+        "original_props": 10240,
+        "original_groups": 10299,
+        "reduced_group_run_timeout_seconds": 900,
+        "gdb_observed": "XmlDeserializingModelFactory::DeserializeModelGroup calls ModelGroup::AddModel and ResetModels for every member",
+        "batch_group_loader_implemented": true,
+        "native_fseq_completed": false,
+        "native_movie_completed": false
+      },
+      "owner_visual_approval": false,
+      "integration_merge_completed": false
     }
   }
 }

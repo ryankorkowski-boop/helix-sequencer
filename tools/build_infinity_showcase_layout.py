@@ -140,11 +140,7 @@ def make_layout(output, manifest, size=2048):
         for sign in (0,1):
             group(f"HX_INFINITY_AXIS_{axis}_{sign}",
                   [r["name"] for r in records if (r["center"][axis]>=0)==bool(sign)])
-    # District, role, axis and ring groups keep their original members. At the
-    # full tier use larger local clusters to avoid thousands of overlapping
-    # native render buffers around the same physical props.
-    levels = (16, 32, 64, 128, 256, 512, 1024) if size == 10240 else (2, 4, 8, 16, 32, 64, 128, 256, 512, 1024)
-    for level in levels:
+    for level in (2,4,8,16,32,64,128,256,512,1024):
         for start in range(0,len(records),level):
             group(f"HX_INFINITY_HIER_{level:04d}_{start//level:04d}",names[start:start+level])
     for sector in range(24):
@@ -163,6 +159,19 @@ def make_layout(output, manifest, size=2048):
         members=g.attrib["models"].split(",")
         assert members and all(m in known or m in declared for m in members)
         declared.add(g.attrib["name"])
+    if size == 10240:
+        views = ET.SubElement(root, "Viewpoints")
+        camera = {"is_3d": "1", "posX": "0", "posY": "0", "posZ": "0",
+                  "angleX": "32", "angleY": "10", "angleZ": "0", "distance": "-1650",
+                  "zoom": "1", "panx": "0", "pany": "-45", "panz": "0",
+                  "zoom_corrx": "0", "zoom_corry": "0"}
+        ET.SubElement(views, "DefaultCamera3D", {**camera, "name": "DEFAULT3D"})
+        ET.SubElement(views, "Camera", {**camera, "name": "Infinity overview"})
+        settings = ET.SubElement(root, "settings")
+        for name, value in {"backgroundBrightness": "0", "storedLayoutGroup": "All Models",
+                            "LayoutMode3D": "1", "Display2DCenter0": "1",
+                            "previewWidth": "480", "previewHeight": "260"}.items():
+            ET.SubElement(settings, name, {"value": value})
     output.parent.mkdir(parents=True,exist_ok=True)
     manifest.parent.mkdir(parents=True,exist_ok=True)
     ET.ElementTree(root).write(output,encoding="utf-8",xml_declaration=True)

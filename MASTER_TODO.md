@@ -1,3 +1,13 @@
+## November 26 · Profile full Infinity intake and check desktop variants
+
+**Goal.** Fix the measured full-scale native xLights group-load stall and independently verify eight separately selectable desktop preview movies.
+**Changed files.** Native full Infinity workflow, isolated pinned xLights group patch, Infinity layout generator and regression, Windows worker and GUI smoke, and handoff records.
+**Preserved behavior.** All 10,240 original physical props, pixel addresses and 10,299 named choreography group memberships. The xLights parser retains existing whitespace trimming, first-occurrence order and duplicate handling. Other builds continue using the existing pinned camera/export patch. Windows LOR and FSEQ worker smoke remain active.
+**New behavior.** Full-scale native CI sequences the authentic Bells of Mathmas 30-second excerpt, batches parsed group members once, uses a real 3D Infinity camera and decodes the resulting native FSEQ and HD movie. Windows smoke generates eight actual variant previews, decodes every movie and exercises the GUI's eight playback paths.
+**Tests and evidence.** A debugger captured the xLights model-group load bottleneck. The new patch applied to the pinned 2026.18 source and its source diff passed whitespace checks. Local desktop production generated and decoded eight movies and exercised the review GUI against them. Current native nine-, sixteen-, band and matched A/B MP4s were downloaded and fully decoded.
+**Limitations and deferred work.** Full native Infinity execution and expanded Windows package proof still require CI. The desktop GUI smoke checks playback-file routing without asserting an installed OS player. The locked nine-panel timing gate and the phoneme center's stage-motion minimum remain open. The recovered Android RoFormer dependency's existing complex STFT fails direct legacy ONNX export. Independent singer identity and owner acceptance remain open.
+**Regression risks.** Full native load and render memory remain production checks. An explicit three-dimensional view affects only the full-size Infinity tier. The extended Windows package smoke performs additional real encoding and decode work.
+
 ## November 26 · Matched native A/B and final Infinity group pass
 
 **Goal.** Render the recovered Beta 1.3 and current Beta 1.4 sequences with identical inputs, and validate the full Infinity installation with the genuine original soundtrack.
