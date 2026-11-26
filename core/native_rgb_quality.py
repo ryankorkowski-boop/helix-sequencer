@@ -46,8 +46,11 @@ def evaluate_rgb_frames(
         lo = sample.min(axis=2)
         lit = hi > 28
         blank += int(np.mean(lit) < 0.005)
-        white_fraction = float(np.mean((lo > 180) & ((hi - lo) < 24)))
-        white += int(white_fraction > thresholds.max_white_fraction)
+        white_mask = lit & (lo > 180) & ((hi - lo) < 24)
+        # The dark yard must not dilute white dominance among illuminated pixels.
+        # Ignore blank frames; this is an RGB diagnostic, not an AC color gate.
+        white_fraction = float(np.count_nonzero(white_mask) / max(1, np.count_nonzero(lit)))
+        white += int(np.mean(lit) >= 0.005 and white_fraction > thresholds.max_white_fraction)
         if np.any(lit):
             saturation_sum += float(np.mean((hi[lit] - lo[lit]) / np.maximum(hi[lit], 1)))
         if previous is not None:
