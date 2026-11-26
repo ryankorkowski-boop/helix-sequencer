@@ -125,7 +125,7 @@
       "id": "HBC-INF-FRONT",
       "description": "Restore front-facing Infinity geometry",
       "priority": "P0",
-      "status": "IMPLEMENTED \u2014 UNVERIFIED",
+      "status": "IMPLEMENTED — UNVERIFIED",
       "implementation": "tools/build_infinity_showcase_layout.py",
       "dependencies": "Native renderer on corrected layout",
       "base_commit": "5470a1caf00131467277b3bc104324fb24616980",
@@ -151,7 +151,7 @@
       "id": "HBC-INF-NATIVE",
       "description": "Render the real Bells master XSQ on the bounded Infinity layout in native xLights",
       "priority": "P0",
-      "status": "IMPLEMENTED \u2014 UNVERIFIED",
+      "status": "IMPLEMENTED — UNVERIFIED",
       "implementation": ".github/workflows/helix-infinity-layout.yml",
       "dependencies": "Authenticated source hash, xLights 2026.18, Demucs and Whisper",
       "base_commit": "5470a1caf00131467277b3bc104324fb24616980",
@@ -606,5 +606,57 @@
     "current_apk": null,
     "current_windows_zip": null,
     "release_approved": false
+  },
+  "recovery_branch_checkpoint": {
+    "updated_utc": "2026-11-26T21:30:06Z",
+    "branch": "integration/beta14-recovered-logic-20261126",
+    "source_pr": 264,
+    "observed_baseline": "c1947906d94313e51922214482d9e7df576f7d0f",
+    "integration_target": "integration/unified-beta-completion-20261117",
+    "owner_visual_approval": false,
+    "baseline_success": {
+      "engine_ci": 45896913777,
+      "beta_ci": 45896913772,
+      "birdsong_ci": 45896913834,
+      "unified_integration_ci": 45896913706,
+      "windows_package_and_smoke": 45896913699
+    },
+    "baseline_in_progress_when_checked": {
+      "android": 45896913837,
+      "nine_panel": 45896913708,
+      "twelve_panel": 45896913698
+    },
+    "baseline_failures": {
+      "phoneme": {
+        "run": 45896913835,
+        "cause": "Demucs missing before production sequencing"
+      },
+      "canonical_band": {
+        "run": 45896913701,
+        "cause": "E14 source has no independently qualified vocal roles"
+      },
+      "final_native": {
+        "run": 45896913881,
+        "cause": "No successful band producer at candidate SHA"
+      }
+    },
+    "earlier_android_api_30_and_36": {
+      "run": 45859006103,
+      "minimum_lit_pixel_retention": 0.7344653853330846,
+      "required_above": 0.8
+    },
+    "local_focused_tests": {
+      "passed": 146,
+      "skipped": 1,
+      "subtests_passed": 10
+    },
+    "full_infinity_layout": {
+      "models": 10240,
+      "pixels": 790080,
+      "rgb_channels": 2370240,
+      "layout_sha256": "f6e43e75d69925aca16aecd822664cac6ba42c80634cbd51bb85d2e483f3c7a0"
+    },
+    "external_vocal_dependency": "Matching master and independently identified time-aligned lead and harmony reference stems",
+    "handoff": "docs/BETA_COMPLETION_LIVE_HANDOFF.md"
   }
 }

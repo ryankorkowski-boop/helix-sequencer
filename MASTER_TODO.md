@@ -1,3 +1,14 @@
+## November 26 · Android preview palette and native review repairs
+
+**Goal.** Restore faithful Android effect palettes and unblock the native phoneme render on PR #264.
+**Changed files.** `android/app/src/main/python/helix_mobile.py`, `tools/preview_renderer.py`, `tools/native_preview.py`, the native phoneme and band workflows, the Android preview and native media regressions, and the three completion records.
+**Preserved behavior.** Android still keeps preview working memory to a 30-frame window. The default native export still copies original video packets. Source provenance, decodability, stage readability and independent-vocal acceptance gates retain their existing checks.
+**New behavior.** Android uses absolute-frame XSQ effect palettes for each preview window. The phoneme job uses the existing pinned CPU Demucs action before sequencing. The band and phoneme review jobs request 30 fps delivery from native frames and keep the native capture rate in the receipt.
+**Tests and evidence.** Local focused suite recorded 146 passed, one skipped and 10 subtests. Independent decode of the existing 36-second band media confirmed H.264/AAC, 1920×1080 and 0.99366 source-audio correlation with zero measured lag in four windows. The local 30 fps transcode retained the same timing and soundtrack results.
+**Limitations and deferred work.** The local transcode uses the existing 20 fps xLights frames and repeats them on the delivery clock. Current Windows package workflow exercises its documented smoke path. Device fidelity after the palette repair, independent vocals, canonical artistic review, full-size Infinity native output and approval remain open.
+**Regression risks.** Preview palette changes affect overlapping colors and model visibility. Native review encoding adds a transcode and requires FFmpeg with libx264. The default packet-copy callers remain covered by the existing media tests.
+**Continuation.** The run IDs, artifact links and outstanding gates are in `docs/BETA_COMPLETION_LIVE_HANDOFF.md` and `evidence/beta_completion/`.
+
 ## November 26 · Android preview encoder fallback
 
 **Goal:** Stop the emulator smoke from reporting a blank preview path.

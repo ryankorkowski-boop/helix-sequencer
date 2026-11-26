@@ -332,5 +332,60 @@
       "windows_run": "https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/45800159363",
       "cancelled_feature_branch_package": "https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/45802444477"
     }
-  ]
+  ],
+  "recovery_branch_checkpoint": {
+    "observed_baseline": "c1947906d94313e51922214482d9e7df576f7d0f",
+    "artifacts": [
+      {
+        "name": "Helix-Windows-Portable",
+        "run_id": 45896913699,
+        "id": 15154187266,
+        "expires_utc": "2026-12-26T21:20:10Z",
+        "classification": "Windows CI build and smoke",
+        "download": "https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/45896913699/artifacts/15154187266"
+      },
+      {
+        "name": "helix-fresh-original-audio-six-snowmen-keyboard",
+        "run_id": 45896913701,
+        "id": 15154526668,
+        "expires_utc": "2026-12-10T21:20:28Z",
+        "classification": "Native diagnostics; unqualified vocal identity",
+        "media_verification": {
+          "codec": "H.264/AAC",
+          "dimensions": [
+            1920,
+            1080
+          ],
+          "fps": 20,
+          "duration_seconds": 36,
+          "source_audio_correlation": 0.9936598766026753,
+          "source_audio_lag_seconds": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "mp4_sha256": "4fd1ed98dc3c22ee8bd81e9a32e19f8b30f840e3ac4584eea3e20ea02dc18bac"
+        },
+        "download": "https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/45896913701/artifacts/15154526668"
+      },
+      {
+        "name": "phoneme-test-hook-native-review-d93138ad473eda9500b17bec957649bb4bc604f3",
+        "run_id": 45896913835,
+        "id": 15153982152,
+        "expires_utc": "2027-02-24T21:15:51Z",
+        "classification": "Failed show preparation diagnostics",
+        "download": "https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/45896913835/artifacts/15153982152"
+      },
+      {
+        "name": "Real-Vocals-30s-16-Panel-ESTIMATED-REVIEW",
+        "run_id": 45800149044,
+        "id": 15114156910,
+        "expires_utc": "2026-12-26T11:36:43Z",
+        "classification": "Earlier estimated review",
+        "source_commit": "f068aecb2e821dce785227a9d3ca66caf1e08ab5",
+        "download": "https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/45800149044/artifacts/15114156910"
+      }
+    ]
+  }
 }

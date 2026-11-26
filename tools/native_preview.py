@@ -65,8 +65,8 @@ def _duration(stream: dict[str, Any]) -> float:
 
 def mux_original_audio(video: Path, audio: Path, output: Path, *,
                        duration: float, ffmpeg: str,
-                       ffprobe: str) -> dict[str, Any]:
-    """Copy native video packets, mux original audio, verify both streams."""
+                       ffprobe: str, review_30fps: bool = False) -> dict[str, Any]:
+    """Mux original audio with native frames, optionally at 30 fps for review."""
     if output.exists():
         raise ValueError(f"Refusing to overwrite output: {output}")
     if not math.isfinite(duration) or duration <= 0:
@@ -85,12 +85,18 @@ def mux_original_audio(video: Path, audio: Path, output: Path, *,
     temporary = staging / output.name
     published = False
     probe = None
+    video_options = ["-c:v", "copy"]
+    if review_30fps and native.get("avg_frame_rate") != "30/1":
+        # Repeat native frames on the review clock without motion interpolation.
+        video_options = ["-vf", "fps=30", "-c:v", "libx264", "-crf", "18", "-pix_fmt", "yuv420p"]
     try:
         _run([ffmpeg, "-v", "error", "-nostdin", "-threads", "2", "-filter_threads", "2", "-n", "-i", str(video),
               "-i", str(audio), "-map", "0:v:0", "-map", "1:a:0",
-              "-c:v", "copy", "-c:a", "aac", "-t", str(duration),
+              *video_options, "-c:a", "aac", "-t", str(duration),
               "-movflags", "+faststart", str(temporary)], max(60, duration * 2))
         probe = probe_media(temporary, ffprobe)
+        if review_30fps and _stream(probe, "video").get("avg_frame_rate") != "30/1":
+            raise ValueError("Review MP4 did not encode at 30 fps")
         for kind in ("video", "audio"):
             stream = _stream(probe, kind)
             if abs(_duration(stream) - duration) > .1:
@@ -118,6 +124,8 @@ def mux_original_audio(video: Path, audio: Path, output: Path, *,
     except (OSError, ValueError, RuntimeError, subprocess.SubprocessError) as mux_error:
         if published:
             output.unlink(missing_ok=True)
+        if review_30fps:
+            raise
         # The native xLights encoder already includes its original soundtrack.
         # If an optional remux fails, reuse those bytes only after independent
         # full decode, source correlation and interior/actual-tail lag checks.
@@ -519,7 +527,8 @@ def _save_manifest(path: Path, report: dict[str, Any]) -> None:
 
 
 def preview_run(run_dir: Path, *, xsq: Path, audio: Path,
-                xlights: str = "xLights", port: int = 49914) -> dict[str, Any]:
+                xlights: str = "xLights", port: int = 49914,
+                review_30fps: bool = False) -> dict[str, Any]:
     """Keep XSQ usable and record fallback when preview is unavailable."""
     run_dir = run_dir.resolve()
     xsq, audio = xsq.resolve(), audio.resolve()
@@ -604,6 +613,7 @@ def preview_run(run_dir: Path, *, xsq: Path, audio: Path,
         expected_size = (expected_width, expected_height)
         report["requested_resolution"] = list(expected_size)
         report["native_export_resolution"] = list(actual_size)
+        report["native_export_frame_rate"] = native_stream.get("avg_frame_rate")
         if actual_size != expected_size:
             raise ValueError(
                 f"xLights native export resolution {actual_size[0]}x{actual_size[1]} "
@@ -614,7 +624,7 @@ def preview_run(run_dir: Path, *, xsq: Path, audio: Path,
         output = stage / "preview.mp4"
         report["ffprobe"] = mux_original_audio(
             Path(report["native_video"]), audio, output, duration=duration,
-            ffmpeg=ffmpeg, ffprobe=ffprobe)
+            ffmpeg=ffmpeg, ffprobe=ffprobe, review_30fps=review_30fps)
         report.update(status="success", mp4=str(output),
                       audio_stream_verified=True, mp4_sha256=_sha256(output))
     except (OSError, ValueError, KeyError, TypeError, RuntimeError,
@@ -631,11 +641,13 @@ def main(argv: Sequence[str] | None = None) -> int:
     parser.add_argument("--xsq", type=Path, required=True)
     parser.add_argument("--audio", type=Path, required=True)
     parser.add_argument("--xlights", default="xLights")
+    parser.add_argument("--review-30fps", action="store_true",
+                        help="Deliver native frames at 30 fps without interpolating motion")
     parser.add_argument("--port", type=int, choices=(49913, 49914),
                         default=49914)
     args = parser.parse_args(argv)
     report = preview_run(args.run_dir, xsq=args.xsq, audio=args.audio,
-                         xlights=args.xlights, port=args.port)
+                         xlights=args.xlights, port=args.port, review_30fps=args.review_30fps)
     print(json.dumps(report, indent=2, sort_keys=True))
     return 0 if report["status"] == "success" else 2
 

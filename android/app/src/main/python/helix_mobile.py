@@ -154,9 +154,8 @@ def render_preview(xsq, layout, wav, seconds, callback):
     from tools import preview_renderer as p
     seq = preview_sequence(p.parse_sequence(xsq), seconds)
     geom = p.parse_models(layout)
-    # Crop the frame timeline BEFORE allocating intensity matrices on a phone.
-    # Colors come from the layout model geometry inside HouseRenderer. There is
-    # no separate color matrix; that call did not exist and failed every preview.
+    # Crop before allocating matrices. Match the desktop effect-preview colors
+    # while retaining only the current window on a phone.
     fps, width, height = 15, 640, 360
     total_frames = max(1, int(math.ceil(seq.duration_ms / (1000.0 / fps))))
     renderer = p.HouseRenderer(geom, width=width, height=height)
@@ -177,12 +176,15 @@ def render_preview(xsq, layout, wav, seconds, callback):
             leaves, intensities = p.build_leaf_intensity_matrix(
                 geom, seq, fps, frame_start=start,
                 frame_limit=min(PREVIEW_FRAME_CHUNK, total_frames - start))
+            colors = p.build_leaf_color_matrix(
+                geom, seq, fps, leaves, intensities.shape[1], frame_start=start)
             for offset in range(intensities.shape[1]):
                 i = start + offset
                 t_ms = round(i * 1000 / fps)
                 image = renderer.render_frame(
                     leaf_names=leaves, frame_values=intensities[:, offset],
                     title=xsq.name, t_ms=t_ms, duration_ms=seq.duration_ms,
+                    frame_colors=colors[:, offset] if colors is not None else None,
                     overlays={
                         "song part": p.active_label(part_track, t_ms),
                         "piano": p.active_label(piano_track, t_ms),
@@ -200,7 +202,7 @@ def render_preview(xsq, layout, wav, seconds, callback):
                            'Rendering preview: %d/%d seconds' % (i // fps, round(total_frames / fps)))
                 del image, buffer
             rendered_frames += intensities.shape[1]
-            del intensities
+            del intensities, colors
         callback.endPreview()
     except BaseException:
         callback.abortPreview()

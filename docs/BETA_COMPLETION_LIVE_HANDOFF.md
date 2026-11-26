@@ -1,3 +1,26 @@
+# Beta 1.4 recovery checklist · November 26, 2026
+
+PR #264 is a draft from `integration/beta14-recovered-logic-20261126` into `integration/unified-beta-completion-20261117`. The baseline inspected here is `c1947906d94313e51922214482d9e7df576f7d0f`. Visual approval remains outstanding.
+
+- [x] Verified the branch head and resolution-aware AVC bitrate in both Android encoder paths.
+- [x] Verified baseline Engine CI, Beta CI, Birdsong CI and Unified integration CI. Runs [45896913777](https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/45896913777), [45896913772](https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/45896913772), [45896913834](https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/45896913834) and [45896913706](https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/45896913706).
+- [x] Verified the baseline Windows portable build and its workflow smoke. [Run and portable artifact](https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/45896913699/artifacts/15154187266).
+- [x] Read prior Android API 30 and 36 job logs. Both failed full-song decoded lit-pixel retention at 73.45% against the existing threshold above 80%. [Run 45859006103](https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/45859006103).
+- [x] Reconnected Android PNG input frames to the sequence palette renderer. Absolute frame indices preserve palette and ramp continuity across bounded windows. Focused regressions passed.
+- [x] Traced the current phoneme show failure to a missing Demucs install and connected its workflow to the existing pinned CPU production-audio action. The retained audio SHA-256 is checked before separating. [Run 45896913835 and diagnostics](https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/45896913835/artifacts/15153982152).
+- [x] Downloaded and fully decoded the baseline six-snowman native review MP4. It contains 1920×1080 H.264/AAC at 20 fps for 36 seconds. Its original soundtrack correlated at 0.99366 with zero measured lag in four windows. Native FSEQ reports 120,270 channels and lit samples in all 720 frames. [MP4, XSQ and FSEQ diagnostic bundle](https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/45896913701/artifacts/15154526668).
+- [x] Implemented 30 fps delivery for the phoneme and band workflows and decoded a local 1,080-frame result from the actual band render. The same audio score and lag checks passed. The transcode retains the source animation's 20 fps motion cadence.
+- [x] Verified the existing Infinity layout generator at full size. The generated XML contains 10,240 models, 790,080 pixels and 2,370,240 RGB channels. SHA-256 `f6e43e75d69925aca16aecd822664cac6ba42c80634cbd51bb85d2e483f3c7a0`.
+- [x] Verified prior nine- and twelve-panel jobs rendered their collections and failed the vocal timing and approved-reference receipt gate. [Nine-panel log](https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/45859006072), [twelve-panel log](https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/45859006081).
+- [ ] Close Android API 30 and API 36, all eight variants, preview, band and export acceptance. Baseline instance [45896913837](https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/45896913837) was still running when inspected. Android's current audio separation is diagnostic.
+- [ ] Close phoneme, canonical band, nine-, twelve-, and sixteen-panel acceptance. Baseline producer [45896913701](https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/45896913701) rendered but rejected E14's mixed vocal bus. Downstream [45896913881](https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/45896913881) found no passing producer. The open comparison gate needs hash-bound timing and comparison against the approved visual reference. The earlier [16-panel render](https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/45800149044/artifacts/15114156910) is an estimated review from a different commit.
+- [ ] Obtain aligned isolated lead and harmony from the exact E14 mix or another matching original master. The current source evidence identifies one combined vocal bus and zero independently verified singers.
+- [ ] Complete native Infinity sequencing, render and synchronized full-screen playback at full scale. Existing bounded native FSEQ proof covers a smaller installation.
+- [ ] Verify Windows and Android functional acceptance, current native and LOR outputs, individual layout exports, Beta 1.3 versus Beta 1.4 identical-input comparison, and full-song videos after short-clip approval.
+- [ ] Obtain explicit owner visual approval and integrate PR #264 into the named integration target.
+
+The Sites connector returned project not found for the approval dashboard. This branch is the available handoff record.
+
 ## 2026-11-26 app sequencing gate
 
 Commit `503fbab5` on `integration/beta14-recovered-logic-20261126` (PR #264, not merged).

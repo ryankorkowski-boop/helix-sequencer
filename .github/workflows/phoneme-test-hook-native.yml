@@ -1,7 +1,7 @@
 name: Phoneme Test Hook native MP4 verification
 on:
   pull_request:
-    paths: [.github/workflows/phoneme-test-hook-native.yml, 'fixtures/audio/**', tools/phoneme_source.py, tools/prepare_phoneme_show.py, tools/phoneme_vocal_export.py, tools/stemless_duet.py, tools/finalize_phoneme_review.py, tools/native_preview.py, 'core/**', 'xlights/**', 'models/**']
+    paths: [.github/workflows/phoneme-test-hook-native.yml, .github/actions/production-audio/action.yml, 'fixtures/audio/**', tools/phoneme_source.py, tools/prepare_phoneme_show.py, tools/phoneme_vocal_export.py, tools/stemless_duet.py, tools/finalize_phoneme_review.py, tools/native_preview.py, 'core/**', 'xlights/**', 'models/**']
   workflow_dispatch:
     inputs:
       audio_url:
@@ -33,6 +33,7 @@ jobs:
       HELIX_NATIVE_PREVIEW_WIDTH: '1920'
       HELIX_NATIVE_PREVIEW_HEIGHT: '1080'
       XL_NO_GPU_COMPUTE: '1'
+      HELIX_DEMUCS_DEVICE: cpu
       OMP_NUM_THREADS: '2'
       OPENBLAS_NUM_THREADS: '2'
     steps:
@@ -50,7 +51,12 @@ jobs:
         run: |
           sudo apt-get update -qq
           sudo apt-get install -y ffmpeg xvfb xauth openbox x11-utils x11-xserver-utils wmctrl xdotool libgtk-3-0t64 libgl1 libegl1 libopengl0 libglu1-mesa libgstreamer-plugins-base1.0-0
-          python -m pip install numpy scipy librosa==0.10.2.post1 soundfile numba llvmlite Pillow trimesh moderngl zstandard imageio imageio-ffmpeg cmudict PyYAML requests pytest
+          python -m pip install scipy Pillow trimesh moderngl zstandard imageio imageio-ffmpeg cmudict PyYAML requests pytest
+      - name: Separate verified source on CPU
+        uses: ./.github/actions/production-audio
+        with:
+          audio: phoneme-work/input/Phoneme_Test_Hook.mp3
+          sha256: 19e90c273d0d747938f24b36586b50818c104cddffbefe4a4128927374301938
       - name: Validate source ingestion, DSP equivalence and strict native faces
         run: |
           python -m compileall -q tools/native_source_pose_band.py tools/stemless_duet.py tools/phoneme_vocal_export.py tools/prepare_phoneme_show.py
@@ -60,6 +66,12 @@ jobs:
           args=()
           if [ "$HELIX_STEMLESS_DUET" = 'true' ]; then args+=(--stemless-duet); fi
           python -m tools.prepare_phoneme_show --audio phoneme-work/input/Phoneme_Test_Hook.mp3 --output phoneme-work/show "${args[@]}"
+      - name: Expose source sequencer failure details
+        if: failure()
+        run: |
+          if [ -f phoneme-work/show/sequencer.log ]; then
+            tail -n 130 phoneme-work/show/sequencer.log
+          fi
       - name: Restore compiled pinned native renderer
         id: native-cache
         uses: actions/cache/restore@v4
@@ -168,7 +180,7 @@ jobs:
           PYCODE
       - name: Native xLights FSEQ and original-soundtrack MP4
         run: |
-          xvfb-run -a -s '-screen 0 2560x1440x24' sh -c 'openbox >phoneme-work/openbox.log 2>&1 & exec python -m tools.native_preview phoneme-work/show --xsq phoneme-work/show/Phoneme_Test_Hook_Helix.xsq --audio phoneme-work/show/media/Phoneme_Test_Hook.mp3 --xlights "$HELIX_PATCHED_XLIGHTS"'
+          xvfb-run -a -s '-screen 0 2560x1440x24' sh -c 'openbox >phoneme-work/openbox.log 2>&1 & exec python -m tools.native_preview phoneme-work/show --xsq phoneme-work/show/Phoneme_Test_Hook_Helix.xsq --audio phoneme-work/show/media/Phoneme_Test_Hook.mp3 --xlights "$HELIX_PATCHED_XLIGHTS" --review-30fps'
       - name: Fully decode and collect actual native movie from render receipt
         if: always()
         run: |
