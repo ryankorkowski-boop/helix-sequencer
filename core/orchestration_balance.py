@@ -141,7 +141,13 @@ class PlacementProposal:
     requested_effect: str
 
     @property
+    def timing_anchor(self) -> bool:
+        return self.label == "band_drummer_hit" or self.requested_effect.lower() == "faces"
+
+    @property
     def engine(self) -> str:
+        if self.requested_effect.lower() == "faces":
+            return "vocal"
         return engine_for_label(self.label.lower())
 
     @property
@@ -288,8 +294,11 @@ class PlacementSession:
     def summary(self, retained: Iterable[tuple[PlacementProposal, int]]) -> dict:
         final_contributions: Counter[str] = Counter()
         final_budgets: Counter[BudgetWindow] = Counter()
+        final_start_shifts: Counter[int] = Counter()
         for proposal, start_ms in retained:
             final_contributions[proposal.engine] += 1
+            if start_ms != proposal.start_ms:
+                final_start_shifts[start_ms - proposal.start_ms] += 1
             window = self.budget_window(proposal, start_ms)
             if window is not None:
                 final_budgets[window] += 1
@@ -321,4 +330,5 @@ class PlacementSession:
                 for window, limit in sorted(self.limits.items())
             ],
             "start_shift_ms_histogram": dict(sorted(self.start_shifts.items())),
+            "final_start_shift_ms_histogram": dict(sorted(final_start_shifts.items())),
         }

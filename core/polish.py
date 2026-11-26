@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+from collections.abc import Callable
 from dataclasses import dataclass, field
 from statistics import mean
 from typing import Any
@@ -125,6 +126,7 @@ def apply_polish_pass(
     vocal_peaks: list[int] | None = None,
     bass_peaks: list[int] | None = None,
     drum_peaks: list[int] | None = None,
+    can_retime: Callable[[str, str, Any, int, int], bool] | None = None,
 ) -> PolishResult:
     min_effect_ms = max(1, int(min_effect_ms))
     notes: list[str] = []
@@ -135,7 +137,7 @@ def apply_polish_pass(
     retimed_entries = 0
     palette_swaps = 0
 
-    for _model_name, timeline in timelines.items():
+    for model_name, timeline in timelines.items():
         flattened: list[tuple[str, Any]] = []
         for layer_name, entries in getattr(timeline, "layers", {}).items():
             entries.sort(key=lambda item: (item.start, item.end))
@@ -145,15 +147,17 @@ def apply_polish_pass(
         for idx in range(1, len(flattened)):
             prev_layer, prev = flattened[idx - 1]
             curr_layer, curr = flattened[idx]
+            if can_retime is not None and prev_layer != curr_layer:
+                continue
             if int(getattr(curr, "start", 0)) >= int(getattr(prev, "end", 0)):
                 continue
             prev_priority = int(getattr(prev, "priority", 0))
             curr_priority = int(getattr(curr, "priority", 0))
             if curr_priority > prev_priority or (curr_priority == prev_priority and curr_layer == "accent"):
-                trim_entry = prev
+                trim_layer, trim_entry = prev_layer, prev
                 keep_entry = curr
             else:
-                trim_entry = curr
+                trim_layer, trim_entry = curr_layer, curr
                 keep_entry = prev
             trim_start = int(getattr(trim_entry, "start", 0))
             trim_end = int(getattr(trim_entry, "end", 0))
@@ -162,16 +166,19 @@ def apply_polish_pass(
             left_len = max(0, keep_start - trim_start)
             right_len = max(0, trim_end - keep_end)
             if right_len >= left_len and right_len >= min_effect_ms:
-                _set_entry_window(trim_entry, keep_end, trim_end)
-                overlap_repairs += 1
+                replacement = (keep_end, trim_end)
             elif left_len >= min_effect_ms:
-                _set_entry_window(trim_entry, trim_start, keep_start)
+                replacement = (trim_start, keep_start)
+            else:
+                continue
+            if can_retime is None or can_retime(model_name, trim_layer, trim_entry, *replacement):
+                _set_entry_window(trim_entry, *replacement)
                 overlap_repairs += 1
 
     anchors = sorted(set((vocal_peaks or []) + (bass_peaks or []) + (drum_peaks or [])))
     if anchors:
-        for _model_name, timeline in timelines.items():
-            for _layer_name, entries in getattr(timeline, "layers", {}).items():
+        for model_name, timeline in timelines.items():
+            for layer_name, entries in getattr(timeline, "layers", {}).items():
                 entries.sort(key=lambda item: (item.start, item.end))
                 for idx, entry in enumerate(entries):
                     start_ms = int(getattr(entry, "start", 0))
@@ -191,8 +198,9 @@ def apply_polish_pass(
                     next_start = int(getattr(entries[idx + 1], "start", 10**9)) if idx + 1 < len(entries) else 10**9
                     if new_start < prev_end or new_end > next_start or (new_end - new_start) < min_effect_ms:
                         continue
-                    _set_entry_window(entry, new_start, new_end)
-                    retimed_entries += 1
+                    if can_retime is None or can_retime(model_name, layer_name, entry, new_start, new_end):
+                        _set_entry_window(entry, new_start, new_end)
+                        retimed_entries += 1
 
     flattened_entries = _flatten_entries(timelines)
     if parts:
@@ -208,7 +216,7 @@ def apply_polish_pass(
             energy = float(getattr(part, "energy", 0.0) or 0.0)
             density = densities[idx] if idx < len(densities) else 0.0
             if label in {"INTRO", "VERSE", "OUTRO"} and density > max(avg_density * 1.15, 1.0):
-                for _model_name, layer_name, entry in list(flattened_entries):
+                for model_name, layer_name, entry in list(flattened_entries):
                     if layer_name == "base":
                         continue
                     if int(getattr(entry, "start", 0)) < start_ms or int(getattr(entry, "start", 0)) >= end_ms:
@@ -217,7 +225,10 @@ def apply_polish_pass(
                     if duration_ms <= (min_effect_ms + 30):
                         continue
                     shrink_ms = min(80, max(24, duration_ms // 10))
-                    _set_entry_window(entry, int(getattr(entry, "start", 0)), int(getattr(entry, "end", 0)) - shrink_ms)
+                    new_start, new_end = entry.start, entry.end - shrink_ms
+                    if can_retime is not None and not can_retime(model_name, layer_name, entry, new_start, new_end):
+                        continue
+                    _set_entry_window(entry, new_start, new_end)
                     section_rebalances += 1
                     if section_rebalances >= 18:
                         break

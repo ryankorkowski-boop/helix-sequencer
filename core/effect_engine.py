@@ -11199,7 +11199,7 @@ def run_variant(
         stem_priority = priorities.get(stem_key, priorities["other"])
         composition_priority = placement.priority(proposal, stem_key) if placement else 0
         layer_key = stem_to_choreo_layer(stem_key, label)
-        anchored = placement is not None and (label == "band_drummer_hit" or eff == "Faces")
+        anchored = placement is not None and proposal.timing_anchor
         if not anchored:
             snap_grid, snap_shift = _select_snap_grid(stem_key, layer_key)
             st_i, en_i = _snap_range(st_i, en_i, snap_grid, snap_shift, snap_shift + 12, min_dur)
@@ -12510,10 +12510,35 @@ def run_variant(
         parts=parts,
         placements=stats.counts,
         min_effect_ms=max(50, int(tuning.min_effect_ms)),
-        auto_fix=True,
+        auto_fix=placement is None,
     )
     if initial_audit.fixes_applied:
         log(f"Audit auto-fixes applied: {initial_audit.fixes_applied}")
+
+    def can_polish_timing(model: str, layer: str, entry: TimelineEntry, start: int, end: int) -> bool:
+        if placement is None or entry.proposal is None:
+            return True
+        if entry.proposal.timing_anchor or not 0 <= start < end <= song_length_ms:
+            return False
+        if placement.budget_window(entry.proposal, start) != entry.budget_window:
+            return False
+        if layering_mode == "smart_layer" and overlaps_window(start, end, existing_windows_by_model.get(model, [])):
+            return False
+        timeline = timelines[model]
+        excluded = frozenset({id(entry)})
+        if timeline.would_exceed_layers(start, end, max(1, int(tuning.max_layers_per_prop)), excluded):
+            return False
+        blocked, _ = violates_prop_rules(
+            family=prop_family(model, model_category_map.get(model)),
+            layer=layer,
+            start_ms=start,
+            end_ms=end,
+            effect_name=entry.effect_name,
+            settings=entry.xml_effect.text or "",
+            timeline=timeline,
+            excluded=excluded,
+        )
+        return not blocked
 
     polish_result = sequence_polish.PolishResult(score=0.0)
     if tuning.polish_enabled:
@@ -12533,6 +12558,7 @@ def run_variant(
             vocal_peaks=vocal_peaks,
             bass_peaks=bass_peaks,
             drum_peaks=sorted(set(kicks + snares)),
+            can_retime=can_polish_timing if placement else None,
         )
         if polish_result.notes:
             log(f"Polish pass complete: score={polish_result.score:.1f}")

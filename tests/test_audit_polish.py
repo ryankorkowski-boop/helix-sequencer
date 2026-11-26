@@ -147,6 +147,27 @@ class AuditAndPolishTests(unittest.TestCase):
         self.assertIn("polish_breathing_fade", labels)
         self.assertIn("polish_hook_enhancement", labels)
 
+    def test_composed_layers_are_preserved_and_retiming_can_be_declined(self) -> None:
+        timeline = effect_engine.EffectTimeline()
+        base_layer, base_entry = _timeline_entry("base", 130, 250, 1)
+        motion_layer, motion_entry = _timeline_entry("motion", 180, 340, 2)
+        timeline.add(base_layer, base_entry)
+        timeline.add(motion_layer, motion_entry)
+
+        result = sequence_polish.apply_polish_pass(
+            timelines={"Arch": timeline},
+            parts=[],
+            quiet_windows=[],
+            add_model=lambda *args, **kwargs: None,
+            vocal_peaks=[100],
+            can_retime=lambda *_: False,
+        )
+
+        self.assertEqual(result.overlap_repairs, 0)
+        self.assertEqual(result.retimed_entries, 0)
+        self.assertEqual((base_entry.start, base_entry.end), (130, 250))
+        self.assertEqual((motion_entry.start, motion_entry.end), (180, 340))
+
     def test_section_transition_windows_wrap_boundaries(self) -> None:
         windows = sequence_polish.section_transition_windows(
             [

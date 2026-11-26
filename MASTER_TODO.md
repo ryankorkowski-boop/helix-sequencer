@@ -77,6 +77,17 @@ Do not mark complete from unit tests alone.
 
 ## Change Ledger
 
+### 2026-11-25 — Preserve validated layering and kit timing through polish
+**Goal:** Keep the exported placements inside the governor's compatibility and budget rules after the final quality pass.
+**Changed files/modules:** Effect engine, orchestration balance reporting, polish, and audit/polish regression coverage.
+**Intentionally preserved behavior:** Manual template windows, per-layer timeline validation, and legacy audit/polish behavior for the opt-out path.
+**New behavior:** In governed runs, audit scores the admitted layers. Polish keeps approved overlaps and rejects proposed timing changes that move anchored cues, switch budget windows, or break layer, prop or manual-content constraints. The report includes final start offsets.
+**Tests/evidence:** 19 focused audit, balance, shared context, and CLI tests passed. Before this correction the full-song artifact showed 26 over-budget windows after polish, and an excerpt showed only 138 exact drum target/onset matches.
+**Limitations:** Explicit beat-grid overrides remain a separate output postprocess. The final visual comparison and broader regression totals are tracked in the verification entry.
+**Deferred work:** Native import and visual playback against the known drummer oracle, platform packages, and physical controller review.
+**Regression risks:** Preserving accepted overlap can raise active layer count relative to prior audit flattening. The placement and polish paths enforce the configured concurrent layer limit.
+
+
 ### 2026-11-25 — Give late audio-reactive cues room in the accent budget
 **Goal:** Preserve contributions from the catalog-driven audio-reactive pass after pixel and multiband choreography.
 **Changed files/modules:** Live budget policy, effect scheduling call site, balance tests and a clean-room CLI integration test.
