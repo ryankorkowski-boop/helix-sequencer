@@ -1,5 +1,8 @@
 name: Phoneme Test Hook native MP4 verification
 on:
+  push:
+    branches: [review/engine-toggle-diagnostic-20261125]
+    paths: [.github/workflows/phoneme-test-hook-native.yml]
   pull_request:
     paths: [.github/workflows/phoneme-test-hook-native.yml, 'fixtures/audio/**', tools/phoneme_source.py, tools/prepare_phoneme_show.py, tools/phoneme_vocal_export.py, tools/stemless_duet.py, tools/finalize_phoneme_review.py, tools/native_preview.py, 'core/**', 'xlights/**', 'models/**']
   workflow_dispatch:
@@ -50,7 +53,8 @@ jobs:
         run: |
           sudo apt-get update -qq
           sudo apt-get install -y ffmpeg xvfb xauth openbox x11-utils x11-xserver-utils wmctrl xdotool libgtk-3-0t64 libgl1 libegl1 libopengl0 libglu1-mesa libgstreamer-plugins-base1.0-0
-          python -m pip install numpy scipy librosa==0.10.2.post1 soundfile numba llvmlite Pillow trimesh moderngl zstandard imageio imageio-ffmpeg cmudict PyYAML requests pytest
+          python -m pip install torch==2.5.1 torchaudio==2.5.1 --index-url https://download.pytorch.org/whl/cpu
+          python -m pip install -r requirements-dev.txt
       - name: Validate source ingestion, DSP equivalence and strict native faces
         run: |
           python -m compileall -q tools/native_source_pose_band.py tools/stemless_duet.py tools/phoneme_vocal_export.py tools/prepare_phoneme_show.py
@@ -59,7 +63,7 @@ jobs:
         run: |
           args=()
           if [ "$HELIX_STEMLESS_DUET" = 'true' ]; then args+=(--stemless-duet); fi
-          python -m tools.prepare_phoneme_show --audio phoneme-work/input/Phoneme_Test_Hook.mp3 --output phoneme-work/show "${args[@]}"
+          python -m tools.prepare_phoneme_show --audio phoneme-work/input/Phoneme_Test_Hook.mp3 --output phoneme-work/show "${args[@]}" || { tail -n 120 phoneme-work/show/sequencer.log || true; exit 1; }
       - name: Restore compiled pinned native renderer
         id: native-cache
         uses: actions/cache/restore@v4
