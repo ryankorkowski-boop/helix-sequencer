@@ -32,3 +32,26 @@ def test_invalid_frames_rejected():
         evaluate_rgb_frames([])
     with pytest.raises(ValueError):
         evaluate_rgb_frames([np.zeros((8, 8), np.uint8)])
+
+
+def test_sparse_all_white_lighting_is_not_hidden_by_dark_yard():
+    frames = []
+    for i in range(12):
+        f = np.zeros((96, 160, 3), dtype=np.uint8)
+        f[10:20, 10+i*8:20+i*8] = 255
+        frames.append(f)
+    report = evaluate_rgb_frames(frames)
+    assert report["white_dominant_frame_fraction"] == 1.0
+    assert "white_dominant_frames" in report["failures"]
+
+
+def test_sparse_colored_lighting_with_white_accents_is_not_white_dominant():
+    frames = []
+    for i in range(12):
+        f = np.zeros((96, 160, 3), dtype=np.uint8)
+        f[10:20, 10+i*8:20+i*8, 0] = 255
+        f[10:12, 10+i*8:20+i*8] = 255
+        frames.append(f)
+    report = evaluate_rgb_frames(frames)
+    assert report["white_dominant_frame_fraction"] == 0.0
+    assert "white_dominant_frames" not in report["failures"]
