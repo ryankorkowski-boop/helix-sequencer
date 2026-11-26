@@ -77,6 +77,16 @@ Do not mark complete from unit tests alone.
 
 ## Change Ledger
 
+### 2026-11-26 — Repair native smoke staging
+**Goal:** Let the pinned xLights smoke reach native rendering.
+**Changed files/modules:** Native compatibility workflow and evidence tool.
+**Intentionally preserved behavior:** CLI output-root protection, pinned renderer, exact-head checkout, and fresh FSEQ requirement.
+**New behavior:** Generate into a separate output directory, then stage the resulting XSQ in the disposable native show. Bind audio, layout, and template hashes to the evidence.
+**Tests/evidence:** Reproduced the output-root overlap error from PR #260 run 45770486080 on commit `e007e12`.
+**Limitations:** Successful native output still requires independent execution of the gate.
+**Deferred work:** Native drummer oracle and independently annotated Faces playback.
+**Regression risks:** The staged media name must match the reference emitted by Helix.
+
 ### 2026-11-26 — Apply explicit BeatGrid in live placement and add exact-head native smoke
 **Goal:** Make explicit quantization affect generated XSQ timing rather than rewriting analysis metadata; add repeatable native import/FSEQ evidence.
 **Changed files/modules:** BeatGrid helpers, effect engine and wrapper, focused/CLI regressions, native smoke workflow and evidence tool, and the orchestration architecture record.

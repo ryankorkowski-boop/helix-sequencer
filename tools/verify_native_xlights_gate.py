@@ -31,6 +31,8 @@ def main() -> None:
     parser.add_argument("--xlights", required=True, type=Path)
     parser.add_argument("--show", required=True, type=Path, help="Disposable show folder")
     parser.add_argument("--xsq", required=True, type=Path)
+    parser.add_argument("--audio", required=True, type=Path)
+    parser.add_argument("--template", required=True, type=Path)
     parser.add_argument("--commit", required=True)
     parser.add_argument("--evidence", required=True, type=Path)
     args = parser.parse_args()
@@ -44,6 +46,11 @@ def main() -> None:
     if not (show / "xlights_rgbeffects.xml").is_file():
         parser.error("The disposable show folder must contain xlights_rgbeffects.xml")
     native = args.xlights.resolve(strict=True)
+    input_hashes = {
+        "audio_input_sha256": sha256(args.audio),
+        "layout_input_sha256": sha256(show / "xlights_rgbeffects.xml"),
+        "template_input_sha256": sha256(args.template),
+    }
     fseq = xsq.with_suffix(".fseq")
     if fseq.exists() or args.evidence.exists():
         parser.error("Use a fresh output directory; existing FSEQ/evidence cannot pass the gate")
@@ -55,6 +62,7 @@ def main() -> None:
         "commit": commit,
         "renderer_sha256": sha256(native),
         "xsq_input_sha256": xsq_hash,
+        **input_hashes,
         "fseq_sha256": sha256(fseq),
         **details,
         "drummer_oracle": "not_evaluated",

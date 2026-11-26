@@ -5,6 +5,9 @@ on:
     paths:
       - 'core/beat_grid*.py'
       - 'core/effect_engine*.py'
+      - 'core/composition_governor.py'
+      - 'core/orchestration_balance.py'
+      - 'core/physical_targets.py'
       - 'tests/test_live_beat_grid_contract.py'
       - 'tests/test_unified_orchestration_cli.py'
       - 'tools/verify_native_xlights_gate.py'
@@ -45,13 +48,21 @@ jobs:
       - name: Stage a clean-room show and generate the exact-head XSQ
         run: |
           show="$RUNNER_TEMP/helix-native-show"
+          generated="$RUNNER_TEMP/helix-native-generated"
           mkdir -p "$show"
           cp helixville4/xlights_rgbeffects.xml "$show/"
           python -c 'import runpy, sys; from pathlib import Path; runpy.run_path("tests/fixtures/beta_demo/generate_synthetic_audio.py")["generate_wav"](Path(sys.argv[1]), duration_seconds=8.0)' "$show/tone.wav"
           python main.py -- --template template.xsq --layout-file "$show/xlights_rgbeffects.xml" \
-            --audio "$show/tone.wav" --output-dir "$show" --variants 1 --single --no-prompt \
+            --audio "$show/tone.wav" --output-dir "$generated" --variants 1 --single --no-prompt \
             --no-save-settings --no-workspace-history --no-learning-memory --no-effects-orchestrator \
             --snap-grid 16 --snap-bpm 120 --snap-mode strict
+          shopt -s nullglob
+          sequences=("$generated/"*,*.xsq)
+          test "${#sequences[@]}" -eq 1
+          cp "${sequences[0]}" "$show/"
+          cp "$generated/"*,*.report.json "$show/"
+          # Retain any portable media filename referenced by the generated XSQ.
+          for media in "$generated/"*.wav; do cp "$media" "$show/"; done
       - name: Render with pinned native xLights and verify the FSEQ
         run: |
           native="$RUNNER_TEMP/xLights.AppImage"
@@ -63,7 +74,8 @@ jobs:
           sequences=("$show/"*,*.xsq)
           test "${#sequences[@]}" -eq 1
           xvfb-run -a python -m tools.verify_native_xlights_gate --xlights "$native" \
-            --show "$show" --xsq "${sequences[0]}" --commit "$HELIX_COMMIT" --evidence "$show/native-gate.json"
+            --show "$show" --xsq "${sequences[0]}" --audio "$show/tone.wav" \
+            --template template.xsq --commit "$HELIX_COMMIT" --evidence "$show/native-gate.json"
       - name: Retain exact-head native evidence
         uses: actions/upload-artifact@v4
         with:
@@ -74,3 +86,5 @@ jobs:
             ${{ runner.temp }}/helix-native-show/*.fseq
             ${{ runner.temp }}/helix-native-show/*.xsq
             ${{ runner.temp }}/helix-native-show/*.report.json
+            ${{ runner.temp }}/helix-native-show/tone.wav
+            ${{ runner.temp }}/helix-native-show/xlights_rgbeffects.xml
