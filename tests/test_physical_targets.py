@@ -14,8 +14,8 @@ def test_aliases_nested_groups_and_physical_submodel_ownership(tmp_path):
         <subModel name="Right" line0="8-5,0"/>
         <subModel name="Crop" type="subbuffer" subBuffer="0x0x50x50"/>
       </model>
-      <model name="Keys"><Aliases><alias name="OldName:Piano"/></Aliases></model>
-      <model name="Arch"/>
+      <model name="Keys"><Aliases><alias name="OldName:Piano"/><alias name="Duplicate"/></Aliases></model>
+      <model name="Arch"><Aliases><alias name="Duplicate"/></Aliases></model>
       </models><modelGroups>
         <modelGroup name="VoiceMix" models="Lead Singer/Mouth L"/>
         <modelGroup name="Nested" models="VoiceMix,Arch">
@@ -36,6 +36,8 @@ def test_aliases_nested_groups_and_physical_submodel_ownership(tmp_path):
     _, lookup = layout_entries_and_lookup(layout)
     assert map_layout_name("Lead Singer/Mouth L", lookup) == "Nova/Left"
     assert map_layout_name("Outer", lookup) == "Nested"
+    assert map_layout_name("Duplicate", lookup) is None
+    assert targets.resolve("Duplicate") is None
 
     session = CompositionGovernor().begin_placement(
         MusicalContext(1000, ()), targets.members, physical=targets,

@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+from collections import defaultdict
 import copy
 from pathlib import Path
 from typing import TYPE_CHECKING
@@ -29,14 +30,12 @@ def name_lookup_keys(name: str) -> list[str]:
     return keys
 
 
-def register_lookup_name(
-    lookup: dict[str, str], name: str, *, prefer_exact: bool, target: str | None = None,
-) -> None:
+def register_lookup_name(lookup: dict[str, str], name: str, *, prefer_exact: bool) -> None:
     for key in name_lookup_keys(name):
         if prefer_exact:
             lookup[key] = name
         else:
-            lookup.setdefault(key, target or name)
+            lookup.setdefault(key, name)
 
 
 def _aliases(element: ET.Element) -> list[str]:
@@ -59,6 +58,11 @@ def layout_entries_and_lookup(layout_path: Path) -> tuple[list[str], dict[str, s
 
     ordered_names: list[str] = []
     lookup: dict[str, str] = {}
+    aliases_by_key: dict[str, set[str]] = defaultdict(set)
+
+    def register_alias(alias: str, name: str) -> None:
+        for key in name_lookup_keys(alias):
+            aliases_by_key[key].add(name)
 
     groups_el = root.find("modelGroups")
     if groups_el is not None:
@@ -69,12 +73,10 @@ def layout_entries_and_lookup(layout_path: Path) -> tuple[list[str], dict[str, s
             ordered_names.append(name)
             register_lookup_name(lookup, name, prefer_exact=True)
             for alias in _aliases(child):
-                register_lookup_name(lookup, alias, prefer_exact=False, target=name)
+                register_alias(alias, name)
 
     models_el = root.find("models")
-    if models_el is None:
-        return (ordered_names, lookup)
-    for child in list(models_el):
+    for child in models_el if models_el is not None else ():
         name = (child.attrib.get("name") or "").strip()
         if not name:
             continue
@@ -82,7 +84,7 @@ def layout_entries_and_lookup(layout_path: Path) -> tuple[list[str], dict[str, s
         register_lookup_name(lookup, name, prefer_exact=True)
         parent_aliases = _aliases(child)
         for alias in parent_aliases:
-            register_lookup_name(lookup, alias, prefer_exact=False, target=name)
+            register_alias(alias, name)
         for sub in list(child):
             if not sub.tag.endswith("subModel"):
                 continue
@@ -94,10 +96,13 @@ def layout_entries_and_lookup(layout_path: Path) -> tuple[list[str], dict[str, s
             register_lookup_name(lookup, full_name, prefer_exact=True)
             sub_aliases = _aliases(sub)
             for alias in sub_aliases:
-                register_lookup_name(lookup, alias, prefer_exact=False, target=full_name)
+                register_alias(alias, full_name)
             for parent in [name, *parent_aliases]:
                 for leaf in [short_name, *sub_aliases]:
-                    register_lookup_name(lookup, f"{parent}/{leaf}", prefer_exact=False, target=full_name)
+                    register_alias(f"{parent}/{leaf}", full_name)
+    for key, targets in aliases_by_key.items():
+        if len(targets) == 1:
+            lookup.setdefault(key, next(iter(targets)))
     return (ordered_names, lookup)
 
 
@@ -144,10 +149,16 @@ def merge_effect_model_entry(target: ET.Element, source: ET.Element) -> None:
         if not (layer.tag.endswith("EffectLayer") or layer.tag.endswith("Layer")):
             continue
         layer_name = (layer.attrib.get("name") or "").strip()
-        if layer_name and layer_name in existing_names:
-            continue
-        if not layer_name and unnamed_count > 0:
-            continue
+        already_present = layer_name in existing_names if layer_name else unnamed_count > 0
+        if already_present:
+            has_authored_effects = (
+                not layer_name.startswith("AUTO_DreamSequenceWeaver_")
+                and any(child.tag.endswith("Effect") for child in layer)
+            )
+            if not has_authored_effects or any(
+                ET.tostring(existing) == ET.tostring(layer) for existing in target
+            ):
+                continue
         target.append(copy.deepcopy(layer))
         if layer_name:
             existing_names.add(layer_name)

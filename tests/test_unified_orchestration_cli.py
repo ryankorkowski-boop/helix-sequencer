@@ -160,7 +160,13 @@ def test_serialized_performer_anchors_and_shared_manual_nodes(tmp_path, monkeypa
 
     monkeypatch.setattr(effect_engine, "place_pixel_reactive_score", propose)
     monkeypatch.chdir(ROOT)
+    profile_defaults = {
+        name: getattr(effect_engine.base, name) for name in ("DENSITY", "SPEED", "RANDOMNESS")
+    }
+
     def run(label, *, drummer=True):
+        for name, value in profile_defaults.items():
+            monkeypatch.setattr(effect_engine.base, name, value)
         output = tmp_path / label
         run_profile("master", [
             "--template", str(template), "--layout-file", str(layout), "--audio", str(audio),

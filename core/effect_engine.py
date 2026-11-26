@@ -34,6 +34,7 @@ from core import polish as sequence_polish
 from core import rhythm_intelligence as ri
 from core import self_improving_scoring as sequence_scoring
 from core import snowman_band as snowman_band_engine
+from core import vocal_timeline
 from core import band_sync as band_sync_engine
 from core import youtube_show_scorer
 from core.autonomous_render_validation_engine import AutonomousRenderValidationEngine
@@ -12409,11 +12410,15 @@ def run_variant(
                     definition = str(instruction.get("face_definition", ""))
                     if definition not in definitions:
                         definition = definitions[0]
-                    phoneme = str(instruction.get("phoneme", "")).upper()
-                    xlights_phoneme = {
-                        "AH": "AI", "AI": "AI", "EE": "E", "E": "E", "FV": "FV", "L": "L",
-                        "MBP": "MBP", "OH": "O", "O": "O", "U": "U", "WQ": "WQ", "REST": "rest",
-                    }.get(phoneme, "etc")
+                    phoneme = str(instruction.get("phoneme", "")).upper().rstrip("012")
+                    if phoneme in {"AI", "E", "FV", "L", "MBP", "O", "U", "WQ", "REST"}:
+                        xlights_phoneme = "rest" if phoneme == "REST" else phoneme
+                    else:
+                        mouth = vocal_timeline.MOUTH_BY_PHONEME.get(phoneme, instruction.get("mouth_shape"))
+                        xlights_phoneme = {
+                            "mouth_A": "AI", "mouth_E": "E", "mouth_I": "E", "mouth_O": "O",
+                            "mouth_U": "U", "mouth_MBP": "MBP",
+                        }.get(mouth, "etc")
                     face_template = base.EffectTemplate(
                         settings=(f"E_CHOICE_Faces_FaceDefinition={definition},"
                                   f"E_CHOICE_Faces_Phoneme={xlights_phoneme}"),
