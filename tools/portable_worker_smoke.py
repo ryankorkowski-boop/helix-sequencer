@@ -17,7 +17,13 @@ def main():
     root=Path(__file__).resolve().parents[1]
     results=[]
     def run(args,label):
-        process=subprocess.run([str(worker),*map(str,args)],capture_output=True,text=True,timeout=600)
+        try:
+            process=subprocess.run([str(worker),*map(str,args)],capture_output=True,text=True,timeout=600)
+        except subprocess.TimeoutExpired as exc:
+            def decoded(value):
+                return value.decode('utf-8',errors='replace') if isinstance(value,bytes) else (value or '')
+            (out/(label+'.log')).write_text(decoded(exc.stdout)+decoded(exc.stderr),encoding='utf-8')
+            raise
         (out/(label+'.log')).write_text(process.stdout+process.stderr,encoding='utf-8')
         if process.returncode:
             print((process.stdout+process.stderr)[-14000:],flush=True)
