@@ -77,6 +77,19 @@ Do not mark complete from unit tests alone.
 
 ## Change Ledger
 
+### 2026-11-25 — Unified orchestration discovery
+**Branch:** `feature/unified-intelligence-orchestration`
+
+**Goal:** Trace the live renderer and establish a baseline for shared timing and cooperative placement.
+**Changed files/modules:** Added [architecture and engine inventory](docs/UNIFIED_ORCHESTRATION.md).
+**Intentionally preserved behavior:** Runtime unchanged.
+**New behavior:** Recorded the seeded director sidecar and live export paths, duplicated work, timing boundaries and placement hazards.
+**Tests/evidence:** 34 focused baseline tests passed. Clean-room CLI run emitted an eight-effect XSQ with quality score 81.0.
+**Limitations:** No installed native xLights renderer. Native import and FSEQ evidence remain open.
+**Deferred work:** Complete real-audio comparison, wire analyzed context and governor, and review visual output.
+**Regression risks:** Changes to placement accounting can affect dense chords, intended layers, and section-boundary effects.
+
+
 ### 2026-11-13 — Beta 1.3 packages the palette fix for Windows and Android
 **Agent:** Cursor cloud agent
 **Branch:** `cursor/beta-1-3-release-1aae`
