@@ -77,6 +77,77 @@ Do not mark complete from unit tests alone.
 
 ## Change Ledger
 
+### 2026-11-13 — Showcase layouts redrawn as residential houses
+**Agent:** Cursor cloud agent
+**Branch:** `cursor/showcase12-palettes-f36b`
+
+**Goal:** The 12 showcase panels should read as real houses and yards, not abstract props.
+
+**Changed files/modules:**
+- `tools/showcase12/houses.py` builds front elevations in inches: gabled roofs, windows, doors, garage, shrubs, evergreens, and yard props.
+- `tools/showcase12/generate_layouts.py` writes `house.json` silhouettes.
+- `tools/showcase12/xlights_fseq.py` and `render_showcase.py` draw that silhouette behind FSEQ pixels, and light a whole AC outline from its one channel.
+
+**Intentionally preserved behavior:** Palette selection, the Faces phoneme track, and the one-channel AC window contract. Songs are not committed.
+
+**New behavior:** Each panel is a street-facing house. RGB runs use about 3-inch spacing. Mega trees are cone fans at 16-20 feet. The garage on the matrix house is a pixel matrix.
+
+**Tests/evidence:** `tests/test_showcase12_faces.py`. Full-on geometry previews show a gabled house, yard trees, and a side-yard stage. FSEQ comparison videos are rendered after this change.
+
+**Limitations:** The preview tree and matrix placement follows this repo's model parser, which fits matrices to the model bounds. xLights still renders the channel data; the silhouette is not light output.
+
+**Deferred work:** None for this redraw.
+
+**Regression risks:** Old showcase12 sequences no longer match these fixtures and must be regenerated.
+
+### 2026-11-13 — Section palettes follow the song and the yard
+**Agent:** Cursor cloud agent
+**Branch:** `cursor/showcase12-palettes-f36b` (own PR against `feature/restructure-core`; #218 has merged)
+
+**Goal:** The same section hues should not land on every song and every layout. Singing faces should keep a real Faces effect instead of crashing the snowman planner.
+
+**Changed files/modules:**
+- `core/effect_engine.py` builds a palette from estimated key and mode, energy, tempo, section, and a layout-family shift. White stays an accent. When lyric sync is on, singing-face and singing-tree models are reserved and one Faces effect reads a Phonemes timing track.
+- `mapping/drum_mapper.py` includes `composite_submodels` on mapped hits.
+- `core/snowman_band.py` reads that field without raising if it is missing, and routes singing trees as faces.
+- `core/vocal_timeline.py` cycles visemes when only vocal-energy peaks exist.
+- `tests/test_palette_not_white.py` still rejects a white-only palette and now requires distinct songs or layouts to differ.
+- `tests/test_snowman_face_sync.py` covers the drum-map crash and Faces instructions.
+
+**Intentionally preserved behavior:** A template palette that already enables a chromatic color is left unchanged. `palette_mode=template` still starts from the template palette. Palette index 0 is still replaced when it is white-only. Effect choice, timing, and model targeting are otherwise unchanged.
+
+**New behavior:** Verse and chorus, major and minor, fast and slow, and two different prop mixes produce different chromatic ColorPalette rows. Faces effects on reserved models use `E_CHOICE_Faces_TimingTrack=Phonemes`.
+
+**Tests/evidence:** `tests/test_palette_not_white.py` and `tests/test_snowman_face_sync.py`. Full suite after this change: 918 passed, 18 failed, 5 skipped, 1 xfailed, 1 collection error in `tests/test_drum_mapping.py`. That is above the 914 passed / 19 failed baseline. Showcase renders from xLights 2026.19 FSEQ: RGB near-white share stayed under 0.09% on every panel. Palette diversity (mean pairwise distance of chromatic colors across the 12 panels) was 0.764, 0.702, 0.722, and 0.751 on S1-NPO, S2-CCC, S3-WWW, and S4-CLB.
+
+**Limitations:** Key detection is a CQT correlation, not a transcribed chord chart. Vocal-energy fallback cycles visemes when no lyric text is present. Single-channel AC props are still colored by the model color. One lineup was rendered against four songs; a second panel lineup was not rendered.
+
+**Deferred work:** None for the palette and showcase12 render. A second panel lineup was not rendered.
+
+**Regression risks:** Sequences that previously shared one red/green/gold family will now differ by song and layout. Singing-face models are left out of generic pools when `--sync-lyrics-heads` is on.
+
+### 2026-11-13 — Showcase review fixes for windows and face reservation
+**Agent:** Cursor cloud agent
+**Branch:** `cursor/showcase12-palettes-f36b`
+
+**Goal:** AC window frames must occupy the one channel they were given, and every model the Faces pass drives must be reserved before generic or lyric-mouth effects land on it.
+
+**Changed files/modules:**
+- `tools/showcase12/generate_layouts.py` sets `TopNodes=1` on AC window frames so the parser does not treat the rectangle vertices as extra pixels.
+- `core/effect_engine.py` reserves singing faces and singing trees with the same predicate the Faces pass uses, including when a numbered singing face would otherwise hide an unnumbered singing tree. Lyric mouth hits and lyric text are not placed on those models.
+
+**Intentionally preserved behavior:** Numbered talking-head discovery for generic pools is unchanged. RGB window frames are unchanged. Palette selection is unchanged.
+
+**New behavior:** An AC window is one channel in both the fixture and the FSEQ painter. A singing tree next to `Singing Face 1` is reserved for the phoneme Faces effect, and earlier mouth hits do not occupy that layer.
+
+**Tests/evidence:** `tests/test_showcase12_faces.py`.
+
+**Limitations:** The FSEQ channel data was already one channel per AC window. The comparison videos are repainted from those files so the window outline no longer samples the next props.
+
+**Deferred work:** None.
+
+**Regression risks:** Layouts that relied on a window frame consuming several AC channels from its outline points will now sequence and draw that window as one channel. That matches the channel the generator allocated.
+
 ### 2026-11-13 — Beta 1.3 packages the palette fix for Windows and Android
 **Agent:** Cursor cloud agent
 **Branch:** `cursor/beta-1-3-release-1aae`
