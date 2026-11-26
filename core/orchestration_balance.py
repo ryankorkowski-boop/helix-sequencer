@@ -118,6 +118,7 @@ def engine_for_label(label: str) -> str:
         ("snowman_face", "vocal"),
         ("birdsong", "birdsong"),
         ("hardkor", "hardkor"),
+        ("band_drummer", "drummer"),
         ("pixel_", "pixel_reactive"),
         ("matrix", "matrix"),
         ("multiband", "multiband"),

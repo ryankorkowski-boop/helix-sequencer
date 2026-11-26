@@ -181,6 +181,7 @@ class RuntimeTuning:
     chase_style: str = "none"
     layering_mode: str = "replace"
     unified_orchestration: bool = True
+    orchestrate_band_performers: bool = False
     layer_priority_vocals: int = 4
     layer_priority_drums: int = 3
     layer_priority_bass: int = 2
@@ -11183,9 +11184,11 @@ def run_variant(
         stem_priority = priorities.get(stem_key, priorities["other"])
         composition_priority = placement.priority(proposal, stem_key) if placement else 0
         layer_key = stem_to_choreo_layer(stem_key, label)
-        snap_grid, snap_shift = _select_snap_grid(stem_key, layer_key)
-        st_i, en_i = _snap_range(st_i, en_i, snap_grid, snap_shift, snap_shift + 12, min_dur)
-        if (en_i - st_i) >= 800 and bar_ms:
+        anchored = placement is not None and (label == "band_drummer_hit" or eff == "Faces")
+        if not anchored:
+            snap_grid, snap_shift = _select_snap_grid(stem_key, layer_key)
+            st_i, en_i = _snap_range(st_i, en_i, snap_grid, snap_shift, snap_shift + 12, min_dur)
+        if not anchored and (en_i - st_i) >= 800 and bar_ms:
             en_i = _snap_to_grid(en_i, bar_ms, 140)
             if en_i <= st_i + min_dur:
                 en_i = st_i + min_dur
@@ -11263,7 +11266,8 @@ def run_variant(
         if layer_key == "motion":
             layer_candidates.append("accent")
         attempts: list[tuple[int, int]] = []
-        for shift in (0, 50, -50, 100, -100, 150, -150):
+        shifts = (0,) if anchored else (0, 50, -50, 100, -100, 150, -150)
+        for shift in shifts:
             attempts.append((st_i + shift, en_i + shift))
         base_duration = max(1, en_i - st_i)
         for factor in (0.92, 0.84, 0.72):
@@ -12236,6 +12240,10 @@ def run_variant(
         if placed_snowman_faces:
             log(f"Snowman sequence face effects placed: {placed_snowman_faces}")
 
+    if placement and tuning.orchestrate_band_performers and not hardkor_mode:
+        for model_name, start_ms, end_ms in snowman_band_engine.drummer_placements(snowman_band_payload, layers):
+            add_model(model_name, start_ms, end_ms, "band_drummer_hit", stem="drums")
+
     spatial_track: list[tuple[str, int, int]] = []
     if not hardkor_mode and not structured_mode:
         spatial_spans, spatial_count = apply_spatial_chase(
@@ -13054,6 +13062,8 @@ def parse_args(style: VariantStyle, argv: list[str] | None = None) -> argparse.N
     parser.add_argument("--no-template-guidance", dest="template_guidance", action="store_false", help="Disable template-guided effect analysis")
     parser.add_argument("--spatial-awareness", type=float, dest="spatial_awareness", help="0.0-1.0 spatial chase intensity")
     parser.add_argument("--chase-style", dest="chase_style", help="none/left_to_right/radial_out/group_to_group/random_walk/wave")
+    parser.add_argument("--orchestrate-band-performers", action="store_true",
+                        help="Place detected drum hits on compatible physical band kit models")
     parser.add_argument("--no-unified-orchestration", dest="unified_orchestration",
                         action="store_false", help="Use the previous live placement and budget policy")
     parser.add_argument("--layering-mode", dest="layering_mode", help="replace/overlay_blend/smart_layer/additive")
@@ -13253,6 +13263,7 @@ def main_for(version: str, argv: list[str] | None = None) -> None:
         chase_style=normalize_chase_style(args.chase_style or "none"),
         layering_mode=normalize_layering_mode(args.layering_mode or "replace"),
         unified_orchestration=bool(args.unified_orchestration),
+        orchestrate_band_performers=bool(args.orchestrate_band_performers),
         layer_priority_vocals=int(args.layer_priority_vocals if args.layer_priority_vocals is not None else 4),
         layer_priority_drums=int(args.layer_priority_drums if args.layer_priority_drums is not None else 3),
         layer_priority_bass=int(args.layer_priority_bass if args.layer_priority_bass is not None else 2),

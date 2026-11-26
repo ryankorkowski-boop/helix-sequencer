@@ -428,6 +428,10 @@ def _build_intelligent_drum_cues(
     )
     events = list(resolved["events"])
     mapped = list(resolved["mapped_events"])
+    components = {
+        (item["timestamp_ms"], item["drum_type"]): str(item["component"])
+        for item in resolved["drummer_component_events"]
+    }
     motions = drummer_motion.build_drummer_motion(events)
     effect_cues = drum_effects.build_drum_effect_cues(events)
     cues: list[dict[str, Any]] = []
@@ -442,7 +446,7 @@ def _build_intelligent_drum_cues(
             "kind": drum_type,
             "section": _part_label(parts, start_ms),
             "submodel": item["submodel"],
-            "composite_submodels": item["composite_submodels"],
+            "composite_submodels": [components[(start_ms, drum_type)]],
             "velocity": item["velocity"],
             "confidence": item["confidence"],
             "frequency_band_info": item["frequency_band_info"],
@@ -1119,6 +1123,36 @@ def build_snowman_band_plan(
             "band_sync_frames": len(band_sync_frames),
         },
     }
+
+
+def drummer_placements(payload: Mapping[str, Any], model_names: Iterable[str]) -> list[tuple[str, int, int]]:
+    """Resolve detector cues to explicit kit components on the current layout."""
+    targets: dict[str, str] = {}
+    for name in sorted(model_names):
+        parent, _, component = name.rpartition("/")
+        if not component.startswith("HX_SNOWMAN_DRUMMER_"):
+            continue
+        if parent in {drum_mapper.DRUMMER_V3_MODEL, "HX_SNOWMAN_DRUMMER_INSTRUMENT"}:
+            targets.setdefault(component, name)
+        elif not parent:
+            targets[component] = name
+
+    legacy_components = {
+        "tom": "HX_SNOWMAN_DRUMMER_TOM",
+        "cymbal": "HX_SNOWMAN_DRUMMER_CYMBALS",
+    }
+    proposals = []
+    for cue in (payload.get("cues") or {}).get("drummer", ()):
+        kind = cue.get("kind")
+        if kind == "drum_bus" or cue.get("source") == "drum_bus_probabilistic_fallback":
+            continue
+        components = cue.get("composite_submodels") or ()
+        target = next((targets[part] for part in components if part in targets), None)
+        if target is None and kind in legacy_components:
+            target = targets.get(legacy_components[kind])
+        if target is not None:
+            proposals.append((target, int(cue["start_ms"]), int(cue["end_ms"])))
+    return proposals
 
 
 def build_timing_track(payload: Mapping[str, Any], limit: int = 1800) -> list[tuple[str, int, int]]:

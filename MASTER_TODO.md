@@ -77,6 +77,17 @@ Do not mark complete from unit tests alone.
 
 ## Change Ledger
 
+### 2026-11-25 — Restore band cues and admit dedicated drum hits
+**Goal:** Route existing drummer analysis to valid physical kit components and protect anchored performer timing.
+**Changed files/modules:** Snowman Band cue adapter, orchestration balance attribution, effect engine runner, and Snowman Band tests.
+**Intentionally preserved behavior:** Legacy drum mapper keys, fallback choreography on non-kit layouts, existing Hardkor vocabulary, and dedicated drummer workflows.
+**New behavior:** Join legacy drum cue tags with mapper-produced components. The opt-in `--orchestrate-band-performers` sends supported kit hits to live placement; their starts and Faces effect starts are held through placement retries.
+**Tests/evidence:** 30 focused band, balance, Birdsong and Hardkor tests passed. The parent branch reproduces the band cue `KeyError('composite_submodels')`.
+**Limitations:** Existing mapper and fixture geometry contain legacy drum component names. Only explicit model matches or the legacy named tom/cymbal components are used. Native performer rendering remains open.
+**Deferred work:** Verify full nine-component native geometry, mouth and face playback, and the prior drummer MP4 oracle on the target platform.
+**Regression risks:** Restoring the band payload can expose previously bypassed face routes. The new physical drummer placements remain opt-in.
+
+
 ### 2026-11-25 — Govern live effect placement
 **Goal:** Hold competing effects to a common ownership, priority and density policy before XSQ serialization.
 **Changed files/modules:** Composition governor, orchestration balance, live placement in effect engine, and balance tests.
