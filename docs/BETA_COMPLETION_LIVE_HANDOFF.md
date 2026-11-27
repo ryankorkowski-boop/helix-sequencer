@@ -1,3 +1,17 @@
+## November 27 · Vendor-informed phrase pass
+
+- Stays on the branch for [draft PR #270](https://github.com/ryankorkowski-boop/helix-sequencer/pull/270). The first-pass comparison baseline is `c82b4a58`.
+- The master engine now follows the same prop route for a detected melodic phrase and routes its strongest pitches across that route. Yard note overlays share one producer. Real bass cues can add a lower-brightness answer during an active phrase.
+- Native xLights comparisons used 24 seconds each of Helix Audiolights and Tinsel Sawtooth. The AC, double-helix, and 56-prop pixel-house layouts all kept zero frames with every prop bright. On the pixel house, the largest simultaneous sharp rise fell from 23 props to 12.
+- 191 focused tests passed. The RGB double-helix score declined by 0.3, and all cases remain below the 96-point internal vendor target. See [MASTER_TODO.md](../MASTER_TODO.md) for results, references, and review limits.
+
+## November 27 · Native orchestration comparison
+
+- Compared the recovered Beta 1.4 baseline at `97e2d677` with the phrase-led feature branch on the same 24-second Helix Audiolights excerpt and unchanged layout XML.
+- Decoded all 480 native xLights frames per layout and engine. In the RGB double-helix layout, frames with all seven props bright fell from 341 to zero. Frames with a sudden jump on most props fell from 16 to zero. In the 16-channel AC layout, the largest sudden increase fell from seven props to four.
+- The master engine now shares a section-aware attack limit across layers. The finishing pass uses measured cue types and a single focal prop at each selected event. The canonical continuation record is in [MASTER_TODO.md](../MASTER_TODO.md).
+- Pending review includes full songs, vendor parity, larger layouts and rebuilt installers. Release status remains open.
+
 ## November 26 · Native downloads and profiled Infinity intake
 
 - [x] Rendered and independently decoded the locked nine-panel arrangement at 1080p/30 H.264/AAC. The selected 30-second movie has zero lag in four windows and 0.99512 original-soundtrack correlation. The center band's separate decode measured 0.423 stage motion against 0.65. The timing/reference gate also remains open. [Nine-panel bundle with individual native renders](https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/45902718025/artifacts/15156953073) expires February 24, 2027.

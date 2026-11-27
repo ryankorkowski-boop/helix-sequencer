@@ -10,6 +10,50 @@ This tree has no MusicalContext, and a second show director is not added.
 
 from __future__ import annotations
 
+from collections import defaultdict
+from typing import Iterable
+
+
+class AttackBudget:
+    """Limit coincident attacks on distinct physical props across all lanes.
+
+    A 100 ms attack occupies each 25 ms slot it touches. Overlapping slots
+    catch clustered onsets on either side of a beat or bar.
+    Long movement and holds can continue after their attacks.
+    """
+
+    def __init__(self, root_count: int):
+        self.root_count = root_count
+        self.attacks: dict[int, set[str]] = defaultdict(set)
+        self.rejected = 0
+        self.peak_roots = 0
+
+    def capacity(self, part: str) -> int:
+        if self.root_count < 2:
+            return self.root_count
+        fraction = {"INTRO": 0.28, "VERSE": 0.35, "BRIDGE": 0.30, "PRECHORUS": 0.44,
+                    "CHORUS": 0.55, "OUTRO": 0.40}.get(part.upper(), 0.35)
+        return max(1, int(self.root_count * fraction))
+
+    def take(self, roots: Iterable[str], start_ms: int, part: str) -> bool:
+        footprint = frozenset(roots)
+        if not footprint:
+            return True
+        start_ms = max(0, start_ms)
+        slots = range(start_ms // 25, (start_ms + 99) // 25 + 1)
+        limit = self.capacity(part)
+        for slot in slots:
+            occupied = self.attacks.get(slot)
+            width = len(footprint) if occupied is None else len(occupied) + len(footprint - occupied)
+            if width > limit:
+                self.rejected += 1
+                return False
+        for slot in slots:
+            occupied = self.attacks[slot]
+            occupied.update(footprint)
+            self.peak_roots = max(self.peak_roots, len(occupied))
+        return True
+
 
 def model_role(name: str) -> str:
     """Advisory role from a model or group name. First specific match wins."""
@@ -22,7 +66,7 @@ def model_role(name: str) -> str:
         return "singer"
     if any(token in norm for token in ("guitarist", "guitar", "bassist", "cactus", "tubeman")):
         return "character"
-    if any(token in norm for token in ("mega tree", "spiral tree", "double helix", "fib tree", "helix")):
+    if any(token in norm for token in ("mega tree", "megatree", "spiral", "fib tree", "helix")):
         return "hero"
     if "arch" in norm:
         return "arch"
@@ -40,13 +84,13 @@ def label_lane(label: str) -> str:
         return "piano_overlay"
     if any(token in text for token in ("lyric_mouth", "mouth_sync", "snowman_face", "lyric_text")):
         return "vocal"
+    if "drop_flash" in text or text.endswith("_flash"):
+        return "flash"
     if text.startswith("pixel_") or any(
         token in text
         for token in ("birdsong", "multiband", "audio_reactive", "intensity_wave", "spatial_chase")
     ):
         return "overlay"
-    if "drop_flash" in text or text.endswith("_flash"):
-        return "flash"
     return "primary"
 
 

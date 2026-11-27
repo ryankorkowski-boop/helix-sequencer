@@ -7,6 +7,18 @@ from core import rhythm_intelligence
 
 
 class RhythmIntelligenceTests(unittest.TestCase):
+    def test_note_phrases_break_at_releases_and_section_boundaries(self) -> None:
+        events = [
+            SimpleNamespace(start_ms=start, end_ms=end, notes=[(62, 0.9)], part=part, section=part)
+            for start, end, part in [(100, 300, "VERSE"), (340, 515, "VERSE"), (540, 770, "VERSE"),
+                                     (815, 1060, "VERSE"), (1350, 1480, "VERSE"), (1500, 1650, "CHORUS")]
+        ]
+        phrases = rhythm_intelligence.group_note_phrases(events[::-1], [])
+        self.assertEqual([len(phrase) for phrase in phrases], [4, 1, 1])
+        self.assertEqual(rhythm_intelligence.bass_phrase_support(phrases, [200, 530, 560, 1150]), {560: 1060})
+        split = rhythm_intelligence.group_note_phrases(events, [500])
+        self.assertEqual([len(phrase) for phrase in split], [2, 2, 1, 1])
+
     def test_detects_three_two_polyrhythm_overlay(self) -> None:
         beat_ms = [0, 500, 1000, 1500, 2000, 2500, 3000]
         duplets = [beat_ms[idx] + 250 for idx in range(len(beat_ms) - 1)]

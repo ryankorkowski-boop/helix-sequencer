@@ -1,7 +1,63 @@
 from __future__ import annotations
 
-from bisect import bisect_left
+from bisect import bisect_left, bisect_right
 from statistics import median
+from typing import Protocol, TypeVar
+
+
+class _TimedNote(Protocol):
+    start_ms: int
+    end_ms: int
+    part: str
+    section: str
+    notes: list[tuple[int, float]]
+
+
+_Note = TypeVar("_Note", bound=_TimedNote)
+
+
+def group_note_phrases(events: list[_Note], boundaries: list[int]) -> list[list[_Note]]:
+    """Group measured notes by section, phrase grid and release gaps."""
+    edges = sorted(set(boundaries))
+    phrases: list[list[_Note]] = []
+    previous_key = None
+    held_until = 0
+    for event in sorted(events, key=lambda note: note.start_ms):
+        if not event.notes or event.end_ms <= event.start_ms:
+            continue
+        key = (event.part, event.section, bisect_right(edges, event.start_ms))
+        if key != previous_key or event.start_ms - held_until > 240:
+            phrases.append([])
+            held_until = 0
+        phrases[-1].append(event)
+        previous_key = key
+        held_until = max(held_until, event.end_ms)
+    return phrases
+
+
+def bass_phrase_support(
+    phrases: list[list[_Note]],
+    bass_peaks: list[int],
+) -> dict[int, int]:
+    """Find measured bass answers after the first melodic gesture in a phrase."""
+    peaks = sorted(set(bass_peaks))
+    spans: dict[int, int] = {}
+    for phrase in phrases:
+        if len(phrase) < 3:
+            continue
+        start = phrase[0].start_ms
+        end = max(note.end_ms for note in phrase)
+        if end - start < 750:
+            continue
+        index = bisect_left(peaks, max(start + 280, phrase[1].start_ms))
+        while index < len(peaks) and peaks[index] < end - 360:
+            peak = peaks[index]
+            # Use a note that is still sounding when the bass comes forward.
+            if any(note.start_ms <= peak < note.end_ms for note in phrase):
+                spans[peak] = min(end, peak + 950)
+                break
+            index += 1
+    return spans
 
 
 def default_payload() -> dict[str, object]:

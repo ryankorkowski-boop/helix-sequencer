@@ -95,6 +95,31 @@ class EffectEngineTests(unittest.TestCase):
         self.assertEqual(effect_engine.choose_piano_lights_pool(pools, "vocal", 0).category, "matrix")
         self.assertEqual(effect_engine.choose_piano_lights_pool(pools, "kick", 0).category, "spinner")
 
+    def test_piano_lights_keeps_pitch_contour_on_one_route(self) -> None:
+        events = [
+            effect_engine.NoteEvent(170, 280, [(89, 0.42), (60, 0.99)], "VERSE", "a"),
+            effect_engine.NoteEvent(325, 480, [(65, 0.96)], "VERSE", "a"),
+            effect_engine.NoteEvent(510, 720, [(72, 0.97)], "VERSE", "a"),
+            effect_engine.NoteEvent(940, 1060, [(60, 0.96)], "VERSE", "a"),
+        ]
+        pools = [
+            effect_engine.SequentialPool("arches", "arch", ["A1", "A2", "A3"]),
+            effect_engine.SequentialPool("matrix", "matrix", ["M1", "M2", "M3"]),
+        ]
+        calls = []
+
+        def place(name, start, end, label, **kwargs):
+            calls.append((name, start, end, kwargs["source_timed"]))
+            return True
+
+        count = effect_engine.place_piano_lights(
+            effect_engine.VARIANTS[effect_engine.ACTIVE_STYLE_VERSION], [events[:3], events[3:]],
+            pools, False, xsq_writer.EffectTemplate(settings=None, palette=None), place, lambda _time: False, [],
+        )
+        self.assertEqual(count, 4)
+        self.assertEqual([(name, start, fixed) for name, start, _end, fixed in calls],
+                         [("A1", 170, True), ("A2", 325, True), ("A3", 510, True), ("M1", 940, True)])
+
     def test_choose_cue_preferred_pool_uses_signature_context(self) -> None:
         candidates = [
             effect_engine.SequentialPool("impact", "mega", ["g1", "g2", "g3"]),

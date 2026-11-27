@@ -2,6 +2,32 @@
 
 Release status lives in `BETA_1_4_RELEASE_CHECKLIST.md`. Release is not approved.
 
+## November 27 · Phrase-level foreground and bass response
+
+**Goal:** Improve sustained musical focus and reduce competing note layers in the master Piano Lights mode.
+
+**Public references:** Looked at vendor previews and documentation for [Magical Light Shows' Sarajevo](https://magicallightshows.com/products/professional-sarajevo-xlights-sequence), [Little Drummer Boy](https://magicallightshows.com/products/little-drummer-boy-tobymac-ez-import), and [Showstopper's foreground and background explanation](https://showstoppersequences.com/Using-Your-New-Sequence_b_4.html). The Magical Light Shows best-selling catalog supplied a store-level popularity signal. The implementation uses Helix note, layout, and bass analysis.
+
+**Changed files:** `core/effect_engine.py`, `core/rhythm_intelligence.py`, `core/vivid_style.py`, their focused tests, and the live handoff.
+
+**Preserved:** The first-pass shared attack budget, manual template content, native layout and channel assignments, dedicated performer lanes, and existing compatibility paths for dedicated piano layouts.
+
+**New behavior:** Detected note runs keep one spatial route through their phrase. The strongest detected pitches use the song's working register. Foreground note attacks keep the detected onset when placed. One yard-keyboard engine owns the ordinary Piano Lights layout. When the phrase is still playing and there is space, a detected bass accent adds a low, fading response on a separate prop.
+
+**Tests and evidence:** 191 focused regressions passed. xLights 2026.18 rendered 480 frames per case for two real excerpts and three layouts. In the 56-prop pixel house, the largest sharp rise dropped from 23 props to 12, core effects fell from 2,954 to 839, and the internal score improved from 87.7 to 95.5. AC moved from 92.1 to 93.8. RGB double helix moved from 89.2 to 88.9 and kept its three-prop sharp-rise peak. No whole-layout bright frames occurred in the second-pass cases.
+
+**Limitations and risks:** Excerpts used local fallback stems. Fewer secondary note layers can reduce the number of props used in a dense scene. The pixel-house excerpt used 45 of 56 props compared with 48 in the first pass. Vendor-level visual parity, larger full-song validation, and device acceptance remain open. Dashboard service credentials were unavailable for this work.
+
+## November 27 · Source cues and a shared display attack budget
+
+**Goal:** Give each musical phrase a focal part of the layout and eliminate generated whole-display pulses.
+**Changed files:** `core/effect_engine.py`, `core/orchestration_balance.py`, `core/vivid_style.py`, `core/musical_bed.py`, their focused tests, and the live handoff.
+**Preserved:** Editable layout rows, channel assignments, manual template content, dedicated performer and phoneme cues, source timing tracks and native effect tables.
+**New behavior:** Broad group proposals rotate over physical members. Section-specific limits count distinct physical props across overlapping 100 ms attack windows. Primary musical cues have priority over supplemental overlays. Vivid uses measured melody, bass, build and arrival cues with physical travel and no forced coverage of inactive props. The optional dim bed is applied only when requested.
+**Tests and evidence:** 144 focused regressions passed. The master CLI and native xLights 2026.18 each processed the same 24-second Helix Audiolights excerpt on the 16-channel AC and RGB double-helix layouts. Decoding all 480 xLights frames per export found 341 to zero frames with all seven RGB props bright. Frames with a sudden brightness increase on most RGB props fell from 16 to zero. The largest simultaneous sudden increase on AC fell from seven props to four.
+**Limitations and deferred work:** DSP used local fallback stems for this comparison. Two layouts and one excerpt establish a regression result. Paid-vendor parity, full-song and larger layout review, and installed Android and Windows package testing remain open. Dashboard activity service credentials were unavailable in this session.
+**Regression risks:** A dense section can lose supplemental layers when it exceeds its attack budget. Authored template content and protected stage performances can still contain intentionally synchronized cues.
+
 ## November 27 · Empty weaver layers were the 79% load
 
 **Cause:** Not a stall. The Infinity XSQ has 75,117 effect layers and 61,359 of them are empty. `run_variant` called `ensure_layer` for base, motion, and accent on every model and group before placing anything. xLights prints `Effects Loaded` after every layer, while the percent only moves when an effect node is loaded. At 600s it had walked about 93% of layers and 79% of effects.

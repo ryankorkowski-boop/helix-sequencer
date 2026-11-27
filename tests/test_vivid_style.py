@@ -4,7 +4,8 @@ from __future__ import annotations
 import xml.etree.ElementTree as ET
 from pathlib import Path
 
-from core.vivid_style import append_show_grove, apply_vivid_style, palette_text
+from core.orchestration_balance import AttackBudget
+from core.vivid_style import append_show_grove, apply_vivid_style, palette_text, style_sequence
 from tools.layout_bench.xlights_fseq import saturated_bulb
 
 
@@ -52,7 +53,6 @@ def test_vivid_removes_the_bed_and_drives_ac_to_full(tmp_path: Path):
     report = apply_vivid_style(sequence, layout)
     root = ET.parse(sequence).getroot()
     assert all(effect.attrib.get("source") != "HelixMusicalBed" for effect in root.iter("Effect"))
-    roof = [effect for effect in root.iter("Effect") if effect.attrib.get("source") != "HelixVivid"]
     assert any("E_TEXTCTRL_Eff_On_Start=100" in (effect.attrib.get("settings") or "") for effect in root.iter("Effect"))
     vivid = [effect for effect in root.iter("Effect") if effect.attrib.get("source") == "HelixVivid"]
     assert report["ac_models"] >= 3
@@ -70,8 +70,10 @@ def test_vivid_accents_keep_white_highlight_but_never_white_only(tmp_path: Path)
     sequence = tmp_path / "show.xsq"
     _layout(layout)
     _sequence(sequence)
-    apply_vivid_style(sequence, layout)
     root = ET.parse(sequence).getroot()
+    style_sequence(root, layout, sections=[
+        {"label": "CHORUS", "start_ms": 0, "end_ms": 4000},
+    ], cue_times={"impact": [550, 600], "melody": [1300, 2300]})
     tables = color_palette_table(root)
     accents = [effect for effect in root.iter("Effect")
                if effect.attrib.get("source") == "HelixVivid"
@@ -104,7 +106,7 @@ def test_grove_appends_without_moving_existing_channels(tmp_path: Path):
     assert "HX Vivid Spiral 01" in group.attrib["models"]
 
 
-def test_every_model_including_grove_gets_effects_during_active_music(tmp_path: Path):
+def test_vivid_does_not_force_coverage_to_fill_rests(tmp_path: Path):
     layout = tmp_path / "layout.xml"
     _layout(layout)
     dense = tmp_path / "dense.xml"
@@ -112,45 +114,18 @@ def test_every_model_including_grove_gets_effects_during_active_music(tmp_path: 
     sequence = tmp_path / "show.xsq"
     _sequence(sequence)
     root = ET.parse(sequence).getroot()
-    layer = root.find("ElementEffects/Element/EffectLayer")
-    for start in range(0, 4000, 200):
-        ET.SubElement(layer, "Effect", {"name": "On", "startTime": str(start), "endTime": str(start + 80), "palette": "0"})
-    ET.ElementTree(root).write(sequence)
-    apply_vivid_style(sequence, dense)
-    saved = ET.parse(sequence).getroot()
-    from core.vivid_style import models_without_effects
 
-    assert models_without_effects(saved, dense) == []
-    groups = {
-        item.attrib["name"]: item.attrib["models"]
-        for item in ET.parse(dense).getroot().findall("./modelGroups/modelGroup")
-    }
-    assert "HX Vivid Spiral 01" in groups["HX Vivid Spirals"]
-    assert "HX Vivid DNA 01 A" in groups["HX Vivid DNA"]
-    covered = {
-        element.attrib.get("name")
-        for element in saved.find("ElementEffects").findall("Element")
-        if element.findall(".//Effect")
-    }
-    assert "HX Vivid Spirals" in covered and "HX Vivid DNA" in covered
-    watched = (
-        "Matrix",
-        "HX Vivid Spiral 01",
-        "HX Vivid Spiral 02",
-        "HX Vivid Spiral 03",
-        "HX Vivid Spiral 04",
-        "HX Vivid DNA 01 A",
-        "HX Vivid DNA 01 B",
+    report = style_sequence(
+        root,
+        dense,
+        sections=[{"label": "VERSE", "start_ms": 0, "end_ms": 4000}],
+        cue_times={"melody": [400, 800, 1400, 2720, 3950]},
+        quiet_windows=[(1200, 2100), (2800, 3500)],
     )
-    samples = []
-    for t in range(200, 3800, 120):
-        lit = 0
-        for name in watched:
-            element = next(item for item in saved.find("ElementEffects") if item.attrib.get("name") == name)
-            if any(int(effect.attrib["startTime"]) <= t < int(effect.attrib["endTime"]) for effect in element.findall(".//Effect")):
-                lit += 1
-        samples.append(lit / len(watched))
-    assert 0.15 <= sum(samples) / len(samples) <= 0.45
+
+    accents = root.findall("./ElementEffects/Element/EffectLayer[@name='Helix Vivid']/Effect")
+    assert report["added"] == len(accents) == 1
+    assert [item.get("startTime") for item in accents] == ["400"]
 
 
 def test_singers_and_drummers_keep_their_effects(tmp_path: Path):
@@ -249,23 +224,53 @@ def test_white_bulbs_become_saturated():
     assert saturated_bulb("Tree", (0, 255, 0)) == (0, 255, 0)
 
 
-def test_rgb_vivid_accents_do_not_broadcast_to_dense_layout():
-    from core.vivid_style import _rgb_motion
-    root = ET.Element("ElementEffects")
-    names = [f"Pixel prop {i}" for i in range(100)]
-    _rgb_motion(root, names, [], 3000, [0, 500, 1000, 1500, 2000, 2500], lambda name, start: "0")
-    counts = {}
-    for effect in root.iter("Effect"):
-        start = effect.attrib["startTime"]
-        counts[start] = counts.get(start, 0) + 1
-    assert counts
-    assert max(counts.values()) <= 8
+def test_vivid_uses_source_roles_and_skips_full_attack_budget(tmp_path: Path):
+    layout = tmp_path / "layout.xml"
+    _layout(layout)
+    sequence = tmp_path / "show.xsq"
+    _sequence(sequence)
+    root = ET.parse(sequence).getroot()
+    budget = AttackBudget(4)
+    assert budget.take(["Tree"], 900, "VERSE")
+    style_sequence(
+        root,
+        layout,
+        sections=[
+            {"label": "VERSE", "start_ms": 0, "end_ms": 1800},
+            {"label": "PRECHORUS", "start_ms": 1800, "end_ms": 2900},
+            {"label": "CHORUS", "start_ms": 2900, "end_ms": 4000},
+        ],
+        cue_times={"bass": [920], "melody": [1100, 2200], "build": [2120], "impact": [3000]},
+        budget=budget,
+    )
+
+    emitted = {
+        (element.get("name"), int(effect.get("startTime")), effect.get("label"))
+        for element in root.findall("./ElementEffects/Element")
+        for effect in element.findall("./EffectLayer[@name='Helix Vivid']/Effect")
+    }
+    assert ("Arch", 1100, "vivid melody") in emitted
+    assert ("Roof", 2120, "vivid build") not in emitted  # Existing authored Roof cue runs to 2400.
+    assert all(start not in {920, 2200} for _, start, _ in emitted)
+    build = next(effect for effect in root.iter("Effect") if effect.get("label") == "vivid build")
+    assert "E_TEXTCTRL_Eff_On_Start=15,E_TEXTCTRL_Eff_On_End=78" in build.get("settings")
+    assert len([start for _, start, _ in emitted if start == 3000]) == 1
 
 
-def test_vivid_section_accent_selects_one_focal_group():
-    from core.vivid_style import _group_motion
-    root = ET.Element("ElementEffects")
-    sections = [{"start_ms": 0, "end_ms": 1000}, {"start_ms": 1000, "end_ms": 2000}]
-    count = _group_motion(root, ["Zone A", "Zone B", "Zone C"], 2000, [0, 1000], sections, lambda name, start: "0")
-    assert count == 2
-    assert len(list(root.iter("Effect"))) == 2
+def test_vivid_support_follows_measured_bass_and_leaves_rests_dark(tmp_path: Path):
+    layout = tmp_path / "layout.xml"
+    _layout(layout)
+    sequence = tmp_path / "show.xsq"
+    _sequence(sequence)
+    root = ET.parse(sequence).getroot()
+    report = style_sequence(
+        root, layout,
+        sections=[{"label": "VERSE", "start_ms": 0, "end_ms": 4000}],
+        cue_times={},
+        support_spans={600: 1250, 2700: 3600},
+        quiet_windows=[(2900, 3100)],
+    )
+    support = root.findall(".//Effect[@label='vivid support']")
+    assert report["bass_support"] == len(support) == 1
+    assert (support[0].get("startTime"), support[0].get("endTime")) == ("600", "1250")
+    assert "E_TEXTCTRL_Eff_On_Start=32,E_TEXTCTRL_Eff_On_End=0" in support[0].get("settings")
