@@ -12,9 +12,17 @@ Status: NOT OWNER APPROVED. Draft PR #269. Canva reference: https://www.canva.co
 - [ ] Implement native xLights 3D House Preview video export on CI using supported automation and virtual display where required. Fixed elevated camera matching reference, all landmarks recognizable. Preserve real XSQ/FSEQ; no flat fallback, synthetic effects or Canva backdrop.
 - [ ] Run a real three-second audio excerpt through Helix and native xLights. Record input hash, engine commit, camera, asset hashes, channel coverage, native logs, ffprobe and decoded frames. Repair failed runs before proceeding. Use Wub Wub only for short test.
 - [ ] Visual gate: recognizable detailed architecture, two volumetric helixes, depth, spiral forest, visible canonical band, distinct musical roles, no global white or synchronized beat pulsing. Inspect frames and motion; automated brightness checks alone are insufficient. Select additional short real-audio passages for vocals/drums if needed. Do not mark owner approval.
-- [ ] Locate original exact 180-second Helix Sampler from Drive or owner upload; verify identity, duration and hash. No substitute. This dependency must not stop architecture/short-test work.
-- [ ] After short engineering and visual gates pass and sampler is verified, render full 180 seconds using the same verified engine/layout/camera; verify audio sync, duration, H.264/AAC 1920x1080 30fps, complete decode, no blank frames or global flashes, representative musical sections and independent vocals where present.
+- [x] Locate and authenticate original approximately 180-second HelixRemix source. Verified WAV is 180.224014 sec, 44.1kHz stereo signed 16-bit PCM, 31,791,594 bytes, SHA-256 efdfe69328b8458ff9b405d091af9d5cb9202e3f53846f1ac0de07814f28739d. Drive file ID 1usXEUMESsJGhioYaTgZKDMSOa9WSVr2s (`3minHelixRemix.wav`); identical bytes/hashes to older `helix3minuteshowcase.wav` ID 1bB_48UMUXC2tL325whoujVBqVw6SDHQk. Owner confirmed upload; treat first as canonical source. Do not substitute any alternate track.
+- [ ] After short engineering and visual gates pass and source is verified, render full 180.224014 seconds using the same verified engine/layout/camera; verify audio sync, duration, H.264/AAC 1920x1080 30fps, complete decode, no blank frames or global flashes, representative musical sections and independent vocals where present.
 - [ ] Deliver MP4, editable XSQ, native FSEQ, xlights_rgbeffects.xml, OBJ/MTL/textures, camera and channel mapping, reproducible workflow, manifest and direct artifact links. Verify downloadability. Update MASTER_TODO.md and docs/BETA_COMPLETION_LIVE_HANDOFF.md with actual evidence.
+## Verified production-audio provenance (2026-11-27)
+- Canonical source: [3minHelixRemix.wav](https://drive.google.com/file/d/1usXEUMESsJGhioYaTgZKDMSOa9WSVr2s/view), ID `1usXEUMESsJGhioYaTgZKDMSOa9WSVr2s`.
+- Duration `180.224014 s` via ffprobe; stereo 44,100 Hz PCM s16le; byte size `31791594`.
+- SHA-256 `efdfe69328b8458ff9b405d091af9d5cb9202e3f53846f1ac0de07814f28739d` verified from downloaded original.
+- [helix3minuteshowcase.wav](https://drive.google.com/file/d/1bB_48UMUXC2tL325whoujVBqVw6SDHQk/view) is byte-for-byte identical (same SHA-256); no reason to transcode or substitute.
+- Before full rendering, workflow MUST acquire the canonical original file (not public-unverified direct-link assumptions), validate SHA-256 and measured duration (allow <= 0.02s ffprobe discrepancy), and preserve full audio without trimming. Abort on mismatch; never fall back to Wub Wub.
+- Missing-audio blocker cleared. Full render remains BLOCKED by incomplete true-3D visual acceptance and canonical drummer verification.
+
 ## Running ledger
 For each cycle append UTC timestamp, commit, action, run URL, artifact URL, tests, visual verdict, blocker, next action. Keep failed checks open. Never claim completion based on queued jobs or diagnostics.
 ## Guardrails
