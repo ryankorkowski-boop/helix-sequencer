@@ -381,6 +381,46 @@ class NativePreviewResolutionTests(unittest.TestCase):
         self.assertEqual(preview.rest_startup_timeout(60), 120)
         self.assertEqual(preview.rest_startup_timeout(300), 300)
         self.assertEqual(preview.rest_startup_timeout(1800), 600)
+        self.assertEqual(preview.control_command_timeout(None), 60)
+        self.assertEqual(preview.control_command_timeout(60), 60)
+        self.assertEqual(preview.control_command_timeout(1800), 600)
+
+    def test_show_folder_read_retries_one_socket_timeout(self):
+        app = SimpleNamespace(poll=Mock(return_value=None))
+        with tempfile.TemporaryDirectory() as directory:
+            show = Path(directory).resolve()
+            calls = {"n": 0}
+
+            def command(_endpoint, cmd, *, timeout=60, **_params):
+                calls["n"] += 1
+                if calls["n"] == 1:
+                    raise TimeoutError("timed out")
+                return {"folder": str(show)}
+
+            with patch.object(preview, "_command", side_effect=command):
+                folder = preview._wait_show_folder(app, "http://127.0.0.1:1", show, timeout=5)
+            self.assertEqual(folder["folder"], str(show))
+            self.assertEqual(calls["n"], 2)
+
+    def test_dense_open_sequence_gets_the_longer_command_budget(self):
+        app = SimpleNamespace(pid=123, returncode=1, poll=Mock(return_value=None))
+
+        def die(*_args):
+            app.poll.return_value = 1
+
+        with tempfile.TemporaryDirectory() as directory:
+            show = Path(directory).resolve()
+            staged = show / "Performance.xsq"
+            with patch.object(preview.subprocess, "Popen", return_value=app), \
+                    patch.object(preview.rest, "_request_json", return_value={"res": 200}), \
+                    patch.object(preview.rest, "_response_ok", return_value=True), \
+                    patch.object(preview, "_command", side_effect=[
+                        {"folder": str(show)}, {"fullseq": str(staged)}]) as command, \
+                    patch.object(preview, "_dismiss_startup_dialogs", side_effect=die):
+                with self.assertRaisesRegex(RuntimeError, "after startup dialog dismissal"):
+                    preview._native_export("/bin/xLights", show, staged, 0, 1800)
+            opened = [call for call in command.call_args_list if call.args[1] == "openSequence"]
+            self.assertEqual(opened[0].kwargs["timeout"], 600)
 
 
 if __name__ == "__main__":

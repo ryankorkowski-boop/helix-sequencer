@@ -2,6 +2,17 @@
 
 Release status lives in `BETA_1_4_RELEASE_CHECKLIST.md`. Release is not approved.
 
+## November 27 · Infinity movie export died after REST answered
+
+**Goal:** The 10,240-prop native jobs no longer die at REST startup. They now produce an FSEQ and then fail while the GUI is opening the show. Do not treat that as a finished movie, and do not raise the 1800s export cap.
+**Changed files:** `tools/native_preview.py`, `tests/test_native_preview_resolution.py`, `BETA_1_4_RELEASE_CHECKLIST.md`, `MASTER_TODO.md`.
+**Evidence:** Runs [45916691190](https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/45916691190) (`075b1fb`), [45916719842](https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/45916719842) (`5a7ceb2`), and [45917803675](https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/45917803675) (`7ddf34aa`) logged `HELIX_NATIVE_REST_WAIT` with `process_alive: true` through about 154–216s, then `HELIX_NATIVE_FSEQ_ACTIVITY` for 600 frames and about 2.37 million channels. Render step wall time was about 16 minutes, not 30. Status was `fallback`. The warning was exactly `timed out`, which is `urlopen`'s `TimeoutError`, not the 1800s export budget. `getShowFolder` used a 10s read and did not retry a socket timeout. `openSequence` still used the 60s default.
+**Preserved:** Ordinary previews stay at 60s per command and 120s of show-folder readiness. Export remains capped at the caller’s render timeout, at most 1800s. Resolution, channel, and audio gates are unchanged. A timeout still fails closed.
+**New behavior:** Show-folder reads retry a socket timeout until the readiness deadline and log `HELIX_NATIVE_SHOW_WAIT`. That deadline follows `rest_startup_timeout`. `openSequence` uses `control_command_timeout` (60s, or up to 600s when a longer render budget was requested) and logs `HELIX_NATIVE_OPEN_SEQUENCE`. A command timeout names the command.
+**Tests:** `tests/test_native_preview_resolution.py` — 30 passed locally, including the retry and the 600s open budget.
+**Limitations:** The in-progress Infinity runs do not contain this change. No new FSEQ or MP4 has been accepted. If the next run logs `HELIX_NATIVE_OPEN_SEQUENCE` and still dies at 600s with the process alive, stop and read that log before lengthening anything.
+**Regression risks:** A busy small preview can spend up to its readiness window retrying `getShowFolder`. Only callers that pass `render_timeout` above 60s wait longer on `openSequence`.
+
 ## November 27 · Retire the deleted arch apex circuits on the canonical AC map
 
 **Goal:** Stop the original AC layout from recreating the four center sections the owner removed.

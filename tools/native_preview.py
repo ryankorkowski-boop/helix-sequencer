@@ -41,6 +41,18 @@ def rest_startup_timeout(render_timeout: int | None) -> float:
     return float(min(render_timeout, 600))
 
 
+def control_command_timeout(render_timeout: int | None) -> float:
+    """Seconds for one xLights command after REST has already answered.
+
+    Ordinary previews stay at 60s. Opening a 10,240-prop sequence can sit
+    past that after getVersion returns. A caller that already set a longer
+    render budget may use up to 600s. The video export cap stays 1800s.
+    """
+    if render_timeout is None or render_timeout <= 60:
+        return 60.0
+    return float(min(render_timeout, 600))
+
+
 def _run(command: list[str], timeout: float) -> str:
     result = subprocess.run(command, capture_output=True, text=True,
                             timeout=timeout, check=False)
@@ -182,9 +194,12 @@ def mux_original_audio(video: Path, audio: Path, output: Path, *,
 
 
 def _command(endpoint: str, cmd: str, *, timeout: float = 60, **params: str) -> dict[str, Any]:
-    response = rest._request_json(
-        "POST", f"{endpoint}/xlDoAutomation", {"cmd": cmd, **params},
-        timeout=timeout)
+    try:
+        response = rest._request_json(
+            "POST", f"{endpoint}/xlDoAutomation", {"cmd": cmd, **params},
+            timeout=timeout)
+    except TimeoutError as exc:
+        raise TimeoutError(f"xLights {cmd} timed out after {timeout:g}s") from exc
     if not rest._response_ok(response):
         raise RuntimeError(f"xLights {cmd} rejected: {response}")
     return response
@@ -378,9 +393,23 @@ def _wait_show_folder(app: subprocess.Popen, endpoint: str, show: Path,
         except urllib.error.HTTPError as exc:
             # Retry only this idempotent readiness read and only a temporary
             # busy response. Never replay open/render/export mutations here.
-            if exc.code!=503:raise
+            if exc.code!=503 or time.monotonic()>=deadline:
+                if exc.code==503:
+                    raise RuntimeError('xLights show readiness timed out (HTTP503)') from exc
+                raise
+            print("HELIX_NATIVE_SHOW_WAIT " + json.dumps({
+                "http": 503, "process_alive": app.poll() is None,
+            }), flush=True)
+            time.sleep(.25)
+            continue
+        except TimeoutError as exc:
+            # A loaded process can miss one short read while the GUI is busy.
+            # Retry until the readiness deadline. Do not retry export.
             if time.monotonic()>=deadline:
-                raise RuntimeError('xLights show readiness timed out (HTTP503)') from exc
+                raise RuntimeError('xLights show readiness timed out') from exc
+            print("HELIX_NATIVE_SHOW_WAIT " + json.dumps({
+                "error": str(exc), "process_alive": app.poll() is None,
+            }), flush=True)
             time.sleep(.25)
             continue
         if Path(folder.get('folder','')).resolve()!=show:
@@ -427,9 +456,13 @@ def _native_export(xlights: str, show: Path, staged: Path,
                     if now >= deadline:
                         raise RuntimeError("xLights REST startup timed out")
                     time.sleep(.1)
-            _wait_show_folder(app, endpoint, show)
+            _wait_show_folder(app, endpoint, show, timeout=rest_startup_timeout(render_timeout))
+            open_timeout = control_command_timeout(render_timeout)
+            print("HELIX_NATIVE_OPEN_SEQUENCE " + json.dumps({
+                "timeout_seconds": open_timeout,
+            }), flush=True)
             opened = _command(endpoint, "openSequence", seq=str(staged),
-                              promptIssues="false")
+                              promptIssues="false", timeout=open_timeout)
             if Path(opened.get("fullseq", "")).resolve() != staged:
                 raise ValueError("xLights opened an unexpected sequence")
             _dismiss_startup_dialogs(app.pid, staged.parent)
