@@ -4,7 +4,11 @@ name: Wub Wub orchestration 3-second native 16-panel review
 on:
   push:
     branches: [codex/beta14-orchestration-role-gates-20261127]
-    paths: [.github/workflows/wub-orchestration-3second-native.yml]
+    paths:
+      - .github/workflows/wub-orchestration-3second-native.yml
+      - core/effect_engine.py
+      - core/orchestration_balance.py
+      - tests/test_orchestration_balance.py
   workflow_dispatch:
 permissions:
   contents: read
