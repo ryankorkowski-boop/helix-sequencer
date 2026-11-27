@@ -1,0 +1,28 @@
+name: Build numbered RGBEffects master atlas
+on:
+  push:
+    branches:
+      - artwork/rgbeffects-master-poster-20261127
+    paths:
+      - tools/generate_rgbeffects_master_atlas.py
+      - .github/workflows/rgbeffects-master-atlas.yml
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  atlas:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Generate one SVG atlas from all distinct XML blobs
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_REPOSITORY: ${{ github.repository }}
+          GITHUB_REF_NAME: ${{ github.ref_name }}
+          GITHUB_SHA: ${{ github.sha }}
+        run: |
+          curl -fL --retry 3 -o generate_rgbeffects_master_atlas.py \
+            "https://raw.githubusercontent.com/${{ github.repository }}/${{ github.sha }}/tools/generate_rgbeffects_master_atlas.py"
+          python3 generate_rgbeffects_master_atlas.py
