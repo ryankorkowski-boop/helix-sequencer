@@ -11105,10 +11105,12 @@ def run_variant(
     }
     show_direction_budget = balance.ShowDirectionBudget(len(placeable_models), len(yard_families))
 
-    def _section_budget_ok(st_ms: int, label: str) -> bool:
+    def _section_budget_ok(st_ms: int, label: str, en_ms: int | None = None) -> bool:
         lane = balance.label_lane(label)
         part = part_for_time(parts, st_ms)
-        quiet = any(a <= st_ms < b for a, b in multiband.quiet_windows)
+        quiet = balance.intersects_quiet_window(
+            st_ms, st_ms + 1 if en_ms is None else en_ms, multiband.quiet_windows
+        )
         overlay_cap, flash_cap = balance.restrained_accent_budget(part, quiet=quiet)
         if lane == "overlay":
             bucket = int(st_ms) // 1000
@@ -11166,7 +11168,7 @@ def run_variant(
             balance.model_role(nm) not in {"piano", "singer", "percussion", "character"}
             and lane in {"primary", "overlay", "flash"}
         )
-        section_key = part_for_time(parts, st_i)
+        section_key = balance.section_instance_key(parts, st_i)
         if family_governed and not show_direction_budget.can_allow(
             section=section_key, family=family_key, label=label
         ):
@@ -11259,9 +11261,9 @@ def run_variant(
                 if key in seen_attempts:
                     continue
                 seen_attempts.add(key)
-                if lane in {"overlay", "flash"} and not _section_budget_ok(max(0, cand_st), label):
+                if lane in {"overlay", "flash"} and not _section_budget_ok(max(0, cand_st), label, cand_en):
                     continue
-                actual_section = part_for_time(parts, max(0, cand_st))
+                actual_section = balance.section_instance_key(parts, max(0, cand_st))
                 if family_governed and not show_direction_budget.can_allow(
                     section=actual_section, family=family_key, label=label
                 ):
