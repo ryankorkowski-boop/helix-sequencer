@@ -44,13 +44,15 @@ class IndependentVocalTests(unittest.TestCase):
             with self.assertRaisesRegex(ValueError, "near-identical"):
                 analyze_independent_vocals(a, b)
 
-    def test_mismatched_duration_is_rejected(self):
+    def test_shorter_stem_is_a_singer_who_stops_early(self):
         with tempfile.TemporaryDirectory() as d:
             a, b = Path(d) / "lead.wav", Path(d) / "harmony.wav"
             make_wav(a, 220, duration=0.6)
             make_wav(b, 330, duration=0.3)
-            with self.assertRaisesRegex(ValueError, "duration"):
-                analyze_independent_vocals(a, b)
+            result = analyze_independent_vocals(a, b)
+            harmony = result["tracks"][1]
+            self.assertTrue(harmony["windows"])
+            self.assertLessEqual(max(window["end_ms"] for window in harmony["windows"]), 300)
 
     def test_silent_lead_is_rejected(self):
         with tempfile.TemporaryDirectory() as d:
@@ -133,6 +135,15 @@ def test_streamed_activity_preserves_separate_singer_windows():
         result = analyze_independent_vocals(lead, backing)
         assert all(track["windows"] for track in result["tracks"])
         assert result["independence"] == "duplicate_rejection_only_not_voice_identity_proof"
+
+
+def test_shortened_copy_of_the_lead_is_still_rejected():
+    with tempfile.TemporaryDirectory() as d:
+        lead, backing = Path(d) / "lead.wav", Path(d) / "backing.wav"
+        make_wav(lead, 220, duration=1.0, amplitude=0.4)
+        make_wav(backing, 220, duration=0.45, amplitude=0.15)
+        with unittest.TestCase().assertRaisesRegex(ValueError, "near-identical"):
+            analyze_independent_vocals(lead, backing)
 
 
 def test_gain_scaled_copy_with_short_tail_is_rejected():

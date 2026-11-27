@@ -168,17 +168,18 @@ def analyze_independent_vocals(lead_path: str | Path, harmony_path: str | Path,
                                *, output_json: str | Path | None = None) -> dict:
     """Accept two separately sourced singer stems, reject duplicated vocal mixtures.
 
+    The files must share a start. A shorter file is a singer who stops early,
+    not a reason to reject the pair. Correlation is measured on the shared
+    prefix, so a shortened copy of the lead is still a duplicate.
     A verified separation algorithm must create the two inputs upstream. The
     gate deliberately fails closed if two paths contain identical PCM.
     """
     lead_path, harmony_path = Path(lead_path), Path(harmony_path)
-    # Use the same absolute sample indices for both singer fingerprints, even
-    # when their WAV durations differ by the permitted 50 ms tolerance.
+    # Same absolute sample index on both files. Session bounces share a start
+    # and often end when that singer stops, so the lengths are not required to match.
     with wave.open(str(lead_path), "rb") as lead_wav, wave.open(str(harmony_path), "rb") as harmony_wav:
         if lead_wav.getframerate() != harmony_wav.getframerate():
             raise ValueError("Vocal stems have different sample rates; align/resample first")
-        if abs(lead_wav.getnframes() - harmony_wav.getnframes()) > round(lead_wav.getframerate() * 0.05):
-            raise ValueError("Vocal stems differ in duration by more than 50 ms")
         common_stride = max(1, (max(lead_wav.getnframes(), harmony_wav.getnframes()) + 49999) // 50000)
     lead_rate, lead_frames, lead_energies, lead_fingerprint = _stream_vocal_features(
         lead_path, fingerprint_stride=common_stride)
@@ -186,8 +187,6 @@ def analyze_independent_vocals(lead_path: str | Path, harmony_path: str | Path,
         harmony_path, fingerprint_stride=common_stride)
     if lead_rate != harmony_rate:
         raise ValueError("Vocal stems have different sample rates; align/resample first")
-    if abs(lead_frames - harmony_frames) > round(lead_rate * 0.05):
-        raise ValueError("Vocal stems differ in duration by more than 50 ms")
     lead_windows = _activity_from_energies(lead_energies, round(lead_frames * 1000 / lead_rate))
     harmony_windows = _activity_from_energies(harmony_energies, round(harmony_frames * 1000 / harmony_rate))
     if not lead_windows:
