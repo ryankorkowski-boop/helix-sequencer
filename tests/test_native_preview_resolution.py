@@ -407,6 +407,26 @@ class NativePreviewResolutionTests(unittest.TestCase):
             report = json.loads((Path(directory) / "native_startup_health.json").read_text())
             self.assertTrue(report["rest_responding"])
 
+    def test_post_dialog_health_retries_a_wrapped_url_timeout(self):
+        import urllib.error
+        app = SimpleNamespace(pid=123, poll=Mock(return_value=None))
+        calls = {"n": 0}
+
+        def request(*_args, **_kwargs):
+            calls["n"] += 1
+            if calls["n"] == 1:
+                raise urllib.error.URLError(TimeoutError("timed out"))
+            return {"res": 200}
+
+        with tempfile.TemporaryDirectory() as directory, \
+                patch.object(preview.rest, "_request_json", side_effect=request), \
+                patch.object(preview.rest, "_response_ok", return_value=True):
+            preview._assert_native_ready(
+                app, "http://127.0.0.1:49914", Path(directory), timeout=3)
+            self.assertEqual(calls["n"], 2)
+            report = json.loads((Path(directory) / "native_startup_health.json").read_text())
+            self.assertTrue(report["rest_responding"])
+
     def test_post_dialog_health_timeout_names_the_check(self):
         app = SimpleNamespace(pid=123, poll=Mock(return_value=None))
         with tempfile.TemporaryDirectory() as directory, \

@@ -1100,9 +1100,12 @@ def build_stem_analysis(
     if separation_manifest:
         if lead_override or harmony_override:
             raise ValueError("Use either HELIX_VOCAL_SEPARATION_MANIFEST or direct vocal stem overrides")
-        from core.vocal_separation_manifest import validate_vocal_separation_manifest
-        lead_file, backing_file = validate_vocal_separation_manifest(separation_manifest, audio_path)
+        from core.vocal_separation_manifest import (
+            validate_vocal_separation_manifest, vocal_bundle_source)
+        lead_file, backing_file = validate_vocal_separation_manifest(
+            separation_manifest, vocal_bundle_source(audio_path))
         lead_override, harmony_override = str(lead_file), str(backing_file)
+        _log(log_fn, "Imported vocal bundle. This process did not run Demucs or RoFormer. Singer identity is unverified.")
     if lead_override or harmony_override:
         if not (lead_override and harmony_override):
             raise ValueError("Both HELIX_LEAD_VOCAL_STEM and HELIX_HARMONY_VOCAL_STEM are required")

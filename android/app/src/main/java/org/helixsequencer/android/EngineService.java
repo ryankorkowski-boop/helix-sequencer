@@ -61,6 +61,11 @@ public class EngineService extends Service {
             }
             log("Decoding audio locally with Android MediaCodec…");
             MediaRuntime.decodeWav(new File(input,"original-audio").getAbsolutePath(),new File(input,"audio.wav").getAbsolutePath());
+            if(uris.has("vocals")){
+                try(InputStream in=getContentResolver().openInputStream(Uri.parse(uris.getString("vocals")));OutputStream out=new FileOutputStream(new File(input,"vocal-separation.zip"))){
+                    if(in==null)throw new IOException("Cannot read vocal bundle");copy(in,out);
+                }
+            }
             if(!Python.isStarted())Python.start(new AndroidPlatform(this));
             PyObject result=Python.getInstance().getModule("helix_mobile").callAttr("run",engine.getAbsolutePath(),job.getAbsolutePath(),raw,this);
             JSONObject output=new JSONObject(result.toString());

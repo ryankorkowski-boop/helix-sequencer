@@ -164,3 +164,16 @@ def test_handwritten_manifest_rejects_duplicate_content_stems(tmp_path):
     manifest.write_text(json.dumps(data))
     with pytest.raises(ValueError, match="Duplicate vocal stems"):
         validate_vocal_separation_manifest(manifest, original)
+
+
+def test_android_source_override_binds_the_selected_file(tmp_path, monkeypatch):
+    original, _, _, _, _ = fixture(tmp_path)
+    decoded = tmp_path / "audio.wav"
+    decoded.write_bytes(b"reencoded")
+    from core.vocal_separation_manifest import vocal_bundle_source
+    assert vocal_bundle_source(decoded) == decoded
+    monkeypatch.setenv("HELIX_VOCAL_SEPARATION_SOURCE", str(original))
+    assert vocal_bundle_source(decoded) == original
+    monkeypatch.setenv("HELIX_VOCAL_SEPARATION_SOURCE", str(tmp_path / "missing.wav"))
+    with pytest.raises(ValueError, match="HELIX_VOCAL_SEPARATION_SOURCE is missing"):
+        vocal_bundle_source(decoded)

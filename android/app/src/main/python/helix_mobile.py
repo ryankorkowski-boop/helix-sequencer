@@ -37,6 +37,60 @@ class LogStream(io.TextIOBase):
             self.pending = ''
 
 
+def install_vocal_bundle(archive, dest):
+    """Unpack one desktop vocal zip. JSON and WAV only. No path escape."""
+    dest = Path(dest)
+    if dest.exists():
+        shutil.rmtree(dest)
+    dest.mkdir(parents=True)
+    root = dest.resolve()
+    with zipfile.ZipFile(archive) as bundle:
+        for info in bundle.infolist():
+            if info.is_dir():
+                continue
+            relative = Path(info.filename)
+            if relative.is_absolute() or ".." in relative.parts or not relative.parts:
+                raise ValueError("Unsafe vocal bundle path")
+            if relative.suffix.lower() not in {".json", ".wav"}:
+                raise ValueError("Vocal bundle may contain only JSON and WAV files")
+            target = (dest / relative).resolve()
+            if not target.is_relative_to(root):
+                raise ValueError("Unsafe vocal bundle path")
+            target.parent.mkdir(parents=True, exist_ok=True)
+            with bundle.open(info) as src, target.open("wb") as out:
+                shutil.copyfileobj(src, out)
+    return dest
+
+
+def bind_imported_vocals(job):
+    """Use a desktop lead/backing bundle when the user supplied one.
+
+    Demucs and RoFormer stay off the phone. A missing bundle leaves HPSS.
+    A present bundle that does not match the selected song fails closed.
+    Imported stems are not verified singer identity.
+    """
+    job = Path(job)
+    archive = job / "input" / "vocal-separation.zip"
+    dest = job / "input" / "vocal-separation"
+    if archive.is_file():
+        install_vocal_bundle(archive, dest)
+    found = list(dest.rglob("vocal_separation_manifest.json")) if dest.is_dir() else []
+    os.environ.pop("HELIX_VOCAL_SEPARATION_MANIFEST", None)
+    os.environ.pop("HELIX_VOCAL_SEPARATION_SOURCE", None)
+    if not found:
+        return {"status": "not_supplied", "on_device_model": False, "identity_verified": False}
+    if len(found) != 1:
+        raise ValueError("Vocal bundle must contain one vocal_separation_manifest.json")
+    source = job / "input" / "original-audio"
+    from core.vocal_separation_manifest import validate_vocal_separation_manifest
+    lead, backing = validate_vocal_separation_manifest(found[0], source)
+    os.environ["HELIX_VOCAL_SEPARATION_MANIFEST"] = str(found[0])
+    os.environ["HELIX_VOCAL_SEPARATION_SOURCE"] = str(source.resolve())
+    return {"status": "imported_desktop_bundle", "on_device_model": False,
+            "identity_verified": False, "method": "vocals_first_then_lead_backing",
+            "lead": lead.name, "backing": backing.name}
+
+
 def build_args(request, job, engine):
     from core.gui_options import palette_key, resolve_layout
     mode = request.get('mode', 'xlights')
@@ -249,6 +303,7 @@ def run(engine_path, job_path, request_json, callback):
     # Demucs and RoFormer stay off this device. The run log must keep the
     # diagnostic HPSS label and must not claim separated stems.
     os.environ['HELIX_REQUIRE_NEURAL_STEMS'] = '0'
+    vocal_import = bind_imported_vocals(job)
     import helix_numba
     helix_numba.install()
     stream = LogStream(callback)
@@ -259,9 +314,14 @@ def run(engine_path, job_path, request_json, callback):
         'mode': request.get('mode', 'xlights'), 'stages': stages,
         'band_enabled': bool(request.get('band_enabled', True)),
         'sequences': [], 'lms': [], 'previews': [],
-        'limitations': ['No neural stem separation/Whisper', 'Simulated preview, not native xLights playback',
-                        'Serial joblib and Python Numba kernels; large songs may run slowly'],
+        'limitations': [
+            ('Imported desktop vocal bundle; this phone did not run Demucs or RoFormer; singer identity unverified'
+             if vocal_import['status'] == 'imported_desktop_bundle'
+             else 'No neural stem separation/Whisper'),
+            'Simulated preview, not native xLights playback',
+            'Serial joblib and Python Numba kernels; large songs may run slowly'],
         'input_hashes': {x.name: file_hash(x) for x in (job/'input').iterdir() if x.is_file()}}
+    manifest['vocal_separation'] = vocal_import
     result = {'bundle': '', 'preview': '', 'sequence': '', 'report': str(job/'outputs/Android-run-report.txt'),
               'manifest': str(job/'outputs/android-run.json'), 'sequence_count': 0, 'sequence_paths': [], 'preview_paths': [], 'preview_states': [], 'mode': manifest['mode'],
               'stages': stages}
@@ -293,7 +353,10 @@ def run(engine_path, job_path, request_json, callback):
         with contextlib.redirect_stdout(stream), contextlib.redirect_stderr(stream):
             from core import sequence_builder
             callback.log('Running the existing Helix master sequencer entirely on this device.')
-            callback.log('Serial analysis avoids Android sem_open. HPSS remains active; neural stems and Whisper require desktop.')
+            if vocal_import['status'] == 'imported_desktop_bundle':
+                callback.log('Using the imported desktop vocal bundle. This phone did not run Demucs or RoFormer. Singer identity is unverified.')
+            else:
+                callback.log('Serial analysis avoids Android sem_open. HPSS remains active; neural stems and Whisper require desktop.')
             notify(callback, 'stage', 'sequencing', 'Analyzing music and generating sequence…')
             args = build_args(request, job, engine)
             sequence_builder.run_profile('master', args)

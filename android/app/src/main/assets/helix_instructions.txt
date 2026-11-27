@@ -1,6 +1,6 @@
 Your first Helix show
 
-Helix Beta 1.4. This phone sequences on device. Demucs and RoFormer are not loaded here; stem separation on Android is diagnostic and is not claimed as separated vocals.
+Helix Beta 1.4. This phone sequences on device. It does not run Demucs or RoFormer. You may import a desktop ZIP that contains one vocal_separation_manifest.json plus the lead and backing WAVs it names. That bundle must match the song you selected. Imported stems are not verified singer identity. Without that ZIP, stem separation stays the on-device HPSS diagnostic.
 
 1. Choose your music (MP3 or WAV is a good starting point).
 2. Choose xLights or Light-O-Rama.

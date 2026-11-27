@@ -2,6 +2,14 @@
 
 Release status lives in `BETA_1_4_RELEASE_CHECKLIST.md`. Release is not approved.
 
+## November 27 · Android vocal import, not an on-device model
+
+**Goal:** Give the phone a real way to use separated vocals without shipping Demucs or RoFormer.
+**Choice:** The offline APK stays model-free. A desktop ZIP containing `vocal_separation_manifest.json` and the two WAVs it names can be imported. The hash is checked against the selected song, not the MediaCodec WAV. Singer identity stays unverified. No bundle still means HPSS.
+**Also fixed:** Infinity run [45929879495](https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/45929879495) retried once and then died on `<urlopen error timed out>`, which is a URLError. The health check now retries that wrapped timeout. The 1800s export cap is unchanged.
+**Changed files:** `android/app/src/main/python/helix_mobile.py`, `EngineService.java`, `MainActivity.java`, `helix_instructions.txt`, `core/vocal_separation_manifest.py`, `core/audio_intelligence.py`, `tools/native_preview.py`, tests.
+**Limitations:** No phone has imported a bundle yet. This does not make the APK or EXE release-ready.
+
 ## November 27 · Phoneme motion gate passed, release still blocked
 
 **Goal:** Record the decoded native measurement. Do not treat it as owner approval or a release.

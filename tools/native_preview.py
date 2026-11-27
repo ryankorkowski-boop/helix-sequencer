@@ -205,13 +205,26 @@ def mux_original_audio(video: Path, audio: Path, output: Path, *,
                 pass
 
 
+def _is_busy_timeout(exc: BaseException) -> bool:
+    """True only for a socket timeout, including urllib's wrapped form.
+
+    `<urlopen error timed out>` is a URLError, not TimeoutError. Connection
+    refusal and other OS errors are not retried.
+    """
+    if isinstance(exc, TimeoutError):
+        return True
+    return isinstance(exc, OSError) and "timed out" in str(exc).lower()
+
+
 def _command(endpoint: str, cmd: str, *, timeout: float = 60, **params: str) -> dict[str, Any]:
     try:
         response = rest._request_json(
             "POST", f"{endpoint}/xlDoAutomation", {"cmd": cmd, **params},
             timeout=timeout)
-    except TimeoutError as exc:
-        raise TimeoutError(f"xLights {cmd} timed out after {timeout:g}s") from exc
+    except OSError as exc:
+        if _is_busy_timeout(exc):
+            raise TimeoutError(f"xLights {cmd} timed out after {timeout:g}s") from exc
+        raise
     if not rest._response_ok(response):
         raise RuntimeError(f"xLights {cmd} rejected: {response}")
     return response
@@ -366,7 +379,9 @@ def _assert_native_ready(app: subprocess.Popen, endpoint: str,
             try:
                 response = rest._request_json(
                     "GET", f"{endpoint}/getVersion", timeout=request_timeout)
-            except TimeoutError:
+            except OSError as exc:
+                if not _is_busy_timeout(exc):
+                    raise
                 now = time.monotonic()
                 code = app.poll()
                 if code is not None:
