@@ -163,8 +163,7 @@ def native_band(g,plan,*,rock=True,duration=36,showcase_source=False,overview=Fa
         # separate add() calls can therefore share native node IDs. Reserve
         # every drum/cymbal node exclusively for strike-controlled surfaces.
         strike_nodes = {node for name, ids in parts.parts.items()
-                        if name.startswith('HX_SNOWMAN_DRUMMER_V3_')
-                        and name.endswith('_SURFACE') for node in ids}
+                        if name.endswith('_SURFACE') for node in ids}
         parts.parts['BASE_DIM'] = [node for node in parts.parts.get('BASE_DIM', ())
                                    if node not in strike_nodes]
     old=next(m for m in g.models if m.details.get('review_role')=='drummer')
@@ -390,7 +389,7 @@ def build(source,vocals,output,*,numbers=None,names=NAMES,layout_builder=layout,
                 (folder/'Canonical_Drummer.json').write_text(json.dumps(
                     dict(geometry=proof,event_mapping=source_report),indent=2)+'\n')
             else:
-                colors=('#DC2D1C','#D65CBE','#DCA416','#2CB242','#2CB242','#2CB242','#DCA416','#DCA416')
+                colors=('#DC2D1C','#D65CBE','#DCA416','#2CB242','#2CB242','#2CB242','#DCA416','#DCA416','#DCA416')
                 from tools.render_owner_band_review import drum_hits
                 from tools.render_drummer_v3_preview import TARGETS
                 hits,_=drum_hits(plan['cues']['drummer'])
