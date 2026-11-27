@@ -2,7 +2,7 @@
 
 Persistent handoff for Helix Sequencer Beta 1.4. Resume here. Do not treat a checked box as accepted unless its evidence line is present. Owner visual approval is still required before any accepted release.
 
-Updated: 2026-11-27 00:26 UTC. Working HEAD `38e83cbd8d6910334af4f2dfa088138dd1cd7941` on `codex/beta14-live-engine-integration`. Release approved: **NO**.
+Updated: 2026-11-27 00:28 UTC. Working HEAD `075b1fb75ce2426bab2148db0c37f9a875d8fcdd` on both `codex/beta14-live-engine-integration` and `integration/beta14-recovered-logic-20261126` (PR #264). Release approved: **NO**.
 
 ## Where the work actually is
 
@@ -100,7 +100,7 @@ Do not weaken these gates to get a green badge.
 ## 7. Exact next actions
 
 1. Baseline comparison MP4 is on the draft release above and the checksum was verified by a fresh download. Still copy Windows portable ZIP `15158197246` (expires 2026-12-26 22:44 UTC) and, if disk allows, the full 16-panel artifact before that date. Do not publish the draft as Beta 1.4.
-2. Fast-forward `integration/beta14-recovered-logic-20261126` to `38e83cbd8d6910334af4f2dfa088138dd1cd7941`. GitHub compare says the live branch is 3 commits ahead and 0 behind `c5954fef`, but a shallow push was rejected as non-fast-forward. Deepen history, then push. Do not force-push. That update is what will rerun Infinity CI with `rest_startup_timeout`.
+2. Done: `integration/beta14-recovered-logic-20261126` fast-forwarded to `075b1fb75ce2426bab2148db0c37f9a875d8fcdd`. The first shallow push was rejected; a deepened push succeeded. PR #264 CI will rerun, including Infinity. Read `HELIX_NATIVE_REST_WAIT` on that run. Do not claim the movie verified from the workflow starting.
 3. Diff PR #261 governor and PR #262/#263 CooperativeShowDirector against `38e83cb`. The class name is absent from this repository's code search. Port only missing admission, physical-target, and timing rules into `CompositionGovernor` and the existing nine-pass path. No new director class.
 4. Ordinary-path sections: if `audio_analysis.json` already satisfies `timeline_from_audio_analysis`, feed it. If it does not, leave the synthetic seed and keep `synthetic_seed_only: true` in the activation audit.
 5. Infinity REST first contact: committed in `rest_startup_timeout` (120s ordinary, up to 600s when `--render-timeout` is higher). Rerun the Infinity workflow. Read `HELIX_NATIVE_REST_WAIT`. Do not call the movie verified until FSEQ and MP4 checks pass.
