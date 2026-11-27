@@ -46,6 +46,34 @@ jobs:
           open('recovery/decode_audit.json','w').write(json.dumps({'commit':'1b1ff83c9c1b992a3ad5e202fc29ee0b292919bf','videos':results},indent=2))
           print(json.dumps(results))
           PY
+      - name: Measure actual frame-wide flicker instead of trusting render success
+        if: always()
+        run: |
+          python - <<'PY'
+          import glob,subprocess,json,numpy as np
+          from PIL import Image
+          from io import BytesIO
+          paths=[p for p in glob.glob('recovery/nov13/v28.9/*.mp4') if not p.endswith('.silent.mp4')]
+          if not paths: paths=glob.glob('recovery/nov13/v28.9/*.silent.mp4')
+          reports=[]
+          for path in paths:
+              p=subprocess.run(['ffmpeg','-v','error','-i',path,'-vf','fps=10,scale=160:90','-f','image2pipe','-vcodec','mjpeg','-'],capture_output=True)
+              chunks=p.stdout.split(b'\\xff\\xd8')
+              frames=[]
+              for chunk in chunks[1:]:
+                  try: frames.append(np.asarray(Image.open(BytesIO(b'\\xff\\xd8'+chunk)).convert('RGB'),dtype=np.float32))
+                  except Exception: pass
+              if len(frames)<2: continue
+              x=np.stack(frames)
+              bright=x.max(axis=3)
+              deltas=np.abs(np.diff(x,axis=0)).mean(axis=3)
+              fraction=(deltas>35).mean(axis=(1,2))
+              global_brightness=bright.mean(axis=(1,2))
+              reports.append({'path':path,'frames':len(frames),'mean_brightness_per_frame':[round(float(z),2) for z in global_brightness],'fraction_pixels_changing_above_35_per_transition':[round(float(z),3) for z in fraction],'max_global_change_fraction':float(fraction.max()),'transitions_over_30_percent':int((fraction>0.30).sum()),'suspicious_repeated_whole_scene_flicker':bool((fraction>0.30).sum()>=2)})
+          open('recovery/flicker_audit.json','w').write(json.dumps(reports,indent=2))
+          print(json.dumps(reports,indent=2))
+          if not reports: raise SystemExit('No decoded video for flicker audit')
+          PY
       - name: Upload real November 13 preview
         if: always()
         uses: actions/upload-artifact@v4
@@ -55,4 +83,5 @@ jobs:
             recovery/nov13/**/*.mp4
             recovery/nov13/**/*.json
             recovery/decode_audit.json
+            recovery/flicker_audit.json
           if-no-files-found: warn
