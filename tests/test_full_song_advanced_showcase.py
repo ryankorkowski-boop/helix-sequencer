@@ -187,3 +187,32 @@ def test_showcase_bass_and_guitar_use_original_attacks_and_string_contacts():
         assert receipt['models'][model.name]['mapped_events'] == 1
         elements = root.findall(f'./ElementEffects/Element[@name="{model.name}/STRING_0"]/EffectLayer/Effect')
         assert [(e.get('startTime'), e.get('endTime')) for e in elements] == [('100', '260')]
+
+
+def test_finale_uses_original_concept_geometry_and_bounded_source_cues():
+    from pathlib import Path
+    from xml.etree import ElementTree as ET
+
+    from models.finale_concept_gallery import PLACEMENTS
+    from tools.source_spatial_direction import schedule
+
+    repo = Path(__file__).resolve().parents[1]
+    garden, _ = build_showcase(16, {}, duration=1, native_band=lambda *a, **kw: None)
+    for number, group, *_ in PLACEMENTS:
+        folder, = (repo / 'showcase/approved_concepts').glob(f'{number:02}_*')
+        source = ET.parse(folder / 'xlights_rgbeffects.xml')
+        originals = {m.get('name'): m for m in source.findall('./models/model')}
+        members = [m for m in garden.models if m.details.get('showcase_group') == group]
+        prefix = f'FINALE_{group}_'
+        assert members
+        for model in members:
+            original = originals[model.name.removeprefix(prefix)]
+            assert model.attrs['CustomModelCompressed'] == original.get('CustomModelCompressed')
+            assert model.submodels and model.details['source_route_bank']
+            assert schedule(model, {'cues': {}}, {}, 1000) == []
+        # A short note must reach a member, then end by the source release.
+        cue = dict(start_ms=100, end_ms=126, pitch_midi=53, section='chorus', velocity=.8)
+        role = members[0].details['musical_role']
+        events = [event for m in members
+                  for event in schedule(m, {'cues': {role: [cue]}}, {}, 1000)]
+        assert events and all(100 <= e['start_ms'] < e['end_ms'] <= 126 for e in events)
