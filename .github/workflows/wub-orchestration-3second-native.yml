@@ -1,0 +1,192 @@
+# OWNER APPROVAL GATE: one real Wub Wub source, 3 seconds, 16 panels. Draft only.
+# Canonical V3 drummer and all four advanced finale props are required.
+name: Wub Wub orchestration 3-second native 16-panel review
+on:
+  push:
+    branches: [codex/beta14-orchestration-role-gates-20261127]
+    paths: [.github/workflows/wub-orchestration-3second-native.yml]
+  workflow_dispatch:
+permissions:
+  contents: read
+  actions: read
+concurrency:
+  group: wub-orchestration-3second-review
+  cancel-in-progress: true
+jobs:
+  render-one-owner-pilot:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 300
+    env:
+      PYTHONPATH: .
+      OMP_NUM_THREADS: '2'
+      MKL_NUM_THREADS: '2'
+      TORCH_NUM_THREADS: '2'
+      HELIX_DEMUCS_DEVICE: cpu
+      PYTORCH_ENABLE_MPS_FALLBACK: '0'
+      OPENBLAS_NUM_THREADS: '2'
+      XL_NO_GPU_COMPUTE: '1'
+      HELIX_NATIVE_PREVIEW_WIDTH: '1920'
+      HELIX_NATIVE_PREVIEW_HEIGHT: '1080'
+      HELIX_DRIVE_SOURCE_ID: '1iRxuTue92q-JDBnIo7ihwqycTyHw_Be4'
+      HELIX_DRIVE_SOURCE_SHA256: 'f5bf2671150fd3bfaecec35fea53839b4a62543df3f2520d3c288fffd51aee73'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: pip
+      - name: Install Helix DSP and native preview requirements
+        run: |
+          set -euo pipefail
+          sudo apt-get update -qq
+          sudo apt-get install -y ffmpeg xvfb xauth openbox wmctrl xdotool x11-utils x11-xserver-utils libgtk-3-0t64 libgl1 libegl1 libopengl0 libglu1-mesa libgstreamer-plugins-base1.0-0
+          python -m pip install scipy scikit-learn Pillow trimesh moderngl zstandard imageio imageio-ffmpeg cmudict PyYAML requests pytest gdown==6.4.2
+      - name: Retrieve original owner Drive Wub Wub Wonderland recording (no substitute)
+        run: |
+          set -euo pipefail
+          mkdir -p pilot-source
+          python -m gdown "$HELIX_DRIVE_SOURCE_ID" -O pilot-source/Wub_Wub_Wonderland_original.mp3
+          echo "$HELIX_DRIVE_SOURCE_SHA256  pilot-source/Wub_Wub_Wonderland_original.mp3" | sha256sum -c -
+          ffprobe -v error -show_entries format=duration -of default=noprint_wrappers=1 pilot-source/Wub_Wub_Wonderland_original.mp3
+      - name: Extract 3-second review audio
+        run: |
+          set -euo pipefail
+          ffmpeg -v error -i pilot-source/Wub_Wub_Wonderland_original.mp3 -ss 45 -t 3 -c:a pcm_s16le pilot-source/Wub_review.wav
+          echo "HELIX_REVIEW_SHA256=$(sha256sum pilot-source/Wub_review.wav | cut -d ' ' -f1)" >> "$GITHUB_ENV"
+      - name: Separate verified source on CPU
+        uses: ./.github/actions/production-audio
+        with:
+          audio: pilot-source/Wub_review.wav
+          sha256: ${{ env.HELIX_REVIEW_SHA256 }}
+      - name: Validate the orchestration gate and native layouts
+        run: |
+          python -m pytest -q tests/test_orchestration_balance.py
+          python -m compileall -q core/orchestration_balance.py core/effect_engine.py
+      - name: Validate the hero layouts and source-event policy
+        run: |
+          set -euo pipefail
+          python -m pytest -q tests/test_full_song_advanced_showcase.py tests/test_source_spatial_direction.py tests/test_spatial_showcase_extensions.py tests/test_showcase_static_materials.py
+          python -m compileall -q models/advanced_full_song_showcase.py models/full_song_layouts.py tools/render_full_song_comparison.py
+      - name: Install RoFormer model-separation runtime for estimated vocals only
+        run: |
+          set -euo pipefail
+          python -m pip install "audio-separator[cpu]"
+          command -v audio-separator
+      - name: Restore pinned native xLights 2026.18 build
+        id: native-cache
+        uses: actions/cache/restore@v4
+        with:
+          path: ${{ runner.temp }}/xlights-src
+          key: xlights-native-ubuntu24-2026.18-${{ hashFiles('tools/patch_xlights_native_export.py') }}
+          restore-keys: xlights-native-ubuntu24-2026.18-
+      - name: Validate or build authentic patched native xLights
+        run: |
+          set -euo pipefail
+          sudo apt-get install -y build-essential cmake ninja-build pkg-config libgtk-3-dev libgstreamer1.0-dev libgstreamer-plugins-base1.0-dev freeglut3-dev libavcodec-dev libavformat-dev libavfilter-dev libswscale-dev libsdl2-dev libzstd-dev libcurl4-openssl-dev liblua5.3-dev libwebp-dev libsecret-1-dev libegl-dev libfreetype-dev libharfbuzz-dev libfontconfig-dev libavahi-compat-libdnssd-dev libminizip-dev libxlsxwriter-dev cbp2make glslc glslang-dev
+          root="$RUNNER_TEMP/xlights-src"
+          if [ ! -d "$root/.git" ]; then
+            git clone --depth 1 --branch 2026.18 --recurse-submodules https://github.com/xLightsSequencer/xLights.git "$root"
+          fi
+          cd "$root"
+          test "$(git rev-parse HEAD)" = 839c0f590dc454bb7adb8a16c4dd92a70b46156e
+          if [ -f wxWidgets-xlights_2026.17c/lib/libwx_gtk3u-3.3.so.4.0.0 ]; then
+            sudo make -C wxWidgets-xlights_2026.17c install
+            sudo ldconfig
+          fi
+          if ! python -c "import sys;sys.path.insert(0,'$GITHUB_WORKSPACE');from tools.native_renderer_bundle import validate_tree;validate_tree(__import__('pathlib').Path.cwd())"; then
+            git checkout -- src-ui-wx/xLightsMain.cpp src-ui-wx/app-shell/TabSequence.cpp src-ui-wx/graphics/opengl/xlGLCanvas.cpp src-ui-wx/graphics/opengl/xlGLCanvas.h src-ui-wx/graphics/vulkan/xlVulkanCanvas.cpp
+            python "$GITHUB_WORKSPACE/tools/patch_xlights_native_export.py" "$root"
+            timeout --signal=TERM --kill-after=30s 65m make -j 4
+          fi
+          test -x "$root/bin/xLights"
+          ldd "$root/bin/xLights" | tee "$GITHUB_WORKSPACE/pilot-source/native-ldd.txt"
+          ! grep -q 'not found' "$GITHUB_WORKSPACE/pilot-source/native-ldd.txt"
+          echo "HELIX_PATCHED_XLIGHTS=$root/bin/xLights" >> "$GITHUB_ENV"
+      - name: Preserve working native renderer in cross-run cache
+        if: steps.native-cache.outputs.cache-hit != 'true'
+        uses: actions/cache/save@v4
+        with:
+          path: ${{ runner.temp }}/xlights-src
+          key: xlights-native-ubuntu24-2026.18-${{ hashFiles('tools/patch_xlights_native_export.py') }}
+      - name: Run current live Helix orchestration with estimated vocal review then native 16-panel export
+        run: |
+          set -euo pipefail
+          xvfb-run -a -s '-screen 0 2560x1440x24' sh -c '
+            openbox >pilot-source/openbox.log 2>&1 &
+            exec python -m tools.render_full_song_comparison \
+              pilot-source/Wub_review.wav \
+              pilot-work/wub-orchestration \
+              --expected-sha256 "$HELIX_REVIEW_SHA256" \
+              --auto-roformer-review --xlights "$HELIX_PATCHED_XLIGHTS"
+          '
+      - name: Expose sequencer failure details
+        if: failure()
+        run: |
+          find pilot-work -name sequencer.log -type f -print -exec tail -n 130 {} \; || true
+      - name: Verify 16 distinct native panels; singer identity and owner acceptance remain unverified
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import json, os
+          from pathlib import Path
+          root = Path('pilot-work/wub-orchestration')
+          p = json.loads((root/'comparison_manifest.json').read_text())
+          assert p['status'] == 'technically_verified'
+          assert p['owner_approved'] is False
+          assert p['audio_sha256'] == os.environ['HELIX_REVIEW_SHA256']
+          assert len(p['panels']) == 16
+          assert len({r['layout_sha256'] for r in p['panels']}) == 16
+          assert len({r['fseq_sha256'] for r in p['panels']}) == 16
+          assert (root/'Full_Length_16_Panel_Comparison.mp4').stat().st_size > 100000
+          receipt = {'status':'ESTIMATED_VOCAL_OWNER_REVIEW_PENDING','batch_allowed':False,
+                     'source':'original owner vocal music + live Helix + pinned native xLights',
+                     'vocal_identity_verified':False, 'separation_state':'ESTIMATED_REVIEW',
+                     'excerpt_audio_sha256':p['audio_sha256'], 'original_audio_sha256':os.environ['HELIX_DRIVE_SOURCE_SHA256'], 'excerpt_start_seconds':45, 'excerpt_duration_seconds':3,
+                     'panel_count':16,'manifest':'comparison_manifest.json'}
+          (root/'OWNER_APPROVAL_GATE.json').write_text(json.dumps(receipt,indent=2)+'\n')
+          print(json.dumps(receipt,indent=2))
+          PY
+      - name: Audit decoded native video for white/blank/frozen frames
+        if: success()
+        run: |
+          set +e
+          python -m tools.check_mp4_visual_quality \
+            pilot-work/wub-orchestration/Full_Length_16_Panel_Comparison.mp4 \
+            --report pilot-work/wub-orchestration/VISUAL_QUALITY_RECEIPT.json --fps 10
+          result=$?
+          set -e
+          if [ "$result" -ne 0 ]; then
+            echo "::warning::Native video visual quality flagged; retain receipt for owner review, do not imply approval."
+          fi
+          test -s pilot-work/wub-orchestration/VISUAL_QUALITY_RECEIPT.json
+      - name: Upload only the verified one-song approval package
+        if: success()
+        uses: actions/upload-artifact@v4
+        with:
+          name: Wub-Wub-3s-16-Panel-UNAPPROVED
+          retention-days: 30
+          if-no-files-found: error
+          path: |
+            pilot-work/wub-orchestration/Full_Length_16_Panel_Comparison.mp4
+            pilot-work/wub-orchestration/comparison_manifest.json
+            pilot-work/wub-orchestration/panel_activity.json
+            pilot-work/wub-orchestration/OWNER_APPROVAL_GATE.json
+            pilot-work/wub-orchestration/VISUAL_QUALITY_RECEIPT.json
+            pilot-work/wub-orchestration/layouts/**/run_manifest.json
+            pilot-work/wub-orchestration/layouts/**/*.xsq
+            pilot-work/wub-orchestration/layouts/**/*.mp4
+            pilot-work/wub-orchestration/layouts/**/*.fseq
+            pilot-work/wub-orchestration/layouts/**/xlights_rgbeffects.xml
+      - name: Retain only diagnostic logs on failure, never label as approval
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: Wub-Wub-3s-FAILED-DIAGNOSTICS
+          retention-days: 14
+          if-no-files-found: warn
+          path: |
+            RenderCache/stems/**/*.log
+            pilot-source/*.txt
+            pilot-source/*.log
+            pilot-work/wub-orchestration/**/*.log
+            pilot-work/wub-orchestration/**/*.json
