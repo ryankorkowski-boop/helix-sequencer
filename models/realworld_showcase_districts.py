@@ -24,6 +24,9 @@ def _fixture(garden, name, center, *, style, role, phase, district, index):
         vertices = [(x - 2, y, z), (x - 2, y + 3, z),
                     (x + 2, y + 3, z), (x + 2, y, z),
                     (x - 2, y, z)]
+    elif style == "fence":
+        vertices = [(x - 4, y, z), (x - 4, y + 2, z),
+                    (x, y + 2, z), (x + 4, y + 2, z), (x + 4, y, z)]
     elif style == "tree":
         vertices = [(x, y, z), (x - 2.8, y + 2.5, z + 1),
                     (x + 2.8, y + 2.5, z + 1),
@@ -85,7 +88,7 @@ def install_customer_sites(garden, panel, *, extreme=None):
     if panel == 13:
         # Each lot has real separate gables, windows, porch arches and trees.
         sites, per_site, width = 20, 14, 5
-        theme = ("gable", "window", "window", "arch", "tree")
+        theme = ("gable", "window", "fence", "arch", "tree")
         roles = ("guitarist", "keyboardist", "bassist", "drummer")
     elif panel == 14:
         sites, per_site, width = 12, 64, 4
