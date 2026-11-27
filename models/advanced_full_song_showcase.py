@@ -240,6 +240,10 @@ def build_showcase(number, plan, *, duration, native_band, native_extended_mouth
         _ultimate(g, s, native_extended_mouths=native_extended_mouths)
     else:
         {13: _estate, 14: _wonderland, 15: _megastructure}[number](g, s)
+    # Expand the actual native model inventory with independent XYZ geometry.
+    # Source routing is still performed by the production sequence builder.
+    from models.spatial_showcase_extensions import install_spatial_gallery
+    install_spatial_gallery(g, number)
     cast = None
     if number == 16:
         # Distribute pitched phrases across physical prop banks. This prevents
@@ -265,4 +269,8 @@ def build_showcase(number, plan, *, duration, native_band, native_extended_mouth
         model.details.setdefault('source_display_floor', .20)
         if not model.submodels:
             model.submodels['ALL'] = list(range(1, len(model.points) + 1))
+    # Use existing source-role event gating across the entire advanced
+    # installation. Neither the gallery nor this step invents source cues.
+    from tools.source_role_routing import configure_advanced_spatial_routes
+    configure_advanced_spatial_routes(g.models)
     return g, cast
