@@ -41,3 +41,23 @@ def test_quiet_sections_hold_fewer_overlays_than_chorus():
     assert label_lane("pixel_scene_matrix") == "overlay"
     assert label_lane("drop_flash") == "flash"
     assert label_lane("digital_piano") == "primary"
+
+
+def test_accent_gate_preserves_snowman_performers_without_stopping_spatial_yard():
+    from core.orchestration_balance import accent_target_allowed
+
+    assert not accent_target_allowed("HX_SNOWMAN_DRUMMER", "pixel_kick", layout_has_piano=True, layout_has_singer=True)
+    assert not accent_target_allowed("HX_FLOOR_PIANO_C_LOW", "spatial_chase", layout_has_piano=True, layout_has_singer=True)
+    assert not accent_target_allowed("HX_SNOWMAN_SINGER_MOUTH", "drop_flash", layout_has_piano=True, layout_has_singer=True)
+    assert accent_target_allowed("HX_ARCH_01", "spatial_chase", layout_has_piano=True, layout_has_singer=True)
+    assert accent_target_allowed("HX_CENTRAL_MATRIX", "lyric_text_pixel", layout_has_piano=True, layout_has_singer=True)
+    assert accent_target_allowed("HX_ARCH_01", "polyphonic_keyboard", layout_has_piano=False, layout_has_singer=False)
+    assert not accent_target_allowed("HX_ARCH_01", "polyphonic_keyboard", layout_has_piano=True, layout_has_singer=True)
+
+
+def test_quiet_sections_forbid_flash_regardless_of_density():
+    from core.orchestration_balance import restrained_accent_budget
+
+    assert restrained_accent_budget("CHORUS", quiet=True, density=2.0) == (1, 0)
+    assert restrained_accent_budget("VERSE", quiet=False, density=0.2) == (3, 1)
+    assert restrained_accent_budget("CHORUS", quiet=False, density=1.0) == (14, 2)
