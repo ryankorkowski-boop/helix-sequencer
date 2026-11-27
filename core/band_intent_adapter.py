@@ -51,22 +51,30 @@ class BandIntentAdapter:
         performer_state = self.MOTION_TO_STATE.get(event.motion, "idle_texture")
         events: list[BandExecutionEvent] = []
 
-        for performer in self.performers:
-            events.append(
-                BandExecutionEvent(
-                    intent_id=event.intent_id,
-                    intent_source=event.intent_source,
-                    performer=performer,
-                    performer_state=performer_state,
-                    motion=event.motion,
-                    layer_role=event.layer_role,
-                    start=event.start,
-                    duration=event.duration,
-                    intensity=event.intensity,
-                    stage_region=event.target_region,
-                    instrument_emphasis=self._instrument_emphasis(performer, event.layer_role),
-                )
+        # Never broadcast a generic choreography event to the entire band.
+        # Only explicit performer-addressed events may enter this adapter.
+        # Instrument-specific event generation is handled upstream.
+        source = event.intent_source.strip().lower()
+        target = source.removeprefix("performer:") if source.startswith("performer:") else ""
+        if target not in self.performers:
+            return ()
+
+        performer = target
+        events.append(
+            BandExecutionEvent(
+                intent_id=event.intent_id,
+                intent_source=event.intent_source,
+                performer=performer,
+                performer_state=performer_state,
+                motion=event.motion,
+                layer_role=event.layer_role,
+                start=event.start,
+                duration=event.duration,
+                intensity=event.intensity,
+                stage_region=event.target_region,
+                instrument_emphasis=self._instrument_emphasis(performer, event.layer_role),
             )
+        )
 
         return tuple(events)
 

@@ -32,7 +32,7 @@ DEMO_INTENTS = (
         target_families=(ChoreographyTarget.PERFORMER,),
         motion_vocabulary=(MotionVocabulary.PULSE, MotionVocabulary.SHIMMER),
         layer_roles=(IntentLayerRole.BASE, IntentLayerRole.MOTION),
-        source="band_manifest_exporter",
+        source="performer:drummer",
     ),
     ChoreographyIntent(
         start=4.0,
@@ -46,7 +46,7 @@ DEMO_INTENTS = (
         target_families=(ChoreographyTarget.PERFORMER,),
         motion_vocabulary=(MotionVocabulary.IMPACT, MotionVocabulary.BLOOM),
         layer_roles=(IntentLayerRole.EVENT, IntentLayerRole.ACCENT),
-        source="band_manifest_exporter",
+        source="performer:guitarist",
     ),
 )
 
@@ -97,7 +97,7 @@ def export_demo_manifest(output_dir: str | Path) -> Path:
     summary_path = out_dir / ARTIFACT_FILENAMES["summary"]
     summary_path.write_text(
         "Helixville4 deterministic performer pipeline export generated.\n"
-        "Includes all five runtime performers, compiled timeline events,\n"
+        "Includes explicitly targeted demo performer events, compiled timeline events,\n"
         "xLights-oriented submodel effect instructions, and vocal face instructions.\n"
         "Standalone JSON artifacts are written for runtime catalog, submodel effects,\n"
         "and vocal face effects for downstream import/testing.\n",
