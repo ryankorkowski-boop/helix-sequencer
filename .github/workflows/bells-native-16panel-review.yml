@@ -4,7 +4,7 @@ name: Bells of Mathmas 16-panel OWNER approval pilot (native)
 on:
   push:
     branches: [integration/beta14-recovered-logic-20261126]
-    paths: [.github/workflows/bells-native-16panel-review.yml, models/full_song_layouts.py, models/spatial_showcase_extensions.py, models/advanced_full_song_showcase.py]
+    paths: [.github/workflows/bells-native-16panel-review.yml, models/full_song_layouts.py, models/spatial_showcase_extensions.py, models/advanced_full_song_showcase.py, tests/test_full_song_advanced_showcase.py, tests/test_spatial_showcase_extensions.py]
   workflow_dispatch:
 permissions:
   contents: read
@@ -61,7 +61,7 @@ jobs:
       - name: Validate the hero layouts and source-event policy
         run: |
           set -euo pipefail
-          python -m pytest -q tests/test_full_song_advanced_showcase.py tests/test_source_spatial_direction.py
+          python -m pytest -q tests/test_full_song_advanced_showcase.py tests/test_source_spatial_direction.py tests/test_spatial_showcase_extensions.py
           python -m compileall -q models/advanced_full_song_showcase.py models/full_song_layouts.py tools/render_full_song_comparison.py
       - name: Restore pinned native xLights 2026.18 build
         id: native-cache
