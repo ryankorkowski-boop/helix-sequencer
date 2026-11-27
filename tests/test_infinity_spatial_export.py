@@ -35,14 +35,17 @@ class InfinityLayoutTests(unittest.TestCase):
             self.assertEqual(sum(1 for m in models if m.get("name", "").startswith("HX_INFINITY_PixelVolume_")), 256)
             self.assertEqual(json.loads((dst / "infinity_manifest.json").read_text())["owner_approval"], False)
 
-    def test_imports_existing_band_without_claiming_sixth_member(self) -> None:
+    def test_imports_original_six_role_canonical_band(self) -> None:
         with tempfile.TemporaryDirectory() as folder:
             dst = Path(folder)
             manifest = export_layout(dst, include_band=True)
             root = ET.parse(dst / "xlights_rgbeffects.xml").getroot()
             band = next(x for x in root.findall("./modelGroups/modelGroup") if x.get("name") == "HX_SNOWMAN_BAND")
             self.assertIn("HX_SNOWMAN_DRUMMER", band.get("models"))
-            self.assertNotIn("KEYBOARD", band.get("models").upper())
+            self.assertEqual(len(band.get("models").split(",")), 6)
+            self.assertIn("PIANO", band.get("models").upper())
+            self.assertEqual(manifest["band_info"]["performer_count"], 6)
+            self.assertEqual(set(manifest["band_info"]["roles"]), {"drummer", "bass", "guitar", "piano", "lead", "harmony"})
             self.assertIn("UNAPPROVED", manifest["band_verification"])
 
 
