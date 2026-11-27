@@ -1,0 +1,41 @@
+name: Infinity 3D xLights layout export
+on:
+  push:
+    branches:
+      - design/infinity-3d-showcase-20261127
+  pull_request:
+    branches:
+      - integration/beta14-recovered-logic-20261126
+    paths:
+      - "tools/generate_infinity_showcase_geometry.py"
+      - "tools/export_infinity_xlights_layout.py"
+      - "tests/test_infinity_spatial_export.py"
+      - ".github/workflows/infinity-3d-layout.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  infinity-layout:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Validate Infinity spatial geometry and XML contract
+        run: python -m unittest discover -s tests -p 'test_infinity_spatial_export.py' -v
+      - name: Build editable xLights-format layout candidate
+        run: python -m tools.export_infinity_xlights_layout --output outputs/infinity_showcase
+      - name: Upload draft layout for engineering review
+        uses: actions/upload-artifact@v4
+        with:
+          name: Helix-Infinity-3D-xLights-DRAFT
+          path: |
+            outputs/infinity_showcase/xlights_rgbeffects.xml
+            outputs/infinity_showcase/infinity_pixel_geometry.csv
+            outputs/infinity_showcase/infinity_manifest.json
+          if-no-files-found: error
+          retention-days: 21
