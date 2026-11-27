@@ -158,6 +158,15 @@ def native_band(g,plan,*,rock=True,duration=36,showcase_source=False,overview=Fa
             for i in ids:
                 parts.primitive(f'SOURCE_POSE_{number:02}', scene.instances[i])
         pose_count = len(selected)
+    if showcase_source:
+        # SurfaceParts deduplicates coincident vertices across materials. Even
+        # separate add() calls can therefore share native node IDs. Reserve
+        # every drum/cymbal node exclusively for strike-controlled surfaces.
+        strike_nodes = {node for name, ids in parts.parts.items()
+                        if name.startswith('HX_SNOWMAN_DRUMMER_V3_')
+                        and name.endswith('_SURFACE') for node in ids}
+        parts.parts['BASE_DIM'] = [node for node in parts.parts.get('BASE_DIM', ())
+                                   if node not in strike_nodes]
     old=next(m for m in g.models if m.details.get('review_role')=='drummer')
     g.models.remove(old)
     model=g.custom('HX_SNOW_DRUMMER',parts.points,'BAND','Source-front closed dimensional V3',
