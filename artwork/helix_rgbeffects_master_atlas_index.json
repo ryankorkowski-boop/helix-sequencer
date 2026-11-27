@@ -1,0 +1,674 @@
+[
+  {
+    "number": 1,
+    "title": "Ac16 Lor",
+    "models": 16,
+    "path": "fixtures/layout_bench/ac16_lor/xlights_rgbeffects.xml",
+    "section": "LAYOUT BENCH"
+  },
+  {
+    "number": 2,
+    "title": "Ac32 House",
+    "models": 32,
+    "path": "fixtures/layout_bench/ac32_house/xlights_rgbeffects.xml",
+    "section": "LAYOUT BENCH"
+  },
+  {
+    "number": 3,
+    "title": "Ac64 Yard",
+    "models": 64,
+    "path": "fixtures/layout_bench/ac64_yard/xlights_rgbeffects.xml",
+    "section": "LAYOUT BENCH"
+  },
+  {
+    "number": 4,
+    "title": "Band Stage",
+    "models": 25,
+    "path": "fixtures/layout_bench/band_stage/xlights_rgbeffects.xml",
+    "section": "LAYOUT BENCH"
+  },
+  {
+    "number": 5,
+    "title": "Native Model Zoo",
+    "models": 76,
+    "path": "fixtures/layout_bench/native_model_zoo/xlights_rgbeffects.xml",
+    "section": "LAYOUT BENCH"
+  },
+  {
+    "number": 6,
+    "title": "Pixel Classic",
+    "models": 56,
+    "path": "fixtures/layout_bench/pixel_classic/xlights_rgbeffects.xml",
+    "section": "LAYOUT BENCH"
+  },
+  {
+    "number": 7,
+    "title": "Pixel Corner",
+    "models": 25,
+    "path": "fixtures/layout_bench/pixel_corner/xlights_rgbeffects.xml",
+    "section": "LAYOUT BENCH"
+  },
+  {
+    "number": 8,
+    "title": "Pixel Driveway",
+    "models": 39,
+    "path": "fixtures/layout_bench/pixel_driveway/xlights_rgbeffects.xml",
+    "section": "LAYOUT BENCH"
+  },
+  {
+    "number": 9,
+    "title": "Pixel Starter",
+    "models": 15,
+    "path": "fixtures/layout_bench/pixel_starter/xlights_rgbeffects.xml",
+    "section": "LAYOUT BENCH"
+  },
+  {
+    "number": 10,
+    "title": "Pixel Windows",
+    "models": 19,
+    "path": "fixtures/layout_bench/pixel_windows/xlights_rgbeffects.xml",
+    "section": "LAYOUT BENCH"
+  },
+  {
+    "number": 11,
+    "title": "Wow Helix",
+    "models": 7,
+    "path": "fixtures/layout_bench/wow_helix/xlights_rgbeffects.xml",
+    "section": "LAYOUT BENCH"
+  },
+  {
+    "number": 12,
+    "title": "Wow Mirror",
+    "models": 25,
+    "path": "fixtures/layout_bench/wow_mirror/xlights_rgbeffects.xml",
+    "section": "LAYOUT BENCH"
+  },
+  {
+    "number": 13,
+    "title": "Wow Moire",
+    "models": 4,
+    "path": "fixtures/layout_bench/wow_moire/xlights_rgbeffects.xml",
+    "section": "LAYOUT BENCH"
+  },
+  {
+    "number": 14,
+    "title": "Wow Showcase",
+    "models": 16,
+    "path": "fixtures/layout_bench/wow_showcase/xlights_rgbeffects.xml",
+    "section": "LAYOUT BENCH"
+  },
+  {
+    "number": 15,
+    "title": "Wow Spinners",
+    "models": 15,
+    "path": "fixtures/layout_bench/wow_spinners/xlights_rgbeffects.xml",
+    "section": "LAYOUT BENCH"
+  },
+  {
+    "number": 16,
+    "title": "Wow Spirals",
+    "models": 7,
+    "path": "fixtures/layout_bench/wow_spirals/xlights_rgbeffects.xml",
+    "section": "LAYOUT BENCH"
+  },
+  {
+    "number": 17,
+    "title": "Wow Tunnel",
+    "models": 10,
+    "path": "fixtures/layout_bench/wow_tunnel/xlights_rgbeffects.xml",
+    "section": "LAYOUT BENCH"
+  },
+  {
+    "number": 18,
+    "title": "Original Base Layout",
+    "models": 252,
+    "path": "xlights_rgbeffects.xml",
+    "section": "HELIX / XLIGHTS"
+  },
+  {
+    "number": 19,
+    "title": "AllModels Pre-Neighbors",
+    "models": 277,
+    "path": "allmodels/xlights_rgbeffects.pre_neighbors_backup.xml",
+    "section": "ALLMODELS"
+  },
+  {
+    "number": 20,
+    "title": "Allmodels",
+    "models": 368,
+    "path": "allmodels/xlights_rgbeffects.xml",
+    "section": "ALLMODELS"
+  },
+  {
+    "number": 21,
+    "title": "helixville Backup",
+    "models": 368,
+    "path": "helixville/xlights_rgbeffects.source_backup.xml",
+    "section": "HELIXVILLE SERIES"
+  },
+  {
+    "number": 22,
+    "title": "Helixville",
+    "models": 368,
+    "path": "helixville/xlights_rgbeffects.xml",
+    "section": "HELIXVILLE SERIES"
+  },
+  {
+    "number": 23,
+    "title": "helixville2 Backup",
+    "models": 256,
+    "path": "helixville2/xlights_rgbeffects.source_backup.xml",
+    "section": "HELIXVILLE SERIES"
+  },
+  {
+    "number": 24,
+    "title": "Helixville2",
+    "models": 347,
+    "path": "helixville2/xlights_rgbeffects.xml",
+    "section": "HELIXVILLE SERIES"
+  },
+  {
+    "number": 25,
+    "title": "Helixville3",
+    "models": 361,
+    "path": "helixville3/xlights_rgbeffects.xml",
+    "section": "HELIXVILLE SERIES"
+  },
+  {
+    "number": 26,
+    "title": "Helixville4",
+    "models": 105,
+    "path": "helixville4/xlights_rgbeffects.xml",
+    "section": "HELIXVILLE SERIES"
+  },
+  {
+    "number": 27,
+    "title": "Helix Celestial Orrery",
+    "models": 105,
+    "path": "showcase/flavors/Helix_Celestial_Orrery/xlights_rgbeffects.xml",
+    "section": "SHOWCASE FLAVOR"
+  },
+  {
+    "number": 28,
+    "title": "Helix Crystal Lagoon",
+    "models": 104,
+    "path": "showcase/flavors/Helix_Crystal_Lagoon/xlights_rgbeffects.xml",
+    "section": "SHOWCASE FLAVOR"
+  },
+  {
+    "number": 29,
+    "title": "Helix Enchanted Grove",
+    "models": 100,
+    "path": "showcase/flavors/Helix_Enchanted_Grove/xlights_rgbeffects.xml",
+    "section": "SHOWCASE FLAVOR"
+  },
+  {
+    "number": 30,
+    "title": "Helix Fire And Ice",
+    "models": 109,
+    "path": "showcase/flavors/Helix_Fire_and_Ice/xlights_rgbeffects.xml",
+    "section": "SHOWCASE FLAVOR"
+  },
+  {
+    "number": 31,
+    "title": "Helix Midnight Masquerade",
+    "models": 106,
+    "path": "showcase/flavors/Helix_Midnight_Masquerade/xlights_rgbeffects.xml",
+    "section": "SHOWCASE FLAVOR"
+  },
+  {
+    "number": 32,
+    "title": "Helix Neon Circuit",
+    "models": 104,
+    "path": "showcase/flavors/Helix_Neon_Circuit/xlights_rgbeffects.xml",
+    "section": "SHOWCASE FLAVOR"
+  },
+  {
+    "number": 33,
+    "title": "Experimental 256 Ac Spirals",
+    "models": 256,
+    "path": "showcase/Experimental_256_AC_Spirals/xlights_rgbeffects.xml",
+    "section": "HELIX / XLIGHTS"
+  },
+  {
+    "number": 34,
+    "title": "Helix Aurora",
+    "models": 108,
+    "path": "showcase/Helix_Aurora/xlights_rgbeffects.xml",
+    "section": "HELIX / XLIGHTS"
+  },
+  {
+    "number": 35,
+    "title": "Emberfrost Canyon",
+    "models": 26,
+    "path": "showcase/approved_concepts/01_Emberfrost_Canyon/xlights_rgbeffects.xml",
+    "section": "SHOWCASE CONCEPT"
+  },
+  {
+    "number": 36,
+    "title": "Canopy Cathedral",
+    "models": 23,
+    "path": "showcase/approved_concepts/02_Canopy_Cathedral/xlights_rgbeffects.xml",
+    "section": "SHOWCASE CONCEPT"
+  },
+  {
+    "number": 37,
+    "title": "Aurora Switchback",
+    "models": 21,
+    "path": "showcase/approved_concepts/03_Aurora_Switchback/xlights_rgbeffects.xml",
+    "section": "SHOWCASE CONCEPT"
+  },
+  {
+    "number": 38,
+    "title": "Tidal Observatory",
+    "models": 19,
+    "path": "showcase/approved_concepts/04_Tidal_Observatory/xlights_rgbeffects.xml",
+    "section": "SHOWCASE CONCEPT"
+  },
+  {
+    "number": 39,
+    "title": "Bioluminescent Mangrove",
+    "models": 57,
+    "path": "showcase/approved_concepts/05_Bioluminescent_Mangrove/xlights_rgbeffects.xml",
+    "section": "SHOWCASE CONCEPT"
+  },
+  {
+    "number": 40,
+    "title": "Solstice Spiral",
+    "models": 29,
+    "path": "showcase/approved_concepts/06_Solstice_Spiral/xlights_rgbeffects.xml",
+    "section": "SHOWCASE CONCEPT"
+  },
+  {
+    "number": 41,
+    "title": "Moire Mirage",
+    "models": 11,
+    "path": "showcase/approved_concepts/07_Moire_Mirage/xlights_rgbeffects.xml",
+    "section": "SHOWCASE CONCEPT"
+  },
+  {
+    "number": 42,
+    "title": "Mycelium Dream",
+    "models": 38,
+    "path": "showcase/approved_concepts/08_Mycelium_Dream/xlights_rgbeffects.xml",
+    "section": "SHOWCASE CONCEPT"
+  },
+  {
+    "number": 43,
+    "title": "Gravity Garden",
+    "models": 11,
+    "path": "showcase/approved_concepts/09_Gravity_Garden/xlights_rgbeffects.xml",
+    "section": "SHOWCASE CONCEPT"
+  },
+  {
+    "number": 44,
+    "title": "Prismatic Vortex",
+    "models": 76,
+    "path": "showcase/approved_concepts/10_Prismatic_Vortex/xlights_rgbeffects.xml",
+    "section": "SHOWCASE CONCEPT"
+  },
+  {
+    "number": 45,
+    "title": "Mandelbrot Meadow",
+    "models": 25,
+    "path": "showcase/approved_concepts/11_Mandelbrot_Meadow/xlights_rgbeffects.xml",
+    "section": "SHOWCASE CONCEPT"
+  },
+  {
+    "number": 46,
+    "title": "Interference Reef",
+    "models": 18,
+    "path": "showcase/approved_concepts/12_Interference_Reef/xlights_rgbeffects.xml",
+    "section": "SHOWCASE CONCEPT"
+  },
+  {
+    "number": 47,
+    "title": "Christmas Overdrive",
+    "models": 105,
+    "path": "showcase/approved_concepts/13_Christmas_Overdrive/xlights_rgbeffects.xml",
+    "section": "SHOWCASE CONCEPT"
+  },
+  {
+    "number": 48,
+    "title": "Peppermint Boulevard",
+    "models": 64,
+    "path": "showcase/approved_concepts/14_Peppermint_Boulevard/xlights_rgbeffects.xml",
+    "section": "SHOWCASE CONCEPT"
+  },
+  {
+    "number": 49,
+    "title": "Helix Arena",
+    "models": 16,
+    "path": "showcase/approved_concepts/15_Helix_Arena/xlights_rgbeffects.xml",
+    "section": "SHOWCASE CONCEPT"
+  },
+  {
+    "number": 50,
+    "title": "Thunder Vault Stage",
+    "models": 42,
+    "path": "showcase/approved_concepts/16_Thunder_Vault_Stage/xlights_rgbeffects.xml",
+    "section": "SHOWCASE CONCEPT"
+  },
+  {
+    "number": 51,
+    "title": "Impala Neon Royalty",
+    "models": 79,
+    "path": "showcase/approved_concepts/17_Impala_Neon_Royalty/xlights_rgbeffects.xml",
+    "section": "SHOWCASE CONCEPT"
+  },
+  {
+    "number": 52,
+    "title": "Impala Golden Frequency",
+    "models": 78,
+    "path": "showcase/approved_concepts/18_Impala_Golden_Frequency/xlights_rgbeffects.xml",
+    "section": "SHOWCASE CONCEPT"
+  },
+  {
+    "number": 53,
+    "title": "Gothic Ember Cathedral",
+    "models": 42,
+    "path": "showcase/approved_concepts/19_Gothic_Ember_Cathedral/xlights_rgbeffects.xml",
+    "section": "SHOWCASE CONCEPT"
+  },
+  {
+    "number": 54,
+    "title": "Moonlit Gothic Cloister",
+    "models": 50,
+    "path": "showcase/approved_concepts/20_Moonlit_Gothic_Cloister/xlights_rgbeffects.xml",
+    "section": "SHOWCASE CONCEPT"
+  },
+  {
+    "number": 55,
+    "title": "Pontoon Aurora",
+    "models": 49,
+    "path": "showcase/approved_concepts/21_Pontoon_Aurora/xlights_rgbeffects.xml",
+    "section": "SHOWCASE CONCEPT"
+  },
+  {
+    "number": 56,
+    "title": "Riverboat Carnival",
+    "models": 84,
+    "path": "showcase/approved_concepts/22_Riverboat_Carnival/xlights_rgbeffects.xml",
+    "section": "SHOWCASE CONCEPT"
+  },
+  {
+    "number": 57,
+    "title": "Parallax Helix Gate",
+    "models": 17,
+    "path": "showcase/approved_concepts/23_Parallax_Helix_Gate/xlights_rgbeffects.xml",
+    "section": "SHOWCASE CONCEPT"
+  },
+  {
+    "number": 58,
+    "title": "Infinite Avenue",
+    "models": 10,
+    "path": "showcase/approved_concepts/24_Infinite_Avenue/xlights_rgbeffects.xml",
+    "section": "SHOWCASE CONCEPT"
+  },
+  {
+    "number": 59,
+    "title": "Impossible Stair Garden",
+    "models": 28,
+    "path": "showcase/approved_concepts/25_Impossible_Stair_Garden/xlights_rgbeffects.xml",
+    "section": "SHOWCASE CONCEPT"
+  },
+  {
+    "number": 60,
+    "title": "Tesseract Conservatory",
+    "models": 52,
+    "path": "showcase/approved_concepts/26_Tesseract_Conservatory/xlights_rgbeffects.xml",
+    "section": "SHOWCASE CONCEPT"
+  },
+  {
+    "number": 61,
+    "title": "Whale Of A Thousand Stars",
+    "models": 27,
+    "path": "showcase/approved_concepts/27_Whale_of_a_Thousand_Stars/xlights_rgbeffects.xml",
+    "section": "SHOWCASE CONCEPT"
+  },
+  {
+    "number": 62,
+    "title": "Cosmic Manta Crossing",
+    "models": 48,
+    "path": "showcase/approved_concepts/28_Cosmic_Manta_Crossing/xlights_rgbeffects.xml",
+    "section": "SHOWCASE CONCEPT"
+  },
+  {
+    "number": 63,
+    "title": "Möbius Tidewalk",
+    "models": 43,
+    "path": "showcase/approved_concepts/29_Möbius_Tidewalk/xlights_rgbeffects.xml",
+    "section": "SHOWCASE CONCEPT"
+  },
+  {
+    "number": 64,
+    "title": "Klein Bottle Lantern",
+    "models": 30,
+    "path": "showcase/approved_concepts/30_Klein_Bottle_Lantern/xlights_rgbeffects.xml",
+    "section": "SHOWCASE CONCEPT"
+  },
+  {
+    "number": 65,
+    "title": "Gravity Inversion Stage",
+    "models": 18,
+    "path": "showcase/approved_concepts/31_Gravity_Inversion_Stage/xlights_rgbeffects.xml",
+    "section": "SHOWCASE CONCEPT"
+  },
+  {
+    "number": 66,
+    "title": "Event Horizon Arena",
+    "models": 10,
+    "path": "showcase/approved_concepts/32_Event_Horizon_Arena/xlights_rgbeffects.xml",
+    "section": "SHOWCASE CONCEPT"
+  },
+  {
+    "number": 67,
+    "title": "Clockwork Eclipse",
+    "models": 40,
+    "path": "showcase/approved_concepts/33_Clockwork_Eclipse/xlights_rgbeffects.xml",
+    "section": "SHOWCASE CONCEPT"
+  },
+  {
+    "number": 68,
+    "title": "Crystal Fold Pavilion",
+    "models": 14,
+    "path": "showcase/approved_concepts/34_Crystal_Fold_Pavilion/xlights_rgbeffects.xml",
+    "section": "SHOWCASE CONCEPT"
+  },
+  {
+    "number": 69,
+    "title": "Lenticular Light Forest",
+    "models": 98,
+    "path": "showcase/approved_concepts/35_Lenticular_Light_Forest/xlights_rgbeffects.xml",
+    "section": "SHOWCASE CONCEPT"
+  },
+  {
+    "number": 70,
+    "title": "Hologram Atlas",
+    "models": 21,
+    "path": "showcase/approved_concepts/36_Hologram_Atlas/xlights_rgbeffects.xml",
+    "section": "SHOWCASE CONCEPT"
+  },
+  {
+    "number": 71,
+    "title": "Ouroboros Skycoil",
+    "models": 41,
+    "path": "showcase/approved_concepts/37_Ouroboros_Skycoil/xlights_rgbeffects.xml",
+    "section": "SHOWCASE CONCEPT"
+  },
+  {
+    "number": 72,
+    "title": "Phoenix Ascending",
+    "models": 34,
+    "path": "showcase/approved_concepts/38_Phoenix_Ascending/xlights_rgbeffects.xml",
+    "section": "SHOWCASE CONCEPT"
+  },
+  {
+    "number": 73,
+    "title": "Cathedral Of Echoes",
+    "models": 10,
+    "path": "showcase/approved_concepts/39_Cathedral_of_Echoes/xlights_rgbeffects.xml",
+    "section": "SHOWCASE CONCEPT"
+  },
+  {
+    "number": 74,
+    "title": "Fractal Geode Cavern",
+    "models": 90,
+    "path": "showcase/approved_concepts/40_Fractal_Geode_Cavern/xlights_rgbeffects.xml",
+    "section": "SHOWCASE CONCEPT"
+  },
+  {
+    "number": 75,
+    "title": "Quantum Chessboard",
+    "models": 24,
+    "path": "showcase/approved_concepts/41_Quantum_Chessboard/xlights_rgbeffects.xml",
+    "section": "SHOWCASE CONCEPT"
+  },
+  {
+    "number": 76,
+    "title": "Prismwake Pontoon",
+    "models": 42,
+    "path": "showcase/approved_concepts/42_Prismwake_Pontoon/xlights_rgbeffects.xml",
+    "section": "SHOWCASE CONCEPT"
+  },
+  {
+    "number": 77,
+    "title": "Persistence Parade",
+    "models": 75,
+    "path": "showcase/approved_concepts/43_Persistence_Parade/xlights_rgbeffects.xml",
+    "section": "SHOWCASE CONCEPT"
+  },
+  {
+    "number": 78,
+    "title": "Jumping Jack Meadow",
+    "models": 51,
+    "path": "showcase/approved_concepts/44_Jumping_Jack_Meadow/xlights_rgbeffects.xml",
+    "section": "SHOWCASE CONCEPT"
+  },
+  {
+    "number": 79,
+    "title": "Helix Caterpillar",
+    "models": 60,
+    "path": "showcase/approved_concepts/45_Helix_Caterpillar/xlights_rgbeffects.xml",
+    "section": "SHOWCASE CONCEPT"
+  },
+  {
+    "number": 80,
+    "title": "Clay Bloom Courtyard",
+    "models": 99,
+    "path": "showcase/approved_concepts/46_Clay_Bloom_Courtyard/xlights_rgbeffects.xml",
+    "section": "SHOWCASE CONCEPT"
+  },
+  {
+    "number": 81,
+    "title": "Clockwork Firefly Woods",
+    "models": 16,
+    "path": "showcase/approved_concepts/47_Clockwork_Firefly_Woods/xlights_rgbeffects.xml",
+    "section": "SHOWCASE CONCEPT"
+  },
+  {
+    "number": 82,
+    "title": "Dragon Wing Studio",
+    "models": 50,
+    "path": "showcase/approved_concepts/48_Dragon_Wing_Studio/xlights_rgbeffects.xml",
+    "section": "SHOWCASE CONCEPT"
+  },
+  {
+    "number": 83,
+    "title": "Rubber Moon Playground",
+    "models": 6,
+    "path": "showcase/approved_concepts/49_Rubber_Moon_Playground/xlights_rgbeffects.xml",
+    "section": "SHOWCASE CONCEPT"
+  },
+  {
+    "number": 84,
+    "title": "Origami Metamorphosis",
+    "models": 5,
+    "path": "showcase/approved_concepts/50_Origami_Metamorphosis/xlights_rgbeffects.xml",
+    "section": "SHOWCASE CONCEPT"
+  },
+  {
+    "number": 85,
+    "title": "Whale Breach Flipbook",
+    "models": 99,
+    "path": "showcase/approved_concepts/51_Whale_Breach_Flipbook/xlights_rgbeffects.xml",
+    "section": "SHOWCASE CONCEPT"
+  },
+  {
+    "number": 86,
+    "title": "Manta Glide Corridor",
+    "models": 65,
+    "path": "showcase/approved_concepts/52_Manta_Glide_Corridor/xlights_rgbeffects.xml",
+    "section": "SHOWCASE CONCEPT"
+  },
+  {
+    "number": 87,
+    "title": "Marionettes Of Light",
+    "models": 60,
+    "path": "showcase/approved_concepts/53_Marionettes_of_Light/xlights_rgbeffects.xml",
+    "section": "SHOWCASE CONCEPT"
+  },
+  {
+    "number": 88,
+    "title": "Tiny Giant Town",
+    "models": 61,
+    "path": "showcase/approved_concepts/54_Tiny_Giant_Town/xlights_rgbeffects.xml",
+    "section": "SHOWCASE CONCEPT"
+  },
+  {
+    "number": 89,
+    "title": "Drummer’S Animation Stage",
+    "models": 20,
+    "path": "showcase/approved_concepts/55_Drummer’s_Animation_Stage/xlights_rgbeffects.xml",
+    "section": "SHOWCASE CONCEPT"
+  },
+  {
+    "number": 90,
+    "title": "Shadow Puppet Cinema",
+    "models": 24,
+    "path": "showcase/approved_concepts/56_Shadow_Puppet_Cinema/xlights_rgbeffects.xml",
+    "section": "SHOWCASE CONCEPT"
+  },
+  {
+    "number": 91,
+    "title": "Brick By Brick Cathedral",
+    "models": 42,
+    "path": "showcase/approved_concepts/57_Brick-by-Brick_Cathedral/xlights_rgbeffects.xml",
+    "section": "SHOWCASE CONCEPT"
+  },
+  {
+    "number": 92,
+    "title": "Domino Wave Arena",
+    "models": 72,
+    "path": "showcase/approved_concepts/58_Domino_Wave_Arena/xlights_rgbeffects.xml",
+    "section": "SHOWCASE CONCEPT"
+  },
+  {
+    "number": 93,
+    "title": "Paper Tide Pontoon",
+    "models": 61,
+    "path": "showcase/approved_concepts/59_Paper_Tide_Pontoon/xlights_rgbeffects.xml",
+    "section": "SHOWCASE CONCEPT"
+  },
+  {
+    "number": 94,
+    "title": "Zoetrope Spiral Carousel",
+    "models": 88,
+    "path": "showcase/approved_concepts/60_Zoetrope_Spiral_Carousel/xlights_rgbeffects.xml",
+    "section": "SHOWCASE CONCEPT"
+  },
+  {
+    "number": 95,
+    "title": "Comet Smear Tunnel",
+    "models": 50,
+    "path": "showcase/approved_concepts/61_Comet_Smear_Tunnel/xlights_rgbeffects.xml",
+    "section": "SHOWCASE CONCEPT"
+  },
+  {
+    "number": 96,
+    "title": "Moonrise Loop Theatre",
+    "models": 50,
+    "path": "showcase/approved_concepts/62_Moonrise_Loop_Theatre/xlights_rgbeffects.xml",
+    "section": "SHOWCASE CONCEPT"
+  }
+]
