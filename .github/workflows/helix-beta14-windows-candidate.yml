@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - integration/unified-beta-completion-20261117
+      - integration/beta14-recovered-logic-20261126
     paths:
       - .github/workflows/helix-beta14-windows-candidate.yml
       - windows_portable.spec
