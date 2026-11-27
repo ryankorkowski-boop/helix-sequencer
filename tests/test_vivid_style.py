@@ -255,3 +255,22 @@ def test_vivid_uses_source_roles_and_skips_full_attack_budget(tmp_path: Path):
     build = next(effect for effect in root.iter("Effect") if effect.get("label") == "vivid build")
     assert "E_TEXTCTRL_Eff_On_Start=15,E_TEXTCTRL_Eff_On_End=78" in build.get("settings")
     assert len([start for _, start, _ in emitted if start == 3000]) == 1
+
+
+def test_vivid_support_follows_measured_bass_and_leaves_rests_dark(tmp_path: Path):
+    layout = tmp_path / "layout.xml"
+    _layout(layout)
+    sequence = tmp_path / "show.xsq"
+    _sequence(sequence)
+    root = ET.parse(sequence).getroot()
+    report = style_sequence(
+        root, layout,
+        sections=[{"label": "VERSE", "start_ms": 0, "end_ms": 4000}],
+        cue_times={},
+        support_spans={600: 1250, 2700: 3600},
+        quiet_windows=[(2900, 3100)],
+    )
+    support = root.findall(".//Effect[@label='vivid support']")
+    assert report["bass_support"] == len(support) == 1
+    assert (support[0].get("startTime"), support[0].get("endTime")) == ("600", "1250")
+    assert "E_TEXTCTRL_Eff_On_Start=32,E_TEXTCTRL_Eff_On_End=0" in support[0].get("settings")

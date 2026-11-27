@@ -1,3 +1,10 @@
+## November 27 · Vendor-informed phrase pass
+
+- Stays on the branch for [draft PR #270](https://github.com/ryankorkowski-boop/helix-sequencer/pull/270). The first-pass comparison baseline is `c82b4a58`.
+- The master engine now follows the same prop route for a detected melodic phrase and routes its strongest pitches across that route. Yard note overlays share one producer. Real bass cues can add a lower-brightness answer during an active phrase.
+- Native xLights comparisons used 24 seconds each of Helix Audiolights and Tinsel Sawtooth. The AC, double-helix, and 56-prop pixel-house layouts all kept zero frames with every prop bright. On the pixel house, the largest simultaneous sharp rise fell from 23 props to 12.
+- 191 focused tests passed. The RGB double-helix score declined by 0.3, and all cases remain below the 96-point internal vendor target. See [MASTER_TODO.md](../MASTER_TODO.md) for results, references, and review limits.
+
 ## November 27 · Native orchestration comparison
 
 - Compared the recovered Beta 1.4 baseline at `97e2d677` with the phrase-led feature branch on the same 24-second Helix Audiolights excerpt and unchanged layout XML.

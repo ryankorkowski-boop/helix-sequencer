@@ -7830,86 +7830,61 @@ def place_polyphonic_keyboard(
 
 def place_piano_lights(
     style: VariantStyle,
-    note_events: list[NoteEvent],
+    phrases: list[list[NoteEvent]],
     pools: list[SequentialPool],
-    kicks: list[int],
-    snares: list[int],
-    hats: list[int],
-    bass_peaks: list[int],
-    vocal_peaks: list[int],
     ramp_ok: bool,
     ramp_tpl: base.EffectTemplate,
     add_model,
     in_blackout,
     keyboard_track: list[tuple[str, int, int]],
-) -> None:
+) -> int:
     seq_pools = [
         pool
         for pool in pools
         if pool.category in {"arch", "line", "mega", "matrix", "gt", "spinner", "sphere", "canes_combo"}
-        and len(pool.models) >= 6
+        and len(pool.models) >= 3
     ]
-    if not seq_pools or not note_events:
-        return
-    seq_idx = 0
-    for event_idx, event in enumerate(note_events):
-        if in_blackout(event.start_ms):
-            continue
-        cue = piano_lights_cue_for_event(
-            event,
-            kicks=kicks,
-            snares=snares,
-            hats=hats,
-            bass_peaks=bass_peaks,
-            vocal_peaks=vocal_peaks,
-        )
-        pool = choose_piano_lights_pool(seq_pools, cue, seq_idx)
-        seq_idx += 1
-        sorted_notes = sorted(event.notes, key=lambda pair: pair[0], reverse=True)
-        if not sorted_notes:
-            continue
-        max_notes = max(1, min(len(sorted_notes), int(round(max(2.0, style.polyphony * 1.2)))))
-        if cue in {"kick", "snare", "hat"}:
-            max_notes = min(max_notes, 2 if cue != "kick" else 3)
-        elif cue in {"vocal", "build"}:
-            max_notes = min(len(sorted_notes), max(max_notes, min(len(sorted_notes), style.polyphony + 1)))
-        max_notes = cue_target_count(
-            max_notes,
-            cue,
-            placement_mode="piano_lights",
-            part_label=event.part,
-            maximum=len(sorted_notes),
-        )
-        sorted_notes = sorted_notes[:max_notes]
-        held_until = event.start_ms
-        stem_key = stem_for_cue(cue)
-        for step, (midi, strength) in enumerate(sorted_notes):
-            lane_idx = midi_to_lane_index(midi, len(pool.models))
-            model = pool.models[lane_idx]
-            st = event.start_ms + (step * 10)
-            dur = cue_scaled_duration(
-                max(55, int(base.scaled_dur(140 + int(110 * strength)))),
-                cue,
-                placement_mode="piano_lights",
-                part_label=event.part,
-                minimum_ms=55,
-            )
-            if event.part in {"CHORUS", "PRECHORUS"}:
-                dur = int(dur * 1.15)
-            en = min(event.end_ms + 160, st + dur)
-            eff_name = reactive_effect_for_category(pool.category, cue, event.part, event_idx + step)
-            use_ramp = ramp_ok and eff_name == "On" and (event.part in {"PRECHORUS", "BRIDGE"} or step > 0)
-            add_model(
-                model,
-                st,
-                en,
-                f"piano_lights_{pool.category}",
-                eff="Ramp" if use_ramp else eff_name,
-                tpl=ramp_tpl if use_ramp else None,
-                stem=stem_key,
-            )
-            held_until = max(held_until, en)
-        keyboard_track.append((f"{pool.category}:{cue}:{note_label(event.notes)}", event.start_ms, held_until))
+    if not seq_pools:
+        return 0
+    lead_pitches = sorted(max(event.notes, key=lambda pair: pair[1])[0]
+                          for phrase in phrases for event in phrase)
+    if not lead_pitches:
+        return 0
+    trim = len(lead_pitches) // 10
+    low = lead_pitches[trim]
+    high = lead_pitches[-1 - trim]
+    center = (low + high) / 2
+    low, high = min(low, center - 6), max(high, center + 6)
+    placed = 0
+    for phrase_index, phrase in enumerate(phrases):
+        part = phrase[0].part
+        cue = "build" if part in {"PRECHORUS", "BRIDGE"} else "phrase"
+        pool = choose_piano_lights_pool(seq_pools, cue, phrase_index)
+        max_notes = min(style.polyphony, 2 if part in {"PRECHORUS", "CHORUS"} else 1)
+        for event in phrase:
+            if in_blackout(event.start_ms):
+                continue
+            seen: set[str] = set()
+            held_until = event.start_ms
+            for midi, strength in sorted(event.notes, key=lambda note: (-note[1], note[0])):
+                position = base.clamp((midi - low) / (high - low), 0.0, 1.0)
+                model = pool.models[round(position * (len(pool.models) - 1))]
+                if model in seen:
+                    continue
+                supporting = bool(seen)
+                seen.add(model)
+                en = min(event.end_ms + 55, event.start_ms + max(65, int(90 + strength * 125)))
+                use_ramp = ramp_ok and (supporting or cue == "build")
+                if add_model(model, event.start_ms, en, f"piano_lights_{pool.category}",
+                             eff="Ramp" if use_ramp else "On", tpl=ramp_tpl if use_ramp else None,
+                             source_timed=True):
+                    placed += 1
+                    held_until = max(held_until, en)
+                if len(seen) >= max_notes:
+                    break
+            if held_until > event.start_ms:
+                keyboard_track.append((f"{pool.category}:{cue}:{note_label(event.notes)}", event.start_ms, held_until))
+    return placed
 
 
 def has_nearby_mark(target_ms: int, marks: list[int], window_ms: int) -> bool:
@@ -10876,6 +10851,10 @@ def run_variant(
         max(26, base.scaled_gap(24)),
     )
     keyboard_note_events = extract_polyphonic_events(audio, harmonic, keyboard_event_times, sections, parts, keyboard_style)
+    melodic_phrases = ri.group_note_phrases(
+        keyboard_note_events,
+        [int(phrase["start_ms"]) for phrase in rhythm_intelligence_payload.get("phrase_boundaries", [])],
+    )
     try:
         chronoflow_payload = chronoflow_engine.build_chronoflow_plan(
             audio_path=audio_path,
@@ -11153,6 +11132,7 @@ def run_variant(
         cd_key: str | None = None,
         cd_ms: int = 0,
         stem: str = "other",
+        source_timed: bool = False,
     ) -> bool:
         nonlocal focused_group_cues
         if nm is None or nm not in placeable_models:
@@ -11194,12 +11174,13 @@ def run_variant(
         stem_key = stem if stem in priorities else "other"
         stem_priority = priorities.get(stem_key, priorities["other"])
         layer_key = stem_to_choreo_layer(stem_key, label)
-        snap_grid, snap_shift = _select_snap_grid(stem_key, layer_key)
-        st_i, en_i = _snap_range(st_i, en_i, snap_grid, snap_shift, snap_shift + 12, min_dur)
-        if (en_i - st_i) >= 800 and bar_ms:
-            en_i = _snap_to_grid(en_i, bar_ms, 140)
-            if en_i <= st_i + min_dur:
-                en_i = st_i + min_dur
+        if not source_timed:
+            snap_grid, snap_shift = _select_snap_grid(stem_key, layer_key)
+            st_i, en_i = _snap_range(st_i, en_i, snap_grid, snap_shift, snap_shift + 12, min_dur)
+            if (en_i - st_i) >= 800 and bar_ms:
+                en_i = _snap_to_grid(en_i, bar_ms, 140)
+                if en_i <= st_i + min_dur:
+                    en_i = st_i + min_dur
         family_key = prop_family(nm, model_category_map.get(nm))
         parsed_model = parsed_layout.model_for(nm) if parsed_layout is not None else None
         if hardkor_mode:
@@ -11274,7 +11255,7 @@ def run_variant(
         if layer_key == "motion":
             layer_candidates.append("accent")
         attempts: list[tuple[int, int]] = []
-        for shift in (0, 50, -50, 100, -100, 150, -150):
+        for shift in ((0,) if source_timed else (0, 50, -50, 100, -100, 150, -150)):
             attempts.append((st_i + shift, en_i + shift))
         base_duration = max(1, en_i - st_i)
         for factor in (0.92, 0.84, 0.72):
@@ -11494,6 +11475,7 @@ def run_variant(
             add_model(model, t_ms, t_ms + duration, "gt_bounce", stem="drums")
             gt_index += 1
 
+    yard_keyboard_owner = ""
     if hardkor_mode:
         hardkor_result = hardkor_engine.place_hardkor_sequence(
             names=names,
@@ -11877,21 +11859,12 @@ def run_variant(
             piano_track=piano_track,
             sweep_track=sweep_track,
         )
-        place_piano_lights(
-            style=style,
-            note_events=note_events,
-            pools=pools,
-            kicks=kicks,
-            snares=snares,
-            hats=hats,
-            bass_peaks=bass_peaks,
-            vocal_peaks=vocal_peaks,
-            ramp_ok=ramp_ok,
-            ramp_tpl=xsq.ramp_tpl,
-            add_model=add_model,
-            in_blackout=in_blackout,
-            keyboard_track=keyboard_track,
-        )
+        if not layout_has_piano and place_piano_lights(
+            style=style, phrases=melodic_phrases, pools=pools,
+            ramp_ok=ramp_ok, ramp_tpl=xsq.ramp_tpl, add_model=add_model,
+            in_blackout=in_blackout, keyboard_track=keyboard_track,
+        ):
+            yard_keyboard_owner = "piano_lights"
     elif style.placement_mode == "mapped_essentials":
         place_mapped_essentials(
             style=style,
@@ -12070,7 +12043,7 @@ def run_variant(
         cap = 0.24 if style.placement_mode == "showcase_stems" else 0.34 if style.placement_mode == "showcase_arc" else 0.38
         spatial_keyboard_mix = min(spatial_keyboard_mix, cap)
 
-    if style.keyboard_overlay:
+    if style.keyboard_overlay and not yard_keyboard_owner:
         player_piano_mix = base.clamp((0.54 if focused_mode else max(0.40, keyboard_mix * 0.72)) * other_priority_gain, 0.0, 2.0)
         if style.family == "v22":
             player_piano_mix = min(player_piano_mix, 0.34)
@@ -12095,23 +12068,28 @@ def run_variant(
         )
         if player_piano_placed:
             log(f"Player piano sequence placed: {player_piano_placed} effects on {choose_player_piano_pool(pools).name}")
+            if not layout_has_piano and style.placement_mode == "piano_lights":
+                yard_keyboard_owner = "player_piano"
 
-    spatial_keyboard_placed = place_spatial_keyboard_routes(
-        style=keyboard_style,
-        note_events=keyboard_note_events,
-        routes=keyboard_routes,
-        reference_scale_midis=reference_scale_midis,
-        keyboard_mix=spatial_keyboard_mix,
-        ramp_ok=ramp_ok,
-        ramp_tpl=xsq.ramp_tpl,
-        add_model=add_model,
-        in_blackout=in_blackout,
-        keyboard_track=keyboard_track,
-    )
-    if spatial_keyboard_placed:
-        log(f"Spatial keyboard routes placed: {spatial_keyboard_placed} effects across {len(keyboard_routes)} lanes")
+    if not yard_keyboard_owner:
+        spatial_keyboard_placed = place_spatial_keyboard_routes(
+            style=keyboard_style,
+            note_events=keyboard_note_events,
+            routes=keyboard_routes,
+            reference_scale_midis=reference_scale_midis,
+            keyboard_mix=spatial_keyboard_mix,
+            ramp_ok=ramp_ok,
+            ramp_tpl=xsq.ramp_tpl,
+            add_model=add_model,
+            in_blackout=in_blackout,
+            keyboard_track=keyboard_track,
+        )
+        if spatial_keyboard_placed:
+            log(f"Spatial keyboard routes placed: {spatial_keyboard_placed} effects across {len(keyboard_routes)} lanes")
+            if not layout_has_piano and style.placement_mode == "piano_lights":
+                yard_keyboard_owner = "spatial_keyboard"
 
-    if style.keyboard_overlay and keyboard_lane:
+    if style.keyboard_overlay and keyboard_lane and not yard_keyboard_owner:
         effective_keyboard_mix = keyboard_mix
         if premium_mode:
             effective_keyboard_mix = min(effective_keyboard_mix, 0.34)
@@ -12909,6 +12887,8 @@ def run_variant(
             "focused_group_cues": focused_group_cues,
             "reduced_attacks": reduced_attacks,
             "peak_onset_roots": attack_budget.peak_roots,
+            "yard_keyboard_owner": yard_keyboard_owner,
+            "note_phrases": len(melodic_phrases),
         },
         "neighbor_flow": (
             {
@@ -13044,6 +13024,7 @@ def run_variant(
                 "impact": energy_peaks,
             },
             quiet_windows=multiband.quiet_windows + blackout_windows,
+            support_spans=ri.bass_phrase_support(melodic_phrases, bass_peaks),
             layout=parsed_layout,
             protected_targets=performance_roots,
             target_roots=target_roots,

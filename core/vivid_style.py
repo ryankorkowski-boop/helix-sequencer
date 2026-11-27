@@ -132,6 +132,7 @@ def style_sequence(
     sections: list[dict] | None = None,
     features: object | None = None,
     cue_times: dict[str, list[int]] | None = None,
+    support_spans: dict[int, int] | None = None,
     quiet_windows: tuple[tuple[int, int], ...] | list[tuple[int, int]] = (),
     layout=None,
     protected_targets: frozenset[str] = frozenset(),
@@ -192,6 +193,9 @@ def style_sequence(
                 occupied[member].append((start, end))
 
     available_cues = cue_times if cue_times is not None else {"accent": sorted(observed_hits)}
+    support_spans = support_spans or {}
+    if support_spans:
+        available_cues = {**available_cues, "support": sorted(support_spans)}
     candidates = _accent_cues(song_sections, available_cues)
     routes = {
         role: _spatial_route([name for name in names if model_role(name) == role], positions)
@@ -199,10 +203,12 @@ def style_sequence(
     }
     cursors: dict[str, int] = defaultdict(int)
     added = 0
+    supports_added = 0
     last_cue = -1000
     last_white = -8000
     for start, cue, part, section_end, spacing in candidates:
-        end = min(duration, section_end, start + _ACCENT_DURATION[cue])
+        cue_end = support_spans[start] if cue == "support" else start + _ACCENT_DURATION[cue]
+        end = min(duration, section_end, cue_end)
         if start < 0 or end - start < 60 or start - last_cue < spacing:
             continue
         if any(start < right and left < end for left, right in quiet_windows):
@@ -232,12 +238,13 @@ def style_sequence(
                 last_cue = start
                 cursors[role] = index + 1
                 added += 1
+                supports_added += cue == "support"
                 break
             if last_cue == start:
                 break
     return {"ac_models": len(ac_names), "rgb_models": len(names) - len(ac_names),
             "added": added, "bed_kept": keep_bed, "hits": len(candidates),
-            "strategy": palette_for.strategy}
+            "strategy": palette_for.strategy, "bass_support": supports_added}
 
 
 _ACCENT_TARGETS = {
@@ -245,6 +252,7 @@ _ACCENT_TARGETS = {
     "bass": ("hero", "house", "fill", "arch", "matrix"),
     "build": ("house", "hero", "arch", "fill", "matrix"),
     "impact": ("hero", "house", "matrix", "arch", "fill"),
+    "support": ("house", "hero", "fill", "matrix", "arch"),
     "accent": ("arch", "hero", "house", "matrix", "fill"),
 }
 _ACCENT_ROLES = ("arch", "matrix", "hero", "fill", "house")
@@ -255,10 +263,10 @@ def _accent_cues(sections: list[dict], cue_times: dict[str, list[int]]) -> list[
     """Prefer phrase detail in verses and reserve impacts for section arrivals."""
     plans = {
         "INTRO": (("melody",), 660),
-        "VERSE": (("melody", "bass"), 430),
-        "PRECHORUS": (("build", "melody"), 340),
-        "BRIDGE": (("melody",), 520),
-        "CHORUS": (("impact", "melody", "bass"), 300),
+        "VERSE": (("support", "melody", "bass"), 430),
+        "PRECHORUS": (("build", "support", "melody"), 340),
+        "BRIDGE": (("support", "melody"), 520),
+        "CHORUS": (("impact", "support", "melody", "bass"), 300),
         "OUTRO": (("melody",), 650),
     }
     selected = []
@@ -276,9 +284,10 @@ def _accent_cues(sections: list[dict], cue_times: dict[str, list[int]]) -> list[
                     if cue == "impact":
                         break
         # A nearby release or build takes precedence over a less distinct hit.
-        structural = {start for start, cue in starts.items() if cue in {"impact", "build"}}
+        priorities = {"impact", "build", "support"}
+        structural = {start for start, cue in starts.items() if cue in priorities}
         for start, cue in sorted(starts.items()):
-            if cue not in {"impact", "build"} and any(abs(start - anchor) < spacing for anchor in structural):
+            if cue not in priorities and any(abs(start - anchor) < spacing for anchor in structural):
                 continue
             selected.append((start, cue, part, section["end_ms"], spacing))
     return sorted(selected)
@@ -454,7 +463,7 @@ def _palettes_for_layout(root: ET.Element, layout_path: Path | None, sections: l
 
 
 def _add_on(layer: ET.Element, start: int, end: int, palette: str, *, cue: str, accent_white: bool) -> None:
-    levels = (15, 78) if cue == "build" else (100, 0)
+    levels = {"build": (15, 78), "support": (32, 0)}.get(cue, (100, 0))
     ET.SubElement(layer, "Effect", {
         "name": "On",
         "startTime": str(start),

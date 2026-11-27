@@ -2,6 +2,22 @@
 
 Release status lives in `BETA_1_4_RELEASE_CHECKLIST.md`. Release is not approved.
 
+## November 27 · Phrase-level foreground and bass response
+
+**Goal:** Improve sustained musical focus and reduce competing note layers in the master Piano Lights mode.
+
+**Public references:** Looked at vendor previews and documentation for [Magical Light Shows' Sarajevo](https://magicallightshows.com/products/professional-sarajevo-xlights-sequence), [Little Drummer Boy](https://magicallightshows.com/products/little-drummer-boy-tobymac-ez-import), and [Showstopper's foreground and background explanation](https://showstoppersequences.com/Using-Your-New-Sequence_b_4.html). The Magical Light Shows best-selling catalog supplied a store-level popularity signal. The implementation uses Helix note, layout, and bass analysis.
+
+**Changed files:** `core/effect_engine.py`, `core/rhythm_intelligence.py`, `core/vivid_style.py`, their focused tests, and the live handoff.
+
+**Preserved:** The first-pass shared attack budget, manual template content, native layout and channel assignments, dedicated performer lanes, and existing compatibility paths for dedicated piano layouts.
+
+**New behavior:** Detected note runs keep one spatial route through their phrase. The strongest detected pitches use the song's working register. Foreground note attacks keep the detected onset when placed. One yard-keyboard engine owns the ordinary Piano Lights layout. When the phrase is still playing and there is space, a detected bass accent adds a low, fading response on a separate prop.
+
+**Tests and evidence:** 191 focused regressions passed. xLights 2026.18 rendered 480 frames per case for two real excerpts and three layouts. In the 56-prop pixel house, the largest sharp rise dropped from 23 props to 12, core effects fell from 2,954 to 839, and the internal score improved from 87.7 to 95.5. AC moved from 92.1 to 93.8. RGB double helix moved from 89.2 to 88.9 and kept its three-prop sharp-rise peak. No whole-layout bright frames occurred in the second-pass cases.
+
+**Limitations and risks:** Excerpts used local fallback stems. Fewer secondary note layers can reduce the number of props used in a dense scene. The pixel-house excerpt used 45 of 56 props compared with 48 in the first pass. Vendor-level visual parity, larger full-song validation, and device acceptance remain open. Dashboard service credentials were unavailable for this work.
+
 ## November 27 · Source cues and a shared display attack budget
 
 **Goal:** Give each musical phrase a focal part of the layout and eliminate generated whole-display pulses.
