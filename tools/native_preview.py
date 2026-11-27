@@ -53,6 +53,18 @@ def control_command_timeout(render_timeout: int | None) -> float:
     return float(min(render_timeout, 600))
 
 
+def health_check_timeout(render_timeout: int | None) -> float:
+    """Seconds to wait for REST after the sequence is already open.
+
+    Ordinary previews keep one 5s ping. A dense show that already asked for
+    a longer render can leave getVersion silent while the process is alive.
+    That wait may use up to 600s. It does not raise the 1800s export cap.
+    """
+    if render_timeout is None or render_timeout <= 60:
+        return 5.0
+    return float(min(render_timeout, 600))
+
+
 def _run(command: list[str], timeout: float) -> str:
     result = subprocess.run(command, capture_output=True, text=True,
                             timeout=timeout, check=False)
@@ -327,23 +339,59 @@ def _dismiss_startup_dialogs(pid: int, evidence_dir: Path) -> None:
 
 
 def _assert_native_ready(app: subprocess.Popen, endpoint: str,
-                         evidence_dir: Path) -> None:
-    """Require the owned process and REST server to survive dialog dismissal."""
+                         evidence_dir: Path, *, timeout: float = 5) -> None:
+    """Require the owned process and REST server to survive dialog dismissal.
+
+    A single 5s ping is enough for an ordinary show. A dense show can miss
+    that ping while it is still alive, so a longer caller budget retries
+    only a socket timeout. Connection refusal, a rejected response, and a
+    dead process still fail immediately.
+    """
     evidence: dict[str, Any] = {"pid": app.pid, "endpoint": endpoint,
                                 "process_returncode": app.poll(),
                                 "rest_responding": False}
+    started = time.monotonic()
+    deadline = started + timeout
+    next_report = started
     try:
         if evidence["process_returncode"] is not None:
             raise RuntimeError(
                 f"xLights exited {evidence['process_returncode']} after startup dialog dismissal")
-        response = rest._request_json("GET", f"{endpoint}/getVersion", timeout=5)
-        if not rest._response_ok(response):
-            raise ValueError(f"xLights version request rejected: {response}")
-        evidence["rest_responding"] = True
-        evidence["process_returncode"] = app.poll()
-        if evidence["process_returncode"] is not None:
-            raise RuntimeError(
-                f"xLights exited {evidence['process_returncode']} during post-dialog health check")
+        while True:
+            remaining = deadline - time.monotonic()
+            if remaining <= 0:
+                raise TimeoutError(
+                    f"xLights post-dialog health check timed out after {timeout:g}s")
+            request_timeout = 5.0 if timeout == 5 else min(5.0, max(0.1, remaining))
+            try:
+                response = rest._request_json(
+                    "GET", f"{endpoint}/getVersion", timeout=request_timeout)
+            except TimeoutError:
+                now = time.monotonic()
+                code = app.poll()
+                if code is not None:
+                    evidence["process_returncode"] = code
+                    raise RuntimeError(
+                        f"xLights exited {code} during post-dialog health check")
+                if now >= deadline:
+                    raise TimeoutError(
+                        f"xLights post-dialog health check timed out after {timeout:g}s")
+                if now >= next_report:
+                    print("HELIX_NATIVE_HEALTH_WAIT " + json.dumps({
+                        "elapsed_seconds": round(now - started, 1),
+                        "process_alive": app.poll() is None,
+                    }), flush=True)
+                    next_report = now + 30
+                time.sleep(0.25)
+                continue
+            if not rest._response_ok(response):
+                raise ValueError(f"xLights version request rejected: {response}")
+            evidence["rest_responding"] = True
+            evidence["process_returncode"] = app.poll()
+            if evidence["process_returncode"] is not None:
+                raise RuntimeError(
+                    f"xLights exited {evidence['process_returncode']} during post-dialog health check")
+            return
     except (OSError, ValueError, RuntimeError) as exc:
         evidence["error"] = str(exc)
         raise RuntimeError(f"xLights post-dialog health check failed: {exc}") from exc
@@ -466,7 +514,9 @@ def _native_export(xlights: str, show: Path, staged: Path,
             if Path(opened.get("fullseq", "")).resolve() != staged:
                 raise ValueError("xLights opened an unexpected sequence")
             _dismiss_startup_dialogs(app.pid, staged.parent)
-            _assert_native_ready(app, endpoint, staged.parent)
+            _assert_native_ready(
+                app, endpoint, staged.parent,
+                timeout=health_check_timeout(render_timeout))
             video = staged.parent / "native-silent.mp4"
             width, height = _export_size()
             options: dict[str, str] = {"filename": str(video),

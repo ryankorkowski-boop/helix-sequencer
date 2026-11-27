@@ -384,6 +384,39 @@ class NativePreviewResolutionTests(unittest.TestCase):
         self.assertEqual(preview.control_command_timeout(None), 60)
         self.assertEqual(preview.control_command_timeout(60), 60)
         self.assertEqual(preview.control_command_timeout(1800), 600)
+        self.assertEqual(preview.health_check_timeout(None), 5)
+        self.assertEqual(preview.health_check_timeout(60), 5)
+        self.assertEqual(preview.health_check_timeout(1800), 600)
+
+    def test_post_dialog_health_retries_a_busy_socket(self):
+        app = SimpleNamespace(pid=123, poll=Mock(return_value=None))
+        calls = {"n": 0}
+
+        def request(*_args, **_kwargs):
+            calls["n"] += 1
+            if calls["n"] < 3:
+                raise TimeoutError("timed out")
+            return {"res": 200}
+
+        with tempfile.TemporaryDirectory() as directory, \
+                patch.object(preview.rest, "_request_json", side_effect=request), \
+                patch.object(preview.rest, "_response_ok", return_value=True):
+            preview._assert_native_ready(
+                app, "http://127.0.0.1:49914", Path(directory), timeout=3)
+            self.assertEqual(calls["n"], 3)
+            report = json.loads((Path(directory) / "native_startup_health.json").read_text())
+            self.assertTrue(report["rest_responding"])
+
+    def test_post_dialog_health_timeout_names_the_check(self):
+        app = SimpleNamespace(pid=123, poll=Mock(return_value=None))
+        with tempfile.TemporaryDirectory() as directory, \
+                patch.object(preview.rest, "_request_json", side_effect=TimeoutError("timed out")):
+            with self.assertRaisesRegex(RuntimeError, "post-dialog health check timed out after 0.2s"):
+                preview._assert_native_ready(
+                    app, "http://127.0.0.1:49914", Path(directory), timeout=0.2)
+            report = json.loads((Path(directory) / "native_startup_health.json").read_text())
+            self.assertFalse(report["rest_responding"])
+            self.assertIn("timed out after 0.2s", report["error"])
 
     def test_show_folder_read_retries_one_socket_timeout(self):
         app = SimpleNamespace(poll=Mock(return_value=None))

@@ -2,6 +2,16 @@
 
 Release status lives in `BETA_1_4_RELEASE_CHECKLIST.md`. Release is not approved.
 
+## November 27 · Infinity health ping died after the sequence opened
+
+**Goal:** Do not treat the latest Infinity fallback as a finished movie, and do not raise the 1800s export cap.
+**Changed files:** `tools/native_preview.py`, `tests/test_native_preview_resolution.py`, `BETA_1_4_RELEASE_CHECKLIST.md`, `MASTER_TODO.md`.
+**Evidence:** Runs [45923592458](https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/45923592458) (`abe557e`) and [45924766083](https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/45924766083) (`3906110`) wrote the same FSEQ activity, waited on REST with `process_alive: true` through about 277s, logged `HELIX_NATIVE_OPEN_SEQUENCE` with a 600s budget, then failed in the post-dialog health check. The warning was `xLights post-dialog health check failed: timed out`. `process_returncode` was null. That check was one 5s `getVersion` with no retry.
+**Preserved:** Ordinary previews still use one 5s ping. Connection refusal, a rejected version response, and a dead process still fail immediately. Export stays capped at 1800s. The 0.65 motion gate and the singer-identity gate are unchanged.
+**New behavior:** When the caller already asked for a longer render, the health ping retries a socket timeout for up to 600s and logs `HELIX_NATIVE_HEALTH_WAIT`. A dead process during that wait fails closed.
+**Tests:** `tests/test_native_preview_resolution.py`.
+**Limitations:** The in-progress or finished Infinity runs do not contain this retry. No MP4 from those runs is accepted. If the next log shows the process alive through the whole 600s health wait, stop and read it before lengthening anything.
+
 ## November 27 · Phoneme movie inspected, motion gate stays failed
 
 **Goal:** Read the retained native movie before any choreography or threshold change.
