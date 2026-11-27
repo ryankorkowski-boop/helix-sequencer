@@ -11095,6 +11095,15 @@ def run_variant(
             log(f"[WARN] Physical target index skipped: {exc!r}")
     overlay_buckets: dict[int, int] = {}
     flash_buckets: dict[int, int] = {}
+    # Share one section-local family policy across all live placements.
+    # Dedicated performers retain their native instrument and face tracks;
+    # general-yard family fan-out is governed independently.
+    yard_families = {
+        prop_family(name, model_category_map.get(name))
+        for name in placeable_models
+        if balance.model_role(name) not in {"piano", "singer", "percussion", "character"}
+    }
+    show_direction_budget = balance.ShowDirectionBudget(len(placeable_models), len(yard_families))
 
     def _section_budget_ok(st_ms: int, label: str) -> bool:
         lane = balance.label_lane(label)
@@ -11151,6 +11160,19 @@ def run_variant(
             if en_i <= st_i + min_dur:
                 en_i = st_i + min_dur
         family_key = prop_family(nm, model_category_map.get(nm))
+        # Do not let background washes occupy the entire layout. Preserve
+        # dedicated performers and independent note/vocal/drum timing.
+        family_governed = (
+            balance.model_role(nm) not in {"piano", "singer", "percussion", "character"}
+            and lane in {"primary", "overlay", "flash"}
+        )
+        section_key = part_for_time(parts, st_i)
+        if family_governed and not show_direction_budget.can_allow(
+            section=section_key, family=family_key, label=label
+        ):
+            show_direction_budget.reject(section=section_key, family=family_key, label=label)
+            reject_effect(nm, st_i, en_i, eff, "balance", "section family fan-out or VU limit")
+            return False
         parsed_model = parsed_layout.model_for(nm) if parsed_layout is not None else None
         if hardkor_mode:
             request_key = str(eff or "On").strip().lower()
@@ -11239,6 +11261,11 @@ def run_variant(
                 seen_attempts.add(key)
                 if lane in {"overlay", "flash"} and not _section_budget_ok(max(0, cand_st), label):
                     continue
+                actual_section = part_for_time(parts, max(0, cand_st))
+                if family_governed and not show_direction_budget.can_allow(
+                    section=actual_section, family=family_key, label=label
+                ):
+                    continue
                 if attempt_place_effect(
                     nm=nm,
                     layer_key=candidate_layer,
@@ -11251,6 +11278,10 @@ def run_variant(
                 ):
                     if lane in {"overlay", "flash"}:
                         _section_budget_take(max(0, cand_st), label)
+                    if family_governed:
+                        show_direction_budget.record(
+                            section=actual_section, family=family_key, label=label
+                        )
                     stats.bump(label)
                     if cd_key and cd_ms > 0:
                         cooldowns.block(cd_key, st_i, cd_ms)
@@ -12828,6 +12859,18 @@ def run_variant(
         "parts": [{"label": part.label, "start_ms": part.start_ms, "end_ms": part.end_ms} for part in parts],
         "youtube_show_summary": show_direction_summary,
         "placements": stats.counts,
+        "orchestration_role_gates": {
+            "active": True,
+            "family_cap": show_direction_budget.family_cap,
+            "vu_cap_per_section": show_direction_budget.vu_cap,
+            "admitted_families": {
+                section: list(families)
+                for section, families in sorted(show_direction_budget._families.items())
+            },
+            "held": dict(show_direction_budget.held),
+            "overlay_accepted": sum(overlay_buckets.values()),
+            "flash_accepted": sum(flash_buckets.values()),
+        },
         "neighbor_flow": (
             {
                 "route_count": len(neighbor_graph.routes),
