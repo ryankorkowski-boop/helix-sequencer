@@ -1,5 +1,7 @@
 ## Beta 1.4 live engine integration checklist
 
+Release status lives in `BETA_1_4_RELEASE_CHECKLIST.md` (2026-11-27). Release is not approved. Code under test remains `c5954fef`. This ledger entry is a pointer only.
+
 Branch `codex/beta14-live-engine-integration` starts at PR #264 commit `c5954fef098834fa79538285d7bb00eb514b787b`. The donor for governed placement is PR #261 commit `4fd2ddbced8d2f3822f2b9b3fd270bd4ae340957`. Resume from this checklist and the commits on this branch.
 
 - [x] Pin the recovery and governor sources. Preserve the existing 1.4 package, layout, and native review work.
