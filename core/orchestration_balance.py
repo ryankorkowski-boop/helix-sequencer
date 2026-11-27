@@ -6,6 +6,9 @@ models they do not own or fill a quiet section.
 
 The fuller PlacementSession from the governor branch is not imported here.
 This tree has no MusicalContext, and a second show director is not added.
+
+This module also exposes a small, dependency-free gate for callers that want
+to restrain unsupported accent placements without changing their scheduler.
 """
 
 from __future__ import annotations
@@ -90,3 +93,40 @@ def flash_cap_per_window(part: str) -> int:
     if name in {"CHORUS", "OUTRO"}:
         return 2
     return 1
+
+
+# The live engine still owns timing, priority, and xLights serialization.
+# These lightweight gates do not introduce the incompatible MusicalContext
+# dependency from the earlier unified-intelligence branch.
+DEDICATED_PERFORMER_ROLES = frozenset({"piano", "singer", "percussion"})
+
+
+def accent_target_allowed(model_name: str, label: str, *, layout_has_piano: bool, layout_has_singer: bool) -> bool:
+    """Prevent generic effects from overwriting named performers.
+
+    No-piano and no-singer layouts retain their historical yard fallbacks.
+    Never infer a performer from a generic house, arch, or matrix name.
+    """
+    role = model_role(model_name)
+    lane = label_lane(label)
+    if lane == "piano_overlay":
+        return allows_piano_overlay(model_name, layout_has_piano=layout_has_piano)
+    if lane == "vocal":
+        return allows_vocal(model_name, label, layout_has_singer=layout_has_singer)
+    if lane in {"overlay", "flash"} and role in DEDICATED_PERFORMER_ROLES:
+        return False
+    return True
+
+
+def restrained_accent_budget(section: str, *, quiet: bool = False, density: float = 1.0) -> tuple[int, int]:
+    """Return overlay/flash caps for a section; quiet audio never flashes.
+
+    These are maximum *accepted* accent counts, not a target number to fill.
+    A higher density cannot override a quiet passage.
+    """
+    if quiet:
+        return (1, 0)
+    overlay = overlay_cap_per_second(section)
+    if density <= 0.25:
+        overlay = min(overlay, 3)
+    return (overlay, flash_cap_per_window(section))
