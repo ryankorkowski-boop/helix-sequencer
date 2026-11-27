@@ -127,6 +127,29 @@ def test_twenty_four_bit_session_stems_stay_distinct():
             analyze_independent_vocals(lead, copy)
 
 
+def test_stereo_stem_is_one_singer_not_two():
+    def write_stereo(path, left_hz, right_hz):
+        rate = 16000
+        frames = bytearray()
+        for i in range(int(rate * 0.6)):
+            left = int(0.4 * 32767 * math.sin(2 * math.pi * left_hz * i / rate))
+            right = int(0.4 * 32767 * math.sin(2 * math.pi * right_hz * i / rate))
+            frames += struct.pack("<hh", left, right)
+        with wave.open(str(path), "wb") as handle:
+            handle.setnchannels(2)
+            handle.setsampwidth(2)
+            handle.setframerate(rate)
+            handle.writeframes(bytes(frames))
+
+    with tempfile.TemporaryDirectory() as d:
+        lead, harmony = Path(d) / "lead.wav", Path(d) / "harmony.wav"
+        write_stereo(lead, 220, 220)
+        write_stereo(harmony, 330, 330)
+        result = analyze_independent_vocals(lead, harmony)
+        assert len(result["tracks"]) == 2
+        assert all(track["windows"] for track in result["tracks"])
+
+
 def test_streamed_activity_preserves_separate_singer_windows():
     with tempfile.TemporaryDirectory() as d:
         lead, backing = Path(d) / "lead.wav", Path(d) / "backing.wav"

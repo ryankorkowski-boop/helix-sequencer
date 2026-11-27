@@ -37,6 +37,20 @@ def _file_sha256(path: Path) -> str:
     return digest.hexdigest()
 
 
+def _to_mono(samples, channels: int):
+    """One stem is one singer. Stereo is averaged, never split into two voices."""
+    if channels == 1:
+        return samples
+    import array
+    if channels != 2:
+        raise ValueError("Vocal stems must be mono or stereo")
+    count = len(samples) - (len(samples) % 2)
+    mono = array.array(samples.typecode)
+    for index in range(0, count, 2):
+        mono.append((int(samples[index]) + int(samples[index + 1])) // 2)
+    return mono
+
+
 def _decode_pcm(raw: bytes, width: int):
     """Little-endian mono samples. 16-bit stays a short array; 24-bit is signed int."""
     import array
@@ -86,8 +100,8 @@ def _stream_vocal_features(path: Path, *, hop_ms: int = 20,
     with wave.open(str(path), "rb") as wav:
         channels, width, rate, frames = (wav.getnchannels(), wav.getsampwidth(),
                                           wav.getframerate(), wav.getnframes())
-        if channels != 1 or width not in (2, 3) or rate < 8000:
-            raise ValueError(f"{path}: expected mono 16-bit or 24-bit PCM WAV at >= 8 kHz")
+        if channels not in (1, 2) or width not in (2, 3) or rate < 8000:
+            raise ValueError(f"{path}: expected mono or stereo 16-bit or 24-bit PCM WAV at >= 8 kHz")
         hop = max(1, round(rate * hop_ms / 1000))
         stride = (fingerprint_stride if fingerprint_stride is not None
                   else max(1, (frames + fingerprint_budget - 1) // fingerprint_budget))
@@ -98,7 +112,7 @@ def _stream_vocal_features(path: Path, *, hop_ms: int = 20,
         fingerprint: list[float] = []
         offset = 0
         while offset < frames:
-            samples = _decode_pcm(wav.readframes(min(hop, frames - offset)), width)
+            samples = _to_mono(_decode_pcm(wav.readframes(min(hop, frames - offset)), width), channels)
             if not samples:
                 break
             energies.append(math.sqrt(sum(x * x for x in samples) / len(samples)) / full_scale)
