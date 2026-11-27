@@ -13,7 +13,7 @@ from collections import defaultdict
 from pathlib import Path
 
 from tools.generate_infinity_showcase_geometry import rows
-from tools.build_helpers.helixville4_full_band import add_full_helixville4_band_models
+from tools.infinity_canonical_band import append_canonical_six_band
 
 EXPECTED_PIXELS = 35888
 
@@ -111,11 +111,11 @@ def export_layout(output: Path, *, include_band: bool = True) -> dict:
     })
     path = output / "xlights_rgbeffects.xml"
     ET.ElementTree(root).write(path, encoding="utf-8", xml_declaration=True)
+    band_info = None
     if include_band:
-        # Existing repository contract, not an invented stand-in. The source
-        # currently exposes five performers and NO approved keyboardist;
-        # do not claim the six-member acceptance gate has passed.
-        add_full_helixville4_band_models(path)
+        # Reuse original canonical six-role source with a real pianist;
+        # visual owner approval is still mandatory.
+        band_info = append_canonical_six_band(path)
     parsed = ET.parse(path).getroot()
     full_models = parsed.findall("./models/model")
     names = [m.get("name") for m in full_models]
@@ -129,8 +129,9 @@ def export_layout(output: Path, *, include_band: bool = True) -> dict:
         "spatial_model_count": len(seen),
         "total_xml_model_count": len(full_models),
         "family_pixel_counts": dict(inventory),
-        "band_import": "helixville4_full_band" if include_band else "none",
-        "band_verification": "UNAPPROVED: existing 5-performer asset; canonical keyboardist still required",
+        "band_import": "models.canonical_native_band" if include_band else "none",
+        "band_info": band_info,
+        "band_verification": "UNAPPROVED: six canonical roles exported, visual/timing proof still required" if include_band else "band disabled",
         "native_xlights_gui_test": "NOT RUN",
         "native_fseq_test": "NOT RUN",
         "owner_approval": False,
