@@ -32,6 +32,10 @@ class InfinityLayoutTests(unittest.TestCase):
             groups = {g.get("name"): g.get("models", "") for g in root.findall("./modelGroups/modelGroup")}
             self.assertEqual(len(groups["HX_INFINITY_DOUBLE_HELIX"].split(",")), 4)
             self.assertIn("HX_INFINITY_PIXEL_VOLUME", groups)
+            for route in ("WEST_TO_EAST", "GROUND_TO_SKY", "FRONT_TO_BACK", "CENTER_OUT", "CLOCKWISE_ORBIT"):
+                self.assertEqual(set(groups["HX_INFINITY_SPATIAL_"+route].split(",")), {m.get("name") for m in models})
+            self.assertTrue(any(m.get("DisplayAs") == "Arches" for m in models))
+            self.assertTrue(any(m.get("DisplayAs") == "Single Line" for m in models))
             self.assertEqual(sum(1 for m in models if m.get("name", "").startswith("HX_INFINITY_PixelVolume_")), 256)
             self.assertEqual(json.loads((dst / "infinity_manifest.json").read_text())["owner_approval"], False)
 
@@ -41,7 +45,7 @@ class InfinityLayoutTests(unittest.TestCase):
             manifest = export_layout(dst, include_band=True)
             root = ET.parse(dst / "xlights_rgbeffects.xml").getroot()
             band = next(x for x in root.findall("./modelGroups/modelGroup") if x.get("name") == "HX_SNOWMAN_BAND")
-            self.assertIn("HX_SNOWMAN_DRUMMER", band.get("models"))
+            self.assertEqual(set(band.get("models").split(",")), set(manifest["band_info"]["model_names"]))
             self.assertEqual(len(band.get("models").split(",")), 6)
             self.assertIn("PIANO", band.get("models").upper())
             self.assertEqual(manifest["band_info"]["performer_count"], 6)
