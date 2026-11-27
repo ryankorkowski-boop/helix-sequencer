@@ -2,6 +2,13 @@
 
 Release status lives in `BETA_1_4_RELEASE_CHECKLIST.md`. Release is not approved.
 
+## November 27 · Phoneme motion gate passed, release still blocked
+
+**Goal:** Record the decoded native measurement. Do not treat it as owner approval or a release.
+**Evidence:** Run [45929879500](https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/45929879500), commit `009af23`. `helix.phoneme-review.v1` says `native_video_verified: true`, `owner_approved: false`, `release_ready: false`. Readability measurements: median_motion 1.174, median_luma 12.85, median_bright_fraction 0.07432, visible size 0.669 by 0.622. The 0.65 threshold was not changed. Blockers in that receipt: cast is not the owner-approved solid 3D band, independent backing is not established from mixed stereo, canonical appearance review is pending, owner MP4 approval is required.
+**Preserved:** Singer-identity qualification on the fresh-band job [45929879545](https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/45929879545) still fails closed at "Enforce vocal qualification for owner approval". The downstream band acceptance job fails only because that producer was not successful.
+**Limitations:** Infinity run [45929879495](https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/45929879495) was still rendering the 10,240-prop movie when this note was written. No release.
+
 ## November 27 · Phoneme bodies were a flat On
 
 **Goal:** Raise visible stage motion without lowering 0.65 and without flashing the black field.
