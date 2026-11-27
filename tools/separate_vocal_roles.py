@@ -33,7 +33,7 @@ def write_manifest(source: Path, lead: Path, backing: Path, output: Path,
     output.parent.mkdir(parents=True, exist_ok=True)
     if not lead.is_relative_to(output.parent) or not backing.is_relative_to(output.parent):
         raise ValueError("Singer stems must be inside the manifest directory")
-    # The current independent-vocal gate requires aligned mono 16-bit PCM WAV.
+    # The independent-vocal gate accepts aligned mono 16-bit or 24-bit PCM WAV.
     silent_harmony = False
     try:
         result = analyze_independent_vocals(lead, backing)

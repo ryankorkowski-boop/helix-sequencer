@@ -98,6 +98,33 @@ def test_streaming_vocal_features_use_bounded_fingerprint():
         assert max(energies) > 0.1
 
 
+def test_twenty_four_bit_session_stems_stay_distinct():
+    # Studio multitracks are 24-bit. A gain-scaled copy must still fail,
+    # and two different notes must still pass, without claiming identity.
+    def write_s24(path, hz, amplitude):
+        rate = 16000
+        frames = bytearray()
+        for i in range(int(rate * 0.6)):
+            value = int(amplitude * 8388607 * math.sin(2 * math.pi * hz * i / rate))
+            frames += (value & 0xFFFFFF).to_bytes(3, "little")
+        with wave.open(str(path), "wb") as handle:
+            handle.setnchannels(1)
+            handle.setsampwidth(3)
+            handle.setframerate(rate)
+            handle.writeframes(bytes(frames))
+
+    with tempfile.TemporaryDirectory() as d:
+        lead, harmony, copy = Path(d) / "lead.wav", Path(d) / "harmony.wav", Path(d) / "copy.wav"
+        write_s24(lead, 220, 0.4)
+        write_s24(harmony, 330, 0.35)
+        write_s24(copy, 220, 0.2)
+        result = analyze_independent_vocals(lead, harmony)
+        assert result["independence"] == "duplicate_rejection_only_not_voice_identity_proof"
+        assert all(track["windows"] for track in result["tracks"])
+        with unittest.TestCase().assertRaisesRegex(ValueError, "near-identical"):
+            analyze_independent_vocals(lead, copy)
+
+
 def test_streamed_activity_preserves_separate_singer_windows():
     with tempfile.TemporaryDirectory() as d:
         lead, backing = Path(d) / "lead.wav", Path(d) / "backing.wav"

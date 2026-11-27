@@ -37,6 +37,28 @@ def _file_sha256(path: Path) -> str:
     return digest.hexdigest()
 
 
+def _decode_pcm(raw: bytes, width: int):
+    """Little-endian mono samples. 16-bit stays a short array; 24-bit is signed int."""
+    import array
+    import sys
+    if width == 2:
+        samples = array.array("h")
+        samples.frombytes(raw)
+        if sys.byteorder != "little":
+            samples.byteswap()
+        return samples
+    if width != 3 or len(raw) < 3:
+        return array.array("i")
+    usable = len(raw) - (len(raw) % 3)
+    samples = array.array("i")
+    for offset in range(0, usable, 3):
+        value = raw[offset] | (raw[offset + 1] << 8) | (raw[offset + 2] << 16)
+        if value & 0x800000:
+            value -= 0x1000000
+        samples.append(value)
+    return samples
+
+
 def _read_mono_pcm(path: Path) -> tuple[int, "array.array"]:
     with wave.open(str(path), "rb") as wav:
         channels, width, rate, frames = (wav.getnchannels(), wav.getsampwidth(),
@@ -61,29 +83,25 @@ def _stream_vocal_features(path: Path, *, hop_ms: int = 20,
     """
     if hop_ms <= 0 or fingerprint_budget <= 0:
         raise ValueError("hop_ms and fingerprint_budget must be positive")
-    import array
-    import sys
     with wave.open(str(path), "rb") as wav:
         channels, width, rate, frames = (wav.getnchannels(), wav.getsampwidth(),
                                           wav.getframerate(), wav.getnframes())
-        if channels != 1 or width != 2 or rate < 8000:
-            raise ValueError(f"{path}: expected mono 16-bit PCM WAV at >= 8 kHz")
+        if channels != 1 or width not in (2, 3) or rate < 8000:
+            raise ValueError(f"{path}: expected mono 16-bit or 24-bit PCM WAV at >= 8 kHz")
         hop = max(1, round(rate * hop_ms / 1000))
         stride = (fingerprint_stride if fingerprint_stride is not None
                   else max(1, (frames + fingerprint_budget - 1) // fingerprint_budget))
         if stride < 1:
             raise ValueError("fingerprint_stride must be positive")
+        full_scale = 32768.0 if width == 2 else 8388608.0
         energies: list[float] = []
         fingerprint: list[float] = []
         offset = 0
         while offset < frames:
-            samples = array.array("h")
-            samples.frombytes(wav.readframes(min(hop, frames - offset)))
-            if sys.byteorder != "little":
-                samples.byteswap()
+            samples = _decode_pcm(wav.readframes(min(hop, frames - offset)), width)
             if not samples:
                 break
-            energies.append(math.sqrt(sum(x * x for x in samples) / len(samples)) / 32768.0)
+            energies.append(math.sqrt(sum(x * x for x in samples) / len(samples)) / full_scale)
             for j in range((-offset) % stride, len(samples), stride):
                 fingerprint.append(float(samples[j]))
             offset += len(samples)
