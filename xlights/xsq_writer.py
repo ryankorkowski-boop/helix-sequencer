@@ -595,6 +595,11 @@ def validate_xsq_layout_rows(xsq: XsqIndex, layout_path: Path) -> dict[str, obje
 def ensure_layer(el: ET.Element, layer_name: str) -> ET.Element:
     return _xml_io.ensure_layer(el, layer_name)
 
+
+def reserve_effect_layer(layers: dict, elements: dict, nm: str, layer_key: str,
+                         layer_name: str, ensure) -> ET.Element:
+    return _xml_io.reserve_effect_layer(layers, elements, nm, layer_key, layer_name, ensure)
+
 def _iter_layers(el: ET.Element) -> list[ET.Element]:
     return [c for c in list(el) if c.tag.endswith("EffectLayer") or c.tag.endswith("Layer")]
 

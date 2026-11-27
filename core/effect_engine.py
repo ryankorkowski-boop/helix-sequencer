@@ -10577,14 +10577,9 @@ def run_variant(
         log(f"Removed startup blip effects: {removed_blips}")
     log(f"Layering mode: {layering_mode}")
 
-    layers = {
-        nm: {
-            layer_key: base.ensure_layer(el, layer_name)
-            for layer_key, layer_name in auto_layer_names.items()
-        }
-        for nm, el in xsq.elements.items()
-    }
-    timelines = {nm: EffectTimeline() for nm in layers}
+    placeable_models = set(xsq.elements)
+    layers: dict[str, dict[str, ET.Element]] = {}
+    timelines = {nm: EffectTimeline() for nm in placeable_models}
     cooldowns = base.Cooldowns()
     stats = base.PlacementStats()
     total = 0
@@ -10606,7 +10601,7 @@ def run_variant(
     for pool in pools:
         for model in pool.models:
             model_category_map[model] = pool.category
-    neighbor_graph = build_neighbor_graph(parsed_layout, available_names=list(layers.keys())) if parsed_layout is not None else None
+    neighbor_graph = build_neighbor_graph(parsed_layout, available_names=list(placeable_models)) if parsed_layout is not None else None
     if neighbor_graph is not None and neighbor_graph.routes:
         log(
             "Spatial neighbor graph: "
@@ -11060,7 +11055,8 @@ def run_variant(
             reject_effect(nm, st_i, en_i, effect_name, layer_key, reason)
             return False
 
-        layer_el = layers[nm][layer_key]
+        layer_el = base.reserve_effect_layer(
+            layers, xsq.elements, nm, layer_key, auto_layer_names[layer_key], base.ensure_layer)
         xml_effect = base.add_effect(layer_el, st_i, en_i, effect_name, template_to_use)
         timeline.add(
             layer_key,
@@ -11131,7 +11127,7 @@ def run_variant(
         cd_ms: int = 0,
         stem: str = "other",
     ) -> bool:
-        if nm is None or nm not in layers:
+        if nm is None or nm not in placeable_models:
             return False
         st_i = int(st)
         en_i = int(max(st_i + 1, en))
@@ -12189,7 +12185,7 @@ def run_variant(
         unmapped_snowman_faces = 0
         for instruction in snowman_sequence_instructions:
             target = str(instruction.get("target_model", "") or "")
-            if target not in layers:
+            if target not in placeable_models:
                 continue
             st = max(0, int(instruction.get("start_ms", 0) or 0))
             en = int(instruction.get("end_ms", st) or st)
@@ -12418,7 +12414,7 @@ def run_variant(
     if parsed_layout is not None and style.family in {"v20", "v21", "v22", "v23"}:
         coverage_plan = collect_coverage_targets(
             parsed_layout=parsed_layout,
-            available_layer_names=list(layers.keys()),
+            available_layer_names=list(placeable_models),
             used_root_models=used_root_models,
             model_category_map=model_category_map,
             limit=48,

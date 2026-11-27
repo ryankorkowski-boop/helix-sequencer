@@ -2,6 +2,12 @@
 
 Release status lives in `BETA_1_4_RELEASE_CHECKLIST.md`. Release is not approved.
 
+## November 27 · Empty weaver layers were the 79% load
+
+**Cause:** Not a stall. The Infinity XSQ has 75,117 effect layers and 61,359 of them are empty. `run_variant` called `ensure_layer` for base, motion, and accent on every model and group before placing anything. xLights prints `Effects Loaded` after every layer, while the percent only moves when an effect node is loaded. At 600s it had walked about 93% of layers and 79% of effects.
+**Change:** A named lane is created only when an effect is placed on it. Models with no weaver effect keep the one blank row the layout sync already requires. Groups are not given three empty lanes.
+**Not claimed:** The Infinity run already in the movie step still has the old sequence. This does not raise the 1800s export cap.
+
 ## November 27 · openSequence was still loading at 79%
 
 **Goal:** Do not treat the 600s open timeout as a finished movie, and do not raise the 1800s export cap.
