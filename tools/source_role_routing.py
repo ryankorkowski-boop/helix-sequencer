@@ -54,7 +54,7 @@ def configure_advanced_spatial_routes(models):
         if not any(word in zone for word in ('DEPTH','CATHEDRAL','OPTICAL','SPIRAL','HELIX','DNA','MATRIX','GROVE','SPATIAL')):
             continue
         role = role_for(model)
-        if role not in ('bassist','guitarist','keyboardist'):
+        if role not in ('bassist','guitarist','keyboardist','drummer'):
             continue
         banks[role].append(model)
     for role, members in banks.items():
