@@ -59,7 +59,8 @@ def test_comparison_original_ac_addresses_keep_name_to_circuit_identity():
     from core.model_parser import parse_layout
     g,_=layout(1,{})
     original=parse_layout(Path('xlights_rgbeffects.xml'))
-    assert len(g.models)==256 and sum(m.channels for m in g.models)==256
+    assert len(g.models)==252 and sum(m.channels for m in g.models)==252
+    assert {m.start for m in g.models}==set(range(1,257))-{133,142,151,160}
     for model in g.models:
         assert model.start==original.models[model.name].start_channel
         assert model.channels==1

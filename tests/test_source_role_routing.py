@@ -1,6 +1,6 @@
 from pathlib import Path
 
-from tools.build_source_ac_review import geometry
+from tools.build_source_ac_review import ACTIVE_AC_CHANNELS, geometry
 from tools.source_spatial_direction import schedule
 
 
@@ -58,5 +58,5 @@ def test_drum_banks_keep_component_ownership_and_original_channel_colors():
     events = [(m, schedule(m, plan, {}, 1000)) for m in bank]
     assert any(rows for _, rows in events)
     assert all(not rows or m.details['percussion_component'] == 'snare' for m, rows in events)
-    assert {m.start for m in models} == set(range(1,257))
+    assert {m.start for m in models} == set(ACTIVE_AC_CHANNELS)
     assert all(m.kind == 'ac' and m.channels == 1 for m in models)

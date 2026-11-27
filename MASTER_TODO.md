@@ -2,6 +2,18 @@
 
 Release status lives in `BETA_1_4_RELEASE_CHECKLIST.md`. Release is not approved.
 
+## November 27 · Retire the deleted arch apex circuits on the canonical AC map
+
+**Goal:** Stop the original AC layout from recreating the four center sections the owner removed.
+**Changed files:** `xlights_rgbeffects.xml`, `tools/build_source_ac_review.py`, `tools/prepare_drive_ac_preview.py`, `tests/test_source_ac_review.py`, `tests/test_source_role_routing.py`, `tests/test_source_drummer_3d.py`, `tests/test_prepare_drive_ac_preview.py`, `tests/test_preview_renderer.py`, `BETA_1_4_RELEASE_CHECKLIST.md`, `MASTER_TODO.md`.
+**Preserved:** Every remaining start channel, including the non-contiguous Arch 4 sections (6=2, 7=3, 8=4, 9=25). RGB preview models still begin at channel 257, so they cannot take a retired circuit. Group membership of surviving models is unchanged. Geometry generation still does not rewrite the source file.
+**New behavior:** `Arch 1 Sec 5` (133), `Arch 2 Sec 5` (142), `Arch 3 Sec 5` (151), and `Arch 4 Sec 5` (160) are gone. 252 active single-circuit models remain. Each of the four arches has sections 1–4 and 6–9. The address checker rejects the file if those centers return or if any other historical circuit is missing.
+**Tests/evidence:** XML parse after the edit. `tests/test_source_ac_review.py` (2) and `tests/test_source_role_routing.py` (4) passed locally. The preview polyline test passed and now uses `Roof Top White` because Sec 5 was the only arch polyline. `tests/test_prepare_drive_ac_preview.py` was not run here: Python 3.10 has no `hashlib.file_digest`. CI uses 3.11 and 3.12.
+**Limitations:** This is not a native render and not owner visual acceptance. The file still has no LOR color-ribbon or 16-strip LED tree. The only RGB Nodes model is `merRy christmas 4` on channel 164 with one node. Do not invent that tree.
+**Deferred:** 16-strip tree map, once a real layout file is in the tree. Native preview of the corrected 252-circuit show.
+**Regression risks:** Anything that required exactly 256 populated addresses, or that targeted `Arch N Sec 5` by name, now fails closed. Sequences already saved with effects on those four models will not match this layout until those effects are removed.
+**Dashboard:** Sites activity reporting was not sent. No session token was available, and none was created.
+
 ## November 27 · Live placement admits role lanes and shared physical rows
 
 **Goal:** Make the existing `add_model` / `attempt_place_effect` path refuse proposals that paint the wrong role or double-paint one physical node range. Do not add a second show director.
