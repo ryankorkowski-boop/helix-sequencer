@@ -2,6 +2,14 @@
 
 Release status lives in `BETA_1_4_RELEASE_CHECKLIST.md`. Release is not approved.
 
+## November 27 · Preserve the abe557e Windows portable
+
+**Goal:** Keep the latest unsigned Windows CI zip after the artifact store expires. Do not call it a release.
+**Changed files:** none in the product. Draft release `baseline/pr264-estimated-16panel-20261126` only.
+**Evidence:** Run [45923592460](https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/45923592460) artifact `Helix-Windows-Portable` at commit `abe557e`. Local SHA-256 `63743693cce163ed841d432e9991c208e8c2b6d63f3495d6221e1f6fd36f6b08` matches the file shipped inside the artifact and GitHub's asset digest. `verification.json` reports return code 0 for native FSEQ, LOR, xLights, and variant GUI selection. `demucs_executed` is false and `windows_external_player_verified` is false.
+**Preserved:** The older `7ddf34aa` zip stays on the same draft. The draft is still unpublished.
+**Limitations:** This is not owner visual acceptance and not the 16-panel movie.
+
 ## November 27 · Feed a qualified audio analysis into nine-pass
 
 **Goal:** The ordinary orchestration path can use a real `audio_analysis.json` when that file already passes the section adapter. It must not promote fallback or confidence below 0.7.
