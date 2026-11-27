@@ -244,6 +244,10 @@ def build_showcase(number, plan, *, duration, native_band, native_extended_mouth
     # Source routing is still performed by the production sequence builder.
     from models.spatial_showcase_extensions import install_spatial_gallery
     install_spatial_gallery(g, number)
+    # Add buildable, distinct customer-scale native installations, using the
+    # same measured source cues and keeping 10,240-model mode opt-in.
+    from models.realworld_showcase_districts import install_customer_sites
+    install_customer_sites(g, number)
     cast = None
     if number == 16:
         # Distribute pitched phrases across physical prop banks. This prevents

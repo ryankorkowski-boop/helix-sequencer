@@ -195,3 +195,39 @@ def test_showcase_bass_and_guitar_use_original_attacks_and_string_contacts():
         assert receipt['models'][model.name]['mapped_events'] == 1
         elements = root.findall(f'./ElementEffects/Element[@name="{model.name}/STRING_0"]/EffectLayer/Effect')
         assert [(e.get('startTime'), e.get('endTime')) for e in elements] == [('100', '260')]
+
+
+@pytest.mark.parametrize("panel,minimum,kind", [
+    (13, 280, "neighborhood"),
+    (14, 768, "festival"),
+    (15, 2560, "downtown"),
+    (16, 3072, "infinity_bounded"),
+])
+def test_real_world_customer_sites_have_independent_native_fixtures(panel, minimum, kind):
+    from collections import Counter
+    from models.realworld_showcase_districts import install_customer_sites
+    from models.ultimate_showcase import Garden
+
+    g = Garden()
+    added = install_customer_sites(g, panel, extreme=False)
+    assert len(added) >= minimum
+    assert len({m.name for m in added}) == len(added)
+    assert all(m.kind == "pixel" and m.channels > 0 for m in added)
+    assert all(m.details["physically_independent_address"] for m in added)
+    assert all(m.details["source_display_floor"] <= .25 for m in added)
+    assert len(set(m.details["customer_site_id"] for m in added)) >= 12
+    assert len(set(m.details["customer_fixture_style"] for m in added)) >= 5
+    assert {"guitarist", "bassist", "keyboardist", "drummer"} <= {
+        m.details["musical_role"] for m in added}
+    assert Counter(m.details["customer_site_id"] for m in added).most_common(1)[0][1] <= 640
+
+
+def test_infinity_extreme_mode_is_10240_independently_addressed_native_models():
+    from models.realworld_showcase_districts import install_customer_sites
+    from models.ultimate_showcase import Garden
+    g = Garden()
+    added = install_customer_sites(g, 16, extreme=True)
+    assert len(added) == 10240
+    assert len({m.name for m in added}) == 10240
+    assert sum(m.channels for m in added) >= 10240 * 3
+    assert all(m.details["physically_independent_address"] for m in added)
