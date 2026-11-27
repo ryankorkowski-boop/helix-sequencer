@@ -2,6 +2,17 @@
 
 Release status lives in `BETA_1_4_RELEASE_CHECKLIST.md`. Release is not approved.
 
+## November 27 · Feed a qualified audio analysis into nine-pass
+
+**Goal:** The ordinary orchestration path can use a real `audio_analysis.json` when that file already passes the section adapter. It must not promote fallback or confidence below 0.7.
+**Changed files:** `core/effects_orchestrator_bridge.py`, `core/sequence_builder.py`, `core/engine_activation_audit.py`, `tests/test_audio_section_timeline_adapter.py`, `BETA_1_4_RELEASE_CHECKLIST.md`, `MASTER_TODO.md`.
+**Evidence:** `timeline_from_audio_analysis` already rejected those sections. Nothing called it. Nine-pass only read `--orchestration-sections-json`.
+**Preserved:** An explicit section timeline still wins. A missing analysis file still uses the five synthetic seed sections. A rejected file does not fail the run and does not change the seed. `--audio-analysis-json` is stripped before the effect engine. The 0.7 confidence guard is unchanged.
+**New behavior:** `--audio-analysis-json`, or `audio_analysis.json` beside `--audio`, is adapted only when the hash, coverage, and confidence checks pass. The report field `section_timeline_source` is `audio_analysis` only then. The activation audit will not call that a validated source if `section_timeline_error` is set.
+**Tests:** `tests/test_audio_section_timeline_adapter.py`, `tests/test_song_section_choreography.py`, `tests/test_engine_activation_audit.py`, and `tests/test_effects_orchestrator_bridge.py` — 37 passed locally.
+**Limitations:** This does not create `audio_analysis.json`. The export helper is still unused by the sequence run, so a normal show still has synthetic seed sections until an analysis file exists. No native movie is accepted.
+**Regression risks:** A stale `audio_analysis.json` beside the audio is considered. A hash or confidence failure leaves the seed and records the error instead of aborting orchestration.
+
 ## November 27 · Infinity movie export died after REST answered
 
 **Goal:** The 10,240-prop native jobs no longer die at REST startup. They now produce an FSEQ and then fail while the GUI is opening the show. Do not treat that as a finished movie, and do not raise the 1800s export cap.

@@ -107,7 +107,7 @@ Do not weaken these gates to get a green badge.
 2. Infinity REST startup is no longer the failure. Runs [45916691190](https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/45916691190), [45916719842](https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/45916719842), and [45917803675](https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/45917803675) logged `HELIX_NATIVE_REST_WAIT` with the process alive, wrote an FSEQ (600 frames, about 2.37 million channels), then fell back with the exact warning `timed out` after about 16 minutes. That is not the 1800s export cap. `getShowFolder` did not retry a socket timeout, and `openSequence` was still 60s. The follow-up retries the show-folder read, gives `openSequence` up to 600s only when a longer render budget was already requested, and logs `HELIX_NATIVE_SHOW_WAIT` / `HELIX_NATIVE_OPEN_SEQUENCE`. Still not an accepted movie.
 3. Helix CI on the arch commit [45921322165](https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/45921322165) failed six tests that still required 256 populated addresses. The follow-up keeps the retired channels and updates those expectations to 252. It does not renumber the map. Nine-panel run [45921322115](https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/45921322115) died on that same `252 == 256` assertion before a movie. Phoneme [45921322221](https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/45921322221) is still the real gate: median_motion 0.375 < 0.65. Fresh band [45921322102](https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/45921322102) rendered, then failed closed because lead/harmony identity is unverified. Do not lower either gate.
 4. Done in this change, not a native movie: canonical AC apex sections removed. 32 arch sections remain. No 16-strip tree was in `xlights_rgbeffects.xml`.
-5. Ordinary-path sections: if `audio_analysis.json` already satisfies `timeline_from_audio_analysis`, feed it. If it does not, leave the synthetic seed and keep `synthetic_seed_only: true`.
+5. Done as a guard, not as a generated analysis: a sibling or `--audio-analysis-json` file is fed to nine-pass only when `timeline_from_audio_analysis` accepts it. Confidence below 0.7, a fallback reason, or a hash mismatch leaves the synthetic seed and sets `section_timeline_error`. The sequence run still does not write `audio_analysis.json`.
 6. Phoneme stage motion 0.374: inspect the retained diagnostic media before changing choreography. Do not lower 0.65.
 7. Ask the owner for isolated lead/harmony, or written acceptance of ESTIMATED_REVIEW, before any release note claims singer verification.
 8. After the gates above, and only with owner visual acceptance: tag, draft the prerelease, upload APK, EXE, checksums, this checklist, installation notes, and the new 16-panel MP4. Then write `WEBSITE_RELEASE_HANDOFF.md`.
@@ -116,7 +116,9 @@ Do not weaken these gates to get a green badge.
 
 - `BETA_1_4_RELEASE_CHECKLIST.md`
 - `MASTER_TODO.md`
-- `tools/native_preview.py` — `rest_startup_timeout`, 30s wait log
+- `core/effects_orchestrator_bridge.py` — qualified `audio_analysis.json` can replace the synthetic seed
+- `core/engine_activation_audit.py` — a rejected analysis is not `source_sections_validated`
+- `core/sequence_builder.py` — `--audio-analysis-json` is not forwarded to the effect engine
 - `tests/test_native_preview_resolution.py` — timeout bounds. Local run: 28 tests, 0 failures.
 - `core/orchestration_balance.py` — role, lane, and section-cap functions. No `PlacementSession`.
 - `core/physical_targets.py` — layout index plus `physical_placement_block`.
