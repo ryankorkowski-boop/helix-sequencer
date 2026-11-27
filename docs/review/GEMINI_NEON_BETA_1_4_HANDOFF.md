@@ -49,11 +49,19 @@ Band and twelve-layout jobs fail closed on this, and they should keep failing un
 
 A finished vocal solution is one of these:
 
-1. Time-aligned isolated stems for the recording that will ship, one file per singer, passed through `verify_fixture`. Then the release may say the singers are verified. The owner has not provided those files. Do not synthesize them from the mix and then flip the flag.
+1. Time-aligned isolated stems for one Cambridge-MT project that contains a lead vocal and a backing vocal, passed through `verify_fixture`. The release still may not ship that audio. The owner has not provided stems for his own show. Do not synthesize them from a mix and then flip the flag.
 2. A third review lane that stays off unless the owner labeled it, with `identity_verified=false`, and with tests that a silent lane creates no Faces effects and that lead shapes are not copied. Shipping that lane as "verified harmony" is a fail.
 3. Written owner acceptance of `ESTIMATED_REVIEW` on the release notes. Do not write that acceptance yourself.
 
 If the phone bundle grows a third stem, change `vocal_separation_manifest.py`, `helix_mobile.py`, and `tests/test_android_vocal_bundle.py` together. Do not hide two singers inside `backing.wav`.
+
+## Ground truth the owner pointed at
+
+The owner sent the Cambridge-MT Mixing Secrets library: https://cambridge-mt.com/ms-mtk.htm. The current catalog is https://cambridge-mt.com/ms3/mtk/. The usage FAQ is https://www.cambridge-mt.com/ms-mtk-UsageFAQs.htm.
+
+These are full session multitracks, not a finished mix. Each project is a ZIP of uncompressed WAVs, 44.1 kHz, 16-bit or 24-bit, and the files already share a start time. Many projects include a separate lead vocal and separate backing or harmony vocals. That is the isolated-singer audio `verify_fixture` is waiting for. Pick one short project that has both a lead vocal and a backing vocal. Sum a mix from the tracks you use. Run the lead file and the backing file through the existing two-file check. Do not use `Phoneme_Test_Hook.mp3`.
+
+The library page says the downloads are free for educational purposes only and must not be used for any commercial purpose without the copyright holders' permission. The FAQ also refuses portfolio and showreel use unless the artist agrees. The About page lists "Can I use these multitracks to train my AI engine?" This session could not read that answer through Cloudflare. Until that answer is in hand, do not train a separator on these files, do not commit the WAVs, and do not put them in the APK, the Windows ZIP, or the GitHub Release. A local educational check of the mouth lanes is the allowed use. A shipped demo song is not.
 
 ## What already passed on `4f7ad6c`
 
@@ -95,7 +103,7 @@ Older unsigned Windows zips are also on that draft (`009af23`, `abe557e`, `7ddf3
 ## Order of work
 
 1. Decide the vocal release claim with the owner: isolated stems, or the words `ESTIMATED_REVIEW`. Do not pick the second one for him.
-2. If he supplies stems, wire them through `verify_fixture` and the existing two-file manifest. Add a third file only with the schema and tests named above.
+2. If he supplies stems, or you use one Cambridge-MT project under the rule above, wire them through `verify_fixture` and the existing two-file manifest. Add a third file only with the schema and tests named above. Keep the audio out of git and out of the installers.
 3. If he accepts estimated review, update the release notes and the band/twelve-layout jobs so they fail closed on a false "verified" flag and pass only when the notes carry that label. Do not weaken the check into a silent pass.
 4. Ask him to watch the 16-panel baseline, or render a new one from `4f7ad6c` and wait for his yes. No yes, no tag.
 5. Build the release APK and the Windows package you can actually sign. If you still cannot sign, the release notes say unsigned and point at the draft checksums above. Do not rename a debug APK into `Helix-Sequencer-v1.4-beta-Android.apk` without the version fields matching.
