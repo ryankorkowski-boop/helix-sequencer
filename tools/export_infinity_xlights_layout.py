@@ -132,6 +132,21 @@ def export_layout(output: Path, *, include_band: bool = True) -> dict:
         members = ["HX_INFINITY_"+n for n in sorted(seen) if n in sources or n.rsplit("_",1)[0] in sources]
         ET.SubElement(groups, "modelGroup", {"name": "HX_INFINITY_MUSIC_"+role.upper(), "models": ",".join(members)})
 
+    # Sort by physical centroids, not lexical model names, for spatial routing.
+    import math
+    centers = {}
+    for m in models.findall("model"):
+        p = [float(v) for v in m.get("PointData").split(",")]
+        centers[m.get("name")] = tuple(sum(p[i::3])/len(p[i::3]) for i in range(3))
+    def route(label, key):
+        ordered = sorted(centers, key=lambda n: (key(centers[n]), n))
+        ET.SubElement(groups, "modelGroup", {"name": "HX_INFINITY_SPATIAL_"+label, "models": ",".join(ordered)})
+    route("WEST_TO_EAST", lambda p: p[0])
+    route("GROUND_TO_SKY", lambda p: p[1])
+    route("FRONT_TO_BACK", lambda p: p[2])
+    route("CENTER_OUT", lambda p: math.hypot(p[0], p[2]-18))
+    route("CLOCKWISE_ORBIT", lambda p: -math.atan2(p[2]-18, p[0]))
+
     spans.sort()
     if spans[0][0] != 1 or spans[-1][1] != EXPECTED_PIXELS * 3:
         raise AssertionError("incorrect first/last address")
