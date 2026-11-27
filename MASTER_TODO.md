@@ -2,6 +2,16 @@
 
 Release status lives in `BETA_1_4_RELEASE_CHECKLIST.md`. Release is not approved.
 
+## November 27 · Phoneme bodies were a flat On
+
+**Goal:** Raise visible stage motion without lowering 0.65 and without flashing the black field.
+**Changed files:** `tools/phoneme_vocal_export.py`, `tests/test_approval_collection.py`, `BETA_1_4_RELEASE_CHECKLIST.md`, `MASTER_TODO.md`.
+**Evidence:** The `abe557e` native movie measured median_motion 0.375. About 11.7% of the stage crop was lit and only 0.66% of those pixels changed by more than 8 levels between 4s and 12s. `export_static_materials` held every authored body node at On 90 for the whole song.
+**Preserved:** The 0.65 gate. The singer-identity gate. The material role stays `static_authored_material` and is not tied to the beat. Average level is 91, so the cast is not dimmed below the luma gate that passed at 12.503.
+**New behavior:** The same nodes step between 86 and 96 every 400ms and still cover the sequence with no gap.
+**Tests:** `tests/test_approval_collection.py::test_static_band_materials_attach_after_instrument_rows_are_replaced`.
+**Limitations:** This has not been decoded from a new native MP4. Do not claim the phoneme gate passed until that movie is measured.
+
 ## November 27 · Infinity health ping died after the sequence opened
 
 **Goal:** Do not treat the latest Infinity fallback as a finished movie, and do not raise the 1800s export cap.

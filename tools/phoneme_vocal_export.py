@@ -152,7 +152,16 @@ def export(root, layout: Path, garden, *, fixture: Path = FIXTURE,
 
 
 def export_static_materials(root, garden, duration_ms):
-    """Attach authored material after instrument exporters replace model rows."""
+    """Attach authored material after instrument exporters replace model rows.
+
+    One flat On from start to end leaves the body unchanged at the 2 fps
+    stage-motion sample, so a real mouth never moves the median. Step the
+    same material between 86 and 96, whose average stays at the previous
+    90. This is not a beat and not a strobe. The pieces still cover the
+    whole sequence without a gap.
+    """
+    step_ms = 400
+    levels = (86, 96)
     for model in garden.models:
         for part, nodes in model.submodels.items():
             if not part.startswith('STATIC_RGB_') or not nodes:
@@ -161,7 +170,14 @@ def export_static_materials(root, garden, duration_ms):
             _clear(element)
             layer = ET.SubElement(element, 'EffectLayer', name='Helix authored material; nonmusical illumination')
             color = '#' + part.removeprefix('STATIC_RGB_')
-            effect = add_effect(layer, 0, duration_ms, 'On', EffectTemplate(
-                settings='E_TEXTCTRL_Eff_On_Start=90,E_TEXTCTRL_Eff_On_End=90',
-                palette='C_BUTTON_Palette1='+color+',C_CHECKBOX_Palette1=1'))
-            effect.set('sourceRole', 'static_authored_material')
+            cursor = 0
+            index = 0
+            while cursor < duration_ms:
+                end = min(duration_ms, cursor + step_ms)
+                bright = levels[index % 2]
+                effect = add_effect(layer, cursor, end, 'On', EffectTemplate(
+                    settings=f'E_TEXTCTRL_Eff_On_Start={bright},E_TEXTCTRL_Eff_On_End={bright}',
+                    palette='C_BUTTON_Palette1='+color+',C_CHECKBOX_Palette1=1'))
+                effect.set('sourceRole', 'static_authored_material')
+                cursor = end
+                index += 1
