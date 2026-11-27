@@ -1,0 +1,55 @@
+name: August 2026 three-second flicker recovery baseline
+on:
+  push:
+    branches: [recovery/august-3sec-flicker-baseline-20261127]
+    paths: [.github/workflows/august-three-second-flicker.yml]
+  workflow_dispatch:
+jobs:
+  august-v28-legacy:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install legacy preview dependencies
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y ffmpeg
+          python -m pip install --upgrade pip
+          python -m pip install numpy scipy librosa soundfile Pillow imageio imageio-ffmpeg matplotlib scikit-learn pydub PyYAML gdown==6.4.2
+      - name: Download original Bells of Mathmas and make three-second sample
+        run: |
+          mkdir -p recovery
+          python -m gdown 1Zjyz9b-V0SdJ-p9K2FN6ryUR2H88DELG -O recovery/owner_original.mp3
+          ffmpeg -v error -y -ss 45 -i recovery/owner_original.mp3 -t 3 -ac 2 -ar 44100 recovery/three_seconds.wav
+      - name: Run archived August v28.9 renderer, not modern engine
+        run: |
+          PYTHONPATH=. python -m tools.run_v28_legacy_256_previews --audio recovery/three_seconds.wav --versions v28.9 --duration-seconds 3 --fps 10 --width 960 --height 540 --output-root recovery/august
+      - name: Audit decoded frames and repeated full-frame flashes
+        if: always()
+        run: |
+          python - <<'PY'
+          import glob,json,subprocess,os
+          videos=glob.glob('recovery/august/**/*.mp4',recursive=True)
+          report={'source_commit':'a390e521cd84980d7c50f5b563c72764febe8fab','videos':[]}
+          for p in videos:
+              probe=subprocess.run(['ffprobe','-v','error','-select_streams','v:0','-show_entries','stream=nb_frames,r_frame_rate,width,height','-of','json',p],capture_output=True,text=True)
+              data=json.loads(probe.stdout or '{}')
+              report['videos'].append({'path':p,'video':data})
+          os.makedirs('recovery',exist_ok=True)
+          open('recovery/frame_audit.json','w').write(json.dumps(report,indent=2))
+          print(json.dumps(report,indent=2))
+          PY
+      - name: Upload authentic three-second August video and diagnostic logs
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: August-2026-v28-9-Three-Second-Actual-Preview
+          path: |
+            recovery/august/**/*.mp4
+            recovery/august/**/*.json
+            recovery/frame_audit.json
+          if-no-files-found: warn
+          retention-days: 14
