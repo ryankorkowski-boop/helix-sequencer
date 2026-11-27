@@ -20,6 +20,23 @@ def _digest(path: Path) -> str:
     return sha.hexdigest()
 
 
+def vocal_bundle_source(audio_path: str | Path) -> Path:
+    """File whose bytes the imported bundle claims to separate.
+
+    Desktop checks the same file the sequencer analyzes. Android re-encodes
+    that file to WAV, so it may name the selected original with
+    HELIX_VOCAL_SEPARATION_SOURCE. The phone still does not run the model.
+    """
+    import os
+    bound = os.environ.get("HELIX_VOCAL_SEPARATION_SOURCE", "").strip()
+    if not bound:
+        return Path(audio_path)
+    source = Path(bound)
+    if not source.is_file():
+        raise ValueError("HELIX_VOCAL_SEPARATION_SOURCE is missing")
+    return source
+
+
 def validate_vocal_separation_manifest(manifest_path: str | Path,
                                        original_audio: str | Path) -> tuple[Path, Path]:
     """Verify a two-stage stem bundle against the original source bytes.

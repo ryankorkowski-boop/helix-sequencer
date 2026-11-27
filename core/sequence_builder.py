@@ -24,6 +24,7 @@ PREVIEW_SECONDS_FLAG = "--helix-preview-seconds"
 PROMOTE_ORCHESTRATOR_TEMPLATE_FLAG = "--promote-orchestrated-template"
 NO_ORCHESTRATOR_TEMPLATE_PROMOTION_FLAG = "--no-orchestrator-template-promotion"
 ORCHESTRATION_SECTIONS_JSON_FLAG = "--orchestration-sections-json"
+AUDIO_ANALYSIS_JSON_FLAG = "--audio-analysis-json"
 BEAT_GRID_FLAGS = {
     "--snap-grid",
     "--snap-bpm",
@@ -90,7 +91,7 @@ def _clean_engine_args(engine_args: list[str] | None) -> list[str] | None:
     idx = 0
     while idx < len(engine_args):
         arg = engine_args[idx]
-        if arg == ORCHESTRATION_SECTIONS_JSON_FLAG:
+        if arg in {ORCHESTRATION_SECTIONS_JSON_FLAG, AUDIO_ANALYSIS_JSON_FLAG}:
             idx += 2
             continue
         if arg in ORCHESTRATOR_ONLY_FLAGS:

@@ -60,8 +60,8 @@ class PreviewRendererTests(unittest.TestCase):
     def test_parse_models_uses_polyline_pointdata_for_arch_segment(self) -> None:
         layout_path = Path(__file__).resolve().parents[1] / "xlights_rgbeffects.xml"
         layout = parse_models(layout_path)
-        self.assertIn("Arch 2 Sec 5", layout.leaf_models)
-        model = layout.leaf_models["Arch 2 Sec 5"]
+        self.assertNotIn("Arch 2 Sec 5", layout.leaf_models)
+        model = layout.leaf_models["Roof Top White"]
         self.assertGreaterEqual(len(model.points), 3)
         self.assertNotEqual((model.x1, model.y1), (model.x2, model.y2))
 

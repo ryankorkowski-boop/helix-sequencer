@@ -1,3 +1,225 @@
+## Beta 1.4 live engine integration checklist
+
+Release status lives in `BETA_1_4_RELEASE_CHECKLIST.md`. Release is not approved.
+
+## November 27 · Empty weaver layers were the 79% load
+
+**Cause:** Not a stall. The Infinity XSQ has 75,117 effect layers and 61,359 of them are empty. `run_variant` called `ensure_layer` for base, motion, and accent on every model and group before placing anything. xLights prints `Effects Loaded` after every layer, while the percent only moves when an effect node is loaded. At 600s it had walked about 93% of layers and 79% of effects.
+**Change:** A named lane is created only when an effect is placed on it. Models with no weaver effect keep the one blank row the layout sync already requires. Groups are not given three empty lanes.
+**Not claimed:** The Infinity run already in the movie step still has the old sequence. This does not raise the 1800s export cap.
+
+## November 27 · openSequence was still loading at 79%
+
+**Goal:** Do not treat the 600s open timeout as a finished movie, and do not raise the 1800s export cap.
+**Evidence:** Infinity run [45935361501](https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/45935361501), commit `2a300ad`. REST was up with the process alive. `openSequence` used its full 600s and then raised `xLights openSequence timed out after 600s`. `native_gui.log` shows Effects Loaded advancing one percent at a time through 79%, and the log ends mid-percent. That is about 760s to finish at the same rate.
+**New behavior:** When a longer render budget was already requested, `openSequence` may wait up to 1200s. It logs `HELIX_NATIVE_OPEN_PULSE` every 30s with process-alive and the latest Effects Loaded line. Ordinary previews stay at 60s. Export stays capped at 1800s.
+**Limitations:** The in-progress Infinity run does not have this budget. No MP4 from the 600s run is accepted.
+
+## November 27 · Android vocal import, not an on-device model
+
+**Goal:** Give the phone a real way to use separated vocals without shipping Demucs or RoFormer.
+**Choice:** The offline APK stays model-free. A desktop ZIP containing `vocal_separation_manifest.json` and the two WAVs it names can be imported. The hash is checked against the selected song, not the MediaCodec WAV. Singer identity stays unverified. No bundle still means HPSS.
+**Also fixed:** Infinity run [45929879495](https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/45929879495) retried once and then died on `<urlopen error timed out>`, which is a URLError. The health check now retries that wrapped timeout. The 1800s export cap is unchanged.
+**Changed files:** `android/app/src/main/python/helix_mobile.py`, `EngineService.java`, `MainActivity.java`, `helix_instructions.txt`, `core/vocal_separation_manifest.py`, `core/audio_intelligence.py`, `tools/native_preview.py`, tests.
+**Limitations:** No phone has imported a bundle yet. This does not make the APK or EXE release-ready. Helix CI on `2a300ad` failed because `test_phone_binds` left `HELIX_VOCAL_SEPARATION_MANIFEST` set for later audio tests. The follow-up restores that process environment after every vocal-bundle test.
+
+## November 27 · Phoneme motion gate passed, release still blocked
+
+**Goal:** Record the decoded native measurement. Do not treat it as owner approval or a release.
+**Evidence:** Run [45929879500](https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/45929879500), commit `009af23`. `helix.phoneme-review.v1` says `native_video_verified: true`, `owner_approved: false`, `release_ready: false`. Readability measurements: median_motion 1.174, median_luma 12.85, median_bright_fraction 0.07432, visible size 0.669 by 0.622. The 0.65 threshold was not changed. Blockers in that receipt: cast is not the owner-approved solid 3D band, independent backing is not established from mixed stereo, canonical appearance review is pending, owner MP4 approval is required.
+**Preserved:** Singer-identity qualification on the fresh-band job [45929879545](https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/45929879545) still fails closed at "Enforce vocal qualification for owner approval". The downstream band acceptance job fails only because that producer was not successful.
+**Limitations:** Infinity run [45929879495](https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/45929879495) was still rendering the 10,240-prop movie when this note was written. No release.
+
+## November 27 · Phoneme bodies were a flat On
+
+**Goal:** Raise visible stage motion without lowering 0.65 and without flashing the black field.
+**Changed files:** `tools/phoneme_vocal_export.py`, `tests/test_approval_collection.py`, `BETA_1_4_RELEASE_CHECKLIST.md`, `MASTER_TODO.md`.
+**Evidence:** The `abe557e` native movie measured median_motion 0.375. About 11.7% of the stage crop was lit and only 0.66% of those pixels changed by more than 8 levels between 4s and 12s. `export_static_materials` held every authored body node at On 90 for the whole song.
+**Preserved:** The 0.65 gate. The singer-identity gate. The material role stays `static_authored_material` and is not tied to the beat. Average level is 91, so the cast is not dimmed below the luma gate that passed at 12.503.
+**New behavior:** The same nodes step between 86 and 96 every 400ms and still cover the sequence with no gap.
+**Tests:** `tests/test_approval_collection.py::test_static_band_materials_attach_after_instrument_rows_are_replaced`.
+**Limitations:** This has not been decoded from a new native MP4. Do not claim the phoneme gate passed until that movie is measured.
+
+## November 27 · Infinity health ping died after the sequence opened
+
+**Goal:** Do not treat the latest Infinity fallback as a finished movie, and do not raise the 1800s export cap.
+**Changed files:** `tools/native_preview.py`, `tests/test_native_preview_resolution.py`, `BETA_1_4_RELEASE_CHECKLIST.md`, `MASTER_TODO.md`.
+**Evidence:** Runs [45923592458](https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/45923592458) (`abe557e`) and [45924766083](https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/45924766083) (`3906110`) wrote the same FSEQ activity, waited on REST with `process_alive: true` through about 277s, logged `HELIX_NATIVE_OPEN_SEQUENCE` with a 600s budget, then failed in the post-dialog health check. The warning was `xLights post-dialog health check failed: timed out`. `process_returncode` was null. That check was one 5s `getVersion` with no retry.
+**Preserved:** Ordinary previews still use one 5s ping. Connection refusal, a rejected version response, and a dead process still fail immediately. Export stays capped at 1800s. The 0.65 motion gate and the singer-identity gate are unchanged.
+**New behavior:** When the caller already asked for a longer render, the health ping retries a socket timeout for up to 600s and logs `HELIX_NATIVE_HEALTH_WAIT`. A dead process during that wait fails closed.
+**Tests:** `tests/test_native_preview_resolution.py`.
+**Limitations:** The in-progress or finished Infinity runs do not contain this retry. No MP4 from those runs is accepted. If the next log shows the process alive through the whole 600s health wait, stop and read it before lengthening anything.
+
+## November 27 · Phoneme movie inspected, motion gate stays failed
+
+**Goal:** Read the retained native movie before any choreography or threshold change.
+**Evidence:** Run [45923592547](https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/45923592547), commit `abe557e`. Local decode of `preview.mp4` matches the CI numbers: median_motion 0.375, median_luma 12.503, bright fraction 0.07307, visible size 0.669 by 0.622. Only `visible_stage_motion` fails. Full-frame mean absolute difference is 0.623 from 4s to 12s and 0.21 from 4s to 22s. The 12s frame shows open lead and harmony mouths and a guitar flash. The 4s and 22s frames show closed mouths and the same pose.
+**Preserved:** `MIN_MEDIAN_MOTION` remains 0.65. No release claim.
+**Limitations:** The mouths are real and too brief to move the median of the whole stage crop. Making the black field flash to pass the number would not be a phoneme fix.
+
+## November 27 · Preserve the abe557e Windows portable
+
+**Goal:** Keep the latest unsigned Windows CI zip after the artifact store expires. Do not call it a release.
+**Changed files:** none in the product. Draft release `baseline/pr264-estimated-16panel-20261126` only.
+**Evidence:** Run [45923592460](https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/45923592460) artifact `Helix-Windows-Portable` at commit `abe557e`. Local SHA-256 `63743693cce163ed841d432e9991c208e8c2b6d63f3495d6221e1f6fd36f6b08` matches the file shipped inside the artifact and GitHub's asset digest. `verification.json` reports return code 0 for native FSEQ, LOR, xLights, and variant GUI selection. `demucs_executed` is false and `windows_external_player_verified` is false.
+**Preserved:** The older `7ddf34aa` zip stays on the same draft. The draft is still unpublished.
+**Limitations:** This is not owner visual acceptance and not the 16-panel movie.
+
+## November 27 · Feed a qualified audio analysis into nine-pass
+
+**Goal:** The ordinary orchestration path can use a real `audio_analysis.json` when that file already passes the section adapter. It must not promote fallback or confidence below 0.7.
+**Changed files:** `core/effects_orchestrator_bridge.py`, `core/sequence_builder.py`, `core/engine_activation_audit.py`, `tests/test_audio_section_timeline_adapter.py`, `BETA_1_4_RELEASE_CHECKLIST.md`, `MASTER_TODO.md`.
+**Evidence:** `timeline_from_audio_analysis` already rejected those sections. Nothing called it. Nine-pass only read `--orchestration-sections-json`.
+**Preserved:** An explicit section timeline still wins. A missing analysis file still uses the five synthetic seed sections. A rejected file does not fail the run and does not change the seed. `--audio-analysis-json` is stripped before the effect engine. The 0.7 confidence guard is unchanged.
+**New behavior:** `--audio-analysis-json`, or `audio_analysis.json` beside `--audio`, is adapted only when the hash, coverage, and confidence checks pass. The report field `section_timeline_source` is `audio_analysis` only then. The activation audit will not call that a validated source if `section_timeline_error` is set.
+**Tests:** `tests/test_audio_section_timeline_adapter.py`, `tests/test_song_section_choreography.py`, `tests/test_engine_activation_audit.py`, and `tests/test_effects_orchestrator_bridge.py` — 37 passed locally.
+**Limitations:** This does not create `audio_analysis.json`. The export helper is still unused by the sequence run, so a normal show still has synthetic seed sections until an analysis file exists. No native movie is accepted.
+**Regression risks:** A stale `audio_analysis.json` beside the audio is considered. A hash or confidence failure leaves the seed and records the error instead of aborting orchestration.
+
+## November 27 · Infinity movie export died after REST answered
+
+**Goal:** The 10,240-prop native jobs no longer die at REST startup. They now produce an FSEQ and then fail while the GUI is opening the show. Do not treat that as a finished movie, and do not raise the 1800s export cap.
+**Changed files:** `tools/native_preview.py`, `tests/test_native_preview_resolution.py`, `BETA_1_4_RELEASE_CHECKLIST.md`, `MASTER_TODO.md`.
+**Evidence:** Runs [45916691190](https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/45916691190) (`075b1fb`), [45916719842](https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/45916719842) (`5a7ceb2`), and [45917803675](https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/45917803675) (`7ddf34aa`) logged `HELIX_NATIVE_REST_WAIT` with `process_alive: true` through about 154–216s, then `HELIX_NATIVE_FSEQ_ACTIVITY` for 600 frames and about 2.37 million channels. Render step wall time was about 16 minutes, not 30. Status was `fallback`. The warning was exactly `timed out`, which is `urlopen`'s `TimeoutError`, not the 1800s export budget. `getShowFolder` used a 10s read and did not retry a socket timeout. `openSequence` still used the 60s default.
+**Preserved:** Ordinary previews stay at 60s per command and 120s of show-folder readiness. Export remains capped at the caller’s render timeout, at most 1800s. Resolution, channel, and audio gates are unchanged. A timeout still fails closed.
+**New behavior:** Show-folder reads retry a socket timeout until the readiness deadline and log `HELIX_NATIVE_SHOW_WAIT`. That deadline follows `rest_startup_timeout`. `openSequence` uses `control_command_timeout` (60s, or up to 600s when a longer render budget was requested) and logs `HELIX_NATIVE_OPEN_SEQUENCE`. A command timeout names the command.
+**Tests:** `tests/test_native_preview_resolution.py` — 30 passed locally, including the retry and the 600s open budget.
+**Limitations:** The in-progress Infinity runs do not contain this change. No new FSEQ or MP4 has been accepted. If the next run logs `HELIX_NATIVE_OPEN_SEQUENCE` and still dies at 600s with the process alive, stop and read that log before lengthening anything.
+**Regression risks:** A busy small preview can spend up to its readiness window retrying `getShowFolder`. Only callers that pass `render_timeout` above 60s wait longer on `openSequence`.
+
+## November 27 · Retire the deleted arch apex circuits on the canonical AC map
+
+**Goal:** Stop the original AC layout from recreating the four center sections the owner removed.
+**Changed files:** `xlights_rgbeffects.xml`, `tools/build_source_ac_review.py`, `tools/prepare_drive_ac_preview.py`, `tests/test_source_ac_review.py`, `tests/test_source_role_routing.py`, `tests/test_source_drummer_3d.py`, `tests/test_prepare_drive_ac_preview.py`, `tests/test_preview_renderer.py`, `BETA_1_4_RELEASE_CHECKLIST.md`, `MASTER_TODO.md`.
+**Preserved:** Every remaining start channel, including the non-contiguous Arch 4 sections (6=2, 7=3, 8=4, 9=25). RGB preview models still begin at channel 257, so they cannot take a retired circuit. Group membership of surviving models is unchanged. Geometry generation still does not rewrite the source file.
+**New behavior:** `Arch 1 Sec 5` (133), `Arch 2 Sec 5` (142), `Arch 3 Sec 5` (151), and `Arch 4 Sec 5` (160) are gone. 252 active single-circuit models remain. Each of the four arches has sections 1–4 and 6–9. The address checker rejects the file if those centers return or if any other historical circuit is missing.
+**Tests/evidence:** XML parse after the edit. `tests/test_source_ac_review.py` (2) and `tests/test_source_role_routing.py` (4) passed locally. The preview polyline test passed and now uses `Roof Top White` because Sec 5 was the only arch polyline. `tests/test_prepare_drive_ac_preview.py` was not run here: Python 3.10 has no `hashlib.file_digest`. CI uses 3.11 and 3.12. Helix CI [45921322165](https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/45921322165) then failed six leftover `256` literals. The follow-up updates those tests to 252 active circuits and rejects the apex names. It does not renumber surviving channels into 1..252. Local rerun: spiral, LOR, nine-panel budget, full-song inventory, helixville2, and helixville3 passed.
+**Limitations:** This is not a native render and not owner visual acceptance. The file still has no LOR color-ribbon or 16-strip LED tree. The only RGB Nodes model is `merRy christmas 4` on channel 164 with one node. Do not invent that tree.
+**Deferred:** 16-strip tree map, once a real layout file is in the tree. Native preview of the corrected 252-circuit show.
+**Regression risks:** Anything that required exactly 256 populated addresses, or that targeted `Arch N Sec 5` by name, now fails closed. Sequences already saved with effects on those four models will not match this layout until those effects are removed.
+**Dashboard:** Sites activity reporting was not sent. No session token was available, and none was created.
+
+## November 27 · Live placement admits role lanes and shared physical rows
+
+**Goal:** Make the existing `add_model` / `attempt_place_effect` path refuse proposals that paint the wrong role or double-paint one physical node range. Do not add a second show director.
+**Changed files:** `core/orchestration_balance.py`, `core/physical_targets.py`, `core/effect_engine.py`, `tests/test_orchestration_balance.py`, `tests/test_physical_targets.py`, `BETA_1_4_RELEASE_CHECKLIST.md`, `MASTER_TODO.md`.
+**Preserved:** `CompositionGovernor` stays the conductor. `CooperativeShowDirector` was not copied. `PlacementSession` was not copied because this tree has no `MusicalContext`. Layouts with no piano still allow yard-as-keyboard. Layouts with no singer still allow vocal labels anywhere. A missing or unreadable layout file skips the physical index and keeps the old placer. Same-model priority replacement is unchanged. Section confidence rules and the 0.65 phoneme stage-motion gate are unchanged.
+**New behavior:** `add_model` rejects piano-overlay labels off non-piano models when the layout has a piano, vocal-face labels off non-singer models when the layout has a singer (lyric text may also use a matrix), and overlay/flash labels past the section cap. The cap increments only after a placement succeeds. `attempt_place_effect` calls `physical_placement_block`: an invalid group is rejected, and a same-layer overlap on any shared physical row is rejected. The first occupant wins; a peer's effect is not removed.
+**Tests/evidence:** `tests/test_orchestration_balance.py` and `tests/test_physical_targets.py` passed locally by direct call (pytest is not installed in this sandbox). `ast.parse` succeeded for `core/effect_engine.py`. Importing `core.effect_engine` still fails here because the sparse checkout has no `audio` package; that is an environment limit, not a new product failure. This is not an XSQ, FSEQ, or MP4.
+**Limitations:** The snowman face path calls `attempt_place_effect` directly, so it gets the physical-row check and not the role or section-budget gate. Role names are string heuristics. Shared-row rejection can thin sequences that used to paint a group and its members on the same layer. Building `PhysicalTargets` on the 10,240-prop Infinity layout is unmeasured. No native render has been inspected for this gate.
+**Deferred:** Porting `PlacementSession` only if `MusicalContext` is introduced on purpose. File-level extract of non-director ideas from PRs #262/#263. Owner visual acceptance.
+**Regression risks:** Busy shows may drop accent and group effects that previously stacked on one physical target. A slow or huge layout index could delay generation; a parse exception only logs a warning and continues without the index.
+**Dashboard:** Sites activity reporting was not sent. No session token was available, and none was created.
+
+## November 27 · Infinity REST first-contact wait follows the render budget
+
+**Goal:** Stop the 10,240-prop native job from dying at a hardcoded 120s REST startup while `--render-timeout 1800` was already requested. Run [45905840011](https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/45905840011) ended `fallback` with `xLights REST startup timed out` before export.
+**Changed files:** `tools/native_preview.py`, `tests/test_native_preview_resolution.py`, `BETA_1_4_RELEASE_CHECKLIST.md`, `MASTER_TODO.md`.
+**Preserved:** Ordinary previews still wait 120s. Resolution, channel, and audio gates are unchanged. A timeout still fails closed.
+**New behavior:** `rest_startup_timeout()` stays 120s unless the caller set a longer render budget, then waits at most 600s. The wait logs `HELIX_NATIVE_REST_WAIT` every 30s with process liveness.
+**Tests/evidence:** Focused unit test on the timeout function. At the time of that commit the Infinity workflow had not been rerun. This is not a native FSEQ or MP4.
+**Later:** PR pushes of `075b1fb` and `5a7ceb2` did start Infinity ([45916691190](https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/45916691190), [45916719842](https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/45916719842)). Read `HELIX_NATIVE_REST_WAIT` before calling either a movie.
+**Limitations:** If model load is still stuck, the job now spends up to 10 minutes and still fails. Progress lines show whether the process stayed alive. Do not treat a longer wait as a successful render.
+**Regression risks:** Only callers that pass `render_timeout` above 120s wait longer. Infinity is the intended caller.
+
+Branch `codex/beta14-live-engine-integration` starts at PR #264 commit `c5954fef098834fa79538285d7bb00eb514b787b`. The donor for governed placement is PR #261 commit `4fd2ddbced8d2f3822f2b9b3fd270bd4ae340957`. Resume from this checklist and the commits on this branch.
+
+- [x] Pin the recovery and governor sources. Preserve the existing 1.4 package, layout, and native review work.
+- [ ] Reconcile live proposal admission, physical targets, timing, and native serialization with the recovery engine. Partial only: role lanes and same-layer shared rows are in the live placer (November 27 admission entry). Timing feed and native serialization are not done. Not visually verified.
+- [ ] Feed song-derived sections to the existing nine-pass director in the ordinary generation path. Fix Android RGB opt-in and retain AC circuit and performer timing behavior.
+- [ ] Restore recoverable XSQ errors. Evaluate opt-in compositing and the unique changes in other donor branches.
+- [ ] Verify a real piano note, drum hit and Birdsong response from source through admission and editable XSQ to decoded native channels.
+- [ ] Verify platform exports and representative AC, RGB, helix, band and finale layouts. Record independent vocal evidence and owner visual review separately.
+
+This initial checkpoint changes the ledger only. Source inspection, test results, implementation risks and remaining external evidence will be recorded as work proceeds.
+
+## November 26 · Profile full Infinity intake and check desktop variants
+
+**Goal.** Fix the measured full-scale native xLights group-load stall and independently verify eight separately selectable desktop preview movies.
+**Changed files.** Native full Infinity workflow, isolated pinned xLights group patch, Infinity layout generator and regression, Windows worker and GUI smoke, and handoff records.
+**Preserved behavior.** All 10,240 original physical props, pixel addresses and 10,299 named choreography group memberships. The xLights parser retains existing whitespace trimming, first-occurrence order and duplicate handling. Other builds continue using the existing pinned camera/export patch. Windows LOR and FSEQ worker smoke remain active.
+**New behavior.** Full-scale native CI sequences the authentic Bells of Mathmas 30-second excerpt, batches parsed group members once, uses a real 3D Infinity camera and decodes the resulting native FSEQ and HD movie. Windows smoke generates eight actual variant previews, decodes every movie and exercises the GUI's eight playback paths.
+**Tests and evidence.** A debugger captured the xLights model-group load bottleneck. The new patch applied to the pinned 2026.18 source and its source diff passed whitespace checks. Local desktop production generated and decoded eight movies and exercised the review GUI against them. Current native nine-, sixteen-, band and matched A/B MP4s were downloaded and fully decoded.
+**Limitations and deferred work.** Full native Infinity execution and expanded Windows package proof still require CI. The desktop GUI smoke checks playback-file routing without asserting an installed OS player. The locked nine-panel timing gate and the phoneme center's stage-motion minimum remain open. The recovered Android RoFormer dependency's existing complex STFT fails direct legacy ONNX export. Independent singer identity and owner acceptance remain open.
+**Regression risks.** Full native load and render memory remain production checks. An explicit three-dimensional view affects only the full-size Infinity tier. The extended Windows package smoke performs additional real encoding and decode work.
+
+## November 26 · Matched native A/B and final Infinity group pass
+
+**Goal.** Render the recovered Beta 1.3 and current Beta 1.4 sequences with identical inputs, and validate the full Infinity installation with the genuine original soundtrack.
+**Changed files.** The native phoneme workflow, matched native A/B verifier, Infinity layout builder and regression, and completion records.
+**Preserved behavior.** Normal phoneme jobs exercise the full keyboard and keep their stage-motion gate. The Infinity prop inventory, addresses, geometry, family, district, ring and axis groups remain intact. True video, source identity and visual approval requirements remain in force.
+**New behavior.** The native phoneme workflow has an isolated comparison mode that retrieves the original Beta 1.3 pilot XSQ, generates the current B lane, checks exact layout/audio/vocal-clock equality and renders both with the same pinned xLights. The 10,240-prop Infinity tier keeps nested clusters of 16 props and above, cutting 8,960 overlapping small groups.
+**Tests and evidence.** Compared exact A/B input hashes using both real native show folders. Verified 23 focused tests and one gated native manifest test was skipped. The new Infinity layout has 10,240 byte-identical physical props and 1,339 groups. Production sequencing completed for the hash-verified Bells of Mathmas excerpt. Both Android API device jobs passed eight-variant playback and independent media verification. The `a2b791f3` Windows portable package passed its current GUI, worker and FSEQ checks.
+**Limitations.** The stock xLights HD experiment reset the 3D camera during actual export. Its decoded picture failed the visibility gate. The current matched A/B MP4 and full-size Infinity FSEQ and movie remain unverified. See the live handoff for current run IDs and downloads.
+
+## November 26 · Restore locked native nine-panel output
+
+**Goal.** Run the requested nine-panel grid with the six-snowman band in the center and use the existing native catalog for the actual rendering entry point.
+**Changed files.** `models/nine_panel_showcase.py`, `tools/render_full_song_comparison.py`, `tools/render_approval_collection.py`, the native nine-panel and Android workflows, the nine-panel regression, and completion records.
+**Preserved behavior.** The 16-panel default, the physical original 256 AC addresses, the canonical band renderer used by the 16-panel comparison, the original audio, and the timing, reference and owner approval gates. Native per-layout review delivery uses 30 fps.
+**New behavior.** Recovered the reviewed nine-panel catalog and grid support, mapped the inherited geometry to the nine requested slots, and wired the existing production native runner into the nine-panel workflow. The nine-cell compositor emits 1920×1080 at 30 fps. The workflow verifies a 30-second excerpt against the hash-verified owner soundtrack. Active Android runs can finish uploading their device proof when a new source commit queues.
+**Tests and evidence.** Real Demucs-derived Phoneme Test Hook preparation produced editable XSQ and layout XML for all nine slots. The first two contain exactly 16 and 256 channels. The fifth contains exactly six performers. Nine source-to-XSQ checks ran successfully. Sixteen targeted tests passed. The archived previous nine-panel render decodes but uses the older order and 3840×2160 at 20 fps.
+**Limitations and deferred work.** Fresh locked native MP4 and its motion gates are outstanding. The source qualification remains open. The captured E14 archive contains one mixed vocal bus and zero independently verified singers. The revised full-size Infinity XSQ also exceeded the native runner's ten-minute render window. The full-size Infinity FSEQ and MP4 remain open.
+**Regression risks.** The 3×3 compositor now has its own fixed cell sizes. The canonical center layout is larger because it uses the source pose rig. The existing review gate still requires both timing and owner-reference evidence.
+
+## November 26 · Full-scale native inspection and performer verification
+
+**Goal.** Exercise all 10,240 Infinity models with the owner’s Bells of Mathmas excerpt and reduce missed physical piano notes in native performer review.
+**Changed files.** `tools/native_preview.py`, `tools/quality/native_stream.py`, native stream and preview regression tests, the phoneme and nine-/twelve-panel workflows, Android device instrumentation, `core/musical_bed.py`, and the completion records.
+**Preserved behavior.** Standard native timeouts, the independent source/timing/reference gates, original audio, native xLights rendering and bounded working storage. The original drummer geometry and six-player cast remain in the existing canonical exporter.
+**New behavior.** Native preview accepts an explicit bounded render timeout for dense layouts. Streaming inspection supports the full Infinity channel width, and nested model groups no longer receive duplicate ambient beds. Native Phoneme Test Hook and comparison collections request the same recovered full-keyboard geometry and note contacts already used by the standalone band. Comparison runs queue while an active render finishes and uploads evidence. Android instrumentation generates eight real variants and plays each through VideoView.
+**Tests and evidence.** 73 focused tests passed, one native-environment test skipped, and 10 subtests passed. 77 LOR/dual-export contract tests passed. The production Infinity XSQ includes effects on all 10,240 physical model rows for the 30-second verified original soundtrack excerpt. Existing local native phoneme output decoded channel activity in all 697 FSEQ frames. Current Windows Portable GUI CI passed the packaged GUI, worker and FSEQ tests.
+**Limitations and deferred work.** The full-scale local xLights run exceeded the previous 90-second deadline during render. The unchanged large sequence also exceeded a 600-second native deadline. The revised sequence retains 10,240 models, has 17,556 effects on its 10,080 non-vocal physical rows, preserves source choreography on overlapping groups, and contains zero group beds. A revised native run is active. The revised native motion score and Android eight-variant instrumentation remain unverified. The two discovered owner vocal videos share a mixed soundtrack and visibly call out timing failure. An independently attributed aligned lead/harmony pair and the approved reference remain required.
+**Regression risks.** Full-keyboard model density increases render size. The longer optional timeout is for explicit dense native renders. The added Android variant instrumentation increases emulator runtime. See the live handoff for the active run IDs.
+
+## November 26 · Android preview palette and native review repairs
+
+**Goal.** Restore faithful Android effect palettes and unblock the native phoneme render on PR #264.
+**Changed files.** `android/app/src/main/python/helix_mobile.py`, `tools/preview_renderer.py`, `tools/native_preview.py`, the native phoneme and band workflows, the Android preview and native media regressions, and the three completion records.
+**Preserved behavior.** Android still keeps preview working memory to a 30-frame window. The default native export still copies original video packets. Source provenance, decodability, stage readability and independent-vocal acceptance gates retain their existing checks.
+**New behavior.** Android uses absolute-frame XSQ effect palettes for each preview window. The phoneme job uses the existing pinned CPU Demucs action before sequencing. The band and phoneme review jobs request 30 fps delivery from native frames and keep the native capture rate in the receipt.
+**Tests and evidence.** Local focused suite recorded 146 passed, one skipped and 10 subtests. Independent decode of the existing 36-second band media confirmed H.264/AAC, 1920×1080 and 0.99366 source-audio correlation with zero measured lag in four windows. The local 30 fps transcode retained the same timing and soundtrack results.
+**Limitations and deferred work.** The local transcode uses the existing 20 fps xLights frames and repeats them on the delivery clock. Current Windows package workflow exercises its documented smoke path. Device fidelity after the palette repair, independent vocals, canonical artistic review, full-size Infinity native output and approval remain open.
+**Regression risks.** Preview palette changes affect overlapping colors and model visibility. Native review encoding adds a transcode and requires FFmpeg with libx264. The default packet-copy callers remain covered by the existing media tests.
+**Continuation.** The run IDs, artifact links and outstanding gates are in `docs/BETA_COMPLETION_LIVE_HANDOFF.md` and `evidence/beta_completion/`.
+
+## November 26 · Android preview encoder fallback
+
+**Goal:** Stop the emulator smoke from reporting a blank preview path.
+**Changed files:** `android/app/src/main/java/org/helixsequencer/android/MediaRuntime.java`, `android/app/src/main/python/helix_mobile.py`, `android/app/src/androidTest/java/org/helixsequencer/android/OfflineEngineTest.java`.
+**Preserved:** Surface H.264 encoding when a recordable EGL config exists.
+**New behavior:** If the surface encoder fails, frames are written as YUV to a buffer encoder. A failed preview now returns `preview_error` instead of an empty path that the test opened.
+**Tests/evidence:** Local bridge reached `beginPreview` on the default 256-model layout. The encoder itself was not run here.
+**Limitations:** The Android workflow has not rerun. A complete six-member band is still refused by the effect-level preview.
+
+## November 26 · Android MediaExtractor private files
+
+**Goal:** Let the on-device smoke open its own audio and preview.
+**Changed files:** `android/app/src/main/java/org/helixsequencer/android/MediaRuntime.java`, `android/app/src/androidTest/java/org/helixsequencer/android/OfflineEngineTest.java`.
+**Preserved:** MediaCodec encode and mux behavior. No change to the sequence engine.
+**New behavior:** `MediaExtractor` opens app-private files through a file descriptor. A raw path was unreadable to the `mediaextractor` process and failed both API 30 and API 36 as "Failed to instantiate extractor."
+**Tests/evidence:** Not run on a device here. The Android workflow must rerun.
+**Limitations:** This does not prove the generated MP4 plays. It only removes the private-path failure before decoding starts.
+
+## November 26 · LOR export and Chaquopy lookup
+
+**Goal:** Unblock the Beta 1.4 Windows smoke and the Android package lookup.
+**Changed files:** `tools/lor_lms_export_from_source.py`, `tests/test_dual_mode_lor.py`, `android/settings.gradle`.
+**Preserved:** Unknown intensity keys, duplicates, and out-of-range values still fail closed. `B_SLIDER_Brightness` is still rejected.
+**New behavior:** `T_CHOICE_LayerMethod` and `T_CHECKBOX_Canvas` are ignored when reading an On/Shimmer/Twinkle effect. Chaquopy 17.0.0 is resolved from Maven Central. The stale `https://chaquo.com/maven` plugin repo, which does not contain 17.0.0, is no longer searched.
+**Tests/evidence:** `tests/test_dual_mode_lor.py` and `tests/test_legacy_lms_export.py` passed, 58 tests. A two-channel local LOR smoke wrote `real_excerpt,v27.3.lms`.
+**Limitations:** Package jobs have not been re-run yet. Android API 36's missing traceback is not separately reproduced; the device test uses the same LOR export.
+
+## November 26 · Android and Windows no longer die when Demucs weights are absent
+
+**Goal:** Make the Beta 1.4 phone and the portable smoke able to sequence when Demucs and Whisper are not loaded, without calling that output separated vocals.
+**Changed files:** `core/audio_intelligence.py`, `core/effect_engine.py`, `android/app/src/main/python/helix_mobile.py`, `android/app/src/main/assets/helix_instructions.txt`, `tools/portable_worker_smoke.py`, `tests/test_neural_stems_required.py`, `docs/BETA_COMPLETION_LIVE_HANDOFF.md`, `evidence/beta_completion/latest_status.json`, `evidence/beta_completion/artifact_manifest.json`.
+**Preserved:** Desktop production still requires Demucs when `HELIX_REQUIRE_NEURAL_STEMS` is unset. The required=True unit tests still refuse a silent full-mix stem. RoFormer review on the comparison path is unchanged. PR #264 stays unmerged.
+**New behavior:** Android and the Windows portable smoke set `HELIX_REQUIRE_NEURAL_STEMS=0`. That path uses diagnostic HPSS and skips Whisper. The instructions page starts with "Your first Helix show" again so the existing UI test can see the page.
+**Tests/evidence:** `tests/test_neural_stems_required.py` passed 5 tests. A 3-second local sequence wrote an XSQ after the stem gate. Imageio is missing in this sandbox, so no local MP4. Package rebuild is the GitHub PR check, not a file in this commit.
+**Limitations:** No current APK or EXE download yet. Demucs on a real Windows generate is still required and can be slow once the weights are present.
+**Regression risks:** A desktop process that inherits `HELIX_REQUIRE_NEURAL_STEMS=0` will not separate stems. The smoke sets that only for its own worker process.
+
 ## November 24 · Restore bounded vivid accent palette
 
 **Goal:** Repair the sole full-suite failure on 11bc211 without restoring white-only flashing. **Files:** core/vivid_style.py, MASTER_TODO.md. **Preserved:** section palettes, accent cadence, AC wiring and existing acceptance tests. **Change:** existing occasional AC accent now references the mixed white/magenta/cyan palette instead of a single ordinary section color. **Evidence:** run 45063651475 reported 2781 passed, 1 failed, 6 skipped on Python 3.12; existing white-accent regression remains unchanged. Fresh CI pending. **Risk:** native visual balance still requires review; no approval or release claimed. Panel pilot timing/reference gate remains unresolved.

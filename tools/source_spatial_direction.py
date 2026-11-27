@@ -139,7 +139,17 @@ def supported_phrases(events):
     return [p for p in phrases if p[1]>p[0]]
 
 
-def schedule(model,plan,cache,duration):
+def onset_index(source):
+    section_onsets={}
+    for cue in source:
+        section=cue.get('section','')
+        section_onsets.setdefault(section,set()).add(int(cue['start_ms']))
+    section_onsets={section:{t:i for i,t in enumerate(sorted(times))}
+                    for section,times in section_onsets.items()}
+    return section_onsets
+
+
+def schedule(model,plan,cache,duration,*,shared_onsets=None):
     role=role_for(model);parts=parts_for(model)
     source=(voice_events(cache,'estimated_backing') if role=='harmony' else
             voice_events(cache,'estimated_lead') if role=='lead' else plan['cues'].get(role,[]))
@@ -149,12 +159,7 @@ def schedule(model,plan,cache,duration):
     direction=int(model.details.get('spatial_direction',1))
     result=[]
     from tools.source_role_routing import route_event
-    section_onsets={}
-    for cue in source:
-        section=cue.get('section','')
-        section_onsets.setdefault(section,set()).add(int(cue['start_ms']))
-    section_onsets={section:{t:i for i,t in enumerate(sorted(times))}
-                    for section,times in section_onsets.items()}
+    section_onsets = onset_index(source) if shared_onsets is None else shared_onsets[role]
     for index,cue in enumerate(source):
         if cue.get('kind')=='chord_change':continue
         component=model.details.get('percussion_component')
@@ -177,11 +182,18 @@ def schedule(model,plan,cache,duration):
         route_delay=route_event(model,cue,section_onsets[cue.get('section','')][a],strategy)
         if route_delay is None:continue
         steps=min(len(parts),strategy['steps'])
+        bounded_advanced=bool(model.details.get('advanced_spatial_routing')
+                              or model.details.get('advanced_showcase_clock'))
+        latest=max(0,depth_ms+route_delay+(steps-1)*strategy['step_ms'])
+        budget=max(0,(b-a-1)//2)
+        delay_scale=min(1.,budget/max(1,latest)) if bounded_advanced else 1.
         for step in range(steps):
             part=parts[(origin+direction*strategy['direction']*step)%len(parts)]
             delay=depth_ms+step*strategy['step_ms']+route_delay
+            if bounded_advanced:
+                delay=round(max(0,delay)*delay_scale)
             start=max(0,a+delay);end=min(duration,b+delay)
-            if model.details.get('source_route_count',1)>1 or model.details.get('spatial_axis'):
+            if bounded_advanced or model.details.get('source_route_count',1)>1 or model.details.get('spatial_axis'):
                 # Preserve the source clock and negative space even when
                 # neighboring nodes respond at staggered times.
                 end=min(end,b)
@@ -196,8 +208,20 @@ def schedule(model,plan,cache,duration):
     return result
 
 
-def export_model(sequence,model,plan,cache,palette):
-    events=schedule(model,plan,cache,sequence.duration)
+def native_bars_direction(model, strategy):
+    """Use native supported 2026.18 Bars directions from section and geometry."""
+    direction = model.details.get('spatial_direction', 1) * strategy['direction']
+    zone = str(model.zone).upper()
+    advanced = any(word in zone for word in ('OPTICAL', 'DEPTH', 'CATHEDRAL', 'HELIX', 'MATRIX', 'SPATIAL'))
+    if advanced and strategy['name'] == 'ascending':
+        return 'H-expand' if direction > 0 else 'H-compress'
+    if advanced and strategy['name'] == 'wide_response':
+        return 'Alternate Left' if direction > 0 else 'Alternate Right'
+    return 'Left' if direction > 0 else 'Right'
+
+
+def export_model(sequence,model,plan,cache,palette,*,shared_onsets=None):
+    events=schedule(model,plan,cache,sequence.duration,shared_onsets=shared_onsets)
     role=role_for(model)
     fixed_color=({'Single Color Red':'#FF4040','Single Color Green':'#40FF60','Single Color White':'#FFFFFF'}[model.attrs['StringType']]
                  if model.kind=='ac' else None)
@@ -229,6 +253,7 @@ def export_model(sequence,model,plan,cache,palette):
     if matrix and model.kind=='pixel' and events:
         phrases=supported_phrases(events)
         model.submodels['SPATIAL_SURFACE']=sorted({n for p in parts_for(model) for n in model.submodels[p]})
+        model.details['native_surface_rows']=True
         for a,b,section in phrases:
             if b-a<400:continue
             strategy=section_strategy(section,role)
@@ -237,12 +262,13 @@ def export_model(sequence,model,plan,cache,palette):
             if strategy['name']=='sparse':continue
             color=section_color(role,section,palette)
             cycles=2.0 if strategy['name']=='ascending' else .5 if strategy['name']=='solo_trace' else 1.0
-            direction=model.details.get('spatial_direction',1)*strategy['direction']
+            bars_direction=native_bars_direction(model,strategy)
             sequence.effect(model,'SPATIAL_SURFACE',a,b,color,provenance={
                 'sourceRole':role,'sourceMethod':'source_phrase_native_Bars','sourceStartMs':str(a),'sourceEndMs':str(b),
-                'sourceSection':str(section),'spatialStrategy':strategy['name']},
+                'sourceSection':str(section),'spatialStrategy':strategy['name'],
+                'nativeBarsDirection':bars_direction},
                 settings=f'E_SLIDER_Bars_BarCount=2,E_TEXTCTRL_Bars_Cycles={cycles},E_CHOICE_Bars_Direction='+
-                    ('Left' if direction>0 else 'Right')+',E_CHECKBOX_Bars_Gradient=1',
+                    bars_direction+',E_CHECKBOX_Bars_Gradient=1',
                 palette=f'C_BUTTON_Palette1={color},C_CHECKBOX_Palette1=1,C_BUTTON_Palette2=#000000,C_CHECKBOX_Palette2=1',
                 effect_name='Bars')
             native_effect='On + Bars'

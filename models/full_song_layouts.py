@@ -7,8 +7,8 @@ from models.ultimate_showcase import Garden
 NAMES = (
     'Classic LOR 16 AC', '64-channel AC', 'Original 256-channel AC', 'Basic RGB house',
     'RGB arches and mini-tree forest', 'Single mega-tree residence', 'Dual mega-tree residence',
-    'Singing-face house', 'Singing Christmas trees', 'Matrix-centered residence',
-    'Canonical snowman band', 'Advanced RGB residence', 'Massive Spiral Forest Estate',
+    'Singing-face house', 'Singing Christmas trees', 'Illuminated parade van',
+    'Canonical snowman band', 'Synchronized neighborhood', 'Massive Spiral Forest Estate',
     'Double-Helix Wonderland', '3D Helix Megastructure', 'Ultimate Helix Universe',
 )
 PALETTES = (
@@ -160,6 +160,51 @@ def residential(garden, number, *, native_extended_mouths=False):
             s.starburst((x, 15, 10), 7, color=i, zone='SPINNERS')
 
 
+
+def upgrade_residential(garden, number):
+    """Additional native customer props; preserve fixed legacy AC budgets."""
+    import math
+    if number == 10:
+        # Replace the house with a recognizable three-dimensional compact parade van.
+        garden.models.clear()
+        def line(name, points, role, axis='x', color='#65D9FF', count=100):
+            m = garden.poly(name, points, count, 'SPATIAL_VEHICLE', 'Parade van RGB contour', color)
+            m.details.update(musical_role=role, spatial_axis=axis, source_display_floor=.20)
+            return m
+        for side in (-1, 1):
+            z=side*9
+            line(f'VAN_BODY_{side}', [(-39,8,z),(-39,23,z),(-27,27,z),(-17,42,z),(32,42,z),(39,34,z),(39,8,z),(-39,8,z)], 'guitarist', count=220)
+            line(f'VAN_WINDOW_{side}', [(-26,27,z),(-15,38,z),(5,38,z),(5,27,z),(-26,27,z)], 'keyboardist')
+            for wheel,x in enumerate((-24,25)):
+                pts=[(x+8*math.cos(t*2*math.pi/80),8+8*math.sin(t*2*math.pi/80),z) for t in range(81)]
+                line(f'VAN_WHEEL_{side}_{wheel}',pts,'bassist','spiral','#FFCE79',80)
+            structures(garden).mesh(f'VAN_SIDE_MATRIX_{side}', (19,25,z), 25, 15, 'MATRICES')
+        for i,x in enumerate((-39,-17,10,39)):
+            line(f'VAN_CROSSBAR_{i}',[(x,8,-9),(x,8,9)],'bassist','z')
+        for i,x in enumerate((-8,9,26)):
+            structures(garden).starburst((x,48,0),5,color=i,zone='SNOWFLAKES')
+        for i,z in enumerate((-9,9)):
+            line(f'VAN_ROOF_{i}',[(-17,42,z),(32,42,z)],'keyboardist')
+        return
+    if number == 12:
+        for i,x in enumerate((-95,95)):
+            house(garden,x,-30,.75,prefix=f'NEIGHBOR_{i}')
+            mega_tree(garden,x,-5,height=30,radius=8)
+        for i in range(6):
+            arch(garden,-100+40*i,32,width=24,height=9)
+    elif number in (4,5,6,7,8,9):
+        for i,x in enumerate((-42,-28,28,42)):
+            structures(garden).starburst((x,24 if number != 5 else 15,-12),4,color=i,zone='SNOWFLAKES')
+        for i,x in enumerate((-30,-10,10,30)):
+            cane(garden,x,29,h=7)
+        if number in (6,7,9):
+            for x in (-38,38):
+                structures(garden).mesh(f'YARD_MATRIX_{x}',(x,4,-2),12,12,'MATRICES')
+        if number in (5,7):
+            for x in (-52,52):
+                tree(garden,x,12,h=18,r=5)
+
+
 def build(number, plan, *, duration, native_extended_mouths=False):
     from tools.build_current_comparison import layout as current_layout
 
@@ -183,7 +228,12 @@ def build(number, plan, *, duration, native_extended_mouths=False):
         ac_house(garden, number)
     else:
         residential(garden, number, native_extended_mouths=native_extended_mouths)
-    return assign_routes(garden, panel_number=number), None
+    upgrade_residential(garden, number)
+    result = assign_routes(garden, panel_number=number)
+    if number in (10, 12):
+        from tools.source_role_routing import configure_advanced_spatial_routes
+        configure_advanced_spatial_routes(garden.models)
+    return result, None
 
 
 def configure_legacy_routes(garden):

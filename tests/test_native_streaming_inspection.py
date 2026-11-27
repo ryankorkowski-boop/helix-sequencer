@@ -44,3 +44,21 @@ def test_selected_sparse_native_channels_keep_their_real_destinations(tmp_path):
     path.write_bytes(header+payload)
     report=inspect_stream(path,selectors={'lead':[30],'backing':[31],'unmapped':[0]})
     assert report['selected_channel_max']==dict(lead=[0,255,128],backing=[0,0,64],unmapped=[0,0,0])
+
+
+def test_stream_accepts_full_infinity_channel_width(tmp_path):
+    channels = 2_370_240
+    header = bytearray(32)
+    header[:4] = b'PSEQ'
+    struct.pack_into('<H', header, 4, len(header))
+    header[7] = 2
+    header[18] = 50
+    struct.pack_into('<II', header, 10, channels, 1)
+    path = tmp_path / 'full-width.fseq'
+    path.write_bytes(header + bytes(channels - 1) + b'\xff')
+
+    report = inspect_stream(path)
+
+    assert report['channels'] == channels
+    assert report['nonzero_samples'] == 1
+    assert report['nonzero_frames'] == 1

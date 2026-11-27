@@ -1,0 +1,32 @@
+name: Helix real-world 16-panel geometry and routing gate
+on:
+  push:
+    branches: [integration/beta14-recovered-logic-20261126]
+    paths:
+      - models/realworld_showcase_districts.py
+      - models/advanced_full_song_showcase.py
+      - tests/test_full_song_advanced_showcase.py
+      - .github/workflows/helix-realworld-showcase-gate.yml
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  verify-native-model-geometry:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
+    env:
+      PYTHONPATH: .
+      OPENBLAS_NUM_THREADS: '2'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install focused geometry test requirements
+        run: python -m pip install numpy==2.2.6 scipy pytest pillow trimesh imageio imageio-ffmpeg
+      - name: Compile modified modules
+        run: python -m compileall -q models/realworld_showcase_districts.py models/advanced_full_song_showcase.py tests/test_full_song_advanced_showcase.py
+      - name: Validate all four real-world inventories, including 10240 independent models
+        run: python -m pytest -q tests/test_full_song_advanced_showcase.py -k 'real_world_customer_sites or infinity_extreme_mode'
+      - name: Validate measured-source routing and sparse physical xLights geometry
+        run: python -m pytest -q tests/test_spatial_showcase_extensions.py

@@ -18,6 +18,7 @@ import socket
 import subprocess
 import sys
 import tempfile
+import threading
 import time
 import urllib.error
 import xml.etree.ElementTree as ET
@@ -26,6 +27,44 @@ from typing import Any, Sequence
 
 from tools import check_xlights_rest_sequence as rest
 from tools.quality.native import inspect_fseq
+
+
+def rest_startup_timeout(render_timeout: int | None) -> float:
+    """Seconds to wait for the first xLights REST response.
+
+    Ordinary previews stay at 120s. A dense show that already asked for a
+    longer render budget may use up to 600s of that budget, because
+    getVersion does not answer until model load finishes. This does not
+    relax resolution, channel, or audio checks.
+    """
+    if render_timeout is None or render_timeout <= 120:
+        return 120.0
+    return float(min(render_timeout, 600))
+
+
+def control_command_timeout(render_timeout: int | None) -> float:
+    """Seconds for openSequence after REST has already answered.
+
+    Ordinary previews stay at 60s. A 10,240-prop show reached Effects Loaded
+    79% and was still advancing when a 600s open gave up, so a caller that
+    already set a longer render budget may wait up to 1200s. The video
+    export cap stays 1800s and is not this budget.
+    """
+    if render_timeout is None or render_timeout <= 60:
+        return 60.0
+    return float(min(render_timeout, 1200))
+
+
+def health_check_timeout(render_timeout: int | None) -> float:
+    """Seconds to wait for REST after the sequence is already open.
+
+    Ordinary previews keep one 5s ping. A dense show that already asked for
+    a longer render can leave getVersion silent while the process is alive.
+    That wait may use up to 600s. It does not raise the 1800s export cap.
+    """
+    if render_timeout is None or render_timeout <= 60:
+        return 5.0
+    return float(min(render_timeout, 600))
 
 
 def _run(command: list[str], timeout: float) -> str:
@@ -65,8 +104,8 @@ def _duration(stream: dict[str, Any]) -> float:
 
 def mux_original_audio(video: Path, audio: Path, output: Path, *,
                        duration: float, ffmpeg: str,
-                       ffprobe: str) -> dict[str, Any]:
-    """Copy native video packets, mux original audio, verify both streams."""
+                       ffprobe: str, review_30fps: bool = False) -> dict[str, Any]:
+    """Mux original audio with native frames, optionally at 30 fps for review."""
     if output.exists():
         raise ValueError(f"Refusing to overwrite output: {output}")
     if not math.isfinite(duration) or duration <= 0:
@@ -85,12 +124,18 @@ def mux_original_audio(video: Path, audio: Path, output: Path, *,
     temporary = staging / output.name
     published = False
     probe = None
+    video_options = ["-c:v", "copy"]
+    if review_30fps and native.get("avg_frame_rate") != "30/1":
+        # Repeat native frames on the review clock without motion interpolation.
+        video_options = ["-vf", "fps=30", "-c:v", "libx264", "-crf", "18", "-pix_fmt", "yuv420p"]
     try:
         _run([ffmpeg, "-v", "error", "-nostdin", "-threads", "2", "-filter_threads", "2", "-n", "-i", str(video),
               "-i", str(audio), "-map", "0:v:0", "-map", "1:a:0",
-              "-c:v", "copy", "-c:a", "aac", "-t", str(duration),
+              *video_options, "-c:a", "aac", "-t", str(duration),
               "-movflags", "+faststart", str(temporary)], max(60, duration * 2))
         probe = probe_media(temporary, ffprobe)
+        if review_30fps and _stream(probe, "video").get("avg_frame_rate") != "30/1":
+            raise ValueError("Review MP4 did not encode at 30 fps")
         for kind in ("video", "audio"):
             stream = _stream(probe, kind)
             if abs(_duration(stream) - duration) > .1:
@@ -118,6 +163,8 @@ def mux_original_audio(video: Path, audio: Path, output: Path, *,
     except (OSError, ValueError, RuntimeError, subprocess.SubprocessError) as mux_error:
         if published:
             output.unlink(missing_ok=True)
+        if review_30fps:
+            raise
         # The native xLights encoder already includes its original soundtrack.
         # If an optional remux fails, reuse those bytes only after independent
         # full decode, source correlation and interior/actual-tail lag checks.
@@ -160,13 +207,67 @@ def mux_original_audio(video: Path, audio: Path, output: Path, *,
                 pass
 
 
+def _is_busy_timeout(exc: BaseException) -> bool:
+    """True only for a socket timeout, including urllib's wrapped form.
+
+    `<urlopen error timed out>` is a URLError, not TimeoutError. Connection
+    refusal and other OS errors are not retried.
+    """
+    if isinstance(exc, TimeoutError):
+        return True
+    return isinstance(exc, OSError) and "timed out" in str(exc).lower()
+
+
 def _command(endpoint: str, cmd: str, *, timeout: float = 60, **params: str) -> dict[str, Any]:
-    response = rest._request_json(
-        "POST", f"{endpoint}/xlDoAutomation", {"cmd": cmd, **params},
-        timeout=timeout)
+    try:
+        response = rest._request_json(
+            "POST", f"{endpoint}/xlDoAutomation", {"cmd": cmd, **params},
+            timeout=timeout)
+    except OSError as exc:
+        if _is_busy_timeout(exc):
+            raise TimeoutError(f"xLights {cmd} timed out after {timeout:g}s") from exc
+        raise
     if not rest._response_ok(response):
         raise RuntimeError(f"xLights {cmd} rejected: {response}")
     return response
+
+
+def _effect_load_progress(log_path: Path) -> str:
+    """Last Effects Loaded line from the live GUI log, if one has been flushed."""
+    try:
+        with log_path.open("rb") as handle:
+            handle.seek(0, os.SEEK_END)
+            handle.seek(max(0, handle.tell() - 8000))
+            tail = handle.read().decode("utf-8", "replace")
+    except OSError:
+        return ""
+    progress = ""
+    for line in tail.splitlines():
+        if "Effects Loaded:" in line:
+            progress = line.strip()
+    return progress
+
+
+def _command_while_logging(app: subprocess.Popen, log_path: Path, endpoint: str,
+                           cmd: str, *, timeout: float, **params: str) -> dict[str, Any]:
+    """Run one blocking xLights command and report that the process is still loading."""
+    stop = threading.Event()
+    started = time.monotonic()
+
+    def pulse() -> None:
+        while not stop.wait(30):
+            print("HELIX_NATIVE_OPEN_PULSE " + json.dumps({
+                "elapsed_seconds": round(time.monotonic() - started, 1),
+                "process_alive": app.poll() is None,
+                "progress": _effect_load_progress(log_path),
+            }), flush=True)
+
+    thread = threading.Thread(target=pulse, daemon=True)
+    thread.start()
+    try:
+        return _command(endpoint, cmd, timeout=timeout, **params)
+    finally:
+        stop.set()
 
 
 def _export_size() -> tuple[int, int]:
@@ -291,23 +392,61 @@ def _dismiss_startup_dialogs(pid: int, evidence_dir: Path) -> None:
 
 
 def _assert_native_ready(app: subprocess.Popen, endpoint: str,
-                         evidence_dir: Path) -> None:
-    """Require the owned process and REST server to survive dialog dismissal."""
+                         evidence_dir: Path, *, timeout: float = 5) -> None:
+    """Require the owned process and REST server to survive dialog dismissal.
+
+    A single 5s ping is enough for an ordinary show. A dense show can miss
+    that ping while it is still alive, so a longer caller budget retries
+    only a socket timeout. Connection refusal, a rejected response, and a
+    dead process still fail immediately.
+    """
     evidence: dict[str, Any] = {"pid": app.pid, "endpoint": endpoint,
                                 "process_returncode": app.poll(),
                                 "rest_responding": False}
+    started = time.monotonic()
+    deadline = started + timeout
+    next_report = started
     try:
         if evidence["process_returncode"] is not None:
             raise RuntimeError(
                 f"xLights exited {evidence['process_returncode']} after startup dialog dismissal")
-        response = rest._request_json("GET", f"{endpoint}/getVersion", timeout=5)
-        if not rest._response_ok(response):
-            raise ValueError(f"xLights version request rejected: {response}")
-        evidence["rest_responding"] = True
-        evidence["process_returncode"] = app.poll()
-        if evidence["process_returncode"] is not None:
-            raise RuntimeError(
-                f"xLights exited {evidence['process_returncode']} during post-dialog health check")
+        while True:
+            remaining = deadline - time.monotonic()
+            if remaining <= 0:
+                raise TimeoutError(
+                    f"xLights post-dialog health check timed out after {timeout:g}s")
+            request_timeout = 5.0 if timeout == 5 else min(5.0, max(0.1, remaining))
+            try:
+                response = rest._request_json(
+                    "GET", f"{endpoint}/getVersion", timeout=request_timeout)
+            except OSError as exc:
+                if not _is_busy_timeout(exc):
+                    raise
+                now = time.monotonic()
+                code = app.poll()
+                if code is not None:
+                    evidence["process_returncode"] = code
+                    raise RuntimeError(
+                        f"xLights exited {code} during post-dialog health check")
+                if now >= deadline:
+                    raise TimeoutError(
+                        f"xLights post-dialog health check timed out after {timeout:g}s")
+                if now >= next_report:
+                    print("HELIX_NATIVE_HEALTH_WAIT " + json.dumps({
+                        "elapsed_seconds": round(now - started, 1),
+                        "process_alive": app.poll() is None,
+                    }), flush=True)
+                    next_report = now + 30
+                time.sleep(0.25)
+                continue
+            if not rest._response_ok(response):
+                raise ValueError(f"xLights version request rejected: {response}")
+            evidence["rest_responding"] = True
+            evidence["process_returncode"] = app.poll()
+            if evidence["process_returncode"] is not None:
+                raise RuntimeError(
+                    f"xLights exited {evidence['process_returncode']} during post-dialog health check")
+            return
     except (OSError, ValueError, RuntimeError) as exc:
         evidence["error"] = str(exc)
         raise RuntimeError(f"xLights post-dialog health check failed: {exc}") from exc
@@ -357,9 +496,23 @@ def _wait_show_folder(app: subprocess.Popen, endpoint: str, show: Path,
         except urllib.error.HTTPError as exc:
             # Retry only this idempotent readiness read and only a temporary
             # busy response. Never replay open/render/export mutations here.
-            if exc.code!=503:raise
+            if exc.code!=503 or time.monotonic()>=deadline:
+                if exc.code==503:
+                    raise RuntimeError('xLights show readiness timed out (HTTP503)') from exc
+                raise
+            print("HELIX_NATIVE_SHOW_WAIT " + json.dumps({
+                "http": 503, "process_alive": app.poll() is None,
+            }), flush=True)
+            time.sleep(.25)
+            continue
+        except TimeoutError as exc:
+            # A loaded process can miss one short read while the GUI is busy.
+            # Retry until the readiness deadline. Do not retry export.
             if time.monotonic()>=deadline:
-                raise RuntimeError('xLights show readiness timed out (HTTP503)') from exc
+                raise RuntimeError('xLights show readiness timed out') from exc
+            print("HELIX_NATIVE_SHOW_WAIT " + json.dumps({
+                "error": str(exc), "process_alive": app.poll() is None,
+            }), flush=True)
             time.sleep(.25)
             continue
         if Path(folder.get('folder','')).resolve()!=show:
@@ -368,20 +521,24 @@ def _wait_show_folder(app: subprocess.Popen, endpoint: str, show: Path,
 
 
 def _native_export(xlights: str, show: Path, staged: Path,
-                   port: int) -> dict[str, Any]:
+                   port: int, render_timeout: int | None = None) -> dict[str, Any]:
     # Own a fresh process. Never close/switch an existing user's sequence.
     with socket.socket() as reservation:
         reservation.bind(("127.0.0.1", port))
     endpoint = f"http://127.0.0.1:{port}"
-    with (staged.parent / "native_gui.log").open("w") as log:
+    with (staged.parent / "native_gui.log").open("w", buffering=1) as log:
         app = subprocess.Popen([xlights, "--quiet", "-a" if port == 49913
                                 else "-b", "--show", str(show)],
                                stdout=log, stderr=log,
                                env=_native_gui_environment(staged.parent))
         try:
             # Cold AppImage startup under software GL/Xvfb can exceed 30s.
-            # Allow a bounded startup window without relaxing output QA.
-            deadline = time.monotonic() + 120
+            # A 10k-model show can stay silent past 120s while groups load.
+            # Output QA is unchanged; only first contact waits longer, and
+            # only when the caller already raised the render budget.
+            started = time.monotonic()
+            deadline = started + rest_startup_timeout(render_timeout)
+            next_report = started + 30
             while True:
                 if app.poll() is not None:
                     raise RuntimeError(f"xLights exited {app.returncode}")
@@ -392,16 +549,30 @@ def _native_export(xlights: str, show: Path, staged: Path,
                         raise ValueError("xLights version request rejected")
                     break
                 except (OSError, ValueError, http.client.HTTPException):
-                    if time.monotonic() >= deadline:
+                    now = time.monotonic()
+                    if now >= next_report:
+                        print("HELIX_NATIVE_REST_WAIT " + json.dumps({
+                            "elapsed_seconds": round(now - started, 1),
+                            "process_alive": app.poll() is None,
+                        }), flush=True)
+                        next_report = now + 30
+                    if now >= deadline:
                         raise RuntimeError("xLights REST startup timed out")
                     time.sleep(.1)
-            _wait_show_folder(app, endpoint, show)
-            opened = _command(endpoint, "openSequence", seq=str(staged),
-                              promptIssues="false")
+            _wait_show_folder(app, endpoint, show, timeout=rest_startup_timeout(render_timeout))
+            open_timeout = control_command_timeout(render_timeout)
+            print("HELIX_NATIVE_OPEN_SEQUENCE " + json.dumps({
+                "timeout_seconds": open_timeout,
+            }), flush=True)
+            opened = _command_while_logging(
+                app, staged.parent / "native_gui.log", endpoint, "openSequence",
+                timeout=open_timeout, seq=str(staged), promptIssues="false")
             if Path(opened.get("fullseq", "")).resolve() != staged:
                 raise ValueError("xLights opened an unexpected sequence")
             _dismiss_startup_dialogs(app.pid, staged.parent)
-            _assert_native_ready(app, endpoint, staged.parent)
+            _assert_native_ready(
+                app, endpoint, staged.parent,
+                timeout=health_check_timeout(render_timeout))
             video = staged.parent / "native-silent.mp4"
             width, height = _export_size()
             options: dict[str, str] = {"filename": str(video),
@@ -452,7 +623,7 @@ def _native_export(xlights: str, show: Path, staged: Path,
             # take longer than the60s control-command timeout; use a bounded
             # duration-derived export budget, preserving every media QA gate.
             sequence_seconds=float(ET.parse(staged).findtext('head/sequenceDuration'))
-            export_timeout=max(60,min(1800,sequence_seconds*4))
+            export_timeout = render_timeout or max(60, min(1800, sequence_seconds * 4))
             _command(endpoint, "exportVideoPreview", timeout=export_timeout, **options)
             if not video.is_file() or video.stat().st_size == 0:
                 raise ValueError("xLights did not create a fresh native video")
@@ -519,7 +690,8 @@ def _save_manifest(path: Path, report: dict[str, Any]) -> None:
 
 
 def preview_run(run_dir: Path, *, xsq: Path, audio: Path,
-                xlights: str = "xLights", port: int = 49914) -> dict[str, Any]:
+                xlights: str = "xLights", port: int = 49914,
+                review_30fps: bool = False, render_timeout: int | None = None) -> dict[str, Any]:
     """Keep XSQ usable and record fallback when preview is unavailable."""
     run_dir = run_dir.resolve()
     xsq, audio = xsq.resolve(), audio.resolve()
@@ -540,6 +712,8 @@ def preview_run(run_dir: Path, *, xsq: Path, audio: Path,
     try:
         if port not in (49913, 49914):
             raise ValueError("xLights automation port must be 49913 or 49914")
+        if render_timeout is not None and not 1 <= render_timeout <= 1800:
+            raise ValueError("Native render timeout must be 1–1800 seconds")
         binaries = {name: shutil.which(value) for name, value in (
             ("xLights", xlights), ("ffmpeg", "ffmpeg"),
             ("ffprobe", "ffprobe"))}
@@ -571,7 +745,7 @@ def preview_run(run_dir: Path, *, xsq: Path, audio: Path,
             result = subprocess.run(
                 [native_bin, "--headless", "--quiet", "--show", str(run_dir),
                  "--outputdir", str(stage), str(staged)],
-                stdout=log, stderr=log, timeout=max(60, duration * 3),
+                stdout=log, stderr=log, timeout=render_timeout or max(60, duration * 3),
                 check=False)
         if result.returncode:
             raise RuntimeError(
@@ -596,7 +770,7 @@ def preview_run(run_dir: Path, *, xsq: Path, audio: Path,
                 "inspect XSQ effect-to-model start-channel mapping before "
                 "attempting GUI preview or MP4 export")
         report["native_fseq_sha256"] = _sha256(fseq)
-        report.update(_native_export(native_bin, run_dir, staged, port))
+        report.update(_native_export(native_bin, run_dir, staged, port, render_timeout))
         # Reject xLights docked-preview exports before muxing or reporting success.
         expected_width, expected_height = _export_size()
         native_stream = _stream(probe_media(Path(report["native_video"]), ffprobe), "video")
@@ -604,6 +778,7 @@ def preview_run(run_dir: Path, *, xsq: Path, audio: Path,
         expected_size = (expected_width, expected_height)
         report["requested_resolution"] = list(expected_size)
         report["native_export_resolution"] = list(actual_size)
+        report["native_export_frame_rate"] = native_stream.get("avg_frame_rate")
         if actual_size != expected_size:
             raise ValueError(
                 f"xLights native export resolution {actual_size[0]}x{actual_size[1]} "
@@ -614,7 +789,7 @@ def preview_run(run_dir: Path, *, xsq: Path, audio: Path,
         output = stage / "preview.mp4"
         report["ffprobe"] = mux_original_audio(
             Path(report["native_video"]), audio, output, duration=duration,
-            ffmpeg=ffmpeg, ffprobe=ffprobe)
+            ffmpeg=ffmpeg, ffprobe=ffprobe, review_30fps=review_30fps)
         report.update(status="success", mp4=str(output),
                       audio_stream_verified=True, mp4_sha256=_sha256(output))
     except (OSError, ValueError, KeyError, TypeError, RuntimeError,
@@ -631,11 +806,16 @@ def main(argv: Sequence[str] | None = None) -> int:
     parser.add_argument("--xsq", type=Path, required=True)
     parser.add_argument("--audio", type=Path, required=True)
     parser.add_argument("--xlights", default="xLights")
+    parser.add_argument("--review-30fps", action="store_true",
+                        help="Deliver native frames at 30 fps without interpolating motion")
+    parser.add_argument("--render-timeout", type=int,
+                        help="Per-render time limit in seconds for unusually large native layouts")
     parser.add_argument("--port", type=int, choices=(49913, 49914),
                         default=49914)
     args = parser.parse_args(argv)
     report = preview_run(args.run_dir, xsq=args.xsq, audio=args.audio,
-                         xlights=args.xlights, port=args.port)
+                         xlights=args.xlights, port=args.port, review_30fps=args.review_30fps,
+                         render_timeout=args.render_timeout)
     print(json.dumps(report, indent=2, sort_keys=True))
     return 0 if report["status"] == "success" else 2
 

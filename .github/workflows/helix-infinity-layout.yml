@@ -1,6 +1,11 @@
 name: Helix Infinity layout
 on:
   workflow_dispatch:
+  pull_request:
+    paths:
+      - tools/build_infinity_showcase_layout.py
+      - tools/patch_xlights_infinity_groups.py
+      - .github/workflows/helix-infinity-layout.yml
   push:
     branches:
       - integration/unified-beta-completion-20261117
@@ -14,6 +19,7 @@ permissions:
   contents: read
 jobs:
   layout:
+    if: github.event_name != 'pull_request'
     runs-on: ubuntu-24.04
     timeout-minutes: 90
     steps:
@@ -118,3 +124,151 @@ jobs:
             ${{ runner.temp }}/infinity/Bells-review.mp4
             ${{ runner.temp }}/infinity/video-probe.json
             ${{ runner.temp }}/infinity/video-review.json
+
+  full-native:
+    if: github.event_name != 'push'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 150
+    env:
+      HELIX_SOURCE_COMMIT: ${{ github.event.pull_request.head.sha || github.sha }}
+      HELIX_NATIVE_PREVIEW_WIDTH: '1920'
+      HELIX_NATIVE_PREVIEW_HEIGHT: '1080'
+      HELIX_DEMUCS_DEVICE: cpu
+      XL_NO_GPU_COMPUTE: '1'
+      LIBGL_ALWAYS_SOFTWARE: '1'
+      OMP_NUM_THREADS: '2'
+      OPENBLAS_NUM_THREADS: '2'
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install pinned render prerequisites and retain the verified original excerpt
+        run: |
+          set -euo pipefail
+          test "$(git rev-parse HEAD)" = "$HELIX_SOURCE_COMMIT"
+          sudo apt-get update -qq
+          sudo apt-get install -y ffmpeg xvfb xauth openbox x11-utils x11-xserver-utils wmctrl xdotool \
+            build-essential cmake ninja-build pkg-config libgtk-3-dev libopengl0 libegl-dev libglu1-mesa \
+            libgstreamer1.0-dev libgstreamer-plugins-base1.0-dev freeglut3-dev libavcodec-dev \
+            libavformat-dev libavfilter-dev libswscale-dev libsdl2-dev libzstd-dev libcurl4-openssl-dev \
+            liblua5.3-dev libwebp-dev libsecret-1-dev libfreetype-dev libharfbuzz-dev libfontconfig-dev \
+            libavahi-compat-libdnssd-dev libminizip-dev libxlsxwriter-dev cbp2make glslc glslang-dev
+          python -m pip install scipy Pillow numpy zstandard requests pytest cmudict PyYAML
+          mkdir -p infinity-work/media
+          original="$RUNNER_TEMP/Bells of Mathmas.mp3"
+          curl -fLsS --retry 3 'https://drive.usercontent.google.com/download?id=1Zjyz9b-V0SdJ-p9K2FN6ryUR2H88DELG&export=download&confirm=t' -o "$original"
+          original_sha=beb2a064595a64d4924847ccd68ca0f2897d5de3ae5064e6e2023a68b7b8ce8a
+          echo "$original_sha  $original" | sha256sum -c -
+          echo "HELIX_INFINITY_ORIGINAL_SHA=$original_sha" >> "$GITHUB_ENV"
+          excerpt=infinity-work/media/Bells_of_Mathmas_30s.wav
+          ffmpeg -nostdin -v error -i "$original" -t 30 -c:a pcm_s16le "$excerpt"
+          echo "HELIX_INFINITY_EXCERPT_SHA=$(sha256sum "$excerpt" | cut -d ' ' -f1)" >> "$GITHUB_ENV"
+      - name: Separate the real original excerpt on CPU
+        uses: ./.github/actions/production-audio
+        with:
+          audio: infinity-work/media/Bells_of_Mathmas_30s.wav
+          sha256: ${{ env.HELIX_INFINITY_EXCERPT_SHA }}
+      - name: Generate the full musical XSQ on all 10,240 props
+        run: |
+          set -euo pipefail
+          python -m pytest -q tests/test_infinity_showcase_layout.py tests/test_infinity_showcase_targeting.py
+          python -m tools.build_infinity_showcase_layout --size 10240 --output infinity-work/xlights_rgbeffects.xml --manifest infinity-work/layout.json
+          python main.py --profile master -- --template template.xsq --audio infinity-work/media/Bells_of_Mathmas_30s.wav \
+            --layout-file infinity-work/xlights_rgbeffects.xml --output-dir infinity-work/sequence --variants 1 \
+            --single --no-prompt --no-save-settings --no-learning-memory --no-workspace-history \
+            --birdsong --palette-mode workspace_match > infinity-work/sequencer.log 2>&1
+          python - <<'PY'
+          import json, os, xml.etree.ElementTree as ET
+          from pathlib import Path
+          root = Path('infinity-work')
+          layout = json.loads((root / 'layout.json').read_text())
+          assert (layout['model_count'], layout['group_count'], layout['rgb_channel_count']) == (10240, 10299, 2370240)
+          source, = (p for p in (root / 'sequence').glob('*.xsq') if '.uncolored.' not in p.name and '.orchestrated.' not in p.name)
+          seq = ET.parse(source)
+          seq.find('head/mediaFile').text = 'media/Bells_of_Mathmas_30s.wav'
+          seq.write(root / 'Bells_of_Mathmas_30s.xsq', encoding='utf-8', xml_declaration=True)
+          networks = ET.Element('Networks', DisableOutput='1')
+          ET.SubElement(networks, 'network', NetworkType='NULL', Description='Null', MaxChannels='2370240', BaudRate='115200', ComPort='1')
+          ET.ElementTree(networks).write(root / 'xlights_networks.xml', encoding='utf-8', xml_declaration=True)
+          receipt = {'source_commit': os.environ['HELIX_SOURCE_COMMIT'], 'owner_approved': False,
+                     'original_audio_sha256': os.environ['HELIX_INFINITY_ORIGINAL_SHA'],
+                     'audio_sha256': os.environ['HELIX_INFINITY_EXCERPT_SHA'], 'layout_sha256': layout['sha256']}
+          (root / 'run_manifest.json').write_text(json.dumps(receipt, indent=2) + '\n')
+          PY
+      - name: Restore the compiled base renderer
+        uses: actions/cache/restore@v4
+        with:
+          path: ${{ runner.temp }}/xlights-src
+          key: xlights-native-ubuntu24-2026.18-${{ hashFiles('tools/patch_xlights_native_export.py') }}
+          restore-keys: xlights-native-ubuntu24-2026.18-
+      - name: Apply batched group loading and compile the exact native renderer
+        run: |
+          set -euo pipefail
+          native="$RUNNER_TEMP/xlights-src"
+          if [ ! -d "$native/.git" ]; then
+            git clone --depth 1 --branch 2026.18 --recurse-submodules https://github.com/xLightsSequencer/xLights.git "$native"
+          fi
+          test "$(git -C "$native" rev-parse HEAD)" = 839c0f590dc454bb7adb8a16c4dd92a70b46156e
+          if [ -f "$native/wxWidgets-xlights_2026.17c/lib/libwx_gtk3u-3.3.so.4.0.0" ]; then
+            sudo make -C "$native/wxWidgets-xlights_2026.17c" install
+            sudo ldconfig
+          fi
+          if ! python -c 'import sys; from pathlib import Path; from tools.native_renderer_bundle import validate_tree; validate_tree(Path(sys.argv[1]))' "$native"; then
+            mapfile -t files < <(python -c 'from tools.patch_xlights_native_export import PATCHES; print("\n".join(PATCHES))')
+            git -C "$native" restore -- "${files[@]}"
+            python -m tools.patch_xlights_native_export "$native"
+          fi
+          python -m tools.patch_xlights_infinity_groups "$native"
+          git -C "$native" diff --check
+          timeout --signal=TERM --kill-after=30s 55m make -C "$native" -j 4 2>&1 | tee infinity-work/native-build.log
+          test -x "$native/bin/xLights"
+          ldd "$native/bin/xLights" | tee infinity-work/native-runtime-libraries.log
+          ! grep -q 'not found' infinity-work/native-runtime-libraries.log
+          echo "HELIX_PATCHED_XLIGHTS=$native/bin/xLights" >> "$GITHUB_ENV"
+      - name: Render native FSEQ and original-soundtrack 1080p movie
+        run: |
+          set -euo pipefail
+          xvfb-run -a -s '-screen 0 2560x1440x24' sh -c 'openbox >infinity-work/openbox.log 2>&1 & exec python -m tools.native_preview infinity-work --xsq infinity-work/Bells_of_Mathmas_30s.xsq --audio infinity-work/media/Bells_of_Mathmas_30s.wav --xlights "$HELIX_PATCHED_XLIGHTS" --render-timeout 1800 --review-30fps'
+      - name: Decode and verify full native channel and audio delivery
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import json, os
+          from pathlib import Path
+          from tools.verify_recovery_media import verify
+          from tools.verify_showcase_luma import verify_mp4
+          root = Path('infinity-work')
+          native = json.loads((root / 'run_manifest.json').read_text())['native_preview']
+          channels = json.loads((Path(native['evidence_dir']) / 'native_channels.json').read_text())
+          assert channels['channels'] == 2370240 and channels['frames'] == 600 and channels['nonzero_samples'] > 0
+          movie = Path(native['mp4'])
+          media = verify(movie, root / 'media/Bells_of_Mathmas_30s.wav', os.environ['HELIX_INFINITY_EXCERPT_SHA'])
+          assert media['dimensions'] == [1920, 1080] and media['actual_frame_rate'] == '30/1'
+          readback = verify_mp4(movie)
+          (root / 'INFINITY_REVIEW_PROOF.json').write_text(json.dumps({
+              'media': media, 'channels': channels, 'readability': readback, 'owner_approved': False,
+          }, indent=2) + '\n')
+          if not readback['passed']:
+              raise SystemExit('Native Infinity movie failed decoded visibility or motion')
+          PY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: Infinity-10240-Bells-native-review
+          if-no-files-found: warn
+          path: |
+            infinity-work/xlights_rgbeffects.xml
+            infinity-work/xlights_networks.xml
+            infinity-work/Bells_of_Mathmas_30s.xsq
+            infinity-work/media/Bells_of_Mathmas_30s.wav
+            infinity-work/layout.json
+            infinity-work/run_manifest.json
+            infinity-work/INFINITY_REVIEW_PROOF.json
+            infinity-work/*.log
+            infinity-work/native-preview-*/*.fseq
+            infinity-work/native-preview-*/preview.mp4
+            infinity-work/native-preview-*/native_*.json
+            infinity-work/native-preview-*/native_*.log

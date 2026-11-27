@@ -1,7 +1,13 @@
-"""Review copies of the owner's 256 AC addresses, with one real circuit per prop.
+"""Review copies of the owner's AC addresses, with one real circuit per prop.
 
-The original XML is read-only. Virtual bulbs describe geometry, not additional
-controller addresses. RGB additions begin after the original address range.
+The source XML is not rewritten by this module. Virtual bulbs describe
+geometry, not additional controller addresses. RGB additions begin after
+the historical 256-address span so they cannot occupy a retired circuit.
+
+Four arch apex circuits are retired and must stay absent: Arch 1 Sec 5
+channel 133, Arch 2 Sec 5 channel 142, Arch 3 Sec 5 channel 151, and
+Arch 4 Sec 5 channel 160. Each arch keeps sections 1-4 and 6-9. Do not
+renumber the surviving circuits and do not recreate those centers.
 """
 from pathlib import Path
 import argparse
@@ -20,13 +26,22 @@ from tools.build_snowman_ensemble import NativeSequence
 from tools.phoneme_source import digest
 from tools.source_spatial_direction import export_model
 
+# Historical controller span is 1..256. These apex circuits were removed
+# from the physical arches and must not be assigned to a new model.
+RETIRED_APEX_CHANNELS = frozenset({133, 142, 151, 160})
+HISTORICAL_AC_SPAN = 256
+ACTIVE_AC_CHANNELS = frozenset(range(1, HISTORICAL_AC_SPAN + 1)) - RETIRED_APEX_CHANNELS
+
 
 def geometry(source, *, include_rgb=False):
     source=Path(source)
     parsed=parse_layout(source)
     original=[m for m in parsed.models.values() if not m.is_submodel]
-    if len(original)!=256 or {m.start_channel for m in original}!=set(range(1,257)):
-        raise ValueError('Expected the original 256 distinct AC circuit addresses')
+    found={m.start_channel for m in original}
+    if len(original)!=len(ACTIVE_AC_CHANNELS) or found!=ACTIVE_AC_CHANNELS:
+        raise ValueError('Expected 252 active AC circuits from the 256 map, with apex channels 133, 142, 151, and 160 retired')
+    if any(m.name in {f"Arch {i} Sec 5" for i in range(1,5)} for m in original):
+        raise ValueError('Deleted arch apex sections must not be recreated')
     g=Garden(title='Original 256 AC'+(' + RGB' if include_rgb else ''),slug='Original_256_AC')
     original_points={m.name:np.array([(p.x,p.y,p.z) for p in m.virtual_pixel_map()]) for m in original}
     bounds=np.concatenate(list(original_points.values()));origin=np.array([(bounds[:,0].min()+bounds[:,0].max())/2,bounds[:,1].min(),0])
@@ -67,7 +82,7 @@ def geometry(source, *, include_rgb=False):
         m.attrs.update(StringType=kind,PixelSize='20')
     if include_rgb:
         from models.approval_layouts import build_layout
-        rgb=build_layout(4);start=257
+        rgb=build_layout(4);start=HISTORICAL_AC_SPAN + 1
         for model in rgb.models:
             model.name='EXPERIMENTAL_RGB_'+model.name
             model.start=start;start+=model.channels
@@ -107,12 +122,14 @@ def build(source, production, fixture, output, *, include_rgb=False):
     tree.write(output/'xlights_rgbeffects.xml',encoding='utf-8',xml_declaration=True)
     (output/'Spatial_Event_Provenance.json').write_text(json.dumps(reports,indent=2)+'\n')
     assert digest(source)==before
-    report=dict(schema='helix.source-ac-review.v1',source_layout_sha256=before,original_addresses=list(range(1,257)),
+    report=dict(schema='helix.source-ac-review.v1',source_layout_sha256=before,original_addresses=sorted(ACTIVE_AC_CHANNELS),
+        retired_apex_channels=sorted(RETIRED_APEX_CHANNELS),
         source_commit=subprocess.check_output(['git','rev-parse','HEAD'],text=True).strip(),
         audio_sha256=digest(audio),audio_name=audio.name,source_duration_seconds=duration,sequence_file=sequence.name,warnings=[],
         analysis_source_commit=manifest.get('source_commit'),source_analysis_sha256=digest(next((production/'sequence').glob('*.snowman_band.json'))),
         source_route_policy='measured_role_bank_v1',
-        fixed_ac_channels=256,total_channels=max(m.start+m.channels-1 for m in g.models),
+        fixed_ac_channels=len(ACTIVE_AC_CHANNELS),historical_controller_span=HISTORICAL_AC_SPAN,
+        total_channels=max(m.start+m.channels-1 for m in g.models),
         original_source_unchanged=True,virtual_geometry_not_surveyed=True,owner_visual_approval=False)
     (output/'run_manifest.json').write_text(json.dumps(report,indent=2)+'\n')
     return report

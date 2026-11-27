@@ -118,7 +118,8 @@ public class MainActivity extends Activity {
         button("Show / hide expert analysis controls",()->expert.setVisibility(expert.getVisibility()==View.VISIBLE?View.GONE:View.VISIBLE));
         body.addView(expert);expert.setVisibility(View.GONE);LinearLayout advanced=body;body=expert;
         polish=check("Polish · automatic finishing pass",true);matrix=check("Matrix Intelligence · supported pixel models",true);birdsong=check("Birdsong · confidence-gated canopy phrasing",true);
-        text("Existing engine defaults are retained. RGB-only options are disabled in AC/LOR mode. Capability and confidence gates still apply. Neural stems and Whisper require desktop; HPSS runs locally.",13,Color.LTGRAY);body=advanced;
+        text("Existing engine defaults are retained. RGB-only options are disabled in AC/LOR mode. Capability and confidence gates still apply. This phone does not run Demucs or RoFormer. HPSS runs locally. A desktop lead/backing ZIP can be imported and is not verified singer identity.",13,Color.LTGRAY);
+        select("vocals","Optional desktop vocal bundle · ZIP");body=advanced;
 
         panel(4);text("Generate on this phone. Keep Helix open for best performance. Cancellation affects only this job.",17,Color.WHITE);
         run=button("Generate sequence",this::startJob);cancel=button("Cancel current job",()->startService(new Intent(this,EngineService.class).setAction("cancel")));cancel.setEnabled(false);

@@ -37,6 +37,60 @@ class LogStream(io.TextIOBase):
             self.pending = ''
 
 
+def install_vocal_bundle(archive, dest):
+    """Unpack one desktop vocal zip. JSON and WAV only. No path escape."""
+    dest = Path(dest)
+    if dest.exists():
+        shutil.rmtree(dest)
+    dest.mkdir(parents=True)
+    root = dest.resolve()
+    with zipfile.ZipFile(archive) as bundle:
+        for info in bundle.infolist():
+            if info.is_dir():
+                continue
+            relative = Path(info.filename)
+            if relative.is_absolute() or ".." in relative.parts or not relative.parts:
+                raise ValueError("Unsafe vocal bundle path")
+            if relative.suffix.lower() not in {".json", ".wav"}:
+                raise ValueError("Vocal bundle may contain only JSON and WAV files")
+            target = (dest / relative).resolve()
+            if not target.is_relative_to(root):
+                raise ValueError("Unsafe vocal bundle path")
+            target.parent.mkdir(parents=True, exist_ok=True)
+            with bundle.open(info) as src, target.open("wb") as out:
+                shutil.copyfileobj(src, out)
+    return dest
+
+
+def bind_imported_vocals(job):
+    """Use a desktop lead/backing bundle when the user supplied one.
+
+    Demucs and RoFormer stay off the phone. A missing bundle leaves HPSS.
+    A present bundle that does not match the selected song fails closed.
+    Imported stems are not verified singer identity.
+    """
+    job = Path(job)
+    archive = job / "input" / "vocal-separation.zip"
+    dest = job / "input" / "vocal-separation"
+    if archive.is_file():
+        install_vocal_bundle(archive, dest)
+    found = list(dest.rglob("vocal_separation_manifest.json")) if dest.is_dir() else []
+    os.environ.pop("HELIX_VOCAL_SEPARATION_MANIFEST", None)
+    os.environ.pop("HELIX_VOCAL_SEPARATION_SOURCE", None)
+    if not found:
+        return {"status": "not_supplied", "on_device_model": False, "identity_verified": False}
+    if len(found) != 1:
+        raise ValueError("Vocal bundle must contain one vocal_separation_manifest.json")
+    source = job / "input" / "original-audio"
+    from core.vocal_separation_manifest import validate_vocal_separation_manifest
+    lead, backing = validate_vocal_separation_manifest(found[0], source)
+    os.environ["HELIX_VOCAL_SEPARATION_MANIFEST"] = str(found[0])
+    os.environ["HELIX_VOCAL_SEPARATION_SOURCE"] = str(source.resolve())
+    return {"status": "imported_desktop_bundle", "on_device_model": False,
+            "identity_verified": False, "method": "vocals_first_then_lead_backing",
+            "lead": lead.name, "backing": backing.name}
+
+
 def build_args(request, job, engine):
     from core.gui_options import palette_key, resolve_layout
     mode = request.get('mode', 'xlights')
@@ -154,9 +208,8 @@ def render_preview(xsq, layout, wav, seconds, callback):
     from tools import preview_renderer as p
     seq = preview_sequence(p.parse_sequence(xsq), seconds)
     geom = p.parse_models(layout)
-    # Crop the frame timeline BEFORE allocating intensity matrices on a phone.
-    # Colors come from the layout model geometry inside HouseRenderer. There is
-    # no separate color matrix; that call did not exist and failed every preview.
+    # Crop before allocating matrices. Match the desktop effect-preview colors
+    # while retaining only the current window on a phone.
     fps, width, height = 15, 640, 360
     total_frames = max(1, int(math.ceil(seq.duration_ms / (1000.0 / fps))))
     renderer = p.HouseRenderer(geom, width=width, height=height)
@@ -170,18 +223,22 @@ def render_preview(xsq, layout, wav, seconds, callback):
         from core.output_provenance import brand_frame
     except ImportError:
         brand_frame = None
+    rendered_frames = 0
     callback.beginPreview(str(output), str(wav), width, height, fps)
     try:
         for start in range(0, total_frames, PREVIEW_FRAME_CHUNK):
             leaves, intensities = p.build_leaf_intensity_matrix(
                 geom, seq, fps, frame_start=start,
                 frame_limit=min(PREVIEW_FRAME_CHUNK, total_frames - start))
+            colors = p.build_leaf_color_matrix(
+                geom, seq, fps, leaves, intensities.shape[1], frame_start=start)
             for offset in range(intensities.shape[1]):
                 i = start + offset
                 t_ms = round(i * 1000 / fps)
                 image = renderer.render_frame(
                     leaf_names=leaves, frame_values=intensities[:, offset],
                     title=xsq.name, t_ms=t_ms, duration_ms=seq.duration_ms,
+                    frame_colors=colors[:, offset] if colors is not None else None,
                     overlays={
                         "song part": p.active_label(part_track, t_ms),
                         "piano": p.active_label(piano_track, t_ms),
@@ -198,7 +255,8 @@ def render_preview(xsq, layout, wav, seconds, callback):
                     notify(callback, 'stage', 'preview',
                            'Rendering preview: %d/%d seconds' % (i // fps, round(total_frames / fps)))
                 del image, buffer
-            del intensities
+            rendered_frames += intensities.shape[1]
+            del intensities, colors
         callback.endPreview()
     except BaseException:
         callback.abortPreview()
@@ -208,7 +266,7 @@ def render_preview(xsq, layout, wav, seconds, callback):
     decoded = output.with_suffix('.alignment.wav')
     try:
         callback.decodePreviewAudio(str(output), str(decoded))
-        alignment = synchronize(output, wav, decoded, intensities.shape[1]/fps)
+        alignment = synchronize(output, wav, decoded, rendered_frames/fps)
         try:
             from core.output_provenance import stamp_mp4
         except ImportError:
@@ -224,7 +282,7 @@ def render_preview(xsq, layout, wav, seconds, callback):
     final_output.with_suffix('.preview_provenance.json').write_text(json.dumps({
         'schema': 'helix.preview_provenance.v1', 'native_xlights': False,
         'source': 'Helix simulated effect-level model preview; Android MediaCodec H.264/AAC',
-        'duration_seconds': intensities.shape[1]/fps, 'fps': fps, 'audio_alignment': alignment,
+        'duration_seconds': rendered_frames/fps, 'fps': fps, 'audio_alignment': alignment,
         'generator': 'Helix', 'credit': 'Made with Helix | Audio in. Lights out.',
         'visible_watermark': True,
     }, indent=2))
@@ -242,6 +300,10 @@ def run(engine_path, job_path, request_json, callback):
     if str(engine) not in sys.path:
         sys.path.insert(0, str(engine))
     os.environ['NUMBA_DISABLE_JIT'] = '1'
+    # Demucs and RoFormer stay off this device. The run log must keep the
+    # diagnostic HPSS label and must not claim separated stems.
+    os.environ['HELIX_REQUIRE_NEURAL_STEMS'] = '0'
+    vocal_import = bind_imported_vocals(job)
     import helix_numba
     helix_numba.install()
     stream = LogStream(callback)
@@ -252,9 +314,14 @@ def run(engine_path, job_path, request_json, callback):
         'mode': request.get('mode', 'xlights'), 'stages': stages,
         'band_enabled': bool(request.get('band_enabled', True)),
         'sequences': [], 'lms': [], 'previews': [],
-        'limitations': ['No neural stem separation/Whisper', 'Simulated preview, not native xLights playback',
-                        'Serial joblib and Python Numba kernels; large songs may run slowly'],
+        'limitations': [
+            ('Imported desktop vocal bundle; this phone did not run Demucs or RoFormer; singer identity unverified'
+             if vocal_import['status'] == 'imported_desktop_bundle'
+             else 'No neural stem separation/Whisper'),
+            'Simulated preview, not native xLights playback',
+            'Serial joblib and Python Numba kernels; large songs may run slowly'],
         'input_hashes': {x.name: file_hash(x) for x in (job/'input').iterdir() if x.is_file()}}
+    manifest['vocal_separation'] = vocal_import
     result = {'bundle': '', 'preview': '', 'sequence': '', 'report': str(job/'outputs/Android-run-report.txt'),
               'manifest': str(job/'outputs/android-run.json'), 'sequence_count': 0, 'sequence_paths': [], 'preview_paths': [], 'preview_states': [], 'mode': manifest['mode'],
               'stages': stages}
@@ -286,7 +353,10 @@ def run(engine_path, job_path, request_json, callback):
         with contextlib.redirect_stdout(stream), contextlib.redirect_stderr(stream):
             from core import sequence_builder
             callback.log('Running the existing Helix master sequencer entirely on this device.')
-            callback.log('Serial analysis avoids Android sem_open. HPSS remains active; neural stems and Whisper require desktop.')
+            if vocal_import['status'] == 'imported_desktop_bundle':
+                callback.log('Using the imported desktop vocal bundle. This phone did not run Demucs or RoFormer. Singer identity is unverified.')
+            else:
+                callback.log('Serial analysis avoids Android sem_open. HPSS remains active; neural stems and Whisper require desktop.')
             notify(callback, 'stage', 'sequencing', 'Analyzing music and generating sequence…')
             args = build_args(request, job, engine)
             sequence_builder.run_profile('master', args)
@@ -387,6 +457,7 @@ def run(engine_path, job_path, request_json, callback):
                             outcomes[str(variant)] = ''
                             if variant == selected:
                                 result['preview'] = ''
+                                result['preview_error'] = str(variant_exc)
                             callback.log('Variant %d preview failed: %s' % (index+1, variant_exc))
                             callback.log(traceback.format_exc())
                         publish(running=index + 1 < len(preview_candidates))

@@ -247,3 +247,25 @@ def test_vivid_layer_is_beat_locked_and_does_not_overlap(tmp_path: Path):
 def test_white_bulbs_become_saturated():
     assert saturated_bulb("Window", (255, 255, 255)) != (255, 255, 255)
     assert saturated_bulb("Tree", (0, 255, 0)) == (0, 255, 0)
+
+
+def test_rgb_vivid_accents_do_not_broadcast_to_dense_layout():
+    from core.vivid_style import _rgb_motion
+    root = ET.Element("ElementEffects")
+    names = [f"Pixel prop {i}" for i in range(100)]
+    _rgb_motion(root, names, [], 3000, [0, 500, 1000, 1500, 2000, 2500], lambda name, start: "0")
+    counts = {}
+    for effect in root.iter("Effect"):
+        start = effect.attrib["startTime"]
+        counts[start] = counts.get(start, 0) + 1
+    assert counts
+    assert max(counts.values()) <= 8
+
+
+def test_vivid_section_accent_selects_one_focal_group():
+    from core.vivid_style import _group_motion
+    root = ET.Element("ElementEffects")
+    sections = [{"start_ms": 0, "end_ms": 1000}, {"start_ms": 1000, "end_ms": 2000}]
+    count = _group_motion(root, ["Zone A", "Zone B", "Zone C"], 2000, [0, 1000], sections, lambda name, start: "0")
+    assert count == 2
+    assert len(list(root.iter("Effect"))) == 2

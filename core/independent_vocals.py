@@ -37,6 +37,42 @@ def _file_sha256(path: Path) -> str:
     return digest.hexdigest()
 
 
+def _to_mono(samples, channels: int):
+    """One stem is one singer. Stereo is averaged, never split into two voices."""
+    if channels == 1:
+        return samples
+    import array
+    if channels != 2:
+        raise ValueError("Vocal stems must be mono or stereo")
+    count = len(samples) - (len(samples) % 2)
+    mono = array.array(samples.typecode)
+    for index in range(0, count, 2):
+        mono.append((int(samples[index]) + int(samples[index + 1])) // 2)
+    return mono
+
+
+def _decode_pcm(raw: bytes, width: int):
+    """Little-endian mono samples. 16-bit stays a short array; 24-bit is signed int."""
+    import array
+    import sys
+    if width == 2:
+        samples = array.array("h")
+        samples.frombytes(raw)
+        if sys.byteorder != "little":
+            samples.byteswap()
+        return samples
+    if width != 3 or len(raw) < 3:
+        return array.array("i")
+    usable = len(raw) - (len(raw) % 3)
+    samples = array.array("i")
+    for offset in range(0, usable, 3):
+        value = raw[offset] | (raw[offset + 1] << 8) | (raw[offset + 2] << 16)
+        if value & 0x800000:
+            value -= 0x1000000
+        samples.append(value)
+    return samples
+
+
 def _read_mono_pcm(path: Path) -> tuple[int, "array.array"]:
     with wave.open(str(path), "rb") as wav:
         channels, width, rate, frames = (wav.getnchannels(), wav.getsampwidth(),
@@ -61,29 +97,25 @@ def _stream_vocal_features(path: Path, *, hop_ms: int = 20,
     """
     if hop_ms <= 0 or fingerprint_budget <= 0:
         raise ValueError("hop_ms and fingerprint_budget must be positive")
-    import array
-    import sys
     with wave.open(str(path), "rb") as wav:
         channels, width, rate, frames = (wav.getnchannels(), wav.getsampwidth(),
                                           wav.getframerate(), wav.getnframes())
-        if channels != 1 or width != 2 or rate < 8000:
-            raise ValueError(f"{path}: expected mono 16-bit PCM WAV at >= 8 kHz")
+        if channels not in (1, 2) or width not in (2, 3) or rate < 8000:
+            raise ValueError(f"{path}: expected mono or stereo 16-bit or 24-bit PCM WAV at >= 8 kHz")
         hop = max(1, round(rate * hop_ms / 1000))
         stride = (fingerprint_stride if fingerprint_stride is not None
                   else max(1, (frames + fingerprint_budget - 1) // fingerprint_budget))
         if stride < 1:
             raise ValueError("fingerprint_stride must be positive")
+        full_scale = 32768.0 if width == 2 else 8388608.0
         energies: list[float] = []
         fingerprint: list[float] = []
         offset = 0
         while offset < frames:
-            samples = array.array("h")
-            samples.frombytes(wav.readframes(min(hop, frames - offset)))
-            if sys.byteorder != "little":
-                samples.byteswap()
+            samples = _to_mono(_decode_pcm(wav.readframes(min(hop, frames - offset)), width), channels)
             if not samples:
                 break
-            energies.append(math.sqrt(sum(x * x for x in samples) / len(samples)) / 32768.0)
+            energies.append(math.sqrt(sum(x * x for x in samples) / len(samples)) / full_scale)
             for j in range((-offset) % stride, len(samples), stride):
                 fingerprint.append(float(samples[j]))
             offset += len(samples)
@@ -150,17 +182,18 @@ def analyze_independent_vocals(lead_path: str | Path, harmony_path: str | Path,
                                *, output_json: str | Path | None = None) -> dict:
     """Accept two separately sourced singer stems, reject duplicated vocal mixtures.
 
+    The files must share a start. A shorter file is a singer who stops early,
+    not a reason to reject the pair. Correlation is measured on the shared
+    prefix, so a shortened copy of the lead is still a duplicate.
     A verified separation algorithm must create the two inputs upstream. The
     gate deliberately fails closed if two paths contain identical PCM.
     """
     lead_path, harmony_path = Path(lead_path), Path(harmony_path)
-    # Use the same absolute sample indices for both singer fingerprints, even
-    # when their WAV durations differ by the permitted 50 ms tolerance.
+    # Same absolute sample index on both files. Session bounces share a start
+    # and often end when that singer stops, so the lengths are not required to match.
     with wave.open(str(lead_path), "rb") as lead_wav, wave.open(str(harmony_path), "rb") as harmony_wav:
         if lead_wav.getframerate() != harmony_wav.getframerate():
             raise ValueError("Vocal stems have different sample rates; align/resample first")
-        if abs(lead_wav.getnframes() - harmony_wav.getnframes()) > round(lead_wav.getframerate() * 0.05):
-            raise ValueError("Vocal stems differ in duration by more than 50 ms")
         common_stride = max(1, (max(lead_wav.getnframes(), harmony_wav.getnframes()) + 49999) // 50000)
     lead_rate, lead_frames, lead_energies, lead_fingerprint = _stream_vocal_features(
         lead_path, fingerprint_stride=common_stride)
@@ -168,8 +201,6 @@ def analyze_independent_vocals(lead_path: str | Path, harmony_path: str | Path,
         harmony_path, fingerprint_stride=common_stride)
     if lead_rate != harmony_rate:
         raise ValueError("Vocal stems have different sample rates; align/resample first")
-    if abs(lead_frames - harmony_frames) > round(lead_rate * 0.05):
-        raise ValueError("Vocal stems differ in duration by more than 50 ms")
     lead_windows = _activity_from_energies(lead_energies, round(lead_frames * 1000 / lead_rate))
     harmony_windows = _activity_from_energies(harmony_energies, round(harmony_frames * 1000 / harmony_rate))
     if not lead_windows:
@@ -194,8 +225,11 @@ def analyze_independent_vocals(lead_path: str | Path, harmony_path: str | Path,
         VocalTrack("harmony_singer", str(harmony_path), harmony_sha, harmony_rate,
                    harmony_windows),
     )
+    # Real stacked vocals can share a melody and still be different performances.
+    # The number is a duplicate check, not a singer identity.
     result = {"schema": "helix.independent-vocals.v1", "status": "distinct_stem_inputs",
               "independence": "duplicate_rejection_only_not_voice_identity_proof",
+              "overlap_correlation": round(corr, 3),
               "tracks": [asdict(t) for t in tracks]}
     if output_json is not None:
         path = Path(output_json)

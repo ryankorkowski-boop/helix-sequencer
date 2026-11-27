@@ -80,8 +80,12 @@ def native_band(g,plan,*,rock=True,duration=36,showcase_source=False,overview=Fa
             stride=2 if overview else 1
             points=item['mesh'].vertices[::stride]
             material=colors[::stride]
-            parts.add('BASE_DIM',points,material)
-            if part!='BASE_DIM':parts.add(part,points,material)
+            # Drum heads and cymbals must NOT be part of the always-lit body.
+            # Their only musical illumination comes from source-matched strikes.
+            if part == 'BASE_DIM':
+                parts.add('BASE_DIM',points,material)
+            else:
+                parts.add(part,points,material)
         else:
             parts.add(part,item['mesh'].vertices[::2],colors[::2])
     for i in rig.connector_ids:parts.primitive('BASE_DIM',scene.instances[i])
@@ -106,7 +110,7 @@ def native_band(g,plan,*,rock=True,duration=36,showcase_source=False,overview=Fa
                 rig.pose_arm(side, time)
                 samples.append([scene.instances[i]['matrix'][:3,3] for i in target_ids])
             # Contact poses are assigned from exact targets. Quantize only transit.
-            selected, states, error = select_states(samples, limit=18 if overview else 30)
+            selected, states, error = select_states(samples, limit=36 if overview else 30)
             names = []
             for number, frame in enumerate(selected):
                 part = f'SOURCE_POSE_{side.upper()}_{number:02}'
@@ -154,6 +158,14 @@ def native_band(g,plan,*,rock=True,duration=36,showcase_source=False,overview=Fa
             for i in ids:
                 parts.primitive(f'SOURCE_POSE_{number:02}', scene.instances[i])
         pose_count = len(selected)
+    if showcase_source:
+        # SurfaceParts deduplicates coincident vertices across materials. Even
+        # separate add() calls can therefore share native node IDs. Reserve
+        # every drum/cymbal node exclusively for strike-controlled surfaces.
+        strike_nodes = {node for name, ids in parts.parts.items()
+                        if name.endswith('_SURFACE') for node in ids}
+        parts.parts['BASE_DIM'] = [node for node in parts.parts.get('BASE_DIM', ())
+                                   if node not in strike_nodes]
     old=next(m for m in g.models if m.details.get('review_role')=='drummer')
     g.models.remove(old)
     model=g.custom('HX_SNOW_DRUMMER',parts.points,'BAND','Source-front closed dimensional V3',
@@ -255,6 +267,11 @@ def build(source,vocals,output,*,numbers=None,names=NAMES,layout_builder=layout,
             lanes,_=screened_lanes(cache)
             for lane,(energy,shapes) in lanes.items():
                 cache[lane+'_energy'],cache[lane+'_shapes']=energy,shapes
+    from tools.source_spatial_direction import onset_index, voice_events
+    shared_onsets = {role: onset_index(plan['cues'].get(role, []))
+                     for role in ('bassist', 'guitarist', 'keyboardist', 'drummer')}
+    shared_onsets.update(lead=onset_index(voice_events(cache, 'estimated_lead')),
+                         harmony=onset_index(voice_events(cache, 'estimated_backing')))
     numbers=tuple(range(1,len(names)+1)) if numbers is None else tuple(numbers)
     if not numbers or len(set(numbers))!=len(numbers) or any(type(n) is not int or not 1<=n<=len(names) for n in numbers):
         raise ValueError(f'Choose unique layout numbers in 1..{len(names)}')
@@ -267,6 +284,9 @@ def build(source,vocals,output,*,numbers=None,names=NAMES,layout_builder=layout,
         if folder.exists():raise FileExistsError(folder)
         layout_options = {'native_extended_mouths': True} if shape_names == NATIVE_SHAPE_NAMES else {}
         g,band=layout_builder(number,plan,duration=duration,**layout_options);g.title=name
+        if full_song:
+            from tools.source_role_routing import configure_advanced_spatial_routes
+            configure_advanced_spatial_routes(g.models)
         # The canonical performance must never disappear when the same music
         # is repackaged as 9, 12, or 16 comparison panels.
         canonical_panel = ('snowman band' in name.lower()
@@ -327,7 +347,7 @@ def build(source,vocals,output,*,numbers=None,names=NAMES,layout_builder=layout,
                     part=f"KEY_MIDI_{round(cue['pitch_midi']):03}"
                     if m.submodels.get(part):sequence.effect(m,part,cue['start_ms'],cue['end_ms'],g.palette[2],100,20)
                 continue
-            reports.append(export_model(sequence,m,plan,cache,g.palette))
+            reports.append(export_model(sequence,m,plan,cache,g.palette,shared_onsets=shared_onsets))
         if band:
             from tools.phoneme_vocal_export import export_static_materials, static_materials, export as export_vocals
             from tools.canonical_band_cues import export_instruments
@@ -369,7 +389,7 @@ def build(source,vocals,output,*,numbers=None,names=NAMES,layout_builder=layout,
                 (folder/'Canonical_Drummer.json').write_text(json.dumps(
                     dict(geometry=proof,event_mapping=source_report),indent=2)+'\n')
             else:
-                colors=('#DC2D1C','#D65CBE','#DCA416','#2CB242','#2CB242','#2CB242','#DCA416','#DCA416')
+                colors=('#DC2D1C','#D65CBE','#DCA416','#2CB242','#2CB242','#2CB242','#DCA416','#DCA416','#DCA416')
                 from tools.render_owner_band_review import drum_hits
                 from tools.render_drummer_v3_preview import TARGETS
                 hits,_=drum_hits(plan['cues']['drummer'])

@@ -152,6 +152,25 @@ def test_short_audio_and_existing_output_are_not_silently_accepted(
     assert output.read_bytes() == b"preserve existing output"
 
 
+def test_review_mux_repeats_native_frames_on_30fps_clock(tmp_path, media_tools):
+    ffmpeg, ffprobe = media_tools
+    video, audio = tmp_path / "native.mp4", tmp_path / "original.wav"
+    output = tmp_path / "review.mp4"
+    _synthetic_video(video, ffmpeg)
+    _tone(audio, 880)
+
+    result = preview.mux_original_audio(video, audio, output, duration=1,
+        ffmpeg=ffmpeg, ffprobe=ffprobe, review_30fps=True)
+    review_video = preview._stream(result, "video")
+    review_audio = preview._stream(result, "audio")
+
+    assert review_video["avg_frame_rate"] == "30/1"
+    assert review_video["nb_frames"] == "30"
+    assert review_video["codec_name"] == "h264"
+    assert review_audio["codec_name"] == "aac"
+    assert float(review_video["duration"]) == float(review_audio["duration"]) == 1.0
+
+
 def test_cleanup_failure_does_not_mask_verified_mux(tmp_path, media_tools):
     ffmpeg,ffprobe=media_tools
     video,audio=tmp_path/'native.mp4',tmp_path/'original.wav'

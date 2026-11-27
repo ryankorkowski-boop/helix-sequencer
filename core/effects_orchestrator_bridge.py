@@ -46,6 +46,8 @@ class EffectsOrchestrationRunReport:
     orchestrated_xsq_path: str | None = None
     xsq_render_report_path: str | None = None
     placement_source: str = "none"
+    section_timeline_source: str = "synthetic_seed"
+    section_timeline_error: str | None = None
     error: str | None = None
 
     def to_dict(self) -> dict[str, Any]:
@@ -306,13 +308,51 @@ def _build_orchestrated_exports(final_graph: IntentGraph, engine_args: list[str]
     }
 
 
+def _qualified_analysis_timeline(engine_args: list[str] | None, audio_path: str | None) -> str | None:
+    """Adapt an existing audio_analysis.json only when it already qualifies.
+
+    An explicit --orchestration-sections-json is handled by the caller. This
+    looks at --audio-analysis-json, then at audio_analysis.json beside the
+    source audio. A missing file leaves the synthetic seed. A present file
+    that fails the 0.7 confidence, hash, or fallback guard raises and must
+    not be promoted.
+    """
+    candidate = _arg_value(engine_args, "--audio-analysis-json")
+    if candidate is None and audio_path:
+        sibling = Path(audio_path).parent / "audio_analysis.json"
+        if sibling.is_file():
+            candidate = str(sibling)
+    if candidate is None:
+        return None
+    if not audio_path:
+        raise ValueError("audio analysis timeline requires --audio for SHA-256 verification")
+    from core.audio_section_timeline_adapter import write_timeline_from_audio_analysis
+
+    destination = orchestration_report_path(engine_args).with_name(
+        f"{Path(audio_path).stem}.qualified_section_timeline.json")
+    return str(write_timeline_from_audio_analysis(candidate, audio_path, destination))
+
+
 def run_effects_orchestration(engine_args: list[str] | None = None, *, write_report: bool = True) -> EffectsOrchestrationRunReport:
+    section_timeline_source = "synthetic_seed"
+    section_timeline_error = None
     try:
         graph = build_seed_graph(engine_args)
         sections_json = _arg_value(engine_args, "--orchestration-sections-json")
+        audio_path = _arg_value(engine_args, "--audio")
+        if sections_json:
+            section_timeline_source = "orchestration-sections-json"
+        else:
+            try:
+                qualified = _qualified_analysis_timeline(engine_args, audio_path)
+            except (OSError, ValueError, json.JSONDecodeError) as exc:
+                qualified = None
+                section_timeline_error = str(exc)
+            if qualified:
+                sections_json = qualified
+                section_timeline_source = "audio_analysis"
         if sections_json:
             from core.song_section_choreography import load_song_section_graph
-            audio_path = _arg_value(engine_args, "--audio")
             if not audio_path:
                 raise ValueError("source-timed orchestration requires --audio for SHA-256 verification")
             graph = load_song_section_graph(sections_json, graph, audio_path=audio_path)
@@ -354,6 +394,8 @@ def run_effects_orchestration(engine_args: list[str] | None = None, *, write_rep
             orchestrated_xsq_path=export_payload["orchestrated_xsq_path"],
             xsq_render_report_path=export_payload["xsq_render_report_path"],
             placement_source=str(export_payload["placement_source"]),
+            section_timeline_source=section_timeline_source,
+            section_timeline_error=section_timeline_error,
         )
         if write_report:
             path.parent.mkdir(parents=True, exist_ok=True)
@@ -375,5 +417,7 @@ def run_effects_orchestration(engine_args: list[str] | None = None, *, write_rep
             masterpiece_score=0.0,
             masterpiece_candidate=False,
             passes=(),
+            section_timeline_source=section_timeline_source,
+            section_timeline_error=section_timeline_error,
             error=str(exc),
         )

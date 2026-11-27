@@ -307,7 +307,7 @@ class NativePreviewResolutionTests(unittest.TestCase):
                 self.assertEqual(environment, {"HELIX_PROFILE_TEST": "original"})
                 self.assertEqual(list(Path(directory).iterdir()), [])
 
-    def _run_preview(self, directory, size):
+    def _run_preview(self, directory, size, render_timeout=None):
         """Exercise production orchestration; fixture bytes are never media evidence."""
         run = Path(directory)
         (run / "run_manifest.json").write_text(json.dumps({
@@ -319,7 +319,8 @@ class NativePreviewResolutionTests(unittest.TestCase):
         (run / "xlights_rgbeffects.xml").write_text("<xrgb/>")
         before = (xsq.read_bytes(), audio.read_bytes())
 
-        def export(binary, show, staged, port):
+        def export(binary, show, staged, port, timeout):
+            self.assertEqual(timeout, render_timeout)
             video = staged.parent / "native-silent.mp4"
             video.write_bytes(b"unit export only")
             return {"native_video": str(video), "xlights_version": "2026.18"}
@@ -331,6 +332,7 @@ class NativePreviewResolutionTests(unittest.TestCase):
                                  "height": size[1]}, {"codec_type": "audio"}]}
 
         def render(command, **kwargs):
+            self.assertEqual(kwargs['timeout'], render_timeout or 60)
             Path(command[-1]).with_suffix(".fseq").write_bytes(b"unit FSEQ only")
             return SimpleNamespace(returncode=0)
 
@@ -345,7 +347,8 @@ class NativePreviewResolutionTests(unittest.TestCase):
                 patch.object(preview, "probe_media", return_value={"streams": [
                     {"codec_type": "video", "width": size[0], "height": size[1]}]}), \
                 patch.object(preview, "mux_original_audio", side_effect=mux) as mux_call:
-            result = preview.preview_run(run, xsq=xsq, audio=audio)
+            result = preview.preview_run(run, xsq=xsq, audio=audio,
+                                         render_timeout=render_timeout)
         saved = json.loads((run / "run_manifest.json").read_text())
         self.assertEqual(saved["quality"], {"preserve": True})
         self.assertEqual(saved["native_preview"], result)
@@ -365,12 +368,119 @@ class NativePreviewResolutionTests(unittest.TestCase):
 
     def test_native_hd_passes_resolution_gate_then_muxes_selected_audio(self):
         with tempfile.TemporaryDirectory() as directory:
-            report, mux = self._run_preview(directory, (1920, 1080))
+            report, mux = self._run_preview(directory, (1920, 1080), render_timeout=600)
             self.assertEqual(report["status"], "success")
             self.assertTrue(report["audio_stream_verified"])
             self.assertTrue(Path(report["mp4"]).is_file())
             self.assertEqual(report["warnings"], [])
             mux.assert_called_once()
+
+
+    def test_dense_show_rest_startup_uses_the_render_budget_up_to_ten_minutes(self):
+        self.assertEqual(preview.rest_startup_timeout(None), 120)
+        self.assertEqual(preview.rest_startup_timeout(60), 120)
+        self.assertEqual(preview.rest_startup_timeout(300), 300)
+        self.assertEqual(preview.rest_startup_timeout(1800), 600)
+        self.assertEqual(preview.control_command_timeout(None), 60)
+        self.assertEqual(preview.control_command_timeout(60), 60)
+        self.assertEqual(preview.control_command_timeout(1800), 1200)
+
+    def test_effect_load_progress_reads_the_latest_line(self):
+        with tempfile.TemporaryDirectory() as directory:
+            log = Path(directory) / "native_gui.log"
+            log.write_text("boot\nEffects Loaded: 78%.\nEffects Loaded: 79%.\n")
+            self.assertEqual(preview._effect_load_progress(log), "Effects Loaded: 79%.")
+            self.assertEqual(preview._effect_load_progress(Path(directory) / "missing.log"), "")
+        self.assertEqual(preview.health_check_timeout(None), 5)
+        self.assertEqual(preview.health_check_timeout(60), 5)
+        self.assertEqual(preview.health_check_timeout(1800), 600)
+
+    def test_post_dialog_health_retries_a_busy_socket(self):
+        app = SimpleNamespace(pid=123, poll=Mock(return_value=None))
+        calls = {"n": 0}
+
+        def request(*_args, **_kwargs):
+            calls["n"] += 1
+            if calls["n"] < 3:
+                raise TimeoutError("timed out")
+            return {"res": 200}
+
+        with tempfile.TemporaryDirectory() as directory, \
+                patch.object(preview.rest, "_request_json", side_effect=request), \
+                patch.object(preview.rest, "_response_ok", return_value=True):
+            preview._assert_native_ready(
+                app, "http://127.0.0.1:49914", Path(directory), timeout=3)
+            self.assertEqual(calls["n"], 3)
+            report = json.loads((Path(directory) / "native_startup_health.json").read_text())
+            self.assertTrue(report["rest_responding"])
+
+    def test_post_dialog_health_retries_a_wrapped_url_timeout(self):
+        import urllib.error
+        app = SimpleNamespace(pid=123, poll=Mock(return_value=None))
+        calls = {"n": 0}
+
+        def request(*_args, **_kwargs):
+            calls["n"] += 1
+            if calls["n"] == 1:
+                raise urllib.error.URLError(TimeoutError("timed out"))
+            return {"res": 200}
+
+        with tempfile.TemporaryDirectory() as directory, \
+                patch.object(preview.rest, "_request_json", side_effect=request), \
+                patch.object(preview.rest, "_response_ok", return_value=True):
+            preview._assert_native_ready(
+                app, "http://127.0.0.1:49914", Path(directory), timeout=3)
+            self.assertEqual(calls["n"], 2)
+            report = json.loads((Path(directory) / "native_startup_health.json").read_text())
+            self.assertTrue(report["rest_responding"])
+
+    def test_post_dialog_health_timeout_names_the_check(self):
+        app = SimpleNamespace(pid=123, poll=Mock(return_value=None))
+        with tempfile.TemporaryDirectory() as directory, \
+                patch.object(preview.rest, "_request_json", side_effect=TimeoutError("timed out")):
+            with self.assertRaisesRegex(RuntimeError, "post-dialog health check timed out after 0.2s"):
+                preview._assert_native_ready(
+                    app, "http://127.0.0.1:49914", Path(directory), timeout=0.2)
+            report = json.loads((Path(directory) / "native_startup_health.json").read_text())
+            self.assertFalse(report["rest_responding"])
+            self.assertIn("timed out after 0.2s", report["error"])
+
+    def test_show_folder_read_retries_one_socket_timeout(self):
+        app = SimpleNamespace(poll=Mock(return_value=None))
+        with tempfile.TemporaryDirectory() as directory:
+            show = Path(directory).resolve()
+            calls = {"n": 0}
+
+            def command(_endpoint, cmd, *, timeout=60, **_params):
+                calls["n"] += 1
+                if calls["n"] == 1:
+                    raise TimeoutError("timed out")
+                return {"folder": str(show)}
+
+            with patch.object(preview, "_command", side_effect=command):
+                folder = preview._wait_show_folder(app, "http://127.0.0.1:1", show, timeout=5)
+            self.assertEqual(folder["folder"], str(show))
+            self.assertEqual(calls["n"], 2)
+
+    def test_dense_open_sequence_gets_the_longer_command_budget(self):
+        app = SimpleNamespace(pid=123, returncode=1, poll=Mock(return_value=None))
+
+        def die(*_args):
+            app.poll.return_value = 1
+
+        with tempfile.TemporaryDirectory() as directory:
+            show = Path(directory).resolve()
+            staged = show / "Performance.xsq"
+            with patch.object(preview.subprocess, "Popen", return_value=app), \
+                    patch.object(preview.rest, "_request_json", return_value={"res": 200}), \
+                    patch.object(preview.rest, "_response_ok", return_value=True), \
+                    patch.object(preview, "_command", side_effect=[
+                        {"folder": str(show)}, {"fullseq": str(staged)}]) as command, \
+                    patch.object(preview, "_dismiss_startup_dialogs", side_effect=die):
+                with self.assertRaisesRegex(RuntimeError, "after startup dialog dismissal"):
+                    preview._native_export("/bin/xLights", show, staged, 0, 1800)
+            opened = [call for call in command.call_args_list if call.args[1] == "openSequence"]
+            self.assertEqual(opened[0].kwargs["timeout"], 1200)
 
 
 if __name__ == "__main__":

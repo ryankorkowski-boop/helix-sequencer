@@ -72,6 +72,31 @@ def main() -> int:
             assert app._phone_link_window.winfo_exists(), "Phone remote dialog missing"
             assert str(app.review_button.cget("state")) == "disabled", "Review enabled before any run"
             assert app.light_show.winfo_exists(), "Progress animation missing"
+            if len(sys.argv) == 3:
+                from pathlib import Path
+                import tkinter as tk
+                from tkinter import ttk
+
+                movies = sorted(Path(sys.argv[2]).glob('*.mp4'))
+                assert len(movies) == 8, 'Expected eight real variant movies'
+                for movie in movies:
+                    app._events.put(('variant_preview', movie.resolve()))
+                app._drain_events()
+                assert str(app.review_button.cget('state')) == 'normal'
+                played = []
+                app._open_video = played.append
+                app.review_button.invoke()
+                review, = [w for w in app.winfo_children()
+                           if isinstance(w, tk.Toplevel) and w.title() == 'Review current run']
+                picker, = [w for w in review.winfo_children() if isinstance(w, ttk.Combobox)]
+                play, = [w for w in review.winfo_children()
+                         if isinstance(w, ttk.Button) and w.cget('text') == 'Play selected']
+                assert len(picker.cget('values')) == 8
+                for index in range(8):
+                    picker.current(index)
+                    play.invoke()
+                assert len(set(played)) == 8 and set(played) == {p.resolve() for p in movies}
+                print('Windows review routed all eight distinct movie files', flush=True)
             print("Helix GUI initialization OK", flush=True)
         finally:
             app.destroy()

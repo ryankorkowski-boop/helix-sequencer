@@ -220,13 +220,16 @@ def pixels_from_layout(path: Path) -> list[Pixel]:
 
 def render_fseq_preview(fseq_path: Path, output: Path, *, pixel_map: Path | None = None,
                         layout: Path | None = None, audio: Path | None = None,
-                        width: int = 1280, height: int = 720, max_seconds: float = 0.0):
+                        width: int = 1280, height: int = 720, max_seconds: float = 0.0,
+                        output_fps: int | None = None):
     if not pixel_map and not layout:
         raise ValueError("Provide --pixel-map (exact coordinates) or --layout (approximate geometry)")
     if pixel_map and layout:
         raise ValueError("Choose one geometry source; do not mix mappings")
     if width < 64 or height < 64:
         raise ValueError("Video dimensions must be at least 64x64")
+    if output_fps is not None and output_fps <= 0:
+        raise ValueError("Output frame rate must be positive")
     try:
         import imageio.v2 as imageio
         from PIL import Image, ImageDraw
@@ -255,6 +258,9 @@ def render_fseq_preview(fseq_path: Path, output: Path, *, pixel_map: Path | None
     mapped = [(int(width / 2 + (node.x - center_x) * scale),
                int(height / 2 - (node.y - center_y) * scale),
                node.kind, offsets) for node, offsets in addresses]
+    # Resolve channel order once per node, not on every video frame.
+    mapped = [(x, y, kind, tuple(offsets[kind.index(c)] for c in 'rgb')
+               if len(offsets) == 3 else offsets) for x, y, kind, offsets in mapped]
     fps = 1000.0 / reader.info.step_ms
     stop_at = reader.info.frames if max_seconds <= 0 else min(
         reader.info.frames, math.ceil(max_seconds * fps)
@@ -266,7 +272,8 @@ def render_fseq_preview(fseq_path: Path, output: Path, *, pixel_map: Path | None
     frames_written, bright_nodes = 0, 0
     writer = imageio.get_writer(
         str(silent), fps=fps, codec="libx264", pixelformat="yuv420p",
-        ffmpeg_log_level="error", macro_block_size=1
+        ffmpeg_log_level="error", macro_block_size=1,
+        output_params=["-vf", f"fps={output_fps}"] if output_fps else []
     )
     try:
         for frame in reader.iter_frames():
@@ -275,10 +282,8 @@ def render_fseq_preview(fseq_path: Path, output: Path, *, pixel_map: Path | None
             image = Image.new("RGB", (width, height), (3, 8, 17))
             draw = ImageDraw.Draw(image)
             for x, y, kind, offsets in mapped:
-                if len(kind) == 3 and set(kind) == {"r", "g", "b"}:
-                    # kind labels the physical order of consecutive FSEQ bytes.
-                    by_component = {letter: frame[offsets[i]] for i, letter in enumerate(kind)}
-                    color = tuple(by_component[channel] for channel in "rgb")
+                if len(offsets) == 3:
+                    color = (frame[offsets[0]], frame[offsets[1]], frame[offsets[2]])
                 else:
                     intensity = frame[offsets[0]]
                     color = {
@@ -305,7 +310,7 @@ def render_fseq_preview(fseq_path: Path, output: Path, *, pixel_map: Path | None
         command = [
             imageio_ffmpeg.get_ffmpeg_exe(), "-y", "-i", str(silent),
             "-i", str(audio), "-map", "0:v:0", "-map", "1:a:0",
-            "-c:v", "copy", "-c:a", "aac", "-shortest", str(output)
+            "-c:v", "copy", "-c:a", "aac", "-shortest", "-movflags", "+faststart", str(output)
         ]
         subprocess.run(command, check=True, capture_output=True)
         silent.unlink(missing_ok=True)
@@ -317,6 +322,7 @@ def render_fseq_preview(fseq_path: Path, output: Path, *, pixel_map: Path | None
     report = {
         "fseq": str(fseq_path), "video": str(output), "frames": frames_written,
         "frame_step_ms": reader.info.step_ms, "channel_count": reader.info.channels,
+        "source_fps": fps, "output_fps": output_fps or fps,
         "mapped_nodes": len(mapped), "bright_node_samples": bright_nodes,
         "geometry": "explicit" if pixel_map else "approximate from xLights model outlines",
         "source": "FSEQ channel data (not XSQ effect simulation)",
@@ -343,10 +349,11 @@ def main() -> int:
     p.add_argument("--width", type=int, default=1280)
     p.add_argument("--height", type=int, default=720)
     p.add_argument("--max-seconds", type=float, default=0)
+    p.add_argument("--output-fps", type=int, default=None)
     a = p.parse_args()
     print(json.dumps(render_fseq_preview(
         a.fseq, a.output, pixel_map=a.pixel_map, layout=a.layout, audio=a.audio,
-        width=a.width, height=a.height, max_seconds=a.max_seconds
+        width=a.width, height=a.height, max_seconds=a.max_seconds, output_fps=a.output_fps
     ), indent=2))
     return 0
 

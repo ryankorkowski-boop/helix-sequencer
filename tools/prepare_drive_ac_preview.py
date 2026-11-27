@@ -13,7 +13,7 @@ import xml.etree.ElementTree as ET
 import numpy as np
 
 from core.model_parser import parse_layout
-from tools.build_source_ac_review import geometry
+from tools.build_source_ac_review import ACTIVE_AC_CHANNELS, RETIRED_APEX_CHANNELS, geometry
 from tools.build_helpers.ultimate_showcase import write_layout
 from tools.phoneme_source import digest
 
@@ -56,9 +56,11 @@ def prepare(source: Path, sequence: Path, output: Path) -> dict:
                     and preview.color_family != model.color_family)
                 or not preview.is_single_color()):
             raise ValueError('Preview changed physical circuit mapping: ' + name)
-    if len(rendered) != 256 or digest(source) != source_sha or digest(sequence) != sequence_sha:
+    if len(rendered) != len(ACTIVE_AC_CHANNELS) or digest(source) != source_sha or digest(sequence) != sequence_sha:
         raise ValueError('Original circuit inventory or source bytes changed')
-    report = dict(schema='helix.drive-ac-preview.v1', physical_channels=256,
+    report = dict(schema='helix.drive-ac-preview.v1', physical_channels=len(ACTIVE_AC_CHANNELS),
+                  retired_apex_channels=sorted(RETIRED_APEX_CHANNELS),
+                  historical_controller_span=256,
                   source_layout_sha256=source_sha, sequence_sha256=sequence_sha,
                   preview_layout_sha256=digest(layout), musical_effects_unchanged=True,
                   original_addresses_and_fixed_colors_preserved=True,

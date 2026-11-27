@@ -129,8 +129,11 @@ def test_original_256_layout_preserves_generic_ac_channels():
     if not layout.exists():
         pytest.skip("Repo layout unavailable")
     safe, other, _groups = ac_layout_targets(layout)
-    assert len(safe) == 255
-    assert len(other) == 1
+    assert len(safe) == 251
+    assert other == {"merRy christmas 4"}
+    retired = {"Arch 1 Sec 5", "Arch 2 Sec 5", "Arch 3 Sec 5", "Arch 4 Sec 5"}
+    assert retired.isdisjoint(safe)
+    assert "Arch 1 Sec 1" in safe and "Arch 1 Sec 6" in safe
 
 
 def test_compatibility_has_no_lms_converter_interface():

@@ -86,8 +86,8 @@ def test_phone_sources_publish_and_honor_preview_states():
     engine = ENGINE.read_text(encoding="utf-8")
     activity = ACTIVITY.read_text(encoding="utf-8")
     manifest = MANIFEST.read_text(encoding="utf-8")
-    assert "build_leaf_color_matrix" not in mobile
-    assert "frame_colors" not in mobile
+    assert "intensities.shape[1], frame_start=start" in mobile
+    assert "frame_colors=colors[:, offset]" in mobile
     assert "frame_limit=" in mobile
     assert "preview_states" in mobile
     assert '"preview_states"' in engine

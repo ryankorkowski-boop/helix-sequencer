@@ -35,7 +35,7 @@ class Helixville2LayoutTests(unittest.TestCase):
             )
 
             self.assertEqual(manifest["layout_name"], "helixville2")
-            self.assertGreaterEqual(int(manifest["gp_model_count"]), 256)
+            self.assertGreaterEqual(int(manifest["gp_model_count"]), 252)
             self.assertGreaterEqual(int(manifest["neighbor_imported_count"]), 80)
 
             layout_path = output_dir / "xlights_rgbeffects.xml"
@@ -44,6 +44,11 @@ class Helixville2LayoutTests(unittest.TestCase):
             root = ET.parse(layout_path).getroot()
             models = root.findall(".//model")
             self.assertGreater(len(models), 330)
+            names = {model.attrib.get("name") for model in models}
+            for apex in ("Arch 1 Sec 5", "Arch 2 Sec 5", "Arch 3 Sec 5", "Arch 4 Sec 5"):
+                self.assertNotIn(apex, names)
+            self.assertIn("Arch 1 Sec 1", names)
+            self.assertIn("Arch 1 Sec 6", names)
 
             north_1 = _find_model(models, "North Candy Cane 1")
             north_2 = _find_model(models, "North Candy Cane 2")

@@ -27,8 +27,10 @@ def build_engine_activation_audit(
         and "--no-orchestrator-template-promotion" not in flags
     )
     source_sections_requested = "--orchestration-sections-json" in flags
-    source_sections_validated = bool(invoked and source_sections_requested)
-    synthetic_seed_only = bool(invoked and not source_sections_requested)
+    adapted_sections = getattr(orchestration, "section_timeline_source", None) == "audio_analysis"
+    section_error = getattr(orchestration, "section_timeline_error", None)
+    source_sections_validated = bool(invoked and (source_sections_requested or adapted_sections) and not section_error)
+    synthetic_seed_only = bool(invoked and not source_sections_validated)
     synthetic_birdsong_hook_requested = bool(flags.intersection({
         "--enable-birdsong", "--birdsong", "--birdsong-enabled",
     }))
@@ -43,6 +45,8 @@ def build_engine_activation_audit(
             "source_sections_requested": source_sections_requested,
             "source_sections_validated": source_sections_validated,
             "synthetic_seed_only": synthetic_seed_only,
+            "section_timeline_source": getattr(orchestration, "section_timeline_source", None),
+            "section_timeline_error": section_error,
             "input_intents": getattr(orchestration, "input_intents", None) if invoked else None,
             "final_intents": getattr(orchestration, "final_intents", None) if invoked else None,
             "placement_candidates": getattr(orchestration, "placement_count", None) if invoked else None,
@@ -91,7 +95,8 @@ def build_engine_activation_audit(
             "Flags do not prove engine invocation or successful placement.",
             "This base audit alone does not establish final XSQ/FSEQ effect reconciliation.",
             "Birdsong and matrix runtime enablement may differ from raw flags.",
-            "Without validated --orchestration-sections-json, nine-pass intents use synthetic seed sections.",
+            "Without a validated --orchestration-sections-json or a qualified audio_analysis.json, nine-pass intents use synthetic seed sections.",
+            "A nearby audio_analysis.json below 0.7 confidence, or marked fallback, is not promoted.",
             "Orchestration placement counts do not prove final renderer output.",
         ],
     }

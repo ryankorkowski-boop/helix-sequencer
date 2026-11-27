@@ -152,16 +152,17 @@ def export(root, layout: Path, garden, *, fixture: Path = FIXTURE,
 
 
 def export_static_materials(root, garden, duration_ms):
-    """Attach authored material after instrument exporters replace model rows."""
+    """Keep authored body colors steady; never inject a periodic brightness pulse."""
     for model in garden.models:
         for part, nodes in model.submodels.items():
             if not part.startswith('STATIC_RGB_') or not nodes:
                 continue
             element = _element(root, model.name + '/' + part)
             _clear(element)
-            layer = ET.SubElement(element, 'EffectLayer', name='Helix authored material; nonmusical illumination')
+            layer = ET.SubElement(element, 'EffectLayer', name='Helix steady authored material')
             color = '#' + part.removeprefix('STATIC_RGB_')
             effect = add_effect(layer, 0, duration_ms, 'On', EffectTemplate(
                 settings='E_TEXTCTRL_Eff_On_Start=90,E_TEXTCTRL_Eff_On_End=90',
                 palette='C_BUTTON_Palette1='+color+',C_CHECKBOX_Palette1=1'))
             effect.set('sourceRole', 'static_authored_material')
+    return

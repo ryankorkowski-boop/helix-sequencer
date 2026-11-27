@@ -5,6 +5,7 @@ import pytest
 
 from core.model_parser import parse_layout
 from tools.phoneme_source import digest
+from tools.build_source_ac_review import ACTIVE_AC_CHANNELS
 from tools.prepare_drive_ac_preview import prepare
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -27,7 +28,7 @@ def test_native_preview_preserves_all_circuits_groups_and_sequence_bytes(tmp_pat
     original, preview = [{n: m for n, m in parse_layout(p).models.items() if not m.is_submodel}
                          for p in (source, output / 'xlights_rgbeffects.xml')]
     assert set(preview) == set(original)
-    assert {m.start_channel for m in preview.values()} == set(range(1, 257))
+    assert {m.start_channel for m in preview.values()} == set(ACTIVE_AC_CHANNELS)
     for name, m in original.items():
         assert preview[name].start_channel == m.start_channel
         assert preview[name].is_single_color()

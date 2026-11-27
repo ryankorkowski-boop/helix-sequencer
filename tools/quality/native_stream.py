@@ -10,6 +10,11 @@ from pathlib import Path
 import numpy as np
 
 
+# The complete Infinity layout contains 2,370,240 channels. Allow its frame
+# width while still bounding allocations independently of the sequence length.
+MAX_FRAME_CHANNELS = 3_000_000
+
+
 def inspect_stream(path, *, selectors=None):
     path=Path(path);lit=[]
     with path.open('rb') as stream:
@@ -18,7 +23,7 @@ def inspect_stream(path, *, selectors=None):
         offset=int.from_bytes(header[4:6],'little')
         packed,frames=struct.unpack_from('<II',header,10);step=header[18]
         compression=header[20]&15;blocks=header[21]+((header[20]&240)<<4);count=header[22]
-        if not 0<packed<=1_000_000 or not 0<frames<=200_000 or not step:
+        if not 0<packed<=MAX_FRAME_CHANNELS or not 0<frames<=200_000 or not step:
             raise ValueError('FSEQ streaming frame resource budget exceeded')
         if compression not in (0,1):raise ValueError('Large sequence streaming supports raw/ZSTD V2 only')
         if 32+blocks*8+count*6>offset or offset>path.stat().st_size:raise ValueError('FSEQ tables overlap data')
@@ -33,7 +38,7 @@ def inspect_stream(path, *, selectors=None):
                        or any(a+n>b for (a,n),(b,_) in zip(ranges,ranges[1:]))):
             raise ValueError('Invalid sparse FSEQ ranges')
         channels=max(a+n for a,n in ranges) if ranges else packed
-        if channels>1_000_000:raise ValueError('Expanded sparse channel budget exceeded')
+        if channels>MAX_FRAME_CHANNELS:raise ValueError('Expanded sparse channel budget exceeded')
         selected={};selected_values={}
         if selectors is not None:
             destinations=np.concatenate([np.arange(a,a+n) for a,n in ranges]) if ranges else np.arange(packed)

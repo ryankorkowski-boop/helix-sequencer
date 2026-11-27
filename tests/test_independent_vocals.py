@@ -44,13 +44,15 @@ class IndependentVocalTests(unittest.TestCase):
             with self.assertRaisesRegex(ValueError, "near-identical"):
                 analyze_independent_vocals(a, b)
 
-    def test_mismatched_duration_is_rejected(self):
+    def test_shorter_stem_is_a_singer_who_stops_early(self):
         with tempfile.TemporaryDirectory() as d:
             a, b = Path(d) / "lead.wav", Path(d) / "harmony.wav"
             make_wav(a, 220, duration=0.6)
             make_wav(b, 330, duration=0.3)
-            with self.assertRaisesRegex(ValueError, "duration"):
-                analyze_independent_vocals(a, b)
+            result = analyze_independent_vocals(a, b)
+            harmony = result["tracks"][1]
+            self.assertTrue(harmony["windows"])
+            self.assertLessEqual(max(window["end_ms"] for window in harmony["windows"]), 300)
 
     def test_silent_lead_is_rejected(self):
         with tempfile.TemporaryDirectory() as d:
@@ -98,6 +100,80 @@ def test_streaming_vocal_features_use_bounded_fingerprint():
         assert max(energies) > 0.1
 
 
+def test_twenty_four_bit_session_stems_stay_distinct():
+    # Studio multitracks are 24-bit. A gain-scaled copy must still fail,
+    # and two different notes must still pass, without claiming identity.
+    def write_s24(path, hz, amplitude):
+        rate = 16000
+        frames = bytearray()
+        for i in range(int(rate * 0.6)):
+            value = int(amplitude * 8388607 * math.sin(2 * math.pi * hz * i / rate))
+            frames += (value & 0xFFFFFF).to_bytes(3, "little")
+        with wave.open(str(path), "wb") as handle:
+            handle.setnchannels(1)
+            handle.setsampwidth(3)
+            handle.setframerate(rate)
+            handle.writeframes(bytes(frames))
+
+    with tempfile.TemporaryDirectory() as d:
+        lead, harmony, copy = Path(d) / "lead.wav", Path(d) / "harmony.wav", Path(d) / "copy.wav"
+        write_s24(lead, 220, 0.4)
+        write_s24(harmony, 330, 0.35)
+        write_s24(copy, 220, 0.2)
+        result = analyze_independent_vocals(lead, harmony)
+        assert result["independence"] == "duplicate_rejection_only_not_voice_identity_proof"
+        assert all(track["windows"] for track in result["tracks"])
+        with unittest.TestCase().assertRaisesRegex(ValueError, "near-identical"):
+            analyze_independent_vocals(lead, copy)
+
+
+def test_shared_melody_is_not_called_a_duplicate():
+    def write_mix(path, parts):
+        rate = 16000
+        frames = bytearray()
+        for i in range(int(rate * 0.6)):
+            value = 0.0
+            for hz, amplitude in parts:
+                value += amplitude * math.sin(2 * math.pi * hz * i / rate)
+            frames += struct.pack("<h", max(-32767, min(32767, int(value * 32767))))
+        with wave.open(str(path), "wb") as handle:
+            handle.setnchannels(1)
+            handle.setsampwidth(2)
+            handle.setframerate(rate)
+            handle.writeframes(bytes(frames))
+
+    with tempfile.TemporaryDirectory() as d:
+        lead, harmony = Path(d) / "lead.wav", Path(d) / "harmony.wav"
+        write_mix(lead, [(220, 0.5)])
+        write_mix(harmony, [(220, 0.35), (330, 0.35)])
+        result = analyze_independent_vocals(lead, harmony)
+        assert result["status"] == "distinct_stem_inputs"
+        assert 0.2 < result["overlap_correlation"] < 0.95
+
+
+def test_stereo_stem_is_one_singer_not_two():
+    def write_stereo(path, left_hz, right_hz):
+        rate = 16000
+        frames = bytearray()
+        for i in range(int(rate * 0.6)):
+            left = int(0.4 * 32767 * math.sin(2 * math.pi * left_hz * i / rate))
+            right = int(0.4 * 32767 * math.sin(2 * math.pi * right_hz * i / rate))
+            frames += struct.pack("<hh", left, right)
+        with wave.open(str(path), "wb") as handle:
+            handle.setnchannels(2)
+            handle.setsampwidth(2)
+            handle.setframerate(rate)
+            handle.writeframes(bytes(frames))
+
+    with tempfile.TemporaryDirectory() as d:
+        lead, harmony = Path(d) / "lead.wav", Path(d) / "harmony.wav"
+        write_stereo(lead, 220, 220)
+        write_stereo(harmony, 330, 330)
+        result = analyze_independent_vocals(lead, harmony)
+        assert len(result["tracks"]) == 2
+        assert all(track["windows"] for track in result["tracks"])
+
+
 def test_streamed_activity_preserves_separate_singer_windows():
     with tempfile.TemporaryDirectory() as d:
         lead, backing = Path(d) / "lead.wav", Path(d) / "backing.wav"
@@ -106,6 +182,15 @@ def test_streamed_activity_preserves_separate_singer_windows():
         result = analyze_independent_vocals(lead, backing)
         assert all(track["windows"] for track in result["tracks"])
         assert result["independence"] == "duplicate_rejection_only_not_voice_identity_proof"
+
+
+def test_shortened_copy_of_the_lead_is_still_rejected():
+    with tempfile.TemporaryDirectory() as d:
+        lead, backing = Path(d) / "lead.wav", Path(d) / "backing.wav"
+        make_wav(lead, 220, duration=1.0, amplitude=0.4)
+        make_wav(backing, 220, duration=0.45, amplitude=0.15)
+        with unittest.TestCase().assertRaisesRegex(ValueError, "near-identical"):
+            analyze_independent_vocals(lead, backing)
 
 
 def test_gain_scaled_copy_with_short_tail_is_rejected():

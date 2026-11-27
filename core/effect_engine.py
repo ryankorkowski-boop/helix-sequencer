@@ -30,6 +30,8 @@ from core import matrix_intelligence as matrix_planner
 from core import birdsong_engine
 from core import lyric_interpreter
 from core import model_parser as xmp
+from core import orchestration_balance as balance
+from core.physical_targets import PhysicalTargets, physical_placement_block
 from core import polish as sequence_polish
 from core import rhythm_intelligence as ri
 from core import self_improving_scoring as sequence_scoring
@@ -10575,14 +10577,9 @@ def run_variant(
         log(f"Removed startup blip effects: {removed_blips}")
     log(f"Layering mode: {layering_mode}")
 
-    layers = {
-        nm: {
-            layer_key: base.ensure_layer(el, layer_name)
-            for layer_key, layer_name in auto_layer_names.items()
-        }
-        for nm, el in xsq.elements.items()
-    }
-    timelines = {nm: EffectTimeline() for nm in layers}
+    placeable_models = set(xsq.elements)
+    layers: dict[str, dict[str, ET.Element]] = {}
+    timelines = {nm: EffectTimeline() for nm in placeable_models}
     cooldowns = base.Cooldowns()
     stats = base.PlacementStats()
     total = 0
@@ -10604,7 +10601,7 @@ def run_variant(
     for pool in pools:
         for model in pool.models:
             model_category_map[model] = pool.category
-    neighbor_graph = build_neighbor_graph(parsed_layout, available_names=list(layers.keys())) if parsed_layout is not None else None
+    neighbor_graph = build_neighbor_graph(parsed_layout, available_names=list(placeable_models)) if parsed_layout is not None else None
     if neighbor_graph is not None and neighbor_graph.routes:
         log(
             "Spatial neighbor graph: "
@@ -10838,18 +10835,22 @@ def run_variant(
         },
     }
     vocal_stem = stem_analysis.stems.get("vocals")
-    if vocal_stem is None:
+    neural_stems = stem_analysis.source in {"demucs", "moises"}
+    if neural_stems and vocal_stem is None:
         raise ai.NeuralStemRequired("Whisper requires the Demucs vocal stem.")
-    lyric_events = ai.extract_lyrics_events(
-        audio_path=vocal_stem,
-        use_moises=False,
-        api_key=tuning.moises_api_key,
-        log_fn=log,
-        required=True,
-        cache_dir=Path("RenderCache") / "stems",
-        source_sha256=stem_analysis.source_sha256,
-    )
-    log(f"Lyric transcript label: CANDIDATE events={len(lyric_events)}")
+    if neural_stems and vocal_stem is not None:
+        lyric_events = ai.extract_lyrics_events(
+            audio_path=vocal_stem,
+            use_moises=False,
+            api_key=tuning.moises_api_key,
+            log_fn=log,
+            required=True,
+            cache_dir=Path("RenderCache") / "stems",
+            source_sha256=stem_analysis.source_sha256,
+        )
+        log(f"Lyric transcript label: CANDIDATE events={len(lyric_events)}")
+    else:
+        log("Lyrics: skipped. This run is not using a Demucs vocal stem, so Whisper is not claimed.")
     if lyric_events or tuning.sync_lyrics_heads or bool(matrix_intelligence_payload.get("matrix_available", False)):
         if lyric_events:
             log(f"Lyric events detected: {len(lyric_events)}")
@@ -11022,6 +11023,14 @@ def run_variant(
         if timeline.would_exceed_layers(st_i, en_i, max(1, int(tuning.max_layers_per_prop))):
             reject_effect(nm, st_i, en_i, effect_name, layer_key, "max concurrent layers reached")
             return False
+        physical_block = physical_placement_block(
+            physical_targets,
+            nm,
+            layer_occupied=lambda peer: peer in timelines and bool(timelines[peer].overlapping(layer_key, st_i, en_i)),
+        )
+        if physical_block:
+            reject_effect(nm, st_i, en_i, effect_name, layer_key, physical_block)
+            return False
         overlapping_entries = timeline.overlapping(layer_key, st_i, en_i)
         if overlapping_entries:
             higher_or_equal = [entry for entry in overlapping_entries if entry.priority >= stem_priority]
@@ -11046,7 +11055,8 @@ def run_variant(
             reject_effect(nm, st_i, en_i, effect_name, layer_key, reason)
             return False
 
-        layer_el = layers[nm][layer_key]
+        layer_el = base.reserve_effect_layer(
+            layers, xsq.elements, nm, layer_key, auto_layer_names[layer_key], base.ensure_layer)
         xml_effect = base.add_effect(layer_el, st_i, en_i, effect_name, template_to_use)
         timeline.add(
             layer_key,
@@ -11075,6 +11085,37 @@ def run_variant(
         total += 1
         return True
 
+    layout_has_piano = balance.layout_has_role(names, "piano")
+    layout_has_singer = balance.layout_has_role(names, "singer")
+    physical_targets = None
+    if active_layout_file and active_layout_file.exists():
+        try:
+            physical_targets = PhysicalTargets(active_layout_file)
+        except Exception as exc:
+            log(f"[WARN] Physical target index skipped: {exc!r}")
+    overlay_buckets: dict[int, int] = {}
+    flash_buckets: dict[int, int] = {}
+
+    def _section_budget_ok(st_ms: int, label: str) -> bool:
+        lane = balance.label_lane(label)
+        part = part_for_time(parts, st_ms)
+        if lane == "overlay":
+            bucket = int(st_ms) // 1000
+            return overlay_buckets.get(bucket, 0) < balance.overlay_cap_per_second(part)
+        if lane == "flash":
+            bucket = int(st_ms) // 2000
+            return flash_buckets.get(bucket, 0) < balance.flash_cap_per_window(part)
+        return True
+
+    def _section_budget_take(st_ms: int, label: str) -> None:
+        lane = balance.label_lane(label)
+        if lane == "overlay":
+            bucket = int(st_ms) // 1000
+            overlay_buckets[bucket] = overlay_buckets.get(bucket, 0) + 1
+        elif lane == "flash":
+            bucket = int(st_ms) // 2000
+            flash_buckets[bucket] = flash_buckets.get(bucket, 0) + 1
+
     def add_model(
         nm: str | None,
         st: int,
@@ -11086,10 +11127,20 @@ def run_variant(
         cd_ms: int = 0,
         stem: str = "other",
     ) -> bool:
-        if nm is None or nm not in layers:
+        if nm is None or nm not in placeable_models:
             return False
         st_i = int(st)
         en_i = int(max(st_i + 1, en))
+        lane = balance.label_lane(label)
+        if lane == "piano_overlay" and not balance.allows_piano_overlay(nm, layout_has_piano=layout_has_piano):
+            reject_effect(nm, st_i, en_i, eff, "balance", "piano overlay kept off non-piano models")
+            return False
+        if not balance.allows_vocal(nm, label, layout_has_singer=layout_has_singer):
+            reject_effect(nm, st_i, en_i, eff, "balance", "vocal face kept on singer or lyric surface")
+            return False
+        if lane in {"overlay", "flash"} and not _section_budget_ok(st_i, label):
+            reject_effect(nm, st_i, en_i, eff, "balance", f"{lane} over section budget")
+            return False
         min_dur = max(1, int(tuning.min_effect_ms))
         if cd_key and not cooldowns.allow(cd_key, st_i):
             reject_effect(nm, st_i, en_i, eff, "cooldown", f"cooldown active for key {cd_key}")
@@ -11200,6 +11251,8 @@ def run_variant(
                     stem_priority=stem_priority,
                     source_label=label,
                 ):
+                    if lane in {"overlay", "flash"}:
+                        _section_budget_take(st_i, label)
                     stats.bump(label)
                     if cd_key and cd_ms > 0:
                         cooldowns.block(cd_key, st_i, cd_ms)
@@ -12132,7 +12185,7 @@ def run_variant(
         unmapped_snowman_faces = 0
         for instruction in snowman_sequence_instructions:
             target = str(instruction.get("target_model", "") or "")
-            if target not in layers:
+            if target not in placeable_models:
                 continue
             st = max(0, int(instruction.get("start_ms", 0) or 0))
             en = int(instruction.get("end_ms", st) or st)
@@ -12361,7 +12414,7 @@ def run_variant(
     if parsed_layout is not None and style.family in {"v20", "v21", "v22", "v23"}:
         coverage_plan = collect_coverage_targets(
             parsed_layout=parsed_layout,
-            available_layer_names=list(layers.keys()),
+            available_layer_names=list(placeable_models),
             used_root_models=used_root_models,
             model_category_map=model_category_map,
             limit=48,

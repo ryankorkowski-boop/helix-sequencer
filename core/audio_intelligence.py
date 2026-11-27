@@ -976,7 +976,18 @@ def build_stem_analysis(
     *,
     require_neural_stems: bool = True,
 ) -> StemAnalysis:
-    """Build stems and per-stem timing cues used by the sequencer engine."""
+    """Build stems and per-stem timing cues used by the sequencer engine.
+
+    HELIX_REQUIRE_NEURAL_STEMS=0 is the bounded app path (Android, and the
+    portable smoke). It uses labeled diagnostic HPSS and must not be described
+    as Demucs or RoFormer output. Desktop production stays required unless that
+    variable is set.
+    """
+    env_flag = os.environ.get("HELIX_REQUIRE_NEURAL_STEMS", "").strip().lower()
+    if env_flag in {"0", "false", "no"}:
+        require_neural_stems = False
+    elif env_flag in {"1", "true", "yes"}:
+        require_neural_stems = True
     settings = config or load_audio_analysis_config()
     if not audio_path.exists():
         _log(log_fn, f"Audio analysis skipped; file does not exist: {audio_path}")
@@ -1089,9 +1100,12 @@ def build_stem_analysis(
     if separation_manifest:
         if lead_override or harmony_override:
             raise ValueError("Use either HELIX_VOCAL_SEPARATION_MANIFEST or direct vocal stem overrides")
-        from core.vocal_separation_manifest import validate_vocal_separation_manifest
-        lead_file, backing_file = validate_vocal_separation_manifest(separation_manifest, audio_path)
+        from core.vocal_separation_manifest import (
+            validate_vocal_separation_manifest, vocal_bundle_source)
+        lead_file, backing_file = validate_vocal_separation_manifest(
+            separation_manifest, vocal_bundle_source(audio_path))
         lead_override, harmony_override = str(lead_file), str(backing_file)
+        _log(log_fn, "Imported vocal bundle. This process did not run Demucs or RoFormer. Singer identity is unverified.")
     if lead_override or harmony_override:
         if not (lead_override and harmony_override):
             raise ValueError("Both HELIX_LEAD_VOCAL_STEM and HELIX_HARMONY_VOCAL_STEM are required")
@@ -1924,8 +1938,21 @@ def analyze_audio_file(
     onset_frames = _peak_pick_candidates(onset_env, sensitivity=settings.onset_sensitivity, wait=1, limit=onset_limit)
     onset_events = _timed_events_from_frames(onset_frames, frame_times_s, onset_env, label="onset")
 
+    def _compute_beats() -> dict[str, np.ndarray]:
+        tempo, frames = librosa.beat.beat_track(y=y, sr=sr, hop_length=hop, units="frames")
+        return {"tempo": np.asarray(tempo), "frames": np.asarray(frames)}
+
     try:
-        tempo_bpm, beat_frames = librosa.beat.beat_track(y=y, sr=sr, hop_length=hop, units="frames")
+        try:
+            beat_key = audio_cache_key(audio_path, {
+                "feature": "beat_track", "sr": int(sr), "hop": hop,
+                "mono": True, "librosa": str(librosa.__version__),
+            })
+            beat_data = cached_arrays(cache_root / "features", beat_key, _compute_beats)
+            tempo_bpm, beat_frames = beat_data["tempo"], beat_data["frames"]
+        except (OSError, ValueError, TypeError, KeyError, EOFError):
+            beat_data = _compute_beats()
+            tempo_bpm, beat_frames = beat_data["tempo"], beat_data["frames"]
         beat_frame_list = [int(item) for item in list(np.asarray(beat_frames).reshape(-1))]
     except Exception:
         tempo_bpm, beat_frame_list = 0.0, []
@@ -1938,17 +1965,32 @@ def analyze_audio_file(
         local_bpm = _scalar_float(tempo_bpm) if idx == 0 or idx >= len(beat_events) - 1 else (60000.0 / max(1, beat_events[idx + 1].time_ms - event.time_ms))
         tempo_map.append({"time_ms": event.time_ms, "bpm": round(local_bpm, 3), "confidence": event.confidence, "downbeat": bool(event.metadata.get("downbeat", False))})
 
-    rms = librosa.feature.rms(y=y, hop_length=hop)[0]
+    def _compute_spectral() -> dict[str, np.ndarray]:
+        return {
+            "rms": librosa.feature.rms(y=y, hop_length=hop)[0],
+            "centroid": librosa.feature.spectral_centroid(y=y, sr=sr, hop_length=hop)[0],
+            "bandwidth": librosa.feature.spectral_bandwidth(y=y, sr=sr, hop_length=hop)[0],
+            "contrast": librosa.feature.spectral_contrast(y=y, sr=sr, hop_length=hop),
+            "rolloff": librosa.feature.spectral_rolloff(y=y, sr=sr, hop_length=hop)[0],
+            "zcr": librosa.feature.zero_crossing_rate(y, hop_length=hop)[0],
+            "mfcc": librosa.feature.mfcc(y=y, sr=sr, hop_length=hop, n_mfcc=13),
+            "chroma": librosa.feature.chroma_stft(y=y, sr=sr, hop_length=hop),
+        }
+
+    names = ("rms", "centroid", "bandwidth", "contrast", "rolloff", "zcr", "mfcc", "chroma")
+    try:
+        spectral_key = audio_cache_key(audio_path, {
+            "feature": "spectral_bundle_v1", "sr": int(sr), "hop": hop,
+            "mono": True, "librosa": str(librosa.__version__),
+        })
+        spectral = cached_arrays(cache_root / "features", spectral_key, _compute_spectral)
+        rms, centroid, bandwidth, contrast, rolloff, zcr, mfcc, chroma = (spectral[name] for name in names)
+    except (OSError, ValueError, TypeError, KeyError, EOFError):
+        spectral = _compute_spectral()
+        rms, centroid, bandwidth, contrast, rolloff, zcr, mfcc, chroma = (spectral[name] for name in names)
     rms01 = rms / max(1e-9, float(np.max(rms) if rms.size else 1.0))
     loudness = librosa.amplitude_to_db(np.maximum(rms, 1e-8), ref=np.max) if rms.size else np.asarray([], dtype=float)
-    centroid = librosa.feature.spectral_centroid(y=y, sr=sr, hop_length=hop)[0]
-    bandwidth = librosa.feature.spectral_bandwidth(y=y, sr=sr, hop_length=hop)[0]
-    contrast = librosa.feature.spectral_contrast(y=y, sr=sr, hop_length=hop)
-    rolloff = librosa.feature.spectral_rolloff(y=y, sr=sr, hop_length=hop)[0]
-    zcr = librosa.feature.zero_crossing_rate(y, hop_length=hop)[0]
-    mfcc = librosa.feature.mfcc(y=y, sr=sr, hop_length=hop, n_mfcc=13)
     mfcc_delta = librosa.feature.delta(mfcc) if mfcc.size else np.asarray([], dtype=float)
-    chroma = librosa.feature.chroma_stft(y=y, sr=sr, hop_length=hop)
     harm, perc = bounded_audio.hpss(y, sr)
     perc_onset = librosa.onset.onset_strength(y=perc, sr=sr, hop_length=hop)
     harmonic_change = np.abs(np.diff(np.mean(chroma, axis=0))) if chroma.size else np.asarray([], dtype=float)

@@ -14,10 +14,15 @@ public final class MediaRuntime {
         for(int i=0;i<e.getTrackCount();i++)if(e.getTrackFormat(i).getString(MediaFormat.KEY_MIME).startsWith(prefix))return i;
         throw new IOException("No "+prefix+" track");
     }
+    /** A filesystem path is opened by the mediaextractor process, which cannot read this app's private files. */
+    static void open(MediaExtractor extractor,String path)throws IOException{
+        File file=new File(path);
+        try(FileInputStream in=new FileInputStream(file)){extractor.setDataSource(in.getFD(),0,file.length());}
+    }
     public static void decodeWav(String source,String output)throws Exception{
         MediaExtractor extractor=new MediaExtractor();MediaCodec codec=null;
         try(RandomAccessFile wav=new RandomAccessFile(output,"rw")){
-            extractor.setDataSource(source);int index=track(extractor,"audio/");extractor.selectTrack(index);
+            open(extractor,source);int index=track(extractor,"audio/");extractor.selectTrack(index);
             MediaFormat format=extractor.getTrackFormat(index);codec=MediaCodec.createDecoderByType(format.getString(MediaFormat.KEY_MIME));
             format.setInteger(MediaFormat.KEY_PCM_ENCODING,AudioFormat.ENCODING_PCM_16BIT);codec.configure(format,null,null,0);codec.start();
             wav.setLength(0);wav.write(new byte[44]);boolean inputDone=false,outputDone=false;
@@ -69,7 +74,7 @@ public final class MediaRuntime {
     static void mux(String video,String audio,String output,long maxPts)throws Exception{
         MediaExtractor v=new MediaExtractor(),a=new MediaExtractor();MediaMuxer m=null;boolean started=false;
         try{
-            v.setDataSource(video);a.setDataSource(audio);int vi=track(v,"video/"),ai=track(a,"audio/");v.selectTrack(vi);a.selectTrack(ai);
+            open(v,video);open(a,audio);int vi=track(v,"video/"),ai=track(a,"audio/");v.selectTrack(vi);a.selectTrack(ai);
             m=new MediaMuxer(output,MediaMuxer.OutputFormat.MUXER_OUTPUT_MPEG_4);int vo=m.addTrack(v.getTrackFormat(vi)),ao=m.addTrack(a.getTrackFormat(ai));m.start();started=true;
             ByteBuffer buffer=ByteBuffer.allocateDirect(4*1024*1024);MediaCodec.BufferInfo info=new MediaCodec.BufferInfo();
             while(v.getSampleTime()>=0||a.getSampleTime()>=0){
@@ -81,17 +86,33 @@ public final class MediaRuntime {
         }finally{v.release();a.release();if(m!=null){if(started)m.stop();m.release();}}
     }
     public static final class VideoEncoder implements AutoCloseable {
-        private MediaCodec codec;private MediaMuxer muxer;private boolean muxStarted,closed;private int track=-1,width,height;
+        private MediaCodec codec;private MediaMuxer muxer;private boolean muxStarted,closed,bufferMode;private int track=-1,width,height;
         private Surface input;private EGLDisplay display;private EGLContext context;private EGLSurface eglSurface;
-        private int program,texture;private FloatBuffer vertices,uv;
+        private int program,texture;private FloatBuffer vertices,uv;private String outputPath;
         VideoEncoder(String output,int w,int h,int fps)throws Exception{
-            width=w;height=h;
-            try{
-                MediaFormat f=MediaFormat.createVideoFormat("video/avc",w,h);f.setInteger(MediaFormat.KEY_COLOR_FORMAT,MediaCodecInfo.CodecCapabilities.COLOR_FormatSurface);
-                f.setInteger(MediaFormat.KEY_BIT_RATE,2_000_000);f.setInteger(MediaFormat.KEY_FRAME_RATE,fps);f.setInteger(MediaFormat.KEY_I_FRAME_INTERVAL,1);
-                codec=MediaCodec.createEncoderByType("video/avc");codec.configure(f,null,null,MediaCodec.CONFIGURE_FLAG_ENCODE);input=codec.createInputSurface();codec.start();
-                muxer=new MediaMuxer(output,MediaMuxer.OutputFormat.MUXER_OUTPUT_MPEG_4);setupEgl();
-            }catch(Exception e){abort();throw e;}
+            width=w;height=h;outputPath=output;
+            Exception surfaceFailure=null;
+            try{startSurface(output,fps);}catch(Exception e){surfaceFailure=e;releaseQuietly();new File(output).delete();}
+            if(codec==null){
+                try{startBuffer(output,fps);}
+                catch(Exception e){releaseQuietly();closed=true;throw new IOException("Surface encoder failed ("+(surfaceFailure==null?"":surfaceFailure.getMessage())+"); buffer encoder failed: "+e.getMessage(),e);}
+            }
+        }
+        // Sparse, high-contrast light props need more bits than ordinary low-motion video.
+        private int previewBitrate(int fps){
+            return (int)Math.max(2_000_000L,Math.min(20_000_000L,Math.round((double)width*height*fps*0.35)));
+        }
+        private void startSurface(String output,int fps)throws Exception{
+            MediaFormat f=MediaFormat.createVideoFormat("video/avc",width,height);f.setInteger(MediaFormat.KEY_COLOR_FORMAT,MediaCodecInfo.CodecCapabilities.COLOR_FormatSurface);
+            f.setInteger(MediaFormat.KEY_BIT_RATE,previewBitrate(fps));f.setInteger(MediaFormat.KEY_FRAME_RATE,fps);f.setInteger(MediaFormat.KEY_I_FRAME_INTERVAL,1);
+            codec=MediaCodec.createEncoderByType("video/avc");codec.configure(f,null,null,MediaCodec.CONFIGURE_FLAG_ENCODE);input=codec.createInputSurface();codec.start();
+            muxer=new MediaMuxer(output,MediaMuxer.OutputFormat.MUXER_OUTPUT_MPEG_4);setupEgl();
+        }
+        private void startBuffer(String output,int fps)throws Exception{
+            MediaFormat f=MediaFormat.createVideoFormat("video/avc",width,height);f.setInteger(MediaFormat.KEY_COLOR_FORMAT,MediaCodecInfo.CodecCapabilities.COLOR_FormatYUV420Flexible);
+            f.setInteger(MediaFormat.KEY_BIT_RATE,previewBitrate(fps));f.setInteger(MediaFormat.KEY_FRAME_RATE,fps);f.setInteger(MediaFormat.KEY_I_FRAME_INTERVAL,1);
+            codec=MediaCodec.createEncoderByType("video/avc");codec.configure(f,null,null,MediaCodec.CONFIGURE_FLAG_ENCODE);codec.start();
+            muxer=new MediaMuxer(output,MediaMuxer.OutputFormat.MUXER_OUTPUT_MPEG_4);bufferMode=true;
         }
         private static FloatBuffer floats(float... a){FloatBuffer b=ByteBuffer.allocateDirect(a.length*4).order(ByteOrder.nativeOrder()).asFloatBuffer();b.put(a).position(0);return b;}
         private void setupEgl()throws IOException{
@@ -114,12 +135,25 @@ public final class MediaRuntime {
         private static int shader(int type,String code)throws IOException{int s=GLES20.glCreateShader(type);GLES20.glShaderSource(s,code);GLES20.glCompileShader(s);int[] ok=new int[1];GLES20.glGetShaderiv(s,GLES20.GL_COMPILE_STATUS,ok,0);if(ok[0]==0)throw new IOException(GLES20.glGetShaderInfoLog(s));return s;}
         public void frame(byte[] png,long pts)throws Exception{
             drain(false);Bitmap bitmap=BitmapFactory.decodeByteArray(png,0,png.length);if(bitmap==null)throw new IOException("Invalid preview frame");
-            try{GLES20.glViewport(0,0,width,height);GLES20.glUseProgram(program);GLES20.glActiveTexture(GLES20.GL_TEXTURE0);GLES20.glBindTexture(GLES20.GL_TEXTURE_2D,texture);GLUtils.texImage2D(GLES20.GL_TEXTURE_2D,0,bitmap,0);
-                int p=GLES20.glGetAttribLocation(program,"p"),u=GLES20.glGetAttribLocation(program,"u");GLES20.glEnableVertexAttribArray(p);GLES20.glEnableVertexAttribArray(u);
-                GLES20.glVertexAttribPointer(p,2,GLES20.GL_FLOAT,false,0,vertices);GLES20.glVertexAttribPointer(u,2,GLES20.GL_FLOAT,false,0,uv);
-                GLES20.glUniform1i(GLES20.glGetUniformLocation(program,"s"),0);GLES20.glDrawArrays(GLES20.GL_TRIANGLE_STRIP,0,4);
-                EGLExt.eglPresentationTimeANDROID(display,eglSurface,pts*1000);if(!EGL14.eglSwapBuffers(display,eglSurface))throw new IOException("Preview surface swap failed");
+            try{
+                if(bufferMode){Bitmap source=bitmap;if(bitmap.getWidth()!=width||bitmap.getHeight()!=height)source=Bitmap.createScaledBitmap(bitmap,width,height,true);try{queueYuv(source,pts);}finally{if(source!=bitmap)source.recycle();}}
+                else{GLES20.glViewport(0,0,width,height);GLES20.glUseProgram(program);GLES20.glActiveTexture(GLES20.GL_TEXTURE0);GLES20.glBindTexture(GLES20.GL_TEXTURE_2D,texture);GLUtils.texImage2D(GLES20.GL_TEXTURE_2D,0,bitmap,0);
+                    int p=GLES20.glGetAttribLocation(program,"p"),u=GLES20.glGetAttribLocation(program,"u");GLES20.glEnableVertexAttribArray(p);GLES20.glEnableVertexAttribArray(u);
+                    GLES20.glVertexAttribPointer(p,2,GLES20.GL_FLOAT,false,0,vertices);GLES20.glVertexAttribPointer(u,2,GLES20.GL_FLOAT,false,0,uv);
+                    GLES20.glUniform1i(GLES20.glGetUniformLocation(program,"s"),0);GLES20.glDrawArrays(GLES20.GL_TRIANGLE_STRIP,0,4);
+                    EGLExt.eglPresentationTimeANDROID(display,eglSurface,pts*1000);if(!EGL14.eglSwapBuffers(display,eglSurface))throw new IOException("Preview surface swap failed");}
             }finally{bitmap.recycle();}
+        }
+        private void queueYuv(Bitmap bitmap,long pts)throws Exception{
+            int index=codec.dequeueInputBuffer(10000);if(index<0)throw new IOException("H.264 encoder input stalled");
+            Image image=codec.getInputImage(index);if(image==null)throw new IOException("H.264 encoder has no YUV input");
+            Image.Plane[] planes=image.getPlanes();int w=Math.min(bitmap.getWidth(),image.getWidth()),h=Math.min(bitmap.getHeight(),image.getHeight());int[] pixels=new int[w];
+            ByteBuffer yBuf=planes[0].getBuffer(),uBuf=planes[1].getBuffer(),vBuf=planes[2].getBuffer();
+            int yRow=planes[0].getRowStride(),yPix=planes[0].getPixelStride(),uRow=planes[1].getRowStride(),uPix=planes[1].getPixelStride(),vRow=planes[2].getRowStride(),vPix=planes[2].getPixelStride();
+            for(int row=0;row<h;row++){bitmap.getPixels(pixels,0,w,0,row,w,1);for(int col=0;col<w;col++){int color=pixels[col];int r=(color>>16)&255,g=(color>>8)&255,b=color&255;
+                yBuf.position(row*yRow+col*yPix);yBuf.put((byte)(((66*r+129*g+25*b+128)>>8)+16));
+                if((row&1)==0&&(col&1)==0){uBuf.position((row/2)*uRow+(col/2)*uPix);uBuf.put((byte)(((-38*r-74*g+112*b+128)>>8)+128));vBuf.position((row/2)*vRow+(col/2)*vPix);vBuf.put((byte)(((112*r-94*g-18*b+128)>>8)+128));}}}
+            codec.queueInputBuffer(index,0,codec.getInputBuffer(index).capacity(),pts,0);
         }
         private void drain(boolean eos)throws Exception{
             MediaCodec.BufferInfo info=new MediaCodec.BufferInfo();long start=System.nanoTime();
@@ -130,12 +164,15 @@ public final class MediaRuntime {
                     boolean done=(info.flags&MediaCodec.BUFFER_FLAG_END_OF_STREAM)!=0;codec.releaseOutputBuffer(i,false);if(done)return;}
             }
         }
-        public void close()throws Exception{if(closed)return;try{codec.signalEndOfInputStream();drain(true);}finally{abort();}}
-        public void abort(){if(closed)return;closed=true;
+        public void close()throws Exception{if(closed)return;try{if(bufferMode){int i=codec.dequeueInputBuffer(10000);if(i>=0)codec.queueInputBuffer(i,0,0,0,MediaCodec.BUFFER_FLAG_END_OF_STREAM);}else codec.signalEndOfInputStream();drain(true);}finally{abort();}}
+        private void releaseQuietly(){
             if(display!=null){if(program!=0)GLES20.glDeleteProgram(program);EGL14.eglMakeCurrent(display,EGL14.EGL_NO_SURFACE,EGL14.EGL_NO_SURFACE,EGL14.EGL_NO_CONTEXT);
-                if(eglSurface!=null)EGL14.eglDestroySurface(display,eglSurface);if(context!=null)EGL14.eglDestroyContext(display,context);EGL14.eglTerminate(display);}
-            if(input!=null)input.release();if(codec!=null){try{codec.stop();}catch(Exception ignored){}codec.release();}
-            if(muxer!=null){try{if(muxStarted)muxer.stop();}catch(Exception ignored){}muxer.release();}
+                if(eglSurface!=null)EGL14.eglDestroySurface(display,eglSurface);if(context!=null)EGL14.eglDestroyContext(display,context);EGL14.eglTerminate(display);display=null;eglSurface=null;context=null;program=0;}
+            if(input!=null){input.release();input=null;}
+            if(codec!=null){try{codec.stop();}catch(Exception ignored){}codec.release();codec=null;}
+            if(muxer!=null){try{if(muxStarted)muxer.stop();}catch(Exception ignored){}muxer.release();muxer=null;muxStarted=false;}
+            bufferMode=false;
         }
+        public void abort(){if(closed)return;boolean keep=muxStarted;closed=true;releaseQuietly();if(outputPath!=null&&!keep)new File(outputPath).delete();}
     }
 }

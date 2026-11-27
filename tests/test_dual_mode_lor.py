@@ -143,6 +143,28 @@ def test_inline_fade_settings_are_exported_as_start_end_intensity(tmp_path: Path
     assert exported.get("endIntensity") == "80"
 
 
+def test_layer_transport_keys_do_not_change_lor_intensity(tmp_path: Path):
+    original = tmp_path / "source.lms"
+    source(original)
+    imp = prepare_lms_workspace(original, tmp_path / "work")
+    tree = ET.parse(imp["template"])
+    root = tree.getroot()
+    root.find("./head/sequenceDuration").text = "1.5"
+    row = root.find("./ElementEffects/Element[@type='model']")
+    ET.SubElement(row.find("EffectLayer"), "Effect", {
+        "name": "On", "startTime": "0", "endTime": "1000",
+        "settings": "E_TEXTCTRL_Eff_On_Start=100,E_TEXTCTRL_Eff_On_End=0,T_CHOICE_LayerMethod=Normal,T_CHECKBOX_Canvas=0",
+        "palette": "0",
+    })
+    xsq = tmp_path / "fade.xsq"
+    tree.write(xsq)
+    destination = tmp_path / "fade.lms"
+    export_lms_from_xsq(xsq, original, destination, Path(imp["manifest"]))
+    exported = ET.parse(destination).getroot().find("./channels/channel/effect")
+    assert exported.get("startIntensity") == "100"
+    assert exported.get("endIntensity") == "0"
+
+
 @pytest.mark.parametrize("start,end", [(2000, 2500), (500, 1500), (-10, 50), (200, 200)])
 def test_export_rejects_stale_header_or_invalid_interval_without_truncating(tmp_path, start, end):
     original = tmp_path / "source.lms"

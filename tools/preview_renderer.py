@@ -414,19 +414,23 @@ def build_leaf_color_matrix(
     fps: int,
     leaf_names: list[str],
     frame_count: int,
+    *,
+    frame_start: int = 0,
 ) -> np.ndarray | None:
     """Approximate per-model palette colors, not native xLights pixel effects.
 
     Explicit effect palette refs take priority. Multiple overlapping effects
     choose the strongest currently active effect rather than merging RGB
     channels into unintended white. Uncolored effects use layout colors.
+    Frame indices are absolute, while the returned columns are window-local.
     """
     if not sequence.palettes:
         return None
     colors = np.zeros((len(leaf_names), frame_count, 3), dtype=np.uint8)
     strengths = np.zeros((len(leaf_names), frame_count), dtype=np.float32)
     leaf_index = {name: idx for idx, name in enumerate(leaf_names)}
-    frame_times_ms = np.arange(frame_count, dtype=np.float32) * (1000.0 / fps)
+    frame_stop = frame_start + frame_count
+    frame_times_ms = np.arange(frame_start, frame_stop, dtype=np.float32) * (1000.0 / fps)
     for target, effects in sequence.model_effects.items():
         indexes = [leaf_index[n] for n in layout.resolve_leaves(target) if n in leaf_index]
         if not indexes:
@@ -444,8 +448,8 @@ def build_leaf_color_matrix(
             seed = f"{target}|{effect.name}|{effect.start_ms}"
             choice = int.from_bytes(hashlib.sha256(seed.encode("utf-8")).digest()[:4], "big")
             color = choices[choice % len(choices)]
-            start = max(0, int(math.floor(effect.start_ms * fps / 1000.0)))
-            end = min(frame_count, int(math.ceil(effect.end_ms * fps / 1000.0)))
+            start = max(frame_start, int(math.floor(effect.start_ms * fps / 1000.0))) - frame_start
+            end = min(frame_stop, int(math.ceil(effect.end_ms * fps / 1000.0))) - frame_start
             if end <= start:
                 continue
             curve = (

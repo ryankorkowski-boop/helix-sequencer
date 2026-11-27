@@ -78,6 +78,22 @@ def load_xsq(path: Path) -> "XsqIndex":
     return legacy.XsqIndex(tree=tree, root=root, elements=elements, on_tpl=on, ramp_tpl=ramp)
 
 
+def reserve_effect_layer(layers: dict, elements: dict, nm: str, layer_key: str,
+                         layer_name: str, ensure) -> ET.Element:
+    """Create a named sequencer layer only when an effect is placed on it.
+
+    Pre-creating base, motion, and accent on every model leaves tens of
+    thousands of empty layers. xLights still walks those on open.
+    """
+    model_layers = layers.setdefault(nm, {})
+    existing = model_layers.get(layer_key)
+    if existing is not None:
+        return existing
+    created = ensure(elements[nm], layer_name)
+    model_layers[layer_key] = created
+    return created
+
+
 def ensure_layer(el: ET.Element, layer_name: str) -> ET.Element:
     legacy = _legacy()
     for child in list(el):

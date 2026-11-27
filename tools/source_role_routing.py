@@ -51,10 +51,10 @@ def configure_advanced_spatial_routes(models):
         if model.kind != 'pixel' or model.details.get('review_role') or model.details.get('generic_singer'):
             continue
         zone = str(model.zone).upper()
-        if not any(word in zone for word in ('DEPTH','CATHEDRAL','OPTICAL','SPIRAL','HELIX','DNA','MATRIX','GROVE')):
+        if not any(word in zone for word in ('DEPTH','CATHEDRAL','OPTICAL','SPIRAL','HELIX','DNA','MATRIX','GROVE','SPATIAL')):
             continue
         role = role_for(model)
-        if role not in ('bassist','guitarist','keyboardist'):
+        if role not in ('bassist','guitarist','keyboardist','drummer'):
             continue
         banks[role].append(model)
     for role, members in banks.items():
@@ -64,7 +64,9 @@ def configure_advanced_spatial_routes(models):
         centers = np.asarray([np.mean(m.points,axis=0) for m in members])
         spread = np.ptp(centers,axis=0)
         axis = int(np.argmax(spread))
-        ordered = sorted(members,key=lambda m:(float(np.mean(m.points[:,axis])),m.name))
+        # Reuse the centers already calculated for axis selection.
+        ordered = [members[i] for i in sorted(range(len(members)),
+                   key=lambda i:(float(centers[i,axis]),members[i].name))]
         for rank, model in enumerate(ordered):
             model.details.update(
                 source_route_bank=f'advanced_spatial_{role}_axis_{axis}',
@@ -104,4 +106,10 @@ def route_event(model, cue, onset_index, strategy):
     distance = ((rank - origin) * direction) % count
     if distance >= width:
         return None
+    if model.details.get('advanced_spatial_routing') and 'start_ms' in cue and 'end_ms' in cue:
+        # Scale travel to the measured note, never flood later rests.
+        duration = max(0, int(cue['end_ms']) - int(cue['start_ms']))
+        budget = max(0, (duration - 1) // 2)
+        spacing = min(35.0, budget / max(1, width - 1))
+        return round(distance * spacing)
     return distance * 35

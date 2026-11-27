@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "updated_utc": "2026-11-21T20:21:25.939116+00:00",
+  "updated_utc": "2026-11-26T22:35:50Z",
   "overall_status": "IN PROGRESS",
   "branch": "integration/unified-beta-completion-20261117",
   "base_commit": "bb41f078a92e02ccb1980785efe1c1be741a9d16",
@@ -125,7 +125,7 @@
       "id": "HBC-INF-FRONT",
       "description": "Restore front-facing Infinity geometry",
       "priority": "P0",
-      "status": "IMPLEMENTED — UNVERIFIED",
+      "status": "IMPLEMENTED \u2014 UNVERIFIED",
       "implementation": "tools/build_infinity_showcase_layout.py",
       "dependencies": "Native renderer on corrected layout",
       "base_commit": "5470a1caf00131467277b3bc104324fb24616980",
@@ -151,7 +151,7 @@
       "id": "HBC-INF-NATIVE",
       "description": "Render the real Bells master XSQ on the bounded Infinity layout in native xLights",
       "priority": "P0",
-      "status": "IMPLEMENTED — UNVERIFIED",
+      "status": "IMPLEMENTED \u2014 UNVERIFIED",
       "implementation": ".github/workflows/helix-infinity-layout.yml",
       "dependencies": "Authenticated source hash, xLights 2026.18, Demucs and Whisper",
       "base_commit": "5470a1caf00131467277b3bc104324fb24616980",
@@ -594,5 +594,301 @@
     },
     "individual_panels_drive_folder": "https://drive.google.com/drive/folders/1MM54iPDmyMNsD5Ajl-ClbE1MNpDP9LtD",
     "note": "16 standalones are audio-attached crops of the delivered native composite, not independently re-rendered panels"
+  },
+  "app_sequencing_gate": {
+    "commit": "503fbab5",
+    "branch": "integration/beta14-recovered-logic-20261126",
+    "pull_request": "https://github.com/ryankorkowski-boop/helix-sequencer/pull/264",
+    "android_previous_failure": "https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/45800159007",
+    "windows_previous_failure": "https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/45800159363",
+    "cancelled_wrong_engine": "https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/45802444477",
+    "change": "HELIX_REQUIRE_NEURAL_STEMS=0 on Android and the portable smoke. Diagnostic HPSS is labeled. Desktop still requires Demucs by default.",
+    "current_apk": null,
+    "current_windows_zip": null,
+    "release_approved": false
+  },
+  "recovery_branch_checkpoint": {
+    "updated_utc": "2026-11-26T22:35:50Z",
+    "branch": "integration/beta14-recovered-logic-20261126",
+    "source_pr": 264,
+    "observed_baseline": "c1947906d94313e51922214482d9e7df576f7d0f",
+    "integration_target": "integration/unified-beta-completion-20261117",
+    "owner_visual_approval": false,
+    "baseline_success": {
+      "engine_ci": 45896913777,
+      "beta_ci": 45896913772,
+      "birdsong_ci": 45896913834,
+      "unified_integration_ci": 45896913706,
+      "windows_package_and_smoke": 45896913699
+    },
+    "baseline_in_progress_when_checked": {
+      "android": 45896913837,
+      "nine_panel": 45896913708,
+      "twelve_panel": 45896913698
+    },
+    "baseline_failures": {
+      "phoneme": {
+        "run": 45896913835,
+        "cause": "Demucs missing before production sequencing"
+      },
+      "canonical_band": {
+        "run": 45896913701,
+        "cause": "E14 source has no independently qualified vocal roles"
+      },
+      "final_native": {
+        "run": 45896913881,
+        "cause": "No successful band producer at candidate SHA"
+      }
+    },
+    "earlier_android_api_30_and_36": {
+      "run": 45859006103,
+      "minimum_lit_pixel_retention": 0.7344653853330846,
+      "required_above": 0.8
+    },
+    "local_focused_tests": {
+      "passed": 146,
+      "skipped": 1,
+      "subtests_passed": 10
+    },
+    "full_infinity_layout": {
+      "models": 10240,
+      "pixels": 790080,
+      "rgb_channels": 2370240,
+      "layout_sha256": "f6e43e75d69925aca16aecd822664cac6ba42c80634cbd51bb85d2e483f3c7a0"
+    },
+    "external_vocal_dependency": "Matching master and independently identified time-aligned lead and harmony reference stems",
+    "handoff": "docs/BETA_COMPLETION_LIVE_HANDOFF.md",
+    "candidate_verification": {
+      "source_commit": "625bcc73567bb4535a73802180c4ae991fa86784",
+      "observed_utc": "2026-11-26T21:51:19Z",
+      "success": {
+        "beta_ci": 45898715087,
+        "birdsong_ci": 45898714835,
+        "unified_integration_ci": 45898715109,
+        "windows_portable_build_gui_worker_native_fseq": 45898714795,
+        "engine_ci": 45898714819,
+        "android_api_30_and_36": 45898714792
+      },
+      "failures": {
+        "phoneme": {
+          "run": 45898714984,
+          "stage_motion": 0.394,
+          "minimum": 0.65
+        },
+        "band": {
+          "run": 45898714864,
+          "cause": "source lacks independently qualified lead and backing"
+        },
+        "downstream_native": {
+          "run": 45898714880,
+          "cause": "same-source band producer failed"
+        }
+      },
+      "runs_tracked": {
+        "nine_panel": 45898714777,
+        "twelve_panel": 45898714807,
+        "estimated_sixteen_panel": 45898800676,
+        "windows_candidate": 45898878097
+      },
+      "full_infinity_sequence": {
+        "duration_seconds": 30,
+        "physical_models_with_effects": 10240,
+        "physical_model_effects": 20143,
+        "source_clip_sha256": "31a593afe7edb6d26aff64a3ddd6c778afe832a30f6fc93e568e898218a0a77a",
+        "xsq_sha256": "17faf5a17ce9c7968753813466f3180d0c971b6559e52ceb8732cd772ba6a211",
+        "first_native_timeout_seconds": 90,
+        "unchanged_retry_timeout_seconds": 600
+      },
+      "additional_focused_tests": {
+        "passed": 73,
+        "skipped": 1,
+        "subtests_passed": 10,
+        "lor_and_dual_export_passed": 77
+      },
+      "android_device_verification": {
+        "run": 45898714792,
+        "api30_job": 140179101024,
+        "api36_job": 140179100824,
+        "full_song_lit_pixel_retention": 0.9322323462414579,
+        "full_song_audio_correlation": 0.9957144538319959,
+        "full_song_audio_offset_ms": 0,
+        "all_eight_variant_playback_verified": false
+      },
+      "infinity_group_bed_repair": {
+        "physical_models": 10240,
+        "model_rows_with_effects": 10080,
+        "model_level_effects": 17556,
+        "duplicate_group_beds_removed": 10326,
+        "group_beds_remaining": 0,
+        "revised_xsq_sha256": "64b20f1442183529cfb0ed0185b2829ee23bda7849e7d9386ff585cccb05d81a",
+        "focused_tests_passed": 55
+      }
+    },
+    "next_candidate_verification": {
+      "source_commit": "0e17f13dfa3f4c5732f2c9c2c87acdd67b6cb2f5",
+      "observed_utc": "2026-11-26T22:06:12Z",
+      "success": {
+        "windows_portable": 45901274373,
+        "beta_ci": 45901274382,
+        "birdsong_ci": 45901274446,
+        "unified_integration": 45901274469
+      },
+      "failures": {
+        "phoneme": {
+          "run": 45901274428,
+          "stage_motion": 0.375,
+          "minimum": 0.65
+        },
+        "band": {
+          "run": 45901274394,
+          "cause": "Independent identities absent in E14 archive"
+        }
+      },
+      "android_eight_variant_run": 45901274691,
+      "infinity_revised_render": {
+        "headless_timeout_seconds": 600,
+        "fseq_written": false
+      },
+      "locked_nine_panel_preparation": {
+        "source_audio_sha256": "19e90c273d0d747938f24b36586b50818c104cddffbefe4a4128927374301938",
+        "production_plan_sha256": "0e525ff197d92f4af3d955cc9aa36a25c868c8d0f7eed75507df661625a76c58",
+        "prepared_layouts": 9,
+        "center_performers": 6,
+        "first_two_channel_budgets": [
+          16,
+          256
+        ],
+        "focused_tests_passed": 16,
+        "native_review_verified": false
+      }
+    },
+    "native_and_device_checkpoint": {
+      "source_commit": "a2b791f3d2e1864a12d7ade4387e4c1120530d48",
+      "pr": 264,
+      "owner_approved": false,
+      "windows": {
+        "run_id": 45902718037,
+        "artifact_id": 15156184834,
+        "status": "packaged GUI, worker and native FSEQ passed"
+      },
+      "android_eight_variant": {
+        "source_commit": "0e17f13dfa3f4c5732f2c9c2c87acdd67b6cb2f5",
+        "run_id": 45901274691,
+        "api_30_artifact": 15156856767,
+        "api_36_artifact": 15156463782,
+        "status": "passed on API 30 and 36",
+        "native_band_mobile_parity_verified": false
+      },
+      "local_stock_xlights": {
+        "version": "2026.18",
+        "dimensions": [
+          1920,
+          1080
+        ],
+        "fps": 30,
+        "frames": 1046,
+        "full_decode": true,
+        "soundtrack_correlation": 0.9968081439606467,
+        "source_audio_lag_seconds": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "visual_gate_passed": false,
+        "stage_motion": 0.002,
+        "media_sha256": "c98516d4f38ef5695380b8ea482695cdff12f9f32ed21fd5d772bae185cc5402",
+        "finding": "Stock xLights timed audio correctly but reset the authored 3D viewpoint on movie export; the result is not readable."
+      },
+      "infinity_clustered": {
+        "prop_count": 10240,
+        "pixel_count": 790080,
+        "channels": 2370240,
+        "group_count": 1339,
+        "physical_model_definitions_unchanged": true,
+        "layout_sha256": "78da2a5c09744af33923c22cd4e772a4f04ffeabd0dfc04f9e001892634453a4",
+        "xsq_sha256": "cf3fa8dfecbfbd6994211f91cbfb56893446ff569153b4b660f3480c286161c3",
+        "native_status": "full native render active; no FSEQ or MP4 verified"
+      },
+      "a_b_comparison": {
+        "baseline_commit": "6b87b31d9c6fbb7e78729be1b490c3e765ff8aad",
+        "candidate_commit": "a2b791f3d2e1864a12d7ade4387e4c1120530d48",
+        "common_layout_sha256": "19d243c26908e26b586a9e8740d0ece70cab1801815e966732a9f39074969537",
+        "common_source_audio_sha256": "19e90c273d0d747938f24b36586b50818c104cddffbefe4a4128927374301938",
+        "vocal_estimate_sha256": "30adba33d80e52d43d95796fb3e9562137a4c1b57fbe05424baa1fd5d11ea7a0",
+        "verified": "identical inputs and both sequences generated",
+        "fresh_native_mp4_verified": false
+      },
+      "active": {
+        "locked_nine": 45902718025,
+        "twelve": 45902718060,
+        "sixteen_roformer_review": 45898800676,
+        "android_exact_source": 45902718110
+      }
+    },
+    "verified_media_and_runtime_checkpoint": {
+      "locked_nine": {
+        "source_commit": "a2b791f3d2e1864a12d7ade4387e4c1120530d48",
+        "run_id": 45902718025,
+        "artifact_id": 15156953073,
+        "media_full_decode": true,
+        "panels": 9,
+        "center_motion": 0.423,
+        "center_motion_minimum": 0.65,
+        "timing_reference_accepted": false
+      },
+      "current_sixteen": {
+        "source_commit": "625bcc73567bb4535a73802180c4ae991fa86784",
+        "run_id": 45898800676,
+        "artifact_id": 15157222257,
+        "media_full_decode": true,
+        "panels": 16,
+        "estimated_vocal_review_only": true,
+        "white_dominant_frame_fraction": 0.0,
+        "blank_sample_fraction": 0.0
+      },
+      "canonical_band": {
+        "source_commit": "a2b791f3d2e1864a12d7ade4387e4c1120530d48",
+        "run_id": 45902719525,
+        "artifact_id": 15156274403,
+        "media_full_decode": true,
+        "stage_motion": 0.936,
+        "independent_singers_verified": false
+      },
+      "a_b": {
+        "source_commit": "89ff6277feada2a02099a8f971e1cfec6c28b6d2",
+        "beta13_commit": "6b87b31d9c6fbb7e78729be1b490c3e765ff8aad",
+        "run_id": 45904124689,
+        "artifact_id": 15157906496,
+        "media_full_decode": true,
+        "layout_and_estimated_vocals_identical": true
+      },
+      "windows_extended_smoke": {
+        "local_distinct_movies": 8,
+        "minimum_source_audio_correlation": 0.9972576819927236,
+        "play_button_paths_verified": true,
+        "packaged_windows_new_proof_pending": true,
+        "windows_external_player_verified": false
+      },
+      "android_roformer": {
+        "pin": "audio-separator 0.41.1",
+        "tested_on_real_2_second_stereo_hook": true,
+        "pytorch": "2.5.1+cpu",
+        "onnx_opset": 18,
+        "result": "PyTorch legacy exporter rejects the existing complex STFT input path",
+        "device_weights_or_parity_verified": false
+      },
+      "infinity_native_group_intake": {
+        "original_props": 10240,
+        "original_groups": 10299,
+        "reduced_group_run_timeout_seconds": 900,
+        "gdb_observed": "XmlDeserializingModelFactory::DeserializeModelGroup calls ModelGroup::AddModel and ResetModels for every member",
+        "batch_group_loader_implemented": true,
+        "native_fseq_completed": false,
+        "native_movie_completed": false
+      },
+      "owner_visual_approval": false,
+      "integration_merge_completed": false
+    }
   }
 }

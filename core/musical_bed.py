@@ -1,7 +1,7 @@
 """Fill long dark gaps with a dim, section-energy bed.
 
-Hit effects stay in place. The bed is only written into gaps and at a much
-lower level, so pulses still read as the bright events.
+Hit effects stay in place. Beds fill gaps on individual effect targets.
+Overlapping groups keep their source choreography without a second bed.
 """
 from __future__ import annotations
 
@@ -60,7 +60,7 @@ def apply_musical_bed(xsq_path: Path, duration_ms: int, section_energy: float = 
     beds = 0
     models = 0
     for element in effects_root.findall("Element"):
-        if (element.attrib.get("type") or "").lower() == "timing":
+        if (element.attrib.get("type") or "").lower() in {"timing", "modelgroup"}:
             continue
         layers = element.findall("EffectLayer")
         if not layers:

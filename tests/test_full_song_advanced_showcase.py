@@ -50,7 +50,7 @@ def test_residential_inventory_and_original_ac_addresses():
     from models.full_song_layouts import NAMES, build
 
     assert len(NAMES) == len(set(NAMES)) == 16
-    for panel, channels in ((1, 16), (2, 64), (3, 256)):
+    for panel, channels in ((1, 16), (2, 64), (3, 252)):
         garden, cast = build(panel, {}, duration=1)
         assert cast is None
         assert sum(model.channels for model in garden.models) == channels
@@ -60,10 +60,15 @@ def test_residential_inventory_and_original_ac_addresses():
                 m.name: m.start_channel for m in original.models.values() if not m.is_submodel
             }
 
-    for panel, count in ((4, 0), (5, 0), (6, 1), (7, 2), (8, 0), (9, 0), (10, 0), (12, 2)):
+    for panel, count in ((4, 0), (5, 0), (6, 1), (7, 2), (8, 0), (9, 0), (10, 0), (12, 4)):
         garden, _ = build(panel, {}, duration=1)
         assert sum(m.zone == 'MEGA_TREES' for m in garden.models) == count
         assert len({m.name for m in garden.models}) == len(garden.models)
+        if panel == 10:
+            assert sum(m.name.startswith('VAN_WHEEL_') for m in garden.models) == 4
+            assert sum(m.name.startswith('VAN_BODY_') for m in garden.models) == 2
+        if panel == 12:
+            assert sum(m.name.endswith('_ROOF') for m in garden.models) == 3
         if panel in (8, 9):
             faces = [m for m in garden.models if m.details.get('generic_singer')]
             assert Counter(m.details['generic_singer'] for m in faces) == {
@@ -95,6 +100,9 @@ def test_showcase_drummer_exports_source_depth_and_materials():
     assert states['KICK'][3] == 'SOURCE_POSE_KICK_CONTACT'
     assert any('SNARE' in clock[14] for clock in (states['left'], states['right']))
     assert all(drummer.submodels[target + '_SURFACE'] for target in TARGETS)
+    # Drum heads/cymbals cannot be illuminated by the always-on body material.
+    steady = set(drummer.submodels.get('BASE_DIM', ()))
+    assert all(not steady.intersection(drummer.submodels[target + '_SURFACE']) for target in TARGETS)
     assert len({drummer.colors[n - 1] for n in drummer.submodels['BASE_DIM']}) > 40
     kick = drummer.points[[n - 1 for n in drummer.submodels[TARGETS[0] + '_SURFACE']]]
     hat = drummer.points[[n - 1 for n in drummer.submodels[TARGETS[2] + '_SURFACE']]]
@@ -187,3 +195,39 @@ def test_showcase_bass_and_guitar_use_original_attacks_and_string_contacts():
         assert receipt['models'][model.name]['mapped_events'] == 1
         elements = root.findall(f'./ElementEffects/Element[@name="{model.name}/STRING_0"]/EffectLayer/Effect')
         assert [(e.get('startTime'), e.get('endTime')) for e in elements] == [('100', '260')]
+
+
+@pytest.mark.parametrize("panel,minimum,kind", [
+    (13, 280, "neighborhood"),
+    (14, 768, "festival"),
+    (15, 2560, "downtown"),
+    (16, 3072, "infinity_bounded"),
+])
+def test_real_world_customer_sites_have_independent_native_fixtures(panel, minimum, kind):
+    from collections import Counter
+    from models.realworld_showcase_districts import install_customer_sites
+    from models.ultimate_showcase import Garden
+
+    g = Garden()
+    added = install_customer_sites(g, panel, extreme=False)
+    assert len(added) >= minimum
+    assert len({m.name for m in added}) == len(added)
+    assert all(m.kind == "pixel" and m.channels > 0 for m in added)
+    assert all(m.details["physically_independent_address"] for m in added)
+    assert all(m.details["source_display_floor"] <= .25 for m in added)
+    assert len(set(m.details["customer_site_id"] for m in added)) >= 12
+    assert len(set(m.details["customer_fixture_style"] for m in added)) >= 5
+    assert {"guitarist", "bassist", "keyboardist", "drummer"} <= {
+        m.details["musical_role"] for m in added}
+    assert Counter(m.details["customer_site_id"] for m in added).most_common(1)[0][1] <= 640
+
+
+def test_infinity_extreme_mode_is_10240_independently_addressed_native_models():
+    from models.realworld_showcase_districts import install_customer_sites
+    from models.ultimate_showcase import Garden
+    g = Garden()
+    added = install_customer_sites(g, 16, extreme=True)
+    assert len(added) == 10240
+    assert len({m.name for m in added}) == 10240
+    assert sum(m.channels for m in added) >= 10240 * 3
+    assert all(m.details["physically_independent_address"] for m in added)

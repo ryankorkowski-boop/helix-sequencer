@@ -4,6 +4,8 @@ from __future__ import annotations
 from pathlib import Path
 import xml.etree.ElementTree as ET
 
+import numpy as np
+
 from tools.preview_renderer import (
     ModelGeom, LayoutData, EffectRecord, SequenceData,
     parse_sequence, build_leaf_intensity_matrix, build_leaf_color_matrix,
@@ -34,6 +36,28 @@ def test_preview_uses_explicit_palette_color():
     assert intensity[0, 2] > 0
     assert tuple(colors[0, 2]) == (255, 0, 0)
     assert tuple(colors[0, 8]) == (0, 0, 0)
+
+
+def test_preview_color_windows_match_full_timeline():
+    sequence = SequenceData(
+        duration_ms=5000,
+        model_effects={"Tree": [
+            EffectRecord(name="Ramp", start_ms=800, end_ms=4350, palette="0"),
+            EffectRecord(name="On", start_ms=2180, end_ms=3510, palette="1"),
+        ]},
+        timing_tracks={},
+        palettes=[((255, 0, 0),), ((0, 255, 0),)],
+    )
+    layout = _layout()
+    names = list(layout.leaf_models)
+    full = build_leaf_color_matrix(layout, sequence, 15, names, 75)
+    windows = [build_leaf_color_matrix(layout, sequence, 15, names, count, frame_start=start)
+               for start, count in [(0, 30), (30, 30), (60, 15)]]
+
+    np.testing.assert_array_equal(np.concatenate(windows, axis=1), full)
+    assert tuple(windows[1][0, 0]) == (255, 0, 0)
+    assert tuple(windows[1][0, 10]) == (0, 255, 0)
+    assert tuple(windows[2][0, 14]) == (0, 0, 0)
 
 
 def test_xml_palette_slots_are_extracted(tmp_path: Path):
