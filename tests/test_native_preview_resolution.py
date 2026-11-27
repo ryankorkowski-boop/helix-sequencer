@@ -383,7 +383,14 @@ class NativePreviewResolutionTests(unittest.TestCase):
         self.assertEqual(preview.rest_startup_timeout(1800), 600)
         self.assertEqual(preview.control_command_timeout(None), 60)
         self.assertEqual(preview.control_command_timeout(60), 60)
-        self.assertEqual(preview.control_command_timeout(1800), 600)
+        self.assertEqual(preview.control_command_timeout(1800), 1200)
+
+    def test_effect_load_progress_reads_the_latest_line(self):
+        with tempfile.TemporaryDirectory() as directory:
+            log = Path(directory) / "native_gui.log"
+            log.write_text("boot\nEffects Loaded: 78%.\nEffects Loaded: 79%.\n")
+            self.assertEqual(preview._effect_load_progress(log), "Effects Loaded: 79%.")
+            self.assertEqual(preview._effect_load_progress(Path(directory) / "missing.log"), "")
         self.assertEqual(preview.health_check_timeout(None), 5)
         self.assertEqual(preview.health_check_timeout(60), 5)
         self.assertEqual(preview.health_check_timeout(1800), 600)
@@ -473,7 +480,7 @@ class NativePreviewResolutionTests(unittest.TestCase):
                 with self.assertRaisesRegex(RuntimeError, "after startup dialog dismissal"):
                     preview._native_export("/bin/xLights", show, staged, 0, 1800)
             opened = [call for call in command.call_args_list if call.args[1] == "openSequence"]
-            self.assertEqual(opened[0].kwargs["timeout"], 600)
+            self.assertEqual(opened[0].kwargs["timeout"], 1200)
 
 
 if __name__ == "__main__":

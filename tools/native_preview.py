@@ -18,6 +18,7 @@ import socket
 import subprocess
 import sys
 import tempfile
+import threading
 import time
 import urllib.error
 import xml.etree.ElementTree as ET
@@ -42,15 +43,16 @@ def rest_startup_timeout(render_timeout: int | None) -> float:
 
 
 def control_command_timeout(render_timeout: int | None) -> float:
-    """Seconds for one xLights command after REST has already answered.
+    """Seconds for openSequence after REST has already answered.
 
-    Ordinary previews stay at 60s. Opening a 10,240-prop sequence can sit
-    past that after getVersion returns. A caller that already set a longer
-    render budget may use up to 600s. The video export cap stays 1800s.
+    Ordinary previews stay at 60s. A 10,240-prop show reached Effects Loaded
+    79% and was still advancing when a 600s open gave up, so a caller that
+    already set a longer render budget may wait up to 1200s. The video
+    export cap stays 1800s and is not this budget.
     """
     if render_timeout is None or render_timeout <= 60:
         return 60.0
-    return float(min(render_timeout, 600))
+    return float(min(render_timeout, 1200))
 
 
 def health_check_timeout(render_timeout: int | None) -> float:
@@ -228,6 +230,44 @@ def _command(endpoint: str, cmd: str, *, timeout: float = 60, **params: str) -> 
     if not rest._response_ok(response):
         raise RuntimeError(f"xLights {cmd} rejected: {response}")
     return response
+
+
+def _effect_load_progress(log_path: Path) -> str:
+    """Last Effects Loaded line from the live GUI log, if one has been flushed."""
+    try:
+        with log_path.open("rb") as handle:
+            handle.seek(0, os.SEEK_END)
+            handle.seek(max(0, handle.tell() - 8000))
+            tail = handle.read().decode("utf-8", "replace")
+    except OSError:
+        return ""
+    progress = ""
+    for line in tail.splitlines():
+        if "Effects Loaded:" in line:
+            progress = line.strip()
+    return progress
+
+
+def _command_while_logging(app: subprocess.Popen, log_path: Path, endpoint: str,
+                           cmd: str, *, timeout: float, **params: str) -> dict[str, Any]:
+    """Run one blocking xLights command and report that the process is still loading."""
+    stop = threading.Event()
+    started = time.monotonic()
+
+    def pulse() -> None:
+        while not stop.wait(30):
+            print("HELIX_NATIVE_OPEN_PULSE " + json.dumps({
+                "elapsed_seconds": round(time.monotonic() - started, 1),
+                "process_alive": app.poll() is None,
+                "progress": _effect_load_progress(log_path),
+            }), flush=True)
+
+    thread = threading.Thread(target=pulse, daemon=True)
+    thread.start()
+    try:
+        return _command(endpoint, cmd, timeout=timeout, **params)
+    finally:
+        stop.set()
 
 
 def _export_size() -> tuple[int, int]:
@@ -486,7 +526,7 @@ def _native_export(xlights: str, show: Path, staged: Path,
     with socket.socket() as reservation:
         reservation.bind(("127.0.0.1", port))
     endpoint = f"http://127.0.0.1:{port}"
-    with (staged.parent / "native_gui.log").open("w") as log:
+    with (staged.parent / "native_gui.log").open("w", buffering=1) as log:
         app = subprocess.Popen([xlights, "--quiet", "-a" if port == 49913
                                 else "-b", "--show", str(show)],
                                stdout=log, stderr=log,
@@ -524,8 +564,9 @@ def _native_export(xlights: str, show: Path, staged: Path,
             print("HELIX_NATIVE_OPEN_SEQUENCE " + json.dumps({
                 "timeout_seconds": open_timeout,
             }), flush=True)
-            opened = _command(endpoint, "openSequence", seq=str(staged),
-                              promptIssues="false", timeout=open_timeout)
+            opened = _command_while_logging(
+                app, staged.parent / "native_gui.log", endpoint, "openSequence",
+                timeout=open_timeout, seq=str(staged), promptIssues="false")
             if Path(opened.get("fullseq", "")).resolve() != staged:
                 raise ValueError("xLights opened an unexpected sequence")
             _dismiss_startup_dialogs(app.pid, staged.parent)

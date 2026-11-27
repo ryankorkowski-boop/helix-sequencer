@@ -2,6 +2,13 @@
 
 Release status lives in `BETA_1_4_RELEASE_CHECKLIST.md`. Release is not approved.
 
+## November 27 · openSequence was still loading at 79%
+
+**Goal:** Do not treat the 600s open timeout as a finished movie, and do not raise the 1800s export cap.
+**Evidence:** Infinity run [45935361501](https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/45935361501), commit `2a300ad`. REST was up with the process alive. `openSequence` used its full 600s and then raised `xLights openSequence timed out after 600s`. `native_gui.log` shows Effects Loaded advancing one percent at a time through 79%, and the log ends mid-percent. That is about 760s to finish at the same rate.
+**New behavior:** When a longer render budget was already requested, `openSequence` may wait up to 1200s. It logs `HELIX_NATIVE_OPEN_PULSE` every 30s with process-alive and the latest Effects Loaded line. Ordinary previews stay at 60s. Export stays capped at 1800s.
+**Limitations:** The in-progress Infinity run does not have this budget. No MP4 from the 600s run is accepted.
+
 ## November 27 · Android vocal import, not an on-device model
 
 **Goal:** Give the phone a real way to use separated vocals without shipping Demucs or RoFormer.
