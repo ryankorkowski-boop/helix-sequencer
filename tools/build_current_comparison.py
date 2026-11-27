@@ -80,8 +80,12 @@ def native_band(g,plan,*,rock=True,duration=36,showcase_source=False,overview=Fa
             stride=2 if overview else 1
             points=item['mesh'].vertices[::stride]
             material=colors[::stride]
-            parts.add('BASE_DIM',points,material)
-            if part!='BASE_DIM':parts.add(part,points,material)
+            # Drum heads and cymbals must NOT be part of the always-lit body.
+            # Their only musical illumination comes from source-matched strikes.
+            if part == 'BASE_DIM':
+                parts.add('BASE_DIM',points,material)
+            else:
+                parts.add(part,points,material)
         else:
             parts.add(part,item['mesh'].vertices[::2],colors[::2])
     for i in rig.connector_ids:parts.primitive('BASE_DIM',scene.instances[i])
@@ -106,7 +110,7 @@ def native_band(g,plan,*,rock=True,duration=36,showcase_source=False,overview=Fa
                 rig.pose_arm(side, time)
                 samples.append([scene.instances[i]['matrix'][:3,3] for i in target_ids])
             # Contact poses are assigned from exact targets. Quantize only transit.
-            selected, states, error = select_states(samples, limit=18 if overview else 30)
+            selected, states, error = select_states(samples, limit=36 if overview else 30)
             names = []
             for number, frame in enumerate(selected):
                 part = f'SOURCE_POSE_{side.upper()}_{number:02}'
