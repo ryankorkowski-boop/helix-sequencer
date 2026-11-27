@@ -51,7 +51,7 @@ def configure_advanced_spatial_routes(models):
         if model.kind != 'pixel' or model.details.get('review_role') or model.details.get('generic_singer'):
             continue
         zone = str(model.zone).upper()
-        if not any(word in zone for word in ('DEPTH','CATHEDRAL','OPTICAL','SPIRAL','HELIX','DNA','MATRIX','GROVE')):
+        if not any(word in zone for word in ('DEPTH','CATHEDRAL','OPTICAL','SPIRAL','HELIX','DNA','MATRIX','GROVE','SPATIAL')):
             continue
         role = role_for(model)
         if role not in ('bassist','guitarist','keyboardist'):
