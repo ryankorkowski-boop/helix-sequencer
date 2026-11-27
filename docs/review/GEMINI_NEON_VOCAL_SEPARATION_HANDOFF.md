@@ -3,7 +3,7 @@
 Written 2026-11-27 for Gemini. The owner is Ryan. This is the vocal problem only. Do not reopen the Infinity movie, do not publish a release, and do not treat this note as singer-identity proof.
 
 Repository: https://github.com/ryankorkowski-boop/helix-sequencer
-Live code branch: `codex/beta14-live-engine-integration` at `4f7ad6c` (full `4f7ad6c` — confirm with `git rev-parse HEAD` before editing).
+Live code branch: `codex/beta14-live-engine-integration` at `4f7ad6c587b54c1f6f58acdaff38951ffdb5a1df`.
 Listening clips, not acceptance: branch `review/harmony-candidate-mp4`.
 
 ## The job
