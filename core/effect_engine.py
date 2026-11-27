@@ -11099,12 +11099,14 @@ def run_variant(
     def _section_budget_ok(st_ms: int, label: str) -> bool:
         lane = balance.label_lane(label)
         part = part_for_time(parts, st_ms)
+        quiet = any(a <= st_ms < b for a, b in multiband.quiet_windows)
+        overlay_cap, flash_cap = balance.restrained_accent_budget(part, quiet=quiet)
         if lane == "overlay":
             bucket = int(st_ms) // 1000
-            return overlay_buckets.get(bucket, 0) < balance.overlay_cap_per_second(part)
+            return overlay_buckets.get(bucket, 0) < overlay_cap
         if lane == "flash":
             bucket = int(st_ms) // 2000
-            return flash_buckets.get(bucket, 0) < balance.flash_cap_per_window(part)
+            return flash_buckets.get(bucket, 0) < flash_cap
         return True
 
     def _section_budget_take(st_ms: int, label: str) -> None:
@@ -11132,14 +11134,8 @@ def run_variant(
         st_i = int(st)
         en_i = int(max(st_i + 1, en))
         lane = balance.label_lane(label)
-        if lane == "piano_overlay" and not balance.allows_piano_overlay(nm, layout_has_piano=layout_has_piano):
-            reject_effect(nm, st_i, en_i, eff, "balance", "piano overlay kept off non-piano models")
-            return False
-        if not balance.allows_vocal(nm, label, layout_has_singer=layout_has_singer):
-            reject_effect(nm, st_i, en_i, eff, "balance", "vocal face kept on singer or lyric surface")
-            return False
-        if lane in {"overlay", "flash"} and not _section_budget_ok(st_i, label):
-            reject_effect(nm, st_i, en_i, eff, "balance", f"{lane} over section budget")
+        if not balance.accent_target_allowed(nm, label, layout_has_piano=layout_has_piano, layout_has_singer=layout_has_singer):
+            reject_effect(nm, st_i, en_i, eff, "balance", "accent or specialist ownership conflict")
             return False
         min_dur = max(1, int(tuning.min_effect_ms))
         if cd_key and not cooldowns.allow(cd_key, st_i):
@@ -11241,6 +11237,8 @@ def run_variant(
                 if key in seen_attempts:
                     continue
                 seen_attempts.add(key)
+                if lane in {"overlay", "flash"} and not _section_budget_ok(max(0, cand_st), label):
+                    continue
                 if attempt_place_effect(
                     nm=nm,
                     layer_key=candidate_layer,
@@ -11252,7 +11250,7 @@ def run_variant(
                     source_label=label,
                 ):
                     if lane in {"overlay", "flash"}:
-                        _section_budget_take(st_i, label)
+                        _section_budget_take(max(0, cand_st), label)
                     stats.bump(label)
                     if cd_key and cd_ms > 0:
                         cooldowns.block(cd_key, st_i, cd_ms)
