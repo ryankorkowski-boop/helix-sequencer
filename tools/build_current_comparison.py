@@ -12,6 +12,8 @@ import math
 from types import SimpleNamespace
 
 import numpy as np
+from core.audio_run_cache import AudioRunCache
+from tools.comparison_placements import compose_yard, uses_prime
 
 from models.approval_layouts import build_layout,house,tree,arch,structures,allocate
 from models.ultimate_showcase import Garden
@@ -278,6 +280,7 @@ def build(source,vocals,output,*,numbers=None,names=NAMES,layout_builder=layout,
     manifest=json.loads((output/'Layout_Manifest.json').read_text()) if (output/'Layout_Manifest.json').exists() else []
     if any(item['source_audio_sha256']!=sha for item in manifest):raise ValueError('Foreign retained layout source')
     manifest=[item for item in manifest if item['number'] not in numbers]
+    placement_cache = AudioRunCache(sha)
     for number in numbers:
         name=names[number-1]
         folder=output/f'{number:02}'
@@ -347,7 +350,12 @@ def build(source,vocals,output,*,numbers=None,names=NAMES,layout_builder=layout,
                     part=f"KEY_MIDI_{round(cue['pitch_midi']):03}"
                     if m.submodels.get(part):sequence.effect(m,part,cue['start_ms'],cue['end_ms'],g.palette[2],100,20)
                 continue
+            if uses_prime(m):
+                continue
             reports.append(export_model(sequence,m,plan,cache,g.palette,shared_onsets=shared_onsets))
+        placed = compose_yard(sequence, audio, placement_cache)
+        reports.extend(dict(model=name, source_method='layout_prime_placement', output_events=count)
+                       for name, count in placed.items())
         if band:
             from tools.phoneme_vocal_export import export_static_materials, static_materials, export as export_vocals
             from tools.canonical_band_cues import export_instruments
