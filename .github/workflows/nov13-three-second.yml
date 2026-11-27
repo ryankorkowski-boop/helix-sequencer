@@ -58,10 +58,10 @@ jobs:
           reports=[]
           for path in paths:
               p=subprocess.run(['ffmpeg','-v','error','-i',path,'-vf','fps=10,scale=160:90','-f','image2pipe','-vcodec','mjpeg','-'],capture_output=True)
-              chunks=p.stdout.split(b'\\xff\\xd8')
+              chunks=p.stdout.split(b'\xff\xd8')
               frames=[]
               for chunk in chunks[1:]:
-                  try: frames.append(np.asarray(Image.open(BytesIO(b'\\xff\\xd8'+chunk)).convert('RGB'),dtype=np.float32))
+                  try: frames.append(np.asarray(Image.open(BytesIO(b'\xff\xd8'+chunk)).convert('RGB'),dtype=np.float32))
                   except Exception: pass
               if len(frames)<2: continue
               x=np.stack(frames)
