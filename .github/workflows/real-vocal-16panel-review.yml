@@ -6,6 +6,7 @@ on:
     branches: [integration/beta14-recovered-logic-20261126]
     paths:
       - .github/workflows/real-vocal-16panel-review.yml
+      - models/realworld_showcase_districts.py
       - models/advanced_full_song_showcase.py
       - models/spatial_showcase_extensions.py
       - models/full_song_layouts.py
