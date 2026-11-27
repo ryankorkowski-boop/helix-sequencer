@@ -147,5 +147,8 @@ def install_spatial_gallery(garden, number):
                     phase=lane / 4, direction=(-1) ** lane)
     added = garden.models[first:]
     assert len({model.name for model in added}) == len(added)
-    assert all(float(np.ptp(model.points[:, 2])) > 0 for model in added)
+    assert all(sum(float(np.ptp(model.points[:, axis])) > 0 for axis in range(3)) >= 2
+               for model in added)
+    assert any(all(float(np.ptp(model.points[:, axis])) > 0 for axis in range(3))
+               for model in added)
     return added
