@@ -35,7 +35,7 @@ class Helixville3LayoutTests(unittest.TestCase):
             )
 
             self.assertEqual(manifest["layout_name"], "helixville3")
-            self.assertGreaterEqual(int(manifest["gp_model_count"]), 256)
+            self.assertGreaterEqual(int(manifest["gp_model_count"]), 252)
             self.assertGreaterEqual(int(manifest["neighbor_imported_count"]), 90)
             self.assertGreaterEqual(int(manifest["gp_ground_aligned_count"]), 200)
 
@@ -44,6 +44,11 @@ class Helixville3LayoutTests(unittest.TestCase):
             root = ET.parse(layout_path).getroot()
             models = root.findall(".//model")
             self.assertGreater(len(models), 340)
+            names = {model.attrib.get("name") for model in models}
+            for apex in ("Arch 1 Sec 5", "Arch 2 Sec 5", "Arch 3 Sec 5", "Arch 4 Sec 5"):
+                self.assertNotIn(apex, names)
+            self.assertIn("Arch 1 Sec 1", names)
+            self.assertIn("Arch 1 Sec 6", names)
 
             north_1 = _find_model(models, "North Candy Cane 1")
             self.assertIsNotNone(north_1)

@@ -50,7 +50,7 @@ def test_residential_inventory_and_original_ac_addresses():
     from models.full_song_layouts import NAMES, build
 
     assert len(NAMES) == len(set(NAMES)) == 16
-    for panel, channels in ((1, 16), (2, 64), (3, 256)):
+    for panel, channels in ((1, 16), (2, 64), (3, 252)):
         garden, cast = build(panel, {}, duration=1)
         assert cast is None
         assert sum(model.channels for model in garden.models) == channels

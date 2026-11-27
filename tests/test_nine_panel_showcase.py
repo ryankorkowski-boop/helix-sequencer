@@ -26,12 +26,17 @@ def test_nine_panel_order_and_source_features():
     assert len({model.zone for model in gardens[9].models if 'DISTRICT' in model.zone}) >= 8
 
 
-@pytest.mark.parametrize(('number', 'channels'), [(1, 16), (2, 256)])
+@pytest.mark.parametrize(('number', 'channels'), [(1, 16), (2, 252)])
 def test_locked_legacy_channel_budgets(number, channels):
     garden, band = catalog.build(number, {}, duration=30)
     assert band is None
     assert sum(model.channels for model in garden.models) == channels
-    assert sorted(model.start for model in garden.models) == list(range(1, channels + 1))
+    starts = sorted(model.start for model in garden.models)
+    if number == 1:
+        assert starts == list(range(1, channels + 1))
+    else:
+        from tools.build_source_ac_review import ACTIVE_AC_CHANNELS
+        assert starts == sorted(ACTIVE_AC_CHANNELS)
 
 
 def test_middle_cell_uses_canonical_six_snowmen(monkeypatch):

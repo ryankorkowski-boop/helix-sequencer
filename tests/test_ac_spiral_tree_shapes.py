@@ -13,7 +13,10 @@ def test_original_256_addresses_and_other_props_survive_three_color_spiral_copy(
     assert len(report)==27 and len({r['tree'] for r in report})==9
     old={m.get('name'):m for m in ET.fromstring(before).find('models')}
     new={m.get('name'):m for m in ET.parse(target).find('models')}
-    assert set(old)==set(new) and len(new)==256
+    assert set(old)==set(new) and len(new)==252
+    retired={"Arch 1 Sec 5","Arch 2 Sec 5","Arch 3 Sec 5","Arch 4 Sec 5"}
+    assert retired.isdisjoint(new)
+    assert "Arch 1 Sec 1" in new and "Arch 1 Sec 6" in new
     changed={r['name'] for r in report}
     for name,m in old.items():
         assert new[name].get('StartChannel')==m.get('StartChannel')
