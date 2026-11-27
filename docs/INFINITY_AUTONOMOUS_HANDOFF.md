@@ -5,6 +5,14 @@ Status: NOT OWNER APPROVED. Draft PR #269. Canva reference: https://www.canva.co
 - [x] Native three-second XSQ/FSEQ engineering run 46079658266 completed; 1080p 30fps preview technically valid.
 - [ ] Visual acceptance FAILED: approximate flat renderer, sparse lines/dots, inadequate architecture, drummer inactive. Do not promote this result.
 ## Execution queue (in order)
+## Mandatory Canva-first design gate (owner directive 2026-11-27)
+- [ ] Design the **entire 3D architectural layout in Canva as a consistent dimensioned, multi-view visual specification first**, including aerial perspective, site plan, elevations, depth/height measurements, building types, 3D helix towers, every RGB attachment surface, and six-snowman stage. Do not mistake a single flat concept rendering for a 3D design.
+- [ ] Use Canva design ID `DAHcJnXh8rw` solely as visual composition reference. A new dedicated "HELIX INFINITY — 3D Modeling Master Plan" Canva design is being created. Record its confirmed design ID/view link and design status here once generated.
+- [ ] Freeze one canonical XYZ coordinate system and unique component IDs in a machine-readable scene manifest. Generate/maintain **actual OBJ/MTL or GLB mesh assets from the approved Canva visual design and the same parameter manifest**, then import into xLights Mesh view objects; do not try to convert static Canva images into real meshes.
+- [ ] Validate geometry consistency against the Canva plan using top/front/side/aerial orthographic render comparisons BEFORE native xLights conversion. Every physical house must be a volumetric building with walls/roof, not just a two-dimensional facade.
+- [ ] **Technical limitation:** Canva's current 3D elements/export are static imagery, not native OBJ/GLB mesh export (official Canva help). A Canva visual-design step therefore MUST precede the genuine mesh-building step; calling the Canva drawing itself a native 3D file is prohibited.
+- [ ] Only proceed to the 3-second native xLights animation after this Canva-to-actual-mesh design gate passes. No full song until native visual and engineering gates pass.
+
 - [ ] Inspect latest branch, CI, artifacts and existing upstream xLights 2026.18 source. Record commit, run and artifact IDs. Verify actual Mesh view-object XML, saved camera and exportVideoPreview/BatchVideoExport contracts against source; do not assume command syntax.
 - [ ] Build deterministic OBJ/MTL architectural meshes matching Canva: distinct residential houses with walls, roofs, doors, windows, theater/storefront/tower, terrain and paths, two double-helix structures, spiral forest, cube, stage. Use portable relative asset paths; no baked animated lighting.
 - [ ] Align native RGB nodes to mesh surfaces. Separate eaves, ridges, gables, windows, doors and facade segments into controllable models. Preserve true XYZ helix strands and cube coordinates, avoid channel overlap, verify native model mapping and strategic musical/spatial groups.
