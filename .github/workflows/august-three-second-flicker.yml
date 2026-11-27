@@ -26,7 +26,7 @@ jobs:
           ffmpeg -v error -y -ss 45 -i recovery/owner_original.mp3 -t 3 -ac 2 -ar 44100 recovery/three_seconds.wav
       - name: Run archived August v28.9 renderer, not modern engine
         run: |
-          PYTHONPATH=. python -m tools.run_v28_legacy_256_previews --audio recovery/three_seconds.wav --versions v28.9 --duration-seconds 3 --fps 10 --width 960 --height 540 --output-root recovery/august
+          PYTHONPATH=. python -m tools.run_v28_legacy_256_previews --audio recovery/three_seconds.wav --template template.xsq --layout xlights_rgbeffects.xml --versions v28.9 --duration-seconds 3 --fps 10 --width 960 --height 540 --output-root recovery/august
       - name: Audit decoded frames and repeated full-frame flashes
         if: always()
         run: |
