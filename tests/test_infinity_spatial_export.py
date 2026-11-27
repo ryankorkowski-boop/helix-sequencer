@@ -20,7 +20,13 @@ class InfinityLayoutTests(unittest.TestCase):
             self.assertGreater(manifest["spatial_model_count"], 300)
             self.assertEqual(sum(manifest["family_pixel_counts"].values()), EXPECTED_PIXELS)
             root = ET.parse(dst / "xlights_rgbeffects.xml").getroot()
-            models = root.findall("./models/model")
+            all_models = root.findall("./models/model")
+            ornaments = next(g for g in root.findall("./modelGroups/modelGroup") if g.get("name") == "HX_INFINITY_NATIVE_ORNAMENTS")
+            ornament_names = set(ornaments.get("models").split(","))
+            self.assertEqual(len(ornament_names), manifest["native_ornament_count"])
+            self.assertEqual(len(all_models), manifest["total_xml_model_count"])
+            models = [m for m in all_models if m.get("name") not in ornament_names]
+            self.assertTrue({"Star", "Wreath", "Tree 360"}.issubset({m.get("DisplayAs") for m in all_models}))
             self.assertEqual(len(models), manifest["spatial_model_count"])
             actual = sorted((int(m.get("StartChannel")), int(m.get("parm2")), m.get("name")) for m in models)
             cursor = 1
