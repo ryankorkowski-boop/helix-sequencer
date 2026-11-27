@@ -107,7 +107,7 @@ def export_layout(output: Path, *, include_band: bool = True) -> dict:
         ET.SubElement(groups, "modelGroup", {"name": group_name, "models": ",".join(members)})
     ET.SubElement(groups, "modelGroup", {
         "name": "HX_INFINITY_ALL_SPATIAL",
-        "models": ",".join("HX_INFINITY_" + name for name in seen),
+        "models": ",".join("HX_INFINITY_" + name for name in sorted(seen)),
     })
     path = output / "xlights_rgbeffects.xml"
     ET.ElementTree(root).write(path, encoding="utf-8", xml_declaration=True)
