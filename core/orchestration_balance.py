@@ -152,6 +152,24 @@ def vu_cap_for_section(model_count: int) -> int:
     return max(24, min(120, max(0, int(model_count)) // 6))
 
 
+def section_instance_key(parts: list, start_ms: int) -> str:
+    """Give each detected section its own family budget, even repeated verses."""
+    t_ms = max(0, int(start_ms))
+    for idx, part in enumerate(parts):
+        if part.start_ms <= t_ms < part.end_ms:
+            return f"{idx}:{part.label}"
+    if parts:
+        return f"{len(parts)-1}:{parts[-1].label}"
+    return "0:VERSE"
+
+
+def intersects_quiet_window(start_ms: int, end_ms: int, windows: list[tuple[int, int]]) -> bool:
+    """Restrain accents that overlap silence, not only those starting inside."""
+    start_ms = max(0, int(start_ms))
+    end_ms = max(start_ms + 1, int(end_ms))
+    return any(a < end_ms and b > start_ms for a, b in windows)
+
+
 class ShowDirectionBudget:
     """Admit family accents with deterministic, section-local focus.
 
