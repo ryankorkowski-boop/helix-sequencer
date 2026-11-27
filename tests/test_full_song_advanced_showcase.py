@@ -100,6 +100,9 @@ def test_showcase_drummer_exports_source_depth_and_materials():
     assert states['KICK'][3] == 'SOURCE_POSE_KICK_CONTACT'
     assert any('SNARE' in clock[14] for clock in (states['left'], states['right']))
     assert all(drummer.submodels[target + '_SURFACE'] for target in TARGETS)
+    # Drum heads/cymbals cannot be illuminated by the always-on body material.
+    steady = set(drummer.submodels.get('BASE_DIM', ()))
+    assert all(not steady.intersection(drummer.submodels[target + '_SURFACE']) for target in TARGETS)
     assert len({drummer.colors[n - 1] for n in drummer.submodels['BASE_DIM']}) > 40
     kick = drummer.points[[n - 1 for n in drummer.submodels[TARGETS[0] + '_SURFACE']]]
     hat = drummer.points[[n - 1 for n in drummer.submodels[TARGETS[2] + '_SURFACE']]]
