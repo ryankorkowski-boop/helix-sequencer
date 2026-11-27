@@ -2,20 +2,33 @@
 
 Release status lives in `BETA_1_4_RELEASE_CHECKLIST.md`. Release is not approved.
 
+## November 27 · Live placement admits role lanes and shared physical rows
+
+**Goal:** Make the existing `add_model` / `attempt_place_effect` path refuse proposals that paint the wrong role or double-paint one physical node range. Do not add a second show director.
+**Changed files:** `core/orchestration_balance.py`, `core/physical_targets.py`, `core/effect_engine.py`, `tests/test_orchestration_balance.py`, `tests/test_physical_targets.py`, `BETA_1_4_RELEASE_CHECKLIST.md`, `MASTER_TODO.md`.
+**Preserved:** `CompositionGovernor` stays the conductor. `CooperativeShowDirector` was not copied. `PlacementSession` was not copied because this tree has no `MusicalContext`. Layouts with no piano still allow yard-as-keyboard. Layouts with no singer still allow vocal labels anywhere. A missing or unreadable layout file skips the physical index and keeps the old placer. Same-model priority replacement is unchanged. Section confidence rules and the 0.65 phoneme stage-motion gate are unchanged.
+**New behavior:** `add_model` rejects piano-overlay labels off non-piano models when the layout has a piano, vocal-face labels off non-singer models when the layout has a singer (lyric text may also use a matrix), and overlay/flash labels past the section cap. The cap increments only after a placement succeeds. `attempt_place_effect` calls `physical_placement_block`: an invalid group is rejected, and a same-layer overlap on any shared physical row is rejected. The first occupant wins; a peer's effect is not removed.
+**Tests/evidence:** `tests/test_orchestration_balance.py` and `tests/test_physical_targets.py` passed locally by direct call (pytest is not installed in this sandbox). `ast.parse` succeeded for `core/effect_engine.py`. Importing `core.effect_engine` still fails here because the sparse checkout has no `audio` package; that is an environment limit, not a new product failure. This is not an XSQ, FSEQ, or MP4.
+**Limitations:** The snowman face path calls `attempt_place_effect` directly, so it gets the physical-row check and not the role or section-budget gate. Role names are string heuristics. Shared-row rejection can thin sequences that used to paint a group and its members on the same layer. Building `PhysicalTargets` on the 10,240-prop Infinity layout is unmeasured. No native render has been inspected for this gate.
+**Deferred:** Porting `PlacementSession` only if `MusicalContext` is introduced on purpose. File-level extract of non-director ideas from PRs #262/#263. Owner visual acceptance.
+**Regression risks:** Busy shows may drop accent and group effects that previously stacked on one physical target. A slow or huge layout index could delay generation; a parse exception only logs a warning and continues without the index.
+**Dashboard:** Sites activity reporting was not sent. No session token was available, and none was created.
+
 ## November 27 · Infinity REST first-contact wait follows the render budget
 
 **Goal:** Stop the 10,240-prop native job from dying at a hardcoded 120s REST startup while `--render-timeout 1800` was already requested. Run [45905840011](https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/45905840011) ended `fallback` with `xLights REST startup timed out` before export.
 **Changed files:** `tools/native_preview.py`, `tests/test_native_preview_resolution.py`, `BETA_1_4_RELEASE_CHECKLIST.md`, `MASTER_TODO.md`.
 **Preserved:** Ordinary previews still wait 120s. Resolution, channel, and audio gates are unchanged. A timeout still fails closed.
 **New behavior:** `rest_startup_timeout()` stays 120s unless the caller set a longer render budget, then waits at most 600s. The wait logs `HELIX_NATIVE_REST_WAIT` every 30s with process liveness.
-**Tests/evidence:** Focused unit test on the timeout function. The Infinity workflow has not been rerun. This is not a native FSEQ or MP4.
+**Tests/evidence:** Focused unit test on the timeout function. At the time of that commit the Infinity workflow had not been rerun. This is not a native FSEQ or MP4.
+**Later:** PR pushes of `075b1fb` and `5a7ceb2` did start Infinity ([45916691190](https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/45916691190), [45916719842](https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/45916719842)). Read `HELIX_NATIVE_REST_WAIT` before calling either a movie.
 **Limitations:** If model load is still stuck, the job now spends up to 10 minutes and still fails. Progress lines show whether the process stayed alive. Do not treat a longer wait as a successful render.
 **Regression risks:** Only callers that pass `render_timeout` above 120s wait longer. Infinity is the intended caller.
 
 Branch `codex/beta14-live-engine-integration` starts at PR #264 commit `c5954fef098834fa79538285d7bb00eb514b787b`. The donor for governed placement is PR #261 commit `4fd2ddbced8d2f3822f2b9b3fd270bd4ae340957`. Resume from this checklist and the commits on this branch.
 
 - [x] Pin the recovery and governor sources. Preserve the existing 1.4 package, layout, and native review work.
-- [ ] Reconcile live proposal admission, physical targets, timing, and native serialization with the recovery engine.
+- [ ] Reconcile live proposal admission, physical targets, timing, and native serialization with the recovery engine. Partial only: role lanes and same-layer shared rows are in the live placer (November 27 admission entry). Timing feed and native serialization are not done. Not visually verified.
 - [ ] Feed song-derived sections to the existing nine-pass director in the ordinary generation path. Fix Android RGB opt-in and retain AC circuit and performer timing behavior.
 - [ ] Restore recoverable XSQ errors. Evaluate opt-in compositing and the unique changes in other donor branches.
 - [ ] Verify a real piano note, drum hit and Birdsong response from source through admission and editable XSQ to decoded native channels.

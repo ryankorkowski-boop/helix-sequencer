@@ -30,6 +30,8 @@ from core import matrix_intelligence as matrix_planner
 from core import birdsong_engine
 from core import lyric_interpreter
 from core import model_parser as xmp
+from core import orchestration_balance as balance
+from core.physical_targets import PhysicalTargets, physical_placement_block
 from core import polish as sequence_polish
 from core import rhythm_intelligence as ri
 from core import self_improving_scoring as sequence_scoring
@@ -11026,6 +11028,14 @@ def run_variant(
         if timeline.would_exceed_layers(st_i, en_i, max(1, int(tuning.max_layers_per_prop))):
             reject_effect(nm, st_i, en_i, effect_name, layer_key, "max concurrent layers reached")
             return False
+        physical_block = physical_placement_block(
+            physical_targets,
+            nm,
+            layer_occupied=lambda peer: peer in timelines and bool(timelines[peer].overlapping(layer_key, st_i, en_i)),
+        )
+        if physical_block:
+            reject_effect(nm, st_i, en_i, effect_name, layer_key, physical_block)
+            return False
         overlapping_entries = timeline.overlapping(layer_key, st_i, en_i)
         if overlapping_entries:
             higher_or_equal = [entry for entry in overlapping_entries if entry.priority >= stem_priority]
@@ -11079,6 +11089,37 @@ def run_variant(
         total += 1
         return True
 
+    layout_has_piano = balance.layout_has_role(names, "piano")
+    layout_has_singer = balance.layout_has_role(names, "singer")
+    physical_targets = None
+    if active_layout_file and active_layout_file.exists():
+        try:
+            physical_targets = PhysicalTargets(active_layout_file)
+        except Exception as exc:
+            log(f"[WARN] Physical target index skipped: {exc!r}")
+    overlay_buckets: dict[int, int] = {}
+    flash_buckets: dict[int, int] = {}
+
+    def _section_budget_ok(st_ms: int, label: str) -> bool:
+        lane = balance.label_lane(label)
+        part = part_for_time(parts, st_ms)
+        if lane == "overlay":
+            bucket = int(st_ms) // 1000
+            return overlay_buckets.get(bucket, 0) < balance.overlay_cap_per_second(part)
+        if lane == "flash":
+            bucket = int(st_ms) // 2000
+            return flash_buckets.get(bucket, 0) < balance.flash_cap_per_window(part)
+        return True
+
+    def _section_budget_take(st_ms: int, label: str) -> None:
+        lane = balance.label_lane(label)
+        if lane == "overlay":
+            bucket = int(st_ms) // 1000
+            overlay_buckets[bucket] = overlay_buckets.get(bucket, 0) + 1
+        elif lane == "flash":
+            bucket = int(st_ms) // 2000
+            flash_buckets[bucket] = flash_buckets.get(bucket, 0) + 1
+
     def add_model(
         nm: str | None,
         st: int,
@@ -11094,6 +11135,16 @@ def run_variant(
             return False
         st_i = int(st)
         en_i = int(max(st_i + 1, en))
+        lane = balance.label_lane(label)
+        if lane == "piano_overlay" and not balance.allows_piano_overlay(nm, layout_has_piano=layout_has_piano):
+            reject_effect(nm, st_i, en_i, eff, "balance", "piano overlay kept off non-piano models")
+            return False
+        if not balance.allows_vocal(nm, label, layout_has_singer=layout_has_singer):
+            reject_effect(nm, st_i, en_i, eff, "balance", "vocal face kept on singer or lyric surface")
+            return False
+        if lane in {"overlay", "flash"} and not _section_budget_ok(st_i, label):
+            reject_effect(nm, st_i, en_i, eff, "balance", f"{lane} over section budget")
+            return False
         min_dur = max(1, int(tuning.min_effect_ms))
         if cd_key and not cooldowns.allow(cd_key, st_i):
             reject_effect(nm, st_i, en_i, eff, "cooldown", f"cooldown active for key {cd_key}")
@@ -11204,6 +11255,8 @@ def run_variant(
                     stem_priority=stem_priority,
                     source_label=label,
                 ):
+                    if lane in {"overlay", "flash"}:
+                        _section_budget_take(st_i, label)
                     stats.bump(label)
                     if cd_key and cd_ms > 0:
                         cooldowns.block(cd_key, st_i, cd_ms)
