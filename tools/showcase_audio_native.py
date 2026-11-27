@@ -47,7 +47,7 @@ def prepare_template(g: Garden, folder: Path) -> Path:
     return path
 
 
-def native_music_xsq(raw: Path, output: Path, g: Garden, audio: Path, duration_s: float) -> dict:
+def native_music_xsq(raw: Path, output: Path, g: Garden, audio: Path, duration_s: float, *, include_ac=False) -> dict:
     """Keep timings/families; correct duration, native references and targets.
 
     General engine flat model/submodel rows become direct SubModelEffectLayer
@@ -83,7 +83,7 @@ def native_music_xsq(raw: Path, output: Path, g: Garden, audio: Path, duration_s
         head=root.find('head');node=head.find(name)
         if node is None:node=ET.SubElement(head,name)
         node.text=value
-    models={m.name:m for m in g.models};pixel={m.name for m in g.models if m.kind=='pixel'}
+    models={m.name:m for m in g.models};pixel={m.name for m in g.models if m.kind=='pixel' or (include_ac and m.kind=='ac')}
     groups=ET.parse(output.parent/'xlights_rgbeffects.xml').getroot().find('modelGroups')
     members={e.get('name'):e.get('models','').split(',') for e in groups}
     def resolve(name,seen=frozenset()):
@@ -135,6 +135,9 @@ def native_music_xsq(raw: Path, output: Path, g: Garden, audio: Path, duration_s
             if model:
                 nodes=model.submodels.get(sub,[]) if sub else []
                 color=model.colors[nodes[0]-1] if nodes else model.colors[0]
+                if model.kind == 'ac':
+                    color = {'Single Color Red': '#FF0000', 'Single Color Green': '#00FF00',
+                             'Single Color White': '#FFFFFF'}[model.attrs['StringType']]
             for original in original_layer.findall('Effect'):
                 start=max(0,int(original.get('startTime','0')));end=min(duration_ms,int(original.get('endTime','0')))
                 if end<=start:skipped['invalid_timing']+=1;continue

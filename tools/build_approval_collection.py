@@ -7,6 +7,8 @@ import subprocess
 from pathlib import Path
 import xml.etree.ElementTree as ET
 import numpy as np
+from core.audio_run_cache import AudioRunCache
+from tools.comparison_placements import compose_yard, uses_prime
 from models.approval_layouts import build_layout, NAMES
 from tools.build_snowman_ensemble import NativeSequence
 from tools.build_helpers.ultimate_showcase import write_layout
@@ -56,8 +58,10 @@ def build(source, output, *, audio_name='Phoneme_Test_Hook.mp3', expected_sha256
         'models/final_band_native.py','models/canonical_native_band.py','models/approval_layouts.py',
         'models/recovery_technical_layouts.py',
         'tools/build_approval_collection.py','tools/canonical_band_cues.py',
-        'tools/source_spatial_direction.py','tools/phoneme_vocal_export.py')}
+        'tools/source_spatial_direction.py','tools/phoneme_vocal_export.py',
+        'tools/comparison_placements.py','tools/run_showcase_audio_batch.py','tools/showcase_audio_native.py')}
     manifest=[]
+    placement_cache = AudioRunCache(expected_sha256)
     for number in numbers:
         name=NAMES[number-1]
         folder=output/f'{number:02}_{name}'
@@ -112,7 +116,12 @@ def build(source, output, *, audio_name='Phoneme_Test_Hook.mp3', expected_sha256
                         provenance={'sourceRole':'keyboardist','sourcePitchMIDI':str(pitch)})
                 continue
             from tools.source_spatial_direction import export_model
+            if uses_prime(m):
+                continue
             spatial_reports.append(export_model(sequence,m,plan,vocal_clocks,g.palette))
+        placed = compose_yard(sequence, audio, placement_cache)
+        spatial_reports.extend(dict(model=name, source_method='layout_prime_placement', output_events=count)
+                       for name, count in placed.items())
         # The general prop loop may have created ALL lanes after the layout was
         # serialized; write actual final submodel definitions before compiling.
         write_layout(g,folder,include_demo=False,export_all_custom=True)

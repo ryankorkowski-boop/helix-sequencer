@@ -33,11 +33,11 @@ def digest(path:Path)->str:
     return hashlib.sha256(path.read_bytes()).hexdigest()
 
 
-def model_routes(g)->dict:
+def model_routes(g, *, include_ac=False)->dict:
     """Explicit native-family pools include both sides, including -1 names."""
     pools={'mega':[],'arch':[],'canes_single':[],'sphere':[],'spinner':[],'matrix':[],'line':[],'snowflakes':[],'stars':[]}
     for m in g.models:
-        if m.kind!='pixel':continue
+        if m.kind!='pixel' and not (include_ac and m.kind=='ac'):continue
         display=m.display
         category=('mega' if display.startswith('Tree') else 'arch' if display=='Arches' else
                   'canes_single' if display=='Candy Canes' else 'sphere' if display in ('Sphere','Circle','Wreath') else
