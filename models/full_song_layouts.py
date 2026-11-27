@@ -185,6 +185,33 @@ def upgrade_residential(garden, number):
             structures(garden).starburst((x,48,0),5,color=i,zone='SNOWFLAKES')
         for i,z in enumerate((-9,9)):
             line(f'VAN_ROOF_{i}',[(-17,42,z),(32,42,z)],'keyboardist')
+        # Extravagant physical parade installation: roof rack, mounted cones,
+        # layered body strips, and a wheeled concert trailer with supported arches.
+        for side in (-1, 1):
+            z = side * 9
+            for y in (11, 15, 19, 23):
+                line(f'VAN_BODY_LAYER_{side}_{y}', [(-37,y,z),(37,y,z)], 'guitarist', count=150)
+            for x in (-24,25):
+                for radius in (5,7):
+                    line(f'VAN_WHEEL_RING_{side}_{x}_{radius}', [(x+radius*math.cos(t*math.pi/40),8+radius*math.sin(t*math.pi/40),z) for t in range(81)], 'bassist','spiral',count=80)
+        for x in (-12,8,28):
+            for z in (-5,5):
+                line(f'ROOF_TREE_{x}_{z}', [(x+3*(1-t/240)*math.cos(t*math.pi/20),43+12*t/240,z+3*(1-t/240)*math.sin(t*math.pi/20)) for t in range(241)], 'keyboardist','spiral',count=240)
+        line('TRAILER_HITCH',[(39,9,0),(51,9,0)],'bassist',count=30)
+        for side in (-1,1):
+            z=side*12
+            line(f'TRAILER_DECK_{side}',[(51,8,z),(125,8,z),(125,12,z),(51,12,z),(51,8,z)],'bassist',count=260)
+            for x in (70,108):
+                line(f'TRAILER_WHEEL_{side}_{x}',[(x+7*math.cos(t*math.pi/40),7+7*math.sin(t*math.pi/40),z) for t in range(81)],'bassist','spiral',count=80)
+            for x in (54,77,100,123):
+                line(f'TRAILER_POST_{side}_{x}',[(x,12,z),(x,39,z)],'guitarist','y',count=100)
+            line(f'TRAILER_CANOPY_RAIL_{side}',[(54,39,z),(123,39,z)],'keyboardist',count=240)
+        for x in (54,77,100,123):
+            line(f'TRAILER_CANOPY_ARCH_{x}',[(x,39+9*math.sin(t*math.pi/80),-12*math.cos(t*math.pi/80)) for t in range(81)],'keyboardist','z',count=160)
+        for x in (60,82,104,120):
+            structures(garden).starburst((x,39,-12),5,zone='SNOWFLAKES')
+        for x in (65,88,111):
+            structures(garden).mesh(f'TRAILER_MATRIX_{x}',(x,14,-12),19,18,'MATRICES')
         return
     if number == 12:
         for i,x in enumerate((-95,95)):
