@@ -1,0 +1,50 @@
+name: November 13 three-second actual legacy comparison
+on:
+  push:
+    branches: [recovery/nov13-three-second-20261127]
+    paths: [.github/workflows/nov13-three-second.yml]
+  workflow_dispatch:
+jobs:
+  three-second:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install dependencies
+        run: |
+          sudo apt-get update -qq && sudo apt-get install -y ffmpeg
+          python -m pip install numpy scipy librosa soundfile Pillow imageio imageio-ffmpeg matplotlib scikit-learn pydub PyYAML gdown==6.4.2
+      - name: Extract identical three-second Bells sample
+        run: |
+          mkdir -p recovery
+          python -m gdown 1Zjyz9b-V0SdJ-p9K2FN6ryUR2H88DELG -O recovery/original.mp3
+          ffmpeg -v error -y -ss 45 -i recovery/original.mp3 -t 3 -ac 2 -ar 44100 recovery/clip.wav
+      - name: Run actual November 13 v28.9 sequencing and video
+        run: |
+          PYTHONPATH=. python -m tools.run_v28_legacy_256_previews --audio recovery/clip.wav --template template.xsq --layout xlights_rgbeffects.xml --versions v28.9 --duration-seconds 3 --fps 10 --width 960 --height 540 --output-root recovery/nov13
+      - name: Verify decoded video and save report
+        if: always()
+        run: |
+          python - <<'PY'
+          import glob,json,subprocess
+          videos=glob.glob('recovery/nov13/**/*.mp4',recursive=True)
+          results=[]
+          for p in videos:
+              proc=subprocess.run(['ffmpeg','-v','error','-i',p,'-f','null','-'],capture_output=True,text=True)
+              results.append({'file':p,'decode_ok':proc.returncode==0,'stderr':proc.stderr[-2000:]})
+          open('recovery/decode_audit.json','w').write(json.dumps({'commit':'1b1ff83c9c1b992a3ad5e202fc29ee0b292919bf','videos':results},indent=2))
+          print(json.dumps(results))
+          PY
+      - name: Upload real November 13 preview
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: November13-Three-Second-Real-Preview
+          path: |
+            recovery/nov13/**/*.mp4
+            recovery/nov13/**/*.json
+            recovery/decode_audit.json
+          if-no-files-found: warn
