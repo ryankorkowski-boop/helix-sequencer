@@ -51,7 +51,12 @@ def _bed_palette_index(root: ET.Element) -> str:
 
 def apply_musical_bed(xsq_path: Path, duration_ms: int, section_energy: float = 0.45) -> dict:
     tree = ET.parse(xsq_path)
-    root = tree.getroot()
+    report = add_musical_bed(tree.getroot(), duration_ms, section_energy)
+    tree.write(xsq_path, encoding="utf-8", xml_declaration=True)
+    return report
+
+
+def add_musical_bed(root: ET.Element, duration_ms: int, section_energy: float, *, excluded: set[str] = frozenset()) -> dict:
     effects_root = root.find("./ElementEffects")
     if effects_root is None:
         return {"models": 0, "beds": 0}
@@ -60,6 +65,9 @@ def apply_musical_bed(xsq_path: Path, duration_ms: int, section_energy: float = 
     beds = 0
     models = 0
     for element in effects_root.findall("Element"):
+        name = element.get("name", "")
+        if name in excluded or name.split("/", 1)[0] in excluded:
+            continue
         if (element.attrib.get("type") or "").lower() in {"timing", "modelgroup"}:
             continue
         layers = element.findall("EffectLayer")
@@ -94,5 +102,4 @@ def apply_musical_bed(xsq_path: Path, duration_ms: int, section_energy: float = 
             })
             beds += 1
     stamped = stamp_native_blends(root)
-    tree.write(xsq_path, encoding="utf-8", xml_declaration=True)
     return {"models": models, "beds": beds, "level": level, "palette": palette_index, "blends_stamped": stamped}

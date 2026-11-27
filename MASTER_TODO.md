@@ -2,6 +2,16 @@
 
 Release status lives in `BETA_1_4_RELEASE_CHECKLIST.md`. Release is not approved.
 
+## November 27 · Source cues and a shared display attack budget
+
+**Goal:** Give each musical phrase a focal part of the layout and eliminate generated whole-display pulses.
+**Changed files:** `core/effect_engine.py`, `core/orchestration_balance.py`, `core/vivid_style.py`, `core/musical_bed.py`, their focused tests, and the live handoff.
+**Preserved:** Editable layout rows, channel assignments, manual template content, dedicated performer and phoneme cues, source timing tracks and native effect tables.
+**New behavior:** Broad group proposals rotate over physical members. Section-specific limits count distinct physical props across overlapping 100 ms attack windows. Primary musical cues have priority over supplemental overlays. Vivid uses measured melody, bass, build and arrival cues with physical travel and no forced coverage of inactive props. The optional dim bed is applied only when requested.
+**Tests and evidence:** 144 focused regressions passed. The master CLI and native xLights 2026.18 each processed the same 24-second Helix Audiolights excerpt on the 16-channel AC and RGB double-helix layouts. Decoding all 480 xLights frames per export found 341 to zero frames with all seven RGB props bright. Frames with a sudden brightness increase on most RGB props fell from 16 to zero. The largest simultaneous sudden increase on AC fell from seven props to four.
+**Limitations and deferred work:** DSP used local fallback stems for this comparison. Two layouts and one excerpt establish a regression result. Paid-vendor parity, full-song and larger layout review, and installed Android and Windows package testing remain open. Dashboard activity service credentials were unavailable in this session.
+**Regression risks:** A dense section can lose supplemental layers when it exceeds its attack budget. Authored template content and protected stage performances can still contain intentionally synchronized cues.
+
 ## November 27 · Empty weaver layers were the 79% load
 
 **Cause:** Not a stall. The Infinity XSQ has 75,117 effect layers and 61,359 of them are empty. `run_variant` called `ensure_layer` for base, motion, and accent on every model and group before placing anything. xLights prints `Effects Loaded` after every layer, while the percent only moves when an effect node is loaded. At 600s it had walked about 93% of layers and 79% of effects.

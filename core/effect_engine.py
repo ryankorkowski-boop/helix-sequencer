@@ -14,6 +14,7 @@ from bisect import bisect_left
 from collections.abc import Iterator, Mapping
 from collections import Counter
 from dataclasses import dataclass, field, replace
+from functools import lru_cache
 from pathlib import Path
 import xml.etree.ElementTree as ET
 
@@ -39,6 +40,7 @@ from core import snowman_band as snowman_band_engine
 from core import band_sync as band_sync_engine
 from core import band_planning
 from core import youtube_show_scorer
+from core.vivid_style import is_performance_prop, style_sequence
 from effects import piano_effect as piano_effect_engine
 from core import spatial_scene as spatial
 from tools.build_helpers import (
@@ -11093,6 +11095,31 @@ def run_variant(
             physical_targets = PhysicalTargets(active_layout_file)
         except Exception as exc:
             log(f"[WARN] Physical target index skipped: {exc!r}")
+
+    @lru_cache(maxsize=None)
+    def target_roots(name: str) -> frozenset[str]:
+        if physical_targets is not None:
+            canonical = physical_targets.resolve(name)
+            if canonical is not None:
+                return frozenset(physical_targets.leaf_roots[leaf]
+                                 for leaf in physical_targets.members[canonical])
+        if parsed_layout is not None and name in parsed_layout.groups:
+            return frozenset(member.split("/", 1)[0] for member in parsed_layout.expand_group_members(name))
+        return frozenset((name.split("/", 1)[0],))
+
+    def is_group(name: str) -> bool:
+        return (xsq.elements[name].get("type", "").lower() == "modelgroup"
+                or (parsed_layout is not None and name in parsed_layout.groups))
+
+    root_names = (parsed_layout.root_models() if parsed_layout is not None
+                  else [name for name in names if "/" not in name and not is_group(name)])
+    performance_roots = frozenset(name for name in root_names
+                                  if is_performance_prop(name) or name in phoneme_owned_targets)
+    attack_budget = balance.AttackBudget(len(set(root_names) - performance_roots))
+    focus_routes: dict[str, list[str]] = {}
+    focus_cursor: Counter[str] = Counter()
+    focused_group_cues = 0
+
     overlay_buckets: dict[int, int] = {}
     flash_buckets: dict[int, int] = {}
 
@@ -11127,6 +11154,7 @@ def run_variant(
         cd_ms: int = 0,
         stem: str = "other",
     ) -> bool:
+        nonlocal focused_group_cues
         if nm is None or nm not in placeable_models:
             return False
         st_i = int(st)
@@ -11138,6 +11166,24 @@ def run_variant(
         if not balance.allows_vocal(nm, label, layout_has_singer=layout_has_singer):
             reject_effect(nm, st_i, en_i, eff, "balance", "vocal face kept on singer or lyric surface")
             return False
+        group_cue = None
+        if is_group(nm):
+            footprint = target_roots(nm)
+            if physical_targets is not None and physical_targets.resolve(nm) in physical_targets.invalid:
+                return False
+            if nm in footprint or len(footprint) > attack_budget.capacity(part_for_time(parts, st_i)) or footprint & performance_roots:
+                if nm not in focus_routes:
+                    # Keep authored submodel membership when redirecting a broad cue.
+                    members = (parsed_layout.expand_group_members(nm) if parsed_layout is not None else [])
+                    candidates = {name for name in members if name in placeable_models
+                                  and name not in phoneme_owned_targets
+                                  and not (target_roots(name) & performance_roots)}
+                    focus_routes[nm] = sorted(candidates, key=lambda name: (coords.get(name, (0.0, 0.0)), name))
+                route = focus_routes[nm]
+                if not route:
+                    return False
+                group_cue = nm
+                nm = route[focus_cursor[nm] % len(route)]
         if lane in {"overlay", "flash"} and not _section_budget_ok(st_i, label):
             reject_effect(nm, st_i, en_i, eff, "balance", f"{lane} over section budget")
             return False
@@ -11251,6 +11297,9 @@ def run_variant(
                     stem_priority=stem_priority,
                     source_label=label,
                 ):
+                    if group_cue is not None:
+                        focus_cursor[group_cue] += 1
+                        focused_group_cues += 1
                     if lane in {"overlay", "flash"}:
                         _section_budget_take(st_i, label)
                     stats.bump(label)
@@ -12486,6 +12535,31 @@ def run_variant(
     )
     validation_fixes += post_validation_fixes
     validation_issues.extend(post_validation_issues)
+    # Balance accepted proposals together, using the timestamps that will
+    # actually be exported. A later accent engine cannot outvote the song.
+    lane_priority = {"vocal": 0, "primary": 0, "piano_overlay": 1, "overlay": 2, "flash": 3}
+    proposals = [
+        (name, layer_key, entry)
+        for name, timeline in timelines.items()
+        for layer_key, entries in timeline.layers.items()
+        for entry in entries
+    ]
+    proposals.sort(key=lambda item: (
+        lane_priority[balance.label_lane(item[2].source_label)],
+        -item[2].priority, item[2].start, len(target_roots(item[0])), item[0], item[1],
+    ))
+    for name, layer_key, entry in proposals:
+        roots = target_roots(name) - performance_roots
+        if not attack_budget.take(roots, entry.start, part_for_time(parts, entry.start)):
+            timelines[name].remove_entry(layer_key, entry)
+            if stats.counts.get(entry.source_label, 0) > 0:
+                stats.bump(entry.source_label, -1)
+    reduced_attacks = attack_budget.rejected
+
+    used_targets = {name for name, timeline in timelines.items() if any(timeline.layers.values())}
+    used_groups.intersection_update(used_targets)
+    used_submodels.intersection_update(used_targets)
+    used_root_models = {root for name in used_targets for root in target_roots(name)}
     final_audit = sequence_audit.run_super_audit(
         timelines=timelines,
         parts=parts,
@@ -12830,6 +12904,12 @@ def run_variant(
         "parts": [{"label": part.label, "start_ms": part.start_ms, "end_ms": part.end_ms} for part in parts],
         "youtube_show_summary": show_direction_summary,
         "placements": stats.counts,
+        "orchestration": {
+            "physical_roots": attack_budget.root_count,
+            "focused_group_cues": focused_group_cues,
+            "reduced_attacks": reduced_attacks,
+            "peak_onset_roots": attack_budget.peak_roots,
+        },
         "neighbor_flow": (
             {
                 "route_count": len(neighbor_graph.routes),
@@ -12908,10 +12988,6 @@ def run_variant(
         snowman_band_engine.write_export_json(snowman_band_json_path(out_path), snowman_band_payload)
     except Exception as exc:
         log(f"[WARN] Snowman band export skipped: {exc!r}")
-    validate_report_payload(payload)
-    write_report(report_path(out_path), payload)
-    write_sequence_notes(notes_path(out_path), payload)
-
     log("[6/8] Writing sequence")
     from xlights.xml_io import bound_media_effects
     boundary_report = bound_media_effects(xsq.root, set_sequence_duration(xsq.root, float(audio.dur_s)))
@@ -12949,41 +13025,42 @@ def run_variant(
         if not row_check["passed"]:
             raise RuntimeError("XSQ is missing editable model rows: " + ", ".join(row_check["missing_rows"]))
         log(f"Editable model rows validated: {row_check['actual_mapped_rows']}/{row_check['expected_rows']}")
+
+    keep_bed = os.environ.get("HELIX_MUSICAL_BED", "0") == "1"
+    if keep_bed:
+        from core.musical_bed import add_musical_bed
+        energy = float(np.clip(np.mean(audio.rms01), 0.0, 1.0))
+        bed = add_musical_bed(xsq.root, song_length_ms, energy, excluded=performance_roots | used_groups)
+        log(f"Musical bed: models={bed['models']} gaps={bed['beds']} level={bed.get('level')}")
+    if os.environ.get("HELIX_VIVID", "1") != "0":
+        vivid = style_sequence(
+            xsq.root,
+            active_layout_file,
+            sections=[vars(part) for part in parts],
+            cue_times={
+                "melody": sorted({event.start_ms for event in keyboard_note_events if event.notes}),
+                "bass": bass_peaks,
+                "build": build_lifts,
+                "impact": energy_peaks,
+            },
+            quiet_windows=multiband.quiet_windows + blackout_windows,
+            layout=parsed_layout,
+            protected_targets=performance_roots,
+            target_roots=target_roots,
+            budget=attack_budget,
+            keep_bed=keep_bed,
+        )
+        payload["orchestration"]["vivid"] = vivid
+        payload["orchestration"]["peak_onset_roots"] = attack_budget.peak_roots
+        log(f"Vivid style: ac={vivid['ac_models']} rgb={vivid['rgb_models']} added={vivid['added']} bed_kept={vivid['bed_kept']}")
+    from xlights.layer_blend import stamp_native_blends
+    stamp_native_blends(xsq.root)
     from xlights.xml_io import materialize_native_effect_tables
     materialize_native_effect_tables(xsq.root)
     xsq.tree.write(out_path, encoding="utf-8", xml_declaration=True)
-    try:
-        from core.musical_bed import apply_musical_bed
-        try:
-            energy = float(np.clip(np.mean(audio.rms01), 0.0, 1.0))
-        except Exception:
-            energy = 0.45
-        bed = apply_musical_bed(out_path, max(1000, int(audio.dur_s * 1000)), energy)
-        log(f"Musical bed: models={bed['models']} gaps={bed['beds']} level={bed.get('level')}")
-    except Exception as exc:
-        log(f"Musical bed skipped: {exc!r}")
-    try:
-        import os
-        from core.vivid_style import apply_vivid_style
-        if os.environ.get("HELIX_VIVID", "1") != "0":
-            song_sections = None
-            try:
-                from xlights.xsq_writer import detect_sections
-                song_sections = [
-                    {"label": sec.label, "start_ms": sec.start_ms, "end_ms": sec.end_ms, "energy": sec.energy}
-                    for sec in detect_sections(audio)
-                ]
-            except Exception:
-                song_sections = None
-            vivid = apply_vivid_style(
-                out_path,
-                active_layout_file,
-                keep_bed=os.environ.get("HELIX_MUSICAL_BED", "0") == "1",
-                sections=song_sections,
-            )
-            log(f"Vivid style: ac={vivid['ac_models']} rgb={vivid['rgb_models']} added={vivid['added']} bed_kept={vivid['bed_kept']}")
-    except Exception as exc:
-        log(f"Vivid style skipped: {exc!r}")
+    validate_report_payload(payload)
+    write_report(report_path(out_path), payload)
+    write_sequence_notes(notes_path(out_path), payload)
 
     if GENERATE_SHOWCASE:
         showcase_path = out_path.with_name(f"{out_path.stem}.showcase.xsq")
