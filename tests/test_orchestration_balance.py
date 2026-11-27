@@ -88,3 +88,34 @@ def test_vu_meter_has_bounded_activity():
         assert gate.allow(section="CHORUS", family="mega", label="green_vu")
     assert not gate.allow(section="CHORUS", family="mega", label="green_vu")
     assert gate.held["vu"] == 1
+
+
+def test_family_budget_does_not_consume_failed_proposals():
+    from core.orchestration_balance import ShowDirectionBudget
+
+    gate = ShowDirectionBudget(30, 9)
+    assert gate.can_allow(section="VERSE", family="mega", label="primary_phrase")
+    assert gate.can_allow(section="VERSE", family="mega", label="primary_phrase")
+    assert gate._families == {}
+    gate.record(section="VERSE", family="mega", label="primary_phrase")
+    assert gate._families["VERSE"] == ["mega"]
+    for family in ("arch", "matrix", "roof", "spiral"):
+        assert gate.can_allow(section="VERSE", family=family, label="primary_phrase")
+        gate.record(section="VERSE", family=family, label="primary_phrase")
+    assert not gate.can_allow(section="VERSE", family="snowflake", label="primary_phrase")
+    gate.reject(section="VERSE", family="snowflake", label="primary_phrase")
+    assert gate.held["family"] == 1
+    assert len(gate._families["VERSE"]) == 5
+    assert gate.can_allow(section="CHORUS", family="snowflake", label="primary_phrase")
+
+
+def test_vu_meter_does_not_consume_failed_placements():
+    from core.orchestration_balance import ShowDirectionBudget
+
+    gate = ShowDirectionBudget(16, 3)
+    for _ in range(25):
+        assert gate.can_allow(section="CHORUS", family="mega", label="green_vu")
+    assert gate._vu == {}
+    for _ in range(24):
+        gate.record(section="CHORUS", family="mega", label="green_vu")
+    assert not gate.can_allow(section="CHORUS", family="mega", label="green_vu")
