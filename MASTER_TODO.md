@@ -2,6 +2,13 @@
 
 Release status lives in `BETA_1_4_RELEASE_CHECKLIST.md`. Release is not approved.
 
+## November 27 · Phoneme movie inspected, motion gate stays failed
+
+**Goal:** Read the retained native movie before any choreography or threshold change.
+**Evidence:** Run [45923592547](https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/45923592547), commit `abe557e`. Local decode of `preview.mp4` matches the CI numbers: median_motion 0.375, median_luma 12.503, bright fraction 0.07307, visible size 0.669 by 0.622. Only `visible_stage_motion` fails. Full-frame mean absolute difference is 0.623 from 4s to 12s and 0.21 from 4s to 22s. The 12s frame shows open lead and harmony mouths and a guitar flash. The 4s and 22s frames show closed mouths and the same pose.
+**Preserved:** `MIN_MEDIAN_MOTION` remains 0.65. No release claim.
+**Limitations:** The mouths are real and too brief to move the median of the whole stage crop. Making the black field flash to pass the number would not be a phoneme fix.
+
 ## November 27 · Preserve the abe557e Windows portable
 
 **Goal:** Keep the latest unsigned Windows CI zip after the artifact store expires. Do not call it a release.
