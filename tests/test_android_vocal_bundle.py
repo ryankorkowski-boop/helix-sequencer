@@ -12,6 +12,20 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "android/app/src/main/python"))
 from helix_mobile import bind_imported_vocals, install_vocal_bundle
 
+_VOCAL_ENV = ("HELIX_VOCAL_SEPARATION_MANIFEST", "HELIX_VOCAL_SEPARATION_SOURCE")
+
+
+@pytest.fixture(autouse=True)
+def isolate_vocal_env():
+    """bind_imported_vocals writes process env. Do not leave it for later tests."""
+    saved = {key: os.environ.get(key) for key in _VOCAL_ENV}
+    yield
+    for key, value in saved.items():
+        if value is None:
+            os.environ.pop(key, None)
+        else:
+            os.environ[key] = value
+
 
 def digest(path):
     return hashlib.sha256(path.read_bytes()).hexdigest()

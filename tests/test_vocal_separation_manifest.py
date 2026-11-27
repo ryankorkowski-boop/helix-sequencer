@@ -2,6 +2,7 @@
 import hashlib
 import json
 import math
+import os
 import struct
 import wave
 
@@ -41,6 +42,11 @@ def fixture(tmp_path):
     }
     manifest.write_text(json.dumps(data))
     return original, lead, backing, manifest, data
+
+
+def test_android_bundle_does_not_leave_vocal_env_set():
+    assert "HELIX_VOCAL_SEPARATION_MANIFEST" not in os.environ
+    assert "HELIX_VOCAL_SEPARATION_SOURCE" not in os.environ
 
 
 def test_valid_two_stage_bundle_routes_distinct_singers(tmp_path):
