@@ -1,0 +1,146 @@
+# HELIX THREE-SECOND PHYSICAL 16-PANEL REVIEW
+# This is a review-only trigger, not a release or owner approval.
+name: Helix 3-second physically buildable 16-panel pilot
+on:
+  push:
+    branches: [codex/physical-16panel-3sec-preview-20261127]
+    paths:
+      - .github/workflows/physical-16panel-three-second.yml
+      - models/full_song_layouts.py
+      - models/advanced_full_song_showcase.py
+  workflow_dispatch:
+permissions:
+  contents: read
+  actions: read
+jobs:
+  render:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 300
+    env:
+      PYTHONPATH: .
+      OMP_NUM_THREADS: '2'
+      MKL_NUM_THREADS: '2'
+      TORCH_NUM_THREADS: '2'
+      HELIX_DEMUCS_DEVICE: cpu
+      OPENBLAS_NUM_THREADS: '2'
+      XL_NO_GPU_COMPUTE: '1'
+      HELIX_NATIVE_PREVIEW_WIDTH: '1920'
+      HELIX_NATIVE_PREVIEW_HEIGHT: '1080'
+      HELIX_DRIVE_SOURCE_ID: '18zI7nKAQ0JHG-cPMppPJWeNP_Qo3aXce'
+      HELIX_DRIVE_SOURCE_SHA256: '02c31e2a77ed61a11053ade8275e556b06c0d450b34da67827ed47a06b55115c'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: pip
+      - name: Install DSP and native preview requirements
+        run: |
+          set -euo pipefail
+          sudo apt-get update -qq
+          sudo apt-get install -y ffmpeg xvfb xauth openbox wmctrl xdotool x11-utils x11-xserver-utils libgtk-3-0t64 libgl1 libegl1 libopengl0 libglu1-mesa libgstreamer-plugins-base1.0-0
+          python -m pip install scipy scikit-learn Pillow trimesh moderngl zstandard imageio imageio-ffmpeg cmudict PyYAML requests pytest gdown==6.4.2
+      - name: Retrieve authenticated original owner recording
+        run: |
+          mkdir -p pilot-source
+          python -m gdown "$HELIX_DRIVE_SOURCE_ID" -O pilot-source/original.mp3
+          echo "$HELIX_DRIVE_SOURCE_SHA256  pilot-source/original.mp3" | sha256sum -c -
+          ffmpeg -v error -i pilot-source/original.mp3 -ss 0 -t 3 -c:a pcm_s16le pilot-source/review.wav
+          test "$(ffprobe -v error -show_entries format=duration -of default=nw=1:nk=1 pilot-source/review.wav | cut -d . -f1)" -eq 3
+          echo "HELIX_REVIEW_SHA256=$(sha256sum pilot-source/review.wav | cut -d ' ' -f1)" >> "$GITHUB_ENV"
+      - name: Run source-bound Helix audio analysis
+        uses: ./.github/actions/production-audio
+        with:
+          audio: pilot-source/review.wav
+          sha256: ${{ env.HELIX_REVIEW_SHA256 }}
+      - name: Check sixteen layout models and source roles
+        run: |
+          python -m pytest -q tests/test_full_song_advanced_showcase.py tests/test_source_spatial_direction.py tests/test_spatial_showcase_extensions.py tests/test_showcase_static_materials.py
+      - name: Restore native xLights
+        id: native-cache
+        uses: actions/cache/restore@v4
+        with:
+          path: ${{ runner.temp }}/xlights-src
+          key: xlights-native-ubuntu24-2026.18-${{ hashFiles('tools/patch_xlights_native_export.py') }}
+          restore-keys: xlights-native-ubuntu24-2026.18-
+      - name: Validate or build authentic native xLights
+        run: |
+          set -euo pipefail
+          sudo apt-get install -y build-essential cmake ninja-build pkg-config libgtk-3-dev libgstreamer1.0-dev libgstreamer-plugins-base1.0-dev freeglut3-dev libavcodec-dev libavformat-dev libavfilter-dev libswscale-dev libsdl2-dev libzstd-dev libcurl4-openssl-dev liblua5.3-dev libwebp-dev libsecret-1-dev libegl-dev libfreetype-dev libharfbuzz-dev libfontconfig-dev libavahi-compat-libdnssd-dev libminizip-dev libxlsxwriter-dev cbp2make glslc glslang-dev
+          root="$RUNNER_TEMP/xlights-src"
+          if [ ! -d "$root/.git" ]; then
+            git clone --depth 1 --branch 2026.18 --recurse-submodules https://github.com/xLightsSequencer/xLights.git "$root"
+          fi
+          cd "$root"
+          test "$(git rev-parse HEAD)" = 839c0f590dc454bb7adb8a16c4dd92a70b46156e
+          if [ -f wxWidgets-xlights_2026.17c/lib/libwx_gtk3u-3.3.so.4.0.0 ]; then
+            sudo make -C wxWidgets-xlights_2026.17c install
+            sudo ldconfig
+          fi
+          if ! python -c "import sys;sys.path.insert(0,'$GITHUB_WORKSPACE');from tools.native_renderer_bundle import validate_tree;validate_tree(__import__('pathlib').Path.cwd())"; then
+            git checkout -- src-ui-wx/xLightsMain.cpp src-ui-wx/app-shell/TabSequence.cpp src-ui-wx/graphics/opengl/xlGLCanvas.cpp src-ui-wx/graphics/opengl/xlGLCanvas.h src-ui-wx/graphics/vulkan/xlVulkanCanvas.cpp
+            python "$GITHUB_WORKSPACE/tools/patch_xlights_native_export.py" "$root"
+            timeout --signal=TERM --kill-after=30s 65m make -j 4
+          fi
+          test -x "$root/bin/xLights"
+          ldd "$root/bin/xLights" | tee "$GITHUB_WORKSPACE/pilot-source/native-ldd.txt"
+          ! grep -q 'not found' "$GITHUB_WORKSPACE/pilot-source/native-ldd.txt"
+          echo "HELIX_PATCHED_XLIGHTS=$root/bin/xLights" >> "$GITHUB_ENV"
+      - name: Save native renderer cache
+        if: steps.native-cache.outputs.cache-hit != 'true'
+        uses: actions/cache/save@v4
+        with:
+          path: ${{ runner.temp }}/xlights-src
+          key: xlights-native-ubuntu24-2026.18-${{ hashFiles('tools/patch_xlights_native_export.py') }}
+      - name: Run actual Helix, generate native 16 layout sequences and compose MP4
+        run: |
+          set -euo pipefail
+          xvfb-run -a -s '-screen 0 2560x1440x24' sh -c '
+            openbox >pilot-source/openbox.log 2>&1 &
+            exec python -m tools.render_full_song_comparison pilot-source/review.wav pilot-work/three-second               --expected-sha256 "$HELIX_REVIEW_SHA256" --instrumental --xlights "$HELIX_PATCHED_XLIGHTS"
+          '
+      - name: Verify 3-second native result and preserve owner review state
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import json, subprocess
+          from pathlib import Path
+          work=Path('pilot-work/three-second')
+          p=json.loads((work/'comparison_manifest.json').read_text())
+          assert p['status']=='technically_verified' and p['owner_approved'] is False
+          assert len(p['panels'])==16
+          movie=work/'Full_Length_16_Panel_Comparison.mp4'
+          meta=json.loads(subprocess.check_output(['ffprobe','-v','error','-show_streams','-show_format','-of','json',str(movie)],text=True))
+          video=next(s for s in meta['streams'] if s['codec_type']=='video')
+          assert (video['width'],video['height'],video['avg_frame_rate'])==(1920,1080,'30/1')
+          assert 2.9 <= float(meta['format']['duration']) <= 3.15
+          (work/'THREE_SECOND_RECEIPT.json').write_text(json.dumps({'source':'original Drive recording','length_seconds':float(meta['format']['duration']),'status':'OWNER_REVIEW_PENDING','native_panels':16},indent=2))
+          PY
+      - name: Quality check
+        if: success()
+        run: |
+          python -m tools.check_mp4_visual_quality pilot-work/three-second/Full_Length_16_Panel_Comparison.mp4 --report pilot-work/three-second/VISUAL_QUALITY_RECEIPT.json --fps 2
+      - name: Upload actual three-second native preview
+        if: success()
+        uses: actions/upload-artifact@v4
+        with:
+          name: HELIX-3SEC-16PANEL-PHYSICAL-OWNER-REVIEW
+          retention-days: 30
+          path: |
+            pilot-work/three-second/Full_Length_16_Panel_Comparison.mp4
+            pilot-work/three-second/comparison_manifest.json
+            pilot-work/three-second/panel_activity.json
+            pilot-work/three-second/THREE_SECOND_RECEIPT.json
+            pilot-work/three-second/VISUAL_QUALITY_RECEIPT.json
+            pilot-work/three-second/layouts/**/xlights_rgbeffects.xml
+            pilot-work/three-second/layouts/**/run_manifest.json
+      - name: Failure diagnostics
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: HELIX-3SEC-FAILED-DIAGNOSTICS
+          retention-days: 14
+          path: |
+            pilot-source/*.log
+            pilot-work/three-second/**/*.json
+            pilot-work/three-second/**/*.log
