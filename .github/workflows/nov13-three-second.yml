@@ -25,6 +25,14 @@ jobs:
       - name: Run actual November 13 v28.9 sequencing and video
         run: |
           PYTHONPATH=. python -m tools.run_v28_legacy_256_previews --audio recovery/clip.wav --template template.xsq --layout xlights_rgbeffects.xml --versions v28.9 --duration-seconds 3 --fps 10 --width 960 --height 540 --output-root recovery/nov13
+      - name: Repair audio mux using system FFmpeg if archived bundled mux failed
+        if: always()
+        run: |
+          for silent in recovery/nov13/v28.9/*.silent.mp4; do
+            [ -f "$silent" ] || continue
+            out="${silent%.silent.mp4}.mp4"
+            ffmpeg -v error -y -i "$silent" -i recovery/nov13/_media/clip.first_3s.wav -map 0:v:0 -map 1:a:0 -c:v copy -c:a aac -shortest "$out"
+          done
       - name: Verify decoded video and save report
         if: always()
         run: |
