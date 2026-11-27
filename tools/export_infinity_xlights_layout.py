@@ -97,6 +97,41 @@ def export_layout(output: Path, *, include_band: bool = True) -> dict:
             families[_family(source_name)].append("HX_INFINITY_" + name)
             inventory[_family(source_name)] += len(chunk)
 
+    # Native architectural and garden models, preserving the original addresses.
+    for m in models.findall("model"):
+        name = m.get("name", "")
+        pts = [float(v) for v in m.get("PointData", "").split(",")]
+        if not pts:
+            continue
+        if ("_Outline" in name or ("Downtown" in name and "_Facade" in name)
+                or "WindowMatrix" in name or "PixelVolume_" in name):
+            a, b = pts[:3], pts[-3:]
+            m.set("DisplayAs", "Single Line")
+            for axis, start, end in zip("XYZ", a, b):
+                m.set("WorldPos"+axis, str(start))
+                m.set(axis+"2", str(end-start))
+        elif "PathArch" in name or "Tunnel" in name:
+            a, b = pts[:3], pts[-3:]
+            m.set("DisplayAs", "Arches")
+            for axis, start, end in zip("XYZ", b, a):
+                m.set("WorldPos"+axis, str(start))
+                m.set(axis+"2", str(end-start))
+            m.set("Height", "0.5")
+            m.set("Angle", "0")
+            m.set("arc", "180")
+    # Explicit groups retain deterministic member ordering and expose roles.
+    for prefix in ("House", "Downtown"):
+        for i in range(1, 5 if prefix == "House" else 4):
+            members = sorted("HX_INFINITY_"+n for n in seen if n.startswith(f"{prefix}{i}_"))
+            if members:
+                ET.SubElement(groups, "modelGroup", {"name": f"HX_INFINITY_{prefix.upper()}_{i:02d}", "models": ",".join(members)})
+    roof = sorted("HX_INFINITY_"+n for n in seen if "_Outline" in n)
+    ET.SubElement(groups, "modelGroup", {"name": "HX_INFINITY_ARCHITECTURE_ROOFLINES", "models": ",".join(roof)})
+    for role in sorted({r[1] for r in rows}):
+        sources = {r[0] for r in rows if r[1] == role}
+        members = ["HX_INFINITY_"+n for n in sorted(seen) if n in sources or n.rsplit("_",1)[0] in sources]
+        ET.SubElement(groups, "modelGroup", {"name": "HX_INFINITY_MUSIC_"+role.upper(), "models": ",".join(members)})
+
     spans.sort()
     if spans[0][0] != 1 or spans[-1][1] != EXPECTED_PIXELS * 3:
         raise AssertionError("incorrect first/last address")
