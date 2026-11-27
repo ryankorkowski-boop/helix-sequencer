@@ -60,10 +60,15 @@ def test_residential_inventory_and_original_ac_addresses():
                 m.name: m.start_channel for m in original.models.values() if not m.is_submodel
             }
 
-    for panel, count in ((4, 0), (5, 0), (6, 1), (7, 2), (8, 0), (9, 0), (10, 0), (12, 2)):
+    for panel, count in ((4, 0), (5, 0), (6, 1), (7, 2), (8, 0), (9, 0), (10, 0), (12, 4)):
         garden, _ = build(panel, {}, duration=1)
         assert sum(m.zone == 'MEGA_TREES' for m in garden.models) == count
         assert len({m.name for m in garden.models}) == len(garden.models)
+        if panel == 10:
+            assert sum(m.name.startswith('VAN_WHEEL_') for m in garden.models) == 4
+            assert sum(m.name.startswith('VAN_BODY_') for m in garden.models) == 2
+        if panel == 12:
+            assert sum(m.name.endswith('_ROOF') for m in garden.models) == 3
         if panel in (8, 9):
             faces = [m for m in garden.models if m.details.get('generic_singer')]
             assert Counter(m.details['generic_singer'] for m in faces) == {
