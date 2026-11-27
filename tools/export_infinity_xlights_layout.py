@@ -159,6 +159,30 @@ def export_layout(output: Path, *, include_band: bool = True) -> dict:
         "name": "HX_INFINITY_ALL_SPATIAL",
         "models": ",".join("HX_INFINITY_" + name for name in sorted(seen)),
     })
+    # Native decorative inventory, using the existing Garden serializer.
+    from models.ultimate_showcase import Garden
+    from tools.build_helpers.ultimate_showcase import model_xml
+    garden = Garden(title="Infinity native ornaments", slug="Infinity_Ornaments")
+    for i, x in enumerate((-15, -2, 11, 24), 1):
+        garden.star(f"HX_INFINITY_House{i}_Roof_Star", x, 9, 0, 1.5, "RESIDENTIAL")
+        garden.circle(f"HX_INFINITY_House{i}_Door_Wreath", x, 2, -.2, 1.2, "RESIDENTIAL", display="Wreath")
+        garden.tree(f"HX_INFINITY_House{i}_Garden_MiniTree", x-3, -2, 2.5, .7, 0, 8, 30, "RESIDENTIAL")
+    for i, x in enumerate((-20, -10, 10, 20), 1):
+        garden.tree(f"HX_INFINITY_Plaza_NativeSpiral_{i}", x, 23, 5, 1.4, 3, 4, 120, "PLAZA")
+        garden.star(f"HX_INFINITY_Plaza_SpiralTopper_{i}", x, 5.7, 23, 1.2, "PLAZA")
+    next_channel = EXPECTED_PIXELS*3+1
+    decorative = []
+    for m in garden.models:
+        m.start = next_channel
+        next_channel += m.channels
+        models.append(model_xml(m))
+        decorative.append(m.name)
+    if next_channel > 150001:
+        raise AssertionError("Decorative models overlap reserved band channels")
+    ET.SubElement(groups, "modelGroup", {"name": "HX_INFINITY_NATIVE_ORNAMENTS", "models": ",".join(decorative)})
+    for i in range(1, 5):
+        group = next(g for g in groups if g.get("name") == f"HX_INFINITY_HOUSE_{i:02d}")
+        group.set("models", group.get("models")+","+",".join(n for n in decorative if f"House{i}_" in n))
     path = output / "xlights_rgbeffects.xml"
     ET.ElementTree(root).write(path, encoding="utf-8", xml_declaration=True)
     band_info = None
@@ -178,6 +202,8 @@ def export_layout(output: Path, *, include_band: bool = True) -> dict:
         "rgb_channels_spatial": EXPECTED_PIXELS * 3,
         "spatial_model_count": len(seen),
         "total_xml_model_count": len(full_models),
+        "native_ornament_count": len(decorative),
+        "native_ornament_channels": next_channel-EXPECTED_PIXELS*3-1,
         "family_pixel_counts": dict(inventory),
         "band_import": "models.canonical_native_band" if include_band else "none",
         "band_info": band_info,
