@@ -198,7 +198,7 @@ def put_file(path, content):
     return api("/contents/"+path,payload,"PUT")
 
 def main():
-    tree=api("/git/trees/"+BRANCH.replace("/","%2F")+"?recursive=1")
+    tree=api("/git/trees/"+os.environ.get("GITHUB_SHA", BRANCH.replace("/","%2F"))+"?recursive=1")
     unique={}
     for item in tree["tree"]:
         if item["type"] == "blob" and re.search(r"rgbeffects.*\.xml$",item["path"],re.I):
