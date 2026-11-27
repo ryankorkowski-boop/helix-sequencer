@@ -153,10 +153,10 @@ def vu_cap_for_section(model_count: int) -> int:
 
 
 class ShowDirectionBudget:
-    """Retained-family admission plan for live section choreography.
+    """Admit family accents with deterministic, section-local focus.
 
-    This is deliberately a standalone helper; the active engine must
-    explicitly apply it at its existing admission point.
+    The gate commits only after a real effect placement succeeds. Rejected
+    placements cannot consume family or VU capacity.
     """
 
     def __init__(self, model_count: int, available_families: int = 0) -> None:
@@ -167,26 +167,47 @@ class ShowDirectionBudget:
         self._vu: dict[str, int] = {}
         self.held = {"family": 0, "support": 0, "vu": 0}
 
-    def allow(self, *, section: str, family: str, label: str) -> bool:
+    def _decision(self, *, section: str, family: str, label: str) -> str | None:
         section_key = section or "SONG"
         family_key = (family or "").strip().lower()
         label_key = (label or "").lower()
-        if "green_vu" in label_key:
-            used = self._vu.get(section_key, 0)
-            if used >= self.vu_cap:
-                self.held["vu"] += 1
-                return False
-            self._vu[section_key] = used + 1
-            return True
+        if "green_vu" in label_key and self._vu.get(section_key, 0) >= self.vu_cap:
+            return "vu"
         if not family_key:
-            return True
-        admitted = self._families.setdefault(section_key, [])
-        if family_key not in admitted:
-            if len(admitted) >= self.family_cap:
-                self.held["family"] += 1
-                return False
-            admitted.append(family_key)
-        if "_support" in label_key and self.model_count < 180 and family_key != admitted[0]:
-            self.held["support"] += 1
+            return None
+        admitted = self._families.get(section_key, [])
+        if family_key not in admitted and len(admitted) >= self.family_cap:
+            return "family"
+        if "_support" in label_key and self.model_count < 180 and admitted and family_key != admitted[0]:
+            return "support"
+        return None
+
+    def can_allow(self, *, section: str, family: str, label: str) -> bool:
+        """Read-only admission check, safe before conflict resolution."""
+        return self._decision(section=section, family=family, label=label) is None
+
+    def record(self, *, section: str, family: str, label: str) -> None:
+        """Commit capacity only after a successful placement."""
+        section_key = section or "SONG"
+        family_key = (family or "").strip().lower()
+        if "green_vu" in (label or "").lower():
+            self._vu[section_key] = self._vu.get(section_key, 0) + 1
+        if family_key:
+            admitted = self._families.setdefault(section_key, [])
+            if family_key not in admitted:
+                admitted.append(family_key)
+
+    def allow(self, *, section: str, family: str, label: str) -> bool:
+        """Backward-compatible check-and-record for direct callers."""
+        reason = self._decision(section=section, family=family, label=label)
+        if reason is not None:
+            self.held[reason] += 1
             return False
+        self.record(section=section, family=family, label=label)
         return True
+
+    def reject(self, *, section: str, family: str, label: str) -> None:
+        """Account for a declined proposal without spending a slot."""
+        reason = self._decision(section=section, family=family, label=label)
+        if reason is not None:
+            self.held[reason] += 1
