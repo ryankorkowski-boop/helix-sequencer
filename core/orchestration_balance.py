@@ -130,3 +130,63 @@ def restrained_accent_budget(section: str, *, quiet: bool = False, density: floa
     if density <= 0.25:
         overlay = min(overlay, 3)
     return (overlay, flash_cap_per_window(section))
+
+# A display-wide fan-out is not a musical cue. Preserve deliberate focal
+# families even when a very large layout has thousands of available models.
+_FAMILY_CAP_FLOOR = 5
+_FAMILY_CAP_CEILING = 12
+_FAMILY_CAP_STEP_MODELS = 60
+
+
+def family_cap_for_layout(model_count: int, available_families: int = 0) -> int:
+    """Bound simultaneously active *families* without capping individual pixels."""
+    extra = max(0, (max(0, int(model_count)) - 40) // _FAMILY_CAP_STEP_MODELS)
+    cap = min(_FAMILY_CAP_CEILING, _FAMILY_CAP_FLOOR + extra)
+    if available_families > 0:
+        cap = min(cap, int(available_families))
+    return max(1, cap)
+
+
+def vu_cap_for_section(model_count: int) -> int:
+    """Green VU is a selective meter, never a full-show white/green wash."""
+    return max(24, min(120, max(0, int(model_count)) // 6))
+
+
+class ShowDirectionBudget:
+    """Retained-family admission plan for live section choreography.
+
+    This is deliberately a standalone helper; the active engine must
+    explicitly apply it at its existing admission point.
+    """
+
+    def __init__(self, model_count: int, available_families: int = 0) -> None:
+        self.model_count = max(0, int(model_count))
+        self.family_cap = family_cap_for_layout(self.model_count, available_families)
+        self.vu_cap = vu_cap_for_section(self.model_count)
+        self._families: dict[str, list[str]] = {}
+        self._vu: dict[str, int] = {}
+        self.held = {"family": 0, "support": 0, "vu": 0}
+
+    def allow(self, *, section: str, family: str, label: str) -> bool:
+        section_key = section or "SONG"
+        family_key = (family or "").strip().lower()
+        label_key = (label or "").lower()
+        if "green_vu" in label_key:
+            used = self._vu.get(section_key, 0)
+            if used >= self.vu_cap:
+                self.held["vu"] += 1
+                return False
+            self._vu[section_key] = used + 1
+            return True
+        if not family_key:
+            return True
+        admitted = self._families.setdefault(section_key, [])
+        if family_key not in admitted:
+            if len(admitted) >= self.family_cap:
+                self.held["family"] += 1
+                return False
+            admitted.append(family_key)
+        if "_support" in label_key and self.model_count < 180 and family_key != admitted[0]:
+            self.held["support"] += 1
+            return False
+        return True
