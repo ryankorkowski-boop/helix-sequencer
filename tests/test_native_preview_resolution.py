@@ -376,6 +376,13 @@ class NativePreviewResolutionTests(unittest.TestCase):
             mux.assert_called_once()
 
 
+    def test_dense_show_rest_startup_uses_the_render_budget_up_to_ten_minutes(self):
+        self.assertEqual(preview.rest_startup_timeout(None), 120)
+        self.assertEqual(preview.rest_startup_timeout(60), 120)
+        self.assertEqual(preview.rest_startup_timeout(300), 300)
+        self.assertEqual(preview.rest_startup_timeout(1800), 600)
+
+
 if __name__ == "__main__":
     unittest.main()
 

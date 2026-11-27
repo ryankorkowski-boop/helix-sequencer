@@ -1,6 +1,16 @@
 ## Beta 1.4 live engine integration checklist
 
-Release status lives in `BETA_1_4_RELEASE_CHECKLIST.md` (2026-11-27). Release is not approved. Code under test remains `c5954fef`. This ledger entry is a pointer only.
+Release status lives in `BETA_1_4_RELEASE_CHECKLIST.md`. Release is not approved.
+
+## November 27 · Infinity REST first-contact wait follows the render budget
+
+**Goal:** Stop the 10,240-prop native job from dying at a hardcoded 120s REST startup while `--render-timeout 1800` was already requested. Run [45905840011](https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/45905840011) ended `fallback` with `xLights REST startup timed out` before export.
+**Changed files:** `tools/native_preview.py`, `tests/test_native_preview_resolution.py`, `BETA_1_4_RELEASE_CHECKLIST.md`, `MASTER_TODO.md`.
+**Preserved:** Ordinary previews still wait 120s. Resolution, channel, and audio gates are unchanged. A timeout still fails closed.
+**New behavior:** `rest_startup_timeout()` stays 120s unless the caller set a longer render budget, then waits at most 600s. The wait logs `HELIX_NATIVE_REST_WAIT` every 30s with process liveness.
+**Tests/evidence:** Focused unit test on the timeout function. The Infinity workflow has not been rerun. This is not a native FSEQ or MP4.
+**Limitations:** If model load is still stuck, the job now spends up to 10 minutes and still fails. Progress lines show whether the process stayed alive. Do not treat a longer wait as a successful render.
+**Regression risks:** Only callers that pass `render_timeout` above 120s wait longer. Infinity is the intended caller.
 
 Branch `codex/beta14-live-engine-integration` starts at PR #264 commit `c5954fef098834fa79538285d7bb00eb514b787b`. The donor for governed placement is PR #261 commit `4fd2ddbced8d2f3822f2b9b3fd270bd4ae340957`. Resume from this checklist and the commits on this branch.
 

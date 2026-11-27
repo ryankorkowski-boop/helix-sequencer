@@ -28,6 +28,19 @@ from tools import check_xlights_rest_sequence as rest
 from tools.quality.native import inspect_fseq
 
 
+def rest_startup_timeout(render_timeout: int | None) -> float:
+    """Seconds to wait for the first xLights REST response.
+
+    Ordinary previews stay at 120s. A dense show that already asked for a
+    longer render budget may use up to 600s of that budget, because
+    getVersion does not answer until model load finishes. This does not
+    relax resolution, channel, or audio checks.
+    """
+    if render_timeout is None or render_timeout <= 120:
+        return 120.0
+    return float(min(render_timeout, 600))
+
+
 def _run(command: list[str], timeout: float) -> str:
     result = subprocess.run(command, capture_output=True, text=True,
                             timeout=timeout, check=False)
@@ -388,8 +401,12 @@ def _native_export(xlights: str, show: Path, staged: Path,
                                env=_native_gui_environment(staged.parent))
         try:
             # Cold AppImage startup under software GL/Xvfb can exceed 30s.
-            # Allow a bounded startup window without relaxing output QA.
-            deadline = time.monotonic() + 120
+            # A 10k-model show can stay silent past 120s while groups load.
+            # Output QA is unchanged; only first contact waits longer, and
+            # only when the caller already raised the render budget.
+            started = time.monotonic()
+            deadline = started + rest_startup_timeout(render_timeout)
+            next_report = started + 30
             while True:
                 if app.poll() is not None:
                     raise RuntimeError(f"xLights exited {app.returncode}")
@@ -400,7 +417,14 @@ def _native_export(xlights: str, show: Path, staged: Path,
                         raise ValueError("xLights version request rejected")
                     break
                 except (OSError, ValueError, http.client.HTTPException):
-                    if time.monotonic() >= deadline:
+                    now = time.monotonic()
+                    if now >= next_report:
+                        print("HELIX_NATIVE_REST_WAIT " + json.dumps({
+                            "elapsed_seconds": round(now - started, 1),
+                            "process_alive": app.poll() is None,
+                        }), flush=True)
+                        next_report = now + 30
+                    if now >= deadline:
                         raise RuntimeError("xLights REST startup timed out")
                     time.sleep(.1)
             _wait_show_folder(app, endpoint, show)

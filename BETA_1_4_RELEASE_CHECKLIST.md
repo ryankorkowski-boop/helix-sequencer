@@ -47,7 +47,7 @@ VERIFIED = evidence cited below. PARTIAL = code or a diagnostic artifact exists,
 ## 3. Native xLights
 
 - [x] VERIFIED on earlier heads, not re-proven as final acceptance — Multiple native FSEQ/MP4 decodes are recorded in `docs/BETA_COMPLETION_LIVE_HANDOFF.md` (nine-panel, sixteen-panel estimated, six-snowman, Beta 1.3 vs 1.4). Those are evidence of native rendering, not of this release.
-- [x] FAILED — Full Infinity job [45905840011](https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/45905840011) at `c5954fef`: native preview status `fallback`, warning `xLights REST startup timed out`. XSQ SHA `64b20f1442183529cfb0ed0185b2829ee23bda7849e7d9386ff585cccb05d81a`. Artifact [15159126413](https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/45905840011/artifacts/15159126413). Group-load batching landed in `c5954fef`; the REST startup timeout is the remaining blocker. Do not call the 10,240-prop movie verified.
+- [x] FAILED at `c5954fef`, fix committed, not re-run — Full Infinity job [45905840011](https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/45905840011): native preview status `fallback`, warning `xLights REST startup timed out`. XSQ SHA `64b20f1442183529cfb0ed0185b2829ee23bda7849e7d9386ff585cccb05d81a`. The workflow already passed `--render-timeout 1800`, but `tools/native_preview.py` still gave `getVersion` only 120s. `rest_startup_timeout()` now keeps 120s for ordinary previews and allows up to 600s when a longer render budget was requested. It logs `HELIX_NATIVE_REST_WAIT` every 30s. Unit test added. **The Infinity movie is still not verified.** Rerun `.github/workflows/helix-infinity-layout.yml` on this commit before claiming anything else.
 - [ ] NOT DONE — Canonical 256-channel arch correction check (four arches × eight sections, center/apex section 5 deleted, 32 active arch channels) against the real layout files in this session. Do not guess the LOR color-ribbon LED tree map.
 - [ ] OWNER REVIEW REQUIRED — 16-panel visual acceptance. Baseline to preserve, not to accept:
 
@@ -100,14 +100,16 @@ Do not weaken these gates to get a green badge.
 1. Preserve expiring artifacts before 2026-12-26: baseline 16-panel `15114156910`, newer 16-panel `15157222257`, and Windows portable ZIP `15158197246`. Put them on a **draft** GitHub release labeled baseline, not Beta 1.4 accepted. Record SHA-256 after download.
 2. Diff PR #261 governor and PR #262/#263 CooperativeShowDirector against `c5954fef`. Port only missing admission/physical-target/timing rules into `CompositionGovernor` and the existing nine-pass path. No new director class.
 3. Ordinary-path sections: if `audio_analysis.json` already satisfies `timeline_from_audio_analysis`, feed it. If it does not, leave the synthetic seed and keep `synthetic_seed_only: true` in the activation audit.
-4. Infinity: the group-load patch is in. The new failure is xLights REST startup timeout on the 10,240-prop show. Inspect `tools/native_preview.py` startup wait and the job log around REST bind, then rerun only that workflow. Do not raise the timeout blindly without a log line that shows progress.
+4. Infinity REST first contact: committed in `rest_startup_timeout` (120s ordinary, up to 600s when `--render-timeout` is higher). Rerun the Infinity workflow. Read `HELIX_NATIVE_REST_WAIT`. Do not call the movie verified until FSEQ and MP4 checks pass.
 5. Phoneme stage motion 0.374: inspect the retained diagnostic media before changing choreography. Do not lower 0.65.
 6. Ask the owner for isolated lead/harmony, or written acceptance of ESTIMATED_REVIEW, before any release note claims singer verification.
 7. After 1–6, and only with owner visual acceptance: tag, draft the prerelease, upload APK, EXE, checksums, this checklist, installation notes, and the new 16-panel MP4. Then write `WEBSITE_RELEASE_HANDOFF.md`.
 
 ## 8. Modified files this session
 
-- `BETA_1_4_RELEASE_CHECKLIST.md` (this file)
-- `MASTER_TODO.md` (pointer only)
+- `BETA_1_4_RELEASE_CHECKLIST.md`
+- `MASTER_TODO.md`
+- `tools/native_preview.py` — `rest_startup_timeout`, 30s wait log
+- `tests/test_native_preview_resolution.py` — timeout bounds
 
-No production code changed in the commit that added this checklist.
+Baseline comparison MP4 preserved locally from artifact 15114156910: `Full_Length_16_Panel_Comparison.mp4`, 8,336,391 bytes, SHA-256 `b50f315ce2e4f981db92cdb38eccec5b3c1fb525b2b46e645960bb73d29bc831`. Draft release upload is the next preservation step. Not an accepted review.
