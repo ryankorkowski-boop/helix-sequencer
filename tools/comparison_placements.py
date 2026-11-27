@@ -90,4 +90,7 @@ def compose_yard(sequence, audio: Path, cache: AudioRunCache):
                            tuning=tuning, analysis_cache=cache)
         output = folder / 'native.xsq'
         native_music_xsq(raw, output, yard, audio, duration, include_ac=True)
-        return import_placements(sequence, ET.parse(output).getroot(), {m.name: m for m in yard.models})
+        counts = import_placements(sequence, ET.parse(output).getroot(), {m.name: m for m in yard.models})
+        from tools.yard_sync_provenance import analyze_yard_sync, assert_yard_sync_safe
+        assert_yard_sync_safe(analyze_yard_sync(sequence.root, folder / 'xlights_rgbeffects.xml'))
+        return counts
