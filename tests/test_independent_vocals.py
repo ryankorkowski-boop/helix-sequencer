@@ -127,6 +127,30 @@ def test_twenty_four_bit_session_stems_stay_distinct():
             analyze_independent_vocals(lead, copy)
 
 
+def test_shared_melody_is_not_called_a_duplicate():
+    def write_mix(path, parts):
+        rate = 16000
+        frames = bytearray()
+        for i in range(int(rate * 0.6)):
+            value = 0.0
+            for hz, amplitude in parts:
+                value += amplitude * math.sin(2 * math.pi * hz * i / rate)
+            frames += struct.pack("<h", max(-32767, min(32767, int(value * 32767))))
+        with wave.open(str(path), "wb") as handle:
+            handle.setnchannels(1)
+            handle.setsampwidth(2)
+            handle.setframerate(rate)
+            handle.writeframes(bytes(frames))
+
+    with tempfile.TemporaryDirectory() as d:
+        lead, harmony = Path(d) / "lead.wav", Path(d) / "harmony.wav"
+        write_mix(lead, [(220, 0.5)])
+        write_mix(harmony, [(220, 0.35), (330, 0.35)])
+        result = analyze_independent_vocals(lead, harmony)
+        assert result["status"] == "distinct_stem_inputs"
+        assert 0.2 < result["overlap_correlation"] < 0.95
+
+
 def test_stereo_stem_is_one_singer_not_two():
     def write_stereo(path, left_hz, right_hz):
         rate = 16000

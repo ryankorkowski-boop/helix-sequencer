@@ -225,8 +225,11 @@ def analyze_independent_vocals(lead_path: str | Path, harmony_path: str | Path,
         VocalTrack("harmony_singer", str(harmony_path), harmony_sha, harmony_rate,
                    harmony_windows),
     )
+    # Real stacked vocals can share a melody and still be different performances.
+    # The number is a duplicate check, not a singer identity.
     result = {"schema": "helix.independent-vocals.v1", "status": "distinct_stem_inputs",
               "independence": "duplicate_rejection_only_not_voice_identity_proof",
+              "overlap_correlation": round(corr, 3),
               "tracks": [asdict(t) for t in tracks]}
     if output_json is not None:
         path = Path(output_json)
