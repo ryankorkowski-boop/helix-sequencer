@@ -2,8 +2,7 @@
 
 Persistent handoff for Helix Sequencer Beta 1.4. Resume here. Do not treat a checked box as accepted unless its evidence line is present. Owner visual approval is still required before any accepted release.
 
-Updated: 2026-11-27 00:30 UTC by the release integration session.
-Release approved: **NO**. Do not merge PR #264. Do not publish an accepted Beta 1.4.
+Updated: 2026-11-27 00:26 UTC. Working HEAD `38e83cbd8d6910334af4f2dfa088138dd1cd7941` on `codex/beta14-live-engine-integration`. Release approved: **NO**.
 
 ## Where the work actually is
 
@@ -51,8 +50,11 @@ VERIFIED = evidence cited below. PARTIAL = code or a diagnostic artifact exists,
 - [ ] NOT DONE — Canonical 256-channel arch correction check (four arches × eight sections, center/apex section 5 deleted, 32 active arch channels) against the real layout files in this session. Do not guess the LOR color-ribbon LED tree map.
 - [ ] OWNER REVIEW REQUIRED — 16-panel visual acceptance. Baseline to preserve, not to accept:
 
-  - Requested baseline: [run 45800149044](https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/45800149044) artifact [15114156910](https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/45800149044/artifacts/15114156910) `Real-Vocals-30s-16-Panel-ESTIMATED-REVIEW`, 477,234,804 bytes, commit `f068aecb2e821dce785227a9d3ca66caf1e08ab5`, expires **2026-12-26 11:36 UTC**. Prior decode: 1080p/30 H.264/AAC, 29.96 s, soundtrack correlation 0.99944, zero lag. ESTIMATED_REVIEW.
-  - Newer estimated 16-panel at `625bcc73`: [run 45898800676](https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/45898800676) artifact [15157222257](https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/45898800676/artifacts/15157222257), expires **2026-12-26 22:24 UTC**. Also not acceptance.
+  - Requested baseline, preserved as a **draft** (not a public Beta 1.4 release): [draft release](https://github.com/ryankorkowski-boop/helix-sequencer/releases/tag/untagged-a987b0145879edf508eb), tag name `baseline/pr264-estimated-16panel-20261126`, target `f068aecb2e821dce785227a9d3ca66caf1e08ab5`. Re-downloaded and checksum-verified:
+    - `Helix-Baseline-16-Panel-ESTIMATED-REVIEW-f068aecb.mp4` — 8,336,391 bytes — SHA-256 `b50f315ce2e4f981db92cdb38eccec5b3c1fb525b2b46e645960bb73d29bc831`
+    - `Helix-Baseline-16-Panel-comparison_manifest.json` — 59,507 bytes — SHA-256 `e562f1e9855ac99443c8eab07d363b24dd9db0dec67f63bf3677a32e75f90cee`
+    - This is `Full_Length_16_Panel_Comparison.mp4` from Actions artifact [15114156910](https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/45800149044/artifacts/15114156910) (run [45800149044](https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/45800149044), expires 2026-12-26 11:36 UTC). ESTIMATED_REVIEW. Not owner acceptance. The other per-panel native renders in that 869 MB artifact were not re-uploaded.
+  - Newer estimated 16-panel at `625bcc73`: [run 45898800676](https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/45898800676) artifact [15157222257](https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/45898800676/artifacts/15157222257), expires **2026-12-26 22:24 UTC**. Not copied to the draft. Also not acceptance.
 
 ## 4. Application packages (not a GitHub Release)
 
@@ -97,19 +99,20 @@ Do not weaken these gates to get a green badge.
 
 ## 7. Exact next actions
 
-1. Preserve expiring artifacts before 2026-12-26: baseline 16-panel `15114156910`, newer 16-panel `15157222257`, and Windows portable ZIP `15158197246`. Put them on a **draft** GitHub release labeled baseline, not Beta 1.4 accepted. Record SHA-256 after download.
-2. Diff PR #261 governor and PR #262/#263 CooperativeShowDirector against `c5954fef`. Port only missing admission/physical-target/timing rules into `CompositionGovernor` and the existing nine-pass path. No new director class.
-3. Ordinary-path sections: if `audio_analysis.json` already satisfies `timeline_from_audio_analysis`, feed it. If it does not, leave the synthetic seed and keep `synthetic_seed_only: true` in the activation audit.
-4. Infinity REST first contact: committed in `rest_startup_timeout` (120s ordinary, up to 600s when `--render-timeout` is higher). Rerun the Infinity workflow. Read `HELIX_NATIVE_REST_WAIT`. Do not call the movie verified until FSEQ and MP4 checks pass.
-5. Phoneme stage motion 0.374: inspect the retained diagnostic media before changing choreography. Do not lower 0.65.
-6. Ask the owner for isolated lead/harmony, or written acceptance of ESTIMATED_REVIEW, before any release note claims singer verification.
-7. After 1–6, and only with owner visual acceptance: tag, draft the prerelease, upload APK, EXE, checksums, this checklist, installation notes, and the new 16-panel MP4. Then write `WEBSITE_RELEASE_HANDOFF.md`.
+1. Baseline comparison MP4 is on the draft release above and the checksum was verified by a fresh download. Still copy Windows portable ZIP `15158197246` (expires 2026-12-26 22:44 UTC) and, if disk allows, the full 16-panel artifact before that date. Do not publish the draft as Beta 1.4.
+2. Fast-forward `integration/beta14-recovered-logic-20261126` to `38e83cbd8d6910334af4f2dfa088138dd1cd7941`. GitHub compare says the live branch is 3 commits ahead and 0 behind `c5954fef`, but a shallow push was rejected as non-fast-forward. Deepen history, then push. Do not force-push. That update is what will rerun Infinity CI with `rest_startup_timeout`.
+3. Diff PR #261 governor and PR #262/#263 CooperativeShowDirector against `38e83cb`. The class name is absent from this repository's code search. Port only missing admission, physical-target, and timing rules into `CompositionGovernor` and the existing nine-pass path. No new director class.
+4. Ordinary-path sections: if `audio_analysis.json` already satisfies `timeline_from_audio_analysis`, feed it. If it does not, leave the synthetic seed and keep `synthetic_seed_only: true` in the activation audit.
+5. Infinity REST first contact: committed in `rest_startup_timeout` (120s ordinary, up to 600s when `--render-timeout` is higher). Rerun the Infinity workflow. Read `HELIX_NATIVE_REST_WAIT`. Do not call the movie verified until FSEQ and MP4 checks pass.
+6. Phoneme stage motion 0.374: inspect the retained diagnostic media before changing choreography. Do not lower 0.65.
+7. Ask the owner for isolated lead/harmony, or written acceptance of ESTIMATED_REVIEW, before any release note claims singer verification.
+8. After the gates above, and only with owner visual acceptance: tag, draft the prerelease, upload APK, EXE, checksums, this checklist, installation notes, and the new 16-panel MP4. Then write `WEBSITE_RELEASE_HANDOFF.md`.
 
 ## 8. Modified files this session
 
 - `BETA_1_4_RELEASE_CHECKLIST.md`
 - `MASTER_TODO.md`
 - `tools/native_preview.py` — `rest_startup_timeout`, 30s wait log
-- `tests/test_native_preview_resolution.py` — timeout bounds
+- `tests/test_native_preview_resolution.py` — timeout bounds. Local run: 28 tests, 0 failures.
 
-Baseline comparison MP4 preserved locally from artifact 15114156910: `Full_Length_16_Panel_Comparison.mp4`, 8,336,391 bytes, SHA-256 `b50f315ce2e4f981db92cdb38eccec5b3c1fb525b2b46e645960bb73d29bc831`. Draft release upload is the next preservation step. Not an accepted review.
+Draft baseline release assets were re-downloaded and matched `SHA256SUMS.txt`. Section 8's earlier "upload is next" line is done for the comparison MP4 only.
