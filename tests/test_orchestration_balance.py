@@ -119,3 +119,33 @@ def test_vu_meter_does_not_consume_failed_placements():
     for _ in range(24):
         gate.record(section="CHORUS", family="mega", label="green_vu")
     assert not gate.can_allow(section="CHORUS", family="mega", label="green_vu")
+
+
+def test_repeated_verse_and_chorus_sections_have_distinct_budgets():
+    from types import SimpleNamespace
+    from core.orchestration_balance import section_instance_key, ShowDirectionBudget
+
+    parts = [
+        SimpleNamespace(label="VERSE", start_ms=0, end_ms=1000),
+        SimpleNamespace(label="CHORUS", start_ms=1000, end_ms=2000),
+        SimpleNamespace(label="VERSE", start_ms=2000, end_ms=3000),
+    ]
+    key_a = section_instance_key(parts, 50)
+    key_b = section_instance_key(parts, 2050)
+    assert key_a == "0:VERSE"
+    assert key_b == "2:VERSE"
+    gate = ShowDirectionBudget(8, 3)
+    for key in (key_a, key_b):
+        assert gate.can_allow(section=key, family="mega", label="primary_phrase")
+        gate.record(section=key, family="mega", label="primary_phrase")
+    assert len(gate._families) == 2
+
+
+def test_flash_quiet_guard_rejects_effect_overlap_without_suppressing_adjacent_note():
+    from core.orchestration_balance import intersects_quiet_window
+
+    quiet = [(200, 400)]
+    assert intersects_quiet_window(100, 220, quiet)
+    assert intersects_quiet_window(300, 460, quiet)
+    assert not intersects_quiet_window(100, 200, quiet)
+    assert not intersects_quiet_window(400, 600, quiet)
