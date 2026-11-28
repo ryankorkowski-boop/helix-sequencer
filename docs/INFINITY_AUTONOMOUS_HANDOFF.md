@@ -54,3 +54,9 @@ Inspect -> Implement -> Integrate -> Test -> Render -> Verify -> Repair -> Deliv
 - [ ] Deliver and verify all links, including the concert and six district videos. Owner approval remains open.
 
 Local day/night renders use architectural shading and a static district-colored fixture test. Native review movies read colors directly from xLights FSEQ. The virtual controller is for inspection and keeps hardware output disabled. Hardware identities remain installation-specific.
+
+### Source-based district arrangement
+
+- [x] Push dimensional rebuild to PR #269 at `4611e1d3288f3a8408dd662a518b8c888552e74b`. Native engineering run [46142907790](https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/46142907790) passed dependency, geometry and source intake steps.
+- [x] Wire district sound roles through the retained master-plan cache and the existing native source scheduler. Local banks follow district-specific physical axes. Canonical drum, string and keyboard adapters compile from the same plan. A supplied source-qualified vocal receipt can enable independent native harmony. Preview without that receipt leaves harmony inactive.
+- [ ] Inspect the routed native render and decoded concert frames. Stage evidence must identify measured cues, animated parts and visual limitations. A correctly inactive harmony lane does not close the independent-vocal acceptance gate.

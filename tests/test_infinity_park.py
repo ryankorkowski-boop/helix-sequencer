@@ -53,3 +53,23 @@ def test_native_channel_binding_and_density(park):
         start=(row["first_channel"]-1)//3
         np.testing.assert_allclose(nodes+origin,native_xyz(positions[start:start+n]),atol=2e-5)
     assert manifest["owner_approved"] is False
+
+
+def test_district_routes_preserve_source_rests_and_native_ownership(park):
+    from tools.infinity_park.arrange import DISTRICT_ROLES, park_models
+    from tools.source_spatial_direction import onset_index, schedule
+
+    output, _, manifest, _ = park
+    with np.load(output/"rgb_bindings.npz") as bindings:
+        models=park_models(manifest,bindings["positions"])
+    assert DISTRICT_ROLES["Motor"]["Wheel"]=="drummer"
+    assert DISTRICT_ROLES["Gothic"]["Spires"]=="bassist"
+    assert DISTRICT_ROLES["Jungle"]["Flower"]=="keyboardist"
+    cue={"start_ms":100,"end_ms":290,"section":"PRECHORUS","kind":"snare","velocity":.9}
+    plan={"cues":{"drummer":[cue]}}
+    wheel=[m for m in models if m.name.startswith("Motor_Wheel_")]
+    hits=[schedule(model,plan,{},800,shared_onsets={"drummer":onset_index([cue])}) for model in wheel]
+    assert 0<sum(bool(h) for h in hits)<len(wheel)
+    assert all(100<=event["start_ms"]<event["end_ms"]<=290 for group in hits for event in group)
+    grand=[m for m in models if m.name.startswith("Grand_Window_")]
+    assert not any(schedule(model,plan,{},800) for model in grand)

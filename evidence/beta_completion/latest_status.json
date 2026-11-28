@@ -895,7 +895,9 @@
     "branch": "design/infinity-3d-showcase-20261127",
     "draft_pr": 269,
     "base_commit": "0c3e4dd6a4e79145c31a7fd633ffbd52e44a1bd3",
-    "status": "ARCHITECTURE_EXPORTED_NATIVE_REVIEW_OPEN",
+    "status": "DISTRICT_ROUTING_IMPLEMENTED_NATIVE_REVIEW_OPEN",
+    "architecture_commit": "4611e1d3288f3a8408dd662a518b8c888552e74b",
+    "architecture_review_run_id": 46142907790,
     "owner_approved": false,
     "production_source": {
       "file": "3minHelixRemix.wav",

@@ -1308,3 +1308,13 @@ Android manual packaging gate implemented in 442d26c3cdae90c252fd65b8926f056bfd3
 **New behavior and evidence.** Local export wrote 2,053 editable model records, 82,029 park RGB nodes excluding the six band props, 627,045 total channel assignments and 502,815 architectural triangles. Day/night, plan, elevation and district camera renders were generated and inspected. The original production WAV hash and duration match the owner-provided values.
 
 **Limitations, deferred work and regression risks.** Native runtime now has over twice the V5 park pixel count. Native artist review, stage vocal/drum activity, district music differentiation and production runtime are open. The new renderer is scoped to the park and only derives animated lighting from FSEQ. See [the live Infinity checklist](docs/INFINITY_AUTONOMOUS_HANDOFF.md).
+
+## November 28 · Route Infinity districts from one production analysis
+
+**Goal and changes.** `tools/infinity_park/arrange.py` applies existing semantic source routing to local district banks and compiles the canonical performance adapters. The review workflow and focused regression exercise it.
+
+**Preserved behavior.** Physical channels, source times, editable model and performer identities, and the production engine remain intact. The historical V5 branch evidence remains review-only.
+
+**Behavior and evidence.** The arrangement sorts physical fixtures by district geometry, assigns musical roles by installation, and shares one cue index per source. Ordinary percussive cues affect local banks. Harmony requires qualified matching vocal evidence. The focused route regression checks for local rather than whole-bank action and verifies that it stays within the measured interval.
+
+**Limitations and regression risks.** Model-heavy show loading and final visual quality require native verification. Strict source ownership may omit unqualified keyboard and harmony events. String and drum contact visibility retains the canonical native pose limitations. See the Infinity handoff for workflow and deliverable status.

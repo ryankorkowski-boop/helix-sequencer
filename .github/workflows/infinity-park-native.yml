@@ -11,7 +11,7 @@ permissions:
   contents: read
 concurrency:
   group: infinity-park-native-${{ github.ref }}
-  cancel-in-progress: true
+  cancel-in-progress: false
 jobs:
   engineering-preview:
     runs-on: ubuntu-24.04
@@ -52,6 +52,11 @@ jobs:
         run: |
           set -euo pipefail
           python main.py --profile master -- --template template.xsq --audio infinity-park/media/Wub_Wub_3s.wav --layout-file infinity-park/show/xlights_rgbeffects.xml --output-dir infinity-park/sequence --variants 1 --single --no-prompt --no-save-settings --no-learning-memory --no-workspace-history --birdsong --palette-mode workspace_match > infinity-park/helix.log 2>&1
+      - name: Route the shared production analysis through the seven districts
+        run: |
+          set -euo pipefail
+          python -m tools.infinity_park.arrange infinity-park/show infinity-park/sequence infinity-park/media/Wub_Wub_3s.wav infinity-park/arranged > infinity-park/routing.log 2>&1
+          cp infinity-park/arranged/xlights_rgbeffects.xml infinity-park/show/
       - name: Render native FSEQ with pinned xLights
         run: |
           set -euo pipefail
@@ -62,7 +67,7 @@ jobs:
           chmod +x xLights.AppImage
           ./xLights.AppImage --appimage-extract > /dev/null
           cd ../..
-          XLIGHTS_BIN="$PWD/infinity-park/xlights/squashfs-root/AppRun" python -m tools.infinity_park.verify infinity-park/show infinity-park/sequence infinity-park/media/Wub_Wub_3s.wav infinity-park/native
+          XLIGHTS_BIN="$PWD/infinity-park/xlights/squashfs-root/AppRun" python -m tools.infinity_park.verify infinity-park/show infinity-park/arranged infinity-park/media/Wub_Wub_3s.wav infinity-park/native
       - name: Render and decode native-lit engineering previews
         run: |
           set -euo pipefail
@@ -80,3 +85,5 @@ jobs:
             infinity-park/Movies/
             infinity-park/geometry_benchmark.json
             infinity-park/helix.log
+            infinity-park/routing.log
+            infinity-park/arranged/district_routing.json
