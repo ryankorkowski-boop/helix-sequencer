@@ -29,7 +29,28 @@ for k in range(12):
 for k in range(12):
     add(f'PathArch{k+1}','rhythm',[( -25+4*k+1.5*math.cos(math.pi*i/199),1.5*math.sin(math.pi*i/199),-4) for i in range(200)])
 # Canonical band geometry must be imported from approved repository assets, not fabricated.
-assert len(rows)==35888, len(rows)
+# Continuous figure-eight double helix: Y is vertical, Z is depth.
+# Two opposed strands follow a grade-separated closed centerline.
+def infinity_track(t, phase):
+    a,b=24.0,12.0
+    x=a*math.sin(t)
+    z=23+b*math.sin(2*t)
+    y=6+4*math.cos(t)
+    dx=a*math.cos(t)
+    dz=2*b*math.cos(2*t)
+    norm=math.hypot(dx,dz)
+    angle=20*t+phase
+    return (x-1.6*dz/norm*math.cos(angle),
+            y+1.6*math.sin(angle),
+            z+1.6*dx/norm*math.cos(angle))
+for strand in range(2):
+    add(f'DoubleHelixTrack_Strand{strand+1}','counterpoint',
+        [infinity_track(2*math.pi*i/1200,strand*math.pi) for i in range(1200)])
+for rung in range(80):
+    t=2*math.pi*rung/80
+    add(f'DoubleHelixTrack_Rung{rung+1:03d}','transition',
+        line(infinity_track(t,0),infinity_track(t,math.pi),8))
+assert len(rows)==38928, len(rows)
 assert len({r[-1] for r in rows})==len(rows)
 if __name__=='__main__':
     out=Path('infinity_pixel_geometry.csv')
