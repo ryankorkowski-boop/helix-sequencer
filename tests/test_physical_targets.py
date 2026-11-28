@@ -63,8 +63,11 @@ def test_live_placer_calls_the_physical_and_role_gates():
     text = (Path(__file__).resolve().parents[1] / "core" / "effect_engine.py").read_text(encoding="utf-8")
     assert "physical_placement_block(" in text
     assert "PhysicalTargets(active_layout_file)" in text
-    assert "balance.allows_piano_overlay" in text
-    assert "balance.allows_vocal" in text
+    assert "balance.accent_target_allowed(" in text
+    from core.orchestration_balance import accent_target_allowed
+    assert not accent_target_allowed("Arch", "polyphonic", layout_has_piano=True, layout_has_singer=True)
+    assert not accent_target_allowed("Arch", "lyric_mouth", layout_has_piano=True, layout_has_singer=True)
+    assert accent_target_allowed("Lead Singer", "lyric_mouth", layout_has_piano=True, layout_has_singer=True)
     assert "_section_budget_ok" in text
     assert "_section_budget_take" in text
 
