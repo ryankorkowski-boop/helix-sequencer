@@ -74,7 +74,9 @@ jobs:
       - name: Install RoFormer model-separation runtime for estimated vocals only
         run: |
           set -euo pipefail
-          python -m pip install "audio-separator[cpu]"
+          printf "torch==2.5.1\ntorchaudio==2.5.1\nnumpy==2.2.6\n" > /tmp/helix-audio-constraints.txt
+          python -m pip install -c /tmp/helix-audio-constraints.txt "audio-separator[cpu]"
+          python -c "import torch, torchaudio; assert torch.__version__.split(chr(43))[0] == torchaudio.__version__.split(chr(43))[0]"
           command -v audio-separator
       - name: Restore pinned native xLights 2026.18 build
         id: native-cache
