@@ -1,0 +1,37 @@
+name: Infinity V4 double-helix asset intake
+on:
+  push:
+    branches:
+      - design/infinity-3d-showcase-20261127
+    paths:
+      - tools/validate_infinity_v4.py
+      - .github/workflows/infinity-v4-asset-intake.yml
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  validate-v4:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Download exact V4 asset from owner Google Drive
+        run: |
+          set -euo pipefail
+          python -m pip install gdown==5.2.0
+          mkdir -p outputs/infinity_v4
+          python -m gdown '1NXd6NShzw4DX-nXji6tgqrZfG2KrM4wx' -O outputs/infinity_v4/Infinity_V4_Double_Helix.zip
+      - name: Validate integrity and channel contract
+        run: |
+          set -euo pipefail
+          python tools/validate_infinity_v4.py outputs/infinity_v4/Infinity_V4_Double_Helix.zip | tee outputs/infinity_v4/intake_result.json
+      - name: Preserve exact asset and evidence for integration
+        uses: actions/upload-artifact@v4
+        with:
+          name: Infinity-V4-Double-Helix-Validated-Intake
+          path: outputs/infinity_v4/
+          retention-days: 21
+          if-no-files-found: error
