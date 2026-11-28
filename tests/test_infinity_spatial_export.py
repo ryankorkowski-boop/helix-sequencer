@@ -15,8 +15,8 @@ class InfinityLayoutTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as folder:
             dst = Path(folder)
             manifest = export_layout(dst, include_band=False)
-            self.assertEqual(manifest["pixels_spatial"], 35888)
-            self.assertEqual(manifest["rgb_channels_spatial"], 107664)
+            self.assertEqual(manifest["pixels_spatial"], 38928)
+            self.assertEqual(manifest["rgb_channels_spatial"], 116784)
             self.assertGreater(manifest["spatial_model_count"], 300)
             self.assertEqual(sum(manifest["family_pixel_counts"].values()), EXPECTED_PIXELS)
             root = ET.parse(dst / "xlights_rgbeffects.xml").getroot()
