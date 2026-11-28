@@ -688,3 +688,7 @@ Implemented in `b944f707195a5ab3f32785a449c6a61ffba22d48`: native FSEQ channel p
 - [x] Focused integration tests passed on Python 3.11 and 3.12 in run 44868894288; full suite failed only stale catalog assertion there. Drummer ground-truth passed in run 44872008171.
 - [ ] Check current unified CI and Windows candidate after commits; repair any new failures. Find three white-only effect producers from diagnostic log and fix actual color assignment.
 - [ ] Obtain authenticated lead and harmony sources; verify independent phoneme clocks and native xLights XSQ/FSEQ; real-audio snowman MP4 and owner visual approval remain blocked. Windows/Android release not approved. Do not merge or publish.
+
+## November 28 · Infinity park rebuild on draft PR #269
+
+The seven-district park generator and renderer are tracked in [the Infinity handoff](INFINITY_AUTONOMOUS_HANDOFF.md). Verified source WAV and local dimensional mesh/channel export are ready. Read the running checklist for outstanding native video, band, production and owner-review gates. Beta release approval remains open.

@@ -1296,3 +1296,15 @@ Android manual packaging gate implemented in 442d26c3cdae90c252fd65b8926f056bfd3
 - [x] Implement input/output receipt validation and isolated fresh generation (`e0efe160ac0ec7cd4805f9f97ef3f6737cd9667e`).
 - [ ] Verify cache hits, changed inputs, dirty tree and failed generation with regression tests.
 - [ ] Confirm native MP4 run 44793419539; visual approval remains pending.
+
+## November 28 · Rebuild Infinity as a seven-district 3D park
+
+**Goal.** Replace the V5 review geometry with developed estates, jungle, motor boulevard, arena and Nexus built from one dimensional scene.
+
+**Changed modules.** `tools/infinity_park` models, maps and renders the park. The native CI job and focused tests exercise the same export. The four handoff/evidence records retain review status.
+
+**Preserved behavior.** The V5 workflow and previous assets remain reproducible. This branch still uses the Helix master engine, the pinned xLights renderer, and the repository's six-role canonical band data. Release and owner approval remain separate gates.
+
+**New behavior and evidence.** Local export wrote 2,053 editable model records, 82,029 park RGB nodes excluding the six band props, 627,045 total channel assignments and 502,815 architectural triangles. Day/night, plan, elevation and district camera renders were generated and inspected. The original production WAV hash and duration match the owner-provided values.
+
+**Limitations, deferred work and regression risks.** Native runtime now has over twice the V5 park pixel count. Native artist review, stage vocal/drum activity, district music differentiation and production runtime are open. The new renderer is scoped to the park and only derives animated lighting from FSEQ. See [the live Infinity checklist](docs/INFINITY_AUTONOMOUS_HANDOFF.md).

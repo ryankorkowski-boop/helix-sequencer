@@ -40,3 +40,17 @@ Status: NOT OWNER APPROVED. Draft PR #269. Canva reference: https://www.canva.co
 For each cycle append UTC timestamp, commit, action, run URL, artifact URL, tests, visual verdict, blocker, next action. Keep failed checks open. Never claim completion based on queued jobs or diagnostics.
 ## Guardrails
 Inspect -> Implement -> Integrate -> Test -> Render -> Verify -> Repair -> Deliver. Continue autonomously on draft branch; no merge, release, owner approval, synthetic audio, or misleading preview. Ask only for indispensable unavailable input or permissions. Keep full render blocked until both short gates and exact sampler pass. 
+
+## November 28 · Seven-district park rebuild
+
+- [x] Inspect PR #269 at `0c3e4dd6a4e79145c31a7fd633ffbd52e44a1bd3`. V5 engineering run [46121735996](https://github.com/ryankorkowski-boop/helix-sequencer/actions/runs/46121735996) produced artifact 15255430930. The owner's visual failure remains open.
+- [x] Authenticate the original WAV again. SHA-256 and 180.224014-second duration match the directive. Preview uses the original Wub Wub Wonderland Remastered at 25–28 seconds.
+- [x] Build and export the new seven-district dimensional site, GLB cameras, native OBJ/MTL, color bindings, XML and virtual channel configuration. Geometry export measured 8.332 seconds in the local environment. Two focused export tests passed.
+- [x] Generate and inspect architectural overview, district, front, side and plan views. The next visual pass must inspect the native-lit motion and concert cast.
+- [ ] Run and read back the new native xLights workflow, including channel activity per district, all three seconds of FSEQ, and decoded videos. The local execution environment cannot initialize the xLights X server, and the local master engine requires Demucs. The pinned review workflow installs both dependencies.
+- [ ] Verify canonical drummer audio cues, guitar, upright bass, restrained keyboard, independent singers and silence against excerpts that contain the applicable sources. The exported native band is the repository's canonical surface/pose cast and planar drummer rig. Continuous articulated band mesh and separately verified harmony remain open.
+- [ ] Enforce separate district musical roles with evidence from a quiet section, build and transition. Establish that the full show clears motion, brightness, color and composition review before rendering the production WAV.
+- [ ] Render and validate the full 180.224014-second production show. Benchmark export/render CPU and memory on that source.
+- [ ] Deliver and verify all links, including the concert and six district videos. Owner approval remains open.
+
+Local day/night renders use architectural shading and a static district-colored fixture test. Native review movies read colors directly from xLights FSEQ. The virtual controller is for inspection and keeps hardware output disabled. Hardware identities remain installation-specific.

@@ -789,5 +789,24 @@
         }
       }
     ]
+  },
+  "infinity_park": {
+    "branch": "design/infinity-3d-showcase-20261127",
+    "draft_pr": 269,
+    "base_commit": "0c3e4dd6a4e79145c31a7fd633ffbd52e44a1bd3",
+    "status": "ARCHITECTURE_EXPORTED_NATIVE_REVIEW_OPEN",
+    "owner_approved": false,
+    "production_source": {
+      "file": "3minHelixRemix.wav",
+      "duration_seconds": 180.224014,
+      "sha256": "efdfe69328b8458ff9b405d091af9d5cb9202e3f53846f1ac0de07814f28739d"
+    },
+    "handoff": "docs/INFINITY_AUTONOMOUS_HANDOFF.md",
+    "prior_v5_engineering_artifact": {
+      "run_id": 46121735996,
+      "artifact_id": 15255430930,
+      "visual_acceptance": false
+    },
+    "new_native_artifacts": []
   }
 }
