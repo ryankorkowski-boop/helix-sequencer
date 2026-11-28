@@ -1,0 +1,89 @@
+name: Infinity park native review
+on:
+  push:
+    branches: [design/infinity-3d-showcase-20261127]
+    paths:
+      - 'tools/infinity_park/**'
+      - 'tests/test_infinity_park.py'
+      - '.github/workflows/infinity-park-native.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: infinity-park-native-${{ github.ref }}
+  cancel-in-progress: false
+jobs:
+  engineering-preview:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 80
+    env:
+      OMP_NUM_THREADS: '2'
+      OPENBLAS_NUM_THREADS: '2'
+      MKL_NUM_THREADS: '2'
+      HELIX_DEMUCS_DEVICE: cpu
+      XL_NO_GPU_COMPUTE: '1'
+      LIBGL_ALWAYS_SOFTWARE: '1'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: pip
+      - name: Install Helix and xLights runtime dependencies
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y ffmpeg xvfb xauth libgtk-3-0t64 libgl1 libegl1 libegl-mesa0 libglu1-mesa libopengl0 libgstreamer-plugins-base1.0-0
+          python -m pip install -r requirements.txt trimesh zstandard moderngl gdown==6.4.2 cmudict pytest
+      - name: Verify the physical layout and export the park
+        run: |
+          set -euo pipefail
+          mkdir -p infinity-park
+          python -m pytest -q tests/test_infinity_park.py
+          python -m tools.infinity_park.export infinity-park/show | tee infinity-park/geometry_benchmark.json
+          python -m tools.infinity_park.render infinity-park/show infinity-park/Architecture --width 1600
+      - name: Authenticate and cut the Wub Wub engineering excerpt
+        run: |
+          set -euo pipefail
+          mkdir -p infinity-park/media
+          python -m gdown '1iRxuTue92q-JDBnIo7ihwqycTyHw_Be4' -O infinity-park/media/Wub_Wub_Wonderland.mp3
+          echo 'f5bf2671150fd3bfaecec35fea53839b4a62543df3f2520d3c288fffd51aee73  infinity-park/media/Wub_Wub_Wonderland.mp3' | sha256sum -c -
+          ffmpeg -nostdin -v error -y -ss 25 -i infinity-park/media/Wub_Wub_Wonderland.mp3 -t 3 -ar 44100 -ac 2 -c:a pcm_s16le infinity-park/media/Wub_Wub_3s.wav
+      - name: Sequence with the existing Helix master engine
+        run: |
+          set -euo pipefail
+          python main.py --profile master -- --template template.xsq --audio infinity-park/media/Wub_Wub_3s.wav --layout-file infinity-park/show/xlights_rgbeffects.xml --output-dir infinity-park/sequence --variants 1 --single --no-prompt --no-save-settings --no-learning-memory --no-workspace-history --birdsong --palette-mode workspace_match > infinity-park/helix.log 2>&1
+      - name: Route the shared production analysis through the seven districts
+        run: |
+          set -euo pipefail
+          python -m tools.infinity_park.arrange infinity-park/show infinity-park/sequence infinity-park/media/Wub_Wub_3s.wav infinity-park/arranged > infinity-park/routing.log 2>&1
+          cp infinity-park/arranged/xlights_rgbeffects.xml infinity-park/show/
+      - name: Render native FSEQ with pinned xLights
+        run: |
+          set -euo pipefail
+          mkdir -p infinity-park/xlights
+          cd infinity-park/xlights
+          curl -fLsS --retry 3 https://github.com/xLightsSequencer/xLights/releases/download/2026.18/xLights-2026.18-x86_64.AppImage -o xLights.AppImage
+          echo '62affb88b9a9b03cf5164974ac69bcefe35c559719d157b3364e4d4a5ab4214b  xLights.AppImage' | sha256sum -c -
+          chmod +x xLights.AppImage
+          ./xLights.AppImage --appimage-extract > /dev/null
+          cd ../..
+          XLIGHTS_BIN="$PWD/infinity-park/xlights/squashfs-root/AppRun" python -m tools.infinity_park.verify infinity-park/show infinity-park/arranged infinity-park/media/Wub_Wub_3s.wav infinity-park/native
+      - name: Render and decode native-lit engineering previews
+        run: |
+          set -euo pipefail
+          python -m tools.infinity_park.render infinity-park/show infinity-park/Movies --fseq infinity-park/native/Wub_Wub_3s.fseq --audio infinity-park/media/Wub_Wub_3s.wav \
+            --camera overview --camera Arena --camera Grand --camera Modern --camera Gothic --camera Jungle --camera Motor --camera Nexus
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: Helix-Infinity-Park-Engineering-Review
+          path: |
+            infinity-park/show/
+            infinity-park/Architecture/
+            infinity-park/media/Wub_Wub_3s.wav
+            infinity-park/native/
+            infinity-park/Movies/
+            infinity-park/geometry_benchmark.json
+            infinity-park/helix.log
+            infinity-park/routing.log
+            infinity-park/arranged/district_routing.json

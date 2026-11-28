@@ -890,5 +890,31 @@
       "owner_visual_approval": false,
       "integration_merge_completed": false
     }
+  },
+  "infinity_park": {
+    "branch": "design/infinity-3d-showcase-20261127",
+    "draft_pr": 269,
+    "base_commit": "0c3e4dd6a4e79145c31a7fd633ffbd52e44a1bd3",
+    "status": "DISTRICT_ROUTING_IMPLEMENTED_NATIVE_REVIEW_OPEN",
+    "architecture_commit": "4611e1d3288f3a8408dd662a518b8c888552e74b",
+    "architecture_review_run_id": 46142907790,
+    "district_routing_commit": "9703f723815af072895f3dc0aa9ac61b946bc6cd",
+    "district_routing_run_id": 46143233255,
+    "baseline_native_render": {"frames": 60, "step_ms": 50, "render_seconds": 49.877, "mp4_count": 8, "visual_acceptance": false},
+    "owner_approved": false,
+    "production_source": {
+      "file": "3minHelixRemix.wav",
+      "duration_seconds": 180.224014,
+      "sha256": "efdfe69328b8458ff9b405d091af9d5cb9202e3f53846f1ac0de07814f28739d"
+    },
+    "handoff": "docs/INFINITY_AUTONOMOUS_HANDOFF.md",
+    "local_export": {
+      "districts": 7,
+      "models": 2053,
+      "park_rgb_nodes": 82029,
+      "channels": 627045,
+      "triangles": 502815,
+      "export_seconds": 8.332
+    }
   }
 }

@@ -688,3 +688,14 @@ Implemented in `b944f707195a5ab3f32785a449c6a61ffba22d48`: native FSEQ channel p
 - [x] Focused integration tests passed on Python 3.11 and 3.12 in run 44868894288; full suite failed only stale catalog assertion there. Drummer ground-truth passed in run 44872008171.
 - [ ] Check current unified CI and Windows candidate after commits; repair any new failures. Find three white-only effect producers from diagnostic log and fix actual color assignment.
 - [ ] Obtain authenticated lead and harmony sources; verify independent phoneme clocks and native xLights XSQ/FSEQ; real-audio snowman MP4 and owner visual approval remain blocked. Windows/Android release not approved. Do not merge or publish.
+
+## November 28 · Infinity park rebuild on draft PR #269
+
+The seven-district park generator and renderer are tracked in [the Infinity handoff](INFINITY_AUTONOMOUS_HANDOFF.md). Verified source WAV and local dimensional mesh/channel export are ready. Read the running checklist for outstanding native video, band, production and owner-review gates. Beta release approval remains open.
+
+Infinity's district scheduler reuses the master plan and canonical performance adapters. Its native engineering workflow and unresolved harmony gate are linked in the Infinity handoff.
+
+The baseline park engineering videos and 627,045-channel native FSEQ were reproduced. The arena visual gate found an RGB-to-stage coordinate error and an inactive master-sequence drummer. The branch has the binding repair and retained-plan drum adapter. The aligned render and full-song acceptance remain open.
+
+### Infinity park review · November 28
+Reviewed all eight cameras from native run 46143597856 at 85d2537a. Source FSEQ recorded 1,392 changing drummer channels, 6,270 bass and 7,518 guitar. Piano, lead and harmony had zero changing channels. The previous two-pass preview wrote glow depth before drawing the bright LED cores. Corrected tools/infinity_park/render.py to set the depth mask on the actual framebuffer. This changes preview compositing only; native channel data, architecture and audio remain intact. Four focused park tests passed. Local arena replay now shows distinct snowmen and instruments, but all six roles, drummer contacts and independent vocals remain visually unverified. Full production render remains pending.

@@ -1296,3 +1296,38 @@ Android manual packaging gate implemented in 442d26c3cdae90c252fd65b8926f056bfd3
 - [x] Implement input/output receipt validation and isolated fresh generation (`e0efe160ac0ec7cd4805f9f97ef3f6737cd9667e`).
 - [ ] Verify cache hits, changed inputs, dirty tree and failed generation with regression tests.
 - [ ] Confirm native MP4 run 44793419539; visual approval remains pending.
+
+## November 28 · Rebuild Infinity as a seven-district 3D park
+
+**Goal.** Replace the V5 review geometry with developed estates, jungle, motor boulevard, arena and Nexus built from one dimensional scene.
+
+**Changed modules.** `tools/infinity_park` models, maps and renders the park. The native CI job and focused tests exercise the same export. The four handoff/evidence records retain review status.
+
+**Preserved behavior.** The V5 workflow and previous assets remain reproducible. This branch still uses the Helix master engine, the pinned xLights renderer, and the repository's six-role canonical band data. Release and owner approval remain separate gates.
+
+**New behavior and evidence.** Local export wrote 2,053 editable model records, 82,029 park RGB nodes excluding the six band props, 627,045 total channel assignments and 502,815 architectural triangles. Day/night, plan, elevation and district camera renders were generated and inspected. The original production WAV hash and duration match the owner-provided values.
+
+**Limitations, deferred work and regression risks.** Native runtime now has over twice the V5 park pixel count. Native artist review, stage vocal/drum activity, district music differentiation and production runtime are open. The new renderer is scoped to the park and only derives animated lighting from FSEQ. See [the live Infinity checklist](docs/INFINITY_AUTONOMOUS_HANDOFF.md).
+
+## November 28 · Route Infinity districts from one production analysis
+
+**Goal and changes.** `tools/infinity_park/arrange.py` applies existing semantic source routing to local district banks and compiles the canonical performance adapters. The review workflow and focused regression exercise it.
+
+**Preserved behavior.** Physical channels, source times, editable model and performer identities, and the production engine remain intact. The historical V5 branch evidence remains review-only.
+
+**Behavior and evidence.** The arrangement sorts physical fixtures by district geometry, assigns musical roles by installation, and shares one cue index per source. Ordinary percussive cues affect local banks. Harmony requires qualified matching vocal evidence. The focused route regression checks for local rather than whole-bank action and verifies that it stays within the measured interval.
+
+**Limitations and regression risks.** Model-heavy show loading and final visual quality require native verification. Strict source ownership may omit unqualified keyboard and harmony events. String and drum contact visibility retains the canonical native pose limitations. See the Infinity handoff for workflow and deliverable status.
+
+## November 28 · Align arena RGB nodes and bound district effect generation
+
+**Goal and changes.** The Infinity renderer and export use inverse coordinate transforms for band bindings. The park's source routing caps the size of each local response. Optional caps in the existing routing helper preserve its other callers' defaults.
+
+**Preserved behavior.** Physical xLights model geometry, its channels and audio cue timings remain intact. The updated renderer bases every animation frame on xLights FSEQ bytes. Explicitly authored low-intensity marker lighting identifies architectural edges through rests.
+
+**Evidence.** Baseline run 46142907790 produced native FSEQ artifact 15262312216 and eight decoded preview videos. The arena failed visual review and the binding regression detects the incorrect basis. Original Wub Wub Demucs/Whisper analysis compiled real percussion into the canonical drum rows. The new native render requires independent visual review.
+
+**Limitations and risks.** The current cue caps affect the density of activity within local banks. Full soundtrack runtime, isolated-band playing, independent vocals, and the production visual gate remain open.
+
+### Infinity park review · November 28
+Reviewed all eight cameras from native run 46143597856 at 85d2537a. Source FSEQ recorded 1,392 changing drummer channels, 6,270 bass and 7,518 guitar. Piano, lead and harmony had zero changing channels. The previous two-pass preview wrote glow depth before drawing the bright LED cores. Corrected tools/infinity_park/render.py to set the depth mask on the actual framebuffer. This changes preview compositing only; native channel data, architecture and audio remain intact. Four focused park tests passed. Local arena replay now shows distinct snowmen and instruments, but all six roles, drummer contacts and independent vocals remain visually unverified. Full production render remains pending.

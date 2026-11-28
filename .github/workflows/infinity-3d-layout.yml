@@ -1,0 +1,59 @@
+name: Infinity 3D xLights layout export
+on:
+  push:
+    branches:
+      - design/infinity-3d-showcase-20261127
+  pull_request:
+    branches:
+      - integration/beta14-recovered-logic-20261126
+    paths:
+      - "tools/generate_infinity_showcase_geometry.py"
+      - "tools/export_infinity_xlights_layout.py"
+      - "tools/infinity_canonical_band.py"
+      - "tests/test_infinity_spatial_export.py"
+      - ".github/workflows/infinity-3d-layout.yml"
+  workflow_dispatch:
+
+concurrency:
+  group: infinity-layout-${{ github.head_ref || github.ref_name }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  infinity-layout:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install canonical six-member band dependencies
+        run: python -m pip install "numpy<3" pillow trimesh scipy
+      - name: Validate Infinity spatial geometry and XML contract
+        run: |
+          mkdir -p outputs/infinity_diagnostics
+          set -o pipefail
+          python -m unittest discover -s tests -p 'test_infinity_spatial_export.py' -v 2>&1 | tee outputs/infinity_diagnostics/tests.log
+      - name: Publish failure diagnostics
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: Infinity-validation-diagnostics
+          path: outputs/infinity_diagnostics/
+          if-no-files-found: ignore
+      - name: Build editable xLights-format layout candidate
+        run: python -m tools.export_infinity_xlights_layout --output outputs/infinity_showcase
+      - name: Upload draft layout for engineering review
+        uses: actions/upload-artifact@v4
+        with:
+          name: Helix-Infinity-3D-xLights-DRAFT
+          path: |
+            outputs/infinity_showcase/xlights_rgbeffects.xml
+            outputs/infinity_showcase/infinity_pixel_geometry.csv
+            outputs/infinity_showcase/infinity_manifest.json
+            outputs/infinity_showcase/assets/*
+          if-no-files-found: error
+          retention-days: 21

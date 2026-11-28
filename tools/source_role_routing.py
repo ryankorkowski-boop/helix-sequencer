@@ -102,6 +102,7 @@ def route_event(model, cue, onset_index, strategy):
     if cue.get('synchronized_accent') is True:
         return 0
     width = min(count, max(1, round(count * (.35 if strategy['name'] == 'wide_response' else .18))))
+    width = min(width, int(model.details.get('source_route_cap', width)))
     direction = strategy['direction']
     distance = ((rank - origin) * direction) % count
     if distance >= width:
