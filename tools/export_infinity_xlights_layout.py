@@ -15,7 +15,7 @@ from pathlib import Path
 from tools.generate_infinity_showcase_geometry import rows
 from tools.infinity_canonical_band import append_canonical_six_band
 
-EXPECTED_PIXELS = 35888
+EXPECTED_PIXELS = 38928
 
 
 def _family(name: str) -> str:
