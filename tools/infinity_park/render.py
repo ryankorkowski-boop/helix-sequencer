@@ -184,7 +184,7 @@ class Renderer:
     def set_camera(self,camera,night):
         eye,matrix=camera_matrix(camera,self.width/self.height)
         self.background.use()
-        self.ctx.depth_mask=True
+        self.background.depth_mask=True
         self.background.clear(*((.042,.06,.102,1) if night else (.39,.54,.65,1)),depth=1)
         self.shadow.use(0)
         self.mesh["camera"].write(matrix_bytes(matrix))
@@ -206,7 +206,7 @@ class Renderer:
             self.frame.use()
             self.pixel_colors.write((colors.astype("f4")/255).tobytes())
             self.ctx.enable(moderngl.BLEND)
-            self.ctx.depth_mask=False
+            self.frame.depth_mask=False
             self.ctx.blend_func=moderngl.SRC_ALPHA, moderngl.ONE
             self.lights["glow_pass"].value=1.
             self.pixel_vao.render(mode=moderngl.POINTS)
@@ -214,7 +214,7 @@ class Renderer:
             self.lights["glow_pass"].value=0.
             self.pixel_vao.render(mode=moderngl.POINTS)
             self.ctx.disable(moderngl.BLEND)
-            self.ctx.depth_mask=True
+            self.frame.depth_mask=True
         return self.frame.read(components=3,alignment=1)
 
     def still(self, output, colors=None):

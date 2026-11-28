@@ -696,3 +696,6 @@ The seven-district park generator and renderer are tracked in [the Infinity hand
 Infinity's district scheduler reuses the master plan and canonical performance adapters. Its native engineering workflow and unresolved harmony gate are linked in the Infinity handoff.
 
 The baseline park engineering videos and 627,045-channel native FSEQ were reproduced. The arena visual gate found an RGB-to-stage coordinate error and an inactive master-sequence drummer. The branch has the binding repair and retained-plan drum adapter. The aligned render and full-song acceptance remain open.
+
+### Infinity park review · November 28
+Reviewed all eight cameras from native run 46143597856 at 85d2537a. Source FSEQ recorded 1,392 changing drummer channels, 6,270 bass and 7,518 guitar. Piano, lead and harmony had zero changing channels. The previous two-pass preview wrote glow depth before drawing the bright LED cores. Corrected tools/infinity_park/render.py to set the depth mask on the actual framebuffer. This changes preview compositing only; native channel data, architecture and audio remain intact. Four focused park tests passed. Local arena replay now shows distinct snowmen and instruments, but all six roles, drummer contacts and independent vocals remain visually unverified. Full production render remains pending.
