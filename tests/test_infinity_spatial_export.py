@@ -33,11 +33,16 @@ class InfinityLayoutTests(unittest.TestCase):
             for start, count, name in actual:
                 self.assertEqual(start, cursor, name)
                 cursor += count * 3
-            self.assertEqual(cursor, 107665)
+            self.assertEqual(cursor, 116785)
             self.assertTrue(all(len(m.get("PointData").split(",")) == int(m.get("NumPoints")) * 3 for m in models))
             groups = {g.get("name"): g.get("models", "") for g in root.findall("./modelGroups/modelGroup")}
-            self.assertEqual(len(groups["HX_INFINITY_DOUBLE_HELIX"].split(",")), 4)
+            self.assertEqual(len(groups["HX_INFINITY_DOUBLE_HELIX"].split(",")), 86)
             self.assertIn("HX_INFINITY_PIXEL_VOLUME", groups)
+            track = [m for m in models if m.get("name").startswith("HX_INFINITY_DoubleHelixTrack_")]
+            self.assertEqual(len(track), 82)
+            self.assertEqual(sum(int(m.get("parm2")) for m in track), 3040)
+            self.assertEqual(sum("Strand" in m.get("name") for m in track), 2)
+            self.assertEqual(sum("Rung" in m.get("name") for m in track), 80)
             for route in ("WEST_TO_EAST", "GROUND_TO_SKY", "FRONT_TO_BACK", "CENTER_OUT", "CLOCKWISE_ORBIT"):
                 self.assertEqual(set(groups["HX_INFINITY_SPATIAL_"+route].split(",")), {m.get("name") for m in models})
             self.assertTrue(any(m.get("DisplayAs") == "Arches" for m in models))
