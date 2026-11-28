@@ -137,8 +137,9 @@ def test_static_band_materials_attach_after_instrument_rows_are_replaced():
     export_static_materials(root, SimpleNamespace(models=[model]), 1000)
 
     effects = root.findall("./ElementEffects/Element[@name='HX_SNOW_BASS/STATIC_RGB_FFFFFF']/EffectLayer/Effect")
-    assert [effect.get('startTime') for effect in effects] == ['0', '400', '800']
-    assert [effect.get('endTime') for effect in effects] == ['400', '800', '1000']
+    assert [effect.get('startTime') for effect in effects] == ['0']
+    assert [effect.get('endTime') for effect in effects] == ['1000']
+    assert 'E_TEXTCTRL_Eff_On_Start=90,E_TEXTCTRL_Eff_On_End=90' in effects[0].get('settings', '')
     assert {effect.get('sourceRole') for effect in effects} == {'static_authored_material'}
     assert root.find("./ElementEffects/Element[@name='HX_SNOW_BASS/STRING_0']") is None
 
