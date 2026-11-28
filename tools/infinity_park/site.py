@@ -46,9 +46,9 @@ CAMERAS = {
     "Gothic": {"eye": (51,-25,29), "target": (88,46,16), "width": 73},
     "Jungle": {"eye": (-130,-82,24), "target": (-88,-29,10), "width": 69},
     "Motor": {"eye": (42,-83,26), "target": (88,-30,3), "width": 69},
-    "Arena": {"eye": (0,-129,11), "target": (0,-74,8.6), "width": 57},
+    "Arena": {"eye": (0,-128,12), "target": (0,-74,8.1), "width": 55},
     "Arena_wing": {"eye": (36,-123,20), "target": (0,-74,8), "width": 58},
-    "Nexus": {"eye": (62,-59,38), "target": (0,1,20), "width": 75},
+    "Nexus": {"eye": (45,-73,35), "target": (0,1,21), "width": 91},
 }
 
 

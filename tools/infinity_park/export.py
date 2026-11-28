@@ -26,6 +26,10 @@ def native_xyz(points):
     return np.asarray(points)[..., [0, 2, 1]] * (1, 1, -1)
 
 
+def site_xyz(points):
+    return np.asarray(points)[..., [0, 2, 1]] * (1, -1, 1)
+
+
 def packed_geometry(scene):
     for (district, material), pieces in scene.pieces.items():
         vertices, faces = [], []
@@ -153,7 +157,7 @@ def canonical_band(models, groups, assets, channel):
         models.append(model_xml(performer))
         names["HX_SNOWMAN_BAND"].append(performer.name)
         names["HX_SNOWMAN_VOCALS" if role in ("lead","harmony") else "HX_SNOWMAN_INSTRUMENTS"].append(performer.name)
-        yield performer, native_xyz(performer.points), role
+        yield performer, site_xyz(performer.points), role
         channel += performer.channels
     for name,members in names.items():
         ET.SubElement(groups,"modelGroup",name=name,models=",".join(members))

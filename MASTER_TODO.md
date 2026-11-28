@@ -1318,3 +1318,13 @@ Android manual packaging gate implemented in 442d26c3cdae90c252fd65b8926f056bfd3
 **Behavior and evidence.** The arrangement sorts physical fixtures by district geometry, assigns musical roles by installation, and shares one cue index per source. Ordinary percussive cues affect local banks. Harmony requires qualified matching vocal evidence. The focused route regression checks for local rather than whole-bank action and verifies that it stays within the measured interval.
 
 **Limitations and regression risks.** Model-heavy show loading and final visual quality require native verification. Strict source ownership may omit unqualified keyboard and harmony events. String and drum contact visibility retains the canonical native pose limitations. See the Infinity handoff for workflow and deliverable status.
+
+## November 28 · Align arena RGB nodes and bound district effect generation
+
+**Goal and changes.** The Infinity renderer and export use inverse coordinate transforms for band bindings. The park's source routing caps the size of each local response. Optional caps in the existing routing helper preserve its other callers' defaults.
+
+**Preserved behavior.** Physical xLights model geometry, its channels and audio cue timings remain intact. The updated renderer bases every animation frame on xLights FSEQ bytes. Explicitly authored low-intensity marker lighting identifies architectural edges through rests.
+
+**Evidence.** Baseline run 46142907790 produced native FSEQ artifact 15262312216 and eight decoded preview videos. The arena failed visual review and the binding regression detects the incorrect basis. Original Wub Wub Demucs/Whisper analysis compiled real percussion into the canonical drum rows. The new native render requires independent visual review.
+
+**Limitations and risks.** The current cue caps affect the density of activity within local banks. Full soundtrack runtime, isolated-band playing, independent vocals, and the production visual gate remain open.

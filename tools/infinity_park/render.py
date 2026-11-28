@@ -88,7 +88,7 @@ in vec3 color;
 out vec3 emitted;
 void main() {
     gl_Position = camera * vec4(position, 1);
-    gl_PointSize = max(1.45, radius * pixels_per_metre * 2.0) * (1.0 + glow_pass*3.1);
+    gl_PointSize = max(1.85, radius * pixels_per_metre * 2.0) * (1.0 + glow_pass*3.1);
     emitted = color;
 }
 """
@@ -104,8 +104,8 @@ void main() {
     if (intensity < 0.008 || r >= 1.0) discard;
     float opacity = mix((1.0-smoothstep(.55,1.0,r))*.94,
                         exp(-r*r*5.5)*.19,glow_pass);
-    vec3 color = emitted;
-    if (glow_pass < .5) color = mix(emitted,vec3(intensity), (1.0-r)*0.17);
+    vec3 color = pow(emitted, vec3(.79));
+    if (glow_pass < .5) color = mix(color,vec3(pow(intensity,.79)), (1.0-r)*0.17);
     pixel = vec4(color,opacity);
 }
 """

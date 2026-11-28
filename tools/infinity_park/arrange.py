@@ -22,8 +22,8 @@ from tools.canonical_band_cues import export_drums, export_instruments
 from tools.layout_bench.run_bench import canonical_xsq
 from tools.phoneme_vocal_export import export as export_qualified_faces, static_materials
 from tools.source_spatial_direction import export_model, onset_index
-from xlights.xml_io import materialize_native_effect_tables
-from xlights.xsq_writer import add_effect
+from xlights.xml_io import bound_media_effects, materialize_native_effect_tables, set_sequence_duration
+from xlights.xsq_writer import EffectTemplate, add_effect
 
 from .export import canonical_band, native_xyz, write_xml
 
@@ -47,6 +47,9 @@ DISTRICT_ROLES = {
     "Nexus": {"Double_Helix": "guitarist", "Helix_Rung": "keyboardist", "Elevated_Track": "bassist"},
 }
 AXIS = {"Grand": 0, "Modern": 0, "Gothic": 1, "Jungle": 2, "Motor": 2, "Arena": 0, "Nexus": 1}
+ACTIVITY_CAP = {"Arch": 5, "Spiral_Tree": 5, "Matrix": 4, "Gill": 4, "Flower": 4,
+                "Wheel": 4, "Double_Helix": 4, "Spires": 4}
+AMBIENT_FIXTURES = {"Lantern", "Roofline", "Truss", "Elevated_Track", "Mushroom"}
 
 
 def park_models(manifest, positions):
@@ -88,7 +91,8 @@ def park_models(manifest, positions):
             key=lambda entry: (entry[1][axis],entry[0].name)
         for rank,(model,_) in enumerate(sorted(bank,key=key)):
             model.details.update(source_route_bank=f"{district}_{family}",source_route_rank=rank,
-                                 source_route_count=len(bank))
+                                 source_route_count=len(bank),source_route_cap=ACTIVITY_CAP.get(family,3),
+                                 fixture_family=family)
     return models
 
 
@@ -161,6 +165,14 @@ def arrange(show, master_folder, audio, output, *, vocal_fixture=None):
         if result["output_events"]:
             routing_notes[district][result["role"]]+=result["output_events"]
         node=by_name[model.name]
+        if model.details["fixture_family"] in AMBIENT_FIXTURES:
+            # Architectural marker lights remain visible at rest. Keep the
+            # audio-driven lanes on their own submodels and clocks.
+            parent=sequence.elements[model.name].find("EffectLayer")
+            add_effect(parent,0,sequence.duration,"On",EffectTemplate(
+                settings="E_TEXTCTRL_Eff_On_Start=8,E_TEXTCTRL_Eff_On_End=8",
+                palette=f"C_BUTTON_Palette1={palette[1]},C_CHECKBOX_Palette1=1")).set(
+                    "sourceMethod","authored_ambient_marker")
         for submodel in model_xml(model).findall("subModel"):
             node.append(submodel)
     # Staging light uses only authored static material submodels, excluding
@@ -191,10 +203,12 @@ def arrange(show, master_folder, audio, output, *, vocal_fixture=None):
             raise ValueError("An independent harmony lane requires a source-qualified vocal fixture")
         vocal_evidence=export_qualified_faces(sequence.root,routed_layout,SimpleNamespace(models=band),
                                              fixture=vocal_fixture,expected_sha256=audio_hash,source_audio=audio)
-    materialize_native_effect_tables(sequence.root)
-    sequence.write(output/f"{audio.stem}, Infinity Districts.xsq")
+    bound_media_effects(sequence.root,set_sequence_duration(sequence.root,duration))
+    tables=materialize_native_effect_tables(sequence.root)
+    write_xml(output/f"{audio.stem}, Infinity Districts.xsq",sequence.root)
     receipt={"owner_approved":False,"audio_sha256":audio_hash,"master_xsq_sha256":sha256(master),
              "source_plan_sha256":sha256(plan_path),"district_effects_by_role":routing_notes,
+             "editable_native_effects":tables["effects"],
              "drummer":drums,"instrument_routing":instruments,"vocal_evidence":vocal_evidence,"seconds":round(time.perf_counter()-start,3)}
     (output/"district_routing.json").write_text(json.dumps(receipt,indent=2)+"\n")
     return receipt

@@ -69,7 +69,23 @@ def test_district_routes_preserve_source_rests_and_native_ownership(park):
     plan={"cues":{"drummer":[cue]}}
     wheel=[m for m in models if m.name.startswith("Motor_Wheel_")]
     hits=[schedule(model,plan,{},800,shared_onsets={"drummer":onset_index([cue])}) for model in wheel]
-    assert 0<sum(bool(h) for h in hits)<len(wheel)
+    assert 0<sum(bool(h) for h in hits)<=4<len(wheel)
     assert all(100<=event["start_ms"]<event["end_ms"]<=290 for group in hits for event in group)
     grand=[m for m in models if m.name.startswith("Grand_Window_")]
     assert not any(schedule(model,plan,{},800) for model in grand)
+
+
+def test_canonical_band_binding_stays_at_the_arena(tmp_path):
+    from tools.infinity_park.export import canonical_band, site_xyz
+
+    models,groups=ET.Element("models"),ET.Element("modelGroups")
+    band=list(canonical_band(models,groups,tmp_path,1))
+    assert len(band)==6
+    channel=1
+    for model,points,role in band:
+        assert model.start==channel
+        channel+=model.channels
+        np.testing.assert_allclose(site_xyz(native_xyz(points)),points)
+        np.testing.assert_allclose(native_xyz(points),model.points)
+        assert np.all((-90<points[:,1]) & (points[:,1]<-61)),role
+        assert np.all((0<points[:,2]) & (points[:,2]<17)),role

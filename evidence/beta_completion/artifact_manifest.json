@@ -809,6 +809,15 @@
       "artifact_id": 15255430930,
       "visual_acceptance": false
     },
-    "new_native_artifacts": []
+    "new_native_artifacts": [
+      {
+        "commit": "4611e1d3288f3a8408dd662a518b8c888552e74b",
+        "run_id": 46142907790,
+        "artifact_id": 15262312216,
+        "fseq_sha256": "a5ff8962301002f38db369aa27200ae55d4e8f4905348efe44c8895c57aa9900",
+        "visual_acceptance": false,
+        "observed_issue": "The baseline arena stage was largely empty and the master drummer channels were inactive"
+      }
+    ]
   }
 }
